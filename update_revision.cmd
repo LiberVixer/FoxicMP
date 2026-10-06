@@ -6,6 +6,7 @@ SET GIT_REV_BRANCH=LOCAL
 SET GIT_REV_HASH=0
 SET GIT_REV_COUNT=0
 SET GIT_REV_DATE=0
+SET APP_REV=0
 
 SET gitexe="git.exe"
 %gitexe% --version
@@ -47,17 +48,21 @@ FOR /F "delims=" %%A IN ('powershell -NoProfile -Command "Get-Date -Format yyMMd
 
 SET SrcManifest="src\apps\mplayerc\res\FoxicMP.exe.manifest.conf"
 SET DstManifest="src\apps\mplayerc\res\FoxicMP.exe.manifest"
+FOR /F "tokens=3,4 delims= " %%A IN ('FINDSTR /I /L /C:"define MPC_VERSION_REV" "include\Version.h"') DO SET APP_REV=%%A
 
 IF NOT EXIST "revision.h" GOTO :UPDATE_REV
 IF NOT EXIST %DstManifest% GOTO :UPDATE_REV
 
 SET REVHASH="0"
 SET REVNUM=0
+SET REVVERSION=0
 FOR /F "tokens=3,4 delims= " %%A IN ('FINDSTR /I /L /C:"define REV_HASH" "revision.h"') DO SET REVHASH=%%A
 FOR /F "tokens=3,4 delims= " %%A IN ('FINDSTR /I /L /C:"define REV_NUM" "revision.h"') DO SET REVNUM=%%A
+FOR /F "tokens=3,4 delims= " %%A IN ('FINDSTR /I /L /C:"define REV_VERSION" "revision.h"') DO SET REVVERSION=%%A
 
 IF NOT %REVHASH%=="%GIT_REV_HASH%" GOTO :UPDATE_REV
 IF NOT %REVNUM%==%GIT_REV_COUNT% GOTO :UPDATE_REV
+IF NOT %REVVERSION%==%APP_REV% GOTO :UPDATE_REV
 
 GOTO :DONT_UPDATE
 
@@ -69,12 +74,13 @@ ECHO #define REV_DATE "%GIT_REV_DATE%" >> revision.h
 ECHO #define REV_BRANCH "%GIT_REV_BRANCH%" >> revision.h
 ECHO #define REV_HASH "%GIT_REV_HASH%" >> revision.h
 ECHO #define REV_NUM %GIT_REV_COUNT% >> revision.h
+ECHO #define REV_VERSION %APP_REV% >> revision.h
 ECHO #define REV_BUILD "build %BUILD_TIME%" >> revision.h
 
 IF EXIST %DstManifest% DEL /Q %DstManifest%
-powershell -Command "(gc %SrcManifest%) -replace '_REV_NUM_', '%GIT_REV_COUNT%' | Out-File -encoding UTF8 %DstManifest%"
+powershell -Command "(gc %SrcManifest%) -replace '_REV_NUM_', '%APP_REV%' | Out-File -encoding UTF8 %DstManifest%"
 
-ECHO The revision number is %GIT_REV_COUNT%.
+ECHO The application version revision is %APP_REV% (Git revision %GIT_REV_COUNT%).
 
 :END
 POPD

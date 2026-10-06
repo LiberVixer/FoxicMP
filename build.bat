@@ -535,7 +535,7 @@ FOR /F "tokens=3,4 delims= " %%A IN (
   'FINDSTR /I /L /C:"define MPC_VERSION_STATUS" "include\Version.h"') DO (SET "VERRELEASE=%%A")
 
 FOR /F "tokens=3,4 delims= " %%A IN (
-  'FINDSTR /I /L /C:"define REV_NUM" "revision.h"') DO (SET "REVNUM=%%A")
+  'FINDSTR /I /L /C:"define MPC_VERSION_REV" "include\Version.h"') DO (SET "REVNUM=%%A")
 FOR /F "tokens=3,4 delims= " %%A IN (
   'FINDSTR /I /L /C:"define REV_DATE" "revision.h"') DO (SET "REVDATE=%%A")
 FOR /F "tokens=3,4 delims= " %%A IN (

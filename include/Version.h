@@ -38,7 +38,7 @@
 #define REV_BRANCH     LOCAL
 #endif
 
-#define MPC_VERSION_REV         REV_NUM
+#define MPC_VERSION_REV         75
 
 #define DO_MAKE_STR(x)          #x
 #define MAKE_STR(x)             DO_MAKE_STR(x)
