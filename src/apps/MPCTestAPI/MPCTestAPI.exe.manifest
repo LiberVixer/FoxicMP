@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
   <assemblyIdentity
-    name="MPC-BE Test API"
+    name="FoxicMP Test API"
     processorArchitecture="*"
     version="1.4.4.0"
     type="win32"
   />
-  <description>MPC-BE Test API</description>
+  <description>FoxicMP Test API</description>
   <dependency>
     <dependentAssembly>
       <assemblyIdentity

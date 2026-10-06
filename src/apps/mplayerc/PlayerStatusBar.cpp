@@ -38,7 +38,7 @@ CPlayerStatusBar::CPlayerStatusBar(CMainFrame* pMainFrame)
 
 BOOL CPlayerStatusBar::Create(CWnd* pParentWnd)
 {
-	if (!__super::Create(pParentWnd, IDD_PLAYERSTATUSBAR, WS_CHILD | WS_VISIBLE | CBRS_ALIGN_BOTTOM, IDD_PLAYERSTATUSBAR)) {
+	if (!__super::Create(pParentWnd, IDD_PLAYERSTATUSBAR, WS_CHILD | CBRS_ALIGN_BOTTOM, IDD_PLAYERSTATUSBAR)) {
 		return FALSE;
 	}
 
@@ -174,6 +174,7 @@ void CPlayerStatusBar::Clear()
 	Relayout();
 
 	Invalidate();
+	InvalidateMergedBar();
 }
 
 void CPlayerStatusBar::SetStatusBitmap(UINT id)
@@ -195,6 +196,7 @@ void CPlayerStatusBar::SetStatusBitmap(UINT id)
 	Relayout();
 
 	Invalidate();
+	InvalidateMergedBar();
 }
 
 void CPlayerStatusBar::SetStatusMessage(CString str)
@@ -206,6 +208,7 @@ void CPlayerStatusBar::SetStatusMessage(CString str)
 	Relayout();
 
 	Invalidate();
+	InvalidateMergedBar();
 }
 
 CString CPlayerStatusBar::GetStatusTimer()
@@ -214,6 +217,49 @@ CString CPlayerStatusBar::GetStatusTimer()
 	m_time.GetWindowTextW(strResult);
 
 	return strResult;
+}
+
+CString CPlayerStatusBar::GetStatusMessage()
+{
+	CString strResult;
+	m_status.GetWindowTextW(strResult);
+
+	return strResult;
+}
+
+HBITMAP CPlayerStatusBar::GetStatusBitmap() const
+{
+	return static_cast<HBITMAP>(m_bm.GetSafeHandle());
+}
+
+void CPlayerStatusBar::InvalidateMergedBar()
+{
+	if (m_pMainFrame && ::IsWindow(m_pMainFrame->m_wndToolBar.GetSafeHwnd())) {
+		m_pMainFrame->m_wndToolBar.Invalidate(FALSE);
+	}
+}
+
+void CPlayerStatusBar::ToggleTimeDisplay()
+{
+	CAppSettings& s = AfxGetAppSettings();
+	s.bRemainingTime = !s.bRemainingTime;
+	m_pMainFrame->OnTimer(2);
+	InvalidateMergedBar();
+}
+
+void CPlayerStatusBar::ShowTimeMenu(CWnd* pOwner, CPoint screenPoint)
+{
+	CAppSettings& s = AfxGetAppSettings();
+	m_TimeMenu.CheckMenuItem(ID_SHOW_MILLISECONDS, s.bShowMilliSecs ? MF_CHECKED : MF_UNCHECKED);
+
+	CWnd* pMenuOwner = ::IsWindow(m_hWnd) ? this : pOwner;
+	const UINT id = m_TimeMenu.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD,
+											 screenPoint.x, screenPoint.y, pMenuOwner);
+	if (id == ID_SHOW_MILLISECONDS) {
+		s.bShowMilliSecs = !s.bShowMilliSecs;
+		m_pMainFrame->OnTimer(2);
+		InvalidateMergedBar();
+	}
 }
 
 void CPlayerStatusBar::SetStatusTimer(CString str)
@@ -226,6 +272,7 @@ void CPlayerStatusBar::SetStatusTimer(CString str)
 
 		Relayout();
 		Invalidate();
+		InvalidateMergedBar();
 	}
 }
 
@@ -267,11 +314,13 @@ void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur
 
 void CPlayerStatusBar::ShowTimer(bool fShow)
 {
+	m_bTimerVisible = fShow;
 	m_time.ShowWindow(fShow ? SW_SHOW : SW_HIDE);
 
 	Relayout();
 
 	Invalidate();
+	InvalidateMergedBar();
 }
 
 BEGIN_MESSAGE_MAP(CPlayerStatusBar, CDialogBar)
@@ -444,11 +493,8 @@ void CPlayerStatusBar::OnSize(UINT nType, int cx, int cy)
 
 void CPlayerStatusBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	CAppSettings& s = AfxGetAppSettings();
-
 	if (m_time_rect.PtInRect(point) || m_time_rect2.PtInRect(point)) {
-		s.bRemainingTime = !s.bRemainingTime;
-		m_pMainFrame->OnTimer(2);
+		ToggleTimeDisplay();
 		return;
 	}
 
@@ -468,23 +514,10 @@ void CPlayerStatusBar::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CPlayerStatusBar::OnRButtonDown(UINT nFlags, CPoint point)
 {
-	WINDOWPLACEMENT wp;
-	wp.length = sizeof(wp);
-	m_pMainFrame->GetWindowPlacement(&wp);
-
 	if (m_time_rect.PtInRect(point) || m_time_rect2.PtInRect(point)) {
-		CAppSettings& s = AfxGetAppSettings();
-		m_TimeMenu.CheckMenuItem(ID_SHOW_MILLISECONDS, s.bShowMilliSecs ? MF_CHECKED : MF_UNCHECKED);
-
 		CPoint p = point;
 		::MapWindowPoints(m_hWnd, HWND_DESKTOP, &p, 1);
-
-		UINT id = m_TimeMenu.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, p.x, p.y, this);
-
-		if (id == ID_SHOW_MILLISECONDS) {
-			s.bShowMilliSecs = !s.bShowMilliSecs;
-		}
-
+		ShowTimeMenu(this, p);
 		return;
 	}
 

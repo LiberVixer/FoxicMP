@@ -573,7 +573,7 @@ bool CWebServer::CallCGI(CWebClientSocket* pClient, CStringA& hdr, CStringA& bod
 			}
 
 		env.emplace_back(L"GATEWAY_INTERFACE=CGI/1.1");
-		env.emplace_back(L"SERVER_SOFTWARE=MPC-BE/6.4.x.y");
+		env.emplace_back(L"SERVER_SOFTWARE=FoxicMP/6.4.x.y");
 		env.emplace_back(L"SERVER_PROTOCOL=" + pClient->m_ver);
 		env.emplace_back(L"REQUEST_METHOD=" + pClient->m_cmd);
 		env.emplace_back(L"PATH_INFO=" + redir);

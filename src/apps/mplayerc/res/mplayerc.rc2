@@ -33,7 +33,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // RT_MANIFEST
 //
 
-1                       RT_MANIFEST             "res\\mpc-be.exe.manifest"
+1                       RT_MANIFEST             "res\\FoxicMP.exe.manifest"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -181,15 +181,15 @@ BEGIN
             VALUE "FileVersion", MPC_VERSION_FULL_STR
             VALUE "LegalCopyright", MPC_COPYRIGHT_STR
 #ifdef _WIN64
-            VALUE "FileDescription", "MPC-BE x64"
-            VALUE "InternalName", "mpc-be64"
-            VALUE "OriginalFilename", "mpc-be64.exe"
-            VALUE "ProductName", "MPC-BE x64"
+            VALUE "FileDescription", "Foxic Media Player x64"
+            VALUE "InternalName", "FoxicMP64"
+            VALUE "OriginalFilename", "FoxicMP64.exe"
+            VALUE "ProductName", "Foxic Media Player x64"
 #else
-            VALUE "FileDescription", "MPC-BE"
-            VALUE "InternalName", "mpc-be"
-            VALUE "OriginalFilename", "mpc-be.exe"
-            VALUE "ProductName", "MPC-BE"
+            VALUE "FileDescription", "Foxic Media Player"
+            VALUE "InternalName", "FoxicMP"
+            VALUE "OriginalFilename", "FoxicMP.exe"
+            VALUE "ProductName", "Foxic Media Player"
 #endif
             VALUE "ProductVersion", MPC_VERSION_STR
         END

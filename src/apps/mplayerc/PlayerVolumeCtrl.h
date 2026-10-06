@@ -38,6 +38,7 @@ private:
 	int m_nThemeRed = -1;
 	int m_nThemeGreen = -1;
 	int m_nThemeBlue = -1;
+	int m_nVolume = -1;
 
 	COLORREF m_clrFaceABGR = -1;
 	COLORREF m_clrOutlineABGR = -1;
@@ -50,6 +51,7 @@ private:
 	bool m_bDrag = false;
 
 	void SetPosInternal(const CPoint& point, const bool bUpdateToolTip = false);
+	CRect GetTrackRect() const;
 
 	HWND m_toolTipHandle = nullptr;
 

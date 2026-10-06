@@ -46,6 +46,9 @@ private:
 
 	CMenu m_TimeMenu;
 	CStatusLabel m_status;
+	bool m_bTimerVisible = true;
+
+	void InvalidateMergedBar();
 
 public:
 	CPlayerStatusBar(CMainFrame* pMainFrame);
@@ -59,6 +62,11 @@ public:
 	void SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur, bool bShowMilliSecs, const GUID& timeFormat);
 
 	CString GetStatusTimer();
+	CString GetStatusMessage();
+	HBITMAP GetStatusBitmap() const;
+	bool IsTimerVisible() const { return m_bTimerVisible; }
+	void ToggleTimeDisplay();
+	void ShowTimeMenu(CWnd* pOwner, CPoint screenPoint);
 
 	void ShowTimer(bool fShow);
 

@@ -245,7 +245,7 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 	} else {
 		PWSTR pathRoamingAppData = nullptr;
 		HRESULT hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathRoamingAppData);
-		path = CStringW(pathRoamingAppData) + L"\\MPC-BE\\";
+		path = CStringW(pathRoamingAppData) + L"\\FoxicMP\\";
 		CoTaskMemFree(pathRoamingAppData);
 
 		if (FAILED(hr)) {
@@ -258,6 +258,10 @@ bool CMPlayerCApp::GetAppSavePath(CString& path)
 
 bool CMPlayerCApp::ChangeSettingsLocation(const SettingsLocation newSetLocation)
 {
+	if (newSetLocation != SETS_PROGRAMDIR) {
+		return false;
+	}
+
 	CString oldpath;
 	AfxGetMyApp()->GetAppSavePath(oldpath);
 	bool needFilesMove = (m_Profile.GetSettingsLocation() == SETS_PROGRAMDIR) != (newSetLocation == SETS_PROGRAMDIR);
@@ -459,9 +463,9 @@ void CMPlayerCApp::ExportSettings()
 	CFileDialog fileSaveDialog(
 		FALSE, 0,
 #ifdef _WIN64
-		L"mpc-be64-settings." + ext,
+		L"FoxicMP64-settings." + ext,
 #else
-		L"mpc-be-settings." + ext,
+		L"FoxicMP-settings." + ext,
 #endif
 		OFN_EXPLORER | OFN_ENABLESIZING | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR,
 		 ext_list
@@ -486,7 +490,7 @@ void CMPlayerCApp::ExportSettings()
 			CStdioFile file(fStream);
 			file.WriteString(L"Windows Registry Editor Version 5.00\n\n");
 
-			success = !error && ExportRegistryKey(file, HKEY_CURRENT_USER, L"Software\\MPC-BE");
+			success = !error && ExportRegistryKey(file, HKEY_CURRENT_USER, L"Software\\FoxicMP");
 
 			file.Close();
 		}
@@ -748,6 +752,261 @@ static BOOL SetHeapOptions()
 	return fRet;
 }
 
+namespace {
+	constexpr LPCWSTR FOXICMP_VIDEO_CONTEXT_MENU_KEY =
+		L"Software\\Classes\\SystemFileAssociations\\video\\shell\\FoxicMP";
+	constexpr LPCWSTR FOXICMP_CONTEXT_MENU_PROMPTED = L"ContextMenuPrompted";
+	constexpr LPCWSTR FOXICMP_CONTEXT_MENU_ENABLED = L"ContextMenuEnabled";
+	constexpr LPCWSTR FOXICMP_CONTEXT_MENU_EXTENSIONS = L"ContextMenuVideoExtensions";
+
+	CStringW GetFoxicMPContextMenuCommand()
+	{
+		CStringW command = L"\"";
+		command += GetProgramPath();
+		command += L"\" \"%1\"";
+		return command;
+	}
+
+	CStringW GetFoxicMPContextMenuIcon()
+	{
+		CStringW icon = L"\"";
+		icon += GetProgramPath();
+		icon += L"\",0";
+		return icon;
+	}
+
+	void AddFoxicMPVideoExtensions(const CStringW& extensionList, std::vector<CStringW>& extensions)
+	{
+		std::list<CString> parsedExtensions;
+		Explode(extensionList, parsedExtensions, L' ');
+
+		for (auto& extension : parsedExtensions) {
+			extension.Trim();
+			extension.TrimLeft(L'.');
+			extension.MakeLower();
+			if (extension.IsEmpty()) {
+				continue;
+			}
+
+			CStringW extensionWithPeriod = L"." + extension;
+			if (std::none_of(extensions.cbegin(), extensions.cend(), [&extensionWithPeriod](const CStringW& item) {
+					return item.CompareNoCase(extensionWithPeriod) == 0;
+				})) {
+				extensions.emplace_back(std::move(extensionWithPeriod));
+			}
+		}
+	}
+
+	std::vector<CStringW> GetFoxicMPVideoExtensions()
+	{
+		std::vector<CStringW> extensions;
+		for (const auto& format : AfxGetAppSettings().m_Formats) {
+			if (format.GetFileType() == TVideo) {
+				AddFoxicMPVideoExtensions(format.GetBackupExts(), extensions);
+				AddFoxicMPVideoExtensions(format.GetExts(), extensions);
+			}
+		}
+
+		std::sort(extensions.begin(), extensions.end(), [](const CStringW& left, const CStringW& right) {
+			return left.CompareNoCase(right) < 0;
+		});
+		return extensions;
+	}
+
+	CStringW GetFoxicMPExtensionContextMenuKey(const CStringW& extension)
+	{
+		CStringW key;
+		key.Format(L"Software\\Classes\\SystemFileAssociations\\%s\\shell\\FoxicMP", extension.GetString());
+		return key;
+	}
+
+	bool IsFoxicMPContextMenuKeyCorrect(const CStringW& keyPath)
+	{
+		WCHAR value[32768] = {};
+		ULONG length = (ULONG)std::size(value);
+
+		CRegKey verbKey;
+		if (verbKey.Open(HKEY_CURRENT_USER, keyPath, KEY_READ) != ERROR_SUCCESS
+				|| verbKey.QueryStringValue(nullptr, value, &length) != ERROR_SUCCESS
+				|| CStringW(value).Compare(L"FoxicMP") != 0 && CStringW(value).Compare(L"MPMY") != 0) {
+			return false;
+		}
+
+		length = (ULONG)std::size(value);
+		if (verbKey.QueryStringValue(L"MUIVerb", value, &length) != ERROR_SUCCESS
+				|| CStringW(value).Compare(L"FoxicMP") != 0 && CStringW(value).Compare(L"MPMY") != 0) {
+			return false;
+		}
+
+		length = (ULONG)std::size(value);
+		if (verbKey.QueryStringValue(L"Icon", value, &length) != ERROR_SUCCESS
+				|| CStringW(value).CompareNoCase(GetFoxicMPContextMenuIcon()) != 0) {
+			return false;
+		}
+
+		length = (ULONG)std::size(value);
+		if (verbKey.QueryStringValue(L"MultiSelectModel", value, &length) != ERROR_SUCCESS
+				|| CStringW(value).CompareNoCase(L"Player") != 0) {
+			return false;
+		}
+
+		CRegKey commandKey;
+		const CStringW commandKeyPath = keyPath + L"\\command";
+		length = (ULONG)std::size(value);
+		return commandKey.Open(HKEY_CURRENT_USER, commandKeyPath, KEY_READ) == ERROR_SUCCESS
+			&& commandKey.QueryStringValue(nullptr, value, &length) == ERROR_SUCCESS
+			&& CStringW(value).CompareNoCase(GetFoxicMPContextMenuCommand()) == 0;
+	}
+
+	bool EnsureFoxicMPContextMenuKey(const CStringW& keyPath)
+	{
+		if (IsFoxicMPContextMenuKeyCorrect(keyPath)) {
+			return true;
+		}
+
+		CRegKey verbKey;
+		if (verbKey.Create(HKEY_CURRENT_USER, keyPath) != ERROR_SUCCESS
+				|| verbKey.SetStringValue(nullptr, L"FoxicMP") != ERROR_SUCCESS
+				|| verbKey.SetStringValue(L"MUIVerb", L"FoxicMP") != ERROR_SUCCESS
+				|| verbKey.SetStringValue(L"Icon", GetFoxicMPContextMenuIcon()) != ERROR_SUCCESS
+				|| verbKey.SetStringValue(L"MultiSelectModel", L"Player") != ERROR_SUCCESS) {
+			return false;
+		}
+
+		CRegKey commandKey;
+		const CStringW commandKeyPath = keyPath + L"\\command";
+		return commandKey.Create(HKEY_CURRENT_USER, commandKeyPath) == ERROR_SUCCESS
+			&& commandKey.SetStringValue(nullptr, GetFoxicMPContextMenuCommand()) == ERROR_SUCCESS;
+	}
+
+	bool RemoveFoxicMPContextMenuKey(const CStringW& keyPath)
+	{
+		CRegKey currentUser;
+		currentUser.Attach(HKEY_CURRENT_USER);
+		const LONG result = currentUser.RecurseDeleteKey(keyPath);
+		currentUser.Detach();
+
+		return result == ERROR_SUCCESS || result == ERROR_FILE_NOT_FOUND || result == ERROR_PATH_NOT_FOUND;
+	}
+}
+
+bool IsFoxicMPVideoContextMenuCorrect()
+{
+	if (!IsFoxicMPContextMenuKeyCorrect(FOXICMP_VIDEO_CONTEXT_MENU_KEY)) {
+		return false;
+	}
+
+	for (const auto& extension : GetFoxicMPVideoExtensions()) {
+		if (!IsFoxicMPContextMenuKeyCorrect(GetFoxicMPExtensionContextMenuKey(extension))) {
+			return false;
+		}
+	}
+	return true;
+}
+
+namespace {
+	bool EnsureFoxicMPVideoContextMenu()
+	{
+		if (!EnsureFoxicMPContextMenuKey(FOXICMP_VIDEO_CONTEXT_MENU_KEY)) {
+			return false;
+		}
+
+		const auto extensions = GetFoxicMPVideoExtensions();
+		for (const auto& extension : extensions) {
+			if (!EnsureFoxicMPContextMenuKey(GetFoxicMPExtensionContextMenuKey(extension))) {
+				return false;
+			}
+		}
+
+		CProfile& profile = AfxGetProfile();
+		CStringW previousExtensions;
+		profile.ReadString(IDS_R_SETTINGS, FOXICMP_CONTEXT_MENU_EXTENSIONS, previousExtensions);
+		std::vector<CStringW> staleExtensions;
+		AddFoxicMPVideoExtensions(previousExtensions, staleExtensions);
+		for (const auto& extension : staleExtensions) {
+			if (std::none_of(extensions.cbegin(), extensions.cend(), [&extension](const CStringW& item) {
+					return item.CompareNoCase(extension) == 0;
+				})
+					&& !RemoveFoxicMPContextMenuKey(GetFoxicMPExtensionContextMenuKey(extension))) {
+				return false;
+			}
+		}
+
+		CStringW extensionList;
+		for (const auto& extension : extensions) {
+			if (!extensionList.IsEmpty()) {
+				extensionList += L' ';
+			}
+			extensionList += extension;
+		}
+		if (previousExtensions.CompareNoCase(extensionList) != 0) {
+			profile.WriteString(IDS_R_SETTINGS, FOXICMP_CONTEXT_MENU_EXTENSIONS, extensionList);
+			profile.Flush(true);
+		}
+
+		SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
+		return true;
+	}
+
+	bool RemoveFoxicMPVideoContextMenu()
+	{
+		if (!RemoveFoxicMPContextMenuKey(FOXICMP_VIDEO_CONTEXT_MENU_KEY)) {
+			return false;
+		}
+
+		auto extensions = GetFoxicMPVideoExtensions();
+		CProfile& profile = AfxGetProfile();
+		CStringW previousExtensions;
+		profile.ReadString(IDS_R_SETTINGS, FOXICMP_CONTEXT_MENU_EXTENSIONS, previousExtensions);
+		AddFoxicMPVideoExtensions(previousExtensions, extensions);
+		for (const auto& extension : extensions) {
+			if (!RemoveFoxicMPContextMenuKey(GetFoxicMPExtensionContextMenuKey(extension))) {
+				return false;
+			}
+		}
+		profile.DeleteValue(IDS_R_SETTINGS, FOXICMP_CONTEXT_MENU_EXTENSIONS);
+
+		SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
+		return true;
+	}
+}
+
+bool SetFoxicMPVideoContextMenuEnabled(bool enabled)
+{
+	const bool success = enabled ? EnsureFoxicMPVideoContextMenu() : RemoveFoxicMPVideoContextMenu();
+
+	CProfile& profile = AfxGetProfile();
+	profile.WriteBool(IDS_R_SETTINGS, FOXICMP_CONTEXT_MENU_PROMPTED, true);
+	profile.WriteBool(IDS_R_SETTINGS, FOXICMP_CONTEXT_MENU_ENABLED, enabled);
+	profile.Flush(true);
+
+	return success;
+}
+
+namespace {
+	void ConfigureFoxicMPVideoContextMenu()
+	{
+		CProfile& profile = AfxGetProfile();
+		bool prompted = false;
+		bool enabled = false;
+		profile.ReadBool(IDS_R_SETTINGS, FOXICMP_CONTEXT_MENU_PROMPTED, prompted);
+		profile.ReadBool(IDS_R_SETTINGS, FOXICMP_CONTEXT_MENU_ENABLED, enabled);
+
+		if (!prompted) {
+			enabled = MessageBoxW(nullptr, ResStr(IDS_FOXICMP_CONTEXT_MENU_PROMPT), L"FoxicMP",
+				MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES;
+			if (!SetFoxicMPVideoContextMenuEnabled(enabled)) {
+				MessageBoxW(nullptr, ResStr(IDS_FOXICMP_CONTEXT_MENU_ERROR), L"FoxicMP", MB_OK | MB_ICONERROR);
+			}
+			return;
+		}
+
+		if (enabled && !EnsureFoxicMPVideoContextMenu()) {
+			MessageBoxW(nullptr, ResStr(IDS_FOXICMP_CONTEXT_MENU_ERROR), L"FoxicMP", MB_OK | MB_ICONERROR);
+		}
+	}
+}
+
 BOOL CMPlayerCApp::InitInstance()
 {
 #ifdef _DEBUG
@@ -982,6 +1241,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 	// read settings
 	m_s.LoadSettings();
+	ConfigureFoxicMPVideoContextMenu();
 
 	if (!__super::InitInstance()) {
 		AfxMessageBox(L"InitInstance failed!");
@@ -993,7 +1253,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 	if (m_Profile.GetSettingsLocation() != SETS_PROGRAMDIR) {
 		CRegKey key;
-		if (ERROR_SUCCESS == key.Create(HKEY_LOCAL_MACHINE, L"Software\\MPC-BE")) {
+		if (ERROR_SUCCESS == key.Create(HKEY_LOCAL_MACHINE, L"Software\\FoxicMP")) {
 			CString path = GetProgramPath();
 			key.SetStringValue(L"ExePath", path);
 		}
@@ -1010,7 +1270,7 @@ BOOL CMPlayerCApp::InitInstance()
 
 			PWSTR pathProgramData = nullptr;
 			SHGetKnownFolderPath(FOLDERID_ProgramData, 0, nullptr, &pathProgramData);
-			CString appStorage = CStringW(pathProgramData) + L"\\MPC-BE\\";
+			CString appStorage = CStringW(pathProgramData) + L"\\FoxicMP\\";
 			CoTaskMemFree(pathProgramData);
 
 			if (!bShaderDirExists) {
@@ -1479,7 +1739,11 @@ CString CMPlayerCApp::GetSatelliteDll(int nLanguage)
 	if (nLanguage < 0 || nLanguage >= languageResourcesCount || languageResources[nLanguage].resourceID == ID_LANGUAGE_ENGLISH) {
 		path.Empty();
 	} else {
-		path.AppendFormat(L"Lang\\mpcresources.%s.dll", languageResources[nLanguage].strcode);
+		path.AppendFormat(L"Lang\\FoxicMPresources.%s.dll", languageResources[nLanguage].strcode);
+		if (!::PathFileExistsW(path)) {
+			path = GetProgramDir();
+			path.AppendFormat(L"Lang\\MPMYresources.%s.dll", languageResources[nLanguage].strcode);
+		}
 	}
 
 	return path;
@@ -1532,8 +1796,8 @@ void CMPlayerCApp::SetLanguage(int nLanguage, bool bSave/* = true*/)
 				}
 			} else {
 				// This message should stay in English!
-				MessageBoxW(nullptr, L"Your language pack will not work with this version. Please download a compatible one from the MPC-BE homepage.",
-					L"MPC-BE", MB_OK);
+				MessageBoxW(nullptr, L"Your language pack will not work with this version. Please download a compatible one from the FoxicMP homepage.",
+					L"FoxicMP", MB_OK);
 			}
 		}
 	} else if (bSave && nLanguage == GetLanguageIndex(ID_LANGUAGE_ENGLISH)) {

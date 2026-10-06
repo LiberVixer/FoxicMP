@@ -93,7 +93,7 @@ BOOL CPPagePlayer::OnInitDialog()
 	}
 
 	CProfile& profile = AfxGetProfile();
-	m_iCurSetsLocation = profile.GetSettingsLocation();
+	m_iCurSetsLocation = SETS_PROGRAMDIR;
 	m_iSetsLocation = m_iCurSetsLocation;
 
 	m_iMultipleInst				= s.iMultipleInst;
@@ -128,6 +128,13 @@ BOOL CPPagePlayer::OnInitDialog()
 	m_spnNetworkReceiveTimeout.SetRange(APP_NETRECEIVETIMEOUT_MIN, APP_NETRECEIVETIMEOUT_MAX);
 
 	UpdateData(FALSE);
+
+	// FoxicMP always stores its settings in the INI file next to the executable.
+	// Keep the location visible, but do not allow switching to the registry or
+	// the roaming user profile.
+	GetDlgItem(IDC_RADIO4)->EnableWindow(FALSE);
+	GetDlgItem(IDC_RADIO5)->EnableWindow(FALSE);
+	GetDlgItem(IDC_RADIO6)->EnableWindow(FALSE);
 
 	GetDlgItem(IDC_FILE_POS)->EnableWindow(s.bKeepHistory);
 	GetDlgItem(IDC_DVD_POS)->EnableWindow(s.bKeepHistory);

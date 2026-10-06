@@ -43,7 +43,7 @@ CStringW GetIniUserProfile()
 	PWSTR pathRoamingAppData = nullptr;
 	HRESULT hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pathRoamingAppData);
 	if (SUCCEEDED(hr)) {
-		path = CStringW(pathRoamingAppData) + L"\\MPC-BE\\" + fname;
+		path = CStringW(pathRoamingAppData) + L"\\FoxicMP\\" + fname;
 	}
 	CoTaskMemFree(pathRoamingAppData);
 
@@ -54,20 +54,22 @@ CStringW GetIniUserProfile()
 
 CProfile::CProfile()
 {
-	CStringW path = GetIniProgramDir();
-	if (::PathFileExistsW(path)) {
-		m_IniPath = path;
-		m_bIniProgDir = true;
-		return;
-	}
+	// FoxicMP is always portable: all application settings live next to the
+	// executable. The INI file is created on the first write if it does not
+	// already exist.
+	m_IniPath = GetIniProgramDir();
+	m_bIniProgDir = true;
 
-	path = GetIniUserProfile();
-	if (::PathFileExistsW(path)) {
-		m_IniPath = path;
-		return;
+	if (!::PathFileExistsW(m_IniPath)) {
+		// Migrate settings from MPMY if available
+		const CStringW oldIni64 = GetProgramDir() + L"MPMY64.ini";
+		const CStringW oldIni = GetProgramDir() + L"MPMY.ini";
+		if (::PathFileExistsW(oldIni64)) {
+			::CopyFileW(oldIni64, m_IniPath, TRUE);
+		} else if (::PathFileExistsW(oldIni)) {
+			::CopyFileW(oldIni, m_IniPath, TRUE);
+		}
 	}
-
-	OpenRegistryKey();
 }
 
 LONG CProfile::OpenRegistryKey()
@@ -76,7 +78,7 @@ LONG CProfile::OpenRegistryKey()
 
 	if (!m_hAppRegKey) {
 		DWORD dwDisposition = 0;
-		lResult = RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\MPC-BE", 0, nullptr, 0, KEY_READ, nullptr, &m_hAppRegKey, &dwDisposition);
+		lResult = RegCreateKeyExW(HKEY_CURRENT_USER, L"Software\\FoxicMP", 0, nullptr, 0, KEY_READ, nullptr, &m_hAppRegKey, &dwDisposition);
 		DLogIf(lResult != ERROR_SUCCESS, L"OpenRegistryKey(): ERROR! The opening of the registry key failed.");
 	}
 
@@ -91,7 +93,7 @@ void CProfile::InitIni()
 		return;
 	}
 
-	// Don't reread mpc-be.ini if the cache needs to be flushed or it was accessed recently
+	// Don't reread MPMY.ini if the cache needs to be flushed or it was accessed recently
 	const ULONGLONG tick = GetTickCount64();
 	if (m_bIniFirstInit && (m_bIniNeedFlush || tick - m_IniLastAccessTick < 100u)) {
 		m_IniLastAccessTick = tick;
@@ -107,7 +109,7 @@ void CProfile::InitIni()
 
 	FILE* fp;
 	int fpStatus;
-	do { // Open mpc-be.ini in UNICODE mode, retry if it is already being used by another process
+	do { // Open MPMY.ini in UNICODE mode, retry if it is already being used by another process
 		fp = _wfsopen(m_IniPath, L"r, ccs=UNICODE", _SH_SECURE);
 		if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
 			break;
@@ -119,10 +121,10 @@ void CProfile::InitIni()
 		return;
 	}
 	if (_ftell_nolock(fp) == 0L) {
-		// No BOM was consumed, assume mpc-be.ini is ANSI encoded
+		// No BOM was consumed, assume MPMY.ini is ANSI encoded
 		fpStatus = fclose(fp);
 		ASSERT(fpStatus == 0);
-		do { // Reopen mpc-be.ini in ANSI mode, retry if it is already being used by another process
+		do { // Reopen MPMY.ini in ANSI mode, retry if it is already being used by another process
 			fp = _wfsopen(m_IniPath, L"r", _SH_SECURE);
 			if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
 				break;
@@ -142,7 +144,7 @@ void CProfile::InitIni()
 
 	CStringW line, section, var, val;
 	while (file.ReadString(line)) {
-		// Parse mpc-be.ini file, this parser:
+		// Parse MPMY.ini file, this parser:
 		//  - doesn't trim whitespaces
 		//  - doesn't remove quotation marks
 		//  - omits keys with empty names
@@ -174,6 +176,18 @@ void CProfile::InitIni()
 
 bool CProfile::StoreSettingsTo(const SettingsLocation newLocation)
 {
+	// MPMY deliberately has no registry or roaming-profile settings mode.
+	// Windows integration entries (for example the context-menu command) are
+	// not application settings and are maintained separately by the player.
+	if (newLocation != SETS_PROGRAMDIR) {
+		DLog(L"StoreSettingsTo: MPMY settings are fixed to the program folder.");
+		return false;
+	}
+
+	if (m_bIniProgDir && !m_IniPath.IsEmpty()) {
+		return true;
+	}
+
 	if (newLocation == SETS_REGISTRY) {
 		if (m_hAppRegKey) {
 			DLog(L"StoreSettingsTo: The settings are already stored in the registry.");
@@ -1038,7 +1052,7 @@ void CProfile::Flush(bool bForce)
 
 	FILE* fp;
 	int fpStatus;
-	do { // Open mpc-be.ini, retry if it is already being used by another process
+	do { // Open MPMY.ini, retry if it is already being used by another process
 		fp = _wfsopen(m_IniPath, L"w, ccs=UTF-8", _SH_SECURE);
 		if (fp || (GetLastError() != ERROR_SHARING_VIOLATION)) {
 			break;
@@ -1052,7 +1066,7 @@ void CProfile::Flush(bool bForce)
 	CStdioFile file(fp);
 	CStringW line;
 	try {
-		file.WriteString(L"; MPC-BE\n");
+		file.WriteString(L"; FoxicMP\n");
 		for (auto it1 = m_ProfileMap.begin(); it1 != m_ProfileMap.end(); ++it1) {
 			line.Format(L"[%s]\n", it1->first);
 			file.WriteString(line);

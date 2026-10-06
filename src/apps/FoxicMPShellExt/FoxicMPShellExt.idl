@@ -1,0 +1,27 @@
+import "oaidl.idl";
+import "ocidl.idl";
+[
+	object,
+	uuid(952B8214-E941-489A-9F7A-B27775465102),
+	helpstring("IFoxicMPContextMenu Interface"),
+	pointer_default(unique)
+]
+interface IFoxicMPContextMenu : IUnknown{
+};
+[
+	uuid(F6D46003-FE55-43AD-9021-7DB566AECF5B),
+	version(1.0),
+	helpstring("FoxicMPShellExt 1.0 Type Library")
+]
+library FoxicMPShellExtLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(864CD20B-E974-4013-A516-A4178C92B68A),
+		helpstring("FoxicMPContextMenu Class")
+	]
+	coclass FoxicMPContextMenu
+	{
+		[default] interface IFoxicMPContextMenu;
+	};
+};

@@ -137,7 +137,7 @@ public:
 };
 
 
-static LPCWSTR s_strPlayerTitle = "MPC-BE "
+static LPCWSTR s_strPlayerTitle = L"FoxicMP "
 #ifdef _WIN64
 	L"x64 "
 #endif
@@ -1254,7 +1254,7 @@ void CMainFrame::ShowTrayIcon(bool fShow)
 			tnid.hIcon = (HICON)LoadImageW(AfxGetInstanceHandle(), MAKEINTRESOURCEW(IDR_MAINFRAME), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 			tnid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
 			tnid.uCallbackMessage = WM_NOTIFYICON;
-			StringCchCopyW(tnid.szTip, std::size(tnid.szTip), L"MPC-BE");
+			StringCchCopyW(tnid.szTip, std::size(tnid.szTip), L"FoxicMP");
 			Shell_NotifyIconW(NIM_ADD, &tnid);
 
 			m_bTrayIcon = true;
@@ -1877,11 +1877,8 @@ void CMainFrame::OnEnterSizeMove()
 	}
 
 	if (!m_bWndZoomed) {
-		WINDOWPLACEMENT wp;
-		GetWindowPlacement(&wp);
-		RECT rcNormalPosition = wp.rcNormalPosition;
-		snap_x = cur_pos.x - rcNormalPosition.left;
-		snap_y = cur_pos.y - rcNormalPosition.top;
+		snap_x = cur_pos.x - rcWindow.left;
+		snap_y = cur_pos.y - rcWindow.top;
 	}
 }
 
@@ -1974,37 +1971,53 @@ void CMainFrame::OnMoving(UINT fwSide, LPRECT pRect)
 	}
 
 	if (AfxGetAppSettings().bSnapToDesktopEdges && !bCtrl) {
-
-		MONITORINFO mi = { sizeof(mi) };
-		GetMonitorInfoW(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
-		CRect rcWork(mi.rcWork);
-		if (SysVersion::IsWin10orLater()) {
-			rcWork.InflateRect(GetInvisibleBorderSize());
-		}
-
-		RECT rcMonitor = mi.rcMonitor;
-
 		OffsetRect(pRect, cur_pos.x - (pRect->left + snap_x), cur_pos.y - (pRect->top + snap_y));
 
-		if (isSnapClose(pRect->left, rcWork.left)) { // left screen snap
+		MONITORINFO mi = { sizeof(mi) };
+		GetMonitorInfoW(MonitorFromRect(pRect, MONITOR_DEFAULTTONEAREST), &mi);
+
+		CRect rcWork(mi.rcWork);
+		CRect rcMonitor(mi.rcMonitor);
+
+		if (SysVersion::IsWin10orLater()) {
+			const CRect invisibleBorders = GetInvisibleBorderSize();
+			rcWork.InflateRect(invisibleBorders);
+			rcMonitor.InflateRect(invisibleBorders);
+		}
+
+		const int nBorderOffset = 1;
+		rcWork.InflateRect(nBorderOffset, nBorderOffset);
+		rcMonitor.InflateRect(nBorderOffset, nBorderOffset);
+
+		// Horizontal snap
+		if (isSnapClose(pRect->left, rcWork.left)) {
 			OffsetRect(pRect, rcWork.left - pRect->left, 0);
 			m_bWasSnapped = true;
-		} else if (isSnapClose(rcWork.right, pRect->right)) { // right screen snap
+		} else if (rcMonitor.left != rcWork.left && isSnapClose(pRect->left, rcMonitor.left)) {
+			OffsetRect(pRect, rcMonitor.left - pRect->left, 0);
+			m_bWasSnapped = true;
+		} else if (isSnapClose(rcWork.right, pRect->right)) {
 			OffsetRect(pRect, rcWork.right - pRect->right, 0);
+			m_bWasSnapped = true;
+		} else if (rcMonitor.right != rcWork.right && isSnapClose(rcMonitor.right, pRect->right)) {
+			OffsetRect(pRect, rcMonitor.right - pRect->right, 0);
 			m_bWasSnapped = true;
 		}
 
-		if (isSnapClose(pRect->top, rcWork.top)) { // top screen snap
+		// Vertical snap
+		if (isSnapClose(pRect->top, rcWork.top)) {
 			OffsetRect(pRect, 0, rcWork.top - pRect->top);
 			m_bWasSnapped = true;
-		} else if (isSnapClose(rcWork.bottom, pRect->bottom)) { // bottom taskbar snap
+		} else if (rcMonitor.top != rcWork.top && isSnapClose(rcMonitor.top, pRect->top)) {
+			OffsetRect(pRect, 0, rcMonitor.top - pRect->top);
+			m_bWasSnapped = true;
+		} else if (isSnapClose(rcWork.bottom, pRect->bottom)) {
 			OffsetRect(pRect, 0, rcWork.bottom - pRect->bottom);
 			m_bWasSnapped = true;
-		} else if (isSnapClose(pRect->bottom, rcMonitor.bottom)) { // bottom screen snap
+		} else if (rcMonitor.bottom != rcWork.bottom && isSnapClose(rcMonitor.bottom, pRect->bottom)) {
 			OffsetRect(pRect, 0, rcMonitor.bottom - pRect->bottom);
 			m_bWasSnapped = true;
 		}
-
 	}
 
 	FlyBarSetPos();
@@ -2642,11 +2655,9 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 		case TIMER_STREAMPOSPOLLER2:
 			if (m_eMediaLoadState == MLS_LOADED) {
 				auto& s = AfxGetAppSettings();
-				if (s.nCS < CS_STATUSBAR) {
-					s.bStatusBarIsVisible = false;
-				} else {
-					s.bStatusBarIsVisible = true;
-				}
+				s.bStatusBarIsVisible = m_bMergedStatusVisible;
+
+				UpdatePlayerStatus();
 
 				if (GetPlaybackMode() == PM_CAPTURE && !m_bCapturing) {
 					CString str = ResStr(IDS_CAPTURE_LIVE);
@@ -4477,8 +4488,184 @@ void CMainFrame::OnMenuFilters()
 	OnMenu(&m_filtersMenu);
 }
 
+CString CMainFrame::GetMediaTitleOrFileName()
+{
+	CString title;
+	if (m_SessionInfo.Title.GetLength() > 0) {
+		title = m_SessionInfo.Title;
+		title.Trim();
+	}
+	if (title.IsEmpty()) {
+		CString fn = m_PlaybackInfo.FileName.GetLength() ? m_PlaybackInfo.FileName : GetFileName(m_SessionInfo.Path);
+		fn.Trim();
+		if (!fn.IsEmpty()) {
+			title = GetRemoveFileExt(fn);
+			title.Trim();
+		}
+	}
+	if (title.IsEmpty()) {
+		title = GetFileNameOrTitleOrPath();
+		title.Trim();
+	}
+	return title;
+}
+
+CString CMainFrame::GetCurrentChapterInfo()
+{
+	CString chapterInfo;
+
+	if (m_pCB) {
+		const DWORD nChapters = m_pCB->ChapGetCount();
+		if (nChapters > 0) {
+			REFERENCE_TIME rt = GetPos();
+			CComBSTR bstr;
+			const long chapIdx = m_pCB->ChapLookup(&rt, &bstr);
+			if (chapIdx >= 0) {
+				const int chapNum = chapIdx + 1;
+				CString chapName;
+				if (bstr.Length() > 0) {
+					chapName = bstr;
+					chapName.Replace(L"\r\n", L" ");
+					chapName.Replace(L"\n", L" ");
+					chapName.Replace(L"\t", L" ");
+					chapName.Trim();
+
+					// Strip leading chapter number if already present in chapName
+					// e.g. "10. Chapter name", "10 - Chapter name", "01. Chapter name"
+					CString pfx;
+					pfx.Format(L"%d.", chapNum);
+					if (chapName.Find(pfx) == 0) {
+						chapName = chapName.Mid(pfx.GetLength());
+						chapName.Trim();
+					} else {
+						pfx.Format(L"%02d.", chapNum);
+						if (chapName.Find(pfx) == 0) {
+							chapName = chapName.Mid(pfx.GetLength());
+							chapName.Trim();
+						} else {
+							pfx.Format(L"%d -", chapNum);
+							if (chapName.Find(pfx) == 0) {
+								chapName = chapName.Mid(pfx.GetLength());
+								chapName.Trim();
+							} else {
+								pfx.Format(L"%02d -", chapNum);
+								if (chapName.Find(pfx) == 0) {
+									chapName = chapName.Mid(pfx.GetLength());
+									chapName.Trim();
+								}
+							}
+						}
+					}
+
+					// If the name is just a generic "Chapter 10" or "Глава 10", clear it so we only show "(10)"
+					pfx.Format(L"Chapter %d", chapNum);
+					if (chapName.CompareNoCase(pfx) == 0) {
+						chapName.Empty();
+					} else {
+						pfx.Format(L"Chapter %02d", chapNum);
+						if (chapName.CompareNoCase(pfx) == 0) {
+							chapName.Empty();
+						}
+					}
+					pfx.Format(L"\u0413\u043b\u0430\u0432\u0430 %d", chapNum);
+					if (chapName.CompareNoCase(pfx) == 0) {
+						chapName.Empty();
+					} else {
+						pfx.Format(L"\u0413\u043b\u0430\u0432\u0430 %02d", chapNum);
+						if (chapName.CompareNoCase(pfx) == 0) {
+							chapName.Empty();
+						}
+					}
+					pfx.Format(L"%d", chapNum);
+					if (chapName == pfx) {
+						chapName.Empty();
+					} else {
+						pfx.Format(L"%02d", chapNum);
+						if (chapName == pfx) {
+							chapName.Empty();
+						}
+					}
+				}
+
+				if (!chapName.IsEmpty()) {
+					chapterInfo.Format(L"(%d. %s)", chapNum, (LPCWSTR)chapName);
+				} else if (nChapters > 1) {
+					chapterInfo.Format(L"(%d)", chapNum);
+				}
+			}
+		}
+	} else if (GetPlaybackMode() == PM_DVD && m_pDVDI) {
+		DVD_PLAYBACK_LOCATION2 loc = {};
+		if (SUCCEEDED(m_pDVDI->GetCurrentLocation(&loc)) && loc.ChapterNum > 0) {
+			chapterInfo.Format(L"(%u)", loc.ChapterNum);
+		}
+	}
+
+	return chapterInfo;
+}
+
+CString CMainFrame::GetChapterNameAt(REFERENCE_TIME rt)
+{
+	CString result;
+
+	if (m_pCB) {
+		const DWORD nChapters = m_pCB->ChapGetCount();
+		if (nChapters > 0) {
+			CComBSTR bstr;
+			long chapIdx = m_pCB->ChapLookup(&rt, &bstr);
+			if (chapIdx < 0) {
+				chapIdx = 0;
+				REFERENCE_TIME dummyRt = 0;
+				m_pCB->ChapGet(0, &dummyRt, &bstr);
+			}
+			if (chapIdx >= 0) {
+				const int chapNum = chapIdx + 1;
+				CString chapName;
+				if (bstr.Length() > 0) {
+					chapName = bstr;
+					chapName.Replace(L"\r\n", L" ");
+					chapName.Replace(L"\n", L" ");
+					chapName.Replace(L"\t", L" ");
+					chapName.Trim();
+				}
+
+				if (!chapName.IsEmpty()) {
+					CString pfx;
+					pfx.Format(L"%d.", chapNum);
+					CString pfx2;
+					pfx2.Format(L"%02d.", chapNum);
+					CString pfx3;
+					pfx3.Format(L"%d -", chapNum);
+					CString pfx4;
+					pfx4.Format(L"%02d -", chapNum);
+					if (chapName.Find(pfx) == 0 || chapName.Find(pfx2) == 0 ||
+						chapName.Find(pfx3) == 0 || chapName.Find(pfx4) == 0) {
+						result = chapName;
+					} else {
+						result.Format(L"%d. %s", chapNum, (LPCWSTR)chapName);
+					}
+				} else {
+					result.Format(ResStr(IDS_AG_CHAPTER), chapNum);
+				}
+			}
+		}
+	} else if (GetPlaybackMode() == PM_DVD && m_pDVDI) {
+		DVD_PLAYBACK_LOCATION2 loc = {};
+		if (SUCCEEDED(m_pDVDI->GetCurrentLocation(&loc)) && loc.ChapterNum > 0) {
+			result.Format(ResStr(IDS_AG_CHAPTER), loc.ChapterNum);
+		}
+	}
+
+	return result;
+}
+
 CString CMainFrame::UpdatePlayerStatus()
 {
+	if (!m_strHoverStatus.IsEmpty()) {
+		SetStatusMessage(m_strHoverStatus);
+		return m_strHoverStatus;
+	}
+
 	CString msg;
 
 	if (m_eMediaLoadState == MLS_LOADING) {
@@ -4496,12 +4683,31 @@ CString CMainFrame::UpdatePlayerStatus()
 				msg = ResStr(IDS_CONTROLS_STOPPED);
 			}
 			else if (fs == State_Paused || m_bFrameSteppingActive) {
-				msg = ResStr(IDS_CONTROLS_PAUSED);
+				msg = L"\u23F8";
 			}
 			else if (fs == State_Running) {
-				msg = ResStr(IDS_CONTROLS_PLAYING);
+				msg = L"\u25B6";
 				if (m_PlaybackRate != 1.0) {
 					msg.AppendFormat(L" (%sx)", Rate2String(m_PlaybackRate));
+				}
+			}
+
+			if (fs == State_Running || fs == State_Paused) {
+				const CString mediaTitle = GetMediaTitleOrFileName();
+				const CString chapterInfo = GetCurrentChapterInfo();
+
+				CString extraInfo;
+				if (!mediaTitle.IsEmpty()) {
+					extraInfo = mediaTitle;
+					if (!chapterInfo.IsEmpty()) {
+						extraInfo.AppendFormat(L" %s", (LPCWSTR)chapterInfo);
+					}
+				} else if (!chapterInfo.IsEmpty()) {
+					extraInfo = chapterInfo;
+				}
+
+				if (!extraInfo.IsEmpty()) {
+					msg.AppendFormat(L"  %s", (LPCWSTR)extraInfo);
 				}
 			}
 
@@ -4835,6 +5041,7 @@ void CMainFrame::OnFilePostCloseMedia()
 	m_wndStatusBar.Clear();
 	m_wndStatusBar.ShowTimer(false);
 	m_wndStatusBar.Relayout();
+	m_strHoverStatus.Empty();
 
 	if (IsWindow(m_wndSubresyncBar.m_hWnd)) {
 		ShowControlBarInternal(&m_wndSubresyncBar, FALSE);
@@ -10553,7 +10760,7 @@ void CMainFrame::PlayFavoriteFile(SessionInfo fav) // use a copy of SessionInfo
 
 	// NOTE: This is just for the favorites but we could add a global settings that does this always when on.
 	//       Could be useful when using removable devices. All you have to do then is plug in your 500 gb drive,
-	//       full with movies and/or music, start MPC-BE (from the 500 gb drive) with a preloaded playlist and press play.
+	//       full with movies and/or music, start MPMY (from the 500 gb drive) with a preloaded playlist and press play.
 	if (StartsWith(fav.Path, L"?:\\")) {
 		CString exepath(GetProgramPath());
 
@@ -11792,6 +11999,8 @@ void CMainFrame::ZoomVideoWindow(bool snap, double scale)
 			if (SysVersion::IsWin10orLater()) {
 				workRect.InflateRect(GetInvisibleBorderSize());
 			}
+			const int nBorderOffset = 1;
+			workRect.InflateRect(nBorderOffset, nBorderOffset);
 
 			// don't go larger than the current monitor working area and prevent black bars in this case
 			const CSize videoSpaceSize = workRect.Size() - controlsSize - decorationsRect.Size();
@@ -11901,13 +12110,20 @@ double CMainFrame::GetZoomAutoFitScale()
 CRect CMainFrame::GetInvisibleBorderSize() const
 {
 	CRect invisibleBorders;
-	if (SysVersion::IsWin10orLater()
-			&& SUCCEEDED(DwmGetWindowAttribute(GetSafeHwnd(), DWMWA_EXTENDED_FRAME_BOUNDS, &invisibleBorders, sizeof(RECT)))) {
-		CRect windowRect;
-		GetWindowRect(&windowRect);
+	if (SysVersion::IsWin10orLater()) {
+		if (SUCCEEDED(DwmGetWindowAttribute(GetSafeHwnd(), DWMWA_EXTENDED_FRAME_BOUNDS, &invisibleBorders, sizeof(RECT)))) {
+			CRect windowRect;
+			GetWindowRect(&windowRect);
 
-		invisibleBorders.TopLeft() = invisibleBorders.TopLeft() - windowRect.TopLeft();
-		invisibleBorders.BottomRight() = windowRect.BottomRight() - invisibleBorders.BottomRight();
+			invisibleBorders.TopLeft() = invisibleBorders.TopLeft() - windowRect.TopLeft();
+			invisibleBorders.BottomRight() = windowRect.BottomRight() - invisibleBorders.BottomRight();
+		}
+		if (invisibleBorders.IsRectNull()) {
+			const int border = GetSystemMetrics(SM_CXPADDEDBORDER);
+			if (border > 0) {
+				invisibleBorders.SetRect(border, 0, border, border);
+			}
+		}
 	}
 
 	return invisibleBorders;
@@ -11921,6 +12137,8 @@ void CMainFrame::ClampWindowRect(RECT& windowRect)
 	if (SysVersion::IsWin10orLater()) {
 		rcWork.InflateRect(GetInvisibleBorderSize());
 	}
+	const int nBorderOffset = 1;
+	rcWork.InflateRect(nBorderOffset, nBorderOffset);
 
 	if (windowRect.right > rcWork.right) {
 		windowRect.right = rcWork.right;
@@ -16331,17 +16549,24 @@ void CMainFrame::ShowControls(int nCS, bool fSave)
 	int i = 1;
 	for (const auto& pBar : m_bars) {
 		const BOOL bShow = nCS & i;
-		ShowControlBar(pBar, !!bShow, TRUE);
-		if (bShow) {
-			m_pLastBar = pBar;
-		}
+		const bool bMergedStatusBar = (pBar == &m_wndStatusBar);
 
-		CSize s = pBar->CalcFixedLayout(FALSE, TRUE);
-		if (nCSprev & i) {
-			hbefore += s.cy;
-		}
-		if (bShow) {
-			hafter += s.cy;
+		if (bMergedStatusBar) {
+			ShowControlBar(pBar, FALSE, TRUE);
+			m_bMergedStatusVisible = bShow && (nCS & CS_TOOLBAR);
+		} else {
+			ShowControlBar(pBar, !!bShow, TRUE);
+			if (bShow) {
+				m_pLastBar = pBar;
+			}
+
+			CSize barSize = pBar->CalcFixedLayout(FALSE, TRUE);
+			if (nCSprev & i) {
+				hbefore += barSize.cy;
+			}
+			if (bShow) {
+				hafter += barSize.cy;
+			}
 		}
 
 		i <<= 1;
@@ -16365,6 +16590,8 @@ void CMainFrame::ShowControls(int nCS, bool fSave)
 			m_wndSeekBar.Invalidate();
 		}
 	}
+
+	m_wndToolBar.Invalidate(FALSE);
 
 	RecalcLayout();
 
@@ -18365,7 +18592,7 @@ afx_msg void CMainFrame::OnLanguage(UINT nID)
 
 	if (nID == CMPlayerCApp::GetLanguageIndex(ID_LANGUAGE_HEBREW)) { // Show a warning when switching to Hebrew (must not be translated)
 		MessageBoxW(L"The Hebrew translation will be correctly displayed (with a right-to-left layout) after restarting the application.\n",
-					L"MPC-BE", MB_ICONINFORMATION | MB_OK);
+					L"FoxicMP", MB_ICONINFORMATION | MB_OK);
 	}
 
 	CMPlayerCApp::SetLanguage(nID);
@@ -19690,6 +19917,14 @@ void CMainFrame::SetStatusMessage(const CString& msg)
 	}
 }
 
+void CMainFrame::SetHoverStatusText(const CString& strHover)
+{
+	if (m_strHoverStatus != strHover) {
+		m_strHoverStatus = strHover;
+		UpdatePlayerStatus();
+	}
+}
+
 CString CMainFrame::FillMessage()
 {
 	CString msg;
@@ -20804,6 +21039,8 @@ void CMainFrame::SetColorTitle(const bool bSystemOnly/* = false*/)
 		} else {
 			DwmSetWindowAttribute(m_hWnd, 35 /*DWMWA_CAPTION_COLOR*/, &m_colTitleBkSystem, sizeof(m_colTitleBkSystem));
 		}
+		const COLORREF colBorder = s.bRemoveWindowBorder ? 0xFFFFFFFE /*DWMWA_COLOR_NONE*/ : 0xFFFFFFFF /*DWMWA_COLOR_DEFAULT*/;
+		DwmSetWindowAttribute(m_hWnd, 34 /*DWMWA_BORDER_COLOR*/, &colBorder, sizeof(colBorder));
 	} else if (SysVersion::IsWin10v1809orLater()) {
 		static HMODULE hUser = GetModuleHandleW(L"user32.dll");
 		if (hUser) {

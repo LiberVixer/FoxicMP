@@ -29,8 +29,8 @@
 #include "WindowsUserChoice.h"
 
 static constexpr auto previousRegistration = L"PreviousRegistration";
-static constexpr auto registeredAppName    = L"MPC-BE";
-static constexpr auto registeredKey        = L"Software\\Clients\\Media\\MPC-BE\\Capabilities";
+static constexpr auto registeredAppName    = L"FoxicMP";
+static constexpr auto registeredKey        = L"Software\\Clients\\Media\\FoxicMP\\Capabilities";
 
 // CPPageFormats dialog
 
@@ -39,9 +39,9 @@ CComPtr<IApplicationAssociationRegistration> CPPageFormats::m_pAAR;
 // TODO: change this along with the root key for settings and the mutex name to
 //       avoid possible risks of conflict with the old MPC (non BE version).
 #ifdef _WIN64
-	#define PROGID L"mpc-be64"
+	#define PROGID L"FoxicMP64"
 #else
-	#define PROGID L"mpc-be"
+	#define PROGID L"FoxicMP"
 #endif // _WIN64
 
 IMPLEMENT_DYNAMIC(CPPageFormats, CPPageBase)
@@ -74,6 +74,7 @@ void CPPageFormats::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CHECK6, m_chContextDir);
 	DDX_Control(pDX, IDC_CHECK7, m_chContextFiles);
 	DDX_Control(pDX, IDC_CHECK8, m_chAssociatedWithIcons);
+	DDX_Control(pDX, IDC_CHECK_FOXICMP_VIDEO_MENU, m_chFoxicMPVideoMenu);
 }
 
 int CPPageFormats::GetChecked(int iItem)
@@ -166,9 +167,10 @@ static int GetIconIndex(LPCWSTR ext)
 {
 	int iconindex = -1;
 
-	static HMODULE mpciconlib = LoadLibraryW(L"mpciconlib.dll");
-	if (mpciconlib) {
-		static GetIconIndexFunc pGetIconIndexFunc = (GetIconIndexFunc)GetProcAddress(mpciconlib, "get_icon_index");
+	static HMODULE MPMYiconlib = LoadLibraryW(L"FoxicMPiconlib.dll");
+	if (!MPMYiconlib) { MPMYiconlib = LoadLibraryW(L"MPMYiconlib.dll"); }
+	if (MPMYiconlib) {
+		static GetIconIndexFunc pGetIconIndexFunc = (GetIconIndexFunc)GetProcAddress(MPMYiconlib, "get_icon_index");
 		if (pGetIconIndexFunc) {
 			iconindex = pGetIconIndexFunc(ext);
 		}
@@ -189,7 +191,8 @@ bool CPPageFormats::RegisterApp()
 	CRegKey key;
 
 	if (ERROR_SUCCESS == key.Open(HKEY_LOCAL_MACHINE, L"SOFTWARE\\RegisteredApplications")) {
-		key.SetStringValue(L"MPC-BE", registeredKey);
+		key.SetStringValue(L"FoxicMP", registeredKey);
+		key.SetStringValue(L"MPMY", registeredKey);
 
 		if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE, registeredKey)) {
 			return false;
@@ -285,8 +288,9 @@ bool CPPageFormats::RegisterExt(CString ext, CString strLabel, filetype_t filety
 			AppIcon.Format(L"\"%s\",0", ext_icon);
 		} else {
 			// then look for the iconlib
-			CString mpciconlib = GetProgramDir() + L"mpciconlib.dll";
-			if (::PathFileExistsW(mpciconlib)) {
+			CString MPMYiconlib = GetProgramDir() + L"FoxicMPiconlib.dll";
+			if (!::PathFileExistsW(MPMYiconlib)) { MPMYiconlib = GetProgramDir() + L"MPMYiconlib.dll"; }
+			if (::PathFileExistsW(MPMYiconlib)) {
 				int icon_index = GetIconIndex(ext);
 				if (icon_index < 0) {
 					if (filetype == TAudio) {
@@ -299,8 +303,8 @@ bool CPPageFormats::RegisterExt(CString ext, CString strLabel, filetype_t filety
 						icon_index = GetIconIndex(L":video");
 					}
 				}
-				if (icon_index >= 0 && ExtractIconW(AfxGetApp()->m_hInstance,(LPCWSTR)mpciconlib, icon_index)) {
-					AppIcon.Format(L"\"%s\",%d", mpciconlib, icon_index);
+				if (icon_index >= 0 && ExtractIconW(AfxGetApp()->m_hInstance,(LPCWSTR)MPMYiconlib, icon_index)) {
+					AppIcon.Format(L"\"%s\",%d", MPMYiconlib, icon_index);
 				}
 			}
 		}
@@ -442,11 +446,13 @@ bool CPPageFormats::RegisterShellExt(LPCWSTR lpszLibrary)
 
 	CRegKey key;
 	if (ERROR_SUCCESS == key.Create(HKEY_CURRENT_USER, shellExtKeyName)) {
-		key.SetStringValue(L"MpcPath", GetProgramPath());
+		key.SetStringValue(L"FoxicMPPath", GetProgramPath());
+		key.SetStringValue(L"MPMYPath", GetProgramPath());
 		key.Close();
 	}
 	if (ERROR_SUCCESS == key.Create(HKEY_LOCAL_MACHINE, shellExtKeyName)) {
-		key.SetStringValue(L"MpcPath", GetProgramPath());
+		key.SetStringValue(L"FoxicMPPath", GetProgramPath());
+		key.SetStringValue(L"MPMYPath", GetProgramPath());
 		key.Close();
 	}
 
@@ -538,25 +544,25 @@ void CPPageFormats::AddAutoPlayToRegistry(autoplay_t ap, bool fRegister)
 	CRegKey key;
 
 	if (fRegister) {
-		if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, L"MPCBE.Autorun")) {
+		if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT, L"FoxicMP.Autorun")) {
 			return;
 		}
 		key.Close();
 
 		if (ERROR_SUCCESS != key.Create(HKEY_CLASSES_ROOT,
-										CString(CStringA("MPCBE.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"))) {
+										CString(CStringA("FoxicMP.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"))) {
 			return;
 		}
 		key.SetStringValue(nullptr, L"\"" + exe + L"\"" + handlers[i].cmd);
 		key.Close();
 
 		if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE,
-										CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\Handlers\\MPCBEPlay") + handlers[i].verb + "OnArrival"))) {
+										CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\Handlers\\FoxicMPPlay") + handlers[i].verb + "OnArrival"))) {
 			return;
 		}
 		key.SetStringValue(L"Action", ResStr(handlers[i].action));
-		key.SetStringValue(L"Provider", L"MPC-BE");
-		key.SetStringValue(L"InvokeProgID", L"MPCBE.Autorun");
+		key.SetStringValue(L"Provider", L"FoxicMP");
+		key.SetStringValue(L"InvokeProgID", L"FoxicMP.Autorun");
 		key.SetStringValue(L"InvokeVerb", CString(CStringA("Play") + handlers[i].verb));
 		key.SetStringValue(L"DefaultIcon", exe + L",0");
 		key.Close();
@@ -565,13 +571,13 @@ void CPPageFormats::AddAutoPlayToRegistry(autoplay_t ap, bool fRegister)
 										CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"))) {
 			return;
 		}
-		key.SetStringValue(CString(CStringA("MPCBEPlay") + handlers[i].verb + "OnArrival"), L"");
+		key.SetStringValue(CString(CStringA("FoxicMPPlay") + handlers[i].verb + "OnArrival"), L"");
 	} else {
 		if (ERROR_SUCCESS != key.Create(HKEY_LOCAL_MACHINE,
 										CString(CStringA("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\AutoplayHandlers\\EventHandlers\\Play") + handlers[i].verb + "OnArrival"))) {
 			return;
 		}
-		key.DeleteValue(CString(CStringA("MPCBEPlay") + handlers[i].verb + "OnArrival"));
+		key.DeleteValue(CString(CStringA("FoxicMPPlay") + handlers[i].verb + "OnArrival"));
 	}
 }
 
@@ -596,14 +602,14 @@ bool CPPageFormats::IsAutoPlayRegistered(autoplay_t ap)
 	CString exe = GetProgramPath();
 
 	if (ERROR_SUCCESS != key.QueryStringValue(
-				CString(L"MPCBEPlay") + handlers[i].verb + L"OnArrival",
+				CString(L"FoxicMPPlay") + handlers[i].verb + L"OnArrival",
 				buff, &len)) {
 		return false;
 	}
 	key.Close();
 
 	if (ERROR_SUCCESS != key.Open(HKEY_CLASSES_ROOT,
-								  CString(CStringA("MPCBE.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"),
+								  CString(CStringA("FoxicMP.Autorun\\Shell\\Play") + handlers[i].verb + "\\Command"),
 								  KEY_READ)) {
 		return false;
 	}
@@ -659,6 +665,7 @@ BEGIN_MESSAGE_MAP(CPPageFormats, CPPageBase)
 	ON_BN_CLICKED(IDC_BUTTON6, OnBnClickedNone)
 	ON_BN_CLICKED(IDC_CHECK7, OnFilesAssocModified)
 	ON_BN_CLICKED(IDC_CHECK8, OnFilesAssocModified)
+	ON_BN_CLICKED(IDC_CHECK_FOXICMP_VIDEO_MENU, OnFoxicMPVideoMenuModified)
 	ON_UPDATE_COMMAND_UI(IDC_BUTTON2, OnUpdateButtonDefault)
 	ON_UPDATE_COMMAND_UI(IDC_BUTTON_EXT_SET, OnUpdateButtonSet)
 END_MESSAGE_MAP()
@@ -729,6 +736,7 @@ BOOL CPPageFormats::OnInitDialog()
 	m_chContextFiles.SetCheck(s.bSetContextFiles);
 	m_chContextDir.SetCheck(s.bSetContextDir);
 	m_chAssociatedWithIcons.SetCheck(s.bAssociatedWithIcons);
+	m_chFoxicMPVideoMenu.SetCheck(IsFoxicMPVideoContextMenuCorrect() ? BST_CHECKED : BST_UNCHECKED);
 
 	m_apvideo.SetCheck(IsAutoPlayRegistered(AP_VIDEO));
 	m_apmusic.SetCheck(IsAutoPlayRegistered(AP_MUSIC));
@@ -936,6 +944,12 @@ BOOL CPPageFormats::OnApply()
 			m_exts = mf[i].GetExts();
 			UpdateData(FALSE);
 		}
+	}
+
+	if (!SetFoxicMPVideoContextMenuEnabled(m_chFoxicMPVideoMenu.GetCheck() == BST_CHECKED)) {
+		m_chFoxicMPVideoMenu.SetCheck(IsFoxicMPVideoContextMenuCorrect() ? BST_CHECKED : BST_UNCHECKED);
+		MessageBoxW(ResStr(IDS_FOXICMP_CONTEXT_MENU_ERROR), L"FoxicMP", MB_OK | MB_ICONERROR);
+		return FALSE;
 	}
 
 	for (const auto& ext : m_lUnRegisterExts) {
@@ -1265,6 +1279,11 @@ void CPPageFormats::OnBnClickedSet()
 void CPPageFormats::OnFilesAssocModified()
 {
 	m_bFileExtChanged = true;
+	SetModified();
+}
+
+void CPPageFormats::OnFoxicMPVideoMenuModified()
+{
 	SetModified();
 }
 

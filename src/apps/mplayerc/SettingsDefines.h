@@ -147,7 +147,7 @@
 #define IDS_RS_WEBSERVERCGI					L"CGIHandlers"
 #define IDS_RS_WEBDEFINDEX					L"DefaultPage"
 
-// ÎnlineServices
+// OnlineServices
 #define IDS_R_ONLINESERVICES				L"OnlineServices"
 #define IDS_R_YOUTUBECACHE					L"OnlineServices\\YoutubeCache"
 #define IDS_RS_YDL_ENABLE					L"YDLEnable"
@@ -229,6 +229,7 @@
 #define IDS_RS_DARKMENU						L"DarkMenu"
 #define IDS_RS_DARKMENU_BLURBEHIND			L"DarkMenuBlurBehind"
 #define IDS_RS_DARKTITLE					L"DarkTitle"
+#define IDS_RS_REMOVEWINDOWBORDER			L"RemoveWindowBorder"
 
 // FullScreen
 #define IDS_RS_LAUNCHFULLSCREEN				L"LaunchFullScreen"

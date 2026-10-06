@@ -1295,7 +1295,7 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
 		} else if (hr == E_ABORT) {
 			// After calling Abort(), m_bOpeningAborted is true and AddSourceFilterInternal returns E_ABORT.
 			// m_deadends is no longer needed and must be cleared, otherwise CMediaTypesDlg will freeze the player interface.
-			m_deadends.clear(); 
+			m_deadends.clear();
 			m_bOpeningAborted = false;
 			return hr;
 		}
@@ -1799,7 +1799,7 @@ STDMETHODIMP CFGManager::AddToROT()
 	CComPtr<IRunningObjectTable> pROT;
 	CComPtr<IMoniker> pMoniker;
 	WCHAR wsz[256];
-	swprintf_s(wsz, std::size(wsz), L"FilterGraph %p pid %08x (MPC)", this, GetCurrentProcessId());
+	swprintf_s(wsz, std::size(wsz), L"FilterGraph %p pid %08x (FoxicMP)", this, GetCurrentProcessId());
 	if (SUCCEEDED(hr = GetRunningObjectTable(0, &pROT))
 			&& SUCCEEDED(hr = CreateItemMoniker(L"!", wsz, &pMoniker))) {
 		hr = pROT->Register(ROTFLAGS_REGISTRATIONKEEPSALIVE, (IGraphBuilder2*)this, pMoniker, &m_dwRegister);
@@ -2678,7 +2678,7 @@ CFGManagerCustom::CFGManagerCustom(LPCWSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
 	pFGF = DNew CFGFilterInternal<CMpeg2DecFilter>(
 				(video[VDEC_DVD] || IsPreview) ? DvdVideoDecoderName : LowMerit(DvdVideoDecoderName),
 				(video[VDEC_DVD] || IsPreview) ? MERIT64_ABOVE_DSHOW : MERIT64_DO_USE);
-	// MPC-BE uses this filter for DVD-Video only
+	// MPMY uses this filter for DVD-Video only
 	pFGF->AddType(MEDIATYPE_DVD_ENCRYPTED_PACK, MEDIASUBTYPE_MPEG2_VIDEO); // used by for MPEG-2 and MPEG-1
 	//pFGF->AddType(MEDIATYPE_MPEG2_PES, MEDIASUBTYPE_MPEG2_VIDEO);
 	m_transform.emplace_back(pFGF);
@@ -2700,7 +2700,7 @@ CFGManagerCustom::CFGManagerCustom(LPCWSTR pName, LPUNKNOWN pUnk, HWND hWnd, boo
 	// 11-12th media type when enumerating them on its output.
 	m_transform.emplace_back(DNew CFGFilterRegistry(GUIDFromCString(L"{00A95963-3BE5-48C0-AD9F-3356D67EA09D}"), MERIT64_DO_NOT_USE));
 
-	// DiracSplitter.ax is crashing MPC-BE when opening invalid files...
+	// DiracSplitter.ax is crashing MPMY when opening invalid files...
 	m_transform.emplace_back(DNew CFGFilterRegistry(GUIDFromCString(L"{09E7F58E-71A1-419D-B0A0-E524AE1454A9}"), MERIT64_DO_NOT_USE));
 	m_transform.emplace_back(DNew CFGFilterRegistry(GUIDFromCString(L"{5899CFB9-948F-4869-A999-5544ECB38BA5}"), MERIT64_DO_NOT_USE));
 	m_transform.emplace_back(DNew CFGFilterRegistry(GUIDFromCString(L"{F78CF248-180E-4713-B107-B13F7B5C31E1}"), MERIT64_DO_NOT_USE));

@@ -3827,7 +3827,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint p)
 			if (curTab.type == PL_BASIC) {
 				CSaveTextFileDialog fd(
 					CP_UTF8, nullptr, nullptr,
-					L"MPC-BE playlist (*.mpcpl)|*.mpcpl|Playlist (*.pls)|*.pls|Winamp playlist (*.m3u)|*.m3u|Windows Media playlist (*.asx)|*.asx||",
+					L"FoxicMP playlist (*.mpcpl)|*.mpcpl|Playlist (*.pls)|*.pls|Winamp playlist (*.m3u)|*.m3u|Windows Media playlist (*.asx)|*.asx||",
 					this);
 
 				fd.m_ofn.lpstrInitialDir = s.strLastSavedPlaylistDir;

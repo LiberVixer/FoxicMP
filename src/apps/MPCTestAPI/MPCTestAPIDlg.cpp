@@ -207,7 +207,7 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	{ // set programm dir as current dir 
+	{ // set programm dir as current dir
 		CString progpath;
 		DWORD bufsize = MAX_PATH;
 		DWORD len = 0;
@@ -248,9 +248,9 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 	m_strMPCPath = L"..\\";
 
 #if defined (_WIN64)
-	m_strMPCPath += L"mpc-be_x64";
+	m_strMPCPath += L"FoxicMP_x64";
 #else
-	m_strMPCPath += L"mpc-be_x86";
+	m_strMPCPath += L"FoxicMP_x86";
 #endif // _WIN64
 
 #if defined (_DEBUG)
@@ -260,9 +260,9 @@ BOOL CRegisterCopyDataDlg::OnInitDialog()
 #endif // _DEBUG
 
 #if defined (_WIN64)
-	m_strMPCPath += L"mpc-be64.exe";
+	m_strMPCPath += L"FoxicMP64.exe";
 #else
-	m_strMPCPath += L"mpc-be.exe";
+	m_strMPCPath += L"FoxicMP.exe";
 #endif // _WIN64
 
 	m_cbCommand.Clear();

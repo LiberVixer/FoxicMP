@@ -253,7 +253,7 @@ void CThumbsTaskDlg::SaveThumbnails(LPCWSTR thumbpath)
 		rts.AddStyle(L"thumbs", style);
 
 		CStringW str;
-		str.Format(L"{\\an9\\fs%d\\b1\\bord0\\shad0\\1c&Hffffff&}%s", infoheight - 10, width >= 550 ? L"MPC-BE" : L"MPC");
+		str.Format(L"{\\an9\\fs%d\\b1\\bord0\\shad0\\1c&Hffffff&}%s", infoheight - 10, L"FoxicMP");
 
 		rts.Add(str, 0, 1, L"thumbs", L"", L"", CRect(0, 0, 0, 0), -1);
 

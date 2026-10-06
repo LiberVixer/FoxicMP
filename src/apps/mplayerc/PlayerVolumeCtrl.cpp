@@ -73,6 +73,16 @@ bool CVolumeCtrl::Create(CWnd* pParentWnd)
 	return TRUE;
 }
 
+CRect CVolumeCtrl::GetTrackRect() const
+{
+	CRect rc;
+	GetClientRect(&rc);
+	CMainFrame* pMainFrame = dynamic_cast<CMainFrame*>(AfxGetMainWnd());
+	const int trackH = pMainFrame ? pMainFrame->ScaleY(16) : 16;
+	const int top = rc.CenterPoint().y - (trackH / 2);
+	return CRect(rc.left + 4, top, rc.right - 7, top + trackH);
+}
+
 void CVolumeCtrl::SetPosInternal(int pos)
 {
 	m_bRedraw = true;
@@ -200,7 +210,14 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 					InvalidateRect(&rc);
 					const CSize sz = rc.Size();
 
+					int nVolume = GetPos();
+
+					if (nVolume <= GetPageSize()) {
+						nVolume = 0;
+					}
+
 					if (m_bRedraw
+							|| m_nVolume != nVolume
 							|| m_nThemeBrightness != s.nThemeBrightness
 							|| m_nThemeRed != s.nThemeRed
 							|| m_nThemeGreen != s.nThemeGreen
@@ -217,6 +234,7 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 						m_clrFaceABGR = s.clrFaceABGR;
 						m_clrOutlineABGR = s.clrOutlineABGR;
 						m_bMute = s.fMute;
+						m_nVolume = nVolume;
 
 						if (m_cashedBitmap.GetSafeHandle() != nullptr) {
 							m_cashedBitmap.DeleteObject();
@@ -230,39 +248,8 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 						}
 
 						const COLORREF p1 = s.clrOutlineABGR, p2 = s.clrFaceABGR;
-						int nVolume = GetPos();
 
-						if (nVolume <= GetPageSize()) {
-							nVolume = 0;
-						}
-
-						const CRect DeflateRect(4, 2 + 1, 9, 6 + 5);
-
-						CRect r_volume(rc);
-						r_volume.DeflateRect(&DeflateRect);
-						const int width_volume = r_volume.Width() - 9;
-						const int nVolPos = rc.left + (nVolume * width_volume / 100) + 4;
-
-						if (m_VolumeGradient.Size()) {
-							m_VolumeGradient.Paint(&imageDC, rc, 0);
-						} else {
-							const COLOR16 ir1 = (p1 * 256);
-							const COLOR16 ig1 = (p1 >> 8) * 256;
-							const COLOR16 ib1 = (p1 >> 16) * 256;
-							const COLOR16 ir2 = (p2 * 256);
-							const COLOR16 ig2 = (p2 >> 8) * 256;
-							const COLOR16 ib2 = (p2 >> 16) * 256;
-							const COLOR16 pa = (255 * 256);
-
-							TRIVERTEX tv[2] = {
-								{rc.left, rc.top, ir1, ig1, ib1, pa},
-								{r_volume.Width(), 1, ir2, ig2, ib2, pa},
-							};
-							imageDC.GradientFill(tv, 2, &gr, 1, GRADIENT_FILL_RECT_H);
-						}
-
-						const COLORREF p3 = nVolPos > 30 ? imageDC.GetPixel(nVolPos, 0) : imageDC.GetPixel(30, 0);
-						CPen penLeft(p2 == 0x00ff00ff ? PS_NULL : PS_SOLID, 0, p3);
+						const CRect rcTrack = GetTrackRect();
 
 						{
 							CDC memdc;
@@ -276,38 +263,118 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 							memdc.DeleteDC();
 						}
 
-						rc.DeflateRect(&DeflateRect);
-						CopyRect(&pNMCD->rc, &rc);
+						const CRect rcInterior(rcTrack.left + 1, rcTrack.top + 1, rcTrack.right - 1, rcTrack.bottom - 1);
+						if (rcInterior.left < rcInterior.right && rcInterior.top < rcInterior.bottom) {
+							// 1. Unfilled track trough background
+							int rBkg1, gBkg1, bBkg1, rBkg2, gBkg2, bBkg2;
+							ThemeRGB(14, 17, 20, rBkg1, gBkg1, bBkg1);
+							ThemeRGB(26, 30, 34, rBkg2, gBkg2, bBkg2);
+							GRADIENT_RECT gr = { 0, 1 };
+							TRIVERTEX tvTrough[2] = {
+								{ rcInterior.left, rcInterior.top, COLOR16(rBkg1 * 256), COLOR16(gBkg1 * 256), COLOR16(bBkg1 * 256), 255 * 256 },
+								{ rcInterior.right, rcInterior.bottom, COLOR16(rBkg2 * 256), COLOR16(gBkg2 * 256), COLOR16(bBkg2 * 256), 255 * 256 }
+							};
+							imageDC.GradientFill(tvTrough, 2, &gr, 1, GRADIENT_FILL_RECT_V);
 
-						CPen penRight(p1 == 0x00ff00ff ? PS_NULL : PS_SOLID, 0, p1);
-						CPen* penOld = imageDC.SelectObject(&penRight);
+							const int interiorW = rcInterior.Width();
+							const int nVolPos = (int)rcInterior.left + (nVolume * (int)rcInterior.Width() / 100);
 
-						int nposx, nposy;
-						const int width = rc.Width() - 9;
-						const int step = width / 10;
+							if (nVolume > 0 && !s.fMute) {
+								const int xStart = (int)rcInterior.left;
+								const int xEnd = std::min<int>((int)rcInterior.right, nVolPos);
 
-						int i = 4;
-						while (i <= width) {
-							nposx = rc.left + i;
-							nposy = rc.bottom - (rc.Height() * i) / (rc.Width() + 6);
+								if (xEnd > xStart) {
+									int r1 = 0, g1 = 0, b1 = 0, r2 = 0, g2 = 0, b2 = 0;
+									if (p2 != 0x00ffffff) {
+										r2 = GetRValue(p2); g2 = GetGValue(p2); b2 = GetBValue(p2);
+										r1 = r2 / 4; g1 = g2 / 4; b1 = b2 / 4;
+									} else {
+										ThemeRGB(10, 15, 20, r1, g1, b1);
+										ThemeRGB(105, 110, 115, r2, g2, b2);
+									}
 
-							i < nVolPos ? imageDC.SelectObject(penLeft) : imageDC.SelectObject(penRight);
+									if (m_VolumeGradient.Size()) {
+										m_VolumeGradient.Paint(&imageDC, CRect(xStart, rcInterior.top, xEnd, rcInterior.bottom), 0);
+									} else {
+										TRIVERTEX tvFill[2] = {
+											{ xStart, rcInterior.top, COLOR16(r1 * 256), COLOR16(g1 * 256), COLOR16(b1 * 256), 255 * 256 },
+											{ xEnd, rcInterior.bottom, COLOR16(r2 * 256), COLOR16(g2 * 256), COLOR16(b2 * 256), 255 * 256 }
+										};
+										imageDC.GradientFill(tvFill, 2, &gr, 1, GRADIENT_FILL_RECT_V);
+									}
 
-							imageDC.MoveTo(nposx, nposy);         // top_left
-							imageDC.LineTo(nposx + 2, nposy);     // top_right
-							imageDC.LineTo(nposx + 2, rc.bottom); // bottom_right
-							imageDC.LineTo(nposx, rc.bottom);     // bottom_left
-							imageDC.LineTo(nposx, nposy);         // top_left
+									// Thumb marker at the leading edge of the volume
+									const int thumbW = (rcTrack.Height() >= 16) ? 4 : 3;
+									const int thumbLeft = std::max<int>(xStart, xEnd - thumbW);
+									if (thumbLeft < xEnd) {
+										int rt1, gt1, bt1, rt2, gt2, bt2;
+										if (p2 != 0x00ffffff) {
+											rt1 = r1; gt1 = g1; bt1 = b1;
+											rt2 = std::min<int>(255, r2 + 40); gt2 = std::min<int>(255, g2 + 40); bt2 = std::min<int>(255, b2 + 40);
+										} else {
+											ThemeRGB(20, 25, 30, rt1, gt1, bt1);
+											ThemeRGB(215, 220, 225, rt2, gt2, bt2);
+										}
+										TRIVERTEX tvThumb[2] = {
+											{ thumbLeft, rcInterior.top, COLOR16(rt1 * 256), COLOR16(gt1 * 256), COLOR16(bt1 * 256), 255 * 256 },
+											{ xEnd, rcInterior.bottom, COLOR16(rt2 * 256), COLOR16(gt2 * 256), COLOR16(bt2 * 256), 255 * 256 }
+										};
+										imageDC.GradientFill(tvThumb, 2, &gr, 1, GRADIENT_FILL_RECT_V);
+									}
+								}
+							} else if (nVolume > 0 && s.fMute) {
+								const int xStart = (int)rcInterior.left;
+								const int xEnd = std::min<int>((int)rcInterior.right, nVolPos);
+								if (xEnd > xStart) {
+									int r1, g1, b1, r2, g2, b2;
+									ThemeRGB(15, 18, 20, r1, g1, b1);
+									ThemeRGB(45, 48, 52, r2, g2, b2);
+									GRADIENT_RECT grMute = { 0, 1 };
+									TRIVERTEX tvMute[2] = {
+										{ xStart, rcInterior.top, COLOR16(r1 * 256), COLOR16(g1 * 256), COLOR16(b1 * 256), 255 * 256 },
+										{ xEnd, rcInterior.bottom, COLOR16(r2 * 256), COLOR16(g2 * 256), COLOR16(b2 * 256), 255 * 256 }
+									};
+									imageDC.GradientFill(tvMute, 2, &grMute, 1, GRADIENT_FILL_RECT_V);
 
-							if (!s.fMute) {
-								imageDC.MoveTo(nposx + 1, nposy - 1);     // top_middle
-								imageDC.LineTo(nposx + 1, rc.bottom + 2); // bottom_middle
+									CPen penRed(PS_SOLID, 0, ThemeRGB(242, 13, 13));
+									CPen* pOldRed = imageDC.SelectObject(&penRed);
+									imageDC.MoveTo(xEnd - 1, rcInterior.top);
+									imageDC.LineTo(xEnd - 1, rcInterior.bottom);
+									imageDC.SelectObject(pOldRed);
+								}
 							}
+						}
 
-							i += step;
+						// 2. Track borders
+						CPen penTop(PS_SOLID, 0, ThemeRGB(30, 35, 40));
+						CPen penBottom(PS_SOLID, 0, ThemeRGB(80, 85, 90));
+
+						CPen* penOld = imageDC.SelectObject(&penTop);
+						imageDC.MoveTo(rcTrack.left, rcTrack.top);
+						imageDC.LineTo(rcTrack.right, rcTrack.top); // Top line
+						imageDC.MoveTo(rcTrack.left, rcTrack.top);
+						imageDC.LineTo(rcTrack.left, rcTrack.bottom); // Left line
+
+						imageDC.SelectObject(&penBottom);
+						imageDC.MoveTo(rcTrack.left, rcTrack.bottom - 1);
+						imageDC.LineTo(rcTrack.right, rcTrack.bottom - 1); // Bottom line
+						imageDC.MoveTo(rcTrack.right - 1, rcTrack.top);
+						imageDC.LineTo(rcTrack.right - 1, rcTrack.bottom); // Right line
+
+						// 3. Top highlight line over active volume
+						if (nVolume > 0 && !s.fMute) {
+							const int xEnd = std::min<int>((int)rcInterior.right, (int)rcInterior.left + (nVolume * (int)rcInterior.Width() / 100));
+							if (xEnd > rcTrack.left) {
+								CPen penTopHighlight(PS_SOLID, 0, (p2 != 0x00ffffff) ? p2 : ThemeRGB(80, 85, 90));
+								imageDC.SelectObject(&penTopHighlight);
+								imageDC.MoveTo(rcTrack.left, rcTrack.top);
+								imageDC.LineTo(xEnd, rcTrack.top);
+							}
 						}
 
 						imageDC.SelectObject(penOld);
+
+						CopyRect(&pNMCD->rc, &rcTrack);
 					}
 					else {
 						pOldBitmap = imageDC.SelectObject(&m_cashedBitmap);
@@ -382,6 +449,31 @@ void CVolumeCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CVolumeCtrl::SetPosInternal(const CPoint& point, const bool bUpdateToolTip/* = false*/)
 {
+	if (AfxGetAppSettings().bUseDarkTheme) {
+		const CRect rcTrack = GetTrackRect();
+
+		const int left = rcTrack.left + 1;
+		const int right = rcTrack.right - 1;
+		const int w = right - left;
+		const int posX = std::clamp((int)point.x, left, right);
+		const int pos = (w > 0) ? std::clamp(((posX - left) * 100 + (w / 2)) / w, 0, 100) : 0;
+		SetPosInternal(pos);
+
+		if (bUpdateToolTip && m_toolTipHandle) {
+			CRect tooltipRect;
+			::GetWindowRect(m_toolTipHandle, &tooltipRect);
+
+			POINT p = { posX, point.y };
+			ClientToScreen(&p);
+			CRect rcScreen(rcTrack);
+			ClientToScreen(&rcScreen);
+			p.y = rcScreen.top - tooltipRect.Height();
+
+			::SendMessageW(m_toolTipHandle, TTM_TRACKPOSITION, 0, MAKELPARAM(p.x, p.y));
+		}
+		return;
+	}
+
 	CRect r;
 	GetChannelRect(&r);
 	ASSERT(r.left < r.right);

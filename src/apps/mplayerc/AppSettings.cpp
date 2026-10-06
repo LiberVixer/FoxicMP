@@ -493,7 +493,7 @@ void CAppSettings::ResetSettings()
 	// Player
 	iMultipleInst = 1;
 	iTitleBarTextStyle = TEXTBAR_FILENAME;
-	iSeekBarTextStyle = TEXTBAR_TITLE;
+	iSeekBarTextStyle = TEXTBAR_EMPTY;
 
 	bKeepHistory = true;
 	nHistoryEntriesMax = 200;
@@ -675,6 +675,7 @@ void CAppSettings::ResetSettings()
 	bDarkMenu = true;
 	bDarkMenuBlurBehind = false;
 	bDarkTitle = true;
+	bRemoveWindowBorder = true;
 
 	ShowOSD.Enable = 1;
 	bOSDRemainingTime = false;
@@ -1296,6 +1297,7 @@ void CAppSettings::LoadSettings(bool bForce/* = false*/)
 	profile.ReadBool(IDS_R_THEME, IDS_RS_DARKMENU, bDarkMenu);
 	//profile.ReadBool(IDS_R_THEME, IDS_RS_DARKMENU_BLURBEHIND, bDarkMenuBlurBehind);
 	profile.ReadBool(IDS_R_THEME, IDS_RS_DARKTITLE, bDarkTitle);
+	profile.ReadBool(IDS_R_THEME, IDS_RS_REMOVEWINDOWBORDER, bRemoveWindowBorder);
 
 	// FullScreen
 	profile.ReadBool(IDS_R_SETTINGS, IDS_RS_LAUNCHFULLSCREEN, fLaunchfullscreen);
@@ -1921,6 +1923,7 @@ void CAppSettings::SaveSettings()
 	profile.WriteBool(IDS_R_THEME, IDS_RS_DARKMENU, bDarkMenu);
 	//profile.WriteBool(IDS_R_THEME, IDS_RS_DARKMENU_BLURBEHIND, bDarkMenuBlurBehind);
 	profile.WriteBool(IDS_R_THEME, IDS_RS_DARKTITLE, bDarkTitle);
+	profile.WriteBool(IDS_R_THEME, IDS_RS_REMOVEWINDOWBORDER, bRemoveWindowBorder);
 
 	// FullScreen
 	profile.WriteBool(IDS_R_SETTINGS, IDS_RS_LAUNCHFULLSCREEN, fLaunchfullscreen);

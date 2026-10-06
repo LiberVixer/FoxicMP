@@ -112,6 +112,9 @@ public:
 	afx_msg void OnHelpShowcommandlineswitches();
 };
 
+bool IsFoxicMPVideoContextMenuCorrect();
+bool SetFoxicMPVideoContextMenuEnabled(bool enabled);
+
 #define AfxGetMyApp()       static_cast<CMPlayerCApp*>(AfxGetApp())
 #define AfxGetAppSettings() static_cast<CMPlayerCApp*>(AfxGetApp())->m_s
 #define AfxGetMainFrame()   static_cast<CMainFrame*>(AfxGetMainWnd())

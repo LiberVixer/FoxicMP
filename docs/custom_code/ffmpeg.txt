@@ -1,4 +1,4 @@
-﻿The following files have MPC-BE specific custom code (compared to ffmpeg):
+﻿The following files have FoxicMP-specific custom code inherited from MPC-BE (compared to FFmpeg):
 
 * compat/w32dlfcn.h
 
@@ -36,7 +36,7 @@
 * libavutil/hwcontext_dxva2.c
 
 ======
-The following files are available only in MPC-BE (compared with ffmpeg):
+The following files are available in FoxicMP through MPC-BE (compared with FFmpeg):
 
 * config.asm
 * config.c

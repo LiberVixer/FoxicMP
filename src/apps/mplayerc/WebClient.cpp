@@ -253,7 +253,7 @@ void CWebClientSocket::Header()
 		}
 
 		reshdr +=
-			"Server: MPC-BE WebServer\r\n"
+			"Server: FoxicMP WebServer\r\n"
 			"Connection: close\r\n"
 			"\r\n";
 

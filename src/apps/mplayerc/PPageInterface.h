@@ -48,8 +48,8 @@ public:
 	CSliderCtrl m_ThemeGreenCtrl;
 	CSliderCtrl m_ThemeBlueCtrl;
 	CButton     m_chkDarkMenu;
-	CButton     m_chkDarkMenuBlurBehind;
 	CButton     m_chkDarkTitle;
+	CButton     m_chkRemoveWindowBorder;
 
 	BOOL      m_fUseTimeTooltip  = TRUE;
 	CComboBox m_TimeTooltipPosition;
@@ -92,6 +92,7 @@ public:
 	afx_msg void OnUseTimeTooltipClicked();
 	afx_msg void OnUsePreview();
 	afx_msg void OnUseWin7TaskBar();
+	afx_msg void OnRemoveWindowBorder();
 	afx_msg void OnUpdateThemeBrightness(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateThemeRed(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateThemeGreen(CCmdUI* pCmdUI);

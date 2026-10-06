@@ -796,6 +796,7 @@ private: // control bar embedded members
 	CPlayerInfoBar m_wndStatsBar;
 	CPlayerStatusBar m_wndStatusBar;
 	std::vector<CControlBar*> m_bars;
+	bool m_bMergedStatusVisible = false;
 
 	CPlayerSubresyncBar m_wndSubresyncBar;
 	CPlayerCaptureBar m_wndCaptureBar;
@@ -1160,6 +1161,10 @@ public:
 	afx_msg void OnLanguage(UINT nID);
 
 	CString UpdatePlayerStatus();
+	CString GetMediaTitleOrFileName();
+	CString GetCurrentChapterInfo();
+	CString GetChapterNameAt(REFERENCE_TIME rt);
+	void SetHoverStatusText(const CString& strHover);
 
 	void OnFilePostOpenMedia(std::unique_ptr<OpenMediaData>& pOMD);
 	void OnFilePostCloseMedia();
@@ -1171,6 +1176,8 @@ public:
 	CMPCGradient m_BackGroundGradient; // used in some toolbars
 
 	CPlayerToolBar		m_wndToolBar;
+	CPlayerStatusBar& GetPlayerStatusBar() { return m_wndStatusBar; }
+	bool IsMergedStatusVisible() const { return m_bMergedStatusVisible; }
 	CPlayerPlaylistBar	m_wndPlaylistBar;
 	CFlyBar				m_wndFlyBar;
 	CPreView			m_wndPreView; // SmartSeek
@@ -1272,6 +1279,7 @@ private:
 	void WTSUnRegisterSessionNotification();
 
 	CString m_OldMessage;
+	CString m_strHoverStatus;
 	void SetStatusMessage(const CString& msg);
 	CString FillMessage();
 

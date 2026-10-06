@@ -58,6 +58,13 @@ private:
 	t_color m_crBackground;
 	TRIVERTEX tvBackground[2];
 	CPen m_penFrHot;
+	CFont m_statusFont;
+	CRect m_statusTimeRect;
+	CRect m_resizeGripRect;
+
+	void ScaleStatusFont();
+	void DrawMergedStatus(CDC& dc);
+	void DrawResizeGrip(CDC& dc);
 
 public:
 	LONG		m_nButtonHeight;
@@ -107,6 +114,7 @@ protected:
 	afx_msg void OnNcPaint();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
 	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 

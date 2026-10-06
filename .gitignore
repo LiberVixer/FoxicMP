@@ -13,11 +13,11 @@
 /revision.h
 /contrib/signinfo.txt
 /src/ExtLib/ffmpeg/obj
-/src/apps/MPCBEShellExt/dlldata.c
-/src/apps/MPCBEShellExt/MPCBEShellExt_i.c
-/src/apps/MPCBEShellExt/MPCBEShellExt_i.h
-/src/apps/MPCBEShellExt/MPCBEShellExt_p.c
-/src/apps/mplayerc/res/mpc-be.exe.manifest
+/src/apps/FoxicMPShellExt/dlldata.c
+/src/apps/FoxicMPShellExt/FoxicMPShellExt_i.c
+/src/apps/FoxicMPShellExt/FoxicMPShellExt_i.h
+/src/apps/FoxicMPShellExt/FoxicMPShellExt_p.c
+/src/apps/mplayerc/res/FoxicMP.exe.manifest
 /lib/libgcc.a
 /lib/libmingwex.a
 /lib64/libgcc.a

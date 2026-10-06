@@ -18,32 +18,34 @@ REM along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 IF EXIST "environments.bat" CALL "environments.bat"
 
-IF DEFINED MPCBE_MINGW GOTO VarOk
-ECHO ERROR: Please define MPCBE_MINGW environment variable
+IF NOT DEFINED FOXICMP_MINGW IF DEFINED MPMY_MINGW SET "FOXICMP_MINGW=%MPMY_MINGW%"
+
+IF DEFINED FOXICMP_MINGW GOTO VarOk
+ECHO ERROR: Please define FOXICMP_MINGW environment variable
 ENDLOCAL
 EXIT /B
 
 :VarOk
 
 FOR /f "tokens=1,2 delims=" %%K IN (
-  '%MPCBE_MINGW%\bin\gcc -dumpversion'
+  '%FOXICMP_MINGW%\bin\gcc -dumpversion'
 ) DO (
   SET "gccver=%%K" & Call :SubGCCVer %%gccver:*Z=%%
 )
 
-IF EXIST "%MPCBE_MINGW%\mpcbe_libs\lib\libmingwex.a" (
-  COPY /V /Y "%MPCBE_MINGW%\mpcbe_libs\lib\libmingwex.a" "lib\"
+IF EXIST "%FOXICMP_MINGW%\mpcbe_libs\lib\libmingwex.a" (
+  COPY /V /Y "%FOXICMP_MINGW%\mpcbe_libs\lib\libmingwex.a" "lib\"
 ) ELSE (
-  COPY /V /Y "%MPCBE_MINGW%\i686-w64-mingw32\lib\libmingwex.a" "lib\"
+  COPY /V /Y "%FOXICMP_MINGW%\i686-w64-mingw32\lib\libmingwex.a" "lib\"
 )
-COPY /V /Y "%MPCBE_MINGW%\lib\gcc\i686-w64-mingw32\%gccver%\libgcc.a" "lib\"
+COPY /V /Y "%FOXICMP_MINGW%\lib\gcc\i686-w64-mingw32\%gccver%\libgcc.a" "lib\"
 
-IF EXIST "%MPCBE_MINGW%\mpcbe_libs\lib64\libmingwex.a" (
-  COPY /V /Y "%MPCBE_MINGW%\mpcbe_libs\lib64\libmingwex.a" "lib64\"
+IF EXIST "%FOXICMP_MINGW%\mpcbe_libs\lib64\libmingwex.a" (
+  COPY /V /Y "%FOXICMP_MINGW%\mpcbe_libs\lib64\libmingwex.a" "lib64\"
 ) ELSE (
-  COPY /V /Y "%MPCBE_MINGW%\x86_64-w64-mingw32\lib\libmingwex.a" "lib64\"
+  COPY /V /Y "%FOXICMP_MINGW%\x86_64-w64-mingw32\lib\libmingwex.a" "lib64\"
 )
-COPY /V /Y "%MPCBE_MINGW%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "lib64\"
+COPY /V /Y "%FOXICMP_MINGW%\lib\gcc\x86_64-w64-mingw32\%gccver%\libgcc.a" "lib64\"
 
 PAUSE
 EXIT /B

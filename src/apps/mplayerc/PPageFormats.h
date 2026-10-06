@@ -25,10 +25,10 @@
 #include "PPageBase.h"
 #include "PlayerListCtrl.h"
 
-#define ShellExt   GetProgramDir() + L"MPCBEShellExt.dll"
-#define ShellExt64 GetProgramDir() + L"MPCBEShellExt64.dll"
+#define ShellExt   GetProgramDir() + L"FoxicMPShellExt.dll"
+#define ShellExt64 GetProgramDir() + L"FoxicMPShellExt64.dll"
 
-inline constexpr auto shellExtKeyName = L"Software\\MPC-BE.ShellExt";
+inline constexpr auto shellExtKeyName = L"Software\\FoxicMP.ShellExt";
 
 // CPPageFormats dialog
 
@@ -90,6 +90,7 @@ public:
 	CButton m_chContextDir;
 	CButton m_chContextFiles;
 	CButton m_chAssociatedWithIcons;
+	CButton m_chFoxicMPVideoMenu;
 
 	enum { IDD = IDD_PPAGEFORMATS };
 
@@ -114,6 +115,7 @@ public:
 	afx_msg void OnBnClickedNone();
 	afx_msg void OnBnRunAdmin();
 	afx_msg void OnFilesAssocModified();
+	afx_msg void OnFoxicMPVideoMenuModified();
 	afx_msg void OnUpdateButtonDefault(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateButtonSet(CCmdUI* pCmdUI);
 };

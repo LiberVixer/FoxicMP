@@ -644,7 +644,7 @@ void CPlayerCaptureDialog::InitControls()
 			PWSTR pathVideos = nullptr;
 			HRESULT hr = SHGetKnownFolderPath(FOLDERID_Videos, 0, nullptr, &pathVideos);
 			if (SUCCEEDED(hr)) {
-				m_file = CStringW(pathVideos) + L"\\MPC-BE Capture";
+				m_file = CStringW(pathVideos) + L"\\FoxicMP Capture";
 				if (!PathFileExistsW(m_file)) {
 					VERIFY(CreateDirectoryW(m_file, nullptr));
 				}

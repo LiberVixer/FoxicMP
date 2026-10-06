@@ -41,7 +41,7 @@ FILE* CMpcLstFile::CheckOpenFileForRead(bool& valid)
 
 	FILE* pFile;
 
-	do { // Open mpc-be.ini in UNICODE mode, retry if it is already being used by another process
+	do { // Open MPMY.ini in UNICODE mode, retry if it is already being used by another process
 		pFile = _wfsopen(m_filename, L"r, ccs=UNICODE", _SH_SECURE);
 		if (pFile || GetLastError() != ERROR_SHARING_VIOLATION) {
 			break;
@@ -257,7 +257,7 @@ bool CHistoryFile::WriteFile()
 	CStdioFile file(pFile);
 	CStringW str;
 	try {
-		file.WriteString(L"; MPC-BE History File 0.1\n");
+		file.WriteString(L"; FoxicMP History File 0.1\n");
 		int i = 1;
 		for (const auto& sesInfo : m_SessionInfos) {
 			if (sesInfo.Path.GetLength()) {
@@ -522,7 +522,7 @@ bool CFavoritesFile::WriteFile()
 	CStdioFile file(pFile);
 	CStringW str;
 	try {
-		file.WriteString(L"; MPC-BE Favorites File 0.1\n");
+		file.WriteString(L"; FoxicMP Favorites File 0.1\n");
 		int i = 1;
 		for (const auto& sesInfo : m_Files) {
 			if (sesInfo.Path.GetLength()) {
@@ -777,7 +777,7 @@ bool CPlaylistConfigFile::WriteFile()
 	CStdioFile file(pFile);
 	CStringW str;
 	try {
-		file.WriteString(L"; MPC-BE Playlist Config File 0.1\n");
+		file.WriteString(L"; FoxicMP Playlist Config File 0.1\n");
 		int i = 1;
 		for (const auto& plsInfo : m_PlaylistInfos) {
 			if (plsInfo.Path.GetLength() || plsInfo.Type == PLS_Explorer) {

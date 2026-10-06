@@ -46,8 +46,8 @@ void CPPageInterface::DoDataExchange(CDataExchange* pDX)
 	DDX_Slider(pDX, IDC_SLIDER3, m_nThemeGreen);
 	DDX_Slider(pDX, IDC_SLIDER4, m_nThemeBlue);
 	DDX_Control(pDX, IDC_CHECK4, m_chkDarkMenu);
-	DDX_Control(pDX, IDC_CHECK7, m_chkDarkMenuBlurBehind);
 	DDX_Control(pDX, IDC_CHECK5, m_chkDarkTitle);
+	DDX_Control(pDX, IDC_CHECK_REMOVE_WINDOW_BORDER, m_chkRemoveWindowBorder);
 
 	DDX_Control(pDX, IDC_SLIDER1, m_ThemeBrightnessCtrl);
 	DDX_Control(pDX, IDC_SLIDER2, m_ThemeRedCtrl);
@@ -82,8 +82,8 @@ BOOL CPPageInterface::OnInitDialog()
 	m_nThemeGreen			= m_nThemeGreen_Old			= s.nThemeGreen;
 	m_nThemeBlue			= m_nThemeBlue_Old			= s.nThemeBlue;
 	m_chkDarkMenu.SetCheck(s.bDarkMenu);
-	//m_chkDarkMenuBlurBehind.SetCheck(s.bDarkMenuBlurBehind);
 	m_chkDarkTitle.SetCheck(s.bDarkTitle);
+	m_chkRemoveWindowBorder.SetCheck(s.bRemoveWindowBorder);
 
 	m_ThemeBrightnessCtrl.SetRange	(0, 100, TRUE);
 	m_ThemeRedCtrl.SetRange			(0, 255, TRUE);
@@ -134,11 +134,9 @@ BOOL CPPageInterface::OnInitDialog()
 	if (!SysVersion::IsWin10v1809orLater()) {
 		m_chkDarkTitle.EnableWindow(FALSE);
 	}
-
-//	if (!SysVersion::IsWin10orLater()) {
-//		m_chkDarkMenuBlurBehind.EnableWindow(FALSE);
-//	}
-	m_chkDarkMenuBlurBehind.ShowWindow(SW_HIDE);
+	if (!SysVersion::IsWin11orLater()) {
+		m_chkRemoveWindowBorder.EnableWindow(FALSE);
+	}
 
 	UpdateData(FALSE);
 
@@ -172,6 +170,7 @@ BOOL CPPageInterface::OnApply()
 	s.bDarkMenu = !!m_chkDarkMenu.GetCheck();
 	//s.bDarkMenuBlurBehind = !!m_chkDarkMenuBlurBehind.GetCheck();
 	s.bDarkTitle = !!m_chkDarkTitle.GetCheck();
+	s.bRemoveWindowBorder = !!m_chkRemoveWindowBorder.GetCheck();
 
 	s.fUseWin7TaskBar		= !!m_fUseWin7TaskBar;
 	s.fUseTimeTooltip		= !!m_fUseTimeTooltip;
@@ -298,6 +297,7 @@ BEGIN_MESSAGE_MAP(CPPageInterface, CPPageBase)
 	ON_BN_CLICKED(IDC_CHECK8, OnUseTimeTooltipClicked)
 	ON_BN_CLICKED(IDC_CHECK_PRV, OnUsePreview)
 	ON_BN_CLICKED(IDC_CHECK_WIN7, OnUseWin7TaskBar)
+	ON_BN_CLICKED(IDC_CHECK_REMOVE_WINDOW_BORDER, OnRemoveWindowBorder)
 	ON_UPDATE_COMMAND_UI(IDC_SLIDER1, OnUpdateThemeBrightness)
 	ON_UPDATE_COMMAND_UI(IDC_SLIDER2, OnUpdateThemeRed)
 	ON_UPDATE_COMMAND_UI(IDC_SLIDER3, OnUpdateThemeGreen)
@@ -426,6 +426,11 @@ void CPPageInterface::OnCustomDrawBtns(NMHDR *pNMHDR, LRESULT *pResult)
 }
 
 void CPPageInterface::OnUseWin7TaskBar()
+{
+	SetModified();
+}
+
+void CPPageInterface::OnRemoveWindowBorder()
 {
 	SetModified();
 }

@@ -56,6 +56,7 @@ private:
 	CMainFrame*     m_pMainFrame;
 
 	CPoint          m_CurrentPoint;
+	bool            m_bMouseTracking = false;
 
 	CFont           m_font;
 

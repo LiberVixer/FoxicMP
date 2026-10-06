@@ -54,8 +54,8 @@ FOR %%A IN (%ARG%) DO (
   IF /I "%%A" == "All"        SET "CONFIG=All"          & SET /A ARGC+=1
   IF /I "%%A" == "Main"       SET "CONFIG=Main"         & SET /A ARGC+=1  & SET /A ARGM+=1
   IF /I "%%A" == "Filters"    SET "CONFIG=Filters"      & SET /A ARGC+=1  & SET /A ARGF+=1
-  IF /I "%%A" == "MPCBE"      SET "CONFIG=MPCBE"        & SET /A ARGC+=1
-  IF /I "%%A" == "MPC-BE"     SET "CONFIG=MPCBE"        & SET /A ARGC+=1
+  IF /I "%%A" == "FoxicMP"   SET "CONFIG=FoxicMP"      & SET /A ARGC+=1
+  IF /I "%%A" == "MPMY"      SET "CONFIG=FoxicMP"      & SET /A ARGC+=1
   IF /I "%%A" == "Resource"   SET "CONFIG=Resources"    & SET /A ARGC+=1  & SET /A ARGD+=1
   IF /I "%%A" == "Resources"  SET "CONFIG=Resources"    & SET /A ARGC+=1  & SET /A ARGD+=1
   IF /I "%%A" == "Debug"      SET "BUILDCFG=Debug"      & SET /A ARGBC+=1 & SET /A ARGD+=1
@@ -77,8 +77,12 @@ CALL "update_revision.cmd"
 
 IF EXIST "environments.bat" CALL "environments.bat"
 
-IF NOT DEFINED MPCBE_MINGW GOTO MissingVar
-IF NOT DEFINED MPCBE_MSYS  GOTO MissingVar
+IF NOT DEFINED FOXICMP_MINGW IF DEFINED MPMY_MINGW SET "FOXICMP_MINGW=%MPMY_MINGW%"
+IF NOT DEFINED FOXICMP_MSYS IF DEFINED MPMY_MSYS SET "FOXICMP_MSYS=%MPMY_MSYS%"
+IF NOT DEFINED MPMY_MINGW SET "MPMY_MINGW=%FOXICMP_MINGW%"
+IF NOT DEFINED MPMY_MSYS SET "MPMY_MSYS=%FOXICMP_MSYS%"
+IF NOT DEFINED FOXICMP_MINGW GOTO MissingVar
+IF NOT DEFINED FOXICMP_MSYS  GOTO MissingVar
 
 FOR %%X IN (%*) DO (
   IF /I "%%X" NEQ "NoWait" SET /A INPUT+=1
@@ -89,7 +93,7 @@ IF %VALID% NEQ %INPUT% GOTO UnsupportedSwitch
 
 IF %ARGB%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGB% == 0    (SET "BUILDTYPE=Build")
 IF %ARGPL%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPL% == 0   (SET "BUILDPLATFORM=Both")
-IF %ARGC%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0    (SET "CONFIG=MPCBE")
+IF %ARGC%    GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGC% == 0    (SET "CONFIG=FoxicMP")
 IF %ARGBC%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGBC% == 0   (SET "BUILDCFG=Release")
 IF %ARGPA%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGPA% == 0   (SET "PACKAGES=False")
 IF %ARGIN%   GTR 1 (GOTO UnsupportedSwitch) ELSE IF %ARGIN% == 0   (SET "INSTALLER=False")
@@ -159,7 +163,7 @@ IF /I "%CONFIG%" == "Filters" (
 
 IF /I "%CONFIG%" == "Resources" CALL :SubResources Win32 && GOTO x64
 
-CALL :SubMPCBE Win32
+CALL :SubFoxicMP Win32
 IF !ERRORLEVEL! NEQ 0 EXIT /B !ERRORLEVEL!
 
 IF /I "%CONFIG%" == "Main" GOTO x64
@@ -169,7 +173,7 @@ IF !ERRORLEVEL! NEQ 0 EXIT /B !ERRORLEVEL!
 
 IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller Win32
 IF !ERRORLEVEL! NEQ 0 EXIT /B !ERRORLEVEL!
-IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-BE Win32
+IF /I "%ZIP%" == "True"       CALL :SubCreatePackages FoxicMP Win32
 IF !ERRORLEVEL! NEQ 0 EXIT /B !ERRORLEVEL!
 
 IF /I "%CONFIG%" == "All" (
@@ -194,7 +198,7 @@ IF /I "%CONFIG%" == "Filters" (
 
 IF /I "%CONFIG%" == "Resources" CALL :SubResources x64 && GOTO END
 
-CALL :SubMPCBE x64
+CALL :SubFoxicMP x64
 IF !ERRORLEVEL! NEQ 0 EXIT /B !ERRORLEVEL!
 
 IF /I "%CONFIG%" == "Main" GOTO End
@@ -204,7 +208,7 @@ IF !ERRORLEVEL! NEQ 0 EXIT /B !ERRORLEVEL!
 
 IF /I "%INSTALLER%" == "True" CALL :SubCreateInstaller x64
 IF !ERRORLEVEL! NEQ 0 EXIT /B !ERRORLEVEL!
-IF /I "%ZIP%" == "True"       CALL :SubCreatePackages MPC-BE x64
+IF /I "%ZIP%" == "True"       CALL :SubCreatePackages FoxicMP x64
 IF !ERRORLEVEL! NEQ 0 EXIT /B !ERRORLEVEL!
 
 IF /I "%CONFIG%" == "All" (
@@ -214,7 +218,7 @@ IF /I "%CONFIG%" == "All" (
 )
 
 :End
-TITLE Compiling MPC-BE [FINISHED]
+TITLE Compiling FoxicMP [FINISHED]
 SET END_TIME=%TIME%
 CALL :SubGetDuration
 CALL :SubMsg "INFO" "Compilation started on %START_DATE%-%START_TIME% and completed on %DATE%-%END_TIME% [%DURATION%]"
@@ -222,16 +226,16 @@ ENDLOCAL
 EXIT /B
 
 :SubFilters
-TITLE Compiling MPC-BE Filters - %BUILDCFG% Filter^|%1...
-MSBuild.exe mpc-be.sln %MSBUILD_SWITCHES%^
+TITLE Compiling FoxicMP Filters - %BUILDCFG% Filter^|%1...
+MSBuild.exe FoxicMP.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration="%BUILDCFG% Filter";Platform=%1^
  /flp1:LogFile=%LOG_DIR%\filters_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
  /flp2:LogFile=%LOG_DIR%\filters_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "mpc-be.sln %BUILDCFG% Filter %1 - Compilation failed!"
+  CALL :SubMsg "ERROR" "FoxicMP.sln %BUILDCFG% Filter %1 - Compilation failed!"
   EXIT /B %ERRORLEVEL%
 ) ELSE (
-  CALL :SubMsg "INFO" "mpc-be.sln %BUILDCFG% Filter %1 compiled successfully"
+  CALL :SubMsg "INFO" "FoxicMP.sln %BUILDCFG% Filter %1 compiled successfully"
 )
 
 IF /I "%1" == "Win32" (
@@ -246,69 +250,69 @@ IF /I "%SIGN%" == "True" (
 
 EXIT /B
 
-:SubMPCBE
-TITLE Compiling MPC-BE - %BUILDCFG%^|%1...
-MSBuild.exe mpc-be.sln %MSBUILD_SWITCHES%^
+:SubFoxicMP
+TITLE Compiling FoxicMP - %BUILDCFG%^|%1...
+MSBuild.exe FoxicMP.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=%BUILDCFG%;Platform=%1^
- /flp1:LogFile=%LOG_DIR%\mpc-be_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
- /flp2:LogFile=%LOG_DIR%\mpc-be_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
+ /flp1:LogFile=%LOG_DIR%\FoxicMP_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
+ /flp2:LogFile=%LOG_DIR%\FoxicMP_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "mpc-be.sln %BUILDCFG% %1 - Compilation failed!"
+  CALL :SubMsg "ERROR" "FoxicMP.sln %BUILDCFG% %1 - Compilation failed!"
   EXIT /B %ERRORLEVEL%
 ) ELSE (
-  CALL :SubMsg "INFO" "mpc-be.sln %BUILDCFG% %1 compiled successfully"
+  CALL :SubMsg "INFO" "FoxicMP.sln %BUILDCFG% %1 compiled successfully"
 )
 
-TITLE Compiling mpciconlib - %BUILDCFG%^|%1...
-MSBuild.exe mpciconlib.sln %MSBUILD_SWITCHES%^
+TITLE Compiling FoxicMPiconlib - %BUILDCFG%^|%1...
+MSBuild.exe FoxicMPiconlib.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=%BUILDCFG%;Platform=%1^
- /flp1:LogFile=%LOG_DIR%\mpciconlib_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
- /flp2:LogFile=%LOG_DIR%\mpciconlib_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
+ /flp1:LogFile=%LOG_DIR%\FoxicMPiconlib_errors_%BUILDCFG%_%1.log;errorsonly;Verbosity=diagnostic^
+ /flp2:LogFile=%LOG_DIR%\FoxicMPiconlib_warnings_%BUILDCFG%_%1.log;warningsonly;Verbosity=diagnostic
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "mpciconlib.sln %BUILDCFG% %1 - Compilation failed!"
+  CALL :SubMsg "ERROR" "FoxicMPiconlib.sln %BUILDCFG% %1 - Compilation failed!"
   EXIT /B %ERRORLEVEL%
 ) ELSE (
-  CALL :SubMsg "INFO" "mpciconlib.sln %BUILDCFG% %1 compiled successfully"
+  CALL :SubMsg "INFO" "FoxicMPiconlib.sln %BUILDCFG% %1 compiled successfully"
 )
 
 IF /I "%1" == "Win32" (
-  SET "DIR=%BIN%\mpc-be_x86"
+  SET "DIR=%BIN%\FoxicMP_x86"
 ) ELSE (
-  SET "DIR=%BIN%\mpc-be_x64"
+  SET "DIR=%BIN%\FoxicMP_x64"
 )
 
 IF /I "%SIGN%" == "True" (
-  CALL :SubSign %DIR% mpc-be*.exe
-  CALL :SubSign %DIR% mpciconlib*.dll
+  CALL :SubSign %DIR% FoxicMP*.exe
+  CALL :SubSign %DIR% FoxicMPiconlib*.dll
 )
 
-TITLE Compiling MPCBEShellExt - %BUILDCFG%...
-MSBuild.exe MPCBEShellExt.sln %MSBUILD_SWITCHES%^
+TITLE Compiling FoxicMPShellExt - %BUILDCFG%...
+MSBuild.exe FoxicMPShellExt.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=%BUILDCFG%;Platform=Win32
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "MPCBEShellExt.sln %BUILDCFG% Win32 - Compilation failed!"
+  CALL :SubMsg "ERROR" "FoxicMPShellExt.sln %BUILDCFG% Win32 - Compilation failed!"
   EXIT /B %ERRORLEVEL%
 ) ELSE (
-  CALL :SubMsg "INFO" "MPCBEShellExt.sln %BUILDCFG% Win32 compiled successfully"
+  CALL :SubMsg "INFO" "FoxicMPShellExt.sln %BUILDCFG% Win32 compiled successfully"
 )
 
-SET "DIR=%BIN%\mpc-be_x86"
+SET "DIR=%BIN%\FoxicMP_x86"
 IF /I "%SIGN%" == "True" (
-  CALL :SubSign %DIR% MPCBEShellExt.dll
+  CALL :SubSign %DIR% FoxicMPShellExt.dll
 )
 
-MSBuild.exe MPCBEShellExt.sln %MSBUILD_SWITCHES%^
+MSBuild.exe FoxicMPShellExt.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration=%BUILDCFG%;Platform=x64
 IF %ERRORLEVEL% NEQ 0 (
-  CALL :SubMsg "ERROR" "MPCBEShellExt.sln %BUILDCFG% x64 - Compilation failed!"
+  CALL :SubMsg "ERROR" "FoxicMPShellExt.sln %BUILDCFG% x64 - Compilation failed!"
   EXIT /B %ERRORLEVEL%
 ) ELSE (
-  CALL :SubMsg "INFO" "MPCBEShellExt.sln %BUILDCFG% x64 compiled successfully"
+  CALL :SubMsg "INFO" "FoxicMPShellExt.sln %BUILDCFG% x64 compiled successfully"
 )
 
-SET "DIR=%BIN%\mpc-be_x64"
+SET "DIR=%BIN%\FoxicMP_x64"
 IF /I "%SIGN%" == "True" (
-  CALL :SubSign %DIR% MPCBEShellExt64.dll
+  CALL :SubSign %DIR% FoxicMPShellExt64.dll
 )
 
 EXIT /B
@@ -324,8 +328,8 @@ FOR %%A IN ("Arabic" "Armenian" "Basque" "Belarusian" "Bulgarian" "Catalan" "Chi
  "Italian" "Japanese" "Korean" "Polish" "Portuguese" "Romanian" "Russian" "Slovak" "Slovenian" "Spanish"
  "Swedish" "Turkish" "Ukrainian" "Vietnamese"
 ) DO (
- TITLE Compiling mpcresources - %%~A^|%1...
- MSBuild.exe mpcresources.sln %MSBUILD_SWITCHES%^
+ TITLE Compiling FoxicMPresources - %%~A^|%1...
+ MSBuild.exe FoxicMPresources.sln %MSBUILD_SWITCHES%^
  /target:%BUILDTYPE% /property:Configuration="Release %%~A";Platform=%1
  IF %ERRORLEVEL% NEQ 0 (
    CALL :SubMsg "ERROR" "Compilation failed!"
@@ -334,13 +338,13 @@ FOR %%A IN ("Arabic" "Armenian" "Basque" "Belarusian" "Bulgarian" "Catalan" "Chi
 )
 
 IF /I "%1" == "Win32" (
-  SET "DIR=%BIN%\mpc-be_x86\Lang"
+  SET "DIR=%BIN%\FoxicMP_x86\Lang"
 ) ELSE (
-  SET "DIR=%BIN%\mpc-be_x64\Lang"
+  SET "DIR=%BIN%\FoxicMP_x64\Lang"
 )
 
 IF /I "%SIGN%" == "True" (
-  CALL :SubSign %DIR% mpcresources.??.dll
+  CALL :SubSign %DIR% FoxicMPresources.??.dll
 )
 
 EXIT /B
@@ -381,7 +385,7 @@ IF NOT DEFINED InnoSetupPath (
 
 TITLE Compiling %1 installer...
 
-"%InnoSetupPath%\iscc.exe" /Q /O"%BIN%" "distrib\mpc-be_setup.iss" %ISDefs% %ISDefsSign%
+"%InnoSetupPath%\iscc.exe" /Q /O"%BIN%" "distrib\FoxicMP_setup.iss" %ISDefs% %ISDefsSign%
 IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "ERROR" "Compilation failed!"
   EXIT /B %ERRORLEVEL%
@@ -407,7 +411,7 @@ IF NOT DEFINED SEVENZIP (
   EXIT /B
 )
 
-IF /I "%~1" == "Filters" (SET "NAME=standalone_filters-mpc-be") ELSE (SET "NAME=MPC-BE")
+IF /I "%~1" == "Filters" (SET "NAME=standalone_filters-FoxicMP") ELSE (SET "NAME=FoxicMP")
 IF /I "%~2" == "Win32" (
   SET ARCH=x86
 ) ELSE (
@@ -418,36 +422,43 @@ PUSHD "%BIN%"
 
 SET PackagesOut=Packages
 
-IF NOT EXIST "%PackagesOut%\%MPCBE_VER%" MD "%PackagesOut%\%MPCBE_VER%"
+IF NOT EXIST "%PackagesOut%\%FOXICMP_VER%" MD "%PackagesOut%\%FOXICMP_VER%"
 
-SET "PCKG_NAME=%NAME%.%MPCBE_VER%.%ARCH%"
-SET "ZIP_NAME=%NAME%.%MPCBE_VER%%SUFFIX_GIT%.%ARCH%"
+SET "PCKG_NAME=%NAME%.%FOXICMP_VER%.%ARCH%"
+SET "ZIP_NAME=%NAME%.%FOXICMP_VER%%SUFFIX_GIT%.%ARCH%"
 
-IF EXIST "%PackagesOut%\%MPCBE_VER%\%ZIP_NAME%.7z"     DEL "%PackagesOut%\%MPCBE_VER%\%ZIP_NAME%.7z"
+IF EXIST "%PackagesOut%\%FOXICMP_VER%\%ZIP_NAME%-installer.zip" DEL "%PackagesOut%\%FOXICMP_VER%\%ZIP_NAME%-installer.zip"
+IF EXIST "%PackagesOut%\%FOXICMP_VER%\%ZIP_NAME%.7z"            DEL "%PackagesOut%\%FOXICMP_VER%\%ZIP_NAME%.7z"
+IF EXIST "%PackagesOut%\%FOXICMP_VER%\%ZIP_NAME%.zip"           DEL "%PackagesOut%\%FOXICMP_VER%\%ZIP_NAME%.zip"
 IF EXIST "%PCKG_NAME%"        RD /Q /S "%PCKG_NAME%"
 
 TITLE Copying %PCKG_NAME%...
 IF NOT EXIST "%PCKG_NAME%" MD "%PCKG_NAME%"
 
-IF /I "%NAME%" == "MPC-BE" (
+IF /I "%NAME%" == "FoxicMP" (
   IF NOT EXIST "%PCKG_NAME%\Lang" MD "%PCKG_NAME%\Lang"
   IF NOT EXIST "%PCKG_NAME%\Shaders" MD "%PCKG_NAME%\Shaders"
   IF NOT EXIST "%PCKG_NAME%\Shaders11" MD "%PCKG_NAME%\Shaders11"
   IF /I "%ARCH%" == "x64" (
-    COPY /Y /V "%~1_%ARCH%\mpc-be64.exe"                   "%PCKG_NAME%\mpc-be64.exe" >NUL
-    COPY /Y /V "%~1_%ARCH%\MPCBEShellExt64.dll"            "%PCKG_NAME%\MPCBEShellExt64.dll" >NUL
+    COPY /Y /V "%~1_%ARCH%\FoxicMP64.exe"                   "%PCKG_NAME%\FoxicMP64.exe" >NUL
+    COPY /Y /V "..\distrib\Defaults\FoxicMP.ini"            "%PCKG_NAME%\FoxicMP64.ini" >NUL
+    COPY /Y /V "%~1_%ARCH%\FoxicMPShellExt64.dll"            "%PCKG_NAME%\FoxicMPShellExt64.dll" >NUL
     COPY /Y /V "..\distrib\MPC_components\DirectX\x64\d3dcompiler_47.dll" "%PCKG_NAME%\d3dcompiler_47.dll" >NUL
     COPY /Y /V "..\distrib\MPC_components\DirectX\x64\d3dx9_43.dll"       "%PCKG_NAME%\d3dx9_43.dll" >NUL
-    COPY /Y /V "..\distrib\VisualElements\mpc-be64.VisualElementsManifest.xml" "%PCKG_NAME%" >NUL
+    COPY /Y /V "..\distrib\VisualElements\FoxicMP64.VisualElementsManifest.xml" "%PCKG_NAME%" >NUL
   ) ELSE (
-    COPY /Y /V "%~1_%ARCH%\mpc-be.exe"                     "%PCKG_NAME%\mpc-be.exe" >NUL
-    COPY /Y /V "%~1_%ARCH%\MPCBEShellExt.dll"              "%PCKG_NAME%\MPCBEShellExt.dll" >NUL
+    COPY /Y /V "%~1_%ARCH%\FoxicMP.exe"                     "%PCKG_NAME%\FoxicMP.exe" >NUL
+    COPY /Y /V "..\distrib\Defaults\FoxicMP.ini"            "%PCKG_NAME%\FoxicMP.ini" >NUL
+    COPY /Y /V "%~1_%ARCH%\FoxicMPShellExt.dll"              "%PCKG_NAME%\FoxicMPShellExt.dll" >NUL
     COPY /Y /V "..\distrib\MPC_components\DirectX\x86\d3dcompiler_47.dll" "%PCKG_NAME%\d3dcompiler_47.dll" >NUL
     COPY /Y /V "..\distrib\MPC_components\DirectX\x86\d3dx9_43.dll"       "%PCKG_NAME%\d3dx9_43.dll" >NUL
-    COPY /Y /V "..\distrib\VisualElements\mpc-be.VisualElementsManifest.xml" "%PCKG_NAME%" >NUL
+    COPY /Y /V "..\distrib\VisualElements\FoxicMP.VisualElementsManifest.xml" "%PCKG_NAME%" >NUL
   )
-  COPY /Y /V "%~1_%ARCH%\mpciconlib.dll"           "%PCKG_NAME%\mpciconlib.dll" >NUL
-  COPY /Y /V "%~1_%ARCH%\Lang\mpcresources.??.dll" "%PCKG_NAME%\Lang\mpcresources.??.dll" >NUL
+  COPY /Y /V "%~1_%ARCH%\FoxicMPiconlib.dll"           "%PCKG_NAME%\FoxicMPiconlib.dll" >NUL
+  COPY /Y /V "%~1_%ARCH%\Lang\FoxicMPresources.??.dll" "%PCKG_NAME%\Lang\FoxicMPresources.??.dll" >NUL
+  COPY /Y /V "..\distrib\Defaults\logo.png"        "%PCKG_NAME%\logo.png" >NUL
+  IF EXIST "..\distrib\Defaults\logo_black.png" COPY /Y /V "..\distrib\Defaults\logo_black.png" "%PCKG_NAME%\logo_black.png" >NUL
+  COPY /Y /V "..\distrib\Defaults\toolbar.png"     "%PCKG_NAME%\toolbar.png" >NUL
   COPY /Y /V "..\distrib\Shaders\*.hlsl"           "%PCKG_NAME%\Shaders\*.hlsl" >NUL
   COPY /Y /V "..\distrib\Shaders11\*.hlsl"         "%PCKG_NAME%\Shaders11\*.hlsl" >NUL
   COPY /Y /V "..\distrib\VisualElements\*.png"     "%PCKG_NAME%" >NUL
@@ -462,17 +473,17 @@ COPY /Y /V "..\docs\Changelog.txt"           "%PCKG_NAME%" >NUL
 COPY /Y /V "..\docs\Changelog.Rus.txt"       "%PCKG_NAME%" >NUL
 COPY /Y /V "..\docs\Readme.md"               "%PCKG_NAME%" >NUL
 
-IF /I "%NAME%" == "MPC-BE" (
+IF /I "%NAME%" == "FoxicMP" (
   IF /I "%INSTALLER%" == "True" (
     TITLE Creating archive %ZIP_NAME%-installer.zip...
-    START "7z" /B /WAIT "%SEVENZIP%" a -tzip "%PackagesOut%\%MPCBE_VER%\%ZIP_NAME%-installer.zip" "%PCKG_NAME%.exe" -mx9
+    START "7z" /B /WAIT "%SEVENZIP%" a -tzip "%PackagesOut%\%FOXICMP_VER%\%ZIP_NAME%-installer.zip" "%PCKG_NAME%.exe" -mx9
     IF %ERRORLEVEL% NEQ 0 CALL :SubMsg "ERROR" "Unable to create %ZIP_NAME%-installer.zip!"
     CALL :SubMsg "INFO" "%ZIP_NAME%-installer.zip successfully created"
   )
 )
 
 TITLE Creating archive %ZIP_NAME%.7z...
-START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PackagesOut%\%MPCBE_VER%\%ZIP_NAME%.7z" "%PCKG_NAME%"^
+START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PackagesOut%\%FOXICMP_VER%\%ZIP_NAME%.7z" "%PCKG_NAME%"^
  -m0=lzma -mx9 -mmt -ms=on
 IF %ERRORLEVEL% NEQ 0 (
   CALL :SubMsg "ERROR" "Unable to create %ZIP_NAME%.7z!"
@@ -480,15 +491,26 @@ IF %ERRORLEVEL% NEQ 0 (
 )
 CALL :SubMsg "INFO" "%ZIP_NAME%.7z successfully created"
 
+TITLE Creating archive %ZIP_NAME%.zip...
+START "7z" /B /WAIT "%SEVENZIP%" a -tzip "%PackagesOut%\%FOXICMP_VER%\%ZIP_NAME%.zip" "%PCKG_NAME%" -mx9
+IF %ERRORLEVEL% NEQ 0 (
+  CALL :SubMsg "ERROR" "Unable to create %ZIP_NAME%.zip!"
+) ELSE (
+  CALL :SubMsg "INFO" "%ZIP_NAME%.zip successfully created"
+)
+
+IF EXIST "%PackagesOut%\%FOXICMP_VER%\%PCKG_NAME%" RD /Q /S "%PackagesOut%\%FOXICMP_VER%\%PCKG_NAME%"
+XCOPY /E /I /Q /Y "%PCKG_NAME%" "%PackagesOut%\%FOXICMP_VER%\%PCKG_NAME%" >NUL
+
 IF EXIST "%PCKG_NAME%" RD /Q /S "%PCKG_NAME%"
 
-IF /I "%NAME%" == "MPC-BE" IF /I "%PDB%" == "True" (
+IF /I "%NAME%" == "FoxicMP" IF /I "%PDB%" == "True" (
   TITLE Creating archive %ZIP_NAME%-pdb.7z...
   IF /I "%ARCH%" == "x64" (
-    START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PackagesOut%\%MPCBE_VER%\%ZIP_NAME%-pdb.7z" "%~1_%ARCH%\mpc-be64.pdb"^
+    START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PackagesOut%\%FOXICMP_VER%\%ZIP_NAME%-pdb.7z" "%~1_%ARCH%\FoxicMP64.pdb"^
  -m0=lzma -mx9 -mmt -ms=on
   ) ELSE (
-    START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PackagesOut%\%MPCBE_VER%\%ZIP_NAME%-pdb.7z" "%~1_%ARCH%\mpc-be.pdb"^
+    START "7z" /B /WAIT "%SEVENZIP%" a -t7z "%PackagesOut%\%FOXICMP_VER%\%ZIP_NAME%-pdb.7z" "%~1_%ARCH%\FoxicMP.pdb"^
  -m0=lzma -mx9 -mmt -ms=on
   )
 )
@@ -519,12 +541,12 @@ FOR /F "tokens=3,4 delims= " %%A IN (
 FOR /F "tokens=3,4 delims= " %%A IN (
   'FINDSTR /I /L /C:"define REV_HASH" "revision.h"') DO (SET "REVHASH=%%A")
 
-SET MPCBE_VER=%VerMajor%.%VerMinor%.%VerPatch%.%REVNUM%
+SET FOXICMP_VER=%VerMajor%.%VerMinor%.%VerPatch%.%REVNUM%
 SET "SUFFIX_GIT=_git%REVDATE%-%REVHASH%"
 
 IF /I "%VERRELEASE%" == "1" (
   IF /I "%REVNUM%" == "0" (
-    SET MPCBE_VER=%VerMajor%.%VerMinor%.%VerPatch%
+    SET FOXICMP_VER=%VerMajor%.%VerMinor%.%VerPatch%
   )
   SET "SUFFIX_GIT="
 )
@@ -578,10 +600,10 @@ EXIT /B
 TITLE %~nx0 Help
 ECHO.
 ECHO Usage:
-ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|MPCBE^|Filters^|All] [Debug^|Release] [Packages^|Installer^|Zip] [Sign]
+ECHO %~nx0 [Clean^|Build^|Rebuild] [x86^|x64^|Both] [Main^|Resources^|FoxicMP^|Filters^|All] [Debug^|Release] [Packages^|Installer^|Zip] [Sign]
 ECHO.
 ECHO Notes: You can also prefix the commands with "-", "--" or "/".
-ECHO        Debug only applies to mpc-be.sln.
+ECHO        Debug only applies to FoxicMP.sln.
 ECHO        The arguments are not case sensitive and can be ommitted.
 ECHO. & ECHO.
 ECHO Executing %~nx0 without any arguments will use the default ones:
@@ -602,7 +624,7 @@ EXIT /B
 
 :MissingVar
 COLOR 0C
-TITLE Compiling MPC-BE [ERROR]
+TITLE Compiling FoxicMP [ERROR]
 ECHO Not all build dependencies were found.
 ECHO.
 ECHO See "docs\Compilation.txt" for more information.

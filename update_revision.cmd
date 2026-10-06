@@ -13,7 +13,7 @@ IF /I %ERRORLEVEL%==0 GOTO :GIT_OK
 
 SET gitexe="c:\Program Files\Git\cmd\git.exe"
 IF NOT EXIST %gitexe% SET gitexe="c:\Program Files\Git\bin\git.exe"
-IF NOT EXIST %gitexe% GOTO :ÑHANGE_ÑHECK
+IF NOT EXIST %gitexe% GOTO :CHANGE_CHECK
 
 :GIT_OK
 
@@ -21,7 +21,7 @@ FOR /F "delims=" %%A IN ('%gitexe% describe --long') DO (
   SET GIT_DESCRIBE_STR=%%A
 )
 
-IF NOT DEFINED GIT_DESCRIBE_STR GOTO :ÑHANGE_ÑHECK
+IF NOT DEFINED GIT_DESCRIBE_STR GOTO :CHANGE_CHECK
 
 FOR /F "tokens=2 delims=-" %%A IN ("%GIT_DESCRIBE_STR%") DO (
   SET GIT_REV_COUNT=%%A
@@ -39,10 +39,14 @@ FOR /F "delims=" %%A IN ('%gitexe% log -1 --date^=format:%%Y-%%m-%%d --pretty^=f
   SET GIT_REV_DATE=%%A
 )
 
-:ÑHANGE_ÑHECK
+FOR /F "delims=" %%A IN ('powershell -NoProfile -Command "Get-Date -Format yyMMdd-HHmm"') DO (
+  SET BUILD_TIME=%%A
+)
 
-SET SrcManifest="src\apps\mplayerc\res\mpc-be.exe.manifest.conf"
-SET DstManifest="src\apps\mplayerc\res\mpc-be.exe.manifest"
+:CHANGE_CHECK
+
+SET SrcManifest="src\apps\mplayerc\res\FoxicMP.exe.manifest.conf"
+SET DstManifest="src\apps\mplayerc\res\FoxicMP.exe.manifest"
 
 IF NOT EXIST "revision.h" GOTO :UPDATE_REV
 IF NOT EXIST %DstManifest% GOTO :UPDATE_REV
@@ -65,6 +69,7 @@ ECHO #define REV_DATE "%GIT_REV_DATE%" >> revision.h
 ECHO #define REV_BRANCH "%GIT_REV_BRANCH%" >> revision.h
 ECHO #define REV_HASH "%GIT_REV_HASH%" >> revision.h
 ECHO #define REV_NUM %GIT_REV_COUNT% >> revision.h
+ECHO #define REV_BUILD "build %BUILD_TIME%" >> revision.h
 
 IF EXIST %DstManifest% DEL /Q %DstManifest%
 powershell -Command "(gc %SrcManifest%) -replace '_REV_NUM_', '%GIT_REV_COUNT%' | Out-File -encoding UTF8 %DstManifest%"

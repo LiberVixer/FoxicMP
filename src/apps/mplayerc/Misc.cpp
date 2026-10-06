@@ -248,7 +248,7 @@ bool LoadType(const CString& fn, CString& type)
 			ext = L"." + fn.Mid(fn.ReverseFind('.')+1);
 		}
 
-		// Try MPC-BE's internal formats list
+		// Try MPMY's internal formats list
 		CMediaFormatCategory* mfc = AfxGetAppSettings().m_Formats.FindMediaByExt(ext);
 
 		if (mfc != nullptr) {

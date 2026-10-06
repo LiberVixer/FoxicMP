@@ -1,0 +1,13 @@
+HKCR
+{
+  NoRemove CLSID
+  {
+    ForceRemove {862E03D5-C453-471D-A2D9-117EBF4D39A0} = s 'FoxicMPShellExt Class'
+    {
+      InprocServer32 = s '%MODULE%'
+      {
+        val ThreadingModel = s 'Apartment'
+      }
+    }
+  }
+}

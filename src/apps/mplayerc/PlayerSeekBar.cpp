@@ -75,7 +75,7 @@ BOOL CPlayerSeekBar::PreCreateWindow(CREATESTRUCT& cs)
 CSize CPlayerSeekBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
 	CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
-	ret.cy = m_pMainFrame->ScaleSystemToMonitorY(ret.cy);
+	ret.cy = m_pMainFrame->ScaleY(16);
 	return ret;
 }
 
@@ -275,6 +275,7 @@ void CPlayerSeekBar::OnPaint()
 	const CAppSettings& s = AfxGetAppSettings();
 
 	const bool bEnabled = m_bEnabled && m_stop > 0;
+	const COLORREF chapterMarker = RGB(94, 99, 104);
 	const COLORREF repeatAB = COLORREF(RGB(242, 13, 13));
 	const CRect channelRect(GetChannelRect());
 
@@ -287,20 +288,19 @@ void CPlayerSeekBar::OnPaint()
 			memdc.SelectObject(&pen);
 			const int x = channelRect.left + (long)(pos * channelRect.Width() / m_stop);
 
-			// instead of drawing hands can be a marker icon
-			// HICON appIcon = (HICON)::LoadImageW(AfxGetResourceHandle(), MAKEINTRESOURCEW(IDR_MARKERS), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-			// ::DrawIconEx(memdc, x, rc2.top + 10, appIcon, 0, 0, 0, nullptr, DI_NORMAL);
-			// ::DestroyIcon(appIcon);
-
-			memdc.MoveTo(x, rect.top + (thick ? m_scaleY14 / 2 : m_scaleY14));
-			memdc.LineTo(x, rect.bottom - m_scaleY2);
-			if (thick) {
-				memdc.MoveTo(x + m_scaleX1, rect.top + m_scaleY14 / 2);
-				memdc.LineTo(x + m_scaleX1, rect.bottom - m_scaleY2);
+			if (!thick) {
+				memdc.MoveTo(x, rect.top);
+				memdc.LineTo(x, rect.bottom);
+				return;
 			}
 
-			memdc.MoveTo(x - (thick ? m_scaleX1 * 2 : m_scaleX1), rect.bottom - m_scaleY2);
-			memdc.LineTo(x + (thick ? m_scaleX1 * 2 : m_scaleX1), rect.bottom - m_scaleY2);
+			memdc.MoveTo(x, rect.top + m_scaleY14 / 2);
+			memdc.LineTo(x, rect.bottom - m_scaleY2);
+			memdc.MoveTo(x + m_scaleX1, rect.top + m_scaleY14 / 2);
+			memdc.LineTo(x + m_scaleX1, rect.bottom - m_scaleY2);
+
+			memdc.MoveTo(x - m_scaleX1 * 2, rect.bottom - m_scaleY2);
+			memdc.LineTo(x + m_scaleX1 * 2, rect.bottom - m_scaleY2);
 		};
 
 		CDC memdc;
@@ -354,14 +354,13 @@ void CPlayerSeekBar::OnPaint()
 				rc.right = nposx;
 				rc.left = rc.left + 1;
 				rc.top = rc.top + 1;
-				rc.bottom = rc.bottom - 2;
 
 				m_pMainFrame->m_BackGroundGradient.Paint(&memdc, r, 0, s.nThemeBrightness, m_crBackground.R, m_crBackground.G, m_crBackground.B);
 
 				rc = channelRect;
 			} else {
 				tvBackgroundEnabledLeft[0].x = rc.left; tvBackgroundEnabledLeft[0].y = rc.top;
-				tvBackgroundEnabledLeft[1].x = nposx; tvBackgroundEnabledLeft[1].y = rc.bottom - 3;
+				tvBackgroundEnabledLeft[1].x = nposx; tvBackgroundEnabledLeft[1].y = rc.bottom - 1;
 				memdc.GradientFill(tvBackgroundEnabledLeft, 2, &gr, 1, GRADIENT_FILL_RECT_V);
 
 				CRect rc2;
@@ -371,7 +370,7 @@ void CPlayerSeekBar::OnPaint()
 				rc2.bottom = rc.bottom;
 
 				tvBackgroundEnabledRight[0].x = rc2.left; tvBackgroundEnabledRight[0].y = rc2.top;
-				tvBackgroundEnabledRight[1].x = rc2.right; tvBackgroundEnabledRight[1].y = rc.bottom - 3;
+				tvBackgroundEnabledRight[1].x = rc2.right; tvBackgroundEnabledRight[1].y = rc.bottom - 1;
 				memdc.GradientFill(tvBackgroundEnabledRight, 2, &gr, 1, GRADIENT_FILL_RECT_V);
 			}
 
@@ -408,45 +407,19 @@ void CPlayerSeekBar::OnPaint()
 			}
 		}
 
-		CString seekbartext = m_pMainFrame->GetTextForBar(s.iSeekBarTextStyle);
-		if (seekbartext.GetLength() || !s.bStatusBarIsVisible || !m_strChap.IsEmpty()) {
+		if (!s.bStatusBarIsVisible) {
 			memdc.SelectObject(&m_font);
 			SetBkMode(memdc, TRANSPARENT);
 
-			LONG xt = s.bStatusBarIsVisible ? 0 : s.strTimeOnSeekBar.GetLength() <= 21 ? 150 : 160;
+			LONG xt = s.strTimeOnSeekBar.GetLength() <= 21 ? 150 : 160;
 
-			if (seekbartext.GetLength() || !m_strChap.IsEmpty()) {
-				if (!m_strChap.IsEmpty() && bEnabled) {
-					seekbartext = m_strChap;
-				}
-
-				// draw filename || chapter name.
-				CRect rt = rc;
-				rt.left  += 6;
-				rt.top   -= 2;
-				rt.right -= xt;
-				memdc.SetTextColor(m_crText);
-				memdc.DrawText(seekbartext, seekbartext.GetLength(), &rt, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
-
-				// Highlighted text
-				memdc.SetTextColor(m_crHighlightedText);
-				if (nposx > rt.right - 15) {
-					memdc.DrawText(seekbartext, seekbartext.GetLength(), &rt, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
-				} else {
-					rt.right = nposx;
-					memdc.DrawText(seekbartext, seekbartext.GetLength(), &rt, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX);
-				}
-			}
-
-			if (!s.bStatusBarIsVisible) {
-				CString str = s.strTimeOnSeekBar;
-				CRect rt = rc;
-				rt.left  -= xt - 10;
-				rt.top   -= 2;
-				rt.right -= 6;
-				memdc.SetTextColor(m_crTimeText);
-				memdc.DrawText(str, str.GetLength(), &rt, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
-			}
+			CString str = s.strTimeOnSeekBar;
+			CRect rt = rc;
+			rt.left  -= xt - 10;
+			rt.top   -= 2;
+			rt.right -= 6;
+			memdc.SetTextColor(m_crTimeText);
+			memdc.DrawText(str, str.GetLength(), &rt, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
 		}
 
 		dc.BitBlt(r.left, r.top, r.Width(), r.Height(), &memdc, 0, 0, SRCCOPY);
@@ -454,6 +427,17 @@ void CPlayerSeekBar::OnPaint()
 		memdc.DeleteDC();
 		bmPaint.DeleteObject();
 	} else {
+		auto funcMarkChapter = [&](REFERENCE_TIME pos, COLORREF markColor) {
+			if (pos <= 0 || pos >= m_stop) {
+				return;
+			}
+
+			const long x = channelRect.left + (long)(channelRect.Width() * pos / m_stop);
+			const CRect markerRect(x, channelRect.top, x + 1, channelRect.bottom);
+			dc.FillSolidRect(&markerRect, markColor);
+			dc.ExcludeClipRect(&markerRect);
+		};
+
 		auto funcMarkChannel = [&](REFERENCE_TIME pos, long verticalPadding, COLORREF markColor) {
 			long markPos = channelRect.left + (long)((m_stop > 0) ? channelRect.Width() * pos / m_stop : 0);
 			CRect r(markPos, channelRect.top + verticalPadding, markPos + 1, channelRect.bottom - verticalPadding);
@@ -514,7 +498,6 @@ void CPlayerSeekBar::OnPaint()
 			}
 		};
 
-		const COLORREF dark   = GetSysColor(COLOR_GRAYTEXT);
 		const COLORREF white  = GetSysColor(COLOR_WINDOW);
 		const COLORREF shadow = GetSysColor(COLOR_3DSHADOW);
 		const COLORREF light  = GetSysColor(COLOR_3DHILIGHT);
@@ -554,7 +537,7 @@ void CPlayerSeekBar::OnPaint()
 				for (DWORD i = 0; i < m_pChapterBag->ChapGetCount(); i++) {
 					REFERENCE_TIME rtChap;
 					if (SUCCEEDED(m_pChapterBag->ChapGet(i, &rtChap, nullptr))) {
-						funcMarkChannel(rtChap, 1, dark);
+						funcMarkChapter(rtChap, chapterMarker);
 					} else {
 						ASSERT(FALSE);
 					}
@@ -624,6 +607,12 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	ReleaseCapture();
 
+	CRect clientRc;
+	GetClientRect(&clientRc);
+	if (!clientRc.PtInRect(point)) {
+		m_pMainFrame->SetHoverStatusText(L"");
+	}
+
 	CDialogBar::OnLButtonUp(nFlags, point);
 }
 
@@ -681,6 +670,27 @@ void CPlayerSeekBar::UpdateTooltip(CPoint point)
 
 void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 {
+	if (!m_bMouseTracking) {
+		TRACKMOUSEEVENT tme = { sizeof(TRACKMOUSEEVENT) };
+		tme.hwndTrack = m_hWnd;
+		tme.dwFlags   = TME_LEAVE;
+		if (TrackMouseEvent(&tme)) {
+			m_bMouseTracking = true;
+		}
+	}
+
+	CRect clientRc;
+	GetClientRect(&clientRc);
+	if (m_bEnabled && m_stop > 0 && clientRc.PtInRect(point)) {
+		const REFERENCE_TIME hoverPos = CalculatePosition(point);
+		const CString chapName = m_pMainFrame->GetChapterNameAt(hoverPos);
+		if (!chapName.IsEmpty()) {
+			m_pMainFrame->SetHoverStatusText(chapName);
+		}
+	} else {
+		m_pMainFrame->SetHoverStatusText(L"");
+	}
+
 	if (AfxGetAppSettings().fUseTimeTooltip) {
 		UpdateTooltip(point);
 	}
@@ -724,9 +734,11 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 
 void CPlayerSeekBar::OnMouseLeave()
 {
+	m_bMouseTracking = false;
 	HideToolTip();
 	m_pMainFrame->PreviewWindowHide();
 	m_strChap.Empty();
+	m_pMainFrame->SetHoverStatusText(L"");
 	Invalidate();
 }
 
@@ -824,7 +836,7 @@ void CPlayerSeekBar::SetColor()
 		m_penPlayed2.CreatePen(PS_SOLID, 0, ThemeRGB(80, 85, 90));
 
 		m_penChapters.DeleteObject();
-		m_penChapters.CreatePen(PS_SOLID, 0, ThemeRGB(255, 255, 255));
+		m_penChapters.CreatePen(PS_SOLID, 0, RGB(94, 99, 104));
 
 		m_penRepeatAB.DeleteObject();
 		m_penRepeatAB.CreatePen(PS_SOLID, 0, ThemeRGB(242, 13, 13));
@@ -970,20 +982,9 @@ void CPlayerSeekBar::UpdateToolTipText()
 		ASSERT(FALSE);
 	}
 
-	const auto& s = AfxGetAppSettings();
-
-	if (!s.bUseDarkTheme) {
-		CAutoLock lock(&m_CBLock);
-
-		if (m_pChapterBag && m_pChapterBag->ChapGetCount()) {
-			CComBSTR chapterName;
-			REFERENCE_TIME rt = m_tooltipPos;
-			m_pChapterBag->ChapLookup(&rt, &chapterName);
-
-			if (chapterName.Length() > 0) {
-				tooltipText.AppendFormat(L" - %s", chapterName);
-			}
-		}
+	CString chapterName = m_pMainFrame->GetChapterNameAt(m_tooltipPos);
+	if (!chapterName.IsEmpty()) {
+		tooltipText.AppendFormat(L"   %s", (LPCWSTR)chapterName);
 	}
 
 	if (!m_pMainFrame->CanPreviewUse()) {
@@ -995,21 +996,7 @@ void CPlayerSeekBar::UpdateToolTipText()
 
 	{
 		CAutoLock lock(&m_CBLock);
-
 		m_strChap.Empty();
-		if (s.bUseDarkTheme
-				&& s.fChapterMarker
-				&& m_pChapterBag && m_pChapterBag->ChapGetCount()) {
-
-			CComBSTR chapterName;
-			REFERENCE_TIME rt = m_tooltipPos;
-			m_pChapterBag->ChapLookup(&rt, &chapterName);
-
-			if (chapterName.Length() > 0) {
-				m_strChap.Format(L"%s%s", ResStr(IDS_AG_CHAPTER2), chapterName);
-				Invalidate();
-			}
-		}
 	}
 }
 

@@ -21,21 +21,21 @@
 
  /*
  This file defines commands used for "MPC" API. To send commands
- to MPC-BE and receive playback notifications, first launch MPC-BE with the /slave command line
+ to MPMY and receive playback notifications, first launch MPMY with the /slave command line
  argument followed by a HWnd handle used to receive notification:
 
- ..\_bin\mpc-be /slave 125421
+ ..\_bin\MPMY /slave 125421
 
- After startup, MPC-BE sends a WM_COPYDATA message to host with COPYDATASTRUCT struct filled with:
+ After startup, MPMY sends a WM_COPYDATA message to host with COPYDATASTRUCT struct filled with:
  - dwData :  CMD_CONNECT
- - lpData :  Unicode string containing MPC-BE's main window handle
+ - lpData :  Unicode string containing MPMY's main window handle
 
- To control MPC-BE, send WM_COPYDATA messages to Hwnd provided on connection. All messages should be
+ To control MPMY, send WM_COPYDATA messages to Hwnd provided on connection. All messages should be
  formatted as null-terminated Unicode strings. For commands or notifications with multiple parameters,
  values are separated by |.
  If a string contains a |, it will be escaped with a \ so a \| is not a separator.
 
- Ex: When a file is opened, MPC-BE sends to host the "now playing" notification:
+ Ex: When a file is opened, MPMY sends to host the "now playing" notification:
  - dwData :  CMD_NOWPLAYING
  - lpData :  title|author|description|filename|duration
 
@@ -141,10 +141,10 @@ enum MPCAPI_COMMAND : unsigned int {
 	CMD_NOTIFYENDOFSTREAM   = 0x50000009,
 
 	// Send version str
-	// Parameter 1: MPC-BE's version
+	// Parameter 1: MPMY's version
 	CMD_VERSION             = 0x5000000A,
 
-	// Send information about MPC-BE closing
+	// Send information about MPMY closing
 	CMD_DISCONNECT          = 0x5000000B,
 
 	// ==== Commands from host to MPC

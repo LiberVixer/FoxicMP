@@ -717,6 +717,7 @@ public:
 	bool			bDarkMenu;
 	bool			bDarkMenuBlurBehind;
 	bool			bDarkTitle;
+	bool			bRemoveWindowBorder;
 	COLORREF		clrFaceABGR;
 	COLORREF		clrOutlineABGR;
 

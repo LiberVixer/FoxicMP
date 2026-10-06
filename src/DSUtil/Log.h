@@ -35,9 +35,9 @@ static const CStringW GetLogFileName()
 	PWSTR pathDesktop = nullptr;
 	HRESULT hr = SHGetKnownFolderPath(FOLDERID_Desktop, 0, nullptr, &pathDesktop);
 	if (SUCCEEDED(hr)) {
-		ret = CStringW(pathDesktop) + L"\\mpc-be.log";
+		ret = CStringW(pathDesktop) + L"\\FoxicMP.log";
 	} else {
-		ret = L"mpc-be.log";
+		ret = L"FoxicMP.log";
 	}
 	CoTaskMemFree(pathDesktop);
 

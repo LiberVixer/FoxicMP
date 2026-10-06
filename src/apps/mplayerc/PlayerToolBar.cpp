@@ -393,6 +393,7 @@ BOOL CPlayerToolBar::Create(CWnd* pParentWnd)
 	m_bMute = false;
 
 	SwitchTheme();
+	ScaleStatusFont();
 	SetColor();
 
 	return TRUE;
@@ -473,6 +474,8 @@ void CPlayerToolBar::SetVolume(int volume)
 
 void CPlayerToolBar::ScaleToolbar()
 {
+	ScaleStatusFont();
+
 	if (AfxGetAppSettings().bUseDarkTheme) {
 		m_volctrl.m_nUseDarkTheme = 1;
 
@@ -481,6 +484,118 @@ void CPlayerToolBar::ScaleToolbar()
 
 		OnInitialUpdate();
 	}
+}
+
+void CPlayerToolBar::ScaleStatusFont()
+{
+	m_statusFont.DeleteObject();
+	m_statusFont.CreateFontW(m_pMainFrame->ScaleY(13), 0, 0, 0, FW_NORMAL, 0, 0, 0, DEFAULT_CHARSET,
+								OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
+								L"Tahoma");
+}
+
+void CPlayerToolBar::DrawResizeGrip(CDC& dc)
+{
+	if (m_resizeGripRect.IsRectEmpty()) {
+		return;
+	}
+
+	const auto& s = AfxGetAppSettings();
+	if (!s.bUseDarkTheme) {
+		CRect r = m_resizeGripRect;
+		dc.DrawFrameControl(r, DFC_SCROLL, DFCS_SCROLLSIZEGRIP);
+		return;
+	}
+
+	const COLORREF shadow = ThemeRGB(20, 25, 30);
+	const COLORREF highlight = ThemeRGB(115, 120, 125);
+	for (int offset = 4; offset <= 12; offset += 4) {
+		CPen penShadow(PS_SOLID, 1, shadow);
+		CPen* oldPen = dc.SelectObject(&penShadow);
+		dc.MoveTo(m_resizeGripRect.right - offset, m_resizeGripRect.bottom - 2);
+		dc.LineTo(m_resizeGripRect.right - 2, m_resizeGripRect.bottom - offset);
+		dc.SelectObject(oldPen);
+
+		CPen penHighlight(PS_SOLID, 1, highlight);
+		oldPen = dc.SelectObject(&penHighlight);
+		dc.MoveTo(m_resizeGripRect.right - offset + 1, m_resizeGripRect.bottom - 2);
+		dc.LineTo(m_resizeGripRect.right - 2, m_resizeGripRect.bottom - offset + 1);
+		dc.SelectObject(oldPen);
+	}
+}
+
+void CPlayerToolBar::DrawMergedStatus(CDC& dc)
+{
+	m_statusTimeRect.SetRectEmpty();
+
+	if (!m_pMainFrame->IsMergedStatusVisible() || GetToolBarCtrl().GetButtonCount() <= 12) {
+		DrawResizeGrip(dc);
+		return;
+	}
+
+	CRect r;
+	GetItemRect(11, &r);
+	if (r.Width() <= 12) {
+		DrawResizeGrip(dc);
+		return;
+	}
+
+	r.DeflateRect(6, 1);
+	if (m_bGPUIconShow && !m_GPUIconRect.IsRectEmpty()) {
+		r.right = std::min(r.right, m_GPUIconRect.left - 6);
+	}
+
+	if (r.Width() <= 8) {
+		DrawResizeGrip(dc);
+		return;
+	}
+
+	CPlayerStatusBar& statusBar = m_pMainFrame->GetPlayerStatusBar();
+	const auto& s = AfxGetAppSettings();
+
+	dc.SetBkMode(TRANSPARENT);
+	dc.SetTextColor(s.bUseDarkTheme ? ThemeRGB(165, 170, 175) : GetSysColor(COLOR_BTNTEXT));
+	CFont* oldFont = dc.SelectObject(&m_statusFont);
+
+	if (!s.bUseDarkTheme) {
+		if (HBITMAP hBitmap = statusBar.GetStatusBitmap()) {
+			BITMAP bm = {};
+			if (::GetObjectW(hBitmap, sizeof(bm), &bm) && r.Width() > bm.bmWidth + 8) {
+				const int x = r.right - bm.bmWidth;
+				const int y = r.top + std::max(0L, (r.Height() - bm.bmHeight) / 2);
+				CDC memdc;
+				memdc.CreateCompatibleDC(&dc);
+				HGDIOBJ oldBitmap = memdc.SelectObject(hBitmap);
+				dc.BitBlt(x, y, bm.bmWidth, bm.bmHeight, &memdc, 0, 0, SRCCOPY);
+				memdc.SelectObject(oldBitmap);
+				r.right = x - 6;
+			}
+		}
+	}
+
+	if (statusBar.IsTimerVisible()) {
+		const CString timer = statusBar.GetStatusTimer();
+		if (!timer.IsEmpty()) {
+			const int timerWidth = dc.GetTextExtent(timer).cx;
+			if (r.Width() > timerWidth + 6) {
+				CRect timeRect = r;
+				timeRect.left = timeRect.right - timerWidth;
+				dc.DrawText(timer, &timeRect, DT_RIGHT | DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX);
+				m_statusTimeRect = timeRect;
+				m_statusTimeRect.InflateRect(4, 1);
+				r.right = timeRect.left - 10;
+			}
+		}
+	}
+
+	CString message = statusBar.GetStatusMessage();
+	message.Replace(L"&&", L"&");
+	if (!message.IsEmpty() && r.Width() > 20) {
+		dc.DrawText(message, &r, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
+	}
+
+	dc.SelectObject(oldFont);
+	DrawResizeGrip(dc);
 }
 
 void CPlayerToolBar::SetColor()
@@ -521,6 +636,7 @@ BEGIN_MESSAGE_MAP(CPlayerToolBar, CToolBar)
 	ON_WM_NCPAINT()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_RBUTTONDOWN()
+	ON_WM_SETCURSOR()
 	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
 	ON_WM_MOUSEMOVE()
 
@@ -579,7 +695,7 @@ void CPlayerToolBar::OnCustomDraw(NMHDR *pNMHDR, LRESULT *pResult)
 
 				dc.Detach();
 			}
-			lr |= CDRF_NOTIFYITEMDRAW;
+			lr |= CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT;
 			break;
 		case CDDS_ITEMPREPAINT:
 			lr |= TBCDRF_NOETCHEDEFFECT;
@@ -590,7 +706,7 @@ void CPlayerToolBar::OnCustomDraw(NMHDR *pNMHDR, LRESULT *pResult)
 			lr |= CDRF_NOTIFYPOSTPAINT;
 			lr |= CDRF_NOTIFYITEMDRAW;
 			break;
-		case CDDS_ITEMPOSTPAINT:
+		case CDDS_ITEMPOSTPAINT: {
 			CDC dc;
 			dc.Attach(pTBCD->nmcd.hdc);
 
@@ -670,6 +786,14 @@ void CPlayerToolBar::OnCustomDraw(NMHDR *pNMHDR, LRESULT *pResult)
 			lr |= CDRF_SKIPDEFAULT;
 			break;
 		}
+		case CDDS_POSTPAINT: {
+				CDC dc;
+				dc.Attach(pTBCD->nmcd.hdc);
+				DrawMergedStatus(dc);
+				dc.Detach();
+			}
+			break;
+		}
 	} else {
 		switch(pTBCD->nmcd.dwDrawStage)
 		{
@@ -685,13 +809,13 @@ void CPlayerToolBar::OnCustomDraw(NMHDR *pNMHDR, LRESULT *pResult)
 				dc.FillSolidRect(r, GetSysColor(COLOR_BTNFACE));
 				dc.Detach();
 			}
-			lr |= CDRF_NOTIFYITEMDRAW;
+			lr |= CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT;
 			break;
 		case CDDS_ITEMPREPAINT:
 			lr |= CDRF_NOTIFYPOSTPAINT;
 			lr |= CDRF_NOTIFYITEMDRAW;
 			break;
-		case CDDS_ITEMPOSTPAINT:
+		case CDDS_ITEMPOSTPAINT: {
 			CDC dc;
 			dc.Attach(pTBCD->nmcd.hdc);
 			CRect r;
@@ -704,6 +828,14 @@ void CPlayerToolBar::OnCustomDraw(NMHDR *pNMHDR, LRESULT *pResult)
 			dc.Detach();
 
 			lr |= CDRF_SKIPDEFAULT;
+			break;
+		}
+		case CDDS_POSTPAINT: {
+				CDC dc;
+				dc.Attach(pTBCD->nmcd.hdc);
+				DrawMergedStatus(dc);
+				dc.Detach();
+			}
 			break;
 		}
 	}
@@ -725,6 +857,8 @@ void CPlayerToolBar::OnInitialUpdate()
 	}
 
 	m_nWidthIncrease = 0;
+	m_statusTimeRect.SetRectEmpty();
+	m_resizeGripRect.SetRectEmpty();
 
 	CRect r, br, vr2;
 
@@ -733,14 +867,28 @@ void CPlayerToolBar::OnInitialUpdate()
 
 	const int offset_right = 6;
 	int offset = 60;
+	const bool bShowResizeGrip = !m_pMainFrame->m_bFullScreen
+		&& !m_pMainFrame->IsZoomed()
+		&& !m_pMainFrame->IsCaptionHidden();
+	const int resizeGripWidth = bShowResizeGrip ? std::min(r.Height(), m_pMainFrame->ScaleX(18)) : 0;
+	if (resizeGripWidth) {
+		m_resizeGripRect.SetRect(r.right - resizeGripWidth, r.bottom - resizeGripWidth, r.right, r.bottom);
+	}
+
 	if (AfxGetAppSettings().bUseDarkTheme) {
 		if (r.Height() > 30) {
 			offset = (60 + offset_right) * r.Height() / 30 - offset_right;
 			m_nWidthIncrease = offset - 60;
 		}
-		vr2.SetRect(r.right + br.right - offset, r.top, r.right + br.right + offset_right, r.bottom);
+		vr2.right = r.right + br.right + offset_right - resizeGripWidth;
+		vr2.left = vr2.right - offset - offset_right;
+		vr2.top = r.top;
+		vr2.bottom = r.bottom;
 	} else {
-		vr2.SetRect(r.right + br.right - offset, r.bottom - 25, r.right + br.right + offset_right, r.bottom);
+		vr2.right = r.right + br.right + offset_right - resizeGripWidth;
+		vr2.left = vr2.right - offset - offset_right;
+		vr2.top = r.bottom - 25;
+		vr2.bottom = r.bottom;
 	}
 
 	if (m_nUseDarkTheme != (int)AfxGetAppSettings().bUseDarkTheme) {
@@ -753,7 +901,9 @@ void CPlayerToolBar::OnInitialUpdate()
 	CRect r10, r12;
 	GetItemRect(10, &r10);
 	GetItemRect(12, &r12);
-	SetButtonInfo(11, GetItemID(11), TBBS_SEPARATOR | TBBS_DISABLED, vr2.left - r10.right - r12.Width());
+	SetButtonInfo(11, GetItemID(11), TBBS_SEPARATOR | TBBS_DISABLED,
+				  std::max(0L, vr2.left - r10.right - r12.Width()));
+	Invalidate(FALSE);
 }
 
 BOOL CPlayerToolBar::OnVolumeMute(UINT nID)
@@ -822,6 +972,25 @@ void CPlayerToolBar::OnMouseMove(UINT nFlags, CPoint point)
 	__super::OnMouseMove(nFlags, point);
 }
 
+BOOL CPlayerToolBar::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+{
+	CPoint point;
+	GetCursorPos(&point);
+	ScreenToClient(&point);
+
+	if (m_statusTimeRect.PtInRect(point)) {
+		SetCursor(LoadCursorW(nullptr, IDC_HAND));
+		return TRUE;
+	}
+
+	if (m_resizeGripRect.PtInRect(point)) {
+		SetCursor(LoadCursorW(nullptr, IDC_SIZENWSE));
+		return TRUE;
+	}
+
+	return __super::OnSetCursor(pWnd, nHitTest, message);
+}
+
 BOOL CPlayerToolBar::OnPlay(UINT nID)
 {
 	OAFilterState fs	= m_pMainFrame->GetMediaState();
@@ -872,6 +1041,17 @@ BOOL CPlayerToolBar::OnPause(UINT nID)
 
 void CPlayerToolBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
+	if (m_statusTimeRect.PtInRect(point)) {
+		m_pMainFrame->GetPlayerStatusBar().ToggleTimeDisplay();
+		return;
+	}
+
+	if (m_resizeGripRect.PtInRect(point)) {
+		MapWindowPoints(m_pMainFrame, &point, 1);
+		m_pMainFrame->PostMessageW(WM_NCLBUTTONDOWN, HTBOTTOMRIGHT, MAKELPARAM(point.x, point.y));
+		return;
+	}
+
 	OAFilterState fs = m_pMainFrame->GetMediaState();
 	int i = getHitButtonIdx(point);
 
@@ -974,6 +1154,13 @@ BOOL CPlayerToolBar::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 
 void CPlayerToolBar::OnRButtonDown(UINT nFlags, CPoint point)
 {
+	if (m_statusTimeRect.PtInRect(point)) {
+		CPoint screenPoint = point;
+		ClientToScreen(&screenPoint);
+		m_pMainFrame->GetPlayerStatusBar().ShowTimeMenu(this, screenPoint);
+		return;
+	}
+
 	int Idx = getHitButtonIdx(point);
 
 	if (Idx == 1) {

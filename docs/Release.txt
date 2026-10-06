@@ -1,4 +1,4 @@
-﻿Подсказка по выпуску релиза плеера MPC-BE:
+﻿Подсказка по выпуску релиза плеера FoxicMP:
 
 1. Проверяем отсутствие изменений в локальном репозитории и синхронизируем код с сервером.
 git pull
@@ -8,7 +8,7 @@ git submodule update --init --recursive
 
 3. Обновляем номер версии в "include/Version.h" и меняем MPC_VERSION_STATUS на 1.
 
-4. Обновляем номер версии в "src\apps\mplayerc\res\mpc-be.exe.manifest.conf" и "src\apps\mplayerc\res\mpc-be.exe.manifest.template"
+4. Обновляем номер версии в "src\apps\mplayerc\res\FoxicMP.exe.manifest.conf" и "src\apps\mplayerc\res\FoxicMP.exe.manifest.template"
 
 5. Очищаем папку "_bin" и делаем пробную сборку.
 build.bat Build All Packages
@@ -22,10 +22,10 @@ build.bat Build All Packages
 9. Очищаем папку "_bin" и делаем сборку релиза.
 build.bat Build All Packages
 
-10. Создаем файл контрольных сумм mpc-be.x.x.x.checksums.sha для всех файлов релиза из папки "Packages\x.x.x".
+10. Создаем файл контрольных сумм FoxicMP.x.x.x.checksums.sha для всех файлов релиза из папки "Packages\x.x.x".
 
-11. На странице https://github.com/Aleksoid1978/MPC-BE/releases создаем новый релиз. Прописываем изменения. Добавляем файлы релиза и файл контрольных сумм. Публикуем релиз.
+11. На странице релизов репозитория FoxicMP создаем новый релиз. Прописываем изменения. Добавляем файлы релиза и файл контрольных сумм. Публикуем релиз.
 
-12. Прописываем новую версию и путь в файл version.txt на сервере mpc-be.org, чтобы проверка обновлений сообщала о новой версии.
+12. Обновляем канал проверки версий FoxicMP, если он настроен.
 
-13. Делаем копию релизных файлов по адресу https://sourceforge.net/projects/mpcbe/files/MPC-BE/Release%20builds/ и указываем инсталлятор версии x64 по умолчанию для скачивания.
+13. Публикуем копию релизных файлов на площадке распространения FoxicMP и указываем инсталлятор x64 по умолчанию для скачивания.
