@@ -1,6 +1,6 @@
 # FoxicMP
 
-![FoxicMP](distrib/Defaults/logo.png)
+![Интерфейс FoxicMP 1.9.1.75](docs/images/foxicmp-interface.png)
 
 FoxicMP — свободный проигрыватель аудио и видео для Windows, основанный на [MPC-BE](https://github.com/Aleksoid1978/MPC-BE). Это независимая модификация с отдельным именем приложения, профилем и интеграцией с Windows.
 
