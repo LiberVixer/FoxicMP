@@ -34,6 +34,7 @@ CBaseSplitterFile::CBaseSplitterFile(IAsyncReader* pAsyncReader, HRESULT& hr, in
 		return;
 	}
 
+	m_harvester = CComQIPtr<IHarvesterReader>(pAsyncReader) != nullptr;
 	LONGLONG total = 0, available = 0;
 	hr = m_pAsyncReader->Length(&total, &available);
 	if (FAILED(hr)) {
@@ -257,11 +258,17 @@ HRESULT CBaseSplitterFile::Read(BYTE* pData, int len)
 	if (!IsStreaming() && (new_pos > m_len || m_bConnectionLost)) {
 		Exit(E_FAIL);
 	}
-	if (m_fmode == FM_FILE_DL && new_pos > m_available && !WaitData(new_pos)) {
+	if (!m_harvester && m_fmode == FM_FILE_DL && new_pos > m_available && !WaitData(new_pos)) {
 		Exit(E_FAIL);
 	}
 
 	HRESULT hr = S_OK;
+	if (m_harvester) {
+		// Never prefetch past a confirmed prefix. The reader waits for this exact range.
+		hr = m_pAsyncReader->SyncRead(m_pos, len, pData);
+		if (hr == S_OK) m_pos += len;
+		Exit(hr);
+	}
 	if (m_cachetotal == 0 || !m_pCache) {
 		hr = SyncRead(pData, len);
 		m_pos += len;

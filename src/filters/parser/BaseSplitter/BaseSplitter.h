@@ -142,6 +142,7 @@ public:
 	// IFileSourceFilter
 
 	STDMETHODIMP Load(LPCOLESTR pszFileName, const AM_MEDIA_TYPE* pmt);
+	HRESULT LoadReader(LPCOLESTR filename, IAsyncReader* reader);
 	STDMETHODIMP GetCurFile(LPOLESTR* ppszFileName, AM_MEDIA_TYPE* pmt);
 
 	// IMediaSeeking

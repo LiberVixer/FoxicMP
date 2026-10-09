@@ -1,0 +1,317 @@
+{
+  "date": "2026-10-09",
+  "player_sha256": "cf3c25ad9800756b8570df9549bed33d268f58abe01e5e55e6075317a17b1979",
+  "harvester_gui": "disabled_by_user",
+  "physical_measurement": false,
+  "measurement": "Process-specific WASAPI loopback and GDI video-center brightness on shared QPC clock; 80 complete flash/beep pairs",
+  "target_ms": 100,
+  "av": [
+    {
+      "mode": "baseline",
+      "audio_offset_ms": 0,
+      "run": "baseline-3d69e645",
+      "pairs": 8,
+      "max_abs_error_ms": 78.2478,
+      "max_abs_interval_ms": 92.6643,
+      "max_video_sampling_gap_ms": 4.6053,
+      "audio_discontinuity_packets": 0,
+      "passed": true
+    },
+    {
+      "mode": "progressive",
+      "audio_offset_ms": 0,
+      "run": "progressive-e6022712",
+      "pairs": 19,
+      "max_abs_error_ms": 73.2604,
+      "max_abs_interval_ms": 90.6135,
+      "max_video_sampling_gap_ms": 4.6769,
+      "audio_discontinuity_packets": 0,
+      "passed": true
+    },
+    {
+      "mode": "baseline",
+      "audio_offset_ms": 240,
+      "run": "baseline-262aefb6",
+      "pairs": 8,
+      "max_abs_error_ms": 71.88069999999999,
+      "max_abs_interval_ms": 85.42320000000001,
+      "max_video_sampling_gap_ms": 5.0295,
+      "audio_discontinuity_packets": 0,
+      "passed": true
+    },
+    {
+      "mode": "progressive",
+      "audio_offset_ms": 240,
+      "run": "progressive-5bdadd1c",
+      "pairs": 19,
+      "max_abs_error_ms": 67.35840000000002,
+      "max_abs_interval_ms": 82.168,
+      "max_video_sampling_gap_ms": 5.9272,
+      "audio_discontinuity_packets": 0,
+      "passed": true
+    },
+    {
+      "mode": "baseline",
+      "audio_offset_ms": -240,
+      "run": "baseline-64525c82",
+      "pairs": 8,
+      "max_abs_error_ms": 63.6679,
+      "max_abs_interval_ms": 86.0486,
+      "max_video_sampling_gap_ms": 5.465,
+      "audio_discontinuity_packets": 0,
+      "passed": true
+    },
+    {
+      "mode": "progressive",
+      "audio_offset_ms": -240,
+      "run": "progressive-cdc8f560",
+      "pairs": 18,
+      "max_abs_error_ms": 70.1182,
+      "max_abs_interval_ms": 84.22309999999999,
+      "max_video_sampling_gap_ms": 4.7874,
+      "audio_discontinuity_packets": 0,
+      "passed": true,
+      "phases": {
+        "start": {
+          "pairs": 5,
+          "max_error_ms": 68.7293
+        },
+        "resume": {
+          "pairs": 4,
+          "max_error_ms": 50.869699999999995
+        },
+        "seek": {
+          "pairs": 9,
+          "max_error_ms": 70.1182
+        }
+      }
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+      "formats": "134+140",
+      "duration": 634.62458,
+      "bytes": 28864389,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "duration": "634.566667",
+          "width": 640,
+          "height": 360,
+          "start_time": "0.000000"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "duration": "634.624580",
+          "sample_rate": "44100",
+          "start_time": "0.000000"
+        }
+      ],
+      "sha256": "8d1c14743c66b918d7abf00de65e34f8cf6047e8e494a0f68a795968cf000da0",
+      "ordinary_output": {
+        "brightness_range": [
+          38.125,
+          203.422
+        ],
+        "audio_peak": 2073.0
+      },
+      "name": "youtube",
+      "title": "Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film",
+      "extractor_duration": 635,
+      "selected_formats": [
+        {
+          "format_id": "134+140",
+          "ext": "mp4",
+          "protocol": "https+https",
+          "vcodec": "avc1.4D401E",
+          "acodec": "mp4a.40.2",
+          "height": 360
+        }
+      ],
+      "early_playback": false,
+      "ordinary_playback_passed": true,
+      "container": "fMP4",
+      "run": "youtube-4a487082",
+      "source_atoms": {
+        "video": [
+          "ftyp",
+          "moov",
+          "sidx",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat",
+          "moof"
+        ],
+        "audio": [
+          "ftyp",
+          "moov",
+          "sidx",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat",
+          "moof"
+        ]
+      },
+      "bitstreams_identical": {
+        "video": [
+          "SHA256=cd1b6a01647755dc7e5402fc43f23f5cd0bd5544bc5a851003b63b306e3903d6",
+          "SHA256=cd1b6a01647755dc7e5402fc43f23f5cd0bd5544bc5a851003b63b306e3903d6"
+        ],
+        "audio": [
+          "SHA256=fcb026f607b587d2c8ea5146cbbf04e1818584421406c9452d82b128a3051845",
+          "SHA256=fcb026f607b587d2c8ea5146cbbf04e1818584421406c9452d82b128a3051845"
+        ]
+      }
+    },
+    {
+      "url": "https://rutube.ru/video/3bd70ff4243acd03f26c7b05b2ccccae/",
+      "formats": "default-527-0",
+      "duration": 596.543855,
+      "bytes": 39494362,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "duration": "596.466667",
+          "width": 640,
+          "height": 360,
+          "start_time": "0.033333"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "duration": "596.543855",
+          "sample_rate": "44100",
+          "start_time": "0.000000"
+        }
+      ],
+      "sha256": "b864be14c203fc644cd1ea620f6641262998b5417d9ce2a85de08a3fb798e95c",
+      "ordinary_output": {
+        "brightness_range": [
+          28.0156,
+          60.2031
+        ],
+        "audio_peak": 1127.0
+      },
+      "name": "rutube",
+      "title": "CGI 3D Animated Short 'Classic' HD: \"Big Buck Bunny\" - by Blender Foundation",
+      "extractor_duration": 597,
+      "selected_formats": [
+        {
+          "format_id": "default-527-0",
+          "ext": "mp4",
+          "protocol": "m3u8_native",
+          "vcodec": "avc1.4d401e",
+          "acodec": "mp4a.40.2",
+          "height": 360
+        }
+      ],
+      "early_playback": false,
+      "ordinary_playback_passed": true,
+      "container": "HLS",
+      "run": "rutube-373f0986"
+    },
+    {
+      "url": "https://vkvideo.ru/video-18403220_456239696",
+      "formats": "dash_sep-1+dash_sep-7",
+      "duration": 1983.296,
+      "bytes": 46479037,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "duration": "1983.202178",
+          "width": 256,
+          "height": 128,
+          "start_time": "0.000000"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "duration": "1983.296000",
+          "sample_rate": "48000",
+          "start_time": "0.000000"
+        }
+      ],
+      "sha256": "a9f9037d74ada5e2e04e3efef2d1a876b2747349286ddc948da30837483a8c9a",
+      "ordinary_output": {
+        "brightness_range": [
+          30.9062,
+          214.594
+        ],
+        "audio_peak": 13390.0
+      },
+      "name": "vk",
+      "title": "Трамп отменяет гранты // DeepSeek - Революция в ИИ // Илон Маск читер",
+      "extractor_duration": 1983,
+      "selected_formats": [
+        {
+          "format_id": "dash_sep-1+dash_sep-7",
+          "ext": "mp4",
+          "protocol": "https+https",
+          "vcodec": "avc1.4D400C",
+          "acodec": "mp4a.40.2",
+          "height": 128
+        }
+      ],
+      "early_playback": false,
+      "ordinary_playback_passed": true,
+      "container": "fMP4",
+      "run": "vk-d5e0d57e",
+      "source_atoms": {
+        "video": [
+          "ftyp",
+          "free",
+          "moov",
+          "sidx",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat"
+        ],
+        "audio": [
+          "ftyp",
+          "free",
+          "moov",
+          "sidx",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat"
+        ]
+      },
+      "bitstreams_identical": {
+        "video": [
+          "SHA256=8825b36016063d0efb17eff35013fb66dea89c115d83171a15dca637090d968e",
+          "SHA256=8825b36016063d0efb17eff35013fb66dea89c115d83171a15dca637090d968e"
+        ],
+        "audio": [
+          "SHA256=d301ceed5a03ee48bfdd7dce1e90b78f7f6efa035e67d17b6112c79072be08f9",
+          "SHA256=d301ceed5a03ee48bfdd7dce1e90b78f7f6efa035e67d17b6112c79072be08f9"
+        ]
+      }
+    }
+  ],
+  "public_site_early_playback_confirmed": false,
+  "status": "experimental",
+  "analysis_unit_tests": {
+    "count": 4,
+    "passed": true
+  },
+  "network": {
+    "temporary_linux_connect_proxy": true,
+    "windows_system_settings_changed": false,
+    "tls_verification_disabled": false,
+    "test_certifi_version": "2026.07.22"
+  },
+  "cleanup": {
+    "temporary_test_tasks_removed": true,
+    "temporary_proxy_stopped": true,
+    "idle_test_providers_stopped": true
+  }
+}

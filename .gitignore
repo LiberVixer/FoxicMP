@@ -22,3 +22,7 @@
 /lib/libmingwex.a
 /lib64/libgcc.a
 /lib64/libmingwex.a
+
+# Python validation helpers
+__pycache__/
+*.pyc

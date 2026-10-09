@@ -35,6 +35,9 @@
 #include <ExtLib/Bento4/Core/Ap4SttsAtom.h>
 #include <ExtLib/Bento4/Core/Ap4StssAtom.h>
 #include <ExtLib/Bento4/Core/Ap4StsdAtom.h>
+#include <ExtLib/Bento4/Core/Ap4SampleEntry.h>
+#include <ExtLib/Bento4/Core/Ap4ElstAtom.h>
+#include <ExtLib/Bento4/Core/Ap4Utils.h>
 #include <ExtLib/Bento4/Core/Ap4IsmaCryp.h>
 #include <ExtLib/Bento4/Core/Ap4ChplAtom.h>
 #include <ExtLib/Bento4/Core/Ap4FtabAtom.h>
@@ -293,6 +296,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		return hr;
 	}
 	m_pFile->SetBreakHandle(GetRequestHandle());
+    CComQIPtr<IHarvesterReader> fragmentReader=pAsyncReader;
+    const bool growingFragments=fragmentReader && fragmentReader->GetSession()->Snapshot().tracks[fragmentReader->GetTrack()].fragmented;
 
 	m_rtNewStart = m_rtCurrent = 0;
 	m_rtNewStop = m_rtStop = m_rtDuration = 0;
@@ -353,9 +358,15 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 			AP4_Sample sample;
 
-			if (!AP4_SUCCEEDED(track->GetSample(0, sample)) || sample.GetDescriptionIndex() == 0xFFFFFFFF) {
-				continue;
-			}
+            if (growingFragments) {
+                // empty_moov has no Bento4 samples. Codec metadata uses description zero;
+                // the confirmed growing index supplies the first packet range instead.
+                harvester::Sample firstPacket;
+                if(fragmentReader->GetSession()->SampleAt(fragmentReader->GetTrack(),0,firstPacket)!=1)return VFW_E_INVALID_FILE_FORMAT;
+                sample.SetDescriptionIndex(0);sample.SetOffset(firstPacket.offset);sample.SetSize(AP4_Size(firstPacket.size));
+            } else if (!AP4_SUCCEEDED(track->GetSample(0, sample)) || sample.GetDescriptionIndex() == 0xFFFFFFFF) {
+                continue;
+            }
 
 			if (AP4_ChapAtom* chap = dynamic_cast<AP4_ChapAtom*>(track->GetTrakAtom()->FindChild("tref/chap"))) {
 				ChapterTrackEntries = chap->GetChapterTrackEntries();
@@ -452,6 +463,10 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 				}
 
 				AvgTimePerFrame = track->GetSampleCount() ? REFERENCE_TIME(track->GetDurationHighPrecision() * 10000.0 / (track->GetSampleCount())) : 0;
+                if(growingFragments) {
+                    harvester::Sample firstPacket;
+                    if(fragmentReader->GetSession()->SampleAt(fragmentReader->GetTrack(),0,firstPacket)==1)AvgTimePerFrame=firstPacket.end-firstPacket.start;
+                }
 				if (AP4_SttsAtom* stts = dynamic_cast<AP4_SttsAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stts"))) {
 					AP4_Duration totalDuration = stts->GetTotalDuration();
 					AP4_UI32 totalFrames       = stts->GetTotalFrames();
@@ -2285,6 +2300,57 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		}
 	}
 
+	if (CComQIPtr<IHarvesterReader> progressive = pAsyncReader) {
+		auto movie = m_pFile->GetMovie();
+		if (!movie || m_trackpos.size() != 1 || movie->HasFragments()!=progressive->GetSession()->Snapshot().tracks[progressive->GetTrack()].fragmented) return VFW_E_INVALID_FILE_FORMAT;
+		auto track = movie->GetTrack(m_trackpos.begin()->first);
+		const int kind = progressive->GetTrack();
+		if (track->GetType() != (kind ? AP4_Track::TYPE_AUDIO : AP4_Track::TYPE_VIDEO) || track->GetSampleCount() > 2000000) return VFW_E_UNSUPPORTED_STREAM;
+		auto stsd = dynamic_cast<AP4_StsdAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd"));
+		auto entry = stsd ? stsd->GetSampleEntry(0) : nullptr;
+		if (!entry || entry->GetType() != (kind ? AP4_ATOM_TYPE('m','p','4','a') : AP4_ATOM_TYPE('a','v','c','1'))) return VFW_E_UNSUPPORTED_STREAM;
+		if (kind) {
+			auto desc = dynamic_cast<AP4_MpegAudioSampleDescription*>(track->GetSampleDescription(0));
+			if (!desc || desc->GetObjectTypeId() != AP4_MPEG4_AUDIO_OTI || desc->GetMpeg4AudioObjectType() != AOT_AAC_LC) return VFW_E_UNSUPPORTED_STREAM;
+		}
+        if(movie->HasFragments()) {
+            // Fragment keyframes grow with the session; do not expose a frozen Bento4 index.
+            m_sps.clear();
+            m_rtDuration=m_rtNewStop=m_rtStop=progressive->GetSession()->Snapshot().duration;
+            m_rtMovieOffset=0;
+            return m_pOutputs.size()>0 ? S_OK : E_FAIL;
+        }
+        const auto scale=track->GetMediaTimeScale();
+        if(!scale || !movie->GetTimeScale())return VFW_E_INVALID_FILE_FORMAT;
+        int64_t editDelay=0;
+        if(auto edit=dynamic_cast<AP4_ElstAtom*>(track->GetTrakAtom()->FindChild("edts/elst"))) {
+            if(edit->GetStart()>uint64_t(INT64_MAX) ||
+               static_cast<long double>(edit->GetDelay())*scale/movie->GetTimeScale()>INT64_MAX)return VFW_E_INVALID_FILE_FORMAT;
+            const auto delay=AP4_ConvertTime(edit->GetDelay(),movie->GetTimeScale(),scale);
+            if(delay>uint64_t(INT64_MAX))return VFW_E_INVALID_FILE_FORMAT;
+            editDelay=int64_t(delay)-int64_t(edit->GetStart());
+        }
+		std::vector<harvester::Sample> samples;
+        samples.reserve(track->GetSampleCount());
+		for (AP4_Ordinal i=0; i<track->GetSampleCount(); ++i) {
+			AP4_Sample s;
+			if (AP4_FAILED(track->GetSample(i,s)) || s.GetDescriptionIndex()!=0) return VFW_E_INVALID_FILE_FORMAT;
+			harvester::Sample item;
+			item.offset=s.GetOffset(); item.size=s.GetSize(); item.sync=s.IsSync();
+            if(s.GetDts()>uint64_t(INT64_MAX))return VFW_E_INVALID_FILE_FORMAT;
+            try {
+                item.start=harvester::Time100ns(s.GetCts(),scale);
+                item.end=harvester::Time100ns(harvester::AddTime(s.GetCts(),s.GetDuration()),scale);
+                // Bento4 applies edit lists to CTS only; move DTS to the same clock explicitly.
+                item.decode=harvester::Time100ns(harvester::AddTime(int64_t(s.GetDts()),editDelay),scale);
+            } catch(const std::exception&) {return VFW_E_INVALID_FILE_FORMAT;}
+			samples.push_back(item);
+		}
+		// Keep edit-list-adjusted timestamps on the shared movie timeline.
+		for (auto& point:m_sps) point.rt += m_rtMovieOffset;
+		m_rtMovieOffset=0;
+		if (!progressive->GetSession()->SetIndex(kind,std::move(samples),m_rtDuration)) return VFW_E_INVALID_FILE_FORMAT;
+	}
 	SetID3TagProperties(this, m_pFile->m_pID3Tag);
 
 	return m_pOutputs.size() > 0 ? S_OK : E_FAIL;
@@ -2292,6 +2358,9 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
 bool CMP4SplitterFilter::DemuxInit()
 {
+    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->Snapshot().tracks[reader->GetTrack()].fragmented) {
+        m_fragmentSample=0;return true;
+    }
 	AP4_Movie* movie = m_pFile->GetMovie();
 
 	for (auto& [id, tp] : m_trackpos) {
@@ -2313,6 +2382,9 @@ bool CMP4SplitterFilter::DemuxInit()
 
 void CMP4SplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 {
+    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->Snapshot().tracks[reader->GetTrack()].fragmented) {
+        m_fragmentSample=reader->GetSession()->SeekSample(reader->GetTrack(),rt);return;
+    }
 	if (m_pFile->IsStreaming() || m_rtDuration <= 0) {
 		return;
 	}
@@ -2354,6 +2426,7 @@ void CMP4SplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 bool CMP4SplitterFilter::DemuxLoop()
 {
+    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->Snapshot().tracks[reader->GetTrack()].fragmented) return FragmentDemuxLoop(reader);
 	HRESULT hr = S_OK;
 
 	if (!bSelectMoofSuccessfully) {
@@ -2483,7 +2556,10 @@ bool CMP4SplitterFilter::DemuxLoop()
 			p->rtStart -= m_rtMovieOffset;
 			p->rtStop -= m_rtMovieOffset;
 			hr = DeliverPacket(std::move(p));
-		}
+		} else if (CComQIPtr<IHarvesterReader> progressive = m_pSyncReader) {
+            if (!m_fFlushing && !CheckRequest(nullptr)) progressive->GetSession()->Fail("MP4 packet read failed");
+            break;
+        }
 
 		{
 			AP4_Sample sample;
@@ -2713,4 +2789,29 @@ HRESULT CMP4SplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> p)
 	}
 
 	return __super::DeliverPacket(std::move(p));
+}
+
+// Only the explicit single-track H.264/AAC progressive source uses this path.
+// Metadata comes from Bento4; immutable packet ranges come from confirmed whole fragments.
+bool CMP4SplitterFilter::FragmentDemuxLoop(IHarvesterReader* reader) {
+    if(m_trackpos.size()!=1)return false;
+    const auto id=m_trackpos.begin()->first;auto pin=GetOutputPin(id);
+    CComQIPtr<IAsyncReader> bytes=reader;
+    while(!CheckRequest(nullptr)) {
+        harvester::Sample sample;
+        const auto hr=reader->WaitForSample(m_fragmentSample,&sample);
+        if(hr==S_FALSE)break;
+        if(hr!=S_OK)break;
+        auto packet=std::make_unique<CPacket>();packet->TrackNumber=id;
+        packet->rtStart=sample.start;packet->rtStop=sample.end;packet->bSyncPoint=sample.sync;
+        if(packet->rtStop==packet->rtStart && packet->rtStart<MAXLONGLONG)++packet->rtStop;
+        packet->resize(size_t(sample.size));
+        if(bytes->SyncRead(sample.offset,LONG(sample.size),packet->data())!=S_OK) {
+            if(!m_fFlushing && !CheckRequest(nullptr))reader->GetSession()->Fail("Fragment packet read failed");
+            break;
+        }
+        ++m_fragmentSample;
+        if(pin && pin->IsConnected() && FAILED(DeliverPacket(std::move(packet))))break;
+    }
+    return true;
 }

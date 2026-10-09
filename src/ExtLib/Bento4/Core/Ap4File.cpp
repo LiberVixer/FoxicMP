@@ -52,7 +52,7 @@ AP4_File::AP4_File(AP4_Movie* movie) :
 /*----------------------------------------------------------------------
 |       AP4_File::AP4_File
 +---------------------------------------------------------------------*/
-AP4_File::AP4_File(AP4_ByteStream& stream, bool bURL, AP4_AtomFactory& atom_factory)
+AP4_File::AP4_File(AP4_ByteStream& stream, bool bURL, AP4_AtomFactory& atom_factory, bool headOnly)
     : m_Movie(NULL)
     , m_FileType(NULL)
 {
@@ -72,6 +72,7 @@ AP4_File::AP4_File(AP4_ByteStream& stream, bool bURL, AP4_AtomFactory& atom_fact
                 }
                 m_Movie = new AP4_Movie(AP4_DYNAMIC_CAST(AP4_MoovAtom, atom),
                                         stream);
+                bBreak = headOnly;
                 break;
             case AP4_ATOM_TYPE_MOOF:
                 if (m_Movie && sidxAtoms.empty()) {
@@ -102,6 +103,10 @@ AP4_File::AP4_File(AP4_ByteStream& stream, bool bURL, AP4_AtomFactory& atom_fact
                 break;
             case AP4_ATOM_TYPE_SIDX:
                 {
+                    if (headOnly) {
+                        m_OtherAtoms.Add(atom);
+                        break;
+                    }
                     auto sidxAtom = AP4_DYNAMIC_CAST(AP4_SidxAtom, atom);
                     const auto referenceId = sidxAtom->GetReferenceId();
                     auto it = sidxAtoms.find(referenceId);
@@ -136,6 +141,8 @@ AP4_File::AP4_File(AP4_ByteStream& stream, bool bURL, AP4_AtomFactory& atom_fact
     if (!m_Movie) {
         return;
     }
+
+    if (headOnly) return;
 
     if (!sidxAtoms.empty() && AP4_SUCCEEDED(m_Movie->SetSidxAtoms(sidxAtoms, stream))) {
         m_Movie->SwitchFirstMoof();

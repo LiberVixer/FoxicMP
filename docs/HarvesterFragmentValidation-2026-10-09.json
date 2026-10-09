@@ -1,0 +1,699 @@
+{
+  "date": "2026-10-09",
+  "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd",
+  "probe_sha256": "8e9c911c3d974acb98b80c709a323db770912afde0d2956c4c5bac96d669e0c3",
+  "harvester_gui": "disabled_by_user",
+  "physical_measurement": false,
+  "target_ms": 100,
+  "measurement": "Process-specific WASAPI loopback and GDI video-center brightness on shared QPC clock",
+  "av": [
+    {
+      "audio_offset_ms": 0,
+      "run": "progressive-abed02af",
+      "pairs": 19,
+      "passed": true,
+      "max_abs_ms": 73.5147,
+      "max_abs_interval_ms": 88.5447,
+      "max_video_sampling_gap_ms": 4.6896,
+      "audio_discontinuity_packets": 0,
+      "phases": {
+        "start": {
+          "pairs": 6,
+          "max_error_ms": 70.7884
+        },
+        "resume": {
+          "pairs": 4,
+          "max_error_ms": 53.3084
+        },
+        "seek": {
+          "pairs": 9,
+          "max_error_ms": 73.5147
+        }
+      }
+    },
+    {
+      "audio_offset_ms": 240,
+      "run": "progressive-ceafb093",
+      "pairs": 19,
+      "passed": true,
+      "max_abs_ms": 70.77269999999999,
+      "max_abs_interval_ms": 84.9719,
+      "max_video_sampling_gap_ms": 4.9268,
+      "audio_discontinuity_packets": 0,
+      "phases": {
+        "start": {
+          "pairs": 6,
+          "max_error_ms": 70.77269999999999
+        },
+        "resume": {
+          "pairs": 4,
+          "max_error_ms": 53.39280000000002
+        },
+        "seek": {
+          "pairs": 9,
+          "max_error_ms": 62.78399999999999
+        }
+      }
+    },
+    {
+      "audio_offset_ms": -240,
+      "run": "progressive-cc65d45e",
+      "pairs": 19,
+      "passed": true,
+      "max_abs_ms": 74.63980000000001,
+      "max_abs_interval_ms": 88.63929999999999,
+      "max_video_sampling_gap_ms": 4.6259,
+      "audio_discontinuity_packets": 0,
+      "phases": {
+        "start": {
+          "pairs": 6,
+          "max_error_ms": 74.63980000000001
+        },
+        "resume": {
+          "pairs": 4,
+          "max_error_ms": 54.493300000000005
+        },
+        "seek": {
+          "pairs": 9,
+          "max_error_ms": 71.11590000000001
+        }
+      }
+    }
+  ],
+  "playback": [
+    {
+      "case": "stop",
+      "fragmented": true,
+      "passed": true,
+      "run": "7db2dde9"
+    },
+    {
+      "case": "cancel",
+      "fragmented": true,
+      "passed": true,
+      "run": "b054872b"
+    },
+    {
+      "case": "closewait",
+      "fragmented": true,
+      "passed": true,
+      "run": "15c42829"
+    },
+    {
+      "case": "endpending",
+      "fragmented": true,
+      "passed": true,
+      "run": "09e59387"
+    },
+    {
+      "case": "seek",
+      "fragmented": true,
+      "passed": true,
+      "run": "8a3dbacc"
+    },
+    {
+      "case": "stall",
+      "fragmented": true,
+      "passed": true,
+      "run": "47b5edc5"
+    },
+    {
+      "case": "smoke",
+      "fragmented": false,
+      "passed": true,
+      "run": "d5f6d08b"
+    },
+    {
+      "case": "endpending",
+      "fragmented": false,
+      "passed": true,
+      "run": "ce782aca"
+    },
+    {
+      "case": "dub",
+      "fragmented": false,
+      "passed": true,
+      "run": "b2fbc383"
+    }
+  ],
+  "sources": [
+    {
+      "passed": true,
+      "opened_incomplete": true,
+      "played_incomplete": true,
+      "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+      "formats": "134+140",
+      "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd",
+      "proof": {
+        "status": {
+          "schemaVersion": 1,
+          "sessionId": "43ac3375c8e54086bc8087fd057f889f",
+          "generation": 1,
+          "revision": 28,
+          "type": "playing",
+          "pid": 19160,
+          "position100ns": 29944688,
+          "readyEnd100ns": 998458049,
+          "completionWaiters": 0
+        },
+        "tracks": {
+          "video": {
+            "path": "media.f134.mp4",
+            "container": "mp4",
+            "availablePrefixBytes": 2979450,
+            "expectedTotalBytes": 18294110,
+            "initializationReady": true,
+            "state": "downloading",
+            "fragmented": true
+          },
+          "audio": {
+            "path": "media.f140.m4a",
+            "container": "m4a",
+            "availablePrefixBytes": 1749987,
+            "expectedTotalBytes": 10271496,
+            "initializationReady": true,
+            "state": "downloading",
+            "fragmented": true
+          }
+        },
+        "capture_end_tracks": {
+          "video": {
+            "path": "media.f134.mp4",
+            "container": "mp4",
+            "availablePrefixBytes": 10759133,
+            "expectedTotalBytes": 18294110,
+            "initializationReady": true,
+            "state": "downloading",
+            "fragmented": true
+          },
+          "audio": {
+            "path": "media.f140.m4a",
+            "container": "m4a",
+            "availablePrefixBytes": 10271496,
+            "expectedTotalBytes": 10271496,
+            "initializationReady": true,
+            "state": "complete",
+            "fragmented": true
+          }
+        },
+        "capture_end_verification": "Independent live manifest snapshot after reading the completed valid capture"
+      },
+      "rejected_output_captures": [
+        {
+          "label": "early",
+          "attempt": 0,
+          "invalid_video_samples": 2090,
+          "samples": 2109
+        }
+      ],
+      "early_output": {
+        "brightness_range": [
+          75.1562,
+          107.891
+        ],
+        "audio_peak": 6636.0
+      },
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "profile": "Main",
+          "extradata_size": 44,
+          "duration": "634.566667",
+          "width": 640,
+          "height": 360,
+          "start_time": "0.000000"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "profile": "LC",
+          "extradata_size": 16,
+          "duration": "634.624580",
+          "sample_rate": "44100",
+          "start_time": "0.000000"
+        }
+      ],
+      "duration": 634.62458,
+      "bytes": 28864389,
+      "extractor_duration": 635,
+      "selected_formats": [
+        {
+          "format_id": "134+140",
+          "ext": "mp4",
+          "protocol": "https+https",
+          "vcodec": "avc1.4D401E",
+          "acodec": "mp4a.40.2",
+          "height": 360
+        }
+      ],
+      "sha256": "8d1c14743c66b918d7abf00de65e34f8cf6047e8e494a0f68a795968cf000da0",
+      "source_atoms": {
+        "video": [
+          "ftyp",
+          "moov",
+          "sidx",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat",
+          "moof"
+        ],
+        "audio": [
+          "ftyp",
+          "moov",
+          "sidx",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat",
+          "moof"
+        ]
+      },
+      "bitstreams_identical": {
+        "video": [
+          "SHA256=cd1b6a01647755dc7e5402fc43f23f5cd0bd5544bc5a851003b63b306e3903d6",
+          "SHA256=cd1b6a01647755dc7e5402fc43f23f5cd0bd5544bc5a851003b63b306e3903d6"
+        ],
+        "audio": [
+          "SHA256=fcb026f607b587d2c8ea5146cbbf04e1818584421406c9452d82b128a3051845",
+          "SHA256=fcb026f607b587d2c8ea5146cbbf04e1818584421406c9452d82b128a3051845"
+        ]
+      }
+    },
+    {
+      "passed": true,
+      "opened_incomplete": true,
+      "played_incomplete": true,
+      "url": "https://rutube.ru/video/3bd70ff4243acd03f26c7b05b2ccccae/",
+      "formats": "default-527-0",
+      "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd",
+      "proof": {
+        "status": {
+          "schemaVersion": 1,
+          "sessionId": "acc492b5afae40a3836e754165f1a180",
+          "generation": 1,
+          "revision": 122,
+          "type": "playing",
+          "pid": 12648,
+          "position100ns": 20568948,
+          "readyEnd100ns": 141409523,
+          "completionWaiters": 0
+        },
+        "tracks": {
+          "video": {
+            "path": "preview-video.mp4",
+            "container": "mp4",
+            "availablePrefixBytes": 826499,
+            "expectedTotalBytes": null,
+            "initializationReady": true,
+            "state": "downloading",
+            "fragmented": true
+          },
+          "audio": {
+            "path": "preview-audio.m4a",
+            "container": "m4a",
+            "availablePrefixBytes": 233015,
+            "expectedTotalBytes": null,
+            "initializationReady": true,
+            "state": "downloading",
+            "fragmented": true
+          }
+        },
+        "capture_end_tracks": {
+          "video": {
+            "path": "preview-video.mp4",
+            "container": "mp4",
+            "availablePrefixBytes": 1915805,
+            "expectedTotalBytes": null,
+            "initializationReady": true,
+            "state": "downloading",
+            "fragmented": true
+          },
+          "audio": {
+            "path": "preview-audio.m4a",
+            "container": "m4a",
+            "availablePrefixBytes": 597428,
+            "expectedTotalBytes": null,
+            "initializationReady": true,
+            "state": "downloading",
+            "fragmented": true
+          }
+        }
+      },
+      "early_output": {
+        "brightness_range": [
+          80.8594,
+          206.219
+        ],
+        "audio_peak": 5606.0
+      },
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "profile": "Main",
+          "extradata_size": 44,
+          "duration": "596.466667",
+          "width": 640,
+          "height": 360,
+          "start_time": "0.033333"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "profile": "LC",
+          "extradata_size": 2,
+          "duration": "596.543855",
+          "sample_rate": "44100",
+          "start_time": "0.000000"
+        }
+      ],
+      "duration": 596.543855,
+      "bytes": 39494362,
+      "extractor_duration": 597,
+      "selected_formats": [
+        {
+          "format_id": "default-527-0",
+          "ext": "mp4",
+          "protocol": "m3u8_native",
+          "vcodec": "avc1.4d401e",
+          "acodec": "mp4a.40.2",
+          "height": 360
+        }
+      ],
+      "sha256": "b864be14c203fc644cd1ea620f6641262998b5417d9ce2a85de08a3fb798e95c",
+      "source_atoms": {
+        "video": [
+          "ftyp",
+          "moov",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat"
+        ],
+        "audio": [
+          "ftyp",
+          "moov",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat"
+        ]
+      },
+      "bitstreams_identical": {
+        "video": [
+          "SHA256=43b64f35b977064bf6dd1dcbf130501fe8917afc56f461a252718fba47ff5357",
+          "SHA256=43b64f35b977064bf6dd1dcbf130501fe8917afc56f461a252718fba47ff5357"
+        ],
+        "audio": [
+          "SHA256=913d44c3df44fc295d203f6332406eb298a13f84f4fe52faea434fd914d7c531",
+          "SHA256=913d44c3df44fc295d203f6332406eb298a13f84f4fe52faea434fd914d7c531"
+        ]
+      },
+      "packet_clocks_preserved": {
+        "video": {
+          "packets": 17894,
+          "max_error_ms": 5.6843418860808015e-11
+        },
+        "audio": {
+          "packets": 25691,
+          "max_error_ms": 0.046000000000101515
+        }
+      }
+    },
+    {
+      "passed": true,
+      "opened_incomplete": true,
+      "played_incomplete": true,
+      "url": "https://vkvideo.ru/video-18403220_456239696",
+      "formats": "dash_sep-1+dash_sep-7",
+      "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd",
+      "proof": {
+        "status": {
+          "schemaVersion": 1,
+          "sessionId": "1712c9226c4c4d79ac4ed981bd3034ab",
+          "generation": 1,
+          "revision": 23,
+          "type": "playing",
+          "pid": 7304,
+          "position100ns": 20595027,
+          "readyEnd100ns": 569626777,
+          "completionWaiters": 0
+        },
+        "tracks": {
+          "video": {
+            "path": "media.fdash_sep-1.mp4",
+            "container": "mp4",
+            "availablePrefixBytes": 1346857,
+            "expectedTotalBytes": 36665140,
+            "initializationReady": true,
+            "state": "downloading",
+            "fragmented": true
+          },
+          "audio": {
+            "path": "media.fdash_sep-7.m4a",
+            "container": "m4a",
+            "availablePrefixBytes": 1342912,
+            "expectedTotalBytes": 8964016,
+            "initializationReady": true,
+            "state": "downloading",
+            "fragmented": true
+          }
+        },
+        "capture_end_tracks": {
+          "video": {
+            "path": "media.fdash_sep-1.mp4",
+            "container": "mp4",
+            "availablePrefixBytes": 8311281,
+            "expectedTotalBytes": 36665140,
+            "initializationReady": true,
+            "state": "downloading",
+            "fragmented": true
+          },
+          "audio": {
+            "path": "media.fdash_sep-7.m4a",
+            "container": "m4a",
+            "availablePrefixBytes": 8305422,
+            "expectedTotalBytes": 8964016,
+            "initializationReady": true,
+            "state": "downloading",
+            "fragmented": true
+          }
+        }
+      },
+      "rejected_output_captures": [
+        {
+          "label": "early",
+          "attempt": 0,
+          "invalid_video_samples": 2151,
+          "samples": 2157
+        }
+      ],
+      "early_output": {
+        "brightness_range": [
+          46.5781,
+          167.984
+        ],
+        "audio_peak": 15411.0
+      },
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "profile": "Main",
+          "extradata_size": 42,
+          "duration": "1983.202178",
+          "width": 256,
+          "height": 128,
+          "start_time": "0.000000"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "profile": "LC",
+          "extradata_size": 2,
+          "duration": "1983.296000",
+          "sample_rate": "48000",
+          "start_time": "0.000000"
+        }
+      ],
+      "duration": 1983.296,
+      "bytes": 46479037,
+      "extractor_duration": 1983,
+      "selected_formats": [
+        {
+          "format_id": "dash_sep-1+dash_sep-7",
+          "ext": "mp4",
+          "protocol": "https+https",
+          "vcodec": "avc1.4D400C",
+          "acodec": "mp4a.40.2",
+          "height": 128
+        }
+      ],
+      "sha256": "a9f9037d74ada5e2e04e3efef2d1a876b2747349286ddc948da30837483a8c9a",
+      "source_atoms": {
+        "video": [
+          "ftyp",
+          "free",
+          "moov",
+          "sidx",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat"
+        ],
+        "audio": [
+          "ftyp",
+          "free",
+          "moov",
+          "sidx",
+          "moof",
+          "mdat",
+          "moof",
+          "mdat"
+        ]
+      },
+      "bitstreams_identical": {
+        "video": [
+          "SHA256=8825b36016063d0efb17eff35013fb66dea89c115d83171a15dca637090d968e",
+          "SHA256=8825b36016063d0efb17eff35013fb66dea89c115d83171a15dca637090d968e"
+        ],
+        "audio": [
+          "SHA256=d301ceed5a03ee48bfdd7dce1e90b78f7f6efa035e67d17b6112c79072be08f9",
+          "SHA256=d301ceed5a03ee48bfdd7dce1e90b78f7f6efa035e67d17b6112c79072be08f9"
+        ]
+      }
+    }
+  ],
+  "unit_checks": {
+    "protocol_cpp": true,
+    "bento_metadata_only_and_ordinary": true,
+    "analysis_and_fragment_index": 7,
+    "harvester_adapter": 16,
+    "windows_atomic_json": {
+      "passed": true,
+      "updates": 1000,
+      "reader_observations": [
+        121177,
+        2967
+      ]
+    },
+    "standalone_adapter_snapshot": 13
+  },
+  "status": "experimental_software_validation_passed",
+  "open_error_regression": {
+    "passed": true,
+    "missing_aac_config": true,
+    "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd"
+  },
+  "hls_aac_initialization": "delay_moov waits for aac_adtstoasc AudioSpecificConfig; profile LC and packet PTS/DTS preserved in integration test",
+  "network": {
+    "proxy": "temporary LAN CONNECT relay because Windows DNS unavailable",
+    "tls_verification": true,
+    "account_cookies": false
+  },
+  "tools": {
+    "windows_python": "3.11",
+    "ffmpeg": "9.0.2",
+    "yt_dlp": "2026.08.19"
+  },
+  "rejected_capture": {
+    "run": "progressive-06342b46",
+    "reason": "unmatched visual edge; 20 flashes, 19 matched pairs",
+    "remeasured_with_cursor_outside_and_occlusion_check": true
+  },
+  "rejected_source_attempts": [
+    {
+      "source": "YouTube",
+      "run": "youtube-fmp4-final-220383fe",
+      "reason": "video region became obscured/offscreen during output capture; incomplete playback was observed, invalid capture rejected"
+    },
+    {
+      "source": "Rutube",
+      "run": "rutube-hls-final-d94bb9ca",
+      "reason": "missing AAC initialization caused player open error/crash; later test-proxy interruption"
+    },
+    {
+      "source": "Rutube",
+      "run": "rutube-hls-final-06ff977e",
+      "reason": "same missing AAC initialization; native download completed, early playback did not"
+    }
+  ],
+  "rejected_playback_attempt": {
+    "case": "stall",
+    "run": "035a0613",
+    "reason": "visible-window precondition timed out before sixty-second gap; repeated with synchronous SetWindowPos"
+  },
+  "av_pairs": 57,
+  "max_abs_ms": 74.63980000000001,
+  "max_abs_interval_ms": 88.63929999999999,
+  "cleanup": {
+    "scheduled_task_removed": true,
+    "active_test_processes": [],
+    "test_task_result": 0,
+    "temporary_connect_proxy_stopped": true,
+    "ssh_closed": true
+  },
+  "profile_isolation": "All player runs used the disposable _bin/harvester-test/player portable profile; installed player/profile was not modified.",
+  "resilience": [
+    {
+      "case": "providercrash",
+      "fragmented": true,
+      "passed": true,
+      "run": "E:\\Programs\\MPMY-src\\_bin\\harvester-test\\runs\\b2cc1309",
+      "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd"
+    },
+    {
+      "case": "writercrash",
+      "fragmented": true,
+      "passed": true,
+      "run": "E:\\Programs\\MPMY-src\\_bin\\harvester-test\\runs\\4dd78614",
+      "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd"
+    },
+    {
+      "case": "truncate",
+      "fragmented": true,
+      "passed": true,
+      "run": "E:\\Programs\\MPMY-src\\_bin\\harvester-test\\runs\\25b43a71",
+      "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd"
+    },
+    {
+      "case": "providercrash",
+      "fragmented": false,
+      "passed": true,
+      "run": "E:\\Programs\\MPMY-src\\_bin\\harvester-test\\runs\\f221794e",
+      "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd"
+    },
+    {
+      "case": "writercrash",
+      "fragmented": false,
+      "passed": true,
+      "run": "E:\\Programs\\MPMY-src\\_bin\\harvester-test\\runs\\4a71ae0a",
+      "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd"
+    },
+    {
+      "case": "truncate",
+      "fragmented": false,
+      "passed": true,
+      "run": "E:\\Programs\\MPMY-src\\_bin\\harvester-test\\runs\\3a315d8c",
+      "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd"
+    }
+  ],
+  "portable_package_checks": [
+    {
+      "case": "dub",
+      "passed": true,
+      "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd"
+    },
+    {
+      "case": "smoke",
+      "passed": true,
+      "player_sha256": "3023bafc8adacdac2070b7b1c43a8b76f038ec8bd8189c7243ec8fe6813cf6dd"
+    }
+  ]
+}

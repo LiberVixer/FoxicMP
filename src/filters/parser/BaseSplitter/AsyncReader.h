@@ -23,6 +23,7 @@
 
 #include "MultiFiles.h"
 #include "DSUtil/HTTPAsync.h"
+#include "DSUtil/HarvesterSession.h"
 
 interface __declspec(uuid("6DDB4EE7-45A0-4459-A508-BD77B32C91B2"))
 ISyncReader :
@@ -41,6 +42,14 @@ public IUnknown {
 	STDMETHOD_(HANDLE, GetFileHandle)() PURE;
 	STDMETHOD_(LPCWSTR, GetFileName)() PURE;
 	STDMETHOD_(BOOL, IsValidFileName)() PURE;
+};
+
+interface __declspec(uuid("671EC05B-2A27-4934-B253-9E82AFA7D1CC"))
+IHarvesterReader : public IUnknown {
+	STDMETHOD_(CHarvesterSession*, GetSession)() PURE;
+	STDMETHOD_(int, GetTrack)() PURE;
+	STDMETHOD(WaitForCompletion)() PURE;
+    STDMETHOD(WaitForSample)(size_t index,harvester::Sample* sample) PURE;
 };
 
 class CAsyncFileReader : public CUnknown, public CMultiFiles, public IAsyncReader, public ISyncReader, public IFileHandle
@@ -96,4 +105,42 @@ public:
 	STDMETHODIMP_(HANDLE) GetFileHandle() { return m_hFile; }
 	STDMETHODIMP_(LPCWSTR) GetFileName() { return !m_url.IsEmpty() ? m_url : (m_nCurPart != -1 ? m_strFiles[m_nCurPart] : m_strFiles[0]); }
 	STDMETHODIMP_(BOOL) IsValidFileName() { return !m_url.IsEmpty() || !m_strFiles.empty(); }
+};
+
+// Used only by the explicit Harvester session graph; ordinary readers are unchanged.
+class CHarvesterFileReader final : public CUnknown, public IAsyncReader, public ISyncReader, public IFileHandle, public IHarvesterReader {
+    std::shared_ptr<CHarvesterSession> m_session;
+    int m_track;
+    HANDLE m_flush=nullptr;
+    std::atomic<HANDLE> m_break{nullptr};
+    bool m_opening=true;
+    std::wstring m_path;
+    std::atomic<bool> m_error{false};
+public:
+    CHarvesterFileReader(std::shared_ptr<CHarvesterSession> session,int track,HRESULT& hr);
+    ~CHarvesterFileReader();
+    void StartStreaming() { m_opening=false; }
+    DECLARE_IUNKNOWN;
+    STDMETHODIMP NonDelegatingQueryInterface(REFIID riid,void** ppv);
+    STDMETHODIMP RequestAllocator(IMemAllocator*,ALLOCATOR_PROPERTIES*,IMemAllocator**) {return E_NOTIMPL;}
+    STDMETHODIMP Request(IMediaSample*,DWORD_PTR) {return E_NOTIMPL;}
+    STDMETHODIMP WaitForNext(DWORD,IMediaSample**,DWORD_PTR*) {return E_NOTIMPL;}
+    STDMETHODIMP SyncReadAligned(IMediaSample*) {return E_NOTIMPL;}
+    STDMETHODIMP SyncRead(LONGLONG offset,LONG size,BYTE* data);
+    STDMETHODIMP Length(LONGLONG* total,LONGLONG* available);
+    STDMETHODIMP BeginFlush() {SetEvent(m_flush);return S_OK;}
+    STDMETHODIMP EndFlush() {ResetEvent(m_flush);return S_OK;}
+    STDMETHODIMP_(void) SetBreakEvent(HANDLE h) {m_break=h;}
+    STDMETHODIMP_(bool) HasErrors() {return m_error;}
+    STDMETHODIMP_(void) ClearErrors() {m_error=false;}
+    STDMETHODIMP_(void) SetPTSOffset(REFERENCE_TIME*) {}
+    STDMETHODIMP_(int) GetSourceType() {return CAsyncFileReader::LOCAL;}
+    STDMETHODIMP ReOpen(CHdmvClipInfo::CPlaylist&) {return E_NOTIMPL;}
+    STDMETHODIMP_(HANDLE) GetFileHandle() {return m_session->File(m_track);}
+    STDMETHODIMP_(LPCWSTR) GetFileName() {return m_path.c_str();}
+    STDMETHODIMP_(BOOL) IsValidFileName() {return TRUE;}
+    STDMETHODIMP_(CHarvesterSession*) GetSession() {return m_session.get();}
+    STDMETHODIMP_(int) GetTrack() {return m_track;}
+    STDMETHODIMP WaitForCompletion();
+    STDMETHODIMP WaitForSample(size_t index,harvester::Sample* sample);
 };

@@ -2583,6 +2583,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 							m_nCurSubtitle   = -1;
 							m_lSubtitleShift = 0;
 						}
+						if (m_harvester) UpdateHarvesterPlayback(rtNow);
 						m_wndStatusBar.SetStatusTimer(rtNow, rtDur, s.bShowMilliSecs || m_wndSubresyncBar.IsWindowVisible(), GetTimeFormat());
 						break;
 					case PM_DVD:
@@ -3679,7 +3680,7 @@ LRESULT CMainFrame::OnPostOpen(WPARAM wParam, LPARAM lParam)
 					m_closingmsg = aborted;
 				}
 
-				if (m_closingmsg != aborted && s.bPlaylistNextOnError) {
+				if (m_closingmsg != aborted && s.bPlaylistNextOnError && pFileData->harvesterManifest.IsEmpty()) {
 					if (m_wndPlaylistBar.IsAtEnd()) {
 						m_nLoops++;
 					}
@@ -4661,6 +4662,11 @@ CString CMainFrame::GetChapterNameAt(REFERENCE_TIME rt)
 
 CString CMainFrame::UpdatePlayerStatus()
 {
+	if (m_harvester && m_harvesterBuffering) {
+		CString msg = m_harvester->Connected() ? L"Буферизация" : L"Harvester: нет связи с загрузчиком";
+		SetStatusMessage(msg);
+		return msg;
+	}
 	if (!m_strHoverStatus.IsEmpty()) {
 		SetStatusMessage(m_strHoverStatus);
 		return m_strHoverStatus;
@@ -5818,7 +5824,23 @@ LRESULT CMainFrame::HandleCmdLine(WPARAM wParam, LPARAM lParam)
 		}
 	};
 
-	if ((s.nCLSwitches & CLSW_DVD) && !s.slFiles.empty()) {
+	if (!s.strHarvesterSession.IsEmpty()) {
+		SendMessageW(WM_COMMAND, ID_FILE_CLOSEMEDIA);
+		CStringW error;
+		auto session = CHarvesterSession::Open(s.strHarvesterSession.GetString(), error);
+		if (!session) {
+			AfxMessageBox(L"Harvester: " + error, MB_ICONERROR);
+			return 0;
+		}
+		auto data = std::make_unique<OpenFileData>();
+		data->harvesterManifest = s.strHarvesterSession;
+		data->fi = CStringW(session->Path(0).c_str());
+		data->auds.emplace_back(session->Path(1).c_str());
+		data->bAddRecent = FALSE;
+		m_harvester = std::move(session);
+		OpenMedia(std::move(data));
+		fSetForegroundWindow = true;
+	} else if ((s.nCLSwitches & CLSW_DVD) && !s.slFiles.empty()) {
 		SendMessageW(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 		fSetForegroundWindow = true;
 
@@ -8402,6 +8424,17 @@ void CMainFrame::OnViewOptions()
 
 void CMainFrame::OnPlayPlay()
 {
+	if (m_harvester) {
+		m_harvesterWantPlay = true;
+		if (m_harvesterBuffering) {
+            if (m_eMediaLoadState == MLS_LOADED) {
+                m_pMC->Pause();
+                SetTimersPlay();
+            }
+            return;
+		}
+        m_harvester->Notify("playing");
+	}
 	if (m_eMediaLoadState == MLS_CLOSED) {
 		m_bfirstPlay = false;
 		OpenCurPlaylistItem();
@@ -8545,6 +8578,7 @@ void CMainFrame::OnPlayPlay()
 
 void CMainFrame::OnPlayPause()
 {
+	if (m_harvester) {m_harvesterWantPlay = false;m_harvester->Notify("paused");}
 	OAFilterState fs = GetMediaState();
 
 	if (m_eMediaLoadState == MLS_LOADED && fs == State_Stopped) {
@@ -8589,6 +8623,10 @@ void CMainFrame::OnPlayPlayPause()
 
 void CMainFrame::OnPlayStop()
 {
+	if (m_harvester && m_eMediaLoadState == MLS_LOADED) {
+		CloseMedia();
+		return;
+	}
 	if (m_eMediaLoadState == MLS_LOADED) {
 		if (GetPlaybackMode() == PM_FILE) {
 			LONGLONG pos = 0;
@@ -12407,7 +12445,7 @@ CString CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
 	ReleasePreviewGraph(); // Hmm, most likely it is no longer needed
 
-	bool bUseSmartSeek = s.fSmartSeek;
+	bool bUseSmartSeek = s.fSmartSeek && !m_harvester;
 	if (!s.bSmartSeekOnline) {
 		if (OpenFileData* pFileData = dynamic_cast<OpenFileData*>(pOMD)) {
 			auto& fn = pFileData->fi.GetPath();
@@ -12444,6 +12482,7 @@ CString CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 		if (!m_bCustomGraph) {
 			auto pFGManager = DNew CFGManagerPlayer(L"CFGManagerPlayer", nullptr, m_pVideoWnd->m_hWnd);
 			m_pGB = pFGManager;
+			pFGManager->SetHarvesterSession(m_harvester);
 
 			if (m_pGB) {
 				pFGManager->SetUserAgent(http::userAgent);
@@ -12873,10 +12912,10 @@ CString CMainFrame::OpenFile(OpenFileData* pOFD, const CStringW& youtubeUrl)
 			if (CComQIPtr<IGraphBuilderAudio> pGBA = m_pGB.p) {
 				hr = pGBA->RenderAudioFile(fn);
 			}
-
 			if (bIsDirSet) {
 				::SetCurrentDirectoryW(oldcurdir);
 			}
+            if (m_harvester && FAILED(hr)) return L"Harvester: не удалось подключить аудиодорожку";
 		}
 	}
 
@@ -14635,6 +14674,12 @@ bool CMainFrame::OpenMediaPrivate(std::unique_ptr<OpenMediaData>& pOMD)
 	CAppSettings& s = AfxGetAppSettings();
 
 	SetAudioPicture(FALSE);
+	if (m_harvester) {
+		m_harvesterBuffering = true;
+		m_harvesterWantPlay = true;
+		m_harvesterStarted = false;
+        m_harvester->Notify("buffering");
+	}
 
 	m_bValidDVDOpen = false;
 
@@ -14656,7 +14701,7 @@ bool CMainFrame::OpenMediaPrivate(std::unique_ptr<OpenMediaData>& pOMD)
 
 	m_bWasPausedOnMinimizedVideo = false;
 
-	CheckMediaInfoFps(pFileData, pDVDData);
+	if (!m_harvester) CheckMediaInfoFps(pFileData, pDVDData);
 
 	if (pFileData) {
 		auto& path = pFileData->fi.GetPath();
@@ -15069,6 +15114,9 @@ void CMainFrame::CloseMediaPrivate()
 		m_pGB.Release();
 	}
 
+	m_harvester.reset();
+	m_harvesterBuffering = false;
+	m_harvesterStarted = false;
 	PreviewWindowHide();
 	ReleasePreviewGraph();
 
@@ -17280,6 +17328,10 @@ REFERENCE_TIME const CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget)
 
 void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD/* = true*/)
 {
+	if (m_harvester && !m_harvester->Complete() && rtPos >= m_harvester->ReadyEnd()) {
+		SetStatusMessage(L"Перемотка за пределы загруженного участка недоступна");
+		return;
+	}
 	const OAFilterState fs = GetMediaState();
 
 	if (rtPos < 0) {
@@ -17402,6 +17454,14 @@ void CMainFrame::MatroskaLoadKeyFrames()
 
 bool CMainFrame::GetBufferingProgress(int* iProgress/* = nullptr*/)
 {
+    if (m_harvester && m_eMediaLoadState == MLS_LOADED && m_pMS) {
+        REFERENCE_TIME duration = 0;
+        if (SUCCEEDED(m_pMS->GetDuration(&duration)) && duration > 0) {
+            const auto end = std::min(duration, m_harvester->ReadyEnd());
+            if (iProgress) *iProgress = int(llMulDiv(end, 100, duration, 0));
+            return end < duration;
+        }
+    }
 	if (iProgress) {
 		*iProgress = 0;
 	}
@@ -18160,6 +18220,7 @@ void CMainFrame::CloseMedia(BOOL bNextIsOpened/* = FALSE*/)
 		return;
 	}
 
+	if (m_harvester) m_harvester->Cancel();
 	DLog(L"CMainFrame::CloseMedia() : start");
 
 	if (m_pFilterPropSheet) {
@@ -21450,3 +21511,31 @@ void CMainFrame::Stop()
 	m_CMediaControls.UpdateButtons();
 }
 
+
+void CMainFrame::UpdateHarvesterPlayback(REFERENCE_TIME now)
+{
+    if (!m_harvester || !m_pMC) return;
+    const auto error = m_harvester->Error();
+    if (!error.empty()) {
+        // Cancel wakes readers before CloseMedia asks the graph worker to exit.
+        const CString diagnostic = L"Harvester: " + CString(error.c_str());
+        CloseMedia();
+        SetStatusMessage(diagnostic);
+        return;
+    }
+    m_harvester->ReportPosition(now);
+    const auto ready = m_harvester->ReadyEnd();
+    const bool complete = m_harvester->Complete();
+    const auto needed = (m_harvesterStarted ? 5 : 10) * UNITS;
+    if ((!m_harvester->Connected() || (!complete && ready-now < UNITS)) && !m_harvesterBuffering) {
+        m_harvesterBuffering = true;
+        m_pMC->Pause();
+        m_harvester->Notify("buffering");
+    }
+    if (m_harvesterBuffering && m_harvester->Connected() && (complete || ready-now >= needed)) {
+        m_harvesterBuffering = false;
+        m_harvesterStarted = true;
+        if (m_harvesterWantPlay) {OnPlayPlay();m_harvester->Notify("playing");}
+    }
+    UpdatePlayerStatus();
+}

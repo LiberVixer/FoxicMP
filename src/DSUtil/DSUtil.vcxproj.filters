@@ -284,4 +284,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="HarvesterSession.cpp" />
+    <ClInclude Include="HarvesterSession.h" />
+    <ClInclude Include="HarvesterState.h" />
+    <ClInclude Include="HarvesterMP4.h" />
+  </ItemGroup>
 </Project>

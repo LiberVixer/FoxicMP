@@ -2522,6 +2522,10 @@ CString CPlayerPlaylistBar::GetCurFileName()
 
 bool CPlayerPlaylistBar::SetNext()
 {
+	if (curPlayList.IsEmpty()) {
+		return false;
+	}
+
 	POSITION pos = curPlayList.GetPos(), org = pos;
 	if (!pos) {
 		org = pos = curPlayList.GetHeadPosition();
@@ -2542,6 +2546,10 @@ bool CPlayerPlaylistBar::SetNext()
 
 bool CPlayerPlaylistBar::SetPrev()
 {
+	if (curPlayList.IsEmpty()) {
+		return false;
+	}
+
 	POSITION pos = curPlayList.GetPos(), org = pos;
 	if (!pos) {
 		org = pos = curPlayList.GetHeadPosition();

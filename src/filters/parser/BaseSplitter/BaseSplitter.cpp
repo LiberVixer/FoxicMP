@@ -206,6 +206,9 @@ HRESULT CBaseSplitterFilter::DeleteOutputs()
 void CBaseSplitterFilter::DeliverBeginFlush()
 {
 	m_fFlushing = true;
+	if (CComQIPtr<IHarvesterReader> progressive = m_pSyncReader) {
+		CComQIPtr<IAsyncReader>(m_pSyncReader)->BeginFlush();
+	}
 	for (auto& pPin : m_pOutputs) {
 		pPin->DeliverBeginFlush();
 	}
@@ -215,6 +218,9 @@ void CBaseSplitterFilter::DeliverEndFlush()
 {
 	for (auto& pPin : m_pOutputs) {
 		pPin->DeliverEndFlush();
+	}
+	if (CComQIPtr<IHarvesterReader> progressive = m_pSyncReader) {
+		CComQIPtr<IAsyncReader>(m_pSyncReader)->EndFlush();
 	}
 	m_fFlushing = false;
 	m_eEndFlush.Set();
@@ -280,6 +286,11 @@ DWORD CBaseSplitterFilter::ThreadProc()
 			m_bDiscontinuitySent.clear();
 		} while (!DemuxLoop());
 
+        // An MP4 index ending is not proof that its writer has finished.
+        // Only this explicit source waits; ordinary splitters keep their EOF behavior.
+        if (CComQIPtr<IHarvesterReader> progressive = m_pSyncReader) {
+            if (progressive->WaitForCompletion() != S_OK) continue;
+        }
 		for (const auto pPin : m_pActivePins) {
 			if (CheckRequest(&cmd)) {
 				break;
@@ -486,9 +497,16 @@ STDMETHODIMP CBaseSplitterFilter::Load(LPCOLESTR pszFileName, const AM_MEDIA_TYP
 		pAsyncReader = (IAsyncReader*)DNew CAsyncFileReader(pszFileName, hr, m_nFlag & SOURCE_SUPPORT_URL);
 	}
 
-	if (FAILED(hr)
-			|| FAILED(hr = DeleteOutputs())
-			|| FAILED(hr = CreateOutputs(pAsyncReader))) {
+	return FAILED(hr) ? hr : LoadReader(pszFileName, pAsyncReader);
+}
+
+HRESULT CBaseSplitterFilter::LoadReader(LPCOLESTR pszFileName, IAsyncReader* pAsyncReader)
+{
+	m_fn = pszFileName;
+	HRESULT hr = S_OK;
+	if (FAILED(hr = DeleteOutputs())) return hr;
+	m_pSyncReader = pAsyncReader;
+	if (FAILED(hr = CreateOutputs(pAsyncReader))) {
 		m_fn.Empty();
 		return hr;
 	}

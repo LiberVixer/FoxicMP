@@ -37,6 +37,7 @@
 #include "PPageSheet.h"
 #include "PPageFileInfoSheet.h"
 #include "OpenMediaData.h"
+#include "DSUtil/HarvesterSession.h"
 #include "FileDropTarget.h"
 #include "KeyProvider.h"
 #include "PlayerYtDlp.h"
@@ -476,6 +477,9 @@ private:
 	BOOL			m_bNextIsOpened = FALSE;
 
 	CString					m_LastOpenFile;
+	std::shared_ptr<CHarvesterSession> m_harvester;
+	bool m_harvesterBuffering = false, m_harvesterWantPlay = true, m_harvesterStarted = false;
+	void UpdateHarvesterPlayback(REFERENCE_TIME now);
 	std::unique_ptr<OpenMediaData> m_lastOMD;
 
 	CString m_LastOpenBDPath, m_BDLabel;
@@ -716,6 +720,7 @@ public:
 	void MatroskaLoadKeyFrames();
 
 	bool GetBufferingProgress(int* Progress = nullptr);
+    bool IsHarvesterSession() const { return bool(m_harvester); }
 
 	void ApplySubpicSettings();
 	void ApplyExraRendererSettings();

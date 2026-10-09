@@ -31,7 +31,7 @@ class CMP4SplitterFile : public CBaseSplitterFileEx
 {
 	AP4_File* m_pAp4File;
 
-	HRESULT Init();
+	HRESULT Init(bool progressive=false);
 
 public:
 	CMP4SplitterFile(IAsyncReader* pReader, HRESULT& hr);

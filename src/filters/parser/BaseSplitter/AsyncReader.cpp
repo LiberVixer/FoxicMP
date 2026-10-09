@@ -176,3 +176,55 @@ STDMETHODIMP CAsyncFileReader::Length(LONGLONG* pTotal, LONGLONG* pAvailable)
 	}
 	return S_OK;
 }
+
+CHarvesterFileReader::CHarvesterFileReader(std::shared_ptr<CHarvesterSession> session,int track,HRESULT& hr)
+    : CUnknown(L"Harvester local reader",nullptr,&hr),m_session(std::move(session)),m_track(track) {
+    m_path=m_session->Path(track);m_flush=CreateEventW(nullptr,TRUE,FALSE,nullptr);
+    hr=m_flush?S_OK:E_OUTOFMEMORY;
+}
+CHarvesterFileReader::~CHarvesterFileReader() {if(m_flush)CloseHandle(m_flush);}
+STDMETHODIMP CHarvesterFileReader::NonDelegatingQueryInterface(REFIID riid,void** ppv) {
+    CheckPointer(ppv,E_POINTER);
+    return QI(IAsyncReader) QI(ISyncReader) QI(IFileHandle) QI(IHarvesterReader) __super::NonDelegatingQueryInterface(riid,ppv);
+}
+STDMETHODIMP CHarvesterFileReader::Length(LONGLONG* total,LONGLONG* available) {
+    const auto s=m_session->Snapshot();if(total)*total=s.tracks[m_track].total?s.tracks[m_track].total:s.tracks[m_track].available;if(available)*available=s.tracks[m_track].available;return S_OK;
+}
+STDMETHODIMP CHarvesterFileReader::SyncRead(LONGLONG offset,LONG size,BYTE* data) {
+    if(offset<0 || size<0 || uint64_t(size)>uint64_t(INT64_MAX)-uint64_t(offset) || (!data && size))return E_INVALIDARG;
+    const auto s=m_session->Snapshot();
+    if(s.tracks[m_track].total && !harvester::RangeReady(offset,size,s.tracks[m_track].total))return E_FAIL;
+    if(m_opening && !harvester::RangeReady(offset,size,s.tracks[m_track].available))return E_FAIL;
+    HRESULT hr=m_session->WaitRange(m_track,offset,size,m_flush,m_break.load());
+    if(hr!=S_OK || !size)return hr;
+    OVERLAPPED ov{};ov.Offset=(DWORD)offset;ov.OffsetHigh=(DWORD)(uint64_t(offset)>>32);ov.hEvent=CreateEventW(nullptr,TRUE,FALSE,nullptr);
+    DWORD read=0;BOOL ok=ReadFile(m_session->File(m_track),data,size,&read,&ov);
+    if(!ok && GetLastError()==ERROR_IO_PENDING) {
+        HANDLE events[4]={ov.hEvent,m_session->CancelEvent(),m_flush,m_break.load()};DWORD n=events[3]?4:3;
+        DWORD result=WaitForMultipleObjects(n,events,FALSE,INFINITE);
+        if(result==WAIT_OBJECT_0)ok=GetOverlappedResult(m_session->File(m_track),&ov,&read,FALSE);
+        else {CancelIoEx(m_session->File(m_track),&ov);GetOverlappedResult(m_session->File(m_track),&ov,&read,TRUE);CloseHandle(ov.hEvent);return E_ABORT;}
+    }
+    CloseHandle(ov.hEvent);
+    if(!ok || read!=(DWORD)size) {m_error=true;m_session->Fail("Local track I/O failed or confirmed bytes were truncated");return E_FAIL;}
+    return S_OK;
+}
+
+STDMETHODIMP CHarvesterFileReader::WaitForCompletion() {
+    const auto track=m_session->Snapshot().tracks[m_track];
+    m_session->BeginCompletionWait();
+    const auto hr=m_session->WaitRange(m_track,track.total,0,m_flush,m_break.load(),true);
+    m_session->EndCompletionWait();
+    return hr;
+}
+
+STDMETHODIMP CHarvesterFileReader::WaitForSample(size_t index,harvester::Sample* sample) {
+    if(!sample)return E_POINTER;
+    for(;;) {
+        HANDLE events[]={m_session->CancelEvent(),m_flush,m_break.load()};const DWORD count=events[2]?3:2;
+        if(WaitForMultipleObjects(count,events,FALSE,0)!=WAIT_TIMEOUT)return E_ABORT;
+        const auto status=m_session->SampleAt(m_track,index,*sample);
+        if(status)return status==1?S_OK:S_FALSE;
+        if(WaitForMultipleObjects(count,events,FALSE,50)!=WAIT_TIMEOUT)return E_ABORT;
+    }
+}

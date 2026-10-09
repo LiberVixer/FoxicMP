@@ -50,7 +50,8 @@ public:
     AP4_File(AP4_Movie* movie);
     AP4_File(AP4_ByteStream& stream,
              bool bURL,
-             AP4_AtomFactory& atom_factory = AP4_AtomFactory::DefaultFactory);
+             AP4_AtomFactory& atom_factory = AP4_AtomFactory::DefaultFactory,
+             bool headOnly = false);
     virtual ~AP4_File();
 
     // methods

@@ -35,12 +35,14 @@ class OpenFileData : public OpenMediaData
 {
 public:
 	//OpenFileData() {}
+	CStringW harvesterManifest;
 	CFileItem fi;
 	CAudioItemList auds;
 	REFERENCE_TIME rtStart = INVALID_TIME;
 
 	void Clear() {
 		title.Empty();
+		harvesterManifest.Empty();
 		subs.clear();
 		bAddRecent = TRUE;
 		fi.Clear();

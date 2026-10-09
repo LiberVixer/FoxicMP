@@ -1263,6 +1263,20 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
 	return ConnectFilter(pBF, nullptr);
 	*/
 
+	if (m_harvester) {
+		int kind = lpcwstrFileName == m_harvester->Path(0) ? 0 : lpcwstrFileName == m_harvester->Path(1) ? 1 : -1;
+		if (kind < 0 || m_bOpeningAborted) return E_ABORT;
+		auto source = DNew CMP4SourceFilter(nullptr, &hr);
+		CComPtr<IBaseFilter> filter = source;
+		auto reader = DNew CHarvesterFileReader(m_harvester, kind, hr);
+		CComPtr<IAsyncReader> async = reader;
+		if (FAILED(hr) || FAILED(hr = source->LoadReader(lpcwstrFileName, async))) return hr;
+		reader->StartStreaming();
+		if (FAILED(hr = AddFilter(filter, kind ? L"Harvester audio" : L"Harvester video"))) return hr;
+		hr = ConnectFilter(filter, nullptr);
+		if (FAILED(hr)) RemoveFilter(filter);
+		return hr;
+	}
 	CFGFilterList fl;
 	if (FAILED(hr = EnumSourceFilters(lpcwstrFileName, fl))) {
 		return hr;

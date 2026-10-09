@@ -20,6 +20,7 @@
  */
 
 #pragma once
+#include "DSUtil/HarvesterSession.h"
 
 #include "FGFilter.h"
 #include "BaseGraph.h"
@@ -140,6 +141,8 @@ protected:
 	std::mutex m_mutexRender;
 
 public:
+	std::shared_ptr<CHarvesterSession> m_harvester;
+	void SetHarvesterSession(std::shared_ptr<CHarvesterSession> session) { m_harvester = std::move(session); }
 	CFGManager(LPCWSTR pName, LPUNKNOWN pUnk, HWND hWnd = 0, bool IsPreview = false);
 	virtual ~CFGManager();
 

@@ -33,6 +33,7 @@ class CBaseSplitterFile
 {
 	CComPtr<IAsyncReader> m_pAsyncReader;
 	CComPtr<ISyncReader>  m_pSyncReader;
+	bool m_harvester = false;
 	__int64 m_pos             = 0;
 	__int64 m_len             = 0;
 	__int64 m_available       = 0;

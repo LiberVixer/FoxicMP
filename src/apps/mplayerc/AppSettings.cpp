@@ -2221,6 +2221,7 @@ void CAppSettings::ParseCommandLine(cmdLine& cmdln)
 	slFilters.clear();
 	slFiles.clear();
 	slDubs.clear();
+	strHarvesterSession.Empty();
 	slSubs.clear();
 	rtStart = INVALID_TIME;
 	rtShift = 0;
@@ -2262,6 +2263,14 @@ void CAppSettings::ParseCommandLine(cmdLine& cmdln)
 			}
 			else if (sw == L"help" || sw == L"h" || sw == L"?") {
 				nCLSwitches |= CLSW_HELP;
+			}
+			else if (sw == L"harvester-session") {
+				if (next_available) {
+					strHarvesterSession = ParseFileName(*it++);
+					nCLSwitches |= CLSW_NEW;
+				} else {
+					nCLSwitches |= CLSW_HELP;
+				}
 			}
 			else if (sw == L"dub" && next_available) {
 				slDubs.emplace_back(ParseFileName(*it++));
@@ -2416,6 +2425,9 @@ void CAppSettings::ParseCommandLine(cmdLine& cmdln)
 			slFiles.emplace_back(ParseFileName(param));
 		}
 	}
+    if (!strHarvesterSession.IsEmpty() && (!slFiles.empty() || !slDubs.empty() || (nCLSwitches & (CLSW_DVD | CLSW_CD)))) {
+        nCLSwitches |= CLSW_HELP | CLSW_UNRECOGNIZEDSWITCH;
+    }
 }
 
 CDVBChannel* CAppSettings::FindChannelByPref(int nPrefNumber)

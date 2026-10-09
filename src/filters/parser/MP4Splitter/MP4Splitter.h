@@ -26,6 +26,8 @@
 #include "filters/filters/FilterInterfacesImpl.h"
 #include <IMediaSideData.h>
 
+struct IHarvesterReader;
+
 #define MP4SplitterName L"MPC MP4/MOV Splitter"
 #define MP4SourceName   L"MPC MP4/MOV Source"
 
@@ -64,7 +66,9 @@ protected:
 	std::unique_ptr<CMP4SplitterFile> m_pFile;
 	HRESULT CreateOutputs(IAsyncReader* pAsyncReader);
 
-	bool DemuxInit();
+	size_t m_fragmentSample=0;
+    bool FragmentDemuxLoop(IHarvesterReader* reader);
+    bool DemuxInit();
 	void DemuxSeek(REFERENCE_TIME rt);
 	bool DemuxLoop();
 

@@ -422,6 +422,12 @@ void CPlayerSeekBar::OnPaint()
 			memdc.DrawText(str, str.GetLength(), &rt, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
 		}
 
+        if (m_pMainFrame->IsHarvesterSession()) {
+            int available = 0;
+            m_pMainFrame->GetBufferingProgress(&available);
+            const int width = int(llMulDiv(channelRect.Width(), available, 100, 0));
+            memdc.FillSolidRect(channelRect.left, channelRect.bottom - 2, width, 2, RGB(112, 117, 122));
+        }
 		dc.BitBlt(r.left, r.top, r.Width(), r.Height(), &memdc, 0, 0, SRCCOPY);
 		DeleteObject(memdc.SelectObject(bmOld));
 		memdc.DeleteDC();

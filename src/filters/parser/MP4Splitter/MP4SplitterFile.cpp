@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "MP4SplitterFile.h"
 #include "Ap4AsyncReaderStream.h"
+#include "../BaseSplitter/AsyncReader.h"
 
 CMP4SplitterFile::CMP4SplitterFile(IAsyncReader* pReader, HRESULT& hr)
 	: CBaseSplitterFileEx(pReader, hr, FM_FILE | FM_FILE_DL | FM_STREAM)
@@ -31,7 +32,7 @@ CMP4SplitterFile::CMP4SplitterFile(IAsyncReader* pReader, HRESULT& hr)
 		return;
 	}
 
-	hr = Init();
+	hr = Init(CComQIPtr<IHarvesterReader>(pReader) != nullptr);
 }
 
 CMP4SplitterFile::~CMP4SplitterFile()
@@ -46,7 +47,7 @@ AP4_Movie* CMP4SplitterFile::GetMovie()
 	return m_pAp4File ? m_pAp4File->GetMovie() : nullptr;
 }
 
-HRESULT CMP4SplitterFile::Init()
+HRESULT CMP4SplitterFile::Init(bool progressive)
 {
 	Seek(0);
 
@@ -78,7 +79,7 @@ HRESULT CMP4SplitterFile::Init()
 	}
 
 	stream->Seek(pos);
-	m_pAp4File = DNew AP4_File(*stream, IsURL());
+	m_pAp4File = DNew AP4_File(*stream, IsURL(), AP4_AtomFactory::DefaultFactory, progressive);
 
 	AP4_Movie* movie = m_pAp4File->GetMovie();
 

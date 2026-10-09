@@ -459,6 +459,7 @@ public:
 	UINT64 nCLSwitches;
 	std::list<CString>	slFilters;
 	std::list<CString>	slFiles, slDubs;
+	CStringW strHarvesterSession;
 	CSubtitleItemList	slSubs;
 
 	// Initial position (used by command line flags)
