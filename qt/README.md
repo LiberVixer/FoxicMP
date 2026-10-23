@@ -1,7 +1,12 @@
 # FoxicMP Qt — Linux
 
 Native Qt 6 Widgets + libmpv player. First target: Linux Mint 22.x x64.
-This is a **0.1.66 development preview**, separate from FoxicMP Classic Windows.
+This is a **0.1.67 development preview**, separate from FoxicMP Classic Windows.
+
+0.1.67 matches the supplied 55 × 16 px volume reference, including the 4 × 14 px
+thumb gradient and RGB 94/99/104 top highlight. The native-size dark track is
+compared pixel for pixel against the reference; the light theme uses the same
+geometry with a lighter palette.
 
 0.1.66 makes the default empty volume track continue the toolbar gradient. The
 filled track follows the supplied dark gradient, with matching geometry and a

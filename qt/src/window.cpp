@@ -133,7 +133,6 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
   mute = button("mute", initialMute ? "mute" : "volume");
   volume = new ClassicVolumeSlider;
   volume->setRange(0, 100);
-  volume->setFixedWidth(95);
   volume->setValue(profile.settings.value("audio/volume", 75).toInt());
   static_cast<ClassicVolumeSlider *>(volume)->setMuted(initialMute);
   volume->setToolTip(uiTr("Громкость"));

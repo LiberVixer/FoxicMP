@@ -417,7 +417,7 @@ private slots:
       buttons->button(QDialogButtonBox::Apply)->click();
       QCOMPARE(qApp->palette().color(QPalette::Window), QColor(28, 61, 65));
       QCOMPARE(p.settings.value("appearance/volumeFill").toString(), QString("#12ab34"));
-      QVERIFY(w.findChild<QSlider *>("volumeSlider")->styleSheet().contains("#12ab34"));
+      QCOMPARE(w.findChild<QSlider *>("volumeSlider")->property("volumeFill").toString(), QString("#12ab34"));
       auto *timeline = w.findChild<Timeline *>(); QVERIFY(timeline);
       QVERIFY(!timeline->previewEnabled); QVERIFY(timeline->timeTooltipEnabled);
       QVERIFY(timeline->tooltipBelow); QVERIFY(!timeline->chapterMarkers);

@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
   QApplication app(argc, argv);
   std::setlocale(LC_NUMERIC, "C");
   app.setApplicationName("FoxicMPQt");
-  app.setApplicationVersion("0.1.66");
+  app.setApplicationVersion("0.1.67");
   Q_INIT_RESOURCE(resources);
   const QFileInfo startupIni(QDir(QCoreApplication::applicationDirPath()).filePath("FoxicMPQt.ini"));
   // Recovery must not read the broken INI or its configured external language

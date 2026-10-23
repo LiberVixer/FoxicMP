@@ -265,14 +265,14 @@ private slots:
     Window w(p); w.show(); QVERIFY(QTest::qWaitForWindowExposed(&w));
     auto *volume = dynamic_cast<ClassicVolumeSlider *>(w.findChild<QSlider *>("volumeSlider"));
     QVERIFY(volume);
-    QCOMPARE(volume->size(), QSize(95, 22));
+    QCOMPARE(volume->size(), QSize(66, 22));
     QCOMPARE(volume->property("volumeFill").toString(), QString("#ffffff"));
     QCOMPARE(volume->property("volumeBackground").toString(), QString("#808080"));
     auto *player = w.findChild<Player *>();
     QVERIFY(player->set("mute", false));
     QTRY_VERIFY(!player->get("mute").toBool());
     QTRY_VERIFY(!volume->property("muted").toBool());
-    volume->setValue(25);
+    volume->setValue(40);
     volume->setMuted(false);
     auto *panel = w.findChild<QWidget *>("controls");
     // Render the parent too: grabbing a transparent child alone omits the
@@ -281,16 +281,22 @@ private slots:
     const auto low = capture();
     QVERIFY(!low.isNull());
     auto image = low.toImage();
-    // Empty track pixels must continue the panel, including its vertical slope.
-    for (int y = 5; y <= 16; ++y)
-      QCOMPARE(image.pixelColor(70, y), image.pixelColor(2, y));
-    QVERIFY(image.pixelColor(70, 5) != image.pixelColor(70, 16));
     const bool dark = theme == "dark";
+    if (dark) {
+      const QImage reference(FOXICMP_VOLUME_REFERENCE);
+      QVERIFY(!reference.isNull());
+      QCOMPARE(image.copy(4, 3, 55, 16).convertToFormat(QImage::Format_RGB32),
+               reference.convertToFormat(QImage::Format_RGB32));
+    }
     QCOMPARE(image.pixelColor(10, 4), dark ? QColor(24, 29, 34) : QColor(126, 133, 139));
     QCOMPARE(image.pixelColor(10, 17), dark ? QColor(112, 117, 122) : QColor(198, 205, 211));
-    QTest::mousePress(volume, Qt::LeftButton, Qt::NoModifier, QPoint(86, 11));
-    QTest::mouseMove(volume, QPoint(86, 11));
-    QTest::mouseRelease(volume, Qt::LeftButton, Qt::NoModifier, QPoint(86, 11));
+    QCOMPARE(image.pixelColor(23, 4), dark ? QColor(34, 39, 44) : QColor(166, 173, 179));
+    QCOMPARE(image.pixelColor(23, 17), dark ? QColor(215, 220, 225) : QColor(245, 248, 250));
+    QCOMPARE(image.pixelColor(10, 3), dark ? QColor(94, 99, 104) : QColor(157, 165, 172));
+    const QPoint right(volume->width() - 7, 11);
+    QTest::mousePress(volume, Qt::LeftButton, Qt::NoModifier, right);
+    QTest::mouseMove(volume, right);
+    QTest::mouseRelease(volume, Qt::LeftButton, Qt::NoModifier, right);
     QVERIFY(volume->value() >= 80);
     volume->setMuted(false);
     const auto high = capture();
@@ -310,7 +316,7 @@ private slots:
       QVERIFY(muted.save(prefix + "-muted.png"));
       QVERIFY(player->set("mute", false));
       QTRY_VERIFY(!volume->property("muted").toBool());
-      volume->setValue(50);
+      volume->setValue(40);
       volume->setMuted(false);
       QVERIFY(w.findChild<QWidget *>("controls")->grab().save(prefix + "-toolbar.png"));
       const int left = std::max(0, volume->x() - 23);
