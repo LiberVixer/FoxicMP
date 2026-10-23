@@ -2,6 +2,7 @@
 #include "profile.h"
 #include "videoshaders.h"
 #include "window.h"
+#include "preferencesdriver.h"
 #include <QtTest>
 #include <QtWidgets>
 
@@ -12,14 +13,12 @@ class VideoShadersTest : public QObject {
   QJsonObject measurements;
   void dialog(Window &w, const std::function<void(QDialog *)> &fn,
               const QString &action = "videoOutputSettings") {
-    QTimer::singleShot(80, &w, [&w, fn] {
-      for (auto *d : w.findChildren<QDialog *>())
-        if (d->isVisible() && d->isModal()) {
-          fn(d);
-          return;
-        }
-      QFAIL("No preferences dialog");
-    });
+    const auto objectName = action == "videoOutputSettings"
+                                ? QStringLiteral("videoOutputDialog")
+                                : action == "preferences"
+                                      ? QStringLiteral("preferencesDialog")
+                                      : QString();
+    afterDialogReady(&w, objectName, [fn](QDialog *d) { fn(d); });
     auto *a = w.findChild<QAction *>("action_" + action);
     QVERIFY(a);
     a->trigger();

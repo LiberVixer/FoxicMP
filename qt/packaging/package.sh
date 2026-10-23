@@ -16,6 +16,8 @@ if ldd "$stage_dir/$folder/foxicmp-qt" 2>&1 | grep -q 'not found'; then
   echo 'Runtime dependency check failed: ldd reported a missing library.' >&2
   exit 1
 fi
-# Never include developer profiles or playback history.
-tar -C "$stage_dir" -czf "$output_dir/$folder.tar.gz" "$folder"
+# Never include developer profiles or playback history. Normalize archive
+# metadata so two builds from the same tree produce the same release checksum.
+tar --sort=name --mtime='UTC 1970-01-01' --owner=0 --group=0 --numeric-owner \
+  -C "$stage_dir" -cf - "$folder" | gzip -n > "$output_dir/$folder.tar.gz"
 (cd "$output_dir" && sha256sum "$folder.tar.gz" > "$folder.sha256")

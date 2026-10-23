@@ -73,8 +73,11 @@ void SystemIcc::tick() {
   }
   const auto *screen = window ? window->screen() : player->screen();
   const auto name = screen ? screen->name() : QString();
-  if (name != output || !checked.isValid() ||
-      (!pending && checked.elapsed() >= 5000))
+  // A native window may report the same screen more than once while the
+  // asynchronous colord request is still in flight. Do not invalidate that
+  // request unless the output actually changed.
+  if (name != output ||
+      (!pending && (!checked.isValid() || checked.elapsed() >= 5000)))
     refresh(name);
 }
 void SystemIcc::ask(quint64 revision, const QString &path,

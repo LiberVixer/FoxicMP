@@ -355,10 +355,19 @@ The accepted feature plan and order are in [LinuxParityPlan.md](../docs/LinuxPar
 ```sh
 python3 qt/tests/generate_media.py build/media
 python3 qt/tests/generate_dvd.py build/media/devices # needs dvdauthor/genisoimage
-FOXICMP_TEST_MEDIA="$PWD/build/media" ctest --test-dir build/qt --output-on-failure
+python3 qt/tests/check_environment.py --media build/media --devices build/media/devices
+bash qt/tests/run_tests.sh build/qt build/media
 ```
 
-Tests require an X11/Wayland display; headless CI uses Xvfb and Mesa.
+The preflight command is intentional: CTest expects the generated corpus and
+reports missing media as test failures otherwise. Add `--display` and
+`--audio` when running the corresponding groups directly outside CI.
+
+The runner requires `xvfb`, `xauth`, `dbus-daemon`, `pulseaudio-utils` and a
+PulseAudio-compatible server. It creates a virtual X11 display, a private D-Bus
+session and a temporary audio sink, which it removes on exit. This also prevents
+desktop window placement, clipboard and monitor changes from affecting results.
+Extra arguments are passed to CTest (for example `-R system-icc`).
 Set `FOXICMP_TEST_OUTPUT=opengl` to request OpenGL. On Mesa software drivers this
 verifies automatic fallback, not GPU rendering. Tests report the actual output.
 Fixtures cover MP4, MKV, MOV, AVI, WebM; H.264, HEVC, VP9, AV1, MPEG-4;

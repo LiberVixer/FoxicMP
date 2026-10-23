@@ -2,6 +2,7 @@
 #include "profile.h"
 #include "videodisplay.h"
 #include "window.h"
+#include "preferencesdriver.h"
 #include <QColorSpace>
 #include <QOpenGLWidget>
 #include <QtTest>
@@ -22,14 +23,12 @@ class VideoDisplayTest : public QObject {
   }
   void editDialog(Window &w, const std::function<void(QDialog *)> &edit,
                   const QString &action = "videoOutputSettings") {
-    QTimer::singleShot(80, &w, [&w, edit] {
-      for (auto *d : w.findChildren<QDialog *>())
-        if (d->isVisible() && d->isModal()) {
-          edit(d);
-          return;
-        }
-      QFAIL("No active preferences dialog");
-    });
+    const auto objectName = action == "videoOutputSettings"
+                                ? QStringLiteral("videoOutputDialog")
+                                : action == "preferences"
+                                      ? QStringLiteral("preferencesDialog")
+                                      : QString();
+    afterDialogReady(&w, objectName, [edit](QDialog *d) { edit(d); });
     auto *a = w.findChild<QAction *>("action_" + action);
     QVERIFY(a);
     a->trigger();

@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Dependencies
-        run: sudo apt-get update && sudo apt-get install -y cmake g++ qt6-base-dev libmpv-dev liblcms2-dev ffmpeg xvfb libgl1-mesa-dri desktop-file-utils libglib2.0-bin python3-venv pulseaudio pulseaudio-utils dvdauthor genisoimage dbus-daemon
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ qt6-base-dev libmpv-dev liblcms2-dev ffmpeg xvfb xauth libgl1-mesa-dri desktop-file-utils libglib2.0-bin python3-venv pulseaudio pulseaudio-utils dvdauthor genisoimage dbus-daemon
       - name: Adapter dependencies
         run: |
           python3 -m venv build/test-venv
@@ -31,6 +31,7 @@ jobs:
         run: |
           python3 qt/tests/generate_media.py build/media
           python3 qt/tests/generate_dvd.py build/media/devices
+          python3 qt/tests/check_environment.py --media build/media --devices build/media/devices
       - name: Standalone adapter and provider tests
         run: PYTHONPATH=tools/harvester-preview python3 -m unittest discover -s tools/harvester-preview/tests
       - name: Software playback and OpenGL fallback tests
@@ -39,13 +40,8 @@ jobs:
           FOXICMP_TEST_SCREENSHOTS: ${{ github.workspace }}/build/screenshots
           LIBGL_ALWAYS_SOFTWARE: '1'
         run: |
-          pulseaudio --start --exit-idle-time=-1
-          foxicmp_test_module=$(pactl load-module module-null-sink sink_name=foxicmp_devices_ci)
-          trap 'pactl unload-module "$foxicmp_test_module"' EXIT
-          export PULSE_SINK=foxicmp_devices_ci
-          export FOXICMP_TEST_PULSE_SOURCE=foxicmp_devices_ci.monitor
           for output in software opengl; do
-            FOXICMP_TEST_OUTPUT="$output" dbus-run-session -- xvfb-run -a ctest --test-dir build/qt --output-on-failure
+            FOXICMP_TEST_OUTPUT="$output" bash qt/tests/run_tests.sh build/qt build/media
           done
       - name: Continuous software playback
         env:

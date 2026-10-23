@@ -3,6 +3,7 @@
 #include "systemicc.h"
 #include "videodisplay.h"
 #include "window.h"
+#include "preferencesdriver.h"
 #include <QColorSpace>
 #include <QDBusArgument>
 #include <QDBusMetaType>
@@ -91,14 +92,12 @@ class SystemIccTest : public QObject {
   QJsonObject measurements;
   void editDialog(Window &w, const std::function<void(QDialog *)> &edit,
                   const QString &action = "videoOutputSettings") {
-    QTimer::singleShot(80, &w, [&w, edit] {
-      for (auto *d : w.findChildren<QDialog *>())
-        if (d->isVisible() && d->isModal()) {
-          edit(d);
-          return;
-        }
-      QFAIL("Preferences dialog not found");
-    });
+    const auto objectName = action == "videoOutputSettings"
+                                ? QStringLiteral("videoOutputDialog")
+                                : action == "preferences"
+                                      ? QStringLiteral("preferencesDialog")
+                                      : QString();
+    afterDialogReady(&w, objectName, [edit](QDialog *d) { edit(d); });
     auto *a = w.findChild<QAction *>("action_" + action);
     QVERIFY(a);
     a->trigger();
@@ -243,13 +242,20 @@ private slots:
     p.resize(480, 270);
     p.show();
     QVERIFY(p.windowHandle() && p.windowHandle()->screen());
-    const auto name = p.windowHandle()->screen()->name();
-    fake.files[name] = changing;
+    // The window manager may move a newly shown window onto another monitor.
+    // Keep the same fixture assigned to every real output and verify tracking
+    // against the window's current screen after the asynchronous reply.
+    for (auto *screen : QGuiApplication::screens())
+      fake.files[screen->name()] = changing;
     SystemIcc controller(&p, bus, "xcb");
     controller.configure(true, dir.path());
-    QTRY_VERIFY(
-        !p.QObject::property("foxicmpSystemIccFile").toString().isEmpty());
-    QCOMPARE(p.QObject::property("foxicmpSystemIccOutput").toString(), name);
+    QTRY_VERIFY2_WITH_TIMEOUT(
+        !p.QObject::property("foxicmpSystemIccFile").toString().isEmpty(),
+        qPrintable(p.QObject::property("foxicmpIccStatus").toString() +
+                   "; methods=" + fake.methods.join(',')),
+        10000);
+    QCOMPARE(p.QObject::property("foxicmpSystemIccOutput").toString(),
+             p.windowHandle()->screen()->name());
     QString error;
     QCOMPARE(VideoDisplay::readIcc(p.get("icc-profile").toString(), &error),
              bytesA);
@@ -261,6 +267,33 @@ private slots:
     QCOMPARE(QDir(dir.filePath("ColorProfiles")).entryList(QDir::Files).size(),
              2);
     measurements["realQtWindowAndFiveSecondContentPollingVerified"] = true;
+  }
+  void repeatedScreenEventsKeepPendingRequest() {
+    QTemporaryDir dir;
+    Player p(nullptr, qEnvironmentVariable("FOXICMP_TEST_OUTPUT", "software"));
+    p.resize(480, 270);
+    p.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&p));
+    for (auto *screen : QGuiApplication::screens())
+      fake.files[screen->name()] = a;
+    fake.delayed = p.windowHandle()->screen()->name();
+    fake.delay = 700;
+    SystemIcc controller(&p, bus, "xcb");
+    controller.configure(true, dir.path());
+    QTRY_VERIFY(fake.methods.contains("FindDeviceByProperty"));
+    const auto output = p.windowHandle()->screen()->name();
+    QTimer repeated;
+    connect(&repeated, &QTimer::timeout, &p, [&] {
+      p.windowHandle()->screenChanged(p.windowHandle()->screen());
+    });
+    repeated.start(30);
+    QTimer::singleShot(500, &repeated, &QTimer::stop);
+    QTRY_VERIFY_WITH_TIMEOUT(
+        !p.QObject::property("foxicmpSystemIccFile").toString().isEmpty(), 2000);
+    repeated.stop();
+    // A real move to another output legitimately starts another lookup.
+    if (p.windowHandle()->screen()->name() == output)
+      QCOMPARE(fake.methods.count("FindDeviceByProperty"), 1);
   }
   void staleRepliesModeChangeTimeoutAndWayland() {
     QTemporaryDir dir;
