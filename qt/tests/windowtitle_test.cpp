@@ -250,10 +250,16 @@ private slots:
     QVERIFY(gpu->isHidden());
     w.close();
   }
+  void classicVolumeTrackGeometryAndInput_data() {
+    QTest::addColumn<QString>("theme");
+    QTest::newRow("dark") << QString("dark");
+    QTest::newRow("light") << QString("light");
+  }
   void classicVolumeTrackGeometryAndInput() {
+    QFETCH(QString, theme);
     QTemporaryDir dir; Profile p(dir.path()); prepare(p);
-    p.settings.setValue("appearance/theme", "dark");
-    p.settings.setValue("appearance/themeBrightness", 15);
+    p.settings.setValue("appearance/theme", theme);
+    p.settings.setValue("appearance/themeBrightness", 9);
     p.settings.setValue("appearance/volumeFill", "#ffffff");
     p.settings.setValue("appearance/volumeBackground", "#808080");
     Window w(p); w.show(); QVERIFY(QTest::qWaitForWindowExposed(&w));
@@ -262,29 +268,55 @@ private slots:
     QCOMPARE(volume->size(), QSize(95, 22));
     QCOMPARE(volume->property("volumeFill").toString(), QString("#ffffff"));
     QCOMPARE(volume->property("volumeBackground").toString(), QString("#808080"));
-    volume->setMuted(false);
+    auto *player = w.findChild<Player *>();
+    QVERIFY(player->set("mute", false));
+    QTRY_VERIFY(!player->get("mute").toBool());
+    QTRY_VERIFY(!volume->property("muted").toBool());
     volume->setValue(25);
-    const auto low = volume->grab();
+    volume->setMuted(false);
+    auto *panel = w.findChild<QWidget *>("controls");
+    // Render the parent too: grabbing a transparent child alone omits the
+    // stylesheet gradient behind it and substitutes a flat palette background.
+    const auto capture = [&] { return panel->grab(volume->geometry()); };
+    const auto low = capture();
     QVERIFY(!low.isNull());
+    auto image = low.toImage();
+    // Empty track pixels must continue the panel, including its vertical slope.
+    for (int y = 5; y <= 16; ++y)
+      QCOMPARE(image.pixelColor(70, y), image.pixelColor(2, y));
+    QVERIFY(image.pixelColor(70, 5) != image.pixelColor(70, 16));
+    const bool dark = theme == "dark";
+    QCOMPARE(image.pixelColor(10, 4), dark ? QColor(24, 29, 34) : QColor(126, 133, 139));
+    QCOMPARE(image.pixelColor(10, 17), dark ? QColor(112, 117, 122) : QColor(198, 205, 211));
     QTest::mousePress(volume, Qt::LeftButton, Qt::NoModifier, QPoint(86, 11));
     QTest::mouseMove(volume, QPoint(86, 11));
     QTest::mouseRelease(volume, Qt::LeftButton, Qt::NoModifier, QPoint(86, 11));
     QVERIFY(volume->value() >= 80);
     volume->setMuted(false);
-    const auto high = volume->grab();
+    const auto high = capture();
     QVERIFY(!high.isNull());
     QVERIFY(low.toImage() != high.toImage());
-    volume->setMuted(true);
-    QCoreApplication::processEvents();
-    const auto muted = volume->grab();
+    QVERIFY(player->set("mute", true));
+    QTRY_VERIFY(volume->property("muted").toBool());
+    const auto muted = capture();
     QVERIFY(!muted.isNull());
     QVERIFY(muted.toImage() != high.toImage());
     const auto shots = qEnvironmentVariable("FOXICMP_TEST_SCREENSHOTS");
     if (!shots.isEmpty()) {
       QDir().mkpath(shots);
-      QVERIFY(low.save(shots + "/volume-low.png"));
-      QVERIFY(high.save(shots + "/volume-high.png"));
-      QVERIFY(muted.save(shots + "/volume-muted.png"));
+      const auto prefix = shots + "/volume-" + theme;
+      QVERIFY(low.save(prefix + "-low.png"));
+      QVERIFY(high.save(prefix + "-high.png"));
+      QVERIFY(muted.save(prefix + "-muted.png"));
+      QVERIFY(player->set("mute", false));
+      QTRY_VERIFY(!volume->property("muted").toBool());
+      volume->setValue(50);
+      volume->setMuted(false);
+      QVERIFY(w.findChild<QWidget *>("controls")->grab().save(prefix + "-toolbar.png"));
+      const int left = std::max(0, volume->x() - 23);
+      QVERIFY(panel->grab(QRect(left, 0, panel->width() - left, panel->height()))
+                  .save(prefix + "-corner.png"));
+      QVERIFY(w.grab().save(prefix + "-window.png"));
     }
     w.close();
   }

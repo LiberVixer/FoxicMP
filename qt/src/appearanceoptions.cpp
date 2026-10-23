@@ -102,18 +102,14 @@ void Window::applyAppearance() {
     const QColor value(profile.settings.value(key, fallback).toString());
     return value.isValid() ? value.name() : QString(fallback);
   };
-  volume->setStyleSheet(
-      QString("QSlider::sub-page:horizontal {background:%1;} "
-              "QSlider::add-page:horizontal {background:%2;}")
-          .arg(volumeColor("appearance/volumeFill", "#ffffff"),
-               volumeColor("appearance/volumeBackground", "#808080")));
+  volume->setStyleSheet("background:transparent;");
   volume->setProperty("volumeFill", volumeColor("appearance/volumeFill", "#ffffff"));
   volume->setProperty("volumeBackground", volumeColor("appearance/volumeBackground", "#808080"));
   volume->setProperty("themeBrightness", profile.settings.value("appearance/themeBrightness", 15));
   volume->setProperty("themeRed", profile.settings.value("appearance/themeRed", 255));
   volume->setProperty("themeGreen", profile.settings.value("appearance/themeGreen", 255));
   volume->setProperty("themeBlue", profile.settings.value("appearance/themeBlue", 255));
-  volume->setProperty("themeDark", profile.settings.value("appearance/theme", "dark").toString() == "dark");
+  volume->setProperty("themeDark", darkStatus);
   volume->update();
   timeline->setProperty(
       "appearance/progress",

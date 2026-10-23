@@ -46,64 +46,56 @@ protected:
     const bool dark = property("themeDark").isValid()
         ? property("themeDark").toBool()
         : palette().color(QPalette::Window).lightness() < 128;
-    if (!dark) {
-      const QRect interior = track.adjusted(8, 4, -10, -6);
-      p.setPen(palette().color(QPalette::Shadow));
-      p.drawLine(interior.right(), interior.top(), interior.right(), interior.bottom());
-      p.drawLine(interior.right(), interior.bottom(), interior.left(), interior.bottom());
-      p.setPen(palette().color(QPalette::Light));
-      p.drawLine(interior.left(), interior.bottom(), interior.right(), interior.top());
-      p.fillRect(interior.adjusted(1, 1, -1, -1), palette().color(QPalette::Button));
-      return;
-    }
-
     const QRect interior = track.adjusted(1, 1, -1, -1);
-    QLinearGradient trough(interior.topLeft(), interior.bottomLeft());
     const QColor customFill(property("volumeFill").toString());
     const QColor customBackground(property("volumeBackground").toString());
-    trough.setColorAt(0, customBackground.isValid() ? customBackground.darker(130)
-                                                     : themeColor(14, 17, 20));
-    trough.setColorAt(1, customBackground.isValid() ? customBackground
-                                                     : themeColor(26, 30, 34));
-    p.fillRect(interior, trough);
+    const bool tintedFill = customFill.isValid() && customFill != QColor("#ffffff");
+    // The legacy gray default now means the toolbar itself. Leave these pixels
+    // transparent so the parent's gradient continues at exactly the same height.
+    if (customBackground.isValid() && customBackground != QColor("#808080")) {
+      QLinearGradient trough(interior.left(), interior.top() + .5,
+                             interior.left(), interior.bottom() + .5);
+      trough.setColorAt(0, customBackground.darker(dark ? 130 : 110));
+      trough.setColorAt(1, customBackground);
+      p.fillRect(interior, trough);
+    }
     const int end = interior.left() + value() * interior.width() / 100;
     if (end > interior.left()) {
       const int xEnd = std::min(interior.right() + 1, end);
-      QLinearGradient fill(interior.left(), interior.top(), interior.left(), interior.bottom());
+      QLinearGradient fill(interior.left(), interior.top() + .5,
+                           interior.left(), interior.bottom() + .5);
       const bool muted = property("muted").toBool();
-      if (muted) {
-        fill.setColorAt(0, themeColor(15, 18, 20));
-        fill.setColorAt(1, themeColor(45, 48, 52));
-      } else if (customFill.isValid()) {
+      if (tintedFill) {
         fill.setColorAt(0, customFill.darker(400));
         fill.setColorAt(1, customFill);
       } else {
-        fill.setColorAt(0, themeColor(10, 15, 20));
-        fill.setColorAt(1, themeColor(105, 110, 115));
+        // The fill follows the supplied swatch; the empty area follows the panel.
+        fill.setColorAt(0, dark ? QColor(24, 29, 34) : QColor(126, 133, 139));
+        fill.setColorAt(1, dark ? QColor(112, 117, 122) : QColor(198, 205, 211));
       }
       p.fillRect(QRect(interior.left(), interior.top(), xEnd - interior.left(), interior.height()), fill);
       if (muted) {
-        p.setPen(themeColor(242, 13, 13));
+        p.setPen(dark ? themeColor(242, 13, 13) : QColor(200, 35, 35));
         p.drawLine(xEnd - 1, interior.top(), xEnd - 1, interior.bottom());
       } else {
         const int thumbWidth = 4;
         const int thumbLeft = std::max(interior.left(), xEnd - thumbWidth);
-        QLinearGradient thumb(thumbLeft, interior.top(), thumbLeft, interior.bottom());
-        const QColor top = customFill.isValid() ? customFill.lighter(120) : themeColor(20, 25, 30);
-        const QColor bottom = customFill.isValid() ? customFill.lighter(170) : themeColor(215, 220, 225);
+        QLinearGradient thumb(thumbLeft, interior.top() + .5, thumbLeft, interior.bottom() + .5);
+        const QColor top = tintedFill ? customFill.lighter(120) : QColor(245, 248, 250);
+        const QColor bottom = tintedFill ? customFill.lighter(170) : QColor(255, 255, 255);
         thumb.setColorAt(0, top);
         thumb.setColorAt(1, bottom);
         p.fillRect(QRect(thumbLeft, interior.top(), xEnd - thumbLeft, interior.height()), thumb);
       }
     }
-    p.setPen(themeColor(30, 35, 40));
+    p.setPen(dark ? themeColor(30, 35, 40) : QColor(145, 152, 158));
     p.drawLine(track.left(), track.top(), track.right(), track.top());
     p.drawLine(track.left(), track.top(), track.left(), track.bottom());
-    p.setPen(themeColor(80, 85, 90));
-    p.drawLine(track.left(), track.bottom() - 1, track.right(), track.bottom() - 1);
-    p.drawLine(track.right() - 1, track.top(), track.right() - 1, track.bottom());
+    p.setPen(dark ? themeColor(80, 85, 90) : QColor(248, 250, 252));
+    p.drawLine(track.left(), track.bottom(), track.right(), track.bottom());
+    p.drawLine(track.right(), track.top(), track.right(), track.bottom());
     if (end > track.left() && !property("muted").toBool()) {
-      p.setPen(customFill.isValid() ? customFill : themeColor(80, 85, 90));
+      p.setPen(tintedFill ? customFill : dark ? QColor(245, 248, 250) : QColor(184, 191, 197));
       p.drawLine(track.left(), track.top(), std::min(track.right(), end), track.top());
     }
   }
