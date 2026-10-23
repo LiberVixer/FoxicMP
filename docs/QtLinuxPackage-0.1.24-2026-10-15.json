@@ -1,0 +1,101 @@
+{
+  "version": "0.1.24",
+  "status": "development preview; parity item 14 external audio and duplicate PCM output implemented; item 14 continues",
+  "archive": "FoxicMPQt-0.1.24-linux-x64.tar.gz",
+  "bytes": 3010348,
+  "sha256": "b0f7c295fb72b95b1c4f65707345e46c929e896417c4afe09aad1c4baa1acdc5",
+  "ctestSoftware": "20/20 passed; 380.88 s",
+  "ctestRequestedOpenGL": "20/20 passed; 397.87 s; actual Software fallback",
+  "audioRoutingChecks": "8 passed, 0 failed, 0 skipped in each mode",
+  "helperUnitChecks": "4 passed in each mode",
+  "measurementsFromPrivateSinkMonitors": {
+    "software": {
+      "primaryRms": 0.018753217181318824,
+      "recoveredSecondaryRms": 0.017427117319669602,
+      "secondaryRms": 0.01898531907270374
+    },
+    "opengl": {
+      "primaryRms": 0.018635647806547993,
+      "recoveredSecondaryRms": 0.01669954415219514,
+      "secondaryRms": 0.01898531907270374
+    }
+  },
+  "externalAudioSearchModes": [
+    "no (default)",
+    "exact",
+    "fuzzy",
+    "all"
+  ],
+  "audioPriorityModes": [
+    "native (default)",
+    "external",
+    "internal"
+  ],
+  "routingFixtureSeconds": 30,
+  "recoveryCaptureDeadlineSeconds": 8,
+  "initialShortFixtureTimeoutCorrected": true,
+  "searchFoldersUpTo32AndNativePathListVerified": true,
+  "customExtensionsSupported": true,
+  "manualAndRememberedSelectionWinVerified": true,
+  "externalTrackRestoreDoesNotDuplicateVerified": true,
+  "dualOutputEnabledByDefault": false,
+  "dualOutputBackend": "private module-combine-sink lease; one libmpv decoder; PulseAudio-compatible server",
+  "dualOutputActualTestServer": "PulseAudio on PipeWire 1.0.5",
+  "lossFallbackAndDeviceReturnVerified": true,
+  "disableAndDestructorCleanupVerified": true,
+  "parentProcessTerminationCleanupVerified": true,
+  "rapidReconfigurationVerified": true,
+  "sameDeviceRejectedVerified": true,
+  "moduleCleanupChecksIdTypeAndUniqueName": true,
+  "systemDefaultSinkUnchangedVerified": true,
+  "packagedAudioRoutingPreferencesPreserved": true,
+  "packagedHelperBundled": true,
+  "packagedHelperLeaseAndCleanupVerified": true,
+  "packagedMprisWireCommandsVerified": true,
+  "packagePlayback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.363
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.406
+    }
+  },
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "cliQueriesDoNotCreateProfile": true,
+  "englishCatalogEntries": 1043,
+  "translatedCurrentSourceStrings": 1026,
+  "screenshots": {
+    "docs/images/foxicmp-qt-audio-routing.png": "860×680"
+  },
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "installedProfileSha256": "1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad",
+  "testPulseModulesRemoved": true,
+  "microphoneUsed": false,
+  "physicalAudioHardwareVerified": false,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "githubWorkflowExecuted": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "nextParityPlanItem": 14,
+  "remainingParityItem14": [
+    "custom FFmpeg filter editor/presets",
+    "PCM sample format selection",
+    "passthrough/bitstream and decoder controls"
+  ],
+  "limitations": [
+    "duplicate decoded PCM only; no independent second track/volume/delay or dual direct ALSA output",
+    "physical Bluetooth/USB/HDMI synchronization and A/V with dual output need hardware checks",
+    "PulseAudio native server not separately tested; tested on PipeWire PulseAudio compatibility",
+    "helper hard kill or prolonged server errors can prevent cleanup; server restart discards modules",
+    "device switches can interrupt playback; module polling is every 2 seconds",
+    "parent death closes stdin lease; helper itself must remain alive to perform cleanup",
+    "automatic discovery disabled for progressive/live; progressive priority bypassed",
+    "search rescan adds tracks but does not remove existing ones",
+    "device switching at EOF not separately confirmed; recovery measured during ongoing 30-second source"
+  ]
+}

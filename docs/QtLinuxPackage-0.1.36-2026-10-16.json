@@ -1,0 +1,149 @@
+{
+  "version": "0.1.36",
+  "date": "2026-10-16",
+  "branch": "codex/linux-qt",
+  "archive": "_bin/qt-release/FoxicMPQt-0.1.36-linux-x64.tar.gz",
+  "bytes": 4611465,
+  "sha256": "3bc30659cdc0175fe1b7ac10b5c0343366ac03a9228e30247d3f0357c5998a83",
+  "ctest": {
+    "software": "29/29",
+    "requestedOpenGl": "29/29",
+    "actualOpenGlOutput": "Software fallback",
+    "seconds": {
+      "software": 482.54,
+      "opengl": 507.24
+    }
+  },
+  "profileArchiveTests": {
+    "passedPerMode": 20,
+    "failed": 0,
+    "skipped": 0,
+    "finalFocusedSeconds": {
+      "software": 3.22,
+      "opengl": 3.38
+    },
+    "note": "Full 29-suite runs passed before final subtitle-reference rebasing; the entire 20-case profile suite and package smoke were rerun after that isolated change"
+  },
+  "features": [
+    "View > Profile and backups dialog and command",
+    "export settings and selected assets to versioned .foxicmp-profile JSON",
+    "manual unique backups in the profile Backups directory without including previous backups",
+    "import into a new profile directory, never overwrite the running profile",
+    "open imported profile in a separate --new-instance --profile player",
+    "preserve Qt INI value types, playlist tabs, history, positions and favorites",
+    "materialize selected artwork, translation and manual ICC under Assets content hashes",
+    "include Subtitles/Edits; omit media, screenshots, extracted subtitles, generated shader caches and programs",
+    "rebase managed subtitle references in playlist metadata to the restored directory, including repeated export/import",
+    "omit machine-local MIME integration and undo journal; imported startup registration disabled",
+    "strict relative path allowlist, SHA-256 per file, strict base64 and version/INI validation",
+    "atomic QSaveFile archive writes and sibling staging + renameat2 RENAME_NOREPLACE directory publication",
+    "request owner-only permissions for archive and restored files; effective permissions depend on filesystem"
+  ],
+  "limits": {
+    "decodedBytes": 33554432,
+    "fileBytes": 8388608,
+    "archiveBytes": 50331648,
+    "files": 2048
+  },
+  "verified": [
+    "typed settings and library round trip with Unicode paths",
+    "all four selected asset settings remapped to copied resources",
+    "managed subtitle metadata rebased through two consecutive transfers; external paths and other metadata strings unchanged",
+    "malformed paths, hashes, base64, versions, duplicate and conflicting entries rejected",
+    "existing files/directories, symlinks and dangling links not overwritten",
+    "named pipe rejected without waiting; size/count limits enforced",
+    "escaped filename metadata exceeding the final JSON cap stops export below the raw data cap",
+    "failed staged file write leaves no destination or temporary profile",
+    "UI export, cancel import and successful import using actual Qt dialogs",
+    "manual backup while paused keeps source/position and captures current playlist",
+    "stripped package playback/CLI/MPRIS/helpers and prior settings preservation"
+  ],
+  "translations": "English catalog: 1415 source strings covered; 1443 entries; placeholders valid",
+  "packageSmoke": {
+    "version": "FoxicMPQt 0.1.36",
+    "archive": "FoxicMPQt-0.1.36-linux-x64.tar.gz",
+    "bytes": 4611465,
+    "sha256": "3bc30659cdc0175fe1b7ac10b5c0343366ac03a9228e30247d3f0357c5998a83",
+    "profileBundled": false,
+    "bytecodeBundled": false,
+    "portableTabsAndCueChaptersSaved": true,
+    "playback": {
+      "cue": {
+        "returncode": 0,
+        "seconds": 9.452
+      },
+      "pls-errors": {
+        "returncode": 0,
+        "seconds": 9.677
+      }
+    },
+    "cliOptionsChecked": true,
+    "libraryPreferencesPreserved": true,
+    "historyUpdatedBesideBinary": true,
+    "historyAndFavoritesScreenshotsBundled": true,
+    "windowPreferencesPreserved": true,
+    "fullscreenStartupAndNaturalExitRun": true,
+    "windowScreenshotsBundled": true,
+    "appearanceAndOsdPreferencesPreserved": true,
+    "englishCatalogBundled": true,
+    "mprisPackagedWireCommandsVerified": true,
+    "transformPreferencesPreserved": true,
+    "transformScreenshotsBundled": true,
+    "inputPreferencesPreserved": true,
+    "mouseAndInputScreenshotsBundled": true,
+    "subtitleCommandsAndScreenshotsBundled": true,
+    "subtitlePreferencesPreserved": true,
+    "subtitleStylePreferencesPreserved": true,
+    "subtitleRenderPreferencesPreserved": true,
+    "audioProcessingPreferencesPreserved": true,
+    "packagedShaderCompilerAndProbeVerified": true,
+    "mediaCapturePreferencesPreserved": true,
+    "systemIccSourcePreserved": true,
+    "videoShaderPreferencesPreserved": true,
+    "videoDisplayPreferencesPreserved": true,
+    "videoOutputPreferencesPreserved": true,
+    "audioEncodingPreferencesPreserved": true,
+    "customAudioFilterPreferencesPreserved": true,
+    "audioRoutingPreferencesPreserved": true,
+    "audioOutputHelperBundled": true,
+    "packagedAudioHelperLeaseVerified": true,
+    "cliQueriesDoNotCreateProfile": true,
+    "profileLaunchOptionsPackaged": true,
+    "associationCommandAndScreenshotBundled": true,
+    "profileManagementCommandPackaged": true
+  },
+  "sharedFilesystemProbe": {
+    "atomicPublish": true,
+    "publishErrno": 0,
+    "existingTargetRejected": true,
+    "existingTargetErrno": 17,
+    "requestedMode": "0600",
+    "actualMode": "0o777"
+  },
+  "screenshot": "docs/images/foxicmp-qt-profile-management.png",
+  "installedPlayerUpdated": false,
+  "installedVersionPreserved": "0.1.26",
+  "installedPackageFilesVerifiedUnchanged": 41,
+  "installedProfileWrittenByThisTask": false,
+  "workingDesktopAssociationsChanged": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "limitations": [
+    "Import creates a new directory; replacing a running profile and changing the default launcher are not implemented",
+    "External media paths are retained; relative paths need the same media layout beside the imported profile",
+    "Selected missing resources stop export with a file path error",
+    "Archives contain history, favorites and saved URLs; SHA-256 is not authentication or encryption",
+    "Manual backups have no automatic schedule or retention",
+    "Profile I/O is synchronous and bounded by the documented limits",
+    "VirtualBox shared folder ignores Unix permission mode: 0600 request results in 0777; owner-only checks pass on native /tmp filesystem",
+    "Directory publication uses Linux renameat2; physical GPU/Wayland remain unverified"
+  ],
+  "remainingItem17": [
+    "profile reset and persistent location/default-launcher UI",
+    "title customization, updates, process priority and crash reporting",
+    "web control and remaining Classic CLI",
+    "appropriate folder/disc integration; user-deferred physical devices/disc menus/analog TV remain deferred"
+  ]
+}

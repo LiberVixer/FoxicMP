@@ -1,0 +1,43 @@
+FoxicMP Qt 0.1.2 / Mint 22.3 / isolated Xvfb X11 display, 1280x720
+Software output. Optional soak is deliberately skipped (render engine unchanged).
+
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::portableProfile()
+PASS   : PlayerTest::chapterLines()
+PASS   : PlayerTest::integration()
+PASS   : PlayerTest::desktopLaunch()
+PASS   : PlayerTest::interface()
+PASS   : PlayerTest::playbackTimeInput()
+QINFO  : PlayerTest::inputControls() Before remapped key: QVariant(bool, true) QVariant(bool, false) QVariant(double, 3.25)
+PASS   : PlayerTest::inputControls()
+PASS   : PlayerTest::outputFallback()
+SKIP   : PlayerTest::continuousPlayback() Optional continuous playback: set FOXICMP_TEST_SOAK_SECONDS
+   Loc: [/media/sf_Studio/Programs/MPMY-src/qt/tests/player_test.cpp(349)]
+PASS   : PlayerTest::playback(AV1.mkv)
+PASS   : PlayerTest::playback(chapters.mkv)
+PASS   : PlayerTest::playback(HEVC.mov)
+PASS   : PlayerTest::playback(MPEG4.avi)
+PASS   : PlayerTest::playback(VP9.webm)
+PASS   : PlayerTest::playback(Русский H264.mp4)
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 16 passed, 0 failed, 1 skipped, 0 blacklisted, 25253ms
+********* Finished testing of PlayerTest *********
+
+Requested OpenGL interface (Mesa fallback to Software; not physical GPU validation)
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::interface()
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 3 passed, 0 failed, 0 skipped, 0 blacklisted, 2791ms
+********* Finished testing of PlayerTest *********
+
+Extracted package smoke test
+Version: FoxicMPQt 0.1.2
+No packaged profile/history: passed
+Gtk-Message: 14:59:57.332: Failed to load module "colorreload-gtk-module"
+Gtk-Message: 14:59:57.336: Failed to load module "window-decorations-gtk-module"
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Extracted executable stayed running for 4 seconds with local video, isolated Xvfb display.

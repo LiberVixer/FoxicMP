@@ -1,0 +1,17 @@
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::portableProfile()
+PASS   : PlayerTest::chapterLines()
+PASS   : PlayerTest::integration()
+PASS   : PlayerTest::desktopLaunch()
+PASS   : PlayerTest::interface()
+PASS   : PlayerTest::playback(AV1.mkv)
+PASS   : PlayerTest::playback(chapters.mkv)
+PASS   : PlayerTest::playback(HEVC.mov)
+PASS   : PlayerTest::playback(MPEG4.avi)
+PASS   : PlayerTest::playback(VP9.webm)
+PASS   : PlayerTest::playback(Русский H264.mp4)
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 13 passed, 0 failed, 0 skipped, 0 blacklisted, 19199ms
+********* Finished testing of PlayerTest *********

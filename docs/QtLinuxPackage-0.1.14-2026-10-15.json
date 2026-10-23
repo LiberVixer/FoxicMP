@@ -1,0 +1,76 @@
+{
+  "version": "0.1.14",
+  "status": "development preview; parity item 7 completed for documented local formats; item 3 remainder deferred",
+  "archive": "FoxicMPQt-0.1.14-linux-x64.tar.gz",
+  "bytes": 972770,
+  "sha256": "3231732f726f260fe7bb52166058aa730320fa96cb60b17c3c95ad4b8e6bec35",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "standaloneAdapterBundled": true,
+  "portableProfileSavedBesideExtractedBinary": true,
+  "versionAndCliCheck": true,
+  "ctestSoftware": "9/9 passed; 202.68 s",
+  "ctestRequestedOpenGL": "9/9 passed; 204.81 s; actual Software fallback",
+  "qtPlaylistFormatChecks": "15 passed; 0 failed; 0 skipped in both modes",
+  "optionalContinuousPlaybackTest": "not requested; one player case skipped per mode",
+  "importFormats": [
+    "M3U",
+    "M3U8",
+    "MPCPL",
+    "PLS",
+    "ASX",
+    "CUE"
+  ],
+  "exportFormats": [
+    "M3U",
+    "M3U8",
+    "MPCPL",
+    "PLS",
+    "ASX"
+  ],
+  "portablePathsAndFolderMoveVerified": true,
+  "utf8Utf16Cp1251Verified": true,
+  "atomicImportAndExportErrorsVerified": true,
+  "nativeClassicExternalTracksVerified": true,
+  "cueMultiFileChaptersAndSeekVerified": true,
+  "cueTargetSeconds": 2.493333333333333,
+  "cueObservedSeconds": 2.493,
+  "independentDuplicateTrackChoicesVerified": true,
+  "externalSelectionByFilenameVerified": true,
+  "trackProfileRestartAndExportVerified": true,
+  "appendPlaylistPreservesPlaybackVerified": true,
+  "boundedErrorTraversalAndManualStopVerified": true,
+  "skipKnownInvalidAndManualRecoveryVerified": true,
+  "durationOptionAndDockPersistenceVerified": true,
+  "fullscreenPanelOptionVerified": true,
+  "privatePulseModulesRemoved": true,
+  "packagePlayback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.083
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.05
+    }
+  },
+  "packagedCueChapterPersistenceVerified": true,
+  "screenshot": "docs/images/foxicmp-qt-playlist-preferences.png",
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "physicalGpuVerified": false,
+  "githubWorkflowExecuted": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "parityPlanItem3RemainderDeferred": true,
+  "parityPlanItem7Complete": true,
+  "nextParityPlanItem": 8,
+  "limitations": [
+    "local playlist import",
+    "Windows absolute paths require mapping",
+    "DirectShow devices are not Linux devices",
+    "ASX uses first REF without ENTRYREF expansion",
+    "CUE imports media chapters; mixed data/audio BIN CDDA and CUE export unsupported",
+    "other players may ignore FoxicMP metadata"
+  ]
+}

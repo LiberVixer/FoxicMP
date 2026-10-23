@@ -1,0 +1,101 @@
+FoxicMP Qt Linux 0.1.31 — автоматический ICC в X11, пункт 15
+Дата: 16 октября 2026. Ветка codex/linux-qt.
+
+Ctrl+Alt+V → Видео — ICC-профиль → ICC enabled + источник system.
+По умолчанию ICC off, источник manual; существующий ручной профиль сохранён.
+Backend: colord, системная D-Bus, точный XRANDR_name текущего QWindow::screen.
+Enabled=true, Kind=display, Owner=current uid либо system, Metadata name checked.
+GetProfileForQualifiers(["*"]) выбирает default и соблюдает profiling inhibit;
+Profiles[0] не используется. Только read-only методы, без смены desktop profile,
+калибровки/разрешений. D-Bus может обычным образом активировать установленную
+службу colord. Устанавливать/настраивать colord эта задача не пыталась.
+
+Асинхронные вызовы, локальный precise deadline 1500 ms на каждый вызов.
+Локальный precise timer ограничивает ожидание независимо от проверки timeout
+в Qt/D-Bus. Поздний ответ после deadline не применяется.
+Generation отбрасывает ответы старого экрана/режима. QWindow::screenChanged и
+резервный опрос 500 ms, изменения системного профиля/байтов раз в 5 секунд.
+При смене экрана старый ICC снимается сразу; нет fallback на другой монитор.
+Ошибка, inhibit, отсутствие, недоступный/неверный ICC → native ICC clear + статус.
+
+Системный файл только читается; RGB display <=16 MiB проверяется LittleCMS и
+копируется в ColorProfiles/<SHA256>.icc рядом с приложением. Дедуп по байтам.
+Автоматический путь не пишется в INI, manual video/iccProfile не заменяется.
+Постоянный режим video/iccSource=manual/system, master video/iccEnabled.
+Cancel не применяет новый выбор, reset возвращает defaults и не удаляет копии.
+icc-profile-auto=false, icc-cache=false, intent общий, преобразование libmpv GL.
+В Software сохранены настройки/диагностика без ICC-преобразования.
+Wayland автоматический режим обходит запрос, показывает ручной fallback;
+протокол управления цветом композитора ещё не реализован.
+
+Проверки
+25/25 Software — 469.36 с.
+Полный requested OpenGL — 24/25, 487.76 с; actual Software fallback.
+Новый тест ICC сравнил выделенный буфер до появления первого видеокадра с
+готовым видео. Baseline исправлен: ожидание реальных цветных полос testsrc2,
+а не ненулевого буфера. Изменился только тест; production бинарник/архив прежние.
+После исправления весь SystemIccTest повторён в обоих режимах: 7/7 каждый.
+Повторно пройдены все проверки нового набора; 24 остальных набора прошли
+в полных прогонах. Итог: все 25 наборов проверены, полный OpenGL заново не запускался.
+При последовательном старте Xvfb один запуск не получил дисплей из-за ещё
+завершающегося сервера; runner исправлен на отдельный номер и ожидание готовности.
+SystemIccTest: 7 passed, 0 failed, 0 skipped в обоих режимах.
+Подменная colord только на частной session D-Bus; production uses system D-Bus.
+Два разных настоящих ICC (sRGB/DisplayP3), default qualifier вместо первого
+Profiles, A→B→A, дедуп, смена назначения, удаление, disabled/inhibit/неверное
+имя, относительный/отсутствующий файл. Qt real window screen lookup и изменение
+содержимого файла с тем же именем обнаружено через настоящий 5-sec timer.
+Пауза/продолжение сохранены, Software pixels неизменны. Гонки старых ответов,
+manual mode switch, hard deadline + UI heartbeat + late success ignored.
+Все три диалога допускают automatic mode без manual path, Cancel/reset,
+ручной путь не заменяется. Wayland bypass проверен без обращения к colord.
+Все прежние 24 набора прошли; optional continuous-soak пропущен штатно.
+English catalog: 1237 source strings covered; 1259 entries; placeholders valid
+Измерения:
+{
+  "software": {
+    "defaultQualifierNotProfilesZeroVerified": true,
+    "disabledInhibitedWrongOutputInvalidFileVerified": true,
+    "pauseAndPlaybackPreserved": true,
+    "preferencesCancelResetAllDialogsAndManualPathPreserved": true,
+    "realQtWindowAndFiveSecondContentPollingVerified": true,
+    "staleRepliesAndTimeoutNonblockingVerified": true,
+    "twoOutputProfilesAndAssignmentChangesVerified": true,
+    "waylandAutoBypassedVerified": true
+  },
+  "opengl": {
+    "defaultQualifierNotProfilesZeroVerified": true,
+    "disabledInhibitedWrongOutputInvalidFileVerified": true,
+    "pauseAndPlaybackPreserved": true,
+    "preferencesCancelResetAllDialogsAndManualPathPreserved": true,
+    "realQtWindowAndFiveSecondContentPollingVerified": true,
+    "staleRepliesAndTimeoutNonblockingVerified": true,
+    "twoOutputProfilesAndAssignmentChangesVerified": true,
+    "waylandAutoBypassedVerified": true
+  }
+}
+
+Реальная установленная colord доступна: display devices Virtual1/2/3.
+У Virtual1 нет активного профиля: GetProfileForQualifiers(["*"]) возвращает
+NothingMatched. Назначения не создавались, работа с реальным ICC монитора
+не подтверждена. Автотесты и снимок Xvfb не доказывают цвет на физическом GPU,
+перенос между реальными мониторами, VSync/tearing или Wayland color management.
+
+Пакет
+FoxicMPQt-0.1.31-linux-x64.tar.gz
+4120995 байт
+SHA-256: 58e25d42cc04e52eba0515515a7a8efb99b98013bd820bfaf1bfe0236b911da6
+Version/help без INI, CUE/PLS natural exit, MPRIS/helper EOF, сохранение настроек
+включая iccSource, packaged GLSL helper и README/screenshot проверены.
+Личных INI/ICC/GLSL/history/temp в архиве нет. 41 неизменяемый файл установленной
+0.1.26 совпадает с архивом; установленный плеер и личный INI не перезаписывали.
+Harvester GUI off. Commit/push/release/CI не выполнялись.
+
+Далее
+Программная часть пункта 15 для X11 готова в указанных границах; физические
+проверки, Wayland и универсальный shader importer остаются ограничениями.
+Следующий этап — пункт 16, свойства/диагностика/сохранение.
+API:
+https://github.com/hughsie/colord/blob/main/src/org.freedesktop.ColorManager.xml
+https://github.com/hughsie/colord/blob/main/src/org.freedesktop.ColorManager.Device.xml
+https://github.com/hughsie/colord/blob/main/src/org.freedesktop.ColorManager.Profile.xml

@@ -1,0 +1,63 @@
+{
+  "version": "0.1.18",
+  "status": "development preview; parity item 11 software implemented; physical desktop/remote checks pending",
+  "archive": "FoxicMPQt-0.1.18-linux-x64.tar.gz",
+  "bytes": 1736510,
+  "sha256": "d40001bc9af5d14ee4bdf1c21a1ddfb7c7b25f58e5c409e36b42938dbbe22963",
+  "ctestSoftware": "13/13 passed; 288.78 s",
+  "ctestRequestedOpenGL": "13/13 passed; 296.86 s; actual Software fallback",
+  "qtInputChecks": "10 passed, 0 failed, 0 skipped in each mode",
+  "optionalContinuousPlaybackTest": "not requested; one player case skipped in each mode",
+  "keyboardAndMouseCommandsVerified": true,
+  "separateWindowFullscreenBindingsVerified": true,
+  "ctrlShiftAndCombinedMouseModifiersVerified": true,
+  "legacyMouseSettingsMigrationVerified": true,
+  "mouseHoldRateRestoreAndCancellationVerified": true,
+  "keySeekAcceleration1x2x4x8xVerified": true,
+  "lastFileClickBossKeyMediaAliasesVerified": true,
+  "sessionMprisAndCommandInterfaceVerified": true,
+  "privateDbusIsolationNoBusRetryAndMultipleInstancesVerified": true,
+  "staleTrackSetPositionAndPausedNextVerified": true,
+  "unknownRemoteCommandsAndUnsupportedUrisIgnored": true,
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "standaloneAdapterBundled": true,
+  "portableProfileSavedBesideExtractedBinary": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "packagePlayback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.409
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.362
+    }
+  },
+  "packagedMprisWireCommandsVerified": true,
+  "packagedInputPreferencesAndScreenshotsVerified": true,
+  "englishCatalogEntries": 738,
+  "translatedCurrentSourceStrings": 731,
+  "screenshots": {
+    "docs/images/foxicmp-qt-mouse-preferences.png": "798×590",
+    "docs/images/foxicmp-qt-input-preferences.png": "798×590"
+  },
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "installedProfileSha256": "1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad",
+  "privatePulseModulesRemoved": true,
+  "physicalMediaKeysOrRemoteVerified": false,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "githubWorkflowExecuted": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "parityPlanItem3RemainderDeferred": true,
+  "nextParityPlanItem": 12,
+  "limitations": [
+    "desktop routing of global media keys and physical remotes needs target-machine verification",
+    "legacy Windows WinLIRC/uICE TCP protocols are not implemented; use keyboard remotes or D-Bus",
+    "physical GPU/HiDPI/Wayland/WM verification pending",
+    "online preview service limits documented in 0.1.17 remain"
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "version": "FoxicMPQt 0.1.28",
+  "archive": "FoxicMPQt-0.1.28-linux-x64.tar.gz",
+  "bytes": 3553897,
+  "sha256": "932a80b2df535734576f9dee358a6636f89e2563fe4c319dffab22afeead0564",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableTabsAndCueChaptersSaved": true,
+  "playback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.59
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.593
+    }
+  },
+  "cliOptionsChecked": true,
+  "libraryPreferencesPreserved": true,
+  "historyUpdatedBesideBinary": true,
+  "historyAndFavoritesScreenshotsBundled": true,
+  "windowPreferencesPreserved": true,
+  "fullscreenStartupAndNaturalExitRun": true,
+  "windowScreenshotsBundled": true,
+  "appearanceAndOsdPreferencesPreserved": true,
+  "englishCatalogBundled": true,
+  "mprisPackagedWireCommandsVerified": true,
+  "transformPreferencesPreserved": true,
+  "transformScreenshotsBundled": true,
+  "inputPreferencesPreserved": true,
+  "mouseAndInputScreenshotsBundled": true,
+  "subtitleCommandsAndScreenshotsBundled": true,
+  "subtitlePreferencesPreserved": true,
+  "subtitleStylePreferencesPreserved": true,
+  "subtitleRenderPreferencesPreserved": true,
+  "audioProcessingPreferencesPreserved": true,
+  "videoOutputPreferencesPreserved": true,
+  "audioEncodingPreferencesPreserved": true,
+  "customAudioFilterPreferencesPreserved": true,
+  "audioRoutingPreferencesPreserved": true,
+  "audioOutputHelperBundled": true,
+  "packagedAudioHelperLeaseVerified": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "status": "development preview; item 15 color and in-memory precision controls added; item 15 continues",
+  "ctestSoftware": {
+    "passed": 22,
+    "total": 22,
+    "seconds": 416.38
+  },
+  "ctestRequestedOpenGL": {
+    "passed": 22,
+    "total": 22,
+    "seconds": 434.92,
+    "actual": "Software fallback"
+  },
+  "videoOutputChecksPerMode": 8,
+  "measurements": {
+    "software": {
+      "bilinearMidtones": 19061,
+      "deinterlaceChangedPixels": 9332,
+      "deinterlaceEstimatedFps": 49.99999999999996,
+      "gradient16BitLevels": 928,
+      "gradient8BitLevels": 256,
+      "highPrecisionSubtitleChangedPixels": 438,
+      "hueGammaChangedPixels": 76800,
+      "nearestBilinearDifferentPixels": 36463,
+      "nearestMidtones": 0,
+      "previewColorMaxChannelError": 1
+    },
+    "opengl": {
+      "bilinearMidtones": 19061,
+      "deinterlaceChangedPixels": 9332,
+      "deinterlaceEstimatedFps": 49.99999999999996,
+      "gradient16BitLevels": 928,
+      "gradient8BitLevels": 256,
+      "highPrecisionSubtitleChangedPixels": 438,
+      "hueGammaChangedPixels": 76800,
+      "nearestBilinearDifferentPixels": 36463,
+      "nearestMidtones": 0,
+      "previewColorMaxChannelError": 1
+    }
+  },
+  "translationCheck": "English catalog: 1118 source strings covered; 1138 entries; placeholders valid",
+  "softwareFramePrecision": [
+    "8-bit RGBX8888 default",
+    "16-bit RGBX64 / native-endian rgba64"
+  ],
+  "nativeSubtitleBlendingIn16BitFrameVerified": true,
+  "softwarePrecisionChangesPixelsVerified": true,
+  "software8To16To8RoundTripVerified": true,
+  "hueRangeDegrees": [
+    -180,
+    180
+  ],
+  "gammaSliderRange": [
+    -100,
+    100
+  ],
+  "gammaFactor": "2^(value/100), 0.5..2.0, neutral 1.0",
+  "hueGammaFfmpegPreviewCompared": true,
+  "imageResetClearsFiveAdjustments": true,
+  "gpuColorOptions": {
+    "outputLevels": [
+      "native",
+      "full",
+      "limited"
+    ],
+    "fboFormat": [
+      "native",
+      "rgba8",
+      "rgb10_a2",
+      "rgba16",
+      "rgba16f",
+      "rgba32f"
+    ],
+    "ditherDepth": [
+      "native",
+      "no",
+      "8",
+      "10",
+      "12",
+      "16"
+    ],
+    "targetPrim": [
+      "native",
+      "bt.709",
+      "bt.2020",
+      "dci-p3",
+      "adobe"
+    ],
+    "targetTrc": [
+      "native",
+      "srgb",
+      "bt.1886",
+      "gamma2.2",
+      "gamma2.4"
+    ],
+    "toneMapping": [
+      "native",
+      "clip",
+      "mobius",
+      "reinhard",
+      "hable",
+      "bt.2390"
+    ]
+  },
+  "gpuColorPropertyAcceptanceAndDefaultsVerified": true,
+  "gpuPixelColorResultVerified": false,
+  "finalOpenGLSurface": "RGBA8 (unchanged)",
+  "hdrPassthroughImplemented": false,
+  "iccProfileImplemented": false,
+  "independentColorAndDecoderResetsVerified": true,
+  "preferencesCancelApplyResetVerified": true,
+  "pausedApplyAndPlaybackContinuationVerified": true,
+  "installedPlayerUpdated": false,
+  "installedVersionPreserved": "0.1.26",
+  "installedPackageFilesVerifiedUnchanged": 41,
+  "installedProfileWrittenByThisTask": false,
+  "installedProfileSha256AtTaskStart": "1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad",
+  "installedProfileSha256ObservedAtValidation": "fd287ab3f73d97ae0da493002121d2be560e1e9f06547afd521abaac2a65721f",
+  "installedProfileChangedDuringChecks": true,
+  "installedProfileChangeContext": "A separately running installed 0.1.26 was observed and the installed INI hash changed during checks; test profiles are isolated and the task did not rewrite the installed INI",
+  "testPulseModulesRemoved": true,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "githubPublished": false,
+  "githubWorkflowExecuted": false,
+  "harvesterGuiEnabled": false,
+  "screenshots": {
+    "docs/images/foxicmp-qt-video-color.png": "860×680"
+  },
+  "nextParityPlanItem": 15,
+  "remainingParityItem15": [
+    "ICC monitor profiles",
+    "display synchronization/VSync/frame timing",
+    "shaders/editor",
+    "tearing diagnostics and expanded renderer statistics"
+  ],
+  "limitations": [
+    "16-bit software frame does not prove a 10/16-bit physical display path",
+    "image processing filters may reduce intermediate precision",
+    "GPU options are inactive in Software and software fallback",
+    "final OpenGL Qt surface remains RGBA8",
+    "GPU color/tonemapping properties accepted but physical pixel result not verified",
+    "no HDR display signaling or ICC monitor profile integration"
+  ]
+}

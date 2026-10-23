@@ -1,0 +1,79 @@
+{
+  "version": "0.1.22",
+  "status": "development preview; parity item 13 software implementation completed within libmpv capabilities",
+  "archive": "FoxicMPQt-0.1.22-linux-x64.tar.gz",
+  "bytes": 2643233,
+  "sha256": "6067188cc4df1be435a3b0c409cdc7080a3717fa8a113939bb1b03d08f4e54ed",
+  "ctestSoftware": "17/17 passed; 345.20 s",
+  "ctestRequestedOpenGL": "17/17 passed; 353.40 s; actual Software fallback",
+  "qtSubtitleRenderChecks": "8 passed, 0 failed, 0 skipped in each mode",
+  "optionalContinuousPlaybackTest": "not requested; one player case skipped in each mode",
+  "subtitlePreferencesBinding": "Ctrl+Alt+T",
+  "nativeRendererControls": [
+    "hinting",
+    "shaping",
+    "embedded fonts",
+    "window scaling",
+    "VSFilter compatibility",
+    "text event cache clearing on seek",
+    "timing correction",
+    "SRT duration stretching",
+    "update past video end",
+    "bitmap grayscale/blur/scaling"
+  ],
+  "defaultsMatchLibmpv037": true,
+  "subtitleCacheManagedAutomatically": true,
+  "clearEventCacheOnSeekEnabledByDefault": false,
+  "additionalTextStyleEnabledByDefault": false,
+  "windowScalingAndHintingPixelsVerified": true,
+  "timingCorrectionAndSrtStretchingPixelsVerified": true,
+  "seekForwardBackwardAndPlaybackVerified": true,
+  "bothExternalTracksAfterFontChangeOnPausePixelsVerified": true,
+  "bitmapPgsGrayAndColorRestorationPixelsVerified": true,
+  "bitmapPgsGaussianBlurPixelsVerified": true,
+  "bitmapGrayDoesNotChangeTextPixelsVerified": true,
+  "embeddedPausedTrackRefreshAndPreferenceCancelApplyResetVerified": true,
+  "secondaryReloadSelectionRestoredByFilenameAfterAsyncReplies": true,
+  "hardSubtitleRefresh": "100 ms debounce, both selected external tracks; embedded same-position seek only when allowed",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableProfileSavedBesideExtractedBinary": true,
+  "packagePlayback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.622
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.48
+    }
+  },
+  "cliQueriesDoNotCreateProfile": true,
+  "packagedMprisWireCommandsVerified": true,
+  "packagedSubtitleRenderPreferencesPreserved": true,
+  "englishCatalogEntries": 974,
+  "translatedCurrentSourceStrings": 959,
+  "screenshots": {
+    "docs/images/foxicmp-qt-subtitle-render.png": "840×650",
+    "docs/images/foxicmp-qt-subtitle-compatibility.png": "840×650"
+  },
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "installedProfileSha256": "1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad",
+  "privatePulseModulesRemoved": true,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "githubWorkflowExecuted": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "parityPlanItem3RemainderDeferred": true,
+  "nextParityPlanItem": 14,
+  "limitations": [
+    "libmpv does not expose Classic subtitle renderer selection, frame queue capacity or libass cache size controls",
+    "clear-on-seek is a text event cache workaround for broken MKV ReadOrder, not a font/video cache switch",
+    "short gap correction requires ASS style override, including converted SRT; authored ASS is not duration-stretched",
+    "complex shaper availability depends on libass build; target-specific typography needs verification",
+    "DVD scaling, audio-outlasting-video and all VSFilter variants are checked through native API but not exhaustively on real sources",
+    "physical GPU, Wayland, HiDPI and target desktop verification pending"
+  ]
+}

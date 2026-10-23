@@ -1,7 +1,8 @@
 # Standalone progressive-preview adapter
 
-This directory preserves the exact Harvester adapter sources used to validate
-FoxicMP's progressive Windows playback. It is an opt-in command-line test tool;
+This directory contains the Harvester adapter used to validate FoxicMP's
+progressive Windows playback, extended with an experimental Linux provider.
+It is an opt-in command-line test tool;
 it does not enable or modify the Harvester GUI. It contains no cookies, media,
 FFmpeg binaries, or packaged Harvester executable.
 
@@ -33,12 +34,37 @@ The snapshot originates from the progressive-preview work in
 https://github.com/LiberVixer/YouTubeHarvester and is included with FoxicMP under
 GPL-3.0-or-later. The Harvester GUI integration intentionally remains disabled.
 
+Linux / Qt 0.1.10: run the same adapter with Python 3.11+, yt-dlp and FFmpeg.
+Its provider automatically selects authenticated Unix IPC on Linux. Open a
+ready single-track H.264/AAC MP4/M4A pair with:
+
+```sh
+./foxicmp-qt --harvester-session /path/to/session.json
+```
+
+Qt accepts fragmented MP4 and ordinary fast-start MP4 with known byte lengths
+and a complete `moov` before media data. Tail metadata is rejected. The local
+cached-HLS adapter produces fMP4 without a second download; DRM, live and
+discontinuities remain unsupported.
+The reader starts with ten shared seconds, waits through missing data, preserves
+manual pause, and restricts seeking to confirmed packets in its bounded cache.
+Qt software trials cover 0/±70/±240 ms track offsets, flash/beep timing after
+buffering and seeking, and public YouTube, Rutube HLS and VK downloads.
+The mode remains experimental; physical speaker/display latency and GPU/Wayland
+still need hardware trials.
+Linux IPC adds a per-reader `readerId` so two readers within the same player
+process cannot release one another's lease. A `leaseAck: true` attachment requests
+an `attached` reply after the lease is persisted; Qt waits for this reply before
+opening the source files. Older clients still receive only heartbeats.
+Restarted providers retain unknown
+persisted reader leases until process exit rather than guessing that files are free.
+
 Local adapter tests (FFmpeg on PATH):
 
 ```sh
-python -m unittest tests.test_progressive_playback tests.test_progressive_http tests.test_progressive_hls
+python -m unittest tests.test_progressive_playback tests.test_progressive_http tests.test_progressive_hls tests.test_progressive_unix
 ```
 
 The protocol test subset omits the two full-Harvester launcher/downloader tests;
-those require its GUI repository and remain tested there. Adapter modules themselves
-are unchanged copies of the validated sources.
+those require its GUI repository and remain tested there. The Windows provider
+is retained; Linux dispatch and lifetime checks are covered separately.

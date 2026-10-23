@@ -1,0 +1,95 @@
+FoxicMP Qt Linux 0.1.32 — свойства, диагностика и сохранение, пункт 16
+Дата: 16 октября 2026. Ветка codex/linux-qt.
+
+Функции
+Ctrl+Alt+I — немодальные свойства текущего источника. Основное/дорожки/JSON/
+MediaInfo-FFprobe. Native snapshot, explicit Refresh; JSON и внешний отчёт
+копируются отдельно. Разрешение/FPS, container/size/duration, codecs/bitrates,
+audio sample rate/channels, tags/chapters/cache. Неизвестное не подменяется.
+External report — только по кнопке для локального файла, MediaInfo либо FFprobe,
+10 секунд и 1 МиБ. Закрытие завершает worker. Сетевой источник через libmpv.
+
+Ctrl+S — снимок с диалогом, F12 — без диалога, Alt+C — кадр в clipboard.
+Отдельная команда Qt displayed video-area со scale/полями/OSD. Настройки:
+PNG/JPEG/BMP/WebP при наличии Qt writer, качество1–100 default90; субтитрыtrue.
+Defaults PNG; выбранные параметры сохраняются в соседнем INI. Cancel/reset.
+Native screenshot-raw async, ограниченная копия bgr0 positive stride <=33554432
+пикселей до освобождения mpv_event_command. Не более4 pending captures.
+QImageWriter/QSaveFile, атомарный вывод. Промежуточный PNG не создаётся.
+Старый public saveFrame сохранён, регрессии API прошли.
+Снимок кадра не равен физическому цвету композитора/ICC/HDR экрана.
+Qt widget grab отображаемой области включает OSD и поддержанные Qt children.
+
+Лист миниатюр: FFmpeg через изолированный FramePreview decoder, selected
+internal ff-index (явный -map), local file, известная длительность<=7 суток.
+Grid1–6×1–10, width80–480; defaults4×4/240. Равномерные точки внутри duration,
+letterbox и timestamp. Player seek/pause не меняются. Без player filters/subtitles/
+ICC/shaders. Progress/cancel; один активный лист. Decode timeout3,5s/frame.
+
+Копия: local completed file без перекодирования; 1MiB per Qt timer tick,
+progress/cancel, QSaveFile сохраняет прежний target при отмене/ошибке.
+Проверяются размер и mtime источника; замена исходного файла запрещена.
+Один copy job. Сетевые/устройства/диски/incomplete-progressive не копируются.
+Одна файловая операция на медленной ФС может задержать UI.
+
+Проверки
+26/26 Software — 455.78 с.
+26/26 requested OpenGL — 472.5 с; actual Software fallback.
+MediaExportsTest: 8 passed, 0 failed, 0 skipped в каждом режиме.
+Native raw pixels320×180; selected external subtitles дают другой кадр; clipboard
+image; Qt-area с настоящим QLabel OSD overlay отличается от исходного кадра;
+quick saves уникальны; ошибка записи/защита source; pause/resume работают.
+PNG/BMP pixels без потерь, JPEG quality10/95 меняет размер; доступные форматы
+декодируются, unknown extension не заменяет target. Properties native tracks/
+resolution/JSON и отчёт FFprobe; settings Cancel/OK/reset; shortcuts unique.
+FFmpeg sheet2×2/160 реальных кадров368×330, timestamps, explicit stream failure,
+cancel. Реальные menu + QFileDialog + sheet/copy outputs, pause/position preserved.
+Смена текущего файла внутри диалога копирования не меняет выбранный источник.
+Byte copy16MiB равна источнику; cancel/source mutation сохраняют старый target.
+В первом тесте не была выбрана subtitle track; исправлена explicit selection.
+Qt selectFile на открытом диалоге не менял line edit: driver исправлен на ввод
+fileNameEdit. Это не production-дефекты; окончательные полные прогоны выше.
+При визуальной проверке найдено пустое native video-codec-name: добавлен
+резерв из выбранной track.codec и video-codec, проверяется h264. FPS округлён
+для таблицы, исходное native число остаётся в JSON. После этого регрессии
+перезапущены на окончательной сборке.
+Все прежние25 наборов, включая ICC с корректным ожиданием кадра, прошли.
+Optional continuous-soak пропущен штатно.
+English catalog: 1299 source strings covered; 1322 entries; placeholders valid
+Измерения:
+{
+  "software": {
+    "byteCopyAtomicCancelAndChangedSourceGuard": true,
+    "imageFormatsQualityAndAtomicFailure": true,
+    "nativeFrameSubtitlesClipboardDisplayQuickAndPlayback": true,
+    "propertiesNativeTracksReportSettingsCancelResetShortcuts": true,
+    "sheetAndCopyMenuDialogsAndPause": true,
+    "sheetGridSelectedStreamCancelFailure": true
+  },
+  "opengl": {
+    "byteCopyAtomicCancelAndChangedSourceGuard": true,
+    "imageFormatsQualityAndAtomicFailure": true,
+    "nativeFrameSubtitlesClipboardDisplayQuickAndPlayback": true,
+    "propertiesNativeTracksReportSettingsCancelResetShortcuts": true,
+    "sheetAndCopyMenuDialogsAndPause": true,
+    "sheetGridSelectedStreamCancelFailure": true
+  }
+}
+
+Пакет
+FoxicMPQt-0.1.32-linux-x64.tar.gz
+4333248 байт
+SHA-256: 7595ae714f1d44b9a9e7c473c9eff2cf9f150722619f27858b1f8546a4af3df8
+Stripped app/version/help без INI, CUE/PLS natural exit, MPRIS/helper EOF,
+сохранение capture/format/quality/grid и прежних настроек проверены.
+Три реальные screenshots/лист включены; README/image bytes сверены.
+Личных INI/ICC/GLSL/history/temp нет. 41 неизменяемый файл установленной0.1.26
+совпадает с архивом; установленную копию/личный INI задача не перезаписывала.
+Harvester GUI off. Commit/push/release/CI не выполнялись.
+
+Границы
+Physical GPU/Wayland/ICC/HDR или Qt native GL capture не подтверждены fallback
+испытаниями. MediaInfo необязателен; здесь проверен прежде всего FFprobe.
+Следующий этап — пункт17, интеграция/профиль/обслуживание; отложенные физические
+устройства и оборудование не объявлены завершёнными.
+API: https://github.com/mpv-player/mpv/blob/v0.37.0/DOCS/man/input.rst

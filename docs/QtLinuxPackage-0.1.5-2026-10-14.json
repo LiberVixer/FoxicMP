@@ -1,0 +1,10 @@
+{
+  "version": "0.1.5",
+  "archive": "FoxicMPQt-0.1.5-linux-x64.tar.gz",
+  "sha256": "0c5827080a8c94b409fd038e95d894ec2700b3b959611a90f01d15f9d57b8086",
+  "checks": "3/3 CTest passed software and requested OpenGL/Mesa fallback; private D-Bus system transport; packaged exit at EOF",
+  "not_verified": [
+    "physical GPU",
+    "actual OS sleep/power/logout/lock transitions"
+  ]
+}

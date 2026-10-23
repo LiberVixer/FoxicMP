@@ -1,0 +1,33 @@
+FoxicMP Qt 0.1.57 — Window Size page / Classic, 2026-10-21
+
+Reference: native IDD_PPAGEWINDOWSIZE screenshot captured on 2026-10-20.
+Four startup radio choices: default, remembered, fixed window, fixed video area.
+Explicit default startup uses 1060x680 and retains saved custom dimensions.
+Current Size reads the window or Player widget according to the selected mode.
+Dimension controls are disabled for default/remembered startup.
+Playback scaling uses do-not-change / scale-to-video with 50%, 100%, 200%.
+Restore-after-close, geometry persistence, video aspect and snapping keep existing keys/defaults.
+Additional frame/panel controls are collapsed, with all draft values preserved.
+
+CTest Software, targeted regression: 7 groups passed, 0 failed, 279.73 seconds.
+Groups: classic-interface, window-title, window-presentation, appearance,
+input-control, video-output, profile-archives.
+ClassicUiTest: 13 passed; WindowTest: 13 passed.
+New tests cover current dimensions, radio/choice synchronization, enabled states,
+Apply/Cancel/reopen, unclipped page and default startup overriding restored size.
+RU/EN catalog and generated Classic menu resource consistency checks passed.
+Real X11 screenshot inspected: groups and labels fit without page scrolling.
+
+Full 36-group suite and requested OpenGL 4-group baseline: version 0.1.56.
+Those full suites were not repeated for 0.1.57; see its package manifest for
+the completed archive smoke, UI capture and installation verification.
+
+Remaining: independent window position/size persistence, screen-fit scaling,
+enlarge-only policy, exact overall dialog dimensions and other property pages.
+Full pixel parity is not achieved. Physical devices remain deferred; Wayland excluded.
+
+Package UI: O opens settings and Escape cancels, actual X11 capture verified.
+Archive smoke passed; installed version updated from 0.1.56 to 0.1.57.
+All 63 installed package files match the archive; UI-tested binary matches installation.
+INI/log and launcher preserved, backup: _bin/FoxicMPQt-linux-x64.backup-20261021-112039.
+Archive SHA-256: c1c114b3224233577d65328d498c5325355c2f40914f5703897c84e9578ea2dc

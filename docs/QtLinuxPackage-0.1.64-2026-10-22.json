@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-22",
+  "version": "0.1.64",
+  "archive": "_bin/qt-release/FoxicMPQt-0.1.64-linux-x64.tar.gz",
+  "sha256": "a001385151164d1a858924ac80b6bf4da5ffb31607041e9e8db43cb1ee0fd4c5",
+  "installed": "_bin/FoxicMPQt-linux-x64",
+  "backup": "_bin/FoxicMPQt-linux-x64.backup-20261022-213049",
+  "profileUnchanged": true,
+  "launcherUnchanged": true,
+  "tests": {
+    "classic-interface": "passed",
+    "window-title": "passed",
+    "appearance": "passed",
+    "translations": "passed"
+  }
+}

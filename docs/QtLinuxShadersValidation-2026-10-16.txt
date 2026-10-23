@@ -1,0 +1,285 @@
+FoxicMP Qt Linux 0.1.30 — GLSL и статистика, продолжение пункта 15
+Дата: 16 октября 2026, Europe/Moscow. Ветка codex/linux-qt.
+
+GLSL
+Ctrl+Alt+V, общие настройки и «Изображение и звук» → «Видео — шейдеры».
+Default off. До 16 элементов × 64 КиБ, профиль ≤ 2 МиБ. Имя/галочка/порядок/этап
+MAIN либо SCALED. Порядок внутри этапа; все MAIN раньше SCALED. Шаблоны
+identity/greyscale/invert/gentle sharpen написаны для проекта. Один vec4 hook(),
+HOOKED helpers; без директив/метаданных/compute/произвольных multi-pass файлов.
+Checker отдельный процесс, GL3.3 wrapper compile/link, 4sec/entry; во время
+валидации пользовательский код не рисуется. Включённая ошибочная цепочка
+не закрывает три диалога. Выключенная допускает незавершённый GLSL.
+INI на старте проверяется структурно, без повторной компиляции; отложенные
+ошибки native pipeline требуют проверки изображения/vo-passes.
+OK → INI source + generated Shaders/<SHA256>.glsl. Текущая папка профиля
+используется для путей, передаваемых native node-array, без colon splitting.
+Cancel не генерирует файлы. Disable/reset снимает список без удаления копий.
+Software сохраняет выбор, но GLSL не действует.
+
+Статистика и шаблон
+Ctrl+Alt+G, меню Вид/context. Nonmodal window, backend/driver, codec/hwdec,
+FPS hints, sync/active, A/V/jitter и drop counters; недоступное «—».
+UI render wall time: last/avg/peak по последним 120 вызовам, не физическая
+задержка/не FPS видео, GL finish/повторы/grab могут входить в GL время.
+Native fresh/redraw passes и nanoseconds→ms только при доступности libmpv.
+Reset local samples/native baselines не меняет settings/pause/позицию;
+new media resets measurements. JSON → clipboard.
+Qt moving vertical line overlay: визуальный compositor test, не native pass.
+Видео продолжается, отключение/закрытие диалога удаляет overlay. Screenshot
+не доказывает отсутствие tearing. Physical display verification pending.
+
+Проверки
+24/24 Software — 432.33 с.
+24/24 requested OpenGL — 450.14 с; actual Software fallback.
+VideoShadersTest: 6 passed, 0 failed, 0 skipped в каждом режиме.
+Четыре GLSL preset compile/link и controlled offscreen pixel probes на Mesa
+llvmpipe: source RGB(64,128,192), invert≈(191,127,63), grey≈(119,119,119),
+identity/sharpen constant preserve. Это отдельный offscreen GL, не физический
+GPU плеера. Неверный GLSL compile failure, structural/name/stage/size limits.
+Native file bytes/hooks/list order, per-entry enabled, portable regeneration,
+master off/reset, Cancel no files, all three validation dialogs checked.
+Real Software framebuffer unchanged with requested GLSL on pause; resume works.
+Statistics live calls/time ordering, reset pause preserved, JSON clipboard,
+empty Software GPU-pass list, pattern creation/removal and playback checked.
+Все прежние 23 набора прошли; один optional continuous-soak пропущен.
+English catalog: 1222 source strings covered; 1242 entries; placeholders valid
+Измерения:
+{
+  "software": {
+    "portableShaderFilesVerified": true,
+    "probe-gray": {
+      "blue": 119,
+      "green": 119,
+      "ok": true,
+      "red": 119,
+      "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)"
+    },
+    "probe-identity": {
+      "blue": 192,
+      "green": 128,
+      "ok": true,
+      "red": 64,
+      "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)"
+    },
+    "probe-invert": {
+      "blue": 63,
+      "green": 127,
+      "ok": true,
+      "red": 191,
+      "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)"
+    },
+    "probe-sharpen": {
+      "blue": 192,
+      "green": 128,
+      "ok": true,
+      "red": 64,
+      "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)"
+    },
+    "renderStatsBeforeReset": {
+      "averageMs": 5.311100428571429,
+      "avsync": null,
+      "decoder-frame-drop-count": 0,
+      "display-sync-active": false,
+      "estimated-display-fps": null,
+      "estimated-vf-fps": 25,
+      "frame-drop-count": 1,
+      "glDriver": null,
+      "hwdec-current": "no",
+      "lastMs": 1.491228,
+      "mistimed-frame-count": null,
+      "peakMs": 25.832333,
+      "renderCalls": 7,
+      "renderer": "Software",
+      "samples": 7,
+      "swapIntervalReported": null,
+      "swapIntervalRequested": 1,
+      "video-codec": "FFmpeg video codec #1",
+      "video-out-params": {
+        "aspect": 1.7777777910232544,
+        "aspect-name": "16:9",
+        "average-bpp": 12,
+        "chroma-location": "mpeg2/4/h264",
+        "colorlevels": "limited",
+        "colormatrix": "bt.601",
+        "crop-h": 180,
+        "crop-w": 320,
+        "crop-x": 0,
+        "crop-y": 0,
+        "dh": 180,
+        "dw": 320,
+        "gamma": "bt.1886",
+        "h": 180,
+        "light": "display",
+        "par": 1,
+        "pixelformat": "yuv420p",
+        "primaries": "bt.709",
+        "rotate": 0,
+        "sar": 1.7777777910232544,
+        "sar-name": "16:9",
+        "sig-peak": 0,
+        "stereo-in": "mono",
+        "w": 320
+      },
+      "video-params": {
+        "aspect": 1.7777777910232544,
+        "aspect-name": "16:9",
+        "average-bpp": 12,
+        "chroma-location": "mpeg2/4/h264",
+        "colorlevels": "limited",
+        "colormatrix": "bt.601",
+        "crop-h": 180,
+        "crop-w": 320,
+        "crop-x": 0,
+        "crop-y": 0,
+        "dh": 180,
+        "dw": 320,
+        "gamma": "bt.1886",
+        "h": 180,
+        "light": "display",
+        "par": 1,
+        "pixelformat": "yuv420p",
+        "primaries": "bt.709",
+        "rotate": 0,
+        "sar": 1.7777777910232544,
+        "sar-name": "16:9",
+        "sig-peak": 0,
+        "stereo-in": "mono",
+        "w": 320
+      },
+      "video-sync": "audio",
+      "vo-delayed-frame-count": 0,
+      "vo-passes": null,
+      "vsync-jitter": null
+    },
+    "softwareFallbackPixelsUnchanged": true
+  },
+  "opengl": {
+    "portableShaderFilesVerified": true,
+    "probe-gray": {
+      "blue": 119,
+      "green": 119,
+      "ok": true,
+      "red": 119,
+      "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)"
+    },
+    "probe-identity": {
+      "blue": 192,
+      "green": 128,
+      "ok": true,
+      "red": 64,
+      "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)"
+    },
+    "probe-invert": {
+      "blue": 63,
+      "green": 127,
+      "ok": true,
+      "red": 191,
+      "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)"
+    },
+    "probe-sharpen": {
+      "blue": 192,
+      "green": 128,
+      "ok": true,
+      "red": 64,
+      "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)"
+    },
+    "renderStatsBeforeReset": {
+      "averageMs": 3.643999428571429,
+      "avsync": null,
+      "decoder-frame-drop-count": 0,
+      "display-sync-active": false,
+      "estimated-display-fps": null,
+      "estimated-vf-fps": 24.999999999999996,
+      "frame-drop-count": 15,
+      "glDriver": "llvmpipe (LLVM 20.1.2, 256 bits)",
+      "hwdec-current": "no",
+      "lastMs": 2.048216,
+      "mistimed-frame-count": null,
+      "peakMs": 15.394073,
+      "renderCalls": 7,
+      "renderer": "Software",
+      "samples": 7,
+      "swapIntervalReported": 1,
+      "swapIntervalRequested": 1,
+      "video-codec": "FFmpeg video codec #1",
+      "video-out-params": {
+        "aspect": 1.7777777910232544,
+        "aspect-name": "16:9",
+        "average-bpp": 12,
+        "chroma-location": "mpeg2/4/h264",
+        "colorlevels": "limited",
+        "colormatrix": "bt.601",
+        "crop-h": 180,
+        "crop-w": 320,
+        "crop-x": 0,
+        "crop-y": 0,
+        "dh": 180,
+        "dw": 320,
+        "gamma": "bt.1886",
+        "h": 180,
+        "light": "display",
+        "par": 1,
+        "pixelformat": "yuv420p",
+        "primaries": "bt.709",
+        "rotate": 0,
+        "sar": 1.7777777910232544,
+        "sar-name": "16:9",
+        "sig-peak": 0,
+        "stereo-in": "mono",
+        "w": 320
+      },
+      "video-params": {
+        "aspect": 1.7777777910232544,
+        "aspect-name": "16:9",
+        "average-bpp": 12,
+        "chroma-location": "mpeg2/4/h264",
+        "colorlevels": "limited",
+        "colormatrix": "bt.601",
+        "crop-h": 180,
+        "crop-w": 320,
+        "crop-x": 0,
+        "crop-y": 0,
+        "dh": 180,
+        "dw": 320,
+        "gamma": "bt.1886",
+        "h": 180,
+        "light": "display",
+        "par": 1,
+        "pixelformat": "yuv420p",
+        "primaries": "bt.709",
+        "rotate": 0,
+        "sar": 1.7777777910232544,
+        "sar-name": "16:9",
+        "sig-peak": 0,
+        "stereo-in": "mono",
+        "w": 320
+      },
+      "video-sync": "audio",
+      "vo-delayed-frame-count": 0,
+      "vo-passes": null,
+      "vsync-jitter": null
+    },
+    "softwareFallbackPixelsUnchanged": true
+  }
+}
+Build clean, clang-format passed, три реальных screenshots inspected/bundled.
+Найден конфликт Ctrl+Alt+R с редактором субтитров; новая статистика использует
+Ctrl+Alt+G. Добавлена проверка отсутствия совпадающих action shortcuts.
+
+Пакет
+FoxicMPQt-0.1.30-linux-x64.tar.gz
+4014884 байт
+SHA-256: ad4a5c220141ac8f260e7b52883e5acb0675dfa27b668eb6455e7a7cefb4d0ef
+Stripped app/version/help без INI, CUE/PLS natural exit, MPRIS/helper EOF,
+settings preservation и packaged shader checker + invert probe проверены.
+Личных INI/ICC/GLSL/history/pyc/temp нет. README/images bytes проверены.
+41 неизменяемый файл установленной 0.1.26 совпадают с архивом; installed copy и
+личный INI эта задача не перезаписывала. Harvester GUI off. Commit/push/release/
+CI workflow не выполнялись.
+
+Далее
+Auto OS/per-monitor ICC и physical GPU/shader/ICC/VSync/tearing tests остаются.
+Управляемый редактор не равен универсальному Windows HLSL/mpv shader importer.
+API: https://github.com/mpv-player/mpv/blob/v0.37.0/DOCS/man/options.rst
+Stats: https://github.com/mpv-player/mpv/blob/v0.37.0/DOCS/man/input.rst

@@ -1,0 +1,57 @@
+FoxicMP Qt 0.1.62 — organized menu validation, 2026-10-22
+
+The menu bar and video context menu now share nine functional sections:
+File, Playback, Video, Audio, Subtitles, Library, View, Tools and Help.
+The same QMenu/QAction objects are reused, so shortcuts, checkmarks, enabled
+states and dynamic track/history entries stay synchronized. The hierarchy is
+unchanged when the main menu is hidden or the player enters fullscreen.
+
+File contains sources, recent files, reopen/close, media copy and properties.
+Playback contains seek, chapters, frame stepping, speed, repeat/A–B and the
+after-playback action. Video contains video track, aspect/fitting, zoom,
+position/crop, rotation/mirroring, color/ICC, shaders, stereo and video output.
+Audio contains tracks, external audio, volume, delay, output device and audio
+processing. Subtitles contains tracks, visibility, loading, delay, cue stepping,
+style, editor and reload. Library contains playlist operations, history and
+favorites. View contains fullscreen, window size, panels and window modes.
+Tools contains captures, web control, profiles, associations and diagnostics.
+Help contains shortcuts, command-line help, updates, project page and About.
+
+The former catch-all “Дополнительно” menu was removed. Classic commands that
+have no Linux implementation are omitted instead of occupying disabled empty
+placeholders. The old Classic resource remains the source of command captions,
+IDs and aliases; the user-approved Linux grouping controls placement.
+
+Checks:
+  - Russian and English menu inventories: 9/9 sections, passed.
+  - Context menu: right-click opens the same ordered sections in X11 capture.
+  - File menu: left-click opens the grouped source/history/actions menu.
+  - Preference links: color, audio, subtitle placement and keyboard pages open.
+  - Shared actions: shortcut display, enabled state and checkmarks stay synced.
+  - Main menu and context screenshots captured from the stripped package.
+  - 19 selected CTest groups passed: 8 UI groups, 10 controls groups, and the
+    corrected video-transform group. Player's optional continuous-playback soak
+    remained skipped because FOXICMP_TEST_SOAK_SECONDS was not requested.
+
+The first controls run lost its Xvfb display after the UI test and was discarded.
+Its ten unaffected groups were rerun successfully; video-transform initially
+had a test-only coordinate assumption for the 160-pixel mono SBS raster. The
+test now samples actual output dimensions and normalized positions; the player
+filter implementation was unchanged. The corrected video-transform run passed
+7/7 cases. No Windows installation/profile, Wayland test or physical equipment
+was changed or used.
+
+Package/UI evidence:
+  _bin/qt-build-062-verified.log
+  _bin/qt-ctest-0.1.62-ui.log
+  _bin/qt-ctest-0.1.62-controls.log
+  _bin/qt-ctest-0.1.62-transform-final.log
+  _bin/qt-package-062-ui.json
+  _bin/qt-package-062-smoke.json
+  docs/images/foxicmp-qt-context-menu.png
+  docs/images/foxicmp-qt-linux.png
+
+Installed Linux version: 0.1.61 -> 0.1.62.
+Backup: _bin/FoxicMPQt-linux-x64.backup-20261022-080441
+Archive SHA-256: 648393b7a422d0dfc0fff1eb6a8fc34468ecac932645b3a144ea2c8f2362bbef
+The current INI/log and desktop launcher were preserved byte-for-byte.

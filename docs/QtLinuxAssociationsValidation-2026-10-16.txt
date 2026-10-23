@@ -1,0 +1,74 @@
+FoxicMP Qt Linux 0.1.34 — форматы и ассоциации Linux; вторая часть пункта 17
+Дата: 16 октября 2026. Ветка codex/linux-qt.
+
+Вид → Форматы и ассоциации Linux…; также кнопка в общих настройках.
+Поиск/наборы видео/аудио/плейлисты. MIME-типы из базы системы; не гарантия
+декодирования любого формата. Папки, URL и автозапуск дисков не назначаются.
+Все изменения только по кнопке, применяются сразу. Закрытие не отменяет их.
+
+Register: один global foxicmp-qt.desktop, текущий executable + --profile;
+Desktop Action Enqueue, разделитель -- перед %F. Путь переносится/исправляется
+в .desktop и Nemo вместе с профилем. Непригодные control characters/relative
+path, '=' в executable отвергаются. Регистрация другой копии заменяет target.
+Асинхронный update-desktop-database 3 s deadline/error/kill/reap. Проверено
+реальное появление в Registered applications через gio; default при отдельной
+регистрации не меняется. CLI/query/help/version предыдущих этапов сохранены.
+
+Assign: только selected defaults в user $XDG_CONFIG_HOME/mimeapps.list;
+fallback IDs сохранены, только собственный ID убирается из Removed Associations.
+Unrelated sections/keys/comments/CRLF сохраняются. UTF-8 без BOM, <=1 MiB;
+duplicate sections/keys отвергаются. QLockFile + QSaveFile и compare before
+commit. Lock advisory; полностью исключить стороннюю гонку чужого writer нельзя.
+Backup per-key в integration/defaultsBackupV1 выбранного профиля, до commit.
+Restore сравнивает expected, восстанавливает before/null, не перезаписывает
+более поздний выбор другого приложения. Повторный Assign не теряет predecessor.
+Cross-path/corrupt/injected journal отвергается; ошибка записи профиля не меняет
+MIME-файл. Лишние пустые разделы после отката допустимы. Не rollback ярлыка.
+Remove Nemo сохраняет .desktop при references в user/system/current-desktop
+mimeapps/defaults.list. Действующие desktop-specific overrides не переписываются.
+
+Таблица показывает первый generic user ID, а не effective default. Выделенный
+тип проверяется отдельно через gio mime LC_ALL=C: async, 3 s, <=64 KiB, без
+воспроизведения файла. Действующий desktop override проверен настоящим gio.
+No startup/default auto-reassignment; проверка меню исправляет только paths.
+
+Проверки
+Software: 28/28 CTest, 483.67 sec.
+Requested OpenGL: первый прогон 27/28, 520.1 sec, actual Software
+fallback. Сбой в прежнем AudioEncodingTest AC3/PCM на паузе. Найдена неточность теста: он
+принимал временно отсутствующий output format за завершённый PCM переход.
+Условие усилено: непустой PCM + инициализированные audio params/aid до нового
+переключения. Рабочий аудиокод не менялся. Усиление условия не устранило сбой полностью: Software 4 успешных повтора,
+на пятом снова failure уже при ожидании PCM. Второй режим: 5/5 успешных
+повторов всего аудионабора, 7 cases/run. Причина не установлена, проблема
+считается нерешённой. Исходные failure logs сохранены.
+AssociationsTest: 11 passed в каждом режиме. Реальные gio и desktop-file-validate.
+Все видео + точный undo; аудио не меняется. Foreign default/fallback/added/
+removed IDs/comments/newlines сохраняются. Later app edits пропускаются.
+Lock/duplicate/corrupt/cross-path/injection/profile-write-error проверены.
+Cache timeout/failure не блокирует Qt event loop. QObject teardown убирает child.
+Реальный запуск helper: Unicode/spaces/dollar/percent/quotes/backtick/backslash,
+--profile и file arguments переданы точно. Nemo repair после переноса target.
+GUI selection/search/query/apply/undo/menu; pause/position сохранены.
+Скриншот реального Qt окна просмотрен и вложен в пакет.
+English catalog: 1368 source strings covered; 1395 entries; placeholders valid
+
+Изоляция: temporary XDG_CONFIG_HOME/DATA_HOME/CONFIG_DIRS, custom desktop.
+Рабочие ассоциации/меню Linux не изменялись. Linux 0.1.26 не установлена заново;
+41 файла пакета равны исходному архиву. Личный профиль не записывался.
+Windows-профиль/Harvester UI не менялись. Commit/push/release не выполнялись.
+
+Ограничения: физические Nemo/Cinnamon/Wayland, GPU/ICC/HDR не подтверждены.
+Один global desktop ID; другие profile/copy заменяют launcher. Desktop-specific
+priorities показываются, не принудительно заменяются. Codec parity не обещана.
+Пункт 17 остаётся частичным: профиль export/import/reset, обслуживание, web,
+другие CLI и подходящая folder/disc autoplay интеграция ещё впереди.
+
+Спецификации:
+https://specifications.freedesktop.org/mime-apps/latest/default.html
+https://specifications.freedesktop.org/mime-apps/latest/file.html
+https://specifications.freedesktop.org/desktop-entry/latest/exec-variables.html
+
+Архив: FoxicMPQt-0.1.34-linux-x64.tar.gz
+Размер: 4579823 bytes
+SHA256: ff23b930df642cffc8ec6996f4da7ce9b5a5babfe52156fb12529b0e366f29bf

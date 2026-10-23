@@ -1,0 +1,104 @@
+{
+  "version": "0.1.63",
+  "date": "2026-10-22",
+  "archive": "_bin/qt-release/FoxicMPQt-0.1.63-linux-x64.tar.gz",
+  "sha256": "2fe4d8678e4f1ecc3153f07c59d88ee31fa4553df960f67fdb2bce82663977e3",
+  "installedPlayerUpdated": true,
+  "installation": {
+    "date": "2026-10-22",
+    "previousVersion": "FoxicMPQt 0.1.62",
+    "installedVersion": "FoxicMPQt 0.1.63",
+    "directory": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64.backup-20261022-115041",
+    "archiveSha256": "2fe4d8678e4f1ecc3153f07c59d88ee31fa4553df960f67fdb2bce82663977e3",
+    "programFilesVerified": 64,
+    "preservedFiles": [
+      "FoxicMPQt.ini",
+      "FoxicMPQt.log"
+    ],
+    "profileUnchanged": true,
+    "launcherUnchanged": true,
+    "started": false
+  },
+  "ctest": [
+    {
+      "name": "classic-interface",
+      "passed": true,
+      "seconds": 152.85,
+      "log": "_bin/qt-ctest-0.1.63-status.log"
+    },
+    {
+      "name": "player",
+      "passed": true,
+      "seconds": 68.99,
+      "log": "_bin/qt-ctest-0.1.63-status.log"
+    },
+    {
+      "name": "window-title",
+      "passed": true,
+      "seconds": 23.74,
+      "log": "_bin/qt-ctest-0.1.63-status.log"
+    },
+    {
+      "name": "window-presentation",
+      "passed": true,
+      "seconds": 44.28,
+      "log": "_bin/qt-ctest-0.1.63-status.log"
+    },
+    {
+      "name": "appearance",
+      "passed": true,
+      "seconds": 47.38,
+      "log": "_bin/qt-ctest-0.1.63-appearance.log"
+    }
+  ],
+  "packageSmoke": {
+    "version": "0.1.63",
+    "sha256": "2fe4d8678e4f1ecc3153f07c59d88ee31fa4553df960f67fdb2bce82663977e3",
+    "cliQueriesPassed": true,
+    "queriesDoNotCreateProfile": true,
+    "documentationImagesPresent": true,
+    "profilesNotBundled": true
+  },
+  "packagedX11Capture": [
+    {
+      "requestedWidth": 1060,
+      "size": [
+        1060,
+        680
+      ],
+      "caption": "chapters.mkv - FoxicMP x64 0.1.63",
+      "image": "packaged-status-1060.png",
+      "capture": "actual X11 window from stripped package, isolated profile"
+    },
+    {
+      "requestedWidth": 560,
+      "size": [
+        560,
+        680
+      ],
+      "caption": "chapters.mkv - FoxicMP x64 0.1.63",
+      "image": "packaged-status-560.png",
+      "capture": "actual X11 window from stripped package, isolated profile"
+    }
+  ],
+  "windowsReference": "docs/images/classic-reference-2026-10-20/main.png",
+  "windowsSourceReferences": [
+    "src/apps/mplayerc/MainFrm.cpp:13838",
+    "src/apps/mplayerc/MainFrm.cpp:4492",
+    "src/apps/mplayerc/MainFrm.cpp:4663",
+    "src/apps/mplayerc/PlayerToolBar.cpp:493",
+    "src/apps/mplayerc/PlayerToolBar.cpp:527",
+    "src/apps/mplayerc/PlayerStatusBar.cpp:291"
+  ],
+  "freshWindowsCapture": false,
+  "windowsProfileModified": false,
+  "nativeWindowDecorations": "Managed by Linux desktop; pixel identity with Windows caption/buttons is not claimed.",
+  "hardwareTestsRun": false,
+  "waylandTestsRun": false,
+  "notes": [
+    "GPU indicator asset loaded and software playback suppresses it. Physical decoding was not tested.",
+    "Tahoma requested at 13 logical pixels; actual substitution depends on installed fonts.",
+    "Existing title templates and other profile settings preserved."
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "version": "FoxicMPQt 0.1.27",
+  "archive": "FoxicMPQt-0.1.27-linux-x64.tar.gz",
+  "bytes": 3438782,
+  "sha256": "8008a16d36518d2b850551f25f61da4085dd317eb25a4cb0b03aad53e7909475",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableTabsAndCueChaptersSaved": true,
+  "playback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.685
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.684
+    }
+  },
+  "cliOptionsChecked": true,
+  "libraryPreferencesPreserved": true,
+  "historyUpdatedBesideBinary": true,
+  "historyAndFavoritesScreenshotsBundled": true,
+  "windowPreferencesPreserved": true,
+  "fullscreenStartupAndNaturalExitRun": true,
+  "windowScreenshotsBundled": true,
+  "appearanceAndOsdPreferencesPreserved": true,
+  "englishCatalogBundled": true,
+  "mprisPackagedWireCommandsVerified": true,
+  "transformPreferencesPreserved": true,
+  "transformScreenshotsBundled": true,
+  "inputPreferencesPreserved": true,
+  "mouseAndInputScreenshotsBundled": true,
+  "subtitleCommandsAndScreenshotsBundled": true,
+  "subtitlePreferencesPreserved": true,
+  "subtitleStylePreferencesPreserved": true,
+  "subtitleRenderPreferencesPreserved": true,
+  "audioProcessingPreferencesPreserved": true,
+  "videoOutputPreferencesPreserved": true,
+  "audioEncodingPreferencesPreserved": true,
+  "customAudioFilterPreferencesPreserved": true,
+  "audioRoutingPreferencesPreserved": true,
+  "audioOutputHelperBundled": true,
+  "packagedAudioHelperLeaseVerified": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "status": "development preview; item 15 scaling and decoding controls implemented; item 15 continues",
+  "ctestSoftware": {
+    "passed": 22,
+    "total": 22,
+    "seconds": 408.63
+  },
+  "ctestRequestedOpenGL": {
+    "passed": 22,
+    "total": 22,
+    "seconds": 425.36,
+    "actual": "Software fallback"
+  },
+  "videoOutputChecksPerMode": 6,
+  "measurements": {
+    "software": {
+      "bilinearMidtones": 19061,
+      "deinterlaceChangedPixels": 9332,
+      "deinterlaceEstimatedFps": 49.99999999999996,
+      "nearestBilinearDifferentPixels": 36463,
+      "nearestMidtones": 0
+    },
+    "opengl": {
+      "bilinearMidtones": 19061,
+      "deinterlaceChangedPixels": 9332,
+      "deinterlaceEstimatedFps": 49.99999999999996,
+      "nearestBilinearDifferentPixels": 36463,
+      "nearestMidtones": 0
+    }
+  },
+  "translationCheck": "English catalog: 1100 source strings covered; 1120 entries; placeholders valid",
+  "softwareKernels": [
+    "native default",
+    "point",
+    "bilinear",
+    "bicubic",
+    "lanczos",
+    "spline",
+    "area"
+  ],
+  "gpuKernels": [
+    "native default",
+    "nearest",
+    "bilinear",
+    "bicubic",
+    "lanczos",
+    "spline36",
+    "ewa_lanczossharp"
+  ],
+  "explicitSoftwareKernelDisablesZimg": true,
+  "nativeDefaultsRestoredVerified": true,
+  "nativeStringListOptionsNormalized": true,
+  "deinterlaceDefault": false,
+  "deinterlaceAlgorithm": "native libmpv selection; no separate algorithm choice or automatic detection",
+  "hardwareBackends": [
+    "auto-copy (default)",
+    "vaapi-copy",
+    "nvdec-copy",
+    "vdpau-copy"
+  ],
+  "hardwareWhitelistDefault": "captured native libmpv whitelist",
+  "customHardwareCodecs": [
+    "h264",
+    "hevc",
+    "vp8",
+    "vp9",
+    "av1",
+    "vc1",
+    "mpeg2video",
+    "prores"
+  ],
+  "emptyCustomHardwareListDisablesHwdecVerified": true,
+  "existingMasterCheckboxSynchronizedVerified": true,
+  "decoderThreadsRange": [
+    0,
+    16
+  ],
+  "hardwareFailureFramesRange": [
+    1,
+    16
+  ],
+  "preferencesCancelApplyResetVerified": true,
+  "pausedApplyAndPlaybackContinuationVerified": true,
+  "installedPlayerUpdated": false,
+  "installedVersionPreserved": "0.1.26",
+  "installedProfileModified": false,
+  "installedProfileSha256": "1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad",
+  "testPulseModulesRemoved": true,
+  "physicalAudioHardwareVerified": false,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "githubPublished": false,
+  "githubWorkflowExecuted": false,
+  "harvesterGuiEnabled": false,
+  "screenshots": {
+    "docs/images/foxicmp-qt-video-scaling.png": "860×680",
+    "docs/images/foxicmp-qt-video-decoding.png": "860×680"
+  },
+  "nextParityPlanItem": 15,
+  "remainingParityItem15": [
+    "output range/precision and color management",
+    "display synchronization/VSync/frame timing",
+    "shaders/editor",
+    "tearing diagnostics and expanded renderer statistics"
+  ],
+  "limitations": [
+    "GPU kernel properties accepted but pixel results not verified on physical GPU",
+    "VA-API/NVDEC/VDPAU not physically exercised; unsupported FFV1 source decodes on CPU",
+    "software decoder thread/codec whitelist changes may require reopening media",
+    "deinterlacing is explicit on/off and can reduce progressive source quality",
+    "default kernel names depend on installed libmpv; restore uses captured values"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "version": "0.1.4 development preview",
+  "platform": "Linux Mint 22.3 x86_64 / X11 (isolated Xvfb tests)",
+  "qt": "6.4.2",
+  "libmpv": "0.37.0",
+  "archive": "FoxicMPQt-0.1.4-linux-x64.tar.gz",
+  "archive_bytes": 629944,
+  "sha256": "87ce2a98a49d18ce024151b06d1790eb6b4253b634afa68686a8111dc6ffe62e",
+  "software_suite": "CTest 2/2 passed; main QtTest 24 passed, 0 failed, optional soak skipped; tool UI QtTest 3 passed, 0 failed",
+  "continuous_playback": {
+    "seconds": 600,
+    "result": "3 passed, 0 failed; software output, looping chapters.mkv, responsiveness and minimize/restore verified",
+    "audio_output": "pipewire",
+    "internal_avsync_samples": 2028,
+    "maximum_absolute_internal_avsync_seconds": 0.00479972,
+    "heartbeat_ticks": 11974,
+    "decoder_frame_drops_last_loop": 0
+  },
+  "real_local_clips": "YouTube/Rutube/VK, 5 passed, 0 failed; online/progressive playback not covered",
+  "synthetic_4k": "H.264 3840x2160/30fps, opening/rendered frame/controls passed; performance not certified",
+  "packaged_launch": {
+    "version": "0.1.4",
+    "user_data_packaged": false,
+    "launch_seconds": 4,
+    "adjacent_profile": true,
+    "preserved_settings": true,
+    "history_recorded": true
+  },
+  "not_verified": [
+    "physical GPU OpenGL rendering and acceleration",
+    "physical speaker/display A/V latency",
+    "Wayland/HiDPI",
+    "hours-long playback",
+    "Qt Windows build",
+    "GitHub-hosted workflow execution"
+  ]
+}

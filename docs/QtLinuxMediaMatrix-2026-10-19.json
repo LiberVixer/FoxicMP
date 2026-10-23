@@ -1,0 +1,4866 @@
+{
+  "schema": 1,
+  "date": "2026-10-19",
+  "version": "0.1.53",
+  "generator": "synthetic-local",
+  "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "count": 29,
+  "linuxActualRenderers": {
+    "software": [
+      "Software"
+    ],
+    "opengl": [
+      "Software"
+    ]
+  },
+  "linuxChecks": [
+    "decoded moving frames",
+    "audio decoder params",
+    "track selection",
+    "pause",
+    "exact seek",
+    "natural EOF",
+    "reject invalid files and recover",
+    "MPEG file-local option reset"
+  ],
+  "classicVersion": "1.9.1.75 build 260920-1048",
+  "classicExeSha256": "cac6d8ec856db6cbd3b16b77bed62c447a76c0c7dec8cc4c96c5c153666b439d",
+  "classicChecks": [
+    "isolated process per case",
+    "same fixture SHA-256",
+    "uncompressed null video/audio renderers",
+    "opening and advancing position",
+    "invalid input denial"
+  ],
+  "classicProfileUnchanged": true,
+  "cases": [
+    {
+      "file": "Русский H264.mp4",
+      "expected": "play",
+      "bytes": 121169,
+      "sha256": "a7983829b3201469557d309aa718dc1b57594464a818e524a2cb579e572772ff",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "pix_fmt": "yuv420p",
+          "tags": {
+            "language": "und",
+            "handler_name": "VideoHandler",
+            "vendor_id": "[0][0][0][0]",
+            "encoder": "Lavc60.31.102 libx264"
+          }
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "language": "und",
+            "handler_name": "SoundHandler",
+            "vendor_id": "[0][0][0][0]"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.021333333333333,
+          "expected": "play",
+          "file": "Русский H264.mp4",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": true,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": true,
+              "demux-bitrate": 69693,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        },
+        "opengl": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.021333333333333,
+          "expected": "play",
+          "file": "Русский H264.mp4",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": true,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": true,
+              "demux-bitrate": 69693,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        }
+      },
+      "classic": {
+        "file": "Русский H264.mp4",
+        "sha256": "a7983829b3201469557d309aa718dc1b57594464a818e524a2cb579e572772ff",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-1.mp4 - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 250, '00:00:00', 3000, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-1.mp4')",
+        "positionMs": 250,
+        "durationMs": 3000,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "h264-10bit.mkv",
+      "expected": "play",
+      "bytes": 119074,
+      "sha256": "ee5518d4f9aa2f0a157a0570241706d50b14507e4a0623baddc7a307c3a7f58d",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "pix_fmt": "yuv420p10le",
+          "tags": {
+            "ENCODER": "Lavc60.31.102 libx264",
+            "DURATION": "00:00:03.000000000"
+          }
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "ENCODER": "Lavc60.31.102 aac",
+            "DURATION": "00:00:03.021000000"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.021,
+          "expected": "play",
+          "file": "h264-10bit.mkv",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        },
+        "opengl": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.021,
+          "expected": "play",
+          "file": "h264-10bit.mkv",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        }
+      },
+      "classic": {
+        "file": "h264-10bit.mkv",
+        "sha256": "ee5518d4f9aa2f0a157a0570241706d50b14507e4a0623baddc7a307c3a7f58d",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-2.mkv - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 191, '00:00:00', 3021, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-2.mkv')",
+        "positionMs": 191,
+        "durationMs": 3021,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "hevc-main10.mkv",
+      "expected": "play",
+      "bytes": 96148,
+      "sha256": "5547724cba45dfe3b28d4374e38aee758086959855fca1fea0d3a08d58b1b5c0",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "hevc",
+          "pix_fmt": "yuv420p10le",
+          "tags": {
+            "ENCODER": "Lavc60.31.102 libx265",
+            "DURATION": "00:00:03.000000000"
+          }
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "ENCODER": "Lavc60.31.102 aac",
+            "DURATION": "00:00:03.021000000"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.021,
+          "expected": "play",
+          "file": "hevc-main10.mkv",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "hevc",
+              "decoder-desc": "HEVC (High Efficiency Video Coding)",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "HEVC (High Efficiency Video Coding)"
+        },
+        "opengl": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.021,
+          "expected": "play",
+          "file": "hevc-main10.mkv",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "hevc",
+              "decoder-desc": "HEVC (High Efficiency Video Coding)",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "HEVC (High Efficiency Video Coding)"
+        }
+      },
+      "classic": {
+        "file": "hevc-main10.mkv",
+        "sha256": "5547724cba45dfe3b28d4374e38aee758086959855fca1fea0d3a08d58b1b5c0",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-3.mkv - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 158, '00:00:00', 3021, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-3.mkv')",
+        "positionMs": 158,
+        "durationMs": 3021,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "vp8.webm",
+      "expected": "play",
+      "bytes": 105306,
+      "sha256": "5dab8bb185fbafd425366f5c5d3a39a10de35462c011608412d74b60195f140b",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "vp8",
+          "pix_fmt": "yuv420p",
+          "tags": {
+            "ENCODER": "Lavc60.31.102 libvpx",
+            "DURATION": "00:00:03.003000000"
+          }
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "vorbis",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "ENCODER": "Lavc60.31.102 libvorbis",
+            "DURATION": "00:00:03.003000000"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "vorbis",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.003,
+          "expected": "play",
+          "file": "vp8.webm",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.253,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "vp8",
+              "decoder-desc": "On2 VP8",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "vorbis",
+              "decoder-desc": "Vorbis",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "On2 VP8"
+        },
+        "opengl": {
+          "audioCodec": "vorbis",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.003,
+          "expected": "play",
+          "file": "vp8.webm",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.253,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "vp8",
+              "decoder-desc": "On2 VP8",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "vorbis",
+              "decoder-desc": "Vorbis",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "On2 VP8"
+        }
+      },
+      "classic": {
+        "file": "vp8.webm",
+        "sha256": "5dab8bb185fbafd425366f5c5d3a39a10de35462c011608412d74b60195f140b",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-4.webm - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 167, '00:00:00', 3003, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-4.webm')",
+        "positionMs": 167,
+        "durationMs": 3003,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "vp9.webm",
+      "expected": "play",
+      "bytes": 177578,
+      "sha256": "532c92e1107ad958ba6d1b5a890c6047e4b5ec7014962c7771325c441b908680",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "vp9",
+          "pix_fmt": "yuv420p",
+          "tags": {
+            "ENCODER": "Lavc60.31.102 libvpx-vp9",
+            "DURATION": "00:00:03.000000000"
+          }
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "ENCODER": "Lavc60.31.102 libopus",
+            "DURATION": "00:00:03.008000000"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "opus",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.008,
+          "expected": "play",
+          "file": "vp9.webm",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "vp9",
+              "decoder-desc": "Google VP9",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "opus",
+              "decoder-desc": "Opus",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "Google VP9"
+        },
+        "opengl": {
+          "audioCodec": "opus",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.008,
+          "expected": "play",
+          "file": "vp9.webm",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "vp9",
+              "decoder-desc": "Google VP9",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "opus",
+              "decoder-desc": "Opus",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "Google VP9"
+        }
+      },
+      "classic": {
+        "file": "vp9.webm",
+        "sha256": "532c92e1107ad958ba6d1b5a890c6047e4b5ec7014962c7771325c441b908680",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-5.webm - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 161, '00:00:00', 3008, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-5.webm')",
+        "positionMs": 161,
+        "durationMs": 3008,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "av1.mkv",
+      "expected": "play",
+      "bytes": 89291,
+      "sha256": "8077a9bf81f407428bf3a8e0a65450148a30d207266245284d22c2d3e02a87bf",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "av1",
+          "pix_fmt": "yuv420p",
+          "tags": {
+            "ENCODER": "Lavc60.31.102 libaom-av1",
+            "DURATION": "00:00:03.000000000"
+          }
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "ENCODER": "Lavc60.31.102 libopus",
+            "DURATION": "00:00:03.008000000"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "opus",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.008,
+          "expected": "play",
+          "file": "av1.mkv",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "av1",
+              "decoder-desc": "dav1d AV1 decoder by VideoLAN",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "opus",
+              "decoder-desc": "Opus",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "dav1d AV1 decoder by VideoLAN"
+        },
+        "opengl": {
+          "audioCodec": "opus",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.008,
+          "expected": "play",
+          "file": "av1.mkv",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "av1",
+              "decoder-desc": "dav1d AV1 decoder by VideoLAN",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "opus",
+              "decoder-desc": "Opus",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "dav1d AV1 decoder by VideoLAN"
+        }
+      },
+      "classic": {
+        "file": "av1.mkv",
+        "sha256": "8077a9bf81f407428bf3a8e0a65450148a30d207266245284d22c2d3e02a87bf",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-6.mkv - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 165, '00:00:00', 3008, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-6.mkv')",
+        "positionMs": 165,
+        "durationMs": 3008,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "mpeg2.mpg",
+      "expected": "play",
+      "bytes": 286720,
+      "sha256": "4608d161176ea7ad33c3fe88cb51306407dbbf1bd5d1c70170a175279d427303",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "mpeg2video",
+          "pix_fmt": "yuv420p"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "mp2",
+          "sample_rate": "48000",
+          "channels": 1
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "mp2",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s16p",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "ffmpeg/video: mpeg2video: too many threads/slices (13), reducing to 12\n",
+            "ffmpeg/audio: mp2: Header missing\n",
+            "ad: Error decoding audio.\n",
+            "ffmpeg/audio: mp2: Header missing\n",
+            "ad: Error decoding audio.\n",
+            "ffmpeg/audio: mp2: Header missing\n",
+            "ad: Error decoding audio.\n",
+            "ffmpeg/audio: mp2: Header missing\n",
+            "ad: Error decoding audio.\n",
+            "ffmpeg/audio: mp2: Header missing\n",
+            "ad: Error decoding audio.\n",
+            "ad: Invalid audio PTS: 0.312000 -> 0.192000\n"
+          ],
+          "duration": 3,
+          "expected": "play",
+          "file": "mpeg2.mpg",
+          "fileFormat": "mpeg",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2600222222222224,
+          "seekPending": false,
+          "seekPreroll": 1,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "mpeg2video",
+              "decoder-desc": "MPEG-2 video",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 480,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "mp2",
+              "decoder-desc": "MP2 (MPEG audio layer 2)",
+              "default": false,
+              "demux-bitrate": 384000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 448,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "MPEG-2 video"
+        },
+        "opengl": {
+          "audioCodec": "mp2",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s16p",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "ffmpeg/video: mpeg2video: too many threads/slices (13), reducing to 12\n",
+            "ffmpeg/audio: mp2: Header missing\n",
+            "ad: Error decoding audio.\n",
+            "ffmpeg/audio: mp2: Header missing\n",
+            "ad: Error decoding audio.\n",
+            "ffmpeg/audio: mp2: Header missing\n",
+            "ad: Error decoding audio.\n",
+            "ffmpeg/audio: mp2: Header missing\n",
+            "ad: Error decoding audio.\n",
+            "ffmpeg/audio: mp2: Header missing\n",
+            "ad: Error decoding audio.\n",
+            "ad: Invalid audio PTS: 0.312000 -> 0.192000\n"
+          ],
+          "duration": 3,
+          "expected": "play",
+          "file": "mpeg2.mpg",
+          "fileFormat": "mpeg",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2600222222222224,
+          "seekPending": false,
+          "seekPreroll": 1,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "mpeg2video",
+              "decoder-desc": "MPEG-2 video",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 480,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "mp2",
+              "decoder-desc": "MP2 (MPEG audio layer 2)",
+              "default": false,
+              "demux-bitrate": 384000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 448,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "MPEG-2 video"
+        }
+      },
+      "classic": {
+        "file": "mpeg2.mpg",
+        "sha256": "4608d161176ea7ad33c3fe88cb51306407dbbf1bd5d1c70170a175279d427303",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-7.mpg - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 161, '00:00:00', 3451, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-7.mpg')",
+        "positionMs": 161,
+        "durationMs": 3451,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "mpeg4.avi",
+      "expected": "play",
+      "bytes": 172154,
+      "sha256": "340148b18fee5f0c21b985836f5fb2aed4f9b749ff399984a56cfd3186520720",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "mpeg4",
+          "pix_fmt": "yuv420p"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "mp3",
+          "sample_rate": "48000",
+          "channels": 1
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "mp3",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.0416666666666665,
+          "expected": "play",
+          "file": "mpeg4.avi",
+          "fileFormat": "avi",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "mpeg4",
+              "decoder-desc": "MPEG-4 part 2",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 0,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "mp3",
+              "decoder-desc": "MP3 (MPEG audio layer 3)",
+              "default": false,
+              "demux-bitrate": 64512,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "MPEG-4 part 2"
+        },
+        "opengl": {
+          "audioCodec": "mp3",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.0416666666666665,
+          "expected": "play",
+          "file": "mpeg4.avi",
+          "fileFormat": "avi",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "mpeg4",
+              "decoder-desc": "MPEG-4 part 2",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 0,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "mp3",
+              "decoder-desc": "MP3 (MPEG audio layer 3)",
+              "default": false,
+              "demux-bitrate": 64512,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "MPEG-4 part 2"
+        }
+      },
+      "classic": {
+        "file": "mpeg4.avi",
+        "sha256": "340148b18fee5f0c21b985836f5fb2aed4f9b749ff399984a56cfd3186520720",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-8.avi - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 166, '00:00:00', 3041, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-8.avi')",
+        "positionMs": 166,
+        "durationMs": 3041,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "wmv2.asf",
+      "expected": "play",
+      "bytes": 192913,
+      "sha256": "0b0826d0fa6e3f2e7fc3dff74f9abd13d4c816bf0da64c7fb4c65963beb0fad5",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "wmv2",
+          "pix_fmt": "yuv420p"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "wmav2",
+          "sample_rate": "48000",
+          "channels": 1
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "wmav2",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.043,
+          "expected": "play",
+          "file": "wmv2.asf",
+          "fileFormat": "asf",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2510000000000001,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "wmv2",
+              "decoder-desc": "Windows Media Video 8",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "wmav2",
+              "decoder-desc": "Windows Media Audio 2",
+              "default": false,
+              "demux-bitrate": 128000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "Windows Media Video 8"
+        },
+        "opengl": {
+          "audioCodec": "wmav2",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.043,
+          "expected": "play",
+          "file": "wmv2.asf",
+          "fileFormat": "asf",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2510000000000001,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "wmv2",
+              "decoder-desc": "Windows Media Video 8",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "wmav2",
+              "decoder-desc": "Windows Media Audio 2",
+              "default": false,
+              "demux-bitrate": 128000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "Windows Media Video 8"
+        }
+      },
+      "classic": {
+        "file": "wmv2.asf",
+        "sha256": "0b0826d0fa6e3f2e7fc3dff74f9abd13d4c816bf0da64c7fb4c65963beb0fad5",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-9.asf - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 160, '00:00:00', 3043, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-9.asf')",
+        "positionMs": 160,
+        "durationMs": 3043,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "theora.ogv",
+      "expected": "play",
+      "bytes": 90764,
+      "sha256": "f27e7ba22259d43e3d042d9916437ac91175cb6fef83be6f13ab58819f9f09b2",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "theora",
+          "pix_fmt": "yuv420p",
+          "tags": {
+            "encoder": "Lavc60.31.102 libtheora"
+          }
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "vorbis",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "encoder": "Lavc60.31.102 libvorbis"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "vorbis",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "theora.ogv",
+          "fileFormat": "ogg",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "theora",
+              "decoder-desc": "Theora",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 0,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "vorbis",
+              "decoder-desc": "Vorbis",
+              "default": false,
+              "demux-bitrate": 80000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "Theora"
+        },
+        "opengl": {
+          "audioCodec": "vorbis",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "theora.ogv",
+          "fileFormat": "ogg",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "theora",
+              "decoder-desc": "Theora",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 0,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "vorbis",
+              "decoder-desc": "Vorbis",
+              "default": false,
+              "demux-bitrate": 80000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "Theora"
+        }
+      },
+      "classic": {
+        "file": "theora.ogv",
+        "sha256": "f27e7ba22259d43e3d042d9916437ac91175cb6fef83be6f13ab58819f9f09b2",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-10.ogv - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 165, '00:00:00', 3000, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-10.ogv')",
+        "positionMs": 165,
+        "durationMs": 3000,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "ffv1-flac.mkv",
+      "expected": "play",
+      "bytes": 510681,
+      "sha256": "bc5da27ceb4d64a837aa2e7a1f0d5774fdc7cf7aef098035f358dfcd48c6cf60",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "ffv1",
+          "pix_fmt": "yuv420p",
+          "tags": {
+            "ENCODER": "Lavc60.31.102 ffv1",
+            "DURATION": "00:00:03.000000000"
+          }
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "flac",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "ENCODER": "Lavc60.31.102 flac",
+            "DURATION": "00:00:03.000000000"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "flac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s16",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3,
+          "expected": "play",
+          "file": "ffv1-flac.mkv",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "ffv1",
+              "decoder-desc": "FFmpeg video codec #1",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "flac",
+              "decoder-desc": "FLAC (Free Lossless Audio Codec)",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "FFmpeg video codec #1"
+        },
+        "opengl": {
+          "audioCodec": "flac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s16",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3,
+          "expected": "play",
+          "file": "ffv1-flac.mkv",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "ffv1",
+              "decoder-desc": "FFmpeg video codec #1",
+              "default": false,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "flac",
+              "decoder-desc": "FLAC (Free Lossless Audio Codec)",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "FFmpeg video codec #1"
+        }
+      },
+      "classic": {
+        "file": "ffv1-flac.mkv",
+        "sha256": "bc5da27ceb4d64a837aa2e7a1f0d5774fdc7cf7aef098035f358dfcd48c6cf60",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-11.mkv - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 166, '00:00:00', 3000, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-11.mkv')",
+        "positionMs": 166,
+        "durationMs": 3000,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "mjpeg-pcm.avi",
+      "expected": "play",
+      "bytes": 633608,
+      "sha256": "013e24647b43a718aefff05f07db6b65ef2d9fff018303219947c5c499198df8",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "mjpeg",
+          "pix_fmt": "yuvj420p"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "pcm_s16le",
+          "sample_rate": "48000",
+          "channels": 1
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "pcm_s16le",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s16",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "mjpeg-pcm.avi",
+          "fileFormat": "avi",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "mjpeg",
+              "decoder-desc": "MJPEG (Motion JPEG)",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 0,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "pcm_s16le",
+              "decoder-desc": "PCM signed 16-bit little-endian",
+              "default": false,
+              "demux-bitrate": 768000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "MJPEG (Motion JPEG)"
+        },
+        "opengl": {
+          "audioCodec": "pcm_s16le",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s16",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "mjpeg-pcm.avi",
+          "fileFormat": "avi",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "mjpeg",
+              "decoder-desc": "MJPEG (Motion JPEG)",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 0,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "pcm_s16le",
+              "decoder-desc": "PCM signed 16-bit little-endian",
+              "default": false,
+              "demux-bitrate": 768000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "MJPEG (Motion JPEG)"
+        }
+      },
+      "classic": {
+        "file": "mjpeg-pcm.avi",
+        "sha256": "013e24647b43a718aefff05f07db6b65ef2d9fff018303219947c5c499198df8",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-12.avi - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 166, '00:00:00', 3000, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-12.avi')",
+        "positionMs": 166,
+        "durationMs": 3000,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "h264-ac3.ts",
+      "expected": "play",
+      "bytes": 150212,
+      "sha256": "7207a994b24e21a1820240d7a45b0ce92c2437860c7a580f1d3c2111f0c319cc",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "pix_fmt": "yuv420p"
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "ac3",
+          "sample_rate": "48000",
+          "channels": 1
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "ac3",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "ffmpeg/video: h264: co located POCs unavailable\n",
+            "ffmpeg/video: h264: mmco: unref short failure\n"
+          ],
+          "duration": 3,
+          "expected": "play",
+          "file": "h264-ac3.ts",
+          "fileFormat": "mpegts",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2553333333333334,
+          "seekPending": false,
+          "seekPreroll": 1,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "program-id": 1,
+              "selected": true,
+              "src-id": 256,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "ac3",
+              "decoder-desc": "ATSC A/52A (AC-3)",
+              "default": false,
+              "demux-bitrate": 96000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "program-id": 1,
+              "selected": true,
+              "src-id": 257,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        },
+        "opengl": {
+          "audioCodec": "ac3",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "ffmpeg/video: h264: co located POCs unavailable\n",
+            "ffmpeg/video: h264: mmco: unref short failure\n"
+          ],
+          "duration": 3,
+          "expected": "play",
+          "file": "h264-ac3.ts",
+          "fileFormat": "mpegts",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2553333333333334,
+          "seekPending": false,
+          "seekPreroll": 1,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": false,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "program-id": 1,
+              "selected": true,
+              "src-id": 256,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "ac3",
+              "decoder-desc": "ATSC A/52A (AC-3)",
+              "default": false,
+              "demux-bitrate": 96000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "program-id": 1,
+              "selected": true,
+              "src-id": 257,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        }
+      },
+      "classic": {
+        "file": "h264-ac3.ts",
+        "sha256": "7207a994b24e21a1820240d7a45b0ce92c2437860c7a580f1d3c2111f0c319cc",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-13.ts - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 166, '00:00:00', 3513, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-13.ts')",
+        "positionMs": 166,
+        "durationMs": 3513,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "h264-fragmented.mp4",
+      "expected": "play",
+      "bytes": 121189,
+      "sha256": "b4abec0dc5e9997e0ea7d0fa18f19db5d84394bb583832a1ba44140e8bf741ad",
+      "video": 1,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "pix_fmt": "yuv420p",
+          "tags": {
+            "language": "und",
+            "handler_name": "VideoHandler",
+            "vendor_id": "[0][0][0][0]",
+            "encoder": "Lavc60.31.102 libx264"
+          }
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "language": "und",
+            "handler_name": "SoundHandler",
+            "vendor_id": "[0][0][0][0]"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.083333333333333,
+          "expected": "play",
+          "file": "h264-fragmented.mp4",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": true,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": true,
+              "demux-bitrate": 68292,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        },
+        "opengl": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.083333333333333,
+          "expected": "play",
+          "file": "h264-fragmented.mp4",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": true,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": true,
+              "demux-bitrate": 68292,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        }
+      },
+      "classic": {
+        "file": "h264-fragmented.mp4",
+        "sha256": "b4abec0dc5e9997e0ea7d0fa18f19db5d84394bb583832a1ba44140e8bf741ad",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-14.mp4 - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 239, '00:00:00', 3083, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-14.mp4')",
+        "positionMs": 239,
+        "durationMs": 3083,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "mp3.mp3",
+      "expected": "play",
+      "bytes": 24429,
+      "sha256": "88557e2eac49773ed5c1b165d41b5e7f486f1f9a581cf38a58948d558fc6e586",
+      "video": 0,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "audio",
+          "codec_name": "mp3",
+          "sample_rate": "48000",
+          "channels": 1
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "mp3",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.024,
+          "expected": "play",
+          "file": "mp3.mp3",
+          "fileFormat": "mp3",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.249999858276644,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "mp3",
+              "decoder-desc": "MP3 (MPEG audio layer 3)",
+              "default": false,
+              "demux-bitrate": 64000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        },
+        "opengl": {
+          "audioCodec": "mp3",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.024,
+          "expected": "play",
+          "file": "mp3.mp3",
+          "fileFormat": "mp3",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.249999858276644,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "mp3",
+              "decoder-desc": "MP3 (MPEG audio layer 3)",
+              "default": false,
+              "demux-bitrate": 64000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        }
+      },
+      "classic": {
+        "file": "mp3.mp3",
+        "sha256": "88557e2eac49773ed5c1b165d41b5e7f486f1f9a581cf38a58948d558fc6e586",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-15.mp3 - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 159, '00:00:00', 3048, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-15.mp3')",
+        "positionMs": 159,
+        "durationMs": 3048,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "aac.m4a",
+      "expected": "play",
+      "bytes": 27696,
+      "sha256": "66d7ae9a2a28355cfea6dd29d54c04edfa82dc9aa65da6a507c64c2e7a699190",
+      "video": 0,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "language": "und",
+            "handler_name": "SoundHandler",
+            "vendor_id": "[0][0][0][0]"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.021333333333333,
+          "expected": "play",
+          "file": "aac.m4a",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499791666666678,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": true,
+              "demux-bitrate": 69693,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        },
+        "opengl": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.021333333333333,
+          "expected": "play",
+          "file": "aac.m4a",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499791666666678,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": true,
+              "demux-bitrate": 69693,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        }
+      },
+      "classic": {
+        "file": "aac.m4a",
+        "sha256": "66d7ae9a2a28355cfea6dd29d54c04edfa82dc9aa65da6a507c64c2e7a699190",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-16.m4a - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 160, '00:00:00', 3000, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-16.m4a')",
+        "positionMs": 160,
+        "durationMs": 3000,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "opus.ogg",
+      "expected": "play",
+      "bytes": 28790,
+      "sha256": "5c273256c096e0ec9a3119d7d18d49c1478b77561f02aaec11e6b29810453679",
+      "video": 0,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "audio",
+          "codec_name": "opus",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "encoder": "Lavc60.31.102 libopus"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "opus",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.0065,
+          "expected": "play",
+          "file": "opus.ogg",
+          "fileFormat": "ogg",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499791666666669,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "opus",
+              "decoder-desc": "Opus",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 0,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        },
+        "opengl": {
+          "audioCodec": "opus",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3.0065,
+          "expected": "play",
+          "file": "opus.ogg",
+          "fileFormat": "ogg",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499791666666669,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "opus",
+              "decoder-desc": "Opus",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 0,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        }
+      },
+      "classic": {
+        "file": "opus.ogg",
+        "sha256": "5c273256c096e0ec9a3119d7d18d49c1478b77561f02aaec11e6b29810453679",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-17.ogg - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 167, '00:00:00', 3006, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-17.ogg')",
+        "positionMs": 167,
+        "durationMs": 3006,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "vorbis.ogg",
+      "expected": "play",
+      "bytes": 9502,
+      "sha256": "73359488a31c9ca7105f5357638e7b016676b3592017ae78d2efe3c94babc0c7",
+      "video": 0,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "audio",
+          "codec_name": "vorbis",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "encoder": "Lavc60.31.102 libvorbis"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "vorbis",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "vorbis.ogg",
+          "fileFormat": "ogg",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499791666666686,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "vorbis",
+              "decoder-desc": "Vorbis",
+              "default": false,
+              "demux-bitrate": 80000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 0,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        },
+        "opengl": {
+          "audioCodec": "vorbis",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "vorbis.ogg",
+          "fileFormat": "ogg",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499791666666686,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "vorbis",
+              "decoder-desc": "Vorbis",
+              "default": false,
+              "demux-bitrate": 80000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 0,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        }
+      },
+      "classic": {
+        "file": "vorbis.ogg",
+        "sha256": "73359488a31c9ca7105f5357638e7b016676b3592017ae78d2efe3c94babc0c7",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-18.ogg - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 158, '00:00:00', 3000, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-18.ogg')",
+        "positionMs": 158,
+        "durationMs": 3000,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "lossless.flac",
+      "expected": "play",
+      "bytes": 47588,
+      "sha256": "ff578a6cb302dc263c3c3969f742fefb4be7c8109d4dbd94d07cf99cec6339c2",
+      "video": 0,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "audio",
+          "codec_name": "flac",
+          "sample_rate": "48000",
+          "channels": 1
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "flac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s16",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "lossless.flac",
+          "fileFormat": "flac",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2500000000000002,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "flac",
+              "decoder-desc": "FLAC (Free Lossless Audio Codec)",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        },
+        "opengl": {
+          "audioCodec": "flac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s16",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "lossless.flac",
+          "fileFormat": "flac",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2500000000000002,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "flac",
+              "decoder-desc": "FLAC (Free Lossless Audio Codec)",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        }
+      },
+      "classic": {
+        "file": "lossless.flac",
+        "sha256": "ff578a6cb302dc263c3c3969f742fefb4be7c8109d4dbd94d07cf99cec6339c2",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-19.flac - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 160, '00:00:00', 3000, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-19.flac')",
+        "positionMs": 160,
+        "durationMs": 3000,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "lossless.m4a",
+      "expected": "play",
+      "bytes": 57586,
+      "sha256": "e9ca13744793228a36b9714c0a2dccf3a7440e2725fe4b53b40665a80240b936",
+      "video": 0,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "audio",
+          "codec_name": "alac",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "language": "und",
+            "handler_name": "SoundHandler",
+            "vendor_id": "[0][0][0][0]"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "alac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s16p",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "lossless.m4a",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499999999999996,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "alac",
+              "decoder-desc": "ALAC (Apple Lossless Audio Codec)",
+              "default": true,
+              "demux-bitrate": 151218,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        },
+        "opengl": {
+          "audioCodec": "alac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s16p",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "lossless.m4a",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499999999999996,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "alac",
+              "decoder-desc": "ALAC (Apple Lossless Audio Codec)",
+              "default": true,
+              "demux-bitrate": 151218,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        }
+      },
+      "classic": {
+        "file": "lossless.m4a",
+        "sha256": "e9ca13744793228a36b9714c0a2dccf3a7440e2725fe4b53b40665a80240b936",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-20.m4a - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 158, '00:00:00', 3000, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-20.m4a')",
+        "positionMs": 158,
+        "durationMs": 3000,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "pcm24.wav",
+      "expected": "play",
+      "bytes": 432102,
+      "sha256": "796c86053450580f24aa9b367ec7a84987f573b2b7ca70b41441fb3eac676351",
+      "video": 0,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "audio",
+          "codec_name": "pcm_s24le",
+          "sample_rate": "48000",
+          "channels": 1
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "pcm_s24le",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s32",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "pcm24.wav",
+          "fileFormat": "wav",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499999999999991,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "pcm_s24le",
+              "decoder-desc": "PCM signed 24-bit little-endian",
+              "default": false,
+              "demux-bitrate": 1152000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        },
+        "opengl": {
+          "audioCodec": "pcm_s24le",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "s32",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "pcm24.wav",
+          "fileFormat": "wav",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499999999999991,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "pcm_s24le",
+              "decoder-desc": "PCM signed 24-bit little-endian",
+              "default": false,
+              "demux-bitrate": 1152000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        }
+      },
+      "classic": {
+        "file": "pcm24.wav",
+        "sha256": "796c86053450580f24aa9b367ec7a84987f573b2b7ca70b41441fb3eac676351",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-21.wav - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 163, '00:00:00', 3000, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-21.wav')",
+        "positionMs": 163,
+        "durationMs": 3000,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "ac3.ac3",
+      "expected": "play",
+      "bytes": 36096,
+      "sha256": "d5bf3022e71a302e426db032db043d18c307181d142e46c9b37056656bdbeae7",
+      "video": 0,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "audio",
+          "codec_name": "ac3",
+          "sample_rate": "48000",
+          "channels": 1
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "ac3",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "ffmpeg/demuxer: ac3: Estimating duration from bitrate, this may be inaccurate\n"
+          ],
+          "duration": 3.008,
+          "expected": "play",
+          "file": "ac3.ac3",
+          "fileFormat": "ac3",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2500000000000002,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "ac3",
+              "decoder-desc": "ATSC A/52A (AC-3)",
+              "default": false,
+              "demux-bitrate": 96000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        },
+        "opengl": {
+          "audioCodec": "ac3",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "ffmpeg/demuxer: ac3: Estimating duration from bitrate, this may be inaccurate\n"
+          ],
+          "duration": 3.008,
+          "expected": "play",
+          "file": "ac3.ac3",
+          "fileFormat": "ac3",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2500000000000002,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "ac3",
+              "decoder-desc": "ATSC A/52A (AC-3)",
+              "default": false,
+              "demux-bitrate": 96000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        }
+      },
+      "classic": {
+        "file": "ac3.ac3",
+        "sha256": "d5bf3022e71a302e426db032db043d18c307181d142e46c9b37056656bdbeae7",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-22.ac3 - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 159, '00:00:00', 3008, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-22.ac3')",
+        "positionMs": 159,
+        "durationMs": 3008,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "eac3.eac3",
+      "expected": "play",
+      "bytes": 36096,
+      "sha256": "1dffc7664a4ad4be94ff09d1efe7c3f7290b758a2b46733f87fa59f8d9d141d2",
+      "video": 0,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "audio",
+          "codec_name": "eac3",
+          "sample_rate": "48000",
+          "channels": 1
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "eac3",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "ffmpeg/demuxer: eac3: Estimating duration from bitrate, this may be inaccurate\n"
+          ],
+          "duration": 3.008,
+          "expected": "play",
+          "file": "eac3.eac3",
+          "fileFormat": "eac3",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2500000000000002,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "eac3",
+              "decoder-desc": "ATSC A/52B (AC-3, E-AC-3)",
+              "default": false,
+              "demux-bitrate": 96000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        },
+        "opengl": {
+          "audioCodec": "eac3",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "ffmpeg/demuxer: eac3: Estimating duration from bitrate, this may be inaccurate\n"
+          ],
+          "duration": 3.008,
+          "expected": "play",
+          "file": "eac3.eac3",
+          "fileFormat": "eac3",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2500000000000002,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "eac3",
+              "decoder-desc": "ATSC A/52B (AC-3, E-AC-3)",
+              "default": false,
+              "demux-bitrate": 96000,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        }
+      },
+      "classic": {
+        "file": "eac3.eac3",
+        "sha256": "1dffc7664a4ad4be94ff09d1efe7c3f7290b758a2b46733f87fa59f8d9d141d2",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-23.eac3 - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 156, '00:00:00', 3008, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-23.eac3')",
+        "positionMs": 156,
+        "durationMs": 3008,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "dts.dts",
+      "expected": "play",
+      "bytes": 531288,
+      "sha256": "4e84221b453ee5cfea34ad4f4063bb01a3b400c9fe7d6f05c2fb7c5101074b45",
+      "video": 0,
+      "audio": 1,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "audio",
+          "codec_name": "dts",
+          "sample_rate": "48000",
+          "channels": 1
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "dts",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "ffmpeg/demuxer: dts: Estimating duration from bitrate, this may be inaccurate\n"
+          ],
+          "duration": 3.0118333333333336,
+          "expected": "play",
+          "file": "dts.dts",
+          "fileFormat": "dts",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499999999999987,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "dts",
+              "decoder-desc": "DCA (DTS Coherent Acoustics)",
+              "default": false,
+              "demux-bitrate": 1411200,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        },
+        "opengl": {
+          "audioCodec": "dts",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "ffmpeg/demuxer: dts: Estimating duration from bitrate, this may be inaccurate\n"
+          ],
+          "duration": 3.0118333333333336,
+          "expected": "play",
+          "file": "dts.dts",
+          "fileFormat": "dts",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.2499999999999987,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "dts",
+              "decoder-desc": "DCA (DTS Coherent Acoustics)",
+              "default": false,
+              "demux-bitrate": 1411200,
+              "demux-channel-count": 1,
+              "demux-channels": "mono",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "type": "audio",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": ""
+        }
+      },
+      "classic": {
+        "file": "dts.dts",
+        "sha256": "4e84221b453ee5cfea34ad4f4063bb01a3b400c9fe7d6f05c2fb7c5101074b45",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-24.dts - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 166, '00:00:00', 3007, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-24.dts')",
+        "positionMs": 166,
+        "durationMs": 3007,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "video-only.mp4",
+      "expected": "play",
+      "bytes": 86730,
+      "sha256": "e60a8d7eb3789da74da8a64e1ca8f275621dbf7cc09c1db3901604c6250974bd",
+      "video": 1,
+      "audio": 0,
+      "subtitles": 0,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "pix_fmt": "yuv420p",
+          "tags": {
+            "language": "und",
+            "handler_name": "VideoHandler",
+            "vendor_id": "[0][0][0][0]",
+            "encoder": "Lavc60.31.102 libx264"
+          }
+        }
+      ],
+      "linux": {
+        "software": {
+          "audioCodec": "",
+          "audioParams": {},
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "video-only.mp4",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": true,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        },
+        "opengl": {
+          "audioCodec": "",
+          "audioParams": {},
+          "diagnostics": [],
+          "duration": 3,
+          "expected": "play",
+          "file": "video-only.mp4",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": true,
+              "demux-fps": 24,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        }
+      },
+      "classic": {
+        "file": "video-only.mp4",
+        "sha256": "e60a8d7eb3789da74da8a64e1ca8f275621dbf7cc09c1db3901604c6250974bd",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-25.mp4 - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 166, '00:00:00', 3000, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-25.mp4')",
+        "positionMs": 166,
+        "durationMs": 3000,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "multi-track.mkv",
+      "expected": "play",
+      "bytes": 158340,
+      "sha256": "19b2a0b3a2cf195faaf591fbf95c3ba9506470d86a03b637952091c4fd802de0",
+      "video": 1,
+      "audio": 2,
+      "subtitles": 2,
+      "streams": [
+        {
+          "codec_type": "video",
+          "codec_name": "h264",
+          "pix_fmt": "yuv420p",
+          "tags": {
+            "HANDLER_NAME": "VideoHandler",
+            "VENDOR_ID": "[0][0][0][0]",
+            "ENCODER": "Lavc60.31.102 libx264",
+            "DURATION": "00:00:03.000000000"
+          }
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "language": "rus",
+            "VENDOR_ID": "[0][0][0][0]",
+            "HANDLER_NAME": "SoundHandler",
+            "ENCODER": "Lavc60.31.102 aac",
+            "DURATION": "00:00:03.021000000"
+          }
+        },
+        {
+          "codec_type": "audio",
+          "codec_name": "ac3",
+          "sample_rate": "48000",
+          "channels": 1,
+          "tags": {
+            "language": "eng",
+            "ENCODER": "Lavc60.31.102 ac3",
+            "DURATION": "00:00:03.000000000"
+          }
+        },
+        {
+          "codec_type": "subtitle",
+          "codec_name": "subrip",
+          "tags": {
+            "ENCODER": "Lavc60.31.102 srt",
+            "DURATION": "00:00:03.000000000"
+          }
+        },
+        {
+          "codec_type": "subtitle",
+          "codec_name": "ass",
+          "tags": {
+            "ENCODER": "Lavc60.31.102 ass",
+            "DURATION": "00:00:03.000000000"
+          }
+        }
+      ],
+      "chapters": 2,
+      "linux": {
+        "software": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.021,
+          "expected": "play",
+          "file": "multi-track.mkv",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": true,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": true,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "lang": "rus",
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "ac3",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 2,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 2,
+              "image": false,
+              "lang": "eng",
+              "selected": false,
+              "src-id": 3,
+              "type": "audio",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "codec": "subrip",
+              "default": true,
+              "dependent": false,
+              "external": false,
+              "ff-index": 3,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 4,
+              "type": "sub",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "codec": "ass",
+              "default": false,
+              "dependent": false,
+              "external": false,
+              "ff-index": 4,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 2,
+              "image": false,
+              "selected": false,
+              "src-id": 5,
+              "type": "sub",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        },
+        "opengl": {
+          "audioCodec": "aac",
+          "audioParams": {
+            "channel-count": 1,
+            "channels": "mono",
+            "format": "floatp",
+            "hr-channels": "mono",
+            "samplerate": 48000
+          },
+          "diagnostics": [
+            "mkv: Discarding potentially broken or useless index.\n"
+          ],
+          "duration": 3.021,
+          "expected": "play",
+          "file": "multi-track.mkv",
+          "fileFormat": "mkv",
+          "naturalEnd": true,
+          "passed": true,
+          "pauseStable": true,
+          "renderer": "Software",
+          "seekActual": 1.25,
+          "seekPending": false,
+          "seekPreroll": 0,
+          "seekable": true,
+          "tracks": [
+            {
+              "albumart": false,
+              "codec": "h264",
+              "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "default": true,
+              "demux-fps": 24.000000384000007,
+              "demux-h": 180,
+              "demux-par": 1,
+              "demux-w": 320,
+              "dependent": false,
+              "external": false,
+              "ff-index": 0,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 1,
+              "type": "video",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "aac",
+              "decoder-desc": "AAC (Advanced Audio Coding)",
+              "default": true,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 1,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "lang": "rus",
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 2,
+              "type": "audio",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "audio-channels": 1,
+              "codec": "ac3",
+              "default": false,
+              "demux-channel-count": 1,
+              "demux-channels": "unknown1",
+              "demux-samplerate": 48000,
+              "dependent": false,
+              "external": false,
+              "ff-index": 2,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 2,
+              "image": false,
+              "lang": "eng",
+              "selected": false,
+              "src-id": 3,
+              "type": "audio",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "codec": "subrip",
+              "default": true,
+              "dependent": false,
+              "external": false,
+              "ff-index": 3,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 1,
+              "image": false,
+              "main-selection": 0,
+              "selected": true,
+              "src-id": 4,
+              "type": "sub",
+              "visual-impaired": false
+            },
+            {
+              "albumart": false,
+              "codec": "ass",
+              "default": false,
+              "dependent": false,
+              "external": false,
+              "ff-index": 4,
+              "forced": false,
+              "hearing-impaired": false,
+              "id": 2,
+              "image": false,
+              "selected": false,
+              "src-id": 5,
+              "type": "sub",
+              "visual-impaired": false
+            }
+          ],
+          "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+        }
+      },
+      "classic": {
+        "file": "multi-track.mkv",
+        "sha256": "19b2a0b3a2cf195faaf591fbf95c3ba9506470d86a03b637952091c4fd802de0",
+        "asciiAlias": true,
+        "expected": "play",
+        "playbackObserved": true,
+        "statusRaw": "OnStatus('sample-26.mkv - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 159, '00:00:00', 3021, '00:00:03', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-26.mkv')",
+        "positionMs": 159,
+        "durationMs": 3021,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "empty.mp4",
+      "expected": "reject",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "video": 0,
+      "audio": 0,
+      "subtitles": 0,
+      "streams": [],
+      "linux": {
+        "software": {
+          "diagnostics": [
+            "cplayer: Failed to recognize file format.\n"
+          ],
+          "expected": "reject",
+          "file": "empty.mp4",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "passed": true,
+          "recovered": true,
+          "rejected": true,
+          "renderer": "Software",
+          "seekPreroll": 0
+        },
+        "opengl": {
+          "diagnostics": [
+            "cplayer: Failed to recognize file format.\n"
+          ],
+          "expected": "reject",
+          "file": "empty.mp4",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "passed": true,
+          "recovered": true,
+          "rejected": true,
+          "renderer": "Software",
+          "seekPreroll": 0
+        }
+      },
+      "classic": {
+        "file": "empty.mp4",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "asciiAlias": true,
+        "expected": "reject",
+        "playbackObserved": false,
+        "statusRaw": "OnStatus('FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'n/a', 0, '00:00:00', 0, '00:00:00', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-27.mp4')",
+        "positionMs": 0,
+        "durationMs": 0,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "invalid.mkv",
+      "expected": "reject",
+      "bytes": 832,
+      "sha256": "a1d6016fd452c9eebdc9bceeef56c2fe5b290c9cf0ea9af9d9184265f62820b7",
+      "video": 0,
+      "audio": 0,
+      "subtitles": 0,
+      "streams": [],
+      "linux": {
+        "software": {
+          "diagnostics": [
+            "cplayer: Failed to recognize file format.\n"
+          ],
+          "expected": "reject",
+          "file": "invalid.mkv",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "passed": true,
+          "recovered": true,
+          "rejected": true,
+          "renderer": "Software",
+          "seekPreroll": 0
+        },
+        "opengl": {
+          "diagnostics": [
+            "cplayer: Failed to recognize file format.\n"
+          ],
+          "expected": "reject",
+          "file": "invalid.mkv",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "passed": true,
+          "recovered": true,
+          "rejected": true,
+          "renderer": "Software",
+          "seekPreroll": 0
+        }
+      },
+      "classic": {
+        "file": "invalid.mkv",
+        "sha256": "a1d6016fd452c9eebdc9bceeef56c2fe5b290c9cf0ea9af9d9184265f62820b7",
+        "asciiAlias": true,
+        "expected": "reject",
+        "playbackObserved": false,
+        "statusRaw": "OnStatus('FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'n/a', 0, '00:00:00', 0, '00:00:00', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-28.mkv')",
+        "positionMs": 0,
+        "durationMs": 0,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    },
+    {
+      "file": "header-only.mp4",
+      "expected": "reject",
+      "bytes": 32,
+      "sha256": "b1c35f1e6d75af66f96c70ff2572346caa6812dee411ad1134cffb50e33fba5c",
+      "video": 0,
+      "audio": 0,
+      "subtitles": 0,
+      "streams": [],
+      "linux": {
+        "software": {
+          "diagnostics": [
+            "ffmpeg/demuxer: mov,mp4,m4a,3gp,3g2,mj2: moov atom not found\n",
+            "lavf: avformat_open_input() failed\n",
+            "ffmpeg/demuxer: mov,mp4,m4a,3gp,3g2,mj2: moov atom not found\n",
+            "lavf: avformat_open_input() failed\n",
+            "cplayer: Failed to recognize file format.\n"
+          ],
+          "expected": "reject",
+          "file": "header-only.mp4",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "passed": true,
+          "recovered": true,
+          "rejected": true,
+          "renderer": "Software",
+          "seekPreroll": 0
+        },
+        "opengl": {
+          "diagnostics": [
+            "ffmpeg/demuxer: mov,mp4,m4a,3gp,3g2,mj2: moov atom not found\n",
+            "lavf: avformat_open_input() failed\n",
+            "ffmpeg/demuxer: mov,mp4,m4a,3gp,3g2,mj2: moov atom not found\n",
+            "lavf: avformat_open_input() failed\n",
+            "cplayer: Failed to recognize file format.\n"
+          ],
+          "expected": "reject",
+          "file": "header-only.mp4",
+          "fileFormat": "mov,mp4,m4a,3gp,3g2,mj2",
+          "passed": true,
+          "recovered": true,
+          "rejected": true,
+          "renderer": "Software",
+          "seekPreroll": 0
+        }
+      },
+      "classic": {
+        "file": "header-only.mp4",
+        "sha256": "b1c35f1e6d75af66f96c70ff2572346caa6812dee411ad1134cffb50e33fba5c",
+        "asciiAlias": true,
+        "expected": "reject",
+        "playbackObserved": false,
+        "statusRaw": "OnStatus('FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'n/a', 0, '00:00:00', 0, '00:00:00', 1, 0, 'E:\\Programs\\MPMY-src\\_bin\\qt-media-matrix-classic-isolated\\player-bc232593dbc545ea9de8d2d640b6fa13\\sample-29.mp4')",
+        "positionMs": 0,
+        "durationMs": 0,
+        "snapshotColored": null,
+        "snapshotBytes": 0,
+        "passed": true
+      }
+    }
+  ],
+  "userSource": {
+    "linux": {
+      "software": {
+        "audioCodec": "ac3",
+        "audioDisableRestore": true,
+        "audioParams": {
+          "channel-count": 6,
+          "channels": "5.1(side)",
+          "format": "floatp",
+          "hr-channels": "5.1(side)",
+          "samplerate": 48000
+        },
+        "bytes": 9885006781,
+        "duration": 6358.589,
+        "expected": "real-source",
+        "file": "Мортал Комбат 2 (2026).mkv",
+        "passed": true,
+        "renderer": "Software",
+        "seeks": [
+          {
+            "actual": 60,
+            "frameSha256": "e43bf48167d23065c24f01da94fc7cd851dc0ccfb4b1994eb8e708384ec069f9",
+            "requested": 60
+          },
+          {
+            "actual": 600,
+            "frameSha256": "18c95bb0a0e21444edd271f365228b0b2381e9194276908bf8fda130ac02014a",
+            "requested": 600
+          },
+          {
+            "actual": 3179.294,
+            "frameSha256": "f5999397fcc105190ec03a4498304ca8e70efdee1e86d9b23966720ccb112d65",
+            "requested": 3179.2945
+          },
+          {
+            "actual": 6343.588,
+            "frameSha256": "445467c05800449e582ef60e9269dfd028286962499008a75070f7d2bd8a2de9",
+            "requested": 6343.589
+          }
+        ],
+        "sourceUnchanged": true,
+        "tracks": [
+          {
+            "albumart": false,
+            "codec": "h264",
+            "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+            "default": true,
+            "demux-fps": 23.99998080001536,
+            "demux-h": 804,
+            "demux-par": 1,
+            "demux-w": 1920,
+            "dependent": false,
+            "external": false,
+            "ff-index": 0,
+            "forced": false,
+            "hearing-impaired": false,
+            "id": 1,
+            "image": false,
+            "lang": "eng",
+            "main-selection": 0,
+            "selected": true,
+            "src-id": 1,
+            "type": "video",
+            "visual-impaired": false
+          },
+          {
+            "albumart": false,
+            "audio-channels": 6,
+            "codec": "ac3",
+            "decoder-desc": "ATSC A/52A (AC-3)",
+            "default": true,
+            "demux-channel-count": 6,
+            "demux-channels": "unknown6",
+            "demux-samplerate": 48000,
+            "dependent": false,
+            "external": false,
+            "ff-index": 1,
+            "forced": false,
+            "hearing-impaired": false,
+            "id": 1,
+            "image": false,
+            "lang": "rus",
+            "main-selection": 0,
+            "selected": true,
+            "src-id": 2,
+            "type": "audio",
+            "visual-impaired": false
+          },
+          {
+            "albumart": true,
+            "codec": "mjpeg",
+            "default": false,
+            "dependent": false,
+            "external": false,
+            "ff-index": 2,
+            "forced": false,
+            "hearing-impaired": false,
+            "id": 2,
+            "image": true,
+            "selected": false,
+            "title": "cover.jpg",
+            "type": "video",
+            "visual-impaired": false
+          }
+        ],
+        "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+      },
+      "opengl": {
+        "audioCodec": "ac3",
+        "audioDisableRestore": true,
+        "audioParams": {
+          "channel-count": 6,
+          "channels": "5.1(side)",
+          "format": "floatp",
+          "hr-channels": "5.1(side)",
+          "samplerate": 48000
+        },
+        "bytes": 9885006781,
+        "duration": 6358.589,
+        "expected": "real-source",
+        "file": "Мортал Комбат 2 (2026).mkv",
+        "passed": true,
+        "renderer": "Software",
+        "seeks": [
+          {
+            "actual": 60,
+            "frameSha256": "e43bf48167d23065c24f01da94fc7cd851dc0ccfb4b1994eb8e708384ec069f9",
+            "requested": 60
+          },
+          {
+            "actual": 600,
+            "frameSha256": "18c95bb0a0e21444edd271f365228b0b2381e9194276908bf8fda130ac02014a",
+            "requested": 600
+          },
+          {
+            "actual": 3179.294,
+            "frameSha256": "f5999397fcc105190ec03a4498304ca8e70efdee1e86d9b23966720ccb112d65",
+            "requested": 3179.2945
+          },
+          {
+            "actual": 6343.588,
+            "frameSha256": "445467c05800449e582ef60e9269dfd028286962499008a75070f7d2bd8a2de9",
+            "requested": 6343.589
+          }
+        ],
+        "sourceUnchanged": true,
+        "tracks": [
+          {
+            "albumart": false,
+            "codec": "h264",
+            "decoder-desc": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+            "default": true,
+            "demux-fps": 23.99998080001536,
+            "demux-h": 804,
+            "demux-par": 1,
+            "demux-w": 1920,
+            "dependent": false,
+            "external": false,
+            "ff-index": 0,
+            "forced": false,
+            "hearing-impaired": false,
+            "id": 1,
+            "image": false,
+            "lang": "eng",
+            "main-selection": 0,
+            "selected": true,
+            "src-id": 1,
+            "type": "video",
+            "visual-impaired": false
+          },
+          {
+            "albumart": false,
+            "audio-channels": 6,
+            "codec": "ac3",
+            "decoder-desc": "ATSC A/52A (AC-3)",
+            "default": true,
+            "demux-channel-count": 6,
+            "demux-channels": "unknown6",
+            "demux-samplerate": 48000,
+            "dependent": false,
+            "external": false,
+            "ff-index": 1,
+            "forced": false,
+            "hearing-impaired": false,
+            "id": 1,
+            "image": false,
+            "lang": "rus",
+            "main-selection": 0,
+            "selected": true,
+            "src-id": 2,
+            "type": "audio",
+            "visual-impaired": false
+          },
+          {
+            "albumart": true,
+            "codec": "mjpeg",
+            "default": false,
+            "dependent": false,
+            "external": false,
+            "ff-index": 2,
+            "forced": false,
+            "hearing-impaired": false,
+            "id": 2,
+            "image": true,
+            "selected": false,
+            "title": "cover.jpg",
+            "type": "video",
+            "visual-impaired": false
+          }
+        ],
+        "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+      }
+    },
+    "classic": {
+      "file": "Мортал Комбат 2 (2026).mkv",
+      "sha256": null,
+      "asciiAlias": false,
+      "expected": "play",
+      "playbackObserved": true,
+      "statusRaw": "OnStatus('Мортал Комбат 2 (2026).mkv - FoxicMP x64 1.9.1.75 build 260920-1048 dev', 'Playing', 166, '00:00:00', 6358589, '01:45:58', 1, 0, 'D:\\Films\\2025-2026\\Мортал Комбат 2 (2026).mkv')",
+      "positionMs": 166,
+      "durationMs": 6358589,
+      "snapshotColored": null,
+      "snapshotBytes": 0,
+      "passed": true
+    },
+    "sourceUnchanged": true,
+    "classicProfileUnchanged": true,
+    "copiedLinuxProfile": {
+      "version": "0.1.53",
+      "passed": true,
+      "copiedCurrentLinuxProfile": true,
+      "testOverrides": [
+        "disable integration/web/tray",
+        "enable private-session MPRIS",
+        "mute; one-shot after none"
+      ],
+      "pausedSeekPoints": [
+        {
+          "requested": 600,
+          "actual": 600.0
+        },
+        {
+          "requested": 3179.294,
+          "actual": 3179.294
+        },
+        {
+          "requested": 6343.589,
+          "actual": 6343.589
+        }
+      ],
+      "resumeVerified": true,
+      "originalIniUnchanged": true,
+      "limits": [
+        "Private profile copy; no personal profile writes",
+        "Window/CLI/MPRIS state; decoded frame/audio tested separately in Player matrix"
+      ]
+    }
+  },
+  "limitations": [
+    "Requested OpenGL fell back to Software; no physical GPU/Wayland verification",
+    "Classic SSH run uses uncompressed null renderers; no Classic pixels/audio output/track switching/seek measurement",
+    "Short synthetic fixtures and selected points in user source do not prove every file or long-running behavior",
+    "Movie frames not stored in reports or package",
+    "Physical A/V, bitstream, HDR and advanced subtitles not tested here",
+    "FFmpeg warnings remain during PS/TS byte seeks (MP2 header/H.264 references); PCM waveform continuity after seek is not measured"
+  ],
+  "rawReports": [
+    "_bin/qt-media-matrix-software.json",
+    "_bin/qt-media-matrix-opengl.json",
+    "_bin/qt-media-matrix-classic-isolated/report.json",
+    "_bin/qt-real-mkv-software.json",
+    "_bin/qt-real-mkv-opengl.json",
+    "_bin/qt-media-matrix-classic-real/report.json",
+    "_bin/qt-real-mkv-profile.json"
+  ]
+}

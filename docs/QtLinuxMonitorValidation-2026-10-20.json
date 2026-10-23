@@ -1,0 +1,623 @@
+{
+  "version": "0.1.54",
+  "date": "2026-10-20",
+  "x11": {
+    "display": ":0",
+    "waylandTested": false,
+    "xrandr": "Screen 0: minimum 1 x 1, current 3720 x 1580, maximum 16384 x 16384\nVirtual1 connected primary 1920x1030+0+0 (normal left inverted right x axis y axis) 0mm x 0mm\n   1920x1030     60.00*+\n   4096x2160     60.00    59.94  \n   2560x1600     59.99    59.97  \n   1920x1440     60.00  \n   1856x1392     60.00  \n   1792x1344     60.00  \n   2048x1152     60.00  \n   1920x1200     59.88    59.95  \n   1920x1080     60.00  \n   1600x1200     60.00  \n   1680x1050     59.95    59.88  \n   1400x1050     59.98    59.95  \n   1600x900      60.00  \n   1280x1024     60.02  \n   1440x900      59.89    59.90  \n   1280x960      60.00  \n   1366x768      59.79    60.00  \n   1360x768      60.02  \n   1280x800      59.81    59.91  \n   1280x768      59.87    59.99  \n   1280x720      60.00  \n   1024x768      60.00  \n   800x600       60.32    56.25  \n   848x480       60.00  \n   640x480       59.94  \nVirtual2 connected 900x1580+1920+0 (normal left inverted right x axis y axis) 0mm x 0mm\n   900x1580      60.00*+\n   4096x2160     60.00    59.94  \n   2560x1600     59.99    59.97  \n   1920x1440     60.00  \n   1856x1392     60.00  \n   1792x1344     60.00  \n   2048x1152     60.00  \n   1920x1200     59.88    59.95  \n   1920x1080     60.00  \n   1600x1200     60.00  \n   1680x1050     59.95    59.88  \n   1400x1050     59.98    59.95  \n   1600x900      60.00  \n   1280x1024     60.02  \n   1440x900      59.89    59.90  \n   1280x960      60.00  \n   1366x768      59.79    60.00  \n   1360x768      60.02  \n   1280x800      59.81    59.91  \n   1280x768      59.87    59.99  \n   1280x720      60.00  \n   1024x768      60.00  \n   800x600       60.32    56.25  \n   848x480       60.00  \n   640x480       59.94  \nVirtual3 connected 900x1580+2820+0 (normal left inverted right x axis y axis) 0mm x 0mm\n   900x1580      60.00*+\n   4096x2160     60.00    59.94  \n   2560x1600     59.99    59.97  \n   1920x1440     60.00  \n   1856x1392     60.00  \n   1792x1344     60.00  \n   2048x1152     60.00  \n   1920x1200     59.88    59.95  \n   1920x1080     60.00  \n   1600x1200     60.00  \n   1680x1050     59.95    59.88  \n   1400x1050     59.98    59.95  \n   1600x900      60.00  \n   1280x1024     60.02  \n   1440x900      59.89    59.90  \n   1280x960      60.00  \n   1366x768      59.79    60.00  \n   1360x768      60.02  \n   1280x800      59.81    59.91  \n   1280x768      59.87    59.99  \n   1280x720      60.00  \n   1024x768      60.00  \n   800x600       60.32    56.25  \n   848x480       60.00  \n   640x480       59.94  \nVirtual4 disconnected (normal left inverted right x axis y axis)\nVirtual5 disconnected (normal left inverted right x axis y axis)\nVirtual6 disconnected (normal left inverted right x axis y axis)\nVirtual7 disconnected (normal left inverted right x axis y axis)\nVirtual8 disconnected (normal left inverted right x axis y axis)\n",
+    "runs": [
+      {
+        "name": "software-1",
+        "exitCode": 0
+      },
+      {
+        "name": "software-1.5",
+        "exitCode": 0
+      },
+      {
+        "name": "software-2",
+        "exitCode": 0
+      },
+      {
+        "name": "opengl-1",
+        "exitCode": 0
+      },
+      {
+        "name": "opengl-1.5",
+        "exitCode": 0
+      },
+      {
+        "name": "opengl-2",
+        "exitCode": 0
+      },
+      {
+        "name": "isolated-resolution",
+        "exitCode": 0
+      }
+    ],
+    "glxinfo": {
+      "exitCode": 0,
+      "stdout": "name of display: :0\ndisplay: :0  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Mesa (0xffffffff)\n    Device: llvmpipe (LLVM 20.1.2, 256 bits) (0xffffffff)\n    Version: 25.2.8\n    Accelerated: no\n    Video memory: 15986MB\n    Unified memory: yes\n    Preferred profile: core (0x1)\n    Max core profile version: 4.5\n    Max compat profile version: 4.5\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 0 MB, largest block: 0 MB\n    VBO free aux. memory - total: 7466 MB, largest block: 7466 MB\n    Texture free memory - total: 0 MB, largest block: 0 MB\n    Texture free aux. memory - total: 7466 MB, largest block: 7466 MB\n    Renderbuffer free memory - total: 0 MB, largest block: 0 MB\n    Renderbuffer free aux. memory - total: 7466 MB, largest block: 7466 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 0 MB\n    Total available memory: 15986 MB\n    Currently available dedicated video memory: 0 MB\nOpenGL vendor string: Mesa\nOpenGL renderer string: llvmpipe (LLVM 20.1.2, 256 bits)\nOpenGL core profile version string: 4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4\nOpenGL core profile shading language version string: 4.50\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.5 (Compatibility Profile) Mesa 25.2.8-0ubuntu0.24.04.4\nOpenGL shading language version string: 4.50\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 25.2.8-0ubuntu0.24.04.4\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+      "stderr": ""
+    },
+    "nativeLayoutUnchanged": true,
+    "passed": true
+  },
+  "trials": {
+    "isolated-resolution": {
+      "platform": "xcb",
+      "results": [
+        {
+          "case": "resolutionShrink",
+          "passed": true,
+          "screenAfterShrink": [
+            0,
+            0,
+            800,
+            600
+          ],
+          "state": "normal",
+          "windowAfterShrink": [
+            100,
+            150,
+            700,
+            450
+          ]
+        },
+        {
+          "case": "resolutionShrink",
+          "passed": true,
+          "screenAfterShrink": [
+            0,
+            0,
+            800,
+            600
+          ],
+          "state": "minimized",
+          "windowAfterShrink": [
+            100,
+            150,
+            700,
+            450
+          ]
+        },
+        {
+          "case": "resolutionShrink",
+          "passed": true,
+          "screenAfterShrink": [
+            0,
+            0,
+            800,
+            600
+          ],
+          "state": "maximized",
+          "windowAfterShrink": [
+            100,
+            150,
+            700,
+            450
+          ]
+        },
+        {
+          "case": "resolutionShrink",
+          "passed": true,
+          "screenAfterShrink": [
+            0,
+            0,
+            800,
+            600
+          ],
+          "state": "fullscreen",
+          "windowAfterShrink": [
+            0,
+            0,
+            800,
+            600
+          ]
+        }
+      ],
+      "scale": "1"
+    },
+    "opengl-1.5": {
+      "platform": "xcb",
+      "results": [
+        {
+          "case": "monitorsFullscreenAndRestore",
+          "passed": true,
+          "screens": [
+            {
+              "capturePixels": [
+                960,
+                600
+              ],
+              "devicePixelRatio": 1.5,
+              "geometry": [
+                0,
+                0,
+                1280,
+                687
+              ],
+              "name": "Virtual1",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                0,
+                0,
+                1280,
+                687
+              ]
+            },
+            {
+              "capturePixels": [
+                900,
+                600
+              ],
+              "devicePixelRatio": 1.5,
+              "geometry": [
+                1920,
+                0,
+                600,
+                1053
+              ],
+              "name": "Virtual2",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                1920,
+                0,
+                600,
+                1053
+              ]
+            },
+            {
+              "capturePixels": [
+                900,
+                600
+              ],
+              "devicePixelRatio": 1.5,
+              "geometry": [
+                2820,
+                0,
+                600,
+                1053
+              ],
+              "name": "Virtual3",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                2820,
+                0,
+                600,
+                1053
+              ]
+            }
+          ]
+        }
+      ],
+      "scale": "1.5"
+    },
+    "opengl-1": {
+      "platform": "xcb",
+      "results": [
+        {
+          "case": "monitorsFullscreenAndRestore",
+          "passed": true,
+          "screens": [
+            {
+              "capturePixels": [
+                640,
+                400
+              ],
+              "devicePixelRatio": 1,
+              "geometry": [
+                0,
+                0,
+                1920,
+                1030
+              ],
+              "name": "Virtual1",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                0,
+                0,
+                1920,
+                1030
+              ]
+            },
+            {
+              "capturePixels": [
+                640,
+                400
+              ],
+              "devicePixelRatio": 1,
+              "geometry": [
+                1920,
+                0,
+                900,
+                1580
+              ],
+              "name": "Virtual2",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                1920,
+                0,
+                900,
+                1580
+              ]
+            },
+            {
+              "capturePixels": [
+                640,
+                400
+              ],
+              "devicePixelRatio": 1,
+              "geometry": [
+                2820,
+                0,
+                900,
+                1580
+              ],
+              "name": "Virtual3",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                2820,
+                0,
+                900,
+                1580
+              ]
+            }
+          ]
+        }
+      ],
+      "scale": "1"
+    },
+    "opengl-2": {
+      "platform": "xcb",
+      "results": [
+        {
+          "case": "monitorsFullscreenAndRestore",
+          "passed": true,
+          "screens": [
+            {
+              "capturePixels": [
+                1280,
+                800
+              ],
+              "devicePixelRatio": 2,
+              "geometry": [
+                0,
+                0,
+                960,
+                515
+              ],
+              "name": "Virtual1",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                0,
+                0,
+                960,
+                515
+              ]
+            },
+            {
+              "capturePixels": [
+                1120,
+                800
+              ],
+              "devicePixelRatio": 2,
+              "geometry": [
+                1920,
+                0,
+                450,
+                790
+              ],
+              "name": "Virtual2",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                1920,
+                0,
+                450,
+                790
+              ]
+            },
+            {
+              "capturePixels": [
+                1120,
+                800
+              ],
+              "devicePixelRatio": 2,
+              "geometry": [
+                2820,
+                0,
+                450,
+                790
+              ],
+              "name": "Virtual3",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                2820,
+                0,
+                450,
+                790
+              ]
+            }
+          ]
+        }
+      ],
+      "scale": "2"
+    },
+    "software-1.5": {
+      "platform": "xcb",
+      "results": [
+        {
+          "case": "monitorsFullscreenAndRestore",
+          "passed": true,
+          "screens": [
+            {
+              "capturePixels": [
+                960,
+                600
+              ],
+              "devicePixelRatio": 1.5,
+              "geometry": [
+                0,
+                0,
+                1280,
+                687
+              ],
+              "name": "Virtual1",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                0,
+                0,
+                1280,
+                687
+              ]
+            },
+            {
+              "capturePixels": [
+                900,
+                600
+              ],
+              "devicePixelRatio": 1.5,
+              "geometry": [
+                1920,
+                0,
+                600,
+                1053
+              ],
+              "name": "Virtual2",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                1920,
+                0,
+                600,
+                1053
+              ]
+            },
+            {
+              "capturePixels": [
+                900,
+                600
+              ],
+              "devicePixelRatio": 1.5,
+              "geometry": [
+                2820,
+                0,
+                600,
+                1053
+              ],
+              "name": "Virtual3",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                2820,
+                0,
+                600,
+                1053
+              ]
+            }
+          ]
+        }
+      ],
+      "scale": "1.5"
+    },
+    "software-1": {
+      "platform": "xcb",
+      "results": [
+        {
+          "case": "monitorsFullscreenAndRestore",
+          "passed": true,
+          "screens": [
+            {
+              "capturePixels": [
+                640,
+                400
+              ],
+              "devicePixelRatio": 1,
+              "geometry": [
+                0,
+                0,
+                1920,
+                1030
+              ],
+              "name": "Virtual1",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                0,
+                0,
+                1920,
+                1030
+              ]
+            },
+            {
+              "capturePixels": [
+                640,
+                400
+              ],
+              "devicePixelRatio": 1,
+              "geometry": [
+                1920,
+                0,
+                900,
+                1580
+              ],
+              "name": "Virtual2",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                1920,
+                0,
+                900,
+                1580
+              ]
+            },
+            {
+              "capturePixels": [
+                640,
+                400
+              ],
+              "devicePixelRatio": 1,
+              "geometry": [
+                2820,
+                0,
+                900,
+                1580
+              ],
+              "name": "Virtual3",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                2820,
+                0,
+                900,
+                1580
+              ]
+            }
+          ]
+        }
+      ],
+      "scale": "1"
+    },
+    "software-2": {
+      "platform": "xcb",
+      "results": [
+        {
+          "case": "monitorsFullscreenAndRestore",
+          "passed": true,
+          "screens": [
+            {
+              "capturePixels": [
+                1280,
+                800
+              ],
+              "devicePixelRatio": 2,
+              "geometry": [
+                0,
+                0,
+                960,
+                515
+              ],
+              "name": "Virtual1",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                0,
+                0,
+                960,
+                515
+              ]
+            },
+            {
+              "capturePixels": [
+                1120,
+                800
+              ],
+              "devicePixelRatio": 2,
+              "geometry": [
+                1920,
+                0,
+                450,
+                790
+              ],
+              "name": "Virtual2",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                1920,
+                0,
+                450,
+                790
+              ]
+            },
+            {
+              "capturePixels": [
+                1120,
+                800
+              ],
+              "devicePixelRatio": 2,
+              "geometry": [
+                2820,
+                0,
+                450,
+                790
+              ],
+              "name": "Virtual3",
+              "pausedPosition": 1,
+              "renderer": "Software",
+              "workArea": [
+                2820,
+                0,
+                450,
+                790
+              ]
+            }
+          ]
+        }
+      ],
+      "scale": "2"
+    }
+  },
+  "screenSamples": 18,
+  "isolatedResolutionStates": 4,
+  "beforeFix": {
+    "platform": "xcb",
+    "results": [
+      {
+        "case": "resolutionShrink",
+        "passed": false,
+        "screenAfterShrink": [
+          0,
+          0,
+          800,
+          600
+        ],
+        "windowAfterShrink": [
+          550,
+          400,
+          700,
+          450
+        ]
+      }
+    ],
+    "scale": "1"
+  },
+  "limitations": [
+    "VirtualBox monitors, not physical hotplug or mixed per-monitor DPI",
+    "Uniform process-local QT_SCALE_FACTOR 1/1.5/2; normal visible toolbar minimum width 560 DIP",
+    "Current native renderer llvmpipe; requested OpenGL correctly falls back to Software; no new actual OpenGL claim",
+    "Xephyr resolution tests have no window manager; native transitions use Cinnamon",
+    "Physical refresh switching, tray interaction and other window managers remain pending",
+    "Wayland excluded by user"
+  ],
+  "personalProfileChanged": false
+}

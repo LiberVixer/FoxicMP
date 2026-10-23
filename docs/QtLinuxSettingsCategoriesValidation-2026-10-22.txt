@@ -1,0 +1,58 @@
+FoxicMP Qt 0.1.60 — settings categories, 2026-10-22
+
+Implemented the user-approved Linux preferences layout: 10 categories, 40 tabs.
+Global RU/EN search opens individual controls and expands advanced sections.
+Enter in the search field or result list never activates the default OK button.
+Escape clears a search first; Down moves from the search field to the results.
+Each category remembers its selected tab while the dialog remains open.
+Existing settings keys, callbacks, draft validation and explicit action buttons remain in use.
+Saved legacy page links select the new tab and expand Logo/ICC/color sections.
+Empty DVD/TV/physical-device placeholders are omitted; those features remain deferred.
+Menus and toolbar remain based on Classic. The revised settings grouping supersedes
+the earlier requirement to reproduce the exact Classic settings tree.
+
+Additional draft controls expose existing screenshot/thumbnail and maintenance values.
+Apply/OK saves drafts; Cancel preserves only earlier applied changes.
+Search, shortcut filters and category/tab navigation do not enable Apply.
+All active named controls are checked for accidental loss into inactive source pages;
+only four synchronized legacy bindings are permitted there.
+Tests cover initial legacy ICC navigation, search and keyboard selection, category
+tab memory, capture quality/columns, normalization, Apply/Cancel and reopening.
+The Window page's main controls fit at the new default dialog size, 900 x 720.
+
+Build: all CMake targets completed successfully.
+English catalog: 1654 source strings covered, 1749 entries, placeholders valid.
+
+Broad software CTest selection: 24 groups, 701.43 seconds.
+21 passed initially. Classic navigation failures were corrected; a Window title
+test still expected the old tab name and was updated (its initial modal run was
+terminated after the assertion). That test now has a cleanup guard.
+An initial bitmap-to-text subtitle assertion failed. The identical rendering test
+passed in the final isolated rerun; its timing-dependent failure is recorded here,
+not claimed fixed by this settings change. No rendering/backend fix was made.
+
+Final CTest rerun: 4 groups passed, 0 failed, 202.06 seconds:
+  classic-interface: 17 QtTest cases passed
+  window-title: 7 passed
+  window-presentation: 13 passed
+  subtitle-render: 8 passed
+Together with the broad run, all 24 selected groups have a passing result.
+The other 12 CTest groups were not repeated for this UI update.
+Logs: _bin/qt-ctest-0.1.60-regression.log
+      _bin/qt-ctest-0.1.60-final-ui.log
+
+Stripped package: --version/--help do not create a profile; documentation images
+are present; no developer profile is bundled. Real X11 captures verify settings
+opened by O, dark theme, category/tab presentation, 900 x 720 size and Escape.
+Screenshots use isolated profiles, not the installed personal profile.
+
+Installed Linux version: 0.1.59 -> 0.1.60.
+All 63 program files match the archive. Current INI/log and desktop launcher
+are preserved byte-for-byte across installation, including the user's recent changes.
+Backup: _bin/FoxicMPQt-linux-x64.backup-20261022-053302
+Archive SHA-256: bd5f2b422e8082c78015dd05b10bd05aa30ebadf98c5052e33868c63987639d4
+Machine-readable package/source/installation record:
+  docs/QtLinuxPackage-0.1.60-2026-10-22.json
+
+Windows installation/settings unchanged. Harvester GUI integration stays disabled.
+Physical equipment trials and Wayland tests remain excluded by the user.

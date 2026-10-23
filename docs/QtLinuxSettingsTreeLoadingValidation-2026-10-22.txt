@@ -1,0 +1,53 @@
+FoxicMP Qt 0.1.61 — settings tree and immediate loading feedback, 2026-10-22
+
+The left navigation is an expandable tree with 10 category roots and 40 page
+children. The right category tabs remain. Tree, tabs and global RU/EN search
+select the same page; each category remembers its tab during the dialog session.
+
+Opening preferences immediately shows a loading page with an animated spinner
+and Cancel. Page construction yields to the event loop at defined stages, so
+painting, animation and cancellation remain responsive. Completed pages replace
+the loading page together. Repeated requests cannot open a second dialog.
+The pending requested page is consumed before construction, including when the
+user cancels early. A subsequent normal opening does not reuse a stale page link.
+Settings keys/defaults and Apply/Cancel draft behavior remain unchanged.
+
+Build: all CMake targets completed successfully on final sources.
+Log: _bin/qt-build-061-verified.log
+English catalog: 1655 source strings covered, 1750 entries, placeholders valid.
+
+Final CTest selection: all 16 groups passed in two isolated Xvfb/DBus/Pulse batches.
+UI batch: 8 groups, 359.69 seconds.
+  classic-interface, playlist-formats, library, window-title,
+  window-presentation, appearance, input-control, profile-archives
+Controls batch: 8 groups, 285.18 seconds.
+  player, tools, playback-controls, video-transform, subtitles,
+  audio-processing, audio-routing, video-output
+Logs: _bin/qt-ctest-0.1.61-ui.log
+      _bin/qt-ctest-0.1.61-controls.log
+ClassicUiTest: 18 passed, including visible loading before the tree exists,
+spinner animation, early cancellation, unchanged profile and successful reopening.
+PlayerTest's optional continuousPlayback case was skipped because the soak
+duration was not requested. This is a selected regression run, not all 36 groups.
+
+Stripped package: --version/--help pass without creating a profile; documentation
+images are present and developer profiles are absent. Real X11 window captures
+verify opening with O, Escape cancellation, dark theme, tree plus right tabs,
+and a 900 x 720 preferences window. The first native settings window was observed
+at 112.3 ms; ready contents were observed at 4572.7 ms in the isolated test.
+These are single-run observations including polling/capture overhead, not a
+general performance guarantee. Captures use isolated profiles.
+Screenshots: docs/images/foxicmp-qt-appearance-preferences.png
+             docs/images/foxicmp-qt-settings-loading.png
+
+Installed Linux version: 0.1.60 -> 0.1.61.
+All 63 program files match the archive. The latest current INI/log and desktop
+launcher are preserved byte-for-byte, including changes made during development.
+Backup: _bin/FoxicMPQt-linux-x64.backup-20261022-062146
+Archive SHA-256: 642c4b13cbf15eecf762c349486a8b3a26196a2e5a6f44c8c7dcb6bd686e0e30
+The installed binary matches the binary used for the native X11 capture.
+Machine-readable package/source/installation record:
+  docs/QtLinuxPackage-0.1.61-2026-10-22.json
+
+Windows installation/settings unchanged. Harvester GUI integration stays disabled.
+Physical equipment trials and Wayland tests remain excluded by the user.

@@ -1,0 +1,48 @@
+FoxicMP Qt 0.1.3 / Mint 22.3 / isolated Xvfb X11 display, 1280x720
+Software output. Optional continuous playback skipped (renderer unchanged).
+
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::portableProfile()
+PASS   : PlayerTest::chapterLines()
+PASS   : PlayerTest::integration()
+PASS   : PlayerTest::desktopLaunch()
+PASS   : PlayerTest::interface()
+PASS   : PlayerTest::playbackTimeInput()
+QINFO  : PlayerTest::inputControls() Before remapped key: QVariant(bool, true) QVariant(bool, false) QVariant(double, 3.25)
+PASS   : PlayerTest::inputControls()
+PASS   : PlayerTest::libraryProfile()
+PASS   : PlayerTest::playlistFiles()
+PASS   : PlayerTest::queuePlayback()
+PASS   : PlayerTest::queueKeyboardAndDrop()
+PASS   : PlayerTest::bookmarksAndHistory()
+PASS   : PlayerTest::outputFallback()
+SKIP   : PlayerTest::continuousPlayback() Optional continuous playback: set FOXICMP_TEST_SOAK_SECONDS
+   Loc: [/media/sf_Studio/Programs/MPMY-src/qt/tests/player_test.cpp(674)]
+PASS   : PlayerTest::playback(AV1.mkv)
+PASS   : PlayerTest::playback(chapters.mkv)
+PASS   : PlayerTest::playback(HEVC.mov)
+PASS   : PlayerTest::playback(MPEG4.avi)
+PASS   : PlayerTest::playback(VP9.webm)
+PASS   : PlayerTest::playback(Русский H264.mp4)
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 21 passed, 0 failed, 1 skipped, 0 blacklisted, 37627ms
+********* Finished testing of PlayerTest *********
+
+Requested OpenGL interface (Mesa fallback to Software; not physical GPU validation)
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::interface()
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 3 passed, 0 failed, 0 skipped, 0 blacklisted, 2762ms
+********* Finished testing of PlayerTest *********
+
+Extracted package M3U8 smoke test
+Version: FoxicMPQt 0.1.3
+No bundled library/profile/history: passed
+Gtk-Message: 15:58:14.547: Failed to load module "colorreload-gtk-module"
+Gtk-Message: 15:58:14.548: Failed to load module "window-decorations-gtk-module"
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Extracted executable opened M3U8 and recorded the successfully loaded fixture in its adjacent profile; stayed running for 4 seconds.

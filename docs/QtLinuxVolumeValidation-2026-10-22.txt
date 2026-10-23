@@ -1,0 +1,13 @@
+FoxicMP Qt/Linux 0.1.64 — проверка регулятора громкости
+Дата: 2026-10-22 (Europe/Moscow)
+
+В Windows Classic регулятор является собственной отрисовкой PlayerVolumeCtrl: узкая дорожка 16 px, вертикальные градиенты, светлый маркер на границе заполнения и красная вертикальная отметка в режиме mute. Эти правила перенесены в ClassicVolumeSlider Qt/Linux. Слайдер сохраняет пользовательские цвета профиля, поддерживает перетаскивание мышью и обновляет маркер при изменении громкости или mute.
+
+Проверки:
+- `classic-interface`, `window-title`, `appearance`: 3/3 passed; 208.02 s.
+- `WindowTitleTest::classicVolumeTrackGeometryAndInput`: passed; проверены размеры 95x22, диапазон мыши, состояния low/high/muted.
+- Снимки состояния сгенерированы в `_bin/qt-screenshots-064/software/`: `volume-low.png`, `volume-high.png`, `volume-muted.png`.
+- `qt/tools/check_translations.py`: passed (1674 исходных строк покрыты).
+- Архив `FoxicMPQt-0.1.64-linux-x64.tar.gz` проверен по SHA-256 `a001385151164d1a858924ac80b6bf4da5ffb31607041e9e8db43cb1ee0fd4c5`.
+
+После проверки версия 0.1.64 установлена в `_bin/FoxicMPQt-linux-x64`. Профиль `FoxicMPQt.ini` и журнал сохранены; создана резервная копия `_bin/FoxicMPQt-linux-x64.backup-20261022-213049`. Настройки Windows не изменялись. Wayland и физическое оборудование не проверялись согласно плану.

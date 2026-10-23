@@ -1,0 +1,32 @@
+{
+  "version": "0.1.1 development preview",
+  "platform": "Linux Mint 22.3 x86_64 / X11",
+  "qt": "6.4.2",
+  "libmpv": "0.37.0",
+  "default_render_api": "software",
+  "opengl_status": "experimental; automatically falls back on Mesa llvmpipe/softpipe, initialization failure or missing context deadline",
+  "archive": "FoxicMPQt-0.1.1-linux-x64.tar.gz",
+  "archive_bytes": 206761,
+  "sha256": "a13c31b5dc18cbcc9af799dbbe14b00066b4b9c8bff1c154c9e8905931ef01be",
+  "software_suite": "14 passed, 0 failed, 1 optional soak skipped",
+  "requested_opengl_suite": "14 passed, 0 failed, 1 optional soak skipped; actual output Software on Mesa",
+  "continuous_playback_seconds": 60,
+  "continuous_playback_result": "3 passed, 0 failed; UI heartbeat and minimize/restore checked",
+  "packaged_launch": "Version and 4-second startup checked from extracted archive; no profile/history included",
+  "not_verified": [
+    "physical GPU OpenGL rendering and acceleration",
+    "physical A/V latency",
+    "Wayland/HiDPI",
+    "hours-long playback",
+    "Qt Windows build",
+    "GitHub-hosted workflow execution"
+  ],
+  "real_source_clips": {
+    "sources": [
+      "YouTube",
+      "Rutube",
+      "VK"
+    ],
+    "result": "5 passed, 0 failed; local clips, not online/progressive playback"
+  }
+}

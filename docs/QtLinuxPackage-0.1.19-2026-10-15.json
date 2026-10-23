@@ -1,0 +1,71 @@
+{
+  "version": "0.1.19",
+  "status": "development preview; parity item 12 software implemented; physical GPU/stereo-display checks pending",
+  "archive": "FoxicMPQt-0.1.19-linux-x64.tar.gz",
+  "bytes": 1946136,
+  "sha256": "287633392d431c701e6c8096aab90e9a2a9146dbeac2eaa297e516dd4ee03081",
+  "ctestSoftware": "14/14 passed across full run (326.71 s) and input rerun (30.49 s)",
+  "ctestRequestedOpenGL": "14/14 passed across full run (335.19 s) and input rerun (32.00 s); actual Software fallback",
+  "initialInputFailure": "test accumulated 25 FPS seek rounding; assertions fixed to check individual settled-position deltas, production unchanged",
+  "qtTransformChecks": "7 passed, 0 failed, 0 skipped in each mode",
+  "qtInputRegressionChecks": "10 passed, 0 failed, 0 skipped in each mode",
+  "optionalContinuousPlaybackTest": "not requested; one player case skipped in each mode",
+  "independentScalePanZoomFillVerified": true,
+  "cropPixelsAspectAndSampleAspectVerified": true,
+  "mirrorFlipAndRotationVerified": true,
+  "stereoInputLayouts": 12,
+  "stereoConvertedOutputLayouts": 12,
+  "stereoEyeSelectionSwapAndMetadataAutoVerified": true,
+  "ordinary2dUnchangedByAutoVerified": true,
+  "previewSourceFiltersAndSeparateWorkerVerified": true,
+  "cancelApplyResetAndLegacyRotationVerified": true,
+  "customPresetsSaveLoadRenameDeleteRestartVerified": true,
+  "transformPersistenceOptIn": true,
+  "fullscreenAndFileChangePreserveSessionTransformVerified": true,
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "standaloneAdapterBundled": true,
+  "portableProfileSavedBesideExtractedBinary": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "packagePlayback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.423
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.418
+    }
+  },
+  "packagedMprisWireCommandsVerified": true,
+  "packagedTransformPreferencesPreserved": true,
+  "packagedTransformScreenshotsVerified": true,
+  "englishCatalogEntries": 825,
+  "translatedCurrentSourceStrings": 817,
+  "screenshots": {
+    "docs/images/foxicmp-qt-transform-preferences.png": "760×590",
+    "docs/images/foxicmp-qt-crop-preferences.png": "760×590",
+    "docs/images/foxicmp-qt-stereo-preferences.png": "760×590",
+    "docs/images/foxicmp-qt-transform-presets.png": "760×590",
+    "docs/images/foxicmp-qt-transform-video.png": "640×480"
+  },
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "installedProfileSha256": "1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad",
+  "privatePulseModulesRemoved": true,
+  "physicalStereoDisplayVerified": false,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "githubWorkflowExecuted": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "parityPlanItem3RemainderDeferred": true,
+  "nextParityPlanItem": 13,
+  "limitations": [
+    "MVC/Blu-ray 3D decoding, active shutter glasses and 2D-to-depth conversion are not implemented",
+    "row/column alignment on physical stereo displays requires target-machine verification",
+    "preview applies source filters, not window pan/scale/zoom/fill framing",
+    "physical GPU/HiDPI/Wayland/WM verification pending",
+    "online preview service limits documented in 0.1.17 remain"
+  ]
+}

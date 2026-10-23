@@ -1,0 +1,61 @@
+Qt 0.1.5 — пункт 5.
+
+after-015.txt
+********* Start testing of AfterPlaybackTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : AfterPlaybackTest::initTestCase()
+PASS   : AfterPlaybackTest::closeKeepsQueue()
+PASS   : AfterPlaybackTest::onceActionsAndStops()
+PASS   : AfterPlaybackTest::repeatAndShuffleBoundary()
+PASS   : AfterPlaybackTest::directoryNavigation()
+PASS   : AfterPlaybackTest::minimizeAndExit()
+PASS   : AfterPlaybackTest::isolatedSystemTransport()
+PASS   : AfterPlaybackTest::systemRequestContracts()
+PASS   : AfterPlaybackTest::cleanupTestCase()
+Totals: 9 passed, 0 failed, 0 skipped, 0 blacklisted, 11336ms
+********* Finished testing of AfterPlaybackTest *********
+
+ctest-015-software.txt
+[OUTPUT] 
+Internal ctest changing into directory: /media/sf_Studio/Programs/MPMY-src/_bin/qt-build
+
+[HANDLER_OUTPUT] 
+Test project /media/sf_Studio/Programs/MPMY-src/_bin/qt-build
+
+    Start 1: player
+1/3 Test #1: player ...........................   Passed   45.75 sec
+    Start 2: tools
+2/3 Test #2: tools ............................   Passed    3.04 sec
+    Start 3: after-playback
+3/3 Test #3: after-playback ...................   Passed   10.94 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =  59.78 sec
+
+ctest-015-opengl.txt
+[OUTPUT] 
+Internal ctest changing into directory: /media/sf_Studio/Programs/MPMY-src/_bin/qt-build
+
+[HANDLER_OUTPUT] 
+Test project /media/sf_Studio/Programs/MPMY-src/_bin/qt-build
+
+    Start 1: player
+1/3 Test #1: player ...........................   Passed   46.12 sec
+    Start 2: tools
+2/3 Test #2: tools ............................   Passed    2.89 sec
+    Start 3: after-playback
+3/3 Test #3: after-playback ...................   Passed   11.01 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =  60.18 sec
+
+package-check-015.json
+{
+  "version": "0.1.5",
+  "automatic_exit_at_natural_eof": true,
+  "exit_code": 0,
+  "portable_profile_saved": true,
+  "user_data_packaged": false
+}

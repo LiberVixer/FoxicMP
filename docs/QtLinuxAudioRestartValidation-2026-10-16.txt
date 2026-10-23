@@ -1,0 +1,68 @@
+FoxicMP Qt Linux 0.1.35 — перезапуск аудио на паузе
+Дата: 16 октября 2026. Ветка codex/linux-qt.
+
+Проблема
+В 0.1.33/0.1.34 непостоянно не завершался переход AC3 bitstream ↔ PCM на
+паузе; сбой также воспроизведён при смене скорости/политики passthrough.
+Старый код менял decoder options, отдельно set aid no / set aid N, затем
+обновлял фильтры. Перезапуск дополнительно зависел от наличия audio-params,
+которые временно отсутствуют во время перестройки. Данные/позиция старого
+буфера не восстанавливались. При повторениях новый regression test на старом
+коде поймал сдвиг paused position 0.672 → 0.736 sec.
+Полное verbose логирование меняло воспроизводимость; отсутствие failures
+в таком диагностическом прогоне не трактовалось как исправление.
+
+Изменения
+AudioProcessing снимает timestamp до любых изменений. AudioEncoding меняет
+опции и сообщает needRestart. После полного применения графа/формата/rate/
+выходных параметров Player выполняет единый synchronous mpv command list:
+no-osd set aid no; no-osd set aid N; no-osd seek POS absolute+exact.
+Последний шаг только для seekable источников с действительным timestamp.
+Пауза не снимается; файл и выбранная дорожка сохраняются. Idle/disabled audio
+не включается. Отсутствующий во время перестройки audio-params не теряет
+повторный restart. Нет Qt timer/deferred reload, старый источник не посылает
+seek после загрузки нового. Native decoder initialization по-прежнему async.
+Timestamp fixed decimal 9 digits; mpv input time parser отвергает exponent,
+что отдельно обнаружено на 1.1102230246251565e-15 near-start timestamp.
+
+Проверки
+Software: 28/28 CTest, 485.97 sec.
+Requested OpenGL: 28/28, 507.53 sec; actual Software fallback.
+AudioEncodingTest: 9 passed каждый run, включая audio-only и audio-video.
+Начальная попытка 200 cycles/source превысила штатный 90 s CTest limit
+на video case; каждый отдельный переход до timeout проходил. Логи сохранены.
+Итог: 10 последовательных полных аудиопрогонов на каждый режим, без увеличения
+дедлайна; количество cycles/source снижено до50 ради общего бюджета теста.
+В каждом 50 AC3→PCM→AC3 циклов для raw AC3 и MKV с video+AC3:
+2000 циклов, 4000 отдельных переходов суммарно, без failures.
+После каждого перехода: непустой фактический формат, pause=true, тот же
+source/aid, loaded=1 и ended=0, drift <40 ms от начального paused timestamp.
+Быстрые 12 изменений подряд, source replacement и disabled audio проверены.
+AC3 IEC 61937 preamble и payload equality сохранены. Старые PCM bit-depth/
+resampling/DRC/downmix/passthrough/speed cases прошли. Никаких sleeps в рабочем
+перезапуске и увеличения тестовых readiness-дедлайнов ради прохождения нет.
+English catalog: 1368 source strings covered; 1396 entries; placeholders valid
+
+Архив распакован: version/help/profile options, CUE/PLS playback, MPRIS,
+ранее сохранённые настройки и audio/shader helpers проверены. Личные INI,
+diagnostic logs/fixtures, ICC/GLSL/cache/bytecode/locks в архив не включены.
+Установленные 41 файла 0.1.26 сверены с её исходным архивом, не обновлялись.
+Личный профиль не записывали, рабочие MIME/menu defaults не изменяли.
+Windows-плеер/Harvester UI не менялись. Commit/push/release не выполнялись.
+
+Границы
+Точность софта <40 ms, а не измерение физического A/V или HDMI/S/PDIF.
+Физический ресивер/переключение устройства/бесшовность звука не подтверждены.
+Для non-seekable потока прошлую позицию не восстанавливаем; сохранение точной
+live позиции не установлено. Native driver/DTS/TrueHD требуют отдельной
+медиаматрицы. GPU/Wayland не подтверждены. Общий пункт 17 ещё не завершён:
+дальше профиль export/import/reset, обслуживание, web, прочие CLI.
+
+Источники реализации mpv 0.37:
+https://github.com/mpv-player/mpv/blob/v0.37.0/player/loadfile.c
+https://github.com/mpv-player/mpv/blob/v0.37.0/player/command.c
+https://github.com/mpv-player/mpv/blob/v0.37.0/demux/demux.c
+
+Архив: FoxicMPQt-0.1.35-linux-x64.tar.gz
+Размер: 4581112 bytes
+SHA256: ddddc75c5b436d3dead5ad57ef1ef8127695092de50f31f4db5b0f4aed38cf31

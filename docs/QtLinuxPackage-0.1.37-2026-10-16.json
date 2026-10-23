@@ -1,0 +1,128 @@
+{
+  "version": "0.1.37",
+  "date": "2026-10-16",
+  "branch": "codex/linux-qt",
+  "archive": "_bin/qt-release/FoxicMPQt-0.1.37-linux-x64.tar.gz",
+  "bytes": 4652602,
+  "sha256": "dbd6337b41049ebd6f1e83456153c24d931d64260025ff1184b5355aa404ce67",
+  "ctest": {
+    "software": {
+      "ctest_groups_passed": 29,
+      "profile_cases_passed": 30,
+      "seconds": 491.24
+    },
+    "opengl": {
+      "ctest_groups_verified": 29,
+      "initial_groups_passed": 24,
+      "initial_groups_failed_after_display_loss": 5,
+      "repeated_groups_passed": 5,
+      "profile_cases_passed": 30,
+      "initial_seconds": 480.51,
+      "repeat_seconds": 46.46,
+      "reason": "X server connection lost during system-icc; subsequent cases could not connect. No code change before isolated repeat."
+    }
+  },
+  "requested_opengl_actual_output": "Software fallback",
+  "profile_reset": {
+    "backup": "Exact INI at Backups/before-reset-*.ini",
+    "default_keep_library": true,
+    "optional_clear_library": true,
+    "kept": "playlists/tabs/current index, history, positions, favorites including favorite preferences",
+    "always_kept": "integration undo journal; media, images/ICC/subtitle edits and existing backups",
+    "startup_integration_check": false,
+    "atomic_replacement": "QSaveFile",
+    "order": "close window and workers; stop IPC; acquire exclusive lease; backup; replace INI",
+    "runtime_lease": "shared per Profile, exclusive for reset; canonical directory identity; O_CLOEXEC",
+    "tests": "keep/wipe, exact backup/reopen, repeated backup uniqueness, canonical alias/other instance, blocked writer, INI/backups links, FIFO, backup failure, UI cancel/opt-out, child shutdown with tray"
+  },
+  "package_smoke": {
+    "version": "FoxicMPQt 0.1.37",
+    "archive": "FoxicMPQt-0.1.37-linux-x64.tar.gz",
+    "bytes": 4652602,
+    "sha256": "dbd6337b41049ebd6f1e83456153c24d931d64260025ff1184b5355aa404ce67",
+    "profileBundled": false,
+    "bytecodeBundled": false,
+    "portableTabsAndCueChaptersSaved": true,
+    "playback": {
+      "cue": {
+        "returncode": 0,
+        "seconds": 9.731
+      },
+      "pls-errors": {
+        "returncode": 0,
+        "seconds": 9.723
+      }
+    },
+    "cliOptionsChecked": true,
+    "libraryPreferencesPreserved": true,
+    "historyUpdatedBesideBinary": true,
+    "historyAndFavoritesScreenshotsBundled": true,
+    "windowPreferencesPreserved": true,
+    "fullscreenStartupAndNaturalExitRun": true,
+    "windowScreenshotsBundled": true,
+    "appearanceAndOsdPreferencesPreserved": true,
+    "englishCatalogBundled": true,
+    "mprisPackagedWireCommandsVerified": true,
+    "transformPreferencesPreserved": true,
+    "transformScreenshotsBundled": true,
+    "inputPreferencesPreserved": true,
+    "mouseAndInputScreenshotsBundled": true,
+    "subtitleCommandsAndScreenshotsBundled": true,
+    "subtitlePreferencesPreserved": true,
+    "subtitleStylePreferencesPreserved": true,
+    "subtitleRenderPreferencesPreserved": true,
+    "audioProcessingPreferencesPreserved": true,
+    "packagedShaderCompilerAndProbeVerified": true,
+    "mediaCapturePreferencesPreserved": true,
+    "systemIccSourcePreserved": true,
+    "videoShaderPreferencesPreserved": true,
+    "videoDisplayPreferencesPreserved": true,
+    "videoOutputPreferencesPreserved": true,
+    "audioEncodingPreferencesPreserved": true,
+    "customAudioFilterPreferencesPreserved": true,
+    "audioRoutingPreferencesPreserved": true,
+    "audioOutputHelperBundled": true,
+    "packagedAudioHelperLeaseVerified": true,
+    "cliQueriesDoNotCreateProfile": true,
+    "profileLaunchOptionsPackaged": true,
+    "associationCommandAndScreenshotBundled": true,
+    "profileManagementCommandPackaged": true
+  },
+  "translation_source_strings": 1425,
+  "translation_entries": 1455,
+  "source_sha256": {
+    "qt/src/profilereset.cpp": "b2b41711600f72b9a0b3a1d84178c01ada37fe555bf9916ba8ac36f0e523a033",
+    "qt/src/profilereset.h": "3386c82917e33f43b1068bc0a2b2b739c4f586dbe157f2fe3e299b7aeccfb6ce",
+    "qt/src/profile.cpp": "55d97693c2661b9f77ff05e6bf959ae12794387e58051093cff54b9cb65dc0c2",
+    "qt/src/profile.h": "3b57244c42837873364722ceb9b01b84d62fe9807b1e8a29bbb35c165523af94",
+    "qt/src/profileoptions.cpp": "81e66ad88d9313dbecd9dd09ba4dc5abbfb6234860a8feff7dde812994673dca",
+    "qt/src/profileoptions.h": "25be73a20a22cc3e80e6f706955884aa24b1d1e21fb6216b868619d6f3dc34b2",
+    "qt/src/main.cpp": "cab720bddbd65a11da97922427be315ef763c03a4382c0c35c879800ab402ba9",
+    "qt/src/window.cpp": "31dfae6b3226092c3db76a2cf57d6efeeb3394a02a9eaa7363f48d69731863cf",
+    "qt/src/window.h": "8ffda4330502e87092c1c8536d64fbb454a0ffc246fcf08ebea44a198b7843bf",
+    "qt/tests/profilearchive_test.cpp": "bfa704fe2ca7fdea7cc910692a319171ad2539f9abe01126e31147f310580e9c"
+  },
+  "screenshot": "docs/images/foxicmp-qt-profile-reset.png",
+  "installed_player_updated": false,
+  "installed_files_checked_unchanged": 43,
+  "user_profile_written": false,
+  "windows_player_changed": false,
+  "harvester_gui_enabled": false,
+  "github_published": false,
+  "physical_gpu_verified": false,
+  "wayland_verified": false,
+  "limits": [
+    "Old versions do not know reset leases; close all older windows using this profile",
+    "Backup is an unencrypted INI for the original profile directory; restore with all player windows closed",
+    "Resources are kept in place, not copied into the reset backup",
+    "Unix mode0600 requested; VirtualBox shared folder may ignore it",
+    "Optional continuous soak is not part of this run; existing CTest case is skipped without its environment variable"
+  ],
+  "remaining_item17": [
+    "persistent profile location/default launcher UI",
+    "window title customization",
+    "updates, process priority and crash reporting",
+    "web control and remaining Classic CLI",
+    "folder/disc integration; physical devices/disc menus/analog TV remain deferred"
+  ]
+}

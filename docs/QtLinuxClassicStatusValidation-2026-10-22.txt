@@ -1,0 +1,68 @@
+FoxicMP Qt 0.1.63 — Classic caption/status validation, 2026-10-22
+
+Windows reference: MainFrm::UpdateWindowTitle, UpdatePlayerStatus,
+GetMediaTitleOrFileName, GetCurrentChapterInfo; DrawMergedStatus,
+ScaleStatusFont, DrawResizeGrip and PlayerStatusBar timer handlers.
+The saved Windows capture is from 2026-10-20. No fresh Windows capture or
+Windows installation/profile mutation was performed in this change.
+
+Caption: media title/filename/path + " - " + FoxicMP x64 0.1.63, or the
+versioned player identity alone. Metadata mode remains the Qt default;
+existing mode/state/time/template preferences are preserved.
+
+Merged toolbar: play/pause symbols, playback rate while running, title,
+chapter number/name, duplicate/generic chapter-number cleanup, hovered
+chapter status independent of frame previews, buffering/error precedence.
+The filename extension is omitted in the status fallback. Status text is
+painted with end ellipsis while its complete plain text remains accessible.
+The timer has priority, never overlaps volume, and is suppressed if it
+cannot fit the flexible slot. Closing a file clears the timer immediately.
+Elapsed/remaining click and millisecond context-menu settings are retained;
+remaining time now uses Classic's ASCII "- " prefix. Font request: Tahoma,
+13 logical pixels. Padding and the dark toolbar gradient/status colors
+follow Classic's brightness/RGB convention. Classic's GPU SVG is reused;
+its visibility/tooltip follow the real libmpv hardware decoder. Resize grip
+uses Classic's dark diagonal strokes and QSizeGrip's window resizing.
+
+All five selected CTest groups passed:
+  classic-interface: 152.85 seconds
+  player: 68.99 seconds
+  window-title: 23.74 seconds
+  window-presentation: 44.28 seconds
+  appearance: 47.38 seconds
+
+The new classicStatusAndClockFollowPlayback case checks real chapter media,
+pause/rate/seek, metadata fallback, chapter names, long plain-text status,
+560-pixel layout, clock click/context actions, hover restoration, an oversized
+timer, and closing/reset. The millisecond assertion accepts actual fractional
+seconds: the fixture's duration is 8.021 seconds, not an integral second.
+The main suite's optional continuous-playback soak was not requested.
+
+The stripped archive passed version/help/no-profile-creation checks.
+Actual packaged X11 windows were captured at 1060x680 and 560x680 with
+isolated profiles. Both captions were verified via xwininfo as
+"chapters.mkv - FoxicMP x64 0.1.63". Images were visually inspected:
+message shortening, timer allocation, chapter display and volume placement.
+
+Evidence:
+  _bin/qt-build-063-verified.log
+  _bin/qt-build-063-title-final.log
+  _bin/qt-build-063-appearance.log
+  _bin/qt-ctest-0.1.63-status.log
+  _bin/qt-ctest-0.1.63-appearance.log
+  _bin/qt-status-063-validation/packaged-ui.json
+  _bin/qt-status-063-validation/packaged-status-1060.png
+  _bin/qt-status-063-validation/packaged-status-560.png
+  _bin/qt-screenshots-063/software/classic-status.png
+  _bin/qt-screenshots-063/software/classic-status-narrow.png
+  _bin/qt-package-063-smoke.json
+
+Limits: Linux's window manager still draws the native frame/title buttons;
+pixel identity of Windows non-client decorations is not claimed. Font
+substitution depends on installed Linux fonts. No physical GPU/receiver/
+capture-equipment trial or Wayland trial was run, per user scope.
+
+Installed: FoxicMPQt 0.1.62 -> FoxicMPQt 0.1.63
+Backup: /media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64.backup-20261022-115041
+Archive SHA-256: 2fe4d8678e4f1ecc3153f07c59d88ee31fa4553df960f67fdb2bce82663977e3
+All 64 package files verified; INI, log and launcher preserved.

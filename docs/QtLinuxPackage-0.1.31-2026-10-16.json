@@ -1,0 +1,135 @@
+{
+  "version": "FoxicMPQt 0.1.31",
+  "archive": "FoxicMPQt-0.1.31-linux-x64.tar.gz",
+  "bytes": 4120995,
+  "sha256": "58e25d42cc04e52eba0515515a7a8efb99b98013bd820bfaf1bfe0236b911da6",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableTabsAndCueChaptersSaved": true,
+  "playback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.406
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.657
+    }
+  },
+  "cliOptionsChecked": true,
+  "libraryPreferencesPreserved": true,
+  "historyUpdatedBesideBinary": true,
+  "historyAndFavoritesScreenshotsBundled": true,
+  "windowPreferencesPreserved": true,
+  "fullscreenStartupAndNaturalExitRun": true,
+  "windowScreenshotsBundled": true,
+  "appearanceAndOsdPreferencesPreserved": true,
+  "englishCatalogBundled": true,
+  "mprisPackagedWireCommandsVerified": true,
+  "transformPreferencesPreserved": true,
+  "transformScreenshotsBundled": true,
+  "inputPreferencesPreserved": true,
+  "mouseAndInputScreenshotsBundled": true,
+  "subtitleCommandsAndScreenshotsBundled": true,
+  "subtitlePreferencesPreserved": true,
+  "subtitleStylePreferencesPreserved": true,
+  "subtitleRenderPreferencesPreserved": true,
+  "audioProcessingPreferencesPreserved": true,
+  "packagedShaderCompilerAndProbeVerified": true,
+  "systemIccSourcePreserved": true,
+  "videoShaderPreferencesPreserved": true,
+  "videoDisplayPreferencesPreserved": true,
+  "videoOutputPreferencesPreserved": true,
+  "audioEncodingPreferencesPreserved": true,
+  "customAudioFilterPreferencesPreserved": true,
+  "audioRoutingPreferencesPreserved": true,
+  "audioOutputHelperBundled": true,
+  "packagedAudioHelperLeaseVerified": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "status": "development preview; automatic per-output colord ICC for X11 added",
+  "ctestSoftware": {
+    "passed": 25,
+    "total": 25,
+    "seconds": 469.36
+  },
+  "ctestRequestedOpenGL": {
+    "initialPassed": 24,
+    "total": 25,
+    "seconds": 487.76,
+    "actual": "Software fallback",
+    "finalSystemIcc": "7/7 after test baseline correction; all 25 suites verified across full and targeted runs"
+  },
+  "initialFullResults": {
+    "software": {
+      "passed": 25,
+      "total": 25
+    },
+    "opengl": {
+      "passed": 24,
+      "total": 25,
+      "failed": "new ICC pixel baseline captured before first decoded frame; test corrected to wait for color bars"
+    }
+  },
+  "finalSystemIccSoftwareAndRequestedOpenGL": "7/7 each",
+  "systemIccChecksPerMode": 7,
+  "measurements": {
+    "software": {
+      "defaultQualifierNotProfilesZeroVerified": true,
+      "disabledInhibitedWrongOutputInvalidFileVerified": true,
+      "pauseAndPlaybackPreserved": true,
+      "preferencesCancelResetAllDialogsAndManualPathPreserved": true,
+      "realQtWindowAndFiveSecondContentPollingVerified": true,
+      "staleRepliesAndTimeoutNonblockingVerified": true,
+      "twoOutputProfilesAndAssignmentChangesVerified": true,
+      "waylandAutoBypassedVerified": true
+    },
+    "opengl": {
+      "defaultQualifierNotProfilesZeroVerified": true,
+      "disabledInhibitedWrongOutputInvalidFileVerified": true,
+      "pauseAndPlaybackPreserved": true,
+      "preferencesCancelResetAllDialogsAndManualPathPreserved": true,
+      "realQtWindowAndFiveSecondContentPollingVerified": true,
+      "staleRepliesAndTimeoutNonblockingVerified": true,
+      "twoOutputProfilesAndAssignmentChangesVerified": true,
+      "waylandAutoBypassedVerified": true
+    }
+  },
+  "translationCheck": "English catalog: 1237 source strings covered; 1259 entries; placeholders valid",
+  "iccDefaultEnabled": false,
+  "iccDefaultSource": "manual",
+  "systemIccBackend": "colord system D-Bus, X11 Qt platform xcb",
+  "exactOutputMatch": "XRANDR_name equals current Qt window screen name; display enabled and owner current uid or system",
+  "defaultProfileMethod": "GetProfileForQualifiers([\"*\"]); respects profiling inhibitors, does not choose Profiles[0]",
+  "refresh": "QWindow::screenChanged; 500 ms screen polling; 5 s profile/content polling",
+  "dbusCallDeadlineMs": 1500,
+  "dbusAsync": true,
+  "staleGenerationAndLateTimeoutRepliesDiscarded": true,
+  "profileStorage": "LittleCMS validated RGB display <=16 MiB; ColorProfiles/<SHA-256>.icc; no automatic INI path",
+  "manualPathPreserved": true,
+  "profileRemovalClearsNativeIcc": true,
+  "monitorChangeClearsOldProfileBeforeLookup": true,
+  "desktopProfileAssignmentsOrCalibrationModified": false,
+  "nativeIccProfileAutoEnabled": false,
+  "nativeIccDiskCacheEnabled": false,
+  "waylandAutomaticImplemented": false,
+  "nativeGpuColorVerified": false,
+  "physicalMonitorMoveVerified": false,
+  "installedPlayerUpdated": false,
+  "installedVersionPreserved": "0.1.26",
+  "installedPackageFilesVerifiedUnchanged": 41,
+  "installedProfileWrittenByThisTask": false,
+  "testPulseModulesRemoved": true,
+  "githubPublished": false,
+  "githubWorkflowExecuted": false,
+  "harvesterGuiEnabled": false,
+  "screenshot": {
+    "path": "docs/images/foxicmp-qt-video-system-icc.png",
+    "size": "860×680"
+  },
+  "nextParityPlanItem": 16,
+  "remainingItem15": [
+    "physical GPU/ICC/VSync/tearing and multiple physical monitors",
+    "Wayland compositor color-management integration",
+    "broader native GLSL hooks/texture/compute beyond managed editor"
+  ]
+}

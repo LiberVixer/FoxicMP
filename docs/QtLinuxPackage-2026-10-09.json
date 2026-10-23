@@ -1,0 +1,26 @@
+{
+  "version": "0.1.0 development preview",
+  "platform": "Linux Mint 22.3 x86_64",
+  "qt": "6.4.2",
+  "libmpv": "0.37.0",
+  "render_api": "software",
+  "runtime_dependencies": "system Qt Widgets/libmpv; mint-meta-codecs already installed",
+  "archive": "FoxicMPQt-0.1.0-linux-x64.tar.gz",
+  "archive_bytes": 198026,
+  "sha256": "1c7909139bf42e29693de476730ed76877052539e13b40655650a843d2de8372",
+  "core_suite": "13 passed, 0 failed",
+  "real_source_clips": [
+    "YouTube",
+    "Rutube",
+    "VK"
+  ],
+  "continuous_playback_seconds": 60,
+  "packaged_launch": "Passed from extracted archive in a temporary directory; no user profile/history included",
+  "not_verified": [
+    "physical GPU acceleration",
+    "Wayland/HiDPI",
+    "hours-long playback",
+    "Qt Windows build",
+    "GitHub-hosted workflow execution"
+  ]
+}

@@ -1,0 +1,37 @@
+FoxicMP Qt Linux — решение по совместимости Classic Web
+Дата: 18 октября 2026, версия 0.1.50.
+
+Исследован Windows WebServer Classic в src/apps/mplayerc/WebServer.cpp и WebClient.cpp. Он содержит встроенные HTML-страницы, статические ресурсы, внешний webroot, настраиваемые CGI по расширению и snapshot.jpg для превью кадра. Classic preview по умолчанию выключен.
+
+Linux сохраняет собственный встроенный веб-пульт, Bearer-код только в памяти, точные Host/Origin, loopback/LAN private IPv4, API состояния/команд, очередь, открытие/добавление источников и CSP. Windows HTML побайтно не переносится: WM_COMMAND/Win32 MainFrame не являются переносимым API.
+
+Матрица решения:
+
+- Состояние, play/pause/stop, громкость, скорость, seek: /api/state и /api/command; уже совместимо по смыслу.
+- Очередь и выбор записи: /api/state?offset=, queuePlay, queueRemove; перенесено в 0.1.49 со стабильными ID.
+- Открытие файла/URL: open и enqueue; перенесено в 0.1.49 с путём на компьютере плеера.
+- Snapshot/preview: GET /api/snapshot.jpg; перенесено в 0.1.50, требует Bearer-код и проверки Host/Origin.
+- Встроенные Classic HTML-страницы: не копируются; Linux использует встроенный пульт и libmpv API.
+- Пользовательский внешний webroot: не добавляется; это произвольная выдача файлов и расширение поверхности доступа.
+- CGI/запуск внешних программ: не переносится; произвольное выполнение команд запрещено.
+- variables/debug headers/cookies и статические Classic PNG/CSS/JS: не выдаются; встроены минимальные ресурсы Qt-пульта.
+- LAN-доступ: сохранён явный режим private IPv4 из 0.1.48.
+
+Snapshot API возвращает image/jpeg только при действующем Authorization: Bearer. Без кода — 403; остановленный Player без кадра — 409. Кадр берётся из текущего рендера, уменьшается до 960 px по ширине и кодируется в памяти с quality 78. Диск и медиаданные не изменяются. В браузере кадр обновляется вместе с состоянием; blob URL живёт только в браузере.
+
+Границы:
+- совместимость означает сохранение назначения управления, а не копирование Windows HTML;
+- Classic CGI и внешний webroot не входят в Linux-план;
+- пользовательские страницы можно рассмотреть отдельно только как безопасный пакет встроенных шаблонов без CGI и произвольного чтения файлов;
+- физический GPU/Wayland и A/V timing остаются отдельными проверками.
+
+Проверка 0.1.50: WebControlTest включает auth/MIME snapshot; браузерный тест видит превью-элемент, очередь и форму источника; полный Software/OpenGL и пакет проверяются отдельно. Windows WebServer и профиль Windows не изменяются.
+
+
+Проверка и пакет 0.1.50: 35/35 Software, 10/10 OpenGL, WebControlTest 25/25, browser preview PASS.
+
+Обновление: FoxicMPQt 0.1.49 → FoxicMPQt 0.1.50.
+Папка: /media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64
+Резервная копия: /media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64.backup-20261019-045346
+Проверено файлов пакета: 63. Сохранены личные файлы: FoxicMPQt.ini, FoxicMPQt.log.
+INI и ярлык побайтно сохранены; плеер после обновления не запускался.

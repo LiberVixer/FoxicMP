@@ -1,0 +1,80 @@
+name: FoxicMP Qt Linux
+on:
+  workflow_dispatch:
+  push:
+    paths: ['qt/**', 'tools/harvester-preview/**', 'tests/harvester/**', 'src/DSUtil/Harvester*.h', '.github/workflows/linux-qt.yml']
+  pull_request:
+    paths: ['qt/**', 'tools/harvester-preview/**', 'tests/harvester/**', 'src/DSUtil/Harvester*.h', '.github/workflows/linux-qt.yml']
+jobs:
+  build-test:
+    runs-on: ubuntu-24.04
+    # The full matrix runs CTest twice, generates DVD/AV fixtures and performs
+    # a one-minute continuous playback pass. Keep enough room for shared CI
+    # runners without hiding a hung test behind an unbounded job.
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - name: Dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ qt6-base-dev libmpv-dev liblcms2-dev ffmpeg xvfb libgl1-mesa-dri desktop-file-utils libglib2.0-bin python3-venv pulseaudio pulseaudio-utils dvdauthor genisoimage dbus-daemon
+      - name: Adapter dependencies
+        run: |
+          python3 -m venv build/test-venv
+          build/test-venv/bin/pip install yt-dlp==2026.8.19 certifi==2026.7.22
+          echo "$GITHUB_WORKSPACE/build/test-venv/bin" >> "$GITHUB_PATH"
+      - name: Translation catalog
+        run: python3 qt/tools/check_translations.py
+      - name: Configure and build
+        run: |
+          cmake -S qt -B build/qt -DCMAKE_BUILD_TYPE=Release
+          cmake --build build/qt --parallel 2
+      - name: Generate codec fixtures
+        run: |
+          python3 qt/tests/generate_media.py build/media
+          python3 qt/tests/generate_dvd.py build/media/devices
+      - name: Standalone adapter and provider tests
+        run: PYTHONPATH=tools/harvester-preview python3 -m unittest discover -s tools/harvester-preview/tests
+      - name: Software playback and OpenGL fallback tests
+        env:
+          FOXICMP_TEST_MEDIA: ${{ github.workspace }}/build/media
+          FOXICMP_TEST_SCREENSHOTS: ${{ github.workspace }}/build/screenshots
+          LIBGL_ALWAYS_SOFTWARE: '1'
+        run: |
+          pulseaudio --start --exit-idle-time=-1
+          foxicmp_test_module=$(pactl load-module module-null-sink sink_name=foxicmp_devices_ci)
+          trap 'pactl unload-module "$foxicmp_test_module"' EXIT
+          export PULSE_SINK=foxicmp_devices_ci
+          export FOXICMP_TEST_PULSE_SOURCE=foxicmp_devices_ci.monitor
+          for output in software opengl; do
+            FOXICMP_TEST_OUTPUT="$output" dbus-run-session -- xvfb-run -a ctest --test-dir build/qt --output-on-failure
+          done
+      - name: Continuous software playback
+        env:
+          FOXICMP_TEST_MEDIA: ${{ github.workspace }}/build/media
+          FOXICMP_TEST_OUTPUT: software
+          FOXICMP_TEST_SOAK_SECONDS: '60'
+        run: xvfb-run -a build/qt/foxicmp-tests continuousPlayback -o build/qt/continuous.log,txt
+      - name: Flash and beep timing after buffering and seek
+        env:
+          FOXICMP_TEST_AV_MEDIA: ${{ github.workspace }}/build/av-media
+          FOXICMP_TEST_AV_RESULTS: ${{ github.workspace }}/build/av-results
+          QTEST_FUNCTION_TIMEOUT: '900000'
+        run: |
+          python3 tests/harvester/make_fixtures.py --work build/av-media --audio-offset-ms 70 -70 240 -240 --fragmented
+          PYTHONPATH=tests/harvester python3 -m unittest test_av_analysis
+          pulseaudio --start --exit-idle-time=-1
+          xvfb-run -a build/qt/foxicmp-av-tests \
+            offsetMatrix:indexed-baseline-0 offsetMatrix:fmp4-baseline-0 \
+            offsetMatrix:indexed-progressive-0 offsetMatrix:fmp4-progressive-0 \
+            offsetMatrix:indexed-progressive-240 offsetMatrix:indexed-progressive--240 \
+            offsetMatrix:fmp4-progressive-240 offsetMatrix:fmp4-progressive--240
+      - name: Portable archive
+        run: bash qt/packaging/package.sh build/qt build/release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FoxicMPQt-linux-x64
+          path: |
+            build/release/*
+            build/screenshots/*
+            build/qt/Testing/Temporary/LastTest.log
+            build/qt/continuous.log
+            build/av-results/*.json

@@ -1,0 +1,179 @@
+FoxicMP Qt 0.1.4 — Linux Mint 22.3 x64, Qt 6.4.2, libmpv 0.37.0
+
+X11 / isolated Xvfb. Software output. Physical GPU, Wayland and physical A/V latency are not verified.
+
+Final CTest suite after preview/window fixes:
+
+Start testing: Oct 09 17:04 MSK
+----------------------------------------------------------
+1/2 Testing: player
+1/2 Test: player
+Command: "/media/sf_Studio/Programs/MPMY-src/_bin/qt-build/foxicmp-tests"
+Directory: /media/sf_Studio/Programs/MPMY-src/_bin/qt-build
+"player" start time: Oct 09 17:04 MSK
+Output:
+----------------------------------------------------------
+Gtk-Message: 17:04:02.615: Failed to load module "colorreload-gtk-module"
+Gtk-Message: 17:04:02.616: Failed to load module "window-decorations-gtk-module"
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::portableProfile()
+PASS   : PlayerTest::chapterLines()
+PASS   : PlayerTest::integration()
+PASS   : PlayerTest::desktopLaunch()
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+PASS   : PlayerTest::interface()
+PASS   : PlayerTest::playbackTimeInput()
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+QINFO  : PlayerTest::inputControls() Before remapped key: QVariant(bool, true) QVariant(bool, false) QVariant(double, 3.25)
+PASS   : PlayerTest::inputControls()
+PASS   : PlayerTest::libraryProfile()
+PASS   : PlayerTest::playlistFiles()
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+PASS   : PlayerTest::queuePlayback()
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+PASS   : PlayerTest::queueKeyboardAndDrop()
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+PASS   : PlayerTest::bookmarksAndHistory()
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+PASS   : PlayerTest::previewIsolation()
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+PASS   : PlayerTest::mediaOptionsAndSnapshots()
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+PASS   : PlayerTest::presentationPreferences()
+PASS   : PlayerTest::outputFallback()
+SKIP   : PlayerTest::continuousPlayback() Optional continuous playback: set FOXICMP_TEST_SOAK_SECONDS
+   Loc: [/media/sf_Studio/Programs/MPMY-src/qt/tests/player_test.cpp(831)]
+PASS   : PlayerTest::playback(AV1.mkv)
+PASS   : PlayerTest::playback(chapters.mkv)
+PASS   : PlayerTest::playback(HEVC.mov)
+PASS   : PlayerTest::playback(MPEG4.avi)
+PASS   : PlayerTest::playback(VP9.webm)
+PASS   : PlayerTest::playback(Русский H264.mp4)
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 24 passed, 0 failed, 1 skipped, 0 blacklisted, 42991ms
+********* Finished testing of PlayerTest *********
+<end of output>
+Test time =  43.39 sec
+----------------------------------------------------------
+Test Passed.
+"player" end time: Oct 09 17:04 MSK
+"player" time elapsed: 00:00:43
+----------------------------------------------------------
+
+2/2 Testing: tools
+2/2 Test: tools
+Command: "/media/sf_Studio/Programs/MPMY-src/_bin/qt-build/foxicmp-tools-tests"
+Directory: /media/sf_Studio/Programs/MPMY-src/_bin/qt-build
+"tools" start time: Oct 09 17:04 MSK
+Output:
+----------------------------------------------------------
+Gtk-Message: 17:04:46.016: Failed to load module "colorreload-gtk-module"
+Gtk-Message: 17:04:46.016: Failed to load module "window-decorations-gtk-module"
+********* Start testing of ToolsTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : ToolsTest::initTestCase()
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+PASS   : ToolsTest::timelineAndDialogs()
+PASS   : ToolsTest::cleanupTestCase()
+Totals: 3 passed, 0 failed, 0 skipped, 0 blacklisted, 2246ms
+********* Finished testing of ToolsTest *********
+<end of output>
+Test time =   2.62 sec
+----------------------------------------------------------
+Test Passed.
+"tools" end time: Oct 09 17:04 MSK
+"tools" time elapsed: 00:00:02
+----------------------------------------------------------
+
+End testing: Oct 09 17:04 MSK
+
+
+Requested OpenGL interface and tool tests before final overlay/geometry fixes
+
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::interface()
+PASS   : PlayerTest::previewIsolation()
+PASS   : PlayerTest::mediaOptionsAndSnapshots()
+PASS   : PlayerTest::presentationPreferences()
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 6 passed, 0 failed, 0 skipped, 0 blacklisted, 7793ms
+********* Finished testing of PlayerTest *********
+
+
+Local clips from real sources
+
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::playback(Rutube.mp4)
+PASS   : PlayerTest::playback(VK.mp4)
+PASS   : PlayerTest::playback(YouTube.mp4)
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 5 passed, 0 failed, 0 skipped, 0 blacklisted, 13310ms
+********* Finished testing of PlayerTest *********
+
+
+Synthetic H.264 3840x2160/30fps, opening/controls only; no performance guarantee
+
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::playback(4K-H264.mp4)
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 3 passed, 0 failed, 0 skipped, 0 blacklisted, 3003ms
+********* Finished testing of PlayerTest *********
+
+
+Packaged executable check
+
+{
+  "version": "0.1.4",
+  "user_data_packaged": false,
+  "launch_seconds": 4,
+  "adjacent_profile": true,
+  "preserved_settings": true,
+  "history_recorded": true
+}
+
+
+Environment GPU: VMware SVGA II Adapter (15ad:0405), VirtualBox Guest Service. No physical GPU passthrough.
+
+Continuous software playback, raised QtTest function timeout to 650000 ms:
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+QINFO  : PlayerTest::continuousPlayback() Duration seconds: 600 heartbeat ticks: 11974 internal avsync samples: 2028 maximum absolute seconds: 0.00479972 audio output: QVariant(QString, "pipewire") decoder frame drops: QVariant(qlonglong, 0)
+PASS   : PlayerTest::continuousPlayback()
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 3 passed, 0 failed, 0 skipped, 0 blacklisted, 601412ms
+********* Finished testing of PlayerTest *********
+
+An initial 600-second attempt was interrupted by the default QtTest 300-second watchdog. The completed rerun above used QTEST_FUNCTION_TIMEOUT=650000.
+
+Process memory samples (not a leak certification):
+{"utc_epoch": 1791554763, "pid": 424732, "rss": "188144 kB", "peak_rss": "188144 kB", "threads": "65"}
+{"utc_epoch": 1791555016, "pid": 424732, "rss": "188300 kB", "peak_rss": "188300 kB", "threads": "65"}

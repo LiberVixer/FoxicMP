@@ -285,14 +285,18 @@ def provider_command(path, owner=0):
 def recover_providers(root):
     if not root.exists():
         return
-    from scripts.progressive_pipe import Win32
-    win = Win32()
+    if os.name == "nt":
+        from scripts.progressive_pipe import Win32
+        identity = Win32().identity
+    else:
+        from scripts.progressive_unix import process_identity
+        identity = process_identity
     for manifest in root.glob("*/session.json"):
         try:
             state = read_json(manifest)
             try:
                 provider = read_json(manifest.parent / "provider.json")
-                actual = win.identity(provider["pid"])
+                actual = identity(provider["pid"])
                 if actual is None or actual == provider.get("born"):
                     continue
             except (OSError, ValueError, KeyError):
@@ -307,7 +311,7 @@ def recover_providers(root):
                 from scripts.progressive_session import atomic_json
                 atomic_json(manifest, state)
             subprocess.Popen(provider_command(manifest), stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
-                             stderr=subprocess.DEVNULL, close_fds=True, creationflags=0x08000000)
+                             stderr=subprocess.DEVNULL, close_fds=True, creationflags=0x08000000 if os.name == "nt" else 0)
         except (OSError, ValueError, KeyError):
             continue
 
@@ -315,7 +319,10 @@ def recover_providers(root):
 def main(argv=None):
     args = sys.argv[1:] if argv is None else argv
     if args and args[0] == "--provider":
-        from scripts.progressive_pipe import Provider
+        if os.name == "nt":
+            from scripts.progressive_pipe import Provider
+        else:
+            from scripts.progressive_unix import Provider
         return Provider(Path(args[1]), int(args[2]), Path(args[3]) if len(args) > 3 and args[3] else None).run()
     import yt_dlp
     _, options, urls, ydl_opts = yt_dlp.parse_options(args)

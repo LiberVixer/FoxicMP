@@ -1,0 +1,82 @@
+{
+  "version": "0.1.20",
+  "status": "development preview; parity item 13 first block implemented; advanced subtitle appearance/rendering remains",
+  "archive": "FoxicMPQt-0.1.20-linux-x64.tar.gz",
+  "bytes": 2154107,
+  "sha256": "9a20b4e2d73f31c04273b8e160928ab14d85240a812908694dfeeddba4bf17f9",
+  "ctestSoftware": "15/15 passed; 326.19 s",
+  "ctestRequestedOpenGL": "15/15 passed; 335.79 s; actual Software fallback",
+  "qtSubtitleChecks": "8 passed, 0 failed, 0 skipped in each mode",
+  "qtInputRegressionChecks": "10 passed, 0 failed, 0 skipped in each mode",
+  "optionalContinuousPlaybackTest": "not requested; one player case skipped in each mode",
+  "subtitleDocumentFormats": [
+    "SRT",
+    "ASS/SSA",
+    "simple WebVTT"
+  ],
+  "textAndTimestampsEditable": true,
+  "oneAndTwoPointSynchronization": true,
+  "invalidTimeChangesRejectedAtomically": true,
+  "assStylesAndFieldsPreserved": true,
+  "webvttIdentifiersAndSettingsPreserved": true,
+  "complexWebvttEditingRejected": true,
+  "utf8Cp1251Koi8rUtf16RoundtripVerified": true,
+  "unrepresentableEncodingLeavesExistingFileIntact": true,
+  "cueSearchNavigationCopyAndUnsavedEscapeVerified": true,
+  "searchFoldersWithSpacesUnicodeAndColonVerified": true,
+  "externalPreferenceAndEmbeddedBlockingVerified": true,
+  "selectedSubtitleManualAndAtomicReplacementAutoReloadVerified": true,
+  "embeddedTextExtractionToSrtAndAppliedCopyVerified": true,
+  "sourceSubtitleUnchangedByApplyCopy": true,
+  "applyCopiesStoredBesideProgram": "Subtitles/Edits",
+  "temporaryExtractionRemovedAfterEditor": true,
+  "subtitleNavigationBindings": "Ctrl+Alt+PgUp/PgDown; Ctrl+Left/Right remain frame stepping",
+  "subtitleEditorBinding": "Ctrl+Alt+R",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableProfileSavedBesideExtractedBinary": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "packagePlayback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.484
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.569
+    }
+  },
+  "packagedMprisWireCommandsVerified": true,
+  "packagedSubtitleCommandsAndScreenshotsVerified": true,
+  "packagedSubtitlePreferencesPreserved": true,
+  "englishCatalogEntries": 901,
+  "translatedCurrentSourceStrings": 890,
+  "screenshots": {
+    "docs/images/foxicmp-qt-subtitle-editor.png": "1000×660",
+    "docs/images/foxicmp-qt-subtitle-files.png": "798×590"
+  },
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "installedProfileSha256": "1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad",
+  "privatePulseModulesRemoved": true,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "githubWorkflowExecuted": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "parityPlanItem3RemainderDeferred": true,
+  "nextParityPlanItem": 13,
+  "remainingParityItem13": [
+    "extended subtitle layout/position/alignment/margins/spacing",
+    "independent X/Y scale, angle, extended colors/alpha/shadow",
+    "subtitle renderer and buffering controls"
+  ],
+  "limitations": [
+    "no bitmap subtitle OCR; embedded extraction needs local media and FFmpeg and exports plain SRT",
+    "editing unsupported WebVTT blocks is rejected; ASS export to SRT/WebVTT loses styling",
+    "native embedded cue navigation is limited to decoded/prefetched cues",
+    "live/progressive editor and cue navigation are disabled to preserve seek limits",
+    "editor auto decoding uses UTF-16 BOM then UTF-8 then CP1251; other legacy encodings require explicit selection",
+    "physical GPU/Wayland/desktop tests pending"
+  ]
+}

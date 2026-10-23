@@ -1,0 +1,113 @@
+FoxicMP Qt Linux 0.1.25 — редактор аудиофильтров и пресеты, пункт 14
+Дата: 15 октября 2026, Europe/Moscow. Ветка codex/linux-qt.
+
+Реализовано
+Ctrl+Alt+A → «Звук — фильтры», также общие настройки. Одна цепочка FFmpeg,
+по умолчанию выключена, пустая ничего не добавляет. Выключение сохраняет текст.
+Порядок: микшер → каналы/баланс → усиление → нормализация → пользовательская
+цепочка → limiter. ReplayGain и обычная громкость libmpv применяются отдельно.
+Сброс своей цепочки очищает/выключает только её, не пресеты/старые параметры.
+Пресеты: без обработки, речь highpass/lowpass, мягкие bass/treble, −6 dB.
+Загрузка переносит текст без изменения галочки. До 64 своих пресетов, 80
+символов на имя, 8192 на цепочку. Именованная замена требует подтверждения.
+INI рядом с программой, audio/filterPresetsV1. JSON import/export с форматом
+FoxicMP-audio-filters-v1; импорт заменяет список в окне, Cancel отменяет,
+OK сохраняет. Экспорт немедленно пишет выбранный файл. Импорт ≤1 МиБ,
+неверный формат/дубли/ограничения отвергаются без изменения списка.
+
+Проверка цепочки
+FFmpeg в PATH, argv без shell, стерео 48 кГц 0.1 с, deadline 3 с, затем kill.
+Проверить цепочку и OK с включённой обработкой запускают проверку.
+Ошибка не закрывает окно и не сохраняет изменения. Выключенный текст
+можно сохранить без исполнения. Ошибочный включённый INI пропускается
+при применении, сохраняя встроенную обработку, ошибка видна на странице.
+Проверка кэшируется по тексту для одного Player. Немедленный отказ свойства
+libmpv восстанавливает прежнюю цепочку. Отложенная инициализация зависит
+от формата источника и сборки libmpv; стерео-проверка её не доказывает.
+Фильтры могут менять темп/задержку, физическая A/V-компенсация не обещается.
+
+Испытания
+20/20 CTest software — 392.84 с.
+20/20 requested OpenGL — 406.9 с, фактически Software fallback.
+AudioProcessingTest: 11 passed, 0 failed, 0 skipped в каждом режиме.
+Новые случаи: реальный PCM для volume=0.5, сложения с +6.0206 dB, lowpass=500,
+цепочки volume=20 перед limiter=0.4. Сигнал выводился AO pcm в float WAV,
+без микрофона/колонок. Проверены runtime на паузе, ошибочный INI и исправление,
+неизвестный фильтр, больше 8192 символов, NUL и несвязанный второй выход.
+Пресеты всех встроенных типов проверены FFmpeg; сохранение/загрузка/удаление,
+Cancel/OK, блокировка неправильного графа в обоих диалогах, JSON export,
+неверный import, правильная замена, Cancel и перечитывание INI проверены.
+Автоматизация QFileDialog первоначально не выбирала имя в асинхронной модели;
+тест выбирает видимый диалог и задаёт его filename edit. Это исправление теста.
+Проверка пакета учитывает кавычки QSettings в значении customGraph="volume=0.5";
+первоначальное строковое ожидание без кавычек было исправлено в тесте.
+Старые наборы, в том числе два аудиовыхода и их восстановление, прошли.
+Один необязательный continuous-soak пропущен; публичные загрузки не повторялись.
+Измерения:
+{
+  "software": {
+    "balanceFullRightLeftRms": 0,
+    "baselineRmsLeft": 0.035355339167781684,
+    "baselineRmsRight": 0.07071067839383476,
+    "center400HzInLeft": 0.050000000120954395,
+    "customBeforeLimiterPeak": 0.4000000059604645,
+    "customLowpass880Ratio": 0.306745809181911,
+    "customVolumeHalfRatio": 0.5,
+    "dcCorrectedMeanLeft": 5.066039433771917e-07,
+    "gain6dBRatio": 2,
+    "lfe80HzInLeft": 0.03535533876223875,
+    "limiterPeak": 0.4000000059604645,
+    "matrixNormalizationRmsRatio": 0.26975214559640615,
+    "normalizerPeak": 0.35312071442604065,
+    "normalizerRmsRatio": 3.405177065982982,
+    "replaygainPreampCancellationRatio": 1,
+    "replaygain_album": 0.25,
+    "replaygain_track": 0.5,
+    "runtimeGain6dBRatio": 2,
+    "surround600HzInLeft": 0.05000000011771733,
+    "targetRmsVsPeakOnlyLeftRatio": 0.3628638848275642,
+    "uncoupledVsCoupledLeftRmsRatio": 1.9909615094850088
+  },
+  "opengl": {
+    "balanceFullRightLeftRms": 0,
+    "baselineRmsLeft": 0.035355339167781684,
+    "baselineRmsRight": 0.07071067839383476,
+    "center400HzInLeft": 0.050000000120954395,
+    "customBeforeLimiterPeak": 0.4000000059604645,
+    "customLowpass880Ratio": 0.306745809181911,
+    "customVolumeHalfRatio": 0.5,
+    "dcCorrectedMeanLeft": 5.066039433771917e-07,
+    "gain6dBRatio": 2,
+    "lfe80HzInLeft": 0.03535533876223875,
+    "limiterPeak": 0.4000000059604645,
+    "matrixNormalizationRmsRatio": 0.26975214559640615,
+    "normalizerPeak": 0.35312071442604065,
+    "normalizerRmsRatio": 3.405177065982982,
+    "replaygainPreampCancellationRatio": 1,
+    "replaygain_album": 0.25,
+    "replaygain_track": 0.5,
+    "runtimeGain6dBRatio": 2,
+    "surround600HzInLeft": 0.05000000011771733,
+    "targetRmsVsPeakOnlyLeftRatio": 0.3628638848275642,
+    "uncoupledVsCoupledLeftRmsRatio": 1.9909615094850088
+  }
+}
+English catalog: 1058 source strings covered; 1076 entries; placeholders valid
+Сборка без compiler warnings/errors. clang-format пройден. Реальный снимок
+окна 860×680 просмотрен и включён в пакет. Физические GPU/Wayland/аудио и
+A/V-задержки с произвольными фильтрами не проверялись.
+
+Пакет
+FoxicMPQt-0.1.25-linux-x64.tar.gz
+3104091 байт
+SHA-256: 295788c71eadd7f4a13d628ecdd90663e20939d99667690dcbe7aafa0c3e5c50
+Проверены CLI без создания профиля, CUE/PLS до естественного выхода,
+gdbus-команды, сохранение фильтров/пресетов и старых настроек. Помощник
+второго выхода включён и очистка packaged helper после EOF проверена.
+Личного INI/истории/pyc/temp в архиве нет. Ссылки README проверены.
+Установленный профиль не изменён: 1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad
+Коммит/push/релиз/установка не выполнялись; Harvester GUI выключен.
+
+Далее в пункте 14 — форматы PCM и passthrough/bitstream/декодер.
+API: https://ffmpeg.org/ffmpeg-filters.html#Filtergraph-syntax
+https://github.com/mpv-player/mpv/blob/v0.37.0/DOCS/man/af.rst

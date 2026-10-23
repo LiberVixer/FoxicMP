@@ -1,0 +1,31 @@
+FoxicMP Qt 0.1.58 — Interface page / Classic, 2026-10-21
+
+Reference: native IDD_PPAGEINTERFACE screenshot captured on 2026-10-20.
+Compact theme/seek groups, dark-theme checkbox and dark-menu setting.
+Brightness and RGB sliders alter the actual application palette on Apply/OK.
+Volume fill/background swatches and draft reset, control button size.
+Time tooltip above/below the seek bar; preview/online/size enabled dependencies.
+Chapter markers can be hidden without removing chapters from navigation.
+Playlist font percentage applies to existing and new playlist tabs.
+Extra theme, font, toolbar image and translation controls are expandable.
+Russian and English page layouts fit without horizontal/vertical scrolling.
+Apply/Cancel/reopen, tint, volume style, font scale and draft preservation verified.
+Timeline pixel check: chapter line RGB 94/99/104 or plain background when disabled.
+Actual tooltip geometry verified above/below; suppression and preview signal verified.
+
+CTest Software: 9 groups passed, 0 failed, 364.42 seconds.
+Groups: classic-interface, tools, playlist-formats, window-title, window-presentation,
+appearance, input-control, video-output, profile-archives. ClassicUiTest: 15 passed.
+RU/EN catalog and generated Classic menu checks passed.
+Full 36-group suite and requested OpenGL 4-group baseline remain version 0.1.56;
+they were not repeated for this focused change.
+
+Stripped archive: playback/API/profile smoke passed; O/Escape settings verified.
+All 63 installed package files match the archive and UI-tested binary.
+Updated FoxicMPQt 0.1.57 to FoxicMPQt 0.1.58. INI/log and launcher preserved.
+Backup: /media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64.backup-20261021-204117
+Archive SHA-256: 1cc6b1e19d18a12b2c1828859dcc13d07d68bfb166bd6c6b85086f4f9a07ef76
+
+Remaining: exact dialog/page dimensions, floating control bar, platform title/taskbar
+differences and other settings pages. Full pixel parity is not achieved.
+Windows player/profile unchanged. Physical equipment deferred; Wayland excluded.

@@ -1,0 +1,139 @@
+{
+  "version": "FoxicMPQt 0.1.32",
+  "archive": "FoxicMPQt-0.1.32-linux-x64.tar.gz",
+  "bytes": 4333248,
+  "sha256": "7595ae714f1d44b9a9e7c473c9eff2cf9f150722619f27858b1f8546a4af3df8",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableTabsAndCueChaptersSaved": true,
+  "playback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.52
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.372
+    }
+  },
+  "cliOptionsChecked": true,
+  "libraryPreferencesPreserved": true,
+  "historyUpdatedBesideBinary": true,
+  "historyAndFavoritesScreenshotsBundled": true,
+  "windowPreferencesPreserved": true,
+  "fullscreenStartupAndNaturalExitRun": true,
+  "windowScreenshotsBundled": true,
+  "appearanceAndOsdPreferencesPreserved": true,
+  "englishCatalogBundled": true,
+  "mprisPackagedWireCommandsVerified": true,
+  "transformPreferencesPreserved": true,
+  "transformScreenshotsBundled": true,
+  "inputPreferencesPreserved": true,
+  "mouseAndInputScreenshotsBundled": true,
+  "subtitleCommandsAndScreenshotsBundled": true,
+  "subtitlePreferencesPreserved": true,
+  "subtitleStylePreferencesPreserved": true,
+  "subtitleRenderPreferencesPreserved": true,
+  "audioProcessingPreferencesPreserved": true,
+  "packagedShaderCompilerAndProbeVerified": true,
+  "mediaCapturePreferencesPreserved": true,
+  "systemIccSourcePreserved": true,
+  "videoShaderPreferencesPreserved": true,
+  "videoDisplayPreferencesPreserved": true,
+  "videoOutputPreferencesPreserved": true,
+  "audioEncodingPreferencesPreserved": true,
+  "customAudioFilterPreferencesPreserved": true,
+  "audioRoutingPreferencesPreserved": true,
+  "audioOutputHelperBundled": true,
+  "packagedAudioHelperLeaseVerified": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "status": "development preview; parity item 16 implemented for supported local exports and native source diagnostics",
+  "ctestSoftware": {
+    "passed": 26,
+    "total": 26,
+    "seconds": 455.78
+  },
+  "ctestRequestedOpenGL": {
+    "passed": 26,
+    "total": 26,
+    "seconds": 472.5,
+    "actual": "Software fallback"
+  },
+  "mediaExportsChecksPerMode": 8,
+  "measurements": {
+    "software": {
+      "byteCopyAtomicCancelAndChangedSourceGuard": true,
+      "imageFormatsQualityAndAtomicFailure": true,
+      "nativeFrameSubtitlesClipboardDisplayQuickAndPlayback": true,
+      "propertiesNativeTracksReportSettingsCancelResetShortcuts": true,
+      "sheetAndCopyMenuDialogsAndPause": true,
+      "sheetGridSelectedStreamCancelFailure": true
+    },
+    "opengl": {
+      "byteCopyAtomicCancelAndChangedSourceGuard": true,
+      "imageFormatsQualityAndAtomicFailure": true,
+      "nativeFrameSubtitlesClipboardDisplayQuickAndPlayback": true,
+      "propertiesNativeTracksReportSettingsCancelResetShortcuts": true,
+      "sheetAndCopyMenuDialogsAndPause": true,
+      "sheetGridSelectedStreamCancelFailure": true
+    }
+  },
+  "translationCheck": "English catalog: 1299 source strings covered; 1322 entries; placeholders valid",
+  "propertiesShortcut": "Ctrl+Alt+I",
+  "quickSnapshotShortcut": "F12",
+  "clipboardFrameShortcut": "Alt+C",
+  "propertiesDialogNonmodal": true,
+  "properties": "native current-source snapshot; container, tracks, tags, resolution/FPS, codecs, audio rate/channels and cache; explicit Refresh and JSON copy",
+  "externalReport": "explicit local file only; MediaInfo when installed, otherwise FFprobe; 10 s timeout, 1 MiB output limit",
+  "captureApi": "asynchronous mpv screenshot-raw; copies bounded bgr0 positive-stride bytes before event storage is freed; at most 4 pending images",
+  "capturePixelLimit": 33554432,
+  "captureDefaultFormat": "png",
+  "captureDefaultQuality": 90,
+  "captureDefaultSubtitles": true,
+  "captureFormats": "PNG/JPEG/BMP and WebP when supported by installed Qt image plugin",
+  "captureStorage": "QSaveFile; native frame and Qt displayed video-area with OSD are separate actions; native legacy saveFrame API preserved",
+  "thumbnailDefaults": {
+    "columns": 4,
+    "rows": 4,
+    "width": 240
+  },
+  "thumbnailLimits": {
+    "columns": 6,
+    "rows": 10,
+    "width": [
+      80,
+      480
+    ]
+  },
+  "thumbnailSource": "selected internal video track of a local completed file; FFmpeg; original pixels without player filters/subtitles/ICC/shaders; timestamps; cancel/progress",
+  "copySource": "completed local file only, byte copy without transcoding or external tracks; source replacement disallowed",
+  "copyAtomicCancelAndSourceChangeVerified": true,
+  "copyScheduling": "1 MiB per Qt timer event; individual slow filesystem IO can still block",
+  "nativeFrameSubtitlesClipboardDisplayVerified": true,
+  "sourceSelectionFrozenBeforeSaveDialogsVerified": true,
+  "exportMenuDialogsVerified": true,
+  "pauseAndPositionPreservedVerified": true,
+  "shortcutConflictsChecked": true,
+  "installedPlayerUpdated": false,
+  "installedVersionPreserved": "0.1.26",
+  "installedPackageFilesVerifiedUnchanged": 41,
+  "installedProfileWrittenByThisTask": false,
+  "testPulseModulesRemoved": true,
+  "githubPublished": false,
+  "githubWorkflowExecuted": false,
+  "harvesterGuiEnabled": false,
+  "screenshots": {
+    "docs/images/foxicmp-qt-media-properties.png": "900×680",
+    "docs/images/foxicmp-qt-capture-settings.png": "661×334",
+    "docs/images/foxicmp-qt-thumbnail-sheet.png": "368×330"
+  },
+  "physicalGpuOrScreenColorVerified": false,
+  "waylandVerified": false,
+  "nextParityPlanItem": 17,
+  "limitations": [
+    "network/disc/device/incomplete-progressive copy and thumbnail exports unsupported",
+    "native frame is not physical compositor or display ICC/HDR output",
+    "Qt area capture and native GPU frame/color effects require physical hardware verification",
+    "external MediaInfo itself used only when available; this environment primarily verifies FFprobe fallback"
+  ]
+}

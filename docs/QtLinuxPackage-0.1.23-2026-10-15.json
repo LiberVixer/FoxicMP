@@ -1,0 +1,127 @@
+{
+  "version": "0.1.23",
+  "status": "development preview; parity item 14 processing/mixing part implemented; item 14 continues",
+  "archive": "FoxicMPQt-0.1.23-linux-x64.tar.gz",
+  "bytes": 2885574,
+  "sha256": "a750c71e922f1811ca8ab2039c657a5064301fae431e5d12d18f0119d8e40c1f",
+  "ctestSoftware": "18/18 passed; 351.62 s",
+  "ctestRequestedOpenGL": "18/18 passed; 361.27 s; actual Software fallback",
+  "audioProcessingChecks": "8 passed, 0 failed, 0 skipped in each mode",
+  "measurementsFromLibmpvPcmFiles": {
+    "software": {
+      "balanceFullRightLeftRms": 0,
+      "baselineRmsLeft": 0.035355339167781684,
+      "baselineRmsRight": 0.07071067839383476,
+      "center400HzInLeft": 0.050000000120954395,
+      "dcCorrectedMeanLeft": 5.066039433771917e-07,
+      "gain6dBRatio": 2,
+      "lfe80HzInLeft": 0.03535533876223875,
+      "limiterPeak": 0.4000000059604645,
+      "matrixNormalizationRmsRatio": 0.26975214559640615,
+      "normalizerPeak": 0.35312071442604065,
+      "normalizerRmsRatio": 3.405177065982982,
+      "replaygainPreampCancellationRatio": 1,
+      "replaygain_album": 0.25,
+      "replaygain_track": 0.5,
+      "runtimeGain6dBRatio": 2,
+      "surround600HzInLeft": 0.05000000011771733,
+      "targetRmsVsPeakOnlyLeftRatio": 0.3628638848275642,
+      "uncoupledVsCoupledLeftRmsRatio": 1.9909615094850088
+    },
+    "opengl": {
+      "balanceFullRightLeftRms": 0,
+      "baselineRmsLeft": 0.035355339167781684,
+      "baselineRmsRight": 0.07071067839383476,
+      "center400HzInLeft": 0.050000000120954395,
+      "dcCorrectedMeanLeft": 5.066039433771917e-07,
+      "gain6dBRatio": 2,
+      "lfe80HzInLeft": 0.03535533876223875,
+      "limiterPeak": 0.4000000059604645,
+      "matrixNormalizationRmsRatio": 0.26975214559640615,
+      "normalizerPeak": 0.35312071442604065,
+      "normalizerRmsRatio": 3.405177065982982,
+      "replaygainPreampCancellationRatio": 1,
+      "replaygain_album": 0.25,
+      "replaygain_track": 0.5,
+      "runtimeGain6dBRatio": 2,
+      "surround600HzInLeft": 0.05000000011771733,
+      "targetRmsVsPeakOnlyLeftRatio": 0.3628638848275642,
+      "uncoupledVsCoupledLeftRmsRatio": 1.9909615094850088
+    }
+  },
+  "audioProcessingShortcut": "Ctrl+Alt+A",
+  "features": [
+    "gain -20..20 dB",
+    "stereo balance and channel routing",
+    "dynaudnorm frame/window/peak/maxgain/RMS/coupling/DC",
+    "optional peak limiter",
+    "ReplayGain track/album/preamp/fallback/peak clipping",
+    "FFmpeg standard mixer and center/surround/LFE contributions",
+    "decoded/output format diagnostics"
+  ],
+  "defaultGraphEmpty": true,
+  "existingNormalizerDefaultsRetained": true,
+  "neutralResetExactlyMatchesBaselineSamples": true,
+  "multichannelLayoutsMeasured": [
+    "quad",
+    "4.0",
+    "5.0",
+    "5.1",
+    "7.1"
+  ],
+  "basicAndAdvancedNormalizationCheckboxesSynchronized": true,
+  "cancelApplyResetAndPausePreservationVerified": true,
+  "nativeNodeFilterGraph": true,
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableProfileSavedBesideExtractedBinary": true,
+  "packagedAudioProcessingPreferencesPreserved": true,
+  "packagedMprisWireCommandsVerified": true,
+  "packagePlayback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.254
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.42
+    }
+  },
+  "cliQueriesDoNotCreateProfile": true,
+  "englishCatalogEntries": 1016,
+  "translatedCurrentSourceStrings": 1000,
+  "screenshots": {
+    "docs/images/foxicmp-qt-audio-processing.png": "860×680",
+    "docs/images/foxicmp-qt-audio-normalization.png": "860×680",
+    "docs/images/foxicmp-qt-audio-mixer.png": "860×680"
+  },
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "installedProfileSha256": "1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad",
+  "privatePulseModulesRemoved": true,
+  "microphoneUsed": false,
+  "physicalAudioHardwareVerified": false,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "githubWorkflowExecuted": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "nextParityPlanItem": 14,
+  "remainingParityItem14": [
+    "second audio output",
+    "external audio discovery/priority",
+    "custom FFmpeg filter editor/presets",
+    "PCM sample format selection",
+    "passthrough/bitstream and decoder controls"
+  ],
+  "limitations": [
+    "nonzero balance or special channel routing forces stereo",
+    "mixer factors control folded channels, not independent retained speaker levels",
+    "system server/device may remix; diagnostics describe player output",
+    "normalizer buffers adjacent frames; filter updates may cause a brief gap",
+    "runtime PCM-file test measures the settled tail after prebuffered samples, not physical latency",
+    "limiter operates before any later libmpv/system gain",
+    "custom user filter graph validation is not exposed; native option acceptance does not guarantee deferred initialization",
+    "target hardware and full A/V-delay matrix with every DSP combination remain unverified"
+  ]
+}

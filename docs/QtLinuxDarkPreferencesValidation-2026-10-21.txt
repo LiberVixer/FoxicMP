@@ -1,0 +1,17 @@
+FoxicMP Qt 0.1.59 — dark preferences, 2026-10-21
+
+Removed the forced light property-sheet stylesheet. Preferences follow the player theme.
+Tree, pages, headings, fields, tables, buttons, tooltips and disabled text are themed.
+Poor custom foreground contrast falls back to readable text within preferences.
+Dark -> light -> dark is applied to the open dialog; unapplied drafts and Cancel preserve the theme.
+Pixel/contrast checks cover tree, fields, disabled text and five representative pages.
+Reopening preserves the applied dark theme. Classic arrangement remains unchanged.
+
+CTest: 3 groups passed, 0 failed, 175.11 seconds.
+ClassicUiTest: 15 passed. AppearanceTest: 10 passed. ProfileArchiveTest: 31 passed.
+This focused update did not repeat the full backend/media suite.
+Stripped package: real X11 dark settings capture, O opens settings, Escape cancels.
+CLI --version/--help pass without creating a profile; bundled documentation images exist.
+All 63 installed files match the archive. INI/log and launcher preserved.
+Backup: /media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64.backup-20261021-205026
+Archive SHA-256: 531cadb43c9b49ba47e514599f4f1337e9d6572f781524f56d5c1c1327949316

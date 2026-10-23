@@ -1,0 +1,20 @@
+{
+  "version": "0.1.2 development preview",
+  "platform": "Linux Mint 22.3 x86_64 / X11 (isolated Xvfb tests)",
+  "qt": "6.4.2",
+  "libmpv": "0.37.0",
+  "archive": "FoxicMPQt-0.1.2-linux-x64.tar.gz",
+  "archive_bytes": 242850,
+  "sha256": "5285fd96bac9930b88faccbdcba07b05ca3d96aa7bda456c27c29d83e1908d07",
+  "software_suite": "16 passed, 0 failed, optional continuous playback skipped (render engine unchanged)",
+  "packaged_launch": "Version and 4-second extracted startup passed; no profile/history packaged",
+  "not_verified": [
+    "physical GPU OpenGL rendering and acceleration",
+    "physical A/V latency",
+    "Wayland/HiDPI",
+    "hours-long playback",
+    "Qt Windows build",
+    "GitHub-hosted workflow execution"
+  ],
+  "requested_opengl_interface": "3 passed, 0 failed; Mesa software fallback"
+}

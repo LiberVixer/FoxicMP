@@ -1,0 +1,96 @@
+FoxicMP Qt Linux 0.1.28 — цвет и точность, продолжение пункта 15
+Дата: 16 октября 2026, Europe/Moscow. Ветка codex/linux-qt.
+
+Результат
+Ctrl+Alt+V → «Видео — цвет и точность».
+Software precision: 8-bit RGBX8888 по умолчанию (старое поведение), либо
+16-bit RGBX64. Render API получает native-endian rgba64 и буфер 8 байт/pixel.
+Это точность кадра в памяти, не настройка разрядности монитора. Qt/compositor
+может сократить разрядность; FFmpeg-фильтры также могут дать 8-bit intermediate.
+OpenGL: output levels full/limited/native, промежуточные текстуры FBO,
+dither-depth, target primaries, SDR transfer curve и HDR→SDR tone mapping.
+Перечни точных значений в манифесте. Defaults восстанавливают captured native
+значения. Принятие всех свойств и сброс проверены; цвет на реальном GPU нет.
+В Software настройки GPU не применяются. Конечная OpenGL Qt surface RGBA8
+не менялась; Float16 в FBO не означает 16-битный экран. HDR passthrough и
+ICC/OS monitor discovery не реализованы.
+
+Изображение
+Оттенок −180…180° через FFmpeg hue=h; гамма −100…100 с фактором
+2^(value/100), диапазон 0,5–2,0, нейтраль 1,0. Общая цепочка с прежними
+brightness/contrast/saturation, используется для playback/preview/извлечения
+кадров и включается в Pan&Scan, не заменяя геометрию. Нули не создают фильтр.
+Сброс изображения возвращает пять регуляторов в ноль. Сброс цвета/точности
+отдельный; старый сброс масштабирования/декодера сохранён. Cancel не пишет INI.
+
+Испытания
+22/22 CTest software — 416.38 с.
+22/22 requested OpenGL — 434.92 с; фактически Software fallback.
+VideoOutputTest: 8 passed, 0 failed, 0 skipped в каждом режиме.
+Синтетический 10-bit FFV1 gradient 1024×64 с legal luma 64–940: число уникальных
+значений в реальном framebuffer 8/16-bit. Обратный 8-bit совпадает побитно;
+пауза и продолжение проверены. Нативные SRT-субтитры в 16-битном буфере
+меняют реальные пиксели и исчезают после sid=no; возврат исходного 8-bit
+кадра проверен по нормализованным RGB-пикселям. Цветные/серые патчи: hue=90°, gamma=2 меняют
+реальные пиксели; нейтральный серый светлеет, красный меняет оттенок. Сравнение
+с отдельным FFmpeg preview ограничено ошибкой 4/255 на канал по трём патчам.
+Обратный reset совпадает с исходным framebuffer. Native GPU свойства пройдены
+для каждого предлагаемого значения и возврата defaults. Optional no для
+dither-depth возвращается native bool false; тест нормализует флаги/списки/строки.
+Это проверка свойств без доказательства
+физической поддержки. UI Cancel/OK/Reset, независимые сбросы, old master sync,
+новые пять image controls и paused state проверены. Старые scaler/deinterlace
+и остальные 21 набора пройдены. Один необязательный continuous-soak пропущен.
+Измерения:
+{
+  "software": {
+    "bilinearMidtones": 19061,
+    "deinterlaceChangedPixels": 9332,
+    "deinterlaceEstimatedFps": 49.99999999999996,
+    "gradient16BitLevels": 928,
+    "gradient8BitLevels": 256,
+    "highPrecisionSubtitleChangedPixels": 438,
+    "hueGammaChangedPixels": 76800,
+    "nearestBilinearDifferentPixels": 36463,
+    "nearestMidtones": 0,
+    "previewColorMaxChannelError": 1
+  },
+  "opengl": {
+    "bilinearMidtones": 19061,
+    "deinterlaceChangedPixels": 9332,
+    "deinterlaceEstimatedFps": 49.99999999999996,
+    "gradient16BitLevels": 928,
+    "gradient8BitLevels": 256,
+    "highPrecisionSubtitleChangedPixels": 438,
+    "hueGammaChangedPixels": 76800,
+    "nearestBilinearDifferentPixels": 36463,
+    "nearestMidtones": 0,
+    "previewColorMaxChannelError": 1
+  }
+}
+English catalog: 1118 source strings covered; 1138 entries; placeholders valid
+Сборка без compiler warnings/errors, clang-format пройден. Реальный скриншот
+новой вкладки просмотрен и включён в архив.
+
+Пакет
+FoxicMPQt-0.1.28-linux-x64.tar.gz
+3553897 байт
+SHA-256: 932a80b2df535734576f9dee358a6636f89e2563fe4c319dffab22afeead0564
+CLI/version/help без создания INI, CUE/PLS до естественного конца, MPRIS и
+helper второго выхода с EOF cleanup проверены. Новые video/* (включая hue/
+gamma/precision/GPU color) и прежние настройки сохраняются. Личный профиль,
+история и pyc/temp не включены; ссылки README и screenshot bytes проверены.
+Все 41 исходных файла установленного пакета 0.1.26 проверены
+по архиву и не менялись. Личный INI эта задача не перезаписывала.
+Параллельно была открыта установленная 0.1.26; хеш её INI изменился во время
+проверок. Эта задача не запускала и не перезаписывала установленную копию.
+SHA-256 INI в начале: 1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad
+SHA-256 INI при итоговой проверке: fd287ab3f73d97ae0da493002121d2be560e1e9f06547afd521abaac2a65721f
+Поэтому неизменность хеша INI не заявляется; тесты используют отдельные профили.
+Коммит/push/релиз/установка/GitHub workflow не выполнялись. Harvester GUI выключен.
+
+Далее
+Пункт 15: ICC-профили, синхронизация/VSync/frame time, шейдеры/редактор,
+тест разрывов и расширенная статистика. Физические GPU/Wayland требуют проверки.
+API: https://github.com/mpv-player/mpv/blob/v0.37.0/DOCS/man/options.rst
+SW: https://github.com/mpv-player/mpv/blob/v0.37.0/video/out/libmpv_sw.c

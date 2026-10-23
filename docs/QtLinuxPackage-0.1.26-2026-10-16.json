@@ -1,0 +1,208 @@
+{
+  "version": "FoxicMPQt 0.1.26",
+  "archive": "FoxicMPQt-0.1.26-linux-x64.tar.gz",
+  "bytes": 3266684,
+  "sha256": "5fae3b345db680cb729ce84cc24a880d79099f9745910df7dcab649bf218da3d",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableTabsAndCueChaptersSaved": true,
+  "playback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.562
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.568
+    }
+  },
+  "cliOptionsChecked": true,
+  "libraryPreferencesPreserved": true,
+  "historyUpdatedBesideBinary": true,
+  "historyAndFavoritesScreenshotsBundled": true,
+  "windowPreferencesPreserved": true,
+  "fullscreenStartupAndNaturalExitRun": true,
+  "windowScreenshotsBundled": true,
+  "appearanceAndOsdPreferencesPreserved": true,
+  "englishCatalogBundled": true,
+  "mprisPackagedWireCommandsVerified": true,
+  "transformPreferencesPreserved": true,
+  "transformScreenshotsBundled": true,
+  "inputPreferencesPreserved": true,
+  "mouseAndInputScreenshotsBundled": true,
+  "subtitleCommandsAndScreenshotsBundled": true,
+  "subtitlePreferencesPreserved": true,
+  "subtitleStylePreferencesPreserved": true,
+  "subtitleRenderPreferencesPreserved": true,
+  "audioProcessingPreferencesPreserved": true,
+  "audioEncodingPreferencesPreserved": true,
+  "customAudioFilterPreferencesPreserved": true,
+  "audioRoutingPreferencesPreserved": true,
+  "audioOutputHelperBundled": true,
+  "packagedAudioHelperLeaseVerified": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "status": "development preview; software controls of parity item 14 complete with hardware limitations; next item 15",
+  "ctestSoftware": {
+    "passed": 21,
+    "total": 21,
+    "seconds": 384.62
+  },
+  "ctestRequestedOpenGL": {
+    "passed": 21,
+    "total": 21,
+    "seconds": 403.08,
+    "actual": "Software fallback"
+  },
+  "audioEncodingChecksPerMode": 7,
+  "audioProcessingChecksPerMode": 11,
+  "measurements": {
+    "software": {
+      "ac3BitstreamFormat": "spdif-ac3",
+      "ac3PayloadMatchesSource": true,
+      "autoResetNativeFormat": "s16",
+      "autoResetPlaybackAdvances": true,
+      "float": {
+        "bits": 32,
+        "bytes": 768000,
+        "nativeFormat": "float",
+        "wavFormat": 3
+      },
+      "iec61937Ac3PreambleFound": true,
+      "int24NonzeroLowBytes": 0,
+      "rate44100Frames": 88200,
+      "rate96000Frames": 192000,
+      "s16": {
+        "bits": 16,
+        "bytes": 384000,
+        "nativeFormat": "s16",
+        "wavFormat": 1
+      },
+      "s24": {
+        "bits": 32,
+        "bytes": 768000,
+        "nativeFormat": "s32",
+        "wavFormat": 1
+      },
+      "s32": {
+        "bits": 32,
+        "bytes": 768000,
+        "nativeFormat": "s32",
+        "wavFormat": 1
+      }
+    },
+    "opengl": {
+      "ac3BitstreamFormat": "spdif-ac3",
+      "ac3PayloadMatchesSource": true,
+      "autoResetNativeFormat": "s16",
+      "autoResetPlaybackAdvances": true,
+      "float": {
+        "bits": 32,
+        "bytes": 768000,
+        "nativeFormat": "float",
+        "wavFormat": 3
+      },
+      "iec61937Ac3PreambleFound": true,
+      "int24NonzeroLowBytes": 0,
+      "rate44100Frames": 88200,
+      "rate96000Frames": 192000,
+      "s16": {
+        "bits": 16,
+        "bytes": 384000,
+        "nativeFormat": "s16",
+        "wavFormat": 1
+      },
+      "s24": {
+        "bits": 32,
+        "bytes": 768000,
+        "nativeFormat": "s32",
+        "wavFormat": 1
+      },
+      "s32": {
+        "bits": 32,
+        "bytes": 768000,
+        "nativeFormat": "s32",
+        "wavFormat": 1
+      }
+    }
+  },
+  "translationCheck": "English catalog: 1078 source strings covered; 1097 entries; placeholders valid",
+  "pcmFormats": [
+    "auto (default)",
+    "s16",
+    "s24 (24-bit truncation in s32 container)",
+    "s32",
+    "float32"
+  ],
+  "pcmRates": [
+    0,
+    32000,
+    44100,
+    48000,
+    88200,
+    96000,
+    176400,
+    192000
+  ],
+  "int24IsPacked24": false,
+  "int24PhysicalDacBitDepthGuaranteed": false,
+  "decoderControls": [
+    "threads 0..16; default 1",
+    "AC-3 DRC 0..1; default 0",
+    "decoder downmix; default off; mixer overrides",
+    "preferred installed audio decoder with native fallback"
+  ],
+  "passthroughDefault": false,
+  "passthroughCodecs": [
+    "ac3",
+    "dts",
+    "dts-hd",
+    "eac3",
+    "truehd"
+  ],
+  "passthroughDefaultCodecSelection": [
+    "ac3",
+    "dts"
+  ],
+  "passthroughEncodedPayloadVerified": [
+    "AC-3 in IEC 61937 file; bytes match source"
+  ],
+  "passthroughHardwareCodecVerification": [],
+  "passthroughPolicySuppressesOn": [
+    "DSP",
+    "ReplayGain",
+    "explicit channel layout",
+    "dual output",
+    "speed != 1",
+    "AC-3 DRC",
+    "decoder downmix",
+    "empty codec list"
+  ],
+  "runtimeAc3ToPcmAndBackOnPauseVerified": true,
+  "autoFormatResetPlaybackAdvances": true,
+  "preferredDecoderFallbackVerified": true,
+  "preferencesCancelApplyResetVerified": true,
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "installedProfileSha256": "1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad",
+  "testPulseModulesRemoved": true,
+  "physicalAudioHardwareVerified": false,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "microphoneUsed": false,
+  "githubPublished": false,
+  "githubWorkflowUpdatedForPrivatePulseSink": true,
+  "githubWorkflowExecuted": false,
+  "harvesterGuiEnabled": false,
+  "screenshot": {
+    "docs/images/foxicmp-qt-audio-encoding.png": "860×680"
+  },
+  "nextParityPlanItem": 15,
+  "limitations": [
+    "native sound server/device may convert final format/rate",
+    "Int24 truncation before libmpv software volume/ReplayGain and later server conversion; no dither",
+    "actual AC-3 DRC effect requires source compression metadata; value/control verified, not DRC transfer curve",
+    "HDMI/SPDIF and DTS/DTS-HD/E-AC-3/TrueHD receiver behavior not physically verified",
+    "unsupported encoded output can fall back or fail in libmpv",
+    "physical A/V synchronization with processing and dual output remains unverified"
+  ]
+}

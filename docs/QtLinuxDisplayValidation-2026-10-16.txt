@@ -1,0 +1,82 @@
+FoxicMP Qt Linux 0.1.29 — ICC и синхронизация, пункт 15 продолжается
+Дата: 16 октября 2026, Europe/Moscow. Ветка codex/linux-qt.
+
+ICC
+Ctrl+Alt+V, общие настройки, «Изображение и звук»: две новые страницы.
+Default ICC off. RGB display profile ≤16 МиБ; заголовок/размер/signature и
+cmsOpenProfileFromMemTHR + sRGB→profile transform в приватном LCMS-контексте.
+OK импортирует bytes в ColorProfiles/<SHA256>.icc через QSaveFile, относительный
+путь в INI. Dedup, перенос папки и точные bytes проверены. Cancel не создаёт
+копию. Ошибки в трёх диалогах оставляют окно открытым. Reset не удаляет файлы.
+Все четыре rendering intent проверены. ICC option и путь приняты libmpv.
+icc-cache=false, icc-profile-auto=false — нет системного LUT-cache или OS lookup.
+Применение ICC только OpenGL; Software, preview и native video screenshot
+не преобразуются в профиль монитора. Неверный ICC из INI пропускается со статусом.
+Профиль ОС/привязка разных мониторов пока не реализованы.
+
+Синхронизация
+Default audio; display-resample/display-tempo/display-vdrop optional.
+VSync фактически задаётся QSurfaceFormat, interval 1 или 0 и согласованный native
+mpv option. Сохранённый выбор требует restart. Подсказка частоты QScreen либо
+manual 1–1000Hz (0=Qt). Max video change 0–5% default1; extra audio change
+0–1% default0.125. Interpolation defaultoff; temporal native/oversample/linear/
+mitchell. Default tscale captured/restored.
+Policy display-* требует visible+ready OpenGL, reported/requested Qt interval1,
+finite refresh>0, permitted bitstream=false. Иначе временно audio, interpolation
+off, override0; выбор INI сохранён. Перепроверка раз в секунду. Frame polling
+16ms audio, 1–16ms display по refresh, без блокирующего ожидания на UI.
+Статус показывает native video-sync, display-sync-active, hint/estimated FPS,
+avsync, frame drops. Частота Qt и requested interval не доказывают физический
+VBlank; драйвер/композитор может переопределять VSync. Monitor modes/HDR не меняются.
+
+Проверки
+23/23 software — 434.65 с.
+23/23 requested OpenGL — 451.25 с, actual Software fallback.
+VideoDisplayTest: 7 passed, 0 failed, 0 skipped в каждом режиме.
+ICC: generated sRGB profile, bad header/class/oversize/write failure, copy/dedup/
+portable move, cancel/reset/validation во всех трёх окнах; screenshots.
+Timing: все policy branches (eligible/backend/interval/bitstream/refresh/visible),
+пределы/NaN sanitization, native display-* properties и tscale all values,
+Qt requested swap0 constructor/native property, deferred saved VSync,
+software fallback на реальном FFV1+PCM source, pause/apply/seek/resume и native
+avsync с приватным Pulse null sink. Это не физическая задержка A/V.
+Измерения:
+{
+  "software": {
+    "iccBytes": 459,
+    "portableIccMoveVerified": true,
+    "softwareFallbackAvSamples": 20,
+    "softwareFallbackMaxNativeAvSeconds": 0.006392477666666341
+  },
+  "opengl": {
+    "iccBytes": 459,
+    "portableIccMoveVerified": true,
+    "softwareFallbackAvSamples": 20,
+    "softwareFallbackMaxNativeAvSeconds": 0.007191620666666287
+  }
+}
+Все прежние 22 набора прошли. Один необязательный continuous-soak пропущен.
+English catalog: 1161 source strings covered; 1181 entries; placeholders valid
+Initial interrupted build показал warning старого LCMS header о register;
+использован публичный CMS_NO_REGISTER_KEYWORD. Resume/final builds clean,
+clang-format passed. Два реальных скриншота просмотрены и включены в архив.
+
+Пакет
+FoxicMPQt-0.1.29-linux-x64.tar.gz
+3772370 байт
+SHA-256: 1e5682b220d97ea18207f90a22b90f3c66648d7668799ac03a3cc468c83dd960
+CLI без создания INI, CUE/PLS до естественного конца, MPRIS/helper EOF cleanup,
+сохранение старых и новых настроек проверены в извлечённом stripped-пакете.
+Личных INI/ICC/истории/pyc/temp нет. README и images byte-verified.
+Все 41 исходных файла установленной 0.1.26 совпадают с архивом; установленную
+копию не обновляли, пользовательский INI не перезаписывали. Тестовые профили
+отдельные. Harvester GUI выключен; commit/push/GitHub release/CI не выполнялись.
+Runtime dependency liblcms2-2, build liblcms2-dev; CI declaration updated only.
+
+Далее
+Пункт 15: шейдеры/редактор, tearing diagnostics и расширенная статистика.
+Авто ICC/per-monitor lookup остаётся; физические GPU/ICC/VSync/display-sync/
+Wayland требуют испытаний, в этой среде не подтверждены.
+API: https://github.com/mpv-player/mpv/blob/v0.37.0/DOCS/man/options.rst
+Qt: https://doc.qt.io/qt-6/qsurfaceformat.html#setSwapInterval
+LCMS: https://github.com/mm2/Little-CMS/blob/lcms2.14/include/lcms2.h

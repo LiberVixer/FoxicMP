@@ -1,0 +1,73 @@
+{
+  "version": "0.1.21",
+  "status": "development preview; parity item 13 layout/appearance implemented; subtitle renderer/buffering controls remain",
+  "archive": "FoxicMPQt-0.1.21-linux-x64.tar.gz",
+  "bytes": 2451420,
+  "sha256": "bb22dad0f040b48a5d62640b79129dda8136fac0d38d1ccbbd59204e01209ede",
+  "ctestSoftware": "16/16 passed; 333.09 s",
+  "ctestRequestedOpenGL": "16/16 passed; 341.47 s; actual Software fallback",
+  "qtSubtitleStyleChecks": "7 passed, 0 failed, 0 skipped in each mode",
+  "qtSubtitleRegressionChecks": "8 passed, 0 failed, 0 skipped in each mode",
+  "qtInputRegressionChecks": "10 passed, 0 failed, 0 skipped in each mode",
+  "optionalContinuousPlaybackTest": "not requested; one player case skipped in each mode",
+  "subtitleStyleBinding": "Ctrl+Alt+T",
+  "additionalStyleEnabledByDefault": false,
+  "srtAlignmentMarginLetterAndLineSpacingPixelsVerified": true,
+  "srtOpacityShadowBackgroundAndResetPixelsVerified": true,
+  "assIndependentXyScaleAndRotationPixelsVerified": true,
+  "authoredAssPreservedUnlessOverrideEnabledPixelsVerified": true,
+  "assPrimaryAndKaraokeSecondaryColorPixelsVerified": true,
+  "assCopyCreatedFromEditorAndUpdatedAfterSettingsVerified": true,
+  "generatedAssCopyUsesPlainTextAndEscapesControlTags": true,
+  "nativeAssForceStyleUsesNormalizedScale": true,
+  "pausedExternalTrackRefreshAfterHardOptionChanges": "100 ms debounce with source/track/token guards",
+  "embeddedStyleRefresh": "same-position seek when allowed; disabled for live/progressive",
+  "stylePreferencesCancelApplyAndResetVerified": true,
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableProfileSavedBesideExtractedBinary": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "packagePlayback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.411
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.452
+    }
+  },
+  "packagedMprisWireCommandsVerified": true,
+  "packagedSubtitleStylePreferencesPreserved": true,
+  "englishCatalogEntries": 938,
+  "translatedCurrentSourceStrings": 926,
+  "screenshots": {
+    "docs/images/foxicmp-qt-subtitle-layout.png": "840×650",
+    "docs/images/foxicmp-qt-subtitle-geometry.png": "840×650",
+    "docs/images/foxicmp-qt-subtitle-colors.png": "840×650",
+    "docs/images/foxicmp-qt-subtitle-ass-copy.png": "1000×660",
+    "docs/images/foxicmp-qt-subtitle-style-video.png": "1060×680"
+  },
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "installedProfileSha256": "1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad",
+  "privatePulseModulesRemoved": true,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "githubWorkflowExecuted": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "parityPlanItem3RemainderDeferred": true,
+  "nextParityPlanItem": 13,
+  "remainingParityItem13": [
+    "subtitle renderer and buffering controls"
+  ],
+  "limitations": [
+    "SRT requires an explicit generated ASS copy for independent X/Y scale, angle and exact horizontal percentage offset",
+    "generated copies replace ASS/HTML formatting with plain text and are rebuilt when selected style settings change",
+    "authored ASS inline tags can take precedence; dimensions use its own script canvas",
+    "secondary color is for ASS karaoke, not ordinary plain text",
+    "bitmap subtitles are not changed by text style controls",
+    "physical GPU/Wayland/desktop verification pending"
+  ]
+}

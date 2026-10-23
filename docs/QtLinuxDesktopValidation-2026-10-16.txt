@@ -1,0 +1,67 @@
+FoxicMP Qt Linux 0.1.33 — запуск, экземпляры и трей; первая часть пункта 17
+Дата: 16 октября 2026. Ветка codex/linux-qt.
+
+Вид → Запуск и системный трей…; также общая страница настроек.
+Defaults: reuse=false, activate=true, tray=false, closeToTray=false,
+minimizeToTray=false. Cancel/OK/reset; tray применяется сразу, reuse при запуске.
+Профиль по умолчанию рядом с программой, --profile directory выбирает другой.
+Никаких изменений установленного Windows-профиля. Linux 0.1.26 не обновляли.
+Сверены 41 файла установленного пакета с исходным архивом 0.1.26.
+Личный INI не читали и не перезаписывали при этих проверках.
+
+CLI --reuse-instance / --new-instance взаимно исключаются; --enqueue добавляет
+без смены проигрывания и подразумевает reuse, кроме --new-instance.
+--no-activate не показывает существующее окно. Обычное открытие заменяет очередь.
+Sender cwd используется для локальных путей до передачи, включая Unicode/spaces.
+DVD/Blu-ray/CDDA и Harvester manifest передаются существующими обработчиками;
+интерфейс Harvester остаётся отключён. enqueue для этих режимов отклоняется.
+Help/version и проверенные недопустимые аргументы не создают профиль.
+
+QLocalServer UserAccessOption; QLockFile staleTime=0. UID+SHA256 canonical
+profile directory, symlink alias совпадает, разные папки изолированы. Эфемерный
+socket/lock в RuntimeLocation; настройки там не хранятся. Только владелец lease
+может удалять orphaned socket; live owner не вытесняется. Recovery после SIGKILL.
+Лимиты: 256 KiB JSON, 256 files, 8192 UTF8/path, 8 peers, 32 queued requests,
+3 sec peer/connect deadline, 5 sec общий ACK deadline. Frame length big endian.
+Последовательная доставка сохраняется при вложенном модальном Qt event loop.
+ACK после валидации/очереди до deferred dispatch; означает принятие запроса,
+не успешное открытие файла. После отправки повторов/fallback нового окна нет.
+Первое зарегистрированное окно получает запросы; отдельные окна его не заменяют
+и не повышаются автоматически после его закрытия. Настройки у них общие.
+
+QSystemTrayIcon, restore/hide/play/stop/previous/next/mute/quit shared actions.
+Close/minimize опциональны. Меню Выход, Ctrl+Q, MPRIS Quit и after-playback exit
+завершают приложение, не прячут его. Скрытое окно после closeEvent явно
+останавливает QCoreApplication event loop: отдельный процесс проверяет exit0.
+Close-to-tray не останавливает источник.
+Fullscreen/maximized restore проверен на Qt; смена физического видеорежима нет.
+Недоступный tray блокирует скрытие; потеря/выключение возвращает окно,
+проверка доступности 500 ms. Автопауза минимизации восстанавливается отдельно
+от ручной паузы. MPRIS Raise использует общее восстановление.
+
+Проверки
+Software: первый прогон 26/27, 485.14 sec; сбой audio-encoding
+при возврате AC3 после PCM на паузе. Повтор отдельно: 1/1, 2.92 sec,
+AudioEncodingTest 7 passed. Код аудио не меняли. Непостоянный сбой остаётся
+зафиксирован, его причина не установлена. Все 27 разных наборов прошли
+с учётом повтора. requested OpenGL: 27/27, 487.39 sec. DesktopIntegrationTest 12 passed каждый.
+Реальные процессы: broker forwarding, independent, lease crash recovery;
+настоящий foxicmp-qt: --profile, --enqueue, относительный Unicode путь,
+пауза/позиция, MPRIS Quit, --new-instance, help/version/invalid flags.
+Неверные/фрагментированные/огромные/зависшие IPC clients проверены.
+Tray availability подменён в unit/UI tests; реальный host недоступен в Xvfb.
+Реальные Qt screenshot: desktop-settings.png, tray-menu.png; просмотрены.
+Архив распакован: CLI/версия/каталог, CUE/PLS natural exit, MPRIS,
+настройки предыдущих этапов и shader/audio helpers проверены.
+English catalog: 1326 source strings covered; 1351 entries; placeholders valid
+
+Ограничения
+Физический Cinnamon/Wayland tray, focus/raise compositor policy, GPU/ICC/HDR,
+физические дисплеи и устройства не подтверждены. Requested OpenGL в этой
+среде использует Software fallback. Пункт 17 не завершён целиком: впереди
+ассоциации/плеер по умолчанию, профиль import/export/reset, обслуживание,
+web control и остальные CLI. Commit/push/GitHub release не выполнялись.
+
+Архив: FoxicMPQt-0.1.33-linux-x64.tar.gz
+Размер: 4431975 bytes
+SHA256: 062b26786fa8be4c1bbe0d4ea4c5810d499069861c23f86795111fbdfd5e0c0a

@@ -1,0 +1,141 @@
+{
+  "captured": "2026-10-20",
+  "version": "1.9.1.75 build 260920-1048 dev",
+  "method": "CopyFromScreen, visible isolated Classic process; native settings tree navigation",
+  "pages": [
+    {
+      "id": "IDD_PPAGEPLAYER",
+      "text": "Проигрыватель"
+    },
+    {
+      "id": "IDD_PPAGEFORMATS",
+      "text": "Проигрыватель::Форматы"
+    },
+    {
+      "id": "IDD_PPAGEACCELTBL",
+      "text": "Проигрыватель::Клавиши"
+    },
+    {
+      "id": "IDD_PPAGEMOUSE",
+      "text": "Проигрыватель::Мышь"
+    },
+    {
+      "id": "IDD_PPAGELOGO",
+      "text": "Проигрыватель::Логотип"
+    },
+    {
+      "id": "IDD_PPAGEINTERFACE",
+      "text": "Проигрыватель::Интерфейс"
+    },
+    {
+      "id": "IDD_PPAGEOSD",
+      "text": "Проигрыватель::OSD"
+    },
+    {
+      "id": "IDD_PPAGEWINDOWSIZE",
+      "text": "Проигрыватель::Размер окна"
+    },
+    {
+      "id": "IDD_PPAGEWEBSERVER",
+      "text": "Проигрыватель::Web-интерфейс"
+    },
+    {
+      "id": "IDD_PPAGEPLAYBACK",
+      "text": "Воспроизведение"
+    },
+    {
+      "id": "IDD_PPAGEDVD",
+      "text": "Воспроизведение::DVD-Video"
+    },
+    {
+      "id": "IDD_PPAGECAPTURE",
+      "text": "Воспроизведение::Захват"
+    },
+    {
+      "id": "IDD_PPAGEYOUTUBE",
+      "text": "Воспроизведение::Онлайн сервисы"
+    },
+    {
+      "id": "IDD_PPAGEVIDEO",
+      "text": "Видео"
+    },
+    {
+      "id": "IDD_PPAGECOLOR",
+      "text": "Видео::Коррекция цвета"
+    },
+    {
+      "id": "IDD_PPAGESYNC",
+      "text": "Видео::Синхронизация кадров"
+    },
+    {
+      "id": "IDD_PPAGEFULLSCREEN",
+      "text": "Видео::Полный экран"
+    },
+    {
+      "id": "IDD_PPAGEAUDIO",
+      "text": "Аудио"
+    },
+    {
+      "id": "IDD_PPAGESOUNDPROCESSING",
+      "text": "Аудио::Обработка звука"
+    },
+    {
+      "id": "IDD_PPAGESUBTITLES",
+      "text": "Субтитры"
+    },
+    {
+      "id": "IDD_PPAGESUBRENDERING",
+      "text": "Субтитры::Отрисовка"
+    },
+    {
+      "id": "IDD_PPAGESUBSTYLE",
+      "text": "Субтитры::Стандартный стиль"
+    },
+    {
+      "id": "IDD_PPAGEINTERNALFILTERS",
+      "text": "Встроенные фильтры"
+    },
+    {
+      "id": "IDD_PPAGEEXTERNALFILTERS",
+      "text": "Внешние фильтры"
+    },
+    {
+      "id": "IDD_PPAGEFILTERSPRIORITY",
+      "text": "Внешние фильтры::Приоритеты"
+    },
+    {
+      "id": "IDD_PPAGEMISC",
+      "text": "Разное"
+    }
+  ],
+  "originalWindowsProfileUnchanged": true,
+  "sha256": {
+    "IDD_PPAGEPLAYER.png": "3d18b63f5e0040f8384a30be0951112f0989b1209a36e9099cc4c2da78dbe5e4",
+    "IDD_PPAGEFORMATS.png": "28c9d372dde392159be726a099d87ec207f63f980454fcfa31ac15f117e277e6",
+    "IDD_PPAGEACCELTBL.png": "deb747df536509857080b45eff0dae7ff5c2427a9ed4e34cd5a9f205660a85b9",
+    "IDD_PPAGEMOUSE.png": "c1e89d9166de4721ea3d1cd0f08c7b81eaf59f7bcfc9e965258987b7bd0b67c6",
+    "IDD_PPAGELOGO.png": "40cdb8407811240a4fa6981a34bc277d2fc389d6ada65a9681cd209972914cef",
+    "IDD_PPAGEINTERFACE.png": "e173dcbf7c8441c0492b3dcd251714c2b5ec25f264e2ce8247e9aed572b2396b",
+    "IDD_PPAGEOSD.png": "96161c0e0456d8c09fbddf683f108b2a84ff58754b2bd61435443dc77b46ab43",
+    "IDD_PPAGEWINDOWSIZE.png": "7a2580f619007846330b5b4a24529d7e997f114beb25f1a8caf5fa5f5bf7f759",
+    "IDD_PPAGEWEBSERVER.png": "e44b01451249647b0febc1c514129d57ded1b91deedfe5a936dda721e1dc2aaf",
+    "IDD_PPAGEPLAYBACK.png": "cca4cfe81dac084159a15462f74d94693057fcfb48f311b0b94a14185078966f",
+    "IDD_PPAGEDVD.png": "a670b93931433cb2f885e83be93277ce6fe4aeb1133e54fb67d07d815ce2977a",
+    "IDD_PPAGECAPTURE.png": "b4116c1fdf9b4538c0eb969da3f525a7f170a17c47fdf5e571dd73abb4ac11d9",
+    "IDD_PPAGEYOUTUBE.png": "eb433fbd017d5d2e8c2c9d18a4b1f16971382b26d00e27226e7ec7633c3e7190",
+    "IDD_PPAGEVIDEO.png": "b82a439e5bc6ebaaf156394dcf4384ea365889e55d1622209bea6e95cb32fe03",
+    "IDD_PPAGECOLOR.png": "7543701ef7ffff59d2c5f4a3601fb78259188c22ea5a69d69de04d57f523b8c8",
+    "IDD_PPAGESYNC.png": "0a0936e096f458c9fec57a1d0050e0e0d4fe4a6db5e0e707c3eeb741a3f2cddc",
+    "IDD_PPAGEFULLSCREEN.png": "c8f4c1f68a41d02d1d168177283cda0aa89c952450aaa1e873e5e105aa4207d3",
+    "IDD_PPAGEAUDIO.png": "6e5d3a1a1ae93985a0e69778309323a57e3c5fe136edc93dbb4b0e3c186c2ec3",
+    "IDD_PPAGESOUNDPROCESSING.png": "6159ae12d3f1e65deef27b6b658bfd0aac02ff8aa343ff43468994baae2d48d7",
+    "IDD_PPAGESUBTITLES.png": "aedbf5f8c61e8e134b0118a548ed48843b54b1b8885cbbde1ff5a21b076f7c22",
+    "IDD_PPAGESUBRENDERING.png": "c03a2f27ff9ad82dc232754fea9b02a7227dbfb8b13e5f04651e24b39c216388",
+    "IDD_PPAGESUBSTYLE.png": "939e6b6a0a87fbe504d9834ee844ed6eb8dfcd6d7176f0e2d80126bb7409fb02",
+    "IDD_PPAGEINTERNALFILTERS.png": "596857f9992d4c9ef62e7aa9c018f14531731fbae3262240bac1537926734b34",
+    "IDD_PPAGEEXTERNALFILTERS.png": "9ce0fe86f1476244f7b50d7c6e1ce77b8fe8c9081d339de939c98a5412367042",
+    "IDD_PPAGEFILTERSPRIORITY.png": "ac20b1f361537c39488afbffdd5da6d3d39d183f79779810221c7f25c3af6419",
+    "IDD_PPAGEMISC.png": "7ee08c7b6869ca84439d8cdaae8380b721eb21c8599a381976ac949404fca9b7",
+    "main.png": "a25d4197d1b49d7b8349693f4d4fd0782a9d2a0cc9059013723dc635af1824bc"
+  }
+}

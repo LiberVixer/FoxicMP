@@ -1,0 +1,81 @@
+FoxicMP Qt 0.1.1 — Linux Mint 22.3 / X11
+Software and requested OpenGL fallback validation.
+OpenGL was NOT rendered on a physical GPU: Mesa llvmpipe selects Software.
+
+
+Default software output
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::portableProfile()
+PASS   : PlayerTest::chapterLines()
+PASS   : PlayerTest::integration()
+PASS   : PlayerTest::desktopLaunch()
+PASS   : PlayerTest::interface()
+PASS   : PlayerTest::outputFallback()
+SKIP   : PlayerTest::continuousPlayback() Optional continuous playback: set FOXICMP_TEST_SOAK_SECONDS
+   Loc: [/media/sf_Studio/Programs/MPMY-src/qt/tests/player_test.cpp(199)]
+PASS   : PlayerTest::playback(AV1.mkv)
+PASS   : PlayerTest::playback(chapters.mkv)
+PASS   : PlayerTest::playback(HEVC.mov)
+PASS   : PlayerTest::playback(MPEG4.avi)
+PASS   : PlayerTest::playback(VP9.webm)
+PASS   : PlayerTest::playback(Русский H264.mp4)
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 14 passed, 0 failed, 1 skipped, 0 blacklisted, 21273ms
+********* Finished testing of PlayerTest *********
+
+Requested OpenGL; automatic Software fallback
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::portableProfile()
+PASS   : PlayerTest::chapterLines()
+PASS   : PlayerTest::integration()
+PASS   : PlayerTest::desktopLaunch()
+PASS   : PlayerTest::interface()
+PASS   : PlayerTest::outputFallback()
+SKIP   : PlayerTest::continuousPlayback() Optional continuous playback: set FOXICMP_TEST_SOAK_SECONDS
+   Loc: [/media/sf_Studio/Programs/MPMY-src/qt/tests/player_test.cpp(199)]
+QINFO  : PlayerTest::playback(AV1.mkv) Requested OpenGL; actual output: "Software"
+PASS   : PlayerTest::playback(AV1.mkv)
+QINFO  : PlayerTest::playback(chapters.mkv) Requested OpenGL; actual output: "Software"
+PASS   : PlayerTest::playback(chapters.mkv)
+QINFO  : PlayerTest::playback(HEVC.mov) Requested OpenGL; actual output: "Software"
+PASS   : PlayerTest::playback(HEVC.mov)
+QINFO  : PlayerTest::playback(MPEG4.avi) Requested OpenGL; actual output: "Software"
+PASS   : PlayerTest::playback(MPEG4.avi)
+QINFO  : PlayerTest::playback(VP9.webm) Requested OpenGL; actual output: "Software"
+PASS   : PlayerTest::playback(VP9.webm)
+QINFO  : PlayerTest::playback(Русский H264.mp4) Requested OpenGL; actual output: "Software"
+PASS   : PlayerTest::playback(Русский H264.mp4)
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 14 passed, 0 failed, 1 skipped, 0 blacklisted, 22334ms
+********* Finished testing of PlayerTest *********
+
+Extracted package startup
+Archive: FoxicMPQt-0.1.1-linux-x64.tar.gz
+Version: FoxicMPQt 0.1.1
+No packaged profile/history: passed
+Failed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory
+Extracted executable stayed running for 4 seconds with local video.
+
+0.1.1 continuous software playback
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::continuousPlayback()
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 3 passed, 0 failed, 0 skipped, 0 blacklisted, 61451ms
+********* Finished testing of PlayerTest *********
+
+0.1.1 previously downloaded real-source clips (local playback, not online/progressive)
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::playback(Rutube.mp4)
+PASS   : PlayerTest::playback(VK.mp4)
+PASS   : PlayerTest::playback(YouTube.mp4)
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 5 passed, 0 failed, 0 skipped, 0 blacklisted, 14566ms
+********* Finished testing of PlayerTest *********

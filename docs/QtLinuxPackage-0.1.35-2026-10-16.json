@@ -1,0 +1,199 @@
+{
+  "version": "FoxicMPQt 0.1.35",
+  "archive": "FoxicMPQt-0.1.35-linux-x64.tar.gz",
+  "bytes": 4581112,
+  "sha256": "ddddc75c5b436d3dead5ad57ef1ef8127695092de50f31f4db5b0f4aed38cf31",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableTabsAndCueChaptersSaved": true,
+  "playback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.849
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.553
+    }
+  },
+  "cliOptionsChecked": true,
+  "libraryPreferencesPreserved": true,
+  "historyUpdatedBesideBinary": true,
+  "historyAndFavoritesScreenshotsBundled": true,
+  "windowPreferencesPreserved": true,
+  "fullscreenStartupAndNaturalExitRun": true,
+  "windowScreenshotsBundled": true,
+  "appearanceAndOsdPreferencesPreserved": true,
+  "englishCatalogBundled": true,
+  "mprisPackagedWireCommandsVerified": true,
+  "transformPreferencesPreserved": true,
+  "transformScreenshotsBundled": true,
+  "inputPreferencesPreserved": true,
+  "mouseAndInputScreenshotsBundled": true,
+  "subtitleCommandsAndScreenshotsBundled": true,
+  "subtitlePreferencesPreserved": true,
+  "subtitleStylePreferencesPreserved": true,
+  "subtitleRenderPreferencesPreserved": true,
+  "audioProcessingPreferencesPreserved": true,
+  "packagedShaderCompilerAndProbeVerified": true,
+  "mediaCapturePreferencesPreserved": true,
+  "systemIccSourcePreserved": true,
+  "videoShaderPreferencesPreserved": true,
+  "videoDisplayPreferencesPreserved": true,
+  "videoOutputPreferencesPreserved": true,
+  "audioEncodingPreferencesPreserved": true,
+  "customAudioFilterPreferencesPreserved": true,
+  "audioRoutingPreferencesPreserved": true,
+  "audioOutputHelperBundled": true,
+  "packagedAudioHelperLeaseVerified": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "profileLaunchOptionsPackaged": true,
+  "associationCommandAndScreenshotBundled": true,
+  "status": "development preview; paused audio decoder reconfiguration corrected and measured; remaining parity item 17 work pending",
+  "ctestSoftware": {
+    "passed": 28,
+    "total": 28,
+    "seconds": 485.97
+  },
+  "ctestRequestedOpenGL": {
+    "passed": 28,
+    "total": 28,
+    "seconds": 507.53,
+    "actual": "Software fallback"
+  },
+  "audioTestCasesPerRunIncludingInitCleanup": 9,
+  "audioStress": {
+    "softwareFullSuiteConsecutivePasses": 10,
+    "requestedOpenGLFullSuiteConsecutivePasses": 10,
+    "cyclesPerSourcePerRun": 50,
+    "sourceKinds": [
+      "raw AC3 audio only",
+      "MKV video plus AC3"
+    ],
+    "totalAc3PcmAc3Cycles": 2000,
+    "totalIndividualFormatTransitions": 4000,
+    "pausedPositionToleranceSeconds": 0.04,
+    "measurements": {
+      "software": {
+        "ac3BitstreamFormat": "spdif-ac3",
+        "ac3PayloadMatchesSource": true,
+        "autoResetNativeFormat": "s16",
+        "autoResetPlaybackAdvances": true,
+        "float": {
+          "bits": 32,
+          "bytes": 768000,
+          "nativeFormat": "float",
+          "wavFormat": 3
+        },
+        "iec61937Ac3PreambleFound": true,
+        "int24NonzeroLowBytes": 0,
+        "pausedTransitionCyclesAudio": 50,
+        "pausedTransitionCyclesVideo": 50,
+        "pausedTransitionSourceAndPositionPreserved": true,
+        "rate44100Frames": 88200,
+        "rate96000Frames": 192000,
+        "s16": {
+          "bits": 16,
+          "bytes": 384000,
+          "nativeFormat": "s16",
+          "wavFormat": 1
+        },
+        "s24": {
+          "bits": 32,
+          "bytes": 768000,
+          "nativeFormat": "s32",
+          "wavFormat": 1
+        },
+        "s32": {
+          "bits": 32,
+          "bytes": 768000,
+          "nativeFormat": "s32",
+          "wavFormat": 1
+        }
+      },
+      "opengl": {
+        "ac3BitstreamFormat": "spdif-ac3",
+        "ac3PayloadMatchesSource": true,
+        "autoResetNativeFormat": "s16",
+        "autoResetPlaybackAdvances": true,
+        "float": {
+          "bits": 32,
+          "bytes": 768000,
+          "nativeFormat": "float",
+          "wavFormat": 3
+        },
+        "iec61937Ac3PreambleFound": true,
+        "int24NonzeroLowBytes": 0,
+        "pausedTransitionCyclesAudio": 50,
+        "pausedTransitionCyclesVideo": 50,
+        "pausedTransitionSourceAndPositionPreserved": true,
+        "rate44100Frames": 88200,
+        "rate96000Frames": 192000,
+        "s16": {
+          "bits": 16,
+          "bytes": 384000,
+          "nativeFormat": "s16",
+          "wavFormat": 1
+        },
+        "s24": {
+          "bits": 32,
+          "bytes": 768000,
+          "nativeFormat": "s32",
+          "wavFormat": 1
+        },
+        "s32": {
+          "bits": 32,
+          "bytes": 768000,
+          "nativeFormat": "s32",
+          "wavFormat": 1
+        }
+      }
+    }
+  },
+  "initialStressBudget": "200 cycles per source exceeded existing 90 s CTest limit in video case without an individual transition failure; logs retained; final runs use 50 per source within unchanged deadline",
+  "baseline": "same paused-transition regression test failed before runtime changes: position advanced from 0.672 s to 0.736 s",
+  "changes": [
+    "snapshot playback time before decoder/filter options",
+    "apply all filter/output settings before decoder restart",
+    "single synchronous mpv command list disables and reselects the currently selected audio track",
+    "for seekable sources append absolute+exact seek to saved timestamp in same command list",
+    "fixed-point time serialization avoids mpv command time parser rejecting exponent notation near zero",
+    "restart is not skipped solely because audio-params is temporarily unavailable",
+    "no delayed Qt callbacks or player file reload; pause/source/selected track retained; already disabled audio remains disabled"
+  ],
+  "regressionsVerified": [
+    "AC3/PCM actual output format on pause",
+    "raw AC3 and A/V MKV position preservation across repeated toggles",
+    "rapid configuration changes before decoder readiness",
+    "replacement source does not receive delayed old-file seek",
+    "audio-disabled selection stays disabled",
+    "decoder preferences, runtime speed policy, DRC/downmix/DSP conflict rules",
+    "IEC 61937 preamble and source AC3 payload equality",
+    "resampling, PCM sample precision and automatic-format reset",
+    "all 28 existing CTest suites and stripped package smoke tests"
+  ],
+  "translationCheck": "English catalog: 1368 source strings covered; 1396 entries; placeholders valid",
+  "installedPlayerUpdated": false,
+  "installedVersionPreserved": "0.1.26",
+  "installedPackageFilesVerifiedUnchanged": 41,
+  "installedProfileWrittenByThisTask": false,
+  "workingDesktopAssociationsChanged": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "physicalReceiverOrSpdifVerified": false,
+  "waylandVerified": false,
+  "physicalGpuVerified": false,
+  "remainingItem17": [
+    "profile export/import/reset and location UI",
+    "title customization, updates, process priority and crash reporting",
+    "web control and remaining Classic CLI",
+    "folder/disc integration where appropriate; user-deferred physical/disc-menu/analog work remains deferred"
+  ],
+  "limitations": [
+    "40 ms software position tolerance reflects AC3 packet timing; physical A/V synchronization or seamless hardware output is not measured",
+    "non-seekable streams use one track re-selection command list without restoring past timestamp; exact live position continuity is not established",
+    "mpv_command_string acceptance is synchronous; native decoder/output initialization remains asynchronous and tests wait for actual format",
+    "tests use file audio output plus isolated PulseAudio for PCM checks, not an HDMI/S/PDIF receiver",
+    "requested OpenGL in this environment uses Software fallback; actual GPU/Cinnamon/Wayland not established"
+  ]
+}

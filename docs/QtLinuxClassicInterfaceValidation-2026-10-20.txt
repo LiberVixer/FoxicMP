@@ -1,0 +1,13 @@
+FoxicMP Qt 0.1.55 — Classic interface checkpoint, 2026-10-20
+Windows reference: 1.9.1.75 build 260920-1048 dev, isolated visible process.
+Captured 26 native property pages and the main window. Original Windows profile unchanged.
+Native static/computed command captions compared: 71/71.
+Classic menu resources: 8, languages RU/EN; settings tree: 26 pages.
+Focused UI tests: 10 passed, 0 failed; menu states, four caption modes, custom shortcuts,
+status time/milliseconds, panels/fullscreen, Apply/Cancel, field validation and unclipped Player page.
+Full CTest Software: 36/36. Requested OpenGL UI/window subset: 4/4.
+Classic interface test deliberately uses Software; no physical GPU claim.
+Package smoke passed; Linux installation updated with backup, INI/log/launcher preserved.
+Full pixel/layout parity is NOT complete. See LinuxClassicInterfaceChecklist.md.
+Wayland excluded by user; physical equipment tests cancelled by user.
+Harvester GUI remains disabled. No GitHub publication performed in this task.

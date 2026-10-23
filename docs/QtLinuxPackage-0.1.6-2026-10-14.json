@@ -1,0 +1,14 @@
+{
+  "version": "0.1.6",
+  "archive": "FoxicMPQt-0.1.6-linux-x64.tar.gz",
+  "bytes": 667854,
+  "sha256": "c54191f7dd183853082e408e4e1095502717b48f71ab40b5931b958783b9e8fb",
+  "profileBundled": false,
+  "portableProfileCreatedBesideExtractedBinary": true,
+  "versionCheck": true,
+  "localPlaybackSmokeCheck": true,
+  "directHttpPlaybackTest": true,
+  "ctestSoftware": "4/4 passed",
+  "ctestRequestedOpenGL": "4/4 passed; Mesa fallback to Software",
+  "physicalGpuVerified": false
+}

@@ -1,0 +1,79 @@
+FoxicMP Qt Linux 0.1.27 — масштабирование и декодирование, начало пункта 15
+Дата: 16 октября 2026, Europe/Moscow. Ветка codex/linux-qt.
+
+Результат
+Ctrl+Alt+V, меню Вид/контекстное/общие настройки, две страницы:
+«Видео — масштабирование» и «Видео — декодирование».
+Software kernel: default, point/bilinear/bicubic/lanczos/spline/area.
+При явном выборе sws-allow-zimg=no; default возвращает captured native values.
+GPU scale/dscale/cscale: default/nearest/bilinear/bicubic/lanczos/spline36/
+ewa_lanczossharp. GPU настройки сохраняются, но Software fallback использует
+свой kernel. Pan&Scan, геометрия и исходный файл не меняются.
+
+Декодирование
+Старая playback/hardwareDecoding — главный флаг, синхронизирован с новой
+галочкой. Default auto-copy + исходный native список hwdec-codecs. Методы
+vaapi-copy/nvdec-copy/vdpau-copy, свой список H264/HEVC/VP8/VP9/AV1/VC1/
+MPEG2/ProRes; пустой список → hwdec=no. Copy-back совместим с software filters.
+vd-lavc-threads 0–16 (default auto), software-fallback 1–16 (default 3).
+Изменение потоков/списка кодеков может потребовать переоткрытия файла; hwdec может прервать
+видео. Реальные renderer/hwdec-current/decoded format показаны отдельно.
+Deinterlace — native libmpv on/off, default off, алгоритм выбирает backend.
+Это не auto detection и не ручной редактор фильтра. Progressive может ухудшиться.
+Cancel не сохраняет, Reset сбрасывает только две страницы и общий master в on.
+Новые defaults сохраняют прежние настройки. INI рядом с программой.
+
+Испытания
+22/22 CTest software — 408.63 с.
+22/22 requested OpenGL — 425.36 с, фактически Software fallback.
+VideoOutputTest: 6 passed, 0 failed, 0 skipped в каждом режиме.
+Собственный checker 64×48, FFV1, отображение 301×227: point/bilinear
+проверены по реальным framebuffer pixels и числу промежуточных серых значений,
+обратный point совпадает с исходным framebuffer. На паузе apply сохраняет pause,
+после resume time-pos движется. Синтетический interlaced testsrc2 50→25 fps,
+деинтерлейсинг меняет реальные пиксели, выключение и продолжение проверены.
+Настройки GPU проверены на принятие свойства/сброс, не на physical GPU.
+Пустой custom codec list, explicit vaapi-copy + h264/hevc, threads=2,
+несовместимый FFV1→CPU и legacy master проверены. Это не испытание ускорителя.
+Native hwdec возвращается списком; чтение/сравнение нормализует список/строку,
+чтобы корректно распознавать no и не сбрасывать метод при каждом apply.
+Первоначальное ожидание строки в тесте исправлено.
+Cancel/OK/Reset, shortcut, screenshot и синхронизация обеих master-галочек
+в общих настройках проверены. Старые 21 набора, включая звук/bitstream, прошли.
+Один необязательный continuous-soak пропущен; публичные загрузки не повторялись.
+Измерения:
+{
+  "software": {
+    "bilinearMidtones": 19061,
+    "deinterlaceChangedPixels": 9332,
+    "deinterlaceEstimatedFps": 49.99999999999996,
+    "nearestBilinearDifferentPixels": 36463,
+    "nearestMidtones": 0
+  },
+  "opengl": {
+    "bilinearMidtones": 19061,
+    "deinterlaceChangedPixels": 9332,
+    "deinterlaceEstimatedFps": 49.99999999999996,
+    "nearestBilinearDifferentPixels": 36463,
+    "nearestMidtones": 0
+  }
+}
+English catalog: 1100 source strings covered; 1120 entries; placeholders valid
+Сборка без compiler warnings/errors. clang-format пройден. Два реальных
+скриншота вкладок просмотрены и включены в архив.
+
+Пакет
+FoxicMPQt-0.1.27-linux-x64.tar.gz
+3438782 байт
+SHA-256: 8008a16d36518d2b850551f25f61da4085dd317eb25a4cb0b03aad53e7909475
+Проверены CLI без INI, естественный конец CUE/PLS, gdbus-команды и сохранение
+новых video/* и прежних параметров. Packaged helper второго звукового выхода
+проверен с очисткой EOF. Личного профиля/истории/pyc/temp нет, README links valid.
+Установленная 0.1.26 и её профиль не менялись: 1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad
+Коммит/push/релиз/установка/GitHub workflow не выполнялись; Harvester GUI выключен.
+
+Пределы и далее
+Реальные GPU/Wayland/VA-API/NVDEC/VDPAU не подтверждены этими тестами.
+Пункт 15 продолжается: диапазон/точность/цвет, VSync/display synchronization,
+шейдеры/редактор, тест разрывов и расширенная статистика.
+API: https://github.com/mpv-player/mpv/blob/v0.37.0/DOCS/man/options.rst

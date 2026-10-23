@@ -1,0 +1,76 @@
+{
+  "version": "0.1.17",
+  "status": "development preview; parity item 10 software complete; online service restrictions documented",
+  "archive": "FoxicMPQt-0.1.17-linux-x64.tar.gz",
+  "bytes": 1517622,
+  "sha256": "8d313c15207faad7b3b9475fc276858f63bd23e0f53e6cb24928b5de2cc81b29",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "standaloneAdapterBundled": true,
+  "portableProfileSavedBesideExtractedBinary": true,
+  "versionAndCliCheck": true,
+  "postSuiteIntegrationAndAppearanceChecks": "4 player integration checks + 9 appearance checks passed on final binaries",
+  "ctestSoftware": "12/12 passed; 241.10 s",
+  "ctestRequestedOpenGL": "12/12 passed; 245.50 s; actual Software fallback",
+  "qtAppearanceChecks": "9 passed; 0 failed; 0 skipped in both modes",
+  "optionalContinuousPlaybackTest": "not requested; one player case skipped per mode",
+  "themesAssetsClassicToolbarFontsVerified": true,
+  "englishCatalogEntries": 663,
+  "translatedCurrentSourceStrings": 654,
+  "languageRestartAndCustomPackValidationVerified": true,
+  "osdPixelsHudClockAndTimeoutVerified": true,
+  "networkPreviewMatchesLocalPixelsVerified": true,
+  "networkPreviewPreservesMainPlaybackVerified": true,
+  "previewCacheCancellationTimeoutAndProcessReapingVerified": true,
+  "extractorCoalescingAndProtocolValidationVerified": true,
+  "publicVkPreview": {
+    "url": "https://vkvideo.ru/video-18403220_456239696",
+    "pixels": [
+      480,
+      239
+    ],
+    "targetSeconds": 3,
+    "elapsedMs": 26352
+  },
+  "publicYoutubePreview": "not successful; repeat extractor requested bot verification",
+  "publicRutubePreview": "not successful; decode timeout",
+  "personalCookiesUsed": false,
+  "privatePulseModulesRemoved": true,
+  "packagePlayback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.376
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.413
+    }
+  },
+  "packagedEnglishAppearanceAndOsdPreferencesVerified": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "screenshots": {
+    "docs/images/foxicmp-qt-appearance-preferences.png": "798×590",
+    "docs/images/foxicmp-qt-osd-preferences.png": "798×590",
+    "docs/images/foxicmp-qt-english-preferences.png": "782×590",
+    "docs/images/foxicmp-qt-preview-preferences.png": "798×590",
+    "docs/images/foxicmp-qt-osd.png": "1060×680",
+    "docs/images/foxicmp-qt-classic-layout.png": "1060×680"
+  },
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "githubWorkflowExecuted": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "parityPlanItem3RemainderDeferred": true,
+  "parityPlanItem10SoftwareComplete": true,
+  "nextParityPlanItem": 11,
+  "limitations": [
+    "anonymous YouTube requested verification; selected Rutube timed out",
+    "online previews are HTTP(S), opt-in and exclude live/unknown/progressive sources",
+    "standard Qt translations depend on runtime packages",
+    "physical GPU/HiDPI/Wayland/WM verification pending",
+    "Classic Win32 and Qt are not pixel-identical"
+  ]
+}

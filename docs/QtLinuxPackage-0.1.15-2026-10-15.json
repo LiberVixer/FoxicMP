@@ -1,0 +1,59 @@
+{
+  "version": "0.1.15",
+  "status": "development preview; parity item 8 complete; item 3 remainder deferred",
+  "archive": "FoxicMPQt-0.1.15-linux-x64.tar.gz",
+  "bytes": 1076029,
+  "sha256": "1c3a372cac2d67da5b6384a06efb4be8e4b9d44dc2b145b7bd54802249c54e3b",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "standaloneAdapterBundled": true,
+  "portableProfileSavedBesideExtractedBinary": true,
+  "versionAndCliCheck": true,
+  "ctestSoftware": "10/10 passed; 206.52 s",
+  "ctestRequestedOpenGL": "10/10 passed; 211.91 s; actual Software fallback",
+  "qtLibraryChecks": "10 passed; 0 failed; 0 skipped in both modes",
+  "optionalContinuousPlaybackTest": "not requested; one player case skipped per mode",
+  "historySearchColumnsCopyDeletionVerified": true,
+  "historyMissingRemovalPreservesNetworkDevicesVerified": true,
+  "historyDeletionPreventsTimerPositionResurrectionVerified": true,
+  "historySizeAndMenuLimitsVerified": true,
+  "favoritesButtonAndModelReorderVerified": true,
+  "favoritesFilteredReorderPreservesHiddenSlotsVerified": true,
+  "favoritesPositionChoiceAndCancelVerified": true,
+  "favoritesRelativeFileAndDiscPathsMoveVerified": true,
+  "legacyFavoriteCompatibilityVerified": true,
+  "liveFavoritesPreserveGlobalDefaultsVerified": true,
+  "categoryMenusVerified": true,
+  "privatePulseModulesRemoved": true,
+  "packagePlayback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 8.998
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.235
+    }
+  },
+  "packagedLibraryPreferencesPreserved": true,
+  "screenshots": [
+    "docs/images/foxicmp-qt-history.png",
+    "docs/images/foxicmp-qt-favorites.png",
+    "docs/images/foxicmp-qt-library-preferences.png"
+  ],
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "physicalGpuVerified": false,
+  "githubWorkflowExecuted": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "parityPlanItem3RemainderDeferred": true,
+  "parityPlanItem8Complete": true,
+  "nextParityPlanItem": 9,
+  "limitations": [
+    "relative favorites require preserved program/media folder structure",
+    "network and physical device absence is not probed",
+    "physical drag gesture not separately automated; model move tested",
+    "GPU and Wayland not validated"
+  ]
+}

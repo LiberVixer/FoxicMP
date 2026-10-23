@@ -1,0 +1,9 @@
+********* Start testing of PlayerTest *********
+Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3
+PASS   : PlayerTest::initTestCase()
+PASS   : PlayerTest::playback(Rutube.mp4)
+PASS   : PlayerTest::playback(VK.mp4)
+PASS   : PlayerTest::playback(YouTube.mp4)
+PASS   : PlayerTest::cleanupTestCase()
+Totals: 5 passed, 0 failed, 0 skipped, 0 blacklisted, 14304ms
+********* Finished testing of PlayerTest *********

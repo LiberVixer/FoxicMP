@@ -1,0 +1,140 @@
+{
+  "version": "FoxicMPQt 0.1.33",
+  "archive": "FoxicMPQt-0.1.33-linux-x64.tar.gz",
+  "bytes": 4431975,
+  "sha256": "062b26786fa8be4c1bbe0d4ea4c5810d499069861c23f86795111fbdfd5e0c0a",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableTabsAndCueChaptersSaved": true,
+  "playback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.593
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.58
+    }
+  },
+  "cliOptionsChecked": true,
+  "libraryPreferencesPreserved": true,
+  "historyUpdatedBesideBinary": true,
+  "historyAndFavoritesScreenshotsBundled": true,
+  "windowPreferencesPreserved": true,
+  "fullscreenStartupAndNaturalExitRun": true,
+  "windowScreenshotsBundled": true,
+  "appearanceAndOsdPreferencesPreserved": true,
+  "englishCatalogBundled": true,
+  "mprisPackagedWireCommandsVerified": true,
+  "transformPreferencesPreserved": true,
+  "transformScreenshotsBundled": true,
+  "inputPreferencesPreserved": true,
+  "mouseAndInputScreenshotsBundled": true,
+  "subtitleCommandsAndScreenshotsBundled": true,
+  "subtitlePreferencesPreserved": true,
+  "subtitleStylePreferencesPreserved": true,
+  "subtitleRenderPreferencesPreserved": true,
+  "audioProcessingPreferencesPreserved": true,
+  "packagedShaderCompilerAndProbeVerified": true,
+  "mediaCapturePreferencesPreserved": true,
+  "systemIccSourcePreserved": true,
+  "videoShaderPreferencesPreserved": true,
+  "videoDisplayPreferencesPreserved": true,
+  "videoOutputPreferencesPreserved": true,
+  "audioEncodingPreferencesPreserved": true,
+  "customAudioFilterPreferencesPreserved": true,
+  "audioRoutingPreferencesPreserved": true,
+  "audioOutputHelperBundled": true,
+  "packagedAudioHelperLeaseVerified": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "profileLaunchOptionsPackaged": true,
+  "status": "development preview; first block of parity item 17 implemented; remaining integration and maintenance work pending",
+  "ctestSoftware": {
+    "initialPassed": 26,
+    "total": 27,
+    "seconds": 485.14,
+    "failed": "audio-encoding AC3/PCM paused transition",
+    "isolatedRecheckPassed": true,
+    "isolatedRecheckSeconds": 2.92,
+    "finalUniqueSuitesPassed": 27
+  },
+  "ctestRequestedOpenGL": {
+    "passed": 27,
+    "total": 27,
+    "seconds": 487.39,
+    "actual": "Software fallback"
+  },
+  "desktopTestCasesPerModeIncludingInitCleanup": 12,
+  "translationCheck": "English catalog: 1326 source strings covered; 1351 entries; placeholders valid",
+  "defaults": {
+    "reuseExisting": false,
+    "activateOnOpen": true,
+    "tray": false,
+    "closeToTray": false,
+    "minimizeToTray": false
+  },
+  "cli": [
+    "--profile directory",
+    "--reuse-instance",
+    "--new-instance",
+    "--enqueue",
+    "--no-activate"
+  ],
+  "forwarding": "first registered owner of canonical profile directory; new independent windows do not automatically replace or promote the owner",
+  "enqueue": "sender-normalized paths; appends without changing active source, pause or position; implies reuse unless --new-instance",
+  "profile": "all persistent profile data in selected directory; default beside binary; symlink aliases share identity; no INI writes by forwarding client",
+  "ipc": "QLocalServer UserAccessOption plus QLockFile lease in user RuntimeLocation; UID+SHA256 canonical directory name; stale owner recovery; no settings in runtime directory",
+  "ipcLimits": {
+    "bytes": 262144,
+    "files": 256,
+    "pathUtf8Bytes": 8192,
+    "activeClients": 8,
+    "queuedRequests": 32,
+    "peerTimeoutMs": 3000,
+    "forwardTimeoutMs": 5000
+  },
+  "acknowledgement": "validated and queued before deferred dispatch; acknowledges acceptance, not successful playback; request never resent after transmission",
+  "tray": "native QSystemTrayIcon; shared player actions; close/minimize policies; fullscreen/maximized restore; menu/CtrlQ/MPRIS/after-playback explicit quit bypasses hiding",
+  "trayAvailability": "unavailable tray prevents hiding; loss or disable restores hidden window; 500 ms availability check",
+  "verified": [
+    "strict launch schema and sender-relative Unicode paths",
+    "real child-process broker forwarding and independent/profile isolation",
+    "fragmented, malformed, oversized and stalled IPC peers",
+    "nested modal event loop acknowledges peers without reentrant dispatch",
+    "hidden window explicit quit exits a real QApplication process",
+    "stale lease recovery after killing owner",
+    "Qt hide/restore/fullscreen/maximized state, direct show command then close, and pause",
+    "tray-loss fallback and explicit quit",
+    "minimize pause versus manual pause",
+    "settings Cancel/OK/reset/disable while hidden",
+    "real player CLI help/version/invalid flags create no profile",
+    "real player --enqueue preserves paused position; --new-instance stays independent"
+  ],
+  "trayTestAvailabilityProvider": "injected for policy/state tests; no physical desktop tray host was available",
+  "installedPlayerUpdated": false,
+  "installedVersionPreserved": "0.1.26",
+  "installedPackageFilesVerifiedUnchanged": 41,
+  "installedProfileWrittenByThisTask": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "screenshots": {
+    "docs/images/foxicmp-qt-desktop-settings.png": "650×410",
+    "docs/images/foxicmp-qt-tray-menu.png": "280×212"
+  },
+  "physicalTrayVerified": false,
+  "waylandVerified": false,
+  "physicalGpuVerified": false,
+  "remainingItem17": [
+    "MIME/default associations and folder/disc integration",
+    "profile export/import/reset and location UI",
+    "title customization, updates, process priority and crash reporting",
+    "web control and remaining Classic CLI"
+  ],
+  "limitations": [
+    "intermittent software AC3/PCM paused-transition test failure in parallel full run; isolated full audio-encoding suite passed; cause unresolved",
+    "physical Cinnamon/Wayland tray behavior and compositor activation policies require manual verification",
+    "acknowledgement means request accepted; media errors remain handled by player",
+    "independent windows sharing a profile share settings; no live preference synchronization or primary promotion",
+    "Xvfb requested OpenGL uses Software fallback"
+  ]
+}

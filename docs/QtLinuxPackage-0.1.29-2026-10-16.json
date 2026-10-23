@@ -1,0 +1,167 @@
+{
+  "version": "FoxicMPQt 0.1.29",
+  "archive": "FoxicMPQt-0.1.29-linux-x64.tar.gz",
+  "bytes": 3772370,
+  "sha256": "1e5682b220d97ea18207f90a22b90f3c66648d7668799ac03a3cc468c83dd960",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "portableTabsAndCueChaptersSaved": true,
+  "playback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.65
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.56
+    }
+  },
+  "cliOptionsChecked": true,
+  "libraryPreferencesPreserved": true,
+  "historyUpdatedBesideBinary": true,
+  "historyAndFavoritesScreenshotsBundled": true,
+  "windowPreferencesPreserved": true,
+  "fullscreenStartupAndNaturalExitRun": true,
+  "windowScreenshotsBundled": true,
+  "appearanceAndOsdPreferencesPreserved": true,
+  "englishCatalogBundled": true,
+  "mprisPackagedWireCommandsVerified": true,
+  "transformPreferencesPreserved": true,
+  "transformScreenshotsBundled": true,
+  "inputPreferencesPreserved": true,
+  "mouseAndInputScreenshotsBundled": true,
+  "subtitleCommandsAndScreenshotsBundled": true,
+  "subtitlePreferencesPreserved": true,
+  "subtitleStylePreferencesPreserved": true,
+  "subtitleRenderPreferencesPreserved": true,
+  "audioProcessingPreferencesPreserved": true,
+  "videoDisplayPreferencesPreserved": true,
+  "videoOutputPreferencesPreserved": true,
+  "audioEncodingPreferencesPreserved": true,
+  "customAudioFilterPreferencesPreserved": true,
+  "audioRoutingPreferencesPreserved": true,
+  "audioOutputHelperBundled": true,
+  "packagedAudioHelperLeaseVerified": true,
+  "cliQueriesDoNotCreateProfile": true,
+  "status": "development preview; manual ICC and guarded display-sync controls implemented; item 15 continues",
+  "ctestSoftware": {
+    "passed": 23,
+    "total": 23,
+    "seconds": 434.65
+  },
+  "ctestRequestedOpenGL": {
+    "passed": 23,
+    "total": 23,
+    "seconds": 451.25,
+    "actual": "Software fallback"
+  },
+  "videoDisplayChecksPerMode": 7,
+  "measurements": {
+    "software": {
+      "iccBytes": 459,
+      "portableIccMoveVerified": true,
+      "softwareFallbackAvSamples": 20,
+      "softwareFallbackMaxNativeAvSeconds": 0.006392477666666341
+    },
+    "opengl": {
+      "iccBytes": 459,
+      "portableIccMoveVerified": true,
+      "softwareFallbackAvSamples": 20,
+      "softwareFallbackMaxNativeAvSeconds": 0.007191620666666287
+    }
+  },
+  "translationCheck": "English catalog: 1161 source strings covered; 1181 entries; placeholders valid",
+  "iccDefault": false,
+  "iccAcceptedType": "RGB display profile, validated by private LittleCMS context and sRGB->profile transform",
+  "iccMaximumBytes": 16777216,
+  "iccPortableStorage": "ColorProfiles/<SHA-256>.icc; INI stores relative path",
+  "iccImportOnlyOnOkVerified": true,
+  "iccCancelDoesNotCopyVerified": true,
+  "iccDedupAndPortableMoveVerified": true,
+  "iccResetDoesNotDeleteCopiesVerified": true,
+  "iccIntents": [
+    "relative colorimetric (default)",
+    "perceptual",
+    "saturation",
+    "absolute colorimetric"
+  ],
+  "iccDiskLutCache": false,
+  "iccSystemProfileDiscovery": false,
+  "iccPhysicalDisplayResultVerified": false,
+  "syncModes": [
+    "audio (default)",
+    "display-resample",
+    "display-tempo",
+    "display-vdrop"
+  ],
+  "qtSwapIntervalChoices": [
+    1,
+    0
+  ],
+  "qtSwapIntervalRequiresRestart": true,
+  "qtSurfaceFormatRequestedValueVerified": true,
+  "displayRateOverrideRangeHz": [
+    1,
+    1000
+  ],
+  "displayRateDefault": "QScreen refreshRate hint (0 in INI)",
+  "videoCorrectionPercentRange": [
+    0,
+    5
+  ],
+  "videoCorrectionDefault": 1,
+  "audioCorrectionPercentRange": [
+    0,
+    1
+  ],
+  "audioCorrectionDefault": 0.125,
+  "displaySyncRequirements": [
+    "visible ready OpenGL",
+    "reported/requested Qt interval 1",
+    "positive finite refresh hint",
+    "no permitted bitstream"
+  ],
+  "temporaryAudioFallbackPreservesChoiceVerified": true,
+  "timingPolicyRecheckMilliseconds": 1000,
+  "interpolationDefault": false,
+  "temporalFilters": [
+    "native default",
+    "oversample",
+    "linear",
+    "mitchell"
+  ],
+  "renderPollingMilliseconds": "16 for audio; 1–16 based on refresh hint for eligible display mode",
+  "nativeDisplaySyncPropertyAcceptanceVerified": true,
+  "physicalDisplaySyncVerified": false,
+  "physicalVBlankOrTearingVerified": false,
+  "installedPlayerUpdated": false,
+  "installedVersionPreserved": "0.1.26",
+  "installedPackageFilesVerifiedUnchanged": 41,
+  "installedProfileWrittenByThisTask": false,
+  "testPulseModulesRemoved": true,
+  "physicalGpuVerified": false,
+  "waylandVerified": false,
+  "githubPublished": false,
+  "githubWorkflowExecuted": false,
+  "harvesterGuiEnabled": false,
+  "screenshots": {
+    "docs/images/foxicmp-qt-video-icc.png": "860×680",
+    "docs/images/foxicmp-qt-video-sync.png": "860×680"
+  },
+  "nextParityPlanItem": 15,
+  "remainingParityItem15": [
+    "automatic OS/per-monitor ICC selection",
+    "shaders/editor",
+    "tearing diagnostics and expanded renderer statistics",
+    "physical GPU/display-sync/VSync validation"
+  ],
+  "limitations": [
+    "manual ICC applies only in OpenGL, not Software or FFmpeg previews/native video screenshots",
+    "Qt refresh rate is a hint and swap format is not proof of physical VBlank",
+    "physical GPU ICC/interpolation/display-sync unverified in Software fallback environment",
+    "native avsync is not physical audio/display latency",
+    "Qt final GL surface remains RGBA8",
+    "manual ICC only; no OS monitor profile discovery",
+    "VSync changes require application restart"
+  ]
+}

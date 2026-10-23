@@ -1,0 +1,151 @@
+FoxicMP Qt Linux 0.1.26 — PCM, bitstream и декодер, пункт 14
+Дата фиксации результата: 16 октября 2026, Europe/Moscow. Испытания выполнены 15 октября 2026. Ветка codex/linux-qt.
+
+Результат
+Ctrl+Alt+A → «Звук — формат и декодер», также общие настройки.
+PCM auto (default), Int16, Int24 в Int32, Int32, Float32. Частота auto (default),
+32/44.1/48/88.2/96/176.4/192 кГц. После обработки применяется native format
+filter libmpv. Auto убирает фильтр. audio-format=no через API mpv 0.37 не
+принимается, поэтому переключаемая цепочка надёжнее несбрасываемого свойства.
+Int24 — не упакованный 24-bit: trunc(val(ch)*8388608)/8388608 в Int32,
+без dithering. При заданной частоте resampling перед truncation. ReplayGain,
+громкость/сервер после фильтра могут изменить младшие биты, это не режим ЦАП.
+
+Декодер
+Потоки 0–16 (0 авто, default 1), AC-3 DRC 0–1 (default 0), downmix (default off),
+приоритет доступного аудиодекодера с обычным резервом, без принудительного '-'/'+';
+недоступный сохранённый декодер → auto. Микшер отключает decoder downmix,
+получая исходные каналы. DRC требует метаданных AC-3, threading зависит от кодека.
+При изменении decoder/spdif выбранный aid отключается и возвращается для
+перезапуска декодера. Видео/пауза сохраняются; звук может кратко прерваться.
+Настройки соседнего INI, Cancel не сохраняет, Reset относится к странице.
+
+Bitstream
+По умолчанию выключен. Кодеки AC-3/DTS/DTS-HD/E-AC-3/TrueHD, default selection
+AC-3/DTS. DSP, ReplayGain, явная раскладка, dual output, скорость не 1,
+DRC/downmix или пустой список временно запрещают bitstream, не стирая выбор.
+При устранении конфликта запрос возвращается. Во время разрешённого bitstream
+принудительный PCM формат/частота не применяются; невыбранные исходные кодеки
+декодируются обычно. В интерфейсе отдельно запрос политики и фактические
+параметры. Программная громкость не управляет уровнем ресивера. Нужны
+поддерживающие формат физический выход/драйвер/ресивер. libmpv может вернуться
+к PCM или завершиться ошибкой, если AO не принимает кодированный поток.
+
+Проверки
+21/21 CTest software — 384.62 с.
+21/21 requested OpenGL — 403.08 с, фактически Software fallback.
+AudioEncodingTest 7 passed, 0 failed, 0 skipped в каждом режиме.
+AudioProcessingTest 11 passed, 0 failed, 0 skipped в каждом режиме.
+PCM выводился AO pcm в WAV; проверены RIFF fmt, битность, число каналов,
+частота, длительность/число кадров и нулевые 8 младших битов всех Int24 сэмплов.
+Реальная IEC 61937 AC-3 запись: preamble 72 f8 1f 4e, byte-swapped payload
+побайтно совпадает с первым AC-3 кадром исходника. Переключение AC-3 → PCM
+при gain и обратно на паузе прошло; конфликты normalize/dual/downmix/DRC,
+пустой список, недоступный и несоответствующий кодеку preferred decoder проверены.
+Скорость 1.5/1 меняет разрешение spdif без потери настройки; Cancel/OK/Reset,
+пауза, общая старая обработка и возвращение авто проверены.
+Первоначальный тест смены формата внутри одного AO pcm WAV не завершался:
+файл с фиксированным заголовком смешивал параметры. Runtime reset проверяется
+на отдельном muted null-sink выходе, и движение time-pos доказывает продолжение;
+авто-формат затем проверяется отдельной записью. Звука на физические колонки
+и доступа к микрофону не было. Старые наборы, включая 2 выхода, прошли.
+Один необязательный continuous-soak пропущен; публичные загрузки не повторялись.
+Измерения:
+{
+  "software": {
+    "ac3BitstreamFormat": "spdif-ac3",
+    "ac3PayloadMatchesSource": true,
+    "autoResetNativeFormat": "s16",
+    "autoResetPlaybackAdvances": true,
+    "float": {
+      "bits": 32,
+      "bytes": 768000,
+      "nativeFormat": "float",
+      "wavFormat": 3
+    },
+    "iec61937Ac3PreambleFound": true,
+    "int24NonzeroLowBytes": 0,
+    "rate44100Frames": 88200,
+    "rate96000Frames": 192000,
+    "s16": {
+      "bits": 16,
+      "bytes": 384000,
+      "nativeFormat": "s16",
+      "wavFormat": 1
+    },
+    "s24": {
+      "bits": 32,
+      "bytes": 768000,
+      "nativeFormat": "s32",
+      "wavFormat": 1
+    },
+    "s32": {
+      "bits": 32,
+      "bytes": 768000,
+      "nativeFormat": "s32",
+      "wavFormat": 1
+    }
+  },
+  "opengl": {
+    "ac3BitstreamFormat": "spdif-ac3",
+    "ac3PayloadMatchesSource": true,
+    "autoResetNativeFormat": "s16",
+    "autoResetPlaybackAdvances": true,
+    "float": {
+      "bits": 32,
+      "bytes": 768000,
+      "nativeFormat": "float",
+      "wavFormat": 3
+    },
+    "iec61937Ac3PreambleFound": true,
+    "int24NonzeroLowBytes": 0,
+    "rate44100Frames": 88200,
+    "rate96000Frames": 192000,
+    "s16": {
+      "bits": 16,
+      "bytes": 384000,
+      "nativeFormat": "s16",
+      "wavFormat": 1
+    },
+    "s24": {
+      "bits": 32,
+      "bytes": 768000,
+      "nativeFormat": "s32",
+      "wavFormat": 1
+    },
+    "s32": {
+      "bits": 32,
+      "bytes": 768000,
+      "nativeFormat": "s32",
+      "wavFormat": 1
+    }
+  }
+}
+English catalog: 1078 source strings covered; 1097 entries; placeholders valid
+Сборка без compiler warnings/errors, clang-format пройден. Реальный снимок
+вкладки 860×680 просмотрен и включён в архив.
+
+Пакет
+FoxicMPQt-0.1.26-linux-x64.tar.gz
+3266684 байт
+SHA-256: 5fae3b345db680cb729ce84cc24a880d79099f9745910df7dcab649bf218da3d
+CLI не создаёт INI, CUE/PLS завершаются естественно; gdbus и сохранение старых
+и новых настроек (PCM/частота/декодер/список spdif) проверены. Helpers включены,
+cleanup packaged helper при EOF проверен. Личного INI/истории/pyc/temp нет,
+ссылки README проверены. Установленный профиль не менялся:
+1a89357bd7d2342d1e9a473959d5f8aa1cc7fb8d2363597d840796ff226660ad
+CI workflow получил PULSE_SINK=foxicmp_devices_ci для нового runtime-теста;
+сам workflow не запускался. Установка/коммит/push/релиз не выполнялись; Harvester GUI выключен.
+
+Пределы
+HDMI/S/PDIF, ресиверы и физический passthrough всех 5 кодеков не проверены.
+Измерено кодирование AC-3 в файл, не воспроизведение ресивером. Передаточная
+характеристика DRC на AC-3 с соответствующими метаданными не измерялась.
+Физические GPU/Wayland и A/V-задержки с DSP/dual output требуют проверки.
+Программная часть пункта 14 реализована с этими ограничениями; далее пункт 15.
+
+API
+https://github.com/mpv-player/mpv/blob/v0.37.0/DOCS/man/options.rst
+https://github.com/mpv-player/mpv/blob/v0.37.0/DOCS/man/af.rst
+https://github.com/mpv-player/mpv/blob/v0.37.0/options/m_option.c
+https://github.com/mpv-player/mpv/blob/v0.37.0/audio/out/ao_pcm.c

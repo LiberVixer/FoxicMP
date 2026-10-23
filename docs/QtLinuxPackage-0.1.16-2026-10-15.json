@@ -1,0 +1,62 @@
+{
+  "version": "0.1.16",
+  "status": "development preview; parity item 9 software complete; physical display/WM validation pending",
+  "archive": "FoxicMPQt-0.1.16-linux-x64.tar.gz",
+  "bytes": 1256523,
+  "sha256": "786628d8cc551ad47cf3178ea94d170f173ec74c1682494408d49f4867ae4b66",
+  "profileBundled": false,
+  "bytecodeBundled": false,
+  "standaloneAdapterBundled": true,
+  "portableProfileSavedBesideExtractedBinary": true,
+  "versionAndCliCheck": true,
+  "ctestSoftware": "11/11 passed; 222.24 s",
+  "ctestRequestedOpenGL": "11/11 passed; 226.16 s; actual Software fallback",
+  "qtWindowChecks": "12 passed; 0 failed; 0 skipped in both modes",
+  "optionalContinuousPlaybackTest": "not requested; one player case skipped per mode",
+  "windowPresetsAndIndependentPanelsVerified": true,
+  "conditionalOnTopAndMinimizedStateVerified": true,
+  "videoPixelsAfterModeAndFlagChangesVerified": true,
+  "startupVideoAreaAndAutoScaleVerified": true,
+  "aspectResizeAndEdgeSnappingVerified": true,
+  "fullscreenCloseSavesWindowGeometryVerified": true,
+  "fullscreenMonitorFallbackVerified": true,
+  "focusLossAndOwnModalExceptionVerified": true,
+  "fullscreenQueueRepeatStopErrorPoliciesVerified": true,
+  "autohideAndZeroDisableVerified": true,
+  "xrandrParsingAndCommandsVerifiedWithInjectedTransport": true,
+  "xrandrRestoreRetryAndApplyRollbackVerified": true,
+  "physicalDisplayModeChangedDuringTests": false,
+  "privatePulseModulesRemoved": true,
+  "packagePlayback": {
+    "cue": {
+      "returncode": 0,
+      "seconds": 9.218
+    },
+    "pls-errors": {
+      "returncode": 0,
+      "seconds": 9.272
+    }
+  },
+  "packagedFullscreenStartupAndWindowPreferencesVerified": true,
+  "screenshots": [
+    "docs/images/foxicmp-qt-window-preferences.png",
+    "docs/images/foxicmp-qt-fullscreen-preferences.png"
+  ],
+  "installedPlayerUpdated": false,
+  "installedProfileModified": false,
+  "physicalGpuVerified": false,
+  "physicalMultipleMonitorsAndRefreshSwitchingVerified": false,
+  "waylandVerified": false,
+  "githubWorkflowExecuted": false,
+  "githubPublished": false,
+  "harvesterGuiEnabled": false,
+  "parityPlanItem3RemainderDeferred": true,
+  "parityPlanItem9SoftwareComplete": true,
+  "nextParityPlanItem": 10,
+  "limitations": [
+    "physical multi-monitor/refresh/HiDPI and WM validation pending",
+    "Wayland display modes configured by desktop",
+    "normal restoration cannot run after process crash or power loss",
+    "rotated/reflected outputs excluded from xrandr mode selection"
+  ]
+}
