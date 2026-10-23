@@ -1,0 +1,160 @@
+#include "controls.h"
+#include "devicesource.h"
+#include "framepreview.h"
+#include "i18n.h"
+#include "player.h"
+#include "progressivesource.h"
+#include "timeline.h"
+#include "window.h"
+#include <QtWidgets>
+
+bool Window::openProgressiveSession(const QString &manifest) {
+  std::shared_ptr<ProgressiveSource> next;
+  try {
+    next = ProgressiveSource::open(manifest);
+  } catch (const std::exception &error) {
+    state->setText(uiTr("Прогрессивный источник: ") +
+                   QString::fromUtf8(error.what()));
+    state->setToolTip(state->text());
+    return false;
+  }
+  ++playbackGeneration;
+  pendingLaunchOptions = {};
+  savePosition();
+  stdinPlayback = false;
+  subtitleUserSelection = false;
+  watchedSubtitle.clear();
+  clearAbLoop();
+  pausedByMinimize = false;
+  filePlays = playlistPlays = 0;
+  releaseProgressive();
+  player->command({"stop"});
+  completionArmed = false;
+  progressive = next;
+  audioUserSelection = false;
+  applyAudioSourceOptions();
+  player->progressiveSource(next);
+  progressiveStarted = false;
+  progressiveStreaming = false;
+  progressiveBuffering = true;
+  progressiveUserPause = false;
+  stopped = true;
+  actions["frameNext"]->setEnabled(false);
+  actions["frameBack"]->setEnabled(false);
+  current.clear();
+  currentId.clear();
+  currentItem = nullptr;
+  currentIndex = -1;
+  pendingResume = -1;
+  pos = 0;
+  duration = next->status().duration;
+  timeline->duration = duration;
+  timeline->position = 0;
+  timeline->available = next->status().available;
+  preview->cancel();
+  previewPopup->hide();
+  lastError.clear();
+  state->setText(uiTr("Буферизация локальных дорожек…"));
+  updateProgressive();
+  return true;
+}
+void Window::releaseProgressive() {
+  if (!progressive)
+    return;
+  progressive->cancel();
+  player->progressiveSource({});
+  progressive.reset();
+  progressiveStarted = false;
+  timeline->available = -1;
+  timeline->update();
+  actions["frameNext"]->setEnabled(true);
+  actions["frameBack"]->setEnabled(true);
+}
+bool Window::seekTo(double seconds) {
+  if (stopped || stdinPlayback)
+    return false;
+  if (DeviceSource::isLive(current)) {
+    showOsd(uiTr("Перемотка прямого входа недоступна"));
+    return false;
+  }
+  if (!seekAvailable(seconds, seconds)) {
+    showOsd(
+        uiTr("Выбранная позиция недоступна или отсутствует в кэше просмотра"));
+    timeline->position = pos;
+    timeline->update();
+    return false;
+  }
+  const double offset = progressive ? progressive->status().timestampOffset : 0;
+  return player->command(
+      {"seek", QString::number(seconds + offset, 'f', 3), "absolute+exact"});
+}
+void Window::updateProgressive() {
+  if (!progressive)
+    return;
+  const auto status = progressive->status();
+  if (loopB >= 0 && !seekAvailable(loopA, loopB)) {
+    clearAbLoop();
+    showOsd(uiTr("Повтор A–B отключён: отрезок больше не доступен в кэше"));
+  }
+  if (!status.error.isEmpty()) {
+    lastError = status.error;
+    releaseProgressive();
+    player->command({"stop"});
+    state->setText(uiTr("Прогрессивный источник: ") + lastError);
+    state->setToolTip(lastError);
+    return;
+  }
+  duration = status.duration;
+  timeline->duration = duration;
+  timeline->available = status.available;
+  timeline->update();
+  if (!progressiveStarted) {
+    if (!status.connected || (!status.complete && status.available < 10))
+      return;
+    progressiveStarted = true;
+    progressiveStreaming = !status.complete;
+    progressiveBuffering = false;
+    const QString url = "foxicmp-session://" + progressive->id();
+    if (!player->loadSource(
+            url + "/video",
+            {{"audio-files-append", url + "/audio"},
+             {"rebase-start-time", "no"},
+             {"start", QString::number(status.timestampOffset, 'f', 6)},
+             {"pause", "yes"},
+             {"cache", "yes"},
+             {"cache-pause", "no"},
+             {"demuxer-readahead-secs", "20"},
+             {"demuxer-max-bytes", "128MiB"},
+             {"demuxer-max-back-bytes", "128MiB"},
+             {"sub-auto", "no"},
+             {"audio-file-auto", "no"},
+             {"demuxer-lavf-format", "mov"},
+             {"demuxer-lavf-probesize", "32768"},
+             {"demuxer-lavf-analyzeduration", "0.2"}}))
+      return;
+    if (!progressive)
+      return;
+  }
+  const double ahead = status.available - pos;
+  if (!status.connected || (!status.complete && ahead < 1))
+    progressiveBuffering = true;
+  else if (status.complete || ahead >= 5)
+    progressiveBuffering = false;
+  const bool pause =
+      progressiveBuffering || progressiveUserPause || pausedByMinimize;
+  if (player->get("pause").toBool() != pause)
+    player->set("pause", pause);
+  const QString message =
+      progressiveBuffering ? (status.connected ? uiTr("Буферизация…")
+                                               : uiTr("Ожидание загрузчика…"))
+      : progressiveUserPause || pausedByMinimize ? uiTr("Пауза")
+                                                 : uiTr("Воспроизведение");
+  state->setText(message + uiTr(" • загружено до ") +
+                 clockText(status.available));
+  progressive->notify(progressiveBuffering                       ? "buffering"
+                      : progressiveUserPause || pausedByMinimize ? "paused"
+                                                                 : "playing");
+  actions["frameNext"]->setEnabled(!progressiveBuffering);
+  actions["frameBack"]->setEnabled(!progressiveBuffering);
+  updateClock();
+}

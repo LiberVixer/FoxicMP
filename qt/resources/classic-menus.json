@@ -1,0 +1,3572 @@
+{
+  "schema": 1,
+  "source": "src/apps/{mplayerc,FoxicMPresources}/mplayerc[.ru].rc",
+  "ru": {
+    "IDR_MAINFRAME": [
+      {
+        "text": "&Файл",
+        "children": [
+          {
+            "text": "&Быстро открыть файл...",
+            "id": "ID_FILE_OPENFILE"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Открыть Файл/URL...",
+            "id": "ID_FILE_OPENFILEURL"
+          },
+          {
+            "text": "Открыть &DVD/Blu-ray...",
+            "id": "ID_FILE_OPENDVD"
+          },
+          {
+            "text": "Открыть &устройство...",
+            "id": "ID_FILE_OPENDEVICE"
+          },
+          {
+            "text": "Открыть &папку...",
+            "id": "ID_FILE_OPENDIRECTORY"
+          },
+          {
+            "text": "Открыть образ &Iso...",
+            "id": "ID_FILE_OPENISO"
+          },
+          {
+            "text": "Открыть &диск",
+            "id": "ID_SUBMENU_OPENDISC"
+          },
+          {
+            "text": "Последние файлы",
+            "id": "ID_SUBMENU_RECENTFILES"
+          },
+          {
+            "text": "&Закрыть",
+            "id": "ID_FILE_CLOSEPLAYLIST"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Сохранить как...",
+            "id": "ID_FILE_SAVE_COPY"
+          },
+          {
+            "text": "Сохранить &изображение...",
+            "id": "ID_FILE_SAVE_IMAGE"
+          },
+          {
+            "text": "Сохранить &миниатюры...",
+            "id": "ID_FILE_SAVE_THUMBNAILS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Открыть су&бтитры...",
+            "id": "ID_FILE_LOAD_SUBTITLE"
+          },
+          {
+            "text": "Со&хранить субтитры...",
+            "id": "ID_FILE_SAVE_SUBTITLE"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "С&войства",
+            "id": "ID_FILE_PROPERTIES"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "В&ыход",
+            "id": "ID_FILE_EXIT"
+          }
+        ]
+      },
+      {
+        "text": "&Вид",
+        "children": [
+          {
+            "text": "За&головок и меню",
+            "id": "ID_VIEW_CAPTIONMENU"
+          },
+          {
+            "text": "&Полоса прокрутки",
+            "id": "ID_VIEW_SEEKER"
+          },
+          {
+            "text": "&Управление",
+            "id": "ID_VIEW_CONTROLS"
+          },
+          {
+            "text": "&Информация",
+            "id": "ID_VIEW_INFORMATION"
+          },
+          {
+            "text": "&Статистика",
+            "id": "ID_VIEW_STATISTICS"
+          },
+          {
+            "text": "С&татусная строка",
+            "id": "ID_VIEW_STATUS"
+          },
+          {
+            "text": "Синхронизация су&бтитров",
+            "id": "ID_VIEW_SUBRESYNC"
+          },
+          {
+            "text": "П&лейлист",
+            "id": "ID_VIEW_PLAYLIST"
+          },
+          {
+            "text": "&Захват",
+            "id": "ID_VIEW_CAPTURE"
+          },
+          {
+            "text": "Редактор &шейдеров",
+            "id": "ID_VIEW_SHADEREDITOR"
+          },
+          {
+            "text": "Список каналов",
+            "id": "ID_VIEW_NAVIGATION"
+          },
+          {
+            "text": "Пре&дустановки",
+            "children": [
+              {
+                "text": "&Минимальная",
+                "id": "ID_VIEW_PRESETS_MINIMAL"
+              },
+              {
+                "text": "&Компактная",
+                "id": "ID_VIEW_PRESETS_COMPACT"
+              },
+              {
+                "text": "&Нормальная",
+                "id": "ID_VIEW_PRESETS_NORMAL"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Во весь &экран",
+            "id": "ID_VIEW_FULLSCREEN"
+          },
+          {
+            "text": "Масштаб",
+            "children": [
+              {
+                "text": "&50%",
+                "id": "ID_VIEW_ZOOM_50"
+              },
+              {
+                "text": "&100%",
+                "id": "ID_VIEW_ZOOM_100"
+              },
+              {
+                "text": "&200%",
+                "id": "ID_VIEW_ZOOM_200"
+              },
+              {
+                "text": "Вписать автоматически",
+                "id": "ID_VIEW_ZOOM_AUTOFIT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Язык (&Language)",
+            "id": "ID_SUBMENU_LANGUAGE"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Настройки рендеринга",
+            "children": [
+              {
+                "text": "&Тест дрожания",
+                "id": "ID_VIEW_TEARING_TEST"
+              },
+              {
+                "text": "&Показать статистику",
+                "id": "ID_VIEW_DISPLAYSTATS"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Представление",
+                "children": [
+                  {
+                    "text": "Эксклюзивный полный экран",
+                    "id": "ID_VIEW_EXCLUSIVE_FULLSCREEN"
+                  },
+                  {
+                    "text": "Включить коррекцию времени кадра",
+                    "id": "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+                  }
+                ]
+              },
+              {
+                "text": "Сбросить в стандартные настройки",
+                "id": "ID_VIEW_RESET_DEFAULT"
+              }
+            ]
+          },
+          {
+            "text": "&Видеокадр",
+            "id": "ID_SUBMENU_VIDEOFRAME"
+          },
+          {
+            "text": "Поло&жение и размер кадра",
+            "id": "ID_SUBMENU_PANSCAN"
+          },
+          {
+            "text": "Режим 3D cтерео",
+            "children": [
+              {
+                "text": "Авто",
+                "id": "ID_STEREO3D_AUTO"
+              },
+              {
+                "text": "Моно",
+                "id": "ID_STEREO3D_MONO"
+              },
+              {
+                "text": "Чередование строк",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED"
+              },
+              {
+                "text": "Чередование строк (2x)",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED_2X"
+              },
+              {
+                "text": "Вертикальная анаморфная стереопара",
+                "id": "ID_STEREO3D_HALFOVERUNDER"
+              },
+              {
+                "text": "Вертикальная стереопара",
+                "id": "ID_STEREO3D_OVERUNDER"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Поменять местами левый и правый кадр",
+                "id": "ID_STEREO3D_SWAP_LEFTRIGHT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "П&оверх всех окон",
+            "children": [
+              {
+                "text": "Никогда",
+                "id": "ID_ONTOP_NEVER"
+              },
+              {
+                "text": "Всегда",
+                "id": "ID_ONTOP_ALWAYS"
+              },
+              {
+                "text": "При воспроизведении",
+                "id": "ID_ONTOP_WHILEPLAYING"
+              },
+              {
+                "text": "При воспроизведении видео",
+                "id": "ID_ONTOP_WHILEPLAYINGVIDEO"
+              }
+            ]
+          },
+          {
+            "text": "&Настройки...",
+            "id": "ID_VIEW_OPTIONS"
+          }
+        ]
+      },
+      {
+        "text": "&Воспроизведение",
+        "children": [
+          {
+            "text": "&Воспроизведение/Пауза",
+            "id": "ID_PLAY_PLAYPAUSE"
+          },
+          {
+            "text": "&Стоп",
+            "id": "ID_PLAY_STOP"
+          },
+          {
+            "text": "По &кадрам",
+            "id": "ID_PLAY_FRAMESTEP"
+          },
+          {
+            "text": "&Переход...",
+            "id": "ID_PLAY_GOTO"
+          },
+          {
+            "text": "&Повтор",
+            "children": [
+              {
+                "text": "&Бесконечно",
+                "id": "ID_REPEAT_FOREVER"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "A-B (&Сброс)",
+                "id": "ID_PLAY_REPEAT_AB"
+              },
+              {
+                "text": "A-B (Метка &A)",
+                "id": "ID_PLAY_REPEAT_AB_MARK_A"
+              },
+              {
+                "text": "A-B (Метка &B)",
+                "id": "ID_PLAY_REPEAT_AB_MARK_B"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Ув&еличить скорость",
+            "id": "ID_PLAY_INCRATE"
+          },
+          {
+            "text": "У&меньшить скорость",
+            "id": "ID_PLAY_DECRATE"
+          },
+          {
+            "text": "С&бросить скорость",
+            "id": "ID_PLAY_RESETRATE"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Фильтры",
+            "id": "ID_SUBMENU_FILTERS"
+          },
+          {
+            "text": "&Шейдеры",
+            "id": "ID_SUBMENU_SHADERS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Аудио",
+            "id": "ID_SUBMENU_AUDIOLANG"
+          },
+          {
+            "text": "С&убтитры",
+            "id": "ID_SUBMENU_SUBTITLELANG"
+          },
+          {
+            "text": "Static",
+            "id": "ID_SUBMENU_VIDEOSTREAM"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Громкость",
+            "children": [
+              {
+                "text": "&Выше",
+                "id": "ID_VOLUME_UP"
+              },
+              {
+                "text": "&Ниже",
+                "id": "ID_VOLUME_DOWN"
+              },
+              {
+                "text": "&Отключить",
+                "id": "ID_VOLUME_MUTE"
+              }
+            ]
+          },
+          {
+            "text": "По окончании воспроизведения",
+            "id": "ID_SUBMENU_AFTERPLAYBACK"
+          }
+        ]
+      },
+      {
+        "text": "&Навигация",
+        "id": "ID_SUBMENU_NAVIGATE_MAIN"
+      },
+      {
+        "text": "&Закладки",
+        "id": "ID_SUBMENU_FAVORITES_MAIN"
+      },
+      {
+        "text": "&Помощь",
+        "children": [
+          {
+            "text": "Домашняя страница",
+            "id": "ID_HELP_HOMEPAGE"
+          },
+          {
+            "text": "Проверить обновление",
+            "id": "ID_HELP_CHECKFORUPDATE"
+          },
+          {
+            "text": "Параметры командной строки",
+            "id": "ID_HELP_SHOWCOMMANDLINESWITCHES"
+          },
+          {
+            "text": "Скачать панель инструментов",
+            "id": "ID_HELP_TOOLBARIMAGES"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&О программе...",
+            "id": "ID_HELP_ABOUT"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "&Файл",
+            "children": [
+              {
+                "text": "&Быстро открыть файл...",
+                "id": "ID_FILE_OPENFILE"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&Открыть Файл/URL...",
+                "id": "ID_FILE_OPENFILEURL"
+              },
+              {
+                "text": "Открыть &DVD/Blu-ray...",
+                "id": "ID_FILE_OPENDVD"
+              },
+              {
+                "text": "Открыть &устройство...",
+                "id": "ID_FILE_OPENDEVICE"
+              },
+              {
+                "text": "Открыть &папку...",
+                "id": "ID_FILE_OPENDIRECTORY"
+              },
+              {
+                "text": "Открыть образ &Iso...",
+                "id": "ID_FILE_OPENISO"
+              },
+              {
+                "text": "Открыть &диск",
+                "id": "ID_SUBMENU_OPENDISC"
+              },
+              {
+                "text": "Последние файлы",
+                "id": "ID_SUBMENU_RECENTFILES"
+              },
+              {
+                "text": "&Закрыть",
+                "id": "ID_FILE_CLOSEPLAYLIST"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&Сохранить как...",
+                "id": "ID_FILE_SAVE_COPY"
+              },
+              {
+                "text": "Сохранить &изображение...",
+                "id": "ID_FILE_SAVE_IMAGE"
+              },
+              {
+                "text": "Сохранить &миниатюры...",
+                "id": "ID_FILE_SAVE_THUMBNAILS"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Открыть су&бтитры...",
+                "id": "ID_FILE_LOAD_SUBTITLE"
+              },
+              {
+                "text": "Со&хранить субтитры...",
+                "id": "ID_FILE_SAVE_SUBTITLE"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "С&войства",
+                "id": "ID_FILE_PROPERTIES"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "В&ыход",
+                "id": "ID_FILE_EXIT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Воспроизведение/Пауза",
+            "id": "ID_PLAY_PLAYPAUSE"
+          },
+          {
+            "text": "&Стоп",
+            "id": "ID_PLAY_STOP"
+          },
+          {
+            "text": "&Повтор",
+            "children": [
+              {
+                "text": "&Бесконечно",
+                "id": "ID_REPEAT_FOREVER"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "A-B (&Сброс)",
+                "id": "ID_PLAY_REPEAT_AB"
+              },
+              {
+                "text": "A-B (Метка &A)",
+                "id": "ID_PLAY_REPEAT_AB_MARK_A"
+              },
+              {
+                "text": "A-B (Метка &B)",
+                "id": "ID_PLAY_REPEAT_AB_MARK_B"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Во весь &экран",
+            "id": "ID_VIEW_FULLSCREEN"
+          },
+          {
+            "text": "Масштаб",
+            "children": [
+              {
+                "text": "&50%",
+                "id": "ID_VIEW_ZOOM_50"
+              },
+              {
+                "text": "&100%",
+                "id": "ID_VIEW_ZOOM_100"
+              },
+              {
+                "text": "&200%",
+                "id": "ID_VIEW_ZOOM_200"
+              },
+              {
+                "text": "Вписать автоматически",
+                "id": "ID_VIEW_ZOOM_AUTOFIT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Видеокадр",
+            "id": "ID_SUBMENU_VIDEOFRAME"
+          },
+          {
+            "text": "Поло&жение и размер кадра",
+            "id": "ID_SUBMENU_PANSCAN"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Навигация",
+            "id": "ID_SUBMENU_NAVIGATE"
+          },
+          {
+            "text": "&Закладки",
+            "id": "ID_SUBMENU_FAVORITES"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Фильтры",
+            "id": "ID_SUBMENU_FILTERS"
+          },
+          {
+            "text": "&Шейдеры",
+            "id": "ID_SUBMENU_SHADERS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Аудио",
+            "id": "ID_SUBMENU_AUDIOLANG"
+          },
+          {
+            "text": "С&убтитры",
+            "id": "ID_SUBMENU_SUBTITLELANG"
+          },
+          {
+            "text": "Static",
+            "id": "ID_SUBMENU_VIDEOSTREAM"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Громкость",
+            "children": [
+              {
+                "text": "&Выше",
+                "id": "ID_VOLUME_UP"
+              },
+              {
+                "text": "&Ниже",
+                "id": "ID_VOLUME_DOWN"
+              },
+              {
+                "text": "&Отключить",
+                "id": "ID_VOLUME_MUTE"
+              }
+            ]
+          },
+          {
+            "text": "По окончании воспроизведения",
+            "id": "ID_SUBMENU_AFTERPLAYBACK"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Вид",
+            "children": [
+              {
+                "text": "П&оверх всех окон",
+                "children": [
+                  {
+                    "text": "Никогда",
+                    "id": "ID_ONTOP_NEVER"
+                  },
+                  {
+                    "text": "Всегда",
+                    "id": "ID_ONTOP_ALWAYS"
+                  },
+                  {
+                    "text": "При воспроизведении",
+                    "id": "ID_ONTOP_WHILEPLAYING"
+                  },
+                  {
+                    "text": "При воспроизведении видео",
+                    "id": "ID_ONTOP_WHILEPLAYINGVIDEO"
+                  }
+                ]
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "За&головок и меню",
+                "id": "ID_VIEW_CAPTIONMENU"
+              },
+              {
+                "text": "&Полоса прокрутки",
+                "id": "ID_VIEW_SEEKER"
+              },
+              {
+                "text": "&Управление",
+                "id": "ID_VIEW_CONTROLS"
+              },
+              {
+                "text": "&Информация",
+                "id": "ID_VIEW_INFORMATION"
+              },
+              {
+                "text": "&Статистика",
+                "id": "ID_VIEW_STATISTICS"
+              },
+              {
+                "text": "С&татусная строка",
+                "id": "ID_VIEW_STATUS"
+              },
+              {
+                "text": "Синхронизация су&бтитров",
+                "id": "ID_VIEW_SUBRESYNC"
+              },
+              {
+                "text": "П&лейлист",
+                "id": "ID_VIEW_PLAYLIST"
+              },
+              {
+                "text": "&Захват",
+                "id": "ID_VIEW_CAPTURE"
+              },
+              {
+                "text": "Редактор &шейдеров",
+                "id": "ID_VIEW_SHADEREDITOR"
+              },
+              {
+                "text": "Список каналов",
+                "id": "ID_VIEW_NAVIGATION"
+              },
+              {
+                "text": "Язык (&Language)",
+                "id": "ID_SUBMENU_LANGUAGE"
+              },
+              {
+                "text": "Пре&дустановки",
+                "children": [
+                  {
+                    "text": "&Минимальная",
+                    "id": "ID_VIEW_PRESETS_MINIMAL"
+                  },
+                  {
+                    "text": "&Компактная",
+                    "id": "ID_VIEW_PRESETS_COMPACT"
+                  },
+                  {
+                    "text": "&Нормальная",
+                    "id": "ID_VIEW_PRESETS_NORMAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Настройки рендеринга",
+            "children": [
+              {
+                "text": "&Тест дрожания",
+                "id": "ID_VIEW_TEARING_TEST"
+              },
+              {
+                "text": "&Показать статистику",
+                "id": "ID_VIEW_DISPLAYSTATS"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Представление",
+                "children": [
+                  {
+                    "text": "Эксклюзивный полный экран",
+                    "id": "ID_VIEW_EXCLUSIVE_FULLSCREEN"
+                  },
+                  {
+                    "text": "Включить коррекцию времени кадра",
+                    "id": "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+                  }
+                ]
+              },
+              {
+                "text": "Сбросить в стандартные настройки",
+                "id": "ID_VIEW_RESET_DEFAULT"
+              }
+            ]
+          },
+          {
+            "text": "Режим 3D cтерео",
+            "children": [
+              {
+                "text": "Авто",
+                "id": "ID_STEREO3D_AUTO"
+              },
+              {
+                "text": "Моно",
+                "id": "ID_STEREO3D_MONO"
+              },
+              {
+                "text": "Чередование строк",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED"
+              },
+              {
+                "text": "Чередование строк (2x)",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED_2X"
+              },
+              {
+                "text": "Вертикальная анаморфная стереопара",
+                "id": "ID_STEREO3D_HALFOVERUNDER"
+              },
+              {
+                "text": "Вертикальная стереопара",
+                "id": "ID_STEREO3D_OVERUNDER"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Поменять местами левый и правый кадр",
+                "id": "ID_STEREO3D_SWAP_LEFTRIGHT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Св&ойства",
+            "id": "ID_FILE_PROPERTIES"
+          },
+          {
+            "text": "&Настройки...",
+            "id": "ID_VIEW_OPTIONS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "В&ыход",
+            "id": "ID_FILE_EXIT"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUPMAIN": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "&Файл",
+            "children": [
+              {
+                "text": "&Быстро открыть файл...",
+                "id": "ID_FILE_OPENFILE"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&Открыть Файл/URL...",
+                "id": "ID_FILE_OPENFILEURL"
+              },
+              {
+                "text": "Открыть &DVD/Blu-ray...",
+                "id": "ID_FILE_OPENDVD"
+              },
+              {
+                "text": "Открыть &устройство...",
+                "id": "ID_FILE_OPENDEVICE"
+              },
+              {
+                "text": "Открыть &папку...",
+                "id": "ID_FILE_OPENDIRECTORY"
+              },
+              {
+                "text": "Открыть образ &Iso...",
+                "id": "ID_FILE_OPENISO"
+              },
+              {
+                "text": "Открыть &диск",
+                "id": "ID_SUBMENU_OPENDISC"
+              },
+              {
+                "text": "Последние файлы",
+                "id": "ID_SUBMENU_RECENTFILES"
+              },
+              {
+                "text": "&Закрыть",
+                "id": "ID_FILE_CLOSEPLAYLIST"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&Сохранить как...",
+                "id": "ID_FILE_SAVE_COPY"
+              },
+              {
+                "text": "Сохранить &изображение...",
+                "id": "ID_FILE_SAVE_IMAGE"
+              },
+              {
+                "text": "Сохранить &миниатюры...",
+                "id": "ID_FILE_SAVE_THUMBNAILS"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Открыть су&бтитры...",
+                "id": "ID_FILE_LOAD_SUBTITLE"
+              },
+              {
+                "text": "Со&хранить субтитры...",
+                "id": "ID_FILE_SAVE_SUBTITLE"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "С&войства",
+                "id": "ID_FILE_PROPERTIES"
+              }
+            ]
+          },
+          {
+            "text": "&Вид",
+            "children": [
+              {
+                "text": "За&головок и меню",
+                "id": "ID_VIEW_CAPTIONMENU"
+              },
+              {
+                "text": "&Полоса прокрутки",
+                "id": "ID_VIEW_SEEKER"
+              },
+              {
+                "text": "&Управление",
+                "id": "ID_VIEW_CONTROLS"
+              },
+              {
+                "text": "&Информация",
+                "id": "ID_VIEW_INFORMATION"
+              },
+              {
+                "text": "&Статистика",
+                "id": "ID_VIEW_STATISTICS"
+              },
+              {
+                "text": "С&татусная строка",
+                "id": "ID_VIEW_STATUS"
+              },
+              {
+                "text": "Синхронизация су&бтитров",
+                "id": "ID_VIEW_SUBRESYNC"
+              },
+              {
+                "text": "П&лейлист",
+                "id": "ID_VIEW_PLAYLIST"
+              },
+              {
+                "text": "&Захват",
+                "id": "ID_VIEW_CAPTURE"
+              },
+              {
+                "text": "Редактор &шейдеров",
+                "id": "ID_VIEW_SHADEREDITOR"
+              },
+              {
+                "text": "Список каналов",
+                "id": "ID_VIEW_NAVIGATION"
+              },
+              {
+                "text": "Язык (&Language)",
+                "id": "ID_SUBMENU_LANGUAGE"
+              },
+              {
+                "text": "Пре&дустановки",
+                "children": [
+                  {
+                    "text": "&Минимальная",
+                    "id": "ID_VIEW_PRESETS_MINIMAL"
+                  },
+                  {
+                    "text": "&Компактная",
+                    "id": "ID_VIEW_PRESETS_COMPACT"
+                  },
+                  {
+                    "text": "&Нормальная",
+                    "id": "ID_VIEW_PRESETS_NORMAL"
+                  }
+                ]
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Во весь &экран",
+                "id": "ID_VIEW_FULLSCREEN"
+              },
+              {
+                "text": "Масштаб",
+                "children": [
+                  {
+                    "text": "&50%",
+                    "id": "ID_VIEW_ZOOM_50"
+                  },
+                  {
+                    "text": "&100%",
+                    "id": "ID_VIEW_ZOOM_100"
+                  },
+                  {
+                    "text": "&200%",
+                    "id": "ID_VIEW_ZOOM_200"
+                  },
+                  {
+                    "text": "Вписать автоматически",
+                    "id": "ID_VIEW_ZOOM_AUTOFIT"
+                  }
+                ]
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Настройки рендеринга",
+                "children": [
+                  {
+                    "text": "&Тест дрожания",
+                    "id": "ID_VIEW_TEARING_TEST"
+                  },
+                  {
+                    "text": "&Показать статистику",
+                    "id": "ID_VIEW_DISPLAYSTATS"
+                  },
+                  {
+                    "separator": true
+                  },
+                  {
+                    "text": "Представление",
+                    "children": [
+                      {
+                        "text": "Эксклюзивный полный экран",
+                        "id": "ID_VIEW_EXCLUSIVE_FULLSCREEN"
+                      },
+                      {
+                        "text": "Включить коррекцию времени кадра",
+                        "id": "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Сбросить в стандартные настройки",
+                    "id": "ID_VIEW_RESET_DEFAULT"
+                  }
+                ]
+              },
+              {
+                "text": "&Видеокадр",
+                "id": "ID_SUBMENU_VIDEOFRAME"
+              },
+              {
+                "text": "Поло&жение и размер кадра",
+                "id": "ID_SUBMENU_PANSCAN"
+              },
+              {
+                "text": "Режим 3D cтерео",
+                "children": [
+                  {
+                    "text": "Авто",
+                    "id": "ID_STEREO3D_AUTO"
+                  },
+                  {
+                    "text": "Моно",
+                    "id": "ID_STEREO3D_MONO"
+                  },
+                  {
+                    "text": "Чередование строк",
+                    "id": "ID_STEREO3D_ROW_INTERLEAVED"
+                  },
+                  {
+                    "text": "Чередование строк (2x)",
+                    "id": "ID_STEREO3D_ROW_INTERLEAVED_2X"
+                  },
+                  {
+                    "text": "Вертикальная анаморфная стереопара",
+                    "id": "ID_STEREO3D_HALFOVERUNDER"
+                  },
+                  {
+                    "text": "Вертикальная стереопара",
+                    "id": "ID_STEREO3D_OVERUNDER"
+                  },
+                  {
+                    "separator": true
+                  },
+                  {
+                    "text": "Поменять местами левый и правый кадр",
+                    "id": "ID_STEREO3D_SWAP_LEFTRIGHT"
+                  }
+                ]
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "П&оверх всех окон",
+                "children": [
+                  {
+                    "text": "Никогда",
+                    "id": "ID_ONTOP_NEVER"
+                  },
+                  {
+                    "text": "Всегда",
+                    "id": "ID_ONTOP_ALWAYS"
+                  },
+                  {
+                    "text": "При воспроизведении",
+                    "id": "ID_ONTOP_WHILEPLAYING"
+                  },
+                  {
+                    "text": "При воспроизведении видео",
+                    "id": "ID_ONTOP_WHILEPLAYINGVIDEO"
+                  }
+                ]
+              },
+              {
+                "text": "&Настройки...",
+                "id": "ID_VIEW_OPTIONS"
+              }
+            ]
+          },
+          {
+            "text": "&Воспроизведение",
+            "children": [
+              {
+                "text": "&Воспроизведение/Пауза",
+                "id": "ID_PLAY_PLAYPAUSE"
+              },
+              {
+                "text": "&Стоп",
+                "id": "ID_PLAY_STOP"
+              },
+              {
+                "text": "По &кадрам",
+                "id": "ID_PLAY_FRAMESTEP"
+              },
+              {
+                "text": "&Переход...",
+                "id": "ID_PLAY_GOTO"
+              },
+              {
+                "text": "&Повтор",
+                "children": [
+                  {
+                    "text": "&Бесконечно",
+                    "id": "ID_REPEAT_FOREVER"
+                  },
+                  {
+                    "separator": true
+                  },
+                  {
+                    "text": "A-B (&Сброс)",
+                    "id": "ID_PLAY_REPEAT_AB"
+                  },
+                  {
+                    "text": "A-B (Метка &A)",
+                    "id": "ID_PLAY_REPEAT_AB_MARK_A"
+                  },
+                  {
+                    "text": "A-B (Метка &B)",
+                    "id": "ID_PLAY_REPEAT_AB_MARK_B"
+                  }
+                ]
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Ув&еличить скорость",
+                "id": "ID_PLAY_INCRATE"
+              },
+              {
+                "text": "У&меньшить скорость",
+                "id": "ID_PLAY_DECRATE"
+              },
+              {
+                "text": "С&бросить скорость",
+                "id": "ID_PLAY_RESETRATE"
+              }
+            ]
+          },
+          {
+            "text": "&Навигация",
+            "id": "ID_SUBMENU_NAVIGATE"
+          },
+          {
+            "text": "&Закладки",
+            "id": "ID_SUBMENU_FAVORITES"
+          },
+          {
+            "text": "&Помощь",
+            "children": [
+              {
+                "text": "Домашняя страница",
+                "id": "ID_HELP_HOMEPAGE"
+              },
+              {
+                "text": "Проверить обновление",
+                "id": "ID_HELP_CHECKFORUPDATE"
+              },
+              {
+                "text": "Параметры командной строки",
+                "id": "ID_HELP_SHOWCOMMANDLINESWITCHES"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&О программе...",
+                "id": "ID_HELP_ABOUT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Фильтры",
+            "id": "ID_SUBMENU_FILTERS"
+          },
+          {
+            "text": "&Шейдеры",
+            "id": "ID_SUBMENU_SHADERS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Аудио",
+            "id": "ID_SUBMENU_AUDIOLANG"
+          },
+          {
+            "text": "С&убтитры",
+            "id": "ID_SUBMENU_SUBTITLELANG"
+          },
+          {
+            "text": "Static",
+            "id": "ID_SUBMENU_VIDEOSTREAM"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Громкость",
+            "children": [
+              {
+                "text": "&Выше",
+                "id": "ID_VOLUME_UP"
+              },
+              {
+                "text": "&Ниже",
+                "id": "ID_VOLUME_DOWN"
+              },
+              {
+                "text": "&Отключить",
+                "id": "ID_VOLUME_MUTE"
+              }
+            ]
+          },
+          {
+            "text": "По окончании воспроизведения",
+            "id": "ID_SUBMENU_AFTERPLAYBACK"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Настройки рендеринга",
+            "children": [
+              {
+                "text": "&Тест дрожания",
+                "id": "ID_VIEW_TEARING_TEST"
+              },
+              {
+                "text": "&Показать статистику",
+                "id": "ID_VIEW_DISPLAYSTATS"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Представление",
+                "children": [
+                  {
+                    "text": "Эксклюзивный полный экран",
+                    "id": "ID_VIEW_EXCLUSIVE_FULLSCREEN"
+                  },
+                  {
+                    "text": "Включить коррекцию времени кадра",
+                    "id": "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+                  }
+                ]
+              },
+              {
+                "text": "Сбросить в стандартные настройки",
+                "id": "ID_VIEW_RESET_DEFAULT"
+              }
+            ]
+          },
+          {
+            "text": "Режим 3D cтерео",
+            "children": [
+              {
+                "text": "Авто",
+                "id": "ID_STEREO3D_AUTO"
+              },
+              {
+                "text": "Моно",
+                "id": "ID_STEREO3D_MONO"
+              },
+              {
+                "text": "Чередование строк",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED"
+              },
+              {
+                "text": "Чередование строк (2x)",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED_2X"
+              },
+              {
+                "text": "Вертикальная анаморфная стереопара",
+                "id": "ID_STEREO3D_HALFOVERUNDER"
+              },
+              {
+                "text": "Вертикальная стереопара",
+                "id": "ID_STEREO3D_OVERUNDER"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Поменять местами левый и правый кадр",
+                "id": "ID_STEREO3D_SWAP_LEFTRIGHT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Свойства",
+            "id": "ID_FILE_PROPERTIES"
+          },
+          {
+            "text": "&Настройки...",
+            "id": "ID_VIEW_OPTIONS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "В&ыход",
+            "id": "ID_FILE_EXIT"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP_VIDEOFRAME": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "&Половинный размер",
+            "id": "ID_VIEW_VF_HALF"
+          },
+          {
+            "text": "&Нормальный размер",
+            "id": "ID_VIEW_VF_NORMAL"
+          },
+          {
+            "text": "&Двойной размер",
+            "id": "ID_VIEW_VF_DOUBLE"
+          },
+          {
+            "text": "&Растянуть до размера экрана",
+            "id": "ID_VIEW_VF_STRETCH"
+          },
+          {
+            "text": "&Вписать в размер экрана",
+            "id": "ID_VIEW_VF_FROMINSIDE"
+          },
+          {
+            "text": "Zoom &1",
+            "id": "ID_VIEW_VF_ZOOM1"
+          },
+          {
+            "text": "Zoom &2",
+            "id": "ID_VIEW_VF_ZOOM2"
+          },
+          {
+            "text": "&Заполнить экран и обрезать кадр",
+            "id": "ID_VIEW_VF_FROMOUTSIDE"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Сохранять пропорции",
+            "id": "ID_VIEW_VF_KEEPASPECTRATIO"
+          },
+          {
+            "text": "Установить пропорции",
+            "children": [
+              {
+                "text": "По умолчанию",
+                "id": "ID_ASPECTRATIO_SOURCE"
+              },
+              {
+                "text": "4:3",
+                "id": "ID_ASPECTRATIO_4_3"
+              },
+              {
+                "text": "5:4",
+                "id": "ID_ASPECTRATIO_5_4"
+              },
+              {
+                "text": "16:9",
+                "id": "ID_ASPECTRATIO_16_9"
+              },
+              {
+                "text": "2.35:1",
+                "id": "ID_ASPECTRATIO_235_100"
+              },
+              {
+                "text": "1.85:1",
+                "id": "ID_ASPECTRATIO_185_100"
+              }
+            ]
+          },
+          {
+            "text": "&Учитывать разницу аспекта монитора/раб.стола",
+            "id": "ID_VIEW_VF_COMPMONDESKARDIFF"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP_PANSCAN": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "Увеличить размер",
+            "id": "ID_VIEW_INCSIZE"
+          },
+          {
+            "text": "Уменьшить размер",
+            "id": "ID_VIEW_DECSIZE"
+          },
+          {
+            "text": "Увеличить ширину",
+            "id": "ID_VIEW_INCWIDTH"
+          },
+          {
+            "text": "Уменьшить ширину",
+            "id": "ID_VIEW_DECWIDTH"
+          },
+          {
+            "text": "Увеличить высоту",
+            "id": "ID_VIEW_INCHEIGHT"
+          },
+          {
+            "text": "Уменьшить высоту",
+            "id": "ID_VIEW_DECHEIGHT"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Сместить вправо",
+            "id": "ID_PANSCAN_MOVERIGHT"
+          },
+          {
+            "text": "Сместить влево",
+            "id": "ID_PANSCAN_MOVELEFT"
+          },
+          {
+            "text": "Сместить вверх",
+            "id": "ID_PANSCAN_MOVEUP"
+          },
+          {
+            "text": "Сместить вниз",
+            "id": "ID_PANSCAN_MOVEDOWN"
+          },
+          {
+            "text": "Центрировать",
+            "id": "ID_PANSCAN_CENTER"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Повернуть по часовой стрелке",
+            "id": "ID_PANSCAN_ROTATE_CW"
+          },
+          {
+            "text": "Повернуть против часовой стрелки",
+            "id": "ID_PANSCAN_ROTATE_CCW"
+          },
+          {
+            "text": "Отразить по горизонтали",
+            "id": "ID_PANSCAN_FLIP"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Сбросить",
+            "id": "ID_VIEW_RESET"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP_AFTERPLAYBACK": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "-------- Один раз --------",
+            "id": "ID_AFTERPLAYBACK_ONCE"
+          },
+          {
+            "text": "Закрыть программу",
+            "id": "ID_AFTERPLAYBACK_CLOSE"
+          },
+          {
+            "text": "Перейти в режим ожидания",
+            "id": "ID_AFTERPLAYBACK_STANDBY"
+          },
+          {
+            "text": "Перейти в режим сна",
+            "id": "ID_AFTERPLAYBACK_HIBERNATE"
+          },
+          {
+            "text": "Выключить компьютер",
+            "id": "ID_AFTERPLAYBACK_SHUTDOWN"
+          },
+          {
+            "text": "Завершить сеанс",
+            "id": "ID_AFTERPLAYBACK_LOGOFF"
+          },
+          {
+            "text": "Блокировать компьютер",
+            "id": "ID_AFTERPLAYBACK_LOCK"
+          },
+          {
+            "text": "Ничего не делать",
+            "id": "ID_AFTERPLAYBACK_DONOTHING"
+          },
+          {
+            "text": "------- Каждый раз -------",
+            "id": "ID_AFTERPLAYBACK_EVERYTIME"
+          },
+          {
+            "text": "Закрыть программу",
+            "id": "ID_AFTERPLAYBACK_EXIT"
+          },
+          {
+            "text": "Закрыть файл",
+            "id": "ID_AFTERPLAYBACK_CLOSE_FILE"
+          },
+          {
+            "text": "Закрыть файл и свернуть плеер",
+            "id": "ID_AFTERPLAYBACK_CLOSE_FILE_AND_MINIMIZE"
+          },
+          {
+            "text": "Перейти к след. в каталоге",
+            "id": "ID_AFTERPLAYBACK_NEXT"
+          },
+          {
+            "text": "Перейти к след. в каталоге (зациклить)",
+            "id": "ID_AFTERPLAYBACK_NEXT_LOOPED"
+          },
+          {
+            "text": "Ничего не делать",
+            "id": "ID_AFTERPLAYBACK_EVERYTIMEDONOTHING"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP_SHADERS": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "Включить пиксельные шейдеры кадра",
+            "id": "ID_SHADERS_1_ENABLE"
+          },
+          {
+            "text": "Включить пиксельные шейдеры окна",
+            "id": "ID_SHADERS_2_ENABLE"
+          },
+          {
+            "text": "Выбрать...",
+            "id": "ID_SHADERS_SELECT"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Редактировать...",
+            "id": "ID_VIEW_SHADEREDITOR"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP_NAVIGATE": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "П&редыдущий",
+            "id": "ID_NAVIGATE_SKIPBACK"
+          },
+          {
+            "text": "&Следующий",
+            "id": "ID_NAVIGATE_SKIPFORWARD"
+          },
+          {
+            "text": "&Перейти...",
+            "id": "ID_SUBMENU_JUMPTO"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Заглавное меню",
+            "id": "ID_NAVIGATE_TITLEMENU"
+          },
+          {
+            "text": "&Корневое меню",
+            "id": "ID_NAVIGATE_ROOTMENU"
+          },
+          {
+            "text": "Меню суб&титров",
+            "id": "ID_NAVIGATE_SUBPICTUREMENU"
+          },
+          {
+            "text": "Меню ау&дио",
+            "id": "ID_NAVIGATE_AUDIOMENU"
+          },
+          {
+            "text": "Меню углов в&идео",
+            "id": "ID_NAVIGATE_ANGLEMENU"
+          },
+          {
+            "text": "Меню с&цен",
+            "id": "ID_NAVIGATE_CHAPTERMENU"
+          }
+        ]
+      }
+    ],
+    "captionModes": [
+      "Скрыть меню",
+      "Только видеокадр",
+      "Скрыть границы",
+      "Показать заголовок и меню"
+    ],
+    "settings": [
+      {
+        "id": "IDD_PPAGEPLAYER",
+        "text": "Проигрыватель"
+      },
+      {
+        "id": "IDD_PPAGEFORMATS",
+        "text": "Проигрыватель::Форматы"
+      },
+      {
+        "id": "IDD_PPAGEACCELTBL",
+        "text": "Проигрыватель::Клавиши"
+      },
+      {
+        "id": "IDD_PPAGEMOUSE",
+        "text": "Проигрыватель::Мышь"
+      },
+      {
+        "id": "IDD_PPAGELOGO",
+        "text": "Проигрыватель::Логотип"
+      },
+      {
+        "id": "IDD_PPAGEINTERFACE",
+        "text": "Проигрыватель::Интерфейс"
+      },
+      {
+        "id": "IDD_PPAGEOSD",
+        "text": "Проигрыватель::OSD"
+      },
+      {
+        "id": "IDD_PPAGEWINDOWSIZE",
+        "text": "Проигрыватель::Размер окна"
+      },
+      {
+        "id": "IDD_PPAGEWEBSERVER",
+        "text": "Проигрыватель::Web-интерфейс"
+      },
+      {
+        "id": "IDD_PPAGEPLAYBACK",
+        "text": "Воспроизведение"
+      },
+      {
+        "id": "IDD_PPAGEDVD",
+        "text": "Воспроизведение::DVD-Video"
+      },
+      {
+        "id": "IDD_PPAGECAPTURE",
+        "text": "Воспроизведение::Захват"
+      },
+      {
+        "id": "IDD_PPAGEYOUTUBE",
+        "text": "Воспроизведение::Онлайн сервисы"
+      },
+      {
+        "id": "IDD_PPAGEVIDEO",
+        "text": "Видео"
+      },
+      {
+        "id": "IDD_PPAGECOLOR",
+        "text": "Видео::Коррекция цвета"
+      },
+      {
+        "id": "IDD_PPAGESYNC",
+        "text": "Видео::Синхронизация кадров"
+      },
+      {
+        "id": "IDD_PPAGEFULLSCREEN",
+        "text": "Видео::Полный экран"
+      },
+      {
+        "id": "IDD_PPAGEAUDIO",
+        "text": "Аудио"
+      },
+      {
+        "id": "IDD_PPAGESOUNDPROCESSING",
+        "text": "Аудио::Обработка звука"
+      },
+      {
+        "id": "IDD_PPAGESUBTITLES",
+        "text": "Субтитры"
+      },
+      {
+        "id": "IDD_PPAGESUBRENDERING",
+        "text": "Субтитры::Отрисовка"
+      },
+      {
+        "id": "IDD_PPAGESUBSTYLE",
+        "text": "Субтитры::Стандартный стиль"
+      },
+      {
+        "id": "IDD_PPAGEINTERNALFILTERS",
+        "text": "Встроенные фильтры"
+      },
+      {
+        "id": "IDD_PPAGEEXTERNALFILTERS",
+        "text": "Внешние фильтры"
+      },
+      {
+        "id": "IDD_PPAGEFILTERSPRIORITY",
+        "text": "Внешние фильтры::Приоритеты"
+      },
+      {
+        "id": "IDD_PPAGEMISC",
+        "text": "Разное"
+      }
+    ]
+  },
+  "en": {
+    "IDR_MAINFRAME": [
+      {
+        "text": "&File",
+        "children": [
+          {
+            "text": "&Quick Open File...",
+            "id": "ID_FILE_OPENFILE"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Open File/URL...",
+            "id": "ID_FILE_OPENFILEURL"
+          },
+          {
+            "text": "Open &DVD/Blu-ray...",
+            "id": "ID_FILE_OPENDVD"
+          },
+          {
+            "text": "Open De&vice...",
+            "id": "ID_FILE_OPENDEVICE"
+          },
+          {
+            "text": "Open Directory...",
+            "id": "ID_FILE_OPENDIRECTORY"
+          },
+          {
+            "text": "Open &Iso image...",
+            "id": "ID_FILE_OPENISO"
+          },
+          {
+            "text": "O&pen Disc",
+            "id": "ID_SUBMENU_OPENDISC"
+          },
+          {
+            "text": "Recent Files",
+            "id": "ID_SUBMENU_RECENTFILES"
+          },
+          {
+            "text": "&Close",
+            "id": "ID_FILE_CLOSEPLAYLIST"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Save As...",
+            "id": "ID_FILE_SAVE_COPY"
+          },
+          {
+            "text": "Save &Image...",
+            "id": "ID_FILE_SAVE_IMAGE"
+          },
+          {
+            "text": "Save &Thumbnails...",
+            "id": "ID_FILE_SAVE_THUMBNAILS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Load Subtitle...",
+            "id": "ID_FILE_LOAD_SUBTITLE"
+          },
+          {
+            "text": "Save S&ubtitle...",
+            "id": "ID_FILE_SAVE_SUBTITLE"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "P&roperties",
+            "id": "ID_FILE_PROPERTIES"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "E&xit",
+            "id": "ID_FILE_EXIT"
+          }
+        ]
+      },
+      {
+        "text": "&View",
+        "children": [
+          {
+            "text": "Caption&&Menu",
+            "id": "ID_VIEW_CAPTIONMENU"
+          },
+          {
+            "text": "&Seek Bar",
+            "id": "ID_VIEW_SEEKER"
+          },
+          {
+            "text": "Cont&rols",
+            "id": "ID_VIEW_CONTROLS"
+          },
+          {
+            "text": "&Information",
+            "id": "ID_VIEW_INFORMATION"
+          },
+          {
+            "text": "S&tatistics",
+            "id": "ID_VIEW_STATISTICS"
+          },
+          {
+            "text": "St&atus",
+            "id": "ID_VIEW_STATUS"
+          },
+          {
+            "text": "Subresync",
+            "id": "ID_VIEW_SUBRESYNC"
+          },
+          {
+            "text": "Playlist",
+            "id": "ID_VIEW_PLAYLIST"
+          },
+          {
+            "text": "Capture",
+            "id": "ID_VIEW_CAPTURE"
+          },
+          {
+            "text": "Shader Editor",
+            "id": "ID_VIEW_SHADEREDITOR"
+          },
+          {
+            "text": "Navigation",
+            "id": "ID_VIEW_NAVIGATION"
+          },
+          {
+            "text": "&Presets...",
+            "children": [
+              {
+                "text": "&Minimal",
+                "id": "ID_VIEW_PRESETS_MINIMAL"
+              },
+              {
+                "text": "&Compact",
+                "id": "ID_VIEW_PRESETS_COMPACT"
+              },
+              {
+                "text": "&Normal",
+                "id": "ID_VIEW_PRESETS_NORMAL"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Fu&ll Screen",
+            "id": "ID_VIEW_FULLSCREEN"
+          },
+          {
+            "text": "&Zoom",
+            "children": [
+              {
+                "text": "&50%",
+                "id": "ID_VIEW_ZOOM_50"
+              },
+              {
+                "text": "&100%",
+                "id": "ID_VIEW_ZOOM_100"
+              },
+              {
+                "text": "&200%",
+                "id": "ID_VIEW_ZOOM_200"
+              },
+              {
+                "text": "Auto Fit",
+                "id": "ID_VIEW_ZOOM_AUTOFIT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Language",
+            "id": "ID_SUBMENU_LANGUAGE"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Renderer Settings",
+            "children": [
+              {
+                "text": "&Tearing Test",
+                "id": "ID_VIEW_TEARING_TEST"
+              },
+              {
+                "text": "&Display Stats",
+                "id": "ID_VIEW_DISPLAYSTATS"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Presentation",
+                "children": [
+                  {
+                    "text": "Exclusive fullscreen",
+                    "id": "ID_VIEW_EXCLUSIVE_FULLSCREEN"
+                  },
+                  {
+                    "text": "Enable Frame Time Correction",
+                    "id": "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+                  }
+                ]
+              },
+              {
+                "text": "Reset to default renderer settings",
+                "id": "ID_VIEW_RESET_DEFAULT"
+              }
+            ]
+          },
+          {
+            "text": "&Video Frame",
+            "id": "ID_SUBMENU_VIDEOFRAME"
+          },
+          {
+            "text": "Pan&&S&can",
+            "id": "ID_SUBMENU_PANSCAN"
+          },
+          {
+            "text": "Stereo 3D Mode",
+            "children": [
+              {
+                "text": "Auto",
+                "id": "ID_STEREO3D_AUTO"
+              },
+              {
+                "text": "Mono",
+                "id": "ID_STEREO3D_MONO"
+              },
+              {
+                "text": "Row Interleaved",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED"
+              },
+              {
+                "text": "Row Interleaved (2x)",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED_2X"
+              },
+              {
+                "text": "Half OverUnder",
+                "id": "ID_STEREO3D_HALFOVERUNDER"
+              },
+              {
+                "text": "OverUnder",
+                "id": "ID_STEREO3D_OVERUNDER"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Swap Left/Right",
+                "id": "ID_STEREO3D_SWAP_LEFTRIGHT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "On Top",
+            "children": [
+              {
+                "text": "Never",
+                "id": "ID_ONTOP_NEVER"
+              },
+              {
+                "text": "Always",
+                "id": "ID_ONTOP_ALWAYS"
+              },
+              {
+                "text": "While Playing",
+                "id": "ID_ONTOP_WHILEPLAYING"
+              },
+              {
+                "text": "While Playing Video",
+                "id": "ID_ONTOP_WHILEPLAYINGVIDEO"
+              }
+            ]
+          },
+          {
+            "text": "&Options...",
+            "id": "ID_VIEW_OPTIONS"
+          }
+        ]
+      },
+      {
+        "text": "&Play",
+        "children": [
+          {
+            "text": "&Play/Pause",
+            "id": "ID_PLAY_PLAYPAUSE"
+          },
+          {
+            "text": "&Stop",
+            "id": "ID_PLAY_STOP"
+          },
+          {
+            "text": "F&rame Step",
+            "id": "ID_PLAY_FRAMESTEP"
+          },
+          {
+            "text": "&Go To...",
+            "id": "ID_PLAY_GOTO"
+          },
+          {
+            "text": "&Repeat",
+            "children": [
+              {
+                "text": "F&orever",
+                "id": "ID_REPEAT_FOREVER"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "A-B (&Reset)",
+                "id": "ID_PLAY_REPEAT_AB"
+              },
+              {
+                "text": "A-B (Mark &A)",
+                "id": "ID_PLAY_REPEAT_AB_MARK_A"
+              },
+              {
+                "text": "A-B (Mark &B)",
+                "id": "ID_PLAY_REPEAT_AB_MARK_B"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Increase Rate",
+            "id": "ID_PLAY_INCRATE"
+          },
+          {
+            "text": "&Decrease Rate",
+            "id": "ID_PLAY_DECRATE"
+          },
+          {
+            "text": "Reset Rate",
+            "id": "ID_PLAY_RESETRATE"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Filters",
+            "id": "ID_SUBMENU_FILTERS"
+          },
+          {
+            "text": "S&haders",
+            "id": "ID_SUBMENU_SHADERS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Audio",
+            "id": "ID_SUBMENU_AUDIOLANG"
+          },
+          {
+            "text": "Su&btitles",
+            "id": "ID_SUBMENU_SUBTITLELANG"
+          },
+          {
+            "text": "Static",
+            "id": "ID_SUBMENU_VIDEOSTREAM"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Vol&ume",
+            "children": [
+              {
+                "text": "&Up",
+                "id": "ID_VOLUME_UP"
+              },
+              {
+                "text": "&Down",
+                "id": "ID_VOLUME_DOWN"
+              },
+              {
+                "text": "&Mute",
+                "id": "ID_VOLUME_MUTE"
+              }
+            ]
+          },
+          {
+            "text": "After Playback",
+            "id": "ID_SUBMENU_AFTERPLAYBACK"
+          }
+        ]
+      },
+      {
+        "text": "&Navigate",
+        "id": "ID_SUBMENU_NAVIGATE_MAIN"
+      },
+      {
+        "text": "F&avorites",
+        "id": "ID_SUBMENU_FAVORITES_MAIN"
+      },
+      {
+        "text": "&Help",
+        "children": [
+          {
+            "text": "&Home Page",
+            "id": "ID_HELP_HOMEPAGE"
+          },
+          {
+            "text": "Check for &updates",
+            "id": "ID_HELP_CHECKFORUPDATE"
+          },
+          {
+            "text": "&Command Line Switches",
+            "id": "ID_HELP_SHOWCOMMANDLINESWITCHES"
+          },
+          {
+            "text": "Download &Toolbar Images",
+            "id": "ID_HELP_TOOLBARIMAGES"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&About...",
+            "id": "ID_HELP_ABOUT"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "&File",
+            "children": [
+              {
+                "text": "&Quick Open File...",
+                "id": "ID_FILE_OPENFILE"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&Open File/URL...",
+                "id": "ID_FILE_OPENFILEURL"
+              },
+              {
+                "text": "Open &DVD/Blu-ray...",
+                "id": "ID_FILE_OPENDVD"
+              },
+              {
+                "text": "Open De&vice...",
+                "id": "ID_FILE_OPENDEVICE"
+              },
+              {
+                "text": "Open Directory...",
+                "id": "ID_FILE_OPENDIRECTORY"
+              },
+              {
+                "text": "Open &Iso image...",
+                "id": "ID_FILE_OPENISO"
+              },
+              {
+                "text": "O&pen Disc",
+                "id": "ID_SUBMENU_OPENDISC"
+              },
+              {
+                "text": "Recent Files",
+                "id": "ID_SUBMENU_RECENTFILES"
+              },
+              {
+                "text": "&Close",
+                "id": "ID_FILE_CLOSEPLAYLIST"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&Save As...",
+                "id": "ID_FILE_SAVE_COPY"
+              },
+              {
+                "text": "Save &Image...",
+                "id": "ID_FILE_SAVE_IMAGE"
+              },
+              {
+                "text": "Save &Thumbnails...",
+                "id": "ID_FILE_SAVE_THUMBNAILS"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&Load Subtitle...",
+                "id": "ID_FILE_LOAD_SUBTITLE"
+              },
+              {
+                "text": "Save S&ubtitle...",
+                "id": "ID_FILE_SAVE_SUBTITLE"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "P&roperties",
+                "id": "ID_FILE_PROPERTIES"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "E&xit",
+                "id": "ID_FILE_EXIT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Play/Pause",
+            "id": "ID_PLAY_PLAYPAUSE"
+          },
+          {
+            "text": "&Stop",
+            "id": "ID_PLAY_STOP"
+          },
+          {
+            "text": "&Repeat",
+            "children": [
+              {
+                "text": "F&orever",
+                "id": "ID_REPEAT_FOREVER"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "A-B (&Reset)",
+                "id": "ID_PLAY_REPEAT_AB"
+              },
+              {
+                "text": "A-B (Mark &A)",
+                "id": "ID_PLAY_REPEAT_AB_MARK_A"
+              },
+              {
+                "text": "A-B (Mark &B)",
+                "id": "ID_PLAY_REPEAT_AB_MARK_B"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Fu&ll Screen",
+            "id": "ID_VIEW_FULLSCREEN"
+          },
+          {
+            "text": "&Zoom",
+            "children": [
+              {
+                "text": "&50%",
+                "id": "ID_VIEW_ZOOM_50"
+              },
+              {
+                "text": "&100%",
+                "id": "ID_VIEW_ZOOM_100"
+              },
+              {
+                "text": "&200%",
+                "id": "ID_VIEW_ZOOM_200"
+              },
+              {
+                "text": "Auto Fit",
+                "id": "ID_VIEW_ZOOM_AUTOFIT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Video Frame",
+            "id": "ID_SUBMENU_VIDEOFRAME"
+          },
+          {
+            "text": "Pan&&S&can",
+            "id": "ID_SUBMENU_PANSCAN"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Navigate",
+            "id": "ID_SUBMENU_NAVIGATE"
+          },
+          {
+            "text": "Favo&rites",
+            "id": "ID_SUBMENU_FAVORITES"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "F&ilters",
+            "id": "ID_SUBMENU_FILTERS"
+          },
+          {
+            "text": "S&haders",
+            "id": "ID_SUBMENU_SHADERS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Audio",
+            "id": "ID_SUBMENU_AUDIOLANG"
+          },
+          {
+            "text": "Su&btitles",
+            "id": "ID_SUBMENU_SUBTITLELANG"
+          },
+          {
+            "text": "Static",
+            "id": "ID_SUBMENU_VIDEOSTREAM"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Vol&ume",
+            "children": [
+              {
+                "text": "&Up",
+                "id": "ID_VOLUME_UP"
+              },
+              {
+                "text": "&Down",
+                "id": "ID_VOLUME_DOWN"
+              },
+              {
+                "text": "&Mute",
+                "id": "ID_VOLUME_MUTE"
+              }
+            ]
+          },
+          {
+            "text": "After Playback",
+            "id": "ID_SUBMENU_AFTERPLAYBACK"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Vi&ew",
+            "children": [
+              {
+                "text": "On Top",
+                "children": [
+                  {
+                    "text": "Never",
+                    "id": "ID_ONTOP_NEVER"
+                  },
+                  {
+                    "text": "Always",
+                    "id": "ID_ONTOP_ALWAYS"
+                  },
+                  {
+                    "text": "While Playing",
+                    "id": "ID_ONTOP_WHILEPLAYING"
+                  },
+                  {
+                    "text": "While Playing Video",
+                    "id": "ID_ONTOP_WHILEPLAYINGVIDEO"
+                  }
+                ]
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Caption&&Menu",
+                "id": "ID_VIEW_CAPTIONMENU"
+              },
+              {
+                "text": "Seek Bar",
+                "id": "ID_VIEW_SEEKER"
+              },
+              {
+                "text": "Cont&rols",
+                "id": "ID_VIEW_CONTROLS"
+              },
+              {
+                "text": "&Information",
+                "id": "ID_VIEW_INFORMATION"
+              },
+              {
+                "text": "St&atistics",
+                "id": "ID_VIEW_STATISTICS"
+              },
+              {
+                "text": "S&tatus",
+                "id": "ID_VIEW_STATUS"
+              },
+              {
+                "text": "Subresync",
+                "id": "ID_VIEW_SUBRESYNC"
+              },
+              {
+                "text": "Playlist",
+                "id": "ID_VIEW_PLAYLIST"
+              },
+              {
+                "text": "Capture",
+                "id": "ID_VIEW_CAPTURE"
+              },
+              {
+                "text": "Shader Editor",
+                "id": "ID_VIEW_SHADEREDITOR"
+              },
+              {
+                "text": "Navigation",
+                "id": "ID_VIEW_NAVIGATION"
+              },
+              {
+                "text": "&Language",
+                "id": "ID_SUBMENU_LANGUAGE"
+              },
+              {
+                "text": "&Presets...",
+                "children": [
+                  {
+                    "text": "&Minimal",
+                    "id": "ID_VIEW_PRESETS_MINIMAL"
+                  },
+                  {
+                    "text": "&Compact",
+                    "id": "ID_VIEW_PRESETS_COMPACT"
+                  },
+                  {
+                    "text": "&Normal",
+                    "id": "ID_VIEW_PRESETS_NORMAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Renderer Settings",
+            "children": [
+              {
+                "text": "&Tearing Test",
+                "id": "ID_VIEW_TEARING_TEST"
+              },
+              {
+                "text": "&Display Stats",
+                "id": "ID_VIEW_DISPLAYSTATS"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Presentation",
+                "children": [
+                  {
+                    "text": "Exclusive fullscreen",
+                    "id": "ID_VIEW_EXCLUSIVE_FULLSCREEN"
+                  },
+                  {
+                    "text": "Enable Frame Time Correction",
+                    "id": "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+                  }
+                ]
+              },
+              {
+                "text": "Reset to default renderer settings",
+                "id": "ID_VIEW_RESET_DEFAULT"
+              }
+            ]
+          },
+          {
+            "text": "Stereo 3D Mode",
+            "children": [
+              {
+                "text": "Auto",
+                "id": "ID_STEREO3D_AUTO"
+              },
+              {
+                "text": "Mono",
+                "id": "ID_STEREO3D_MONO"
+              },
+              {
+                "text": "Row Interleaved",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED"
+              },
+              {
+                "text": "Row Interleaved (2x)",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED_2X"
+              },
+              {
+                "text": "Half OverUnder",
+                "id": "ID_STEREO3D_HALFOVERUNDER"
+              },
+              {
+                "text": "OverUnder",
+                "id": "ID_STEREO3D_OVERUNDER"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Swap Left/Right",
+                "id": "ID_STEREO3D_SWAP_LEFTRIGHT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "P&roperties",
+            "id": "ID_FILE_PROPERTIES"
+          },
+          {
+            "text": "&Options...",
+            "id": "ID_VIEW_OPTIONS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "E&xit",
+            "id": "ID_FILE_EXIT"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUPMAIN": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "&File",
+            "children": [
+              {
+                "text": "&Quick Open File...",
+                "id": "ID_FILE_OPENFILE"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&Open File/URL...",
+                "id": "ID_FILE_OPENFILEURL"
+              },
+              {
+                "text": "Open &DVD/Blu-ray...",
+                "id": "ID_FILE_OPENDVD"
+              },
+              {
+                "text": "Open De&vice...",
+                "id": "ID_FILE_OPENDEVICE"
+              },
+              {
+                "text": "Open Directory...",
+                "id": "ID_FILE_OPENDIRECTORY"
+              },
+              {
+                "text": "Open &Iso image...",
+                "id": "ID_FILE_OPENISO"
+              },
+              {
+                "text": "O&pen Disc",
+                "id": "ID_SUBMENU_OPENDISC"
+              },
+              {
+                "text": "Recent Files",
+                "id": "ID_SUBMENU_RECENTFILES"
+              },
+              {
+                "text": "&Close",
+                "id": "ID_FILE_CLOSEPLAYLIST"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&Save As...",
+                "id": "ID_FILE_SAVE_COPY"
+              },
+              {
+                "text": "Save Image...",
+                "id": "ID_FILE_SAVE_IMAGE"
+              },
+              {
+                "text": "Save &Thumbnails...",
+                "id": "ID_FILE_SAVE_THUMBNAILS"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&Load Subtitle...",
+                "id": "ID_FILE_LOAD_SUBTITLE"
+              },
+              {
+                "text": "Save S&ubtitle...",
+                "id": "ID_FILE_SAVE_SUBTITLE"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Prope&rties",
+                "id": "ID_FILE_PROPERTIES"
+              }
+            ]
+          },
+          {
+            "text": "&View",
+            "children": [
+              {
+                "text": "Caption&&Menu",
+                "id": "ID_VIEW_CAPTIONMENU"
+              },
+              {
+                "text": "&Seek Bar",
+                "id": "ID_VIEW_SEEKER"
+              },
+              {
+                "text": "Cont&rols",
+                "id": "ID_VIEW_CONTROLS"
+              },
+              {
+                "text": "&Information",
+                "id": "ID_VIEW_INFORMATION"
+              },
+              {
+                "text": "S&tatistics",
+                "id": "ID_VIEW_STATISTICS"
+              },
+              {
+                "text": "St&atus",
+                "id": "ID_VIEW_STATUS"
+              },
+              {
+                "text": "Subresync",
+                "id": "ID_VIEW_SUBRESYNC"
+              },
+              {
+                "text": "Playlist",
+                "id": "ID_VIEW_PLAYLIST"
+              },
+              {
+                "text": "Capture",
+                "id": "ID_VIEW_CAPTURE"
+              },
+              {
+                "text": "Shader Editor",
+                "id": "ID_VIEW_SHADEREDITOR"
+              },
+              {
+                "text": "Navigation",
+                "id": "ID_VIEW_NAVIGATION"
+              },
+              {
+                "text": "&Language",
+                "id": "ID_SUBMENU_LANGUAGE"
+              },
+              {
+                "text": "&Presets...",
+                "children": [
+                  {
+                    "text": "&Minimal",
+                    "id": "ID_VIEW_PRESETS_MINIMAL"
+                  },
+                  {
+                    "text": "&Compact",
+                    "id": "ID_VIEW_PRESETS_COMPACT"
+                  },
+                  {
+                    "text": "&Normal",
+                    "id": "ID_VIEW_PRESETS_NORMAL"
+                  }
+                ]
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Fu&ll Screen",
+                "id": "ID_VIEW_FULLSCREEN"
+              },
+              {
+                "text": "&Zoom",
+                "children": [
+                  {
+                    "text": "&50%",
+                    "id": "ID_VIEW_ZOOM_50"
+                  },
+                  {
+                    "text": "&100%",
+                    "id": "ID_VIEW_ZOOM_100"
+                  },
+                  {
+                    "text": "&200%",
+                    "id": "ID_VIEW_ZOOM_200"
+                  },
+                  {
+                    "text": "Auto Fit",
+                    "id": "ID_VIEW_ZOOM_AUTOFIT"
+                  }
+                ]
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Renderer Settings",
+                "children": [
+                  {
+                    "text": "&Tearing Test",
+                    "id": "ID_VIEW_TEARING_TEST"
+                  },
+                  {
+                    "text": "&Display Stats",
+                    "id": "ID_VIEW_DISPLAYSTATS"
+                  },
+                  {
+                    "separator": true
+                  },
+                  {
+                    "text": "Presentation",
+                    "children": [
+                      {
+                        "text": "Exclusive fullscreen",
+                        "id": "ID_VIEW_EXCLUSIVE_FULLSCREEN"
+                      },
+                      {
+                        "text": "Enable Frame Time Correction",
+                        "id": "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "Reset to default renderer settings",
+                    "id": "ID_VIEW_RESET_DEFAULT"
+                  }
+                ]
+              },
+              {
+                "text": "&Video Frame",
+                "id": "ID_SUBMENU_VIDEOFRAME"
+              },
+              {
+                "text": "Pan&&S&can",
+                "id": "ID_SUBMENU_PANSCAN"
+              },
+              {
+                "text": "Stereo 3D Mode",
+                "children": [
+                  {
+                    "text": "Auto",
+                    "id": "ID_STEREO3D_AUTO"
+                  },
+                  {
+                    "text": "Mono",
+                    "id": "ID_STEREO3D_MONO"
+                  },
+                  {
+                    "text": "Row Interleaved",
+                    "id": "ID_STEREO3D_ROW_INTERLEAVED"
+                  },
+                  {
+                    "text": "Row Interleaved (2x)",
+                    "id": "ID_STEREO3D_ROW_INTERLEAVED_2X"
+                  },
+                  {
+                    "text": "Half OverUnder",
+                    "id": "ID_STEREO3D_HALFOVERUNDER"
+                  },
+                  {
+                    "text": "OverUnder",
+                    "id": "ID_STEREO3D_OVERUNDER"
+                  },
+                  {
+                    "separator": true
+                  },
+                  {
+                    "text": "Swap Left/Right",
+                    "id": "ID_STEREO3D_SWAP_LEFTRIGHT"
+                  }
+                ]
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "On Top",
+                "children": [
+                  {
+                    "text": "Never",
+                    "id": "ID_ONTOP_NEVER"
+                  },
+                  {
+                    "text": "Always",
+                    "id": "ID_ONTOP_ALWAYS"
+                  },
+                  {
+                    "text": "While Playing",
+                    "id": "ID_ONTOP_WHILEPLAYING"
+                  },
+                  {
+                    "text": "While Playing Video",
+                    "id": "ID_ONTOP_WHILEPLAYINGVIDEO"
+                  }
+                ]
+              },
+              {
+                "text": "&Options...",
+                "id": "ID_VIEW_OPTIONS"
+              }
+            ]
+          },
+          {
+            "text": "&Play",
+            "children": [
+              {
+                "text": "&Play/Pause",
+                "id": "ID_PLAY_PLAYPAUSE"
+              },
+              {
+                "text": "&Stop",
+                "id": "ID_PLAY_STOP"
+              },
+              {
+                "text": "F&rame Step",
+                "id": "ID_PLAY_FRAMESTEP"
+              },
+              {
+                "text": "&Go To...",
+                "id": "ID_PLAY_GOTO"
+              },
+              {
+                "text": "&Repeat",
+                "children": [
+                  {
+                    "text": "F&orever",
+                    "id": "ID_REPEAT_FOREVER"
+                  },
+                  {
+                    "separator": true
+                  },
+                  {
+                    "text": "A-B (&Reset)",
+                    "id": "ID_PLAY_REPEAT_AB"
+                  },
+                  {
+                    "text": "A-B (Mark &A)",
+                    "id": "ID_PLAY_REPEAT_AB_MARK_A"
+                  },
+                  {
+                    "text": "A-B (Mark &B)",
+                    "id": "ID_PLAY_REPEAT_AB_MARK_B"
+                  }
+                ]
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&Increase Rate",
+                "id": "ID_PLAY_INCRATE"
+              },
+              {
+                "text": "&Decrease Rate",
+                "id": "ID_PLAY_DECRATE"
+              },
+              {
+                "text": "Reset Rate",
+                "id": "ID_PLAY_RESETRATE"
+              }
+            ]
+          },
+          {
+            "text": "&Navigate",
+            "id": "ID_SUBMENU_NAVIGATE"
+          },
+          {
+            "text": "Favo&rites",
+            "id": "ID_SUBMENU_FAVORITES"
+          },
+          {
+            "text": "&Help",
+            "children": [
+              {
+                "text": "&Home Page",
+                "id": "ID_HELP_HOMEPAGE"
+              },
+              {
+                "text": "Check for &updates",
+                "id": "ID_HELP_CHECKFORUPDATE"
+              },
+              {
+                "text": "&Command Line Switches",
+                "id": "ID_HELP_SHOWCOMMANDLINESWITCHES"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "&About...",
+                "id": "ID_HELP_ABOUT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Filters",
+            "id": "ID_SUBMENU_FILTERS"
+          },
+          {
+            "text": "&Shaders",
+            "id": "ID_SUBMENU_SHADERS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Audio",
+            "id": "ID_SUBMENU_AUDIOLANG"
+          },
+          {
+            "text": "Su&btitles",
+            "id": "ID_SUBMENU_SUBTITLELANG"
+          },
+          {
+            "text": "Static",
+            "id": "ID_SUBMENU_VIDEOSTREAM"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Vol&ume",
+            "children": [
+              {
+                "text": "&Up",
+                "id": "ID_VOLUME_UP"
+              },
+              {
+                "text": "&Down",
+                "id": "ID_VOLUME_DOWN"
+              },
+              {
+                "text": "&Mute",
+                "id": "ID_VOLUME_MUTE"
+              }
+            ]
+          },
+          {
+            "text": "After Playback",
+            "id": "ID_SUBMENU_AFTERPLAYBACK"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Renderer Settings",
+            "children": [
+              {
+                "text": "&Tearing Test",
+                "id": "ID_VIEW_TEARING_TEST"
+              },
+              {
+                "text": "&Display Stats",
+                "id": "ID_VIEW_DISPLAYSTATS"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Presentation",
+                "children": [
+                  {
+                    "text": "Exclusive fullscreen",
+                    "id": "ID_VIEW_EXCLUSIVE_FULLSCREEN"
+                  },
+                  {
+                    "text": "Enable Frame Time Correction",
+                    "id": "ID_VIEW_ENABLEFRAMETIMECORRECTION"
+                  }
+                ]
+              },
+              {
+                "text": "Reset to default renderer settings",
+                "id": "ID_VIEW_RESET_DEFAULT"
+              }
+            ]
+          },
+          {
+            "text": "Stereo 3D Mode",
+            "children": [
+              {
+                "text": "Auto",
+                "id": "ID_STEREO3D_AUTO"
+              },
+              {
+                "text": "Mono",
+                "id": "ID_STEREO3D_MONO"
+              },
+              {
+                "text": "Row Interleaved",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED"
+              },
+              {
+                "text": "Row Interleaved (2x)",
+                "id": "ID_STEREO3D_ROW_INTERLEAVED_2X"
+              },
+              {
+                "text": "Half OverUnder",
+                "id": "ID_STEREO3D_HALFOVERUNDER"
+              },
+              {
+                "text": "OverUnder",
+                "id": "ID_STEREO3D_OVERUNDER"
+              },
+              {
+                "separator": true
+              },
+              {
+                "text": "Swap Left/Right",
+                "id": "ID_STEREO3D_SWAP_LEFTRIGHT"
+              }
+            ]
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "P&roperties",
+            "id": "ID_FILE_PROPERTIES"
+          },
+          {
+            "text": "&Options...",
+            "id": "ID_VIEW_OPTIONS"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "E&xit",
+            "id": "ID_FILE_EXIT"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP_VIDEOFRAME": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "&Half Size",
+            "id": "ID_VIEW_VF_HALF"
+          },
+          {
+            "text": "&Normal Size",
+            "id": "ID_VIEW_VF_NORMAL"
+          },
+          {
+            "text": "&Double Size",
+            "id": "ID_VIEW_VF_DOUBLE"
+          },
+          {
+            "text": "&Stretch To Window",
+            "id": "ID_VIEW_VF_STRETCH"
+          },
+          {
+            "text": "Touch Window From &Inside",
+            "id": "ID_VIEW_VF_FROMINSIDE"
+          },
+          {
+            "text": "Zoom &1",
+            "id": "ID_VIEW_VF_ZOOM1"
+          },
+          {
+            "text": "Zoom &2",
+            "id": "ID_VIEW_VF_ZOOM2"
+          },
+          {
+            "text": "Touch Window From &Outside",
+            "id": "ID_VIEW_VF_FROMOUTSIDE"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Keep Aspect Ratio",
+            "id": "ID_VIEW_VF_KEEPASPECTRATIO"
+          },
+          {
+            "text": "Override Aspect Ratio",
+            "children": [
+              {
+                "text": "Default",
+                "id": "ID_ASPECTRATIO_SOURCE"
+              },
+              {
+                "text": "4:3",
+                "id": "ID_ASPECTRATIO_4_3"
+              },
+              {
+                "text": "5:4",
+                "id": "ID_ASPECTRATIO_5_4"
+              },
+              {
+                "text": "16:9",
+                "id": "ID_ASPECTRATIO_16_9"
+              },
+              {
+                "text": "2.35:1",
+                "id": "ID_ASPECTRATIO_235_100"
+              },
+              {
+                "text": "1.85:1",
+                "id": "ID_ASPECTRATIO_185_100"
+              }
+            ]
+          },
+          {
+            "text": "Correct Monitor/Desktop AR Diff",
+            "id": "ID_VIEW_VF_COMPMONDESKARDIFF"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP_PANSCAN": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "Increase Size",
+            "id": "ID_VIEW_INCSIZE"
+          },
+          {
+            "text": "Decrease Size",
+            "id": "ID_VIEW_DECSIZE"
+          },
+          {
+            "text": "Increase Width",
+            "id": "ID_VIEW_INCWIDTH"
+          },
+          {
+            "text": "Decrease Width",
+            "id": "ID_VIEW_DECWIDTH"
+          },
+          {
+            "text": "Increase Height",
+            "id": "ID_VIEW_INCHEIGHT"
+          },
+          {
+            "text": "Decrease Height",
+            "id": "ID_VIEW_DECHEIGHT"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Move Right",
+            "id": "ID_PANSCAN_MOVERIGHT"
+          },
+          {
+            "text": "Move Left",
+            "id": "ID_PANSCAN_MOVELEFT"
+          },
+          {
+            "text": "Move Up",
+            "id": "ID_PANSCAN_MOVEUP"
+          },
+          {
+            "text": "Move Down",
+            "id": "ID_PANSCAN_MOVEDOWN"
+          },
+          {
+            "text": "Center",
+            "id": "ID_PANSCAN_CENTER"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Rotate Clockwise",
+            "id": "ID_PANSCAN_ROTATE_CW"
+          },
+          {
+            "text": "Rotate Counterclockwise",
+            "id": "ID_PANSCAN_ROTATE_CCW"
+          },
+          {
+            "text": "Flip Horizontally",
+            "id": "ID_PANSCAN_FLIP"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "Reset",
+            "id": "ID_VIEW_RESET"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP_AFTERPLAYBACK": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "--------- Once ---------",
+            "id": "ID_AFTERPLAYBACK_ONCE"
+          },
+          {
+            "text": "Exit",
+            "id": "ID_AFTERPLAYBACK_CLOSE"
+          },
+          {
+            "text": "Stand By",
+            "id": "ID_AFTERPLAYBACK_STANDBY"
+          },
+          {
+            "text": "Hibernate",
+            "id": "ID_AFTERPLAYBACK_HIBERNATE"
+          },
+          {
+            "text": "Shutdown",
+            "id": "ID_AFTERPLAYBACK_SHUTDOWN"
+          },
+          {
+            "text": "Log Off",
+            "id": "ID_AFTERPLAYBACK_LOGOFF"
+          },
+          {
+            "text": "Lock",
+            "id": "ID_AFTERPLAYBACK_LOCK"
+          },
+          {
+            "text": "Do Nothing",
+            "id": "ID_AFTERPLAYBACK_DONOTHING"
+          },
+          {
+            "text": "------ Every time ------",
+            "id": "ID_AFTERPLAYBACK_EVERYTIME"
+          },
+          {
+            "text": "Exit",
+            "id": "ID_AFTERPLAYBACK_EXIT"
+          },
+          {
+            "text": "Close file",
+            "id": "ID_AFTERPLAYBACK_CLOSE_FILE"
+          },
+          {
+            "text": "Close file and minimize player",
+            "id": "ID_AFTERPLAYBACK_CLOSE_FILE_AND_MINIMIZE"
+          },
+          {
+            "text": "Play next in the folder",
+            "id": "ID_AFTERPLAYBACK_NEXT"
+          },
+          {
+            "text": "Play next in the folder (looped)",
+            "id": "ID_AFTERPLAYBACK_NEXT_LOOPED"
+          },
+          {
+            "text": "Do Nothing",
+            "id": "ID_AFTERPLAYBACK_EVERYTIMEDONOTHING"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP_SHADERS": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "Enable Pre-Resize Pixel Shaders",
+            "id": "ID_SHADERS_1_ENABLE"
+          },
+          {
+            "text": "Enable Post-Resize Pixel Shaders",
+            "id": "ID_SHADERS_2_ENABLE"
+          },
+          {
+            "text": "&Select Shaders...",
+            "id": "ID_SHADERS_SELECT"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Edit shaders...",
+            "id": "ID_VIEW_SHADEREDITOR"
+          }
+        ]
+      }
+    ],
+    "IDR_POPUP_NAVIGATE": [
+      {
+        "text": "",
+        "children": [
+          {
+            "text": "&Previous",
+            "id": "ID_NAVIGATE_SKIPBACK"
+          },
+          {
+            "text": "&Next",
+            "id": "ID_NAVIGATE_SKIPFORWARD"
+          },
+          {
+            "text": "&Jump To...",
+            "id": "ID_SUBMENU_JUMPTO"
+          },
+          {
+            "separator": true
+          },
+          {
+            "text": "&Title Menu",
+            "id": "ID_NAVIGATE_TITLEMENU"
+          },
+          {
+            "text": "&Root Menu",
+            "id": "ID_NAVIGATE_ROOTMENU"
+          },
+          {
+            "text": "&Subtitle Menu",
+            "id": "ID_NAVIGATE_SUBPICTUREMENU"
+          },
+          {
+            "text": "&Audio Menu",
+            "id": "ID_NAVIGATE_AUDIOMENU"
+          },
+          {
+            "text": "An&gle Menu",
+            "id": "ID_NAVIGATE_ANGLEMENU"
+          },
+          {
+            "text": "&Chapter Menu",
+            "id": "ID_NAVIGATE_CHAPTERMENU"
+          }
+        ]
+      }
+    ],
+    "captionModes": [
+      "Hide Menu",
+      "Frame Only",
+      "Hide borders",
+      "Show Caption&&Menu"
+    ],
+    "settings": [
+      {
+        "id": "IDD_PPAGEPLAYER",
+        "text": "Player"
+      },
+      {
+        "id": "IDD_PPAGEFORMATS",
+        "text": "Player::Formats"
+      },
+      {
+        "id": "IDD_PPAGEACCELTBL",
+        "text": "Player::Keys"
+      },
+      {
+        "id": "IDD_PPAGEMOUSE",
+        "text": "Player::Mouse"
+      },
+      {
+        "id": "IDD_PPAGELOGO",
+        "text": "Player::Logo"
+      },
+      {
+        "id": "IDD_PPAGEINTERFACE",
+        "text": "Player::Interface"
+      },
+      {
+        "id": "IDD_PPAGEOSD",
+        "text": "Player::OSD"
+      },
+      {
+        "id": "IDD_PPAGEWINDOWSIZE",
+        "text": "Player::Window size"
+      },
+      {
+        "id": "IDD_PPAGEWEBSERVER",
+        "text": "Player::Web Interface"
+      },
+      {
+        "id": "IDD_PPAGEPLAYBACK",
+        "text": "Playback"
+      },
+      {
+        "id": "IDD_PPAGEDVD",
+        "text": "Playback::DVD-Video"
+      },
+      {
+        "id": "IDD_PPAGECAPTURE",
+        "text": "Playback::Capture"
+      },
+      {
+        "id": "IDD_PPAGEYOUTUBE",
+        "text": "Playback::Online media services"
+      },
+      {
+        "id": "IDD_PPAGEVIDEO",
+        "text": "Video"
+      },
+      {
+        "id": "IDD_PPAGECOLOR",
+        "text": "Video::Color correction"
+      },
+      {
+        "id": "IDD_PPAGESYNC",
+        "text": "Video::Frame synchronization"
+      },
+      {
+        "id": "IDD_PPAGEFULLSCREEN",
+        "text": "Video::Fullscreen"
+      },
+      {
+        "id": "IDD_PPAGEAUDIO",
+        "text": "Audio"
+      },
+      {
+        "id": "IDD_PPAGESOUNDPROCESSING",
+        "text": "Audio::Sound processing"
+      },
+      {
+        "id": "IDD_PPAGESUBTITLES",
+        "text": "Subtitles"
+      },
+      {
+        "id": "IDD_PPAGESUBRENDERING",
+        "text": "Subtitles::Rendering"
+      },
+      {
+        "id": "IDD_PPAGESUBSTYLE",
+        "text": "Subtitles::Default Style"
+      },
+      {
+        "id": "IDD_PPAGEINTERNALFILTERS",
+        "text": "Internal Filters"
+      },
+      {
+        "id": "IDD_PPAGEEXTERNALFILTERS",
+        "text": "External Filters"
+      },
+      {
+        "id": "IDD_PPAGEFILTERSPRIORITY",
+        "text": "External Filters::Priority"
+      },
+      {
+        "id": "IDD_PPAGEMISC",
+        "text": "Miscellaneous"
+      }
+    ]
+  }
+}
