@@ -61,6 +61,9 @@ public:
   void openClipboard();
   bool loadOnlinePlaylist(const QString &url);
   bool openProgressiveSession(const QString &manifest);
+  bool openProgressiveSource(const std::shared_ptr<ProgressiveSource> &);
+  std::shared_ptr<ProgressiveSource> progressiveSession() const { return progressive; }
+  QJsonObject progressivePlaybackStatus() const;
   bool openDeviceSource(const QString &source);
   bool seekTo(double seconds);
   bool setAbLoop(double a, double b, int plays = 0);
@@ -83,6 +86,8 @@ signals:
   void frameSaved(const QString &path, bool success);
   void imageCaptured(bool success);
   void onlinePlaylistFinished(bool success, const QString &message);
+  void progressiveSessionEnded(const QString &sessionId, const QString &state,
+                               const QString &error);
 
 protected:
   bool event(QEvent *) override;
@@ -289,7 +294,7 @@ private:
   void integrationPrompt();
   void setIntegration(bool enabled);
   void updateProgressive();
-  void releaseProgressive();
+  void releaseProgressive(const QString &state = QStringLiteral("stopped"));
   std::shared_ptr<ProgressiveSource> progressive;
   bool progressiveStarted = false, progressiveBuffering = true,
        progressiveUserPause = false, progressiveStreaming = false;

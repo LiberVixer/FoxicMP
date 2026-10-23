@@ -2,6 +2,9 @@
 #include "DSUtil/HarvesterMP4.h"
 #include "indexedmp4.h"
 #include <QString>
+#include <QJsonObject>
+#include <QStringList>
+#include <chrono>
 #include <array>
 #include <atomic>
 #include <condition_variable>
@@ -21,6 +24,11 @@ public:
     QString error;
   };
   static std::shared_ptr<ProgressiveSource> open(const QString &manifest);
+  // Player-owned published-prefix session, without a downloader-side server.
+  static std::shared_ptr<ProgressiveSource> openPublished(const QJsonObject &);
+  bool publish(const QJsonObject &, QString *error);
+  void publishedHeartbeat();
+  void publishedError(const QString &error);
   ~ProgressiveSource();
   void cancel();
   void notify(const QString &state);
@@ -34,6 +42,8 @@ public:
 
 private:
   explicit ProgressiveSource(const QString &manifest);
+  explicit ProgressiveSource(const QJsonObject &);
+  void watchPublished();
   void watch();
   void refresh();
   bool connectProvider();
@@ -55,6 +65,9 @@ private:
   QString readerId;
   int socket = -1;
   bool attached = false;
+  bool published = false;
+  std::chrono::steady_clock::time_point lastPublished;
+  QStringList publishedPaths;
 };
 
 class ProgressiveStreams {

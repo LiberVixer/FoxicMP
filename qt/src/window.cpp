@@ -399,7 +399,9 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
     if (progressive) {
       if (natural) {
         const bool complete = progressive->status().complete;
-        releaseProgressive();
+        if (!complete)
+          lastError = uiTr("Ошибка: неподтверждённый конец источника");
+        releaseProgressive(complete ? "finished" : "error");
         state->setText(complete
                            ? uiTr("Просмотр завершён")
                            : uiTr("Ошибка: неподтверждённый конец источника"));

@@ -1,7 +1,14 @@
 # FoxicMP Qt — Linux
 
 Native Qt 6 Widgets + libmpv player. First target: Linux Mint 22.x x64.
-This is a **0.1.64 development preview**, separate from FoxicMP Classic Windows.
+This is a **0.1.65 development preview**, separate from FoxicMP Classic Windows.
+
+0.1.65 adds a player-owned Linux progressive API for downloaders. Discover it with
+`foxicmp-qt --progressive-api-info`; send confirmed video/audio byte prefixes over
+the local Unix socket, without running a downloader-side provider or downloading
+the source again. The standard-library Python client and contract are installed
+under `integration/`. See [LinuxProgressiveApi.md](../docs/LinuxProgressiveApi.md).
+YouTubeHarvester itself remains unchanged.
 
 0.1.48 добавляет веб-пульт в доверенной локальной сети: явное включение,
 выбор частного IPv4-адреса, код доступа и проверка Host/Origin.

@@ -18,6 +18,10 @@ bool Window::openProgressiveSession(const QString &manifest) {
     state->setToolTip(state->text());
     return false;
   }
+  return openProgressiveSource(next);
+}
+bool Window::openProgressiveSource(const std::shared_ptr<ProgressiveSource> &next) {
+  if (!next) return false;
   ++playbackGeneration;
   pendingLaunchOptions = {};
   savePosition();
@@ -58,9 +62,27 @@ bool Window::openProgressiveSession(const QString &manifest) {
   updateProgressive();
   return true;
 }
-void Window::releaseProgressive() {
+QJsonObject Window::progressivePlaybackStatus() const {
+  if (!progressive) return {{"active", false}, {"state", "stopped"}};
+  const auto status = progressive->status();
+  const QString playback = !status.error.isEmpty() ? "error"
+      : status.cancelled ? "cancelled"
+      : status.complete && player->get("eof-reached").toBool() ? "finished"
+      : !status.connected ? "waiting-downloader"
+      : !progressiveStarted || stopped || progressiveBuffering ? "buffering"
+      : progressiveUserPause || pausedByMinimize ? "paused" : "playing";
+  return {{"active", true}, {"sessionId", progressive->id()}, {"state", playback},
+          {"connected", status.connected}, {"complete", status.complete},
+          {"durationSeconds", status.duration}, {"availableSeconds", status.available},
+          {"positionSeconds", pos}, {"error", status.error}};
+}
+void Window::releaseProgressive(const QString &state) {
+  setProperty("foxicmpProgressiveTitle", {});
   if (!progressive)
     return;
+  const auto sourceError = progressive->status().error;
+  const auto error = sourceError.isEmpty() ? lastError : sourceError;
+  emit progressiveSessionEnded(progressive->id(), error.isEmpty() ? state : "error", error);
   progressive->cancel();
   player->progressiveSource({});
   progressive.reset();

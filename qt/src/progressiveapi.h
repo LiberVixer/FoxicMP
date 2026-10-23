@@ -1,0 +1,28 @@
+#pragma once
+#include <QJsonObject>
+#include <QLocalServer>
+#include <QLockFile>
+#include <memory>
+class Window;
+class ProgressiveSource;
+
+class ProgressiveApi : public QObject {
+public:
+  explicit ProgressiveApi(Window *, QObject *parent = nullptr);
+  ~ProgressiveApi() override;
+  bool listen(const QString &profileDirectory);
+  QString errorString() const { return server.errorString(); }
+  static QString endpointFor(const QString &profileDirectory);
+  static QJsonObject information(const QString &profileDirectory);
+  QJsonObject request(const QJsonObject &);
+
+private:
+  void acceptClients();
+  Window *window;
+  QLocalServer server;
+  std::unique_ptr<QLockFile> lease;
+  std::weak_ptr<ProgressiveSource> source;
+  QString sessionId;
+  QJsonObject lastOutcome;
+  int clients = 0;
+};

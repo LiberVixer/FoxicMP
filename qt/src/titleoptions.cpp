@@ -10,7 +10,8 @@
 #include "progressivesource.h"
 
 QString Window::mediaStatusTitle() const {
-  QString title = titleMetadata.trimmed();
+  QString title = progressive && !property("foxicmpProgressiveTitle").toString().isEmpty()
+      ? property("foxicmpProgressiveTitle").toString() : titleMetadata.trimmed();
   const QString source = stdinPlayback ? QString("stdin:") : progressive ? player->get("path").toString() : current;
   const QString file = WindowTitle::name(source);
   // libmpv synthesizes media-title from the filename when no title tag exists.
@@ -81,7 +82,9 @@ void Window::updatePlayerStatus() {
 void Window::updateWindowTitle() {
   const auto source = stdinPlayback ? QString("stdin:") : progressive ? player->get("path").toString() : current;
   const WindowTitle::Media media{
-      source, stdinPlayback ? uiTr("Поток stdin") : titleMetadata,
+      source, stdinPlayback ? uiTr("Поток stdin")
+          : progressive && !property("foxicmpProgressiveTitle").toString().isEmpty()
+              ? property("foxicmpProgressiveTitle").toString() : titleMetadata,
       !lastError.isEmpty() ? uiTr("Ошибка")
       : (progressive && progressiveBuffering) ||
             (player && player->get("paused-for-cache").toBool())

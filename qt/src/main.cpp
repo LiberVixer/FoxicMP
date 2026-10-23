@@ -11,6 +11,7 @@
 #include <QClipboard>
 #include <QCommandLineParser>
 #include "launchoptions.h"
+#include "progressiveapi.h"
 #include "player.h"
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -26,7 +27,7 @@ int main(int argc, char **argv) {
   QApplication app(argc, argv);
   std::setlocale(LC_NUMERIC, "C");
   app.setApplicationName("FoxicMPQt");
-  app.setApplicationVersion("0.1.64");
+  app.setApplicationVersion("0.1.65");
   Q_INIT_RESOURCE(resources);
   const QFileInfo startupIni(QDir(QCoreApplication::applicationDirPath()).filePath("FoxicMPQt.ini"));
   // Recovery must not read the broken INI or its configured external language
@@ -43,6 +44,7 @@ int main(int argc, char **argv) {
   parser.addOption({"harvester-session",
                     uiTr("Экспериментальный локальный MP4/fMP4-сеанс"),
                     "manifest"});
+  parser.addOption({"progressive-api-info", "Print local progressive API capabilities and endpoint as JSON"});
   parser.addOption(
       {"dvd", uiTr("Открыть DVD из дисковода, папки или ISO"), "path"});
   parser.addOption(
@@ -164,6 +166,14 @@ int main(int argc, char **argv) {
       return 1;
     }
   }
+  if (parser.isSet("progressive-api-info")) {
+    for (const auto &option : parser.optionNames())
+      if (!QStringList{"progressive-api-info", "profile", "portable"}.contains(option)) parser.showHelp(1);
+    if (!positional.isEmpty()) parser.showHelp(1);
+    const auto json = QJsonDocument(ProgressiveApi::information(directory)).toJson();
+    std::fwrite(json.constData(), 1, json.size(), stdout);
+    return 0;
+  }
   if (parser.isSet("reset-settings")) {
     QString backup, error;
     const bool keepLibrary = !parser.isSet("reset-library");
@@ -250,6 +260,9 @@ int main(int argc, char **argv) {
     bool reset = false, keepLibrary = true;
     {
       Window window(profile, {}, {}, {}, request.options.value("web-port").toInt(-1));
+      ProgressiveApi progressiveApi(&window);
+      if (result == InstanceBroker::Primary && !progressiveApi.listen(directory))
+        std::fprintf(stderr, "Progressive API unavailable: %s\n", qPrintable(progressiveApi.errorString()));
       window.show();
       if (fromStdin) {
         if (!window.openStdin(STDIN_FILENO, request.options)) return 1;
