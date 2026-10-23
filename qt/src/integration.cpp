@@ -44,7 +44,9 @@ QString Integration::desktopText(const QString &exe, const QString &profile) {
   return "[Desktop Entry]\nType=Application\nName=FoxicMP Qt\nComment=Media "
          "Player\nExec=" +
          command(exe, profile) +
-         "\nIcon=video-x-generic\nTerminal=false\nCategories=AudioVideo;Player;"
+         "\nIcon=" + QDir(QFileInfo(exe).absolutePath()).filePath("foxicmp-qt.png")
+                           .replace('\\', "\\\\") +
+         "\nTerminal=false\nCategories=AudioVideo;Player;"
          "\nMimeType=" +
          Associations::mimeTypes().join(';') +
          ";\nActions=Enqueue;\n\n[Desktop Action Enqueue]\nName=Add to FoxicMP "
