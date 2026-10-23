@@ -11072,7 +11072,10 @@ void CMainFrame::SetDefaultWindowRect(int iMonitor, const bool bLastCall)
 	}
 
 	bool bRestoredWindowPosition = false;
-	if (s.bRememberWindowPos) {
+	// The default is to remember the position, but an untouched profile has no
+	// saved rectangle yet. Do not interpret the initialized (0, 0) point as a
+	// real position on the first launch.
+	if (s.bRememberWindowPos && szLastWindowSize.cx > 0 && szLastWindowSize.cy > 0) {
 		CRect windowRect(ptLastWindowPos, windowSize);
 		if (CMonitors::IsOnScreen(windowRect)) {
 			ClampWindowRect(windowRect);
@@ -11168,7 +11171,7 @@ void CMainFrame::RestoreDefaultWindowRect()
 			windowSize.cy += cSize.cy;
 		}
 
-		if (s.bRememberWindowPos) {
+		if (s.bRememberWindowPos && s.szLastWindowSize.cx > 0 && s.szLastWindowSize.cy > 0) {
 			MoveWindow(CRect(s.ptLastWindowPos, windowSize));
 		} else {
 			SetWindowPos(nullptr, 0, 0, windowSize.cx, windowSize.cy, SWP_NOMOVE | SWP_NOZORDER);
@@ -11447,7 +11450,8 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 	const UINT nFlags = m_bFullScreen ? SWP_NOSENDCHANGING : SWP_NOSENDCHANGING | SWP_NOACTIVATE;
 
 	if (m_bFirstFSAfterLaunchOnFullScreen) { // Play started in Fullscreen
-		if (s.nStartupWindowMode == STARTUPWND_REMLAST || s.bRememberWindowPos) {
+		if (s.szLastWindowSize.cx > 0 && s.szLastWindowSize.cy > 0 &&
+			(s.nStartupWindowMode == STARTUPWND_REMLAST || s.bRememberWindowPos)) {
 			r.SetRect(s.ptLastWindowPos, s.ptLastWindowPos + s.szLastWindowSize);
 			if (!s.bRememberWindowPos) {
 				hm = MonitorFromPoint( CPoint( 0,0 ), MONITOR_DEFAULTTOPRIMARY );

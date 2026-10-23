@@ -573,7 +573,7 @@ void CAppSettings::ResetSettings()
 	nAutoScaleFactor = 100;
 	nAutoFitFactor = 50;
 	bResetWindowAfterClosingFile = false;
-	bRememberWindowPos = false;
+	bRememberWindowPos = true;
 	ptLastWindowPos.SetPoint(0, 0);
 	szLastWindowSize.SetSize(0, 0);
 	nLastWindowType = SIZE_RESTORED;
@@ -977,8 +977,6 @@ void CAppSettings::LoadSettings(bool bForce/* = false*/)
 	if (profile.ReadString(IDS_R_SETTINGS, IDS_RS_LASTWINDOWPOS, str)
 			&& swscanf_s(str, L"%d;%d", &point.x, &point.y) == 2) {
 		ptLastWindowPos  = point;
-	} else {
-		bRememberWindowPos = false; // Hmm
 	}
 	profile.ReadUInt(IDS_R_SETTINGS, IDS_RS_LASTWINDOWTYPE, nLastWindowType);
 	profile.ReadBool(IDS_R_SETTINGS, IDS_RS_LIMITWINDOWPROPORTIONS, bLimitWindowProportions);
