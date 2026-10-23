@@ -16,10 +16,10 @@ Totals: 9 passed, 0 failed, 0 skipped, 0 blacklisted, 11336ms
 ********* Finished testing of AfterPlaybackTest *********
 
 ctest-015-software.txt
-[OUTPUT] 
+[OUTPUT]
 Internal ctest changing into directory: /media/sf_Studio/Programs/MPMY-src/_bin/qt-build
 
-[HANDLER_OUTPUT] 
+[HANDLER_OUTPUT]
 Test project /media/sf_Studio/Programs/MPMY-src/_bin/qt-build
 
     Start 1: player
@@ -34,10 +34,10 @@ Test project /media/sf_Studio/Programs/MPMY-src/_bin/qt-build
 Total Test time (real) =  59.78 sec
 
 ctest-015-opengl.txt
-[OUTPUT] 
+[OUTPUT]
 Internal ctest changing into directory: /media/sf_Studio/Programs/MPMY-src/_bin/qt-build
 
-[HANDLER_OUTPUT] 
+[HANDLER_OUTPUT]
 Test project /media/sf_Studio/Programs/MPMY-src/_bin/qt-build
 
     Start 1: player
