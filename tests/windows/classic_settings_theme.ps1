@@ -119,7 +119,7 @@ try {
   try {$pixel=$image.GetPixel(8,$image.Height-10);$level=($pixel.R+$pixel.G+$pixel.B)/3
    if(($mode -eq 'dark' -and $level -gt 100) -or ($mode -eq 'light' -and $level -lt 150)){throw "Theme background mismatch: $mode"}
   } finally {$image.Dispose()}
-  foreach($index in @(0,5)){
+  foreach($index in @(0,2,5,16,22)){
    [RestoreNative]::SendMessage($dialog,0x465,[IntPtr]$index,[IntPtr]::Zero)|Out-Null
    Start-Sleep -Milliseconds 100
    Capture $dialog ("$base\$mode-{0:d2}.png" -f $index)

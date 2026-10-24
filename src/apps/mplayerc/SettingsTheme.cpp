@@ -49,6 +49,70 @@ void Outline(HDC dc, RECT rect, COLORREF color)
     SetDCBrushColor(dc, color);
     FrameRect(dc, &rect, static_cast<HBRUSH>(GetStockObject(DC_BRUSH)));
 }
+RECT ClientRectInWindow(HWND window)
+{
+    RECT client = {};
+    GetClientRect(window, &client);
+    POINT origin = {0, 0};
+    ClientToScreen(window, &origin);
+    RECT outer = {};
+    GetWindowRect(window, &outer);
+    OffsetRect(&client, origin.x - outer.left, origin.y - outer.top);
+    return client;
+}
+void DrawScrollBar(HDC dc, HWND window, int bar, RECT rect)
+{
+    Fill(dc, rect, Background);
+    Outline(dc, rect, Border);
+
+    SCROLLINFO info = {sizeof(info), SIF_ALL};
+    if (!GetScrollInfo(window, bar, &info) || info.nMax <= info.nMin || info.nPage == 0) {
+        return;
+    }
+    const bool vertical = bar == SB_VERT;
+    const int track = vertical ? rect.bottom - rect.top : rect.right - rect.left;
+    const int range = std::max(1, info.nMax - info.nMin + 1);
+    const int page = std::min(static_cast<int>(info.nPage), range);
+    const int thumb = std::max(12, MulDiv(track, page, range));
+    const int travel = std::max(0, track - thumb);
+    const int maxPos = std::max(1, info.nMax - info.nMin - page + 1);
+    const int offset = std::min(travel, std::max(0, MulDiv(info.nPos - info.nMin, travel, maxPos)));
+    if (vertical) {
+        RECT thumbRect = {rect.left + 2, rect.top + offset + 2, rect.right - 2, rect.top + offset + thumb - 2};
+        Fill(dc, thumbRect, Border);
+        Outline(dc, thumbRect, Accent);
+    } else {
+        RECT thumbRect = {rect.left + offset + 2, rect.top + 2, rect.left + offset + thumb - 2, rect.bottom - 2};
+        Fill(dc, thumbRect, Border);
+        Outline(dc, thumbRect, Accent);
+    }
+}
+void PaintScrollBars(HWND window)
+{
+    const LONG style = GetWindowLongW(window, GWL_STYLE);
+    if (!(style & (WS_VSCROLL | WS_HSCROLL))) return;
+    RECT client = ClientRectInWindow(window);
+    RECT outer = {};
+    GetWindowRect(window, &outer);
+    OffsetRect(&outer, -outer.left, -outer.top);
+    HDC dc = GetWindowDC(window);
+    if (!dc) return;
+    const int cx = Scale(window, GetSystemMetrics(SM_CXVSCROLL));
+    const int cy = Scale(window, GetSystemMetrics(SM_CYHSCROLL));
+    if (style & WS_VSCROLL) {
+        RECT bar = {client.right, client.top, outer.right, client.bottom - ((style & WS_HSCROLL) ? cy : 0)};
+        DrawScrollBar(dc, window, SB_VERT, bar);
+    }
+    if (style & WS_HSCROLL) {
+        RECT bar = {client.left, client.bottom, client.right - ((style & WS_VSCROLL) ? cx : 0), outer.bottom};
+        DrawScrollBar(dc, window, SB_HORZ, bar);
+    }
+    if ((style & (WS_VSCROLL | WS_HSCROLL)) == (WS_VSCROLL | WS_HSCROLL)) {
+        RECT corner = {client.right, client.bottom, outer.right, outer.bottom};
+        Fill(dc, corner, Background);
+    }
+    ReleaseDC(window, dc);
+}
 void Arrow(HDC dc, RECT rect, bool up, COLORREF color)
 {
     const int x = (rect.left + rect.right) / 2;
@@ -136,6 +200,31 @@ bool PaintButton(HWND window, HDC dc)
     RestoreDC(dc, saved);
     return true;
 }
+bool PaintTabs(HWND window, HDC dc)
+{
+    if (!IsClass(window, WC_TABCONTROLW)) return false;
+    RECT client = {};
+    GetClientRect(window, &client);
+    Fill(dc, client, Background);
+    const int selected = TabCtrl_GetCurSel(window);
+    const int count = TabCtrl_GetItemCount(window);
+    SelectObject(dc, reinterpret_cast<HFONT>(SendMessageW(window, WM_GETFONT, 0, 0)));
+    SetBkMode(dc, TRANSPARENT);
+    SetTextColor(dc, Text);
+    for (int index = 0; index < count; index++) {
+        RECT item = {};
+        TabCtrl_GetItemRect(window, index, &item);
+        const bool active = index == selected;
+        Fill(dc, item, active ? Field : Background);
+        Outline(dc, item, active ? Accent : Border);
+        WCHAR caption[256] = {};
+        TCITEMW info = {TCIF_TEXT, 0, 0, caption, static_cast<int>(_countof(caption)), 0, 0};
+        TabCtrl_GetItem(window, index, &info);
+        InflateRect(&item, -Scale(window, 4), 0);
+        DrawTextW(dc, caption, -1, &item, DT_SINGLELINE | DT_VCENTER | DT_CENTER | DT_END_ELLIPSIS);
+    }
+    return true;
+}
 LRESULT CALLBACK SettingsSubclass(HWND window, UINT message, WPARAM wParam, LPARAM lParam, UINT_PTR, DWORD_PTR data)
 {
     auto* theme = reinterpret_cast<WindowTheme*>(data);
@@ -178,6 +267,28 @@ LRESULT CALLBACK SettingsSubclass(HWND window, UINT message, WPARAM wParam, LPAR
             RestoreDC(dc, saved);
         }
         return 1;
+    }
+    if (message == WM_NCPAINT) {
+        const LRESULT result = DefSubclassProc(window, message, wParam, lParam);
+        PaintScrollBars(window);
+        const LONG style = GetWindowLongW(window, GWL_STYLE);
+        if ((style & WS_BORDER) && !IsClass(window, L"Button")) {
+            HDC dc = GetWindowDC(window);
+            if (dc) {
+                RECT outer = {}; GetWindowRect(window, &outer);
+                OffsetRect(&outer, -outer.left, -outer.top);
+                Outline(dc, outer, Border);
+                ReleaseDC(window, dc);
+            }
+        }
+        return result;
+    }
+    if ((message == WM_PAINT || message == WM_PRINTCLIENT) && IsClass(window, WC_TABCONTROLW)) {
+        PAINTSTRUCT paint = {};
+        HDC dc = message == WM_PAINT ? BeginPaint(window, &paint) : reinterpret_cast<HDC>(wParam);
+        PaintTabs(window, dc);
+        if (message == WM_PAINT) EndPaint(window, &paint);
+        return 0;
     }
     if ((message == WM_PAINT || message == WM_PRINTCLIENT) && IsClass(window, WC_HEADERW)) {
         PAINTSTRUCT paint = {};

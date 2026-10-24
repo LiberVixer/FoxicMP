@@ -21,6 +21,7 @@
 
 #include "stdafx.h"
 #include "PPageInternalFilters.h"
+#include "SettingsTheme.h"
 #include "ComPropertySheet.h"
 #include "filters/parser/AviSplitter/AviSplitter.h"
 #include "filters/parser/MpegSplitter/MpegSplitter.h"
@@ -159,6 +160,47 @@ void CPPageInternalFiltersListBox::PreSubclassWindow()
 {
 	__super::PreSubclassWindow();
 	EnableToolTips(TRUE);
+}
+
+void CPPageInternalFiltersListBox::DrawItem(LPDRAWITEMSTRUCT drawItem)
+{
+	if (!ClassicSettingsUseDarkTheme()) {
+		__super::DrawItem(drawItem);
+		return;
+	}
+
+	if (drawItem->itemID == static_cast<UINT>(-1)) {
+		return;
+	}
+	CDC* dc = CDC::FromHandle(drawItem->hDC);
+	CRect rect(drawItem->rcItem);
+	const bool selected = (drawItem->itemState & ODS_SELECTED) != 0;
+	const bool enabled = IsWindowEnabled();
+	const COLORREF background = selected ? RGB(44, 82, 116) : RGB(23, 26, 29);
+	const COLORREF text = enabled ? RGB(226, 230, 234) : RGB(139, 146, 153);
+	dc->FillSolidRect(rect, background);
+
+	const int size = std::min(rect.Height() - 4, 13);
+	CRect mark(rect.left + 2, rect.top + (rect.Height() - size) / 2,
+		       rect.left + 2 + size, rect.top + (rect.Height() - size) / 2 + size);
+	dc->FillSolidRect(mark, RGB(23, 26, 29));
+	dc->Draw3dRect(mark, RGB(112, 168, 215), RGB(77, 85, 93));
+	if (GetCheck(static_cast<int>(drawItem->itemID)) != 0) {
+		CPen pen(PS_SOLID, 1, text);
+		CPen* oldPen = dc->SelectObject(&pen);
+		dc->MoveTo(mark.left + 3, mark.CenterPoint().y);
+		dc->LineTo(mark.left + size / 2, mark.bottom - 3);
+		dc->LineTo(mark.right - 2, mark.top + 3);
+		dc->SelectObject(oldPen);
+	}
+
+	CString caption;
+	GetText(static_cast<int>(drawItem->itemID), caption);
+	CRect label = rect;
+	label.left = mark.right + 5;
+	dc->SetBkMode(TRANSPARENT);
+	dc->SetTextColor(text);
+	dc->DrawTextW(caption, label, DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS);
 }
 
 INT_PTR CPPageInternalFiltersListBox::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
