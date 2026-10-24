@@ -31,7 +31,6 @@
 #include "DSUtil/std_helper.h"
 #include "filters/switcher/AudioSwitcher/IAudioSwitcherFilter.h"
 #include "AppSettings.h"
-#include "../../../shared/familydefaults.h"
 #include "DSUtil/HTTPAsync.h"
 
 #include "PPageExternalFilters.h"
@@ -196,17 +195,8 @@ void CAppSettings::CreateCommands()
 	wmcmds.clear();
 	wmcmds.reserve(189);
 
-	auto addcmd = [&](WORD cmd, DWORD caption, WORD key = 0, BYTE modifiers = 0,
-			UINT appcmd = 0, UINT mouse = wmcmd::NONE, UINT mouseFS = wmcmd::NONE,
-			LPCSTR remote = "", int repeat = 5) {
-		// Resolve before construction so wmcmd::Restore keeps the family default.
-		switch (cmd) {
-#define FOXICMP_FAMILY_COMMAND(qtId, classicId, shortcut, nativeKey, nativeModifiers) \
-		case classicId: key = nativeKey; modifiers = nativeModifiers; break;
-#include "../../../shared/familycommands.inc"
-#undef FOXICMP_FAMILY_COMMAND
-		}
-		wmcmds.emplace_back(cmd, caption, key, modifiers, appcmd, mouse, mouseFS, remote, repeat);
+	auto addcmd = [&](auto... args) {
+		wmcmds.emplace_back(args...);
 	};
 
 	addcmd(ID_FILE_OPENFILE,			IDS_AG_OPEN_FILE,			'Q', FCONTROL);
@@ -470,13 +460,13 @@ void CAppSettings::ResetSettings()
 	fKeepAspectRatio = true;
 	fCompMonDeskARDiff = false;
 
-	nVolume = FoxicMPFamily::Volume;
+	nVolume = 100;
 	nBalance = 0;
-	fMute = FoxicMPFamily::Mute;
+	fMute = false;
 	nLoops = 1;
 	fLoopForever = false;
 	fRewind = false;
-	nVolumeStep = FoxicMPFamily::VolumeStep;
+	nVolumeStep = 5;
 	nSpeedStep = 0; // auto
 	bSpeedNotReset = false;
 
@@ -507,7 +497,7 @@ void CAppSettings::ResetSettings()
 
 	bKeepHistory = true;
 	nHistoryEntriesMax = 200;
-	bRememberFilePos = FoxicMPFamily::RememberPosition;
+	bRememberFilePos = false;
 	bRememberDVDPos = false;
 
 	bRecentFilesMenuEllipsis = true;
@@ -583,11 +573,11 @@ void CAppSettings::ResetSettings()
 	nAutoScaleFactor = 100;
 	nAutoFitFactor = 50;
 	bResetWindowAfterClosingFile = false;
-	bRememberWindowPos = FoxicMPFamily::RememberGeometry;
+	bRememberWindowPos = true;
 	ptLastWindowPos.SetPoint(0, 0);
 	szLastWindowSize.SetSize(0, 0);
 	nLastWindowType = SIZE_RESTORED;
-	bLimitWindowProportions = FoxicMPFamily::KeepWindowVideoAspect;
+	bLimitWindowProportions = false;
 	bSnapToDesktopEdges = false;
 
 	bShufflePlaylistItems = false;
@@ -687,7 +677,7 @@ void CAppSettings::ResetSettings()
 	bDarkTitle = true;
 	bRemoveWindowBorder = true;
 
-	ShowOSD.Enable = FoxicMPFamily::Osd;
+	ShowOSD.Enable = 0;
 	bOSDRemainingTime = false;
 	bOSDLocalTime = false;
 	bOSDFileName = false;
@@ -706,9 +696,9 @@ void CAppSettings::ResetSettings()
 	clrGrad1ABGR = RGB(32, 40, 48);
 	clrGrad2ABGR = RGB(32, 40, 48);
 
-	nJumpDistS = FoxicMPFamily::SeekSmallMs;
-	nJumpDistM = FoxicMPFamily::SeekMediumMs;
-	nJumpDistL = FoxicMPFamily::SeekLargeMs;
+	nJumpDistS = DEFAULT_JUMPDISTANCE_1;
+	nJumpDistM = DEFAULT_JUMPDISTANCE_2;
+	nJumpDistL = DEFAULT_JUMPDISTANCE_3;
 
 	iDlgPropX = 0;
 	iDlgPropY = 0;
