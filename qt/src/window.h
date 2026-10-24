@@ -103,6 +103,8 @@ private:
   void playIndex(int index, double start = -1, bool resetOrder = true,
                  bool preservePasses = false, bool hold = false);
   bool advancePlaylist(bool forward, bool natural = false);
+  bool advanceDirectory(bool forward);
+  void navigateSkip(int direction);
   void syncPlaylist();
   void selectPlaybackList(QListWidget *list);
   void removePlaylistSelection();

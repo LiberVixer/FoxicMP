@@ -121,6 +121,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
   layout->addWidget(bar);
   auto button = [&](const QString &id, const QString &icon) {
     auto *b = new QToolButton;
+    b->setObjectName("control_" + id);
     b->setDefaultAction(actions[id]);
     actions[id]->setIcon(controlIcon(icon));
     b->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -730,10 +731,10 @@ void Window::buildActions() {
     releaseProgressive();
     player->command({"stop"});
   });
-  add("previous", uiTr("Предыдущий файл"), "PgUp",
-      [this] { advancePlaylist(false); });
-  add("next", uiTr("Следующий файл"), "PgDown",
-      [this] { advancePlaylist(true); });
+  add("previous", uiTr("Предыдущий"), "PgUp",
+      [this] { navigateSkip(-1); });
+  add("next", uiTr("Следующий"), "PgDown",
+      [this] { navigateSkip(1); });
   add("playlist", uiTr("Плейлист"), "Ctrl+L", [this] {
     dock->setVisible(!dock->isVisible());
     showFullscreenControls();
@@ -1074,6 +1075,22 @@ bool Window::eventFilter(QObject *object, QEvent *event) {
   auto *widget = qobject_cast<QWidget *>(object);
   if (!widget || (widget != this && !isAncestorOf(widget)))
     return false;
+  if (auto *button = qobject_cast<QToolButton *>(object);
+      button && event->type() == QEvent::MouseButtonPress) {
+    auto *mouse = static_cast<QMouseEvent *>(event);
+    if (mouse->button() == Qt::RightButton) {
+      const QString id = button->objectName().mid(QString("control_").size());
+      if (id == "open") {
+        refreshLibraryMenus();
+        historyMenu->popup(button->mapToGlobal(QPoint(0, button->height())));
+        return true;
+      }
+      if (id == "frameNext") {
+        goToTime();
+        return true;
+      }
+    }
+  }
   if (object == time && event->type() == QEvent::MouseButtonPress &&
       static_cast<QMouseEvent *>(event)->button() == Qt::LeftButton) {
     profile.settings.setValue("ui/remainingTime", !profile.settings.value("ui/remainingTime", false).toBool());
@@ -1717,6 +1734,40 @@ bool Window::advancePlaylist(bool forward, bool natural) {
     return false;
   playIndex(next, natural ? 0 : -1, false, natural);
   return true;
+}
+bool Window::advanceDirectory(bool forward) {
+  const QFileInfo currentFile(current);
+  if (!currentFile.isFile() || !playlist)
+    return false;
+  const QStringList files =
+      MediaSource::filesInDirectory(currentFile.absolutePath());
+  const int index = files.indexOf(currentFile.absoluteFilePath());
+  if (index < 0 || files.size() < 2)
+    return false;
+  const int row = index + (forward ? 1 : -1);
+  if (row < 0 || row >= files.size())
+    return false;
+  for (int i = 0; i < playlist->count(); ++i) {
+    if (playlist->item(i)->data(PlaylistPanel::Source).toString() == files[row]) {
+      playIndex(i, 0);
+      return true;
+    }
+  }
+  queuePanel->append(playlist, {files[row]});
+  playIndex(playlist->count() - 1, 0);
+  return true;
+}
+void Window::navigateSkip(int direction) {
+  if (stopped || stdinPlayback || DeviceSource::isLive(current))
+    return;
+  // Match Classic: toolbar buttons first move between chapters, then files.
+  if (timeline->chapters.size() > 1) {
+    changeChapter(direction);
+    return;
+  }
+  if (advancePlaylist(direction > 0) || advanceDirectory(direction > 0))
+    return;
+  showOsd(direction > 0 ? uiTr("Последний файл") : uiTr("Первый файл"));
 }
 void Window::removePlaylistSelection() { queuePanel->removeSelected(); }
 void Window::movePlaylistSelection(int delta) {
