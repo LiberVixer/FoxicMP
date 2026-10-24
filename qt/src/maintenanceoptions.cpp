@@ -5,7 +5,7 @@
 #include <QtWidgets>
 
 QVariantMap Window::diagnosticRuntime() const {
-  QVariantMap data{{"application", "FoxicMP Qt"}, {"version", QCoreApplication::applicationVersion()},
+  QVariantMap data{{"application", "FoxiqMP qt"}, {"version", QCoreApplication::applicationVersion()},
                    {"platformPlugin", QGuiApplication::platformName()},
                    {"profileDirectory", profile.directory}, {"source", current},
                    {"lastError", lastError}, {"stopped", stopped}, {"paused", paused},
@@ -41,7 +41,7 @@ void Window::maintenanceDialog(bool checkUpdates) {
   auto *layout = new QVBoxLayout(dialog);
   auto *form = new QFormLayout;
   layout->addLayout(form);
-  auto *version = new QLabel(uiPlatformTr("FoxicMP Qt %1 — Linux x64", "FoxicMP Qt %1 — Windows x64").arg(QCoreApplication::applicationVersion()));
+  auto *version = new QLabel(uiPlatformTr("FoxiqMP qt %1 — Linux x64", "FoxiqMP qt %1 — Windows x64").arg(QCoreApplication::applicationVersion()));
   version->setObjectName("maintenanceVersion");
   form->addRow(version);
   auto *previews = new QCheckBox(uiTr("Учитывать предварительные выпуски Qt"));
@@ -113,7 +113,7 @@ void Window::maintenanceDialog(bool checkUpdates) {
     check->setEnabled(true);
     if (result == "available") {
       *releasePage = page; open->setEnabled(true);
-      updateStatus->setText(uiTr("Доступна FoxicMP Qt %1. Текущая версия: %2.").arg(latest, QCoreApplication::applicationVersion()));
+      updateStatus->setText(uiTr("Доступна FoxiqMP qt %1. Текущая версия: %2.").arg(latest, QCoreApplication::applicationVersion()));
     } else if (result == "current")
       updateStatus->setText(uiPlatformTr("Более новой Linux/Qt-сборки нет. Опубликована %1; установлена %2.", "Более новой Windows/Qt-сборки нет. Опубликована %1; установлена %2.").arg(latest, QCoreApplication::applicationVersion()));
     else if (result == "unpublished")

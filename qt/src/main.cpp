@@ -1,4 +1,5 @@
 #include "devicesource.h"
+#include "branding.h"
 #include "windowsruntime.h"
 #include "stdinstream.h"
 #ifdef Q_OS_WIN
@@ -43,7 +44,7 @@ int main(int argc, char **argv) {
 #else
   app.setApplicationName("FoxicMPQt");
 #endif
-  app.setApplicationVersion("0.1.70");
+  app.setApplicationVersion("0.1.71");
   Q_INIT_RESOURCE(resources);
   const QFileInfo startupIni(QDir(QCoreApplication::applicationDirPath()).filePath("FoxicMPQt.ini"));
   // Recovery must not read the broken INI or its configured external language
@@ -54,7 +55,7 @@ int main(int argc, char **argv) {
     I18n::load(startupLanguage, QCoreApplication::applicationDirPath());
   }
   QCommandLineParser parser;
-  parser.setApplicationDescription(uiTr("FoxicMP Qt — переносимый медиаплеер"));
+  parser.setApplicationDescription(uiTr("FoxiqMP qt — переносимый медиаплеер"));
   parser.addHelpOption();
   parser.addVersionOption();
   parser.addOption({"harvester-session",
@@ -282,7 +283,7 @@ int main(int argc, char **argv) {
   applyTheme(app);
   Profile profile(directory);
   if (!profile.lease.valid() || !profile.writable()) {
-    QMessageBox::critical(nullptr, "FoxicMP Qt",
+    QMessageBox::critical(nullptr, "FoxiqMP qt",
                           uiTr("Папка профиля недоступна для записи."));
     return 1;
   }
@@ -325,7 +326,7 @@ int main(int argc, char **argv) {
     }
     return code;
   } catch (const std::exception &e) {
-    QMessageBox::critical(nullptr, "FoxicMP Qt", QString::fromUtf8(e.what()));
+    QMessageBox::critical(nullptr, "FoxiqMP qt", QString::fromUtf8(e.what()));
     return 1;
   }
 }

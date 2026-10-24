@@ -126,7 +126,7 @@ void Window::attachTitlePreferences(QTabWidget *tabs,
   auto *help = new QLabel(uiTr(
       "{name} — имя файла; {path} — полный путь; {title} — название ролика; "
       "{state} — состояние; {position} — позиция; {duration} — длительность; "
-      "{app} — FoxicMP Qt. {{ и }} выводят фигурные скобки. "
+      "{app} — FoxiqMP qt. {{ и }} выводят фигурные скобки. "
       "В шаблоне состояние и время задаются этими полями."));
   help->setWordWrap(true);
   help->setTextFormat(Qt::PlainText);

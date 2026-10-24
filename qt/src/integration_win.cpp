@@ -58,15 +58,15 @@ constexpr auto appKey = "Software\\Classes\\Applications\\FoxicMPq.exe";
 QString Integration::desktopText(const QString &, const QString &) { return {}; }
 bool Integration::registerApplication(const QString &exe, const QString &profile, QString *error) {
   if (!pathsValid(exe, profile, error)) return false;
-  if (!put(appKey, "FriendlyAppName", "FoxicMP Qt", error) ||
+  if (!put(appKey, "FriendlyAppName", "FoxiqMP qt", error) ||
       !put(QString(appKey) + "\\DefaultIcon", {}, quoted(exe) + ",0", error) ||
       !put(QString(appKey) + "\\shell\\open\\command", {}, command(exe, profile), error)) return false;
   const QString prog = "Software\\Classes\\FoxicMPq.Media";
-  if (!put(prog, {}, "FoxicMP Qt media", error) ||
+  if (!put(prog, {}, "FoxiqMP qt media", error) ||
       !put(prog + "\\DefaultIcon", {}, quoted(exe) + ",0", error) ||
       !put(prog + "\\shell\\open\\command", {}, command(exe, profile), error) ||
-      !put("Software\\FoxicMPq\\Capabilities", "ApplicationName", "FoxicMP Qt", error) ||
-      !put("Software\\FoxicMPq\\Capabilities", "ApplicationDescription", "FoxicMP Qt media player", error)) return false;
+      !put("Software\\FoxicMPq\\Capabilities", "ApplicationName", "FoxiqMP qt", error) ||
+      !put("Software\\FoxicMPq\\Capabilities", "ApplicationDescription", "FoxiqMP qt media player", error)) return false;
   for (const auto &extension : extensions()) {
     if (!put(QString(appKey) + "\\SupportedTypes", extension, {}, error) ||
         !put("Software\\FoxicMPq\\Capabilities\\FileAssociations", extension, "FoxicMPq.Media", error) ||
@@ -80,7 +80,7 @@ bool Integration::install(const QString &exe, QString *error) { return installFo
 bool Integration::installForProfile(const QString &exe, const QString &profile, QString *error) {
   if (!registerApplication(exe, profile, error)) return false;
   const QString key = "Software\\Classes\\SystemFileAssociations\\video\\shell\\FoxicMPq";
-  if (!put(key, {}, "FoxicMP Qt", error) || !put(key, "Icon", quoted(exe) + ",0", error) ||
+  if (!put(key, {}, "FoxiqMP qt", error) || !put(key, "Icon", quoted(exe) + ",0", error) ||
       !put(key + "\\command", {}, command(exe, profile), error)) return false;
   // Also cover video suffixes whose current ProgID omits PerceivedType=video.
   for (const auto &mime : QMimeDatabase().allMimeTypes()) {
@@ -88,7 +88,7 @@ bool Integration::installForProfile(const QString &exe, const QString &profile, 
     for (const auto &suffix : mime.suffixes()) {
       if (suffix.isEmpty() || suffix.contains('\\') || suffix.contains('/')) continue;
       const auto extKey = "Software\\Classes\\SystemFileAssociations\\." + suffix + "\\shell\\FoxicMPq";
-      if (!put(extKey, {}, "FoxicMP Qt", error) || !put(extKey, "Icon", quoted(exe) + ",0", error) ||
+      if (!put(extKey, {}, "FoxiqMP qt", error) || !put(extKey, "Icon", quoted(exe) + ",0", error) ||
           !put(extKey + "\\command", {}, command(exe, profile), error)) return false;
     }
   }

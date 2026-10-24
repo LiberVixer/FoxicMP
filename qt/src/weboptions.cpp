@@ -31,7 +31,7 @@ QVariantMap Window::webState(int offset) const {
                                {"title", item->text().left(512)},
                                {"current", item == currentItem}});
     }
-  return {{"title", stopped ? QString("FoxicMP Qt") : player->get("media-title").toString().left(512)},
+  return {{"title", stopped ? QString("FoxiqMP qt") : player->get("media-title").toString().left(512)},
           {"status", remote.value("PlaybackStatus")},
           {"position", remote.value("Position").toLongLong() / 1000000.},
           {"duration", duration}, {"volume", volume->value()},
@@ -167,7 +167,7 @@ void Window::webControlDialog() {
   auto *dialog = new QDialog(this);
   dialog->setAttribute(Qt::WA_DeleteOnClose);
   dialog->setObjectName("webControlDialog");
-  dialog->setWindowTitle(uiTr("Веб-управление FoxicMP Qt"));
+  dialog->setWindowTitle(uiTr("Веб-управление FoxiqMP qt"));
   dialog->resize(820, 490);
   auto *layout = new QVBoxLayout(dialog);
   auto *note = new QLabel(uiTr("Управление из браузера на этом компьютере или в доверенной локальной сети. Сетевой доступ включается явно и использует выбранный частный IPv4-адрес. Ссылка с кодом даёт управление текущим окном; HTTP не шифрует соединение."));

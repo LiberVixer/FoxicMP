@@ -433,10 +433,10 @@ void Window::attachAppearancePreferences(QTabWidget *tabs,
     author->setMinimumWidth(author->fontMetrics().horizontalAdvance(author->text()) + 4);
     auto image = useExternal
         ? Appearance::image(Appearance::assetPath(profile.directory, edit->text()))
-        : (builtin->currentData().toInt() == 0 ? QImage() : QImage(":/classic-logo.png"));
+        : (builtin->currentData().toInt() == 0 ? QImage() : Appearance::builtinLogo(profile.settings, true));
     // Invalid external paths have the same safe fallback as the player.
     if (useExternal && image.isNull() && builtin->currentData().toInt() != 0)
-      image = QImage(":/classic-logo.png");
+      image = Appearance::builtinLogo(profile.settings, true);
     if (image.width() > 420 || image.height() > 300)
       image = image.scaled(420, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     logoPreview->setPixmap(QPixmap::fromImage(image));

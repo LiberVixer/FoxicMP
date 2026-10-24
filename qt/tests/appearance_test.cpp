@@ -303,8 +303,8 @@ private slots:
             QJsonObject{
                 {"translations",
                  QJsonObject{{"Открыть…", "Custom Open"},
-                             {"[Nemo Action]\nName=FoxicMP Qt\nComment=Открыть "
-                              "в FoxicMP Qt\nExec=/usr/bin/env ",
+                             {"[Nemo Action]\nName=FoxiqMP qt\nComment=Открыть "
+                              "в FoxiqMP qt\nExec=/usr/bin/env ",
                               "Not an executable template"}}}})
             .toJson());
     file.close();
@@ -323,7 +323,7 @@ private slots:
         qunsetenv("XDG_DATA_HOME");
     });
     qputenv("XDG_DATA_HOME", temp.filePath("xdg").toUtf8());
-    QVERIFY(Integration::install("/tmp/FoxicMP Qt/player"));
+    QVERIFY(Integration::install("/tmp/FoxiqMP qt/player"));
     QFile nemo(temp.filePath("xdg/nemo/actions/foxicmp-qt.nemo_action"));
     QVERIFY(nemo.open(QIODevice::ReadOnly));
     QVERIFY(nemo.readAll().contains("Exec=/usr/bin/env"));

@@ -1,4 +1,5 @@
 #include "windowtitle.h"
+#include "branding.h"
 #include <QDir>
 #include <QFileInfo>
 #include <QMap>
@@ -34,7 +35,7 @@ QString expand(const QString &pattern, const QMap<QString, QString> &values) {
   return clean(out);
 }
 } // namespace
-QString WindowTitle::idle() { return "FoxicMP x64 0.1.70"; }
+QString WindowTitle::idle() { return Branding::name() + " x64 0.1.71"; }
 QString WindowTitle::path(const QString &source) {
   const QUrl url(source);
   if (url.isLocalFile())

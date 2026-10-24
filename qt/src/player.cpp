@@ -61,7 +61,7 @@ Player::Player(QWidget *parent, const QString &output,
         // Qt paints on its UI thread. Keep render() from waiting
         // for an early frame's target time in either backend.
         {"video-timing-offset", "0"},
-        {"audio-client-name", "FoxicMP Qt"}})
+        {"audio-client-name", "FoxiqMP qt"}})
     mpv_set_option_string(handle, p.first, p.second);
   for (auto option = startupOptions.cbegin(); option != startupOptions.cend();
        ++option) {

@@ -45,7 +45,7 @@ public:
   bool canQuit() const { return true; }
   bool canRaise() const { return true; }
   bool hasTrackList() const { return false; }
-  QString identity() const { return "FoxicMP Qt"; }
+  QString identity() const { return "FoxiqMP qt"; }
   bool fullscreen() const {
     return remote->state().value("Fullscreen").toBool();
   }

@@ -45,7 +45,7 @@ async function api(path, body) {
 }
 function render(s) {
   snapshot = s;
-  $('title').textContent = s.title || 'FoxicMP Qt';
+  $('title').textContent = s.title || 'FoxiqMP qt';
   $('state').textContent = t(s.status);
   $('clock').textContent = clock(s.position) + ' / ' + (s.duration > 0 ? clock(s.duration) : '—');
   const seek = $('seek');

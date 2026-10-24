@@ -290,7 +290,7 @@ private slots:
       QCOMPARE(preview->pixmap().toImage().pixelColor(50, 25), QColor(Qt::green));
       internal->click(); QVERIFY(previous->isEnabled());
       QVERIFY(buttons->button(QDialogButtonBox::Apply)->isEnabled());
-      QCOMPARE(preview->pixmap().size(), QSize(256, 256));
+      QCOMPARE(preview->pixmap().size(), QSize(420, 249));
       previous->click(); QCOMPARE(choice->currentData().toInt(), 0);
       QVERIFY(preview->pixmap().isNull());
       QVERIFY(!p.settings.contains("appearance/logoId"));
@@ -300,7 +300,7 @@ private slots:
       QVERIFY(w.findChild<QLabel *>("playerLogo")->pixmap().isNull());
       next->click(); QCOMPARE(choice->currentData().toInt(), 1);
       buttons->button(QDialogButtonBox::Apply)->click();
-      QCOMPARE(w.findChild<QLabel *>("playerLogo")->pixmap().size(), QSize(256, 256));
+      QCOMPARE(w.findChild<QLabel *>("playerLogo")->pixmap().size(), QSize(505, 300));
       QTest::qWait(30);
       auto *author = d->findChild<QLabel *>("classicLogoAuthor"); QVERIFY(author);
       QVERIFY(author->width() >= author->fontMetrics().horizontalAdvance(author->text()));

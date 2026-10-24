@@ -41,16 +41,16 @@ QString Integration::desktopText(const QString &exe, const QString &profile) {
   if (!validPath(exe) || exe.contains('=') ||
       (!profile.isEmpty() && !validPath(profile)))
     return {};
-  return "[Desktop Entry]\nType=Application\nName=FoxicMP Qt\nComment=Media "
+  return "[Desktop Entry]\nType=Application\nName=FoxiqMP qt\nComment=Media "
          "Player\nExec=" +
          command(exe, profile) +
-         "\nIcon=" + QDir(QFileInfo(exe).absolutePath()).filePath("foxicmp-qt.png")
+         "\nIcon=" + QDir(QFileInfo(exe).absolutePath()).filePath("foxiqmp-qt.png")
                            .replace('\\', "\\\\") +
          "\nTerminal=false\nCategories=AudioVideo;Player;"
          "\nMimeType=" +
          Associations::mimeTypes().join(';') +
-         ";\nActions=Enqueue;\n\n[Desktop Action Enqueue]\nName=Add to FoxicMP "
-         "queue\nName[ru]=Добавить в очередь FoxicMP\nExec=" +
+         ";\nActions=Enqueue;\n\n[Desktop Action Enqueue]\nName=Add to FoxiqMP "
+         "queue\nName[ru]=Добавить в очередь FoxiqMP\nExec=" +
          command(exe, profile, true) + "\n";
 }
 static bool write(const QString &path, const QString &content, QString *error) {
@@ -105,8 +105,8 @@ bool Integration::installForProfile(const QString &exe, const QString &profile,
     dotted.append("." + extension);
   const QString action =
       QStringLiteral(
-          "[Nemo Action]\nName=FoxicMP Qt\nComment=Открыть в FoxicMP "
-          "Qt\nExec=/usr/bin/env ") +
+          "[Nemo Action]\nName=FoxiqMP qt\nComment=Открыть в FoxiqMP "
+          "qt\nExec=/usr/bin/env ") +
       quoteExec(exe) +
       (profile.isEmpty() ? QString() : " --profile " + quoteExec(profile)) +
       " -- %F\nIcon-Name=video-x-generic\nSelection=notnone\nExtensions=" +

@@ -1,4 +1,5 @@
 #include "appearance.h"
+#include "branding.h"
 #include "theme.h"
 #include <QApplication>
 #include <QDir>
@@ -76,6 +77,15 @@ QImage Appearance::image(const QString &path, int maximum) {
   reader.setAutoTransform(true);
   return reader.read();
 }
+QImage Appearance::builtinLogo(const QSettings &settings, bool preview) {
+  const auto theme = settings.value("appearance/theme", "dark").toString();
+  // Video remains black in every UI theme; the settings preview follows the
+  // dialog palette instead. Keep the wordmark readable on both surfaces.
+  const bool light = preview && (theme == "light" ||
+      (theme == "system" && qApp->palette().color(QPalette::Window).lightness() >= 128) ||
+      (theme == "custom" && QColor(settings.value("appearance/background", "#292e32").toString()).lightness() >= 128));
+  return QImage(Branding::logo(light));
+}
 QImage Appearance::logo(QSettings &settings, const QString &directory) {
   const auto path = settings.value("appearance/logoPath").toString();
   // Profiles created before the explicit mode switch used a nonempty path
@@ -85,7 +95,7 @@ QImage Appearance::logo(QSettings &settings, const QString &directory) {
     if (!external.isNull()) return external;
   }
   return settings.value("appearance/logoId", 1).toInt() == 0
-      ? QImage() : QImage(":/classic-logo.png");
+      ? QImage() : builtinLogo(settings);
 }
 QImage Appearance::toolbarCell(const QString &name) {
   if (toolbar.isNull())

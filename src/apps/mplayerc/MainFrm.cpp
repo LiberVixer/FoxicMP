@@ -137,7 +137,7 @@ public:
 };
 
 
-static LPCWSTR s_strPlayerTitle = L"FoxicMP "
+static LPCWSTR s_strPlayerTitle = L"FoxicMP Classic "
 #ifdef _WIN64
 	L"x64 "
 #endif

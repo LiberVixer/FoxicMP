@@ -7,7 +7,7 @@
 QWidget *createAssociationsPage(Profile &profile, QWidget *parent, bool deferVerification) {
   auto *page = new QWidget(parent);
   auto *layout = new QVBoxLayout(page);
-  auto *note = new QLabel(uiTr("FoxicMP Qt регистрируется как отдельное приложение Windows. "
+  auto *note = new QLabel(uiTr("FoxiqMP qt регистрируется как отдельное приложение Windows. "
       "Плеер по умолчанию выбирается в параметрах Windows. Настройки Classic, MPC и MPC-BE не изменяются."));
   note->setWordWrap(true); layout->addWidget(note);
   auto *table = new QTableWidget;
@@ -28,7 +28,7 @@ QWidget *createAssociationsPage(Profile &profile, QWidget *parent, bool deferVer
   defaults->setObjectName("windowsDefaultApps"); layout->addWidget(defaults);
   auto *install = new QPushButton(uiTr("Пункт меню для всех видеофайлов"));
   install->setObjectName("installNemoMenu"); layout->addWidget(install);
-  auto *remove = new QPushButton(uiTr("Удалить пункт меню FoxicMP Qt"));
+  auto *remove = new QPushButton(uiTr("Удалить пункт меню FoxiqMP qt"));
   remove->setObjectName("removeNemoMenu"); layout->addWidget(remove);
   auto *verify = new QCheckBox(uiTr("Проверять путь в меню при запуске"));
   verify->setObjectName("integration/checkOnStartup");
@@ -50,14 +50,14 @@ QWidget *createAssociationsPage(Profile &profile, QWidget *parent, bool deferVer
     if (Integration::installForProfile(QCoreApplication::applicationFilePath(), profile.directory, &error)) {
       profile.settings.setValue("integration/enabled", true);
       profile.settings.setValue("integration/prompted", true);
-      status->setText(uiTr("Пункт FoxicMP Qt добавлен; программа и профиль обновлены."));
+      status->setText(uiTr("Пункт FoxiqMP qt добавлен; программа и профиль обновлены."));
     } else status->setText(error);
   });
   QObject::connect(remove, &QPushButton::clicked, page, [=, &profile] {
     QString error;
     if (Integration::remove(&error)) {
       profile.settings.setValue("integration/enabled", false);
-      status->setText(uiTr("Пункт меню FoxicMP Qt удалён."));
+      status->setText(uiTr("Пункт меню FoxiqMP qt удалён."));
     } else status->setText(error);
   });
   return page;

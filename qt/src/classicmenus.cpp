@@ -1,3 +1,4 @@
+#include "branding.h"
 #include "window.h"
 #include "i18n.h"
 #include "player.h"
@@ -116,7 +117,8 @@ void Window::applyClassicMenus() {
   extra("classicShaderEditor", [this] { setProperty("foxicmpPreferencePage", "videoShadersPage"); preferences(); });
   extra("classicAbout", [this] {
     QMessageBox::about(this, uiTr("О программе"),
-                       QString("FoxicMP %1\nQt 6 + libmpv\nGPL v3").arg(QCoreApplication::applicationVersion()));
+                       QString("%1 %2\n%3\n#LiberVixer\nQt 6 + libmpv\nGPL v3")
+                           .arg(Branding::name(), QCoreApplication::applicationVersion(), Branding::edition()));
   });
   extra("classicCommandLine", [this] {
     QDialog d(this); d.setWindowTitle(uiTr("Параметры командной строки")); d.resize(720, 520);

@@ -33,6 +33,25 @@
 #include <cmath>
 
 namespace {
+class PlayerLogo final : public QLabel {
+public:
+  explicit PlayerLogo(QWidget *parent) : QLabel(parent) {
+    setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+  }
+protected:
+  void paintEvent(QPaintEvent *) override {
+    const auto image = pixmap();
+    if (image.isNull()) return;
+    QSizeF wanted = QSizeF(image.size()) / image.devicePixelRatio();
+    if (wanted.width() > width() || wanted.height() > height())
+      wanted.scale(size(), Qt::KeepAspectRatio);
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.drawPixmap(QRectF((width() - wanted.width()) / 2,
+                             (height() - wanted.height()) / 2,
+                             wanted.width(), wanted.height()), image, image.rect());
+  }
+};
 class ClassicButtonStyle final : public QProxyStyle {
 public:
   ClassicButtonStyle() : QProxyStyle("Fusion") {}
@@ -79,17 +98,16 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
   player->set("slang",
               profile.settings.value("subtitles/languages", "").toString());
   layout->addWidget(player, 1);
-  logo = new QLabel(player);
+  logo = new PlayerLogo(player);
   logo->setPixmap(
-      QPixmap(":/logo.png")
+      QPixmap::fromImage(Appearance::builtinLogo(profile.settings))
           .scaled(505, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
   logo->setAlignment(Qt::AlignCenter);
   logo->setStyleSheet("background:transparent;");
   logo->setAttribute(Qt::WA_TransparentForMouseEvents);
   auto *overlay = new QVBoxLayout(player);
-  overlay->addStretch();
+  overlay->setContentsMargins(0, 0, 0, 0);
   overlay->addWidget(logo);
-  overlay->addStretch();
   timeline = new Timeline(root);
   layout->addWidget(timeline);
   buildActions();
@@ -1779,8 +1797,8 @@ void Window::integrationPrompt() {
   if (!profile.settings.value("integration/prompted", false).toBool()) {
     profile.settings.setValue("integration/prompted", true);
     if (QMessageBox::question(
-            this, "FoxicMP Qt",
-            uiPlatformTr("Добавить FoxicMP Qt в «Открыть с помощью» и контекстное меню Nemo для видеофайлов?", "Добавить FoxicMP Qt в «Открыть с помощью» и контекстное меню Windows для видеофайлов?")) ==
+            this, "FoxiqMP qt",
+            uiPlatformTr("Добавить FoxiqMP qt в «Открыть с помощью» и контекстное меню Nemo для видеофайлов?", "Добавить FoxiqMP qt в «Открыть с помощью» и контекстное меню Windows для видеофайлов?")) ==
         QMessageBox::Yes) {
       setIntegration(true);
       profile.settings.setValue("integration/checkOnStartup", true);
@@ -1983,7 +2001,7 @@ void Window::preferences() {
                             : uiTr("Обнаружен: ") + detected);
   onlineLayout->addWidget(onlineStatus);
   onlineLayout->addWidget(new QLabel(
-      uiTr("Параметры движка применяются после перезапуска FoxicMP Qt.")));
+      uiTr("Параметры движка применяются после перезапуска FoxiqMP qt.")));
   onlineLayout->addStretch();
   tabs->addTab(onlinePage, uiTr("Онлайн"));
   if (!ClassicPreferences::loadingStep(&dialog)) return;

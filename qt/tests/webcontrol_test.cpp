@@ -362,7 +362,7 @@ private slots:
   }
   void englishDialogAndInvalidStartupPort() {
     QTemporaryDir dir;Profile p(dir.path());prepare(p);p.settings.setValue("appearance/language","en");p.settings.setValue("web/enabled",true);p.settings.setValue("web/port",1);
-    Window w(p);w.show();QVERIFY(!w.webControl->running());QVERIFY(!w.diagnosticMessages.isEmpty());w.webControlDialog();auto *dialog=w.findChild<QDialog *>("webControlDialog");QCOMPARE(dialog->windowTitle(),QString("FoxicMP Qt web control"));QVERIFY(!dialog->findChild<QPushButton *>("webOpen")->isEnabled());dialog->close();w.close();p.settings.setValue("appearance/language","ru");I18n::load(p.settings,dir.path());
+    Window w(p);w.show();QVERIFY(!w.webControl->running());QVERIFY(!w.diagnosticMessages.isEmpty());w.webControlDialog();auto *dialog=w.findChild<QDialog *>("webControlDialog");QCOMPARE(dialog->windowTitle(),QString("FoxiqMP qt web control"));QVERIFY(!dialog->findChild<QPushButton *>("webOpen")->isEnabled());dialog->close();w.close();p.settings.setValue("appearance/language","ru");I18n::load(p.settings,dir.path());
   }
 };
 int main(int argc,char **argv){QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);QApplication app(argc,argv);applyTheme(app);Q_INIT_RESOURCE(resources);

@@ -572,7 +572,7 @@ private slots:
     QVERIFY2(!service.isEmpty(), qPrintable(remote->errorString()));
     QVERIFY(client->interface()->isServiceRegistered(service));
     QCOMPARE(property(service, "Identity", true).toString(),
-             QString("FoxicMP Qt"));
+             QString("FoxiqMP qt"));
     const auto commandsReply =
         call(service, "org.freedesktop.DBus.Properties", "Get",
              {"org.foxicmp.Control1", "Commands"});

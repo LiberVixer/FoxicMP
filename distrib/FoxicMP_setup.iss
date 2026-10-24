@@ -38,6 +38,7 @@
 #include "..\include\Version.h"
 
 #define app_name         "FoxicMP"
+#define display_name     "FoxicMP Classic"
 #define copyright_year   str(MPC_YEAR_COMMENTS)
 #define app_url          str(MPC_VERSION_COMMENTS)
 #if MPC_VERSION_STATUS == 1 && MPC_VERSION_REV == 0
@@ -56,16 +57,16 @@
   #define foxicmp_exe    = "FoxicMP.exe"
   #define foxicmp_ini    = "FoxicMP.ini"
   #define dxdir        = "MPC_components\DirectX\x86"
-  #define BeveledLabel = app_name + " " + app_version
-  #define Description  = app_name + " " + app_version
+  #define BeveledLabel = display_name + " " + app_version
+  #define Description  = display_name + " " + app_version
   #define VisualElementsManifest = "VisualElements\FoxicMP.VisualElementsManifest.xml"
 #else
   #define bindir       = bin_dir + "\FoxicMP_x64"
   #define foxicmp_exe    = "FoxicMP64.exe"
   #define foxicmp_ini    = "FoxicMP64.ini"
   #define dxdir        = "MPC_components\DirectX\x64"
-  #define BeveledLabel = app_name + " x64 " + app_version
-  #define Description  = app_name + " x64 " + app_version
+  #define BeveledLabel = display_name + " x64 " + app_version
+  #define Description  = display_name + " x64 " + app_version
   #define VisualElementsManifest = "VisualElements\FoxicMP64.VisualElementsManifest.xml"
 #endif
 #define mpcvr_desc     = "MPC Video Renderer 0.10.7"
@@ -77,22 +78,22 @@
 AppId={{EB831F59-021B-4CB0-A535-7B96DCD362B9}
 DefaultGroupName={#app_name}
 OutputBaseFilename={#app_name}.{#app_version}.x86
-UninstallDisplayName={#app_name} {#app_version}
-AppName={#app_name}
-AppVerName={#app_name} {#app_version}
-VersionInfoDescription={#app_name} Setup
-VersionInfoProductName={#app_name}
+UninstallDisplayName={#display_name} {#app_version}
+AppName={#display_name}
+AppVerName={#display_name} {#app_version}
+VersionInfoDescription={#display_name} Setup
+VersionInfoProductName={#display_name}
 #else
 AppId={{4F3B8FF2-2B11-479F-975E-6DA263E2C1E6}
 DefaultGroupName={#app_name} x64
 OutputBaseFilename={#app_name}.{#app_version}.x64
-UninstallDisplayName={#app_name} x64 {#app_version}
+UninstallDisplayName={#display_name} x64 {#app_version}
 ArchitecturesAllowed=x64 arm64
 ArchitecturesInstallIn64BitMode=x64 arm64
-AppName={#app_name} x64
-AppVerName={#app_name} x64 {#app_version}
-VersionInfoDescription={#app_name} x64 Setup
-VersionInfoProductName={#app_name} x64
+AppName={#display_name} x64
+AppVerName={#display_name} x64 {#app_version}
+VersionInfoDescription={#display_name} x64 Setup
+VersionInfoProductName={#display_name} x64
 #endif
 AppVersion={#app_version}
 AppPublisher={#app_name} Team
@@ -272,19 +273,19 @@ Source: "MPC_components\MpcImageSource\MpcImageSource64.ax"; DestDir: "{app}\Fil
 
 [Icons]
 #ifdef Win32Build
-Name: {group}\{#app_name};                           Filename: {app}\{#foxicmp_exe};      Comment: {#app_name} {#app_version};            WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0
-Name: {commondesktop}\{#app_name};                   Filename: {app}\{#foxicmp_exe};      Comment: {#app_name} {#app_version};            WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0; Tasks: desktopicon\common
-Name: {userdesktop}\{#app_name};                     Filename: {app}\{#foxicmp_exe};      Comment: {#app_name} {#app_version};            WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0; Tasks: desktopicon\user
-Name: {group}\{cm:UninstallProgram,{#app_name}};     Filename: {uninstallexe};          Comment: {cm:UninstallProgram,{#app_name}};     WorkingDir: {app}
+Name: {group}\{#display_name};                           Filename: {app}\{#foxicmp_exe};      Comment: {#display_name} {#app_version};            WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0
+Name: {commondesktop}\{#display_name};                   Filename: {app}\{#foxicmp_exe};      Comment: {#display_name} {#app_version};            WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0; Tasks: desktopicon\common
+Name: {userdesktop}\{#display_name};                     Filename: {app}\{#foxicmp_exe};      Comment: {#display_name} {#app_version};            WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0; Tasks: desktopicon\user
+Name: {group}\{cm:UninstallProgram,{#display_name}};     Filename: {uninstallexe};          Comment: {cm:UninstallProgram,{#display_name}};     WorkingDir: {app}
 #else
-Name: {group}\{#app_name} x64;                       Filename: {app}\{#foxicmp_exe};      Comment: {#app_name} {#app_version} x64;        WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0
-Name: {commondesktop}\{#app_name} x64;               Filename: {app}\{#foxicmp_exe};      Comment: {#app_name} {#app_version} x64;        WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0; Tasks: desktopicon\common
-Name: {userdesktop}\{#app_name} x64;                 Filename: {app}\{#foxicmp_exe};      Comment: {#app_name} {#app_version} x64;        WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0; Tasks: desktopicon\user
-Name: {group}\{cm:UninstallProgram,{#app_name} x64}; Filename: {uninstallexe};          Comment: {cm:UninstallProgram,{#app_name} x64}; WorkingDir: {app}
+Name: {group}\{#display_name} x64;                       Filename: {app}\{#foxicmp_exe};      Comment: {#display_name} {#app_version} x64;        WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0
+Name: {commondesktop}\{#display_name} x64;               Filename: {app}\{#foxicmp_exe};      Comment: {#display_name} {#app_version} x64;        WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0; Tasks: desktopicon\common
+Name: {userdesktop}\{#display_name} x64;                 Filename: {app}\{#foxicmp_exe};      Comment: {#display_name} {#app_version} x64;        WorkingDir: {app}; IconFilename: {app}\{#foxicmp_exe}; IconIndex: 0; Tasks: desktopicon\user
+Name: {group}\{cm:UninstallProgram,{#display_name} x64}; Filename: {uninstallexe};          Comment: {cm:UninstallProgram,{#display_name} x64}; WorkingDir: {app}
 #endif
 Name: {group}\Changelog;                             Filename: {app}\Changelog.txt;     Comment: {cm:ViewChangelog};                    WorkingDir: {app}
 Name: {group}\ChangelogRus;                          Filename: {app}\Changelog.Rus.txt; Comment: {cm:ViewChangelog};                    WorkingDir: {app}
-Name: {group}\{cm:ProgramOnTheWeb,{#app_name}};      Filename: {#app_url}
+Name: {group}\{cm:ProgramOnTheWeb,{#display_name}};      Filename: {#app_url}
 
 [Run]
 Filename: "{app}\{#foxicmp_exe}";      WorkingDir: "{app}"; Flags: nowait postinstall skipifsilent unchecked;           Description: "{cm:LaunchProgram,{#app_name}}"

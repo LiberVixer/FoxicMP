@@ -181,15 +181,15 @@ BEGIN
             VALUE "FileVersion", MPC_VERSION_FULL_STR
             VALUE "LegalCopyright", MPC_COPYRIGHT_STR
 #ifdef _WIN64
-            VALUE "FileDescription", "Foxic Media Player x64"
+            VALUE "FileDescription", "FoxicMP Classic x64"
             VALUE "InternalName", "FoxicMP64"
             VALUE "OriginalFilename", "FoxicMP64.exe"
-            VALUE "ProductName", "Foxic Media Player x64"
+            VALUE "ProductName", "FoxicMP Classic x64"
 #else
-            VALUE "FileDescription", "Foxic Media Player"
+            VALUE "FileDescription", "FoxicMP Classic"
             VALUE "InternalName", "FoxicMP"
             VALUE "OriginalFilename", "FoxicMP.exe"
-            VALUE "ProductName", "Foxic Media Player"
+            VALUE "ProductName", "FoxicMP Classic"
 #endif
             VALUE "ProductVersion", MPC_VERSION_STR
         END

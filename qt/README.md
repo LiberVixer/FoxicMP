@@ -1,7 +1,11 @@
-# FoxicMP Qt — Linux
+# FoxiqMP qt — Windows / Linux
 
 Native Qt 6 Widgets + libmpv player. First target: Linux Mint 22.x x64.
-This is a **0.1.70 development preview**, separate from FoxicMP Classic Windows.
+This is a **0.1.71 development preview**, separate from FoxicMP Classic Windows.
+
+0.1.71 names both Qt editions FoxiqMP qt. Emerald icons distinguish them from
+FoxicMP Classic; the built-in logos identify Windows QT / Linux QT and #LiberVixer.
+Existing profile, executable and IPC names remain compatible.
 
 0.1.70 removes the Windows 11 window outline, defaults video-area dragging to
 left-click, and seeds new Windows profiles from the configured preferences.
