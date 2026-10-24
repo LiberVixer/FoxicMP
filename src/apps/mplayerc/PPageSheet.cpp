@@ -106,7 +106,21 @@ END_MESSAGE_MAP()
 
 void CPPageSheet::AddCategorizedPage(CPropertyPage* page, LPCWSTR category, LPCWSTR name)
 {
-	CString title; title.Format(L"%s::%s", category, name);
+	const bool russian = AfxGetAppSettings().iCurrentLanguage == CMPlayerCApp::GetLanguageIndex(ID_LANGUAGE_RUSSIAN);
+	CString localized(category);
+	if (russian) {
+		if (localized == L"General") localized = L"\x041E\x0431\x0449\u0438\u0435";
+		else if (localized == L"Interface and window") localized = L"\x0418\x043D\x0442\u0435\u0440\u0444\u0435\u0439\x0441 \x0438 \x043E\x043A\u043D\u043E";
+		else if (localized == L"Control") localized = L"\x0423\x043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435";
+		else if (localized == L"Playback") localized = L"\x0412\x043E\x0441\x043F\x0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u0435";
+		else if (localized == L"Video") localized = L"\x0412\x0438\x0434\x0435\u043E";
+		else if (localized == L"Audio") localized = L"\x0410\x0443\u0434\u0438\u043E";
+		else if (localized == L"Subtitles") localized = L"\x0421\x0443\u0431\u0442\u0438\u0442\u0440\u044b";
+		else if (localized == L"Capture and devices") localized = L"\x0421\x043D\u0438\u043C\u043A\u0438 \x0438 \x0443\u0441\u0442\u0440\u043E\u0439\u0441\u0442\u0432\u0430";
+		else if (localized == L"Online and network") localized = L"\x041E\x043D\u043B\u0430\u0439\u043D \x0438 \x0441\u0435\u0442\u044C";
+		else if (localized == L"Service") localized = L"\x0421\u0435\u0440\u0432\u0438\u0441";
+	}
+	CString title; title.Format(L"%s::%s", localized.GetString(), name);
 	m_treeTitles.push_back(title);
 	page->m_pPSP->pszTitle = m_treeTitles.back();
 	page->m_psp.dwFlags |= PSP_USETITLE;
