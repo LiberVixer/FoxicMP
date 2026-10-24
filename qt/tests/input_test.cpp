@@ -376,7 +376,6 @@ private slots:
     Profile profile(directory.path());
     prepare(profile);
     profile.settings.setValue("mouse/openLastWhenIdle", true);
-    profile.settings.setValue("mouse/windowDrag", "left");
     profile.recordRecent(media("progressive-indexed/video.mp4"));
     Window window(profile);
     window.show();

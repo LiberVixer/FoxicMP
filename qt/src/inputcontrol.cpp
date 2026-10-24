@@ -400,7 +400,7 @@ bool Window::inputEvent(QObject *object, QEvent *event) {
     pressedMouseButton = mouse->button();
     mousePressPoint = mouse->globalPosition().toPoint();
     const auto dragMode =
-        profile.settings.value("mouse/windowDrag", "altLeft").toString();
+        profile.settings.value("mouse/windowDrag", "left").toString();
     dragCandidate =
         !isFullScreen() && mouse->button() == Qt::LeftButton &&
         ((dragMode == "left" && mouse->modifiers() == Qt::NoModifier) ||
@@ -619,7 +619,7 @@ void Window::attachInputPreferences(QTabWidget *tabs,
   drag->addItem(uiTr("Alt + левая кнопка"), "altLeft");
   drag->addItem(uiTr("Левая кнопка"), "left");
   drag->setCurrentIndex(std::max(0, drag->findData(profile.settings.value(
-                                        "mouse/windowDrag", "altLeft"))));
+                                        "mouse/windowDrag", "left"))));
   form->addRow(uiTr("Перемещение окна за видео:"), drag);
   layout->addLayout(form);
   auto *last = new QCheckBox(

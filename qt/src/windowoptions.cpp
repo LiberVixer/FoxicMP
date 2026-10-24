@@ -7,6 +7,10 @@
 #include "classicstatus.h"
 #include <QtWidgets>
 #include <cmath>
+#ifdef Q_OS_WIN
+#include <windows.h>
+#include <dwmapi.h>
+#endif
 namespace {
 QString screenKey(QScreen *screen) {
   return screen->name() + "|" + screen->manufacturer() + "|" + screen->model() +
@@ -319,6 +323,20 @@ bool Window::event(QEvent *event) {
   if (event->type() == QEvent::Show)
     hiddenToTray = false;
   const bool handled = QMainWindow::event(event);
+#ifdef Q_OS_WIN
+  if ((event->type() == QEvent::WinIdChange || event->type() == QEvent::Show ||
+       event->type() == QEvent::WindowStateChange ||
+       event->type() == QEvent::WindowActivate ||
+       event->type() == QEvent::WindowDeactivate ||
+       event->type() == QEvent::ApplicationPaletteChange) && internalWinId()) {
+    // Windows 11's visible 1px DWM outline is independent of the resize frame.
+    // Remove only its paint; keep the native caption, shadow and resize handles.
+    const COLORREF noBorder = 0xfffffffe; // DWMWA_COLOR_NONE
+    DwmSetWindowAttribute(reinterpret_cast<HWND>(internalWinId()),
+                          static_cast<DWMWINDOWATTRIBUTE>(34), // BORDER_COLOR
+                          &noBorder, sizeof(noBorder));
+  }
+#endif
   if (event->type() == QEvent::WindowStateChange && screenRecoveryPending &&
       !isMinimized() && !isMaximized())
     QTimer::singleShot(150, this, &Window::keepWindowOnScreen);

@@ -61,7 +61,7 @@ void MediaOptions::apply(Player *p, QSettings &s) {
          std::clamp(s.value("subtitles/outlineSize", 2).toDouble(), 0.0, 8.0));
   p->set("sub-pos",
          std::clamp(s.value("subtitles/position", 100).toInt(), 0, 100));
-  p->set("sub-visibility", s.value("subtitles/visible", true));
+  p->set("sub-visibility", s.value("subtitles/visible", true).toBool());
   SubtitleStyle::apply(p, s,
                        p->QObject::property("foxicmpStyledCopy").toBool());
   AudioProcessing::apply(p, s);

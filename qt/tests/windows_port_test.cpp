@@ -1,6 +1,7 @@
 #include "preferencesdriver.h"
 #include "associationoptions.h"
 #include "instancebroker.h"
+#include "mediaoptions.h"
 #include "platformpaths.h"
 #include "player.h"
 #include "profile.h"
@@ -14,6 +15,8 @@
 #include <QScopeGuard>
 #include <QSslSocket>
 #include <cmath>
+#include <windows.h>
+#include <dwmapi.h>
 
 class WindowsPortTest : public QObject {
   Q_OBJECT
@@ -56,6 +59,103 @@ private slots:
       QVERIFY(a.lease.exclusive()); a.lease.shared();
     }
     Profile reopened(first.path()); QCOMPARE(reopened.settings.value("audio/volume").toInt(), 37);
+  }
+  void capturedDefaultsOnlyForNewProfiles() {
+    QTemporaryDir fresh, legacy;
+    Profile p(fresh.path());
+    QCOMPARE(p.settings.value("appearance/theme").toString(), QString("dark"));
+    QCOMPARE(p.settings.value("appearance/language").toString(), QString("ru"));
+    QCOMPARE(p.settings.value("appearance/themeBrightness").toInt(), 15);
+    QCOMPARE(p.settings.value("mouse/windowDrag").toString(), QString("left"));
+    QCOMPARE(p.settings.value("ui/showMenu").toBool(), false);
+    QCOMPARE(p.settings.value("ui/rememberGeometry").toBool(), true);
+    QCOMPARE(p.settings.value("ui/keepVideoAspect").toBool(), false);
+    QCOMPARE(p.settings.value("video/output").toString(), QString("software"));
+    QCOMPARE(p.settings.value("keys/open").toString(), QString("Ctrl+Q"));
+    QCOMPARE(p.settings.value("subtitles/font").toString(), QString("Tahoma"));
+    QVERIFY(!p.settings.value("integration/checkOnStartup").toBool());
+    for (const auto &key : p.settings.allKeys()) {
+      QVERIFY(!key.startsWith("files/") && !key.startsWith("positions/"));
+      QVERIFY(key != "history/files" && key != "playlist/tabsV1" &&
+              key != "window/geometry" && key != "integration/prompted" &&
+              key != "integration/enabled");
+    }
+    p.settings.setValue("appearance/theme", "light"); p.settings.sync();
+    Profile reopened(fresh.path());
+    QCOMPARE(reopened.settings.value("appearance/theme").toString(), QString("light"));
+    {
+      QSettings old(legacy.filePath("FoxicMPQt.ini"), QSettings::IniFormat);
+      old.setValue("audio/volume", 28); old.setValue("ui/showMenu", true);
+    }
+    Profile old(legacy.path());
+    QCOMPARE(old.settings.value("audio/volume").toInt(), 28);
+    QCOMPARE(old.settings.value("ui/showMenu").toBool(), true);
+    QVERIFY(!old.settings.contains("appearance/theme"));
+  }
+  void nativeBorderAndVideoDrag() {
+    QTemporaryDir dir; Profile profile(dir.path()); prepare(profile);
+    Window window(profile); window.move(200, 150); window.show();
+    window.raise(); window.activateWindow();
+    auto *player = window.findChild<Player *>(); QVERIFY(player);
+    QTRY_VERIFY_WITH_TIMEOUT(player->ready(), 15000);
+    const COLORREF noBorder = 0xfffffffe;
+    const auto hwnd = reinterpret_cast<HWND>(window.winId());
+    // BORDER_COLOR is set-only: DwmGetWindowAttribute returns E_INVALIDARG.
+    // Check support for suppressing the outline while retaining native resizing.
+    const auto result = DwmSetWindowAttribute(hwnd,
+        static_cast<DWMWINDOWATTRIBUTE>(34), &noBorder, sizeof(noBorder));
+    if (QSysInfo::kernelVersion().section('.', 2, 2).toInt() >= 22000)
+      QCOMPARE(result, HRESULT(S_OK));
+    QVERIFY(GetWindowLongPtr(hwnd, GWL_STYLE) & WS_THICKFRAME);
+    QVERIFY(GetWindowLongPtr(hwnd, GWL_STYLE) & WS_CAPTION);
+    QSignalSpy loaded(player, &Player::loaded);
+    window.openFiles({QDir(qEnvironmentVariable("FOXICMP_TEST_MEDIA")).filePath("chapters.mkv")});
+    QTRY_COMPARE_WITH_TIMEOUT(loaded.size(), 1, 15000);
+    QTRY_VERIFY(player->get("time-pos").toDouble() > .1);
+    const auto oldPosition = window.QWidget::pos();
+    const QPoint local(100, 100), global = player->mapToGlobal(local);
+    QMouseEvent press(QEvent::MouseButtonPress, local, global, Qt::LeftButton,
+                      Qt::LeftButton, Qt::NoModifier);
+    QApplication::sendEvent(player, &press);
+    QMouseEvent move(QEvent::MouseMove, local + QPoint(55, 25), global + QPoint(55, 25),
+                     Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+    QApplication::sendEvent(player, &move);
+    QMouseEvent release(QEvent::MouseButtonRelease, local, global + QPoint(55, 25),
+                        Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+    QApplication::sendEvent(player, &release);
+    QTRY_COMPARE(window.QWidget::pos(), oldPosition + QPoint(55, 25));
+    QTest::qWait(QApplication::doubleClickInterval() + 80);
+    QVERIFY(!player->get("pause").toBool());
+    QCOMPARE(profile.settings.value("mouse/window/left").toString(), QString("play"));
+    QSignalSpy clicks(window.findChild<QAction *>("action_play"), &QAction::triggered);
+    QTest::mouseClick(player, Qt::LeftButton, Qt::NoModifier, local);
+    QTRY_COMPARE(clicks.size(), 1);
+    QTRY_VERIFY(player->get("pause").toBool());
+    QTest::mouseDClick(player, Qt::LeftButton);
+    QTRY_VERIFY(window.isFullScreen());
+    window.findChild<QAction *>("action_fullscreen")->trigger();
+    QTRY_VERIFY(!window.isFullScreen());
+    const auto report = qEnvironmentVariable("FOXICMP_WINDOWS_REPORT");
+    if (!report.isEmpty()) {
+      // Let the video surface repaint at window size after leaving fullscreen.
+      QTest::qWait(250);
+      RECT rect; QVERIFY(GetWindowRect(hwnd, &rect));
+      QImage capture(rect.right - rect.left, rect.bottom - rect.top, QImage::Format_ARGB32);
+      capture.fill(Qt::transparent);
+      HDC dc = GetDC(hwnd), memory = CreateCompatibleDC(dc);
+      HBITMAP bitmap = CreateCompatibleBitmap(dc, capture.width(), capture.height());
+      auto previous = SelectObject(memory, bitmap);
+      QVERIFY(PrintWindow(hwnd, memory, 2));
+      BITMAPINFO info{}; info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+      info.bmiHeader.biWidth = capture.width(); info.bmiHeader.biHeight = -capture.height();
+      info.bmiHeader.biPlanes = 1; info.bmiHeader.biBitCount = 32; info.bmiHeader.biCompression = BI_RGB;
+      SelectObject(memory, previous);
+      const auto rows = GetDIBits(memory, bitmap, 0, capture.height(), capture.bits(), &info, DIB_RGB_COLORS);
+      DeleteObject(bitmap); DeleteDC(memory); ReleaseDC(hwnd, dc);
+      QCOMPARE(rows, capture.height());
+      capture = capture.convertToFormat(QImage::Format_RGB32);
+      QVERIFY(capture.save(QDir(report).filePath("native-window.png")));
+    }
   }
   void archiveAndShortcutNoOverwrite() {
     QTemporaryDir dir;
@@ -129,6 +229,19 @@ private slots:
     QVERIFY(SubtitleRender::apply(&p, profile.settings));
     QCOMPARE(p.get("sub-ass-use-video-data").toString(), QString("none"));
     QCOMPARE(errors.size(), 0);
+  }
+  void persistedSubtitleVisibility() {
+    Player p; p.show(); QTRY_VERIFY_WITH_TIMEOUT(p.ready(), 15000);
+    for (bool visible : {true, false}) {
+      QTemporaryDir dir;
+      QFile file(dir.filePath("FoxicMPQt.ini")); QVERIFY(file.open(QIODevice::WriteOnly));
+      file.write(visible ? "[subtitles]\nvisible=true\n" : "[subtitles]\nvisible=false\n"); file.close();
+      Profile profile(dir.path()); prepare(profile);
+      QSignalSpy errors(&p, &Player::error);
+      MediaOptions::apply(&p, profile.settings);
+      QCOMPARE(p.get("sub-visibility").toBool(), visible);
+      QCOMPARE(errors.size(), 0);
+    }
   }
   void settingsAndNativeAssociationsPage() {
     QTemporaryDir dir; Profile profile(dir.path()); prepare(profile);

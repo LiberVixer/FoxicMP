@@ -1,7 +1,12 @@
 # FoxicMP Qt — Linux
 
 Native Qt 6 Widgets + libmpv player. First target: Linux Mint 22.x x64.
-This is a **0.1.69 development preview**, separate from FoxicMP Classic Windows.
+This is a **0.1.70 development preview**, separate from FoxicMP Classic Windows.
+
+0.1.70 removes the Windows 11 window outline, defaults video-area dragging to
+left-click, and seeds new Windows profiles from the configured preferences.
+Existing profiles and personal playback data are preserved. Saved subtitle
+visibility is restored correctly after reopening an INI profile.
 
 0.1.69 adds a native Windows x64 build (`FoxicMPq.exe`) with portable profiles,
 Windows shortcuts and an independent application registration. Build and packaging

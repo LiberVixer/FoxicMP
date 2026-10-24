@@ -1,0 +1,49 @@
+FoxicMP Qt 0.1.70 — Windows window behavior and installation defaults
+2026-10-24
+
+Target: Windows 11 Enterprise x64, build 26200, Qt 6.12 / GCC 16.2 UCRT64.
+Installed application: C:\FoxBroxer\Prg\FoxicMPq\FoxicMPq.exe.
+
+Changes:
+- Suppress the Windows 11 DWM outline with DWMWA_BORDER_COLOR / COLOR_NONE.
+  Retain the native caption, sizing frame and shadow. Reapply on handle/show,
+  activation, palette and window-state changes; no system preferences changed.
+- Default video-area window dragging to unmodified left button. Keep the drag
+  threshold, suppress the click after a drag, retain click pause / double-click
+  fullscreen. Existing explicit mouse choices remain valid.
+- Embed 617 preference entries captured from the configured Windows Qt player.
+  Apply only to empty Windows profiles. Exclude playback library, history,
+  positions, absolute window geometry and integration consent. No user file
+  paths, tokens or device identifiers are bundled. Do not seed Linux with the
+  Windows fonts, device/platform preferences or integration choices.
+- Preserve saved values in unversioned profiles when adding profile/version.
+- Convert saved subtitle visibility to bool before applying it to libmpv, so
+  reopening an INI profile cannot submit the unsupported string "true"/"false".
+
+Validation:
+- Windows portable suite: 20 passed, zero failures; process exit 0. Tests run
+  with only the application and Windows system directories available on PATH.
+  Includes new/legacy-profile preservation, native caption/resizing styles,
+  accepted DWM outline suppression, left-button drag without pause, click pause
+  and double-click fullscreen, plus the existing six-codec and CLI/stdin tests.
+- One broad run timed out in the stdin CLI test; a standalone Python
+  communicate run and three isolated Unicode/stdin repetitions then exited 0.
+  The final broad run passed all 20 checks and exited 0 (36.238 seconds).
+- BORDER_COLOR supports DwmSetWindowAttribute, not DwmGetWindowAttribute.
+  A get request returns E_INVALIDARG and is not evidence that setting failed.
+  API reference: https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute
+- Live desktop capture: restoring the default border then suppressing it changes
+  exactly 4108 perimeter pixels of a 1274 x 782 visible frame (one-pixel outline).
+  The initial application capture matches the suppressed-border capture exactly.
+- Linux CTest: window-presentation, input-control, profile-archives all PASS
+  (13 + 10 + 33 QtTest cases, 105.67 seconds). Isolated Xvfb / D-Bus / null audio.
+- English catalog: 1699 source strings covered, 1804 entries, placeholders valid.
+- Installed Linux application reports FoxicMPQt 0.1.70. Before/after installation
+  INI hashes matched byte-for-byte (later normal user playback may update it):
+  SHA256 f81315636f6d9eabc331c86e6e8ff2e8a825d04492479e5ecb19581516cb1aec.
+- Current Windows profile: only mouse/windowDrag changes from altLeft to left;
+  the remaining values match the original snapshot semantically.
+
+Private build/test reports and screenshots remain in
+C:\FoxBroxer\Build\FoxicMPq. Test media, profiles and library contents are not
+included in source control or application packages.

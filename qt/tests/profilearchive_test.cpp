@@ -2,6 +2,7 @@
 #include "profile.h"
 #include "profilearchive.h"
 #include "profileoptions.h"
+#include "mediaoptions.h"
 #include "window.h"
 #include <QtTest>
 #include <QtWidgets>
@@ -29,6 +30,33 @@ class ProfileArchiveTest : public QObject {
         qEnvironmentVariable("FOXICMP_TEST_OUTPUT", "software"));
   }
 private slots:
+  void persistedSubtitleVisibility() {
+    Player player; player.show(); QTRY_VERIFY_WITH_TIMEOUT(player.ready(), 15000);
+    for (bool visible : {true, false}) {
+      QTemporaryDir dir;
+      write(dir.filePath("FoxicMPQt.ini"),
+            visible ? "[subtitles]\nvisible=true\n" : "[subtitles]\nvisible=false\n");
+      Profile profile(dir.path()); prepare(profile);
+      QSignalSpy errors(&player, &Player::error);
+      MediaOptions::apply(&player, profile.settings);
+      QCOMPARE(player.get("sub-visibility").toBool(), visible);
+      QCOMPARE(errors.size(), 0);
+    }
+  }
+  void unversionedProfileRetainsPreferences() {
+    QTemporaryDir dir;
+    {
+      QSettings old(dir.filePath("FoxicMPQt.ini"), QSettings::IniFormat);
+      old.setValue("audio/volume", 28);
+      old.setValue("playback/rememberPosition", false);
+      old.setValue("appearance/theme", "light");
+    }
+    Profile old(dir.path());
+    QCOMPARE(old.settings.value("audio/volume").toInt(), 28);
+    QCOMPARE(old.settings.value("playback/rememberPosition").toBool(), false);
+    QCOMPARE(old.settings.value("appearance/theme").toString(), QString("light"));
+    QCOMPARE(old.settings.value("profile/version").toInt(), 1);
+  }
   void roundTripTypedSettingsAssetsAndLibrary() {
     QTemporaryDir temp;
     const auto original = temp.filePath("source");

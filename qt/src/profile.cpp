@@ -24,13 +24,24 @@ Profile::Profile(const QString &dir)
       directory(dir) {
   if (!lease.valid())
     return;
+#ifdef Q_OS_WIN
+  // A saved profile always wins, including older profiles without a version.
+  // Keep the captured preferences in core so they also work before any UI exists.
+  if (settings.allKeys().isEmpty()) {
+    Q_INIT_RESOURCE(profiledefaults);
+    const QSettings defaults(":/windows-defaults.ini", QSettings::IniFormat);
+    for (const auto &name : defaults.allKeys())
+      settings.setValue(name, defaults.value(name));
+  }
+#endif
   if (!settings.contains("profile/version")) {
     settings.setValue("profile/version", 1);
-    settings.setValue("audio/volume", 75);
-    settings.setValue("audio/mute", false);
-    settings.setValue("playback/rememberPosition", true);
-    settings.setValue("playback/hardwareDecoding", true);
-    settings.setValue("integration/checkOnStartup", false);
+    const QVariantMap defaults{{"audio/volume", 75}, {"audio/mute", false},
+        {"playback/rememberPosition", true}, {"playback/hardwareDecoding", true},
+        {"integration/checkOnStartup", false}};
+    for (auto it = defaults.begin(); it != defaults.end(); ++it)
+      if (!settings.contains(it.key()))
+        settings.setValue(it.key(), it.value());
   }
 }
 bool Profile::writable() const {
