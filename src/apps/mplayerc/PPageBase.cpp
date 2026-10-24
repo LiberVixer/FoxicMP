@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include "MainFrm.h"
 #include "PPageBase.h"
+#include "SettingsTheme.h"
 
 // CPPageBase dialog
 
@@ -85,6 +86,8 @@ END_MESSAGE_MAP()
 
 BOOL CPPageBase::OnSetActive()
 {
+	ApplyClassicSettingsTheme(GetParent()->GetSafeHwnd());
+
 	AfxGetAppSettings().nLastUsedPage = (UINT)(ULONG_PTR)m_pPSP->pszTemplate;
 
 	return __super::OnSetActive();
@@ -99,6 +102,8 @@ void CPPageBase::OnDestroy()
 
 BOOL CPPageBase::OnApply()
 {
+	GetParent()->PostMessageW(WM_CLASSIC_SETTINGS_THEME);
+
 	if (auto pMainFrame = AfxFindMainFrame()) { // need dynamic_cast, because CPPageFormats can be run in a separate process without CMainFrame.
 		pMainFrame->PostMessageW(WM_SAVESETTINGS);
 	}

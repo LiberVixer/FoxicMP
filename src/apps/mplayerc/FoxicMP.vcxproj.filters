@@ -93,6 +93,9 @@
     <ClCompile Include="PPageAudio.cpp">
       <Filter>Player Options</Filter>
     </ClCompile>
+    <ClCompile Include="SettingsTheme.cpp">
+      <Filter>Player Options</Filter>
+    </ClCompile>
     <ClCompile Include="PPageBase.cpp">
       <Filter>Player Options</Filter>
     </ClCompile>
@@ -603,6 +606,9 @@
       <Filter>Player Options</Filter>
     </ClInclude>
     <ClInclude Include="PPagePlayer.h">
+      <Filter>Player Options</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsTheme.h">
       <Filter>Player Options</Filter>
     </ClInclude>
     <ClInclude Include="PPageSheet.h">

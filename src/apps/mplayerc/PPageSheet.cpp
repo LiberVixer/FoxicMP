@@ -21,7 +21,37 @@
 
 #include "stdafx.h"
 #include "PPageSheet.h"
+#include "SettingsTheme.h"
+#include <ExtLib/ui/TreePropSheet/PropPageFrameDefault.h>
 #include <HighDPI.h>
+
+// Preserve the native page frame/layout, changing only its dark-mode palette.
+namespace {
+class CSettingsPageFrame : public TreePropSheet::CPropPageFrameDefault
+{
+    BOOL OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* result) override
+    {
+        if (message == WM_ERASEBKGND && ClassicSettingsUseDarkTheme()) {
+            CRect rect; GetClientRect(rect);
+            CDC::FromHandle(reinterpret_cast<HDC>(wParam))->FillSolidRect(rect, RGB(32, 36, 40));
+            *result = TRUE;
+            return TRUE;
+        }
+        return __super::OnWndMsg(message, wParam, lParam, result);
+    }
+    void DrawCaption(CDC* dc, CRect rect, LPCTSTR caption, HICON icon) override
+    {
+        if (!ClassicSettingsUseDarkTheme()) {__super::DrawCaption(dc, rect, caption, icon); return;}
+        dc->FillSolidRect(rect, RGB(44, 50, 56));
+        const int saved = dc->SaveDC();
+        dc->SetBkMode(TRANSPARENT); dc->SetTextColor(RGB(226, 230, 234));
+        if (CFont* font = GetParent()->GetFont()) dc->SelectObject(font);
+        rect.left += 3;
+        dc->DrawTextW(caption, rect, DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS);
+        dc->RestoreDC(saved);
+    }
+};
+}
 
 // CPPageSheet
 
@@ -98,6 +128,11 @@ CTreeCtrl* CPPageSheet::CreatePageTreeObject()
 	return DNew CTreePropSheetTreeCtrl();
 }
 
+TreePropSheet::CPropPageFrame* CPPageSheet::CreatePageFrame()
+{
+	return DNew CSettingsPageFrame;
+}
+
 BEGIN_MESSAGE_MAP(CPPageSheet, CTreePropSheet)
 	ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
@@ -116,6 +151,7 @@ BOOL CPPageSheet::OnInitDialog()
 		GetPageTreeControl()->EnableWindow (FALSE);
 	}
 
+	ApplyClassicSettingsTheme(m_hWnd);
 	return bResult;
 }
 

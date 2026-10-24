@@ -101,6 +101,7 @@ private:
 	CPPageMisc            m_misc;
 
 	CTreeCtrl* CreatePageTreeObject();
+	TreePropSheet::CPropPageFrame* CreatePageFrame() override;
 
 public:
 	CPPageSheet(LPCWSTR pszCaption, CWnd* pParentWnd, UINT idPage = 0);
