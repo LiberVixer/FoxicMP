@@ -180,24 +180,12 @@ void CPPageInternalFiltersListBox::DrawItem(LPDRAWITEMSTRUCT drawItem)
 	const COLORREF text = enabled ? RGB(226, 230, 234) : RGB(139, 146, 153);
 	dc->FillSolidRect(rect, background);
 
-	const int size = std::min(rect.Height() - 4, 13);
-	CRect mark(rect.left + 2, rect.top + (rect.Height() - size) / 2,
-		       rect.left + 2 + size, rect.top + (rect.Height() - size) / 2 + size);
-	dc->FillSolidRect(mark, RGB(23, 26, 29));
-	dc->Draw3dRect(mark, RGB(112, 168, 215), RGB(77, 85, 93));
-	if (GetCheck(static_cast<int>(drawItem->itemID)) != 0) {
-		CPen pen(PS_SOLID, 1, text);
-		CPen* oldPen = dc->SelectObject(&pen);
-		dc->MoveTo(mark.left + 3, mark.CenterPoint().y);
-		dc->LineTo(mark.left + size / 2, mark.bottom - 3);
-		dc->LineTo(mark.right - 2, mark.top + 3);
-		dc->SelectObject(oldPen);
-	}
-
 	CString caption;
 	GetText(static_cast<int>(drawItem->itemID), caption);
 	CRect label = rect;
-	label.left = mark.right + 5;
+	// CCheckListBox paints its native check mark after DrawItem. Leave that
+	// one check mark in place; drawing another here caused doubled/tripled boxes.
+	label.left = rect.left + 21;
 	dc->SetBkMode(TRANSPARENT);
 	dc->SetTextColor(text);
 	dc->DrawTextW(caption, label, DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS);

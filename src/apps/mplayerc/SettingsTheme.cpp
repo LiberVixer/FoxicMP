@@ -8,9 +8,10 @@ constexpr COLORREF Background = RGB(32, 36, 40);
 constexpr COLORREF Field = RGB(23, 26, 29);
 constexpr COLORREF Text = RGB(226, 230, 234);
 constexpr COLORREF Disabled = RGB(139, 146, 153);
-constexpr COLORREF Border = RGB(77, 85, 93);
-constexpr COLORREF Accent = RGB(112, 168, 215);
+constexpr COLORREF Border = RGB(57, 64, 70);
+constexpr COLORREF Accent = RGB(92, 139, 178);
 constexpr UINT_PTR SubclassId = 0x46535448;
+constexpr UINT_PTR ScrollbarTimerId = 0x5343524C;
 
 HBRUSH BackgroundBrush()
 {
@@ -237,7 +238,18 @@ LRESULT CALLBACK SettingsSubclass(HWND window, UINT message, WPARAM wParam, LPAR
         ApplyClassicSettingsTheme(window);
         return 0;
     }
+    if (message == WM_TIMER && wParam == ScrollbarTimerId) {
+        KillTimer(window, ScrollbarTimerId);
+        if (theme->dark) PaintScrollBars(window);
+        return 0;
+    }
     if (!theme->dark) return DefSubclassProc(window, message, wParam, lParam);
+    if (message == WM_VSCROLL || message == WM_HSCROLL || message == WM_MOUSEWHEEL ||
+        message == WM_KEYDOWN || message == WM_MOUSEMOVE || message == WM_LBUTTONDOWN || message == WM_LBUTTONUP) {
+        const LRESULT result = DefSubclassProc(window, message, wParam, lParam);
+        SetTimer(window, ScrollbarTimerId, 1, nullptr);
+        return result;
+    }
     if (message >= WM_CTLCOLORMSGBOX && message <= WM_CTLCOLORSTATIC) {
         DefSubclassProc(window, message, wParam, lParam); // Preserve control-specific status/preview handling.
         const HWND child = reinterpret_cast<HWND>(lParam);
@@ -247,6 +259,7 @@ LRESULT CALLBACK SettingsSubclass(HWND window, UINT message, WPARAM wParam, LPAR
         if (!IsWindowEnabled(child)) SetTextColor(dc, Disabled);
         else if (old == RGB(0, 0, 255)) SetTextColor(dc, RGB(111, 179, 239));
         else if (old == GetSysColor(COLOR_WINDOWTEXT) || old == RGB(0, 0, 0) || old == GetSysColor(COLOR_GRAYTEXT)) SetTextColor(dc, Text);
+        SetBkMode(dc, OPAQUE);
         SetBkColor(dc, field ? Field : Background);
         return reinterpret_cast<LRESULT>(field ? FieldBrush() : BackgroundBrush());
     }
