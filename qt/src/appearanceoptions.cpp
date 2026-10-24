@@ -1,3 +1,4 @@
+#include "../../shared/familydefaults.h"
 #include "appearance.h"
 #include "controls.h"
 #include "framepreview.h"
@@ -140,7 +141,7 @@ void Window::positionOverlays() {
 void Window::updateOverlays() {
   if (!osdInfo || !osdClock)
     return;
-  const bool enabled = profile.settings.value("ui/osd", false).toBool();
+  const bool enabled = profile.settings.value("ui/osd", FoxicMPFamily::Osd).toBool();
   QStringList info;
   if (!stopped && profile.settings.value("osd/showName", false).toBool())
     info.append(MediaSource::displayName(current));

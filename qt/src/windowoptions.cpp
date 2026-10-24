@@ -1,3 +1,4 @@
+#include "../../shared/familydefaults.h"
 #include "i18n.h"
 #include "player.h"
 #include "playlistpanel.h"
@@ -360,7 +361,7 @@ void Window::resizeEvent(QResizeEvent *event) {
   QMainWindow::resizeEvent(event);
   if (!presentationReady || changingWindow || resizePending || isFullScreen() ||
       isMaximized() || isMinimized() ||
-      !profile.settings.value("ui/keepVideoAspect", false).toBool() || stopped)
+      !profile.settings.value("ui/keepVideoAspect", FoxicMPFamily::KeepWindowVideoAspect).toBool() || stopped)
     return;
   const auto video = videoSize();
   if (!video.isValid())
@@ -370,7 +371,7 @@ void Window::resizeEvent(QResizeEvent *event) {
   QTimer::singleShot(0, this, [this, delta] {
     resizePending = false;
     if (!isFullScreen() && !isMaximized() && !stopped &&
-        profile.settings.value("ui/keepVideoAspect", false).toBool()) {
+        profile.settings.value("ui/keepVideoAspect", FoxicMPFamily::KeepWindowVideoAspect).toBool()) {
       const QSize v = videoSize(), chrome = size() - player->size();
       if (!v.isValid())
         return;
@@ -610,8 +611,8 @@ void Window::attachWindowPreferences(QTabWidget *tabs,
   playbackLayout->addLayout(playbackForm);
   check(playbackForm, uiTr("Вернуть начальное положение и размер окна после закрытия файла"), "ui/restoreAfterClose", false);
   auto *basic = new QFormLayout; windowLayout->addLayout(basic);
-  check(basic, uiTr("Запоминать размер и положение"), "ui/rememberGeometry", true);
-  check(basic, uiTr("Соотношение сторон по видеокадру"), "ui/keepVideoAspect", false);
+  check(basic, uiTr("Запоминать размер и положение"), "ui/rememberGeometry", FoxicMPFamily::RememberGeometry);
+  check(basic, uiTr("Соотношение сторон по видеокадру"), "ui/keepVideoAspect", FoxicMPFamily::KeepWindowVideoAspect);
   check(basic, uiTr("Прилипать к границам экрана"), "ui/snapEdges", false);
   auto *details = new QToolButton; details->setText(uiTr("Дополнительно"));
   details->setObjectName("classicWindowDetails"); details->setCheckable(true);

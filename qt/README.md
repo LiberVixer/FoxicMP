@@ -1,7 +1,11 @@
 # FoxiqMP qt — Windows / Linux
 
 Native Qt 6 Widgets + libmpv player. First target: Linux Mint 22.x x64.
-This is a **0.1.72 development preview**, separate from FoxicMP Classic Windows.
+This is a **0.1.73 development preview**, separate from FoxicMP Classic Windows.
+
+0.1.73 shares 43 command IDs/shortcuts and core new-profile defaults with Classic.
+Saved preferences remain authoritative. Linux Qt is the reference for menu and
+settings organization; both Qt builds run the same family contract scenario.
 
 0.1.72 disables OSD by default for new profiles, preserves explicit preferences,
 and honors explicit PulseAudio routing on Linux. The test runner uses a private

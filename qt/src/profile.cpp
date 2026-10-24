@@ -1,4 +1,5 @@
 #include "profile.h"
+#include "../../shared/familydefaults.h"
 #include "devicesource.h"
 #include "mediasource.h"
 #include <QCryptographicHash>
@@ -24,21 +25,44 @@ Profile::Profile(const QString &dir)
       directory(dir) {
   if (!lease.valid())
     return;
+  const bool fresh = settings.allKeys().isEmpty();
 #ifdef Q_OS_WIN
   // A saved profile always wins, including older profiles without a version.
   // Keep the captured preferences in core so they also work before any UI exists.
-  if (settings.allKeys().isEmpty()) {
+  if (fresh) {
     Q_INIT_RESOURCE(profiledefaults);
     const QSettings defaults(":/windows-defaults.ini", QSettings::IniFormat);
     for (const auto &name : defaults.allKeys())
       settings.setValue(name, defaults.value(name));
   }
 #endif
+  // Only an empty profile receives family defaults over platform presets.
+  // Legacy profiles keep every saved value, including custom/empty shortcuts.
+  if (fresh) {
+    const QVariantMap common{
+        {"audio/volume", FoxicMPFamily::Volume},
+        {"audio/mute", FoxicMPFamily::Mute},
+        {"playback/rememberPosition", FoxicMPFamily::RememberPosition},
+        {"playback/seekSmallMs", FoxicMPFamily::SeekSmallMs},
+        {"playback/seekMediumMs", FoxicMPFamily::SeekMediumMs},
+        {"playback/seekLargeMs", FoxicMPFamily::SeekLargeMs},
+        {"ui/rememberGeometry", FoxicMPFamily::RememberGeometry},
+        {"ui/keepVideoAspect", FoxicMPFamily::KeepWindowVideoAspect},
+        {"ui/osd", FoxicMPFamily::Osd}};
+    for (auto it = common.cbegin(); it != common.cend(); ++it)
+      settings.setValue(it.key(), it.value());
+    // Standard keys must remain fallbacks, not pretend to be user overrides.
+    // Otherwise a later custom binding cannot suppress a conflicting default.
+#define FOXICMP_FAMILY_COMMAND(qtId, classicId, shortcut, nativeKey, nativeModifiers) \
+    settings.remove("keys/" #qtId);
+#include "../../shared/familycommands.inc"
+#undef FOXICMP_FAMILY_COMMAND
+  }
   if (!settings.contains("profile/version")) {
     settings.setValue("profile/version", 1);
-    const QVariantMap defaults{{"audio/volume", 75}, {"audio/mute", false},
-        {"playback/rememberPosition", true}, {"playback/hardwareDecoding", true},
-        {"integration/checkOnStartup", false}, {"ui/osd", false}};
+    const QVariantMap defaults{{"audio/volume", FoxicMPFamily::Volume}, {"audio/mute", FoxicMPFamily::Mute},
+        {"playback/rememberPosition", FoxicMPFamily::RememberPosition}, {"playback/hardwareDecoding", true},
+        {"integration/checkOnStartup", false}, {"ui/osd", FoxicMPFamily::Osd}};
     for (auto it = defaults.begin(); it != defaults.end(); ++it)
       if (!settings.contains(it.key()))
         settings.setValue(it.key(), it.value());
@@ -53,7 +77,7 @@ void Profile::savePosition(const QString &file, double pos, double duration) {
   if (path.isEmpty() || !std::isfinite(pos) || !std::isfinite(duration) ||
       !DeviceSource::rememberPosition(path) ||
       forgottenPositions.contains(path) ||
-      !settings.value("playback/rememberPosition", true).toBool())
+      !settings.value("playback/rememberPosition", FoxicMPFamily::RememberPosition).toBool())
     return;
   observedSources.insert(path);
   settings.setValue(
@@ -62,7 +86,7 @@ void Profile::savePosition(const QString &file, double pos, double duration) {
 double Profile::position(const QString &file) const {
   const auto path = MediaSource::normalize(file);
   if (path.isEmpty() || !DeviceSource::rememberPosition(path) ||
-      !settings.value("playback/rememberPosition", true).toBool())
+      !settings.value("playback/rememberPosition", FoxicMPFamily::RememberPosition).toBool())
     return 0;
   const double value = settings.value(key(path), 0).toDouble();
   return std::isfinite(value) && value >= 0 ? value : 0;

@@ -170,16 +170,13 @@ void Window::applyClassicMenus() {
   });
   ids["ID_VIEW_RESET_DEFAULT"] = "classicRendererReset";
 
-  const QMap<QString, QString> classicKeys{
-    {"open", "Ctrl+Q"}, {"openUrl", "Ctrl+O"}, {"openDisc", "Ctrl+D"},
-    {"quit", "Alt+X"}, {"closeFile", "Ctrl+C"}, {"snapshot", "Ctrl+F5"},
-    {"snapshotQuick", "F5"}, {"snapshotDisplay", "Shift+F5"}, {"snapshotClipboard", ""},
-    {"loadSubtitles", "Ctrl+L"}, {"playlist", "Ctrl+7"}, {"mediaProperties", "Shift+F10"},
-    {"context", "Menu"}, {"menu", ""}, {"classicCaptionMenu", "Ctrl+0"}, {"fullscreen", "Ctrl+Return"}, {"showTimeline", "Ctrl+1"},
-    {"showControls", "Ctrl+2"}, {"showStatus", "Ctrl+5"}, {"classicInformation", "Ctrl+3"}, {"classicStatistics", "Ctrl+4"},
-    {"subtitleEditor", "Ctrl+6"}, {"classicShaderEditor", "Ctrl+9"}, {"favoriteAdd", ""},
-    {"mute", "Ctrl+M"}, {"renderStatistics", "Ctrl+J"}};
-  for (auto it = classicKeys.begin(); it != classicKeys.end(); ++it) defaultKeys[it.key()] = it.value();
+  // Platform-specific aliases stay local; shared command IDs/keys have one source.
+  defaultKeys["menu"] = "";
+  defaultKeys["favoriteAdd"] = "";
+#define FOXICMP_FAMILY_COMMAND(qtId, classicId, shortcut, nativeKey, nativeModifiers) \
+  ids[#classicId] = #qtId; defaultKeys[#qtId] = QStringLiteral(shortcut);
+#include "../../shared/familycommands.inc"
+#undef FOXICMP_FAMILY_COMMAND
   applyShortcuts();
   ids["ID_NAVIGATE_SKIPBACK"] = "previous";
   ids["ID_NAVIGATE_SKIPFORWARD"] = "next";

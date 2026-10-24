@@ -1,3 +1,4 @@
+#include "familycontract.h"
 #include "preferencesdriver.h"
 #include "window.h"
 #include "player.h"
@@ -55,6 +56,7 @@ class ClassicUiTest : public QObject {
     }
   }
 private slots:
+  void familyProfileCommandsAndLinuxSettingsLayout() { verifyFamilyContract(); }
   void initTestCase() {
     Q_INIT_RESOURCE(resources);
     qApp->setStyle("Fusion");

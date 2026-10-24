@@ -1,3 +1,4 @@
+#include "familycontract.h"
 #include "preferencesdriver.h"
 #include "associationoptions.h"
 #include "instancebroker.h"
@@ -27,6 +28,7 @@ class WindowsPortTest : public QObject {
     profile.settings.setValue("video/output", "software");
   }
 private slots:
+  void familyProfileCommandsAndLinuxSettingsLayout() { verifyFamilyContract(); }
   void initTestCase() { Q_INIT_RESOURCE(resources); qApp->setStyle("Fusion"); }
   void commandLineMetadataAndTls() {
     QVERIFY(QSslSocket::supportsSsl());
@@ -71,7 +73,7 @@ private slots:
     QCOMPARE(p.settings.value("ui/rememberGeometry").toBool(), true);
     QCOMPARE(p.settings.value("ui/keepVideoAspect").toBool(), false);
     QCOMPARE(p.settings.value("video/output").toString(), QString("software"));
-    QCOMPARE(p.settings.value("keys/open").toString(), QString("Ctrl+Q"));
+    QVERIFY(!p.settings.contains("keys/open")); // Family default, not a user override.
     QCOMPARE(p.settings.value("subtitles/font").toString(), QString("Tahoma"));
     QVERIFY(!p.settings.value("integration/checkOnStartup").toBool());
     for (const auto &key : p.settings.allKeys()) {

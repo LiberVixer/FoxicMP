@@ -1,3 +1,4 @@
+#include "../../shared/familydefaults.h"
 #include "devicesource.h"
 #include "i18n.h"
 #include "player.h"
@@ -216,7 +217,7 @@ void Window::refreshPlaybackControls() {
       actions[id]->setEnabled(active && !stdinPlayback && !progressive &&
                               !player->get("video-params").toMap().isEmpty());
   for (const auto &entry : QList<QPair<QString, int>>{
-           {"Small", 1000}, {"", 5000}, {"Large", 20000}}) {
+           {"Small", FoxicMPFamily::SeekSmallMs}, {"", FoxicMPFamily::SeekMediumMs}, {"Large", FoxicMPFamily::SeekLargeMs}}) {
     const QString key = entry.first == "Small"   ? "playback/seekSmallMs"
                         : entry.first == "Large" ? "playback/seekLargeMs"
                                                  : "playback/seekMediumMs";
@@ -282,9 +283,9 @@ void Window::attachPlaybackPreferences(QTabWidget *tabs,
         [this, key, spin] { profile.settings.setValue(key, spin->value()); });
     return spin;
   };
-  number(uiTr("Короткая перемотка, мс"), "playback/seekSmallMs", 1000, 600000);
-  number(uiTr("Средняя перемотка, мс"), "playback/seekMediumMs", 5000, 600000);
-  number(uiTr("Длинная перемотка, мс"), "playback/seekLargeMs", 20000, 600000);
+  number(uiTr("Короткая перемотка, мс"), "playback/seekSmallMs", FoxicMPFamily::SeekSmallMs, 600000);
+  number(uiTr("Средняя перемотка, мс"), "playback/seekMediumMs", FoxicMPFamily::SeekMediumMs, 600000);
+  number(uiTr("Длинная перемотка, мс"), "playback/seekLargeMs", FoxicMPFamily::SeekLargeMs, 600000);
   auto *count = number(uiTr("Всего проходов файла / списка при повторе"),
                        "playlist/repeatCount", 0, 9999);
   count->setSpecialValueText(uiTr("Без ограничения"));

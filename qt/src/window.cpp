@@ -1,3 +1,4 @@
+#include "../../shared/familydefaults.h"
 #include "window.h"
 #include "classicpreferences.h"
 #include "classicstatus.h"
@@ -82,8 +83,8 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
   setCentralWidget(root);
-  const int initialVolume = profile.settings.value("audio/volume", 75).toInt();
-  const bool initialMute = profile.settings.value("audio/mute", false).toBool();
+  const int initialVolume = profile.settings.value("audio/volume", FoxicMPFamily::Volume).toInt();
+  const bool initialMute = profile.settings.value("audio/mute", FoxicMPFamily::Mute).toBool();
   player = new Player(
       root, profile.settings.value("video/output", "software").toString(),
       OnlineOptions::mpvOptions(profile.settings),
@@ -151,7 +152,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
   mute = button("mute", initialMute ? "mute" : "volume");
   volume = new ClassicVolumeSlider;
   volume->setRange(0, 100);
-  volume->setValue(profile.settings.value("audio/volume", 75).toInt());
+  volume->setValue(profile.settings.value("audio/volume", FoxicMPFamily::Volume).toInt());
   static_cast<ClassicVolumeSlider *>(volume)->setMuted(initialMute);
   volume->setToolTip(uiTr("Громкость"));
   buttons->addWidget(volume);
@@ -531,7 +532,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
   progressiveTimer->setInterval(100);
   connect(progressiveTimer, &QTimer::timeout, this, &Window::updateProgressive);
   progressiveTimer->start();
-  if (profile.settings.value("ui/rememberGeometry", true).toBool() &&
+  if (profile.settings.value("ui/rememberGeometry", FoxicMPFamily::RememberGeometry).toBool() &&
       profile.settings.contains("window/geometry"))
     restoreGeometry(profile.settings.value("window/geometry").toByteArray());
   setupPlaybackTools();
@@ -741,17 +742,17 @@ void Window::buildActions() {
       [this] { player->command({"cycle", "mute"}); });
   actions["mute"]->setCheckable(true);
   add("back", uiTr("Назад на 5 секунд"), "Left",
-      [this] { seekStep(-1, "playback/seekMediumMs", 5000); });
+      [this] { seekStep(-1, "playback/seekMediumMs", FoxicMPFamily::SeekMediumMs); });
   add("forward", uiTr("Вперёд на 5 секунд"), "Right",
-      [this] { seekStep(1, "playback/seekMediumMs", 5000); });
+      [this] { seekStep(1, "playback/seekMediumMs", FoxicMPFamily::SeekMediumMs); });
   add("backSmall", uiTr("Короткая перемотка назад"), "Shift+Left",
-      [this] { seekStep(-1, "playback/seekSmallMs", 1000); });
+      [this] { seekStep(-1, "playback/seekSmallMs", FoxicMPFamily::SeekSmallMs); });
   add("forwardSmall", uiTr("Короткая перемотка вперёд"), "Shift+Right",
-      [this] { seekStep(1, "playback/seekSmallMs", 1000); });
+      [this] { seekStep(1, "playback/seekSmallMs", FoxicMPFamily::SeekSmallMs); });
   add("backLarge", uiTr("Длинная перемотка назад"), "Ctrl+Alt+Left",
-      [this] { seekStep(-1, "playback/seekLargeMs", 20000); });
+      [this] { seekStep(-1, "playback/seekLargeMs", FoxicMPFamily::SeekLargeMs); });
   add("forwardLarge", uiTr("Длинная перемотка вперёд"), "Ctrl+Alt+Right",
-      [this] { seekStep(1, "playback/seekLargeMs", 20000); });
+      [this] { seekStep(1, "playback/seekLargeMs", FoxicMPFamily::SeekLargeMs); });
   add("keyframeBack", uiTr("Предыдущий ключевой кадр"), "Alt+Left",
       [this] { seekKeyframe(-1); });
   add("keyframeNext", uiTr("Следующий ключевой кадр"), "Alt+Right",
@@ -777,9 +778,9 @@ void Window::buildActions() {
   add("abDialog", uiTr("Задать отрезок и число проходов…"), "Ctrl+Shift+B",
       [this] { abLoopDialog(); });
   add("volumeUp", uiTr("Увеличить громкость"), "Up",
-      [this] { volume->setValue(volume->value() + 5); });
+      [this] { volume->setValue(volume->value() + FoxicMPFamily::VolumeStep); });
   add("volumeDown", uiTr("Уменьшить громкость"), "Down",
-      [this] { volume->setValue(volume->value() - 5); });
+      [this] { volume->setValue(volume->value() - FoxicMPFamily::VolumeStep); });
   add("fullscreen", uiTr("Полный экран"), "F11",
       [this] { toggleFullscreen(); });
   actions["fullscreen"]->setCheckable(true);
@@ -946,7 +947,7 @@ void Window::buildActions() {
         if (hidden)
           dock->hide();
       }
-      if (profile.settings.value("ui/rememberGeometry", true).toBool())
+      if (profile.settings.value("ui/rememberGeometry", FoxicMPFamily::RememberGeometry).toBool())
         profile.settings.setValue("window/geometry", isFullScreen() && !beforeFullscreenGeometry.isEmpty()
             ? beforeFullscreenGeometry : saveGeometry());
       profile.settings.setValue("audio/volume", volume->value());
@@ -1839,7 +1840,7 @@ void Window::preferences() {
   auto *history = check(uiTr("Запоминать историю открытых файлов"),
                         "history/enabled", true);
   auto *remember =
-      check(uiTr("Запоминать позицию"), "playback/rememberPosition", true);
+      check(uiTr("Запоминать позицию"), "playback/rememberPosition", FoxicMPFamily::RememberPosition);
   auto *hw = check(uiTr("Аппаратное декодирование (при доступности)"),
                    "playback/hardwareDecoding", true);
   hw->setObjectName("playback/hardwareDecoding");
@@ -2287,7 +2288,7 @@ void Window::preferences() {
         profile.settings.value("ui/onTop", false).toBool());
     actions["frameless"]->setChecked(
         profile.settings.value("ui/frameless", false).toBool());
-    if (!profile.settings.value("ui/osd", false).toBool())
+    if (!profile.settings.value("ui/osd", FoxicMPFamily::Osd).toBool())
       osd->hide();
     updateClock();
     for (auto it = editors.begin(); it != editors.end(); ++it)
@@ -2362,7 +2363,7 @@ void Window::closeEvent(QCloseEvent *e) {
   savePosition();
   releaseProgressive();
   syncPlaylist();
-  if (profile.settings.value("ui/rememberGeometry", true).toBool())
+  if (profile.settings.value("ui/rememberGeometry", FoxicMPFamily::RememberGeometry).toBool())
     profile.settings.setValue(
         "window/geometry", isFullScreen() && !beforeFullscreenGeometry.isEmpty()
                                ? beforeFullscreenGeometry
