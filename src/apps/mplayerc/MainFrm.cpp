@@ -682,6 +682,35 @@ CMainFrame::~CMainFrame()
 	}
 }
 
+void CMainFrame::OrganizeFamilyMenuBar()
+{
+	CMenu* old = GetMenu();
+	if (!old || old->GetMenuItemCount() < 6) return;
+	const auto take = [old](int index) { CMenu* child = old->GetSubMenu(index); HMENU menu = child ? child->GetSafeHmenu() : nullptr; if (menu) old->RemoveMenu(index, MF_BYPOSITION); return menu; };
+	HMENU help = take(5), favorites = take(4), navigate = take(3), playback = take(2), view = take(1), file = take(0);
+	HMENU bar = ::CreateMenu(); if (!bar) return;
+	const auto popup = [bar](LPCWSTR title, HMENU menu) { if (menu) ::AppendMenuW(bar, MF_POPUP, reinterpret_cast<UINT_PTR>(menu), title); };
+	const auto add = [](HMENU menu, UINT id, LPCWSTR title) { ::AppendMenuW(menu, MF_STRING, id, title); };
+	const auto separator = [](HMENU menu) { ::AppendMenuW(menu, MF_SEPARATOR, 0, nullptr); };
+	popup(L"File", file); popup(L"Playback", playback);
+	HMENU video = ::CreatePopupMenu();
+	add(video, ID_VIEW_VF_HALF, L"50%\tAlt+1"); add(video, ID_VIEW_VF_NORMAL, L"100%\tAlt+2"); add(video, ID_VIEW_VF_DOUBLE, L"200%\tAlt+3");
+	add(video, ID_VIEW_VF_FROMINSIDE, L"Fit"); add(video, ID_VIEW_VF_FROMOUTSIDE, L"Fill"); separator(video);
+	add(video, ID_VIEW_TEARING_TEST, L"Tearing test"); add(video, ID_VIEW_DISPLAYSTATS, L"Display statistics"); add(video, ID_VIEW_RESET_DEFAULT, L"Reset renderer settings"); separator(video);
+	add(video, ID_STEREO3D_AUTO, L"Stereo 3D: Auto"); add(video, ID_STEREO3D_MONO, L"Stereo 3D: Mono"); add(video, ID_STEREO3D_SWAP_LEFTRIGHT, L"Swap left/right"); popup(L"Video", video);
+	HMENU audio = ::CreatePopupMenu();
+	add(audio, ID_STREAM_AUDIO_PREV, L"Previous audio track"); add(audio, ID_STREAM_AUDIO_NEXT, L"Next audio track"); separator(audio);
+	add(audio, ID_VOLUME_UP, L"Volume up"); add(audio, ID_VOLUME_DOWN, L"Volume down"); add(audio, ID_VOLUME_MUTE, L"Mute"); add(audio, ID_PLAY_AUDIODELAY_MINUS, L"Audio delay down"); add(audio, ID_PLAY_AUDIODELAY_PLUS, L"Audio delay up"); popup(L"Audio", audio);
+	HMENU subtitles = ::CreatePopupMenu();
+	add(subtitles, ID_STREAM_SUB_PREV, L"Previous subtitles"); add(subtitles, ID_STREAM_SUB_NEXT, L"Next subtitles"); add(subtitles, ID_STREAM_SUB_ONOFF, L"Show / hide subtitles"); add(subtitles, ID_FILE_LOAD_SUBTITLE, L"Load subtitles"); add(subtitles, ID_SUBTITLES_RELOAD, L"Reload subtitles"); add(subtitles, ID_VIEW_SUBRESYNC, L"Subtitle editor"); add(subtitles, ID_SUB_DELAY_DEC, L"Subtitle delay down"); add(subtitles, ID_SUB_DELAY_INC, L"Subtitle delay up"); popup(L"Subtitles", subtitles);
+	HMENU library = ::CreatePopupMenu();
+	if (navigate) ::AppendMenuW(library, MF_POPUP, reinterpret_cast<UINT_PTR>(navigate), L"Navigate"); if (favorites) ::AppendMenuW(library, MF_POPUP, reinterpret_cast<UINT_PTR>(favorites), L"Favorites"); add(library, ID_VIEW_PLAYLIST, L"Playlist\tCtrl+7"); add(library, ID_SUBMENU_RECENTFILES, L"Recent files"); add(library, ID_FAVORITES_QUICKADD, L"Add favorite"); popup(L"Library", library);
+	popup(L"View", view);
+	HMENU service = ::CreatePopupMenu(); add(service, ID_VIEW_OPTIONS, L"Settings...\tO"); add(service, ID_VIEW_CAPTURE, L"Capture"); add(service, ID_VIEW_DISPLAYSTATS, L"Render statistics"); add(service, ID_HELP_CHECKFORUPDATE, L"Check for updates"); popup(L"Service", service);
+	popup(L"Help", help);
+	CMenu organized; organized.Attach(bar); SetMenu(&organized); organized.Detach(); old->DestroyMenu(); DrawMenuBar();
+}
+
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (__super::OnCreate(lpCreateStruct) == -1) {
@@ -710,6 +739,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_ShadersMenu.LoadMenuW(IDR_POPUP_SHADERS);
 	m_AfterPlaybackMenu.LoadMenuW(IDR_POPUP_AFTERPLAYBACK);
 	m_NavigateMenu.LoadMenuW(IDR_POPUP_NAVIGATE);
+	OrganizeFamilyMenuBar();
 
 	// create a Main View Window
 	if (!m_wndView.Create(nullptr, nullptr, AFX_WS_DEFAULT_VIEW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
@@ -2248,6 +2278,7 @@ LRESULT CMainFrame::OnDpiChanged(WPARAM wParam, LPARAM lParam)
 			oldMenu->DestroyMenu();
 		}
 		m_hMenuDefault = defaultMenu.Detach();
+		OrganizeFamilyMenuBar();
 
 		SetColorMenu();
 	}

@@ -828,6 +828,7 @@ private: // control bar embedded members
 
 	void RestoreControlBars();
 	void SaveControlBars();
+	void OrganizeFamilyMenuBar();
 
 	// Generated message map functions
 

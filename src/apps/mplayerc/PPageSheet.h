@@ -48,6 +48,7 @@
 #include "PPageMisc.h"
 #include "PPageCapture.h"
 #include <ExtLib/ui/TreePropSheet/TreePropSheet.h>
+#include <vector>
 
 // CTreePropSheetTreeCtrl
 
@@ -72,6 +73,15 @@ class CPPageSheet : public TreePropSheet::CTreePropSheet
 
 private:
 	bool m_bLockPage = false;
+	std::vector<CString> m_treeTitles;
+	CEdit m_search;
+	CStatic m_searchHint;
+	CStatic m_loadingText;
+	CProgressCtrl m_loading;
+	void AddCategorizedPage(CPropertyPage* page, LPCWSTR category, LPCWSTR name);
+	HTREEITEM FindPage(HTREEITEM root, const CString& query);
+	void OnSearchChanged();
+	LRESULT OnFinishLoading(WPARAM, LPARAM);
 
 	CPPagePlayer          m_player;
 	CPPageFormats         m_formats;

@@ -42,33 +42,33 @@ CPPageSheet::CPPageSheet(LPCWSTR pszCaption, CWnd* pParentWnd, UINT idPage)
 	}
 
 	SetTreeWidth(nWidth);
-
-	AddPage(&m_player);
-	AddPage(&m_formats);
-	AddPage(&m_acceltbl);
-	AddPage(&m_mouse);
-	AddPage(&m_logo);
-	AddPage(&m_interface);
-	AddPage(&m_osd);
-	AddPage(&m_windowsize);
-	AddPage(&m_webserver);
-	AddPage(&m_playback);
-	AddPage(&m_dvd);
-	AddPage(&m_tuner);
-	AddPage(&m_youtube);
-	AddPage(&m_video);
-	AddPage(&m_color);
-	AddPage(&m_sync);
-	AddPage(&m_fullscreen);
-	AddPage(&m_audio);
-	AddPage(&m_soundprocessing);
-	AddPage(&m_subtitles);
-	AddPage(&m_subMisc);
-	AddPage(&m_substyle);
-	AddPage(&m_internalfilters);
-	AddPage(&m_externalfilters);
-	AddPage(&m_filterspriority);
-	AddPage(&m_misc);
+	m_treeTitles.reserve(26);
+	AddCategorizedPage(&m_player, L"General", L"Startup and tray");
+	AddCategorizedPage(&m_formats, L"General", L"Integration");
+	AddCategorizedPage(&m_logo, L"Interface and window", L"Logo");
+	AddCategorizedPage(&m_interface, L"Interface and window", L"Appearance");
+	AddCategorizedPage(&m_osd, L"Interface and window", L"OSD");
+	AddCategorizedPage(&m_windowsize, L"Interface and window", L"Window");
+	AddCategorizedPage(&m_fullscreen, L"Interface and window", L"Fullscreen");
+	AddCategorizedPage(&m_acceltbl, L"Control", L"Keyboard");
+	AddCategorizedPage(&m_mouse, L"Control", L"Mouse");
+	AddCategorizedPage(&m_playback, L"Playback", L"Playback");
+	AddCategorizedPage(&m_sync, L"Playback", L"Synchronization");
+	AddCategorizedPage(&m_video, L"Video", L"Output");
+	AddCategorizedPage(&m_color, L"Video", L"Color");
+	AddCategorizedPage(&m_internalfilters, L"Video", L"Decoding");
+	AddCategorizedPage(&m_externalfilters, L"Video", L"External filters");
+	AddCategorizedPage(&m_filterspriority, L"Video", L"Filter priority");
+	AddCategorizedPage(&m_audio, L"Audio", L"Output");
+	AddCategorizedPage(&m_soundprocessing, L"Audio", L"Processing");
+	AddCategorizedPage(&m_subtitles, L"Subtitles", L"Files and languages");
+	AddCategorizedPage(&m_substyle, L"Subtitles", L"Appearance");
+	AddCategorizedPage(&m_subMisc, L"Subtitles", L"Rendering");
+	AddCategorizedPage(&m_dvd, L"Capture and devices", L"Discs");
+	AddCategorizedPage(&m_tuner, L"Capture and devices", L"TV and capture");
+	AddCategorizedPage(&m_youtube, L"Online and network", L"Online video");
+	AddCategorizedPage(&m_webserver, L"Online and network", L"Web control");
+	AddCategorizedPage(&m_misc, L"Service", L"Diagnostics");
 
 	EnableStackedTabs(FALSE);
 
@@ -100,11 +100,67 @@ CTreeCtrl* CPPageSheet::CreatePageTreeObject()
 
 BEGIN_MESSAGE_MAP(CPPageSheet, CTreePropSheet)
 	ON_WM_CONTEXTMENU()
+	ON_CONTROL(EN_CHANGE, 0x7EEF, OnSearchChanged)
+	ON_MESSAGE(WM_APP + 61, OnFinishLoading)
 END_MESSAGE_MAP()
+
+void CPPageSheet::AddCategorizedPage(CPropertyPage* page, LPCWSTR category, LPCWSTR name)
+{
+	CString title; title.Format(L"%s::%s", category, name);
+	m_treeTitles.push_back(title);
+	page->m_pPSP->pszTitle = m_treeTitles.back();
+	page->m_psp.dwFlags |= PSP_USETITLE;
+	AddPage(page);
+}
+
+HTREEITEM CPPageSheet::FindPage(HTREEITEM root, const CString& query)
+{
+	if (!root) return nullptr;
+	CTreeCtrl* tree = GetPageTreeControl();
+	for (HTREEITEM item = root; item; item = tree->GetNextItem(item, TVGN_NEXT)) {
+		CString text = tree->GetItemText(item); text.MakeLower();
+		if (tree->GetItemData(item) != static_cast<DWORD_PTR>(-1) && text.Find(query) >= 0) return item;
+		if (HTREEITEM child = FindPage(tree->GetChildItem(item), query)) return child;
+	}
+	return nullptr;
+}
+
+void CPPageSheet::OnSearchChanged()
+{
+	CString query; m_search.GetWindowText(query); query.Trim(); query.MakeLower();
+	CTreeCtrl* tree = GetPageTreeControl(); if (!tree) return;
+	if (query.IsEmpty()) { m_searchHint.SetWindowTextW(L"Type a settings page name"); return; }
+	HTREEITEM found = FindPage(tree->GetRootItem(), query);
+	if (found) {
+		for (HTREEITEM root = tree->GetRootItem(); root; root = tree->GetNextItem(root, TVGN_NEXT)) tree->Expand(root, TVE_COLLAPSE);
+		tree->Expand(tree->GetParentItem(found), TVE_EXPAND); tree->EnsureVisible(found); tree->SelectItem(found);
+		CString status; status.Format(L"Found: %s", tree->GetItemText(found)); m_searchHint.SetWindowTextW(status);
+	} else m_searchHint.SetWindowTextW(L"Nothing found");
+}
+
+LRESULT CPPageSheet::OnFinishLoading(WPARAM, LPARAM)
+{
+	m_loading.ShowWindow(SW_HIDE); m_loadingText.ShowWindow(SW_HIDE);
+	if (!m_bLockPage) { m_search.EnableWindow(TRUE); if (GetPageTreeControl()) GetPageTreeControl()->EnableWindow(TRUE); }
+	return 0;
+}
 
 BOOL CPPageSheet::OnInitDialog()
 {
 	BOOL bResult = __super::OnInitDialog();
+
+	if (CTreeCtrl* pTree = GetPageTreeControl()) {
+		CRect rect; pTree->GetWindowRect(&rect); ScreenToClient(&rect);
+		m_search.Create(WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, CRect(rect.left, rect.top, rect.right, rect.top + 22), this, 0x7EEF);
+		m_search.SetFont(GetFont());
+		m_searchHint.Create(L"Type a settings page name", WS_CHILD | WS_VISIBLE | SS_LEFT, CRect(rect.left + 3, rect.top + 23, rect.right, rect.top + 40), this);
+		m_searchHint.SetFont(GetFont()); rect.top += 42; pTree->MoveWindow(&rect);
+		m_search.EnableWindow(FALSE); pTree->EnableWindow(FALSE);
+		CRect client; GetClientRect(&client);
+		m_loadingText.Create(L"Loading settings...", WS_CHILD | WS_VISIBLE | SS_CENTER, CRect(rect.right + 8, client.top + 8, client.right - 8, client.top + 30), this);
+		m_loading.Create(WS_CHILD | WS_VISIBLE | PBS_MARQUEE, CRect(rect.right + 24, client.top + 34, client.right - 24, client.top + 48), this, 0x7EF0);
+		m_loading.SetMarquee(TRUE, 30); PostMessage(WM_APP + 61);
+	}
 
 	if (CTreeCtrl* pTree = GetPageTreeControl()) {
 		for (HTREEITEM node = pTree->GetRootItem(); node; node = pTree->GetNextSiblingItem(node)) {
