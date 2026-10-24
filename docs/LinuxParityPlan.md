@@ -2,6 +2,11 @@
 FoxicMP Qt 0.1.52: Wayland-safe fullscreen/geometry requests and requestActivate fallback; automatic ICC remains X11/colord-only.
 # План сближения FoxicMP Qt Linux с FoxicMP Classic Windows
 
+С 24 октября 2026 дальнейшее сближение всех трёх редакций ведётся по
+[общему плану FoxicMP](FoxicMPFamilyPlan.md) и
+[матрице возможностей](FoxicMPFamilyMatrix.md). Ниже сохранена история
+Linux-этапов; их результаты не означают автоматической проверки Windows Qt.
+
 Принят пользователем 14 октября 2026. База сравнения: Qt 0.1.4 и текущие
 исходники Classic. Порядок: **5 → 1 → 2 → 3 → 4 → 6 → 7 → 8 → 9 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17**.
 Каждый пункт включает реализацию, проверку, документацию и пакет.

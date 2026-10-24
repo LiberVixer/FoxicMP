@@ -11,6 +11,10 @@ audio server so tests cannot change desktop stream mute or volume.
 FoxicMP Classic; the built-in logos identify Windows QT / Linux QT and #LiberVixer.
 Existing profile, executable and IPC names remain compatible.
 
+The three-edition feature comparison and development order are tracked in the
+[family matrix](../docs/FoxicMPFamilyMatrix.md) and
+[family plan](../docs/FoxicMPFamilyPlan.md). Both Qt platforms share this codebase.
+
 0.1.70 removes the Windows 11 window outline, defaults video-area dragging to
 left-click, and seeds new Windows profiles from the configured preferences.
 Existing profiles and personal playback data are preserved. Saved subtitle
