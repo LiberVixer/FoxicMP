@@ -1,6 +1,12 @@
 #include "devicesource.h"
+#include "windowsruntime.h"
 #include "stdinstream.h"
+#ifdef Q_OS_WIN
+#include <io.h>
+#define STDIN_FILENO 0
+#else
 #include <unistd.h>
+#endif
 #include "i18n.h"
 #include "profile.h"
 #include "profilelaunch.h"
@@ -23,11 +29,21 @@
 #include <clocale>
 #include <cstdio>
 int main(int argc, char **argv) {
+#ifdef Q_OS_WIN
+  WindowsRuntime windowsRuntime;
+  if (!windowsRuntime.valid()) { std::fprintf(stderr, "Cannot initialize Windows Runtime\n"); return 1; }
+#endif
   QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
   QApplication app(argc, argv);
   std::setlocale(LC_NUMERIC, "C");
+#ifdef Q_OS_WIN
+  app.setApplicationName("FoxicMPq");
+  // Helpers are portable too. This changes only this process and its children.
+  qputenv("PATH", (QDir::toNativeSeparators(app.applicationDirPath()) + ';' + qEnvironmentVariable("PATH")).toLocal8Bit());
+#else
   app.setApplicationName("FoxicMPQt");
-  app.setApplicationVersion("0.1.68");
+#endif
+  app.setApplicationVersion("0.1.69");
   Q_INIT_RESOURCE(resources);
   const QFileInfo startupIni(QDir(QCoreApplication::applicationDirPath()).filePath("FoxicMPQt.ini"));
   // Recovery must not read the broken INI or its configured external language
@@ -68,7 +84,22 @@ int main(int argc, char **argv) {
   LaunchOptions::addArguments(parser);
   parser.addPositionalArgument("files", uiTr("Медиафайлы для воспроизведения"),
                                "[files…]");
+#ifdef Q_OS_WIN
+  // Qt's automatic GUI help/version handling opens a modal message box on
+  // Windows. CLI callers and packaging need a bounded response on their pipe.
+  if (!parser.parse(app.arguments())) {
+    std::fprintf(stderr, "%s\n", qPrintable(parser.errorText())); return 1;
+  }
+  if (parser.isSet("help")) {
+    const auto help = parser.helpText().toUtf8();
+    std::fwrite(help.constData(), 1, help.size(), stdout); return 0;
+  }
+  if (parser.isSet("version")) {
+    std::fprintf(stdout, "%s %s\n", qPrintable(app.applicationName()), qPrintable(app.applicationVersion())); return 0;
+  }
+#else
   parser.process(app);
+#endif
   const auto positional = parser.positionalArguments();
   const bool stdinDash = positional == QStringList{"-"};
   const bool fromStdin = parser.isSet("stdin") || stdinDash;
@@ -170,7 +201,11 @@ int main(int argc, char **argv) {
     for (const auto &option : parser.optionNames())
       if (!QStringList{"progressive-api-info", "profile", "portable"}.contains(option)) parser.showHelp(1);
     if (!positional.isEmpty()) parser.showHelp(1);
+#ifdef Q_OS_WIN
+    const auto json = QJsonDocument(QJsonObject{{"version", 1}, {"supported", false}, {"platform", "windows"}}).toJson();
+#else
     const auto json = QJsonDocument(ProgressiveApi::information(directory)).toJson();
+#endif
     std::fwrite(json.constData(), 1, json.size(), stdout);
     return 0;
   }
@@ -260,9 +295,11 @@ int main(int argc, char **argv) {
     bool reset = false, keepLibrary = true;
     {
       Window window(profile, {}, {}, {}, request.options.value("web-port").toInt(-1));
+#ifndef Q_OS_WIN
       ProgressiveApi progressiveApi(&window);
       if (result == InstanceBroker::Primary && !progressiveApi.listen(directory))
         std::fprintf(stderr, "Progressive API unavailable: %s\n", qPrintable(progressiveApi.errorString()));
+#endif
       window.show();
       if (fromStdin) {
         if (!window.openStdin(STDIN_FILENO, request.options)) return 1;

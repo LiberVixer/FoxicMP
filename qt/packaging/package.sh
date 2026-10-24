@@ -5,7 +5,7 @@ output_dir=$(realpath -m "${2:?Usage: package.sh BUILD_DIR OUTPUT_DIR}")
 mkdir -p "$output_dir"
 stage_dir=$(mktemp -d)
 trap 'rm -rf "$stage_dir"' EXIT
-folder=FoxicMPQt-0.1.68-linux-x64
+folder=FoxicMPQt-0.1.69-linux-x64
 cmake --install "$build_dir" --strip --prefix "$stage_dir/$folder"
 # Fail the package step early when the staged executable is not runnable on
 # the build image. The archive intentionally uses Mint's system Qt/libmpv/

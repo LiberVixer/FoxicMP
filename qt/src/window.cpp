@@ -913,7 +913,7 @@ void Window::buildActions() {
       [this] { videoOutputDialog(); });
   add("renderStatistics", uiTr("Статистика видеовывода…"), "Ctrl+Alt+G",
       [this] { showRenderStatistics(); });
-  add("associations", uiTr("Форматы и ассоциации Linux…"), "", [this] { showAssociations(profile,this); });
+  add("associations", uiPlatformTr("Форматы и ассоциации Linux…", "Форматы и ассоциации Windows…"), "", [this] { showAssociations(profile,this); });
   add("profileManagement", uiTr("Профиль и резервные копии…"), "", [this] {
     auto *preferences = findChild<QDialog *>("preferencesDialog");
     showProfileManagement(profile, preferences && preferences->isVisible() ? static_cast<QWidget *>(preferences) : this, [this] {
@@ -939,7 +939,7 @@ void Window::buildActions() {
     });
   });
   add("webControl", uiTr("Веб-управление…"), "", [this] { webControlDialog(); });
-  add("checkUpdates", uiTr("Проверить обновления Linux/Qt…"), "", [this] { maintenanceDialog(true); });
+  add("checkUpdates", uiPlatformTr("Проверить обновления Linux/Qt…", "Проверить обновления Windows/Qt…"), "", [this] { maintenanceDialog(true); });
   add("maintenance", uiTr("Обслуживание и диагностика…"), "", [this] { maintenanceDialog(); });
   add("desktopSettings", uiTr("Запуск и системный трей…"), "", [this] { desktopSettingsDialog(); });
   add("onTop", uiTr("Поверх остальных окон"), "Ctrl+T", [this] {
@@ -1775,13 +1775,12 @@ void Window::setIntegration(bool enabled) {
   }
 }
 void Window::integrationPrompt() {
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_WIN)
   if (!profile.settings.value("integration/prompted", false).toBool()) {
     profile.settings.setValue("integration/prompted", true);
     if (QMessageBox::question(
             this, "FoxicMP Qt",
-            uiTr("Добавить FoxicMP Qt в «Открыть с помощью» и "
-                 "контекстное меню Nemo для видеофайлов?")) ==
+            uiPlatformTr("Добавить FoxicMP Qt в «Открыть с помощью» и контекстное меню Nemo для видеофайлов?", "Добавить FoxicMP Qt в «Открыть с помощью» и контекстное меню Windows для видеофайлов?")) ==
         QMessageBox::Yes) {
       setIntegration(true);
       profile.settings.setValue("integration/checkOnStartup", true);
@@ -1826,11 +1825,11 @@ void Window::preferences() {
   auto *hw = check(uiTr("Аппаратное декодирование (при доступности)"),
                    "playback/hardwareDecoding", true);
   hw->setObjectName("playback/hardwareDecoding");
-  auto *integration = check(uiTr("Пункт меню для видеофайлов (Nemo)"),
+  auto *integration = check(uiPlatformTr("Пункт меню для видеофайлов (Nemo)", "Пункт меню для видеофайлов (Windows)"),
                             "integration/enabled", false);
   auto *verify = check(uiTr("Проверять путь в меню при запуске"),
                        "integration/checkOnStartup", false);
-  auto *formats = new QPushButton(uiTr("Форматы и ассоциации Linux…"));
+  auto *formats = new QPushButton(uiPlatformTr("Форматы и ассоциации Linux…", "Форматы и ассоциации Windows…"));
   formats->setObjectName("openAssociations");
   l->addWidget(formats);
   connect(formats, &QPushButton::clicked, &dialog, [this,integration] {
@@ -2143,7 +2142,7 @@ void Window::preferences() {
   previews->setObjectName("maintenance/updatePreviews");
   previews->setChecked(profile.settings.value("maintenance/updatePreviews", true).toBool());
   serviceForm->addRow(previews);
-  auto *checkUpdates = new QPushButton(uiTr("Проверить обновления Linux/Qt"));
+  auto *checkUpdates = new QPushButton(uiPlatformTr("Проверить обновления Linux/Qt", "Проверить обновления Windows/Qt"));
   checkUpdates->setObjectName("settingsCheckUpdates");
   serviceForm->addRow(checkUpdates);
   connect(checkUpdates, &QPushButton::clicked, &dialog, [this, previews, &dialog, showPreferencesTool] {

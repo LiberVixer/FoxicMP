@@ -54,6 +54,8 @@ Player::Player(QWidget *parent, const QString &output,
         {"keep-open", "no"},
         {"input-default-bindings", "no"},
         {"input-vo-keyboard", "no"},
+        {"input-terminal", "no"},
+        {"terminal", "no"},
         {"osc", "no"},
         {"hwdec", "auto-copy"},
         // Qt paints on its UI thread. Keep render() from waiting

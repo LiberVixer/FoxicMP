@@ -11,29 +11,62 @@
 #include <QTemporaryDir>
 #include <QUuid>
 #include <QScopeGuard>
+#include "platformpaths.h"
+#ifndef Q_OS_WIN
 #include <fcntl.h>
 #include <sys/file.h>
 #include <unistd.h>
+#endif
 
 ProfileLease::ProfileLease(const QString &directory) {
-  const QFileInfo info(directory);
-  const auto canonical = info.canonicalFilePath();
   const auto hash = QCryptographicHash::hash(
-      (canonical.isEmpty() ? info.absoluteFilePath() : canonical).toUtf8(),
+      PlatformPaths::identity(directory).toUtf8(),
       QCryptographicHash::Sha256).toHex();
-  const auto runtime = QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation);
+  const auto runtime = PlatformPaths::runtimeDirectory();
   if (runtime.isEmpty() || !QDir(runtime).exists())
     return;
   const auto path = QDir(runtime).filePath("FoxicMPQt-profile-" + QString::fromLatin1(hash) + ".lease");
+#ifdef Q_OS_WIN
+  auto native = CreateFileW(reinterpret_cast<const wchar_t *>(path.utf16()),
+      GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
+      nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OPEN_REPARSE_POINT, nullptr);
+  if (native == INVALID_HANDLE_VALUE) return;
+  BY_HANDLE_FILE_INFORMATION info{};
+  OVERLAPPED range{};
+  if (!GetFileInformationByHandle(native, &info) ||
+      (info.dwFileAttributes & (FILE_ATTRIBUTE_REPARSE_POINT | FILE_ATTRIBUTE_DIRECTORY)) ||
+      !LockFileEx(native, LOCKFILE_FAIL_IMMEDIATELY, 0, 1, 0, &range)) {
+    CloseHandle(native);
+    return;
+  }
+  handle = native;
+#else
   fd = ::open(QFile::encodeName(path).constData(), O_CREAT | O_RDWR | O_CLOEXEC | O_NOFOLLOW, 0600);
   if (fd >= 0 && flock(fd, LOCK_SH | LOCK_NB) != 0) {
     ::close(fd);
     fd = -1;
   }
+#endif
 }
+#ifdef Q_OS_WIN
+ProfileLease::~ProfileLease() { if (handle) CloseHandle(handle); }
+bool ProfileLease::exclusive() {
+  if (!handle) return false;
+  OVERLAPPED range{};
+  UnlockFileEx(handle, 0, 1, 0, &range);
+  return LockFileEx(handle, LOCKFILE_EXCLUSIVE_LOCK | LOCKFILE_FAIL_IMMEDIATELY, 0, 1, 0, &range);
+}
+void ProfileLease::shared() {
+  if (!handle) return;
+  OVERLAPPED range{};
+  UnlockFileEx(handle, 0, 1, 0, &range);
+  LockFileEx(handle, 0, 0, 1, 0, &range);
+}
+#else
 ProfileLease::~ProfileLease() { if (fd >= 0) ::close(fd); }
 bool ProfileLease::exclusive() { return fd >= 0 && flock(fd, LOCK_EX | LOCK_NB) == 0; }
 void ProfileLease::shared() { if (fd >= 0) flock(fd, LOCK_SH); }
+#endif
 
 namespace ProfileReset {
 static bool replaceSettings(QSettings &settings, const QString &directory,

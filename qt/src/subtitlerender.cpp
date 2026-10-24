@@ -43,6 +43,14 @@ bool SubtitleRender::apply(Player *p, QSettings &s) {
   const auto v = values(s);
   bool ok = true;
   bool reload = false;
+  // mpv 0.40 merged the old VSFilter aspect/blur switches. Query capability
+  // rather than tying compatibility to the operating system or version text.
+  const bool mergedCompat = p->get("option-info/sub-ass-use-video-data").isValid();
+  if (mergedCompat) {
+    const auto mode = !v.value("aspectCompat").toBool() ? "none"
+        : v.value("blurCompat").toBool() ? "all" : "aspect-ratio";
+    ok = p->set("sub-ass-use-video-data", mode) && ok;
+  }
   for (const auto &entry : QList<QPair<const char *, const char *>>{
            {"sub-ass-hinting", "hinting"},
            {"sub-ass-shaper", "shaper"},
@@ -62,6 +70,8 @@ bool SubtitleRender::apply(Player *p, QSettings &s) {
            {"stretch-dvd-subs", "stretchDvd"},
            {"stretch-image-subs-to-screen", "stretchImage"},
            {"image-subs-video-resolution", "imageVideoResolution"}}) {
+    if (mergedCompat && (QByteArray(entry.second) == "aspectCompat" ||
+                         QByteArray(entry.second) == "blurCompat")) continue;
     const auto value = v.value(entry.second);
     const auto old = p->get(entry.first);
     // Avoid unnecessary decoder updates during ordinary preferences changes.

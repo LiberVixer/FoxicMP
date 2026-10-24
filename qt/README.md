@@ -1,7 +1,12 @@
 # FoxicMP Qt — Linux
 
 Native Qt 6 Widgets + libmpv player. First target: Linux Mint 22.x x64.
-This is a **0.1.68 development preview**, separate from FoxicMP Classic Windows.
+This is a **0.1.69 development preview**, separate from FoxicMP Classic Windows.
+
+0.1.69 adds a native Windows x64 build (`FoxicMPq.exe`) with portable profiles,
+Windows shortcuts and an independent application registration. Build and packaging
+instructions: [Windows](packaging/windows/README.ru.md). Linux downloader IPC
+remains Linux-only.
 
 0.1.68 installs the FoxicMP application icon beside the executable and uses its
 absolute path in Linux menu/profile shortcuts, avoiding missing generic theme icons.

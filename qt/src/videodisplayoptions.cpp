@@ -53,7 +53,7 @@ void Window::attachVideoDisplayPreferences(
   auto *source = new QComboBox;
   source->setObjectName("video/iccSource");
   source->addItem(uiTr("Ручной профиль (по умолчанию)"), "manual");
-  source->addItem(uiTr("Автоматически для текущего экрана (colord, X11)"),
+  source->addItem(uiPlatformTr("Автоматически для текущего экрана (colord, X11)", "Автоматически для текущего экрана (Windows ICM)"),
                   "system");
   source->setCurrentIndex(source->findData(v.value("iccSource")));
   icc->addRow(uiTr("Источник профиля:"), source);
@@ -107,6 +107,11 @@ void Window::attachVideoDisplayPreferences(
   };
   connect(source, &QComboBox::currentIndexChanged, tabs, updateControls);
   updateControls();
+#ifdef Q_OS_WIN
+  note(icc, uiTr("ICC действует только в OpenGL. Профиль текущего дисплея Windows проверяется LittleCMS "
+      "и копируется в ColorProfiles рядом с программой. Автовыбор следует за экраном окна. "
+      "Системные профили и калибровка не меняются."));
+#else
   note(icc,
        uiTr("ICC действует только в OpenGL. RGB-профиль дисплея до 16 МиБ "
             "проверяется LittleCMS и копируется в ColorProfiles рядом с "
@@ -116,6 +121,7 @@ void Window::attachVideoDisplayPreferences(
             "профиль другого экрана не используется. Ручной путь "
             "сохраняется отдельно. В Wayland автовыбор пока недоступен. "
             "LUT-кеш выключен; системные профили и калибровка не меняются."));
+#endif
   auto *iccStatus = note(icc, QString());
   const auto iccUpdate = [this, iccStatus] {
     iccStatus->setText(

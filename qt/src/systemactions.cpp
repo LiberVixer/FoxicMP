@@ -5,6 +5,10 @@
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
 #include <QTimer>
+#ifdef Q_OS_WIN
+#include <windows.h>
+#include <powrprof.h>
+#endif
 
 QList<SystemActions::Request> SystemActions::requests(const QString &action) {
   if (action == "suspend" || action == "hibernate" || action == "shutdown") {
@@ -55,6 +59,33 @@ QList<SystemActions::Request> SystemActions::requests(const QString &action) {
 void SystemActions::execute(const QString &action, QObject *owner,
                             std::function<void(const QString &)> finished,
                             std::optional<QDBusConnection> transport) {
+#ifdef Q_OS_WIN
+  Q_UNUSED(transport);
+  QTimer::singleShot(0, owner, [action, finished] {
+    bool ok = false;
+    if (action == "lock") ok = LockWorkStation();
+    else if (action == "logout") ok = ExitWindowsEx(EWX_LOGOFF, 0);
+    else if (action == "suspend" || action == "hibernate")
+      ok = SetSuspendState(action == "hibernate", FALSE, FALSE);
+    else if (action == "shutdown") {
+      HANDLE token = nullptr;
+      TOKEN_PRIVILEGES requested{}, previous{};
+      DWORD bytes = sizeof(previous);
+      if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &token)) {
+        requested.PrivilegeCount = 1;
+        LookupPrivilegeValueW(nullptr, SE_SHUTDOWN_NAME, &requested.Privileges[0].Luid);
+        requested.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+        if (AdjustTokenPrivileges(token, FALSE, &requested, sizeof(previous), &previous, &bytes) &&
+            GetLastError() != ERROR_NOT_ALL_ASSIGNED) {
+          ok = ExitWindowsEx(EWX_POWEROFF, SHTDN_REASON_MAJOR_APPLICATION | SHTDN_REASON_FLAG_PLANNED);
+          AdjustTokenPrivileges(token, FALSE, &previous, 0, nullptr, nullptr);
+        }
+        CloseHandle(token);
+      }
+    }
+    finished(ok ? QString() : QString("Windows error %1").arg(GetLastError()));
+  });
+#else
   auto connection = [transport](bool system) {
     return transport ? *transport
            : system  ? QDBusConnection::systemBus()
@@ -110,4 +141,5 @@ void SystemActions::execute(const QString &action, QObject *owner,
           finished(uiTr("Действие не поддерживается или запрещено системой"));
         watcher->deleteLater();
       });
+#endif
 }

@@ -1,5 +1,6 @@
 #include "i18n.h"
 #include "subtitlerender.h"
+#include "player.h"
 #include "window.h"
 #include <QtWidgets>
 
@@ -36,6 +37,7 @@ void Window::attachSubtitleRenderPreferences(
         [this, key, box] { profile.settings.setValue(key, box->isChecked()); });
     reset->append(
         [box, defaults, id] { box->setChecked(defaults.value(id).toBool()); });
+    return box;
   };
   const auto choice = [this, current, defaults, collect,
                        reset](QFormLayout *form, const QString &id,
@@ -96,8 +98,12 @@ void Window::attachSubtitleRenderPreferences(
       fn();
   });
   auto *compat = page(uiTr("Субтитры — совместимость"));
-  check(compat, "aspectCompat", uiTr("ASS: пропорции как в VSFilter"));
-  check(compat, "blurCompat", uiTr("ASS: размытие как в VSFilter"));
+  auto *aspectCompat = check(compat, "aspectCompat", uiTr("ASS: пропорции как в VSFilter"));
+  auto *blurCompat = check(compat, "blurCompat", uiTr("ASS: размытие как в VSFilter"));
+  if (player->get("option-info/sub-ass-use-video-data").isValid()) {
+    blurCompat->setEnabled(aspectCompat->isChecked());
+    connect(aspectCompat, &QCheckBox::toggled, blurCompat, &QCheckBox::setEnabled);
+  }
   choice(compat, "colorCompat", uiTr("ASS: цвета VSFilter:"),
          {{"basic", uiTr("Базовая совместимость (по умолчанию)")},
           {"no", uiTr("Без преобразования")},

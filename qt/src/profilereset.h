@@ -8,9 +8,19 @@ public:
   ~ProfileLease();
   bool exclusive();
   void shared();
-  bool valid() const { return fd >= 0; }
+  bool valid() const {
+#ifdef Q_OS_WIN
+    return handle != nullptr;
+#else
+    return fd >= 0;
+#endif
+  }
 private:
+#ifdef Q_OS_WIN
+  void *handle = nullptr;
+#else
   int fd = -1;
+#endif
 };
 namespace ProfileReset {
 // Call only after the player window has been destroyed. Assets and media stay.

@@ -125,13 +125,22 @@ void showProfileManagement(Profile &profile, QWidget *parent,
   QObject::connect(shortcut, &QPushButton::clicked, &dialog, [&] {
     auto folder = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
     if (folder.isEmpty() || !QDir(folder).exists()) folder = QDir::homePath();
+#ifdef Q_OS_WIN
+    const auto path = QFileDialog::getSaveFileName(&dialog, uiTr("Создать ярлык профиля"),
+        QDir(folder).filePath("FoxicMPq-profile.lnk"), uiTr("Ярлык Windows (*.lnk)"));
+#else
     const auto path = QFileDialog::getSaveFileName(&dialog, uiTr("Создать ярлык профиля"),
         QDir(folder).filePath("FoxicMPQt-profile.desktop"), uiTr("Ярлык Linux (*.desktop)"));
+#endif
     if (path.isEmpty()) return;
     QString error;
     status->setText(ProfileLaunch::launcher(QCoreApplication::applicationFilePath(),
         target->text(), path, &error)
+        #ifdef Q_OS_WIN
+        ? uiTr("Ярлык сохранён: %1").arg(path)
+#else
         ? uiTr("Ярлык сохранён: %1. При необходимости разрешите его запуск в файловом менеджере.").arg(path)
+#endif
         : error);
   });
   bool resetRequested = false, keepLibrary = true;

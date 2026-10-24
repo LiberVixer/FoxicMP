@@ -17,7 +17,11 @@
 #include <memory>
 #include <cerrno>
 #include <cstring>
+#ifdef Q_OS_WIN
+#include <windows.h>
+#else
 #include <sys/resource.h>
+#endif
 
 Maintenance::Update Maintenance::releases(const QByteArray &bytes,
                                          const QString &current, bool previews) {
@@ -29,7 +33,11 @@ Maintenance::Update Maintenance::releases(const QByteArray &bytes,
   QVersionNumber newest;
   QUrl page;
   QString found;
+#ifdef Q_OS_WIN
+  const QRegularExpression assetPattern("^FoxicMPQt-(\\d+\\.\\d+\\.\\d+)-windows-x64\\.zip$");
+#else
   const QRegularExpression assetPattern("^FoxicMPQt-(\\d+\\.\\d+\\.\\d+)-linux-x64\\.tar\\.gz$");
+#endif
   for (const auto &entry : document.array()) {
     const auto release = entry.toObject();
     if (release.value("draft").toBool() ||
@@ -64,6 +72,17 @@ int Maintenance::niceValue(const QString &mode) {
   return mode == "above" ? -5 : mode == "low" ? 5 : 0;
 }
 QVariantMap Maintenance::priority(const QString &mode, bool apply) {
+#ifdef Q_OS_WIN
+  const DWORD requested = mode == "above" ? ABOVE_NORMAL_PRIORITY_CLASS
+      : mode == "low" ? BELOW_NORMAL_PRIORITY_CLASS : NORMAL_PRIORITY_CLASS;
+  QString error;
+  if (apply && !SetPriorityClass(GetCurrentProcess(), requested))
+    error = QString::number(GetLastError());
+  const auto actual = GetPriorityClass(GetCurrentProcess());
+  return {{"requestedMode", mode}, {"requestedNice", niceValue(mode)},
+          {"actualNice", actual == ABOVE_NORMAL_PRIORITY_CLASS ? -5 : actual == BELOW_NORMAL_PRIORITY_CLASS ? 5 : 0},
+          {"applied", actual == requested && error.isEmpty()}, {"error", error}};
+#else
   const int requested = niceValue(mode);
   QString error;
   // Linux nice is per thread. Include Qt threads already created by QApplication;
@@ -86,6 +105,7 @@ QVariantMap Maintenance::priority(const QString &mode, bool apply) {
   return {{"requestedMode", mode}, {"requestedNice", requested},
           {"actualNice", actual}, {"applied", error.isEmpty() && requested == actual},
           {"error", error}};
+#endif
 }
 QByteArray Maintenance::report(const QVariantMap &runtime,
                                const QStringList &messages, bool details) {

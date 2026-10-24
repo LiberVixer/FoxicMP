@@ -11,6 +11,11 @@ sources = set()
 for path in (root / 'src').glob('*.cpp'):
     for match in pattern.finditer(path.read_text()):
         sources.add(''.join(json.loads(part) for part in re.findall(r'"(?:[^"\\]|\\.)*"', match[1])))
+# Platform labels have two literals; both catalogs are shipped in every build.
+platform_pattern = re.compile(r'uiPlatformTr\(\s*("(?:[^"\\]|\\.)*")\s*,\s*("(?:[^"\\]|\\.)*")\s*\)')
+for path in (root / 'src').glob('*.cpp'):
+    for match in platform_pattern.finditer(path.read_text()):
+        sources.update(json.loads(part) for part in match.groups())
 missing = sorted(sources - catalog.keys())
 invalid = [key for key, value in catalog.items() if not isinstance(value, str)
            or sorted(re.findall(r'%L?[1-9][0-9]*|%n', key))

@@ -18,10 +18,15 @@ bool plain(const QString &value) {
          !value.contains('\n') && !value.contains('\r');
 }
 bool deviceNode(const QString &path, bool block) {
+#ifdef Q_OS_WIN
+  Q_UNUSED(path); Q_UNUSED(block);
+  return false;
+#else
   struct stat info{};
   const auto native = QFile::encodeName(path);
   return !stat(native.constData(), &info) &&
          (block ? S_ISBLK(info.st_mode) : S_ISCHR(info.st_mode));
+#endif
 }
 } // namespace
 

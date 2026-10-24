@@ -12,7 +12,12 @@
 #include <QTimer>
 #include <QWindow>
 #include <memory>
+#include <vector>
+#ifdef Q_OS_WIN
+#include <windows.h>
+#else
 #include <unistd.h>
+#endif
 
 namespace {
 const QString service = "org.freedesktop.ColorManager";
@@ -137,6 +142,17 @@ void SystemIcc::refresh(const QString &screenName) {
   }
   player->setProperty("foxicmpIccStatus",
                       uiTr("Авто ICC: поиск профиля экрана %1…").arg(output));
+#ifdef Q_OS_WIN
+  HDC dc = CreateDCW(L"DISPLAY", reinterpret_cast<const wchar_t *>(output.utf16()), nullptr, nullptr);
+  if (!dc) { finish(revision, QString::number(GetLastError())); return; }
+  DWORD count = 32768;
+  std::vector<wchar_t> filename(count);
+  const bool ok = GetICMProfileW(dc, &count, filename.data());
+  const DWORD error = GetLastError();
+  DeleteDC(dc);
+  if (ok) finish(revision, {}, QString::fromWCharArray(filename.data()));
+  else finish(revision, QString::number(error));
+#else
   if (platform != "xcb") {
     finish(revision, uiTr("Авто ICC доступен в X11 через colord. Для этого "
                           "сеанса используйте ручной профиль; управление "
@@ -195,6 +211,7 @@ void SystemIcc::refresh(const QString &screenName) {
                   });
             });
       });
+#endif
 }
 void SystemIcc::finish(quint64 revision, const QString &failure,
                        const QString &source) {

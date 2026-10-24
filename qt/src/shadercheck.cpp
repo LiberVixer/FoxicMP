@@ -11,7 +11,12 @@
 #include <QOpenGLShaderProgram>
 #include <QSurfaceFormat>
 #include <cstdio>
+#include "windowsruntime.h"
 int main(int argc, char **argv) {
+#ifdef Q_OS_WIN
+  WindowsRuntime runtime;
+  if (!runtime.valid()) return 1;
+#endif
   QGuiApplication app(argc, argv);
   QFile input;
   input.open(stdin, QIODevice::ReadOnly);

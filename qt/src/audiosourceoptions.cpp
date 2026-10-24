@@ -160,6 +160,11 @@ void Window::attachAudioSourcePreferences(QTabWidget *tabs,
   }
   second->setCurrentIndex(index);
   form->addRow(uiTr("Второй выход:"), second);
+#ifdef Q_OS_WIN
+  dual->setChecked(false);
+  form->setRowVisible(dual, false);
+  form->setRowVisible(second, false);
+#endif
   auto *routeNote = new QLabel(
       uiTr("Основной выход задаётся в поле «Устройство». Два разных выхода "
            "PulseAudio/PipeWire получают один и тот же декодированный PCM. "

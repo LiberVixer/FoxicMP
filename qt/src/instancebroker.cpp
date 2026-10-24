@@ -14,7 +14,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QtEndian>
-#include <unistd.h>
+#include "platformpaths.h"
 
 namespace {
 constexpr int limit = 256 * 1024;
@@ -114,22 +114,30 @@ bool LaunchRequest::decode(const QByteArray &data, LaunchRequest *out,
   return true;
 }
 QString InstanceBroker::endpointFor(const QString &directory) {
-  const QFileInfo info(directory);
-  const auto canonical = info.canonicalFilePath().isEmpty()
-                             ? info.absoluteFilePath()
-                             : info.canonicalFilePath();
+  const auto canonical = PlatformPaths::identity(directory);
   const auto id =
       QCryptographicHash::hash(canonical.toUtf8(), QCryptographicHash::Sha256)
           .toHex()
           .left(32);
-  return QDir(QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation))
+#ifdef Q_OS_WIN
+  const auto user = QCryptographicHash::hash(QDir::homePath().toCaseFolded().toUtf8(), QCryptographicHash::Sha256).toHex().left(16);
+  return QString("FoxicMPq-%1-%2").arg(QString::fromLatin1(user), QString::fromLatin1(id));
+#else
+  return QDir(PlatformPaths::runtimeDirectory())
       .filePath(QString("FoxicMPQt-%1-%2.sock")
                     .arg(getuid())
                     .arg(QString::fromLatin1(id)));
+#endif
 }
 InstanceBroker::InstanceBroker(const QString &directory, QObject *parent)
     : QObject(parent), server(this), endpoint(endpointFor(directory)) {
-  lock = std::make_unique<QLockFile>(endpoint + ".lock");
+  lock = std::make_unique<QLockFile>(
+#ifdef Q_OS_WIN
+      QDir(PlatformPaths::runtimeDirectory()).filePath(endpoint + ".lock")
+#else
+      endpoint + ".lock"
+#endif
+  );
   lock->setStaleLockTime(
       0); // Long-lived lease: a live owner is never aged out.
   server.setSocketOptions(QLocalServer::UserAccessOption);
@@ -145,7 +153,7 @@ InstanceBroker::Result InstanceBroker::start(const LaunchRequest &request,
   if (!LaunchRequest::decode(bytes, &validated, &error))
     return Failed;
   const auto runtime =
-      QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation);
+      PlatformPaths::runtimeDirectory();
   if (runtime.isEmpty() || !QDir(runtime).exists()) {
     error = uiTr("Недоступна папка временного IPC текущего пользователя.");
     return Failed;

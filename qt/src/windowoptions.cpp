@@ -669,7 +669,7 @@ void Window::attachWindowPreferences(QTabWidget *tabs,
     profile.settings.setValue("ui/fullscreenHideMs", delay->value());
   });
   auto *change = check(
-      full, uiTr("Менять разрешение / частоту на время полного экрана (X11)"),
+      full, uiPlatformTr("Менять разрешение / частоту на время полного экрана (X11)", "Менять разрешение / частоту на время полного экрана (Windows)"),
       "ui/changeDisplayMode", false);
   QString error;
   const auto modes = displayMode.modes(&error);

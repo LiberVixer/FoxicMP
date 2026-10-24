@@ -34,7 +34,7 @@ QString expand(const QString &pattern, const QMap<QString, QString> &values) {
   return clean(out);
 }
 } // namespace
-QString WindowTitle::idle() { return "FoxicMP x64 0.1.68"; }
+QString WindowTitle::idle() { return "FoxicMP x64 0.1.69"; }
 QString WindowTitle::path(const QString &source) {
   const QUrl url(source);
   if (url.isLocalFile())

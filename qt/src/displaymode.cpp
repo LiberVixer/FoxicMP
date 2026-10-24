@@ -6,8 +6,55 @@
 #include <QRegularExpression>
 #include <QStandardPaths>
 #include <utility>
+#ifdef Q_OS_WIN
+#include <windows.h>
+#include <QSet>
+namespace {
+DisplayMode::Result windowsDisplayCommand(const QStringList &args) {
+  if (args == QStringList{"--query"}) {
+    QString text;
+    DISPLAY_DEVICEW device{}; device.cb = sizeof(device);
+    for (DWORD index = 0; EnumDisplayDevicesW(nullptr, index, &device, 0); ++index) {
+      if (!(device.StateFlags & DISPLAY_DEVICE_ACTIVE) || (device.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER)) continue;
+      DEVMODEW current{}; current.dmSize = sizeof(current);
+      if (!EnumDisplaySettingsW(device.DeviceName, ENUM_CURRENT_SETTINGS, &current)) continue;
+      text += QString("%1 connected %2x%3+0+0 (normal)\n")
+          .arg(QString::fromWCharArray(device.DeviceName)).arg(current.dmPelsWidth).arg(current.dmPelsHeight);
+      QSet<QString> seen;
+      DEVMODEW mode{}; mode.dmSize = sizeof(mode);
+      for (DWORD row = 0; EnumDisplaySettingsW(device.DeviceName, row, &mode); ++row) {
+        if (mode.dmBitsPerPel != current.dmBitsPerPel || mode.dmDisplayFrequency <= 1 ||
+            (mode.dmDisplayFlags & DM_INTERLACED)) continue;
+        const auto key = QString("%1x%2 %3").arg(mode.dmPelsWidth).arg(mode.dmPelsHeight).arg(mode.dmDisplayFrequency);
+        if (seen.contains(key)) continue;
+        seen.insert(key);
+        const bool active = mode.dmPelsWidth == current.dmPelsWidth && mode.dmPelsHeight == current.dmPelsHeight &&
+                            mode.dmDisplayFrequency == current.dmDisplayFrequency;
+        text += "  " + key + (active ? "*" : "") + "\n";
+      }
+    }
+    return {true, text};
+  }
+  const auto value = [&args](const QString &key) { const int at = args.indexOf(key); return at >= 0 ? args.value(at + 1) : QString(); };
+  const auto output = value("--output"), resolution = value("--mode"), rate = value("--rate");
+  DEVMODEW mode{}; mode.dmSize = sizeof(mode);
+  const auto native = reinterpret_cast<const wchar_t *>(output.utf16());
+  for (DWORD row = 0; EnumDisplaySettingsW(native, row, &mode); ++row) {
+    if (QString("%1x%2").arg(mode.dmPelsWidth).arg(mode.dmPelsHeight) != resolution ||
+        QString::number(mode.dmDisplayFrequency) != rate) continue;
+    mode.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFREQUENCY | DM_BITSPERPEL;
+    const LONG result = ChangeDisplaySettingsExW(native, &mode, nullptr, CDS_FULLSCREEN, nullptr);
+    return {result == DISP_CHANGE_SUCCESSFUL, QString::number(result)};
+  }
+  return {false, QString("Windows display mode unavailable")};
+}
+}
+#endif
 DisplayMode::DisplayMode(Command runner) : command(std::move(runner)) {
   if (!command)
+#ifdef Q_OS_WIN
+    command = windowsDisplayCommand;
+#else
     command = [](const QStringList &args) -> Result {
       if (QGuiApplication::platformName() != "xcb" ||
           qEnvironmentVariable("XDG_SESSION_TYPE")
@@ -33,6 +80,7 @@ DisplayMode::DisplayMode(Command runner) : command(std::move(runner)) {
                                        : process.readAllStandardError())
                       .left(1024 * 1024)};
     };
+#endif
 }
 DisplayMode::~DisplayMode() { restore(); }
 QList<DisplayMode::Mode> DisplayMode::parse(const QString &text) {

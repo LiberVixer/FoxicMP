@@ -41,14 +41,14 @@ void Window::maintenanceDialog(bool checkUpdates) {
   auto *layout = new QVBoxLayout(dialog);
   auto *form = new QFormLayout;
   layout->addLayout(form);
-  auto *version = new QLabel(uiTr("FoxicMP Qt %1 — Linux x64").arg(QCoreApplication::applicationVersion()));
+  auto *version = new QLabel(uiPlatformTr("FoxicMP Qt %1 — Linux x64", "FoxicMP Qt %1 — Windows x64").arg(QCoreApplication::applicationVersion()));
   version->setObjectName("maintenanceVersion");
   form->addRow(version);
   auto *previews = new QCheckBox(uiTr("Учитывать предварительные выпуски Qt"));
   previews->setObjectName("maintenancePreviews");
   previews->setChecked(profile.settings.value("maintenance/updatePreviews", true).toBool());
   form->addRow(previews);
-  auto *check = new QPushButton(uiTr("Проверить обновления Linux/Qt"));
+  auto *check = new QPushButton(uiPlatformTr("Проверить обновления Linux/Qt", "Проверить обновления Windows/Qt"));
   check->setObjectName("maintenanceCheckUpdates");
   auto *open = new QPushButton(uiTr("Открыть страницу выпуска"));
   open->setObjectName("maintenanceOpenRelease");
@@ -63,13 +63,17 @@ void Window::maintenanceDialog(bool checkUpdates) {
   form->addRow(updateStatus);
   auto *priority = new QComboBox;
   priority->setObjectName("maintenancePriority");
-  priority->addItem(uiTr("Обычный (nice 0)"), "normal");
-  priority->addItem(uiTr("Выше обычного (nice −5)"), "above");
-  priority->addItem(uiTr("Ниже обычного (nice 5)"), "low");
+  priority->addItem(uiPlatformTr("Обычный (nice 0)", "Обычный"), "normal");
+  priority->addItem(uiPlatformTr("Выше обычного (nice −5)", "Выше обычного"), "above");
+  priority->addItem(uiPlatformTr("Ниже обычного (nice 5)", "Ниже обычного"), "low");
   priority->setCurrentIndex(std::max(0, priority->findData(profile.settings.value("maintenance/priority", "normal"))));
   form->addRow(uiTr("Приоритет со следующего запуска:"), priority);
-  const auto actual = Maintenance::priority("normal", false).value("actualNice").toInt();
+  [[maybe_unused]] const auto actual = Maintenance::priority("normal", false).value("actualNice").toInt();
+#ifdef Q_OS_WIN
+  auto *priorityStatus = new QLabel(uiTr("Приоритет Windows применяется при следующем запуске плеера."));
+#else
   auto *priorityStatus = new QLabel(uiTr("Сейчас nice %1. Повышение приоритета может быть запрещено Linux; права администратора не запрашиваются.").arg(actual));
+#endif
   priorityStatus->setWordWrap(true);
   const auto startup = qApp->property("foxicmpPriority").toMap();
   if (!startup.value("error").toString().isEmpty())
@@ -111,9 +115,9 @@ void Window::maintenanceDialog(bool checkUpdates) {
       *releasePage = page; open->setEnabled(true);
       updateStatus->setText(uiTr("Доступна FoxicMP Qt %1. Текущая версия: %2.").arg(latest, QCoreApplication::applicationVersion()));
     } else if (result == "current")
-      updateStatus->setText(uiTr("Более новой Linux/Qt-сборки нет. Опубликована %1; установлена %2.").arg(latest, QCoreApplication::applicationVersion()));
+      updateStatus->setText(uiPlatformTr("Более новой Linux/Qt-сборки нет. Опубликована %1; установлена %2.", "Более новой Windows/Qt-сборки нет. Опубликована %1; установлена %2.").arg(latest, QCoreApplication::applicationVersion()));
     else if (result == "unpublished")
-      updateStatus->setText(uiTr("Среди последних 100 выпусков нет подходящей Linux/Qt-сборки. Windows-сборки не учитываются."));
+      updateStatus->setText(uiPlatformTr("Среди последних 100 выпусков нет подходящей Linux/Qt-сборки. Windows-сборки не учитываются.", "Среди последних 100 выпусков нет подходящей Windows/Qt-сборки. Classic и Linux не учитываются."));
     else
       updateStatus->setText(error);
   });

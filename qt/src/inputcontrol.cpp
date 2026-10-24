@@ -707,6 +707,10 @@ void Window::attachInputPreferences(QTabWidget *tabs,
   remoteStatus->setTextInteractionFlags(Qt::TextSelectableByMouse);
   remoteStatus->setWordWrap(true);
   commandsLayout->addWidget(remoteStatus);
+#ifdef Q_OS_WIN
+  remote->setChecked(false);
+  remote->hide(); remoteInfo->hide(); remoteStatus->hide();
+#endif
   commandsLayout->addStretch();
   tabs->addTab(commands, uiTr("Управление"));
   apply->append([this, choices, drag, last, accelerate, spinBoxes, remote,
@@ -936,7 +940,9 @@ void Window::setupMediaRemote() {
     commandCatalog[it.key()] = it.value()->text();
   mediaRemote->setCommands(commandCatalog);
   mediaRemote->setObjectName("mediaRemote");
+#ifndef Q_OS_WIN
   mediaRemote->setEnabled(profile.settings.value("input/mpris", true).toBool());
+#endif
   connect(player, &Player::property, mediaRemote,
           [this](const QString &name, const QVariant &value) {
             if (name == "seeking" && !value.toBool())

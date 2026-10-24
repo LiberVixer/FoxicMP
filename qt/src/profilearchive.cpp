@@ -13,10 +13,7 @@
 #include <QSaveFile>
 #include <QTemporaryDir>
 #include <QUuid>
-#include <fcntl.h>
-#include <linux/fs.h>
-#include <sys/syscall.h>
-#include <unistd.h>
+#include "platformpaths.h"
 
 namespace {
 constexpr qsizetype fileLimit = 8 * 1024 * 1024;
@@ -343,10 +340,7 @@ bool ProfileArchive::restore(const Bundle &bundle, const QString &newDirectory,
       return fail(error,
                   uiTr("Не удалось сохранить восстановленные настройки."));
   }
-  if (::syscall(SYS_renameat2, AT_FDCWD,
-                QFile::encodeName(temporary.path()).constData(), AT_FDCWD,
-                QFile::encodeName(destination).constData(),
-                RENAME_NOREPLACE) != 0)
+  if (!PlatformPaths::moveNoReplace(temporary.path(), destination))
     return fail(error, uiTr("Не удалось создать папку профиля: путь уже занят "
                             "или недоступен."));
   temporary.setAutoRemove(false);
