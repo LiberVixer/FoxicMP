@@ -160,13 +160,16 @@ void Appearance::apply(QApplication &app, QSettings &settings) {
             "%1);border-top:1px solid %5;} QWidget#controls "
             "QLabel,QWidget#controls QToolButton,QWidget#controls QSlider "
             "{background:transparent;} QToolButton:hover {background:%3;} "
+            "QWidget#controls QToolButton:hover {border:1px solid %2;} "
+            "QWidget#controls QToolButton:pressed,QWidget#controls QToolButton:checked "
+            "{background:%6;border:1px solid %2;} "
             "QSlider::groove:horizontal {height:5px;background:%5;} "
             "QSlider::handle:horizontal {width:7px;background:%2;margin:-4px "
             "0;} QDockWidget {min-width:200px;} QToolTip "
             "{color:%2;background:%4;border:1px solid %5;}")
             .arg(base.name(), text.name(), accent.name(),
                  light ? base.darker(108).name() : base.lighter(145).name(),
-                 base.darker(140).name());
+                 base.darker(140).name(), accent.darker(light ? 115 : 135).name());
     const bool darkMenu = settings.value("appearance/darkMenu", true).toBool();
     app.setStyleSheet(css + (darkMenu ? QString() : QString(
         "QMenuBar,QMenu,QMenu::item {background:#eef0f2;color:#202428;} "

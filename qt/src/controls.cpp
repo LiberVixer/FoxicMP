@@ -48,6 +48,15 @@ QIcon controlIcon(const QString &name) {
       p.setBrush(Qt::NoBrush);
       p.drawPolyline(QPolygonF{{3, 15}, {3, 5}, {8, 5}, {10, 7}, {17, 7}});
       p.drawPolygon(QPolygonF{{3, 15}, {6, 9}, {18, 9}, {15, 15}});
+    } else if (name == "audio") {
+      p.drawPolygon(QPolygonF{{2, 8}, {5, 8}, {9, 4}, {9, 16}, {5, 12}, {2, 12}});
+      p.setBrush(Qt::NoBrush);
+      p.drawArc(QRectF(8, 6, 7, 8), -60 * 16, 120 * 16);
+    } else if (name == "subtitles") {
+      p.setBrush(Qt::NoBrush);
+      p.drawRoundedRect(QRectF(2, 4, 16, 12), 2, 2);
+      p.drawLine(5, 9, 15, 9);
+      p.drawLine(5, 12, 12, 12);
     } else if (name == "volume" || name == "mute") {
       p.drawPolygon(
           QPolygonF{{2, 8}, {5, 8}, {9, 4}, {9, 16}, {5, 12}, {2, 12}});

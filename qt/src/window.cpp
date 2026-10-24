@@ -129,6 +129,17 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
     b->setIconSize(QSize(16, 16));
     b->setFixedSize(23, 22);
     b->setFocusPolicy(Qt::NoFocus);
+    const QMap<QString, QString> tooltips{
+        {"play", uiTr("Воспроизведение / пауза")},
+        {"stop", uiTr("Стоп / закрыть файл")},
+        {"previous", uiTr("Предыдущий / предыдущий файл")},
+        {"next", uiTr("Следующий / следующий файл")},
+        {"frameNext", uiTr("Следующий кадр / перейти к времени")},
+        {"open", uiTr("Открыть / последние файлы")},
+        {"audioQuick", uiTr("Аудиодорожка / параметры")},
+        {"subtitleQuick", uiTr("Субтитры / параметры")},
+        {"mute", uiTr("Включить или отключить звук")}};
+    if (tooltips.contains(id)) b->setToolTip(tooltips.value(id));
     buttons->addWidget(b);
     return b;
   };
@@ -138,6 +149,8 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
   button("next", "next");
   button("frameNext", "frame");
   button("open", "open");
+  button("audioQuick", "audio");
+  button("subtitleQuick", "subtitles");
   auto *status = new ClassicStatusArea(bar);
   statusArea = status;
   state = status->message;
@@ -1085,8 +1098,26 @@ bool Window::eventFilter(QObject *object, QEvent *event) {
         historyMenu->popup(button->mapToGlobal(QPoint(0, button->height())));
         return true;
       }
+      if (id == "stop") {
+        actions["closeFile"]->trigger();
+        return true;
+      }
+      if (id == "previous" || id == "next") {
+        const bool forward = id == "next";
+        if (!advancePlaylist(forward) && !advanceDirectory(forward))
+          showOsd(forward ? uiTr("Последний файл") : uiTr("Первый файл"));
+        return true;
+      }
       if (id == "frameNext") {
         goToTime();
+        return true;
+      }
+      if (id == "audioQuick") {
+        actions["audioProcessingSettings"]->trigger();
+        return true;
+      }
+      if (id == "subtitleQuick") {
+        actions["preferences"]->trigger();
         return true;
       }
     }
