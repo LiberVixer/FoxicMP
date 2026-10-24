@@ -2287,7 +2287,7 @@ void Window::preferences() {
         profile.settings.value("ui/onTop", false).toBool());
     actions["frameless"]->setChecked(
         profile.settings.value("ui/frameless", false).toBool());
-    if (!profile.settings.value("ui/osd", true).toBool())
+    if (!profile.settings.value("ui/osd", false).toBool())
       osd->hide();
     updateClock();
     for (auto it = editors.begin(); it != editors.end(); ++it)

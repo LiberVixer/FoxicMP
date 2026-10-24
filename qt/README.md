@@ -1,7 +1,11 @@
 # FoxiqMP qt — Windows / Linux
 
 Native Qt 6 Widgets + libmpv player. First target: Linux Mint 22.x x64.
-This is a **0.1.71 development preview**, separate from FoxicMP Classic Windows.
+This is a **0.1.72 development preview**, separate from FoxicMP Classic Windows.
+
+0.1.72 disables OSD by default for new profiles, preserves explicit preferences,
+and honors explicit PulseAudio routing on Linux. The test runner uses a private
+audio server so tests cannot change desktop stream mute or volume.
 
 0.1.71 names both Qt editions FoxiqMP qt. Emerald icons distinguish them from
 FoxicMP Classic; the built-in logos identify Windows QT / Linux QT and #LiberVixer.
@@ -396,9 +400,10 @@ The preflight command is intentional: CTest expects the generated corpus and
 reports missing media as test failures otherwise. Add `--display` and
 `--audio` when running the corresponding groups directly outside CI.
 
-The runner requires `xvfb`, `xauth`, `dbus-daemon`, `pulseaudio-utils` and a
-PulseAudio-compatible server. It creates a virtual X11 display, a private D-Bus
-session and a temporary audio sink, which it removes on exit. This also prevents
+The runner requires `xvfb`, `xauth`, `dbus-daemon`, `pulseaudio` and
+`pulseaudio-utils`. It creates a virtual X11 display, a private D-Bus session
+and a separate PulseAudio server with a null sink. Its socket and daemon are
+removed on exit; the desktop audio server and stored stream settings are untouched. This also prevents
 desktop window placement, clipboard and monitor changes from affecting results.
 Extra arguments are passed to CTest (for example `-R system-icc`).
 Set `FOXICMP_TEST_OUTPUT=opengl` to request OpenGL. On Mesa software drivers this

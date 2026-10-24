@@ -200,6 +200,7 @@ private slots:
     QTemporaryDir temp;
     Profile profile(temp.path());
     prepare(profile);
+    profile.settings.setValue("ui/osd", true);
     profile.settings.setValue("osd/showName", true);
     profile.settings.setValue("osd/showTime", true);
     profile.settings.setValue("osd/showClock", true);

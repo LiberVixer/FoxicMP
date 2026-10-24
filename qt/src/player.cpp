@@ -63,6 +63,12 @@ Player::Player(QWidget *parent, const QString &output,
         {"video-timing-offset", "0"},
         {"audio-client-name", "FoxiqMP qt"}})
     mpv_set_option_string(handle, p.first, p.second);
+#ifdef Q_OS_LINUX
+  // Native PipeWire ignores PULSE_SINK. An explicit PulseAudio route must
+  // select its backend too; startup options below can still override it.
+  if (!qEnvironmentVariableIsEmpty("PULSE_SINK"))
+    mpv_set_option_string(handle, "ao", "pulse");
+#endif
   for (auto option = startupOptions.cbegin(); option != startupOptions.cend();
        ++option) {
     const QByteArray name = option.key().toUtf8();

@@ -38,7 +38,7 @@ Profile::Profile(const QString &dir)
     settings.setValue("profile/version", 1);
     const QVariantMap defaults{{"audio/volume", 75}, {"audio/mute", false},
         {"playback/rememberPosition", true}, {"playback/hardwareDecoding", true},
-        {"integration/checkOnStartup", false}};
+        {"integration/checkOnStartup", false}, {"ui/osd", false}};
     for (auto it = defaults.begin(); it != defaults.end(); ++it)
       if (!settings.contains(it.key()))
         settings.setValue(it.key(), it.value());

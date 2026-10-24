@@ -785,6 +785,10 @@ private slots:
       dialog->findChild<QCheckBox *>("ui/onTop")->setChecked(true);
       dialog->findChild<QCheckBox *>("ui/frameless")->setChecked(true);
       dialog->findChild<QCheckBox *>("ui/remainingTime")->setChecked(true);
+      auto *osd = dialog->findChild<QCheckBox *>("ui/osd");
+      QVERIFY(osd);
+      QVERIFY(!osd->isChecked());
+      osd->setChecked(true);
       dialog->findChild<QSpinBox *>("video/brightness")->setValue(10);
       edited = true;
       dialog->findChild<QDialogButtonBox *>()

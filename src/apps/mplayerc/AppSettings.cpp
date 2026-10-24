@@ -677,7 +677,7 @@ void CAppSettings::ResetSettings()
 	bDarkTitle = true;
 	bRemoveWindowBorder = true;
 
-	ShowOSD.Enable = 1;
+	ShowOSD.Enable = 0;
 	bOSDRemainingTime = false;
 	bOSDLocalTime = false;
 	bOSDFileName = false;

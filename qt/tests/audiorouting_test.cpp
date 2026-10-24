@@ -130,6 +130,45 @@ private slots:
             "sine=frequency=660:sample_rate=48000:duration=8", "-c:a", "flac",
             fixtures.filePath("audio: русский/movie.rus.flac")});
   }
+  void explicitPulseEnvironmentRoutesDefaultOutput() {
+    const auto sink = qEnvironmentVariable("PULSE_SINK");
+    QVERIFY2(sink.startsWith("foxicmp_test_"),
+             "Run with run_tests.sh and its private audio server");
+    Player player;
+    player.resize(320, 180);
+    player.show();
+    QVERIFY(QTest::qWaitForWindowExposed(&player));
+    QSignalSpy loaded(&player, &Player::loaded);
+    QVERIFY(player.set("pause", true));
+    QVERIFY(player.command({"loadfile", video}));
+    QTRY_COMPARE(loaded.size(), 1);
+    QTRY_COMPARE(player.get("current-ao").toString(), QString("pulse"));
+    const auto sinks =
+        QJsonDocument::fromJson(run({"--format=json", "list", "sinks"})).array();
+    int sinkIndex = -1;
+    for (const auto &entry : sinks)
+      if (entry.toObject().value("name").toString() == sink)
+        sinkIndex = entry.toObject().value("index").toInt();
+    QVERIFY(sinkIndex >= 0);
+    const auto inputs = QJsonDocument::fromJson(
+                            run({"--format=json", "list", "sink-inputs"}))
+                            .array();
+    bool found = false;
+    for (const auto &entry : inputs) {
+      const auto input = entry.toObject();
+      const auto properties = input.value("properties").toObject();
+      if (properties.value("application.process.id").toString() !=
+          QString::number(QCoreApplication::applicationPid()))
+        continue;
+      QCOMPARE(input.value("sink").toInt(), sinkIndex);
+      found = true;
+    }
+    QVERIFY(found);
+    // Decoding alone is insufficient: measure a real non-silent audio stream.
+    const auto samples = capture(sink, &player);
+    QVERIFY(samples.size() > 48000);
+    QVERIFY(rms(samples) > .001);
+  }
   void defaultSearchDisabledAndPreferencesCancelApply() {
     QTemporaryDir dir;
     Profile profile(dir.path());

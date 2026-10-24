@@ -103,7 +103,7 @@ void Window::positionPreview() {
   previewPopup->move(x, y);
 }
 void Window::showOsd(const QString &text) {
-  if (!osd || !profile.settings.value("ui/osd", true).toBool() || !isVisible())
+  if (!osd || !profile.settings.value("ui/osd", false).toBool() || !isVisible())
     return;
   osd->setText(text);
   osd->setMaximumWidth(std::max(80, player->width() - 24));
@@ -412,7 +412,7 @@ void Window::attachMediaPreferences(QTabWidget *tabs,
               "ui/frameless", false);
   frameless->setToolTip(
       uiTr("Ctrl+0 показывает меню; Esc выходит из полного экрана"));
-  boolean(window, uiTr("Сообщения поверх видео"), "ui/osd", true);
+  boolean(window, uiTr("Сообщения поверх видео"), "ui/osd", false);
   boolean(window, uiTr("Показывать оставшееся время"), "ui/remainingTime",
           false);
   boolean(window, uiTr("Включать субтитры в снимок кадра"),
@@ -466,7 +466,7 @@ void Window::showVideoSettings() {
         profile.settings.value("ui/onTop", false).toBool());
     actions["frameless"]->setChecked(
         profile.settings.value("ui/frameless", false).toBool());
-    if (!profile.settings.value("ui/osd", true).toBool())
+    if (!profile.settings.value("ui/osd", false).toBool())
       osd->hide();
     updateClock();
   }

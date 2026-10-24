@@ -140,7 +140,7 @@ void Window::positionOverlays() {
 void Window::updateOverlays() {
   if (!osdInfo || !osdClock)
     return;
-  const bool enabled = profile.settings.value("ui/osd", true).toBool();
+  const bool enabled = profile.settings.value("ui/osd", false).toBool();
   QStringList info;
   if (!stopped && profile.settings.value("osd/showName", false).toBool())
     info.append(MediaSource::displayName(current));
