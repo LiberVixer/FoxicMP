@@ -1,8 +1,14 @@
 # FoxiqMP qt 0.2.0 — Windows x64
 
-В 0.2.0 базовые настройки новых профилей и 43 стандартные команды
-получают общие определения с Classic. Сохранённые настройки и клавиши
-не заменяются. Эталон организации меню и настроек — Linux Qt.
+Готовый пакет: [FoxicMPQt-0.2.0-windows-x64.zip](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64.zip).
+[Контрольная сумма SHA-256](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64.sha256).
+Распакуйте его в доступную для записи папку и запустите `FoxicMPq.exe`.
+В архиве нет пользовательского INI; сохраняйте свой профиль при обновлении.
+Полный Windows Qt тест выпуска: 22 passed, 0 failed, exit 0 на Windows 11 x64.
+
+В 0.2.0 общий каталог содержит 43 команды; Classic сохраняет собственные
+defaults и клавиши. Сохранённые настройки не заменяются. Эталон организации
+меню и настроек — Linux Qt.
 
 В 0.1.72 сообщения поверх видео (OSD) выключены по умолчанию.
 Сохранённый выбор в существующих профилях сохраняется.
@@ -54,6 +60,18 @@ libmpv и lcms2. Из оболочки UCRT64:
 cmake -S qt -B windows-build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
 cmake --build windows-build -j 8
 ```
+
+Из Windows PowerShell можно использовать штатный скрипт; пути компиляторов
+нормализуются для CMake, включая аргумент `C:\...`:
+
+```powershell
+./qt/packaging/windows/build.ps1 -ToolchainDirectory C:\msys64 -BuildDirectory C:\build\FoxicMP-qt -Jobs 8
+./qt/packaging/windows/deploy.ps1 -BuildDirectory C:\build\FoxicMP-qt -ToolchainDirectory C:\msys64 -Destination C:\packages\FoxicMPQt-0.2.0-windows-x64 -YtDlpExecutable C:\tools\yt-dlp.exe -YtDlpLicense C:\tools\yt-dlp-licenses.txt
+```
+
+`Destination` должна быть новой папкой. Для поставки онлайн-видео передавайте
+оба файла yt-dlp, как в примере; необязательный аргумент не скачивает yt-dlp
+автоматически. Упаковывайте подготовленную папку без личного `FoxicMPQt.ini`.
 
 Входной поток stdin поддерживает потоковые контейнеры (например, MKV или
 fast-start MP4). Обычный MP4 с индексом в конце требует перемотки и через

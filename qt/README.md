@@ -3,9 +3,26 @@
 Native Qt 6 Widgets + libmpv player. First target: Linux Mint 22.x x64.
 This is a **0.2.0 release**, separate from FoxicMP Classic Windows.
 
-0.2.0 shares 43 command IDs/shortcuts and core new-profile defaults with Classic.
-Saved preferences remain authoritative. Linux Qt is the reference for menu and
-settings organization; both Qt builds run the same family contract scenario.
+0.2.0 uses a shared catalog of 43 commands and Qt new-profile defaults.
+Classic keeps its native defaults and user shortcuts. Saved preferences remain
+authoritative. Linux Qt is the reference for menu and settings organization;
+both Qt builds run the same family contract scenario.
+
+Ready-to-run x64 builds for Windows Qt, Linux Qt and Windows Classic are on the
+[0.2.0 release page](https://github.com/LiberVixer/FoxicMP/releases/tag/v0.2.0).
+See the [root README](../README.md) for downloads, independent profiles and the
+[release notes](../docs/ReleaseNotes-0.2.0.md) for exact validation results.
+Both Qt executables report 0.2.0; Classic retains engine version 1.9.1.75.
+
+Linux packaging reads the configured CMake version and checks the installed
+executable before naming its archive:
+
+```sh
+bash qt/packaging/package.sh build/qt build/release
+```
+
+Windows uses the same source tree with `*_win.cpp` adapters and the
+[native build/deployment scripts](packaging/windows/README.ru.md).
 
 0.1.72 disables OSD by default for new profiles, preserves explicit preferences,
 and honors explicit PulseAudio routing on Linux. The test runner uses a private
@@ -26,8 +43,8 @@ visibility is restored correctly after reopening an INI profile.
 
 0.1.69 adds a native Windows x64 build (`FoxicMPq.exe`) with portable profiles,
 Windows shortcuts and an independent application registration. Build and packaging
-instructions: [Windows](packaging/windows/README.ru.md). Linux downloader IPC
-remains Linux-only.
+instructions: [Windows](packaging/windows/README.ru.md). In 0.2.0 the downloader
+API is available on both platforms: Unix socket on Linux, named pipe on Windows.
 
 0.1.68 installs the FoxicMP application icon beside the executable and uses its
 absolute path in Linux menu/profile shortcuts, avoiding missing generic theme icons.
