@@ -5,7 +5,7 @@
 Оба формата устанавливают один и тот же MSI-продукт для текущего пользователя,
 сохраняя профиль рядом с EXE. [Устройство и сборка установщиков](../../../packaging/windows/README.md).
 
-Готовый portable-пакет: [FoxicMPQt-0.2.0-windows-x64.zip](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64.zip).
+Готовый portable-пакет: [FoxicMPQt-0.2.0-windows-x64.zip](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPQt-0.2.0-windows-x64.zip).
 [Контрольная сумма SHA-256](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64.sha256).
 Распакуйте его в доступную для записи папку и запустите `FoxicMPq.exe`.
 В архиве нет пользовательского INI; сохраняйте свой профиль при обновлении.
