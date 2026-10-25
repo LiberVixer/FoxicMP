@@ -110,13 +110,24 @@ class ProgressiveClient:
         raise TimeoutError("Progressive API unavailable; restart an older player if it is running")
 
     def start(self, session: dict, *, title: str = "", replace: bool = False,
-              activate: bool = True) -> dict:
-        return self.request({"version": 1, "action": "start", "session": session,
-                             "title": title, "replace": replace, "activate": activate})
+              activate: bool = True, session_directory: str | None = None) -> dict:
+        message = {"version": 1, "action": "start", "session": session,
+                   "title": title, "replace": replace, "activate": activate}
+        if session_directory is not None: message["sessionDirectory"] = str(Path(session_directory).resolve())
+        return self.request(message)
 
-    def update(self, session: dict, *, complete: bool = False) -> dict:
-        return self.request({"version": 1, "action": "complete" if complete else "update",
-                             "sessionId": session["sessionId"], "session": session})
+    def update(self, session: dict, *, complete: bool = False,
+               session_directory: str | None = None) -> dict:
+        message = {"version": 1, "action": "complete" if complete else "update",
+                   "sessionId": session["sessionId"], "session": session}
+        if session_directory is not None: message["sessionDirectory"] = str(Path(session_directory).resolve())
+        return self.request(message)
+
+    def probe(self, session: dict, session_directory: str | None = None) -> dict:
+        message = {"version": 1, "action": "probe", "session": session}
+        if session_directory is not None:
+            message["sessionDirectory"] = str(Path(session_directory).resolve())
+        return self.request(message)
 
     def command(self, action: str, session_id: str, **fields) -> dict:
         return self.request({"version": 1, "action": action, "sessionId": session_id, **fields})
@@ -128,9 +139,10 @@ def main() -> int:
     parser.add_argument("--player", default=str(default_player))
     parser.add_argument("--profile")
     parser.add_argument("--ensure", action="store_true", help="start/reuse the player if needed")
-    parser.add_argument("action", choices=("capabilities", "start", "update", "complete",
+    parser.add_argument("action", choices=("capabilities", "probe", "start", "update", "complete",
                                            "heartbeat", "status", "cancel", "error"))
     parser.add_argument("--snapshot", type=Path, help="JSON session snapshot for start/update/complete")
+    parser.add_argument("--session-directory", type=Path, help="Directory containing relative progressive tracks")
     parser.add_argument("--session-id")
     parser.add_argument("--title", default="")
     parser.add_argument("--replace", action="store_true")
@@ -140,7 +152,13 @@ def main() -> int:
         client = ProgressiveClient(args.player, args.profile)
         if args.ensure:
             client.ensure_running()
-        if args.action in {"start", "update", "complete"}:
+        if args.action == "probe":
+            if args.snapshot is None:
+                parser.error("--snapshot is required")
+            with args.snapshot.open("rb") as stream:
+                session = json.load(stream)
+            reply = client.probe(session, args.session_directory)
+        elif args.action in {"start", "update", "complete"}:
             if args.snapshot is None:
                 parser.error("--snapshot is required")
             with args.snapshot.open("rb") as stream:
@@ -148,8 +166,10 @@ def main() -> int:
             if len(raw) > MAX_BYTES:
                 raise ValueError("Session snapshot exceeds the limit")
             session = json.loads(raw)
-            reply = client.start(session, title=args.title, replace=args.replace) if args.action == "start" \
-                else client.update(session, complete=args.action == "complete")
+            reply = client.start(session, title=args.title, replace=args.replace,
+                                 session_directory=args.session_directory) if args.action == "start" \
+                else client.update(session, complete=args.action == "complete",
+                                   session_directory=args.session_directory)
         elif args.action == "capabilities":
             reply = client.request({"version": 1, "action": "capabilities"})
         else:

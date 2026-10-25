@@ -260,6 +260,21 @@ private slots:
     const auto endpoint = ProgressiveApi::endpointFor(profile.directory);
     auto reply = wire(endpoint, "{\"version\":1,\"action\":\"capabilities\"}\n");
     QVERIFY(reply["ok"].toBool());
+    QCOMPARE(reply["schemaVersion"].toInt(), 1);
+    QVERIFY(reply["actions"].toArray().contains(QJsonValue("probe")));
+    auto relative = snapshot;
+    auto relativeTracks = relative["tracks"].toObject();
+    for (const auto &kind : {QStringLiteral("video"), QStringLiteral("audio")}) {
+      auto track = relativeTracks[kind].toObject();
+      track["path"] = QFileInfo(track["path"].toString()).fileName();
+      relativeTracks[kind] = track;
+    }
+    relative["tracks"] = relativeTracks;
+    QJsonObject probe{{"version", 1}, {"action", "probe"}, {"session", relative},
+                      {"sessionDirectory", QFileInfo(paths[0]).absolutePath()}};
+    reply = api.request(probe);
+    QVERIFY(reply["ok"].toBool()); QVERIFY(reply["supported"].toBool());
+    QCOMPARE(reply["mode"].toString(), QString("native-progressive"));
     QVERIFY(!wire(endpoint, "{\"version\":1,\"version\":1,\"action\":\"capabilities\"}\n")["ok"].toBool());
     QVERIFY(!wire(endpoint, QByteArray(65537, 'x'))["ok"].toBool());
     QProcess client;

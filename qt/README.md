@@ -41,6 +41,12 @@ left-click, and seeds new Windows profiles from the configured preferences.
 Existing profiles and personal playback data are preserved. Saved subtitle
 visibility is restored correctly after reopening an INI profile.
 
+0.1.71 extends the player-owned progressive contract with a read-only `probe`
+action and safe relative track names. `capabilities` now advertises the shared
+`progressive-manifest-v1` schema, native/post-download modes and the explicit
+fallback status. Linux Qt, Windows Qt and Classic accept the same optional
+`sessionDirectory`; YouTubeHarvester remains unchanged.
+
 0.1.69 adds a native Windows x64 build (`FoxicMPq.exe`) with portable profiles,
 Windows shortcuts and an independent application registration. Build and packaging
 instructions: [Windows](packaging/windows/README.ru.md). In 0.2.0 the downloader

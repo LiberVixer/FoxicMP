@@ -26,6 +26,7 @@ public:
   static std::shared_ptr<ProgressiveSource> open(const QString &manifest);
   // Player-owned published-prefix session, without a downloader-side server.
   static std::shared_ptr<ProgressiveSource> openPublished(const QJsonObject &);
+  static QJsonObject probePublished(const QJsonObject &);
   bool publish(const QJsonObject &, QString *error);
   void publishedHeartbeat();
   void publishedError(const QString &error);

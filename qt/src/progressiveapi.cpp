@@ -44,7 +44,8 @@ QString ProgressiveApi::endpointFor(const QString &directory) {
   return InstanceBroker::endpointFor(directory) + ".progressive";
 }
 QJsonObject ProgressiveApi::information(const QString &directory) {
-  return {{"version", 1}, {"transport",
+  return {{"version", 1}, {"schemaVersion", 1},
+          {"protocol", "progressive-manifest-v1"}, {"transport",
 #ifdef Q_OS_WIN
           "windows-pipe-json-lines"
 #else
@@ -59,9 +60,11 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
 #endif
           }, {"profile", QDir(directory).absolutePath()},
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
-          {"actions", QJsonArray{"capabilities", "start", "update", "complete", "heartbeat", "status", "cancel", "error"}},
+          {"actions", QJsonArray{"capabilities", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "error"}},
           {"containers", QJsonArray{"fast-start-mp4", "fragmented-mp4"}},
           {"videoCodecs", QJsonArray{"h264"}}, {"audioCodecs", QJsonArray{"aac-lc"}},
+          {"progressiveModes", QJsonArray{"native-progressive", "post-download"}},
+          {"fallback", QJsonObject{{"available", false}, {"reasonCode", "unsupported-native-format"}, {"networkRetry", false}}},
           {"separateTracksRequired", true}, {"initializedTracksRequired", true},
           {"startBufferSeconds", 10}, {"resumeBufferSeconds", 5}, {"pauseBufferSeconds", 1}};
 }
@@ -92,14 +95,28 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
     result["pid"] = QCoreApplication::applicationPid();
     return result;
   }
+  if (action == "probe") {
+    if (!keys(input, {"version", "action", "session"}, {"sessionDirectory"}) ||
+        !input.value("session").isObject() ||
+        (input.contains("sessionDirectory") &&
+         (!input.value("sessionDirectory").isString() || input.value("sessionDirectory").toString().size() > 8192)))
+      return failure("invalid_request", "Invalid probe request");
+    auto descriptor = input.value("session").toObject();
+    if (input.contains("sessionDirectory")) descriptor["sessionDirectory"] = input.value("sessionDirectory");
+    auto result = ProgressiveSource::probePublished(descriptor);
+    result["version"] = 1; result["ok"] = true; result["action"] = "probe";
+    return result;
+  }
   if (action == "start") {
-    if (!keys(input, {"version", "action", "session"}, {"replace", "activate", "title"}) ||
+    if (!keys(input, {"version", "action", "session"}, {"replace", "activate", "title", "sessionDirectory"}) ||
         !input.value("session").isObject() ||
         (input.contains("replace") && !input.value("replace").isBool()) ||
         (input.contains("activate") && !input.value("activate").isBool()) ||
-        (input.contains("title") && (!input.value("title").isString() || input.value("title").toString().size() > 1024)))
+        (input.contains("title") && (!input.value("title").isString() || input.value("title").toString().size() > 1024)) ||
+        (input.contains("sessionDirectory") && (!input.value("sessionDirectory").isString() || input.value("sessionDirectory").toString().size() > 8192)))
       return failure("invalid_request", "Invalid start request");
-    const auto descriptor = input.value("session").toObject();
+    auto descriptor = input.value("session").toObject();
+    if (input.contains("sessionDirectory")) descriptor["sessionDirectory"] = input.value("sessionDirectory");
     auto existing = source.lock();
     if (existing && window->progressiveSession() == existing &&
         descriptor.value("sessionId").toString() == sessionId) {
@@ -116,13 +133,14 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
       window->setProperty("foxicmpProgressiveTitle", title.trimmed());
       source = next;
       sessionId = next->id();
+      sessionRoot = input.value("sessionDirectory").toString();
       lastOutcome = {};
       if (input.value("activate").toBool(true)) window->restoreFromTray();
     } catch (const std::exception &e) {
       return failure("source_not_ready", QString::fromUtf8(e.what()));
     }
   } else {
-    const QStringList extra = action == "update" || action == "complete" ? QStringList{"session"}
+    const QStringList extra = action == "update" || action == "complete" ? QStringList{"session", "sessionDirectory"}
                             : action == "error" ? QStringList{"message"} : QStringList{};
     if (!QStringList{"update", "complete", "heartbeat", "status", "cancel", "error"}.contains(action) ||
         !keys(input, {"version", "action", "sessionId"}, extra) ||
@@ -137,7 +155,8 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
       return failure("session_closed", "Playback was stopped or replaced");
     }
     if (action == "update" || action == "complete") {
-      const auto descriptor = input.value("session").toObject();
+      auto descriptor = input.value("session").toObject();
+      if (!input.contains("sessionDirectory") && !sessionRoot.isEmpty()) descriptor["sessionDirectory"] = sessionRoot;
       if (!input.value("session").isObject() ||
           (action == "complete" && descriptor.value("state") != QJsonValue("complete")))
         return failure("invalid_request", "Expected a complete session snapshot");

@@ -3,16 +3,35 @@
 #include <QFileInfo>
 #include <QJsonDocument>
 #include "progressivefile.h"
+#include <QDir>
 
 namespace {
+QString resolveTrackPath(const QString &path, const QString &root) {
+  if (path.contains(QChar(0)) || path.toUtf8().size() > 8192)
+    throw std::runtime_error("Track path is too long or contains an embedded null");
+  if (ProgressiveFile::absolute(path))
+    return QFileInfo(path).absoluteFilePath();
+  if (root.isEmpty() || !ProgressiveFile::absolute(root))
+    throw std::runtime_error("Relative track paths require an absolute sessionDirectory");
+  if (path.isEmpty() || path == "." || path == ".." || path.contains('/') || path.contains('\\'))
+    throw std::runtime_error("Track name must be a plain local filename");
+  const auto base = QFileInfo(root).absoluteFilePath();
+  const auto resolved = QFileInfo(QDir(base).filePath(path)).absoluteFilePath();
+  const auto relative = QDir(base).relativeFilePath(resolved);
+  if (relative == ".." || relative.startsWith("../") || relative.startsWith("..\\"))
+    throw std::runtime_error("Track path escapes sessionDirectory");
+  return resolved;
+}
 harvester::Snapshot snapshotFor(QJsonObject input, QStringList *paths) {
+  const auto root = input.value("sessionDirectory").toString();
+  if (input.contains("sessionDirectory") &&
+      (!input.value("sessionDirectory").isString() || root.isEmpty()))
+    throw std::runtime_error("Invalid sessionDirectory");
+  input.remove("sessionDirectory");
   auto tracks = input.value("tracks").toObject();
   for (const auto &kind : {QStringLiteral("video"), QStringLiteral("audio")}) {
     auto track = tracks.value(kind).toObject();
-    const auto path = track.value("path").toString();
-    if (!ProgressiveFile::absolute(path) || path.contains(QChar(0)) ||
-        path.toUtf8().size() > 8192)
-      throw std::runtime_error("Track path must be an absolute local path");
+    const auto path = resolveTrackPath(track.value("path").toString(), root);
     paths->append(path);
     track["path"] = kind + ".part";
     tracks[kind] = track;
@@ -32,6 +51,22 @@ ProgressiveSource::openPublished(const QJsonObject &input) {
   auto source = std::shared_ptr<ProgressiveSource>(new ProgressiveSource(input));
   source->worker = std::thread([raw = source.get()] { raw->watchPublished(); });
   return source;
+}
+
+QJsonObject ProgressiveSource::probePublished(const QJsonObject &input) {
+  try {
+    auto source = std::shared_ptr<ProgressiveSource>(new ProgressiveSource(input));
+    const auto current = source->status();
+    return {{"supported", true}, {"mode", "native-progressive"},
+            {"reasonCode", "supported"},
+            {"reason", "MP4/M4A tracks are initialized and the confirmed prefix is readable"},
+            {"readySeconds", current.available}, {"complete", current.complete}};
+  } catch (const std::exception &error) {
+    return {{"supported", false}, {"mode", "post-download"},
+            {"reasonCode", "native-progressive-rejected"},
+            {"reason", QString::fromUtf8(error.what())},
+            {"requiresCompleteFile", true}};
+  }
 }
 
 ProgressiveSource::ProgressiveSource(const QJsonObject &input) : published(true) {

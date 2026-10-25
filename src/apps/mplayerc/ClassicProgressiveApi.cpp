@@ -53,7 +53,7 @@ std::wstring ClassicProgressiveApi::Endpoint() {
     WCHAR name[128];swprintf_s(name,L"\\\\.\\pipe\\FoxicMPClassic-%016llx.progressive",hash);return name;
 }
 std::string ClassicProgressiveApi::Information() {
-    Document d;d.Parse(R"({"version":1,"transport":"windows-pipe-json-lines","edition":"classic","profileSelectable":false,"maxRequestBytes":65536,"heartbeatSeconds":5,"disconnectAfterSeconds":15,"maxTrackPathChars":240,"actions":["capabilities","start","update","complete","heartbeat","status","cancel","error"],"containers":["fast-start-mp4","fragmented-mp4"],"videoCodecs":["h264"],"audioCodecs":["aac-lc"],"separateTracksRequired":true,"initializedTracksRequired":true,"startBufferSeconds":10,"resumeBufferSeconds":5,"pauseBufferSeconds":1})");
+    Document d;d.Parse(R"({"version":1,"schemaVersion":1,"protocol":"progressive-manifest-v1","transport":"windows-pipe-json-lines","edition":"classic","profileSelectable":false,"maxRequestBytes":65536,"heartbeatSeconds":5,"disconnectAfterSeconds":15,"maxTrackPathChars":240,"actions":["capabilities","probe","start","update","complete","heartbeat","status","cancel","error"],"containers":["fast-start-mp4","fragmented-mp4"],"videoCodecs":["h264"],"audioCodecs":["aac-lc"],"progressiveModes":["native-progressive","post-download"],"fallback":{"available":false,"reasonCode":"unsupported-native-format","networkRetry":false},"separateTracksRequired":true,"initializedTracksRequired":true,"startBufferSeconds":10,"resumeBufferSeconds":5,"pauseBufferSeconds":1})");
     auto& a=d.GetAllocator();d.AddMember("endpoint",Value(Utf8(Endpoint()).c_str(),a),a);d.AddMember("profile",Value(Utf8(ProfileDirectory()).c_str(),a),a);return Encode(d);
 }
 ClassicProgressiveApi::ClassicProgressiveApi(CMainFrame& frame):frame(frame) {
@@ -138,14 +138,34 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
             Document info;info.Parse(Information().c_str());info.RemoveMember("endpoint");info.RemoveMember("profile");
             auto& a=info.GetAllocator();info.AddMember("ok",true,a);info.AddMember("pid",uint32_t(GetCurrentProcessId()),a);return Encode(info);
         }
+        if(action=="probe") {
+            if(!Keys(d,{"version","action","session"},{"sessionDirectory"}) || !d["session"].IsObject())return Failure("invalid_request","Invalid probe request");
+            Value descriptor(d["session"],d.GetAllocator());
+            if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
+            CStringW probeError;auto candidate=CHarvesterSession::OpenPublished(Encode(descriptor),probeError);
+            Document result;result.SetObject();auto& a=result.GetAllocator();result.AddMember("version",1,a);result.AddMember("ok",true,a);result.AddMember("action","probe",a);
+            result.AddMember("supported",candidate!=nullptr,a);
+            result.AddMember("mode",Value(candidate?"native-progressive":"post-download",a),a);
+            result.AddMember("reasonCode",Value(candidate?"supported":"native-progressive-rejected",a),a);
+            result.AddMember("reason",Value(Utf8(probeError.GetString()).c_str(),a),a);
+            if(candidate) {
+                result.AddMember("readySeconds",double(candidate->ReadyEnd())/10000000.,a);
+                result.AddMember("complete",candidate->Complete(),a);
+            } else {
+                result.AddMember("requiresCompleteFile",true,a);
+            }
+            if(candidate)candidate->Cancel();return Encode(result);
+        }
         if(action=="start") {
-            if(!Keys(d,{"version","action","session"},{"replace","activate","title"}) || !d["session"].IsObject() ||
+            if(!Keys(d,{"version","action","session"},{"replace","activate","title","sessionDirectory"}) || !d["session"].IsObject() ||
                 (d.HasMember("replace") && !d["replace"].IsBool()) || (d.HasMember("activate") && !d["activate"].IsBool()) ||
                 (d.HasMember("title") && (!d["title"].IsString() || d["title"].GetStringLength()>4096)))return Failure("invalid_request","Invalid start request");
             const auto id=harvester::String(d["session"],"sessionId");
             if(source.lock() && source.lock()==frame.m_harvester && id==sessionId)return Status();
             if(frame.m_harvester && !(d.HasMember("replace") && d["replace"].GetBool()))return Failure("session_busy","Explicit replacement is required");
-            CStringW error;auto next=CHarvesterSession::OpenPublished(Encode(d["session"]),error);
+            Value descriptor(d["session"],d.GetAllocator());
+            if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
+            CStringW error;auto next=CHarvesterSession::OpenPublished(Encode(descriptor),error);
             if(!next)return Failure("source_not_ready",Utf8(error.GetString()));
             frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
             auto data=std::make_unique<OpenFileData>();data->harvesterManifest=L"published-api";data->fi=CStringW(next->Path(0).c_str());data->auds.emplace_back(next->Path(1).c_str());data->bAddRecent=FALSE;
@@ -160,13 +180,15 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
         }
         const bool update=action=="update" || action=="complete", failure=action=="error";
         if(action!="status" && action!="cancel" && action!="heartbeat" && !update && !failure)return Failure("invalid_request","Unknown action");
-        if(!Keys(d,{"version","action","sessionId"},update?std::initializer_list<const char*>{"session"}:failure?std::initializer_list<const char*>{"message"}:std::initializer_list<const char*>{}) ||
+        if(!Keys(d,{"version","action","sessionId"},update?std::initializer_list<const char*>{"session","sessionDirectory"}:failure?std::initializer_list<const char*>{"message"}:std::initializer_list<const char*>{}) ||
             harvester::String(d,"sessionId")!=sessionId || sessionId.empty())return Failure("unknown_session","Unknown session identifier");
         auto active=source.lock();
         if(!active || frame.m_harvester!=active)return action=="status" || action=="cancel"?Status():Failure("session_closed","Playback was stopped or replaced");
         if(update) {
             if(!d.HasMember("session") || !d["session"].IsObject() || (action=="complete" && harvester::String(d["session"],"state")!="complete"))return Failure("invalid_request","Expected a session snapshot");
-            CStringW error;if(!active->Publish(Encode(d["session"]),error))return Failure("invalid_update",Utf8(error.GetString()));
+            Value descriptor(d["session"],d.GetAllocator());
+            if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
+            CStringW error;if(!active->Publish(Encode(descriptor),error))return Failure("invalid_update",Utf8(error.GetString()));
         }else if(action=="heartbeat")active->PublishedHeartbeat();
         else if(action=="cancel") {
             frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);Document result;result.Parse(lastOutcome.c_str());

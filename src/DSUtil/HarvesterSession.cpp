@@ -121,20 +121,35 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::Open(const std::wstring& p
     } catch(const std::exception& e) { error=Wide(e.what()).c_str(); return nullptr; }
 }
 namespace {
+std::wstring PublishedPath(const rapidjson::Value& input, const rapidjson::Value& track) {
+    auto raw=Wide(harvester::String(track,"path"));
+    const bool absolute=raw.size()>2 && raw[1]==L':' && (raw[2]==L'\\' || raw[2]==L'/');
+    if(!absolute) {
+        if(!input.HasMember("sessionDirectory") || !input["sessionDirectory"].IsString())
+            throw std::runtime_error("Relative track paths require sessionDirectory");
+        const auto root=LocalPath(Wide(harvester::String(input,"sessionDirectory")));
+        if(raw.empty() || raw.find_first_of(L"\\/:<>|?*\"")!=std::wstring::npos || raw==L"." || raw==L"..")
+            throw std::runtime_error("Track name must be a plain local filename");
+        raw=root+L"\\"+raw;
+    }
+    return LocalPath(raw);
+}
+void NormalizePublishedPaths(rapidjson::Document& input, std::array<std::wstring,2>& paths) {
+    if(!input.HasMember("tracks") || !input["tracks"].IsObject()) throw std::runtime_error("Tracks missing");
+    for(int i=0;i<2;++i) {
+        const char* name=i?"audio":"video";auto& tracks=input["tracks"];
+        if(!tracks.HasMember(name) || !tracks[name].IsObject()) throw std::runtime_error("Track missing");
+        auto& track=tracks[name];paths[i]=PublishedPath(input,track);
+        track["path"].SetString(i?"audio.part":"video.part",input.GetAllocator());
+    }
+    if(input.HasMember("sessionDirectory")) input.RemoveMember("sessionDirectory");
+}
 harvester::Snapshot PublishedSnapshot(const std::string& json, std::array<std::wstring, 2>& paths) {
     rapidjson::Document input;
     input.Parse<rapidjson::kParseValidateEncodingFlag|rapidjson::kParseIterativeFlag>(json.data(),json.size());
     if(input.HasParseError() || !input.IsObject())throw std::runtime_error("Invalid session JSON");
     harvester::UniqueKeys(input);
-    if(!input.HasMember("tracks") || !input["tracks"].IsObject())throw std::runtime_error("Tracks missing");
-    for(int i=0;i<2;++i) {
-        const char* name=i?"audio":"video";
-        auto& tracks=input["tracks"];
-        if(!tracks.HasMember(name) || !tracks[name].IsObject())throw std::runtime_error("Track missing");
-        auto& track=tracks[name];
-        paths[i]=LocalPath(Wide(harvester::String(track,"path")));
-        track["path"].SetString(i?"audio.part":"video.part",input.GetAllocator());
-    }
+    NormalizePublishedPaths(input,paths);
     rapidjson::StringBuffer buffer;rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);input.Accept(writer);
     return harvester::Parse(std::string(buffer.GetString(),buffer.GetSize()));
 }
@@ -196,15 +211,7 @@ bool CHarvesterSession::Publish(const std::string& json,CStringW& error) {
         rapidjson::Document input;input.Parse(json.data(),json.size());
         if(input.HasParseError() || !input.IsObject())throw std::runtime_error("Invalid snapshot JSON");
         harvester::UniqueKeys(input);
-        for(int i=0;i<2;++i) {
-            const char* kind=i?"audio":"video";
-            if(!input.HasMember("tracks") || !input["tracks"].IsObject() || !input["tracks"].HasMember(kind) || !input["tracks"][kind].IsObject())throw std::runtime_error("Missing track");
-            auto& track=input["tracks"][kind];const auto name=Wide(harvester::String(track,"path"));
-            if(name.size()<3 || name[1]!=L':' || (name[2]!=L'\\' && name[2]!=L'/'))throw std::runtime_error("Track path must be absolute");
-            WCHAR full[MAX_PATH];const DWORD n=GetFullPathNameW(name.c_str(),MAX_PATH,full,nullptr);
-            if(!n || n>=MAX_PATH)throw std::runtime_error("Invalid path");paths[i]=full;
-            track["path"].SetString(i?"audio.part":"video.part",input.GetAllocator());
-        }
+        NormalizePublishedPaths(input,paths);
         rapidjson::StringBuffer buffer;rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);input.Accept(writer);
         const auto next=harvester::Parse(std::string(buffer.GetString(),buffer.GetSize()));
         {
