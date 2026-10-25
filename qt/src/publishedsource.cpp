@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include "progressivefile.h"
 #include <QDir>
+#include "../../shared/progressivereaderlease.h"
 
 namespace {
 bool samePath(const QString &a, const QString &b) {
@@ -62,10 +63,18 @@ void checkFile(intptr_t file, uint64_t available) { ProgressiveFile::inspect(fil
 }
 
 std::shared_ptr<ProgressiveSource>
-ProgressiveSource::openPublished(const QJsonObject &input) {
+ProgressiveSource::openPublished(const QJsonObject &input, const QString &readerRegistry) {
   auto source = std::shared_ptr<ProgressiveSource>(new ProgressiveSource(input));
+  if (!readerRegistry.isEmpty())
+    source->readerLease = foxicmp::progressive::ReaderLease::Create(
+        std::filesystem::u8path(readerRegistry.toUtf8().toStdString()), source->snapshot.sessionId,
+        source->snapshot.generation, {{"video", source->devices[0], source->inodes[0]},
+                                      {"audio", source->devices[1], source->inodes[1]}});
   source->worker = std::thread([raw = source.get()] { raw->watchPublished(); });
   return source;
+}
+QString ProgressiveSource::registeredReaderId() const {
+  return readerLease ? QString::fromStdString(readerLease->id()) : QString();
 }
 
 QJsonObject ProgressiveSource::probePublished(const QJsonObject &input) {

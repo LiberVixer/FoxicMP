@@ -32,6 +32,44 @@ class Client:
         return dict(ok=True, active=False, released=False)
 
 class SdkTest(unittest.TestCase):
+    def tracked_client(self):
+        client=Client();original=client.request
+        client.request=lambda message:dict(original(message),readerLeaseProtocol=1,
+            actions=original(message)['actions']+['readerStatus','readerRelease','readerForget','readers'])
+        client.start=lambda value,**options:dict(ok=True,readerId='b'*32) if options['track_reader'] else self.fail('Missing lease opt-in')
+        return client
+    def test_tracked_close_uses_reader_not_replacement_session_and_caches_ack(self):
+        client=self.tracked_client();calls=[]
+        client.release_reader=lambda reader,timeout:calls.append(('release-reader',reader)) or dict(released=True,readerId=reader)
+        client.forget_reader=lambda reader:calls.append(('forget',reader)) or dict(forgotten=True)
+        preview=PreviewSession(client,'/unused');preview.publish(self.snapshot(True))
+        self.assertEqual(preview.reader_id,'b'*32);self.assertTrue(preview.close()['released']);self.assertTrue(preview.close()['released'])
+        self.assertEqual(calls,[('release-reader','b'*32),('forget','b'*32)])
+    def test_unconfirmed_reader_is_never_forgotten(self):
+        client=self.tracked_client();client.release_reader=lambda reader,timeout:dict(released=False)
+        client.forget_reader=lambda reader:self.fail('Forgot unconfirmed reader')
+        preview=PreviewSession(client,'/unused');preview.publish(self.snapshot(True));self.assertFalse(preview.close()['released'])
+    def test_reader_identity_guards_writer_events_and_updates(self):
+        client=self.tracked_client();calls=[]
+        client.command=lambda action,session,**fields:calls.append((action,fields)) or dict(ok=True)
+        client.update=lambda value,**options:calls.append(('update',options)) or dict(ok=True)
+        preview=PreviewSession(client,'/unused');value=self.snapshot(True);preview.publish(value)
+        preview.heartbeat();preview.status();value['revision']=2;preview.publish(value);preview.writer_error('Writer error')
+        self.assertEqual([action for action,_ in calls],['heartbeat','status','update','error'])
+        for action,fields in calls:self.assertEqual(fields['reader_id' if action=='update' else 'readerId'],'b'*32)
+    def test_lost_start_reply_never_claims_files_released(self):
+        client=self.tracked_client()
+        def lost(*args,**kwargs):raise TimeoutError('Start reply lost')
+        client.start=lost;preview=PreviewSession(client,'/unused')
+        with self.assertRaises(TimeoutError):preview.publish(self.snapshot(True))
+        self.assertFalse(preview.status()['released']);self.assertFalse(preview.close()['released'])
+        self.assertEqual(preview.last['sessionId'],'f'*32)
+    def test_reader_release_uses_reader_id_and_shared_deadline(self):
+        client=ProgressiveClient.__new__(ProgressiveClient);requests=[]
+        def request(message,timeout):
+            requests.append((message,timeout));return dict(reader=dict(released=False))
+        client.request=request;self.assertFalse(client.release_reader('b'*32,timeout=.02)['released'])
+        self.assertEqual(requests[0][0],dict(version=1,action='readerRelease',readerId='b'*32));self.assertLessEqual(requests[0][1],.02)
     def snapshot(self, ready=False):
         return dict(sessionId='f'*32, generation=1, revision=1, state='downloading',
                     tracks={k:dict(initializationReady=ready) for k in ('video','audio')})

@@ -10,6 +10,7 @@
 #include <QCoreApplication>
 #include "platformpaths.h"
 #include "../../shared/progressivesession.h"
+#include "../../shared/progressivereaderlease.h"
 #ifndef Q_OS_WIN
 #include <sys/socket.h>
 #include <unistd.h>
@@ -61,7 +62,8 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
 #endif
           }, {"profile", QDir(directory).absolutePath()},
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
-          {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error"}},
+          {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers"}},
+          {"readerLeaseProtocol", 1}, {"readerLeaseOptIn", true}, {"maxReaderReceipts", 128},
           {"playbackSchemaVersions", QJsonArray{1}}, {"validationSchemaVersions", QJsonArray{2}},
           {"releaseAcknowledgement", true},
           {"containers", QJsonArray{"fast-start-mp4", "fragmented-mp4"}},
@@ -72,6 +74,7 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
           {"startBufferSeconds", 10}, {"resumeBufferSeconds", 5}, {"pauseBufferSeconds", 1}};
 }
 bool ProgressiveApi::listen(const QString &directory) {
+  readerRegistry = readerRegistryFor(directory);
   const auto endpoint = endpointFor(directory);
   lease = std::make_unique<QLockFile>(
 #ifdef Q_OS_WIN
@@ -87,10 +90,28 @@ bool ProgressiveApi::listen(const QString &directory) {
   lease->unlock();
   return false;
 }
+QString ProgressiveApi::readerRegistryFor(const QString &directory) {
+#ifdef Q_OS_WIN
+  return QDir(PlatformPaths::runtimeDirectory()).filePath(endpointFor(directory) + ".readers");
+#else
+  return endpointFor(directory) + ".readers";
+#endif
+}
 QJsonObject ProgressiveApi::request(const QJsonObject &input) {
   if (input.value("version") != QJsonValue(1) || !input.value("action").isString())
     return failure("invalid_request", "Expected version 1 and an action");
   const auto action = input.value("action").toString();
+  if (action == "readerStatus" || action == "readerRelease" || action == "readerForget" || action == "readers") {
+    const auto query = [&] { return QJsonDocument::fromJson(QByteArray::fromStdString(foxicmp::progressive::ReaderRequest(
+        std::filesystem::u8path(readerRegistry.toUtf8().toStdString()),
+        QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString()))).object(); };
+    auto reply = query();
+    if (action == "readerRelease" && reply["ok"].toBool() && !readerId.isEmpty() && input["readerId"] == readerId) {
+      if (auto active = source.lock(); active && window->progressiveSession() == active) window->closeCurrent();
+      reply = query();
+    }
+    return reply;
+  }
   if (action == "capabilities") {
     if (!keys(input, {"version", "action"})) return failure("invalid_request", "Unexpected fields");
     auto result = information({});
@@ -122,10 +143,11 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
     return result;
   }
   if (action == "start") {
-    if (!keys(input, {"version", "action", "session"}, {"replace", "activate", "title", "sessionDirectory"}) ||
+    if (!keys(input, {"version", "action", "session"}, {"replace", "activate", "title", "sessionDirectory", "trackReader"}) ||
         !input.value("session").isObject() ||
         (input.contains("replace") && !input.value("replace").isBool()) ||
         (input.contains("activate") && !input.value("activate").isBool()) ||
+        (input.contains("trackReader") && !input.value("trackReader").isBool()) ||
         (input.contains("title") && (!input.value("title").isString() || input.value("title").toString().size() > 1024)) ||
         (input.contains("sessionDirectory") && (!input.value("sessionDirectory").isString() || input.value("sessionDirectory").toString().size() > 8192)))
       return failure("invalid_request", "Invalid start request");
@@ -133,14 +155,18 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
     if (input.contains("sessionDirectory")) descriptor["sessionDirectory"] = input.value("sessionDirectory");
     auto existing = source.lock();
     if (existing && window->progressiveSession() == existing &&
-        descriptor.value("sessionId").toString() == sessionId) {
+        descriptor.value("sessionId").toString() == sessionId && descriptor.value("generation") == sessionGeneration) {
       auto result = window->progressivePlaybackStatus();
-      result["ok"] = true; result["version"] = 1; return result;
+      result["ok"] = true; result["version"] = 1;
+      if (input.value("trackReader").toBool() && readerId.isEmpty())
+        return failure("reader_not_tracked", "Existing session was opened without a reader lease");
+      if (!readerId.isEmpty()) result["readerId"] = readerId;
+      return result;
     }
     if (window->progressiveSession() && !input.value("replace").toBool())
       return failure("session_busy", "Another progressive session is active; replacement must be explicit");
     try {
-      auto next = ProgressiveSource::openPublished(descriptor);
+      auto next = ProgressiveSource::openPublished(descriptor, input.value("trackReader").toBool() ? readerRegistry : QString());
       window->openProgressiveSource(next);
       auto title = input.value("title").toString();
       for (auto &c : title) if (c.category() == QChar::Other_Control) c = QChar(' ');
@@ -148,18 +174,23 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
       source = next;
       releaseReceipt = next->releaseReceipt();
       sessionId = next->id();
+      sessionGeneration = descriptor.value("generation");
+      readerId = next->registeredReaderId();
       lastOutcome = {};
       if (input.value("activate").toBool(true)) window->restoreFromTray();
     } catch (const std::exception &e) {
       return failure("source_not_ready", QString::fromUtf8(e.what()));
     }
   } else {
-    const QStringList extra = action == "update" || action == "complete" ? QStringList{"session", "sessionDirectory"}
+    QStringList extra = action == "update" || action == "complete" ? QStringList{"session", "sessionDirectory"}
                             : action == "error" ? QStringList{"message"} : QStringList{};
+    extra.append("readerId");
     if (!QStringList{"update", "complete", "heartbeat", "status", "cancel", "release", "error"}.contains(action) ||
         !keys(input, {"version", "action", "sessionId"}, extra) ||
         !input.value("sessionId").isString() || input.value("sessionId").toString() != sessionId || sessionId.isEmpty())
       return failure("unknown_session", "Invalid request or unknown session identifier");
+    if (input.contains("readerId") && (!input.value("readerId").isString() || readerId.isEmpty() || input.value("readerId") != readerId))
+      return failure("reader_mismatch", "Command belongs to a different reader; use readerStatus/readerRelease for its receipt");
     auto active = source.lock();
     if (!active || window->progressiveSession() != active) {
       if (action == "status" || action == "cancel" || action == "release") {
@@ -167,6 +198,7 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
             ? QJsonObject{{"version", 1}, {"ok", true}, {"active", false}, {"state", "stopped"}, {"sessionId", sessionId}}
             : lastOutcome;
         result["released"] = releaseReceipt && releaseReceipt->load();
+        if (!readerId.isEmpty()) result["readerId"] = readerId;
         return result;
       }
       return failure("session_closed", "Playback was stopped or replaced");
@@ -186,6 +218,7 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
       lastOutcome = {{"version", 1}, {"ok", true}, {"active", false}, {"state", "cancelled"}, {"sessionId", sessionId}};
       auto result = lastOutcome;
       result["released"] = releaseReceipt && releaseReceipt->load();
+      if (!readerId.isEmpty()) result["readerId"] = readerId;
       return result;
     } else if (action == "error") {
       const auto message = input.value("message").toString();
@@ -196,6 +229,7 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
   auto result = window->progressivePlaybackStatus();
   result["version"] = 1; result["ok"] = true;
   result["released"] = releaseReceipt && releaseReceipt->load();
+  if (!readerId.isEmpty()) result["readerId"] = readerId;
   return result;
 }
 void ProgressiveApi::acceptClients() {

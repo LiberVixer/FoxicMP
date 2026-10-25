@@ -1,4 +1,5 @@
 #include "progressivesource.h"
+#include "../../shared/progressivereaderlease.h"
 #include "i18n.h"
 #include <QDir>
 #include <QFile>
@@ -113,6 +114,7 @@ ProgressiveSource::~ProgressiveSource() {
   for (int fd : files)
     if (fd >= 0)
       ::close(fd);
+  if (readerLease) readerLease->filesClosed();
   if (attached && socket < 0)
     connectProvider();
   if (attached)

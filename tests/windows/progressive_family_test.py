@@ -19,6 +19,7 @@ from progressive_writer import run as run_sdk_writer
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from progressive_v1_conformance import exercise_directory_contract
 from progressive_v2_conformance import check_player as check_v2_model
+from progressive_reader_api_conformance import exercise as exercise_reader_contract
 
 
 def registration_snapshot():
@@ -119,11 +120,12 @@ def run(args):
                 time.sleep(.1)
         if args.sdk_only:
             model_cases = check_v2_model(client)
+            readers = exercise_reader_contract(client, args.fixtures, Path(args.report)/'reader-contract')
             for _ in range(100):
                 assert client.request(dict(version=1, action='capabilities'))['pid'] == process.pid
             sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
                 Path(args.fixtures)/'progressive/audio.m4a', Path(args.report)/'sdk-writer')
-            return [dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases)]
+            return [dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases),dict(contract='reader-leases',result=readers)]
         common = exercise_directory_contract(client, args.fixtures, Path(args.report)/'relative-contract')
         results.append(dict(contract='sessionDirectory', scenarios=common))
         sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',

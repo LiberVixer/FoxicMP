@@ -22,7 +22,8 @@ FILES = {
         'ProgressiveV1Validation-2026-10-25.md', 'ProgressiveV1Validation-2026-10-25.json',
         'ProgressiveSdkValidation-2026-10-25.md', 'ProgressiveSdkValidation-2026-10-25.json',
         'ProgressiveManifestV2.md', 'ProgressiveModelValidation-2026-10-25.md',
-        'ProgressiveModelValidation-2026-10-25.json')},
+        'ProgressiveModelValidation-2026-10-25.json', 'ProgressiveReaderLeases.md',
+        'ProgressiveReaderValidation-2026-10-25.md', 'ProgressiveReaderValidation-2026-10-25.json')},
 }
 
 def main():
@@ -32,7 +33,7 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.3',
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.4', readerLeaseProtocol=1,
         playbackSchemaVersions=[1], validationSchemaVersions=[2],
         sourceCommit=version, sourceDirty=dirty,
         files={name: hashlib.sha256(data).hexdigest() for name, data in sorted(content.items())})

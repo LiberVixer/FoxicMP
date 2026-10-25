@@ -116,6 +116,8 @@ fMP4-дорожками; существующий тестовый HLS-адап�
 | `status` | `sessionId` | Состояние, позиция, общая доступная граница |
 | `cancel` | `sessionId` | Закрыть только этот сеанс |
 | `release` | `sessionId` | Закрыть reader; `released` подтверждает закрытие его файлов |
+| `readerStatus` / `readerRelease` / `readerForget` | `readerId` | Opt-in учёт по конкретному reader ID, независимо от текущего видео |
+| `readers` | `sessionId`, строковая `generation`, необязательный `afterReaderId` | Ограниченная постраничная выдача квитанций профиля |
 | `error` | `sessionId`, `message` | Сообщить об ошибке загрузки и прекратить чтение |
 
 В финальном снимке `expectedTotalBytes == availablePrefixBytes` у обеих дорожек.
@@ -147,6 +149,10 @@ SDK 1.3 добавляет `validationSchemaVersions:[2]` отдельно от
 `playbackSchemaVersions:[1]`. Успех validate содержит `playbackSupported:false`;
 start/probe v2 отклоняются с `unsupported_schema` до открытия медиа.
 [Черновой контракт v2 и его ограничения](ProgressiveManifestV2.md).
+
+SDK 1.4 добавляет `trackReader:true` во внешний start и
+`readerLeaseProtocol:1`. [Контракт reader leases и recovery](ProgressiveReaderLeases.md).
+Старые JSON-вызовы и release по sessionId сохраняются.
 
 Воспроизведение начинается с 10 общих секунд данных; завершённые короткие ролики
 стартуют сразу. Менее 1 секунды запаса включает буферизацию, 5 секунд возобновляют

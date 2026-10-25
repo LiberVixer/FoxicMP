@@ -39,7 +39,8 @@ Classic восстановлен после экспериментальной �
 | Онлайн-плейлисты | Есть | Есть | Есть | Лимиты, порядок, добавление и пропуск ошибок |
 | Воспроизведение во время скачивания | Named-pipe v1 и подтверждение release | Named-pipe v1, native legacy/provider, подтверждение release | Provider, Unix v1, подтверждение release | Общий SDK/writer; две MP4/M4A H.264/AAC дорожки. Остальная матрица [нового ТЗ](ProgressiveIntegrationPlan.md) не выполнена; Harvester не меняется |
 | Один контракт вызова загрузчиком | Есть v1 Windows named-pipe адаптер | Есть v1 Windows named-pipe API | Есть v1 Unix API | Общие JSON-команды и совместимые IPC-адаптеры |
-| Проверка расширенного manifest v2 | Общий validate, без открытия | Общий validate, без открытия | Общий validate, без открытия | [Модель и границы](ProgressiveManifestV2.md), [результаты](ProgressiveModelValidation-2026-10-25.md). Playback остаётся v1; ReaderBook пока только модель |
+| Проверка расширенного manifest v2 | Общий validate, без открытия | Общий validate, без открытия | Общий validate, без открытия | [Модель и границы](ProgressiveManifestV2.md), [результаты](ProgressiveModelValidation-2026-10-25.md). Playback остаётся v1; динамические reader scopes v2 ещё не подключены |
+| Учёт reader по закреплённым файлам | Opt-in player-owned v1, IPC и OS receipts | Тот же runtime | Тот же runtime | [Reader leases](ProgressiveReaderLeases.md), [проверки](ProgressiveReaderValidation-2026-10-25.md); ресурсы v2 и legacy/provider не объявляются этим покрытыми |
 | Пауза, точный seek, главы, покадровые команды | Есть | Есть | Есть | Допуски seek и ограничения live/growing-файлов |
 | Скорость, повторы, A–B | Есть | Есть | Есть | Края A–B, конец очереди, пауза и число проходов |
 | Действия после окончания | Есть, Win32 | Есть, Win32 | Есть, logind/session D-Bus | Один смысл постоянного и однократного действия; платформенные исполнители |

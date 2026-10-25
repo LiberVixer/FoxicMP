@@ -11,7 +11,7 @@
 |---|---|---|
 | 1 / F-03 | Каталог привязан к успешному start; update/complete наследуют его, другой каталог отклоняется, новый сеанс ничего не наследует. Общий regression для трёх редакций | Выполнено: Linux Qt, Windows Qt и Classic прошли общий indexed/fMP4 сценарий, exit 0; [отчёт](ProgressiveV1Validation-2026-10-25.md) |
 | 2 / F-02, F-04 | Стабильный SDK, writer-стенд, согласованные запуск/discovery, работающий legacy/provider адаптер Windows Qt и миграция | Реализованы SDK v1, offline writer, release acknowledgement и native Windows Qt legacy/provider. [Проверка](ProgressiveSdkValidation-2026-10-25.md): Linux Qt 15, Windows Qt 16 тестов, Classic cold SDK + 100 RPC, exit 0. Расширенная модель читателей/диапазонов и реальная интеграция Harvester остаются следующими этапами |
-| 3 | Отдельная расширенная схема: ресурсы/диапазоны/сегменты, точные 64-битные числа, writer/playback отдельно, reader/release | Частично: [общая модель v2](ProgressiveManifestV2.md), строгий validate и in-memory ReaderBook. Все три редакции объявляют отдельно playbackSchemaVersions:[1] и validationSchemaVersions:[2]. Подключение ReaderBook к runtime/IPC, файловым дескрипторам и восстановлению ещё не выполнено; start/probe v2 отклоняются |
+| 3 | Отдельная расширенная схема: ресурсы/диапазоны/сегменты, точные 64-битные числа, writer/playback отдельно, reader/release | Частично: [общая модель v2](ProgressiveManifestV2.md), validate, [runtime reader leases v1](ProgressiveReaderLeases.md) в трёх редакциях. ReaderBook связан с реальными дескрипторами, IPC и crash recovery для opt-in player-owned v1. Динамические ресурсы/reader registry v2 ещё не подключены; start/probe v2 отклоняются |
 | 4 / F-01 | Управляемое I/O + backend demux + progressive-remux, H.264/HEVC/VP9/AV1 и AAC/Opus, затем вся обязательная матрица | Не реализовано; текущий v1 ограничен двумя MP4/M4A H.264/AAC дорожками |
 | 5 | Несколько аудио/субтитров, главы, metadata, HLS/DASH timeline, live | Не реализовано в progressive API; обычное воспроизведение этих форматов не является проверкой progressive |
 | 6 | Общий conformance-корпус, реальные источники, длительные/ресурсные тесты, три сборки; затем подключение реального Harvester отдельной задачей | Не пройдено |
@@ -37,9 +37,11 @@ reasonCode ожидания индекса/инициализации/диапа
 снимка от воспроизведения. `validate` не открывает файлы, не создаёт читателя и не
 заменяет действующий источник. Общий C++-корпус проверяет точные числа, диапазоны,
 неизменность опубликованных сегментов, поздние главы и модель нескольких читателей.
-Следующий шаг этапа 3 — подключить модель владения к настоящим OS-идентичностям и
-дескрипторам, межпроцессному учёту и восстановлению после аварии. Затем управляемое
-I/O и backend из этапа 4; добавление codecHint само по себе не добавляет кодек.
+В SDK 1.4 модель связана с настоящими OS-идентичностями, дескрипторами и приватными
+квитанциями player-owned v1. [Проверки runtime](ProgressiveReaderValidation-2026-10-25.md)
+включают удержание после Stop, замену поколения, независимых читателей и crash.
+Следующий шаг — контролируемое I/O для ресурсов v2 с этой же привязкой, затем
+demux/remux из этапа 4; добавление codecHint само по себе не добавляет кодек.
 
 ## Общий regression каталога v1
 

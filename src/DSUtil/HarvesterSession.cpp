@@ -1,6 +1,7 @@
 // FoxicMP progressive local playback. GPL-3.0-or-later.
 #include "stdafx.h"
 #include "HarvesterSession.h"
+#include "../../shared/progressivereaderlease.h"
 #include <map>
 #include <aclapi.h>
 #include "ExtLib/rapidjson/include/rapidjson/writer.h"
@@ -90,6 +91,7 @@ CHarvesterSession::CHarvesterSession() {
 CHarvesterSession::~CHarvesterSession() {
     Cancel(); SetEvent(m_stop); if(m_thread.joinable())m_thread.join();
     for(auto& file:m_files) { if(file!=INVALID_HANDLE_VALUE)CloseHandle(file); file=INVALID_HANDLE_VALUE; }
+    if(m_readerLease)m_readerLease->filesClosed();
     // Context survives until the last reader and graph have released their references.
     if(!m_published && m_pipe==INVALID_HANDLE_VALUE)ConnectPipe();
     if(m_pipe!=INVALID_HANDLE_VALUE)Send("released");
@@ -179,7 +181,8 @@ void RequireOwned(HANDLE file) {
     if(!ok)throw std::runtime_error("Track must belong to the current user");
 }
 }
-std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::string& json,CStringW& error) {
+std::string CHarvesterSession::RegisteredReaderId() const {return m_readerLease?m_readerLease->id():std::string();}
+std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::string& json,CStringW& error,const std::wstring& readerRegistry) {
     auto context=std::make_shared<CHarvesterSession>();
     try {
         context->m_published=true;
@@ -203,6 +206,10 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
            (a.dwVolumeSerialNumber==b.dwVolumeSerialNumber && a.nFileIndexHigh==b.nFileIndexHigh && a.nFileIndexLow==b.nFileIndexLow))
             throw std::runtime_error("Tracks must be distinct files");
         context->RefreshFragments();context->PublishedHeartbeat();
+        if(!readerRegistry.empty())context->m_readerLease=foxicmp::progressive::ReaderLease::Create(
+            std::filesystem::path(readerRegistry),context->m_state.sessionId,context->m_state.generation,
+            {{"video",a.dwVolumeSerialNumber,(uint64_t(a.nFileIndexHigh)<<32)|a.nFileIndexLow},
+             {"audio",b.dwVolumeSerialNumber,(uint64_t(b.nFileIndexHigh)<<32)|b.nFileIndexLow}});
         context->m_thread=std::thread([raw=context.get()] {
             while(WaitForSingleObject(raw->m_stop,100)==WAIT_TIMEOUT && WaitForSingleObject(raw->m_cancel,0)==WAIT_TIMEOUT) {
                 const auto state=raw->Snapshot();

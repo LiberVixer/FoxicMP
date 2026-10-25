@@ -7,6 +7,7 @@
 #include <sddl.h>
 #include <initializer_list>
 #include "../../../shared/progressivesession.h"
+#include "../../../shared/progressivereaderlease.h"
 
 namespace {
 using rapidjson::Document;
@@ -55,7 +56,15 @@ std::wstring ClassicProgressiveApi::Endpoint() {
 }
 std::string ClassicProgressiveApi::Information() {
     Document d;d.Parse(R"({"version":1,"schemaVersion":1,"releaseAcknowledgement":true,"playbackSchemaVersions":[1],"validationSchemaVersions":[2],"protocol":"progressive-manifest-v1","transport":"windows-pipe-json-lines","edition":"classic","profileSelectable":false,"maxRequestBytes":65536,"heartbeatSeconds":5,"disconnectAfterSeconds":15,"maxTrackPathChars":240,"actions":["capabilities","validate","probe","start","update","complete","heartbeat","status","cancel","release","error"],"containers":["fast-start-mp4","fragmented-mp4"],"videoCodecs":["h264"],"audioCodecs":["aac-lc"],"progressiveModes":["native-progressive","post-download"],"fallback":{"available":false,"reasonCode":"unsupported-native-format","networkRetry":false},"separateTracksRequired":true,"initializedTracksRequired":true,"startBufferSeconds":10,"resumeBufferSeconds":5,"pauseBufferSeconds":1})");
-    auto& a=d.GetAllocator();d.AddMember("endpoint",Value(Utf8(Endpoint()).c_str(),a),a);d.AddMember("profile",Value(Utf8(ProfileDirectory()).c_str(),a),a);return Encode(d);
+    auto& a=d.GetAllocator();d.AddMember("endpoint",Value(Utf8(Endpoint()).c_str(),a),a);d.AddMember("profile",Value(Utf8(ProfileDirectory()).c_str(),a),a);
+    d.AddMember("readerLeaseProtocol",1,a);d.AddMember("readerLeaseOptIn",true,a);d.AddMember("maxReaderReceipts",128,a);
+    for(const auto* action:{"readerStatus","readerRelease","readerForget","readers"})d["actions"].PushBack(Value(action,a),a);
+    return Encode(d);
+}
+std::wstring ClassicProgressiveApi::ReaderRegistry() {
+    WCHAR temp[32768];const auto length=GetTempPathW(32768,temp);
+    if(!length || length>=32768)throw std::runtime_error("Cannot obtain private reader runtime path");
+    const auto endpoint=Endpoint();return std::wstring(temp,length)+endpoint.substr(endpoint.find_last_of(L'\\')+1)+L".readers";
 }
 ClassicProgressiveApi::ClassicProgressiveApi(CMainFrame& frame):frame(frame) {
     stop=CreateEventW(nullptr,TRUE,FALSE,nullptr);
@@ -127,6 +136,7 @@ std::string ClassicProgressiveApi::Status() {
         if(!lastOutcome.empty()) {
             Document result;result.Parse(lastOutcome.c_str());
             result.AddMember("released",releaseReceipt && releaseReceipt->load(),result.GetAllocator());
+            if(!readerId.empty())result.AddMember("readerId",Value(readerId.c_str(),result.GetAllocator()),result.GetAllocator());
             return Encode(result);
         }
         return Failure("session_closed","Playback was stopped or replaced");
@@ -137,6 +147,7 @@ std::string ClassicProgressiveApi::Status() {
     Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("version",1,a);d.AddMember("ok",true,a);d.AddMember("active",true,a);
     d.AddMember("sessionId",Value(sessionId.c_str(),a),a);d.AddMember("state",Value(state,a),a);d.AddMember("error",Value(error.c_str(),a),a);
     d.AddMember("released",false,a);d.AddMember("connected",session->Connected(),a);d.AddMember("complete",session->Complete(),a);
+    if(!readerId.empty())d.AddMember("readerId",Value(readerId.c_str(),a),a);
     d.AddMember("positionSeconds",double(frame.GetPos())/10000000.,a);d.AddMember("availableSeconds",double(session->ReadyEnd())/10000000.,a);
     d.AddMember("durationSeconds",double(snapshot.duration)/10000000.,a);return Encode(d);
 }
@@ -147,6 +158,15 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
         harvester::UniqueKeys(d);
         if(harvester::Number(d,"version")!=1)return Failure("invalid_request","Expected version 1");
         const auto action=harvester::String(d,"action");
+        if(action=="readerStatus" || action=="readerRelease" || action=="readerForget" || action=="readers") {
+            auto reply=foxicmp::progressive::ReaderRequest(std::filesystem::path(ReaderRegistry()),raw);
+            Document result;result.Parse(reply.c_str());
+            if(action=="readerRelease" && result["ok"].GetBool() && !readerId.empty() && harvester::String(d,"readerId")==readerId) {
+                if(auto active=source.lock();active && frame.m_harvester==active)frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
+                reply=foxicmp::progressive::ReaderRequest(std::filesystem::path(ReaderRegistry()),raw);
+            }
+            return reply;
+        }
         if(action=="capabilities") {
             if(!Keys(d,{"version","action"}))return Failure("invalid_request","Unexpected fields");
             Document info;info.Parse(Information().c_str());info.RemoveMember("endpoint");info.RemoveMember("profile");
@@ -179,11 +199,16 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
             if(candidate)candidate->Cancel();return Encode(result);
         }
         if(action=="start") {
-            if(!Keys(d,{"version","action","session"},{"replace","activate","title","sessionDirectory"}) || !d["session"].IsObject() ||
+            if(!Keys(d,{"version","action","session"},{"replace","activate","title","sessionDirectory","trackReader"}) || !d["session"].IsObject() ||
                 (d.HasMember("replace") && !d["replace"].IsBool()) || (d.HasMember("activate") && !d["activate"].IsBool()) ||
                 (d.HasMember("title") && (!d["title"].IsString() || d["title"].GetStringLength()>4096)))return Failure("invalid_request","Invalid start request");
+            if(d.HasMember("trackReader") && !d["trackReader"].IsBool())return Failure("invalid_request","Invalid reader tracking option");
             const auto id=harvester::String(d["session"],"sessionId");
-            if(source.lock() && source.lock()==frame.m_harvester && id==sessionId)return Status();
+            if(source.lock() && source.lock()==frame.m_harvester && id==sessionId && d["session"].HasMember("generation") &&
+                d["session"]["generation"].IsUint64() && d["session"]["generation"].GetUint64()==sessionGeneration) {
+                if(d.HasMember("trackReader") && d["trackReader"].GetBool() && readerId.empty())return Failure("reader_not_tracked","Existing session was opened without a reader lease");
+                return Status();
+            }
             if(frame.m_harvester && !(d.HasMember("replace") && d["replace"].GetBool()))return Failure("session_busy","Explicit replacement is required");
             std::wstring title;
             if(d.HasMember("title") && d["title"].GetStringLength()) {
@@ -194,19 +219,22 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
             }
             Value descriptor(d["session"],d.GetAllocator());
             if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
-            CStringW error;auto next=CHarvesterSession::OpenPublished(Encode(descriptor),error);
+            CStringW error;auto next=CHarvesterSession::OpenPublished(Encode(descriptor),error,
+                d.HasMember("trackReader") && d["trackReader"].GetBool()?ReaderRegistry():std::wstring());
             if(!next)return Failure("source_not_ready",Utf8(error.GetString()));
             frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
             auto data=std::make_unique<OpenFileData>();data->harvesterManifest=L"published-api";data->fi=CStringW(next->Path(0).c_str());data->auds.emplace_back(next->Path(1).c_str());data->bAddRecent=FALSE;
             if(!title.empty())data->fi.SetTitle(title.c_str());
-            frame.m_harvester=next;frame.m_harvesterStarted=false;frame.m_harvesterBuffering=true;frame.m_harvesterWantPlay=true;source=next;releaseReceipt=next->ReleaseReceipt();sessionId=id;lastOutcome.clear();frame.OpenMedia(std::move(data));
+            frame.m_harvester=next;frame.m_harvesterStarted=false;frame.m_harvesterBuffering=true;frame.m_harvesterWantPlay=true;source=next;releaseReceipt=next->ReleaseReceipt();sessionId=id;sessionGeneration=next->Snapshot().generation;readerId=next->RegisteredReaderId();lastOutcome.clear();frame.OpenMedia(std::move(data));
             if(!d.HasMember("activate") || d["activate"].GetBool()){frame.ShowWindow(SW_RESTORE);frame.SetForegroundWindow();}
             return Status();
         }
         const bool update=action=="update" || action=="complete", failure=action=="error";
         if(action!="status" && action!="cancel" && action!="release" && action!="heartbeat" && !update && !failure)return Failure("invalid_request","Unknown action");
-        if(!Keys(d,{"version","action","sessionId"},update?std::initializer_list<const char*>{"session","sessionDirectory"}:failure?std::initializer_list<const char*>{"message"}:std::initializer_list<const char*>{}) ||
+        if(!Keys(d,{"version","action","sessionId"},update?std::initializer_list<const char*>{"session","sessionDirectory","readerId"}:failure?std::initializer_list<const char*>{"message","readerId"}:std::initializer_list<const char*>{"readerId"}) ||
             harvester::String(d,"sessionId")!=sessionId || sessionId.empty())return Failure("unknown_session","Unknown session identifier");
+        if(d.HasMember("readerId") && (!d["readerId"].IsString() || readerId.empty() || harvester::String(d,"readerId")!=readerId))
+            return Failure("reader_mismatch","Command belongs to a different reader; use readerStatus/readerRelease for its receipt");
         auto active=source.lock();
         if(!active || frame.m_harvester!=active)return (action=="status" || action=="cancel" || action=="release")?Status():Failure("session_closed","Playback was stopped or replaced");
         if(update) {

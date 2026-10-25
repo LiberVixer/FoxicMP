@@ -4,6 +4,7 @@
 #include <atomic>
 #include <mutex>
 #include <thread>
+namespace foxicmp { namespace progressive {class ReaderLease;} }
 
 class CHarvesterSession {
     std::wstring m_manifest, m_root;
@@ -11,6 +12,7 @@ class CHarvesterSession {
     std::array<std::wstring, 2> m_publishedPaths;
     std::wstring m_publishedRoot;
     std::shared_ptr<std::atomic<bool>> m_released = std::make_shared<std::atomic<bool>>(false);
+    std::unique_ptr<foxicmp::progressive::ReaderLease> m_readerLease;
     harvester::Snapshot m_state;
     mutable std::mutex m_mutex;
     std::array<HANDLE,2> m_files{{INVALID_HANDLE_VALUE,INVALID_HANDLE_VALUE}};
@@ -38,7 +40,8 @@ public:
     CHarvesterSession();
     ~CHarvesterSession();
     static std::shared_ptr<CHarvesterSession> Open(const std::wstring& path, CStringW& error);
-    static std::shared_ptr<CHarvesterSession> OpenPublished(const std::string& json, CStringW& error);
+    static std::shared_ptr<CHarvesterSession> OpenPublished(const std::string& json, CStringW& error, const std::wstring& readerRegistry = {});
+    std::string RegisteredReaderId() const;
     bool Publish(const std::string& json, CStringW& error);
     void PublishedHeartbeat() {m_lastUpdate=GetTickCount64(); m_connected=true;}
     std::shared_ptr<std::atomic<bool>> ReleaseReceipt() const {return m_released;}

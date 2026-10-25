@@ -340,6 +340,60 @@ private slots:
     QVERIFY(QJsonDocument::fromJson(client.readAllStandardOutput()).object()["passed"].toInt() >= 40);
     QCOMPARE(w.progressiveSession(), active); // Metadata checks never replace a working v1 source.
   }
+  void readerLeasesFollowActualHandlesAcrossWindowsAndReplacement() {
+    const auto firstDir=temporary.filePath("reader-first"), secondDir=temporary.filePath("reader-second");
+    const auto cleanup=qScopeGuard([&] {
+      QDir(ProgressiveApi::readerRegistryFor(firstDir)).removeRecursively();
+      QDir(ProgressiveApi::readerRegistryFor(secondDir)).removeRecursively();
+    });
+    Profile p1(firstDir),p2(secondDir);prepare(p1);prepare(p2);
+    Window w1(p1),w2(p2);ProgressiveApi api1(&w1),api2(&w2);QVERIFY(api1.listen(p1.directory));QVERIFY(api2.listen(p2.directory));
+    auto start=message("start");start["trackReader"]=true;
+    auto r1=api1.request(start),r2=api2.request(start);
+    QVERIFY2(r1["ok"].toBool(),QJsonDocument(r1).toJson().constData());QVERIFY(r2["ok"].toBool());
+    const auto id1=r1["readerId"].toString(),id2=r2["readerId"].toString();QVERIFY(id1.size()==32);QVERIFY(id1!=id2);
+    auto query=[](const QString& action,const QString& id){return QJsonObject{{"version",1},{"action",action},{"readerId",id}};};
+    auto receipt=[&](ProgressiveApi& api,const QString& id){return api.request(query("readerStatus",id))["reader"].toObject();};
+    QVERIFY(!receipt(api1,id1)["released"].toBool());QVERIFY(!receipt(api2,id2)["released"].toBool());
+    QCOMPARE(api1.request(query("readerForget",id1))["code"].toString(),QString("reader_in_use"));
+    auto retained=w1.progressiveSession();QVERIFY(retained);
+    api1.request(query("readerRelease",id1));
+    QVERIFY(!receipt(api1,id1)["released"].toBool()); // Source reference still pins real media handles.
+    retained.reset();
+    QTRY_VERIFY(receipt(api1,id1)["released"].toBool());
+    QVERIFY(!receipt(api2,id2)["released"].toBool());
+    auto replacement=snapshot;replacement["generation"]=2;start["session"]=replacement;start["replace"]=true;
+    const auto next=api1.request(start);QVERIFY(next["ok"].toBool());const auto nextId=next["readerId"].toString();
+    api1.request(query("readerRelease",id1));QVERIFY(w1.progressiveSession());QCOMPARE(w1.progressiveSession()->registeredReaderId(),nextId);
+    api1.request(query("readerRelease",nextId));api2.request(query("readerRelease",id2));
+    QTRY_VERIFY(receipt(api1,nextId)["released"].toBool());QTRY_VERIFY(receipt(api2,id2)["released"].toBool());
+    QVERIFY(api1.request(query("readerForget",id1))["ok"].toBool());
+    QVERIFY(api1.request(query("readerForget",nextId))["ok"].toBool());QVERIFY(api2.request(query("readerForget",id2))["ok"].toBool());
+    QCOMPARE(api1.request(query("readerStatus",id1))["code"].toString(),QString("unknown_reader"));
+    // A restarted API can query the same on-disk registry, without a media open.
+    const auto last=api1.request(start);QVERIFY(last["ok"].toBool());const auto lastId=last["readerId"].toString();
+    w1.closeCurrent();
+    QTRY_VERIFY(receipt(api1,lastId)["released"].toBool());
+    ProgressiveApi restarted(&w1);
+    // request handling is tied to the profile by listen; the original listener owns it.
+    QVERIFY(!restarted.listen(p1.directory));
+    QVERIFY(restarted.request(query("readerStatus",lastId))["reader"].toObject()["released"].toBool());
+    QVERIFY(restarted.request(query("readerForget",lastId))["ok"].toBool());
+  }
+  void trackedReaderPublicClientContract() {
+    const auto dir=temporary.filePath("reader-wire-profile");
+    const auto cleanup=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
+    Profile profile(dir);prepare(profile);Window w(profile);ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    QProcess client;client.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{
+      FOXICMP_READER_CONFORMANCE_SCRIPT,"--player",playerExecutable(),"--profile",profile.directory,
+      "--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",temporary.filePath("reader-wire-media"),
+      "--expected-pid",QString::number(QCoreApplication::applicationPid())});
+    QVERIFY(client.waitForStarted());
+    const auto guard=qScopeGuard([&]{if(client.state()!=QProcess::NotRunning){client.kill();client.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(client.state()==QProcess::NotRunning,30000);
+    QVERIFY2(client.exitCode()==0,client.readAllStandardError().constData());
+    QCOMPARE(QJsonDocument::fromJson(client.readAllStandardOutput()).object()["result"].toString(),QString("PASS"));
+  }
   void sdkWriterPlaysTenSecondsBeforeComplete() {
     Profile profile(temporary.filePath("sdk-writer-profile")); prepare(profile);
     Window w(profile); w.show(); ProgressiveApi api(&w); QVERIFY(api.listen(profile.directory));

@@ -130,17 +130,20 @@ class ProgressiveClient:
         raise TimeoutError("Progressive API unavailable; restart an older player if it is running")
 
     def start(self, session: dict, *, title: str = "", replace: bool = False,
-              activate: bool = True, session_directory: str | None = None) -> dict:
+              activate: bool = True, session_directory: str | None = None,
+              track_reader: bool = False) -> dict:
         message = {"version": 1, "action": "start", "session": session,
                    "title": title, "replace": replace, "activate": activate}
         if session_directory is not None: message["sessionDirectory"] = str(Path(session_directory).resolve())
+        if track_reader: message["trackReader"] = True
         return self.request(message)
 
     def update(self, session: dict, *, complete: bool = False,
-               session_directory: str | None = None) -> dict:
+               session_directory: str | None = None, reader_id: str | None = None) -> dict:
         message = {"version": 1, "action": "complete" if complete else "update",
                    "sessionId": session["sessionId"], "session": session}
         if session_directory is not None: message["sessionDirectory"] = str(Path(session_directory).resolve())
+        if reader_id is not None: message["readerId"] = reader_id
         return self.request(message)
 
     def probe(self, session: dict, session_directory: str | None = None) -> dict:
@@ -158,6 +161,48 @@ class ProgressiveClient:
         if previous is not None:
             message["previous"] = previous
         return self.request(message)
+
+    def reader_status(self, reader_id: str) -> dict:
+        return self.request(dict(version=1, action="readerStatus", readerId=reader_id))["reader"]
+
+    def forget_reader(self, reader_id: str) -> dict:
+        """Acknowledge a verified release; unknown thereafter never means released."""
+        return self.request(dict(version=1, action="readerForget", readerId=reader_id))
+
+    def readers(self, session_id: str, generation: int) -> list[dict]:
+        from progressive_schema import unsigned64
+        message = dict(version=1, action="readers", sessionId=session_id,
+                       generation=unsigned64(generation, positive=True))
+        result = []
+        for _ in range(128):
+            page = self.request(message)
+            result.extend(page["readers"])
+            if len(result) > 128:
+                raise RuntimeError("Invalid reader enumeration")
+            if page.get("hasMore") is False:
+                return result
+            cursor = page.get("nextReaderId")
+            if not isinstance(cursor, str) or cursor <= message.get("afterReaderId", ""):
+                raise RuntimeError("Invalid reader pagination")
+            message["afterReaderId"] = cursor
+        raise RuntimeError("Reader enumeration did not terminate")
+
+    def release_reader(self, reader_id: str, timeout: float = 2) -> dict:
+        """Close only this reader, including after replacement or process restart."""
+        if not 0 <= timeout <= 60:
+            raise ValueError("Release timeout must be between 0 and 60 seconds")
+        deadline = time.monotonic() + timeout
+        action = "readerRelease"
+        while True:
+            reply = self.request(dict(version=1, action=action, readerId=reader_id),
+                                 timeout=max(.001, min(5, deadline-time.monotonic())))
+            reader = reply["reader"]
+            result = dict(version=1, ok=True, readerId=reader_id,
+                          released=reader.get("released") is True, reader=reader)
+            if result["released"] or time.monotonic() >= deadline:
+                return result
+            action = "readerStatus"
+            time.sleep(min(.05, max(0, deadline-time.monotonic())))
 
     def release(self, session_id: str, timeout: float = 2) -> dict:
         """Detach this reader, waiting for an explicit file-handle acknowledgement.
@@ -186,11 +231,15 @@ def main() -> int:
     parser.add_argument("--profile")
     parser.add_argument("--ensure", action="store_true", help="start/reuse the player if needed")
     parser.add_argument("action", choices=("capabilities", "validate", "probe", "start", "update", "complete",
-                                           "heartbeat", "status", "cancel", "release", "error"))
+                                           "heartbeat", "status", "cancel", "release", "error",
+                                           "readerStatus", "readerRelease", "readerForget", "readers"))
     parser.add_argument("--snapshot", type=Path, help="JSON session snapshot for start/update/complete")
     parser.add_argument("--previous-snapshot", type=Path, help="Previous schema-2 snapshot for validate")
     parser.add_argument("--session-directory", type=Path, help="Directory containing relative progressive tracks")
     parser.add_argument("--session-id")
+    parser.add_argument("--reader-id")
+    parser.add_argument("--generation", type=int)
+    parser.add_argument("--track-reader", action="store_true", help="Opt in to persistent reader receipts on start")
     parser.add_argument("--title", default="")
     parser.add_argument("--replace", action="store_true")
     parser.add_argument("--message", default="")
@@ -210,16 +259,25 @@ def main() -> int:
                 reply = client.probe(session, args.session_directory)
             elif args.action == "start":
                 reply = client.start(session, title=args.title, replace=args.replace,
-                                     session_directory=args.session_directory)
+                                     session_directory=args.session_directory, track_reader=args.track_reader)
             else:
                 reply = client.update(session, complete=args.action == "complete",
-                                      session_directory=args.session_directory)
+                                      session_directory=args.session_directory, reader_id=args.reader_id)
+        elif args.action in {"readerStatus", "readerRelease", "readerForget"}:
+            if not args.reader_id: parser.error("--reader-id is required")
+            if args.action == "readerStatus": reply = dict(version=1, ok=True, reader=client.reader_status(args.reader_id))
+            elif args.action == "readerRelease": reply = client.release_reader(args.reader_id)
+            else: reply = client.forget_reader(args.reader_id)
+        elif args.action == "readers":
+            if args.session_id is None or args.generation is None: parser.error("--session-id and --generation are required")
+            reply = dict(version=1, ok=True, readers=client.readers(args.session_id, args.generation))
         elif args.action == "capabilities":
             reply = client.request({"version": 1, "action": "capabilities"})
         else:
             if not args.session_id:
                 parser.error("--session-id is required")
             fields = {"message": args.message} if args.action == "error" else {}
+            if args.reader_id is not None: fields["readerId"] = args.reader_id
             reply = client.command(args.action, args.session_id, **fields)
         print(json.dumps(reply, ensure_ascii=False))
         return 0

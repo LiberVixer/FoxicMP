@@ -1,4 +1,5 @@
 #include "progressivesource.h"
+#include "../../shared/progressivereaderlease.h"
 #include <QUrl>
 #include <stdexcept>
 

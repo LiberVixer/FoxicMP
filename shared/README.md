@@ -29,6 +29,9 @@ Qt применяет каталог к меню/стандартным клав
 доказывает поддержку контейнера или кодека.
 
 `progressivereaders.h` — in-memory модель reader lifecycle с PID/birth identity,
-несколькими читателями и освобождением после закрытия файлов. Пока она не
-подключена к runtime/IPC и не является межпроцессной базой leases.
+несколькими читателями и освобождением после закрытия файлов.
+`progressivereaderlease.h` подключает её к настоящим media-дескрипторам player-owned
+v1 sources в Qt и Classic: приватные квитанции, OS locks, recovery по OS process
+identity и одинаковый IPC handler. Для динамических ресурсов v2 привязка ещё впереди.
 [Контракт и ограничения](../docs/ProgressiveManifestV2.md).
+[Runtime reader leases](../docs/ProgressiveReaderLeases.md).

@@ -1,0 +1,210 @@
+{
+  "date": "2026-10-25",
+  "scope": "SDK 1.4: player-owned v1 runtime reader leases, pinned file identity, per-profile receipts and OS-confirmed crash recovery",
+  "sourceBaseCommit": "a7e023730d00765d8547bf04f20f5bf74c15bdf9",
+  "builds": {
+    "linuxQt": {
+      "exitCode": 0,
+      "sha256": "a59329791d31e6c0e6a037bf390d852550defe1d3a3daed0f569296ae33606ba"
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "sha256": "7661269b5859fa41b7dd23c9cf63c0aea8630e7b91958e8683e1e822cc819d10"
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "sha256": "f44ed1bdff252e849e452199d30f8490dabf3b30d16d1937e5c2deb085350964"
+    }
+  },
+  "tests": {
+    "linuxQt": {
+      "exitCode": 0,
+      "apiPassed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "apiSeconds": 101.848,
+      "modelCases": 71,
+      "nativeReaders": {
+        "passed": 14,
+        "checks": [
+          "two-independent-processes",
+          "live-reader-cannot-be-forgotten",
+          "unlocked-alive-is-not-release",
+          "abrupt-process-exit-recovered",
+          "one-dead-reader-does-not-release-another",
+          "closed-handles-release-while-process-lives",
+          "fresh-process-discovers-persisted-receipts",
+          "corrupt-receipt-is-not-release",
+          "path-escape-rejected",
+          "private-directory-and-no-symlinks",
+          "bounded-pagination",
+          "session-isolation",
+          "forgotten-is-unknown",
+          "media-never-modified-or-deleted"
+        ],
+        "exitCode": 0
+      },
+      "publicReaderContract": "PASS",
+      "oldReaderWriterCommandsRejected": true
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "apiPassed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "apiSeconds": 96.385,
+      "modelCases": 71,
+      "nativeReaders": {
+        "passed": 13,
+        "checks": [
+          "two-independent-processes",
+          "live-reader-cannot-be-forgotten",
+          "unlocked-alive-is-not-release",
+          "abrupt-process-exit-recovered",
+          "one-dead-reader-does-not-release-another",
+          "closed-handles-release-while-process-lives",
+          "fresh-process-discovers-persisted-receipts",
+          "corrupt-receipt-is-not-release",
+          "path-escape-rejected",
+          "bounded-pagination",
+          "session-isolation",
+          "forgotten-is-unknown",
+          "media-never-modified-or-deleted"
+        ],
+        "exitCode": 0
+      },
+      "publicReaderContract": "PASS",
+      "oldReaderWriterCommandsRejected": true
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "processExitCode": 0,
+      "scheduledTaskResult": 0,
+      "scheduledTaskRemoved": true,
+      "hkcuRegistrationPreserved": true,
+      "transportRoundTrips": 100,
+      "oldReaderWriterCommandsRejected": true,
+      "results": [
+        {
+          "contract": "sdk-writer",
+          "result": {
+            "schemaVersion": 1,
+            "sessionId": "00fc83e93a15476ab605744b176a3e9d",
+            "sourceOpens": 2,
+            "networkRequests": 0,
+            "maxPositionBeforeComplete": 12.8443776,
+            "playingBeforeCompleteSeconds": 10.421999999962281,
+            "lastPublishState": "playing",
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "00fc83e93a15476ab605744b176a3e9d",
+              "state": "finished",
+              "error": "",
+              "released": true,
+              "readerId": "2543664ee26e0435cfe9d27d5b6489b4"
+            },
+            "release": {
+              "version": 1,
+              "ok": true,
+              "readerId": "2543664ee26e0435cfe9d27d5b6489b4",
+              "released": true,
+              "reader": {
+                "version": 1,
+                "readerId": "2543664ee26e0435cfe9d27d5b6489b4",
+                "sessionId": "00fc83e93a15476ab605744b176a3e9d",
+                "generation": "1",
+                "pid": 14896,
+                "birth": "134374247599226700",
+                "filesClosed": true,
+                "resources": [
+                  {
+                    "id": "video",
+                    "device": "656024512",
+                    "fileId": "5629499535210094"
+                  },
+                  {
+                    "id": "audio",
+                    "device": "656024512",
+                    "fileId": "5348024558499440"
+                  }
+                ],
+                "released": true,
+                "reason": "files-closed"
+              }
+            }
+          }
+        },
+        {
+          "contract": "v2-metadata-validation",
+          "passed": 62
+        },
+        {
+          "contract": "reader-leases",
+          "result": {
+            "result": "PASS",
+            "trackedReaders": 2,
+            "boundMediaFilesPerReader": 2,
+            "repeatedStartIdempotent": true,
+            "oldReleasePreservesReplacement": true
+          }
+        }
+      ]
+    },
+    "msvcNativeReaders": {
+      "exitCode": 0,
+      "passed": 13
+    },
+    "asanUbsanNativeReaders": {
+      "exitCode": 0,
+      "passed": 14,
+      "detectLeaks": true
+    },
+    "pythonSdk": {
+      "exitCode": 0,
+      "passed": 12
+    },
+    "familyContract": {
+      "exitCode": 0,
+      "passed": 2
+    }
+  },
+  "initialAttempts": [
+    {
+      "check": "Native conformance fixture quit",
+      "exitCode": 1,
+      "reason": "Fixture expected a JSON reply to quit; corrected the stand, subsequent native runs passed"
+    }
+  ],
+  "linuxInstallation": {
+    "oldSha256": "94eeae8555ab1c0fb0146fc670a908c648361327801967d3cbafaaa83cb42c48",
+    "newSha256": "a59329791d31e6c0e6a037bf390d852550defe1d3a3daed0f569296ae33606ba",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/backups/foxicmp-qt-before-sdk1.4-20261025-205629",
+    "profileBefore": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileAfter": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "atomicReplace": true,
+    "userProcessStopped": false,
+    "version": "FoxicMPQt 0.2.0",
+    "intermediateBackup": "/media/sf_Studio/Programs/MPMY-src/_bin/backups/foxicmp-qt-before-sdk1.4-final-20261025-210247"
+  },
+  "capabilities": {
+    "playbackSchemaVersions": [
+      1
+    ],
+    "validationSchemaVersions": [
+      2
+    ],
+    "readerLeaseProtocol": 1,
+    "readerLeaseOptIn": true,
+    "maxReaderReceipts": 128
+  },
+  "notValidated": [
+    "dynamic schema-2 resource I/O and reader registry binding",
+    "schema-2 media decoding/remux and live resource compaction",
+    "legacy/provider reader migration",
+    "actual Harvester integration (not modified)",
+    "OS reboot/runtime-directory loss recovery; absence remains unknown",
+    "physical A/V timing, long drift, equipment and Wayland"
+  ]
+}

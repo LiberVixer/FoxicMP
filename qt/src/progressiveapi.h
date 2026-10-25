@@ -14,6 +14,7 @@ public:
   bool listen(const QString &profileDirectory);
   QString errorString() const { return server.errorString(); }
   static QString endpointFor(const QString &profileDirectory);
+  static QString readerRegistryFor(const QString &profileDirectory);
   static QJsonObject information(const QString &profileDirectory);
   QJsonObject request(const QJsonObject &);
 
@@ -23,7 +24,8 @@ private:
   QLocalServer server;
   std::unique_ptr<QLockFile> lease;
   std::weak_ptr<ProgressiveSource> source;
-  QString sessionId;
+  QString sessionId, readerId, readerRegistry;
+  QJsonValue sessionGeneration;
   QJsonObject lastOutcome;
   std::shared_ptr<std::atomic<bool>> releaseReceipt;
   int clients = 0;
