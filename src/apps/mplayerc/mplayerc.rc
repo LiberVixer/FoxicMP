@@ -1675,6 +1675,40 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_FILE_EXIT
     END
+    POPUP "&Play"
+    BEGIN
+        MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
+        MENUITEM "&Stop",                       ID_PLAY_STOP
+        MENUITEM "F&rame Step",                 ID_PLAY_FRAMESTEP
+        MENUITEM "&Go To...",                   ID_PLAY_GOTO
+        POPUP "&Repeat"
+        BEGIN
+            MENUITEM "F&orever",                    ID_REPEAT_FOREVER
+            MENUITEM SEPARATOR
+            MENUITEM "A-B (&Reset)",                ID_PLAY_REPEAT_AB
+            MENUITEM "A-B (Mark &A)",               ID_PLAY_REPEAT_AB_MARK_A
+            MENUITEM "A-B (Mark &B)",               ID_PLAY_REPEAT_AB_MARK_B
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
+        MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
+        MENUITEM "Reset Rate",                  ID_PLAY_RESETRATE
+        MENUITEM SEPARATOR
+        MENUITEM "&Filters",                    ID_SUBMENU_FILTERS
+        MENUITEM "S&haders",                    ID_SUBMENU_SHADERS
+        MENUITEM SEPARATOR
+        MENUITEM "&Audio",                      ID_SUBMENU_AUDIOLANG
+        MENUITEM "Su&btitles",                  ID_SUBMENU_SUBTITLELANG
+        MENUITEM "Static",                      ID_SUBMENU_VIDEOSTREAM
+        MENUITEM SEPARATOR
+        POPUP "Vol&ume"
+        BEGIN
+            MENUITEM "&Up",                         ID_VOLUME_UP
+            MENUITEM "&Down",                       ID_VOLUME_DOWN
+            MENUITEM "&Mute",                       ID_VOLUME_MUTE
+        END
+        MENUITEM "After Playback",              ID_SUBMENU_AFTERPLAYBACK
+    END
     POPUP "&View"
     BEGIN
         MENUITEM "Caption&&Menu",               ID_VIEW_CAPTIONMENU
@@ -1740,40 +1774,6 @@ BEGIN
             MENUITEM "While Playing Video",         ID_ONTOP_WHILEPLAYINGVIDEO
         END
         MENUITEM "&Options...",                 ID_VIEW_OPTIONS
-    END
-    POPUP "&Play"
-    BEGIN
-        MENUITEM "&Play/Pause",                 ID_PLAY_PLAYPAUSE
-        MENUITEM "&Stop",                       ID_PLAY_STOP
-        MENUITEM "F&rame Step",                 ID_PLAY_FRAMESTEP
-        MENUITEM "&Go To...",                   ID_PLAY_GOTO
-        POPUP "&Repeat"
-        BEGIN
-            MENUITEM "F&orever",                    ID_REPEAT_FOREVER
-            MENUITEM SEPARATOR
-            MENUITEM "A-B (&Reset)",                ID_PLAY_REPEAT_AB
-            MENUITEM "A-B (Mark &A)",               ID_PLAY_REPEAT_AB_MARK_A
-            MENUITEM "A-B (Mark &B)",               ID_PLAY_REPEAT_AB_MARK_B
-        END
-        MENUITEM SEPARATOR
-        MENUITEM "&Increase Rate",              ID_PLAY_INCRATE
-        MENUITEM "&Decrease Rate",              ID_PLAY_DECRATE
-        MENUITEM "Reset Rate",                  ID_PLAY_RESETRATE
-        MENUITEM SEPARATOR
-        MENUITEM "&Filters",                    ID_SUBMENU_FILTERS
-        MENUITEM "S&haders",                    ID_SUBMENU_SHADERS
-        MENUITEM SEPARATOR
-        MENUITEM "&Audio",                      ID_SUBMENU_AUDIOLANG
-        MENUITEM "Su&btitles",                  ID_SUBMENU_SUBTITLELANG
-        MENUITEM "Static",                      ID_SUBMENU_VIDEOSTREAM
-        MENUITEM SEPARATOR
-        POPUP "Vol&ume"
-        BEGIN
-            MENUITEM "&Up",                         ID_VOLUME_UP
-            MENUITEM "&Down",                       ID_VOLUME_DOWN
-            MENUITEM "&Mute",                       ID_VOLUME_MUTE
-        END
-        MENUITEM "After Playback",              ID_SUBMENU_AFTERPLAYBACK
     END
     MENUITEM "&Navigate",                   ID_SUBMENU_NAVIGATE_MAIN
     MENUITEM "F&avorites",                  ID_SUBMENU_FAVORITES_MAIN

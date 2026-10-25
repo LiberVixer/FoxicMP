@@ -48,7 +48,6 @@ public:
 
 protected:
 	virtual void PreSubclassWindow();
-	virtual void DrawItem(LPDRAWITEMSTRUCT drawItem) override;
 	virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
 
 	DECLARE_MESSAGE_MAP()

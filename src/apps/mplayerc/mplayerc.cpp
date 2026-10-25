@@ -1009,6 +1009,17 @@ namespace {
 
 BOOL CMPlayerCApp::InitInstance()
 {
+    int argumentCount=0;
+    LPWSTR* arguments=CommandLineToArgvW(GetCommandLineW(),&argumentCount);
+    if(arguments && argumentCount>=2 && !wcscmp(arguments[1],L"--progressive-api-info")) {
+        m_progressiveInformationOnly=true;
+        auto json=ClassicProgressiveApi::Information()+"\n";
+        HANDLE output=GetStdHandle(STD_OUTPUT_HANDLE);
+        if(!output || output==INVALID_HANDLE_VALUE){AttachConsole(ATTACH_PARENT_PROCESS);output=GetStdHandle(STD_OUTPUT_HANDLE);}
+        DWORD written=0;WriteFile(output,json.data(),DWORD(json.size()),&written,nullptr);LocalFree(arguments);
+        return FALSE;
+    }
+    if(arguments)LocalFree(arguments);
 #ifdef _DEBUG
 	DbgSetModuleLevel(LOG_TRACE, DWORD_MAX);
 	DbgSetModuleLevel(LOG_ERROR, DWORD_MAX);
@@ -1541,6 +1552,7 @@ UINT CMPlayerCApp::GetVKFromAppCommand(UINT nAppCommand)
 
 int CMPlayerCApp::ExitInstance()
 {
+    if(m_progressiveInformationOnly)return CWinApp::ExitInstance();
 	if (m_s.bResetSettings) {
 		ClearSettings();
 		ShellExecuteW(nullptr, L"open", GetProgramPath(), nullptr, nullptr, SW_SHOWNORMAL);

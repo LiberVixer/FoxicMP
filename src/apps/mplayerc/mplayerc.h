@@ -97,6 +97,7 @@ private:
 	bool ClearSettings();
 
 	bool m_bRunAdmin = false;
+    bool m_progressiveInformationOnly = false;
 
 public:
 	bool			ChangeSettingsLocation(const SettingsLocation newSetLocation);

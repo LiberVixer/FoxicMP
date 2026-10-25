@@ -149,7 +149,13 @@ void Window::attachAudioSourcePreferences(QTabWidget *tabs,
   for (const auto &entry : player->get("audio-device-list").toList()) {
     const auto device = entry.toMap();
     const auto name = device.value("name").toString();
-    if (name.startsWith("pulse/") && !name.startsWith("pulse/foxicmp_dual_"))
+    if (
+#ifdef Q_OS_WIN
+        name.startsWith("wasapi/")
+#else
+        name.startsWith("pulse/") && !name.startsWith("pulse/foxicmp_dual_")
+#endif
+       )
       second->addItem(device.value("description").toString(), name);
   }
   const auto saved = profile.settings.value("audio/secondDevice").toString();
@@ -160,12 +166,13 @@ void Window::attachAudioSourcePreferences(QTabWidget *tabs,
   }
   second->setCurrentIndex(index);
   form->addRow(uiTr("Второй выход:"), second);
-#ifdef Q_OS_WIN
-  dual->setChecked(false);
-  form->setRowVisible(dual, false);
-  form->setRowVisible(second, false);
-#endif
   auto *routeNote = new QLabel(
+#ifdef Q_OS_WIN
+      uiTr("Второй выход WASAPI воспроизводит выбранную аудиодорожку отдельным "
+           "декодером, следующем времени основного. Пауза, громкость, задержка "
+           "и обработка звука связаны. При недоступности второго основной "
+           "продолжает работу. Bitstream и одноразовый stdin не дублируются.")
+#else
       uiTr("Основной выход задаётся в поле «Устройство». Два разных выхода "
            "PulseAudio/PipeWire получают один и тот же декодированный PCM. "
            "Создаётся временное объединённое устройство; системный выход по "
@@ -173,7 +180,9 @@ void Window::attachAudioSourcePreferences(QTabWidget *tabs,
            "Без доступного второго устройства остаётся основной. Синхронизацию "
            "выходов выполняет звуковой сервер; "
            "точность на Bluetooth/USB/HDMI требует проверки. Для bitstream "
-           "этот способ не предназначен."));
+           "этот способ не предназначен.")
+#endif
+      );
   routeNote->setWordWrap(true);
   routeNote->setObjectName("settingsAudioRouteHelp");
   form->addRow(routeNote);

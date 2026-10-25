@@ -97,6 +97,8 @@ void Window::setupSubtitleTools() {
   timer->start();
 }
 void Window::applySubtitleOptions() {
+  if (player->get("option-info/sub-forced-events-only").isValid())
+    player->set("sub-forced-events-only", profile.settings.value("subtitles/forcedOnly", false).toBool());
   QStringList paths;
   for (const auto &line :
        profile.settings.value("subtitles/searchPaths").toString().split('\n')) {

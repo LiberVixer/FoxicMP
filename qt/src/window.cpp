@@ -32,6 +32,9 @@
 #include <QUrl>
 #include <QtWidgets>
 #include <cmath>
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
 
 namespace {
 class PlayerLogo final : public QLabel {
@@ -134,7 +137,11 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
         {"stop", uiTr("Стоп / закрыть файл")},
         {"previous", uiTr("Предыдущий / предыдущий файл")},
         {"next", uiTr("Следующий / следующий файл")},
-        {"frameNext", uiTr("Следующий кадр / перейти к времени")},
+#ifdef Q_OS_WIN
+        {"frameNext", uiTr("Шаг / Перейти")},
+#else
+        {"frameNext", uiTr("Следующий кадр / главы")},
+#endif
         {"open", uiTr("Открыть / последние файлы")},
         {"audioQuick", uiTr("Аудиодорожка / параметры")},
         {"subtitleQuick", uiTr("Субтитры / параметры")},
@@ -560,6 +567,37 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
       showOsd(uiTr("Не удалось загрузить язык; используется русский"));
     });
 }
+
+#ifdef Q_OS_WIN
+bool Window::nativeEvent(const QByteArray &eventType, void *message,
+                         qintptr *result) {
+  if (eventType == "windows_generic_MSG" || eventType == "windows_dispatcher_MSG") {
+    auto *msg = static_cast<MSG *>(message);
+    if (msg && msg->message == WM_APPCOMMAND) {
+      const auto command = GET_APPCOMMAND_LPARAM(msg->lParam);
+      const auto trigger = [this](const char *id) {
+        if (auto *action = actions.value(id)) { action->trigger(); return true; }
+        return false;
+      };
+      bool handled = false;
+      switch (command) {
+      case APPCOMMAND_MEDIA_PLAY_PAUSE: handled = trigger("play"); break;
+      case APPCOMMAND_MEDIA_STOP: handled = trigger("stop"); break;
+      case APPCOMMAND_MEDIA_NEXTTRACK: handled = trigger("next"); break;
+      case APPCOMMAND_MEDIA_PREVIOUSTRACK: handled = trigger("previous"); break;
+      case APPCOMMAND_MEDIA_FAST_FORWARD: handled = trigger("forward"); break;
+      case APPCOMMAND_MEDIA_REWIND: handled = trigger("back"); break;
+      case APPCOMMAND_VOLUME_UP: handled = trigger("volumeUp"); break;
+      case APPCOMMAND_VOLUME_DOWN: handled = trigger("volumeDown"); break;
+      case APPCOMMAND_VOLUME_MUTE: handled = trigger("mute"); break;
+      default: break;
+      }
+      if (handled) { if (result) *result = 1; return true; }
+    }
+  }
+  return QMainWindow::nativeEvent(eventType, message, result);
+}
+#endif
 void Window::buildMenus() {
   contextMenu = new QMenu(this);
   contextMenu->setObjectName("videoContextMenu");
@@ -575,7 +613,13 @@ void Window::buildMenus() {
   audioMenu->setObjectName("audioTracksMenu");
   subtitleMenu = new QMenu(uiTr("Дорожка субтитров"), contextMenu);
   subtitleMenu->setObjectName("subtitleTracksMenu");
-  chapterMenu = new QMenu(uiTr("Перейти к главе"), contextMenu);
+  chapterMenu = new QMenu(
+#ifdef Q_OS_WIN
+      uiTr("Перейти"),
+#else
+      uiTr("Перейти к главе"),
+#endif
+      contextMenu);
   chapterMenu->setObjectName("chaptersMenu");
   buildAfterPlaybackMenu(contextMenu);
   refreshLibraryMenus();
@@ -1025,12 +1069,19 @@ void Window::applyShortcuts() {
         id.startsWith("scale") || id.startsWith("zoom") ||
         id.startsWith("pan") || id.startsWith("speed") ||
         id.endsWith("DelayUp") || id.endsWith("DelayDown"));
-    it.value()->setToolTip(it.value()->text() +
-                           (key.isEmpty() ? ""
-                                          : " (" +
-                                                it.value()->shortcut().toString(
-                                                    QKeySequence::NativeText) +
-                                                ")"));
+#ifdef Q_OS_WIN
+    if (id == "frameNext") {
+      // Classic labels the fifth toolbar button "Step | Jump To" and does
+      // not append the Ctrl+Right accelerator to that two-action hint.
+      it.value()->setToolTip(uiTr("Шаг / Перейти"));
+    } else
+#endif
+      it.value()->setToolTip(it.value()->text() +
+                             (key.isEmpty() ? ""
+                                            : " (" +
+                                                  it.value()->shortcut().toString(
+                                                      QKeySequence::NativeText) +
+                                                  ")"));
   }
 }
 void Window::goToTime() {
@@ -1109,15 +1160,15 @@ bool Window::eventFilter(QObject *object, QEvent *event) {
         return true;
       }
       if (id == "frameNext") {
-        goToTime();
+        chapterMenu->popup(button->mapToGlobal(QPoint(0, button->height())));
         return true;
       }
       if (id == "audioQuick") {
-        actions["audioProcessingSettings"]->trigger();
+        findChild<QMenu *>("classicAudioOptionsMenu")->popup(button->mapToGlobal(QPoint(0, button->height())));
         return true;
       }
       if (id == "subtitleQuick") {
-        actions["preferences"]->trigger();
+        findChild<QMenu *>("classicSubtitleOptionsMenu")->popup(button->mapToGlobal(QPoint(0, button->height())));
         return true;
       }
     }
@@ -1792,10 +1843,8 @@ void Window::navigateSkip(int direction) {
   if (stopped || stdinPlayback || DeviceSource::isLive(current))
     return;
   // Match Classic: toolbar buttons first move between chapters, then files.
-  if (timeline->chapters.size() > 1) {
-    changeChapter(direction);
+  if (!timeline->chapters.isEmpty() && changeChapter(direction, 3.))
     return;
-  }
   if (advancePlaylist(direction > 0) || advanceDirectory(direction > 0))
     return;
   showOsd(direction > 0 ? uiTr("Последний файл") : uiTr("Первый файл"));

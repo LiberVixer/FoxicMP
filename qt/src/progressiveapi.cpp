@@ -7,8 +7,12 @@
 #include <QLocalSocket>
 #include <QTimer>
 #include <QDir>
+#include <QCoreApplication>
+#include "platformpaths.h"
+#ifndef Q_OS_WIN
 #include <sys/socket.h>
 #include <unistd.h>
+#endif
 
 namespace {
 constexpr int limit = 65536;
@@ -40,8 +44,20 @@ QString ProgressiveApi::endpointFor(const QString &directory) {
   return InstanceBroker::endpointFor(directory) + ".progressive";
 }
 QJsonObject ProgressiveApi::information(const QString &directory) {
-  return {{"version", 1}, {"transport", "unix-json-lines"},
-          {"endpoint", endpointFor(directory)}, {"profile", QDir(directory).absolutePath()},
+  return {{"version", 1}, {"transport",
+#ifdef Q_OS_WIN
+          "windows-pipe-json-lines"
+#else
+          "unix-json-lines"
+#endif
+          },
+          {"endpoint",
+#ifdef Q_OS_WIN
+          QStringLiteral("\\\\.\\pipe\\") + endpointFor(directory)
+#else
+          endpointFor(directory)
+#endif
+          }, {"profile", QDir(directory).absolutePath()},
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
           {"actions", QJsonArray{"capabilities", "start", "update", "complete", "heartbeat", "status", "cancel", "error"}},
           {"containers", QJsonArray{"fast-start-mp4", "fragmented-mp4"}},
@@ -51,7 +67,13 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
 }
 bool ProgressiveApi::listen(const QString &directory) {
   const auto endpoint = endpointFor(directory);
-  lease = std::make_unique<QLockFile>(endpoint + ".lock");
+  lease = std::make_unique<QLockFile>(
+#ifdef Q_OS_WIN
+      QDir(PlatformPaths::runtimeDirectory()).filePath(endpoint + ".lock")
+#else
+      endpoint + ".lock"
+#endif
+  );
   lease->setStaleLockTime(0);
   if (!lease->tryLock(0)) return false;
   QLocalServer::removeServer(endpoint);
@@ -67,7 +89,7 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
     if (!keys(input, {"version", "action"})) return failure("invalid_request", "Unexpected fields");
     auto result = information({});
     result.remove("endpoint"); result.remove("profile"); result["ok"] = true;
-    result["pid"] = qint64(getpid());
+    result["pid"] = QCoreApplication::applicationPid();
     return result;
   }
   if (action == "start") {
@@ -140,10 +162,15 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
 void ProgressiveApi::acceptClients() {
   while (server.hasPendingConnections()) {
     auto *socket = server.nextPendingConnection();
+#ifndef Q_OS_WIN
     struct ucred peer{};
     socklen_t length = sizeof(peer);
     if (clients >= 16 || getsockopt(socket->socketDescriptor(), SOL_SOCKET, SO_PEERCRED, &peer, &length) ||
         peer.uid != getuid()) { socket->abort(); socket->deleteLater(); continue; }
+#else
+    // QLocalServer::UserAccessOption restricts the named pipe ACL to this user.
+    if (clients >= 16) { socket->abort(); socket->deleteLater(); continue; }
+#endif
     ++clients;
     socket->setParent(this);
     socket->setReadBufferSize(limit + 1);

@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "product": "FoxicMP",
+  "source": "shared/familycommands.inc",
+  "commands": [
+    {
+      "id": "open",
+      "classicId": "ID_FILE_OPENFILE",
+      "shortcut": "Ctrl+Q",
+      "virtualKey": 81,
+      "modifiers": 8
+    },
+    {
+      "id": "openUrl",
+      "classicId": "ID_FILE_OPENFILEURL",
+      "shortcut": "Ctrl+O",
+      "virtualKey": 79,
+      "modifiers": 8
+    },
+    {
+      "id": "openDisc",
+      "classicId": "ID_FILE_OPENDVD",
+      "shortcut": "Ctrl+D",
+      "virtualKey": 68,
+      "modifiers": 8
+    },
+    {
+      "id": "quit",
+      "classicId": "ID_FILE_EXIT",
+      "shortcut": "Alt+X",
+      "virtualKey": 88,
+      "modifiers": 16
+    },
+    {
+      "id": "closeFile",
+      "classicId": "ID_FILE_CLOSEPLAYLIST",
+      "shortcut": "Ctrl+C",
+      "virtualKey": 67,
+      "modifiers": 8
+    },
+    {
+      "id": "snapshot",
+      "classicId": "ID_FILE_SAVE_IMAGE",
+      "shortcut": "Ctrl+F5",
+      "virtualKey": 116,
+      "modifiers": 8
+    },
+    {
+      "id": "snapshotQuick",
+      "classicId": "ID_FILE_AUTOSAVE_IMAGE",
+      "shortcut": "F5",
+      "virtualKey": 116,
+      "modifiers": 0
+    },
+    {
+      "id": "snapshotDisplay",
+      "classicId": "ID_FILE_AUTOSAVE_DISPLAY",
+      "shortcut": "Shift+F5",
+      "virtualKey": 116,
+      "modifiers": 4
+    },
+    {
+      "id": "snapshotClipboard",
+      "classicId": "ID_COPY_IMAGE",
+      "shortcut": "",
+      "virtualKey": 0,
+      "modifiers": 0
+    },
+    {
+      "id": "loadSubtitles",
+      "classicId": "ID_FILE_LOAD_SUBTITLE",
+      "shortcut": "Ctrl+L",
+      "virtualKey": 76,
+      "modifiers": 8
+    },
+    {
+      "id": "playlist",
+      "classicId": "ID_VIEW_PLAYLIST",
+      "shortcut": "Ctrl+7",
+      "virtualKey": 55,
+      "modifiers": 8
+    },
+    {
+      "id": "mediaProperties",
+      "classicId": "ID_FILE_PROPERTIES",
+      "shortcut": "Shift+F10",
+      "virtualKey": 121,
+      "modifiers": 4
+    },
+    {
+      "id": "context",
+      "classicId": "ID_MENU_PLAYER_LONG",
+      "shortcut": "Menu",
+      "virtualKey": 93,
+      "modifiers": 0
+    },
+    {
+      "id": "classicCaptionMenu",
+      "classicId": "ID_VIEW_CAPTIONMENU",
+      "shortcut": "Ctrl+0",
+      "virtualKey": 48,
+      "modifiers": 8
+    },
+    {
+      "id": "fullscreen",
+      "classicId": "ID_VIEW_FULLSCREEN",
+      "shortcut": "Ctrl+Return",
+      "virtualKey": 13,
+      "modifiers": 8
+    },
+    {
+      "id": "showTimeline",
+      "classicId": "ID_VIEW_SEEKER",
+      "shortcut": "Ctrl+1",
+      "virtualKey": 49,
+      "modifiers": 8
+    },
+    {
+      "id": "showControls",
+      "classicId": "ID_VIEW_CONTROLS",
+      "shortcut": "Ctrl+2",
+      "virtualKey": 50,
+      "modifiers": 8
+    },
+    {
+      "id": "showStatus",
+      "classicId": "ID_VIEW_STATUS",
+      "shortcut": "Ctrl+5",
+      "virtualKey": 53,
+      "modifiers": 8
+    },
+    {
+      "id": "classicInformation",
+      "classicId": "ID_VIEW_INFORMATION",
+      "shortcut": "Ctrl+3",
+      "virtualKey": 51,
+      "modifiers": 8
+    },
+    {
+      "id": "classicStatistics",
+      "classicId": "ID_VIEW_STATISTICS",
+      "shortcut": "Ctrl+4",
+      "virtualKey": 52,
+      "modifiers": 8
+    },
+    {
+      "id": "subtitleEditor",
+      "classicId": "ID_VIEW_SUBRESYNC",
+      "shortcut": "Ctrl+6",
+      "virtualKey": 54,
+      "modifiers": 8
+    },
+    {
+      "id": "classicShaderEditor",
+      "classicId": "ID_VIEW_SHADEREDITOR",
+      "shortcut": "Ctrl+9",
+      "virtualKey": 57,
+      "modifiers": 8
+    },
+    {
+      "id": "renderStatistics",
+      "classicId": "ID_VIEW_DISPLAYSTATS",
+      "shortcut": "Ctrl+J",
+      "virtualKey": 74,
+      "modifiers": 8
+    },
+    {
+      "id": "play",
+      "classicId": "ID_PLAY_PLAYPAUSE",
+      "shortcut": "Space",
+      "virtualKey": 32,
+      "modifiers": 0
+    },
+    {
+      "id": "stop",
+      "classicId": "ID_PLAY_STOP",
+      "shortcut": ".",
+      "virtualKey": 190,
+      "modifiers": 0
+    },
+    {
+      "id": "preferences",
+      "classicId": "ID_VIEW_OPTIONS",
+      "shortcut": "O",
+      "virtualKey": 79,
+      "modifiers": 0
+    },
+    {
+      "id": "mute",
+      "classicId": "ID_VOLUME_MUTE",
+      "shortcut": "Ctrl+M",
+      "virtualKey": 77,
+      "modifiers": 8
+    },
+    {
+      "id": "volumeUp",
+      "classicId": "ID_VOLUME_UP",
+      "shortcut": "Up",
+      "virtualKey": 38,
+      "modifiers": 0
+    },
+    {
+      "id": "volumeDown",
+      "classicId": "ID_VOLUME_DOWN",
+      "shortcut": "Down",
+      "virtualKey": 40,
+      "modifiers": 0
+    },
+    {
+      "id": "previous",
+      "classicId": "ID_NAVIGATE_SKIPBACK",
+      "shortcut": "PgUp",
+      "virtualKey": 33,
+      "modifiers": 0
+    },
+    {
+      "id": "next",
+      "classicId": "ID_NAVIGATE_SKIPFORWARD",
+      "shortcut": "PgDown",
+      "virtualKey": 34,
+      "modifiers": 0
+    },
+    {
+      "id": "speedUp",
+      "classicId": "ID_PLAY_INCRATE",
+      "shortcut": "Ctrl+Up",
+      "virtualKey": 38,
+      "modifiers": 8
+    },
+    {
+      "id": "speedDown",
+      "classicId": "ID_PLAY_DECRATE",
+      "shortcut": "Ctrl+Down",
+      "virtualKey": 40,
+      "modifiers": 8
+    },
+    {
+      "id": "speedReset",
+      "classicId": "ID_PLAY_RESETRATE",
+      "shortcut": "Ctrl+R",
+      "virtualKey": 82,
+      "modifiers": 8
+    },
+    {
+      "id": "frameNext",
+      "classicId": "ID_PLAY_FRAMESTEP",
+      "shortcut": "Ctrl+Right",
+      "virtualKey": 39,
+      "modifiers": 8
+    },
+    {
+      "id": "frameBack",
+      "classicId": "ID_PLAY_FRAMESTEP_BACK",
+      "shortcut": "Ctrl+Left",
+      "virtualKey": 37,
+      "modifiers": 8
+    },
+    {
+      "id": "goto",
+      "classicId": "ID_PLAY_GOTO",
+      "shortcut": "Ctrl+G",
+      "virtualKey": 71,
+      "modifiers": 8
+    },
+    {
+      "id": "audioNext",
+      "classicId": "ID_STREAM_AUDIO_NEXT",
+      "shortcut": "A",
+      "virtualKey": 65,
+      "modifiers": 0
+    },
+    {
+      "id": "audioPrevious",
+      "classicId": "ID_STREAM_AUDIO_PREV",
+      "shortcut": "Shift+A",
+      "virtualKey": 65,
+      "modifiers": 4
+    },
+    {
+      "id": "subtitleNext",
+      "classicId": "ID_STREAM_SUB_NEXT",
+      "shortcut": "S",
+      "virtualKey": 83,
+      "modifiers": 0
+    },
+    {
+      "id": "subtitlePrevious",
+      "classicId": "ID_STREAM_SUB_PREV",
+      "shortcut": "Shift+S",
+      "virtualKey": 83,
+      "modifiers": 4
+    },
+    {
+      "id": "subtitleToggle",
+      "classicId": "ID_STREAM_SUB_ONOFF",
+      "shortcut": "W",
+      "virtualKey": 87,
+      "modifiers": 0
+    },
+    {
+      "id": "bossKey",
+      "classicId": "ID_BOSS",
+      "shortcut": "B",
+      "virtualKey": 66,
+      "modifiers": 0
+    }
+  ]
+}

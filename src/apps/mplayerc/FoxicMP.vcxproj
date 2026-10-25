@@ -149,6 +149,7 @@ copy /Y "$(SolutionDir)distrib\Defaults\toolbar.png" "$(TargetDir)toolbar.png" |
     <ClCompile Include="KeyProvider.cpp" />
     <ClCompile Include="LcdSupport.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="ClassicProgressiveApi.cpp" />
     <ClCompile Include="MediaFormats.cpp" />
     <ClCompile Include="MediaTypesDlg.cpp" />
     <ClCompile Include="MiniDump.cpp" />

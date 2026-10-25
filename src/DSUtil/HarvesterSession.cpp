@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "HarvesterSession.h"
 #include <map>
+#include <aclapi.h>
 #include "ExtLib/rapidjson/include/rapidjson/writer.h"
 #include "ExtLib/rapidjson/include/rapidjson/stringbuffer.h"
 
@@ -27,7 +28,7 @@ std::wstring LocalPath(const std::wstring& path) {
 }
 HANDLE OpenLocal(const std::wstring& path,bool asynchronous) {
     const auto full=LocalPath(path);
-    HANDLE h=CreateFileW(full.c_str(),GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE|(asynchronous?0:FILE_SHARE_DELETE),nullptr,OPEN_EXISTING,
+    HANDLE h=CreateFileW(full.c_str(),GENERIC_READ|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,nullptr,OPEN_EXISTING,
         FILE_FLAG_OPEN_REPARSE_POINT|(asynchronous?FILE_FLAG_OVERLAPPED:0),nullptr);
     if (h==INVALID_HANDLE_VALUE) throw std::runtime_error("Cannot open session file with read/write sharing");
     BY_HANDLE_FILE_INFORMATION info{};
@@ -90,7 +91,7 @@ CHarvesterSession::~CHarvesterSession() {
     Cancel(); SetEvent(m_stop); if(m_thread.joinable())m_thread.join();
     for(auto& file:m_files) { if(file!=INVALID_HANDLE_VALUE)CloseHandle(file); file=INVALID_HANDLE_VALUE; }
     // Context survives until the last reader and graph have released their references.
-    if(m_pipe==INVALID_HANDLE_VALUE)ConnectPipe();
+    if(!m_published && m_pipe==INVALID_HANDLE_VALUE)ConnectPipe();
     if(m_pipe!=INVALID_HANDLE_VALUE)Send("released");
     DisconnectPipe(); if(m_cancel)CloseHandle(m_cancel); if(m_stop)CloseHandle(m_stop);
 }
@@ -119,6 +120,107 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::Open(const std::wstring& p
         p->m_thread=std::thread([context=p.get()]{context->Watch();}); return p;
     } catch(const std::exception& e) { error=Wide(e.what()).c_str(); return nullptr; }
 }
+namespace {
+harvester::Snapshot PublishedSnapshot(const std::string& json, std::array<std::wstring, 2>& paths) {
+    rapidjson::Document input;
+    input.Parse<rapidjson::kParseValidateEncodingFlag|rapidjson::kParseIterativeFlag>(json.data(),json.size());
+    if(input.HasParseError() || !input.IsObject())throw std::runtime_error("Invalid session JSON");
+    harvester::UniqueKeys(input);
+    if(!input.HasMember("tracks") || !input["tracks"].IsObject())throw std::runtime_error("Tracks missing");
+    for(int i=0;i<2;++i) {
+        const char* name=i?"audio":"video";
+        auto& tracks=input["tracks"];
+        if(!tracks.HasMember(name) || !tracks[name].IsObject())throw std::runtime_error("Track missing");
+        auto& track=tracks[name];
+        paths[i]=LocalPath(Wide(harvester::String(track,"path")));
+        track["path"].SetString(i?"audio.part":"video.part",input.GetAllocator());
+    }
+    rapidjson::StringBuffer buffer;rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);input.Accept(writer);
+    return harvester::Parse(std::string(buffer.GetString(),buffer.GetSize()));
+}
+void RequireOwned(HANDLE file) {
+    PSID owner=nullptr;PSECURITY_DESCRIPTOR security=nullptr;HANDLE token=nullptr;bool ok=false;
+    if(GetSecurityInfo(file,SE_FILE_OBJECT,OWNER_SECURITY_INFORMATION,&owner,nullptr,nullptr,nullptr,&security)==ERROR_SUCCESS && OpenProcessToken(GetCurrentProcess(),TOKEN_QUERY,&token)) {
+        DWORD size=0;GetTokenInformation(token,TokenUser,nullptr,0,&size);std::vector<BYTE> data(size);
+        if(size && GetTokenInformation(token,TokenUser,data.data(),size,&size))ok=EqualSid(owner,reinterpret_cast<TOKEN_USER*>(data.data())->User.Sid)!=FALSE;
+        size=0;GetTokenInformation(token,TokenOwner,nullptr,0,&size);data.resize(size);
+        if(size && GetTokenInformation(token,TokenOwner,data.data(),size,&size))ok=ok || EqualSid(owner,reinterpret_cast<TOKEN_OWNER*>(data.data())->Owner)!=FALSE;
+    }
+    if(token)CloseHandle(token);if(security)LocalFree(security);
+    if(!ok)throw std::runtime_error("Track must belong to the current user");
+}
+}
+std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::string& json,CStringW& error) {
+    auto context=std::make_shared<CHarvesterSession>();
+    try {
+        context->m_published=true;
+        context->m_state=PublishedSnapshot(json,context->m_publishedPaths);
+        if(context->m_state.state==harvester::State::Cancelled || context->m_state.state==harvester::State::Failed)
+            throw std::runtime_error("Cannot start a terminal failed session");
+        for(int i=0;i<2;++i) {
+            const auto& track=context->m_state.tracks[i];
+            if(!track.initializationReady)throw std::runtime_error("Initialization is not ready");
+            context->m_files[i]=OpenLocal(context->m_publishedPaths[i],true);
+            RequireOwned(context->m_files[i]);
+            LARGE_INTEGER size{};
+            if(!GetFileSizeEx(context->m_files[i],&size) || size.QuadPart<0 || track.available>uint64_t(size.QuadPart))throw std::runtime_error("Confirmed bytes are missing");
+            // Fragmented MP4 has no complete moov index until the download ends;
+            // RefreshFragments validates its available initialization/moof data.
+            if(!track.fragmented && !HeadIndexReady(context->m_publishedPaths[i],track.available,track.total))
+                throw std::runtime_error("Head MP4 index is not ready");
+        }
+        BY_HANDLE_FILE_INFORMATION a{},b{};
+        if(!GetFileInformationByHandle(context->m_files[0],&a) || !GetFileInformationByHandle(context->m_files[1],&b) ||
+           (a.dwVolumeSerialNumber==b.dwVolumeSerialNumber && a.nFileIndexHigh==b.nFileIndexHigh && a.nFileIndexLow==b.nFileIndexLow))
+            throw std::runtime_error("Tracks must be distinct files");
+        context->RefreshFragments();context->PublishedHeartbeat();
+        context->m_thread=std::thread([raw=context.get()] {
+            while(WaitForSingleObject(raw->m_stop,100)==WAIT_TIMEOUT && WaitForSingleObject(raw->m_cancel,0)==WAIT_TIMEOUT) {
+                const auto state=raw->Snapshot();
+                for(int i=0;i<2;++i) {
+                    LARGE_INTEGER size{};
+                    if(!GetFileSizeEx(raw->m_files[i],&size) || size.QuadPart<0 || uint64_t(size.QuadPart)<state.tracks[i].available) {
+                        raw->Fail("Confirmed track bytes were truncated");return;
+                    }
+                }
+            }
+        });
+        return context;
+    } catch(const std::exception& e) {error=Wide(e.what()).c_str();return nullptr;}
+}
+bool CHarvesterSession::Publish(const std::string& json,CStringW& error) {
+    try {
+        std::array<std::wstring,2> paths;
+        // Original names may be renamed at finalization. Validate identity by the
+        // pinned handles; do not reopen paths on updates.
+        rapidjson::Document input;input.Parse(json.data(),json.size());
+        if(input.HasParseError() || !input.IsObject())throw std::runtime_error("Invalid snapshot JSON");
+        harvester::UniqueKeys(input);
+        for(int i=0;i<2;++i) {
+            const char* kind=i?"audio":"video";
+            if(!input.HasMember("tracks") || !input["tracks"].IsObject() || !input["tracks"].HasMember(kind) || !input["tracks"][kind].IsObject())throw std::runtime_error("Missing track");
+            auto& track=input["tracks"][kind];const auto name=Wide(harvester::String(track,"path"));
+            if(name.size()<3 || name[1]!=L':' || (name[2]!=L'\\' && name[2]!=L'/'))throw std::runtime_error("Track path must be absolute");
+            WCHAR full[MAX_PATH];const DWORD n=GetFullPathNameW(name.c_str(),MAX_PATH,full,nullptr);
+            if(!n || n>=MAX_PATH)throw std::runtime_error("Invalid path");paths[i]=full;
+            track["path"].SetString(i?"audio.part":"video.part",input.GetAllocator());
+        }
+        rapidjson::StringBuffer buffer;rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);input.Accept(writer);
+        const auto next=harvester::Parse(std::string(buffer.GetString(),buffer.GetSize()));
+        {
+            std::lock_guard<std::mutex> lock(m_mutex);
+            if(!m_published || paths!=m_publishedPaths || !m_error.empty() || WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0)
+                throw std::runtime_error("Session is closed or paths changed");
+            if(!harvester::Advance(m_state,next))throw std::runtime_error("Stale revision");
+            for(int i=0;i<2;++i) {LARGE_INTEGER size{};if(!GetFileSizeEx(m_files[i],&size) || size.QuadPart<0 || uint64_t(size.QuadPart)<next.tracks[i].available)throw std::runtime_error("Confirmed bytes are missing");}
+            m_state=next;
+        }
+        try {RefreshFragments();}catch(const std::exception& e){Fail(e.what());throw;}
+        PublishedHeartbeat();
+        if(next.state==harvester::State::Cancelled || next.state==harvester::State::Failed)Fail("Downloader cancelled or failed");
+        return true;
+    }catch(const std::exception& e){error=Wide(e.what()).c_str();return false;}
+}
 bool CHarvesterSession::ReadManifest(harvester::Snapshot& state) {
     HANDLE h=INVALID_HANDLE_VALUE;const auto deadline=GetTickCount64()+1000;
     for(;;) {
@@ -136,7 +238,7 @@ bool CHarvesterSession::ReadManifest(harvester::Snapshot& state) {
     if(!ok || read!=text.size())throw std::runtime_error("Cannot read manifest");
     state=harvester::Parse(text); return true;
 }
-std::wstring CHarvesterSession::Path(int track) const { std::lock_guard<std::mutex> lock(m_mutex); return m_root+Wide(m_state.tracks[track].path); }
+std::wstring CHarvesterSession::Path(int track) const { std::lock_guard<std::mutex> lock(m_mutex); return m_published ? m_publishedPaths[track] : m_root+Wide(m_state.tracks[track].path); }
 harvester::Snapshot CHarvesterSession::Snapshot() const {std::lock_guard<std::mutex> lock(m_mutex);return m_state;}
 std::string CHarvesterSession::Error() const {std::lock_guard<std::mutex> lock(m_mutex);return m_error;}
 void CHarvesterSession::Fail(const char* reason) { {std::lock_guard<std::mutex> lock(m_mutex); if(m_error.empty())m_error=reason; m_status="error";} Cancel(); }

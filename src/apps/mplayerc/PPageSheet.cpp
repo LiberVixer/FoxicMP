@@ -75,12 +75,12 @@ CPPageSheet::CPPageSheet(LPCWSTR pszCaption, CWnd* pParentWnd, UINT idPage)
 
 	AddPage(&m_player);
 	AddPage(&m_formats);
+	AddPage(&m_interface);
+	AddPage(&m_windowsize);
+	AddPage(&m_osd);
 	AddPage(&m_acceltbl);
 	AddPage(&m_mouse);
 	AddPage(&m_logo);
-	AddPage(&m_interface);
-	AddPage(&m_osd);
-	AddPage(&m_windowsize);
 	AddPage(&m_webserver);
 	AddPage(&m_playback);
 	AddPage(&m_dvd);

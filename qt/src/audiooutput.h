@@ -2,6 +2,8 @@
 #include <QObject>
 #include <QProcess>
 #include <QString>
+#include <memory>
+class AudioMirror;
 class Player;
 class QSettings;
 class AudioOutput : public QObject {
@@ -18,6 +20,9 @@ private:
   void fallback();
   void status(const QString &);
   Player *player;
+#ifdef Q_OS_WIN
+  std::unique_ptr<AudioMirror> mirror;
+#endif
   QProcess process;
   QString primary, secondary, route;
   QByteArray lines;

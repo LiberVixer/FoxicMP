@@ -189,6 +189,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 
 	ON_WM_SYSCOMMAND()
 	ON_WM_ACTIVATEAPP()
+	ON_MESSAGE(WM_CLASSIC_PROGRESSIVE_REQUEST, OnProgressiveRequest)
 	ON_MESSAGE(WM_APPCOMMAND, OnAppCommand)
 	ON_WM_INPUT()
 	ON_MESSAGE(WM_HOTKEY, OnHotKey)
@@ -948,6 +949,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	RegisterApplicationRestart(L"", RESTART_NO_CRASH | RESTART_NO_HANG);
 
+	m_progressiveApi = std::make_unique<ClassicProgressiveApi>(*this);
 	cmdLineThread = std::thread([this] { cmdLineThreadFunction(); });
 
 	return 0;
@@ -955,6 +957,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void CMainFrame::OnDestroy()
 {
+    m_progressiveApi.reset();
+    MSG pending{};
+    while(::PeekMessageW(&pending,m_hWnd,WM_CLASSIC_PROGRESSIVE_REQUEST,WM_CLASSIC_PROGRESSIVE_REQUEST,PM_REMOVE))
+        delete reinterpret_cast<std::shared_ptr<ClassicProgressiveApi::Request>*>(pending.lParam);
 	WTSUnRegisterSessionNotification();
 
 	ShowTrayIcon(false);
@@ -18220,6 +18226,7 @@ bool CMainFrame::DisplayChange()
 
 void CMainFrame::CloseMedia(BOOL bNextIsOpened/* = FALSE*/)
 {
+    if(m_progressiveApi && m_harvester)m_progressiveApi->Ended(m_harvester,m_bGraphEventComplete);
 	if (m_eMediaLoadState == MLS_CLOSING || m_eMediaLoadState == MLS_CLOSED) {
 		return;
 	}
@@ -21542,4 +21549,13 @@ void CMainFrame::UpdateHarvesterPlayback(REFERENCE_TIME now)
         if (m_harvesterWantPlay) {OnPlayPlay();m_harvester->Notify("playing");}
     }
     UpdatePlayerStatus();
+}
+
+LRESULT CMainFrame::OnProgressiveRequest(WPARAM,LPARAM value)
+{
+    std::unique_ptr<std::shared_ptr<ClassicProgressiveApi::Request>> message(reinterpret_cast<std::shared_ptr<ClassicProgressiveApi::Request>*>(value));
+    const auto request=*message;
+    if(m_progressiveApi)request->output=m_progressiveApi->Handle(request->input);
+    SetEvent(request->done);
+    return 0;
 }

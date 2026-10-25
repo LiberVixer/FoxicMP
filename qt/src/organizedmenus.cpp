@@ -162,6 +162,28 @@ void Window::buildOrganizedMenus(QMenu *videoStreams, QMenu *language) {
   subtitles->addSeparator();
   add(subtitles, {"subtitleEditor", "subtitleReload", "subtitleExternalEditor"});
 
+  auto *audioOptions = new QMenu(this); audioOptions->setObjectName("classicAudioOptionsMenu");
+  page(audioOptions, "quickAudioOptions", uiTr("Параметры…"), "IDD_PPAGEAUDIO");
+  add(audioOptions, {"externalAudio"});
+  auto *subtitleOptions = new QMenu(this); subtitleOptions->setObjectName("classicSubtitleOptionsMenu");
+  page(subtitleOptions, "quickSubtitleOptions", uiTr("Параметры…"), "IDD_PPAGESUBTITLES");
+  add(subtitleOptions, {"loadSubtitles", "subtitleStyleSettings", "subtitleReload"});
+  subtitleOptions->addSeparator(); add(subtitleOptions, {"subtitleToggle"});
+  auto *defaultStyle = subtitleOptions->addAction(uiTr("Использовать стиль по умолчанию"));
+  defaultStyle->setCheckable(true);
+  connect(defaultStyle, &QAction::triggered, this, [this](bool enabled) {
+    profile.settings.setValue("subtitles/overrideAss", enabled); applySubtitleStyle();
+  });
+  auto *forcedOnly = subtitleOptions->addAction(uiTr("Только принудительные субтитры"));
+  forcedOnly->setCheckable(true);
+  connect(forcedOnly, &QAction::triggered, this, [this](bool enabled) {
+    if (player->set("sub-forced-events-only", enabled)) profile.settings.setValue("subtitles/forcedOnly", enabled);
+  });
+  connect(subtitleOptions, &QMenu::aboutToShow, this, [this, defaultStyle, forcedOnly] {
+    defaultStyle->setChecked(profile.settings.value("subtitles/overrideAss", false).toBool());
+    forcedOnly->setEnabled(player->get("option-info/sub-forced-events-only").isValid());
+    forcedOnly->setChecked(profile.settings.value("subtitles/forcedOnly", false).toBool());
+  });
   auto *library = section(uiTr("Библиотека"), "organizedLibraryMenu");
   add(library, {"playlist"});
   auto *queue = submenu(library, uiTr("Плейлист"), "organizedPlaylistMenu");

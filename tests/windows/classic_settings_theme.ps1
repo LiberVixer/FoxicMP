@@ -16,6 +16,17 @@ Add-Type -AssemblyName System.Drawing,UIAutomationClient,UIAutomationTypes
 Add-Type @'
 using System; using System.Text; using System.Collections.Generic; using System.Runtime.InteropServices;
 public class RestoreNative {
+ [StructLayout(LayoutKind.Sequential)] public struct SCROLLBARINFO { public uint cbSize; public RECT rect; public int arrow,thumbTop,thumbBottom,reserved; [MarshalAs(UnmanagedType.ByValArray,SizeConst=6)] public uint[] state; }
+ [DllImport("user32.dll")] public static extern bool GetScrollBarInfo(IntPtr h,int obj,ref SCROLLBARINFO info);
+ [DllImport("user32.dll")] public static extern IntPtr GetWindowDC(IntPtr h);
+ [DllImport("user32.dll")] public static extern int ReleaseDC(IntPtr h,IntPtr dc);
+ [DllImport("gdi32.dll")] public static extern bool BitBlt(IntPtr target,int x,int y,int w,int h,IntPtr source,int sx,int sy,uint op);
+ [DllImport("user32.dll")] public static extern bool RedrawWindow(IntPtr h,IntPtr r,IntPtr region,uint flags);
+ public static SCROLLBARINFO Bar(IntPtr h,int bar) {var info=new SCROLLBARINFO{cbSize=(uint)Marshal.SizeOf(typeof(SCROLLBARINFO)),state=new uint[6]};if(!GetScrollBarInfo(h,bar,ref info))info.state[0]=0x8000;return info;}
+ public static List<IntPtr> Controls(IntPtr h) {var rows=new List<IntPtr>();EnumChildWindows(h,(c,p)=>{if(IsWindowVisible(c))rows.Add(c);return true;},IntPtr.Zero);return rows;}
+ [StructLayout(LayoutKind.Sequential)] public struct POINT {public int X,Y;}
+ [DllImport("user32.dll")] public static extern bool ClientToScreen(IntPtr h,ref POINT point);
+ public static POINT ClientOrigin(IntPtr h) {var p=new POINT();ClientToScreen(h,ref p);return p;}
  public delegate bool Callback(IntPtr h,IntPtr p);
  [StructLayout(LayoutKind.Sequential)] public struct RECT { public int Left,Top,Right,Bottom; }
  [DllImport("user32.dll")] public static extern bool EnumWindows(Callback cb,IntPtr p);
@@ -23,6 +34,7 @@ public class RestoreNative {
  [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr h,out uint p);
  [DllImport("user32.dll",CharSet=CharSet.Unicode)] public static extern int GetClassName(IntPtr h,StringBuilder b,int n);
  [DllImport("user32.dll",CharSet=CharSet.Unicode)] public static extern int GetWindowText(IntPtr h,StringBuilder b,int n);
+ [DllImport("user32.dll")] public static extern bool IsWindowEnabled(IntPtr h);
  [DllImport("user32.dll")] public static extern bool IsWindowVisible(IntPtr h);
  [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h,out RECT r);
  [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr h,IntPtr after,int x,int y,int w,int height,uint f);
@@ -64,10 +76,71 @@ public class RestoreNative {
 }
 '@
 function Capture($h,$file) {
+ [RestoreNative]::RedrawWindow($h,[IntPtr]::Zero,[IntPtr]::Zero,0x585)|Out-Null
  $r=New-Object RestoreNative+RECT; [RestoreNative]::GetWindowRect($h,[ref]$r) | Out-Null
  $b=New-Object Drawing.Bitmap ($r.Right-$r.Left),($r.Bottom-$r.Top); $g=[Drawing.Graphics]::FromImage($b);$dc=$g.GetHdc()
  try {if(-not [RestoreNative]::PrintWindow($h,$dc,2)){throw 'PrintWindow failed'}} finally {$g.ReleaseHdc($dc)}
  $b.Save($file);$g.Dispose();$b.Dispose()
+}
+
+function Capture-Live($h,$file) {
+ [RestoreNative]::RedrawWindow($h,[IntPtr]::Zero,[IntPtr]::Zero,0x585)|Out-Null
+ $rect=New-Object RestoreNative+RECT;[RestoreNative]::GetWindowRect($h,[ref]$rect)|Out-Null
+ $width=$rect.Right-$rect.Left;$height=$rect.Bottom-$rect.Top
+ $bitmap=New-Object Drawing.Bitmap $width,$height;$graphics=[Drawing.Graphics]::FromImage($bitmap)
+ $target=$graphics.GetHdc();$source=[RestoreNative]::GetWindowDC($h)
+ try {[RestoreNative]::BitBlt($target,0,0,$width,$height,$source,0,0,0xCC0020)|Out-Null}
+ finally {$graphics.ReleaseHdc($target);[RestoreNative]::ReleaseDC($h,$source)|Out-Null}
+ try {$bitmap.Save($file)}finally{$graphics.Dispose();$bitmap.Dispose()}
+}
+
+# Sample the actual window DC during capture, rather than relying only on PrintWindow.
+function Capture-Bar($h,$info,$file) {
+ $outer=New-Object RestoreNative+RECT; [RestoreNative]::GetWindowRect($h,[ref]$outer)|Out-Null
+ $width=$info.rect.Right-$info.rect.Left; $height=$info.rect.Bottom-$info.rect.Top
+ $bitmap=New-Object Drawing.Bitmap $width,$height; $graphics=[Drawing.Graphics]::FromImage($bitmap)
+ $target=$graphics.GetHdc();$source=[RestoreNative]::GetWindowDC($h)
+ try {[RestoreNative]::BitBlt($target,0,0,$width,$height,$source,($info.rect.Left-$outer.Left),($info.rect.Top-$outer.Top),0xCC0020)|Out-Null}
+ finally {$graphics.ReleaseHdc($target);[RestoreNative]::ReleaseDC($h,$source)|Out-Null}
+ $bitmap.Save($file)
+ try {
+  for($y=2;$y -lt $height-2;$y++){for($x=2;$x -lt $width-2;$x++){
+   $color=$bitmap.GetPixel($x,$y)
+   if($color.R -gt 200 -and $color.G -gt 200 -and $color.B -gt 200){throw "White scrollbar pixel in $file at $x,$y"}
+  }}
+ } finally {$graphics.Dispose();$bitmap.Dispose()}
+}
+function Exercise-Scrollbars($dialog,$index) {
+ $count=0
+ foreach($control in [RestoreNative]::Controls($dialog)) {
+  foreach($vertical in @($true,$false)) {
+   $object=if($vertical){-5}else{-6}
+   $info=[RestoreNative]::Bar($control,$object)
+   if(($info.state[0] -band 0x18001) -ne 0 -or $info.thumbBottom -le $info.thumbTop){continue}
+   $screenX=if($vertical){[int](($info.rect.Left+$info.rect.Right)/2)}else{$info.rect.Left+[int](($info.thumbTop+$info.thumbBottom)/2)}
+   $screenY=if($vertical){$info.rect.Top+[int](($info.thumbTop+$info.thumbBottom)/2)}else{[int](($info.rect.Top+$info.rect.Bottom)/2)}
+   $packed=($screenY -shl 16) -bor ($screenX -band 0xffff)
+   $hit=if($vertical){7}else{6}
+   [RestoreNative]::PostMessage($control,0xa1,[IntPtr]$hit,[IntPtr]$packed)|Out-Null
+   Start-Sleep -Milliseconds 100
+   Capture-Bar $control $info ("$base\drag-{0:d2}-{1}-held.png" -f $index,$count)
+   $origin=[RestoreNative]::ClientOrigin($control)
+   $delta=45;if($info.thumbTop -gt $info.arrow+10){$delta=-45}
+   $localX=$screenX-$origin.X; $localY=$screenY-$origin.Y
+   if($vertical){$localY+=$delta}else{$localX+=$delta}
+   $move=($localY -shl 16) -bor ($localX -band 0xffff)
+   [RestoreNative]::PostMessage($control,0x200,[IntPtr]1,[IntPtr]$move)|Out-Null
+   Start-Sleep -Milliseconds 100
+   $moved=[RestoreNative]::Bar($control,$object)
+   ([RestoreNative]::Class($control)+" vertical="+$vertical+" old="+$info.thumbTop+","+$info.thumbBottom+" new="+$moved.thumbTop+","+$moved.thumbBottom) | Add-Content "$base\scroll-debug.txt"
+   Capture-Bar $control $moved ("$base\drag-{0:d2}-{1}-moved.png" -f $index,$count)
+   [RestoreNative]::PostMessage($control,0x202,[IntPtr]::Zero,[IntPtr]$move)|Out-Null
+   Start-Sleep -Milliseconds 100
+   if($moved.thumbTop -eq $info.thumbTop -and $moved.thumbBottom -eq $info.thumbBottom){$script:ScrollFailures.Add("page $index / $control / vertical=$vertical")}
+   $count++
+  }
+ }
+ return $count
 }
 
 $p=$null;$exitCode=1
@@ -89,15 +162,17 @@ try {
  Copy-Item $installed "$dir\FoxicMP64.ini" -Force
  Copy-Item $RussianLanguageDll "$dir\Lang\FoxicMPresources.ru.dll" -Force
  $ini="$dir\FoxicMP64.ini"
- foreach($row in @(@('Settings','ContextMenuEnabled','0'),@('Settings','ContextMenuPrompted','1'),@('Audio','Mute','1'),@('Theme','UseDarkTheme','1'),@('Settings','Language','ru'))){[RestoreNative]::WritePrivateProfileString($row[0],$row[1],$row[2],$ini)|Out-Null}
+ foreach($row in @(@('Settings','ContextMenuEnabled','0'),@('Settings','ContextMenuPrompted','1'),@('Audio','Mute','1'),@('Theme','UseDarkTheme','1'),@('Settings','Language','ru'),@('Dialogs\Options','LastUsedPage','0'))){[RestoreNative]::WritePrivateProfileString($row[0],$row[1],$row[2],$ini)|Out-Null}
  $p=Start-Process "$dir\FoxicMP64.exe" -ArgumentList '/new','/nofocus' -WorkingDirectory $dir -PassThru
  $main=[IntPtr]::Zero
- for($i=0;$i -lt 100;$i++){Start-Sleep -Milliseconds 100;$main=[RestoreNative]::Find($p.Id,'FoxicMP');if($main -ne [IntPtr]::Zero){break}}
+ for($i=0;$i -lt 200;$i++){Start-Sleep -Milliseconds 100;$p.Refresh();if($p.HasExited){throw "Player exited before showing its window: $($p.ExitCode)"};$main=[RestoreNative]::Find($p.Id,'FoxicMP');if($main -ne [IntPtr]::Zero){break}}
  if($main -eq [IntPtr]::Zero){throw 'Main window missing'}
  [RestoreNative]::PostMessage($main,0x111,[IntPtr]815,[IntPtr]::Zero)|Out-Null
  $dialog=[IntPtr]::Zero
  for($i=0;$i -lt 100;$i++){Start-Sleep -Milliseconds 100;$dialog=[RestoreNative]::Find($p.Id,'#32770');if($dialog -ne [IntPtr]::Zero){break}}
  if($dialog -eq [IntPtr]::Zero){throw 'Settings missing'}
+ [RestoreNative]::SetWindowPos($dialog,[IntPtr]::Zero,40,40,0,0,0x15)|Out-Null
+ Start-Sleep -Milliseconds 200
  $names=[RestoreNative]::Tree($p.Id,$dialog)
  if($names.Count -ne 26){throw "Expected 26 pages, got $($names.Count)"}
  $names | Set-Content "$base\pages.txt" -Encoding UTF8
@@ -119,18 +194,36 @@ try {
   try {$pixel=$image.GetPixel(8,$image.Height-10);$level=($pixel.R+$pixel.G+$pixel.B)/3
    if(($mode -eq 'dark' -and $level -gt 100) -or ($mode -eq 'light' -and $level -lt 150)){throw "Theme background mismatch: $mode"}
   } finally {$image.Dispose()}
-  foreach($index in @(0,2,5,16,22)){
+  # These pages do not register shell associations; Formats must not exist yet.
+  foreach($index in @(2,16,22)){
    [RestoreNative]::SendMessage($dialog,0x465,[IntPtr]$index,[IntPtr]::Zero)|Out-Null
    Start-Sleep -Milliseconds 100
-   Capture $dialog ("$base\$mode-{0:d2}.png" -f $index)
+   Capture $dialog ("$base\switch-$mode-{0:d2}.png" -f $index)
   }
   [RestoreNative]::SendMessage($dialog,0x465,[IntPtr]5,[IntPtr]::Zero)|Out-Null
  }
+ $dragCount=0
+ $script:ScrollFailures=New-Object 'Collections.Generic.List[string]'
  foreach($index in 0..25){
-  if($index -in @(10,11)){continue} # DVD/capture configuration remains outside this UI pass.
   if([RestoreNative]::SendMessage($dialog,0x465,[IntPtr]$index,[IntPtr]::Zero) -eq [IntPtr]::Zero){throw "Failed to select page $index"}
   Start-Sleep -Milliseconds 200
   Capture $dialog ("$base\dark-{0:d2}.png" -f $index)
+  Capture-Live $dialog ("$base\screen-{0:d2}.png" -f $index)
+  [RestoreNative]::Children($dialog) | Set-Content ("$base\controls-{0:d2}.txt" -f $index) -Encoding UTF8
+  if($index -eq 16){
+   foreach($control in [RestoreNative]::Controls($dialog)){
+    if([RestoreNative]::Class($control) -ne 'SysListView32' -or [RestoreNative]::IsWindowEnabled($control)){continue}
+    Capture $control "$base\fullscreen-table.png"
+    $table=New-Object Drawing.Bitmap "$base\fullscreen-table.png"
+    try {
+     for($y=30;$y -lt $table.Height-3;$y++){for($x=3;$x -lt $table.Width-3;$x++){
+      $color=$table.GetPixel($x,$y)
+      if($color.R -gt 210 -and $color.G -gt 210 -and $color.B -gt 210){throw "White pixel in disabled fullscreen table at $x,$y"}
+     }}
+    } finally {$table.Dispose()}
+   }
+  }
+  if($index -in @(2,16,22)){$dragCount+=Exercise-Scrollbars $dialog $index}
  }
  [RestoreNative]::PostMessage($dialog,0x10,[IntPtr]::Zero,[IntPtr]::Zero)|Out-Null
  Start-Sleep -Milliseconds 300
@@ -139,7 +232,9 @@ try {
  if($p.ExitCode -ne 0){throw "Player exit $($p.ExitCode)"}
  if((Get-FileHash $installed).Hash -ne $before){throw 'Installed INI changed'}
  if((Context-Snapshot) -ne $contextBefore){throw 'Context menu changed'}
- 'PASS: 26 pages retained, 24 visited, dark/light/live switching, process exit 0, installed profile/context menu unchanged' | Set-Content "$base\result.txt" -Encoding UTF8
+ if($script:ScrollFailures.Count){throw ("Scrollbars did not move: "+($script:ScrollFailures -join "; "))}
+ if($dragCount -lt 3){throw "Expected at least 3 scrollbar drags, got $dragCount"}
+ "PASS: $dragCount scrollbar drags without white pixels; 26 pages retained, 26 visited, dark/light/live switching, process exit 0, installed profile/context menu unchanged" | Set-Content "$base\result.txt" -Encoding UTF8
  $exitCode=0
 } catch {$_ | Out-String | Set-Content "$base\exception.txt" -Encoding UTF8}
 finally {if($p -and -not $p.HasExited){Stop-Process -Id $p.Id -Force};[IO.File]::WriteAllText("$base\exit.txt","$exitCode")}

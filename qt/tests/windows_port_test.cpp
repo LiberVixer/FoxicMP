@@ -1,5 +1,6 @@
 #include "familycontract.h"
 #include "preferencesdriver.h"
+#include "toolbarcontract.h"
 #include "associationoptions.h"
 #include "instancebroker.h"
 #include "mediaoptions.h"
@@ -28,6 +29,7 @@ class WindowsPortTest : public QObject {
     profile.settings.setValue("video/output", "software");
   }
 private slots:
+  void toolbarMatchesClassic() { verifyToolbarContract(); }
   void familyProfileCommandsAndLinuxSettingsLayout() { verifyFamilyContract(); }
   void initTestCase() { Q_INIT_RESOURCE(resources); qApp->setStyle("Fusion"); }
   void commandLineMetadataAndTls() {
@@ -42,7 +44,7 @@ private slots:
     child.start(exe, {"--profile", absent, "--progressive-api-info"});
     QVERIFY(child.waitForFinished(10000)); QCOMPARE(child.exitCode(), 0);
     const auto json = QJsonDocument::fromJson(child.readAllStandardOutput()).object();
-    QCOMPARE(json.value("supported"), QJsonValue(false)); QVERIFY(!QDir(absent).exists());
+    QCOMPARE(json.value("transport").toString(), QString("windows-pipe-json-lines")); QVERIFY(!QDir(absent).exists());
   }
   void portableIsolationAndLeases() {
     QTemporaryDir first, second;

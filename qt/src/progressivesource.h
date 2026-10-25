@@ -35,7 +35,7 @@ public:
   Status status() const;
   // Short reads are legal. 0 means confirmed complete EOF, -1 means error or
   // cancellation. Unpublished bytes wait without a timeout-to-EOF conversion.
-  int64_t read(int track, uint64_t offset, char *buffer, uint64_t count);
+  int64_t read(int track, uint64_t offset, char *buffer, uint64_t count, const std::atomic<bool> *interrupted = nullptr);
   int64_t size(int track) const;
   bool seekable(int track, uint64_t offset) const;
   QString id() const;
@@ -52,7 +52,7 @@ private:
   void updateIndexes();
   QString manifest, root;
   harvester::Snapshot snapshot;
-  std::array<int, 2> files{{-1, -1}};
+  std::array<intptr_t, 2> files{{-1, -1}};
   std::array<uint64_t, 2> devices{}, inodes{};
   std::array<harvester::FragmentIndex, 2> indexes;
   std::array<IndexedMp4, 2> indexed;
@@ -72,12 +72,14 @@ private:
 
 class ProgressiveStreams {
 public:
-  explicit ProgressiveStreams(mpv_handle *handle);
+  explicit ProgressiveStreams(mpv_handle *handle, bool ownsSession = true);
+  std::shared_ptr<ProgressiveSource> current();
   void activate(const std::shared_ptr<ProgressiveSource> &source);
   void clear();
 
 private:
   static int open(void *self, char *uri, mpv_stream_cb_info *info);
   std::mutex mutex;
+  bool ownsSession;
   std::shared_ptr<ProgressiveSource> source;
 };

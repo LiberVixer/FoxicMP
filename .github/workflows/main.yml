@@ -23,6 +23,9 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
+      - name: Family command and capability contracts
+        run: python3 -m unittest tests/family_contract_test.py
+
       - name: Prepare MSYS
         run: |
           curl -sSL https://github.com/Aleksoid1978/MSYS/raw/main/MSYS_MinGW-w64_GCC_1521_x86-x64.7z -o MSYS.7z

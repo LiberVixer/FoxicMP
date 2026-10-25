@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""FoxicMP Linux progressive API client. Python standard library only.
+"""FoxicMP progressive API client for Linux and Windows. Python standard library only.
 
 Import ProgressiveClient in a downloader, or use this file as a CLI test client.
 This client does not download, copy, remux or delete media.
@@ -40,43 +40,51 @@ class ProgressiveClient:
             raise RuntimeError("Cannot discover FoxicMP progressive API: " +
                                query.stderr.decode(errors="replace")[:1024])
         self.info = json.loads(query.stdout)
-        if self.info.get("version") != 1 or self.info.get("transport") != "unix-json-lines":
+        if self.info.get("version") != 1 or self.info.get("transport") not in {"unix-json-lines", "windows-pipe-json-lines"}:
             raise RuntimeError("Unsupported FoxicMP progressive API")
         self.endpoint = self.info["endpoint"]
         self.profile = self.info["profile"]
+        if (profile is not None and self.info.get("profileSelectable") is False and
+                os.path.normcase(os.path.abspath(profile)) != os.path.normcase(os.path.abspath(self.profile))):
+            raise ValueError("This Classic installation uses its own portable profile directory")
 
     def request(self, message: dict, timeout: float = 5) -> dict:
         raw = json.dumps(message, ensure_ascii=False, allow_nan=False,
                          separators=(",", ":")).encode() + b"\n"
         if len(raw) > MAX_BYTES:
             raise ValueError("Request exceeds 65536 bytes")
-        deadline = time.monotonic() + timeout
-        with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as connection:
-            connection.settimeout(timeout)
-            connection.connect(self.endpoint)
-            _, uid, _ = struct.unpack("3i", connection.getsockopt(
-                socket.SOL_SOCKET, socket.SO_PEERCRED, struct.calcsize("3i")))
-            if uid != os.getuid():
-                raise RuntimeError("FoxicMP API belongs to another user")
-            connection.sendall(raw)
-            reply = bytearray()
-            while b"\n" not in reply:
-                remaining = deadline - time.monotonic()
-                if remaining <= 0:
-                    raise TimeoutError("FoxicMP API did not reply")
-                connection.settimeout(remaining)
-                data = connection.recv(min(4096, MAX_BYTES + 1 - len(reply)))
-                if not data:
-                    raise RuntimeError("FoxicMP API closed without a reply")
-                reply.extend(data)
-                if len(reply) > MAX_BYTES:
-                    raise RuntimeError("FoxicMP API reply exceeds the limit")
-            result = json.loads(reply)
-            if result.get("version") != 1:
-                raise RuntimeError("Invalid FoxicMP API reply")
-            if result.get("ok") is not True:
-                raise ApiError(result)
-            return result
+        if self.info["transport"] == "windows-pipe-json-lines":
+            from progressive_windows import exchange
+            reply = exchange(self.endpoint, raw, timeout, MAX_BYTES)
+        else:
+            deadline = time.monotonic() + timeout
+            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as connection:
+                connection.settimeout(timeout)
+                connection.connect(self.endpoint)
+                _, uid, _ = struct.unpack("3i", connection.getsockopt(
+                    socket.SOL_SOCKET, socket.SO_PEERCRED, struct.calcsize("3i")))
+                if uid != os.getuid():
+                    raise RuntimeError("FoxicMP API belongs to another user")
+                connection.sendall(raw)
+                reply = bytearray()
+                while b"\n" not in reply:
+                    remaining = deadline - time.monotonic()
+                    if remaining <= 0:
+                        raise TimeoutError("FoxicMP API did not reply")
+                    connection.settimeout(remaining)
+                    data = connection.recv(min(4096, MAX_BYTES + 1 - len(reply)))
+                    if not data:
+                        raise RuntimeError("FoxicMP API closed without a reply")
+                    reply.extend(data)
+                    if len(reply) > MAX_BYTES:
+                        raise RuntimeError("FoxicMP API reply exceeds the limit")
+
+        result = json.loads(reply)
+        if result.get("version") != 1:
+            raise RuntimeError("Invalid FoxicMP API reply")
+        if result.get("ok") is not True:
+            raise ApiError(result)
+        return result
 
     def ensure_running(self, timeout: float = 10) -> None:
         try:
@@ -84,8 +92,10 @@ class ProgressiveClient:
             return
         except (OSError, RuntimeError):
             pass
+        arguments = ([self.player, "/nofocus"] if self.info.get("edition") == "classic" else
+                     [self.player, "--profile", self.profile, "--reuse-instance", "--no-activate"])
         process = subprocess.Popen(
-            [self.player, "--profile", self.profile, "--reuse-instance", "--no-activate"],
+            arguments,
             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL, close_fds=True, start_new_session=True)
         deadline = time.monotonic() + timeout

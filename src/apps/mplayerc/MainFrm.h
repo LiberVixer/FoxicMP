@@ -38,6 +38,7 @@
 #include "PPageFileInfoSheet.h"
 #include "OpenMediaData.h"
 #include "DSUtil/HarvesterSession.h"
+#include "ClassicProgressiveApi.h"
 #include "FileDropTarget.h"
 #include "KeyProvider.h"
 #include "PlayerYtDlp.h"
@@ -128,6 +129,9 @@ interface ISubClock;
 
 class CMainFrame : public CFrameWnd, public CDropTarget, public CDPI
 {
+    friend class ClassicProgressiveApi;
+    std::unique_ptr<ClassicProgressiveApi> m_progressiveApi;
+    afx_msg LRESULT OnProgressiveRequest(WPARAM, LPARAM);
 	friend class CPPageFileInfoSheet;
 	friend class CPPageLogo;
 	friend class CChildView;

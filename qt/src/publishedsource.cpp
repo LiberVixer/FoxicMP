@@ -2,9 +2,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QJsonDocument>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <unistd.h>
+#include "progressivefile.h"
 
 namespace {
 harvester::Snapshot snapshotFor(QJsonObject input, QStringList *paths) {
@@ -12,7 +10,7 @@ harvester::Snapshot snapshotFor(QJsonObject input, QStringList *paths) {
   for (const auto &kind : {QStringLiteral("video"), QStringLiteral("audio")}) {
     auto track = tracks.value(kind).toObject();
     const auto path = track.value("path").toString();
-    if (!path.startsWith('/') || path.contains(QChar(0)) ||
+    if (!ProgressiveFile::absolute(path) || path.contains(QChar(0)) ||
         path.toUtf8().size() > 8192)
       throw std::runtime_error("Track path must be an absolute local path");
     paths->append(path);
@@ -22,16 +20,11 @@ harvester::Snapshot snapshotFor(QJsonObject input, QStringList *paths) {
   input["tracks"] = tracks;
   return harvester::Parse(QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString());
 }
-bool readPublished(int fd, uint64_t at, void *data, size_t count) {
-  return at <= uint64_t(INT64_MAX) && count <= uint64_t(INT64_MAX) - at &&
-         pread(fd, data, count, off_t(at)) == int64_t(count);
+bool readPublished(intptr_t file, uint64_t at, void *data, size_t count) {
+  return ProgressiveFile::read(file, at, data, count) == int64_t(count);
 }
-void checkFile(int fd, uint64_t available) {
-  struct stat info{};
-  if (fstat(fd, &info) || !S_ISREG(info.st_mode) || info.st_uid != getuid() ||
-      info.st_size < 0 || uint64_t(info.st_size) < available)
-    throw std::runtime_error("Track is not an owned regular file or confirmed bytes are missing");
-}
+void checkFile(intptr_t file, uint64_t available) { ProgressiveFile::inspect(file, available); }
+
 }
 
 std::shared_ptr<ProgressiveSource>
@@ -51,13 +44,10 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input) : published(true)
       const auto &track = snapshot.tracks[i];
       if (!track.initializationReady)
         throw std::runtime_error("MP4 initialization is not ready; retry start after the index is written");
-      files[i] = ::open(QFile::encodeName(publishedPaths[i]).constData(),
-                        O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC);
-      checkFile(files[i], track.available);
-      struct stat info{};
-      if (fstat(files[i], &info)) throw std::runtime_error("Cannot inspect track");
-      devices[i] = info.st_dev;
-      inodes[i] = info.st_ino;
+      files[i] = ProgressiveFile::open(publishedPaths[i]);
+      const auto info = ProgressiveFile::inspect(files[i], track.available);
+      devices[i] = info.device;
+      inodes[i] = info.inode;
     }
     if (devices[0] == devices[1] && inodes[0] == inodes[1])
       throw std::runtime_error("Video and audio must be distinct files");
@@ -71,7 +61,7 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input) : published(true)
     currentStatus.connected = true;
     lastPublished = std::chrono::steady_clock::now();
   } catch (...) {
-    for (int fd : files) if (fd >= 0) ::close(fd);
+    for (auto file : files) if (file != -1) ProgressiveFile::close(file);
     throw;
   }
 }

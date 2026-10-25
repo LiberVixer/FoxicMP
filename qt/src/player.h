@@ -73,6 +73,7 @@ private:
   void pumpExternalTracks();
   void cancelExternalTracks();
   friend class GlSurface;
+  friend class AudioMirror;
   void rendererReady();
   void createSoftwareRenderer();
   void fallbackToSoftware(const QString &reason);

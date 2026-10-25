@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "product": "FoxicMP",
+  "editions": [
+    "windows-classic",
+    "windows-qt",
+    "linux-qt"
+  ],
+  "capabilities": [
+    {
+      "id": "toolbar-navigation",
+      "windows-classic": "pass",
+      "windows-qt": "pass",
+      "linux-qt": "pass",
+      "test": "toolbar contract"
+    },
+    {
+      "id": "progressive-api-v1",
+      "windows-classic": "adapter",
+      "windows-qt": "pass",
+      "linux-qt": "pass",
+      "test": "progressive API contract"
+    },
+    {
+      "id": "dual-pcm-output",
+      "windows-classic": "native",
+      "windows-qt": "software-sync",
+      "linux-qt": "pulse-pipewire",
+      "test": "audio mirror where endpoint exists"
+    },
+    {
+      "id": "dark-settings-theme",
+      "windows-classic": "pass",
+      "windows-qt": "pass",
+      "linux-qt": "pass",
+      "test": "theme and scrollbar capture"
+    },
+    {
+      "id": "media-commands",
+      "windows-classic": "win32",
+      "windows-qt": "win32-appcommand",
+      "linux-qt": "mpris",
+      "test": "command catalog and platform adapter"
+    }
+  ]
+}

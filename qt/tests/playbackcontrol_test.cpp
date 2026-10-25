@@ -1,4 +1,5 @@
 #include "preferencesdriver.h"
+#include "toolbarcontract.h"
 #include "player.h"
 #include "profile.h"
 #include "theme.h"
@@ -25,6 +26,7 @@ class PlaybackControlTest : public QObject {
     return window.findChild<QAction *>("action_" + id);
   }
 private slots:
+  void toolbarMatchesClassic() { verifyToolbarContract(); }
   void preferencesCancelAndApply() {
     QTemporaryDir temporary;
     Profile profile(temporary.path());

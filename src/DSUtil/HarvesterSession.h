@@ -7,6 +7,8 @@
 
 class CHarvesterSession {
     std::wstring m_manifest, m_root;
+    bool m_published = false;
+    std::array<std::wstring, 2> m_publishedPaths;
     harvester::Snapshot m_state;
     mutable std::mutex m_mutex;
     std::array<HANDLE,2> m_files{{INVALID_HANDLE_VALUE,INVALID_HANDLE_VALUE}};
@@ -34,6 +36,9 @@ public:
     CHarvesterSession();
     ~CHarvesterSession();
     static std::shared_ptr<CHarvesterSession> Open(const std::wstring& path, CStringW& error);
+    static std::shared_ptr<CHarvesterSession> OpenPublished(const std::string& json, CStringW& error);
+    bool Publish(const std::string& json, CStringW& error);
+    void PublishedHeartbeat() {m_lastUpdate=GetTickCount64(); m_connected=true;}
     HANDLE File(int track) const { return m_files[track]; }
     HANDLE CancelEvent() const { return m_cancel; }
     std::wstring Path(int track) const;
@@ -41,7 +46,7 @@ public:
     std::string Error() const;
     void Fail(const char* reason);
     void Cancel();
-    bool Connected() const { return m_connected && GetTickCount64()-m_lastUpdate.load()<15000; }
+    bool Connected() const { return (m_published && Complete()) || (m_connected && GetTickCount64()-m_lastUpdate.load()<15000); }
     HRESULT WaitRange(int track, uint64_t offset, uint64_t size, HANDLE flush, HANDLE breaker, bool completion=false);
     void BeginCompletionWait() {++m_completionWaiters;}
     void EndCompletionWait() {--m_completionWaiters;}

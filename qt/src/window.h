@@ -90,6 +90,10 @@ signals:
                                const QString &error);
 
 protected:
+#ifdef Q_OS_WIN
+  bool nativeEvent(const QByteArray &eventType, void *message,
+                   qintptr *result) override;
+#endif
   bool event(QEvent *) override;
   bool eventFilter(QObject *, QEvent *) override;
   void closeEvent(QCloseEvent *) override;
@@ -205,7 +209,7 @@ private:
   void refreshTracks();
   void refreshChapters();
   void updatePlaylistChapters();
-  void changeChapter(int direction);
+  bool changeChapter(int direction, double backThreshold = 3.);
   void rememberTrack(const char *name, const QString &selection);
   void restorePlaylistTracks();
   void handlePlaylistFailure();

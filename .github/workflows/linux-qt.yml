@@ -14,6 +14,8 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v6
+      - name: Family command and capability contracts
+        run: python3 -m unittest tests/family_contract_test.py
       - name: Dependencies
         run: sudo apt-get update && sudo apt-get install -y cmake g++ qt6-base-dev libmpv-dev liblcms2-dev ffmpeg xvfb xauth libgl1-mesa-dri desktop-file-utils libglib2.0-bin python3-venv pulseaudio pulseaudio-utils dvdauthor genisoimage dbus-daemon
       - name: Adapter dependencies

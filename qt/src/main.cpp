@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 #else
   app.setApplicationName("FoxicMPQt");
 #endif
-  app.setApplicationVersion("0.1.73");
+  app.setApplicationVersion(FOXICMP_VERSION);
   Q_INIT_RESOURCE(resources);
   const QFileInfo startupIni(QDir(QCoreApplication::applicationDirPath()).filePath("FoxicMPQt.ini"));
   // Recovery must not read the broken INI or its configured external language
@@ -202,11 +202,7 @@ int main(int argc, char **argv) {
     for (const auto &option : parser.optionNames())
       if (!QStringList{"progressive-api-info", "profile", "portable"}.contains(option)) parser.showHelp(1);
     if (!positional.isEmpty()) parser.showHelp(1);
-#ifdef Q_OS_WIN
-    const auto json = QJsonDocument(QJsonObject{{"version", 1}, {"supported", false}, {"platform", "windows"}}).toJson();
-#else
     const auto json = QJsonDocument(ProgressiveApi::information(directory)).toJson();
-#endif
     std::fwrite(json.constData(), 1, json.size(), stdout);
     return 0;
   }
@@ -296,11 +292,9 @@ int main(int argc, char **argv) {
     bool reset = false, keepLibrary = true;
     {
       Window window(profile, {}, {}, {}, request.options.value("web-port").toInt(-1));
-#ifndef Q_OS_WIN
       ProgressiveApi progressiveApi(&window);
       if (result == InstanceBroker::Primary && !progressiveApi.listen(directory))
         std::fprintf(stderr, "Progressive API unavailable: %s\n", qPrintable(progressiveApi.errorString()));
-#endif
       window.show();
       if (fromStdin) {
         if (!window.openStdin(STDIN_FILENO, request.options)) return 1;

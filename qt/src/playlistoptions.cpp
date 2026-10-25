@@ -92,13 +92,13 @@ void Window::updatePlaylistChapters() {
   timeline->update();
   refreshChapters();
 }
-void Window::changeChapter(int direction) {
+bool Window::changeChapter(int direction, double backThreshold) {
   const double now = player->get("time-pos").toDouble();
   double target = -1;
   if (direction > 0) {
     for (const auto &chapter : timeline->chapters) {
       const double time = chapter.toMap().value("time").toDouble();
-      if (time > now + .05) {
+      if (time > now + 1e-7) {
         target = time;
         break;
       }
@@ -106,14 +106,12 @@ void Window::changeChapter(int direction) {
   } else {
     for (const auto &chapter : timeline->chapters) {
       const double time = chapter.toMap().value("time").toDouble();
-      if (time < now - .5)
+      if (time <= now - backThreshold)
         target = time;
     }
-    if (target < 0 && !timeline->chapters.isEmpty())
-      target = 0;
   }
-  if (target >= 0)
-    seekTo(target);
+  if (target < 0) return false;
+  seekTo(target); return true;
 }
 void Window::handlePlaylistFailure() {
   completionArmed = false;
