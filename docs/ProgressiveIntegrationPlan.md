@@ -10,7 +10,7 @@
 | Очередь | Результат | Статус |
 |---|---|---|
 | 1 / F-03 | Каталог привязан к успешному start; update/complete наследуют его, другой каталог отклоняется, новый сеанс ничего не наследует. Общий regression для трёх редакций | Выполнено: Linux Qt, Windows Qt и Classic прошли общий indexed/fMP4 сценарий, exit 0; [отчёт](ProgressiveV1Validation-2026-10-25.md) |
-| 2 / F-02, F-04 | Стабильный SDK, writer-стенд, согласованные запуск/discovery, работающий legacy/provider адаптер Windows Qt и миграция | Частично: клиент v1 и API есть; полноценный адаптер и writer-стенд по новому ТЗ ещё не готовы |
+| 2 / F-02, F-04 | Стабильный SDK, writer-стенд, согласованные запуск/discovery, работающий legacy/provider адаптер Windows Qt и миграция | Реализованы SDK v1, offline writer, release acknowledgement и native Windows Qt legacy/provider. [Проверка](ProgressiveSdkValidation-2026-10-25.md): Linux Qt 15, Windows Qt 16 тестов, Classic cold SDK + 100 RPC, exit 0. Расширенная модель читателей/диапазонов и реальная интеграция Harvester остаются следующими этапами |
 | 3 | Отдельная расширенная схема: ресурсы/диапазоны/сегменты, точные 64-битные числа, writer/playback отдельно, reader/release | Не реализовано. Не менять смысл v1 и не объявлять v2 в capabilities до реализации |
 | 4 / F-01 | Управляемое I/O + backend demux + progressive-remux, H.264/HEVC/VP9/AV1 и AAC/Opus, затем вся обязательная матрица | Не реализовано; текущий v1 ограничен двумя MP4/M4A H.264/AAC дорожками |
 | 5 | Несколько аудио/субтитров, главы, metadata, HLS/DASH timeline, live | Не реализовано в progressive API; обычное воспроизведение этих форматов не является проверкой progressive |

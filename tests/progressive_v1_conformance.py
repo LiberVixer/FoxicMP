@@ -128,7 +128,7 @@ def exercise_directory_contract(client, fixtures, work):
             completed = client.update(snapshot, complete=True)
             assert completed['complete'], completed
             terminal = wait_status(client, active_id,
-                lambda r: r['state'] == 'finished' and not r['active'])
+                lambda r: r['state'] == 'finished' and not r['active'] and r.get('released') is True)
             assert not client.command('cancel', active_id)['active']
             active_id = None
             # Subsequent sessions cannot inherit the directory. Their files

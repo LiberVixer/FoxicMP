@@ -60,7 +60,8 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
 #endif
           }, {"profile", QDir(directory).absolutePath()},
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
-          {"actions", QJsonArray{"capabilities", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "error"}},
+          {"actions", QJsonArray{"capabilities", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error"}},
+          {"releaseAcknowledgement", true},
           {"containers", QJsonArray{"fast-start-mp4", "fragmented-mp4"}},
           {"videoCodecs", QJsonArray{"h264"}}, {"audioCodecs", QJsonArray{"aac-lc"}},
           {"progressiveModes", QJsonArray{"native-progressive", "post-download"}},
@@ -132,6 +133,7 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
       for (auto &c : title) if (c.category() == QChar::Other_Control) c = QChar(' ');
       window->setProperty("foxicmpProgressiveTitle", title.trimmed());
       source = next;
+      releaseReceipt = next->releaseReceipt();
       sessionId = next->id();
       lastOutcome = {};
       if (input.value("activate").toBool(true)) window->restoreFromTray();
@@ -141,16 +143,19 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
   } else {
     const QStringList extra = action == "update" || action == "complete" ? QStringList{"session", "sessionDirectory"}
                             : action == "error" ? QStringList{"message"} : QStringList{};
-    if (!QStringList{"update", "complete", "heartbeat", "status", "cancel", "error"}.contains(action) ||
+    if (!QStringList{"update", "complete", "heartbeat", "status", "cancel", "release", "error"}.contains(action) ||
         !keys(input, {"version", "action", "sessionId"}, extra) ||
         !input.value("sessionId").isString() || input.value("sessionId").toString() != sessionId || sessionId.isEmpty())
       return failure("unknown_session", "Invalid request or unknown session identifier");
     auto active = source.lock();
     if (!active || window->progressiveSession() != active) {
-      if (action == "status" || action == "cancel")
-        return lastOutcome.isEmpty()
+      if (action == "status" || action == "cancel" || action == "release") {
+        auto result = lastOutcome.isEmpty()
             ? QJsonObject{{"version", 1}, {"ok", true}, {"active", false}, {"state", "stopped"}, {"sessionId", sessionId}}
             : lastOutcome;
+        result["released"] = releaseReceipt && releaseReceipt->load();
+        return result;
+      }
       return failure("session_closed", "Playback was stopped or replaced");
     }
     if (action == "update" || action == "complete") {
@@ -163,10 +168,12 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
       if (!active->publish(descriptor, &error)) return failure("invalid_update", error);
     } else if (action == "heartbeat") {
       active->publishedHeartbeat();
-    } else if (action == "cancel") {
+    } else if (action == "cancel" || action == "release") {
       window->closeCurrent();
       lastOutcome = {{"version", 1}, {"ok", true}, {"active", false}, {"state", "cancelled"}, {"sessionId", sessionId}};
-      return lastOutcome;
+      auto result = lastOutcome;
+      result["released"] = releaseReceipt && releaseReceipt->load();
+      return result;
     } else if (action == "error") {
       const auto message = input.value("message").toString();
       if (message.isEmpty() || message.size() > 1024) return failure("invalid_request", "Expected a short error message");
@@ -175,6 +182,7 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
   }
   auto result = window->progressivePlaybackStatus();
   result["version"] = 1; result["ok"] = true;
+  result["released"] = releaseReceipt && releaseReceipt->load();
   return result;
 }
 void ProgressiveApi::acceptClients() {

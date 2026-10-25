@@ -53,7 +53,7 @@ std::wstring ClassicProgressiveApi::Endpoint() {
     WCHAR name[128];swprintf_s(name,L"\\\\.\\pipe\\FoxicMPClassic-%016llx.progressive",hash);return name;
 }
 std::string ClassicProgressiveApi::Information() {
-    Document d;d.Parse(R"({"version":1,"schemaVersion":1,"protocol":"progressive-manifest-v1","transport":"windows-pipe-json-lines","edition":"classic","profileSelectable":false,"maxRequestBytes":65536,"heartbeatSeconds":5,"disconnectAfterSeconds":15,"maxTrackPathChars":240,"actions":["capabilities","probe","start","update","complete","heartbeat","status","cancel","error"],"containers":["fast-start-mp4","fragmented-mp4"],"videoCodecs":["h264"],"audioCodecs":["aac-lc"],"progressiveModes":["native-progressive","post-download"],"fallback":{"available":false,"reasonCode":"unsupported-native-format","networkRetry":false},"separateTracksRequired":true,"initializedTracksRequired":true,"startBufferSeconds":10,"resumeBufferSeconds":5,"pauseBufferSeconds":1})");
+    Document d;d.Parse(R"({"version":1,"schemaVersion":1,"releaseAcknowledgement":true,"protocol":"progressive-manifest-v1","transport":"windows-pipe-json-lines","edition":"classic","profileSelectable":false,"maxRequestBytes":65536,"heartbeatSeconds":5,"disconnectAfterSeconds":15,"maxTrackPathChars":240,"actions":["capabilities","probe","start","update","complete","heartbeat","status","cancel","release","error"],"containers":["fast-start-mp4","fragmented-mp4"],"videoCodecs":["h264"],"audioCodecs":["aac-lc"],"progressiveModes":["native-progressive","post-download"],"fallback":{"available":false,"reasonCode":"unsupported-native-format","networkRetry":false},"separateTracksRequired":true,"initializedTracksRequired":true,"startBufferSeconds":10,"resumeBufferSeconds":5,"pauseBufferSeconds":1})");
     auto& a=d.GetAllocator();d.AddMember("endpoint",Value(Utf8(Endpoint()).c_str(),a),a);d.AddMember("profile",Value(Utf8(ProfileDirectory()).c_str(),a),a);return Encode(d);
 }
 ClassicProgressiveApi::ClassicProgressiveApi(CMainFrame& frame):frame(frame) {
@@ -83,7 +83,11 @@ void ClassicProgressiveApi::Serve() {
             if(WaitForMultipleObjects(2,events,FALSE,INFINITE)==WAIT_OBJECT_0+1){DWORD count=0;ok=GetOverlappedResult(pipe,&connected,&count,FALSE);}
             else {CancelIoEx(pipe,&connected);DWORD count=0;GetOverlappedResult(pipe,&connected,&count,TRUE);}
         }else if(!ok && error==ERROR_PIPE_CONNECTED)ok=TRUE;
-        CloseHandle(connected.hEvent);if(!ok)break;
+        CloseHandle(connected.hEvent);
+        if(!ok) {
+            if(WaitForSingleObject(stop,0)!=WAIT_TIMEOUT)break;
+            DisconnectNamedPipe(pipe);continue; // A closed client must not kill the listener.
+        }
         std::string input;char bytes[4096];DWORD count=0;
         const auto deadline=GetTickCount64()+5000;
         while(input.size()<=65536 && input.find('\n')==std::string::npos && GetTickCount64()<deadline &&
@@ -98,9 +102,14 @@ void ClassicProgressiveApi::Serve() {
         }
         if(!output.empty()) {
             output+='\n';DWORD written=0;
-            Transfer(pipe,stop,output.data(),DWORD(output.size()),written,true);
+            if(Transfer(pipe,stop,output.data(),DWORD(output.size()),written,true)) {
+                // DisconnectNamedPipe discards unread output. Let the client
+                // consume the JSON and close, with a cancellable bounded wait.
+                char unused;DWORD received=0;
+                Transfer(pipe,stop,&unused,1,received,false,1000);
+            }
         }
-        // No FlushFileBuffers: an unresponsive client must never block shutdown.
+        // No unbounded FlushFileBuffers: stop still interrupts the drain wait.
         DisconnectNamedPipe(pipe);
     }
     CloseHandle(pipe);
@@ -114,7 +123,11 @@ void ClassicProgressiveApi::Ended(const std::shared_ptr<CHarvesterSession>& ende
 std::string ClassicProgressiveApi::Status() {
     auto session=source.lock();
     if(!session || frame.m_harvester!=session) {
-        if(!lastOutcome.empty())return lastOutcome;
+        if(!lastOutcome.empty()) {
+            Document result;result.Parse(lastOutcome.c_str());
+            result.AddMember("released",releaseReceipt && releaseReceipt->load(),result.GetAllocator());
+            return Encode(result);
+        }
         return Failure("session_closed","Playback was stopped or replaced");
     }
     const auto error=session->Error();const auto snapshot=session->Snapshot();
@@ -122,7 +135,7 @@ std::string ClassicProgressiveApi::Status() {
         !frame.m_harvesterStarted || frame.m_harvesterBuffering?"buffering":!frame.m_harvesterWantPlay?"paused":"playing";
     Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("version",1,a);d.AddMember("ok",true,a);d.AddMember("active",true,a);
     d.AddMember("sessionId",Value(sessionId.c_str(),a),a);d.AddMember("state",Value(state,a),a);d.AddMember("error",Value(error.c_str(),a),a);
-    d.AddMember("connected",session->Connected(),a);d.AddMember("complete",session->Complete(),a);
+    d.AddMember("released",false,a);d.AddMember("connected",session->Connected(),a);d.AddMember("complete",session->Complete(),a);
     d.AddMember("positionSeconds",double(frame.GetPos())/10000000.,a);d.AddMember("availableSeconds",double(session->ReadyEnd())/10000000.,a);
     d.AddMember("durationSeconds",double(snapshot.duration)/10000000.,a);return Encode(d);
 }
@@ -177,23 +190,23 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
             frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
             auto data=std::make_unique<OpenFileData>();data->harvesterManifest=L"published-api";data->fi=CStringW(next->Path(0).c_str());data->auds.emplace_back(next->Path(1).c_str());data->bAddRecent=FALSE;
             if(!title.empty())data->fi.SetTitle(title.c_str());
-            frame.m_harvester=next;frame.m_harvesterStarted=false;frame.m_harvesterBuffering=true;frame.m_harvesterWantPlay=true;source=next;sessionId=id;lastOutcome.clear();frame.OpenMedia(std::move(data));
+            frame.m_harvester=next;frame.m_harvesterStarted=false;frame.m_harvesterBuffering=true;frame.m_harvesterWantPlay=true;source=next;releaseReceipt=next->ReleaseReceipt();sessionId=id;lastOutcome.clear();frame.OpenMedia(std::move(data));
             if(!d.HasMember("activate") || d["activate"].GetBool()){frame.ShowWindow(SW_RESTORE);frame.SetForegroundWindow();}
             return Status();
         }
         const bool update=action=="update" || action=="complete", failure=action=="error";
-        if(action!="status" && action!="cancel" && action!="heartbeat" && !update && !failure)return Failure("invalid_request","Unknown action");
+        if(action!="status" && action!="cancel" && action!="release" && action!="heartbeat" && !update && !failure)return Failure("invalid_request","Unknown action");
         if(!Keys(d,{"version","action","sessionId"},update?std::initializer_list<const char*>{"session","sessionDirectory"}:failure?std::initializer_list<const char*>{"message"}:std::initializer_list<const char*>{}) ||
             harvester::String(d,"sessionId")!=sessionId || sessionId.empty())return Failure("unknown_session","Unknown session identifier");
         auto active=source.lock();
-        if(!active || frame.m_harvester!=active)return action=="status" || action=="cancel"?Status():Failure("session_closed","Playback was stopped or replaced");
+        if(!active || frame.m_harvester!=active)return (action=="status" || action=="cancel" || action=="release")?Status():Failure("session_closed","Playback was stopped or replaced");
         if(update) {
             if(!d.HasMember("session") || !d["session"].IsObject() || (action=="complete" && harvester::String(d["session"],"state")!="complete"))return Failure("invalid_request","Expected a session snapshot");
             Value descriptor(d["session"],d.GetAllocator());
             if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
             CStringW error;if(!active->Publish(Encode(descriptor),error))return Failure("invalid_update",Utf8(error.GetString()));
         }else if(action=="heartbeat")active->PublishedHeartbeat();
-        else if(action=="cancel") {
+        else if(action=="cancel" || action=="release") {
             frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);Document result;result.Parse(lastOutcome.c_str());
             if(result.IsObject()){result["state"].SetString("cancelled",result.GetAllocator());lastOutcome=Encode(result);}return Status();
         }else if(failure) {

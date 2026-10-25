@@ -1,0 +1,146 @@
+{
+  "date": "2026-10-25",
+  "scope": "v1 SDK, explicit release acknowledgement and Windows Qt legacy/provider compatibility",
+  "sourceBaseCommit": "796bb008e6f2c74dfaf945e9afbf8a5b3c9b2c5d",
+  "builds": {
+    "linuxQt": {
+      "exitCode": 0,
+      "sha256": "eb24cf85c46d801a02eb07706b3ae0c1785bee6d1a1f79cfb19d0fc2568e0baa"
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "sha256": "bf85ba15f7a600ea11d0df6b43c0c91429d650459522c55799edb173a5c5fbed"
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "sha256": "c2c7ee0902cb3528fa0cae0688f71a37d10a798d7e4bf449da59ce46e077518c"
+    }
+  },
+  "tests": {
+    "linuxQt": {
+      "exitCode": 0,
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 100.25,
+      "writerBeforeCompleteAtLeastSeconds": 10
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 94.59,
+      "legacyProviderRestart": "PASS",
+      "writerBeforeCompleteAtLeastSeconds": 10,
+      "audioMirror": {
+        "passed": 3,
+        "skipped": 2,
+        "reason": "No deterministic WASAPI endpoint; not physical audio validation"
+      }
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "processExitCode": 0,
+      "scheduledTaskResult": 0,
+      "transportRoundTrips": 100,
+      "hkcuRegistrationPreserved": true,
+      "results": [
+        {
+          "contract": "sdk-writer",
+          "result": {
+            "schemaVersion": 1,
+            "sessionId": "a61bc76ba4a64fca9f7f8d6b23e4546f",
+            "sourceOpens": 2,
+            "networkRequests": 0,
+            "maxPositionBeforeComplete": 12.8463749,
+            "playingBeforeCompleteSeconds": 10.40600000001723,
+            "lastPublishState": "playing",
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "a61bc76ba4a64fca9f7f8d6b23e4546f",
+              "state": "finished",
+              "error": "",
+              "released": true
+            },
+            "release": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "a61bc76ba4a64fca9f7f8d6b23e4546f",
+              "state": "finished",
+              "error": "",
+              "released": true
+            }
+          }
+        }
+      ]
+    },
+    "sdkUnit": {
+      "exitCode": 0,
+      "passed": 5
+    },
+    "familyContract": {
+      "exitCode": 0,
+      "passed": 2
+    }
+  },
+  "linuxInstallation": {
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.backup-20261025-174005",
+    "exeSha256": "eb24cf85c46d801a02eb07706b3ae0c1785bee6d1a1f79cfb19d0fc2568e0baa",
+    "version": "FoxicMPQt 0.2.0",
+    "versionExitCode": 0,
+    "discoveryExitCode": 0,
+    "profileSha256": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "preservedOtherFiles": 67,
+    "installedIntegrationFiles": [
+      "integration/LinuxProgressiveApi.md",
+      "integration/ProgressiveIntegrationPlan.md",
+      "integration/ProgressiveSdk.md",
+      "integration/ProgressiveTechnicalSpec-2026-10-25.ru.md",
+      "integration/ProgressiveV1Validation-2026-10-25.json",
+      "integration/ProgressiveV1Validation-2026-10-25.md",
+      "integration/progressive_client.py",
+      "integration/progressive_sdk.py",
+      "integration/progressive_windows.py",
+      "integration/progressive_writer.py"
+    ]
+  },
+  "earlierRuns": [
+    {
+      "platform": "windowsQt",
+      "exitCode": 8,
+      "reason": "Restart fixture raced still-open server pipe handles",
+      "resolution": "Wait for all old provider I/O threads, emulating full process shutdown; isolated restart and final full suite pass"
+    },
+    {
+      "platform": "windowsQt",
+      "exitCode": 8,
+      "reason": "One legacy complete row timed out before playback; not reproduced in isolated rows",
+      "resolution": "Added backend diagnostics; all three isolated rows pass and final full suite 16/16 passes; retain the initial failure"
+    },
+    {
+      "platform": "windowsClassic",
+      "scheduledTaskResult": 3221225786,
+      "reason": "Repeated full interactive runner interrupted (0xC000013A); not counted as PASS"
+    },
+    {
+      "platform": "windowsClassic",
+      "exitCode": 1,
+      "reason": "Cold SDK runner observed broken named pipe / missing endpoint",
+      "resolution": "Classic drains response until peer closes with bounded cancellable read; closed clients no longer kill listener. Client waits for PIPE_BUSY only before sending bytes. Final 100 round trips plus cold SDK writer pass"
+    }
+  ],
+  "limits": [
+    "v1 only: separate H264 MP4 and AAC M4A",
+    "No Harvester source changes or end-to-end integration",
+    "No remux, new container/codec matrix, multiple tracks, live or range map",
+    "No physical A/V latency or 30 minute drift measurements",
+    "100 IPC round trips are not 100 start/cancel cycles",
+    "Full worker-based asynchronous probe and initial preparation remain pending",
+    "Published v0.2.0 player installers unchanged",
+    "Windows installations and profiles unchanged"
+  ]
+}

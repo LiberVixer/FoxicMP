@@ -3,6 +3,7 @@
 #include <QLocalServer>
 #include <QLockFile>
 #include <memory>
+#include <atomic>
 class Window;
 class ProgressiveSource;
 
@@ -24,5 +25,6 @@ private:
   std::weak_ptr<ProgressiveSource> source;
   QString sessionId;
   QJsonObject lastOutcome;
+  std::shared_ptr<std::atomic<bool>> releaseReceipt;
   int clients = 0;
 };

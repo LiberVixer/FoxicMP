@@ -114,6 +114,7 @@ fMP4-дорожками; существующий тестовый HLS-адап�
 | `heartbeat` | `sessionId` | Загрузчик работает, новых данных пока нет |
 | `status` | `sessionId` | Состояние, позиция, общая доступная граница |
 | `cancel` | `sessionId` | Закрыть только этот сеанс |
+| `release` | `sessionId` | Закрыть reader; `released` подтверждает закрытие его файлов |
 | `error` | `sessionId`, `message` | Сообщить об ошибке загрузки и прекратить чтение |
 
 В финальном снимке `expectedTotalBytes == availablePrefixBytes` у обеих дорожек.
@@ -136,6 +137,11 @@ paused, finished, error, cancelled, stopped. `finished` означает ест�
 `code` и пояснение `error`; например source_not_ready, invalid_update,
 session_busy, session_closed, unknown_session.
 
+Новые сборки дополнительно объявляют `releaseAcknowledgement: true` и возвращают
+`released`. `active: false` само по себе не доказывает закрытие дескрипторов.
+До `released: true` writer сохраняет исходники. `release`/`cancel` не отменяют
+скачивание. Подробнее: [SDK и writer-стенд](ProgressiveSdk.md).
+
 Воспроизведение начинается с 10 общих секунд данных; завершённые короткие ролики
 стартуют сразу. Менее 1 секунды запаса включает буферизацию, 5 секунд возобновляют
 просмотр. Ручная пауза сохраняется. Перемотка ограничена общей подтверждённой
@@ -155,6 +161,9 @@ session_busy, session_closed, unknown_session.
 
 Файл `integration/progressive_client.py` поставляется с плеером и использует
 только стандартную библиотеку Python. В исходниках это `qt/tools/progressive_client.py`.
+Рядом поставляются событийный `progressive_sdk.py` и offline-стенд
+`progressive_writer.py`. Их интерфейс одинаков для Linux Qt, Windows Qt и Classic;
+SDK заранее проверяет поддержку подтверждения освобождения в capabilities.
 
 ```python
 from progressive_client import ProgressiveClient

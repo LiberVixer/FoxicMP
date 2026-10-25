@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <thread>
+#include <atomic>
 class CMainFrame;
 class CHarvesterSession;
 constexpr UINT WM_CLASSIC_PROGRESSIVE_REQUEST = WM_APP + 188;
@@ -27,4 +28,5 @@ private:
     std::thread worker;
     std::weak_ptr<CHarvesterSession> source;
     std::string sessionId, lastOutcome;
+    std::shared_ptr<std::atomic<bool>> releaseReceipt;
 };

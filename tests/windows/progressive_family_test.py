@@ -15,6 +15,7 @@ import uuid
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'qt' / 'tools'))
 from progressive_client import ProgressiveClient, ApiError
+from progressive_writer import run as run_sdk_writer
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from progressive_v1_conformance import exercise_directory_contract
 
@@ -115,8 +116,17 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.sdk_only:
+            for _ in range(100):
+                assert client.request(dict(version=1, action='capabilities'))['pid'] == process.pid
+            sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
+                Path(args.fixtures)/'progressive/audio.m4a', Path(args.report)/'sdk-writer')
+            return [dict(contract='sdk-writer', result=sdk)]
         common = exercise_directory_contract(client, args.fixtures, Path(args.report)/'relative-contract')
         results.append(dict(contract='sessionDirectory', scenarios=common))
+        sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
+            Path(args.fixtures)/'progressive/audio.m4a', Path(args.report)/'sdk-writer')
+        results.append(dict(contract='sdk-writer', result=sdk))
         for fragmented in (False, True):
             folder = Path(args.report)/('fragmented' if fragmented else 'indexed')
             folder.mkdir(parents=True)
@@ -178,6 +188,7 @@ def run(args):
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--player',required=True);parser.add_argument('--fixtures',required=True);parser.add_argument('--report',required=True)
+    parser.add_argument('--sdk-only', action='store_true')
     arguments=parser.parse_args();report=Path(arguments.report);report.mkdir(parents=True,exist_ok=True)
     try:
         result=run(arguments);(report/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')

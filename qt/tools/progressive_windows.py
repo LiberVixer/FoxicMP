@@ -19,12 +19,22 @@ def exchange(endpoint: str, raw: bytes, timeout: float, limit: int) -> bytes:
     api.CloseHandle.argtypes = [w.HANDLE]
     api.WaitForSingleObject.argtypes = [w.HANDLE, w.DWORD]
     api.CancelIoEx.argtypes = [w.HANDLE, ctypes.POINTER(Overlapped)]
+    api.WaitNamedPipeW.argtypes = [w.LPCWSTR, w.DWORD]
     api.GetOverlappedResult.argtypes = [w.HANDLE, ctypes.POINTER(Overlapped), ctypes.POINTER(w.DWORD), w.BOOL]
     for name in ('ReadFile', 'WriteFile'):
         getattr(api, name).argtypes = [w.HANDLE, ctypes.c_void_p, w.DWORD, ctypes.POINTER(w.DWORD), ctypes.POINTER(Overlapped)]
-    handle = api.CreateFileW(endpoint, 0xC0000000, 0, None, 3, 0x40000000 | 0x00100000 | 0x00010000, None)
-    if handle == w.HANDLE(-1).value:
-        raise ctypes.WinError(ctypes.get_last_error())
+    deadline = time.monotonic() + timeout
+    while True:
+        handle = api.CreateFileW(endpoint, 0xC0000000, 0, None, 3, 0x40000000 | 0x00100000 | 0x00010000, None)
+        if handle != w.HANDLE(-1).value:
+            break
+        error = ctypes.get_last_error()
+        if error != 231:  # Retry only PIPE_BUSY, before any request bytes were sent.
+            raise ctypes.WinError(error)
+        remaining = int((deadline - time.monotonic()) * 1000)
+        if remaining <= 0:
+            raise TimeoutError('FoxicMP API pipe stayed busy')
+        api.WaitNamedPipeW(endpoint, min(remaining, 250))
     # Verify the server's account, just as SO_PEERCRED does on Linux.
     advapi = ctypes.WinDLL('advapi32', use_last_error=True)
     api.GetNamedPipeServerProcessId.argtypes = [w.HANDLE, ctypes.POINTER(w.ULONG)]
@@ -62,7 +72,6 @@ def exchange(endpoint: str, raw: bytes, timeout: float, limit: int) -> bytes:
         raise
     finally:
         if server: api.CloseHandle(server)
-    deadline = time.monotonic() + timeout
     def operation(data, writing=False):
         event = api.CreateEventW(None, True, False, None)
         if not event:

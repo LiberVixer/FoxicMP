@@ -10,6 +10,7 @@ class CHarvesterSession {
     bool m_published = false;
     std::array<std::wstring, 2> m_publishedPaths;
     std::wstring m_publishedRoot;
+    std::shared_ptr<std::atomic<bool>> m_released = std::make_shared<std::atomic<bool>>(false);
     harvester::Snapshot m_state;
     mutable std::mutex m_mutex;
     std::array<HANDLE,2> m_files{{INVALID_HANDLE_VALUE,INVALID_HANDLE_VALUE}};
@@ -40,6 +41,7 @@ public:
     static std::shared_ptr<CHarvesterSession> OpenPublished(const std::string& json, CStringW& error);
     bool Publish(const std::string& json, CStringW& error);
     void PublishedHeartbeat() {m_lastUpdate=GetTickCount64(); m_connected=true;}
+    std::shared_ptr<std::atomic<bool>> ReleaseReceipt() const {return m_released;}
     HANDLE File(int track) const { return m_files[track]; }
     HANDLE CancelEvent() const { return m_cancel; }
     std::wstring Path(int track) const;

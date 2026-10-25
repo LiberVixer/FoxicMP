@@ -324,6 +324,100 @@ private slots:
     for (const auto &entry : results)
       QCOMPARE(entry.toObject()["terminal"].toObject()["state"].toString(), QString("finished"));
   }
+  void sdkWriterPlaysTenSecondsBeforeComplete() {
+    Profile profile(temporary.filePath("sdk-writer-profile")); prepare(profile);
+    Window w(profile); w.show(); ProgressiveApi api(&w); QVERIFY(api.listen(profile.directory));
+    const auto folder = temporary.filePath("sdk-writer");
+    const auto media = QDir(qEnvironmentVariable("FOXICMP_TEST_MEDIA"));
+    QProcess writer;
+    writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE), {
+      FOXICMP_WRITER_SCRIPT, "--player", playerExecutable(), "--profile", profile.directory,
+      "--video", media.filePath("progressive/video.mp4"), "--audio", media.filePath("progressive/audio.m4a"),
+      "--directory", folder});
+    QVERIFY(writer.waitForStarted());
+    const auto cleanup = qScopeGuard([&] { if (writer.state() != QProcess::NotRunning) { writer.kill(); writer.waitForFinished(); } });
+    QTRY_VERIFY_WITH_TIMEOUT(writer.state() == QProcess::NotRunning, 60000);
+    QVERIFY2(writer.exitCode() == 0, writer.readAllStandardError().constData());
+    const auto report = QJsonDocument::fromJson(writer.readAllStandardOutput()).object();
+    QVERIFY(report["maxPositionBeforeComplete"].toDouble() >= 10);
+    QVERIFY(report["terminal"].toObject()["released"].toBool());
+    QCOMPARE(report["networkRequests"].toInt(), 0);
+  }
+  void legacyProviderPublishesWriterStateAndReleases_data() {
+    QTest::addColumn<bool>("failed"); QTest::addColumn<bool>("restart");
+    QTest::newRow("complete") << false << false; QTest::newRow("failed") << true << false;
+#ifdef Q_OS_WIN
+    QTest::newRow("provider-restart") << false << true;
+#endif
+  }
+  void legacyProviderPublishesWriterStateAndReleases() {
+    QFETCH(bool, failed); QFETCH(bool, restart);
+    const auto root = QFileInfo(paths[0]).absolutePath();
+    auto legacy = snapshot; auto tracks = legacy["tracks"].toObject();
+    for (const auto &kind : {QStringLiteral("video"), QStringLiteral("audio")}) {
+      auto track = tracks[kind].toObject(); track["path"] = QFileInfo(track["path"].toString()).fileName(); tracks[kind] = track;
+    }
+    legacy["tracks"] = tracks;
+    const auto manifest = QDir(root).filePath("session.json");
+    QFile file(manifest); QVERIFY(file.open(QIODevice::WriteOnly)); file.write(QJsonDocument(legacy).toJson()); file.close();
+    QProcess provider;
+    provider.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE), {
+      FOXICMP_LEGACY_FIXTURE, "--manifest", manifest, "--fixtures", qEnvironmentVariable("FOXICMP_TEST_MEDIA")});
+    QVERIFY(provider.waitForStarted());
+    const auto cleanup = qScopeGuard([&] {
+      QFile stop(QDir(root).filePath("fixture-stop")); if (stop.open(QIODevice::WriteOnly)) stop.close();
+      if (!provider.waitForFinished(4000)) { provider.kill(); provider.waitForFinished(); }
+    });
+    QTRY_VERIFY_WITH_TIMEOUT(QFileInfo::exists(QDir(root).filePath("fixture-ready.json")), 6000);
+    Profile profile(QDir(root).filePath("legacy-test-profile")); prepare(profile);
+    Window w(profile); w.show();
+    auto *player = w.findChild<Player *>();
+    QSignalSpy errors(player, &Player::error);
+    QSignalSpy diagnostics(player, &Player::diagnosticMessage);
+    QVERIFY(w.openProgressiveSession(manifest));
+    auto source = w.progressiveSession(); QVERIFY(source);
+    auto receipt = source->releaseReceipt();
+    QVERIFY(source->status().available > 4); QVERIFY(!receipt->load());
+    auto control = [&](const QString &stage) {
+      QFile command(QDir(root).filePath("fixture-control"));
+      if (!command.open(QIODevice::WriteOnly)) return false;
+      return command.write(stage.toUtf8()) == stage.size();
+    };
+    QVERIFY(control("grow"));
+    QTRY_VERIFY_WITH_TIMEOUT(source->status().available > 10, 6000);
+    auto playbackDiagnostic = [&] {
+      QJsonObject report = w.progressivePlaybackStatus();
+      report["sourceError"] = source->status().error;
+      report["pause"] = player->get("pause").toBool();
+      report["idle"] = player->get("idle-active").toBool();
+      QStringList messages;
+      for (const auto &event : errors) messages << event.front().toString();
+      for (const auto &event : diagnostics) messages << event.front().toString();
+      report["messages"] = messages.join('\n');
+      return QJsonDocument(report).toJson(QJsonDocument::Compact);
+    };
+    QTRY_VERIFY2_WITH_TIMEOUT(player->get("time-pos").toDouble() > .2, playbackDiagnostic().constData(), 10000);
+    if (restart) {
+      QVERIFY(control("disconnect"));
+      QTRY_VERIFY_WITH_TIMEOUT(!source->status().connected, 6000);
+      QVERIFY(source->status().error.isEmpty()); QVERIFY(!source->status().complete);
+      QVERIFY(control("resume"));
+      QTRY_VERIFY2_WITH_TIMEOUT(source->status().connected,
+          (source->status().error + QString::fromUtf8(provider.readAllStandardError())).toUtf8().constData(), 8000);
+    }
+    QVERIFY(control(failed ? "failed" : "complete"));
+    if (failed) QTRY_VERIFY_WITH_TIMEOUT(!source->status().error.isEmpty(), 6000);
+    else QTRY_VERIFY_WITH_TIMEOUT(source->status().complete, 6000);
+    w.closeCurrent();
+    QVERIFY(!receipt->load()); // The test still holds a real reader reference.
+    source.reset();
+    QTRY_VERIFY_WITH_TIMEOUT(receipt->load(), 6000);
+    auto noLease = [&] {
+      QFile leases(QDir(root).filePath("leases.json")); if (!leases.open(QIODevice::ReadOnly)) return false;
+      return QJsonDocument::fromJson(leases.readAll()).object()["leases"].toObject().isEmpty();
+    };
+    QTRY_VERIFY_WITH_TIMEOUT(noLease(), 6000);
+  }
   void discoverWithoutProfileAndStartPlayerFromClient() {
     const auto profilePath = temporary.filePath("autostart-profile");
     const auto executable = playerExecutable();

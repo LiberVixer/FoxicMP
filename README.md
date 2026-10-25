@@ -102,8 +102,12 @@ sudo apt install libmpv2 liblcms2-2 libqt6dbus6 libqt6widgets6 libqt6openglwidge
 MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске не изменялся.
 
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
+[SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-В текущих исходниках исправляется совместимость v1 и выполняется
+Предварительный [SDK 1.2](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.2)
+предназначен для интеграционных проверок с новыми сборками плеера.
+В текущих исходниках исправлена совместимость v1, добавлены SDK, подтверждение
+освобождения файлов и Windows Qt legacy/provider; выполняется
 [план нового ТЗ интеграции](docs/ProgressiveIntegrationPlan.md).
 Расширенная матрица форматов/дорожек ещё не реализована; ожидание полной
 загрузки не считается поддержкой progressive. Эти изменения исходников не

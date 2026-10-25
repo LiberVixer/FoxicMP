@@ -132,6 +132,25 @@ class ProgressiveClient:
     def command(self, action: str, session_id: str, **fields) -> dict:
         return self.request({"version": 1, "action": action, "sessionId": session_id, **fields})
 
+    def release(self, session_id: str, timeout: float = 2) -> dict:
+        """Detach this reader, waiting for an explicit file-handle acknowledgement.
+
+        released=False (or an exception) means the writer must retain its files.
+        This never cancels the download or deletes any resource.
+        """
+        if not 0 <= timeout <= 60:
+            raise ValueError("Release timeout must be between 0 and 60 seconds")
+        deadline = time.monotonic() + timeout
+        def send(action):
+            return self.request(dict(version=1, action=action, sessionId=session_id),
+                                timeout=max(.001, min(5, deadline - time.monotonic())))
+        reply = send("release")
+        while reply.get("released") is not True and time.monotonic() < deadline:
+            time.sleep(min(.05, max(0, deadline - time.monotonic())))
+            if time.monotonic() < deadline:
+                reply = send("status")
+        return reply
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -140,7 +159,7 @@ def main() -> int:
     parser.add_argument("--profile")
     parser.add_argument("--ensure", action="store_true", help="start/reuse the player if needed")
     parser.add_argument("action", choices=("capabilities", "probe", "start", "update", "complete",
-                                           "heartbeat", "status", "cancel", "error"))
+                                           "heartbeat", "status", "cancel", "release", "error"))
     parser.add_argument("--snapshot", type=Path, help="JSON session snapshot for start/update/complete")
     parser.add_argument("--session-directory", type=Path, help="Directory containing relative progressive tracks")
     parser.add_argument("--session-id")

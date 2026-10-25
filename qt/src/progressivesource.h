@@ -16,6 +16,7 @@
 // Local confirmed-prefix reader. The decoding bridge must keep a shared_ptr
 // until both streams are closed; only the last owner releases the provider
 // lease. No libmpv call is made from this worker or a blocking reader callback.
+class WindowsProgressiveLease;
 class ProgressiveSource {
 public:
   struct Status {
@@ -40,6 +41,7 @@ public:
   int64_t size(int track) const;
   bool seekable(int track, uint64_t offset) const;
   QString id() const;
+  std::shared_ptr<std::atomic<bool>> releaseReceipt() const { return released; }
 
 private:
   explicit ProgressiveSource(const QString &manifest);
@@ -70,6 +72,8 @@ private:
   std::chrono::steady_clock::time_point lastPublished;
   QStringList publishedPaths;
   QString publishedRoot;
+  std::shared_ptr<WindowsProgressiveLease> windowsLease;
+  std::shared_ptr<std::atomic<bool>> released = std::make_shared<std::atomic<bool>>(false);
 };
 
 class ProgressiveStreams {

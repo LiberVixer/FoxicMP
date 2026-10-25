@@ -94,6 +94,7 @@ CHarvesterSession::~CHarvesterSession() {
     if(!m_published && m_pipe==INVALID_HANDLE_VALUE)ConnectPipe();
     if(m_pipe!=INVALID_HANDLE_VALUE)Send("released");
     DisconnectPipe(); if(m_cancel)CloseHandle(m_cancel); if(m_stop)CloseHandle(m_stop);
+    m_released->store(true);
 }
 std::shared_ptr<CHarvesterSession> CHarvesterSession::Open(const std::wstring& path,CStringW& error) {
     auto p=std::make_shared<CHarvesterSession>();

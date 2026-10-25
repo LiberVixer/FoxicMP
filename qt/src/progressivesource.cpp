@@ -119,6 +119,7 @@ ProgressiveSource::~ProgressiveSource() {
     send("released");
   if (socket >= 0)
     ::close(socket);
+  released->store(true);
 }
 void ProgressiveSource::refresh() {
   auto next = readManifest(manifest);
