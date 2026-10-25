@@ -45,9 +45,9 @@ YouTubeHarvester в этом релизе не изменяется.
 
 | Редакция | Пакет | Запуск |
 | --- | --- | --- |
-| Windows Classic | [FoxicMPClassic-0.2.0-windows-x64.zip](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPClassic-0.2.0-windows-x64.zip) | `FoxicMP64.exe` |
-| Windows Qt | [FoxicMPQt-0.2.0-windows-x64.zip](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64.zip) | `FoxicMPq.exe` |
-| Linux Qt | [FoxicMPQt-0.2.0-linux-x64.tar.gz](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-linux-x64.tar.gz) | `./foxicmp-qt` |
+| Windows Classic | [FoxicMPClassic-0.2.0-windows-x64.zip](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPClassic-0.2.0-windows-x64.zip) | `FoxicMP64.exe` |
+| Windows Qt | [FoxicMPQt-0.2.0-windows-x64.zip](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPQt-0.2.0-windows-x64.zip) | `FoxicMPq.exe` |
+| Linux Qt | [FoxicMPQt-0.2.0-linux-x64.tar.gz](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPQt-0.2.0-linux-x64.tar.gz) | `./foxicmp-qt` |
 
 Архивы portable: распакуйте нужный пакет в отдельную доступную для записи папку.
 Windows Qt включает Qt/libmpv, FFmpeg, yt-dlp и лицензии зависимостей.
