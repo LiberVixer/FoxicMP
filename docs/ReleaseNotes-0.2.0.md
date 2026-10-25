@@ -94,11 +94,11 @@ sudo apt install libmpv2 liblcms2-2 libqt6dbus6 libqt6widgets6 libqt6openglwidge
 
 | Редакция | EXE | MSI / DEB |
 | --- | --- | --- |
-| Windows Classic | [Установщик EXE](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPClassic-0.2.0-windows-x64-setup.exe) | [MSI x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPClassic-0.2.0-windows-x64.msi) |
-| Windows Qt | [Установщик EXE](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64-setup.exe) | [MSI x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64.msi) |
-| Linux Qt | — | [DEB amd64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/foxiqmp-qt_0.2.0-1_amd64.deb) |
+| Windows Classic | [Установщик EXE](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPClassic-0.2.0-windows-x64-setup.exe) | [MSI x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPClassic-0.2.0-windows-x64.msi) |
+| Windows Qt | [Установщик EXE](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPQt-0.2.0-windows-x64-setup.exe) | [MSI x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPQt-0.2.0-windows-x64.msi) |
+| Linux Qt | — | [DEB amd64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/foxiqmp-qt_0.2.0-1_amd64.deb) |
 
-[SHA-256 установщиков](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/SHA256SUMS-installers.txt).
+[SHA-256 установщиков](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/SHA256SUMS-installers.txt).
 MSI и EXE каждой редакции прошли install/repair/uninstall в отдельной тестовой
 папке, с сохранением предварительно изменённого INI и неизменностью рабочих
 профилей и контекстных команд. Все операции завершились с кодом 0.
