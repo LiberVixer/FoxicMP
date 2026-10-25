@@ -1,0 +1,246 @@
+{
+  "date": "2026-10-25",
+  "scope": "F-03 v1 sessionDirectory regression, not the complete progressive specification",
+  "sourceBaseCommit": "49e6b0af91b81dbcc3c100fc76838b284dab3a7c",
+  "builds": {
+    "linuxQt": {
+      "exitCode": 0,
+      "sha256": "3e7057435ab5824c23d29bc942610ee8054c7082e8f7602e45e7bfb61525a379"
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "sha256": "22f3b5e4a32aa14450061f7d85e98c22a15b7ff45a42186b0957b991096516a5"
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "sha256": "18f573fad906cc68b58aefa18cd8cbf4a7ced663f7c48b101d3aca39c9f239ce"
+    }
+  },
+  "tests": {
+    "linuxQt": {
+      "exitCode": 0,
+      "ctestGroups": 1,
+      "qtPassed": 12,
+      "qtFailed": 0,
+      "qtSkipped": 0,
+      "elapsedSeconds": 72.5,
+      "commonDirectoryScenario": "PASS indexed and fragmented"
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "ctestGroups": 2,
+      "progressive": {
+        "qtPassed": 12,
+        "qtFailed": 0,
+        "qtSkipped": 0
+      },
+      "audioMirror": {
+        "qtPassed": 3,
+        "qtFailed": 0,
+        "qtSkipped": 2,
+        "note": "No deterministic WASAPI capture endpoint; skips are not evidence of physical audio support"
+      },
+      "elapsedSeconds": 65.24,
+      "commonDirectoryScenario": "PASS indexed and fragmented"
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "scheduledTaskResult": 0,
+      "processExitCode": 0,
+      "hkcuRegistrationPreserved": true,
+      "discoveryProfilePreserved": true,
+      "results": [
+        {
+          "contract": "sessionDirectory",
+          "scenarios": [
+            {
+              "fragmented": false,
+              "playing": {
+                "version": 1,
+                "ok": true,
+                "active": true,
+                "sessionId": "556f3b9ef7d6457ba10fd79591fca2fb",
+                "state": "playing",
+                "error": "",
+                "connected": true,
+                "complete": false,
+                "positionSeconds": 0.2809661,
+                "availableSeconds": 15.8933333,
+                "durationSeconds": 20.0
+              },
+              "complete": {
+                "version": 1,
+                "ok": true,
+                "active": true,
+                "sessionId": "556f3b9ef7d6457ba10fd79591fca2fb",
+                "state": "playing",
+                "error": "",
+                "connected": true,
+                "complete": true,
+                "positionSeconds": 0.2809661,
+                "availableSeconds": 20.0,
+                "durationSeconds": 20.0
+              },
+              "terminal": {
+                "version": 1,
+                "ok": true,
+                "active": false,
+                "sessionId": "556f3b9ef7d6457ba10fd79591fca2fb",
+                "state": "finished",
+                "error": ""
+              }
+            },
+            {
+              "fragmented": true,
+              "playing": {
+                "version": 1,
+                "ok": true,
+                "active": true,
+                "sessionId": "58139ed121cd4bc2a9c6179067616b6a",
+                "state": "playing",
+                "error": "",
+                "connected": true,
+                "complete": false,
+                "positionSeconds": 0.200099,
+                "availableSeconds": 16.0,
+                "durationSeconds": 20.0
+              },
+              "complete": {
+                "version": 1,
+                "ok": true,
+                "active": true,
+                "sessionId": "58139ed121cd4bc2a9c6179067616b6a",
+                "state": "playing",
+                "error": "",
+                "connected": true,
+                "complete": true,
+                "positionSeconds": 0.200099,
+                "availableSeconds": 20.0,
+                "durationSeconds": 20.0
+              },
+              "terminal": {
+                "version": 1,
+                "ok": true,
+                "active": false,
+                "sessionId": "58139ed121cd4bc2a9c6179067616b6a",
+                "state": "finished",
+                "error": ""
+              }
+            }
+          ]
+        },
+        {
+          "fragmented": false,
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "5d321e07903248b483c1c498dd033c6c",
+            "state": "playing",
+            "error": "",
+            "connected": true,
+            "complete": false,
+            "positionSeconds": 0.2820794,
+            "availableSeconds": 13.824,
+            "durationSeconds": 20.0
+          },
+          "complete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "5d321e07903248b483c1c498dd033c6c",
+            "state": "paused",
+            "error": "",
+            "connected": true,
+            "complete": true,
+            "positionSeconds": 0.2820794,
+            "availableSeconds": 20.0,
+            "durationSeconds": 20.0
+          },
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "5d321e07903248b483c1c498dd033c6c",
+            "state": "finished",
+            "error": ""
+          }
+        },
+        {
+          "fragmented": true,
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "b7a2fe591454471fb62260d2639ab734",
+            "state": "playing",
+            "error": "",
+            "connected": true,
+            "complete": false,
+            "positionSeconds": 0.280345,
+            "availableSeconds": 12.0,
+            "durationSeconds": 20.0
+          },
+          "complete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "b7a2fe591454471fb62260d2639ab734",
+            "state": "paused",
+            "error": "",
+            "connected": true,
+            "complete": true,
+            "positionSeconds": 0.280345,
+            "availableSeconds": 20.0,
+            "durationSeconds": 20.0
+          },
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "b7a2fe591454471fb62260d2639ab734",
+            "state": "finished",
+            "error": ""
+          }
+        }
+      ]
+    }
+  },
+  "linuxInstallation": {
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.backup-20261025-170254",
+    "exeSha256": "3e7057435ab5824c23d29bc942610ee8054c7082e8f7602e45e7bfb61525a379",
+    "version": "FoxicMPQt 0.2.0",
+    "versionExitCode": 0,
+    "preservedFileCount": 70,
+    "profileSha256": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75"
+  },
+  "initialFailures": [
+    {
+      "edition": "windowsClassic",
+      "exitCode": 1,
+      "issue": "Empty title from shipped Python client rejected by String helper",
+      "resolution": "Accept optional empty title; validate/decode before closing active playback"
+    },
+    {
+      "edition": "windowsClassic",
+      "exitCode": 1,
+      "issue": "Stale BaseSplitter static library retained previous CHarvesterSession layout",
+      "resolution": "Rebuild BaseSplitter and MP4Splitter together with DSUtil/application"
+    },
+    {
+      "edition": "windowsClassic",
+      "exitCode": 1,
+      "issue": "Finished progressive graph retained active session",
+      "resolution": "Close completed progressive media on EC_COMPLETE; retain existing ordinary-file behavior"
+    }
+  ],
+  "limits": [
+    "Not a full matrix acceptance",
+    "No Harvester repository changes or end-to-end integration",
+    "This test proves playing before complete, not ten seconds of playback before complete",
+    "No physical A/V measurement, 30 minute drift, live, remux, multiple tracks or long-path acceptance",
+    "Published v0.2.0 installers unchanged",
+    "Windows installed executables and profiles unchanged",
+    "Wayland and physical devices not tested"
+  ]
+}

@@ -2,6 +2,7 @@
 No downloader repository, installed profile or shell registration is modified.
 """
 import argparse
+import configparser
 import ctypes
 from ctypes import wintypes as w
 import json
@@ -14,6 +15,36 @@ import uuid
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'qt' / 'tools'))
 from progressive_client import ProgressiveClient, ApiError
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from progressive_v1_conformance import exercise_directory_contract
+
+
+def registration_snapshot():
+    """Read installed Classic shell commands/icons without changing HKCU."""
+    import winreg
+    result = {}
+    def visit(path):
+        try:
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path) as key:
+                count, values, _ = winreg.QueryInfoKey(key)
+                result[path] = [winreg.EnumValue(key, i) for i in range(values)]
+                for i in range(count):
+                    visit(path + '\\' + winreg.EnumKey(key, i))
+        except FileNotFoundError:
+            pass
+    base = r'Software\Classes'
+    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, base) as key:
+        for i in range(winreg.QueryInfoKey(key)[0]):
+            name = winreg.EnumKey(key, i)
+            if name.lower().startswith('foxicmp'):
+                visit(base + '\\' + name)
+    associations = base + r'\SystemFileAssociations'
+    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, associations) as key:
+        for i in range(winreg.QueryInfoKey(key)[0]):
+            visit(associations + '\\' + winreg.EnumKey(key, i) + r'\shell\FoxicMP')
+    visit(base + r'\Directory\shell\FoxicMP64.play')
+    visit(base + r'\Directory\shell\FoxicMP64.enqueue')
+    return result
 
 
 def prefix(data, seconds):
@@ -64,6 +95,11 @@ def run(args):
     player = Path(args.player).resolve()
     ini = player.with_suffix('.ini')
     before = ini.read_bytes()
+    settings = configparser.ConfigParser()
+    settings.read_string(before.decode('utf-16') if before.startswith((b'\xff\xfe', b'\xfe\xff')) else before.decode('utf-8-sig'))
+    assert settings.get('Settings', 'ContextMenuPrompted') == '1'
+    assert settings.get('Settings', 'ContextMenuEnabled') == '0'
+    registration = registration_snapshot()
     client = ProgressiveClient(str(player))
     assert ini.read_bytes() == before, 'Read-only discovery modified the profile'
     process = subprocess.Popen([str(player), '/new', '/nofocus'], cwd=player.parent)
@@ -79,6 +115,8 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        common = exercise_directory_contract(client, args.fixtures, Path(args.report)/'relative-contract')
+        results.append(dict(contract='sessionDirectory', scenarios=common))
         for fragmented in (False, True):
             folder = Path(args.report)/('fragmented' if fragmented else 'indexed')
             folder.mkdir(parents=True)
@@ -135,6 +173,7 @@ def run(args):
             try: process.wait(timeout=10)
             except subprocess.TimeoutExpired: process.kill();process.wait();raise
         assert process.returncode == 0, ('Player exit', process.returncode)
+        assert registration_snapshot() == registration, 'Installed Classic shell registration changed'
 
 
 if __name__ == '__main__':

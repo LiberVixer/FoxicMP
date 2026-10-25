@@ -3128,6 +3128,12 @@ bool CMainFrame::DoAfterPlaybackEvent()
 bool CMainFrame::GraphEventComplete()
 {
 	m_bGraphEventComplete = true;
+	// A completed progressive reader must release the downloader's pinned files.
+	// Ordinary file playback keeps its existing repeat/after-playback behavior.
+	if (m_harvester && m_harvester->Complete()) {
+		CloseMedia();
+		return false;
+	}
 
 	CAppSettings& s = AfxGetAppSettings();
 

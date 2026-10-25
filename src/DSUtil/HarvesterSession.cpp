@@ -12,14 +12,14 @@ std::wstring Wide(const std::string& s) {
     if (!n) throw std::runtime_error("Invalid UTF-8 path");
     std::wstring out(n,L'\0'); MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,s.data(),(int)s.size(),out.data(),n); return out;
 }
-std::wstring LocalPath(const std::wstring& path) {
+std::wstring LocalPath(const std::wstring& path, bool inspect=true) {
     if (path.empty() || path.size()>240 || path.find(L"://")!=std::wstring::npos) throw std::runtime_error("Invalid local session path");
     WCHAR full[MAX_PATH];
     DWORD n=GetFullPathNameW(path.c_str(),MAX_PATH,full,nullptr);
     if (!n || n>=MAX_PATH || full[1]!=L':' || full[2]!=L'\\' || GetDriveTypeW(std::wstring(full,3).c_str())!=DRIVE_FIXED) throw std::runtime_error("Session must use a local fixed drive");
     std::wstring result(full);
     if (result.find(L':',2)!=std::wstring::npos) throw std::runtime_error("Alternate data streams are not allowed");
-    for (size_t i=3;i<=result.size();++i) {
+    for (size_t i=3;inspect && i<=result.size();++i) {
         if (i!=result.size() && result[i]!=L'\\') continue;
         DWORD attrs=GetFileAttributesW(result.substr(0,i).c_str());
         if (attrs==INVALID_FILE_ATTRIBUTES || (attrs&FILE_ATTRIBUTE_REPARSE_POINT)) throw std::runtime_error("Missing file or reparse point in session path");
@@ -121,35 +121,48 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::Open(const std::wstring& p
     } catch(const std::exception& e) { error=Wide(e.what()).c_str(); return nullptr; }
 }
 namespace {
-std::wstring PublishedPath(const rapidjson::Value& input, const rapidjson::Value& track) {
+std::wstring PublishedDirectory(const rapidjson::Value& input, const std::wstring* bound=nullptr) {
+    if(!input.HasMember("sessionDirectory"))return bound?*bound:std::wstring();
+    const auto raw=Wide(harvester::String(input,"sessionDirectory"));
+    if(raw.size()<3 || raw[1]!=L':' || (raw[2]!=L'\\' && raw[2]!=L'/'))
+        throw std::runtime_error("sessionDirectory must be an absolute local directory");
+    auto root=LocalPath(raw,false);
+    while(root.size()>3 && root.back()==L'\\')root.pop_back();
+    if(bound && _wcsicmp(root.c_str(),bound->c_str()))
+        throw std::runtime_error("sessionDirectory cannot change within a session");
+    return bound?*bound:root;
+}
+std::wstring PublishedPath(const std::wstring& root, const rapidjson::Value& track, bool inspect) {
     auto raw=Wide(harvester::String(track,"path"));
     const bool absolute=raw.size()>2 && raw[1]==L':' && (raw[2]==L'\\' || raw[2]==L'/');
     if(!absolute) {
-        if(!input.HasMember("sessionDirectory") || !input["sessionDirectory"].IsString())
+        if(root.empty())
             throw std::runtime_error("Relative track paths require sessionDirectory");
-        const auto root=LocalPath(Wide(harvester::String(input,"sessionDirectory")));
         if(raw.empty() || raw.find_first_of(L"\\/:<>|?*\"")!=std::wstring::npos || raw==L"." || raw==L"..")
             throw std::runtime_error("Track name must be a plain local filename");
         raw=root+L"\\"+raw;
     }
-    return LocalPath(raw);
+    return LocalPath(raw,inspect);
 }
-void NormalizePublishedPaths(rapidjson::Document& input, std::array<std::wstring,2>& paths) {
+void NormalizePublishedPaths(rapidjson::Document& input, std::array<std::wstring,2>& paths,
+                             const std::wstring& root, bool inspect) {
     if(!input.HasMember("tracks") || !input["tracks"].IsObject()) throw std::runtime_error("Tracks missing");
     for(int i=0;i<2;++i) {
         const char* name=i?"audio":"video";auto& tracks=input["tracks"];
         if(!tracks.HasMember(name) || !tracks[name].IsObject()) throw std::runtime_error("Track missing");
-        auto& track=tracks[name];paths[i]=PublishedPath(input,track);
+        auto& track=tracks[name];paths[i]=PublishedPath(root,track,inspect);
         track["path"].SetString(i?"audio.part":"video.part",input.GetAllocator());
     }
     if(input.HasMember("sessionDirectory")) input.RemoveMember("sessionDirectory");
 }
-harvester::Snapshot PublishedSnapshot(const std::string& json, std::array<std::wstring, 2>& paths) {
+harvester::Snapshot PublishedSnapshot(const std::string& json, std::array<std::wstring, 2>& paths,
+                                      std::wstring& root) {
     rapidjson::Document input;
     input.Parse<rapidjson::kParseValidateEncodingFlag|rapidjson::kParseIterativeFlag>(json.data(),json.size());
     if(input.HasParseError() || !input.IsObject())throw std::runtime_error("Invalid session JSON");
     harvester::UniqueKeys(input);
-    NormalizePublishedPaths(input,paths);
+    root=PublishedDirectory(input);
+    NormalizePublishedPaths(input,paths,root,true);
     rapidjson::StringBuffer buffer;rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);input.Accept(writer);
     return harvester::Parse(std::string(buffer.GetString(),buffer.GetSize()));
 }
@@ -169,7 +182,7 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
     auto context=std::make_shared<CHarvesterSession>();
     try {
         context->m_published=true;
-        context->m_state=PublishedSnapshot(json,context->m_publishedPaths);
+        context->m_state=PublishedSnapshot(json,context->m_publishedPaths,context->m_publishedRoot);
         if(context->m_state.state==harvester::State::Cancelled || context->m_state.state==harvester::State::Failed)
             throw std::runtime_error("Cannot start a terminal failed session");
         for(int i=0;i<2;++i) {
@@ -211,7 +224,8 @@ bool CHarvesterSession::Publish(const std::string& json,CStringW& error) {
         rapidjson::Document input;input.Parse(json.data(),json.size());
         if(input.HasParseError() || !input.IsObject())throw std::runtime_error("Invalid snapshot JSON");
         harvester::UniqueKeys(input);
-        NormalizePublishedPaths(input,paths);
+        const auto root=PublishedDirectory(input,&m_publishedRoot);
+        NormalizePublishedPaths(input,paths,root,false);
         rapidjson::StringBuffer buffer;rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);input.Accept(writer);
         const auto next=harvester::Parse(std::string(buffer.GetString(),buffer.GetSize()));
         {

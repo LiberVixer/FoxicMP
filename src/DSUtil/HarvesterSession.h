@@ -9,6 +9,7 @@ class CHarvesterSession {
     std::wstring m_manifest, m_root;
     bool m_published = false;
     std::array<std::wstring, 2> m_publishedPaths;
+    std::wstring m_publishedRoot;
     harvester::Snapshot m_state;
     mutable std::mutex m_mutex;
     std::array<HANDLE,2> m_files{{INVALID_HANDLE_VALUE,INVALID_HANDLE_VALUE}};

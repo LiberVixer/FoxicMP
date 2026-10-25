@@ -23,7 +23,6 @@ private:
   std::unique_ptr<QLockFile> lease;
   std::weak_ptr<ProgressiveSource> source;
   QString sessionId;
-  QString sessionRoot;
   QJsonObject lastOutcome;
   int clients = 0;
 };

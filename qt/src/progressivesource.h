@@ -69,6 +69,7 @@ private:
   bool published = false;
   std::chrono::steady_clock::time_point lastPublished;
   QStringList publishedPaths;
+  QString publishedRoot;
 };
 
 class ProgressiveStreams {

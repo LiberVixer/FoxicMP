@@ -303,6 +303,27 @@ private slots:
     QCOMPARE(reply["state"].toString(), QString("cancelled"));
     QVERIFY(!reply["active"].toBool());
   }
+  void commonRelativeSessionDirectoryContract() {
+    Profile profile(temporary.filePath("relative-contract-profile")); prepare(profile);
+    Window w(profile); w.show();
+    ProgressiveApi api(&w); QVERIFY(api.listen(profile.directory));
+    QProcess client;
+    client.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE), {
+        FOXICMP_CONFORMANCE_SCRIPT, "--player", playerExecutable(),
+        "--profile", profile.directory, "--fixtures", qEnvironmentVariable("FOXICMP_TEST_MEDIA"),
+        "--work", temporary.filePath("relative-contract"),
+        "--expected-pid", QString::number(QCoreApplication::applicationPid())});
+    QVERIFY(client.waitForStarted());
+    const auto cleanup = qScopeGuard([&] {
+      if (client.state() != QProcess::NotRunning) { client.kill(); client.waitForFinished(); }
+    });
+    QTRY_VERIFY_WITH_TIMEOUT(client.state() == QProcess::NotRunning, 90000);
+    QVERIFY2(client.exitCode() == 0, client.readAllStandardError().constData());
+    const auto results = QJsonDocument::fromJson(client.readAllStandardOutput()).array();
+    QCOMPARE(results.size(), 2);
+    for (const auto &entry : results)
+      QCOMPARE(entry.toObject()["terminal"].toObject()["state"].toString(), QString("finished"));
+  }
   void discoverWithoutProfileAndStartPlayerFromClient() {
     const auto profilePath = temporary.filePath("autostart-profile");
     const auto executable = playerExecutable();

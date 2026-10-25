@@ -133,7 +133,6 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
       window->setProperty("foxicmpProgressiveTitle", title.trimmed());
       source = next;
       sessionId = next->id();
-      sessionRoot = input.value("sessionDirectory").toString();
       lastOutcome = {};
       if (input.value("activate").toBool(true)) window->restoreFromTray();
     } catch (const std::exception &e) {
@@ -156,7 +155,7 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
     }
     if (action == "update" || action == "complete") {
       auto descriptor = input.value("session").toObject();
-      if (!input.contains("sessionDirectory") && !sessionRoot.isEmpty()) descriptor["sessionDirectory"] = sessionRoot;
+      if (input.contains("sessionDirectory")) descriptor["sessionDirectory"] = input.value("sessionDirectory");
       if (!input.value("session").isObject() ||
           (action == "complete" && descriptor.value("state") != QJsonValue("complete")))
         return failure("invalid_request", "Expected a complete session snapshot");

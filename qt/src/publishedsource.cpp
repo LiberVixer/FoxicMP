@@ -6,6 +6,25 @@
 #include <QDir>
 
 namespace {
+bool samePath(const QString &a, const QString &b) {
+#ifdef Q_OS_WIN
+  return a.compare(b, Qt::CaseInsensitive) == 0;
+#else
+  return a == b;
+#endif
+}
+QString sessionDirectory(const QJsonObject &input, const QString *bound = nullptr) {
+  if (!input.contains("sessionDirectory")) return bound ? *bound : QString();
+  const auto value = input.value("sessionDirectory");
+  const auto path = value.toString();
+  if (!value.isString() || path.isEmpty() || path.contains(QChar(0)) ||
+      path.toUtf8().size() > 8192 || !ProgressiveFile::absolute(path))
+    throw std::runtime_error("sessionDirectory must be an absolute local directory");
+  const auto normalized = QDir::cleanPath(QDir::fromNativeSeparators(path));
+  if (bound && !samePath(normalized, *bound))
+    throw std::runtime_error("sessionDirectory cannot change within a session");
+  return bound ? *bound : normalized;
+}
 QString resolveTrackPath(const QString &path, const QString &root) {
   if (path.contains(QChar(0)) || path.toUtf8().size() > 8192)
     throw std::runtime_error("Track path is too long or contains an embedded null");
@@ -22,11 +41,7 @@ QString resolveTrackPath(const QString &path, const QString &root) {
     throw std::runtime_error("Track path escapes sessionDirectory");
   return resolved;
 }
-harvester::Snapshot snapshotFor(QJsonObject input, QStringList *paths) {
-  const auto root = input.value("sessionDirectory").toString();
-  if (input.contains("sessionDirectory") &&
-      (!input.value("sessionDirectory").isString() || root.isEmpty()))
-    throw std::runtime_error("Invalid sessionDirectory");
+harvester::Snapshot snapshotFor(QJsonObject input, QStringList *paths, const QString &root) {
   input.remove("sessionDirectory");
   auto tracks = input.value("tracks").toObject();
   for (const auto &kind : {QStringLiteral("video"), QStringLiteral("audio")}) {
@@ -70,7 +85,8 @@ QJsonObject ProgressiveSource::probePublished(const QJsonObject &input) {
 }
 
 ProgressiveSource::ProgressiveSource(const QJsonObject &input) : published(true) {
-  snapshot = snapshotFor(input, &publishedPaths);
+  publishedRoot = sessionDirectory(input);
+  snapshot = snapshotFor(input, &publishedPaths, publishedRoot);
   if (snapshot.state == harvester::State::Cancelled ||
       snapshot.state == harvester::State::Failed)
     throw std::runtime_error("Cannot start a terminal failed session");
@@ -105,11 +121,12 @@ bool ProgressiveSource::publish(const QJsonObject &input, QString *error) {
   QStringList paths;
   harvester::Snapshot next;
   try {
-    next = snapshotFor(input, &paths);
+    next = snapshotFor(input, &paths, sessionDirectory(input, &publishedRoot));
     std::lock_guard<std::mutex> lock(mutex);
     if (!published || stopping.load() || !currentStatus.error.isEmpty())
       throw std::runtime_error("Session is no longer writable");
-    if (paths != publishedPaths)
+    if (paths.size() != publishedPaths.size() ||
+        !samePath(paths[0], publishedPaths[0]) || !samePath(paths[1], publishedPaths[1]))
       throw std::runtime_error("Track paths cannot change within a session");
     if (!harvester::Advance(snapshot, next)) {
       if (error) *error = "Stale revision; use a strictly increasing revision";

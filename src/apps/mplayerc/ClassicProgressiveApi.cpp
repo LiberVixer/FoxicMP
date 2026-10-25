@@ -163,17 +163,20 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
             const auto id=harvester::String(d["session"],"sessionId");
             if(source.lock() && source.lock()==frame.m_harvester && id==sessionId)return Status();
             if(frame.m_harvester && !(d.HasMember("replace") && d["replace"].GetBool()))return Failure("session_busy","Explicit replacement is required");
+            std::wstring title;
+            if(d.HasMember("title") && d["title"].GetStringLength()) {
+                const auto& text=d["title"];
+                int size=MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,text.GetString(),int(text.GetStringLength()),nullptr,0);
+                title.resize(size);MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,text.GetString(),int(text.GetStringLength()),title.data(),size);
+                for(auto& c:title)if(c<32 || c==127)c=L' ';
+            }
             Value descriptor(d["session"],d.GetAllocator());
             if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
             CStringW error;auto next=CHarvesterSession::OpenPublished(Encode(descriptor),error);
             if(!next)return Failure("source_not_ready",Utf8(error.GetString()));
             frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
             auto data=std::make_unique<OpenFileData>();data->harvesterManifest=L"published-api";data->fi=CStringW(next->Path(0).c_str());data->auds.emplace_back(next->Path(1).c_str());data->bAddRecent=FALSE;
-            if(d.HasMember("title")) {
-                const auto text=harvester::String(d,"title");int size=MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,text.data(),int(text.size()),nullptr,0);
-                std::wstring title(size,L'\0');MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,text.data(),int(text.size()),title.data(),size);
-                for(auto& c:title)if(c<32 || c==127)c=L' ';data->fi.SetTitle(title.c_str());
-            }
+            if(!title.empty())data->fi.SetTitle(title.c_str());
             frame.m_harvester=next;frame.m_harvesterStarted=false;frame.m_harvesterBuffering=true;frame.m_harvesterWantPlay=true;source=next;sessionId=id;lastOutcome.clear();frame.OpenMedia(std::move(data));
             if(!d.HasMember("activate") || d["activate"].GetBool()){frame.ShowWindow(SW_RESTORE);frame.SetForegroundWindow();}
             return Status();
