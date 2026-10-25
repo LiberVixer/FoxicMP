@@ -107,6 +107,7 @@ fMP4-дорожками; существующий тестовый HLS-адап�
 | action | Дополнительные поля | Назначение |
 |---|---|---|
 | `capabilities` | нет | Поддерживаемые форматы, пороги и лимиты |
+| `validate` | `session` (schema 2), необязательный `previous` | Только проверка расширенных метаданных/перехода, без открытия файлов |
 | `probe` | `session`, необязательный `sessionDirectory` | Проверить снимок без запуска воспроизведения |
 | `start` | `session`, необязательные `title`, `activate` (true), `replace` (false) | Открыть растущие дорожки |
 | `update` | `sessionId`, `session`, необязательный `sessionDirectory` | Новый полный снимок подтверждённых данных |
@@ -141,6 +142,11 @@ session_busy, session_closed, unknown_session.
 `released`. `active: false` само по себе не доказывает закрытие дескрипторов.
 До `released: true` writer сохраняет исходники. `release`/`cancel` не отменяют
 скачивание. Подробнее: [SDK и writer-стенд](ProgressiveSdk.md).
+
+SDK 1.3 добавляет `validationSchemaVersions:[2]` отдельно от
+`playbackSchemaVersions:[1]`. Успех validate содержит `playbackSupported:false`;
+start/probe v2 отклоняются с `unsupported_schema` до открытия медиа.
+[Черновой контракт v2 и его ограничения](ProgressiveManifestV2.md).
 
 Воспроизведение начинается с 10 общих секунд данных; завершённые короткие ролики
 стартуют сразу. Менее 1 секунды запаса включает буферизацию, 5 секунд возобновляют

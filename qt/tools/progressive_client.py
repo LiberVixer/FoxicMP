@@ -20,6 +20,26 @@ import time
 MAX_BYTES = 65536
 
 
+def read_snapshot(path: Path) -> dict:
+    with path.open('rb') as stream:
+        raw = stream.read(MAX_BYTES + 1)
+    if len(raw) > MAX_BYTES:
+        raise ValueError('Session snapshot exceeds the limit')
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError('Duplicate JSON field')
+            result[key] = value
+        return result
+    def constant(value):
+        raise ValueError('Non-finite JSON number: ' + value)
+    value = json.loads(raw, object_pairs_hook=unique, parse_constant=constant)
+    if not isinstance(value, dict):
+        raise ValueError('Expected a session object')
+    return value
+
+
 class ApiError(RuntimeError):
     def __init__(self, reply: dict):
         self.reply = reply
@@ -132,6 +152,13 @@ class ProgressiveClient:
     def command(self, action: str, session_id: str, **fields) -> dict:
         return self.request({"version": 1, "action": action, "sessionId": session_id, **fields})
 
+    def validate_session(self, snapshot: dict, previous: dict | None = None) -> dict:
+        """Validate the v2 metadata model. This never starts or promises playback."""
+        message = dict(version=1, action="validate", session=snapshot)
+        if previous is not None:
+            message["previous"] = previous
+        return self.request(message)
+
     def release(self, session_id: str, timeout: float = 2) -> dict:
         """Detach this reader, waiting for an explicit file-handle acknowledgement.
 
@@ -158,9 +185,10 @@ def main() -> int:
     parser.add_argument("--player", default=str(default_player))
     parser.add_argument("--profile")
     parser.add_argument("--ensure", action="store_true", help="start/reuse the player if needed")
-    parser.add_argument("action", choices=("capabilities", "probe", "start", "update", "complete",
+    parser.add_argument("action", choices=("capabilities", "validate", "probe", "start", "update", "complete",
                                            "heartbeat", "status", "cancel", "release", "error"))
     parser.add_argument("--snapshot", type=Path, help="JSON session snapshot for start/update/complete")
+    parser.add_argument("--previous-snapshot", type=Path, help="Previous schema-2 snapshot for validate")
     parser.add_argument("--session-directory", type=Path, help="Directory containing relative progressive tracks")
     parser.add_argument("--session-id")
     parser.add_argument("--title", default="")
@@ -171,24 +199,21 @@ def main() -> int:
         client = ProgressiveClient(args.player, args.profile)
         if args.ensure:
             client.ensure_running()
-        if args.action == "probe":
+        if args.action in {"probe", "validate", "start", "update", "complete"}:
             if args.snapshot is None:
                 parser.error("--snapshot is required")
-            with args.snapshot.open("rb") as stream:
-                session = json.load(stream)
-            reply = client.probe(session, args.session_directory)
-        elif args.action in {"start", "update", "complete"}:
-            if args.snapshot is None:
-                parser.error("--snapshot is required")
-            with args.snapshot.open("rb") as stream:
-                raw = stream.read(MAX_BYTES + 1)
-            if len(raw) > MAX_BYTES:
-                raise ValueError("Session snapshot exceeds the limit")
-            session = json.loads(raw)
-            reply = client.start(session, title=args.title, replace=args.replace,
-                                 session_directory=args.session_directory) if args.action == "start" \
-                else client.update(session, complete=args.action == "complete",
-                                   session_directory=args.session_directory)
+            session = read_snapshot(args.snapshot)
+            if args.action == "validate":
+                previous = read_snapshot(args.previous_snapshot) if args.previous_snapshot else None
+                reply = client.validate_session(session, previous)
+            elif args.action == "probe":
+                reply = client.probe(session, args.session_directory)
+            elif args.action == "start":
+                reply = client.start(session, title=args.title, replace=args.replace,
+                                     session_directory=args.session_directory)
+            else:
+                reply = client.update(session, complete=args.action == "complete",
+                                      session_directory=args.session_directory)
         elif args.action == "capabilities":
             reply = client.request({"version": 1, "action": "capabilities"})
         else:

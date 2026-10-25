@@ -1,0 +1,148 @@
+{
+  "date": "2026-10-25",
+  "scope": "Stage 3 foundation: schema-2 metadata validation and in-memory reader lifecycle; playback remains schema 1",
+  "sourceBaseCommit": "a51183dfd70d2d2e677a26f7fdd99df905fb64b8",
+  "builds": {
+    "linuxQt": {
+      "exitCode": 0,
+      "sha256": "94eeae8555ab1c0fb0146fc670a908c648361327801967d3cbafaaa83cb42c48"
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "sha256": "48baf1480e5b54a3f37d9f0b320fba59daf4963696c8bc4a55c5608edc69fa70"
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "sha256": "c7c3a98de68a9aa45a42060f3cf66ddfdb8ca59e25c66597268c1b8cde0b5454"
+    }
+  },
+  "tests": {
+    "linuxQt": {
+      "exitCode": 0,
+      "apiPassed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "apiSeconds": 99.847,
+      "modelCases": 71,
+      "validationApiCases": 62,
+      "activeV1SourcePreserved": true
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "apiPassed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "apiSeconds": 95.32,
+      "modelCases": 71,
+      "validationApiCases": 62,
+      "activeV1SourcePreserved": true
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "processExitCode": 0,
+      "scheduledTaskResult": 0,
+      "validationApiCases": 62,
+      "transportRoundTrips": 100,
+      "hkcuRegistrationPreserved": true,
+      "results": [
+        {
+          "contract": "sdk-writer",
+          "result": {
+            "schemaVersion": 1,
+            "sessionId": "b57009dfb607410bb869e035074148f4",
+            "sourceOpens": 2,
+            "networkRequests": 0,
+            "maxPositionBeforeComplete": 12.8453986,
+            "playingBeforeCompleteSeconds": 10.436999999976251,
+            "lastPublishState": "playing",
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "b57009dfb607410bb869e035074148f4",
+              "state": "finished",
+              "error": "",
+              "released": true
+            },
+            "release": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "b57009dfb607410bb869e035074148f4",
+              "state": "finished",
+              "error": "",
+              "released": true
+            }
+          }
+        },
+        {
+          "contract": "v2-metadata-validation",
+          "passed": 62
+        }
+      ],
+      "scheduledTaskRemoved": true
+    },
+    "portableModel": {
+      "gcc": {
+        "cases": 71,
+        "exitCode": 0
+      },
+      "mingw": {
+        "cases": 71,
+        "exitCode": 0
+      },
+      "msvc": {
+        "cases": 71,
+        "exitCode": 0
+      },
+      "asanUbsan": {
+        "cases": 71,
+        "exitCode": 0
+      },
+      "additionalRawDuplicateKeyCheck": true
+    },
+    "pythonSdk": {
+      "passed": 7,
+      "exitCode": 0
+    },
+    "familyContract": {
+      "passed": 2,
+      "exitCode": 0
+    }
+  },
+  "initialAttempts": [
+    {
+      "check": "Linux private test wrapper without extracted Xvfb in PATH",
+      "exitCode": 2,
+      "result": "preflight stopped before tests; final wrapper used /tmp/foxicmp-audit-tools/root/usr/bin and passed"
+    }
+  ],
+  "linuxInstallation": {
+    "oldSha256": "eb24cf85c46d801a02eb07706b3ae0c1785bee6d1a1f79cfb19d0fc2568e0baa",
+    "newSha256": "94eeae8555ab1c0fb0146fc670a908c648361327801967d3cbafaaa83cb42c48",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/backups/foxicmp-qt-before-sdk1.3-20261025-201124",
+    "profileBefore": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileAfter": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "atomicReplace": true,
+    "userProcessStopped": false
+  },
+  "capabilities": {
+    "playbackSchemaVersions": [
+      1
+    ],
+    "validationSchemaVersions": [
+      2
+    ],
+    "releaseAcknowledgement": true,
+    "schemaTwoMode": "validation-only",
+    "schemaTwoPlayback": false
+  },
+  "notValidated": [
+    "schema-2 runtime readers/persistent registry/crash recovery",
+    "schema-2 media backend or remux",
+    "expanded codec/container matrix, actual HLS/DASH live",
+    "real Harvester integration",
+    "physical A/V timing and 30-minute drift",
+    "Wayland and physical equipment (excluded)"
+  ]
+}

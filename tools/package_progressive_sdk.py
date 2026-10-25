@@ -10,7 +10,9 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
     **{name: 'qt/tools/' + name for name in (
-        'progressive_client.py', 'progressive_windows.py', 'progressive_sdk.py', 'progressive_writer.py')},
+        'progressive_client.py', 'progressive_windows.py', 'progressive_sdk.py', 'progressive_writer.py',
+        'progressive_schema.py')},
+    'progressive-v2-vod.json': 'tests/fixtures/progressive-v2/vod.json',
     'README.ru.md': 'docs/ProgressiveSdk.md',
     'ProgressiveSdk.md': 'docs/ProgressiveSdk.md',
     'LinuxProgressiveApi.md': 'docs/LinuxProgressiveApi.md',
@@ -18,7 +20,9 @@ FILES = {
     **{name: 'docs/' + name for name in (
         'ProgressiveIntegrationPlan.md', 'ProgressiveTechnicalSpec-2026-10-25.ru.md',
         'ProgressiveV1Validation-2026-10-25.md', 'ProgressiveV1Validation-2026-10-25.json',
-        'ProgressiveSdkValidation-2026-10-25.md', 'ProgressiveSdkValidation-2026-10-25.json')},
+        'ProgressiveSdkValidation-2026-10-25.md', 'ProgressiveSdkValidation-2026-10-25.json',
+        'ProgressiveManifestV2.md', 'ProgressiveModelValidation-2026-10-25.md',
+        'ProgressiveModelValidation-2026-10-25.json')},
 }
 
 def main():
@@ -28,7 +32,8 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.2',
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.3',
+        playbackSchemaVersions=[1], validationSchemaVersions=[2],
         sourceCommit=version, sourceDirty=dirty,
         files={name: hashlib.sha256(data).hexdigest() for name, data in sorted(content.items())})
     content['sdk-manifest.json'] = (json.dumps(manifest, indent=2)+'\n').encode()

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 2,
+  "sessionId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "generation": "1",
+  "revision": "1",
+  "writer": {
+    "instanceId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "state": "downloading"
+  },
+  "timeline": {
+    "timebase": {
+      "numerator": 1,
+      "denominator": 10000000
+    },
+    "live": false,
+    "duration": "200000000",
+    "timestampOffset": "0"
+  },
+  "resources": [
+    {
+      "id": "media",
+      "name": "media.part",
+      "length": "100",
+      "ranges": [
+        {
+          "offset": "0",
+          "length": "10"
+        }
+      ],
+      "state": "downloading"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "video",
+      "kind": "video",
+      "required": true,
+      "codecHint": "vp9",
+      "containerHint": "webm",
+      "state": "downloading",
+      "source": {
+        "resourceId": "media"
+      },
+      "initializationReady": true
+    },
+    {
+      "id": "audio",
+      "kind": "audio",
+      "required": true,
+      "codecHint": "opus",
+      "containerHint": "webm",
+      "state": "downloading",
+      "source": {
+        "resourceId": "media"
+      },
+      "initializationReady": true,
+      "language": "ru",
+      "label": "Русский"
+    }
+  ],
+  "metadata": {
+    "revision": "1",
+    "title": "Metadata model example",
+    "chapters": [
+      {
+        "id": "intro",
+        "time": "0",
+        "title": "Начало"
+      }
+    ]
+  }
+}

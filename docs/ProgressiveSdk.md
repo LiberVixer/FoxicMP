@@ -8,14 +8,39 @@ SDK является частью FoxicMP и не меняет YouTubeHarvester.
 python3 tools/package_progressive_sdk.py --output /absolute/new/FoxicMP-progressive-sdk.zip
 ```
 
-В ZIP входят четыре Python-модуля, эта инструкция, контракт v1, лицензия и
-JSON с исходным commit, dirty-флагом и SHA-256 файлов. Схема медиа остаётся v1:
+В ZIP входят пять Python-модулей, эта инструкция, контракты v1 и draft v2,
+пример метаданных v2, отчёты, лицензия и JSON с исходным commit, dirty-флагом и
+SHA-256 файлов. Схема воспроизведения остаётся v1:
 две отдельные MP4/M4A H.264/AAC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
 Проверки трёх редакций и ограничения: [отчёт](ProgressiveSdkValidation-2026-10-25.md).
 Этот SDK требует новые сборки плеера с `releaseAcknowledgement=true`;
 опубликованные установщики 0.2.0 не содержат это расширение.
+
+## Проверка расширенной схемы (SDK 1.3)
+
+Новые сборки отдельно объявляют `validationSchemaVersions:[2]` и
+`playbackSchemaVersions:[1]`. [Контракт v2](ProgressiveManifestV2.md) описывает
+ресурсы, подтверждённые диапазоны, сегменты, несколько дорожек и поздние главы.
+Эта часть SDK проверяет метаданные, не открывая медиа и не прерывая просмотр:
+
+```python
+from progressive_schema import unsigned64, signed64
+
+snapshot_v2['revision'] = unsigned64(revision, positive=True)
+snapshot_v2['timeline']['timestampOffset'] = signed64(offset_ticks)
+reply = client.validate_session(snapshot_v2, previous=previous_snapshot_or_none)
+assert reply['validated'] and reply['playbackSupported'] is False
+```
+
+Весь JSON-запрос, включая previous, ограничен 65536 байтами. Большие целые —
+десятичные строки; float/bool и округление не допускаются. `progressive-v2-vod.json`
+в ZIP — синтетический пример метаданных, без соответствующего media-файла.
+`PreviewSession.publish()` и writer-стенд по-прежнему используют v1. `start`/`probe`
+v2 возвращают `unsupported_schema`: codecs/live/remux ещё не интегрированы.
+[Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
+тестом Harvester; исходники Harvester не изменялись.
 
 ## Подключение к событиям writer
 

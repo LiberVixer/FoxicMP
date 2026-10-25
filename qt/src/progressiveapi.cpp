@@ -9,6 +9,7 @@
 #include <QDir>
 #include <QCoreApplication>
 #include "platformpaths.h"
+#include "../../shared/progressivesession.h"
 #ifndef Q_OS_WIN
 #include <sys/socket.h>
 #include <unistd.h>
@@ -60,7 +61,8 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
 #endif
           }, {"profile", QDir(directory).absolutePath()},
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
-          {"actions", QJsonArray{"capabilities", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error"}},
+          {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error"}},
+          {"playbackSchemaVersions", QJsonArray{1}}, {"validationSchemaVersions", QJsonArray{2}},
           {"releaseAcknowledgement", true},
           {"containers", QJsonArray{"fast-start-mp4", "fragmented-mp4"}},
           {"videoCodecs", QJsonArray{"h264"}}, {"audioCodecs", QJsonArray{"aac-lc"}},
@@ -96,6 +98,17 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
     result["pid"] = QCoreApplication::applicationPid();
     return result;
   }
+  if (action == "validate") {
+    if (!keys(input, {"version", "action", "session"}, {"previous"}) ||
+        !input.value("session").isObject() || (input.contains("previous") && !input.value("previous").isObject()))
+      return failure("invalid_request", "Expected a schema-2 session and optional previous snapshot");
+    const auto current = QJsonDocument(input["session"].toObject()).toJson(QJsonDocument::Compact);
+    const auto previous = input.contains("previous") ? QJsonDocument(input["previous"].toObject()).toJson(QJsonDocument::Compact) : QByteArray();
+    return QJsonDocument::fromJson(QByteArray::fromStdString(foxicmp::progressive::ValidateReply(current.toStdString(), previous.toStdString()))).object();
+  }
+  if ((action == "start" || action == "probe") && input.value("session").isObject() &&
+      input["session"].toObject().value("schemaVersion") == QJsonValue(2))
+    return failure("unsupported_schema", "Schema 2 supports validation only; media backend integration is pending");
   if (action == "probe") {
     if (!keys(input, {"version", "action", "session"}, {"sessionDirectory"}) ||
         !input.value("session").isObject() ||

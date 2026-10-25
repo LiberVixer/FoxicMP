@@ -3,9 +3,11 @@ import copy
 from pathlib import Path
 import sys
 import unittest
+import tempfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'qt'/'tools'))
-from progressive_client import ProgressiveClient
+from progressive_client import ProgressiveClient, read_snapshot
 from progressive_sdk import PreviewSession
+from progressive_schema import unsigned64, signed64
 
 class Client:
     def __init__(self):
@@ -75,5 +77,20 @@ class SdkTest(unittest.TestCase):
         client = Client()
         client.request = lambda _: dict(schemaVersion=1, actions=[])
         with self.assertRaises(RuntimeError): PreviewSession(client, '/unused')
+    def test_exact_schema_two_integer_encoding(self):
+        self.assertEqual(unsigned64(2**64-1),'18446744073709551615')
+        self.assertEqual(signed64(-2**63),'-9223372036854775808')
+        self.assertEqual(unsigned64(2**53+1),'9007199254740993')
+        for value in (True,1.5,2**64,-1):
+            with self.assertRaises(ValueError): unsigned64(value)
+        for value in (False,1.0,-2**63-1,2**63):
+            with self.assertRaises(ValueError): signed64(value)
+        with self.assertRaises(ValueError): unsigned64(2**63,byte_offset=True)
+    def test_snapshot_files_are_bounded_unambiguous_json(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'snapshot.json'
+            for raw in ('{"revision":1,"revision":2}','{"value":NaN}','[]',' '*65537):
+                path.write_text(raw)
+                with self.assertRaises(ValueError): read_snapshot(path)
 
 if __name__ == '__main__': unittest.main()

@@ -324,6 +324,22 @@ private slots:
     for (const auto &entry : results)
       QCOMPARE(entry.toObject()["terminal"].toObject()["state"].toString(), QString("finished"));
   }
+  void schemaTwoValidationDoesNotOpenOrReplaceMedia() {
+    Profile profile(temporary.filePath("v2-validation-profile")); prepare(profile);
+    Window w(profile); w.show(); ProgressiveApi api(&w); QVERIFY(api.listen(profile.directory));
+    QVERIFY(api.request(message("start"))["ok"].toBool());
+    const auto active = w.progressiveSession(); QVERIFY(active);
+    QProcess client;
+    client.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE), {
+      FOXICMP_V2_CONFORMANCE_SCRIPT, "--player", playerExecutable(), "--profile", profile.directory,
+      "--expected-pid", QString::number(QCoreApplication::applicationPid())});
+    QVERIFY(client.waitForStarted());
+    const auto cleanup = qScopeGuard([&] { if (client.state() != QProcess::NotRunning) { client.kill(); client.waitForFinished(); } });
+    QTRY_VERIFY_WITH_TIMEOUT(client.state() == QProcess::NotRunning, 20000);
+    QVERIFY2(client.exitCode() == 0, client.readAllStandardError().constData());
+    QVERIFY(QJsonDocument::fromJson(client.readAllStandardOutput()).object()["passed"].toInt() >= 40);
+    QCOMPARE(w.progressiveSession(), active); // Metadata checks never replace a working v1 source.
+  }
   void sdkWriterPlaysTenSecondsBeforeComplete() {
     Profile profile(temporary.filePath("sdk-writer-profile")); prepare(profile);
     Window w(profile); w.show(); ProgressiveApi api(&w); QVERIFY(api.listen(profile.directory));
