@@ -1,5 +1,6 @@
 #include "windowtitle.h"
 #include "branding.h"
+#include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
 #include <QMap>
@@ -35,7 +36,10 @@ QString expand(const QString &pattern, const QMap<QString, QString> &values) {
   return clean(out);
 }
 } // namespace
-QString WindowTitle::idle() { return Branding::name() + " x64 0.1.73"; }
+QString WindowTitle::idle() {
+  const auto version = QCoreApplication::applicationVersion();
+  return Branding::name() + " x64" + (version.isEmpty() ? QString() : " " + version);
+}
 QString WindowTitle::path(const QString &source) {
   const QUrl url(source);
   if (url.isLocalFile())

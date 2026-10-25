@@ -28,6 +28,13 @@ class WindowTitleTest : public QObject {
     return {"/tmp/Видео/Тест.mkv", "Фильм {state} %1", "Пауза", "01:23", "45:00", true};
   }
 private slots:
+  void applicationVersionInCaption() {
+    const auto previous = QCoreApplication::applicationVersion();
+    const auto restore = qScopeGuard([&] { QCoreApplication::setApplicationVersion(previous); });
+    QCoreApplication::setApplicationVersion("8.9.10");
+    QCOMPARE(WindowTitle::idle(), QString("FoxiqMP qt x64 8.9.10"));
+    QVERIFY(WindowTitle::format(sample(), "app", {}, false, false).endsWith("8.9.10"));
+  }
   void modesFallbackEscapesAndBounds() {
     const auto m = sample();
     QCOMPARE(WindowTitle::format(m, "title", {}, false, false), QString("Фильм {state} %1 - ") + WindowTitle::idle());

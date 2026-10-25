@@ -16,11 +16,15 @@ Classic использует оранжево-синюю лису, Qt — ора
 
 ## Скачать 0.2.0
 
-| Редакция | Готовый portable-пакет | SHA-256 |
+| Редакция | Установщики | Portable |
 | --- | --- | --- |
-| Windows Classic | [ZIP, x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPClassic-0.2.0-windows-x64.zip) | [Контрольная сумма](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPClassic-0.2.0-windows-x64.sha256) |
-| Windows Qt | [ZIP, x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64.zip) | [Контрольная сумма](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64.sha256) |
-| Linux Qt | [TAR.GZ, x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-linux-x64.tar.gz) | [Контрольная сумма](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-linux-x64.sha256) |
+| Windows Classic | [EXE](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPClassic-0.2.0-windows-x64-setup.exe) · [MSI](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPClassic-0.2.0-windows-x64.msi) | [ZIP, x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPClassic-0.2.0-windows-x64.zip) |
+| Windows Qt | [EXE](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPQt-0.2.0-windows-x64-setup.exe) · [MSI](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/FoxicMPQt-0.2.0-windows-x64.msi) | [ZIP, x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64.zip) |
+| Linux Qt | [DEB, amd64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/foxiqmp-qt_0.2.0-1_amd64.deb) | [TAR.GZ, x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-linux-x64.tar.gz) |
+
+Для Windows выберите MSI **или** EXE своей редакции: EXE содержит тот же MSI.
+[SHA-256 установщиков](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/SHA256SUMS-installers.txt).
+Рядом с portable-архивами опубликованы их индивидуальные файлы `.sha256`.
 
 [Страница выпуска](https://github.com/LiberVixer/FoxicMP/releases/tag/v0.2.0) ·
 [Заметки и результаты проверки](docs/ReleaseNotes-0.2.0.md) ·
@@ -31,7 +35,23 @@ Classic использует оранжево-синюю лису, Qt — ора
 
 ## Установка и обновление
 
-Распакуйте нужный архив в отдельную доступную для записи папку и запустите EXE
+Windows MSI/EXE по умолчанию устанавливает отдельную доступную для записи папку
+в `%LOCALAPPDATA%\Programs\FoxicMPClassic` или `FoxiqMPqt` и ярлык в меню «Пуск».
+Существующий INI сохраняется при установке, ремонте и удалении.
+[Устройство Windows-установщиков](packaging/windows/README.md).
+
+Для Linux Mint 22.x можно установить `.deb` вместе с зависимостями:
+
+```sh
+sudo apt install ./foxiqmp-qt_0.2.0-1_amd64.deb
+```
+
+Запуск — из меню или командой `foxiqmp-qt`. При первом запуске создаётся
+пользовательская папка программы `~/.local/opt/FoxiqMP-qt`; в ней рядом находятся
+бинарник и профиль. Обновление системного пакета сохраняет личные файлы.
+[Подробности DEB](qt/packaging/debian/README.md).
+
+Для portable-варианта распакуйте архив в доступную для записи папку и запустите EXE
 или `foxicmp-qt`. Настройки, история, плейлисты и избранное хранятся рядом с
 программой; редакции не используют профили друг друга, MPC-HC или MPC-BE.
 Для Qt отдельную папку профиля можно выбрать через `--profile ПУТЬ`.
@@ -112,12 +132,15 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 | Linux Qt | [qt/src](qt/src), Linux-адаптеры | [Qt: сборка и тесты](qt/README.md), [Linux-пакет](qt/packaging/README.ru.md) |
 | Общие контракты | [shared](shared) | [Команды](docs/FoxicMPFamilyCommands.json), [границы платформ](docs/FoxicMPFamilyCapabilities.json) |
 
-Исходники опубликованных бинарников закреплены тегом
+Исходники первоначальных portable-бинарников закреплены тегом
 [`v0.2.0`](https://github.com/LiberVixer/FoxicMP/tree/v0.2.0), коммит
 [`235282412`](https://github.com/LiberVixer/FoxicMP/commit/2352824127a85d7e6eeef241c8a88701477dd850).
 [ZIP исходников всех трёх редакций](https://github.com/LiberVixer/FoxicMP/archive/refs/tags/v0.2.0.zip).
-`main` содержит актуальную документацию и последующие изменения; тег выпуска
-сохраняет связь с опубликованными бинарниками.
+Установщики и исправленный заголовок Qt собраны из дополнения
+[`v0.2.0-installers.1`](https://github.com/LiberVixer/FoxicMP/tree/v0.2.0-installers.1).
+Его исходники содержат упаковщики MSI/EXE/DEB и новый снимок Linux.
+`main` содержит актуальную документацию и последующие изменения; первоначальный
+тег `v0.2.0` сохранён без переписывания истории.
 
 Для полного дерева Classic со сторонними компонентами используйте Git:
 

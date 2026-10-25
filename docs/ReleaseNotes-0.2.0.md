@@ -69,3 +69,41 @@ sudo apt install libmpv2 liblcms2-2 libqt6dbus6 libqt6widgets6 libqt6openglwidge
 проверок. На свежей сборке полный Windows Qt тест в интерактивном сеансе:
 **22 passed, 0 failed, exit 0**. Progressive API и audio-mirror на Windows и Linux:
 по **2/2 набора тестов, exit 0**. Сборки всех трёх редакций: **exit 0**.
+
+
+## Установщики — дополнение 0.2.0-installers.1
+
+Для каждой Windows-редакции добавлены самостоятельный MSI и EXE, содержащий тот
+же MSI. Установка по умолчанию — в доступную для записи пользовательскую папку
+программы, с отдельным ярлыком. Проверяются install, repair и uninstall, включая
+сохранение ранее созданного INI и выбранного пути установки. Автоматической
+регистрации контекстного меню и запуска плеера нет.
+
+Для Linux Mint 22.x добавлен `foxiqmp-qt_0.2.0-1_amd64.deb`. Системный payload
+не содержит пользовательских данных; при запуске создаётся переносимая копия
+в `~/.local/opt/FoxiqMP-qt`. INI и история остаются рядом с программой и сохраняются
+при обновлении/удалении пакета. Зависимости вычислены по ELF через dpkg-shlibdeps.
+
+Исправлен заголовок обеих Qt-редакций: он использует версию QApplication вместо
+устаревшей строки 0.1.73. Linux-интерфейс переснят с настоящим оконным заголовком,
+верными пропорциями и без курсора поверх логотипа. Исходники дополнения закреплены
+тегом `v0.2.0-installers.1`; исходный тег portable-выпуска `v0.2.0` сохранён.
+
+[Windows-установщики и тест](../packaging/windows/README.md) ·
+[DEB: установка, профиль и сборка](../qt/packaging/debian/README.md).
+
+| Редакция | EXE | MSI / DEB |
+| --- | --- | --- |
+| Windows Classic | [Установщик EXE](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPClassic-0.2.0-windows-x64-setup.exe) | [MSI x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPClassic-0.2.0-windows-x64.msi) |
+| Windows Qt | [Установщик EXE](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64-setup.exe) | [MSI x64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-windows-x64.msi) |
+| Linux Qt | — | [DEB amd64](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/foxiqmp-qt_0.2.0-1_amd64.deb) |
+
+[SHA-256 установщиков](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/SHA256SUMS-installers.txt).
+MSI и EXE каждой редакции прошли install/repair/uninstall в отдельной тестовой
+папке, с сохранением предварительно изменённого INI и неизменностью рабочих
+профилей и контекстных команд. Все операции завершились с кодом 0.
+DEB: сборка и apt-симуляция — exit 0; запуск распакованного launcher в отдельном
+HOME — exit 0; тесты обновления/сохранения профиля — 3/3. Установка DEB через
+системный dpkg на рабочей машине в эти проверки не входила.
+
+![Исправленный Linux-интерфейс 0.2.0](https://raw.githubusercontent.com/LiberVixer/FoxicMP/v0.2.0-installers.1/docs/images/foxicmp-qt-linux-0.2.png)

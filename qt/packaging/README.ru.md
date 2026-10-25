@@ -1,6 +1,12 @@
 # FoxiqMP qt 0.2.0 — Linux Mint
 
-Готовый пакет: [FoxicMPQt-0.2.0-linux-x64.tar.gz](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-linux-x64.tar.gz).
+[DEB для Linux Mint 22.x](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0-installers.1/foxiqmp-qt_0.2.0-1_amd64.deb):
+`sudo apt install ./foxiqmp-qt_0.2.0-1_amd64.deb`.
+Запуск из меню или командой `foxiqmp-qt`; пользовательская папка программы с
+INI находится в `~/.local/opt/FoxiqMP-qt`. Личные данные сохраняются при обновлении
+и удалении пакета.
+
+Готовый portable-пакет: [FoxicMPQt-0.2.0-linux-x64.tar.gz](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-linux-x64.tar.gz).
 [Контрольная сумма SHA-256](https://github.com/LiberVixer/FoxicMP/releases/download/v0.2.0/FoxicMPQt-0.2.0-linux-x64.sha256).
 Распакуйте его в доступную для записи папку и запустите `./foxicmp-qt`.
 Пользовательского INI в архиве нет; сохраняйте свой профиль при обновлении.
