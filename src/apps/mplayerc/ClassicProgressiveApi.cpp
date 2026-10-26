@@ -9,6 +9,7 @@
 #include "../../../shared/progressivesession.h"
 #include "../../../shared/progressivereaderlease.h"
 #include "../../../shared/progressiveresourceprobe.h"
+#include "../../../shared/progressivefmp4bridge.h"
 
 namespace {
 using rapidjson::Document;
@@ -62,6 +63,7 @@ std::string ClassicProgressiveApi::Information() {
     for(const auto* action:{"readerStatus","readerRelease","readerForget","readers","resourceProbe","resourceProbeUpdate","resourceProbeStatus","resourceProbeCancel","resourceProbeForget"})d["actions"].PushBack(Value(action,a),a);
     d.AddMember("resourceIoProbeVersion",1,a);Value schemas(rapidjson::kArrayType);schemas.PushBack(2,a);
     d.AddMember("resourceIoSchemaVersions",schemas,a);d.AddMember("resourceIoPlaybackSupported",false,a);
+    d["playbackSchemaVersions"].PushBack(2,a);Document profile;profile.Parse(foxicmp::progressive::Fmp4V2Capabilities());d.AddMember("schema2Playback",Value(profile,a),a);
     return Encode(d);
 }
 std::wstring ClassicProgressiveApi::ReaderRegistry() {
@@ -131,7 +133,8 @@ void ClassicProgressiveApi::Ended(const std::shared_ptr<CHarvesterSession>& ende
     if(ended!=source.lock())return;
     Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("version",1,a);d.AddMember("ok",true,a);d.AddMember("active",false,a);
     d.AddMember("sessionId",Value(sessionId.c_str(),a),a);const auto error=ended->Error();
-    d.AddMember("state",Value(error.empty()?(natural?"finished":"stopped"):"error",a),a);d.AddMember("error",Value(error.c_str(),a),a);lastOutcome=Encode(d);
+    d.AddMember("state",Value(error.empty()?(natural?"finished":"stopped"):"error",a),a);d.AddMember("error",Value(error.c_str(),a),a);
+    Document details;details.Parse(ended->PlaybackDetails().c_str());for(auto it=details.MemberBegin();it!=details.MemberEnd();++it)d.AddMember(Value(it->name,a),Value(it->value,a),a);lastOutcome=Encode(d);
 }
 std::string ClassicProgressiveApi::Status() {
     auto session=source.lock();
@@ -151,6 +154,7 @@ std::string ClassicProgressiveApi::Status() {
     d.AddMember("sessionId",Value(sessionId.c_str(),a),a);d.AddMember("state",Value(state,a),a);d.AddMember("error",Value(error.c_str(),a),a);
     d.AddMember("released",false,a);d.AddMember("connected",session->Connected(),a);d.AddMember("complete",session->Complete(),a);
     if(!readerId.empty())d.AddMember("readerId",Value(readerId.c_str(),a),a);
+    Document details;details.Parse(session->PlaybackDetails().c_str());for(auto it=details.MemberBegin();it!=details.MemberEnd();++it)d.AddMember(Value(it->name,a),Value(it->value,a),a);
     d.AddMember("positionSeconds",double(frame.GetPos())/10000000.,a);d.AddMember("availableSeconds",double(session->ReadyEnd())/10000000.,a);
     d.AddMember("durationSeconds",double(snapshot.duration)/10000000.,a);return Encode(d);
 }
@@ -184,24 +188,29 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
                 (d.HasMember("previous") && !d["previous"].IsObject()))return Failure("invalid_request","Expected a schema-2 session and optional previous snapshot");
             return foxicmp::progressive::ValidateReply(Encode(d["session"]),d.HasMember("previous")?Encode(d["previous"]):std::string());
         }
-        if((action=="start" || action=="probe") && d.HasMember("session") && d["session"].IsObject() &&
-            d["session"].HasMember("schemaVersion") && d["session"]["schemaVersion"].IsUint() && d["session"]["schemaVersion"].GetUint()==2)
-            return Failure("unsupported_schema","Schema 2 supports validation only; media backend integration is pending");
+        const bool v2=d.HasMember("session") && d["session"].IsObject() && d["session"].HasMember("schemaVersion") && d["session"]["schemaVersion"].IsUint() && d["session"]["schemaVersion"].GetUint()==2;
+        if((action=="start" || action=="probe") && v2) {
+            try {foxicmp::progressive::Fmp4V2Bridge::CheckProfile(Encode(d["session"]));}
+            catch(const foxicmp::progressive::Error& e) {
+                if(action=="start")return Failure(e.code.c_str(),e.what());
+                Document result;result.SetObject();auto& a=result.GetAllocator();result.AddMember("version",1,a);result.AddMember("ok",true,a);result.AddMember("supported",false,a);result.AddMember("mode","unsupported",a);result.AddMember("reasonCode",Value(e.code.c_str(),a),a);result.AddMember("reason",Value(e.what(),a),a);return Encode(result);
+            }
+        }
         if(action=="probe") {
             if(!Keys(d,{"version","action","session"},{"sessionDirectory"}) || !d["session"].IsObject())return Failure("invalid_request","Invalid probe request");
             Value descriptor(d["session"],d.GetAllocator());
             if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
-            CStringW probeError;auto candidate=CHarvesterSession::OpenPublished(Encode(descriptor),probeError);
+            CStringW probeError;std::string reason;auto candidate=CHarvesterSession::OpenPublished(Encode(descriptor),probeError,v2?ReaderRegistry():std::wstring(),&reason,false);
             Document result;result.SetObject();auto& a=result.GetAllocator();result.AddMember("version",1,a);result.AddMember("ok",true,a);result.AddMember("action","probe",a);
             result.AddMember("supported",candidate!=nullptr,a);
-            result.AddMember("mode",Value(candidate?"native-progressive":"post-download",a),a);
-            result.AddMember("reasonCode",Value(candidate?"supported":"native-progressive-rejected",a),a);
+            result.AddMember("mode",Value(candidate?"native-progressive":v2?"unsupported":"post-download",a),a);
+            result.AddMember("reasonCode",Value(candidate?"supported":v2?reason.c_str():"native-progressive-rejected",a),a);
             result.AddMember("reason",Value(Utf8(probeError.GetString()).c_str(),a),a);
             if(candidate) {
                 result.AddMember("readySeconds",double(candidate->ReadyEnd())/10000000.,a);
                 result.AddMember("complete",candidate->Complete(),a);
             } else {
-                result.AddMember("requiresCompleteFile",true,a);
+                result.AddMember("requiresCompleteFile",!v2,a);
             }
             if(candidate)candidate->Cancel();return Encode(result);
         }
@@ -211,8 +220,9 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
                 (d.HasMember("title") && (!d["title"].IsString() || d["title"].GetStringLength()>4096)))return Failure("invalid_request","Invalid start request");
             if(d.HasMember("trackReader") && !d["trackReader"].IsBool())return Failure("invalid_request","Invalid reader tracking option");
             const auto id=harvester::String(d["session"],"sessionId");
-            if(source.lock() && source.lock()==frame.m_harvester && id==sessionId && d["session"].HasMember("generation") &&
-                d["session"]["generation"].IsUint64() && d["session"]["generation"].GetUint64()==sessionGeneration) {
+            const auto requestedGeneration=v2?foxicmp::progressive::Unsigned(d["session"]["generation"],"generation",UINT64_MAX,true):harvester::Number(d["session"],"generation");
+            if(source.lock() && source.lock()==frame.m_harvester && id==sessionId && sessionSchema==(v2?2:1) && requestedGeneration==sessionGeneration) {
+                if(v2){Document details;details.Parse(source.lock()->PlaybackDetails().c_str());if(harvester::String(details,"writerInstanceId")!=harvester::String(d["session"]["writer"],"instanceId"))return Failure("generation_changed","Writer incarnation changed; use a new generation");}
                 if(d.HasMember("trackReader") && d["trackReader"].GetBool() && readerId.empty())return Failure("reader_not_tracked","Existing session was opened without a reader lease");
                 return Status();
             }
@@ -226,13 +236,13 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
             }
             Value descriptor(d["session"],d.GetAllocator());
             if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
-            CStringW error;auto next=CHarvesterSession::OpenPublished(Encode(descriptor),error,
-                d.HasMember("trackReader") && d["trackReader"].GetBool()?ReaderRegistry():std::wstring());
-            if(!next)return Failure("source_not_ready",Utf8(error.GetString()));
+            CStringW error;std::string reason;auto next=CHarvesterSession::OpenPublished(Encode(descriptor),error,
+                v2 || (d.HasMember("trackReader") && d["trackReader"].GetBool())?ReaderRegistry():std::wstring(),&reason);
+            if(!next)return Failure(v2?reason.c_str():"source_not_ready",Utf8(error.GetString()));
             frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
             auto data=std::make_unique<OpenFileData>();data->harvesterManifest=L"published-api";data->fi=CStringW(next->Path(0).c_str());data->auds.emplace_back(next->Path(1).c_str());data->bAddRecent=FALSE;
             if(!title.empty())data->fi.SetTitle(title.c_str());
-            frame.m_harvester=next;frame.m_harvesterStarted=false;frame.m_harvesterBuffering=true;frame.m_harvesterWantPlay=true;source=next;releaseReceipt=next->ReleaseReceipt();sessionId=id;sessionGeneration=next->Snapshot().generation;readerId=next->RegisteredReaderId();lastOutcome.clear();frame.OpenMedia(std::move(data));
+            frame.m_harvester=next;frame.m_harvesterStarted=false;frame.m_harvesterBuffering=true;frame.m_harvesterWantPlay=true;source=next;releaseReceipt=next->ReleaseReceipt();sessionId=id;sessionGeneration=next->Snapshot().generation;sessionSchema=v2?2:1;readerId=next->RegisteredReaderId();lastOutcome.clear();frame.OpenMedia(std::move(data));
             if(!d.HasMember("activate") || d["activate"].GetBool()){frame.ShowWindow(SW_RESTORE);frame.SetForegroundWindow();}
             return Status();
         }
@@ -245,7 +255,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
         auto active=source.lock();
         if(!active || frame.m_harvester!=active)return (action=="status" || action=="cancel" || action=="release")?Status():Failure("session_closed","Playback was stopped or replaced");
         if(update) {
-            if(!d.HasMember("session") || !d["session"].IsObject() || (action=="complete" && harvester::String(d["session"],"state")!="complete"))return Failure("invalid_request","Expected a session snapshot");
+            if(!d.HasMember("session") || !d["session"].IsObject() || (action=="complete" && harvester::String(v2?harvester::Field(d["session"],"writer"):d["session"],"state")!="complete"))return Failure("invalid_request","Expected a session snapshot");
             Value descriptor(d["session"],d.GetAllocator());
             if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
             CStringW error;if(!active->Publish(Encode(descriptor),error))return Failure("invalid_update",Utf8(error.GetString()));

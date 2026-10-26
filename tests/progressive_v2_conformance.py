@@ -133,7 +133,7 @@ def check(name,message,reply,ok,code):
 
 def check_player(client):
     caps=client.request(dict(version=1,action='capabilities'))
-    assert caps['playbackSchemaVersions']==[1] and caps['validationSchemaVersions']==[2],caps
+    assert 1 in caps['playbackSchemaVersions'] and caps['validationSchemaVersions']==[2],caps
     count=0
     for name,message,ok,code in cases():
         if message.get('readerExercise') or 'range' in message:
@@ -150,10 +150,10 @@ def check_player(client):
         count+=1
     for action in ('start','probe'):
         try:
-            client.request(dict(version=1,action=action,session=sample()))
-            raise AssertionError('Unimplemented v2 playback accepted')
+            reply=client.request(dict(version=1,action=action,session=sample()))
+            assert action=='probe' and reply['supported'] is False and reply['reasonCode']=='unsupported_media',reply
         except RuntimeError as error:
-            assert getattr(error,'code',None)=='unsupported_schema',error
+            assert getattr(error,'code',None) in {'unsupported_schema','unsupported_media'},error
     return count
 
 

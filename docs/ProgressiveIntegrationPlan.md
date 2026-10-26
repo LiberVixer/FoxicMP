@@ -11,8 +11,8 @@
 |---|---|---|
 | 1 / F-03 | Каталог привязан к успешному start; update/complete наследуют его, другой каталог отклоняется, новый сеанс ничего не наследует. Общий regression для трёх редакций | Выполнено: Linux Qt, Windows Qt и Classic прошли общий indexed/fMP4 сценарий, exit 0; [отчёт](ProgressiveV1Validation-2026-10-25.md) |
 | 2 / F-02, F-04 | Стабильный SDK, writer-стенд, согласованные запуск/discovery, работающий legacy/provider адаптер Windows Qt и миграция | Реализованы SDK v1, offline writer, release acknowledgement и native Windows Qt legacy/provider. [Проверка](ProgressiveSdkValidation-2026-10-25.md): Linux Qt 15, Windows Qt 16 тестов, Classic cold SDK + 100 RPC, exit 0. Расширенная модель читателей/диапазонов и реальная интеграция Harvester остаются следующими этапами |
-| 3 | Отдельная расширенная схема: ресурсы/диапазоны/сегменты, точные 64-битные числа, writer/playback отдельно, reader/release | Частично: модель v2/validate, runtime v1 и [leases закреплённых ресурсов v2 в I/O-слое](ProgressiveResourceIo.md). В трёх редакциях есть отдельный асинхронный resourceProbe; playback v2 и безопасное удаление live-ресурсов ещё не подключены |
-| 4 / F-01 | Управляемое I/O + backend demux + progressive-remux, H.264/HEVC/VP9/AV1 и AAC/Opus, затем вся обязательная матрица | Частично: чтение подтверждённых диапазонов, ожидание/отмена, late resources, short read/EOF и I/O-диагностика. Полная integrity-проверка, demux/remux и codec-матрица не реализованы; media playback остаётся v1 |
+| 3 | Отдельная расширенная схема: ресурсы/диапазоны/сегменты, точные 64-битные числа, writer/playback отдельно, reader/release | Частично: модель v2/validate, runtime v1 и [leases закреплённых ресурсов v2 в I/O-слое](ProgressiveResourceIo.md). В трёх редакциях есть отдельный асинхронный resourceProbe; добавлен [первый медиапрофиль v2](ProgressiveMediaV2.md); безопасное удаление live-ресурсов ещё не подключено |
+| 4 / F-01 | Управляемое I/O + backend demux + progressive-remux, H.264/HEVC/VP9/AV1 и AAC/Opus, затем вся обязательная матрица | Частично: чтение подтверждённых диапазонов, ожидание/отмена, late resources, short read/EOF и I/O-диагностика. Добавлено реальное playback v2 двух fMP4 H.264/AAC-LC дорожек через ResourceSource. Полная integrity-проверка, универсальный demux/remux и codec-матрица не реализованы |
 | 5 | Несколько аудио/субтитров, главы, metadata, HLS/DASH timeline, live | Не реализовано в progressive API; обычное воспроизведение этих форматов не является проверкой progressive |
 | 6 | Общий conformance-корпус, реальные источники, длительные/ресурсные тесты, три сборки; затем подключение реального Harvester отдельной задачей | Не пройдено |
 
@@ -43,7 +43,8 @@ reasonCode ожидания индекса/инициализации/диапа
 SDK 1.5 добавляет [I/O-слой v2](ProgressiveResourceIo.md) с привязкой поздних файлов,
 подтверждёнными диапазонами, ожиданием/отменой и асинхронным стендом трёх редакций.
 [Результаты](ProgressiveResourceValidation-2026-10-26.md) отделяют байтовое чтение от
-готовности декодера. Следующий шаг — backend demux/remux и полная проверка integrity;
+готовности декодера. SDK 1.6 добавляет [проверенный сквозной медиамост](ProgressiveMediaV2.md)
+для двух отдельных fMP4 H.264/AAC-LC. Следующий шаг — расширение backend demux/remux и полная проверка integrity;
 добавление codecHint само по себе не добавляет кодек.
 
 ## Общий regression каталога v1

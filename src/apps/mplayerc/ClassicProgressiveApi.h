@@ -32,6 +32,7 @@ private:
     std::weak_ptr<CHarvesterSession> source;
     std::string sessionId, lastOutcome, readerId;
     uint64_t sessionGeneration=0;
+    int sessionSchema=1;
     std::shared_ptr<std::atomic<bool>> releaseReceipt;
     std::unique_ptr<foxicmp::progressive::ResourceProbeManager> resourceProbes;
 };

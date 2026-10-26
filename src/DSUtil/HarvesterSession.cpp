@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "HarvesterSession.h"
 #include "../../shared/progressivereaderlease.h"
+#include "../../shared/progressivefmp4bridge.h"
 #include <map>
 #include <aclapi.h>
 #include "ExtLib/rapidjson/include/rapidjson/writer.h"
@@ -91,6 +92,7 @@ CHarvesterSession::CHarvesterSession() {
 CHarvesterSession::~CHarvesterSession() {
     Cancel(); SetEvent(m_stop); if(m_thread.joinable())m_thread.join();
     for(auto& file:m_files) { if(file!=INVALID_HANDLE_VALUE)CloseHandle(file); file=INVALID_HANDLE_VALUE; }
+    m_v2Bridge.reset();
     if(m_readerLease)m_readerLease->filesClosed();
     // Context survives until the last reader and graph have released their references.
     if(!m_published && m_pipe==INVALID_HANDLE_VALUE)ConnectPipe();
@@ -182,16 +184,25 @@ void RequireOwned(HANDLE file) {
 }
 }
 std::string CHarvesterSession::RegisteredReaderId() const {return m_readerLease?m_readerLease->id():std::string();}
-std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::string& json,CStringW& error,const std::wstring& readerRegistry) {
+std::string CHarvesterSession::PlaybackDetails() const {return m_v2Bridge?m_v2Bridge->details():"{\"schemaVersion\":1}";}
+std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::string& json,CStringW& error,const std::wstring& readerRegistry,std::string* reasonCode,bool trackGroup) {
     auto context=std::make_shared<CHarvesterSession>();
     try {
         context->m_published=true;
-        context->m_state=PublishedSnapshot(json,context->m_publishedPaths,context->m_publishedRoot);
+        rapidjson::Document descriptor;descriptor.Parse(json.c_str());
+        if(descriptor.IsObject() && descriptor.HasMember("schemaVersion") && descriptor["schemaVersion"].IsUint() && descriptor["schemaVersion"].GetUint()==2) {
+            context->m_publishedRoot=PublishedDirectory(descriptor);descriptor.RemoveMember("sessionDirectory");
+            rapidjson::StringBuffer b;rapidjson::Writer<rapidjson::StringBuffer>w(b);descriptor.Accept(w);
+            context->m_v2Bridge=std::make_shared<foxicmp::progressive::Fmp4V2Bridge>(std::filesystem::path(context->m_publishedRoot),std::filesystem::path(readerRegistry),std::string(b.GetString(),b.GetSize()));
+            context->m_state=context->m_v2Bridge->snapshot();
+            for(int i=0;i<2;++i)context->m_publishedPaths[i]=context->m_publishedRoot+L"\\"+Wide(context->m_state.tracks[i].path);
+        }else context->m_state=PublishedSnapshot(json,context->m_publishedPaths,context->m_publishedRoot);
         if(context->m_state.state==harvester::State::Cancelled || context->m_state.state==harvester::State::Failed)
             throw std::runtime_error("Cannot start a terminal failed session");
         for(int i=0;i<2;++i) {
             const auto& track=context->m_state.tracks[i];
             if(!track.initializationReady)throw std::runtime_error("Initialization is not ready");
+            if(context->m_v2Bridge)continue;
             context->m_files[i]=OpenLocal(context->m_publishedPaths[i],true);
             RequireOwned(context->m_files[i]);
             LARGE_INTEGER size{};
@@ -202,16 +213,24 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
                 throw std::runtime_error("Head MP4 index is not ready");
         }
         BY_HANDLE_FILE_INFORMATION a{},b{};
-        if(!GetFileInformationByHandle(context->m_files[0],&a) || !GetFileInformationByHandle(context->m_files[1],&b) ||
+        if(!context->m_v2Bridge && (!GetFileInformationByHandle(context->m_files[0],&a) || !GetFileInformationByHandle(context->m_files[1],&b) ||
            (a.dwVolumeSerialNumber==b.dwVolumeSerialNumber && a.nFileIndexHigh==b.nFileIndexHigh && a.nFileIndexLow==b.nFileIndexLow))
-            throw std::runtime_error("Tracks must be distinct files");
+            )throw std::runtime_error("Tracks must be distinct files");
         context->RefreshFragments();context->PublishedHeartbeat();
-        if(!readerRegistry.empty())context->m_readerLease=foxicmp::progressive::ReaderLease::Create(
+        if(context->m_v2Bridge && trackGroup) {
+            const auto bindings=context->m_v2Bridge->bindings();
+            context->m_readerLease=foxicmp::progressive::ReaderLease::Create(std::filesystem::path(readerRegistry),context->m_state.sessionId,context->m_state.generation,
+                {{"video",bindings[0].device,bindings[0].fileId},{"audio",bindings[1].device,bindings[1].fileId}});
+        }else if(!context->m_v2Bridge && !readerRegistry.empty())context->m_readerLease=foxicmp::progressive::ReaderLease::Create(
             std::filesystem::path(readerRegistry),context->m_state.sessionId,context->m_state.generation,
             {{"video",a.dwVolumeSerialNumber,(uint64_t(a.nFileIndexHigh)<<32)|a.nFileIndexLow},
              {"audio",b.dwVolumeSerialNumber,(uint64_t(b.nFileIndexHigh)<<32)|b.nFileIndexLow}});
         context->m_thread=std::thread([raw=context.get()] {
             while(WaitForSingleObject(raw->m_stop,100)==WAIT_TIMEOUT && WaitForSingleObject(raw->m_cancel,0)==WAIT_TIMEOUT) {
+                if(raw->m_v2Bridge) {
+                    try{raw->m_v2Bridge->verify();}catch(const std::exception& e){if(WaitForSingleObject(raw->m_cancel,0)!=WAIT_OBJECT_0)raw->Fail(e.what());return;}
+                    continue;
+                }
                 const auto state=raw->Snapshot();
                 for(int i=0;i<2;++i) {
                     LARGE_INTEGER size{};
@@ -222,10 +241,24 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
             }
         });
         return context;
-    } catch(const std::exception& e) {error=Wide(e.what()).c_str();return nullptr;}
+    } catch(const foxicmp::progressive::Error& e) {if(reasonCode)*reasonCode=e.code;error=Wide(e.what()).c_str();return nullptr;}
+    catch(const std::exception& e) {if(reasonCode)*reasonCode="source_not_ready";error=Wide(e.what()).c_str();return nullptr;}
 }
 bool CHarvesterSession::Publish(const std::string& json,CStringW& error) {
     try {
+        if(m_v2Bridge) {
+            rapidjson::Document descriptor;descriptor.Parse(json.c_str());
+            if(descriptor.HasParseError() || !descriptor.IsObject())throw std::runtime_error("Invalid snapshot JSON");
+            PublishedDirectory(descriptor,&m_publishedRoot);descriptor.RemoveMember("sessionDirectory");
+            rapidjson::StringBuffer b;rapidjson::Writer<rapidjson::StringBuffer>w(b);descriptor.Accept(w);
+            {std::lock_guard<std::mutex> lock(m_mutex);
+                if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || !m_error.empty())throw std::runtime_error("Session is closed");
+                m_v2Bridge->publish(std::string(b.GetString(),b.GetSize()));m_state=m_v2Bridge->snapshot();
+            }
+            RefreshFragments();PublishedHeartbeat();
+            const auto current=Snapshot();if(current.state==harvester::State::Failed || current.state==harvester::State::Cancelled)Fail("Writer failed or cancelled");
+            return true;
+        }
         std::array<std::wstring,2> paths;
         // Original names may be renamed at finalization. Validate identity by the
         // pinned handles; do not reopen paths on updates.
@@ -271,7 +304,7 @@ std::wstring CHarvesterSession::Path(int track) const { std::lock_guard<std::mut
 harvester::Snapshot CHarvesterSession::Snapshot() const {std::lock_guard<std::mutex> lock(m_mutex);return m_state;}
 std::string CHarvesterSession::Error() const {std::lock_guard<std::mutex> lock(m_mutex);return m_error;}
 void CHarvesterSession::Fail(const char* reason) { {std::lock_guard<std::mutex> lock(m_mutex); if(m_error.empty())m_error=reason; m_status="error";} Cancel(); }
-void CHarvesterSession::Cancel() {SetEvent(m_cancel);}
+void CHarvesterSession::Cancel() {SetEvent(m_cancel);if(m_v2Bridge)m_v2Bridge->cancel();}
 void CHarvesterSession::Notify(const char* status) {std::lock_guard<std::mutex> lock(m_mutex);m_status=status;}
 bool CHarvesterSession::ConnectPipe() {
     auto s=Snapshot(); auto name=L"\\\\.\\pipe\\FoxicMP.Harvester."+Wide(s.sessionId);
@@ -388,6 +421,7 @@ void CHarvesterSession::RefreshFragments() {
         const auto& state=snapshot.tracks[track];
         auto diskRead=[&](uint64_t offset,void* data,size_t size) {
             if(!size)return true;
+            if(m_v2Bridge)return m_v2Bridge->readIndex(track,offset,data,size);
             OVERLAPPED ov{};ov.Offset=DWORD(offset);ov.OffsetHigh=DWORD(offset>>32);ov.hEvent=CreateEventW(nullptr,TRUE,FALSE,nullptr);
             DWORD n=0;BOOL ok=ReadFile(m_files[track],data,DWORD(size),&n,&ov);
             if(!ok && GetLastError()==ERROR_IO_PENDING) {
@@ -431,6 +465,16 @@ void CHarvesterSession::RefreshFragments() {
          m_fragments[track].Update(cachedRead,state.available,track,harvester::EndReady(state),snapshot.timestampOffset);
          m_duration[track]=snapshot.duration;}
     }
+}
+HRESULT CHarvesterSession::ReadV2(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker) {
+    auto* bytes=static_cast<char*>(data);
+    while(size) {
+        if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0))return E_ABORT;
+        const auto count=m_v2Bridge->readPayload(track,offset,bytes,size);
+        if(count<=0){if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0)return E_ABORT;Fail("Confirmed v2 resource I/O failed");return E_FAIL;}
+        bytes+=count;offset+=uint64_t(count);size-=size_t(count);
+    }
+    return S_OK;
 }
 
 int CHarvesterSession::SampleAt(int track,size_t index,harvester::Sample& sample) const {

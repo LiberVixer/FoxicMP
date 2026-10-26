@@ -8,10 +8,10 @@ SDK является частью FoxicMP и не меняет YouTubeHarvester.
 python3 tools/package_progressive_sdk.py --output /absolute/new/FoxicMP-progressive-sdk.zip
 ```
 
-В ZIP входят шесть Python-модулей, эта инструкция, контракты v1 и draft v2,
+В ZIP входят семь Python-модулей, эта инструкция, контракты v1 и draft v2,
 пример метаданных v2, отчёты, лицензия и JSON с исходным commit, dirty-флагом и
-SHA-256 файлов. Схема воспроизведения остаётся v1:
-две отдельные MP4/M4A H.264/AAC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
+SHA-256 файлов. Воспроизведение v1 сохраняется; SDK 1.6 добавляет
+[ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
 Проверки трёх редакций и ограничения: [отчёт](ProgressiveSdkValidation-2026-10-25.md).
@@ -21,7 +21,7 @@ SHA-256 файлов. Схема воспроизведения остаётся
 ## Проверка расширенной схемы (SDK 1.3)
 
 Новые сборки отдельно объявляют `validationSchemaVersions:[2]` и
-`playbackSchemaVersions:[1]`. [Контракт v2](ProgressiveManifestV2.md) описывает
+`playbackSchemaVersions:[1,2]` (с SDK 1.6 — только явно объявленный профиль v2). [Контракт v2](ProgressiveManifestV2.md) описывает
 ресурсы, подтверждённые диапазоны, сегменты, несколько дорожек и поздние главы.
 Эта часть SDK проверяет метаданные, не открывая медиа и не прерывая просмотр:
 
@@ -38,9 +38,17 @@ assert reply['validated'] and reply['playbackSupported'] is False
 десятичные строки; float/bool и округление не допускаются. `progressive-v2-vod.json`
 в ZIP — синтетический пример метаданных, без соответствующего media-файла.
 `PreviewSession.publish()` и writer-стенд по-прежнему используют v1. `start`/`probe`
-v2 возвращают `unsupported_schema`: codecs/live/remux ещё не интегрированы.
+v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](ProgressiveMediaV2.md); остальные
+профили отклоняются с unsupported_media. Полная codec/live/remux-матрица ещё не интегрирована.
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
+
+## Медиапрофиль v2 (SDK 1.6)
+
+Новый `progressive_v2.V2PreviewSession` принимает полные снимки v2 и напрямую
+запускает две H.264/AAC-LC fMP4-дорожки через ResourceSource.
+[Точный пример, capabilities, ограничения и release](ProgressiveMediaV2.md).
+Старый PreviewSession и writer-стенд сохраняют v1.
 
 ## Подключение к событиям writer
 

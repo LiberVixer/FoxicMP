@@ -197,6 +197,7 @@ STDMETHODIMP CHarvesterFileReader::SyncRead(LONGLONG offset,LONG size,BYTE* data
     if(m_opening && !harvester::RangeReady(offset,size,s.tracks[m_track].available))return E_FAIL;
     HRESULT hr=m_session->WaitRange(m_track,offset,size,m_flush,m_break.load());
     if(hr!=S_OK || !size)return hr;
+    if(m_session->HasV2Bridge())return m_session->ReadV2(m_track,uint64_t(offset),size_t(size),data,m_flush,m_break.load());
     OVERLAPPED ov{};ov.Offset=(DWORD)offset;ov.OffsetHigh=(DWORD)(uint64_t(offset)>>32);ov.hEvent=CreateEventW(nullptr,TRUE,FALSE,nullptr);
     DWORD read=0;BOOL ok=ReadFile(m_session->File(m_track),data,size,&read,&ov);
     if(!ok && GetLastError()==ERROR_IO_PENDING) {

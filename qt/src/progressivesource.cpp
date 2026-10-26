@@ -1,5 +1,6 @@
 #include "progressivesource.h"
 #include "../../shared/progressivereaderlease.h"
+#include "../../shared/progressivefmp4bridge.h"
 #include "i18n.h"
 #include <QDir>
 #include <QFile>
@@ -114,6 +115,7 @@ ProgressiveSource::~ProgressiveSource() {
   for (int fd : files)
     if (fd >= 0)
       ::close(fd);
+  v2Bridge.reset();
   if (readerLease) readerLease->filesClosed();
   if (attached && socket < 0)
     connectProvider();

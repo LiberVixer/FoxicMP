@@ -4,7 +4,8 @@
 парсер, проверки обновлений/диапазонов и модель жизненного цикла читателей.
 Это **проверка метаданных**, а не воспроизведение WebM, AV1, live или нескольких
 аудиодорожек. SDK 1.5 отдельно добавляет [I/O с leases ресурсов](ProgressiveResourceIo.md);
-подключение demux/remux и compaction live-ресурсов ещё впереди.
+SDK 1.6 добавляет [сквозной fMP4-профиль H.264/AAC-LC](ProgressiveMediaV2.md).
+Универсальный demux/remux и compaction live-ресурсов ещё впереди.
 YouTubeHarvester не изменяется. Схема v1 сохраняет прежние поля и смысл.
 
 ## Использование сейчас
@@ -29,10 +30,12 @@ python3 progressive_client.py --player PLAYER --profile PROFILE validate --snaps
 `validate` не читает ресурсы, не меняет окно/профиль и не создаёт reader.
 Снимки не сохраняются в API: при проверке перехода клиент передаёт `previous`.
 Размер **всего запроса**, включая оба снимка, остаётся не более 65536 байтов.
-Возможности разделены: `playbackSchemaVersions:[1]`, `validationSchemaVersions:[2]`.
-`start` и `probe` для schema 2 возвращают `unsupported_schema` до обращения к
-медиадвижку, сохраняя уже работающий источник. Это не ошибка кодека или обещание
-воспроизведения после полной загрузки. Схема 2 остаётся черновой до её интеграции.
+Возможности разделены: `playbackSchemaVersions:[1,2]`, `validationSchemaVersions:[2]`.
+`start`/`probe` schema 2 с SDK 1.6 поддерживают только явно объявленный
+[schema2Playback-профиль](ProgressiveMediaV2.md); другие профили возвращают
+unsupported_media. `validate` сохраняет прежний ответ metadata-only, включая
+исторический reasonCode backend-not-integrated; он не выбирает медиапрофиль.
+Полная схема 2 остаётся черновой, расширенная матрица ТЗ ещё не выполнена.
 
 ## Корневой объект и точность
 

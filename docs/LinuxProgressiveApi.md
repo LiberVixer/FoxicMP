@@ -146,9 +146,10 @@ session_busy, session_closed, unknown_session.
 До `released: true` writer сохраняет исходники. `release`/`cancel` не отменяют
 скачивание. Подробнее: [SDK и writer-стенд](ProgressiveSdk.md).
 
-SDK 1.3 добавляет `validationSchemaVersions:[2]` отдельно от
-`playbackSchemaVersions:[1]`. Успех validate содержит `playbackSupported:false`;
-start/probe v2 отклоняются с `unsupported_schema` до открытия медиа.
+SDK 1.3 добавляет `validationSchemaVersions:[2]`. Успех validate содержит
+`playbackSupported:false` (проверка только метаданных). SDK 1.6 объявляет
+`playbackSchemaVersions:[1,2]` и ограниченный schema2Playback-профиль: start/probe
+поддерживают две отдельные fMP4 H.264/AAC-LC дорожки.
 [Черновой контракт v2 и его ограничения](ProgressiveManifestV2.md).
 
 SDK 1.4 добавляет `trackReader:true` во внешний start и
@@ -157,7 +158,8 @@ SDK 1.4 добавляет `trackReader:true` во внешний start и
 
 SDK 1.5 объявляет resourceIoProbeVersion=1 и resourceIoPlaybackSupported=false.
 [ResourceProbe, ожидание, обновления и отмена](ProgressiveResourceIo.md) выполняют
-I/O в worker; прежние start/probe v2 остаются неподдержанными медиадвижком.
+I/O в worker. Это отдельная диагностика; [медиапрофиль SDK 1.6](ProgressiveMediaV2.md)
+связывает ResourceSource с декодером и имеет собственные ограничения.
 
 Воспроизведение начинается с 10 общих секунд данных; завершённые короткие ролики
 стартуют сразу. Менее 1 секунды запаса включает буферизацию, 5 секунд возобновляют

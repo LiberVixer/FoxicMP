@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FILES = {
     **{name: 'qt/tools/' + name for name in (
         'progressive_client.py', 'progressive_windows.py', 'progressive_sdk.py', 'progressive_writer.py',
-        'progressive_schema.py', 'progressive_resources.py')},
+        'progressive_schema.py', 'progressive_resources.py', 'progressive_v2.py')},
     'progressive-v2-vod.json': 'tests/fixtures/progressive-v2/vod.json',
     'README.ru.md': 'docs/ProgressiveSdk.md',
     'ProgressiveSdk.md': 'docs/ProgressiveSdk.md',
@@ -25,7 +25,8 @@ FILES = {
         'ProgressiveModelValidation-2026-10-25.json', 'ProgressiveReaderLeases.md',
         'ProgressiveReaderValidation-2026-10-25.md', 'ProgressiveReaderValidation-2026-10-25.json',
         'ProgressiveResourceIo.md', 'ProgressiveResourceValidation-2026-10-26.md',
-        'ProgressiveResourceValidation-2026-10-26.json')},
+        'ProgressiveResourceValidation-2026-10-26.json', 'ProgressiveMediaV2.md',
+        'ProgressiveMediaValidation-2026-10-26.md', 'ProgressiveMediaValidation-2026-10-26.json')},
 }
 
 def main():
@@ -35,9 +36,10 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.5', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.6', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
-        playbackSchemaVersions=[1], validationSchemaVersions=[2],
+        playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
+        schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',metadataApplied=False,live=False,muxed=False,segments=False),
         sourceCommit=version, sourceDirty=dirty,
         files={name: hashlib.sha256(data).hexdigest() for name, data in sorted(content.items())})
     content['sdk-manifest.json'] = (json.dumps(manifest, indent=2)+'\n').encode()

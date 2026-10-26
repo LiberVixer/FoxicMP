@@ -12,6 +12,7 @@
 #include "../../shared/progressivesession.h"
 #include "../../shared/progressivereaderlease.h"
 #include "../../shared/progressiveresourceprobe.h"
+#include "../../shared/progressivefmp4bridge.h"
 #ifndef Q_OS_WIN
 #include <sys/socket.h>
 #include <unistd.h>
@@ -39,6 +40,7 @@ ProgressiveApi::ProgressiveApi(Window *w, QObject *parent) : QObject(parent), wi
     lastOutcome = {{"version", 1}, {"ok", true}, {"active", false},
                    {"sessionId", id}, {"state", state},
                    {"error", error}};
+    if(auto active=source.lock()){const auto details=active->playbackDetails();for(auto it=details.begin();it!=details.end();++it)lastOutcome[it.key()]=it.value();}
     source.reset();
   });
 }
@@ -66,7 +68,8 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
           {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers", "resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget"}},
           {"resourceIoProbeVersion", 1}, {"resourceIoSchemaVersions", QJsonArray{2}}, {"resourceIoPlaybackSupported", false},
           {"readerLeaseProtocol", 1}, {"readerLeaseOptIn", true}, {"maxReaderReceipts", 128},
-          {"playbackSchemaVersions", QJsonArray{1}}, {"validationSchemaVersions", QJsonArray{2}},
+          {"playbackSchemaVersions", QJsonArray{1,2}}, {"validationSchemaVersions", QJsonArray{2}},
+          {"schema2Playback",QJsonDocument::fromJson(foxicmp::progressive::Fmp4V2Capabilities()).object()},
           {"releaseAcknowledgement", true},
           {"containers", QJsonArray{"fast-start-mp4", "fragmented-mp4"}},
           {"videoCodecs", QJsonArray{"h264"}}, {"audioCodecs", QJsonArray{"aac-lc"}},
@@ -136,8 +139,13 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
     return QJsonDocument::fromJson(QByteArray::fromStdString(foxicmp::progressive::ValidateReply(current.toStdString(), previous.toStdString()))).object();
   }
   if ((action == "start" || action == "probe") && input.value("session").isObject() &&
-      input["session"].toObject().value("schemaVersion") == QJsonValue(2))
-    return failure("unsupported_schema", "Schema 2 supports validation only; media backend integration is pending");
+      input["session"].toObject().value("schemaVersion") == QJsonValue(2)) {
+    try {foxicmp::progressive::Fmp4V2Bridge::CheckProfile(QJsonDocument(input["session"].toObject()).toJson(QJsonDocument::Compact).toStdString());}
+    catch(const foxicmp::progressive::Error& e) {
+      if(action=="probe")return {{"version",1},{"ok",true},{"action","probe"},{"supported",false},{"mode","unsupported"},{"reasonCode",QString::fromStdString(e.code)},{"reason",QString::fromUtf8(e.what())}};
+      return failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));
+    }
+  }
   if (action == "probe") {
     if (!keys(input, {"version", "action", "session"}, {"sessionDirectory"}) ||
         !input.value("session").isObject() ||
@@ -146,7 +154,7 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
       return failure("invalid_request", "Invalid probe request");
     auto descriptor = input.value("session").toObject();
     if (input.contains("sessionDirectory")) descriptor["sessionDirectory"] = input.value("sessionDirectory");
-    auto result = ProgressiveSource::probePublished(descriptor);
+    auto result = ProgressiveSource::probePublished(descriptor, readerRegistry);
     result["version"] = 1; result["ok"] = true; result["action"] = "probe";
     return result;
   }
@@ -164,6 +172,8 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
     auto existing = source.lock();
     if (existing && window->progressiveSession() == existing &&
         descriptor.value("sessionId").toString() == sessionId && descriptor.value("generation") == sessionGeneration) {
+      if(descriptor["schemaVersion"]==QJsonValue(2) && existing->playbackDetails()["writerInstanceId"]!=descriptor["writer"].toObject()["instanceId"])
+        return failure("generation_changed","Writer incarnation changed; use a new generation");
       auto result = window->progressivePlaybackStatus();
       result["ok"] = true; result["version"] = 1;
       if (input.value("trackReader").toBool() && readerId.isEmpty())
@@ -174,7 +184,7 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
     if (window->progressiveSession() && !input.value("replace").toBool())
       return failure("session_busy", "Another progressive session is active; replacement must be explicit");
     try {
-      auto next = ProgressiveSource::openPublished(descriptor, input.value("trackReader").toBool() ? readerRegistry : QString());
+      auto next = ProgressiveSource::openPublished(descriptor, input.value("trackReader").toBool() || descriptor["schemaVersion"]==QJsonValue(2) ? readerRegistry : QString());
       window->openProgressiveSource(next);
       auto title = input.value("title").toString();
       for (auto &c : title) if (c.category() == QChar::Other_Control) c = QChar(' ');
@@ -186,6 +196,8 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
       readerId = next->registeredReaderId();
       lastOutcome = {};
       if (input.value("activate").toBool(true)) window->restoreFromTray();
+    } catch (const foxicmp::progressive::Error &e) {
+      return failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));
     } catch (const std::exception &e) {
       return failure("source_not_ready", QString::fromUtf8(e.what()));
     }
@@ -215,15 +227,17 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
       auto descriptor = input.value("session").toObject();
       if (input.contains("sessionDirectory")) descriptor["sessionDirectory"] = input.value("sessionDirectory");
       if (!input.value("session").isObject() ||
-          (action == "complete" && descriptor.value("state") != QJsonValue("complete")))
+          (action == "complete" && (descriptor["schemaVersion"]==QJsonValue(2)?descriptor["writer"].toObject()["state"]:descriptor["state"]) != QJsonValue("complete")))
         return failure("invalid_request", "Expected a complete session snapshot");
       QString error;
       if (!active->publish(descriptor, &error)) return failure("invalid_update", error);
     } else if (action == "heartbeat") {
       active->publishedHeartbeat();
     } else if (action == "cancel" || action == "release") {
+      const auto details=active->playbackDetails();
       window->closeCurrent();
       lastOutcome = {{"version", 1}, {"ok", true}, {"active", false}, {"state", "cancelled"}, {"sessionId", sessionId}};
+      for(auto it=details.begin();it!=details.end();++it)lastOutcome[it.key()]=it.value();
       auto result = lastOutcome;
       result["released"] = releaseReceipt && releaseReceipt->load();
       if (!readerId.isEmpty()) result["readerId"] = readerId;

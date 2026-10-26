@@ -228,6 +228,17 @@ public:
         }
     }
     std::vector<std::string> readerIds() const {std::lock_guard<std::mutex> lock(mutex);std::vector<std::string> ids;for(const auto& pin:pins)ids.push_back(pin.second->lease->id());return ids;}
+    BoundResource binding(const std::string& id) const {
+        std::lock_guard<std::mutex> lock(mutex);const auto found=pins.find(id);
+        resource_detail::Check(found!=pins.end(),"unknown-resource","Resource has not been pinned");
+        return {id,found->second->identity.device,found->second->identity.fileId};
+    }
+    void verifyPinned() {
+        std::lock_guard<std::mutex> lock(mutex);
+        resource_detail::Check(!cancelled.load() && failure.empty(),"session-closed","Resource source was closed");
+        try{for(const auto& item:pins)item.second->verify(snapshot.resources.at(item.first),cancelled);}
+        catch(const Error& error){if(error.code!="cancelled")failure=error.code;throw;}
+    }
     std::shared_ptr<std::atomic<bool>> releaseReceipt() const {return released;}
 };
 }} // namespace foxicmp::progressive

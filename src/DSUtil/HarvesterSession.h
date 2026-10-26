@@ -4,7 +4,7 @@
 #include <atomic>
 #include <mutex>
 #include <thread>
-namespace foxicmp { namespace progressive {class ReaderLease;} }
+namespace foxicmp { namespace progressive {class ReaderLease;class Fmp4V2Bridge;} }
 
 class CHarvesterSession {
     std::wstring m_manifest, m_root;
@@ -13,6 +13,7 @@ class CHarvesterSession {
     std::wstring m_publishedRoot;
     std::shared_ptr<std::atomic<bool>> m_released = std::make_shared<std::atomic<bool>>(false);
     std::unique_ptr<foxicmp::progressive::ReaderLease> m_readerLease;
+    std::shared_ptr<foxicmp::progressive::Fmp4V2Bridge> m_v2Bridge;
     harvester::Snapshot m_state;
     mutable std::mutex m_mutex;
     std::array<HANDLE,2> m_files{{INVALID_HANDLE_VALUE,INVALID_HANDLE_VALUE}};
@@ -40,8 +41,11 @@ public:
     CHarvesterSession();
     ~CHarvesterSession();
     static std::shared_ptr<CHarvesterSession> Open(const std::wstring& path, CStringW& error);
-    static std::shared_ptr<CHarvesterSession> OpenPublished(const std::string& json, CStringW& error, const std::wstring& readerRegistry = {});
+    static std::shared_ptr<CHarvesterSession> OpenPublished(const std::string& json, CStringW& error, const std::wstring& readerRegistry = {}, std::string* reasonCode=nullptr, bool trackGroup=true);
     std::string RegisteredReaderId() const;
+    std::string PlaybackDetails() const;
+    bool HasV2Bridge() const {return bool(m_v2Bridge);}
+    HRESULT ReadV2(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker);
     bool Publish(const std::string& json, CStringW& error);
     void PublishedHeartbeat() {m_lastUpdate=GetTickCount64(); m_connected=true;}
     std::shared_ptr<std::atomic<bool>> ReleaseReceipt() const {return m_released;}

@@ -17,7 +17,7 @@
 // until both streams are closed; only the last owner releases the provider
 // lease. No libmpv call is made from this worker or a blocking reader callback.
 class WindowsProgressiveLease;
-namespace foxicmp { namespace progressive {class ReaderLease;} }
+namespace foxicmp { namespace progressive {class ReaderLease;class Fmp4V2Bridge;} }
 class ProgressiveSource {
 public:
   struct Status {
@@ -28,7 +28,7 @@ public:
   static std::shared_ptr<ProgressiveSource> open(const QString &manifest);
   // Player-owned published-prefix session, without a downloader-side server.
   static std::shared_ptr<ProgressiveSource> openPublished(const QJsonObject &, const QString &readerRegistry = {});
-  static QJsonObject probePublished(const QJsonObject &);
+  static QJsonObject probePublished(const QJsonObject &, const QString &readerRegistry = {});
   bool publish(const QJsonObject &, QString *error);
   void publishedHeartbeat();
   void publishedError(const QString &error);
@@ -43,11 +43,13 @@ public:
   bool seekable(int track, uint64_t offset) const;
   QString id() const;
   QString registeredReaderId() const;
+  QString streamId() const;
+  QJsonObject playbackDetails() const;
   std::shared_ptr<std::atomic<bool>> releaseReceipt() const { return released; }
 
 private:
   explicit ProgressiveSource(const QString &manifest);
-  explicit ProgressiveSource(const QJsonObject &);
+  explicit ProgressiveSource(const QJsonObject &, const QString &readerRegistry = {});
   void watchPublished();
   void watch();
   void refresh();
@@ -76,6 +78,7 @@ private:
   QString publishedRoot;
   std::shared_ptr<WindowsProgressiveLease> windowsLease;
   std::unique_ptr<foxicmp::progressive::ReaderLease> readerLease;
+  std::shared_ptr<foxicmp::progressive::Fmp4V2Bridge> v2Bridge;
   std::shared_ptr<std::atomic<bool>> released = std::make_shared<std::atomic<bool>>(false);
 };
 

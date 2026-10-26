@@ -1,5 +1,6 @@
 #include "progressivesource.h"
 #include "../../shared/progressivereaderlease.h"
+#include "../../shared/progressivefmp4bridge.h"
 #include "progressivefile.h"
 #include <QDir>
 #include <QFileInfo>
@@ -208,6 +209,7 @@ ProgressiveSource::~ProgressiveSource() {
   cancel();
   if (worker.joinable()) worker.join();
   for (auto file : files) if (file != -1) ProgressiveFile::close(file);
+  v2Bridge.reset();
   if (readerLease) readerLease->filesClosed();
   windowsLease.reset(); // After the last reader closed both media handles.
   released->store(true);

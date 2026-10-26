@@ -5,6 +5,7 @@
 #include "progressivefile.h"
 #include <QDir>
 #include "../../shared/progressivereaderlease.h"
+#include "../../shared/progressivefmp4bridge.h"
 
 namespace {
 bool samePath(const QString &a, const QString &b) {
@@ -64,7 +65,7 @@ void checkFile(intptr_t file, uint64_t available) { ProgressiveFile::inspect(fil
 
 std::shared_ptr<ProgressiveSource>
 ProgressiveSource::openPublished(const QJsonObject &input, const QString &readerRegistry) {
-  auto source = std::shared_ptr<ProgressiveSource>(new ProgressiveSource(input));
+  auto source = std::shared_ptr<ProgressiveSource>(new ProgressiveSource(input, readerRegistry));
   if (!readerRegistry.isEmpty())
     source->readerLease = foxicmp::progressive::ReaderLease::Create(
         std::filesystem::u8path(readerRegistry.toUtf8().toStdString()), source->snapshot.sessionId,
@@ -77,14 +78,17 @@ QString ProgressiveSource::registeredReaderId() const {
   return readerLease ? QString::fromStdString(readerLease->id()) : QString();
 }
 
-QJsonObject ProgressiveSource::probePublished(const QJsonObject &input) {
+QJsonObject ProgressiveSource::probePublished(const QJsonObject &input, const QString &readerRegistry) {
   try {
-    auto source = std::shared_ptr<ProgressiveSource>(new ProgressiveSource(input));
+    auto source = std::shared_ptr<ProgressiveSource>(new ProgressiveSource(input, readerRegistry));
     const auto current = source->status();
     return {{"supported", true}, {"mode", "native-progressive"},
             {"reasonCode", "supported"},
             {"reason", "MP4/M4A tracks are initialized and the confirmed prefix is readable"},
             {"readySeconds", current.available}, {"complete", current.complete}};
+  } catch (const foxicmp::progressive::Error &error) {
+    return {{"supported", false}, {"mode", "unsupported"}, {"reasonCode", QString::fromStdString(error.code)},
+            {"reason", QString::fromUtf8(error.what())}, {"requiresCompleteFile", false}};
   } catch (const std::exception &error) {
     return {{"supported", false}, {"mode", "post-download"},
             {"reasonCode", "native-progressive-rejected"},
@@ -93,9 +97,21 @@ QJsonObject ProgressiveSource::probePublished(const QJsonObject &input) {
   }
 }
 
-ProgressiveSource::ProgressiveSource(const QJsonObject &input) : published(true) {
+ProgressiveSource::ProgressiveSource(const QJsonObject &input, const QString &readerRegistry) : published(true) {
   publishedRoot = sessionDirectory(input);
-  snapshot = snapshotFor(input, &publishedPaths, publishedRoot);
+  if (input.value("schemaVersion") == QJsonValue(2)) {
+    auto manifest = input; manifest.remove("sessionDirectory");
+    foxicmp::progressive::Fmp4V2Bridge::CheckProfile(QJsonDocument(manifest).toJson(QJsonDocument::Compact).toStdString());
+    if (readerRegistry.isEmpty()) throw std::runtime_error("Schema 2 requires a reader registry");
+    v2Bridge = std::make_shared<foxicmp::progressive::Fmp4V2Bridge>(
+        std::filesystem::u8path(publishedRoot.toUtf8().toStdString()), std::filesystem::u8path(readerRegistry.toUtf8().toStdString()),
+        QJsonDocument(manifest).toJson(QJsonDocument::Compact).toStdString());
+    snapshot = v2Bridge->snapshot();const auto bindings = v2Bridge->bindings();
+    for (int i=0;i<2;++i) {
+      publishedPaths.append(resolveTrackPath(QString::fromStdString(snapshot.tracks[i].path), publishedRoot));
+      devices[i]=bindings[i].device; inodes[i]=bindings[i].fileId;
+    }
+  } else snapshot = snapshotFor(input, &publishedPaths, publishedRoot);
   if (snapshot.state == harvester::State::Cancelled ||
       snapshot.state == harvester::State::Failed)
     throw std::runtime_error("Cannot start a terminal failed session");
@@ -104,10 +120,11 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input) : published(true)
       const auto &track = snapshot.tracks[i];
       if (!track.initializationReady)
         throw std::runtime_error("MP4 initialization is not ready; retry start after the index is written");
-      files[i] = ProgressiveFile::open(publishedPaths[i]);
-      const auto info = ProgressiveFile::inspect(files[i], track.available);
-      devices[i] = info.device;
-      inodes[i] = info.inode;
+      if (!v2Bridge) {
+        files[i] = ProgressiveFile::open(publishedPaths[i]);
+        const auto info = ProgressiveFile::inspect(files[i], track.available);
+        devices[i] = info.device; inodes[i] = info.inode;
+      }
     }
     if (devices[0] == devices[1] && inodes[0] == inodes[1])
       throw std::runtime_error("Video and audio must be distinct files");
@@ -130,6 +147,15 @@ bool ProgressiveSource::publish(const QJsonObject &input, QString *error) {
   QStringList paths;
   harvester::Snapshot next;
   try {
+    if (v2Bridge) {
+      sessionDirectory(input, &publishedRoot);auto manifest=input;manifest.remove("sessionDirectory");
+      std::lock_guard<std::mutex> lock(mutex);
+      if(stopping.load() || !currentStatus.error.isEmpty())throw std::runtime_error("Session is no longer writable");
+      v2Bridge->publish(QJsonDocument(manifest).toJson(QJsonDocument::Compact).toStdString());snapshot=v2Bridge->snapshot();
+      updateIndexes();lastPublished=std::chrono::steady_clock::now();currentStatus.connected=true;
+      if(snapshot.state==harvester::State::Failed || snapshot.state==harvester::State::Cancelled)currentStatus.error="Writer failed or cancelled";
+      changed.notify_all();return true;
+    }
     next = snapshotFor(input, &paths, sessionDirectory(input, &publishedRoot));
     std::lock_guard<std::mutex> lock(mutex);
     if (!published || stopping.load() || !currentStatus.error.isEmpty())
@@ -176,13 +202,15 @@ void ProgressiveSource::watchPublished() {
   while (!stopping.load()) {
     std::unique_lock<std::mutex> lock(mutex);
     try {
-      for (int i = 0; i < 2; ++i) checkFile(files[i], snapshot.tracks[i].available);
+      if (v2Bridge) v2Bridge->verify();
+      else for (int i = 0; i < 2; ++i) checkFile(files[i], snapshot.tracks[i].available);
       if (!currentStatus.complete && std::chrono::steady_clock::now() - lastPublished >
                                           std::chrono::seconds(15)) {
         currentStatus.connected = false;
         changed.notify_all();
       }
     } catch (const std::exception &e) {
+      if (stopping.load()) return;
       currentStatus.error = QString::fromUtf8(e.what());
       changed.notify_all();
       return;
@@ -190,3 +218,7 @@ void ProgressiveSource::watchPublished() {
     changed.wait_for(lock, std::chrono::milliseconds(100), [this] { return stopping.load(); });
   }
 }
+QJsonObject ProgressiveSource::playbackDetails() const {
+  return v2Bridge ? QJsonDocument::fromJson(QByteArray::fromStdString(v2Bridge->details())).object() : QJsonObject{{"schemaVersion",1}};
+}
+QString ProgressiveSource::streamId() const {return v2Bridge ? registeredReaderId()+".v2" : id();}

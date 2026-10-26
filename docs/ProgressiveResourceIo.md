@@ -1,12 +1,14 @@
 # Подтверждённые диапазоны v2 и асинхронная I/O-проверка
 
 SDK 1.5. Общий код Linux Qt, Windows Qt и Classic. Это этап подготовки ресурсов,
-**без декодирования или remux**. playbackSchemaVersions остаётся [1], validate v2
+**без декодирования или remux в resourceProbe**. SDK 1.6 отдельно подключает
+ResourceSource к [ограниченному медиапрофилю v2](ProgressiveMediaV2.md).
+resourceIoPlaybackSupported=false относится к диагностике, а validate v2
 сохраняет прежний смысл и не открывает файлы. YouTubeHarvester не изменяется.
 
 ## Что реализовано
 
-`shared/progressiveresourceio.h` предоставляет ResourceSource для будущего backend:
+`shared/progressiveresourceio.h` предоставляет ResourceSource для диагностики и медиамоста:
 
 - Привязанный на срок источника абсолютный sessionDirectory, безопасные имена v2,
   проверенные локальные файлы и реальные device/file ID. Открытые ресурсы не

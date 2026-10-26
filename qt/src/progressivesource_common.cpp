@@ -1,9 +1,11 @@
 #include "progressivesource.h"
 #include "progressivefile.h"
 #include "i18n.h"
+#include "../../shared/progressivefmp4bridge.h"
 #include <QUrl>
 void ProgressiveSource::cancel() {
   stopping.store(true);
+  if (v2Bridge) v2Bridge->cancel();
   {
     std::lock_guard<std::mutex> lock(mutex);
     currentStatus.cancelled = true;
@@ -49,7 +51,8 @@ int64_t ProgressiveSource::read(int track, uint64_t offset, char *buffer,
       if (offset < item.available) {
         const uint64_t length =
             std::min<uint64_t>({count, item.available - offset, 1024 * 1024});
-        const auto result = ProgressiveFile::read(files[track], offset, buffer, size_t(length));
+        const auto result = v2Bridge ? v2Bridge->readPayload(track,offset,buffer,size_t(length))
+                                    : ProgressiveFile::read(files[track], offset, buffer, size_t(length));
         if (result <= 0) {
           currentStatus.error = uiTr("Ошибка чтения подтверждённых данных");
           changed.notify_all();
@@ -74,7 +77,8 @@ void ProgressiveSource::updateIndexes() {
     if (track.fragmented)
       indexes[i].Update(
           [&, i](uint64_t offset, void *buffer, size_t count) {
-            return ProgressiveFile::read(files[i], offset, buffer, count) == int64_t(count);
+            return v2Bridge ? v2Bridge->readIndex(i,offset,buffer,count)
+                            : ProgressiveFile::read(files[i], offset, buffer, count) == int64_t(count);
           },
           track.available, i, harvester::EndReady(track),
           snapshot.timestampOffset);
@@ -130,7 +134,7 @@ int ProgressiveStreams::open(void *self, char *uri, mpv_stream_cb_info *info) {
   const int track = url.path() == "/video"   ? 0
                     : url.path() == "/audio" ? 1
                                              : -1;
-  if (!source || track < 0 || url.host() != source->id())
+  if (!source || track < 0 || url.host() != source->streamId())
     return MPV_ERROR_LOADING_FAILED;
   auto *reader = new StreamReader{source, track};
   *info = {};

@@ -71,10 +71,11 @@ QJsonObject Window::progressivePlaybackStatus() const {
       : !status.connected ? "waiting-downloader"
       : !progressiveStarted || stopped || progressiveBuffering ? "buffering"
       : progressiveUserPause || pausedByMinimize ? "paused" : "playing";
-  return {{"active", true}, {"sessionId", progressive->id()}, {"state", playback},
+  QJsonObject result{{"active", true}, {"sessionId", progressive->id()}, {"state", playback},
           {"connected", status.connected}, {"complete", status.complete},
           {"durationSeconds", status.duration}, {"availableSeconds", status.available},
           {"positionSeconds", pos}, {"error", status.error}};
+  const auto details=progressive->playbackDetails();for(auto it=details.begin();it!=details.end();++it)result[it.key()]=it.value();return result;
 }
 void Window::releaseProgressive(const QString &state) {
   setProperty("foxicmpProgressiveTitle", {});
@@ -136,7 +137,7 @@ void Window::updateProgressive() {
     progressiveStarted = true;
     progressiveStreaming = !status.complete;
     progressiveBuffering = false;
-    const QString url = "foxicmp-session://" + progressive->id();
+    const QString url = "foxicmp-session://" + progressive->streamId();
     if (!player->loadSource(
             url + "/video",
             {{"audio-files-append", url + "/audio"},

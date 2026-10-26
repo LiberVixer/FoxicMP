@@ -413,6 +413,21 @@ private slots:
     QVERIFY(report["terminal"].toObject()["released"].toBool());
     QCOMPARE(report["networkRequests"].toInt(), 0);
   }
+  void schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete() {
+    const auto dir=temporary.filePath("v2-media-profile");
+    const auto cleanup=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
+    Profile profile(dir);prepare(profile);Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{
+      FOXICMP_V2_PLAYBACK_SCRIPT,"--player",playerExecutable(),"--profile",profile.directory,
+      "--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",temporary.filePath("v2-media-bytes"),
+      "--expected-pid",QString::number(QCoreApplication::applicationPid())});
+    QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,60000);
+    QVERIFY2(writer.exitCode()==0,writer.readAllStandardError().constData());
+    const auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));
+    qInfo().noquote()<<"Schema-2 media report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
+    QVERIFY(result["playingWhilePhysicallyIncomplete"].toObject()["positionSeconds"].toDouble()>=10);
+  }
   void resourceIoProbeDoesNotReplaceActivePlayback() {
     const auto dir=temporary.filePath("resource-io-profile");
     const auto cleanup=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
