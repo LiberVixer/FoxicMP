@@ -572,7 +572,7 @@ private:
 	void LoadKeyFrames();
 	std::vector<REFERENCE_TIME> m_kfs;
 
-	bool m_fOpeningAborted;
+	std::atomic<bool> m_fOpeningAborted;
 	bool m_bWasSnapped;
 
 	UINT	m_flastnID;
@@ -1319,6 +1319,22 @@ private:
 
 	::CEvent m_hGraphThreadEventOpen;
 	::CEvent m_hGraphThreadEventClose;
+
+    // UI owns the state machine and deferred intent. The original STA owns COM teardown.
+    enum class GraphClosePhase { Idle, Opening, Closing };
+    std::atomic<GraphClosePhase> m_graphClosePhase{GraphClosePhase::Idle};
+    bool m_closeAfterGraph = false;
+    uint64_t m_graphOpenEpoch = 0;
+    std::unique_ptr<OpenMediaData> m_afterGraphOpen;
+    std::unique_ptr<cmdLine> m_afterGraphCommand;
+    std::shared_ptr<CHarvesterSession> m_closingHarvester;
+    void PollGraphClose();
+    void DiscardDeferredGraphOpen();
+public:
+    bool IsGraphClosePending() const { return m_graphClosePhase != GraphClosePhase::Idle; }
+    bool HasHarvesterPlayback() const;
+    bool OwnsHarvester(const std::shared_ptr<CHarvesterSession>& source) const;
+
 
 public:
 	afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);

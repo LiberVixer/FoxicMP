@@ -31,7 +31,9 @@ SDK 1.7 переносит [первичную подготовку probe/start 
 и индексацию legacy](ProgressiveLegacyMaintenance.md) из metadata mutex UI.
 SDK 1.12 выносит [Qt native core/software-renderer teardown](ProgressiveEngineShutdown.md)
 в ограниченную очередь; Classic сохраняет COM owner и пропускает sent handshakes.
-Остались GL cleanup, полноценный async Classic close, ресурсы больших индексов и другие файловые пути;
+SDK 1.13 добавляет [close-state machine progressive Classic](ProgressiveClassicClose.md):
+STA сохраняет COM-владение, UI откладывает start/exit, Stop отменяет ожидающий start.
+Остались GL cleanup, обычные/UI-owned Classic графы, ресурсы больших индексов и другие файловые пути;
 требование ТЗ про весь I/O пока не закрыто.
 Наличие FFmpeg/libmpv/DirectShow не подтверждает всю матрицу ТЗ.
 

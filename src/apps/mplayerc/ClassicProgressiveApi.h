@@ -10,6 +10,7 @@ class CHarvesterSession;
 namespace foxicmp { namespace progressive {class ResourceProbeManager;} }
 constexpr UINT WM_CLASSIC_PROGRESSIVE_REQUEST = WM_APP + 188;
 constexpr UINT_PTR TIMER_CLASSIC_PROGRESSIVE_OPEN = 0xF188;
+constexpr UINT_PTR TIMER_CLASSIC_GRAPH_CLOSE = 0xF189;
 class ClassicProgressiveApi {
 public:
     struct Request : std::enable_shared_from_this<Request> {

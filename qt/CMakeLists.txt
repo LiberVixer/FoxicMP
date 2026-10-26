@@ -109,7 +109,8 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveRetirementValidation-2026-10-26.md ../docs/ProgressiveRetirementValidation-2026-10-26.json ../docs/ProgressiveLegacyOpening.md
  ../docs/ProgressiveLegacyOpeningValidation-2026-10-26.md ../docs/ProgressiveLegacyOpeningValidation-2026-10-26.json ../docs/ProgressiveLegacyMaintenance.md
  ../docs/ProgressiveLegacyMaintenanceValidation-2026-10-26.md ../docs/ProgressiveLegacyMaintenanceValidation-2026-10-26.json ../docs/ProgressiveEngineShutdown.md
- ../docs/ProgressiveEngineShutdownValidation-2026-10-26.md ../docs/ProgressiveEngineShutdownValidation-2026-10-26.json DESTINATION integration)
+ ../docs/ProgressiveEngineShutdownValidation-2026-10-26.md ../docs/ProgressiveEngineShutdownValidation-2026-10-26.json ../docs/ProgressiveClassicClose.md
+ ../docs/ProgressiveClassicCloseValidation-2026-10-26.md ../docs/ProgressiveClassicCloseValidation-2026-10-26.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/vod.json DESTINATION integration RENAME progressive-v2-vod.json)
 install(FILES ../docs/images/foxicmp-qt-web-control.png DESTINATION . RENAME web-control.png)
 install(FILES ../docs/images/foxicmp-qt-web-browser.png DESTINATION . RENAME web-browser.png)

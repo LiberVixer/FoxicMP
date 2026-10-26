@@ -1,6 +1,8 @@
 # Завершение decoder/core и ожидание Classic graph
 
-SDK 1.12. Изменения FoxicMP, без правок YouTubeHarvester. Общий Qt-код применяется
+SDK 1.12. Изменения FoxicMP, без правок YouTubeHarvester.
+Следующий этап: [SDK 1.13 — async progressive Classic close](ProgressiveClassicClose.md);
+ниже сохранено описание исходного этапа 1.12. Общий Qt-код применяется
 на Linux и Windows; Classic сохраняет свой COM/DirectShow путь владения.
 
 ## Qt: native lifetime отдельно от QWidget

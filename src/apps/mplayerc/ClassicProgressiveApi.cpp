@@ -64,7 +64,7 @@ std::wstring ClassicProgressiveApi::Endpoint() {
 std::string ClassicProgressiveApi::Information() {
     Document d;d.Parse(R"({"version":1,"schemaVersion":1,"releaseAcknowledgement":true,"playbackSchemaVersions":[1],"validationSchemaVersions":[2],"protocol":"progressive-manifest-v1","transport":"windows-pipe-json-lines","edition":"classic","profileSelectable":false,"maxRequestBytes":65536,"heartbeatSeconds":5,"disconnectAfterSeconds":15,"maxTrackPathChars":240,"actions":["capabilities","validate","probe","start","update","complete","heartbeat","status","cancel","release","error"],"containers":["fast-start-mp4","fragmented-mp4"],"videoCodecs":["h264"],"audioCodecs":["aac-lc"],"progressiveModes":["native-progressive","post-download"],"fallback":{"available":false,"reasonCode":"unsupported-native-format","networkRetry":false},"separateTracksRequired":true,"initializedTracksRequired":true,"startBufferSeconds":10,"resumeBufferSeconds":5,"pauseBufferSeconds":1})");
     auto& a=d.GetAllocator();d.AddMember("endpoint",Value(Utf8(Endpoint()).c_str(),a),a);d.AddMember("profile",Value(Utf8(ProfileDirectory()).c_str(),a),a);
-    Document graph;graph.Parse(R"({"owner":"classic-sta","abortOpenWaitPumpsSentMessages":true,"closeWaitPumpsSentMessages":true,"nativeTeardownDetached":false,"fullInputPump":false})");d.AddMember("graphShutdown",Value(graph,a),a);
+    Document graph;graph.Parse(R"({"owner":"classic-sta","abortOpenWaitPumpsSentMessages":true,"closeWaitPumpsSentMessages":true,"nativeTeardownDetached":false,"fullInputPump":false,"progressiveStaCloseAsync":true,"deferredStart":true,"deferredExit":true,"maxPendingStarts":1,"uiOwnedGraphCloseAsync":false})");d.AddMember("graphShutdown",Value(graph,a),a);
     Document maintenance;maintenance.Parse(R"({"fileIoOutsideMetadataLock":true,"snapshotIndexCommitAtomic":true,"notificationsMetadataOnly":true})");d.AddMember("legacyRefresh",Value(maintenance,a),a);
     Value legacy(rapidjson::kObjectType);legacy.AddMember("offUi",true,a);legacy.AddMember("maxConcurrent",1,a);legacy.AddMember("responseDeadlineMilliseconds",5000,a);legacy.AddMember("cancellableDiskIo",false,a);legacy.AddMember("previousPlaybackUntilCommit",true,a);d.AddMember("legacyPreparation",legacy,a);
     d.AddMember("readerRegistryOffUi",true,a);Value retirement(rapidjson::kObjectType);retirement.AddMember("maxSources",uint32_t(foxicmp::progressive::SourceRetirement::Capacity),a);retirement.AddMember("workerLimit",uint32_t(foxicmp::progressive::SourceRetirement::WorkerLimit),a);retirement.AddMember("processOwned",true,a);retirement.AddMember("filesClosedBeforeRelease",true,a);d.AddMember("sourceRetirement",retirement,a);
@@ -112,7 +112,7 @@ void ClassicProgressiveApi::PollLegacy() {
     if(!job->candidate){frame.SendStatusMessage(L"Harvester: "+Wide(job->error),5000);return;}
     auto data=std::make_unique<OpenFileData>();data->harvesterManifest=legacyManifest.c_str();
     data->fi=CStringW(job->candidate->Path(0).c_str());data->auds.emplace_back(job->candidate->Path(1).c_str());data->bAddRecent=FALSE;
-    frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);frame.m_harvester=job->candidate;frame.OpenMedia(std::move(data));
+    data->preparedHarvester=job->candidate;frame.OpenMedia(std::move(data));
 }
 void ClassicProgressiveApi::Prepare(const std::shared_ptr<Request>& job) {
     try {
@@ -219,7 +219,7 @@ void ClassicProgressiveApi::Ended(const std::shared_ptr<CHarvesterSession>& ende
 }
 std::string ClassicProgressiveApi::Status() {
     auto session=source.lock();
-    if(!session || frame.m_harvester!=session) {
+    if(!session || !frame.OwnsHarvester(session)) {
         if(!lastOutcome.empty()) {
             Document result;result.Parse(lastOutcome.c_str());
             result.AddMember("released",releaseReceipt && releaseReceipt->load(),result.GetAllocator());
@@ -229,14 +229,15 @@ std::string ClassicProgressiveApi::Status() {
         return Failure("session_closed","Playback was stopped or replaced");
     }
     const auto error=session->Error();const auto snapshot=session->Snapshot();
-    const char* state=!error.empty()?"error":frame.m_bGraphEventComplete?"finished":!session->Connected()?"waiting-downloader":
+    const bool pending=frame.IsGraphClosePending();
+    const char* state=!error.empty()?"error":pending?"buffering":frame.m_bGraphEventComplete?"finished":!session->Connected()?"waiting-downloader":
         !frame.m_harvesterStarted || frame.m_harvesterBuffering?"buffering":!frame.m_harvesterWantPlay?"paused":"playing";
     Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("version",1,a);d.AddMember("ok",true,a);d.AddMember("active",true,a);
     d.AddMember("sessionId",Value(sessionId.c_str(),a),a);d.AddMember("state",Value(state,a),a);d.AddMember("error",Value(error.c_str(),a),a);
     d.AddMember("released",false,a);d.AddMember("connected",session->Connected(),a);d.AddMember("complete",session->Complete(),a);
     if(!readerId.empty())d.AddMember("readerId",Value(readerId.c_str(),a),a);
     Document details;details.Parse(session->PlaybackDetails().c_str());for(auto it=details.MemberBegin();it!=details.MemberEnd();++it)d.AddMember(Value(it->name,a),Value(it->value,a),a);
-    d.AddMember("positionSeconds",double(frame.GetPos())/10000000.,a);d.AddMember("availableSeconds",double(session->ReadyEnd())/10000000.,a);
+    d.AddMember("positionSeconds",pending?0.:double(frame.GetPos())/10000000.,a);d.AddMember("availableSeconds",double(session->ReadyEnd())/10000000.,a);
     d.AddMember("durationSeconds",double(snapshot.duration)/10000000.,a);return Encode(d);
 }
 std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepared) {
@@ -258,14 +259,14 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
                 try{foxicmp::progressive::ReaderCommand(raw);}catch(const foxicmp::progressive::Error& e){return Failure(e.code.c_str(),e.what());}
                 if(registryPreparation && !registryPreparation->finished.load(std::memory_order_acquire))return Failure("reader_registry_busy","Another registry request is active");
                 registryPreparation=prepared->shared_from_this();prepared->requested=true;prepared->readerQuery=true;prepared->descriptor=raw;prepared->registry=ReaderRegistry();
-                if(action=="readerRelease" && harvester::String(d,"readerId")==readerId){auto active=source.lock();if(active && frame.m_harvester==active)prepared->candidate=active;}
+                if(action=="readerRelease" && harvester::String(d,"readerId")==readerId){auto active=source.lock();if(active && frame.OwnsHarvester(active))prepared->candidate=active;}
                 return {};
             }
             auto reply=prepared?prepared->preparedReply:foxicmp::progressive::ReaderRequest(std::filesystem::path(ReaderRegistry()),raw);
             Document result;result.Parse(reply.c_str());
             if(action=="readerRelease" && result["ok"].GetBool() && !readerId.empty() && harvester::String(d,"readerId")==readerId && (!prepared || !prepared->readerPass)) {
                 auto active=source.lock();
-                if(active && frame.m_harvester==active && (!prepared || prepared->candidate==active)) {
+                if(active && frame.OwnsHarvester(active) && (!prepared || prepared->candidate==active)) {
                     frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
                     if(prepared){prepared->readerRepeat=true;return {};}
                     reply=foxicmp::progressive::ReaderRequest(std::filesystem::path(ReaderRegistry()),raw);
@@ -324,12 +325,12 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             if(d.HasMember("trackReader") && !d["trackReader"].IsBool())return Failure("invalid_request","Invalid reader tracking option");
             const auto id=harvester::String(d["session"],"sessionId");
             const auto requestedGeneration=v2?foxicmp::progressive::Unsigned(d["session"]["generation"],"generation",UINT64_MAX,true):harvester::Number(d["session"],"generation");
-            if(source.lock() && source.lock()==frame.m_harvester && id==sessionId && sessionSchema==(v2?2:1) && requestedGeneration==sessionGeneration) {
+            if(source.lock() && frame.OwnsHarvester(source.lock()) && id==sessionId && sessionSchema==(v2?2:1) && requestedGeneration==sessionGeneration) {
                 if(v2){Document details;details.Parse(source.lock()->PlaybackDetails().c_str());if(harvester::String(details,"writerInstanceId")!=harvester::String(d["session"]["writer"],"instanceId"))return Failure("generation_changed","Writer incarnation changed; use a new generation");}
                 if(d.HasMember("trackReader") && d["trackReader"].GetBool() && readerId.empty())return Failure("reader_not_tracked","Existing session was opened without a reader lease");
                 return Status();
             }
-            if(frame.m_harvester && !(d.HasMember("replace") && d["replace"].GetBool()))return Failure("session_busy","Explicit replacement is required");
+            if(frame.HasHarvesterPlayback() && !(d.HasMember("replace") && d["replace"].GetBool()))return Failure("session_busy","Explicit replacement is required");
             std::wstring title;
             if(d.HasMember("title") && d["title"].GetStringLength()) {
                 const auto& text=d["title"];
@@ -350,10 +351,9 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             CStringW error;std::string reason;auto next=prepared?prepared->candidate:CHarvesterSession::OpenPublished(Encode(descriptor),error,
                 v2 || (d.HasMember("trackReader") && d["trackReader"].GetBool())?ReaderRegistry():std::wstring(),&reason);
             if(!next)return Failure(v2?reason.c_str():"source_not_ready",Utf8(error.GetString()));
-            frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
             auto data=std::make_unique<OpenFileData>();data->harvesterManifest=L"published-api";data->fi=CStringW(next->Path(0).c_str());data->auds.emplace_back(next->Path(1).c_str());data->bAddRecent=FALSE;
             if(!title.empty())data->fi.SetTitle(title.c_str());
-            frame.m_harvester=next;frame.m_harvesterStarted=false;frame.m_harvesterBuffering=true;frame.m_harvesterWantPlay=true;source=next;releaseReceipt=next->ReleaseReceipt();sessionId=id;sessionGeneration=next->Snapshot().generation;sessionSchema=v2?2:1;readerId=next->RegisteredReaderId();lastOutcome.clear();frame.OpenMedia(std::move(data));
+            data->preparedHarvester=next;source=next;releaseReceipt=next->ReleaseReceipt();sessionId=id;sessionGeneration=next->Snapshot().generation;sessionSchema=v2?2:1;readerId=next->RegisteredReaderId();lastOutcome.clear();frame.OpenMedia(std::move(data));
             if(!d.HasMember("activate") || d["activate"].GetBool()){frame.ShowWindow(SW_RESTORE);frame.SetForegroundWindow();}
             return Status();
         }
@@ -364,7 +364,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
         if(d.HasMember("readerId") && (!d["readerId"].IsString() || readerId.empty() || harvester::String(d,"readerId")!=readerId))
             return Failure("reader_mismatch","Command belongs to a different reader; use readerStatus/readerRelease for its receipt");
         auto active=source.lock();
-        if(!active || frame.m_harvester!=active)return (action=="status" || action=="cancel" || action=="release")?Status():Failure("session_closed","Playback was stopped or replaced");
+        if(!active || !frame.OwnsHarvester(active))return (action=="status" || action=="cancel" || action=="release")?Status():Failure("session_closed","Playback was stopped or replaced");
         if(update) {
             if(!d.HasMember("session") || !d["session"].IsObject() || (action=="complete" && harvester::String(v2?harvester::Field(d["session"],"writer"):d["session"],"state")!="complete"))return Failure("invalid_request","Expected a session snapshot");
             Value descriptor(d["session"],d.GetAllocator());

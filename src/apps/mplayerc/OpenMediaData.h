@@ -19,6 +19,9 @@
  */
 
 #pragma once
+#include <memory>
+
+class CHarvesterSession;
 
 class OpenMediaData
 {
@@ -36,6 +39,8 @@ class OpenFileData : public OpenMediaData
 public:
 	//OpenFileData() {}
 	CStringW harvesterManifest;
+	// Prepared source travels with the deferred open; never overwrites a closing graph.
+	std::shared_ptr<CHarvesterSession> preparedHarvester;
 	CFileItem fi;
 	CAudioItemList auds;
 	REFERENCE_TIME rtStart = INVALID_TIME;
@@ -43,6 +48,7 @@ public:
 	void Clear() {
 		title.Empty();
 		harvesterManifest.Empty();
+		preparedHarvester.reset();
 		subs.clear();
 		bAddRecent = TRUE;
 		fi.Clear();

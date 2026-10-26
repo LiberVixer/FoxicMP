@@ -141,6 +141,12 @@ paused, finished, error, cancelled, stopped. `finished` означает ест�
 `code` и пояснение `error`; например source_not_ready, invalid_update,
 session_busy, session_closed, unknown_session.
 
+В Classic SDK 1.13 запрос выхода во время асинхронного закрытия progressive STA
+отклоняет новые IPC-команды с player_closing. Принятый перед выходом start может
+ожидать закрытия старого графа; Stop отменяет его. После Cancel обычный start
+без replace совместимо принимается, если другого активного pending-сеанса нет.
+[Границы этого пути Classic](ProgressiveClassicClose.md).
+
 Новые сборки дополнительно объявляют `releaseAcknowledgement: true` и возвращают
 `released`. `active: false` само по себе не доказывает закрытие дескрипторов.
 До `released: true` writer сохраняет исходники. `release`/`cancel` не отменяют

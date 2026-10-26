@@ -32,6 +32,9 @@ IMPLEMENT_DYNCREATE(CGraphThread, CWinThread)
 BOOL CGraphThread::InitInstance()
 {
 	SetThreadName((DWORD)-1, "GraphThread");
+    if(const auto setDescription=reinterpret_cast<HRESULT(WINAPI*)(HANDLE,PCWSTR)>(
+            GetProcAddress(GetModuleHandleW(L"kernel32.dll"),"SetThreadDescription")))
+        setDescription(GetCurrentThread(),L"FoxicMP graph STA");
 	AfxSocketInit();
 	return SUCCEEDED(CoInitialize(0)) ? TRUE : FALSE;
 }

@@ -1,0 +1,255 @@
+{
+  "date": "2026-10-26",
+  "scope": "SDK 1.13: asynchronous close for progressive Classic STA graphs, bounded deferred start and exit; Qt unchanged",
+  "sourceBaseCommit": "69bbb754f3f52ca1a0d4899993ef0824e6b7aa02",
+  "builds": {
+    "windowsClassic": {
+      "exitCode": 0,
+      "sha256": "18e6495f05cc5cc3d52e36a9e659bb087fc9d507ef9c46989028554944ffc044",
+      "testedCopy": {
+        "testedCopySha256": "18e6495f05cc5cc3d52e36a9e659bb087fc9d507ef9c46989028554944ffc044",
+        "sourceSha256": "18e6495f05cc5cc3d52e36a9e659bb087fc9d507ef9c46989028554944ffc044",
+        "equal": true
+      }
+    },
+    "linuxQt": {
+      "changed": false,
+      "sha256": "08e727b5bb6fb8c0ae1a7eee1c43f03bfb33270ff51bf2e5eeec3ca3cc1e43a8"
+    },
+    "windowsQt": {
+      "changed": false,
+      "validation": "ProgressiveEngineShutdownValidation-2026-10-26.json"
+    }
+  },
+  "tests": {
+    "classic": {
+      "exitCode": 0,
+      "closeCases": [
+        {
+          "case": "stop-loaded",
+          "result": "PASS",
+          "cancelSeconds": 0.0013183000264689326,
+          "maxUiPingSeconds": 0.00028899998869746923,
+          "ownerHeldUntilResume": true
+        },
+        {
+          "case": "stop-loading",
+          "result": "PASS",
+          "cancelSeconds": 0.0007344000041484833,
+          "maxUiPingSeconds": 0.00024090002989396453,
+          "ownerHeldUntilResume": true
+        },
+        {
+          "case": "replace",
+          "result": "PASS",
+          "cancelSeconds": 0.0010062999790534377,
+          "maxUiPingSeconds": 0.00013320002472028136,
+          "ownerHeldUntilResume": true
+        },
+        {
+          "case": "supersede",
+          "result": "PASS",
+          "cancelSeconds": 0.0007155999774113297,
+          "maxUiPingSeconds": 0.00013880000915378332,
+          "ownerHeldUntilResume": true
+        },
+        {
+          "case": "exit",
+          "result": "PASS",
+          "cancelSeconds": 0.0009180000051856041,
+          "maxUiPingSeconds": 0.0002004000125452876,
+          "ownerHeldUntilResume": true
+        }
+      ],
+      "sdkContractCount": 8,
+      "sdkContracts": [
+        "reader-registry-oplock",
+        "async-publication",
+        "async-preparation",
+        "sdk-writer",
+        "v2-metadata-validation",
+        "reader-leases",
+        "resource-io",
+        "v2-media"
+      ],
+      "legacy": {
+        "contract": "legacy-provider",
+        "result": "PASS",
+        "beforeComplete": {
+          "schemaVersion": 1,
+          "sessionId": "62875ea0c63c402c97848562ac347f19",
+          "generation": 1,
+          "revision": 2,
+          "type": "playing",
+          "pid": 14200,
+          "position100ns": 100601371,
+          "readyEnd100ns": 120000000,
+          "completionWaiters": 0,
+          "observedPlaying": true
+        },
+        "complete": {
+          "schemaVersion": 1,
+          "sessionId": "62875ea0c63c402c97848562ac347f19",
+          "generation": 1,
+          "revision": 3,
+          "type": "playing",
+          "pid": 14200,
+          "position100ns": 110450351,
+          "readyEnd100ns": 200000000,
+          "completionWaiters": 0
+        },
+        "filesClosedLeaseReleased": true
+      },
+      "maintenance": {
+        "contract": "legacy-maintenance",
+        "result": "PASS",
+        "cases": [
+          {
+            "mode": "grow",
+            "readsAtOverlap": 721,
+            "uiPingMilliseconds": [
+              0.117,
+              0.0614,
+              0.0574
+            ],
+            "notification": {
+              "schemaVersion": 1,
+              "sessionId": "05ac0b5c2e054bea98b48e4071c48571",
+              "generation": 1,
+              "revision": 2,
+              "type": "buffering",
+              "pid": 3232,
+              "position100ns": 0,
+              "readyEnd100ns": 120000000,
+              "completionWaiters": 0
+            },
+            "providerLeasesReleased": true
+          },
+          {
+            "mode": "stop",
+            "readsAtOverlap": 543,
+            "uiPingMilliseconds": [
+              0.0908,
+              0.0351,
+              0.0304
+            ],
+            "notification": {
+              "schemaVersion": 1,
+              "sessionId": "4bb7b1031de94955b11ea8dcc8028fbf",
+              "generation": 1,
+              "revision": 1,
+              "type": "buffering",
+              "pid": 13724,
+              "position100ns": 0,
+              "readyEnd100ns": 50000000,
+              "completionWaiters": 0
+            },
+            "providerLeasesReleased": true
+          },
+          {
+            "mode": "unchanged-truncate",
+            "readsAtOverlap": 0,
+            "uiPingMilliseconds": [],
+            "notification": {
+              "schemaVersion": 1,
+              "sessionId": "abbfd1a8fad64fbb8b815bb6200c60a3",
+              "generation": 1,
+              "revision": 1,
+              "type": "error",
+              "pid": 9716,
+              "position100ns": 0,
+              "readyEnd100ns": 50000000,
+              "completionWaiters": 0
+            },
+            "providerLeasesReleased": true
+          }
+        ]
+      },
+      "opening": {
+        "contract": "legacy-opening",
+        "result": "PASS",
+        "cases": [
+          {
+            "mode": "commit",
+            "actualMediaOpenBlocked": true,
+            "uiPingMilliseconds": [
+              0.0962,
+              0.0825,
+              0.068
+            ],
+            "notification": {
+              "schemaVersion": 1,
+              "sessionId": "a3b2615a1bf1496c8a49a25f6bf27004",
+              "generation": 1,
+              "revision": 1,
+              "type": "playing",
+              "pid": 15728,
+              "position100ns": 0,
+              "readyEnd100ns": 120000000,
+              "completionWaiters": 0
+            },
+            "providerLeasesReleased": true
+          },
+          {
+            "mode": "close",
+            "actualMediaOpenBlocked": true,
+            "uiPingMilliseconds": [
+              0.7709,
+              0.8313,
+              0.2805
+            ],
+            "notification": {},
+            "providerLeasesReleased": true
+          },
+          {
+            "mode": "stop",
+            "actualMediaOpenBlocked": true,
+            "uiPingMilliseconds": [
+              0.2362,
+              0.0532,
+              0.1332
+            ],
+            "notification": {},
+            "providerLeasesReleased": true
+          },
+          {
+            "mode": "timeout",
+            "actualMediaOpenBlocked": true,
+            "uiPingMilliseconds": [
+              0.6528,
+              0.3061,
+              0.1161
+            ],
+            "notification": {},
+            "providerLeasesReleased": true
+          }
+        ]
+      },
+      "installedShellRegistrationUnchanged": true,
+      "taskCleanup": {
+        "taskRemoved": true,
+        "lastTaskResult": 0
+      }
+    },
+    "pythonSdk": {
+      "passed": 35,
+      "exitCode": 0
+    },
+    "familyContract": {
+      "passed": 2,
+      "exitCode": 0
+    }
+  },
+  "linuxInstall": {
+    "binaryChanged": false,
+    "profileSha256Before": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileSha256After": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75"
+  },
+  "limitations": [
+    "Only progressive graphs already owned by the Classic STA worker use asynchronous close",
+    "No detached worker outliving CMainFrame; a stuck native teardown retains its window owner",
+    "Ordinary and UI-owned Classic graphs retain synchronous close",
+    "Qt binary, GL cleanup and other helper/native I/O unchanged",
+    "No real Harvester end-to-end, additional codecs, physical hardware or Wayland qualification"
+  ]
+}

@@ -1004,6 +1004,11 @@ void CMainFrame::OnDestroy()
 
 void CMainFrame::OnClose()
 {
+    if (IsGraphClosePending() || (m_harvester && m_pGraphThread && m_bOpenedThruThread)) {
+        m_closeAfterGraph = true;
+        CloseMedia();
+        if (IsGraphClosePending()) return; // Keep HWND and all render windows alive for the STA.
+    }
     if(m_fOpeningAborted || m_eMediaLoadState==MLS_CLOSING){PostMessageW(WM_CLOSE);return;}
 	DLog(L"CMainFrame::OnClose() : start");
 
@@ -1387,6 +1392,7 @@ static const bool IsMoveY(LONG x1, LONG x2, LONG y1, LONG y2)
 
 BOOL CMainFrame::OnTouchInput(CPoint pt, int nInputNumber, int nInputsCount, PTOUCHINPUT pInput)
 {
+    if(IsGraphClosePending())return FALSE;
 	if (m_bFullScreen || IsD3DFullScreenMode()) {
 		if ((pInput->dwFlags & TOUCHEVENTF_DOWN) == TOUCHEVENTF_DOWN) {
 			if (!m_touchScreen.moving) {
@@ -1636,6 +1642,15 @@ void CMainFrame::OnSetFocus(CWnd* pOldWnd)
 
 BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
+    if (IsGraphClosePending()) {
+        const bool allowed = nID == ID_FILE_CLOSEMEDIA || nID == ID_PLAY_STOP || nID == ID_APP_EXIT
+            || nID == ID_FILE_OPENFILE || nID == ID_FILE_OPENFILEURL;
+        if (nCode == CN_UPDATE_COMMAND_UI) {
+            if (pExtra) static_cast<CCmdUI*>(pExtra)->Enable(allowed);
+            return TRUE;
+        }
+        if (nCode == CN_COMMAND && !allowed) return TRUE;
+    }
 	// let the view have first crack at the command
 	if (m_wndView.OnCmdMsg(nID, nCode, pExtra, pHandlerInfo)) {
 		return TRUE;
@@ -2516,7 +2531,9 @@ LRESULT CMainFrame::OnHotKey(WPARAM wParam, LPARAM lParam)
 
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
+    if(nIDEvent==TIMER_CLASSIC_GRAPH_CLOSE){PollGraphClose();return;}
     if(nIDEvent==TIMER_CLASSIC_PROGRESSIVE_OPEN){if(m_progressiveApi)m_progressiveApi->PollLegacy();return;}
+    if(IsGraphClosePending())return; // No graph polling while its owner opens/tears it down.
 	CAppSettings& s = AfxGetAppSettings();
 
 	switch (nIDEvent) {
@@ -3222,6 +3239,7 @@ bool CMainFrame::GraphEventComplete()
 
 LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 {
+    if(IsGraphClosePending())return S_OK;
 	CAppSettings& s = AfxGetAppSettings();
 	HRESULT hr = S_OK;
 
@@ -3617,6 +3635,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 
 LRESULT CMainFrame::OnResizeDevice(WPARAM wParam, LPARAM lParam)
 {
+    if(IsGraphClosePending())return S_OK;
 	DLog(L"CMainFrame::OnResizeDevice() : start");
 
 	if (m_bOpenedThruThread) {
@@ -3633,6 +3652,7 @@ LRESULT CMainFrame::OnResizeDevice(WPARAM wParam, LPARAM lParam)
 
 LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
 {
+    if(IsGraphClosePending())return S_OK;
 	DLog(L"CMainFrame::OnResetDevice() : start");
 
 	OAFilterState fs = State_Stopped;
@@ -3676,6 +3696,7 @@ LRESULT CMainFrame::OnResetDevice(WPARAM wParam, LPARAM lParam)
 LRESULT CMainFrame::OnPostOpen(WPARAM wParam, LPARAM lParam)
 {
 	std::unique_ptr<OpenMediaData> pOMD((OpenMediaData*)wParam);
+    if(IsGraphClosePending())return 0; // Consume the payload without committing a cancelled open.
 
 	const auto& s = AfxGetAppSettings();
 
@@ -3752,7 +3773,7 @@ void CMainFrame::SaveAppSettings()
 
 BOOL CMainFrame::MouseMessage(UINT id, UINT nFlags, CPoint point)
 {
-	if (m_eMediaLoadState == MLS_LOADING) {
+	if (IsGraphClosePending() || m_eMediaLoadState == MLS_LOADING) {
 		return FALSE;
 	}
 
@@ -4041,6 +4062,7 @@ void CMainFrame::OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt)
 
 void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 {
+    if(IsGraphClosePending())return;
 	// ignore mousemoves when entering fullscreen
 	if (m_lastMouseMove.x == -1 && m_lastMouseMove.y == -1) {
 		m_lastMouseMove.x = point.x;
@@ -4207,6 +4229,7 @@ void CMainFrame::OnMouseMove(UINT nFlags, CPoint point)
 
 void CMainFrame::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
+    if(IsGraphClosePending())return;
 	if (!pScrollBar) {
 		return;
 	}
@@ -4262,6 +4285,7 @@ void CMainFrame::OnInitMenu(CMenu* pMenu)
 
 void CMainFrame::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 {
+    if(IsGraphClosePending()){__super::OnInitMenuPopup(pPopupMenu,nIndex,bSysMenu);return;}
 	UINT uiMenuCount = pPopupMenu->GetMenuItemCount();
 	if (uiMenuCount == UINT(-1)) {
 		return;
@@ -4681,6 +4705,7 @@ CString CMainFrame::GetChapterNameAt(REFERENCE_TIME rt)
 
 CString CMainFrame::UpdatePlayerStatus()
 {
+    if(IsGraphClosePending())return ResStr(IDS_CONTROLS_CLOSING);
 	if (m_harvester && m_harvesterBuffering) {
 		CString msg = m_harvester->Connected() ? L"Буферизация" : L"Harvester: нет связи с загрузчиком";
 		SetStatusMessage(msg);
@@ -5793,6 +5818,11 @@ LRESULT CMainFrame::HandleCmdLine(WPARAM wParam, LPARAM lParam)
 
 	cmdLine* cmdln = (cmdLine*)lParam;
     if(!cmdln)return 0;
+    if(IsGraphClosePending()) {
+        CloseMedia(); // New command supersedes any pending open, with owned bounded storage.
+        if(!m_closeAfterGraph)m_afterGraphCommand=std::make_unique<cmdLine>(*cmdln);
+        return 0;
+    }
     if(m_fOpeningAborted || m_eMediaLoadState==MLS_CLOSING){
         auto deferred=std::make_unique<cmdLine>(*cmdln);
         if(PostMessageW(WM_HANDLE_CMDLINE,FOXICMP_OWNED_CMDLINE,reinterpret_cast<LPARAM>(deferred.get())))deferred.release();
@@ -8640,7 +8670,10 @@ void CMainFrame::OnPlayPlayPause()
 
 void CMainFrame::OnPlayStop()
 {
-    if(m_progressiveApi && GetCurrentThreadId()==GetWindowThreadProcessId(m_hWnd,nullptr))m_progressiveApi->PlaybackIntentChanged();
+    if(GetCurrentThreadId()==GetWindowThreadProcessId(m_hWnd,nullptr)) {
+        if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged();
+        if(IsGraphClosePending()){CloseMedia();return;}
+    }
 	if (m_harvester && (m_eMediaLoadState == MLS_LOADED || m_eMediaLoadState == MLS_LOADING)) {
         m_harvester->Cancel();
 		CloseMedia();
@@ -11204,7 +11237,7 @@ void CMainFrame::RestoreDefaultWindowRect()
 OAFilterState CMainFrame::GetMediaState()
 {
 	OAFilterState ret = -1;
-	if (m_eMediaLoadState == MLS_LOADED) {
+	if (!IsGraphClosePending() && m_eMediaLoadState == MLS_LOADED) {
 		m_pMC->GetState(0, &ret);
 	}
 	return ret;
@@ -11781,7 +11814,7 @@ void CMainFrame::SetDispMode(const dispmode& dm, const CString& DisplayName, con
 
 void CMainFrame::MoveVideoWindow(bool bShowStats/* = false*/, bool bForcedSetVideoRect/* = false*/)
 {
-	if (!m_bDelaySetOutputRect && !m_bFullScreenChangingMode && m_eMediaLoadState == MLS_LOADED && !m_bAudioOnly && IsWindowVisible()) {
+	if (!IsGraphClosePending() && !m_bDelaySetOutputRect && !m_bFullScreenChangingMode && m_eMediaLoadState == MLS_LOADED && !m_bAudioOnly && IsWindowVisible()) {
 		CRect rWnd;
 		CRect rVid;
 
@@ -12213,6 +12246,7 @@ void CMainFrame::ClampWindowRect(RECT& windowRect)
 
 void CMainFrame::RepaintVideo(const bool bForceRepaint/* = false*/)
 {
+    if(IsGraphClosePending())return;
 	if (!m_bDelaySetOutputRect && (bForceRepaint || GetMediaState() != State_Running) || m_bDVDStillOn) {
 		if (m_pCAP) {
 			m_pCAP->Paint(false);
@@ -18163,9 +18197,11 @@ void CMainFrame::AddCurDevToPlaylist()
 
 void CMainFrame::OpenMedia(std::unique_ptr<OpenMediaData> pOMD)
 {
-    if(m_fOpeningAborted || m_eMediaLoadState==MLS_CLOSING)return;
+    if(m_closeAfterGraph || m_bClosingState)return;
+    const auto openingEpoch=++m_graphOpenEpoch;
     if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged();
-	auto pFileData   = dynamic_cast<const OpenFileData*>(pOMD.get());
+    m_afterGraphCommand.reset();
+	auto pFileData   = dynamic_cast<OpenFileData*>(pOMD.get());
 	auto pDeviceData = dynamic_cast<const OpenDeviceData*>(pOMD.get());
 
 	// shortcut
@@ -18179,8 +18215,21 @@ void CMainFrame::OpenMedia(std::unique_ptr<OpenMediaData> pOMD)
 	}
 
 	if (m_eMediaLoadState != MLS_CLOSED) {
-		CloseMedia(TRUE);
-	}
+        CloseMedia(TRUE);
+        if(openingEpoch!=m_graphOpenEpoch) {
+            if(pFileData && pFileData->preparedHarvester)pFileData->preparedHarvester->Cancel();
+            return; // A nested sent Stop/Close superseded this request before admission.
+        }
+        if(IsGraphClosePending()) {
+            m_afterGraphOpen=std::move(pOMD);
+            return;
+        }
+        if(m_eMediaLoadState != MLS_CLOSED)return;
+    }
+    if(pFileData && pFileData->preparedHarvester) {
+        m_harvester=std::move(pFileData->preparedHarvester);
+        m_harvesterStarted=false;m_harvesterBuffering=true;m_harvesterWantPlay=true;
+    }
 
 	CAppSettings& s = AfxGetAppSettings();
 
@@ -18241,8 +18290,75 @@ bool CMainFrame::DisplayChange()
 	return true;
 }
 
+bool CMainFrame::HasHarvesterPlayback() const
+{
+    if(IsGraphClosePending()) {
+        const auto file=dynamic_cast<const OpenFileData*>(m_afterGraphOpen.get());
+        return file && bool(file->preparedHarvester);
+    }
+    return bool(m_harvester);
+}
+
+bool CMainFrame::OwnsHarvester(const std::shared_ptr<CHarvesterSession>& source) const
+{
+    if(!source)return false;
+    if(IsGraphClosePending()) {
+        const auto file=dynamic_cast<const OpenFileData*>(m_afterGraphOpen.get());
+        return file && file->preparedHarvester==source;
+    }
+    return m_harvester==source;
+}
+
+void CMainFrame::DiscardDeferredGraphOpen()
+{
+    if(const auto file=dynamic_cast<const OpenFileData*>(m_afterGraphOpen.get())) {
+        if(file->preparedHarvester) {
+            if(m_progressiveApi)m_progressiveApi->Ended(file->preparedHarvester,false);
+            file->preparedHarvester->Cancel();
+        }
+    }
+    m_afterGraphOpen.reset();
+}
+
+void CMainFrame::PollGraphClose()
+{
+    if(m_graphClosePhase==GraphClosePhase::Opening) {
+        if(WaitForSingleObject(m_hGraphThreadEventOpen,0)!=WAIT_OBJECT_0)return;
+        // The worker has returned from OpenMediaPrivate. Discard any stale UI commit.
+        MSG message{};
+        while(PeekMessageW(&message,m_hWnd,WM_POSTOPEN,WM_POSTOPEN,PM_REMOVE))
+            delete reinterpret_cast<OpenMediaData*>(message.wParam);
+        m_fOpeningAborted=false;
+        SetLoadState(MLS_CLOSING);
+        m_hGraphThreadEventClose.ResetEvent();
+        if(!m_pGraphThread->PostThreadMessage(CGraphThread::TM_CLOSE,0,0))return;
+        m_graphClosePhase=GraphClosePhase::Closing;
+    }
+    if(m_graphClosePhase!=GraphClosePhase::Closing
+            || WaitForSingleObject(m_hGraphThreadEventClose,0)!=WAIT_OBJECT_0)return;
+    KillTimer(TIMER_CLASSIC_GRAPH_CLOSE);
+    m_closingHarvester.reset();
+    m_graphClosePhase=GraphClosePhase::Idle;
+    OnFilePostCloseMedia();
+    if(m_closeAfterGraph) {PostMessageW(WM_CLOSE);return;}
+    if(m_afterGraphCommand) {
+        auto command=std::move(m_afterGraphCommand);
+        HandleCmdLine(0,reinterpret_cast<LPARAM>(command.get()));
+    } else if(m_afterGraphOpen) {
+        auto next=std::move(m_afterGraphOpen);
+        OpenMedia(std::move(next));
+    }
+}
+
 void CMainFrame::CloseMedia(BOOL bNextIsOpened/* = FALSE*/)
 {
+    if(!bNextIsOpened)++m_graphOpenEpoch;
+    DiscardDeferredGraphOpen();
+    m_afterGraphCommand.reset();
+    if(IsGraphClosePending()) {
+        if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged();
+        return;
+    }
     if(m_fOpeningAborted)return; // A sent command must not nest an abort wait.
     if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged();
     if(m_progressiveApi && m_harvester)m_progressiveApi->Ended(m_harvester,m_bGraphEventComplete);
@@ -18260,6 +18376,17 @@ void CMainFrame::CloseMedia(BOOL bNextIsOpened/* = FALSE*/)
 	}
 
 	m_bNextIsOpened = bNextIsOpened;
+
+    // Only the progressive graph already created on our STA may use this path.
+    // Do not migrate UI-owned graphs or change the user's worker-thread setting.
+    if(m_harvester && m_pGraphThread && m_bOpenedThruThread
+            && SetTimer(TIMER_CLASSIC_GRAPH_CLOSE,20,nullptr)) {
+        m_closingHarvester=m_harvester;
+        m_graphClosePhase=GraphClosePhase::Opening;
+        if(m_eMediaLoadState==MLS_LOADING)m_fOpeningAborted=true;
+        PollGraphClose();
+        return;
+    }
 
 	if (m_eMediaLoadState == MLS_LOADING) {
 		m_fOpeningAborted = true;
@@ -19666,6 +19793,7 @@ HRESULT CMainFrame::UpdateThumbarButton()
 
 HRESULT CMainFrame::UpdateThumbnailClip()
 {
+    if(IsGraphClosePending())return S_FALSE;
 	CheckPointer(m_pTaskbarList, E_FAIL);
 
 	CRect clientRect;
@@ -19731,7 +19859,7 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 
 	LRESULT ret = 0;
 	bool bCallOurProc = true;
-	if (m_pMVRSR) {
+	if (!IsGraphClosePending() && m_pMVRSR) {
 		// call madVR window proc directly when the interface is available
 		bCallOurProc = !m_pMVRSR->ParentWindowProc(m_hWnd, message, &wParam, &lParam, &ret);
 	}
@@ -20005,6 +20133,7 @@ void CMainFrame::SetHoverStatusText(const CString& strHover)
 
 CString CMainFrame::FillMessage()
 {
+    if(IsGraphClosePending())return ResStr(IDS_CONTROLS_CLOSING);
 	CString msg;
 
 	if (!m_playingmsg.IsEmpty()) {
@@ -21561,7 +21690,8 @@ LRESULT CMainFrame::OnProgressiveRequest(WPARAM,LPARAM value)
 {
     std::unique_ptr<std::shared_ptr<ClassicProgressiveApi::Request>> message(reinterpret_cast<std::shared_ptr<ClassicProgressiveApi::Request>*>(value));
     const auto request=*message;
-    if(m_progressiveApi)request->output=m_progressiveApi->Handle(request->input,request.get());
+    if(m_closeAfterGraph)request->output=R"({"version":1,"ok":false,"code":"player_closing","error":"Player is closing its graph"})";
+    else if(m_progressiveApi)request->output=m_progressiveApi->Handle(request->input,request.get());
     SetEvent(request->done);
     return 0;
 }

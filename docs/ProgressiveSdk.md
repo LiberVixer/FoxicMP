@@ -43,6 +43,14 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Progressive Classic close (SDK 1.13)
+
+[Закрытие progressive-графа на STA](ProgressiveClassicClose.md) возвращает UI
+управление без ожидания графового потока. Новые start и выход откладываются до
+настоящего close event. Stop отменяет ожидающий start; reader release по-прежнему
+требует физического закрытия файлов. Capability `progressiveStaCloseAsync` не
+распространяется на UI-owned графы и обычные источники. Qt-код в этом этапе не менялся.
+
 ## Decoder shutdown (SDK 1.12)
 
 [Qt native lifetime / Classic graph wait](ProgressiveEngineShutdown.md) различаются:
