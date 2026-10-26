@@ -78,13 +78,13 @@ def run(runner,fixtures):
     reject_edit('unsupported-clock',lambda v,p:v['timeline']['timebase'].update(numerator=2))
     reject_edit('negative-timestamp-offset',lambda v,p:v['timeline'].update(timestampOffset='-1'))
     reject_edit('indexed-container-not-fmp4',lambda v,p:v['tracks'][0].update(containerHint='mp4'))
-    reject_edit('unsupported-codec-hint',lambda v,p:v['tracks'][0].update(codecHint='av1'))
+    reject_edit('unsupported-codec-hint',lambda v,p:v['tracks'][0].update(codecHint='vp9'))
     reject_edit('initialization-not-ready',lambda v,p:v['tracks'][0].update(initializationReady=False),'waiting_initialization')
     def short_init(v,paths):
         v['resources'][0]['ranges'][0]['length']='32';paths[0].write_bytes(inputs[0][:32])
     reject_edit('wait-for-complete-head-moov',short_init,'waiting_initialization')
     def mutate(paths,track,kind,relative,value):
-        data=bytearray(paths[track].read_bytes());at=data.index(kind);data[at+relative:at+relative+len(value)]=value;paths[track].write_bytes(data)
+        data=bytearray(paths[track].read_bytes());at=data.index(kind,data.index(b'moov'));data[at+relative:at+relative+len(value)]=value;paths[track].write_bytes(data)
     reject_edit('external-data-reference',lambda v,p:mutate(p,0,b'url ',7,b'\x00'))
     reject_edit('encrypted-avc-rejected',lambda v,p:mutate(p,0,b'avcC',0,b'sinf'))
     reject_edit('actual-codec-overrides-false-h264-hint',lambda v,p:mutate(p,0,b'avc1',0,b'hvc1'))
@@ -134,6 +134,49 @@ def run(runner,fixtures):
     case('hevc-confirmed-range-is-waiting',waiting)
     case('hevc-init-rewrite-is-persistent-error',rewrite)
     case('hevc-cancel-closes-resource-leases',cancelled)
+    video_codec="av1"
+    for profile in ('av1-8','av1-10'):
+        inputs=[(Path(fixtures)/('progressive-'+profile)/name).read_bytes() for name in ('video.mp4','audio.m4a')]
+        def av1_exact(v,paths,rpc,open_,read,readers,next_):
+            open_();state=rpc('status');assert state['videoCodec']=='av1' and state['mediaMode']=='separate-fmp4-av1-aac-lc',state
+            assert read()['hex']==inputs[0][:8].hex();assert len(readers())==2
+            rpc('release');assert readers()==[]
+        case(profile+'-actual-initialization-and-resource-leases',av1_exact)
+        def av1_no_hint(v,paths,rpc,open_,read,readers,next_):
+            v['tracks'][0]['codecHint']='';open_();assert rpc('status')['videoCodec']=='av1'
+        case(profile+'-discover-without-codec-hint',av1_no_hint)
+        reject_edit(profile+'-false-hevc-hint',lambda v,p:v['tracks'][0].update(codecHint='hevc'))
+    inputs=[(Path(fixtures)/'progressive-av1-8'/name).read_bytes() for name in ('video.mp4','audio.m4a')]
+    def without_av1_sequence(v,paths):
+        data=bytearray(paths[0].read_bytes());at=data.index(b'av1C');size=int.from_bytes(data[at-4:at],'big')
+        assert size>=20
+        replacement=(12).to_bytes(4,'big')+b'av1C'+data[at+4:at+8]
+        replacement+=(size-12).to_bytes(4,'big')+b'free'+bytes(size-20)
+        data[at-4:at-4+size]=replacement;paths[0].write_bytes(data)
+    reject_edit('av1-sequence-header-in-configuration-required',without_av1_sequence)
+    reject_edit('av1-configuration-marker',lambda v,p:mutate(p,0,b'av1C',4,b'\x01'))
+    reject_edit('av1-configuration-version',lambda v,p:mutate(p,0,b'av1C',4,b'\x82'))
+    reject_edit('av1-high-profile',lambda v,p:mutate(p,0,b'av1C',5,b'\x20'))
+    reject_edit('av1-invalid-level',lambda v,p:mutate(p,0,b'av1C',5,b'\x1f'))
+    reject_edit('av1-twelve-bit',lambda v,p:mutate(p,0,b'av1C',6,b'\x6c'))
+    reject_edit('av1-monochrome',lambda v,p:mutate(p,0,b'av1C',6,b'\x1c'))
+    reject_edit('av1-unsupported-chroma',lambda v,p:mutate(p,0,b'av1C',6,b'\x08'))
+    reject_edit('av1-reserved-configuration-bits',lambda v,p:mutate(p,0,b'av1C',7,b'\x80'))
+    reject_edit('av1-presentation-delay',lambda v,p:mutate(p,0,b'av1C',7,b'\x10'))
+    reject_edit('av1-obu-forbidden-bit',lambda v,p:mutate(p,0,b'av1C',8,b'\x8a'))
+    reject_edit('av1-obu-missing-size',lambda v,p:mutate(p,0,b'av1C',8,b'\x08'))
+    reject_edit('av1-obu-reserved-bit',lambda v,p:mutate(p,0,b'av1C',8,b'\x0b'))
+    reject_edit('av1-obu-unsupported-type',lambda v,p:mutate(p,0,b'av1C',8,b'\x32'))
+    reject_edit('av1-metadata-before-sequence',lambda v,p:mutate(p,0,b'av1C',8,b'\x2a'))
+    reject_edit('av1-obu-zero-payload',lambda v,p:mutate(p,0,b'av1C',9,b'\x00'))
+    reject_edit('av1-obu-payload-overrun',lambda v,p:mutate(p,0,b'av1C',9,b'\x7f'))
+    reject_edit('av1-obu-truncated-size',lambda v,p:mutate(p,0,b'av1C',9,b'\x80'*8))
+    reject_edit('av1-sequence-config-profile-mismatch',lambda v,p:mutate(p,0,b'av1C',10,b'\x20'))
+    reject_edit('av1-encrypted-sample-entry',lambda v,p:mutate(p,0,b'av01',0,b'encv'))
+    reject_edit('av1-invalid-data-reference',lambda v,p:mutate(p,0,b'av01',10,b'\x00\x02'))
+    case('av1-confirmed-range-is-waiting',waiting)
+    case('av1-init-rewrite-is-persistent-error',rewrite)
+    case('av1-cancel-closes-resource-leases',cancelled)
     return dict(result='PASS',passed=len(names),cases=names)
 
 if __name__=='__main__':

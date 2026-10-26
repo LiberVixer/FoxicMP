@@ -89,7 +89,8 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
                             : ProgressiveFile::read(files[i], offset, buffer, count) == int64_t(count);
           },
           track.available, i, harvester::EndReady(track),
-          value.timestampOffset, v2Bridge && v2Bridge->videoCodec()=="hevc");
+          value.timestampOffset, v2Bridge && v2Bridge->videoCodec()=="hevc",
+          v2Bridge && v2Bridge->videoCodec()=="av1");
     end = std::min(
         end, double(harvester::ReadyEnd(track.fragmented ? indexes[i].Samples()
                                                          : indexed[i].samples(),

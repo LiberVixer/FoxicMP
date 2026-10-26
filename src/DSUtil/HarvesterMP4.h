@@ -31,7 +31,7 @@ struct BoxData {
 class FragmentIndex {
     uint64_t position=0;uint32_t id=0,scale=0,defaultDuration=0,defaultSize=0,defaultFlags=0;
     int64_t edit=0,lastDecode=INT64_MIN, origin=0;
-    bool initialized=false,first=true,hevcEnabled=false;
+    bool initialized=false,first=true,hevcEnabled=false,av1Enabled=false;
     int kind=0;
     uint64_t scannedPrefix=0;
     std::vector<Sample> samples;
@@ -40,8 +40,8 @@ public:
     uint64_t Position() const {return position;}
     const std::vector<Sample>& Samples() const {return samples;}
     bool Initialized() const {return initialized;}
-    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false) {
-        hevcEnabled=allowHevc;
+    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false) {
+        hevcEnabled=allowHevc;av1Enabled=allowAv1;
         if(prefix<scannedPrefix)throw std::runtime_error("Fragment prefix regressed");
         scannedPrefix=prefix;kind=trackKind;origin=timestampOffset;
         auto header=[&](uint64_t at,uint64_t& n,uint32_t& type,size_t& h) {
@@ -90,7 +90,8 @@ private:
         if(entries.size()!=1)throw std::runtime_error("Expected one fragment sample entry");
         const auto entry=entries.front().first;
         if(kind?entry!=FourCC("mp4a"):
-                (entry!=FourCC("avc1") && !(hevcEnabled && (entry==FourCC("hvc1") || entry==FourCC("hev1")))))
+                (entry!=FourCC("avc1") && !(hevcEnabled && (entry==FourCC("hvc1") || entry==FourCC("hev1")))
+                 && !(av1Enabled && entry==FourCC("av01"))))
             throw std::runtime_error("Unsupported fragment sample entry");
         auto trex=movie.One("mvex").One("trex");
         if(trex.size!=24 || trex.U32(4)!=id || trex.U32(8)!=1)throw std::runtime_error("Invalid fragmented defaults");

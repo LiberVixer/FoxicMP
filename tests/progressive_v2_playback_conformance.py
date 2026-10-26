@@ -1,4 +1,4 @@
-"""Real H.264/HEVC schema-2 fMP4 playback while BOTH source files are incomplete."""
+"""Real H.264/HEVC/AV1 schema-2 fMP4 playback while BOTH source files are incomplete."""
 import argparse
 import copy
 import json
@@ -13,11 +13,11 @@ from progressive_v1_conformance import fragment_prefix, reject
 
 
 def exercise(client,fixtures,work,profile="h264"):
-    assert profile in {"h264","hevc8","hevc10"},profile
-    codec="h264" if profile=="h264" else "hevc"
+    assert profile in {"h264","hevc8","hevc10","av1-8","av1-10"},profile
+    codec="av1" if profile.startswith("av1-") else "h264" if profile=="h264" else "hevc"
     fixture="progressive" if profile=="h264" else "progressive-"+profile
     capabilities=client.request(dict(version=1,action="capabilities"))
-    if codec=="hevc":assert "hevc" in capabilities["schema2Playback"]["videoCodecs"],capabilities
+    if codec!="h264":assert codec in capabilities["schema2Playback"]["videoCodecs"],capabilities
     work=Path(work).resolve();work.mkdir(parents=True)
     inputs=[(Path(fixtures)/fixture/name).read_bytes() for name in ('video.mp4','audio.m4a')]
     paths=[work/'видео.part',work/'звук.part'];names=[path.name for path in paths]
@@ -62,7 +62,7 @@ def exercise(client,fixtures,work,profile="h264"):
             if state.get('state')=='playing' and state['positionSeconds']>=10:
                 assert all(paths[i].stat().st_size<len(inputs[i]) for i in range(2))
                 assert all(int(state['decoderIoBytes'][kind])>0 for kind in ('video','audio'))
-                assert state['videoCodec']==codec and state['mediaMode']==('separate-fmp4-hevc-aac-lc' if codec=='hevc' else 'separate-fmp4-h264-aac-lc'),state
+                assert state['videoCodec']==codec and state['mediaMode']==('separate-fmp4-'+codec+'-aac-lc'),state
                 report['playingWhilePhysicallyIncomplete']=state
                 report['incompleteBytes']=[paths[i].stat().st_size for i in range(2)]
                 report['fullBytes']=list(map(len,inputs));break
@@ -93,7 +93,7 @@ def exercise(client,fixtures,work,profile="h264"):
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--media-profile',choices=['h264','hevc8','hevc10'],default='h264');parser.add_argument('--player',required=True);parser.add_argument('--profile');parser.add_argument('--fixtures',required=True);parser.add_argument('--work',required=True);parser.add_argument('--expected-pid',type=int)
+    parser=argparse.ArgumentParser();parser.add_argument('--media-profile',choices=['h264','hevc8','hevc10','av1-8','av1-10'],default='h264');parser.add_argument('--player',required=True);parser.add_argument('--profile');parser.add_argument('--fixtures',required=True);parser.add_argument('--work',required=True);parser.add_argument('--expected-pid',type=int)
     args=parser.parse_args();client=ProgressiveClient(args.player,args.profile)
     if args.expected_pid is not None:assert client.request(dict(version=1,action='capabilities'))['pid']==args.expected_pid
     print(json.dumps(exercise(client,args.fixtures,args.work,args.media_profile)))

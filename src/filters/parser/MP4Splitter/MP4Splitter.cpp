@@ -2310,9 +2310,11 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		auto entry = stsd ? stsd->GetSampleEntry(0) : nullptr;
         if(!entry)return VFW_E_UNSUPPORTED_STREAM;
         const auto type=entry->GetType();
-        const bool hevcFragments=!kind && movie->HasFragments() && progressive->GetSession()->AllowsHevcFragments()
-            && (type==AP4_ATOM_TYPE_HVC1 || type==AP4_ATOM_TYPE_HEV1);
-        if(type!=(kind?AP4_ATOM_TYPE('m','p','4','a'):AP4_ATOM_TYPE('a','v','c','1')) && !hevcFragments)
+        const auto session=progressive->GetSession();
+        const bool validatedFragments=!kind && movie->HasFragments()
+            && ((session->AllowsHevcFragments() && (type==AP4_ATOM_TYPE_HVC1 || type==AP4_ATOM_TYPE_HEV1))
+                || (session->AllowsAv1Fragments() && type==AP4_ATOM_TYPE_av01));
+        if(type!=(kind?AP4_ATOM_TYPE('m','p','4','a'):AP4_ATOM_TYPE('a','v','c','1')) && !validatedFragments)
             return VFW_E_UNSUPPORTED_STREAM;
 		if (kind) {
 			auto desc = dynamic_cast<AP4_MpegAudioSampleDescription*>(track->GetSampleDescription(0));

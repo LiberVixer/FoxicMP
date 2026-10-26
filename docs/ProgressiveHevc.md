@@ -1,5 +1,6 @@
 # Progressive HEVC в fMP4
 
+С SDK 1.15 отдельно добавлен [AV1-профиль](ProgressiveAv1.md).
 SDK 1.14 расширяет schema-2 медиапрофиль во всех трёх редакциях FoxicMP.
 YouTubeHarvester не изменялся. H.264/AAC остаётся совместимым; новые возможности
 определяются capabilities текущего EXE, а не наличием нового Python SDK.

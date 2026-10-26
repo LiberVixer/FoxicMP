@@ -29,3 +29,6 @@ run(['-f','lavfi','-i','sine=frequency=880:sample_rate=48000','-t','20','-vn','-
 
 from generate_hevc_media import generate as generate_hevc
 generate_hevc(root)
+
+from generate_av1_media import generate as generate_av1
+generate_av1(root)

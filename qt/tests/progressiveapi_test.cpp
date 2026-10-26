@@ -611,7 +611,7 @@ private slots:
   }
   void schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete_data() {
     QTest::addColumn<QString>("mediaProfile");
-    for(const auto* profile:{"h264","hevc8","hevc10"})QTest::newRow(profile)<<QString(profile);
+    for(const auto* profile:{"h264","hevc8","hevc10","av1-8","av1-10"})QTest::newRow(profile)<<QString(profile);
   }
   void schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete() {
     QFETCH(QString,mediaProfile);
@@ -642,9 +642,9 @@ private slots:
     QVERIFY2(writer.exitCode()==0,writer.readAllStandardError().constData());
     const auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));
     decoderSample.stop();
-    QCOMPARE(decodedFormat,mediaProfile=="h264"?QString("h264"):QString("hevc"));
+    QCOMPARE(decodedFormat,mediaProfile.startsWith("av1-")?QString("av1"):mediaProfile=="h264"?QString("h264"):QString("hevc"));
     QVERIFY2(changingDecodedVideo,"No changing decoded video frames before writer complete");
-    if(mediaProfile=="hevc10")QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
+    if(mediaProfile=="hevc10" || mediaProfile=="av1-10")QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
     qInfo().noquote()<<"Decoded video:"<<mediaProfile<<decodedFormat<<decodedPixelFormat<<"changing frames before complete";
     qInfo().noquote()<<"Schema-2 media report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
     QVERIFY(result["playingWhilePhysicallyIncomplete"].toObject()["positionSeconds"].toDouble()>=10);
