@@ -209,3 +209,11 @@ CLI принимает `--snapshot /absolute/snapshot.json` для start/update/
 если тестовый клиент читает их одновременно с записью. Для применения API в
 YouTubeHarvester достаточно позже подключить эти вызовы к его событиям загрузки;
 изменений Harvester в рамках этой работы нет.
+
+## Реестр и cleanup (SDK 1.9)
+
+IPC readerStatus/readerRelease/readers/readerForget выполняются вне UI в отдельном
+слоте. Playback Source уничтожаются в ограниченной очереди: 32 активных/закрывающихся
+объекта, не более двух workers. `source_limit` означает отказ нового Source до
+открытия файлов. Release остаётся подтверждением фактического закрытия, не таймером.
+[Capabilities, retry и ограничения](ProgressiveRetirement.md).

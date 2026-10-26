@@ -1,0 +1,320 @@
+{
+  "date": "2026-10-26",
+  "scope": "SDK 1.9: reader registry IPC outside UI and bounded deferred Source destruction",
+  "sourceBaseCommit": "88eeb0a4b2cf1df271b30819714d18036e7bd225",
+  "builds": {
+    "linuxQt": {
+      "exitCode": 0,
+      "sha256": "1e6888d7110cc2fcc7d55df331dbabf74e6db55d63406bed25070869b9b7ae0e"
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "sha256": "01dad76408ba49804047bb26348ef0e923ff3a4a9c83e6ccd57b083a2d37a44e"
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "sha256": "5daf6b485415f9a8a7859e379e7d70db1964c703867b30ea8871db067d3be25f"
+    }
+  },
+  "tests": {
+    "linuxQt": {
+      "fullApiPassed": 51,
+      "fullCtestGroups": 3,
+      "fullExitCode": 0,
+      "finalCtestGroups": 3,
+      "finalExitCode": 0,
+      "finalRegistryQtTestPassed": 8,
+      "finalRealV2PlaybackQtTestPassed": 3
+    },
+    "windowsQt": {
+      "fullApiPassed": 52,
+      "fullCtestGroups": 4,
+      "fullExitCode": 0,
+      "finalCtestGroups": 3,
+      "finalExitCode": 0,
+      "finalRegistryQtTestPassed": 8,
+      "finalRealV2PlaybackQtTestPassed": 3
+    },
+    "nativeRetirement": {
+      "checks": 6,
+      "capacity": 32,
+      "workers": 2,
+      "gccExitCode": 0,
+      "mingwExitCode": 0,
+      "msvcExitCode": 0,
+      "asanUbsanExitCode": 0,
+      "leakDetection": true
+    },
+    "pythonSdk": {
+      "passed": 35,
+      "exitCode": 0
+    },
+    "familyContract": {
+      "passed": 2,
+      "exitCode": 0
+    },
+    "windowsClassic": {
+      "fullRegressionExitCode": 0,
+      "fullRegressionContracts": [
+        "reader-registry-oplock",
+        "async-publication",
+        "async-preparation",
+        "sdk-writer",
+        "v2-metadata-validation",
+        "reader-leases",
+        "resource-io",
+        "v2-media"
+      ],
+      "finalExitCode": 0,
+      "registryOplockCases": [
+        {
+          "action": "readerStatus",
+          "actualFileOplockBlockedQuery": true,
+          "uiPingMilliseconds": [
+            0.1534,
+            0.0448,
+            0.0366
+          ],
+          "result": {
+            "version": 1,
+            "reader": {
+              "version": 1,
+              "readerId": "4bbb8a19325ea53f9d4161df63f3d163",
+              "sessionId": "c15aedbb53054ee1b6d37d4559ec8ae5",
+              "generation": "1",
+              "pid": 16964,
+              "birth": "134374845726720776",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "7318349395469467"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "11540474046129476"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            "ok": true
+          }
+        },
+        {
+          "action": "readerRelease",
+          "actualFileOplockBlockedQuery": true,
+          "uiPingMilliseconds": [
+            0.0947,
+            0.0408,
+            0.0334
+          ],
+          "result": {
+            "version": 1,
+            "reader": {
+              "version": 1,
+              "readerId": "4bbb8a19325ea53f9d4161df63f3d163",
+              "sessionId": "c15aedbb53054ee1b6d37d4559ec8ae5",
+              "generation": "1",
+              "pid": 16964,
+              "birth": "134374845726720776",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "7318349395469467"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "11540474046129476"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            "ok": true
+          }
+        },
+        {
+          "action": "readers",
+          "actualFileOplockBlockedQuery": true,
+          "uiPingMilliseconds": [
+            0.1091,
+            0.0336,
+            0.0287
+          ],
+          "result": {
+            "version": 1,
+            "readers": [
+              {
+                "version": 1,
+                "readerId": "4bbb8a19325ea53f9d4161df63f3d163",
+                "sessionId": "c15aedbb53054ee1b6d37d4559ec8ae5",
+                "generation": "1",
+                "pid": 16964,
+                "birth": "134374845726720776",
+                "filesClosed": true,
+                "resources": [
+                  {
+                    "id": "video",
+                    "device": "656024512",
+                    "fileId": "7318349395469467"
+                  },
+                  {
+                    "id": "audio",
+                    "device": "656024512",
+                    "fileId": "11540474046129476"
+                  }
+                ],
+                "released": true,
+                "reason": "files-closed"
+              }
+            ],
+            "hasMore": false,
+            "ok": true
+          }
+        },
+        {
+          "action": "readerForget",
+          "actualFileOplockBlockedQuery": true,
+          "uiPingMilliseconds": [
+            0.0736,
+            0.0459,
+            0.0305
+          ],
+          "result": {
+            "version": 1,
+            "forgotten": true,
+            "ok": true
+          }
+        },
+        {
+          "action": "sourceRetirement",
+          "actualCleanupGuardBlocked": true,
+          "filesClosedWhileBlocked": false,
+          "uiPingMilliseconds": [
+            7.5614,
+            1.943,
+            0.2601
+          ],
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "9aec4d2ec2c4a80edc29161bb3792d1d",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "9aec4d2ec2c4a80edc29161bb3792d1d",
+              "sessionId": "a271ce81737d45c3bd537d8ce623a746",
+              "generation": "1",
+              "pid": 16964,
+              "birth": "134374845726720776",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "7318349395469467"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "11540474046129476"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          }
+        }
+      ],
+      "uiPings": 15,
+      "maxUiPingMilliseconds": 7.5614,
+      "legacyProvider": {
+        "contract": "legacy-provider",
+        "result": "PASS",
+        "beforeComplete": {
+          "schemaVersion": 1,
+          "sessionId": "5edc1c07a4b7418db62c2accb19265ff",
+          "generation": 1,
+          "revision": 2,
+          "type": "playing",
+          "pid": 17044,
+          "position100ns": 100212031,
+          "readyEnd100ns": 120000000,
+          "completionWaiters": 0,
+          "observedPlaying": true
+        },
+        "complete": {
+          "schemaVersion": 1,
+          "sessionId": "5edc1c07a4b7418db62c2accb19265ff",
+          "generation": 1,
+          "revision": 3,
+          "type": "playing",
+          "pid": 17044,
+          "position100ns": 109985730,
+          "readyEnd100ns": 200000000,
+          "completionWaiters": 0
+        },
+        "filesClosedLeaseReleased": true
+      },
+      "buildMatch": {
+        "testedCopySha256": "5daf6b485415f9a8a7859e379e7d70db1964c703867b30ea8871db067d3be25f",
+        "sourceSha256": "5daf6b485415f9a8a7859e379e7d70db1964c703867b30ea8871db067d3be25f",
+        "equal": true
+      },
+      "taskCleanup": {
+        "taskRemoved": true,
+        "lastTaskResult": 0
+      },
+      "installedShellRegistrationUnchanged": true
+    }
+  },
+  "linuxInstall": {
+    "installedSha256": "1e6888d7110cc2fcc7d55df331dbabf74e6db55d63406bed25070869b9b7ae0e",
+    "previousSha256": "22948a3c1df459ad1a65c2ec5e3081e274b4b0c54482d52aa04f0d52a0d90500",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.9-20261026T104103Z",
+    "profileSha256Before": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileSha256After": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileUnchanged": true,
+    "atomicReplacement": true,
+    "playbackInterrupted": false,
+    "reportedVersion": "FoxicMPQt 0.2.0",
+    "capabilities": {
+      "readerRegistryOffUi": true,
+      "sourceRetirement": {
+        "filesClosedBeforeRelease": true,
+        "maxSources": 32,
+        "processOwned": true,
+        "workerLimit": 2
+      }
+    }
+  },
+  "intermediateFailures": [
+    {
+      "exitCode": 1,
+      "stage": "Initial Qt compilation",
+      "reason": "slots member collided with Qt macro",
+      "resolution": "Renamed to entries; all three final builds exit 0"
+    },
+    {
+      "exitCode": 1,
+      "stage": "Classic final legacy harness",
+      "reason": "One-second sample was buffering at 11.0125 seconds; narrow playing-only condition missed valid progression",
+      "resolution": "Require prior playing observation and >=10 seconds in playing or buffering; final registry and legacy retry exit 0"
+    }
+  ],
+  "boundaries": [
+    "Harvester unchanged",
+    "Installed Windows apps/profiles unchanged",
+    "Source count is not a RAM budget",
+    "Native read/open not force cancellable",
+    "Graph/renderer close and legacy opening/old locks not fully qualified",
+    "Direct internal C++ request/Handle remains synchronous",
+    "No new codec/live/remux support; published 0.2.0 installers unchanged"
+  ]
+}

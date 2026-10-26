@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "HarvesterSession.h"
 #include "../../shared/progressivereaderlease.h"
+#include "../../shared/progressiveretirement.h"
 #include "../../shared/progressivefmp4bridge.h"
 #include <map>
 #include <aclapi.h>
@@ -101,8 +102,9 @@ CHarvesterSession::~CHarvesterSession() {
     m_released->store(true);
 }
 std::shared_ptr<CHarvesterSession> CHarvesterSession::Open(const std::wstring& path,CStringW& error) {
-    auto p=std::make_shared<CHarvesterSession>();
+    std::shared_ptr<CHarvesterSession> p;
     try {
+        p=foxicmp::progressive::SourceRetirement::create<CHarvesterSession>([]{return new CHarvesterSession;});
         p->m_manifest=LocalPath(path); p->m_root=p->m_manifest.substr(0,p->m_manifest.find_last_of(L'\\')+1);
         p->ReadManifest(p->m_state);
         if(p->m_state.state==harvester::State::Cancelled || p->m_state.state==harvester::State::Failed) throw std::runtime_error("Session is cancelled or failed");
@@ -191,8 +193,9 @@ std::string CHarvesterSession::PlaybackDetails() const {
     return foxicmp::progressive::lease_detail::Encode(d);
 }
 std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::string& json,CStringW& error,const std::wstring& readerRegistry,std::string* reasonCode,bool trackGroup) {
-    auto context=std::make_shared<CHarvesterSession>();
+    std::shared_ptr<CHarvesterSession> context;
     try {
+        context=trackGroup?foxicmp::progressive::SourceRetirement::create<CHarvesterSession>([]{return new CHarvesterSession;}):std::make_shared<CHarvesterSession>();
         context->m_published=true;
         rapidjson::Document descriptor;descriptor.Parse(json.c_str());
         if(descriptor.IsObject() && descriptor.HasMember("schemaVersion") && descriptor["schemaVersion"].IsUint() && descriptor["schemaVersion"].GetUint()==2) {
@@ -246,7 +249,8 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
             }
         });
         return context;
-    } catch(const foxicmp::progressive::Error& e) {if(reasonCode)*reasonCode=e.code;error=Wide(e.what()).c_str();return nullptr;}
+    } catch(const foxicmp::progressive::RetirementBusy& e) {if(reasonCode)*reasonCode="source_limit";error=Wide(e.what()).c_str();return nullptr;}
+    catch(const foxicmp::progressive::Error& e) {if(reasonCode)*reasonCode=e.code;error=Wide(e.what()).c_str();return nullptr;}
     catch(const std::exception& e) {if(reasonCode)*reasonCode="source_not_ready";error=Wide(e.what()).c_str();return nullptr;}
 }
 bool CHarvesterSession::Publish(const std::string& json,CStringW& error) {

@@ -224,6 +224,90 @@ def exercise_publication(client,pid,fixtures,work):
     finally:kernel.CloseHandle(handle)
 
 
+def exercise_registry_oplock(client,pid,fixtures,work):
+    """Block actual registry CreateFile until an oplock is acknowledged; ping UI."""
+    root=Path(work);root.mkdir(parents=True)
+    value=dict(schemaVersion=1,sessionId=uuid.uuid4().hex,generation=1,revision=1,state='downloading',duration100ns=200000000,tracks={})
+    for kind,name in [('video','video.mp4'),('audio','audio.m4a')]:
+        data=(Path(fixtures)/'progressive'/name).read_bytes();length=prefix(data,5);(root/(kind+'.part')).write_bytes(data[:length])
+        value['tracks'][kind]=dict(path=kind+'.part',container='mp4' if kind=='video' else 'm4a',fragmented=True,initializationReady=True,availablePrefixBytes=length,expectedTotalBytes=None,state='downloading')
+    opened=client.start(value,session_directory=root,activate=False,track_reader=True);reader=opened['readerId']
+    assert client.release_reader(reader,timeout=10)['released']
+    kernel=ctypes.WinDLL('kernel32',use_last_error=True);user=ctypes.WinDLL('user32',use_last_error=True)
+    class Overlapped(ctypes.Structure):
+        _fields_=[('Internal',ctypes.c_size_t),('InternalHigh',ctypes.c_size_t),('Offset',w.DWORD),('OffsetHigh',w.DWORD),('hEvent',w.HANDLE)]
+    kernel.CreateFileW.argtypes=[w.LPCWSTR,w.DWORD,w.DWORD,ctypes.c_void_p,w.DWORD,w.DWORD,w.HANDLE];kernel.CreateFileW.restype=w.HANDLE
+    kernel.CreateEventW.argtypes=[ctypes.c_void_p,w.BOOL,w.BOOL,w.LPCWSTR];kernel.CreateEventW.restype=w.HANDLE
+    kernel.DeviceIoControl.argtypes=[w.HANDLE,w.DWORD,ctypes.c_void_p,w.DWORD,ctypes.c_void_p,w.DWORD,ctypes.POINTER(w.DWORD),ctypes.POINTER(Overlapped)]
+    kernel.WaitForSingleObject.argtypes=[w.HANDLE,w.DWORD];kernel.GetOverlappedResult.argtypes=[w.HANDLE,ctypes.POINTER(Overlapped),ctypes.POINTER(w.DWORD),w.BOOL]
+    kernel.CloseHandle.argtypes=[w.HANDLE];kernel.GetTempPathW.argtypes=[w.DWORD,w.LPWSTR]
+    temp=ctypes.create_unicode_buffer(32768);assert kernel.GetTempPathW(len(temp),temp)
+    registry=Path(temp.value)/(client.endpoint.rsplit('\\',1)[-1]+'.readers');path=registry/(reader+'.lease');assert path.exists(),path
+    callback=ctypes.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM);windows=[]
+    user.EnumWindows.argtypes=[callback,w.LPARAM];user.GetWindowThreadProcessId.argtypes=[w.HWND,ctypes.POINTER(w.DWORD)];user.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,ctypes.c_int]
+    user.SendMessageTimeoutW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM,w.UINT,w.UINT,ctypes.POINTER(ctypes.c_size_t)]
+    @callback
+    def visit(hwnd,_):
+        owner=w.DWORD();user.GetWindowThreadProcessId(hwnd,ctypes.byref(owner));name=ctypes.create_unicode_buffer(256);user.GetClassNameW(hwnd,name,256)
+        if owner.value==pid and name.value=='FoxicMP':windows.append(hwnd)
+        return True
+    user.EnumWindows(visit,0);assert len(windows)==1
+    results=[]
+    try:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+            for action in ('readerStatus','readerRelease','readers','readerForget'):
+                handle=kernel.CreateFileW(str(path),0xC0000000,3,None,3,0x40000000,None);assert handle!=ctypes.c_void_p(-1).value,ctypes.get_last_error()
+                event=kernel.CreateEventW(None,True,False,None);overlapped=Overlapped();overlapped.hEvent=event;count=w.DWORD()
+                future=None
+                try:
+                    ok=kernel.DeviceIoControl(handle,0x90000,None,0,None,0,ctypes.byref(count),ctypes.byref(overlapped))
+                    assert not ok and ctypes.get_last_error()==997,('Oplock was not granted',ctypes.get_last_error())
+                    query=dict(version=1,action=action,readerId=reader)
+                    if action=='readers':query=dict(version=1,action=action,sessionId=value['sessionId'],generation='1')
+                    future=pool.submit(client.request,query,8)
+                    assert kernel.WaitForSingleObject(event,2000)==0,'Registry query did not break the real file oplock'
+                    assert not future.done(),'Query bypassed the held registry file'
+                    times=[]
+                    for _ in range(3):
+                        out=ctypes.c_size_t();started=time.perf_counter_ns()
+                        assert user.SendMessageTimeoutW(windows[0],0,0,0,2,500,ctypes.byref(out)),'Classic UI blocked on reader-registry I/O'
+                        times.append((time.perf_counter_ns()-started)/1000000)
+                    assert not future.done()
+                    kernel.GetOverlappedResult(handle,ctypes.byref(overlapped),ctypes.byref(count),False)
+                finally:
+                    kernel.CloseHandle(handle);kernel.CloseHandle(event)
+                result=future.result(timeout=8);assert result['ok'],result
+                if action=='readerForget':assert result['forgotten']
+                elif action=='readers':assert any(r['readerId']==reader and r['released'] for r in result['readers'])
+                else:assert result['reader']['released']
+                results.append(dict(action=action,actualFileOplockBlockedQuery=True,uiPingMilliseconds=times,result=result))
+        # A separate live source forces final cleanup to wait on the registry
+        # guard. The UI must keep pumping while the close marker is still false.
+        value['sessionId']=uuid.uuid4().hex
+        opened=client.start(value,session_directory=root,activate=False,track_reader=True);reader=opened['readerId']
+        handle=kernel.CreateFileW(str(registry/'.guard'),0xC0000000,3,None,3,0x40000000,None);assert handle!=ctypes.c_void_p(-1).value
+        event=kernel.CreateEventW(None,True,False,None);overlapped=Overlapped();overlapped.hEvent=event;count=w.DWORD()
+        try:
+            ok=kernel.DeviceIoControl(handle,0x90000,None,0,None,0,ctypes.byref(count),ctypes.byref(overlapped))
+            assert not ok and ctypes.get_last_error()==997,('Cleanup guard oplock was not granted',ctypes.get_last_error())
+            post_command(pid,803)
+            assert kernel.WaitForSingleObject(event,3000)==0,'Source destructor did not reach the held registry guard'
+            raw=json.loads((registry/(reader+'.lease')).read_text(encoding='utf-8'));assert raw['filesClosed'] is False,raw
+            times=[]
+            for _ in range(3):
+                out=ctypes.c_size_t();started=time.perf_counter_ns()
+                assert user.SendMessageTimeoutW(windows[0],0,0,0,2,500,ctypes.byref(out)),'UI waited for the final source destructor'
+                times.append((time.perf_counter_ns()-started)/1000000)
+            kernel.GetOverlappedResult(handle,ctypes.byref(overlapped),ctypes.byref(count),False)
+        finally:kernel.CloseHandle(handle);kernel.CloseHandle(event)
+        receipt=client.release_reader(reader,timeout=10);assert receipt['released'] and receipt['reader']['filesClosed'],receipt
+        results.append(dict(action='sourceRetirement',actualCleanupGuardBlocked=True,filesClosedWhileBlocked=False,uiPingMilliseconds=times,release=receipt))
+        return dict(result='PASS',cases=results)
+    finally:
+        try:client.forget_reader(reader)
+        except (OSError,RuntimeError):pass
+
+
 def run_legacy(args):
     """Check the shared Classic index refactor through its retained provider CLI."""
     player=Path(args.player).resolve();registration=registration_snapshot();work=Path(args.report)/'legacy';work.mkdir(parents=True)
@@ -254,10 +338,15 @@ def run_legacy(args):
         attached=wait(lambda:read(message))
         assert attached['pid']==process.pid
         (work/'fixture-control').write_text('grow')
+        seen_playing=False
         def playing():
+            nonlocal seen_playing
             current=read(message)
             if current.get('type')=='error':raise AssertionError(current)
-            return current if current.get('type')=='playing' and current.get('position100ns',0)>=100000000 else None
+            seen_playing=seen_playing or current.get('type')=='playing'
+            # The one-second provider sampling can skip the narrow playing
+            # interval at 10 s and next report normal buffering near 11/12 s.
+            return dict(current,observedPlaying=True) if seen_playing and current.get('type') in {'playing','buffering'} and current.get('position100ns',0)>=100000000 else None
         before=wait(playing,25)
         assert all((work/(kind+'.part')).stat().st_size<(Path(args.fixtures)/'progressive'/name).stat().st_size for kind,name in [('video','video.mp4'),('audio','audio.m4a')])
         (work/'fixture-control').write_text('complete')
@@ -303,6 +392,8 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.registry_only:
+            return [dict(contract='reader-registry-oplock',result=exercise_registry_oplock(client,process.pid,args.fixtures,Path(args.report)/'registry-oplock'))]
         if args.publication_only:
             return [dict(contract='async-publication',result=exercise_publication(client,process.pid,args.fixtures,Path(args.report)/'async-publication'))]
         if args.preparation_only:
@@ -333,9 +424,10 @@ def run(args):
             sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
                 Path(args.fixtures)/'progressive/audio.m4a', Path(args.report)/'sdk-writer')
             media = exercise_v2_playback(client,args.fixtures,Path(args.report)/'schema-2-media')
+            registry = exercise_registry_oplock(client,process.pid,args.fixtures,Path(args.report)/'registry-oplock')
             publication = exercise_publication(client,process.pid,args.fixtures,Path(args.report)/'async-publication')
             preparation = exercise_preparation(client,process.pid,args.fixtures,Path(args.report)/'async-preparation')
-            return [dict(contract='async-publication',result=publication),dict(contract='async-preparation',result=preparation),dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases),dict(contract='reader-leases',result=readers),dict(contract='resource-io',result=resources),dict(contract='v2-media',result=media)]
+            return [dict(contract='reader-registry-oplock',result=registry),dict(contract='async-publication',result=publication),dict(contract='async-preparation',result=preparation),dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases),dict(contract='reader-leases',result=readers),dict(contract='resource-io',result=resources),dict(contract='v2-media',result=media)]
         common = exercise_directory_contract(client, args.fixtures, Path(args.report)/'relative-contract')
         results.append(dict(contract='sessionDirectory', scenarios=common))
         sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
@@ -406,6 +498,7 @@ if __name__ == '__main__':
     parser.add_argument('--preparation-only', action='store_true')
     parser.add_argument('--publication-only', action='store_true')
     parser.add_argument('--legacy-only', action='store_true')
+    parser.add_argument('--registry-only', action='store_true')
     arguments=parser.parse_args();report=Path(arguments.report);report.mkdir(parents=True,exist_ok=True)
     try:
         result=run_legacy(arguments) if arguments.legacy_only else run(arguments);(report/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')

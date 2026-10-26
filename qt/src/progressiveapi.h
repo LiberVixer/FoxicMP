@@ -24,9 +24,9 @@ private:
   struct Preparation;
   QJsonObject execute(const QJsonObject &, Preparation *);
   void dispatch(const QJsonObject &, class QLocalSocket *, class QTimer *);
-  std::shared_ptr<Preparation> preparation;
+  std::shared_ptr<Preparation> preparation, registryPreparation;
   friend class ProgressiveApiTest;
-  std::function<void()> preparationHook;
+  std::function<void()> preparationHook, readerIoHook;
   void acceptClients();
   Window *window;
   QLocalServer server;

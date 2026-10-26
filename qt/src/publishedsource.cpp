@@ -5,6 +5,7 @@
 #include "progressivefile.h"
 #include <QDir>
 #include "../../shared/progressivereaderlease.h"
+#include "../../shared/progressiveretirement.h"
 #include "../../shared/progressivefmp4bridge.h"
 
 namespace {
@@ -65,7 +66,7 @@ void checkFile(intptr_t file, uint64_t available) { ProgressiveFile::inspect(fil
 
 std::shared_ptr<ProgressiveSource>
 ProgressiveSource::openPublished(const QJsonObject &input, const QString &readerRegistry) {
-  auto source = std::shared_ptr<ProgressiveSource>(new ProgressiveSource(input, readerRegistry));
+  auto source = foxicmp::progressive::SourceRetirement::create<ProgressiveSource>([&]{return new ProgressiveSource(input,readerRegistry);});
   if (!readerRegistry.isEmpty())
     source->readerLease = foxicmp::progressive::ReaderLease::Create(
         std::filesystem::u8path(readerRegistry.toUtf8().toStdString()), source->snapshot.sessionId,
@@ -86,6 +87,8 @@ QJsonObject ProgressiveSource::probePublished(const QJsonObject &input, const QS
             {"reasonCode", "supported"},
             {"reason", "MP4/M4A tracks are initialized and the confirmed prefix is readable"},
             {"readySeconds", current.available}, {"complete", current.complete}};
+  } catch (const foxicmp::progressive::RetirementBusy &error) {
+    return {{"supported",false},{"mode","waiting-player"},{"reasonCode","source_limit"},{"reason",QString::fromUtf8(error.what())},{"requiresCompleteFile",false}};
   } catch (const foxicmp::progressive::Error &error) {
     return {{"supported", false}, {"mode", "unsupported"}, {"reasonCode", QString::fromStdString(error.code)},
             {"reason", QString::fromUtf8(error.what())}, {"requiresCompleteFile", false}};

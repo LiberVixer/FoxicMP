@@ -43,6 +43,15 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Реестр и освобождение источников (SDK 1.9)
+
+[Четыре reader-команды и уничтожение Source выполняются вне UI](ProgressiveRetirement.md).
+Capabilities: `readerRegistryOffUi:true`, `sourceRetirement.maxSources:32`,
+`sourceRetirement.workerLimit:2`. При `source_limit` дождаться подтверждённого
+освобождения. Python-клиент повторяет `reader_registry_busy` только для reader-команд
+в пределах общего deadline; положительный release по таймеру не подставляется.
+[Проверки трёх сборок](ProgressiveRetirementValidation-2026-10-26.md).
+
 ## Публикация обновлений (SDK 1.8)
 
 Первичные probe/start и последующие update/complete через IPC выполняются в worker.

@@ -69,6 +69,17 @@ class ProgressiveClient:
             raise ValueError("This Classic installation uses its own portable profile directory")
 
     def request(self, message: dict, timeout: float = 5) -> dict:
+        deadline = time.monotonic() + timeout
+        while True:
+            try:
+                return self._request_once(message, max(.001, deadline-time.monotonic()))
+            except ApiError as error:
+                if (error.code != 'reader_registry_busy' or message.get('action') not in
+                        {'readerStatus', 'readerRelease', 'readerForget', 'readers'} or time.monotonic() >= deadline):
+                    raise
+                time.sleep(min(.02, max(0, deadline-time.monotonic())))
+
+    def _request_once(self, message: dict, timeout: float = 5) -> dict:
         raw = json.dumps(message, ensure_ascii=False, allow_nan=False,
                          separators=(",", ":")).encode() + b"\n"
         if len(raw) > MAX_BYTES:

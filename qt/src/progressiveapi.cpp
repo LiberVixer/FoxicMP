@@ -13,6 +13,7 @@
 #include "platformpaths.h"
 #include "../../shared/progressivesession.h"
 #include "../../shared/progressivereaderlease.h"
+#include "../../shared/progressiveretirement.h"
 #include "../../shared/progressiveresourceprobe.h"
 #include "../../shared/progressivefmp4bridge.h"
 #ifndef Q_OS_WIN
@@ -33,8 +34,8 @@ bool keys(const QJsonObject &value, const QStringList &required, const QStringLi
 }
 }
 struct ProgressiveApi::Preparation {
-  ~Preparation(){if(candidate)std::thread([owned=std::move(candidate)]()mutable{owned.reset();}).detach();}
-  bool requested=false, ready=false, probe=false, publication=false;
+  bool requested=false, ready=false, probe=false, publication=false, readerQuery=false, readerRepeat=false;
+  unsigned readerPass=0;
   std::atomic<bool> finished{false}, abandoned{false};
   QJsonObject descriptor, reply;
   QString registry;
@@ -55,7 +56,7 @@ ProgressiveApi::ProgressiveApi(Window *w, QObject *parent) : QObject(parent), wi
     source.reset();
   });
 }
-ProgressiveApi::~ProgressiveApi() { if(preparation)preparation->abandoned.store(true);server.close(); }
+ProgressiveApi::~ProgressiveApi() { if(preparation)preparation->abandoned.store(true);if(registryPreparation)registryPreparation->abandoned.store(true);server.close(); }
 QString ProgressiveApi::endpointFor(const QString &directory) {
   return InstanceBroker::endpointFor(directory) + ".progressive";
 }
@@ -78,6 +79,7 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
           {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers", "resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget"}},
           {"resourceIoProbeVersion", 1}, {"resourceIoSchemaVersions", QJsonArray{2}}, {"resourceIoPlaybackSupported", false},
+          {"readerRegistryOffUi",true},{"sourceRetirement",QJsonObject{{"maxSources",int(foxicmp::progressive::SourceRetirement::Capacity)},{"workerLimit",int(foxicmp::progressive::SourceRetirement::WorkerLimit)},{"processOwned",true},{"filesClosedBeforeRelease",true}}},
           {"readerLeaseProtocol", 1}, {"readerLeaseOptIn", true}, {"maxReaderReceipts", 128},
           {"playbackSchemaVersions", QJsonArray{1,2}}, {"validationSchemaVersions", QJsonArray{2}},
           {"schema2Playback",QJsonDocument::fromJson(foxicmp::progressive::Fmp4V2Capabilities()).object()},
@@ -126,16 +128,27 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
         QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString()))).object();
   }
   if (action == "readerStatus" || action == "readerRelease" || action == "readerForget" || action == "readers") {
-    const auto query = [&] { return QJsonDocument::fromJson(QByteArray::fromStdString(foxicmp::progressive::ReaderRequest(
-        std::filesystem::u8path(readerRegistry.toUtf8().toStdString()),
-        QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString()))).object(); };
-    auto reply = query();
-    if (action == "readerRelease" && reply["ok"].toBool() && !readerId.isEmpty() && input["readerId"] == readerId) {
-      if (auto active = source.lock(); active && window->progressiveSession() == active) window->closeCurrent();
-      reply = query();
+    const auto raw=QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString();
+    if(prepared && !prepared->ready) {
+      try{foxicmp::progressive::ReaderCommand(raw);}catch(const foxicmp::progressive::Error& e){return failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));}
+      prepared->requested=true;prepared->readerQuery=true;prepared->descriptor=input;prepared->registry=readerRegistry;
+      if(action=="readerRelease" && input["readerId"]==readerId){auto active=source.lock();if(active && window->progressiveSession()==active)prepared->candidate=active;}
+      return {};
+    }
+    const auto query=[&]{return QJsonDocument::fromJson(QByteArray::fromStdString(foxicmp::progressive::ReaderRequest(
+        std::filesystem::u8path(readerRegistry.toUtf8().toStdString()),raw))).object();};
+    auto reply=prepared?prepared->reply:query();
+    if(action=="readerRelease" && reply["ok"].toBool() && !readerId.isEmpty() && input["readerId"]==readerId && (!prepared || !prepared->readerPass)) {
+      auto active=source.lock();
+      if(active && window->progressiveSession()==active && (!prepared || prepared->candidate==active)) {
+        window->closeCurrent();
+        if(prepared){prepared->readerRepeat=true;return {};}
+        reply=query();
+      }
     }
     return reply;
   }
+
   if (action == "capabilities") {
     if (!keys(input, {"version", "action"})) return failure("invalid_request", "Unexpected fields");
     auto result = information({});
@@ -215,6 +228,8 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
       readerId = next->registeredReaderId();
       lastOutcome = {};
       if (input.value("activate").toBool(true)) window->restoreFromTray();
+    } catch (const foxicmp::progressive::RetirementBusy& e) {
+      return failure("source_limit",QString::fromUtf8(e.what()));
     } catch (const foxicmp::progressive::Error &e) {
       return failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));
     } catch (const std::exception &e) {
@@ -281,41 +296,50 @@ void ProgressiveApi::dispatch(const QJsonObject &input, QLocalSocket *socket, QT
     deadline->stop();socket->write(QJsonDocument(reply).toJson(QJsonDocument::Compact)+'\n');socket->disconnectFromServer();
   };
   const auto action=input["action"].toString();
-  if(action!="start" && action!="probe" && action!="update" && action!="complete"){answer(request(input));return;}
-  if(preparation){answer(failure("preparation_busy","Another media source is being prepared"));return;}
+  const bool reader=QStringList{"readerStatus","readerRelease","readerForget","readers"}.contains(action);
+  if(!reader && action!="start" && action!="probe" && action!="update" && action!="complete"){answer(request(input));return;}
+  auto& slot=reader?registryPreparation:preparation;
+  if(slot){answer(failure(reader?"reader_registry_busy":"preparation_busy","Another request is using this worker slot"));return;}
   auto job=std::make_shared<Preparation>();const auto admitted=execute(input,job.get());
   if(!job->requested){answer(admitted);return;}
-  preparation=job;
-  const auto hook=preparationHook;
-  // The detached worker owns its data and never accesses this API or the window.
-  // Destroying a window cannot join a thread blocked in filesystem I/O.
-  try {std::thread([job,hook]{
-    try{
-      if(hook)hook();
-      if(!job->abandoned.load()){
-        if(job->publication){QString error;if(!job->candidate->publish(job->descriptor,&error))job->reply=failure("invalid_update",error);}
+  slot=job;const auto hook=reader?readerIoHook:preparationHook;
+  // Workers own their inputs, never the window or API. Registry I/O has its own
+  // slot, so release requests are not blocked behind a media publication.
+  const auto launch=[job,hook]{std::thread([job,hook]{
+    try {
+      if(hook && !job->readerPass)hook();
+      if(!job->abandoned.load()) {
+        if(job->readerQuery)job->reply=QJsonDocument::fromJson(QByteArray::fromStdString(foxicmp::progressive::ReaderRequest(
+            std::filesystem::u8path(job->registry.toUtf8().toStdString()),QJsonDocument(job->descriptor).toJson(QJsonDocument::Compact).toStdString()))).object();
+        else if(job->publication){QString error;if(!job->candidate->publish(job->descriptor,&error))job->reply=failure("invalid_update",error);}
         else if(job->probe)job->reply=ProgressiveSource::probePublished(job->descriptor,job->registry);
         else job->candidate=ProgressiveSource::openPublished(job->descriptor,job->registry);
       }
-    }catch(const foxicmp::progressive::Error& e){job->reply=failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));}
-    catch(const std::exception& e){job->reply=failure("source_not_ready",QString::fromUtf8(e.what()));}
+    }catch(const foxicmp::progressive::RetirementBusy& e){job->reply=failure("source_limit",QString::fromUtf8(e.what()));}
+    catch(const foxicmp::progressive::Error& e){job->reply=failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));}
+    catch(const std::exception& e){job->reply=failure(job->readerQuery?"reader_registry_error":"source_not_ready",QString::fromUtf8(e.what()));}
     if(job->abandoned.load())job->candidate.reset();
     job->finished.store(true,std::memory_order_release);
-  }).detach();}
-  catch(const std::exception& e){preparation.reset();answer(failure("preparation_unavailable",QString::fromUtf8(e.what())));return;}
-  const QPointer<QLocalSocket> guarded(socket);
-  auto *poll=new QTimer(this);poll->setInterval(10);
+  }).detach();};
+  try{launch();}catch(const std::exception& e){slot.reset();answer(failure("preparation_unavailable",QString::fromUtf8(e.what())));return;}
+  const QPointer<QLocalSocket> guarded(socket);auto* poll=new QTimer(this);poll->setInterval(10);
   connect(socket,&QLocalSocket::disconnected,this,[job]{job->abandoned.store(true);});
-  connect(poll,&QTimer::timeout,this,[this,job,poll,guarded,deadline,input]{
+  connect(poll,&QTimer::timeout,this,[this,job,poll,guarded,deadline,input,launch]{
     if(!job->finished.load(std::memory_order_acquire))return;
-    poll->stop();poll->deleteLater();preparation.reset();
-    if(!guarded || guarded->state()!=QLocalSocket::ConnectedState)return;
+    auto& slot=job->readerQuery?registryPreparation:preparation;
+    if(!guarded || guarded->state()!=QLocalSocket::ConnectedState){slot.reset();poll->stop();poll->deleteLater();return;}
     job->ready=true;
-    const auto reply=job->abandoned.load()?failure("preparation_cancelled","Playback intent changed while preparing the source"):execute(input,job.get());
-    deadline->stop();guarded->write(QJsonDocument(reply).toJson(QJsonDocument::Compact)+'\n');guarded->disconnectFromServer();
+    auto reply=job->abandoned.load()?failure("preparation_cancelled","Playback intent changed while processing request"):execute(input,job.get());
+    if(job->readerRepeat) {
+      job->readerRepeat=false;++job->readerPass;job->ready=false;job->finished.store(false);
+      try{launch();return;}catch(const std::exception& e){reply=failure("reader_registry_error",QString::fromUtf8(e.what()));}
+    }
+    slot.reset();poll->stop();poll->deleteLater();deadline->stop();
+    guarded->write(QJsonDocument(reply).toJson(QJsonDocument::Compact)+'\n');guarded->disconnectFromServer();
   });
   poll->start();
 }
+
 void ProgressiveApi::acceptClients() {
   while (server.hasPendingConnections()) {
     auto *socket = server.nextPendingConnection();

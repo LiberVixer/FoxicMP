@@ -44,7 +44,7 @@ struct Handle {
     ~Handle(){if(value!=INVALID_HANDLE_VALUE && value)CloseHandle(value);}
     Handle(const Handle&)=delete;Handle& operator=(const Handle&)=delete;
     Handle(Handle&& b) noexcept:value(std::exchange(b.value,INVALID_HANDLE_VALUE)){}
-    bool lock() {OVERLAPPED o{};o.Offset=65536;return LockFileEx(value,LOCKFILE_EXCLUSIVE_LOCK|LOCKFILE_FAIL_IMMEDIATELY,0,1,0,&o)!=FALSE;}
+    bool lock(bool wait=false) {OVERLAPPED o{};o.Offset=65536;return LockFileEx(value,LOCKFILE_EXCLUSIVE_LOCK|(wait?0:LOCKFILE_FAIL_IMMEDIATELY),0,1,0,&o)!=FALSE;}
 };
 inline std::vector<BYTE> User() {
     HANDLE raw=nullptr;Check(OpenProcessToken(GetCurrentProcess(),TOKEN_QUERY,&raw)!=FALSE,"Cannot read process owner");Handle token(raw);
@@ -84,7 +84,7 @@ struct Handle {
     ~Handle(){if(value>=0)::close(value);}
     Handle(const Handle&)=delete;Handle& operator=(const Handle&)=delete;
     Handle(Handle&& b) noexcept:value(std::exchange(b.value,-1)){}
-    bool lock(){return flock(value,LOCK_EX|LOCK_NB)==0;}
+    bool lock(bool wait=false){int result;do{result=flock(value,LOCK_EX|(wait?0:LOCK_NB));}while(wait && result && errno==EINTR);return result==0;}
 };
 inline void Owned(int fd,bool directory) {
     struct stat s{};
@@ -280,6 +280,9 @@ public:
     void filesClosed() noexcept {
         std::lock_guard<std::mutex> lock(mutex);if(closed)return;
         try {
+            // Serialize receipt mutation with inspection; all media handles are
+            // already closed. Cleanup may wait here, never claim release early.
+            auto guard=directory.file(".guard",true);lease_detail::Check(guard.lock(true),"Cannot lock reader registry for close");
             book.beginRelease(reader,peer);book.filesClosed(reader,peer);
             auto d=lease_detail::Record(record,reader);d["filesClosed"].SetBool(true);
             lease_detail::Write(file,lease_detail::Encode(d));closed=true;
@@ -287,15 +290,26 @@ public:
     }
 };
 
+// Metadata-only admission, shared by GUI adapters and the worker handler.
+inline rapidjson::Document ReaderCommand(const std::string& json) {
+    using namespace lease_detail;
+    Check(json.size()<=harvester::MaxManifestBytes,"Request exceeds limit","invalid_request");rapidjson::Document input;
+    input.Parse<rapidjson::kParseValidateEncodingFlag|rapidjson::kParseIterativeFlag>(json.c_str());
+    Check(!input.HasParseError() && input.IsObject(),"Invalid reader command","invalid_request");harvester::UniqueKeys(input);
+    const auto action=input.HasMember("action")?Text(input["action"],"action",32):std::string();
+    Keys(input,"request",action=="readers"?std::initializer_list<const char*>{"version","action","sessionId","generation"}:std::initializer_list<const char*>{"version","action","readerId"},action=="readers"?std::initializer_list<const char*>{"afterReaderId"}:std::initializer_list<const char*>{});
+    Check(input["version"].IsUint() && input["version"].GetUint()==1 && (action=="readers" || action=="readerStatus" || action=="readerRelease" || action=="readerForget"),"Invalid reader command","invalid_request");
+    if(action=="readers") {
+        Id(input["sessionId"],"sessionId",true);Unsigned(input["generation"],"generation",UINT64_MAX,true);
+        if(input.HasMember("afterReaderId"))Id(input["afterReaderId"],"afterReaderId",true);
+    }else Id(input["readerId"],"readerId",true);
+    return input;
+}
 // Same bounded command handler for Classic and Qt; never opens a media resource.
 inline std::string ReaderRequest(const std::filesystem::path& root,const std::string& json) {
     using namespace lease_detail;rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();out.AddMember("version",1,a);
     try {
-        Check(json.size()<=harvester::MaxManifestBytes,"Request exceeds limit","invalid_request");rapidjson::Document input;input.Parse(json.c_str());
-        Check(!input.HasParseError() && input.IsObject(),"Invalid reader command","invalid_request");harvester::UniqueKeys(input);
-        const auto action=input.HasMember("action")?Text(input["action"],"action",32):std::string();
-        Keys(input,"request",action=="readers"?std::initializer_list<const char*>{"version","action","sessionId","generation"}:std::initializer_list<const char*>{"version","action","readerId"},action=="readers"?std::initializer_list<const char*>{"afterReaderId"}:std::initializer_list<const char*>{});
-        Check(input["version"].IsUint() && input["version"].GetUint()==1 && (action=="readers" || action=="readerStatus" || action=="readerRelease" || action=="readerForget"),"Invalid reader command","invalid_request");
+        auto input=ReaderCommand(json);const auto action=Text(input["action"],"action",32);
         Directory directory(root,false);auto guard=directory.file(".guard",true);Check(guard.lock(),"Reader registry is busy","reader_registry_busy");
         if(action=="readers") {
             const auto session=Id(input["sessionId"],"sessionId",true);const auto generation=Unsigned(input["generation"],"generation",UINT64_MAX,true);Value list(rapidjson::kArrayType);

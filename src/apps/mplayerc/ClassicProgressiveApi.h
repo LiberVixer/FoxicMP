@@ -16,7 +16,8 @@ public:
         std::wstring registry;
         std::shared_ptr<CHarvesterSession> candidate;
         std::atomic<bool> abandoned{false}, finished{false};
-        bool requested=false, ready=false, probe=false, publication=false;
+        bool requested=false, ready=false, probe=false, publication=false, readerQuery=false, readerRepeat=false;
+        unsigned readerPass=0;
         uint64_t epoch=0;
         HANDLE done = CreateEventW(nullptr, TRUE, FALSE, nullptr);
         ~Request();
@@ -33,7 +34,7 @@ public:
     void Ended(const std::shared_ptr<CHarvesterSession>&, bool natural);
 private:
     static void Prepare(const std::shared_ptr<Request>&);
-    std::shared_ptr<Request> preparation;
+    std::shared_ptr<Request> preparation, registryPreparation;
     uint64_t intentEpoch=0;
     void Serve();
     std::string Status();

@@ -1,5 +1,6 @@
 #include "progressiveapi.h"
 #include "progressivesource.h"
+#include "../../shared/progressiveretirement.h"
 #include "player.h"
 #include "profile.h"
 #include "window.h"
@@ -465,6 +466,59 @@ private slots:
       QVERIFY(active->status().error.isEmpty());
     }
     w.closeCurrent();active.reset();
+  }
+  void readerRegistryIoDoesNotHoldUi_data() {
+    QTest::addColumn<QString>("action");
+    for(const auto &action:{"readerStatus","readerRelease","readerForget","readers"})QTest::newRow(action)<<QString(action);
+  }
+  void readerRegistryIoDoesNotHoldUi() {
+    QFETCH(QString,action);const auto dir=temporary.filePath("registry-"+action);
+    const auto cleanupRegistry=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
+    Profile profile(dir);prepare(profile);Window w(profile);ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    auto start=message("start");start["trackReader"]=true;const auto opened=api.request(start);QVERIFY(opened["ok"].toBool());
+    const auto reader=opened["readerId"].toString();
+    QJsonObject query{{"version",1},{"action",action},{"readerId",reader}};
+    if(action=="readers"){query.remove("readerId");query["sessionId"]=snapshot["sessionId"];query["generation"]="1";}
+    auto entered=std::make_shared<std::promise<void>>();auto future=entered->get_future();auto release=std::make_shared<std::promise<void>>();auto gate=release->get_future().share();
+    api.readerIoHook=[entered,gate]{entered->set_value();gate.wait();};
+    const auto cleanup=qScopeGuard([release]{try{release->set_value();}catch(const std::future_error&){};});
+    const auto endpoint=ProgressiveApi::endpointFor(dir);QLocalSocket socket;socket.connectToServer(endpoint);QVERIFY(socket.waitForConnected(1000));
+    socket.write(QJsonDocument(query).toJson(QJsonDocument::Compact)+'\n');socket.flush();
+    QTRY_VERIFY_WITH_TIMEOUT(future.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,3000);
+    int ticks=0;QTimer tick;connect(&tick,&QTimer::timeout,&tick,[&]{++ticks;});tick.start(5);QTRY_VERIFY_WITH_TIMEOUT(ticks>=4,1000);
+    QVERIFY(wire(endpoint,"{\"version\":1,\"action\":\"capabilities\"}\n")["ok"].toBool());
+    QVERIFY(wire(endpoint,QJsonDocument(message("status")).toJson(QJsonDocument::Compact)+'\n')["ok"].toBool());
+    QCOMPARE(wire(endpoint,QJsonDocument(query).toJson(QJsonDocument::Compact)+'\n')["code"].toString(),QString("reader_registry_busy"));
+    release->set_value();QTRY_VERIFY_WITH_TIMEOUT(!api.registryPreparation,3000);api.readerIoHook={};
+    QTRY_VERIFY_WITH_TIMEOUT(socket.bytesAvailable()>0,3000);const auto reply=QJsonDocument::fromJson(socket.readAll()).object();
+    if(action=="readerForget"){QVERIFY(!reply["ok"].toBool());QCOMPARE(reply["code"].toString(),QString("reader_in_use"));QVERIFY(w.progressiveSession());}
+    else {QVERIFY(reply["ok"].toBool());if(action=="readerRelease")QVERIFY(!w.progressiveSession());}
+    w.closeCurrent();QTRY_VERIFY_WITH_TIMEOUT(api.request(QJsonObject{{"version",1},{"action","readerStatus"},{"readerId",reader}})["reader"].toObject()["released"].toBool(),5000);
+  }
+  void sourceDestructionIsDeferredUntilActualFileClose() {
+    const auto dir=temporary.filePath("deferred-close");const auto cleanupRegistry=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
+    Profile profile(dir);prepare(profile);Window w(profile);ProgressiveApi api(&w);QVERIFY(api.listen(dir));auto start=message("start");start["trackReader"]=true;
+    const auto opened=api.request(start);QVERIFY(opened["ok"].toBool());auto source=w.progressiveSession();QVERIFY(source);auto receipt=source->releaseReceipt();const auto id=opened["readerId"];
+    auto entered=std::make_shared<std::promise<void>>();auto future=entered->get_future();auto release=std::make_shared<std::promise<void>>();auto gate=release->get_future().share();
+    source->retirementHook=[entered,gate]{entered->set_value();gate.wait();};const auto cleanup=qScopeGuard([release]{try{release->set_value();}catch(const std::future_error&){};});
+    QElapsedTimer time;time.start();w.closeCurrent();source.reset();QVERIFY(time.elapsed()<200);
+    QTRY_VERIFY_WITH_TIMEOUT(future.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,3000);QVERIFY(!receipt->load());
+    const auto endpoint=ProgressiveApi::endpointFor(dir);const auto query=[&](const char* action){return QJsonDocument(QJsonObject{{"version",1},{"action",action},{"readerId",id}}).toJson(QJsonDocument::Compact)+'\n';};
+    QVERIFY(!wire(endpoint,query("readerStatus"))["reader"].toObject()["released"].toBool());
+    QCOMPARE(wire(endpoint,query("readerForget"))["code"].toString(),QString("reader_in_use"));
+    QVERIFY(wire(endpoint,"{\"version\":1,\"action\":\"capabilities\"}\n")["ok"].toBool());
+    release->set_value();QTRY_VERIFY_WITH_TIMEOUT(receipt->load(),5000);
+    QTRY_VERIFY_WITH_TIMEOUT(wire(endpoint,query("readerStatus"))["reader"].toObject()["released"].toBool(),5000);
+    QVERIFY(wire(endpoint,query("readerForget"))["ok"].toBool());
+  }
+  void sourceCapacityRejectsWithoutOpeningMoreFiles() {
+    using Pool=foxicmp::progressive::SourceRetirement;QTRY_COMPARE_WITH_TIMEOUT(Pool::occupied(),size_t(0),5000);
+    std::vector<std::shared_ptr<int>> owned;for(size_t i=0;i<Pool::Capacity;++i)owned.push_back(Pool::create<int>([]{return new int(0);}));
+    const auto cleanup=qScopeGuard([&]{owned.clear();Pool::waitEmpty(std::chrono::seconds(3));});
+    Profile profile(temporary.filePath("source-limit"));prepare(profile);Window w(profile);ProgressiveApi api(&w);
+    QCOMPARE(api.request(message("start"))["code"].toString(),QString("source_limit"));QVERIFY(!w.progressiveSession());
+    owned.clear();QTRY_COMPARE_WITH_TIMEOUT(Pool::occupied(),size_t(0),3000);
+    QVERIFY(api.request(message("start"))["ok"].toBool());w.closeCurrent();
   }
   void schemaTwoValidationDoesNotOpenOrReplaceMedia() {
     Profile profile(temporary.filePath("v2-validation-profile")); prepare(profile);

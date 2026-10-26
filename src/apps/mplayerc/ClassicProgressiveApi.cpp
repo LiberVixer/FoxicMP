@@ -8,6 +8,7 @@
 #include <initializer_list>
 #include "../../../shared/progressivesession.h"
 #include "../../../shared/progressivereaderlease.h"
+#include "../../../shared/progressiveretirement.h"
 #include "../../../shared/progressiveresourceprobe.h"
 #include "../../../shared/progressivefmp4bridge.h"
 
@@ -59,6 +60,7 @@ std::wstring ClassicProgressiveApi::Endpoint() {
 std::string ClassicProgressiveApi::Information() {
     Document d;d.Parse(R"({"version":1,"schemaVersion":1,"releaseAcknowledgement":true,"playbackSchemaVersions":[1],"validationSchemaVersions":[2],"protocol":"progressive-manifest-v1","transport":"windows-pipe-json-lines","edition":"classic","profileSelectable":false,"maxRequestBytes":65536,"heartbeatSeconds":5,"disconnectAfterSeconds":15,"maxTrackPathChars":240,"actions":["capabilities","validate","probe","start","update","complete","heartbeat","status","cancel","release","error"],"containers":["fast-start-mp4","fragmented-mp4"],"videoCodecs":["h264"],"audioCodecs":["aac-lc"],"progressiveModes":["native-progressive","post-download"],"fallback":{"available":false,"reasonCode":"unsupported-native-format","networkRetry":false},"separateTracksRequired":true,"initializedTracksRequired":true,"startBufferSeconds":10,"resumeBufferSeconds":5,"pauseBufferSeconds":1})");
     auto& a=d.GetAllocator();d.AddMember("endpoint",Value(Utf8(Endpoint()).c_str(),a),a);d.AddMember("profile",Value(Utf8(ProfileDirectory()).c_str(),a),a);
+    d.AddMember("readerRegistryOffUi",true,a);Value retirement(rapidjson::kObjectType);retirement.AddMember("maxSources",uint32_t(foxicmp::progressive::SourceRetirement::Capacity),a);retirement.AddMember("workerLimit",uint32_t(foxicmp::progressive::SourceRetirement::WorkerLimit),a);retirement.AddMember("processOwned",true,a);retirement.AddMember("filesClosedBeforeRelease",true,a);d.AddMember("sourceRetirement",retirement,a);
     d.AddMember("readerLeaseProtocol",1,a);d.AddMember("readerLeaseOptIn",true,a);d.AddMember("maxReaderReceipts",128,a);
     for(const auto* action:{"readerStatus","readerRelease","readerForget","readers","resourceProbe","resourceProbeUpdate","resourceProbeStatus","resourceProbeCancel","resourceProbeForget"})d["actions"].PushBack(Value(action,a),a);
     d.AddMember("resourceIoProbeVersion",1,a);Value schemas(rapidjson::kArrayType);schemas.PushBack(2,a);
@@ -77,13 +79,14 @@ ClassicProgressiveApi::ClassicProgressiveApi(CMainFrame& frame):frame(frame) {
     if(stop)worker=std::thread([this]{Serve();});
 }
 ClassicProgressiveApi::Request::~Request() {
-    if(candidate)std::thread([owned=std::move(candidate)]()mutable{owned.reset();}).detach();
     if(done)CloseHandle(done);
 }
-ClassicProgressiveApi::~ClassicProgressiveApi() {if(preparation)preparation->abandoned.store(true);if(stop){SetEvent(stop);if(worker.joinable())worker.join();CloseHandle(stop);}}
+ClassicProgressiveApi::~ClassicProgressiveApi() {if(preparation)preparation->abandoned.store(true);if(registryPreparation)registryPreparation->abandoned.store(true);if(stop){SetEvent(stop);if(worker.joinable())worker.join();CloseHandle(stop);}}
 void ClassicProgressiveApi::Prepare(const std::shared_ptr<Request>& job) {
     try {
-        if(!job->abandoned.load()) {
+        if(!job->abandoned.load() && job->readerQuery) {
+            job->preparedReply=foxicmp::progressive::ReaderRequest(std::filesystem::path(job->registry),job->descriptor);
+        }else if(!job->abandoned.load()) {
             Document descriptor;descriptor.Parse(job->descriptor.c_str());
             const bool v2=descriptor.HasMember("schemaVersion") && descriptor["schemaVersion"].IsUint() && descriptor["schemaVersion"].GetUint()==2;
             CStringW error;std::string reason;
@@ -146,16 +149,19 @@ void ClassicProgressiveApi::Serve() {
                 HANDLE events[]={stop,request->done};return WaitForMultipleObjects(2,events,FALSE,5000)==WAIT_OBJECT_0+1;
             };
             if(dispatch()) {
-                if(request->requested && !request->ready) {
+                while(request->requested && (!request->ready || request->readerRepeat)) {
+                    if(request->readerRepeat){request->readerRepeat=false;++request->readerPass;request->ready=false;request->finished.store(false);}
                     ResetEvent(request->done);
                     try{std::thread([request]{Prepare(request);}).detach();}
                     catch(const std::exception& e){request->preparedReply=Failure("preparation_unavailable",e.what());request->finished.store(true);SetEvent(request->done);}
                     HANDLE events[]={stop,request->done};
                     if(WaitForMultipleObjects(2,events,FALSE,5000)==WAIT_OBJECT_0+1) {
                         if(!PeekNamedPipe(pipe,nullptr,0,nullptr,nullptr,nullptr))request->abandoned.store(true);
-                        request->ready=true;if(dispatch())output=request->output;else request->abandoned.store(true);
-                    }else{request->abandoned.store(true);output=Failure("preparation_timeout","Media preparation exceeded the response deadline");}
-                }else output=request->output;
+                        request->ready=true;
+                        if(dispatch())output=request->output;else{request->abandoned.store(true);break;}
+                    }else{request->abandoned.store(true);output=Failure("preparation_timeout","Request exceeded the response deadline");break;}
+                }
+                if(!request->requested)output=request->output;
             }else request->abandoned.store(true);
         }
         if(!output.empty()) {
@@ -203,8 +209,9 @@ std::string ClassicProgressiveApi::Status() {
 }
 std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepared) {
     try {
-        if(prepared && prepared->ready && preparation.get()==prepared)preparation.reset();
-        if(prepared && (prepared->abandoned.load() || (prepared->ready && prepared->epoch!=intentEpoch)))return Failure("preparation_cancelled","Playback intent changed while preparing the source");
+        if(prepared && prepared->ready && !prepared->readerQuery && preparation.get()==prepared)preparation.reset();
+        if(prepared && prepared->ready && prepared->readerQuery && registryPreparation.get()==prepared && prepared->readerPass)registryPreparation.reset();
+        if(prepared && (prepared->abandoned.load() || (prepared->ready && !prepared->readerQuery && prepared->epoch!=intentEpoch)))return Failure("preparation_cancelled","Playback intent changed while preparing the source");
         Document d;d.Parse<rapidjson::kParseValidateEncodingFlag|rapidjson::kParseIterativeFlag>(raw.data(),raw.size());
         if(d.HasParseError() || !d.IsObject())return Failure("invalid_request","Invalid JSON");
         harvester::UniqueKeys(d);
@@ -215,14 +222,27 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             return resourceProbes->request(std::filesystem::path(ReaderRegistry()),raw);
         }
         if(action=="readerStatus" || action=="readerRelease" || action=="readerForget" || action=="readers") {
-            auto reply=foxicmp::progressive::ReaderRequest(std::filesystem::path(ReaderRegistry()),raw);
-            Document result;result.Parse(reply.c_str());
-            if(action=="readerRelease" && result["ok"].GetBool() && !readerId.empty() && harvester::String(d,"readerId")==readerId) {
-                if(auto active=source.lock();active && frame.m_harvester==active)frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
-                reply=foxicmp::progressive::ReaderRequest(std::filesystem::path(ReaderRegistry()),raw);
+            if(prepared && !prepared->ready) {
+                try{foxicmp::progressive::ReaderCommand(raw);}catch(const foxicmp::progressive::Error& e){return Failure(e.code.c_str(),e.what());}
+                if(registryPreparation && !registryPreparation->finished.load(std::memory_order_acquire))return Failure("reader_registry_busy","Another registry request is active");
+                registryPreparation=prepared->shared_from_this();prepared->requested=true;prepared->readerQuery=true;prepared->descriptor=raw;prepared->registry=ReaderRegistry();
+                if(action=="readerRelease" && harvester::String(d,"readerId")==readerId){auto active=source.lock();if(active && frame.m_harvester==active)prepared->candidate=active;}
+                return {};
             }
+            auto reply=prepared?prepared->preparedReply:foxicmp::progressive::ReaderRequest(std::filesystem::path(ReaderRegistry()),raw);
+            Document result;result.Parse(reply.c_str());
+            if(action=="readerRelease" && result["ok"].GetBool() && !readerId.empty() && harvester::String(d,"readerId")==readerId && (!prepared || !prepared->readerPass)) {
+                auto active=source.lock();
+                if(active && frame.m_harvester==active && (!prepared || prepared->candidate==active)) {
+                    frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
+                    if(prepared){prepared->readerRepeat=true;return {};}
+                    reply=foxicmp::progressive::ReaderRequest(std::filesystem::path(ReaderRegistry()),raw);
+                }
+            }
+            if(prepared && registryPreparation.get()==prepared)registryPreparation.reset();
             return reply;
         }
+
         if(action=="capabilities") {
             if(!Keys(d,{"version","action"}))return Failure("invalid_request","Unexpected fields");
             Document info;info.Parse(Information().c_str());info.RemoveMember("endpoint");info.RemoveMember("profile");

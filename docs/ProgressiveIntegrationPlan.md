@@ -25,8 +25,9 @@ reasonCode ожидания индекса/инициализации/диапа
 
 SDK 1.7 переносит [первичную подготовку probe/start через IPC](ProgressivePreparation.md)
 из UI; SDK 1.8 добавляет [update/complete и разделение блокировок](ProgressivePublication.md)
-для опубликованных v1/v2. Остались legacy/provider opening, registry I/O и некоторые
-пути финального закрытия; требование ТЗ про весь I/O пока не закрыто.
+для опубликованных v1/v2. SDK 1.9 выносит [IPC реестра и уничтожение Source](ProgressiveRetirement.md)
+в workers с ограниченной очередью. Остались legacy/provider opening, закрытие
+renderer/графа и некоторые старые блокировки; требование ТЗ про весь I/O пока не закрыто.
 Наличие FFmpeg/libmpv/DirectShow не подтверждает всю матрицу ТЗ.
 
 Без сквозной проверки из реального Harvester в каждой из трёх редакций нельзя

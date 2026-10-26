@@ -1,5 +1,6 @@
 #include "progressivesource.h"
 #include "../../shared/progressivereaderlease.h"
+#include "../../shared/progressiveretirement.h"
 #include "../../shared/progressivefmp4bridge.h"
 #include "i18n.h"
 #include <QDir>
@@ -47,7 +48,7 @@ bool readAt(int fd, uint64_t offset, void *buffer, size_t size) {
 std::shared_ptr<ProgressiveSource>
 ProgressiveSource::open(const QString &manifest) {
   auto source =
-      std::shared_ptr<ProgressiveSource>(new ProgressiveSource(manifest));
+      foxicmp::progressive::SourceRetirement::create<ProgressiveSource>([&]{return new ProgressiveSource(manifest);});
   source->worker = std::thread([raw = source.get()] { raw->watch(); });
   return source;
 }
@@ -109,6 +110,7 @@ ProgressiveSource::ProgressiveSource(const QString &path)
 }
 ProgressiveSource::~ProgressiveSource() {
   cancel();
+  if(retirementHook)retirementHook();
   if (worker.joinable())
     worker.join();
   // Readers hold this object. Reaching its destructor proves they are gone.

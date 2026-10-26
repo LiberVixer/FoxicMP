@@ -1,5 +1,6 @@
 #include "progressivesource.h"
 #include "../../shared/progressivereaderlease.h"
+#include "../../shared/progressiveretirement.h"
 #include "../../shared/progressivefmp4bridge.h"
 #include "progressivefile.h"
 #include <QDir>
@@ -177,7 +178,7 @@ std::shared_ptr<ProgressiveSource> ProgressiveSource::open(const QString &path) 
   const auto manifest = QFileInfo(path).absoluteFilePath();
   auto initial = readJson(manifest, true);
   auto lease = std::make_shared<WindowsProgressiveLease>(initial);
-  auto source = std::shared_ptr<ProgressiveSource>(new ProgressiveSource(initial));
+  auto source = foxicmp::progressive::SourceRetirement::create<ProgressiveSource>([&]{return new ProgressiveSource(initial);});
   source->manifest = manifest;
   source->windowsLease = lease;
   source->worker = std::thread([raw = source.get(), lease, initial]() mutable {
@@ -207,6 +208,7 @@ std::shared_ptr<ProgressiveSource> ProgressiveSource::open(const QString &path) 
 }
 ProgressiveSource::~ProgressiveSource() {
   cancel();
+  if(retirementHook)retirementHook();
   if (worker.joinable()) worker.join();
   for (auto file : files) if (file != -1) ProgressiveFile::close(file);
   v2Bridge.reset();

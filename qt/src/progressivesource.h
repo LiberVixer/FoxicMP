@@ -67,7 +67,7 @@ private:
   mutable std::mutex mutex;
   std::mutex publicationMutex;
   friend class ProgressiveApiTest;
-  std::function<void()> publicationIoHook;
+  std::function<void()> publicationIoHook, retirementHook;
   std::condition_variable changed;
   std::thread worker;
   std::atomic<bool> stopping{false};

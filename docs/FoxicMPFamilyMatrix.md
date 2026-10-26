@@ -44,6 +44,7 @@ Classic восстановлен после экспериментальной �
 | Подтверждённые диапазоны v2, I/O-слой | Общий ResourceSource и resourceProbe | Тот же код | Тот же код | [Контракт](ProgressiveResourceIo.md), [проверки](ProgressiveResourceValidation-2026-10-26.md). Leases ресурсов и байтовое чтение; отдельно подключён [fMP4 playback v2](ProgressiveMediaV2.md), универсальный remux отсутствует |
 | Медиапрофиль v2: отдельные fMP4 H.264/AAC-LC | ResourceSource → DirectShow MP4 | ResourceSource → libmpv | Тот же Qt-код | [Профиль и границы](ProgressiveMediaV2.md), [сквозные проверки](ProgressiveMediaValidation-2026-10-26.md); не вся матрица ТЗ |
 | Первичная подготовка progressive API вне UI | Worker → UI commit | Worker → UI commit | Тот же Qt-код | [SDK 1.7](ProgressivePreparation.md): probe/start, отмена позднего результата; [SDK 1.8](ProgressivePublication.md) добавляет update/complete и отделяет I/O от UI metadata mutex |
+| Реестр progressive readers и уничтожение Source вне UI | IPC worker + FIFO cleanup | IPC worker + FIFO cleanup | Тот же Qt-код | [SDK 1.9](ProgressiveRetirement.md): 32 Source, ≤2 cleanup-workers; release только после закрытия файлов; renderer/graph shutdown отдельно |
 | Пауза, точный seek, главы, покадровые команды | Есть | Есть | Есть | Допуски seek и ограничения live/growing-файлов |
 | Скорость, повторы, A–B | Есть | Есть | Есть | Края A–B, конец очереди, пауза и число проходов |
 | Действия после окончания | Есть, Win32 | Есть, Win32 | Есть, logind/session D-Bus | Один смысл постоянного и однократного действия; платформенные исполнители |

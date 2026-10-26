@@ -105,7 +105,8 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveResourceValidation-2026-10-26.json ../docs/ProgressiveMediaV2.md
  ../docs/ProgressiveMediaValidation-2026-10-26.md ../docs/ProgressiveMediaValidation-2026-10-26.json ../docs/ProgressivePreparation.md
  ../docs/ProgressivePreparationValidation-2026-10-26.md ../docs/ProgressivePreparationValidation-2026-10-26.json ../docs/ProgressivePublication.md
- ../docs/ProgressivePublicationValidation-2026-10-26.md ../docs/ProgressivePublicationValidation-2026-10-26.json DESTINATION integration)
+ ../docs/ProgressivePublicationValidation-2026-10-26.md ../docs/ProgressivePublicationValidation-2026-10-26.json ../docs/ProgressiveRetirement.md
+ ../docs/ProgressiveRetirementValidation-2026-10-26.md ../docs/ProgressiveRetirementValidation-2026-10-26.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/vod.json DESTINATION integration RENAME progressive-v2-vod.json)
 install(FILES ../docs/images/foxicmp-qt-web-control.png DESTINATION . RENAME web-control.png)
 install(FILES ../docs/images/foxicmp-qt-web-browser.png DESTINATION . RENAME web-browser.png)
@@ -183,6 +184,9 @@ if(BUILD_TESTING AND WIN32)
 endif()
 if(BUILD_TESTING)
  find_package(Qt6 REQUIRED COMPONENTS Test Network)
+ add_executable(foxicmp-progressive-retirement-tests ../tests/progressive_retirement_test.cpp)
+ add_test(NAME progressive-retirement COMMAND foxicmp-progressive-retirement-tests)
+ set_tests_properties(progressive-retirement PROPERTIES TIMEOUT 30)
  find_package(Python3 REQUIRED COMPONENTS Interpreter)
  add_executable(foxicmp-progressive-model-tests ../tests/progressive_model_cli.cpp)
  target_include_directories(foxicmp-progressive-model-tests PRIVATE ../src)
@@ -231,6 +235,8 @@ if(BUILD_TESTING)
  set_tests_properties(progressive-preparation PROPERTIES TIMEOUT 90)
  add_test(NAME progressive-publication COMMAND foxicmp-progressive-api-tests publishedUpdatesKeepUiResponsive)
  set_tests_properties(progressive-publication PROPERTIES TIMEOUT 120)
+ add_test(NAME progressive-registry-ui COMMAND foxicmp-progressive-api-tests readerRegistryIoDoesNotHoldUi sourceDestructionIsDeferredUntilActualFileClose sourceCapacityRejectsWithoutOpeningMoreFiles)
+ set_tests_properties(progressive-registry-ui PROPERTIES TIMEOUT 90)
 endif()
 if(BUILD_TESTING AND NOT WIN32)
  find_package(Qt6 REQUIRED COMPONENTS Test Network)

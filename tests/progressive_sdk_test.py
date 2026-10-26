@@ -5,7 +5,7 @@ import sys
 import unittest
 import tempfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'qt'/'tools'))
-from progressive_client import ProgressiveClient, read_snapshot
+from progressive_client import ProgressiveClient, read_snapshot, ApiError
 from progressive_sdk import PreviewSession
 from progressive_schema import unsigned64, signed64
 
@@ -124,6 +124,29 @@ class SdkTest(unittest.TestCase):
         for value in (False,1.0,-2**63-1,2**63):
             with self.assertRaises(ValueError): signed64(value)
         with self.assertRaises(ValueError): unsigned64(2**63,byte_offset=True)
+    def test_registry_busy_retries_with_one_deadline(self):
+        client=ProgressiveClient.__new__(ProgressiveClient);calls=[]
+        def once(message,timeout):
+            calls.append((copy.deepcopy(message),timeout))
+            if len(calls)<3:raise ApiError(dict(code='reader_registry_busy'))
+            return dict(ok=True)
+        client._request_once=once
+        query=dict(version=1,action='readerRelease',readerId='c'*32)
+        self.assertTrue(client.request(query,timeout=.3)['ok']);self.assertEqual(len(calls),3)
+        self.assertTrue(all(message==query for message,_ in calls));self.assertTrue(all(a>=b for a,b in zip([v[1] for v in calls],[v[1] for v in calls][1:])))
+    def test_registry_busy_does_not_retry_media_or_unknown_reader(self):
+        client=ProgressiveClient.__new__(ProgressiveClient);calls=[]
+        def once(message,timeout):calls.append(message);raise ApiError(dict(code='reader_registry_busy' if message['action']=='start' else 'unknown_reader'))
+        client._request_once=once
+        for action in ('start','readerStatus'):
+            with self.assertRaises(ApiError):client.request(dict(version=1,action=action),timeout=.1)
+        self.assertEqual(len(calls),2)
+    def test_registry_busy_deadline_never_fabricates_release(self):
+        client=ProgressiveClient.__new__(ProgressiveClient);calls=[]
+        def once(message,timeout):calls.append(timeout);raise ApiError(dict(code='reader_registry_busy'))
+        client._request_once=once
+        with self.assertRaises(ApiError):client.request(dict(version=1,action='readerStatus',readerId='c'*32),timeout=.015)
+        self.assertTrue(calls);self.assertLessEqual(max(calls),.015)
     def test_snapshot_files_are_bounded_unambiguous_json(self):
         with tempfile.TemporaryDirectory() as folder:
             path=Path(folder)/'snapshot.json'
