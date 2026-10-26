@@ -104,7 +104,7 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-Предварительный [SDK 1.7](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.7)
+Предварительный [SDK 1.8](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.8)
 предназначен для интеграционных проверок с новыми сборками плеера.
 В текущих исходниках исправлена совместимость v1, добавлены SDK, подтверждение
 освобождения файлов и Windows Qt legacy/provider. Добавлен общий для трёх редакций
@@ -117,7 +117,9 @@ Player-owned v1 получил [reader leases и recovery](docs/ProgressiveReade
 две отдельные fMP4 H.264/AAC-LC дорожки, реальное чтение декодера через ResourceSource.
 Другие codec/container-профили, metadata и live ещё не подключены.
 [Первичная подготовка probe/start](docs/ProgressivePreparation.md) выполняется вне UI
-и защищена от позднего запуска после Stop/Close; update/complete ещё требуют переноса.
+и защищена от позднего запуска после Stop/Close. [Update/complete](docs/ProgressivePublication.md)
+также вынесены в worker; I/O опубликованного источника отделён от metadata mutex UI.
+Legacy/provider opening, registry I/O и часть финального закрытия ещё требуют работы.
 Выполняется
 [план нового ТЗ интеграции](docs/ProgressiveIntegrationPlan.md).
 Расширенная матрица форматов/дорожек ещё не реализована; ожидание полной

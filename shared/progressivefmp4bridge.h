@@ -11,12 +11,16 @@ inline const char* Fmp4V2Capabilities() {
 }
 class Fmp4V2Bridge {
     Snapshot model;
+    const uint64_t identityGeneration;
+    const std::string identityWriter;
+    std::atomic<uint64_t> detailsRevision;
     harvester::Snapshot legacy;
     std::shared_ptr<ResourceSource> source;
     std::filesystem::path registry;
     std::array<std::string,2> resourceIds;
     std::array<std::vector<char>,2> initialization;
-    std::array<uint64_t,2> initOffsets{},decoderBytes{};
+    std::array<uint64_t,2> initOffsets{};
+    std::atomic<uint64_t> decoderBytes[2]{};
     std::string failure;
     mutable std::mutex mutex;
     static void supported(bool ok,const char* text) {Require(ok,"mediaProfile",text,"unsupported_media");}
@@ -112,7 +116,7 @@ class Fmp4V2Bridge {
     }
 public:
     static void CheckProfile(const std::string& json){map(Parse(json));}
-    Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):model(Parse(json)),registry(receipts) {
+    Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):model(Parse(json)),identityGeneration(model.generation),identityWriter(model.writer),detailsRevision(model.revision),registry(receipts) {
         legacy=map(model,&resourceIds);source=std::make_shared<ResourceSource>(root,receipts,json);
         try {initialize(0);initialize(1);}catch(...){cleanup();throw;}
     }
@@ -130,23 +134,23 @@ public:
     int64_t readPayload(int track,uint64_t offset,void* buffer,size_t count) {
         std::lock_guard<std::mutex> lock(mutex);if(!failure.empty())return -1;
         const auto read=source->read(resourceIds[track],offset,buffer,(std::min)(count,size_t(65536)));
-        if(read.data()){const auto size=uint64_t(read.bytes);decoderBytes[track]=size<=UINT64_MAX-decoderBytes[track]?decoderBytes[track]+size:UINT64_MAX;return int64_t(size);}
+        if(read.data()){const auto size=uint64_t(read.bytes);const auto previous=decoderBytes[track].load();decoderBytes[track].store(size<=UINT64_MAX-previous?previous+size:UINT64_MAX);return int64_t(size);}
         return read.code=="eof"?0:-1;
     }
     void publish(const std::string& json) {
         const auto next=Parse(json);const auto mapped=map(next);std::lock_guard<std::mutex> lock(mutex);Advance(model,next);
         Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");
         try{verifyInitialization();source->publish(json);}catch(const Error& error){failure=error.code;throw;}
-        model=next;legacy=mapped;
+        model=next;legacy=mapped;detailsRevision.store(next.revision);
     }
     void verify(){std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();}
     void cancel(){if(source)source->cancel();}
     std::string details() const {
-        std::lock_guard<std::mutex> lock(mutex);rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);
-        d.AddMember("generation",Value(std::to_string(model.generation).c_str(),a),a);d.AddMember("revision",Value(std::to_string(model.revision).c_str(),a),a);
-        d.AddMember("writerInstanceId",Value(model.writer.c_str(),a),a);
+        rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);
+        d.AddMember("generation",Value(std::to_string(identityGeneration).c_str(),a),a);d.AddMember("revision",Value(std::to_string(detailsRevision.load()).c_str(),a),a);
+        d.AddMember("writerInstanceId",Value(identityWriter.c_str(),a),a);
         d.AddMember("mediaMode","separate-fmp4-h264-aac-lc",a);Value bytes(rapidjson::kObjectType);
-        bytes.AddMember("video",Value(std::to_string(decoderBytes[0]).c_str(),a),a);bytes.AddMember("audio",Value(std::to_string(decoderBytes[1]).c_str(),a),a);d.AddMember("decoderIoBytes",bytes,a);
+        bytes.AddMember("video",Value(std::to_string(decoderBytes[0].load()).c_str(),a),a);bytes.AddMember("audio",Value(std::to_string(decoderBytes[1].load()).c_str(),a),a);d.AddMember("decoderIoBytes",bytes,a);
         return lease_detail::Encode(d);
     }
 };

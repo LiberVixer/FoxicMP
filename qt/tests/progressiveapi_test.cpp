@@ -342,7 +342,7 @@ private slots:
     socket.write(QJsonDocument(message(action)).toJson(QJsonDocument::Compact)+'\n');socket.flush();
     QTRY_VERIFY_WITH_TIMEOUT(enteredFuture.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,3000);
     int ticks=0;QTimer tick;connect(&tick,&QTimer::timeout,&tick,[&]{++ticks;});tick.start(5);
-    QTest::qWait(100);QVERIFY(ticks>=5);
+    QTRY_VERIFY_WITH_TIMEOUT(ticks>=5,1000);
     const auto caps=wire(endpoint,"{\"version\":1,\"action\":\"capabilities\"}\n");QVERIFY(caps["ok"].toBool());
     const auto busy=wire(endpoint,QJsonDocument(message("probe")).toJson(QJsonDocument::Compact)+'\n');
     QCOMPARE(busy["code"].toString(),QString("preparation_busy"));
@@ -397,6 +397,74 @@ private slots:
     QTRY_COMPARE_WITH_TIMEOUT(socket.state(),QLocalSocket::UnconnectedState,7000);
     QVERIFY(!w.progressiveSession());release->set_value();QTRY_VERIFY_WITH_TIMEOUT(!api.preparation,3000);
     QVERIFY(!w.progressiveSession());
+  }
+  void publishedUpdatesKeepUiResponsive_data() {
+    QTest::addColumn<bool>("schemaTwo");QTest::addColumn<QString>("action");QTest::addColumn<QString>("interruption");
+    for(const auto &format:{"fmp4","indexed","v2"})for(const auto &action:{"update","complete"})for(const auto &interrupt:{"none","close","disconnect"}) {
+      if(QString(interrupt)=="disconnect" && QString(format)!="v2")continue;
+      QTest::newRow(qPrintable(QString(format)+"-"+action+"-"+interrupt))<<(QString(format)=="v2")<<QString(action)<<QString(interrupt);
+    }
+  }
+  void publishedUpdatesKeepUiResponsive() {
+    QFETCH(bool,schemaTwo);QFETCH(QString,action);QFETCH(QString,interruption);
+    const auto dir=temporary.filePath("publication-"+QString::fromLatin1(QTest::currentDataTag()));
+    const auto cleanupRegistry=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
+    Profile profile(dir);prepare(profile);Window w(profile);ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    const auto manifest=[&]{
+      if(!schemaTwo)return snapshot;
+      QJsonArray resources,tracks;
+      for(const auto &kind:{"video","audio"}) {
+        const auto track=snapshot["tracks"].toObject()[kind].toObject();
+        resources.append(QJsonObject{{"id",kind},{"name",QFileInfo(track["path"].toString()).fileName()},
+          {"length",track["expectedTotalBytes"].isNull()?QJsonValue(QJsonValue::Null):QJsonValue(QString::number(track["expectedTotalBytes"].toInteger()))},
+          {"ranges",QJsonArray{QJsonObject{{"offset","0"},{"length",QString::number(track["availablePrefixBytes"].toInteger())}}}},{"state",snapshot["state"]}});
+        tracks.append(QJsonObject{{"id",kind},{"kind",kind},{"required",true},{"containerHint","fmp4"},{"codecHint",QString(kind)=="video"?"h264":"aac-lc"},
+          {"initializationReady",true},{"state",snapshot["state"]},{"source",QJsonObject{{"resourceId",kind}}}});
+      }
+      return QJsonObject{{"schemaVersion",2},{"sessionId",snapshot["sessionId"]},{"generation","18446744073709551615"},
+        {"revision",QString::number(9007199254740990ULL+quint64(snapshot["revision"].toInt()))},
+        {"writer",QJsonObject{{"instanceId",QString(32,'b')},{"state",snapshot["state"]}}},
+        {"timeline",QJsonObject{{"timebase",QJsonObject{{"numerator",1},{"denominator",10000000}}},{"live",false},{"duration","200000000"},{"timestampOffset","0"}}},
+        {"resources",resources},{"tracks",tracks}};
+    };
+    auto first=manifest();auto start=message("start");start["session"]=first;start["trackReader"]=true;
+    if(schemaTwo)start["sessionDirectory"]=QFileInfo(paths[0]).absolutePath();
+    auto reply=api.request(start);QVERIFY2(reply["ok"].toBool(),qPrintable(reply["error"].toString()));
+    auto active=w.progressiveSession();QVERIFY(active);const auto oldStatus=active->status();
+    auto entered=std::make_shared<std::promise<void>>();auto future=entered->get_future();
+    auto release=std::make_shared<std::promise<void>>();const auto gate=release->get_future().share();
+    active->publicationIoHook=[entered,gate]{entered->set_value();gate.wait();};
+    const auto cleanup=qScopeGuard([release]{try{release->set_value();}catch(const std::future_error&){};});
+    writePrefixes(action=="complete"?20:12,action=="complete");const auto next=manifest();
+    auto update=message(action);update["session"]=next;update["readerId"]=reply["readerId"];
+    const auto endpoint=ProgressiveApi::endpointFor(profile.directory);
+    QLocalSocket socket;socket.connectToServer(endpoint);QVERIFY(socket.waitForConnected(1000));
+    socket.write(QJsonDocument(update).toJson(QJsonDocument::Compact)+'\n');socket.flush();
+    QTRY_VERIFY_WITH_TIMEOUT(future.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,3000);
+    int ticks=0;QTimer tick;connect(&tick,&QTimer::timeout,&tick,[&]{++ticks;});tick.start(5);QTRY_VERIFY_WITH_TIMEOUT(ticks>=4,1000);
+    QCOMPARE(active->status().available,oldStatus.available);
+    auto status=wire(endpoint,QJsonDocument(message("status")).toJson(QJsonDocument::Compact)+'\n');QVERIFY(status["ok"].toBool());
+    if(schemaTwo)QCOMPARE(status["revision"],first["revision"]);
+    QVERIFY(wire(endpoint,"{\"version\":1,\"action\":\"capabilities\"}\n")["ok"].toBool());
+    QVERIFY(wire(endpoint,QJsonDocument(message("heartbeat")).toJson(QJsonDocument::Compact)+'\n')["ok"].toBool());
+    QCOMPARE(wire(endpoint,QJsonDocument(update).toJson(QJsonDocument::Compact)+'\n')["code"].toString(),QString("preparation_busy"));
+    if(interruption=="close"){QElapsedTimer timer;timer.start();w.closeCurrent();QVERIFY(timer.elapsed()<200);}
+    if(interruption=="disconnect"){socket.abort();QTest::qWait(20);}
+    release->set_value();QTRY_VERIFY_WITH_TIMEOUT(!api.preparation,5000);active->publicationIoHook={};
+    if(interruption!="disconnect") {
+      QTRY_VERIFY_WITH_TIMEOUT(socket.bytesAvailable()>0,3000);reply=QJsonDocument::fromJson(socket.readAll()).object();
+      if(interruption=="close")QCOMPARE(reply["code"].toString(),QString("preparation_cancelled"));
+      else QVERIFY2(reply["ok"].toBool(),qPrintable(reply["error"].toString()));
+    }
+    if(interruption=="close"){QVERIFY(!w.progressiveSession());QCOMPARE(active->status().available,oldStatus.available);}
+    else {
+      QCOMPARE(w.progressiveSession(),active);QVERIFY(active->status().available>oldStatus.available);
+      QCOMPARE(active->status().complete,action=="complete");
+      if(schemaTwo)QCOMPARE(active->playbackDetails()["revision"],next["revision"]);
+      const auto stale=wire(endpoint,QJsonDocument(update).toJson(QJsonDocument::Compact)+'\n');QVERIFY(!stale["ok"].toBool());
+      QVERIFY(active->status().error.isEmpty());
+    }
+    w.closeCurrent();active.reset();
   }
   void schemaTwoValidationDoesNotOpenOrReplaceMedia() {
     Profile profile(temporary.filePath("v2-validation-profile")); prepare(profile);

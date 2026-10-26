@@ -24,8 +24,9 @@ reasonCode ожидания индекса/инициализации/диапа
 Открытие готового файла не закрывает положительную строку progressive-матрицы.
 
 SDK 1.7 переносит [первичную подготовку probe/start через IPC](ProgressivePreparation.md)
-из UI для v1/v2 во всех трёх редакциях. Update/complete, shared mutex фонового I/O
-и legacy/provider ещё требуют переноса; требование ТЗ про весь I/O пока не закрыто.
+из UI; SDK 1.8 добавляет [update/complete и разделение блокировок](ProgressivePublication.md)
+для опубликованных v1/v2. Остались legacy/provider opening, registry I/O и некоторые
+пути финального закрытия; требование ТЗ про весь I/O пока не закрыто.
 Наличие FFmpeg/libmpv/DirectShow не подтверждает всю матрицу ТЗ.
 
 Без сквозной проверки из реального Harvester в каждой из трёх редакций нельзя

@@ -157,6 +157,128 @@ def exercise_preparation(client, pid, fixtures, work):
     finally:kernel.CloseHandle(handle)
 
 
+def exercise_publication(client,pid,fixtures,work):
+    """Index appended bytes while the real UI can stop an existing session."""
+    user=ctypes.WinDLL('user32',use_last_error=True);kernel=ctypes.WinDLL('kernel32',use_last_error=True)
+    callback_type=ctypes.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM);windows=[]
+    user.EnumWindows.argtypes=[callback_type,w.LPARAM];user.GetWindowThreadProcessId.argtypes=[w.HWND,ctypes.POINTER(w.DWORD)]
+    user.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,ctypes.c_int]
+    user.SendMessageTimeoutW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM,w.UINT,w.UINT,ctypes.POINTER(ctypes.c_size_t)]
+    @callback_type
+    def visit(hwnd,_):
+        owner=w.DWORD();user.GetWindowThreadProcessId(hwnd,ctypes.byref(owner));name=ctypes.create_unicode_buffer(256);user.GetClassNameW(hwnd,name,256)
+        if owner.value==pid and name.value=='FoxicMP':windows.append(hwnd)
+        return True
+    user.EnumWindows(visit,0);assert len(windows)==1
+    class Counters(ctypes.Structure):
+        _fields_=[(name,ctypes.c_ulonglong) for name in ('reads','writes','others','readBytes','writeBytes','otherBytes')]
+    kernel.OpenProcess.argtypes=[w.DWORD,w.BOOL,w.DWORD];kernel.OpenProcess.restype=w.HANDLE
+    kernel.GetProcessIoCounters.argtypes=[w.HANDLE,ctypes.POINTER(Counters)];kernel.CloseHandle.argtypes=[w.HANDLE]
+    handle=kernel.OpenProcess(0x1000,False,pid);assert handle
+    def count():
+        value=Counters();assert kernel.GetProcessIoCounters(handle,ctypes.byref(value));return value.reads
+    results=[];work=Path(work)
+    try:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+            for action in ('update','complete'):
+                root=work/action;root.mkdir(parents=True)
+                value=dict(schemaVersion=1,sessionId=uuid.uuid4().hex,generation=1,revision=1,state='downloading',duration100ns=200000000,tracks={})
+                originals={};paths={};prefixes={}
+                for kind,name in [('video','video.mp4'),('audio','audio.m4a')]:
+                    data=(Path(fixtures)/'progressive'/name).read_bytes();originals[kind]=data;prefixes[kind]=prefix(data,5)
+                    path=root/(kind+'.part');paths[kind]=path;path.write_bytes(data[:prefixes[kind]])
+                    value['tracks'][kind]=dict(path=path.name,container='mp4' if kind=='video' else 'm4a',fragmented=True,initializationReady=True,availablePrefixBytes=prefixes[kind],expectedTotalBytes=None,state='downloading')
+                started=client.start(value,session_directory=root,activate=False,track_reader=True);reader=started['readerId']
+                try:
+                    wait_status(client,value['sessionId'],lambda v:v.get('availableSeconds',0)>=4 and v.get('state')=='buffering',15)
+                    value['revision']=2
+                    for kind in ('video','audio'):
+                        target=len(originals[kind]) if action=='complete' else prefix(originals[kind],12)
+                        with paths[kind].open('ab') as stream:
+                            if kind=='video':stream.write(b'\x00\x00\x00\x08free'*100000)
+                            stream.write(originals[kind][prefixes[kind]:target])
+                        item=value['tracks'][kind];item['availablePrefixBytes']=paths[kind].stat().st_size
+                        if action=='complete':item.update(expectedTotalBytes=item['availablePrefixBytes'],state='complete')
+                    if action=='complete':value['state']='complete'
+                    before=count();future=pool.submit(client.request,dict(version=1,action=action,sessionId=value['sessionId'],readerId=reader,session=value),10)
+                    deadline=time.monotonic()+4
+                    while count()<before+500 and not future.done() and time.monotonic()<deadline:time.sleep(.002)
+                    assert not future.done() and count()>=before+500,'No overlapping update indexing/UI trial'
+                    durations=[]
+                    for _ in range(3):
+                        out=ctypes.c_size_t();start=time.perf_counter_ns()
+                        assert user.SendMessageTimeoutW(windows[0],0,0,0,2,500,ctypes.byref(out)),'UI blocked during publication'
+                        durations.append((time.perf_counter_ns()-start)/1000000)
+                    post_command(pid,803 if action=='update' else 890)
+                    try:reply=future.result(timeout=10)
+                    except ApiError as error:reply=error.reply
+                    assert reply.get('code')=='preparation_cancelled',reply
+                    status=client.command('status',value['sessionId'],readerId=reader);assert not status['active'] and not status.get('error'),status
+                    released=client.release_reader(reader,timeout=10);assert released['released'],released;client.forget_reader(reader)
+                    results.append(dict(action=action,cancelCommand='close' if action=='update' else 'stop',readOperationsBeforeCancel=count()-before,uiPingMilliseconds=durations,result=reply,release=released))
+                finally:
+                    try:
+                        if client.release_reader(reader,timeout=5).get('released'):client.forget_reader(reader)
+                    except (OSError,RuntimeError):pass
+        return dict(result='PASS',cases=results)
+    finally:kernel.CloseHandle(handle)
+
+
+def run_legacy(args):
+    """Check the shared Classic index refactor through its retained provider CLI."""
+    player=Path(args.player).resolve();registration=registration_snapshot();work=Path(args.report)/'legacy';work.mkdir(parents=True)
+    ini=player.with_suffix('.ini').read_bytes();settings=configparser.ConfigParser();settings.read_string(ini.decode('utf-16') if ini.startswith((b'\xff\xfe',b'\xfe\xff')) else ini.decode('utf-8-sig'))
+    assert settings.get('Settings','ContextMenuPrompted')=='1' and settings.get('Settings','ContextMenuEnabled')=='0'
+    value=dict(schemaVersion=1,sessionId=uuid.uuid4().hex,generation=1,revision=1,state='downloading',duration100ns=200000000,tracks={})
+    for kind,name in [('video','video.mp4'),('audio','audio.m4a')]:
+        data=(Path(args.fixtures)/'progressive'/name).read_bytes();length=prefix(data,5);(work/(kind+'.part')).write_bytes(data[:length])
+        value['tracks'][kind]=dict(path=kind+'.part',container='mp4' if kind=='video' else 'm4a',fragmented=True,initializationReady=True,availablePrefixBytes=length,expectedTotalBytes=None,state='downloading')
+    manifest=work/'session.json';manifest.write_text(json.dumps(value),encoding='utf-8')
+    provider=subprocess.Popen([sys.executable,str(Path(__file__).resolve().parents[1]/'progressive_legacy_fixture.py'),'--manifest',str(manifest),'--fixtures',str(Path(args.fixtures).resolve())],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    process=None
+    def wait(check,seconds=20):
+        deadline=time.monotonic()+seconds;last=None
+        while time.monotonic()<deadline:
+            if provider.poll() is not None:raise AssertionError(('Provider exited',provider.returncode,provider.stderr.read()))
+            last=check()
+            if last:return last
+            time.sleep(.05)
+        raise AssertionError(('Legacy condition timed out',last))
+    def read(path):
+        try:return json.loads(path.read_text(encoding='utf-8'))
+        except (OSError,ValueError):return {}
+    try:
+        wait(lambda:(work/'fixture-ready.json').exists(),8)
+        process=subprocess.Popen([str(player),'/harvester-session',str(manifest),'/nofocus'],cwd=player.parent)
+        message=work/('player-'+str(process.pid)+'.json')
+        attached=wait(lambda:read(message))
+        assert attached['pid']==process.pid
+        (work/'fixture-control').write_text('grow')
+        def playing():
+            current=read(message)
+            if current.get('type')=='error':raise AssertionError(current)
+            return current if current.get('type')=='playing' and current.get('position100ns',0)>=100000000 else None
+        before=wait(playing,25)
+        assert all((work/(kind+'.part')).stat().st_size<(Path(args.fixtures)/'progressive'/name).stat().st_size for kind,name in [('video','video.mp4'),('audio','audio.m4a')])
+        (work/'fixture-control').write_text('complete')
+        complete=wait(lambda:(read(message) if read(message).get('readyEnd100ns',0)>=190000000 else None),8)
+        post_command(process.pid,803)
+        wait(lambda:(work/'leases.json').exists() and read(work/'leases.json').get('leases')=={},10)
+        return dict(contract='legacy-provider',result='PASS',beforeComplete=before,complete=complete,filesClosedLeaseReleased=True)
+    finally:
+        if process is not None and process.poll() is None:
+            post_command(process.pid,0)
+            try:process.wait(timeout=10)
+            except subprocess.TimeoutExpired:process.kill();process.wait();raise
+        (work/'fixture-stop').touch()
+        try:provider.wait(timeout=8)
+        except subprocess.TimeoutExpired:provider.kill();provider.wait();raise
+        output=provider.stderr.read();provider.stdout.close();provider.stderr.close()
+        assert provider.returncode==0,output
+        if process is not None:assert process.returncode==0,process.returncode
+        assert registration_snapshot()==registration,'Installed Classic shell registration changed'
+
+
 def run(args):
     player = Path(args.player).resolve()
     ini = player.with_suffix('.ini')
@@ -181,6 +303,8 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.publication_only:
+            return [dict(contract='async-publication',result=exercise_publication(client,process.pid,args.fixtures,Path(args.report)/'async-publication'))]
         if args.preparation_only:
             return [dict(contract='async-preparation',result=exercise_preparation(client,process.pid,args.fixtures,Path(args.report)/'async-preparation'))]
         if args.sdk_only:
@@ -209,8 +333,9 @@ def run(args):
             sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
                 Path(args.fixtures)/'progressive/audio.m4a', Path(args.report)/'sdk-writer')
             media = exercise_v2_playback(client,args.fixtures,Path(args.report)/'schema-2-media')
+            publication = exercise_publication(client,process.pid,args.fixtures,Path(args.report)/'async-publication')
             preparation = exercise_preparation(client,process.pid,args.fixtures,Path(args.report)/'async-preparation')
-            return [dict(contract='async-preparation',result=preparation),dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases),dict(contract='reader-leases',result=readers),dict(contract='resource-io',result=resources),dict(contract='v2-media',result=media)]
+            return [dict(contract='async-publication',result=publication),dict(contract='async-preparation',result=preparation),dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases),dict(contract='reader-leases',result=readers),dict(contract='resource-io',result=resources),dict(contract='v2-media',result=media)]
         common = exercise_directory_contract(client, args.fixtures, Path(args.report)/'relative-contract')
         results.append(dict(contract='sessionDirectory', scenarios=common))
         sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
@@ -279,8 +404,10 @@ if __name__ == '__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--player',required=True);parser.add_argument('--fixtures',required=True);parser.add_argument('--report',required=True)
     parser.add_argument('--sdk-only', action='store_true')
     parser.add_argument('--preparation-only', action='store_true')
+    parser.add_argument('--publication-only', action='store_true')
+    parser.add_argument('--legacy-only', action='store_true')
     arguments=parser.parse_args();report=Path(arguments.report);report.mkdir(parents=True,exist_ok=True)
     try:
-        result=run(arguments);(report/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+        result=run_legacy(arguments) if arguments.legacy_only else run(arguments);(report/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
     except BaseException:
         (report/'exception.txt').write_text(traceback.format_exc(),encoding='utf-8');raise

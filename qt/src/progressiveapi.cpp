@@ -34,7 +34,7 @@ bool keys(const QJsonObject &value, const QStringList &required, const QStringLi
 }
 struct ProgressiveApi::Preparation {
   ~Preparation(){if(candidate)std::thread([owned=std::move(candidate)]()mutable{owned.reset();}).detach();}
-  bool requested=false, ready=false, probe=false;
+  bool requested=false, ready=false, probe=false, publication=false;
   std::atomic<bool> finished{false}, abandoned{false};
   QJsonObject descriptor, reply;
   QString registry;
@@ -82,7 +82,7 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
           {"playbackSchemaVersions", QJsonArray{1,2}}, {"validationSchemaVersions", QJsonArray{2}},
           {"schema2Playback",QJsonDocument::fromJson(foxicmp::progressive::Fmp4V2Capabilities()).object()},
           {"releaseAcknowledgement", true},
-          {"mediaPreparation",QJsonObject{{"offUi",QJsonArray{"probe","start"}},{"maxConcurrent",1},{"responseDeadlineMilliseconds",5000},{"updatesOffUi",false},{"cancellableDiskIo",false}}},
+          {"mediaPreparation",QJsonObject{{"offUi",QJsonArray{"probe","start","update","complete"}},{"maxConcurrent",1},{"responseDeadlineMilliseconds",5000},{"updatesOffUi",true},{"cancellableDiskIo",false}}},
           {"containers", QJsonArray{"fast-start-mp4", "fragmented-mp4"}},
           {"videoCodecs", QJsonArray{"h264"}}, {"audioCodecs", QJsonArray{"aac-lc"}},
           {"progressiveModes", QJsonArray{"native-progressive", "post-download"}},
@@ -248,8 +248,11 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
       if (!input.value("session").isObject() ||
           (action == "complete" && (descriptor["schemaVersion"]==QJsonValue(2)?descriptor["writer"].toObject()["state"]:descriptor["state"]) != QJsonValue("complete")))
         return failure("invalid_request", "Expected a complete session snapshot");
-      QString error;
-      if (!active->publish(descriptor, &error)) return failure("invalid_update", error);
+      if(prepared && !prepared->ready){prepared->requested=true;prepared->publication=true;prepared->descriptor=descriptor;prepared->candidate=active;return {};}
+      if(prepared){
+        if(!prepared->reply.isEmpty())return prepared->reply;
+        if(prepared->candidate!=active)return failure("reader_mismatch","Prepared update belongs to another reader");
+      }else{QString error;if(!active->publish(descriptor,&error))return failure("invalid_update",error);}
     } else if (action == "heartbeat") {
       active->publishedHeartbeat();
     } else if (action == "cancel" || action == "release") {
@@ -278,7 +281,7 @@ void ProgressiveApi::dispatch(const QJsonObject &input, QLocalSocket *socket, QT
     deadline->stop();socket->write(QJsonDocument(reply).toJson(QJsonDocument::Compact)+'\n');socket->disconnectFromServer();
   };
   const auto action=input["action"].toString();
-  if(action!="start" && action!="probe"){answer(request(input));return;}
+  if(action!="start" && action!="probe" && action!="update" && action!="complete"){answer(request(input));return;}
   if(preparation){answer(failure("preparation_busy","Another media source is being prepared"));return;}
   auto job=std::make_shared<Preparation>();const auto admitted=execute(input,job.get());
   if(!job->requested){answer(admitted);return;}
@@ -290,7 +293,8 @@ void ProgressiveApi::dispatch(const QJsonObject &input, QLocalSocket *socket, QT
     try{
       if(hook)hook();
       if(!job->abandoned.load()){
-        if(job->probe)job->reply=ProgressiveSource::probePublished(job->descriptor,job->registry);
+        if(job->publication){QString error;if(!job->candidate->publish(job->descriptor,&error))job->reply=failure("invalid_update",error);}
+        else if(job->probe)job->reply=ProgressiveSource::probePublished(job->descriptor,job->registry);
         else job->candidate=ProgressiveSource::openPublished(job->descriptor,job->registry);
       }
     }catch(const foxicmp::progressive::Error& e){job->reply=failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));}

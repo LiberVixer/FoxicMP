@@ -64,7 +64,7 @@ std::string ClassicProgressiveApi::Information() {
     d.AddMember("resourceIoProbeVersion",1,a);Value schemas(rapidjson::kArrayType);schemas.PushBack(2,a);
     d.AddMember("resourceIoSchemaVersions",schemas,a);d.AddMember("resourceIoPlaybackSupported",false,a);
     d["playbackSchemaVersions"].PushBack(2,a);Document profile;profile.Parse(foxicmp::progressive::Fmp4V2Capabilities());d.AddMember("schema2Playback",Value(profile,a),a);
-    Document preparation;preparation.Parse(R"({"offUi":["probe","start"],"maxConcurrent":1,"responseDeadlineMilliseconds":5000,"updatesOffUi":false,"cancellableDiskIo":false})");d.AddMember("mediaPreparation",Value(preparation,a),a);
+    Document preparation;preparation.Parse(R"({"offUi":["probe","start","update","complete"],"maxConcurrent":1,"responseDeadlineMilliseconds":5000,"updatesOffUi":true,"cancellableDiskIo":false})");d.AddMember("mediaPreparation",Value(preparation,a),a);
     return Encode(d);
 }
 std::wstring ClassicProgressiveApi::ReaderRegistry() {
@@ -87,8 +87,10 @@ void ClassicProgressiveApi::Prepare(const std::shared_ptr<Request>& job) {
             Document descriptor;descriptor.Parse(job->descriptor.c_str());
             const bool v2=descriptor.HasMember("schemaVersion") && descriptor["schemaVersion"].IsUint() && descriptor["schemaVersion"].GetUint()==2;
             CStringW error;std::string reason;
-            job->candidate=CHarvesterSession::OpenPublished(job->descriptor,error,job->registry,&reason,!job->probe);
-            if(job->probe) {
+            if(job->publication){if(!job->candidate->Publish(job->descriptor,error))job->preparedReply=Failure("invalid_update",Utf8(error.GetString()));}
+            else job->candidate=CHarvesterSession::OpenPublished(job->descriptor,error,job->registry,&reason,!job->probe);
+            if(job->publication){} // The existing source remains owned by its graph.
+            else if(job->probe) {
                 Document result;result.SetObject();auto& a=result.GetAllocator();const auto candidate=job->candidate;
                 result.AddMember("version",1,a);result.AddMember("ok",true,a);result.AddMember("action","probe",a);
                 result.AddMember("supported",candidate!=nullptr,a);result.AddMember("mode",Value(candidate?"native-progressive":v2?"unsupported":"post-download",a),a);
@@ -313,7 +315,15 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             if(!d.HasMember("session") || !d["session"].IsObject() || (action=="complete" && harvester::String(v2?harvester::Field(d["session"],"writer"):d["session"],"state")!="complete"))return Failure("invalid_request","Expected a session snapshot");
             Value descriptor(d["session"],d.GetAllocator());
             if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
-            CStringW error;if(!active->Publish(Encode(descriptor),error))return Failure("invalid_update",Utf8(error.GetString()));
+            if(prepared && !prepared->ready){
+                if(preparation && !preparation->finished.load(std::memory_order_acquire))return Failure("preparation_busy","Another media source is being prepared");
+                preparation=prepared->shared_from_this();prepared->requested=true;prepared->publication=true;
+                prepared->descriptor=Encode(descriptor);prepared->candidate=active;prepared->epoch=intentEpoch;return {};
+            }
+            if(prepared){
+                if(!prepared->preparedReply.empty())return prepared->preparedReply;
+                if(prepared->candidate!=active)return Failure("reader_mismatch","Prepared update belongs to another reader");
+            }else{CStringW error;if(!active->Publish(Encode(descriptor),error))return Failure("invalid_update",Utf8(error.GetString()));}
         }else if(action=="heartbeat")active->PublishedHeartbeat();
         else if(action=="cancel" || action=="release") {
             frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);Document result;result.Parse(lastOutcome.c_str());

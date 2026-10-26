@@ -4,6 +4,7 @@
 #include <atomic>
 #include <mutex>
 #include <thread>
+#include <memory>
 namespace foxicmp { namespace progressive {class ReaderLease;class Fmp4V2Bridge;} }
 
 class CHarvesterSession {
@@ -16,9 +17,11 @@ class CHarvesterSession {
     std::shared_ptr<foxicmp::progressive::Fmp4V2Bridge> m_v2Bridge;
     harvester::Snapshot m_state;
     mutable std::mutex m_mutex;
+    std::mutex m_publishMutex;
     std::array<HANDLE,2> m_files{{INVALID_HANDLE_VALUE,INVALID_HANDLE_VALUE}};
     std::array<std::vector<harvester::Sample>,2> m_samples;
-    std::array<harvester::FragmentIndex,2> m_fragments;
+    using Fragments=std::array<std::shared_ptr<const harvester::FragmentIndex>,2>;
+    Fragments m_fragments{{std::make_shared<harvester::FragmentIndex>(),std::make_shared<harvester::FragmentIndex>()}};
     std::array<int64_t,2> m_duration{{0,0}};
     mutable std::array<size_t,2> m_indexPosition{{0,0}};
     mutable std::array<int64_t,2> m_indexEnd{{0,0}};
@@ -31,6 +34,7 @@ class CHarvesterSession {
     std::atomic<bool> m_connected{false};
     HANDLE m_pipe=INVALID_HANDLE_VALUE;
     void RefreshFragments();
+    Fragments BuildFragments(const harvester::Snapshot&);
     const std::vector<harvester::Sample>& Samples(int track) const;
     bool ReadManifest(harvester::Snapshot& state);
     void Watch();

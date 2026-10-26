@@ -104,7 +104,8 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveResourceIo.md ../docs/ProgressiveResourceValidation-2026-10-26.md
  ../docs/ProgressiveResourceValidation-2026-10-26.json ../docs/ProgressiveMediaV2.md
  ../docs/ProgressiveMediaValidation-2026-10-26.md ../docs/ProgressiveMediaValidation-2026-10-26.json ../docs/ProgressivePreparation.md
- ../docs/ProgressivePreparationValidation-2026-10-26.md ../docs/ProgressivePreparationValidation-2026-10-26.json DESTINATION integration)
+ ../docs/ProgressivePreparationValidation-2026-10-26.md ../docs/ProgressivePreparationValidation-2026-10-26.json ../docs/ProgressivePublication.md
+ ../docs/ProgressivePublicationValidation-2026-10-26.md ../docs/ProgressivePublicationValidation-2026-10-26.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/vod.json DESTINATION integration RENAME progressive-v2-vod.json)
 install(FILES ../docs/images/foxicmp-qt-web-control.png DESTINATION . RENAME web-control.png)
 install(FILES ../docs/images/foxicmp-qt-web-browser.png DESTINATION . RENAME web-browser.png)
@@ -228,6 +229,8 @@ if(BUILD_TESTING)
  set_tests_properties(progressive-v2-playback PROPERTIES TIMEOUT 90)
  add_test(NAME progressive-preparation COMMAND foxicmp-progressive-api-tests mediaPreparationKeepsUiResponsive deletingApiDoesNotWaitForPreparationWorker preparationWorkerFailureDoesNotPoisonSlot preparationDeadlineCannotStartPlaybackLater)
  set_tests_properties(progressive-preparation PROPERTIES TIMEOUT 90)
+ add_test(NAME progressive-publication COMMAND foxicmp-progressive-api-tests publishedUpdatesKeepUiResponsive)
+ set_tests_properties(progressive-publication PROPERTIES TIMEOUT 120)
 endif()
 if(BUILD_TESTING AND NOT WIN32)
  find_package(Qt6 REQUIRED COMPONENTS Test Network)

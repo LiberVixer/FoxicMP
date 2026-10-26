@@ -46,13 +46,16 @@ int64_t ProgressiveSource::read(int track, uint64_t offset, char *buffer,
   for (;;) {
     if (stopping.load() || (interrupted && interrupted->load()) || !currentStatus.error.isEmpty())
       return -1;
-    const auto &item = snapshot.tracks[track];
+    const auto item = snapshot.tracks[track];
     if (currentStatus.connected) {
       if (offset < item.available) {
         const uint64_t length =
             std::min<uint64_t>({count, item.available - offset, 1024 * 1024});
+        lock.unlock();
         const auto result = v2Bridge ? v2Bridge->readPayload(track,offset,buffer,size_t(length))
                                     : ProgressiveFile::read(files[track], offset, buffer, size_t(length));
+        lock.lock();
+        if(stopping.load() || (interrupted && interrupted->load()) || !currentStatus.error.isEmpty())return -1;
         if (result <= 0) {
           currentStatus.error = uiTr("Ошибка чтения подтверждённых данных");
           changed.notify_all();
@@ -67,21 +70,23 @@ int64_t ProgressiveSource::read(int track, uint64_t offset, char *buffer,
     else changed.wait(lock);
   }
 }
-void ProgressiveSource::updateIndexes() {
+ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapshot &value) {
+  Status result;
   const int64_t duration =
-      snapshot.duration > 0 ? snapshot.duration : indexed[0].duration();
+      value.duration > 0 ? value.duration : indexed[0].duration();
   double end = double(duration) / 10000000.;
   bool complete = true;
   for (int i = 0; i < 2; ++i) {
-    const auto &track = snapshot.tracks[i];
+    const auto &track = value.tracks[i];
     if (track.fragmented)
       indexes[i].Update(
           [&, i](uint64_t offset, void *buffer, size_t count) {
+            if(stopping.load())return false;
             return v2Bridge ? v2Bridge->readIndex(i,offset,buffer,count)
                             : ProgressiveFile::read(files[i], offset, buffer, count) == int64_t(count);
           },
           track.available, i, harvester::EndReady(track),
-          snapshot.timestampOffset);
+          value.timestampOffset);
     end = std::min(
         end, double(harvester::ReadyEnd(track.fragmented ? indexes[i].Samples()
                                                          : indexed[i].samples(),
@@ -89,11 +94,18 @@ void ProgressiveSource::updateIndexes() {
                  10000000.);
     complete = complete && harvester::EndReady(track);
   }
-  currentStatus.duration = double(duration) / 10000000.;
-  currentStatus.timestampOffset = double(snapshot.timestampOffset) / 10000000.;
-  currentStatus.available = end;
-  currentStatus.complete = complete;
+  result.duration = double(duration) / 10000000.;
+  result.timestampOffset = double(value.timestampOffset) / 10000000.;
+  result.available = end;
+  result.complete = complete;
+  return result;
 }
+void ProgressiveSource::updateIndexes() {
+  const auto value=indexStatus(snapshot);
+  currentStatus.duration=value.duration;currentStatus.timestampOffset=value.timestampOffset;
+  currentStatus.available=value.available;currentStatus.complete=value.complete;
+}
+
 void ProgressiveSource::fail(const QString &error) {
   std::lock_guard<std::mutex> lock(mutex);
   currentStatus.error = error;

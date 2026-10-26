@@ -184,7 +184,12 @@ void RequireOwned(HANDLE file) {
 }
 }
 std::string CHarvesterSession::RegisteredReaderId() const {return m_readerLease?m_readerLease->id():std::string();}
-std::string CHarvesterSession::PlaybackDetails() const {return m_v2Bridge?m_v2Bridge->details():"{\"schemaVersion\":1}";}
+std::string CHarvesterSession::PlaybackDetails() const {
+    if(!m_v2Bridge)return "{\"schemaVersion\":1}";
+    std::lock_guard<std::mutex> lock(m_mutex);rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());
+    auto& a=d.GetAllocator();d["revision"].SetString(std::to_string(m_state.revision).c_str(),a);
+    return foxicmp::progressive::lease_detail::Encode(d);
+}
 std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::string& json,CStringW& error,const std::wstring& readerRegistry,std::string* reasonCode,bool trackGroup) {
     auto context=std::make_shared<CHarvesterSession>();
     try {
@@ -245,44 +250,41 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
     catch(const std::exception& e) {if(reasonCode)*reasonCode="source_not_ready";error=Wide(e.what()).c_str();return nullptr;}
 }
 bool CHarvesterSession::Publish(const std::string& json,CStringW& error) {
+    std::lock_guard<std::mutex> publication(m_publishMutex);
     try {
-        if(m_v2Bridge) {
-            rapidjson::Document descriptor;descriptor.Parse(json.c_str());
-            if(descriptor.HasParseError() || !descriptor.IsObject())throw std::runtime_error("Invalid snapshot JSON");
-            PublishedDirectory(descriptor,&m_publishedRoot);descriptor.RemoveMember("sessionDirectory");
-            rapidjson::StringBuffer b;rapidjson::Writer<rapidjson::StringBuffer>w(b);descriptor.Accept(w);
-            {std::lock_guard<std::mutex> lock(m_mutex);
-                if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || !m_error.empty())throw std::runtime_error("Session is closed");
-                m_v2Bridge->publish(std::string(b.GetString(),b.GetSize()));m_state=m_v2Bridge->snapshot();
-            }
-            RefreshFragments();PublishedHeartbeat();
-            const auto current=Snapshot();if(current.state==harvester::State::Failed || current.state==harvester::State::Cancelled)Fail("Writer failed or cancelled");
-            return true;
-        }
-        std::array<std::wstring,2> paths;
-        // Original names may be renamed at finalization. Validate identity by the
-        // pinned handles; do not reopen paths on updates.
+        harvester::Snapshot previous;
+        {std::lock_guard<std::mutex> lock(m_mutex);
+         if(!m_published || !m_error.empty() || WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0)throw std::runtime_error("Session is closed");
+         previous=m_state;}
+        harvester::Snapshot next;
         rapidjson::Document input;input.Parse(json.data(),json.size());
         if(input.HasParseError() || !input.IsObject())throw std::runtime_error("Invalid snapshot JSON");
         harvester::UniqueKeys(input);
-        const auto root=PublishedDirectory(input,&m_publishedRoot);
-        NormalizePublishedPaths(input,paths,root,false);
-        rapidjson::StringBuffer buffer;rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);input.Accept(writer);
-        const auto next=harvester::Parse(std::string(buffer.GetString(),buffer.GetSize()));
-        {
-            std::lock_guard<std::mutex> lock(m_mutex);
-            if(!m_published || paths!=m_publishedPaths || !m_error.empty() || WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0)
-                throw std::runtime_error("Session is closed or paths changed");
-            if(!harvester::Advance(m_state,next))throw std::runtime_error("Stale revision");
-            for(int i=0;i<2;++i) {LARGE_INTEGER size{};if(!GetFileSizeEx(m_files[i],&size) || size.QuadPart<0 || uint64_t(size.QuadPart)<next.tracks[i].available)throw std::runtime_error("Confirmed bytes are missing");}
-            m_state=next;
+        if(m_v2Bridge) {
+            PublishedDirectory(input,&m_publishedRoot);input.RemoveMember("sessionDirectory");
+            m_v2Bridge->publish(foxicmp::progressive::lease_detail::Encode(input));next=m_v2Bridge->snapshot();
+        }else {
+            std::array<std::wstring,2> paths;const auto root=PublishedDirectory(input,&m_publishedRoot);
+            NormalizePublishedPaths(input,paths,root,false);
+            next=harvester::Parse(foxicmp::progressive::lease_detail::Encode(input));
+            if(paths!=m_publishedPaths)throw std::runtime_error("Track paths changed");
+            if(!harvester::Advance(previous,next))throw std::runtime_error("Stale revision");
+            for(int i=0;i<2;++i){LARGE_INTEGER size{};if(!GetFileSizeEx(m_files[i],&size) || size.QuadPart<0 || uint64_t(size.QuadPart)<next.tracks[i].available)throw std::runtime_error("Confirmed bytes are missing");}
         }
-        try {RefreshFragments();}catch(const std::exception& e){Fail(e.what());throw;}
+        Fragments fragments;
+        try{fragments=BuildFragments(next);}catch(const std::exception& e){if(WaitForSingleObject(m_cancel,0)!=WAIT_OBJECT_0)Fail(e.what());throw;}
+        Fragments retired;
+        {std::lock_guard<std::mutex> lock(m_mutex);
+         if(!m_error.empty() || WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0)throw std::runtime_error("Session is closed");
+         m_state=next;retired=std::move(m_fragments);m_fragments=std::move(fragments);
+         for(int i=0;i<2;++i)if(next.tracks[i].fragmented)m_duration[i]=next.duration;
+        }
         PublishedHeartbeat();
         if(next.state==harvester::State::Cancelled || next.state==harvester::State::Failed)Fail("Downloader cancelled or failed");
         return true;
     }catch(const std::exception& e){error=Wide(e.what()).c_str();return false;}
 }
+
 bool CHarvesterSession::ReadManifest(harvester::Snapshot& state) {
     HANDLE h=INVALID_HANDLE_VALUE;const auto deadline=GetTickCount64()+1000;
     for(;;) {
@@ -413,13 +415,17 @@ int64_t CHarvesterSession::ReadyEnd() const {
 bool CHarvesterSession::Complete() const {auto s=Snapshot();return s.tracks[0].state==harvester::State::Complete && s.tracks[1].state==harvester::State::Complete;}
 
 const std::vector<harvester::Sample>& CHarvesterSession::Samples(int track) const {
-    return m_state.tracks[track].fragmented?m_fragments[track].Samples():m_samples[track];
+    return m_state.tracks[track].fragmented?m_fragments[track]->Samples():m_samples[track];
 }
-void CHarvesterSession::RefreshFragments() {
-    const auto snapshot=Snapshot();
+CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::Snapshot& snapshot) {
+    Fragments result;
+    {std::lock_guard<std::mutex> lock(m_mutex);result=m_fragments;}
     for(int track=0;track<2;++track)if(snapshot.tracks[track].fragmented) {
+        // Clone and parse outside the metadata mutex used by UI readiness/seek.
+        auto next=std::make_shared<harvester::FragmentIndex>(*result[track]);
         const auto& state=snapshot.tracks[track];
         auto diskRead=[&](uint64_t offset,void* data,size_t size) {
+            if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0)return false;
             if(!size)return true;
             if(m_v2Bridge)return m_v2Bridge->readIndex(track,offset,data,size);
             OVERLAPPED ov{};ov.Offset=DWORD(offset);ov.OffsetHigh=DWORD(offset>>32);ov.hEvent=CreateEventW(nullptr,TRUE,FALSE,nullptr);
@@ -431,41 +437,17 @@ void CHarvesterSession::RefreshFragments() {
             }
             CloseHandle(ov.hEvent);return ok && n==size;
         };
-        // Disk I/O must not hold the mutex used by UI readiness/seek queries.
-        // Cache only atom headers and metadata; media payloads stay in the original file.
-        std::map<uint64_t,std::vector<uint8_t>> metadata;
-        uint64_t position;
-        {std::lock_guard<std::mutex> lock(m_mutex);position=m_fragments[track].Position();}
-        while(harvester::RangeReady(position,8,state.available)) {
-            std::vector<uint8_t> bytes(8);
-            if(!diskRead(position,bytes.data(),bytes.size()))throw std::runtime_error("Fragment header I/O failed");
-            harvester::BoxData box{bytes.data(),bytes.size()};uint64_t size=box.U32(0);const auto type=box.U32(4);size_t header=8;
-            if(size==1 && harvester::RangeReady(position,16,state.available)) {
-                bytes.resize(16);if(!diskRead(position+8,bytes.data()+8,8))throw std::runtime_error("Fragment header I/O failed");
-                box={bytes.data(),bytes.size()};size=box.U64(8);header=16;
-            }
-            const bool entire=size>=header && harvester::RangeReady(position,size,state.available);
-            if(entire && (type==harvester::FourCC("moov") || type==harvester::FourCC("moof"))) {
-                if(size>64*1024*1024)throw std::runtime_error("Oversized fragment metadata");
-                bytes.resize(size_t(size));
-                if(!diskRead(position+header,bytes.data()+header,size_t(size-header)))throw std::runtime_error("Fragment metadata I/O failed");
-            }
-            metadata.emplace(position,std::move(bytes));
-            if(!entire)break;
-            position+=size;
-        }
-        auto cachedRead=[&](uint64_t offset,void* data,size_t size) {
-            if(!size)return true;
-            auto entry=metadata.upper_bound(offset);if(entry==metadata.begin())return false;--entry;
-            const auto relative=offset-entry->first;
-            if(!harvester::RangeReady(relative,size,entry->second.size()))return false;
-            memcpy(data,entry->second.data()+size_t(relative),size);return true;
-        };
-        {std::lock_guard<std::mutex> lock(m_mutex);
-         m_fragments[track].Update(cachedRead,state.available,track,harvester::EndReady(state),snapshot.timestampOffset);
-         m_duration[track]=snapshot.duration;}
+        next->Update(diskRead,state.available,track,harvester::EndReady(state),snapshot.timestampOffset);
+        result[track]=std::move(next);
     }
+    return result;
 }
+void CHarvesterSession::RefreshFragments() {
+    const auto snapshot=Snapshot();auto fragments=BuildFragments(snapshot);Fragments retired;
+    {std::lock_guard<std::mutex> lock(m_mutex);retired=std::move(m_fragments);m_fragments=std::move(fragments);
+     for(int i=0;i<2;++i)if(snapshot.tracks[i].fragmented)m_duration[i]=snapshot.duration;}
+}
+
 HRESULT CHarvesterSession::ReadV2(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker) {
     auto* bytes=static_cast<char*>(data);
     while(size) {
@@ -481,7 +463,7 @@ int CHarvesterSession::SampleAt(int track,size_t index,harvester::Sample& sample
     std::lock_guard<std::mutex> lock(m_mutex);const auto& samples=Samples(track);
     if(index<samples.size()){sample=samples[index];return 1;}
     const auto& t=m_state.tracks[track];
-    return harvester::EndReady(t) && m_fragments[track].Position()==t.available ? 2 : 0;
+    return harvester::EndReady(t) && m_fragments[track]->Position()==t.available ? 2 : 0;
 }
 size_t CHarvesterSession::SeekSample(int track,int64_t position) const {
     std::lock_guard<std::mutex> lock(m_mutex);const auto& samples=Samples(track);size_t found=0;

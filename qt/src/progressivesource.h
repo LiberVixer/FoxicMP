@@ -57,6 +57,7 @@ private:
   bool send(const char *type);
   void fail(const QString &error);
   void updateIndexes();
+  Status indexStatus(const harvester::Snapshot &);
   QString manifest, root;
   harvester::Snapshot snapshot;
   std::array<intptr_t, 2> files{{-1, -1}};
@@ -64,6 +65,9 @@ private:
   std::array<harvester::FragmentIndex, 2> indexes;
   std::array<IndexedMp4, 2> indexed;
   mutable std::mutex mutex;
+  std::mutex publicationMutex;
+  friend class ProgressiveApiTest;
+  std::function<void()> publicationIoHook;
   std::condition_variable changed;
   std::thread worker;
   std::atomic<bool> stopping{false};

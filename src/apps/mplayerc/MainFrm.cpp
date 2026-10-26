@@ -8635,8 +8635,9 @@ void CMainFrame::OnPlayPlayPause()
 
 void CMainFrame::OnPlayStop()
 {
-    if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged();
-	if (m_harvester && m_eMediaLoadState == MLS_LOADED) {
+    if(m_progressiveApi && GetCurrentThreadId()==GetWindowThreadProcessId(m_hWnd,nullptr))m_progressiveApi->PlaybackIntentChanged();
+	if (m_harvester && (m_eMediaLoadState == MLS_LOADED || m_eMediaLoadState == MLS_LOADING)) {
+        m_harvester->Cancel();
 		CloseMedia();
 		return;
 	}

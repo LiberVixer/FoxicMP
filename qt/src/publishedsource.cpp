@@ -144,50 +144,39 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input, const QString &re
 }
 
 bool ProgressiveSource::publish(const QJsonObject &input, QString *error) {
-  QStringList paths;
-  harvester::Snapshot next;
+  std::lock_guard<std::mutex> publication(publicationMutex);
   try {
-    if (v2Bridge) {
-      sessionDirectory(input, &publishedRoot);auto manifest=input;manifest.remove("sessionDirectory");
-      std::lock_guard<std::mutex> lock(mutex);
-      if(stopping.load() || !currentStatus.error.isEmpty())throw std::runtime_error("Session is no longer writable");
-      v2Bridge->publish(QJsonDocument(manifest).toJson(QJsonDocument::Compact).toStdString());snapshot=v2Bridge->snapshot();
-      updateIndexes();lastPublished=std::chrono::steady_clock::now();currentStatus.connected=true;
-      if(snapshot.state==harvester::State::Failed || snapshot.state==harvester::State::Cancelled)currentStatus.error="Writer failed or cancelled";
-      changed.notify_all();return true;
+    harvester::Snapshot previous;
+    {std::lock_guard<std::mutex> lock(mutex);
+     if(!published || stopping.load() || !currentStatus.error.isEmpty())throw std::runtime_error("Session is no longer writable");
+     previous=snapshot;}
+    harvester::Snapshot next;
+    if(v2Bridge) {
+      sessionDirectory(input,&publishedRoot);auto manifest=input;manifest.remove("sessionDirectory");
+      if(publicationIoHook)publicationIoHook();
+      if(stopping.load())throw std::runtime_error("Session is closed");
+      v2Bridge->publish(QJsonDocument(manifest).toJson(QJsonDocument::Compact).toStdString());next=v2Bridge->snapshot();
+    }else {
+      QStringList paths;next=snapshotFor(input,&paths,sessionDirectory(input,&publishedRoot));
+      if(paths.size()!=publishedPaths.size() || !samePath(paths[0],publishedPaths[0]) || !samePath(paths[1],publishedPaths[1]))throw std::runtime_error("Track paths cannot change within a session");
+      if(!harvester::Advance(previous,next))throw std::runtime_error("Stale revision; use a strictly increasing revision");
+      if(publicationIoHook)publicationIoHook();
+      if(stopping.load())throw std::runtime_error("Session is closed");
+      for(int i=0;i<2;++i)checkFile(files[i],next.tracks[i].available);
     }
-    next = snapshotFor(input, &paths, sessionDirectory(input, &publishedRoot));
-    std::lock_guard<std::mutex> lock(mutex);
-    if (!published || stopping.load() || !currentStatus.error.isEmpty())
-      throw std::runtime_error("Session is no longer writable");
-    if (paths.size() != publishedPaths.size() ||
-        !samePath(paths[0], publishedPaths[0]) || !samePath(paths[1], publishedPaths[1]))
-      throw std::runtime_error("Track paths cannot change within a session");
-    if (!harvester::Advance(snapshot, next)) {
-      if (error) *error = "Stale revision; use a strictly increasing revision";
-      return false;
+    Status indexedStatus;
+    try{indexedStatus=indexStatus(next);}catch(const std::exception& e){if(!stopping.load())fail(QString::fromUtf8(e.what()));throw;}
+    {std::lock_guard<std::mutex> lock(mutex);
+     if(stopping.load() || !currentStatus.error.isEmpty())throw std::runtime_error("Session is no longer writable");
+     snapshot=next;currentStatus.duration=indexedStatus.duration;currentStatus.timestampOffset=indexedStatus.timestampOffset;
+     currentStatus.available=indexedStatus.available;currentStatus.complete=indexedStatus.complete;
+     lastPublished=std::chrono::steady_clock::now();currentStatus.connected=true;
+     if(next.state==harvester::State::Failed || next.state==harvester::State::Cancelled)currentStatus.error="Writer failed or cancelled";
     }
-    for (int i = 0; i < 2; ++i) checkFile(files[i], next.tracks[i].available);
-    snapshot = next;
-    try {
-      updateIndexes();
-    } catch (const std::exception &e) {
-      currentStatus.error = QString::fromUtf8(e.what());
-      changed.notify_all();
-      throw;
-    }
-    lastPublished = std::chrono::steady_clock::now();
-    currentStatus.connected = true;
-    if (next.state == harvester::State::Failed || next.state == harvester::State::Cancelled)
-      currentStatus.error = next.state == harvester::State::Failed
-                                ? "Downloader failed" : "Downloader cancelled";
-    changed.notify_all();
-    return true;
-  } catch (const std::exception &e) {
-    if (error) *error = QString::fromUtf8(e.what());
-    return false;
-  }
+    changed.notify_all();return true;
+  }catch(const std::exception& e){if(error)*error=QString::fromUtf8(e.what());return false;}
 }
+
 void ProgressiveSource::publishedHeartbeat() {
   std::lock_guard<std::mutex> lock(mutex);
   if (!published || stopping.load() || !currentStatus.error.isEmpty()) return;
@@ -199,26 +188,25 @@ void ProgressiveSource::publishedError(const QString &error) {
   if (published) fail(error);
 }
 void ProgressiveSource::watchPublished() {
-  while (!stopping.load()) {
-    std::unique_lock<std::mutex> lock(mutex);
+  while(!stopping.load()) {
+    harvester::Snapshot current;
+    {std::lock_guard<std::mutex> lock(mutex);current=snapshot;}
     try {
-      if (v2Bridge) v2Bridge->verify();
-      else for (int i = 0; i < 2; ++i) checkFile(files[i], snapshot.tracks[i].available);
-      if (!currentStatus.complete && std::chrono::steady_clock::now() - lastPublished >
-                                          std::chrono::seconds(15)) {
-        currentStatus.connected = false;
-        changed.notify_all();
-      }
-    } catch (const std::exception &e) {
-      if (stopping.load()) return;
-      currentStatus.error = QString::fromUtf8(e.what());
-      changed.notify_all();
-      return;
+      if(v2Bridge)v2Bridge->verify();
+      else for(int i=0;i<2;++i)checkFile(files[i],current.tracks[i].available);
+    }catch(const std::exception& e){if(!stopping.load())fail(QString::fromUtf8(e.what()));return;}
+    std::unique_lock<std::mutex> lock(mutex);
+    if(!currentStatus.complete && std::chrono::steady_clock::now()-lastPublished>std::chrono::seconds(15)) {
+      currentStatus.connected=false;changed.notify_all();
     }
-    changed.wait_for(lock, std::chrono::milliseconds(100), [this] { return stopping.load(); });
+    changed.wait_for(lock,std::chrono::milliseconds(100),[this]{return stopping.load();});
   }
 }
 QJsonObject ProgressiveSource::playbackDetails() const {
-  return v2Bridge ? QJsonDocument::fromJson(QByteArray::fromStdString(v2Bridge->details())).object() : QJsonObject{{"schemaVersion",1}};
+  if(!v2Bridge)return {{"schemaVersion",1}};
+  std::lock_guard<std::mutex> lock(mutex);
+  auto result=QJsonDocument::fromJson(QByteArray::fromStdString(v2Bridge->details())).object();
+  result["generation"]=QString::number(snapshot.generation);result["revision"]=QString::number(snapshot.revision);return result;
 }
+
 QString ProgressiveSource::streamId() const {return v2Bridge ? registeredReaderId()+".v2" : id();}

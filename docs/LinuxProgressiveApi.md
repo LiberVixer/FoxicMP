@@ -168,7 +168,9 @@ I/O в worker. Это отдельная диагностика; [медиапр
 
 SDK 1.7: [первичная подготовка probe/start через IPC вне UI](ProgressivePreparation.md),
 ограничение одного worker и защита от запоздавшего запуска после Stop/Close.
-Update/complete и legacy/provider этим расширением ещё не охвачены.
+SDK 1.8 расширяет это на [update/complete](ProgressivePublication.md) с коротким
+применением готового metadata/index. Legacy/provider opening, registry I/O и часть
+финального закрытия ещё требуют работы.
 
 `probe` выполняет ту же проверку контейнера, индекса, инициализации и
 подтверждённого префикса, что и `start`, но не создаёт активный сеанс и не

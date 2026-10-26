@@ -3,6 +3,10 @@
 SDK 1.7, Linux Qt, Windows Qt и Classic. Совместимая JSON-оболочка версии 1,
 прежние команды и медиапрофили v1/v2. YouTubeHarvester не изменяется.
 
+SDK 1.8 расширяет этот механизм на [update/complete](ProgressivePublication.md).
+Ниже описан первоначальный этап 1.7; текущие capabilities перечисляют четыре команды
+и updatesOffUi=true.
+
 ## Что изменилось
 
 Вызовы `probe`/`start` через IPC проходят три стадии:

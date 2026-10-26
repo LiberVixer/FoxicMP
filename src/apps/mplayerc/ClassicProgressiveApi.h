@@ -16,7 +16,7 @@ public:
         std::wstring registry;
         std::shared_ptr<CHarvesterSession> candidate;
         std::atomic<bool> abandoned{false}, finished{false};
-        bool requested=false, ready=false, probe=false;
+        bool requested=false, ready=false, probe=false, publication=false;
         uint64_t epoch=0;
         HANDLE done = CreateEventW(nullptr, TRUE, FALSE, nullptr);
         ~Request();
