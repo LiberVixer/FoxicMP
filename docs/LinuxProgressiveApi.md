@@ -156,6 +156,9 @@ SDK 1.3 добавляет `validationSchemaVersions:[2]`. Успех validate �
 `playbackSupported:false` (проверка только метаданных). SDK 1.6 объявляет
 `playbackSchemaVersions:[1,2]` и ограниченный schema2Playback-профиль: start/probe
 поддерживают две отдельные fMP4 H.264/AAC-LC дорожки.
+SDK 1.14 расширяет schema 2 профилем [HEVC Main/Main10 + AAC-LC](ProgressiveHevc.md):
+проверять schema2Playback.profiles и schema2Playback.videoCodecs. Старый v1-путь
+и его верхнеуровневый список кодеков этим не расширяются.
 [Черновой контракт v2 и его ограничения](ProgressiveManifestV2.md).
 
 SDK 1.4 добавляет `trackReader:true` во внешний start и

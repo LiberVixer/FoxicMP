@@ -26,3 +26,6 @@ run(['-f','lavfi','-i','sine=frequency=880:sample_rate=48000','-t','20','-vn','-
 (root/'progressive-indexed').mkdir(exist_ok=True)
 run(['-f','lavfi','-i','testsrc2=size=320x180:rate=25','-t','20','-an','-c:v','libx264','-threads','2','-g','25','-keyint_min','25','-sc_threshold','0','-movflags','+faststart',str(root/'progressive-indexed'/'video.mp4')])
 run(['-f','lavfi','-i','sine=frequency=880:sample_rate=48000','-t','20','-vn','-c:a','aac','-movflags','+faststart',str(root/'progressive-indexed'/'audio.m4a')])
+
+from generate_hevc_media import generate as generate_hevc
+generate_hevc(root)

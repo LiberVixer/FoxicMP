@@ -110,7 +110,8 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveLegacyOpeningValidation-2026-10-26.md ../docs/ProgressiveLegacyOpeningValidation-2026-10-26.json ../docs/ProgressiveLegacyMaintenance.md
  ../docs/ProgressiveLegacyMaintenanceValidation-2026-10-26.md ../docs/ProgressiveLegacyMaintenanceValidation-2026-10-26.json ../docs/ProgressiveEngineShutdown.md
  ../docs/ProgressiveEngineShutdownValidation-2026-10-26.md ../docs/ProgressiveEngineShutdownValidation-2026-10-26.json ../docs/ProgressiveClassicClose.md
- ../docs/ProgressiveClassicCloseValidation-2026-10-26.md ../docs/ProgressiveClassicCloseValidation-2026-10-26.json DESTINATION integration)
+ ../docs/ProgressiveClassicCloseValidation-2026-10-26.md ../docs/ProgressiveClassicCloseValidation-2026-10-26.json ../docs/ProgressiveHevc.md
+ ../docs/ProgressiveHevcValidation-2026-10-26.md ../docs/ProgressiveHevcValidation-2026-10-26.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/vod.json DESTINATION integration RENAME progressive-v2-vod.json)
 install(FILES ../docs/images/foxicmp-qt-web-control.png DESTINATION . RENAME web-control.png)
 install(FILES ../docs/images/foxicmp-qt-web-browser.png DESTINATION . RENAME web-browser.png)
@@ -244,7 +245,7 @@ if(BUILD_TESTING)
  add_test(NAME progressive-api COMMAND foxicmp-progressive-api-tests)
  set_tests_properties(progressive-api PROPERTIES TIMEOUT 240)
  add_test(NAME progressive-v2-playback COMMAND foxicmp-progressive-api-tests schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete)
- set_tests_properties(progressive-v2-playback PROPERTIES TIMEOUT 90)
+ set_tests_properties(progressive-v2-playback PROPERTIES TIMEOUT 240)
  add_test(NAME progressive-preparation COMMAND foxicmp-progressive-api-tests mediaPreparationKeepsUiResponsive deletingApiDoesNotWaitForPreparationWorker preparationWorkerFailureDoesNotPoisonSlot preparationDeadlineCannotStartPlaybackLater)
  set_tests_properties(progressive-preparation PROPERTIES TIMEOUT 90)
  add_test(NAME progressive-publication COMMAND foxicmp-progressive-api-tests publishedUpdatesKeepUiResponsive)

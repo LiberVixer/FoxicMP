@@ -32,6 +32,27 @@ class FragmentTests(unittest.TestCase):
                     self.assertEqual(int(a['offset']),int(b['pos']));self.assertEqual(int(a['size']),int(b['size']))
                     self.assertAlmostEqual(int(a['start'])/1e7,float(b['pts_time']),delta=.000001)
                     self.assertAlmostEqual(int(a['decode'])/1e7,float(b['dts_time']),delta=.000001)
+    def test_hevc_packet_clocks_and_schema_one_codec_boundary(self):
+        for depth,tag in [(8,'hvc1'),(10,'hev1')]:
+            with self.subTest(depth=depth,tag=tag):
+                path=self.root/('hevc'+str(depth)+'.mp4')
+                subprocess.run(['ffmpeg','-v','error','-y','-f','lavfi','-i','testsrc2=s=320x180:r=25:d=4',
+                    '-c:v','libx265','-pix_fmt','yuv420p' if depth==8 else 'yuv420p10le','-threads','2','-filter_threads','1',
+                    '-x265-params','pools=1:frame-threads=1:log-level=error:keyint=25:min-keyint=25:scenecut=0',
+                    '-tag:v',tag,'-movflags','+empty_moov+frag_keyframe+default_base_moof',str(path)],check=True)
+                rejected=subprocess.run([str(self.exe),str(path),'0'],capture_output=True,text=True)
+                self.assertNotEqual(rejected.returncode,0)
+                self.assertIn('Unsupported fragment sample entry',rejected.stderr)
+                accepted=subprocess.run([str(self.exe),str(path),'0','hevc'],capture_output=True,text=True,check=True)
+                rows=list(csv.DictReader(io.StringIO(accepted.stdout)))
+                packets=json.loads(subprocess.check_output(['ffprobe','-v','quiet','-show_packets','-of','json',str(path)]))['packets']
+                self.assertEqual(len(rows),len(packets))
+                for indexed,packet in zip(rows,packets):
+                    self.assertEqual(int(indexed['offset']),int(packet['pos']))
+                    self.assertEqual(int(indexed['size']),int(packet['size']))
+                    self.assertAlmostEqual(int(indexed['start'])/1e7,float(packet['pts_time']),delta=.000001)
+                    self.assertAlmostEqual(int(indexed['decode'])/1e7,float(packet['dts_time']),delta=.000001)
+                    self.assertEqual(bool(int(indexed['sync'])),'K' in packet['flags'])
     def test_incomplete_final_packet_is_rejected(self):
         data=(self.root/'video.mp4').read_bytes();position=0;end=0
         while position<len(data):

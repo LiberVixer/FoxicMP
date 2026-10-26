@@ -3706,7 +3706,12 @@ LRESULT CMainFrame::OnPostOpen(WPARAM wParam, LPARAM lParam)
 
 	if (!m_closingmsg.IsEmpty()) {
 		CString aborted(ResStr(IDS_AG_ABORTED));
-
+        if(m_harvester && m_closingmsg!=aborted) {
+            const int bytes=WideCharToMultiByte(CP_UTF8,0,m_closingmsg.GetString(),m_closingmsg.GetLength(),nullptr,0,nullptr,nullptr);
+            std::string diagnostic(bytes,'\0');
+            if(bytes)WideCharToMultiByte(CP_UTF8,0,m_closingmsg.GetString(),m_closingmsg.GetLength(),diagnostic.data(),bytes,nullptr,nullptr);
+            if(!diagnostic.empty())m_harvester->Fail(diagnostic.c_str());
+        }
 		CloseMedia();
 
 		m_OSD.DisplayMessage(OSD_TOPLEFT, m_closingmsg, 3000);

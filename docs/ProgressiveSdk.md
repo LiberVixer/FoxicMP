@@ -43,6 +43,13 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Progressive HEVC (SDK 1.14)
+
+[Медиапрофиль HEVC Main/Main10 + AAC-LC](ProgressiveHevc.md) добавлен в schema 2
+трёх редакций. Это две отдельные fMP4-дорожки; H.264 и публичный Python интерфейс
+сохранены. Проверять schema2Playback.profiles/videoCodecs текущего EXE.
+WebM/MKV, другие кодеки, muxed/remux/live и metadata остаются отдельными этапами.
+
 ## Progressive Classic close (SDK 1.13)
 
 [Закрытие progressive-графа на STA](ProgressiveClassicClose.md) возвращает UI

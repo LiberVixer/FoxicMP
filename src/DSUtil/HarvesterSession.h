@@ -49,6 +49,7 @@ public:
     std::string RegisteredReaderId() const;
     std::string PlaybackDetails() const;
     bool HasV2Bridge() const {return bool(m_v2Bridge);}
+    bool AllowsHevcFragments() const;
     HRESULT ReadV2(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker);
     bool Publish(const std::string& json, CStringW& error);
     void PublishedHeartbeat() {m_lastUpdate=GetTickCount64(); m_connected=true;}

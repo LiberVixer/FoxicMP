@@ -8,8 +8,8 @@ int main(int argc,char** argv) {
         harvester::FragmentIndex index;
         auto read=[&](uint64_t at,void* out,size_t size){file.clear();file.seekg(at);file.read((char*)out,size);return bool(file);};
         // Prefix updates include incomplete headers, moof and packet payloads.
-        for(uint64_t prefix=0;prefix<length;prefix+=1009)index.Update(read,prefix,std::stoi(argv[2]));
-        index.Update(read,length,std::stoi(argv[2]),true);
+        for(uint64_t prefix=0;prefix<length;prefix+=1009)index.Update(read,prefix,std::stoi(argv[2]),false,0,argc>3 && std::string(argv[3])=="hevc");
+        index.Update(read,length,std::stoi(argv[2]),true,0,argc>3 && std::string(argv[3])=="hevc");
         std::cout<<"offset,size,start,end,decode,sync\n";
         for(const auto& s:index.Samples())std::cout<<s.offset<<','<<s.size<<','<<s.start<<','<<s.end<<','<<s.decode<<','<<s.sync<<'\n';
         return 0;

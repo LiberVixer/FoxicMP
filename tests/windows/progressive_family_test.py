@@ -569,6 +569,8 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.media_profile:
+            return [dict(contract='v2-media',result=exercise_v2_playback(client,args.fixtures,Path(args.report)/('schema-2-media-'+args.media_profile),args.media_profile))]
         if args.registry_only:
             return [dict(contract='reader-registry-oplock',result=exercise_registry_oplock(client,process.pid,args.fixtures,Path(args.report)/'registry-oplock'))]
         if args.publication_only:
@@ -600,7 +602,7 @@ def run(args):
                 assert client.request(dict(version=1, action='capabilities'))['pid'] == process.pid
             sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
                 Path(args.fixtures)/'progressive/audio.m4a', Path(args.report)/'sdk-writer')
-            media = exercise_v2_playback(client,args.fixtures,Path(args.report)/'schema-2-media')
+            media = {profile:exercise_v2_playback(client,args.fixtures,Path(args.report)/('schema-2-media-'+profile),profile) for profile in ('h264','hevc8','hevc10')}
             registry = exercise_registry_oplock(client,process.pid,args.fixtures,Path(args.report)/'registry-oplock')
             publication = exercise_publication(client,process.pid,args.fixtures,Path(args.report)/'async-publication')
             preparation = exercise_preparation(client,process.pid,args.fixtures,Path(args.report)/'async-preparation')
@@ -671,6 +673,7 @@ def run(args):
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--player',required=True);parser.add_argument('--fixtures',required=True);parser.add_argument('--report',required=True)
+    parser.add_argument('--media-profile',choices=['h264','hevc8','hevc10'])
     parser.add_argument('--sdk-only', action='store_true')
     parser.add_argument('--preparation-only', action='store_true')
     parser.add_argument('--publication-only', action='store_true')

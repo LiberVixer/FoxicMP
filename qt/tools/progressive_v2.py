@@ -1,4 +1,4 @@
-"""First schema-2 media profile: separate H.264/AAC-LC fMP4, no downloader changes."""
+"""Schema-2 media profiles: separate H.264/HEVC + AAC-LC fMP4; no downloader changes."""
 from __future__ import annotations
 import copy
 import threading

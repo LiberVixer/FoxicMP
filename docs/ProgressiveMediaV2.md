@@ -1,6 +1,8 @@
 # Schema 2: первый сквозной медиапрофиль
 
-SDK 1.6, Linux Qt, Windows Qt и Classic. [Модель v2](ProgressiveManifestV2.md)
+SDK 1.6, Linux Qt, Windows Qt и Classic.
+С SDK 1.14 добавлен [HEVC Main/Main10 профиль](ProgressiveHevc.md). Ниже сохранено
+описание исходного H.264-профиля и его ограничений. [Модель v2](ProgressiveManifestV2.md)
 теперь связана с реальным чтением декодера через [ResourceSource](ProgressiveResourceIo.md).
 Это ограниченная часть [ТЗ](ProgressiveIntegrationPlan.md), а не вся codec/live-матрица.
 YouTubeHarvester не изменялся. Опубликованные установщики 0.2.0 этого API не содержат.

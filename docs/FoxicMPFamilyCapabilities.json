@@ -41,6 +41,13 @@
       "windows-qt": "win32-appcommand",
       "linux-qt": "mpris",
       "test": "command catalog and platform adapter"
+    },
+    {
+      "id": "progressive-v2-fmp4-hevc",
+      "windows-classic": "schema2-main-main10",
+      "windows-qt": "schema2-main-main10",
+      "linux-qt": "schema2-main-main10",
+      "test": "confirmed incomplete Main/Main10 fMP4 + AAC-LC playback, cancel/restart/EOF/release"
     }
   ]
 }

@@ -185,6 +185,7 @@ void RequireOwned(HANDLE file) {
     if(!ok)throw std::runtime_error("Track must belong to the current user");
 }
 }
+bool CHarvesterSession::AllowsHevcFragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="hevc";}
 std::string CHarvesterSession::RegisteredReaderId() const {return m_readerLease?m_readerLease->id():std::string();}
 std::string CHarvesterSession::PlaybackDetails() const {
     if(!m_v2Bridge)return "{\"schemaVersion\":1}";
@@ -446,7 +447,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
             }
             CloseHandle(ov.hEvent);return ok && n==size;
         };
-        next->Update(diskRead,state.available,track,harvester::EndReady(state),snapshot.timestampOffset);
+        next->Update(diskRead,state.available,track,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc");
         result[track]=std::move(next);
     }
     return result;

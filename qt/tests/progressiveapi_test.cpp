@@ -609,18 +609,43 @@ private slots:
     QVERIFY(report["terminal"].toObject()["released"].toBool());
     QCOMPARE(report["networkRequests"].toInt(), 0);
   }
+  void schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto* profile:{"h264","hevc8","hevc10"})QTest::newRow(profile)<<QString(profile);
+  }
   void schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete() {
-    const auto dir=temporary.filePath("v2-media-profile");
+    QFETCH(QString,mediaProfile);
+    const auto dir=temporary.filePath("v2-media-profile-"+mediaProfile);
     const auto cleanup=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
     Profile profile(dir);prepare(profile);Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    auto* player=w.findChild<Player*>();QVERIFY(player);
+    QByteArray firstFrame;bool changingDecodedVideo=false;QString decodedFormat,decodedPixelFormat;
+    QTimer decoderSample;decoderSample.setInterval(100);
+    connect(&decoderSample,&QTimer::timeout,this,[&]{
+      if(!w.progressiveSession() || w.progressiveSession()->status().complete)return;
+      const auto seconds=player->get("time-pos").toDouble();
+      if(seconds<1 || player->get("dwidth").toInt()!=320)return;
+      decodedFormat=player->get("video-format").toString();
+      decodedPixelFormat=player->get("video-dec-params/pixelformat").toString();
+      const auto frame=player->grabFramebuffer();if(frame.isNull())return;
+      const auto bytes=QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes());
+      const auto digest=QCryptographicHash::hash(bytes,QCryptographicHash::Sha256);
+      if(firstFrame.isEmpty())firstFrame=digest;
+      else if(seconds>=2 && digest!=firstFrame)changingDecodedVideo=true;
+    });decoderSample.start();
     QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{
-      FOXICMP_V2_PLAYBACK_SCRIPT,"--player",playerExecutable(),"--profile",profile.directory,
-      "--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",temporary.filePath("v2-media-bytes"),
+      FOXICMP_V2_PLAYBACK_SCRIPT,"--media-profile",mediaProfile,"--player",playerExecutable(),"--profile",profile.directory,
+      "--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",temporary.filePath("v2-media-bytes-"+mediaProfile),
       "--expected-pid",QString::number(QCoreApplication::applicationPid())});
     QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
     QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,60000);
     QVERIFY2(writer.exitCode()==0,writer.readAllStandardError().constData());
     const auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));
+    decoderSample.stop();
+    QCOMPARE(decodedFormat,mediaProfile=="h264"?QString("h264"):QString("hevc"));
+    QVERIFY2(changingDecodedVideo,"No changing decoded video frames before writer complete");
+    if(mediaProfile=="hevc10")QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
+    qInfo().noquote()<<"Decoded video:"<<mediaProfile<<decodedFormat<<decodedPixelFormat<<"changing frames before complete";
     qInfo().noquote()<<"Schema-2 media report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
     QVERIFY(result["playingWhilePhysicallyIncomplete"].toObject()["positionSeconds"].toDouble()>=10);
   }

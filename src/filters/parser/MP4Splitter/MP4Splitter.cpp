@@ -2308,7 +2308,12 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		if (track->GetType() != (kind ? AP4_Track::TYPE_AUDIO : AP4_Track::TYPE_VIDEO) || track->GetSampleCount() > 2000000) return VFW_E_UNSUPPORTED_STREAM;
 		auto stsd = dynamic_cast<AP4_StsdAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd"));
 		auto entry = stsd ? stsd->GetSampleEntry(0) : nullptr;
-		if (!entry || entry->GetType() != (kind ? AP4_ATOM_TYPE('m','p','4','a') : AP4_ATOM_TYPE('a','v','c','1'))) return VFW_E_UNSUPPORTED_STREAM;
+        if(!entry)return VFW_E_UNSUPPORTED_STREAM;
+        const auto type=entry->GetType();
+        const bool hevcFragments=!kind && movie->HasFragments() && progressive->GetSession()->AllowsHevcFragments()
+            && (type==AP4_ATOM_TYPE_HVC1 || type==AP4_ATOM_TYPE_HEV1);
+        if(type!=(kind?AP4_ATOM_TYPE('m','p','4','a'):AP4_ATOM_TYPE('a','v','c','1')) && !hevcFragments)
+            return VFW_E_UNSUPPORTED_STREAM;
 		if (kind) {
 			auto desc = dynamic_cast<AP4_MpegAudioSampleDescription*>(track->GetSampleDescription(0));
 			if (!desc || desc->GetObjectTypeId() != AP4_MPEG4_AUDIO_OTI || desc->GetMpeg4AudioObjectType() != AOT_AAC_LC) return VFW_E_UNSUPPORTED_STREAM;

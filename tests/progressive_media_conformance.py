@@ -11,6 +11,7 @@ from progressive_v1_conformance import fragment_prefix
 def run(runner,fixtures):
     inputs=[(Path(fixtures)/'progressive'/name).read_bytes() for name in ('video.mp4','audio.m4a')]
     names=[]
+    video_codec="h264"
     def case(name,check):
         with tempfile.TemporaryDirectory(prefix='foxicmp-media-') as folder:
             root=Path(folder);data=root/'data';data.mkdir()
@@ -20,7 +21,7 @@ def run(runner,fixtures):
             for i,kind in enumerate(('video','audio')):
                 path=data/(kind+'.part');paths.append(path);count=fragment_prefix(inputs[i],5);path.write_bytes(inputs[i][:count])
                 value['resources'].append(dict(id=kind,name=path.name,length=None,ranges=[dict(offset='0',length=str(count))],state='downloading'))
-                value['tracks'].append(dict(id=kind,kind=kind,required=True,codecHint='h264' if i==0 else 'aac-lc',containerHint='fmp4',initializationReady=True,state='downloading',source=dict(resourceId=kind)))
+                value['tracks'].append(dict(id=kind,kind=kind,required=True,codecHint=video_codec if i==0 else 'aac-lc',containerHint='fmp4',initializationReady=True,state='downloading',source=dict(resourceId=kind)))
             process=subprocess.Popen([runner,'--registry',str(root/'registry')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf-8')
             def rpc(action,**fields):
                 process.stdin.write(json.dumps(dict(action=action,**fields))+'\n');process.stdin.flush()
@@ -101,6 +102,38 @@ def run(runner,fixtures):
     def cancelled(v,paths,rpc,open_,read,readers,next_):
         open_();rpc('cancel');assert read()['bytesRead']==-1;rpc('release');assert readers()==[]
     case('cancel-unblocks-media-and-closes-leases',cancelled)
+    # Same native bridge and file-lease checks against actual HEVC headers.
+    video_codec="hevc"
+    for profile in ("hevc8","hevc10"):
+        inputs=[(Path(fixtures)/("progressive-"+profile)/name).read_bytes() for name in ('video.mp4','audio.m4a')]
+        def hevc_exact(v,paths,rpc,open_,read,readers,next_):
+            open_();state=rpc('status');assert state['videoCodec']=='hevc' and state['mediaMode']=='separate-fmp4-hevc-aac-lc',state
+            assert read()['hex']==inputs[0][:8].hex();assert len(readers())==2
+            rpc('release');assert readers()==[]
+        case(profile+'-actual-initialization-and-resource-leases',hevc_exact)
+        def no_hint(v,paths,rpc,open_,read,readers,next_):
+            v['tracks'][0]['codecHint']='';open_();assert rpc('status')['videoCodec']=='hevc'
+        case(profile+'-discover-without-codec-hint',no_hint)
+        reject_edit(profile+'-false-h264-hint',lambda v,p:v['tracks'][0].update(codecHint='h264'))
+    # Following malformed configurations use the real Main/hvc1 fixture.
+    inputs=[(Path(fixtures)/'progressive-hevc8'/name).read_bytes() for name in ('video.mp4','audio.m4a')]
+    reject_edit('hevc-config-version',lambda v,p:mutate(p,0,b'hvcC',4,b'\x02'))
+    reject_edit('hevc-config-reserved-bits',lambda v,p:mutate(p,0,b'hvcC',17,b'\x00'))
+    reject_edit('hevc-unsupported-profile',lambda v,p:mutate(p,0,b'hvcC',5,b'\x04'))
+    reject_edit('hevc-unsupported-chroma',lambda v,p:mutate(p,0,b'hvcC',20,b'\xff'))
+    reject_edit('hevc-invalid-nal-length-size',lambda v,p:mutate(p,0,b'hvcC',25,b'\x0c'))
+    reject_edit('hevc-missing-parameter-arrays',lambda v,p:mutate(p,0,b'hvcC',26,b'\x00'))
+    reject_edit('hevc-excessive-parameter-arrays',lambda v,p:mutate(p,0,b'hvcC',26,b'\xff'))
+    reject_edit('hevc-incomplete-hvc1-parameter-array',lambda v,p:mutate(p,0,b'hvcC',27,b'\x20'))
+    reject_edit('hevc-parameter-nal-out-of-bounds',lambda v,p:mutate(p,0,b'hvcC',30,b'\xff\xff'))
+    reject_edit('hevc-parameter-nal-header-mismatch',lambda v,p:mutate(p,0,b'hvcC',32,b'\x42'))
+    reject_edit('hevc-parameter-nal-zero-temporal-id',lambda v,p:mutate(p,0,b'hvcC',33,b'\x00'))
+    reject_edit('hevc-encrypted-sample-entry',lambda v,p:mutate(p,0,b'hvc1',0,b'encv'))
+    reject_edit('hevc-invalid-data-reference',lambda v,p:mutate(p,0,b'hvc1',10,b'\x00\x02'))
+    reject_edit('hevc-external-data-reference',lambda v,p:mutate(p,0,b'url ',7,b'\x00'))
+    case('hevc-confirmed-range-is-waiting',waiting)
+    case('hevc-init-rewrite-is-persistent-error',rewrite)
+    case('hevc-cancel-closes-resource-leases',cancelled)
     return dict(result='PASS',passed=len(names),cases=names)
 
 if __name__=='__main__':
