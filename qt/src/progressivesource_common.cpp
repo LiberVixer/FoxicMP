@@ -3,6 +3,9 @@
 #include "i18n.h"
 #include "../../shared/progressivefmp4bridge.h"
 #include <QUrl>
+void ProgressiveSource::legacyIoCheckpoint(uint64_t revision) {
+  const auto hook=std::atomic_load(&legacyIoHook);if(hook)(*hook)(revision);
+}
 void ProgressiveSource::cancel() {
   stopping.store(true);
   if (v2Bridge) v2Bridge->cancel();

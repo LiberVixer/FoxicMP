@@ -53,6 +53,7 @@ private:
   void watchPublished();
   void watch();
   void refresh();
+  void legacyIoCheckpoint(uint64_t revision);
   bool connectProvider();
   bool send(const char *type);
   void fail(const QString &error);
@@ -68,6 +69,7 @@ private:
   std::mutex publicationMutex;
   friend class ProgressiveApiTest;
   std::function<void()> publicationIoHook, retirementHook;
+  std::shared_ptr<const std::function<void(uint64_t)>> legacyIoHook;
   std::condition_variable changed;
   std::thread worker;
   std::atomic<bool> stopping{false};

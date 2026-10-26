@@ -46,6 +46,7 @@ Classic восстановлен после экспериментальной �
 | Первичная подготовка progressive API вне UI | Worker → UI commit | Worker → UI commit | Тот же Qt-код | [SDK 1.7](ProgressivePreparation.md): probe/start, отмена позднего результата; [SDK 1.8](ProgressivePublication.md) добавляет update/complete и отделяет I/O от UI metadata mutex |
 | Реестр progressive readers и уничтожение Source вне UI | IPC worker + FIFO cleanup | IPC worker + FIFO cleanup | Тот же Qt-код | [SDK 1.9](ProgressiveRetirement.md): 32 Source, ≤2 cleanup-workers; release только после закрытия файлов; renderer/graph shutdown отдельно |
 | Открытие legacy/provider источника вне UI | Worker → UI graph | Worker → UI mpv | Тот же Qt-код | [SDK 1.10](ProgressiveLegacyOpening.md): один слот, 5 с до отмены применения; native I/O не прерывается принудительно, старые refresh/notify locks отдельно |
+| Legacy refresh без файлового I/O под UI metadata mutex | Native checks/index → commit | Worker checks/publish → commit | Worker checks/index → commit | [SDK 1.11](ProgressiveLegacyMaintenance.md): проверка усечения и при неизменной revision; Stop во время initial buffering Classic доступен |
 | Пауза, точный seek, главы, покадровые команды | Есть | Есть | Есть | Допуски seek и ограничения live/growing-файлов |
 | Скорость, повторы, A–B | Есть | Есть | Есть | Края A–B, конец очереди, пауза и число проходов |
 | Действия после окончания | Есть, Win32 | Есть, Win32 | Есть, logind/session D-Bus | Один смысл постоянного и однократного действия; платформенные исполнители |

@@ -43,6 +43,14 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Legacy maintenance (SDK 1.11)
+
+[Файловые проверки и индексация legacy](ProgressiveLegacyMaintenance.md) выполняются
+без metadata mutex UI. `legacyRefresh` описывает свойства maintenance-пути; это
+не общая гарантия отсутствия ожиданий при закрытии графа/renderer.
+Новая revision и доступная граница становятся видимыми вместе после подготовки.
+Проверка усечения не требует увеличения revision.
+
 ## Legacy/provider opening (SDK 1.10)
 
 [CLI-подготовка legacy-источника вынесена из UI](ProgressiveLegacyOpening.md) во всех

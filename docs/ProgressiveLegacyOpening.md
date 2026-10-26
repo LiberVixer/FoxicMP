@@ -60,8 +60,8 @@ Runtime `capabilities.legacyPreparationPending` показывает занят�
 удалять файлы: сохраняются подтверждения provider/reader leases и OS recovery.
 Для опубликованных SDK-сеансов действуют readerStatus/readerRelease.
 
-Этот этап не выносит из UI все renderer/graph joins и не исправляет все старые
-блокировки watch/refresh/notify legacy-источника. Синхронные внутренние C++ API и
+Этот этап не выносит из UI все renderer/graph joins. [SDK 1.11](ProgressiveLegacyMaintenance.md)
+дополнительно отделяет legacy file checks/index от metadata mutex UI. Синхронные внутренние C++ API и
 часть CLI parsing/проверок файлов также не объявляются полностью свободными от I/O.
 Нет гарантии прекращения любого системного read/open за 2 секунды.
 Codec/live/remux-матрица прежняя; [полное ТЗ](ProgressiveIntegrationPlan.md) не закрыто.

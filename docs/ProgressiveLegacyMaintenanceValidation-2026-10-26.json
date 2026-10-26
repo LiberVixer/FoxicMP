@@ -1,0 +1,236 @@
+{
+  "date": "2026-10-26",
+  "scope": "SDK 1.11: legacy file checks/indexing outside UI metadata mutex; atomic snapshot/readiness commit; Classic Stop enabled while graph loads",
+  "sourceBaseCommit": "6499887db40c92e470e9620114ebc02135d4686e",
+  "builds": {
+    "linuxQt": {
+      "exitCode": 0,
+      "sha256": "c66cf4b55fbe21b468ec4b2db450fe98ddb849c0bef1f5196e3ac4436ff77dc7"
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "sha256": "4c6c1d592f1ebe4f81842e35887b5ca1b6ef3269e20923fa99f38a94a259109e"
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "sha256": "6d465114f7ec1a6bf46140cf8fba1d8fec2ebbb261529de835be21f9546b4fda"
+    }
+  },
+  "tests": {
+    "linuxQt": {
+      "fullApiPassed": 63,
+      "maintenanceQtTestPassed": 9,
+      "legacySourceRegressionPassed": 19,
+      "ctestGroups": 3,
+      "exitCode": 0,
+      "truncateLocalFilesClosed": true,
+      "truncateProviderReceiptRetained": true,
+      "privateX11DbusPulseAudio": true
+    },
+    "windowsQt": {
+      "fullApiPassed": 64,
+      "maintenanceQtTestPassed": 10,
+      "v2PlaybackQtTestPassed": 3,
+      "ctestGroups": 3,
+      "exitCode": 0
+    },
+    "windowsClassic": {
+      "maintenanceCases": [
+        {
+          "mode": "grow",
+          "readsAtOverlap": 820,
+          "uiPingMilliseconds": [
+            0.2487,
+            0.1733,
+            0.1452
+          ],
+          "notification": {
+            "schemaVersion": 1,
+            "sessionId": "16b60d7f4d3d4a62ab1830421558bcec",
+            "generation": 1,
+            "revision": 2,
+            "type": "buffering",
+            "pid": 4208,
+            "position100ns": 0,
+            "readyEnd100ns": 120000000,
+            "completionWaiters": 0
+          },
+          "providerLeasesReleased": true
+        },
+        {
+          "mode": "stop",
+          "readsAtOverlap": 624,
+          "uiPingMilliseconds": [
+            0.1209,
+            0.0422,
+            0.0711
+          ],
+          "notification": {
+            "schemaVersion": 1,
+            "sessionId": "85f098bbb4584c9ab668653843fd1fc5",
+            "generation": 1,
+            "revision": 1,
+            "type": "buffering",
+            "pid": 2464,
+            "position100ns": 0,
+            "readyEnd100ns": 50000000,
+            "completionWaiters": 0
+          },
+          "providerLeasesReleased": true
+        },
+        {
+          "mode": "unchanged-truncate",
+          "readsAtOverlap": 0,
+          "uiPingMilliseconds": [],
+          "notification": {
+            "schemaVersion": 1,
+            "sessionId": "7fde4595a8a04252bf89d776e8a7b3f2",
+            "generation": 1,
+            "revision": 1,
+            "type": "error",
+            "pid": 14440,
+            "position100ns": 0,
+            "readyEnd100ns": 50000000,
+            "completionWaiters": 0
+          },
+          "providerLeasesReleased": true
+        }
+      ],
+      "uiPings": 6,
+      "maxUiPingMilliseconds": 0.2487,
+      "maintenanceExitCode": 0,
+      "fullSdkRegressionContracts": [
+        "reader-registry-oplock",
+        "async-publication",
+        "async-preparation",
+        "sdk-writer",
+        "v2-metadata-validation",
+        "reader-leases",
+        "resource-io",
+        "v2-media"
+      ],
+      "fullSdkRegressionExitCode": 0,
+      "legacyProvider": {
+        "contract": "legacy-provider",
+        "result": "PASS",
+        "beforeComplete": {
+          "schemaVersion": 1,
+          "sessionId": "be432112777e4d7bbdb3bec105f3fc22",
+          "generation": 1,
+          "revision": 2,
+          "type": "playing",
+          "pid": 14776,
+          "position100ns": 100106373,
+          "readyEnd100ns": 120000000,
+          "completionWaiters": 0,
+          "observedPlaying": true
+        },
+        "complete": {
+          "schemaVersion": 1,
+          "sessionId": "be432112777e4d7bbdb3bec105f3fc22",
+          "generation": 1,
+          "revision": 3,
+          "type": "playing",
+          "pid": 14776,
+          "position100ns": 110441054,
+          "readyEnd100ns": 200000000,
+          "completionWaiters": 0
+        },
+        "filesClosedLeaseReleased": true
+      },
+      "legacyExitCode": 0,
+      "buildMatches": [
+        {
+          "testedCopySha256": "6d465114f7ec1a6bf46140cf8fba1d8fec2ebbb261529de835be21f9546b4fda",
+          "sourceSha256": "6d465114f7ec1a6bf46140cf8fba1d8fec2ebbb261529de835be21f9546b4fda",
+          "equal": true
+        },
+        {
+          "testedCopySha256": "6d465114f7ec1a6bf46140cf8fba1d8fec2ebbb261529de835be21f9546b4fda",
+          "sourceSha256": "6d465114f7ec1a6bf46140cf8fba1d8fec2ebbb261529de835be21f9546b4fda",
+          "equal": true
+        }
+      ],
+      "taskCleanup": [
+        {
+          "taskRemoved": true,
+          "lastTaskResult": 0
+        },
+        {
+          "taskRemoved": true,
+          "lastTaskResult": 0
+        }
+      ],
+      "installedShellRegistrationUnchanged": true
+    },
+    "pythonSdk": {
+      "passed": 35,
+      "exitCode": 0
+    },
+    "familyContract": {
+      "passed": 2,
+      "exitCode": 0
+    }
+  },
+  "linuxInstall": {
+    "installedSha256": "c66cf4b55fbe21b468ec4b2db450fe98ddb849c0bef1f5196e3ac4436ff77dc7",
+    "previousSha256": "49dcfbaa829644d0e902b3a916ec64b4fcc293dabf2168f67868a382413e55a4",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.11-20261026T115637Z",
+    "profileSha256Before": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileSha256After": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileUnchanged": true,
+    "atomicReplacement": true,
+    "playbackInterrupted": false,
+    "reportedVersion": "FoxicMPQt 0.2.0",
+    "capabilities": {
+      "legacyRefresh": {
+        "fileIoOutsideMetadataLock": true,
+        "notificationsMetadataOnly": true,
+        "snapshotIndexCommitAtomic": true
+      },
+      "legacyPreparation": {
+        "cancellableDiskIo": false,
+        "maxConcurrent": 1,
+        "offUi": true,
+        "previousPlaybackUntilCommit": true,
+        "responseDeadlineMilliseconds": 5000
+      },
+      "readerRegistryOffUi": true,
+      "sourceRetirement": {
+        "filesClosedBeforeRelease": true,
+        "maxSources": 32,
+        "processOwned": true,
+        "workerLimit": 2
+      }
+    }
+  },
+  "intermediateFailures": [
+    {
+      "stage": "Initial Qt maintenance harness",
+      "exitCode": 8,
+      "reason": "Hard-coded revision=1 instead of actual fixture initial revision=2",
+      "resolution": "Use initialRevision and target initialRevision+1; final tests pass"
+    },
+    {
+      "stage": "Initial Classic maintenance",
+      "exitCode": 1,
+      "reason": "Stop disabled by command update during MLS_LOADING",
+      "resolution": "Enable Stop for a live progressive session while loading/loaded; final three cases pass"
+    },
+    {
+      "stage": "Linux corrupt-source lease expectation",
+      "exitCode": 8,
+      "reason": "Expected provider receipt deletion after corruption; old Unix provider rejects corrupt files before accepting release",
+      "resolution": "Verify actual local files closed and conservative provider receipt retained; no fabricated ACK; final 63 API tests pass"
+    }
+  ],
+  "boundaries": [
+    "Harvester unchanged",
+    "Installed Windows apps/profiles unchanged",
+    "Legacy provider may retain process lease after file corruption until authenticated OS recovery",
+    "Native I/O not force cancellable",
+    "Single worker still handles legacy I/O and heartbeat",
+    "Graph/renderer close and large index CPU/RAM not qualified",
+    "No new codecs/live/remux/physical A/V or replacement installers"
+  ]
+}

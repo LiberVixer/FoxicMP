@@ -188,6 +188,7 @@ std::shared_ptr<ProgressiveSource> ProgressiveSource::open(const QString &path) 
         auto next = readJson(raw->manifest, true);
         if (next["sessionId"] != last["sessionId"] || next["generation"] != last["generation"])
           throw std::runtime_error("Legacy session identity changed; reopen playback");
+        raw->legacyIoCheckpoint(uint64_t(next["revision"].toInteger()));if(raw->stopping.load())return;
         if (next["revision"].toInteger() > last["revision"].toInteger()) {
           QString error;
           if (!raw->publish(next, &error)) throw std::runtime_error(error.toStdString());
@@ -195,13 +196,15 @@ std::shared_ptr<ProgressiveSource> ProgressiveSource::open(const QString &path) 
         }
         // Unchanged JSON is never a substitute for a provider/writer heartbeat.
         if (lease->heartbeat(&raw->stopping)) raw->publishedHeartbeat();
-        std::unique_lock<std::mutex> lock(raw->mutex);
-        for (int i = 0; i < 2; ++i) ProgressiveFile::inspect(raw->files[i], raw->snapshot.tracks[i].available);
+        harvester::Snapshot current;
+        {std::lock_guard<std::mutex> lock(raw->mutex);current=raw->snapshot;}
+        for(int i=0;i<2;++i)ProgressiveFile::inspect(raw->files[i],current.tracks[i].available);
+        std::unique_lock<std::mutex> lock(raw->mutex);if(raw->stopping.load())return;
         if (!raw->currentStatus.complete && (!lease->connected() || std::chrono::steady_clock::now() - raw->lastPublished > std::chrono::seconds(15))) {
           raw->currentStatus.connected = false; raw->changed.notify_all();
         }
         raw->changed.wait_for(lock, std::chrono::milliseconds(100), [raw] { return raw->stopping.load(); });
-      } catch (const std::exception &e) { raw->fail(QString::fromUtf8(e.what())); return; }
+      } catch (const std::exception &e) { if(!raw->stopping.load())raw->fail(QString::fromUtf8(e.what()));return; }
     }
   });
   return source;

@@ -8754,7 +8754,8 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 		fEnable = true;
 	}
 
-	if (pCmdUI->m_nID == ID_PLAY_STOP && m_progressiveApi && m_progressiveApi->IsPreparing()) fEnable = true;
+	if (pCmdUI->m_nID == ID_PLAY_STOP && ((m_progressiveApi && m_progressiveApi->IsPreparing())
+        || (m_harvester && (m_eMediaLoadState == MLS_LOADING || m_eMediaLoadState == MLS_LOADED)))) fEnable = true;
 	pCmdUI->Enable(fEnable);
 }
 

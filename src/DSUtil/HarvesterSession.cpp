@@ -332,22 +332,27 @@ bool CHarvesterSession::Send(const char* type) {
 void CHarvesterSession::Watch() {
     std::string sent="attached", incoming;
     ULONGLONG lastSent=0;
-    while(WaitForSingleObject(m_stop,100)!=WAIT_OBJECT_0) {
+    while(WaitForSingleObject(m_stop,100)!=WAIT_OBJECT_0 && WaitForSingleObject(m_cancel,0)!=WAIT_OBJECT_0) {
         try {
-            harvester::Snapshot next; ReadManifest(next);
-            { std::lock_guard<std::mutex> lock(m_mutex);
-              if(harvester::Advance(m_state,next)) {
-                for(int i=0;i<2;++i) {LARGE_INTEGER size{};if(!GetFileSizeEx(m_files[i],&size) || next.tracks[i].available>uint64_t(size.QuadPart))throw std::runtime_error("Confirmed data disappeared");}
-                m_state=next;m_lastUpdate=GetTickCount64();
-              }
+            harvester::Snapshot next;ReadManifest(next);const auto previous=Snapshot();
+            const bool advanced=harvester::Advance(previous,next);const auto& checked=advanced?next:previous;
+            // Native metadata queries and fragment parsing must not hold the
+            // mutex used by UI Snapshot/ReadyEnd/Notify. Check unchanged files too.
+            for(int i=0;i<2;++i) {LARGE_INTEGER size{};if(!GetFileSizeEx(m_files[i],&size) || checked.tracks[i].available>uint64_t(size.QuadPart))throw std::runtime_error("Confirmed data disappeared");}
+            if(advanced) {
+                auto fragments=BuildFragments(next);Fragments retired;
+                {std::lock_guard<std::mutex> lock(m_mutex);
+                 if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || !m_error.empty())break;
+                 m_state=next;retired=std::move(m_fragments);m_fragments=std::move(fragments);
+                 for(int i=0;i<2;++i)if(next.tracks[i].fragmented)m_duration[i]=next.duration;
+                 m_lastUpdate=GetTickCount64();}
             }
-            RefreshFragments();
             const auto current=Snapshot();
             if(current.state==harvester::State::Cancelled || current.tracks[0].state==harvester::State::Cancelled || current.tracks[1].state==harvester::State::Cancelled)
                 Fail("Harvester download cancelled");
             else if(current.state==harvester::State::Failed || current.tracks[0].state==harvester::State::Failed || current.tracks[1].state==harvester::State::Failed)
                 Fail("Harvester download failed; source tracks are retained for retry");
-        } catch(const std::exception& e) {Fail(e.what());}
+        }catch(const std::exception& e){if(WaitForSingleObject(m_cancel,0)!=WAIT_OBJECT_0)Fail(e.what());}
         if(m_pipe==INVALID_HANDLE_VALUE && ConnectPipe()) {sent.clear();Send("attached");}
         std::string status;{std::lock_guard<std::mutex> lock(m_mutex);status=m_status;}
         if(m_pipe!=INVALID_HANDLE_VALUE &&  (status!=sent || GetTickCount64()-lastSent>=1000)) {if(Send(status.c_str())) {sent=status;lastSent=GetTickCount64();} else DisconnectPipe();}

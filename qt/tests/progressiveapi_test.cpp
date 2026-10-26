@@ -668,6 +668,54 @@ private slots:
     release->set_value();QTRY_VERIFY_WITH_TIMEOUT(done.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,3000);
     if(window){QTRY_VERIFY_WITH_TIMEOUT(!w->progressiveOpening(),3000);QCOMPARE(completed.size(),1);QVERIFY(!completed[0][0].toBool());QCOMPARE(w->progressiveSession(),replacement);}
   }
+  void legacyMaintenanceKeepsUiResponsive_data() {
+    QTest::addColumn<QString>("mode");
+    for(const auto* mode:{"publish","stop","close","truncate","unchanged-truncate"})QTest::newRow(mode)<<QString(mode);
+  }
+  void legacyMaintenanceKeepsUiResponsive() {
+    QFETCH(QString,mode);const auto root=QFileInfo(paths[0]).absolutePath();auto legacy=snapshot;auto tracks=legacy["tracks"].toObject();
+    for(const auto& kind:{QString("video"),QString("audio")}){auto track=tracks[kind].toObject();track["path"]=QFileInfo(track["path"].toString()).fileName();tracks[kind]=track;}
+    legacy["tracks"]=tracks;const auto manifest=QDir(root).filePath("session.json");
+    {QFile file(manifest);QVERIFY(file.open(QIODevice::WriteOnly));file.write(QJsonDocument(legacy).toJson());}
+    QProcess provider;provider.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{FOXICMP_LEGACY_FIXTURE,"--manifest",manifest,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA")});QVERIFY(provider.waitForStarted());
+    const auto cleanupProvider=qScopeGuard([&]{QFile stop(QDir(root).filePath("fixture-stop"));if(stop.open(QIODevice::WriteOnly))stop.close();if(!provider.waitForFinished(4000)){provider.kill();provider.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(QFileInfo::exists(QDir(root).filePath("fixture-ready.json")),6000);
+    Profile profile(QDir(root).filePath("maintenance-profile"));prepare(profile);Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    QVERIFY(w.openProgressiveSession(manifest));QTRY_VERIFY_WITH_TIMEOUT(w.progressiveSession(),6000);auto source=w.progressiveSession();const auto receipt=source->releaseReceipt();
+    const auto before=source->status();QVERIFY(before.available>4 && before.available<6);
+    auto entered=std::make_shared<std::promise<void>>();auto ready=entered->get_future();auto release=std::make_shared<std::promise<void>>();auto gate=release->get_future().share();auto once=std::make_shared<std::atomic<bool>>(false);
+    const uint64_t initialRevision=uint64_t(legacy["revision"].toInteger());
+    const uint64_t target=initialRevision+(mode=="unchanged-truncate"?0:1);
+    std::atomic_store(&source->legacyIoHook,std::make_shared<const std::function<void(uint64_t)>>([=](uint64_t revision){if(revision<target || once->exchange(true))return;entered->set_value();gate.wait();}));
+    const auto cleanupGate=qScopeGuard([release]{try{release->set_value();}catch(const std::future_error&){};});
+    if(mode!="unchanged-truncate"){QFile control(QDir(root).filePath("fixture-control"));QVERIFY(control.open(QIODevice::WriteOnly));control.write("grow");}
+    QTRY_VERIFY_WITH_TIMEOUT(ready.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,6000);
+    int ticks=0;QTimer tick;connect(&tick,&QTimer::timeout,&tick,[&]{++ticks;});tick.start(5);QTRY_VERIFY_WITH_TIMEOUT(ticks>=4,1000);
+    const auto caps=wire(ProgressiveApi::endpointFor(profile.directory),"{\"version\":1,\"action\":\"capabilities\"}\n");QVERIFY(caps["ok"].toBool());QVERIFY(caps["legacyRefresh"].toObject()["snapshotIndexCommitAtomic"].toBool());
+    QCOMPARE(source->status().available,before.available);{std::lock_guard<std::mutex> lock(source->mutex);QCOMPARE(source->snapshot.revision,initialRevision);}
+    QElapsedTimer elapsed;elapsed.start();source->notify("paused");QVERIFY(elapsed.elapsed()<200);
+    if(mode=="stop" || mode=="close") {
+      elapsed.restart();if(mode=="stop")w.actions["stop"]->trigger();else w.closeCurrent();QVERIFY(elapsed.elapsed()<200);QVERIFY(!w.progressiveSession());QVERIFY(!receipt->load());
+    }else if(mode.contains("truncate")){QFile file(paths[0]);QVERIFY(file.open(QIODevice::ReadWrite));QVERIFY(file.resize(0));}
+    release->set_value();
+    if(mode=="publish") {
+      QTRY_VERIFY_WITH_TIMEOUT(source->status().available>10,6000);{std::lock_guard<std::mutex> lock(source->mutex);QCOMPARE(source->snapshot.revision,initialRevision+1);}
+      auto* player=w.findChild<Player*>();QTRY_VERIFY_WITH_TIMEOUT(player->get("time-pos").toDouble()>.2,10000);
+    }else if(mode.contains("truncate"))QTRY_VERIFY_WITH_TIMEOUT(!source->status().error.isEmpty(),6000);
+    else QVERIFY(source->status().error.isEmpty());
+    w.closeCurrent();source.reset();QTRY_VERIFY_WITH_TIMEOUT(receipt->load(),6000);
+    const auto leases=[&]{QFile file(QDir(root).filePath("leases.json"));return file.open(QIODevice::ReadOnly)?QJsonDocument::fromJson(file.readAll()).object():QJsonObject{};};
+#ifndef Q_OS_WIN
+    if(mode.contains("truncate")) {
+      // The retained Unix provider rejects its corrupt manifest/files before
+      // processing released. Local descriptors are closed, but its receipt is
+      // deliberately conservative until OS process recovery; never fake an ACK.
+      QTRY_VERIFY_WITH_TIMEOUT(leases()["leases"].toObject().contains(QString::number(QCoreApplication::applicationPid())),6000);
+      qInfo()<<"Corrupt legacy source: local files closed; provider receipt retained for OS recovery";
+    }else
+#endif
+      QTRY_VERIFY_WITH_TIMEOUT(leases()["leases"].isObject() && leases()["leases"].toObject().isEmpty(),6000);
+  }
   void legacyProviderPublishesWriterStateAndReleases_data() {
     QTest::addColumn<bool>("failed"); QTest::addColumn<bool>("restart");
     QTest::newRow("complete") << false << false; QTest::newRow("failed") << true << false;

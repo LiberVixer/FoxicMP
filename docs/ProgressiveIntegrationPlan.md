@@ -27,8 +27,10 @@ SDK 1.7 переносит [первичную подготовку probe/start 
 из UI; SDK 1.8 добавляет [update/complete и разделение блокировок](ProgressivePublication.md)
 для опубликованных v1/v2. SDK 1.9 выносит [IPC реестра и уничтожение Source](ProgressiveRetirement.md)
 в workers с ограниченной очередью. SDK 1.10 выносит [GUI/CLI legacy opening](ProgressiveLegacyOpening.md)
-из UI и отменяет применение позднего результата. Остались закрытие renderer/графа
-и некоторые старые блокировки watch/refresh/notify; требование ТЗ про весь I/O пока не закрыто.
+из UI и отменяет применение позднего результата. SDK 1.11 выносит [файловые проверки
+и индексацию legacy](ProgressiveLegacyMaintenance.md) из metadata mutex UI.
+Остались закрытие renderer/графа, ресурсы больших индексов и другие файловые пути;
+требование ТЗ про весь I/O пока не закрыто.
 Наличие FFmpeg/libmpv/DirectShow не подтверждает всю матрицу ТЗ.
 
 Без сквозной проверки из реального Harvester в каждой из трёх редакций нельзя

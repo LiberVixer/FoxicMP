@@ -38,6 +38,7 @@ if not provider.ready.wait(5) or provider.error:
     raise RuntimeError(provider.error or 'Legacy provider startup timeout')
 atomic_json(root/'fixture-ready.json', dict(ready=True))
 last = ''
+padding = {'video': 0, 'audio': 0}
 try:
     while not (root/'fixture-stop').exists():
         if errors:
@@ -67,16 +68,20 @@ try:
                 last = stage
                 continue
             snapshot = read_json(args.manifest)
-            if stage in ('grow', 'complete'):
+            if stage in ('grow', 'slow-grow', 'complete'):
                 for i, kind in enumerate(('video','audio')):
                     data = (args.fixtures/'progressive'/('audio.m4a' if i else 'video.mp4')).read_bytes()
                     count = len(data) if stage == 'complete' else fragment_prefix(data, 12)
                     track = snapshot['tracks'][kind]
                     with (root/track['path']).open('ab', buffering=0) as stream:
-                        stream.write(data[stream.tell():count]); os.fsync(stream.fileno())
-                    track['availablePrefixBytes'] = count
+                        previous = stream.tell() - padding[kind]
+                        if stage == 'slow-grow' and kind == 'video' and not padding[kind]:
+                            atoms = b'\x00\x00\x00\x08free' * 100000
+                            stream.write(atoms); padding[kind] = len(atoms)
+                        stream.write(data[previous:count]); os.fsync(stream.fileno())
+                    track['availablePrefixBytes'] = count + padding[kind]
                     if stage == 'complete':
-                        track.update(expectedTotalBytes=count, state='complete')
+                        track.update(expectedTotalBytes=count + padding[kind], state='complete')
                 if stage == 'complete':
                     snapshot['state'] = 'complete'
             elif stage == 'failed':

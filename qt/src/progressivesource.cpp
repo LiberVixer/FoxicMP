@@ -128,28 +128,34 @@ ProgressiveSource::~ProgressiveSource() {
   released->store(true);
 }
 void ProgressiveSource::refresh() {
-  auto next = readManifest(manifest);
-  std::lock_guard<std::mutex> lock(mutex);
-  if (!harvester::Advance(snapshot, next))
-    return;
+  std::lock_guard<std::mutex> publication(publicationMutex);
+  auto next=readManifest(manifest);harvester::Snapshot previous;
+  {std::lock_guard<std::mutex> lock(mutex);previous=snapshot;}
+  const bool advanced=harvester::Advance(previous,next);
+  legacyIoCheckpoint(next.revision);
+  const auto& checked=advanced?next:previous;
+  if(stopping.load())return;
+  // Files/indexes are worker-owned; the UI only sees committed metadata.
   for (int i = 0; i < 2; ++i) {
     const auto name = QFile::encodeName(
-        QDir(root).filePath(QString::fromStdString(next.tracks[i].path)));
+        QDir(root).filePath(QString::fromStdString(checked.tracks[i].path)));
     struct stat pathInfo{}, openedInfo{};
     if (lstat(name.constData(), &pathInfo) || fstat(files[i], &openedInfo) ||
         !S_ISREG(pathInfo.st_mode) || uint64_t(pathInfo.st_dev) != devices[i] ||
         uint64_t(pathInfo.st_ino) != inodes[i] ||
-        uint64_t(openedInfo.st_size) < next.tracks[i].available)
+        uint64_t(openedInfo.st_size) < checked.tracks[i].available)
       throw std::runtime_error(
           "Pinned progressive track was replaced, removed or truncated");
   }
-  if (next.state == harvester::State::Failed ||
-      next.state == harvester::State::Cancelled)
-    throw std::runtime_error(next.state == harvester::State::Failed
-                                 ? "Downloader failed"
-                                 : "Downloader cancelled");
-  snapshot = next;
-  updateIndexes();
+  if(!advanced)return;
+  if(next.state==harvester::State::Failed || next.state==harvester::State::Cancelled)
+    throw std::runtime_error(next.state==harvester::State::Failed?"Downloader failed":"Downloader cancelled");
+  const auto indexedStatus=indexStatus(next);
+  {std::lock_guard<std::mutex> lock(mutex);
+   if(stopping.load() || !currentStatus.error.isEmpty())return;
+   snapshot=next;currentStatus.duration=indexedStatus.duration;
+   currentStatus.timestampOffset=indexedStatus.timestampOffset;
+   currentStatus.available=indexedStatus.available;currentStatus.complete=indexedStatus.complete;}
   changed.notify_all();
 }
 bool ProgressiveSource::connectProvider() {
@@ -327,8 +333,7 @@ void ProgressiveSource::watch() {
         }
       }
     } catch (const std::exception &error) {
-      fail(QString::fromUtf8(error.what()));
-      send("error");
+      if(!stopping.load()){fail(QString::fromUtf8(error.what()));send("error");}
       break;
     }
     std::unique_lock<std::mutex> lock(mutex);

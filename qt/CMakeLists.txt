@@ -107,7 +107,8 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressivePreparationValidation-2026-10-26.md ../docs/ProgressivePreparationValidation-2026-10-26.json ../docs/ProgressivePublication.md
  ../docs/ProgressivePublicationValidation-2026-10-26.md ../docs/ProgressivePublicationValidation-2026-10-26.json ../docs/ProgressiveRetirement.md
  ../docs/ProgressiveRetirementValidation-2026-10-26.md ../docs/ProgressiveRetirementValidation-2026-10-26.json ../docs/ProgressiveLegacyOpening.md
- ../docs/ProgressiveLegacyOpeningValidation-2026-10-26.md ../docs/ProgressiveLegacyOpeningValidation-2026-10-26.json DESTINATION integration)
+ ../docs/ProgressiveLegacyOpeningValidation-2026-10-26.md ../docs/ProgressiveLegacyOpeningValidation-2026-10-26.json ../docs/ProgressiveLegacyMaintenance.md
+ ../docs/ProgressiveLegacyMaintenanceValidation-2026-10-26.md ../docs/ProgressiveLegacyMaintenanceValidation-2026-10-26.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/vod.json DESTINATION integration RENAME progressive-v2-vod.json)
 install(FILES ../docs/images/foxicmp-qt-web-control.png DESTINATION . RENAME web-control.png)
 install(FILES ../docs/images/foxicmp-qt-web-browser.png DESTINATION . RENAME web-browser.png)
@@ -236,6 +237,8 @@ if(BUILD_TESTING)
  set_tests_properties(progressive-preparation PROPERTIES TIMEOUT 90)
  add_test(NAME progressive-publication COMMAND foxicmp-progressive-api-tests publishedUpdatesKeepUiResponsive)
  set_tests_properties(progressive-publication PROPERTIES TIMEOUT 120)
+ add_test(NAME progressive-legacy-maintenance COMMAND foxicmp-progressive-api-tests legacyMaintenanceKeepsUiResponsive legacyProviderPublishesWriterStateAndReleases)
+ set_tests_properties(progressive-legacy-maintenance PROPERTIES TIMEOUT 100)
  add_test(NAME progressive-legacy-opening COMMAND foxicmp-progressive-api-tests legacyOpeningKeepsUiResponsive legacyProviderPublishesWriterStateAndReleases)
  set_tests_properties(progressive-legacy-opening PROPERTIES TIMEOUT 110)
  add_test(NAME progressive-registry-ui COMMAND foxicmp-progressive-api-tests readerRegistryIoDoesNotHoldUi sourceDestructionIsDeferredUntilActualFileClose sourceCapacityRejectsWithoutOpeningMoreFiles)

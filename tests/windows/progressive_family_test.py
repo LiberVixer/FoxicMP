@@ -395,6 +395,96 @@ def run_legacy_opening(args):
     return dict(contract='legacy-opening',result='PASS',cases=cases)
 
 
+def run_legacy_maintenance(args):
+    """Overlap real legacy fragment-index reads with UI messages and Stop."""
+    player=Path(args.player).resolve();registration=registration_snapshot()
+    ini=player.with_suffix('.ini').read_bytes();settings=configparser.ConfigParser();settings.read_string(ini.decode('utf-16') if ini.startswith((b'\xff\xfe',b'\xfe\xff')) else ini.decode('utf-8-sig'))
+    assert settings.get('Settings','ContextMenuPrompted')=='1' and settings.get('Settings','ContextMenuEnabled')=='0'
+    kernel=ctypes.WinDLL('kernel32',use_last_error=True);user=ctypes.WinDLL('user32',use_last_error=True)
+    class Io(ctypes.Structure):
+        _fields_=[(name,ctypes.c_ulonglong) for name in ('reads','writes','other','readBytes','writeBytes','otherBytes')]
+    kernel.OpenProcess.argtypes=[w.DWORD,w.BOOL,w.DWORD];kernel.OpenProcess.restype=w.HANDLE
+    kernel.GetProcessIoCounters.argtypes=[w.HANDLE,ctypes.POINTER(Io)];kernel.CloseHandle.argtypes=[w.HANDLE]
+    callback=ctypes.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM);user.EnumWindows.argtypes=[callback,w.LPARAM]
+    user.GetWindowThreadProcessId.argtypes=[w.HWND,ctypes.POINTER(w.DWORD)];user.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,ctypes.c_int]
+    user.SendMessageTimeoutW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM,w.UINT,w.UINT,ctypes.POINTER(ctypes.c_size_t)]
+    def read(path):
+        try:return json.loads(path.read_text(encoding='utf-8'))
+        except (OSError,ValueError):return {}
+    def wait(check,seconds=12):
+        end=time.monotonic()+seconds
+        while time.monotonic()<end:
+            result=check()
+            if result:return result
+            time.sleep(.01)
+        raise AssertionError('Legacy maintenance condition timed out')
+    cases=[]
+    for mode in ('grow','stop','unchanged-truncate'):
+        root=Path(args.report)/mode;root.mkdir(parents=True)
+        value=dict(schemaVersion=1,sessionId=uuid.uuid4().hex,generation=1,revision=1,state='downloading',duration100ns=200000000,tracks={})
+        for kind,name in [('video','video.mp4'),('audio','audio.m4a')]:
+            data=(Path(args.fixtures)/'progressive'/name).read_bytes();length=prefix(data,5);(root/(kind+'.part')).write_bytes(data[:length])
+            value['tracks'][kind]=dict(path=kind+'.part',container='mp4' if kind=='video' else 'm4a',fragmented=True,initializationReady=True,availablePrefixBytes=length,expectedTotalBytes=None,state='downloading')
+        manifest=root/'session.json';manifest.write_text(json.dumps(value),encoding='utf-8')
+        provider=subprocess.Popen([sys.executable,str(Path(__file__).resolve().parents[1]/'progressive_legacy_fixture.py'),'--manifest',str(manifest),'--fixtures',str(Path(args.fixtures).resolve())],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        process=None;handle=None
+        try:
+            wait(lambda:(root/'fixture-ready.json').exists(),8)
+            process=subprocess.Popen([str(player),'/harvester-session',str(manifest),'/nofocus'],cwd=player.parent)
+            message=root/('player-'+str(process.pid)+'.json');initial=wait(lambda:read(message));assert initial['revision']==1
+            client=ProgressiveClient(str(player));caps=client.request(dict(version=1,action='capabilities'));assert caps['pid']==process.pid and caps['legacyRefresh']['fileIoOutsideMetadataLock']
+            windows=[]
+            @callback
+            def visit(hwnd,_):
+                owner=w.DWORD();user.GetWindowThreadProcessId(hwnd,ctypes.byref(owner));name=ctypes.create_unicode_buffer(256);user.GetClassNameW(hwnd,name,256)
+                if owner.value==process.pid and name.value=='FoxicMP':windows.append(hwnd)
+                return True
+            user.EnumWindows(visit,0);assert len(windows)==1
+            handle=kernel.OpenProcess(0x1000,False,process.pid);assert handle
+            def count():
+                value=Io();assert kernel.GetProcessIoCounters(handle,ctypes.byref(value));return value.reads
+            times=[];reads=0
+            if mode!='unchanged-truncate':
+                before=count();(root/'fixture-control').write_text('slow-grow')
+                end=time.monotonic()+6
+                while count()<before+500 and time.monotonic()<end:time.sleep(.002)
+                reads=count()-before;assert reads>=500,'No actual fragment-index reads observed'
+                assert read(message).get('revision',1)==1,'Legacy indexing finished before the overlap trial'
+                for _ in range(3):
+                    out=ctypes.c_size_t();started=time.perf_counter_ns()
+                    assert user.SendMessageTimeoutW(windows[0],0,0,0,2,500,ctypes.byref(out)),'UI blocked in legacy maintenance'
+                    times.append((time.perf_counter_ns()-started)/1000000)
+                assert read(message).get('revision',1)==1,'No sustained overlap with legacy indexing'
+                if mode=='stop':
+                    post_command(process.pid,890)
+                    wait(lambda:read(root/'leases.json').get('leases')=={},10)
+                    notification=read(message);assert notification.get('type')!='error',notification
+                else:
+                    notification=wait(lambda:read(message) if read(message).get('revision')==2 and read(message).get('readyEnd100ns',0)>=100000000 else None)
+            else:
+                with (root/'video.part').open('r+b') as stream:stream.truncate(0)
+                # An unchanged manifest must not suppress physical-file checks.
+                # The UI may consume the error before the provider sees it; in
+                # either case the acquired lease must be released without EOF.
+                wait(lambda:read(root/'leases.json').get('leases')=={},10)
+                notification=read(message);assert notification.get('type')!='playing',notification
+            post_command(process.pid,803);wait(lambda:read(root/'leases.json').get('leases')=={},10)
+            cases.append(dict(mode=mode,readsAtOverlap=reads,uiPingMilliseconds=times,notification=notification,providerLeasesReleased=True))
+        finally:
+            if handle:kernel.CloseHandle(handle)
+            if process is not None and process.poll() is None:
+                post_command(process.pid,0)
+                try:process.wait(timeout=10)
+                except subprocess.TimeoutExpired:process.kill();process.wait();raise
+            (root/'fixture-stop').touch()
+            try:provider.wait(timeout=8)
+            except subprocess.TimeoutExpired:provider.kill();provider.wait();raise
+            error=provider.stderr.read();provider.stdout.close();provider.stderr.close();assert provider.returncode==0,error
+            if process is not None:assert process.returncode==0,process.returncode
+            assert registration_snapshot()==registration,'Installed Classic shell registration changed'
+    return dict(contract='legacy-maintenance',result='PASS',cases=cases)
+
+
 def run_legacy(args):
     """Check the shared Classic index refactor through its retained provider CLI."""
     player=Path(args.player).resolve();registration=registration_snapshot();work=Path(args.report)/'legacy';work.mkdir(parents=True)
@@ -587,8 +677,9 @@ if __name__ == '__main__':
     parser.add_argument('--legacy-only', action='store_true')
     parser.add_argument('--registry-only', action='store_true')
     parser.add_argument('--legacy-opening-only', action='store_true')
+    parser.add_argument('--legacy-maintenance-only', action='store_true')
     arguments=parser.parse_args();report=Path(arguments.report);report.mkdir(parents=True,exist_ok=True)
     try:
-        result=run_legacy_opening(arguments) if arguments.legacy_opening_only else run_legacy(arguments) if arguments.legacy_only else run(arguments);(report/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+        result=run_legacy_maintenance(arguments) if arguments.legacy_maintenance_only else run_legacy_opening(arguments) if arguments.legacy_opening_only else run_legacy(arguments) if arguments.legacy_only else run(arguments);(report/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
     except BaseException:
         (report/'exception.txt').write_text(traceback.format_exc(),encoding='utf-8');raise

@@ -225,3 +225,10 @@ CLI `--harvester-session` сохраняется; manifest/provider attach/на�
 Runtime capabilities содержат `legacyPreparationPending`; это занятость подготовки,
 а не разрешение на удаление ресурсов. Синхронный Source::open остаётся внутренним
 низкоуровневым вызовом.
+
+## Legacy maintenance (SDK 1.11)
+
+`legacyRefresh` объявляет I/O вне metadata mutex UI и согласованное применение
+snapshot/index-ready состояния. [Границы и проверки](ProgressiveLegacyMaintenance.md).
+Усечение проверяется и при неизменном manifest; release по-прежнему требует
+фактического закрытия ресурсов. Graph/renderer shutdown отдельно.
