@@ -20,6 +20,8 @@
  */
 
 #include "stdafx.h"
+#include "../../../shared/graphmessagewait.h"
+constexpr WPARAM FOXICMP_OWNED_CMDLINE = 0xF0C1;
 
 #include "MainFrm.h"
 #include <afxglobals.h>
@@ -958,6 +960,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void CMainFrame::OnDestroy()
 {
     m_progressiveApi.reset();
+    MSG deferredCommand{};
+    while(::PeekMessageW(&deferredCommand,m_hWnd,WM_HANDLE_CMDLINE,WM_HANDLE_CMDLINE,PM_REMOVE))
+        if(deferredCommand.wParam==FOXICMP_OWNED_CMDLINE)delete reinterpret_cast<cmdLine*>(deferredCommand.lParam);
     MSG pending{};
     while(::PeekMessageW(&pending,m_hWnd,WM_CLASSIC_PROGRESSIVE_REQUEST,WM_CLASSIC_PROGRESSIVE_REQUEST,PM_REMOVE))
         delete reinterpret_cast<std::shared_ptr<ClassicProgressiveApi::Request>*>(pending.lParam);
@@ -999,6 +1004,7 @@ void CMainFrame::OnDestroy()
 
 void CMainFrame::OnClose()
 {
+    if(m_fOpeningAborted || m_eMediaLoadState==MLS_CLOSING){PostMessageW(WM_CLOSE);return;}
 	DLog(L"CMainFrame::OnClose() : start");
 
 	m_bClosingState = true;
@@ -5778,6 +5784,7 @@ LRESULT CMainFrame::OnDXVAStateChange(WPARAM wParam, LPARAM lParam)
 
 LRESULT CMainFrame::HandleCmdLine(WPARAM wParam, LPARAM lParam)
 {
+    std::unique_ptr<cmdLine> ownedCommand(wParam==FOXICMP_OWNED_CMDLINE?reinterpret_cast<cmdLine*>(lParam):nullptr);
 	if (m_bClosingState) {
 		return 0;
 	}
@@ -5785,6 +5792,12 @@ LRESULT CMainFrame::HandleCmdLine(WPARAM wParam, LPARAM lParam)
 	CAppSettings& s = AfxGetAppSettings();
 
 	cmdLine* cmdln = (cmdLine*)lParam;
+    if(!cmdln)return 0;
+    if(m_fOpeningAborted || m_eMediaLoadState==MLS_CLOSING){
+        auto deferred=std::make_unique<cmdLine>(*cmdln);
+        if(PostMessageW(WM_HANDLE_CMDLINE,FOXICMP_OWNED_CMDLINE,reinterpret_cast<LPARAM>(deferred.get())))deferred.release();
+        return 0;
+    }
 	s.ParseCommandLine(*cmdln);
 
 	if (s.nCLSwitches & CLSW_SLAVE) {
@@ -6105,6 +6118,7 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
 
 	if (pCDS->dwData != 0x6ABE51 || pCDS->cbData < sizeof(DWORD)) {
 		if (AfxGetAppSettings().hMasterWnd) {
+            if(m_fOpeningAborted || m_eMediaLoadState==MLS_CLOSING)return FALSE;
 			ProcessAPICommand(pCDS);
 			return TRUE;
 		} else {
@@ -18149,6 +18163,7 @@ void CMainFrame::AddCurDevToPlaylist()
 
 void CMainFrame::OpenMedia(std::unique_ptr<OpenMediaData> pOMD)
 {
+    if(m_fOpeningAborted || m_eMediaLoadState==MLS_CLOSING)return;
     if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged();
 	auto pFileData   = dynamic_cast<const OpenFileData*>(pOMD.get());
 	auto pDeviceData = dynamic_cast<const OpenDeviceData*>(pOMD.get());
@@ -18228,6 +18243,7 @@ bool CMainFrame::DisplayChange()
 
 void CMainFrame::CloseMedia(BOOL bNextIsOpened/* = FALSE*/)
 {
+    if(m_fOpeningAborted)return; // A sent command must not nest an abort wait.
     if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged();
     if(m_progressiveApi && m_harvester)m_progressiveApi->Ended(m_harvester,m_bGraphEventComplete);
 	if (m_eMediaLoadState == MLS_CLOSING || m_eMediaLoadState == MLS_CLOSED) {
@@ -18274,7 +18290,7 @@ void CMainFrame::CloseMedia(BOOL bNextIsOpened/* = FALSE*/)
 				TerminateProcess(GetCurrentProcess(), 0xDEAD);
 			}
 			*/
-			WaitForSingleObject(m_hGraphThreadEventOpen, INFINITE);
+			if(foxicmp::progressive::GraphMessageWait(m_hGraphThreadEventOpen)!=WAIT_OBJECT_0){EndWaitCursor();return;}
 			EndWaitCursor();
 
 			MSG msg;
@@ -18295,20 +18311,7 @@ void CMainFrame::CloseMedia(BOOL bNextIsOpened/* = FALSE*/)
 		m_pGraphThread->PostThreadMessage(CGraphThread::TM_CLOSE, 0, 0);
 		//WaitForSingleObject(m_hGraphThreadEventClose, INFINITE);
 
-		HANDLE handle = m_hGraphThreadEventClose;
-		DWORD dwWait;
-		// We don't want to block messages processing completely so we stop waiting
-		// on new message received from another thread or application.
-		while ((dwWait = MsgWaitForMultipleObjects(1, &handle, FALSE, INFINITE, QS_SENDMESSAGE)) != WAIT_OBJECT_0) {
-			// If we haven't got the event we were waiting for, we ensure that we have got a new message instead
-			if (dwWait == WAIT_OBJECT_0 + 1) {
-				// and we make sure it is handled before resuming waiting
-				MSG msg;
-				PeekMessageW(&msg, nullptr, 0, 0, PM_NOREMOVE);
-			} else {
-				ASSERT(FALSE);
-			}
-		}
+		if(foxicmp::progressive::GraphMessageWait(m_hGraphThreadEventClose)!=WAIT_OBJECT_0)return;
 	} else {
 		CloseMediaPrivate();
 	}

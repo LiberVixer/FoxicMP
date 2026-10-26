@@ -232,3 +232,10 @@ Runtime capabilities содержат `legacyPreparationPending`; это зан�
 snapshot/index-ready состояния. [Границы и проверки](ProgressiveLegacyMaintenance.md).
 Усечение проверяется и при неизменном manifest; release по-прежнему требует
 фактического закрытия ресурсов. Graph/renderer shutdown отдельно.
+
+## Decoder lifetime (SDK 1.12)
+
+Qt `engineRetirement`: 16 active/closing cores, до двух workers, native destroy
+и software renderer free вне UI; GL context free сохраняет owner thread.
+[Callback lifetime и подтверждение закрытия](ProgressiveEngineShutdown.md).
+Classic отдельно объявляет `graphShutdown`, не detached teardown.

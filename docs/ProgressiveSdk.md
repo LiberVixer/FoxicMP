@@ -43,6 +43,13 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Decoder shutdown (SDK 1.12)
+
+[Qt native lifetime / Classic graph wait](ProgressiveEngineShutdown.md) различаются:
+Qt объявляет `engineRetirement`, Classic — `graphShutdown` с nativeTeardownDetached=false.
+Source reader release остаётся отдельным подтверждением фактического закрытия файлов.
+SDK ZIP не обновляет EXE/установщики.
+
 ## Legacy maintenance (SDK 1.11)
 
 [Файловые проверки и индексация legacy](ProgressiveLegacyMaintenance.md) выполняются

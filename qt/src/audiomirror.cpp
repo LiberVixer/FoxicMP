@@ -1,5 +1,6 @@
 #include "audiomirror.h"
 #include "player.h"
+#include "mpvlifetime.h"
 #include "progressivesource.h"
 #include "i18n.h"
 #include <QJsonDocument>
@@ -9,8 +10,8 @@
 AudioMirror::AudioMirror(Player *p, const QString &device,
                          std::function<void(bool, const QString &)> callback, const char *backend)
     : QObject(p), player(p), status(std::move(callback)) {
-  handle = mpv_create();
-  if (!handle) throw std::runtime_error("Cannot create secondary audio decoder");
+  lifetime=MpvLifetime::create();handle=lifetime->handle;
+  try {
   for (const auto &entry : {std::pair{"config", "no"}, {"terminal", "no"}, {"idle", "yes"},
        {"vid", "no"}, {"sid", "no"}, {"vo", "null"}, {"pause", "yes"},
        {"audio-client-name", "FoxiqMP qt secondary"}, {"audio-spdif", ""}, {"ytdl", "no"}})
@@ -18,15 +19,19 @@ AudioMirror::AudioMirror(Player *p, const QString &device,
   mpv_set_option_string(handle, "ao", backend);
   mpv_set_option_string(handle, "audio-device", device.toUtf8().constData());
   int result = mpv_initialize(handle);
-  if (result < 0) { mpv_terminate_destroy(handle); handle = nullptr; throw std::runtime_error(mpv_error_string(result)); }
+  if(result<0)throw std::runtime_error(mpv_error_string(result));
+  lifetime->initialized=true;
   streams = std::make_unique<ProgressiveStreams>(handle, false);
   timer.setInterval(100);
   connect(&timer, &QTimer::timeout, this, &AudioMirror::synchronize);
   timer.start();
+  }catch(...){lifetime->streams=std::move(streams);handle=nullptr;throw;}
 }
 AudioMirror::~AudioMirror() {
   timer.stop();
-  if (handle) { command({"stop"}); mpv_terminate_destroy(handle); }
+  if(streams){lifetime->retainedSource=streams->current();streams->clear();}
+  if(lifetime){lifetime->requestStop();lifetime->streams=std::move(streams);}
+  handle=nullptr;lifetime.reset();
 }
 bool AudioMirror::set(const char *name, const QString &value) {
   return mpv_set_property_string(handle, name, value.toUtf8().constData()) >= 0;
@@ -37,7 +42,7 @@ double AudioMirror::number(const char *name) const {
 void AudioMirror::command(const QStringList &args) {
   QList<QByteArray> bytes; for (const auto &arg : args) bytes << arg.toUtf8();
   QList<const char *> pointers; for (const auto &arg : bytes) pointers << arg.constData(); pointers << nullptr;
-  mpv_command(handle, pointers.data());
+  mpv_command_async(handle,0,pointers.data());
 }
 void AudioMirror::report(bool active, const QString &message) {
   running = active;

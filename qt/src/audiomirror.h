@@ -7,6 +7,7 @@
 #include <memory>
 #include <mpv/client.h>
 class Player;
+struct MpvLifetime;
 class ProgressiveStreams;
 // An audio-only decoder follows the primary playback clock. It never captures
 // system audio and never changes another application's mixer or output.
@@ -25,6 +26,8 @@ private:
   bool set(const char *, const QString &);
   double number(const char *) const;
   void command(const QStringList &);
+  friend class PlayerRetirementTest;
+  std::shared_ptr<MpvLifetime> lifetime;
   Player *player;
   mpv_handle *handle = nullptr;
   std::unique_ptr<ProgressiveStreams> streams;

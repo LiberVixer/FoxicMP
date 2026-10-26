@@ -13,9 +13,13 @@ namespace foxicmp { namespace progressive {
 struct RetirementBusy : std::runtime_error {
     RetirementBusy():std::runtime_error("Progressive source capacity is occupied by active or closing sources; retry after release"){}
 };
-class SourceRetirement {
-public:
+struct SourceRetirementPolicy {
     static constexpr size_t Capacity=32, WorkerLimit=2;
+    using Busy=RetirementBusy;
+};
+template<class Policy> class ObjectRetirement {
+public:
+    static constexpr size_t Capacity=Policy::Capacity, WorkerLimit=Policy::WorkerLimit;
 private:
     enum class Phase {Free,Owned,Queued,Running};
     struct Slot {Phase phase=Phase::Free;void* object=nullptr;void(*destroy)(void*)=nullptr;};
@@ -49,7 +53,7 @@ private:
     static Slot* reserve() {
         auto& s=state();std::lock_guard<std::mutex> lock(s.mutex);
         for(auto& slot:s.entries)if(slot.phase==Phase::Free){slot.phase=Phase::Owned;++s.used;return &slot;}
-        throw RetirementBusy();
+        throw typename Policy::Busy();
     }
     static void undo(Slot* slot) {
         auto& s=state();{std::lock_guard<std::mutex> lock(s.mutex);*slot=Slot{};--s.used;}s.changed.notify_all();
@@ -74,4 +78,5 @@ public:
         auto& s=state();std::unique_lock<std::mutex> lock(s.mutex);return s.changed.wait_for(lock,timeout,[&]{return !s.used;});
     }
 };
+using SourceRetirement=ObjectRetirement<SourceRetirementPolicy>;
 }} // namespace foxicmp::progressive

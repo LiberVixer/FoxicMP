@@ -424,9 +424,12 @@ private slots:
       return w.findChild<QAction *>("action_" + id);
     };
     QSignalSpy loaded(p, &Player::loaded);
-    const QString a = QDir(media).filePath("chapters.mkv"),
+    // Next/Previous prefer chapters, as in Classic. This test exercises file
+    // queue ordering, so every entry here must be chapter-free.
+    const QString a = d.filePath("Первый файл очереди.mp4"),
                   b = QDir(media).filePath("Русский H264.mp4"),
                   c = QDir(media).filePath("VP9.webm");
+    QVERIFY(QFile::copy(b,a));
     w.openFiles({a});
     QTRY_COMPARE(loaded.size(), 1);
     p->set("pause", true);

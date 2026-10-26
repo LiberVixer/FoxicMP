@@ -29,7 +29,9 @@ SDK 1.7 переносит [первичную подготовку probe/start 
 в workers с ограниченной очередью. SDK 1.10 выносит [GUI/CLI legacy opening](ProgressiveLegacyOpening.md)
 из UI и отменяет применение позднего результата. SDK 1.11 выносит [файловые проверки
 и индексацию legacy](ProgressiveLegacyMaintenance.md) из metadata mutex UI.
-Остались закрытие renderer/графа, ресурсы больших индексов и другие файловые пути;
+SDK 1.12 выносит [Qt native core/software-renderer teardown](ProgressiveEngineShutdown.md)
+в ограниченную очередь; Classic сохраняет COM owner и пропускает sent handshakes.
+Остались GL cleanup, полноценный async Classic close, ресурсы больших индексов и другие файловые пути;
 требование ТЗ про весь I/O пока не закрыто.
 Наличие FFmpeg/libmpv/DirectShow не подтверждает всю матрицу ТЗ.
 

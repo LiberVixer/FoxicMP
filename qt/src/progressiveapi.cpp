@@ -1,4 +1,5 @@
 #include "progressiveapi.h"
+#include "mpvlifetime.h"
 #include "instancebroker.h"
 #include "progressivesource.h"
 #include "window.h"
@@ -79,6 +80,7 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
           {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers", "resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget"}},
           {"resourceIoProbeVersion", 1}, {"resourceIoSchemaVersions", QJsonArray{2}}, {"resourceIoPlaybackSupported", false},
+          {"engineRetirement",QJsonObject{{"maxEngines",int(EngineRetirement::Capacity)},{"workerLimit",int(EngineRetirement::WorkerLimit)},{"nativeDestroyOffUi",true},{"softwareRendererFreeOffUi",true},{"openGlRendererFreeOffUi",false},{"callbackDataRetained",true},{"processOwned",true}}},
           {"legacyRefresh",QJsonObject{{"fileIoOutsideMetadataLock",true},{"snapshotIndexCommitAtomic",true},{"notificationsMetadataOnly",true}}},
           {"legacyPreparation",QJsonObject{{"offUi",true},{"maxConcurrent",1},{"responseDeadlineMilliseconds",5000},{"cancellableDiskIo",false},{"previousPlaybackUntilCommit",true}}},
           {"readerRegistryOffUi",true},{"sourceRetirement",QJsonObject{{"maxSources",int(foxicmp::progressive::SourceRetirement::Capacity)},{"workerLimit",int(foxicmp::progressive::SourceRetirement::WorkerLimit)},{"processOwned",true},{"filesClosedBeforeRelease",true}}},

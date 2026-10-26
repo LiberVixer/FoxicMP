@@ -1,6 +1,7 @@
 #include "glsurface.h"
 #include "i18n.h"
 #include "player.h"
+#include "mpvlifetime.h"
 #include <QElapsedTimer>
 #include <QOffscreenSurface>
 #include <QOpenGLContext>
@@ -80,8 +81,7 @@ void GlSurface::initializeGL() {
     fail(QString::fromUtf8(mpv_error_string(result)));
     return;
   }
-  mpv_render_context_set_update_callback(owner->renderer, Player::redraw,
-                                         owner);
+  mpv_render_context_set_update_callback(owner->renderer,Player::redraw,owner->lifetime.get());
   connect(this, &QOpenGLWidget::frameSwapped, owner, [p = owner] {
     if (p->renderer)
       mpv_render_context_report_swap(p->renderer);

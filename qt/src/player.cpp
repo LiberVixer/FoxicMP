@@ -1,4 +1,5 @@
 #include "player.h"
+#include "mpvlifetime.h"
 #include "stdinstream.h"
 #include "glsurface.h"
 #include "i18n.h"
@@ -42,9 +43,8 @@ static QVariant nodeValue(const mpv_node &n) {
 Player::Player(QWidget *parent, const QString &output,
                const QMap<QString, QString> &startupOptions, int interval)
     : QWidget(parent), swapInterval(interval == 0 ? 0 : 1) {
-  handle = mpv_create();
-  if (!handle)
-    throw std::runtime_error("libmpv: mpv_create failed");
+  lifetime=MpvLifetime::create();handle=lifetime->handle;lifetime->owner=this;
+  try {
   // Do not read ~/.config/mpv or use its input bindings, scripts, or
   // watch-later directory.
   for (const auto &p :
@@ -75,8 +75,6 @@ Player::Player(QWidget *parent, const QString &output,
     const QByteArray value = option.value().toUtf8();
     if (mpv_set_option_string(handle, name.constData(), value.constData()) <
         0) {
-      mpv_terminate_destroy(handle);
-      handle = nullptr;
       throw std::runtime_error(
           QString(uiTr("Недопустимая настройка libmpv: %1"))
               .arg(option.key())
@@ -87,10 +85,9 @@ Player::Player(QWidget *parent, const QString &output,
                         swapInterval ? "1" : "0");
   const int result = mpv_initialize(handle);
   if (result < 0) {
-    mpv_terminate_destroy(handle);
-    handle = nullptr;
     throw std::runtime_error(mpv_error_string(result));
   }
+  lifetime->initialized=true;
   progressive = std::make_unique<ProgressiveStreams>(handle);
   stdinStream = std::make_unique<StdinStream>(handle);
   mpv_request_log_messages(handle,
@@ -101,7 +98,7 @@ Player::Player(QWidget *parent, const QString &output,
         "paused-for-cache", "idle-active", "hwdec-current", "seeking",
         "video-params", "video-out-params"})
     mpv_observe_property(handle, 0, name, MPV_FORMAT_NODE);
-  mpv_set_wakeup_callback(handle, wakeup, this);
+  mpv_set_wakeup_callback(handle, wakeup, lifetime.get());
   setAttribute(Qt::WA_OpaquePaintEvent);
   auto *renderTimer = new QTimer(this);
   renderTimer->setObjectName("foxicmpRenderTimer");
@@ -120,6 +117,7 @@ Player::Player(QWidget *parent, const QString &output,
     });
   } else
     createSoftwareRenderer();
+  }catch(...){retire();throw;}
 }
 void Player::createSoftwareRenderer() {
   mpv_render_param params[] = {
@@ -128,7 +126,8 @@ void Player::createSoftwareRenderer() {
   int result = mpv_render_context_create(&renderer, handle, params);
   if (result < 0)
     throw std::runtime_error(mpv_error_string(result));
-  mpv_render_context_set_update_callback(renderer, redraw, this);
+  lifetime->softwareRenderer=renderer;
+  mpv_render_context_set_update_callback(renderer, redraw, lifetime.get());
   QTimer::singleShot(0, this, &Player::rendererReady);
 }
 void Player::rendererReady() {
@@ -207,18 +206,19 @@ void Player::fallbackToSoftware(const QString &reason) {
     emit error(QString::fromUtf8(e.what()));
   }
 }
-Player::~Player() {
-  stdinStream->clear();
-  progressive->clear();
-  mpv_set_wakeup_callback(handle, nullptr, nullptr);
-  if (surface) {
-    delete surface;
-    surface = nullptr;
-  } else if (renderer) {
-    mpv_render_context_set_update_callback(renderer, nullptr, nullptr);
-    mpv_render_context_free(renderer);
-  }
-  mpv_terminate_destroy(handle);
+Player::~Player() { retire(); }
+void Player::retire() {
+  if(!lifetime)return;
+  if(auto* timer=findChild<QTimer*>("foxicmpRenderTimer"))timer->stop();
+  // Never hold this mutex while calling libmpv (a wakeup can be reentrant).
+  {std::lock_guard<std::mutex> lock(lifetime->callbackMutex);lifetime->owner=nullptr;}
+  if(stdinStream)stdinStream->clear();
+  if(progressive){lifetime->retainedSource=progressive->current();progressive->clear();}
+  lifetime->requestStop();
+  if(surface){delete surface;surface=nullptr;} // GL context must stay current on its owner thread.
+  lifetime->streams=std::move(progressive);lifetime->stdinStream=std::move(stdinStream);
+  renderer=nullptr;handle=nullptr;
+  lifetime.reset(); // Bounded queue; no native renderer/core wait on UI for software output.
 }
 void Player::setRenderInterval(int milliseconds) {
   const int interval = std::clamp(milliseconds, 1, 33);
@@ -330,17 +330,16 @@ QImage Player::grabFramebuffer() {
   return frame;
 }
 void Player::wakeup(void *self) {
-  auto *p = static_cast<Player *>(self);
-  QMetaObject::invokeMethod(p, &Player::drainEvents, Qt::QueuedConnection);
+  auto* core=static_cast<MpvLifetime*>(self);std::lock_guard<std::mutex> lock(core->callbackMutex);
+  if(core->owner)QMetaObject::invokeMethod(core->owner,&Player::drainEvents,Qt::QueuedConnection);
 }
 void Player::redraw(void *self) {
   // Render callbacks may come from mpv threads faster than the UI can paint.
   // Coalesce them so Qt's event queue stays responsive during a paused seek.
-  static_cast<Player *>(self)->redrawPending.store(true,
-                                                   std::memory_order_relaxed);
+  static_cast<MpvLifetime*>(self)->redrawPending.store(true,std::memory_order_relaxed);
 }
 void Player::scheduleFrame() {
-  if (!renderer || !redrawPending.exchange(false, std::memory_order_relaxed))
+  if (!renderer || !lifetime->redrawPending.exchange(false, std::memory_order_relaxed))
     return;
   if (window()->isMinimized() || !isVisible()) {
     if (surface) {

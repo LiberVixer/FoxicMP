@@ -13,6 +13,7 @@
 // Owns libmpv and the selected Render API surface. All public operations run on
 // the GUI thread.
 class GlSurface;
+struct MpvLifetime;
 class ProgressiveSource;
 class StdinStream;
 class ProgressiveStreams;
@@ -72,15 +73,17 @@ private:
   quint64 externalRequest = 0, externalSequence = 0;
   void pumpExternalTracks();
   void cancelExternalTracks();
+  friend class PlayerRetirementTest;
   friend class GlSurface;
   friend class AudioMirror;
+  void retire();
   void rendererReady();
   void createSoftwareRenderer();
   void fallbackToSoftware(const QString &reason);
   GlSurface *surface = nullptr;
   QStringList pendingLoad;
   QMap<QString, QString> pendingOptions;
-  std::atomic_bool redrawPending{false};
+  std::shared_ptr<MpvLifetime> lifetime;
   void scheduleFrame();
   void drainEvents();
   void renderFrame();
