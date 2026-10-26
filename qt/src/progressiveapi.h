@@ -6,6 +6,7 @@
 #include <atomic>
 class Window;
 class ProgressiveSource;
+namespace foxicmp { namespace progressive {class ResourceProbeManager;} }
 
 class ProgressiveApi : public QObject {
 public:
@@ -29,4 +30,5 @@ private:
   QJsonObject lastOutcome;
   std::shared_ptr<std::atomic<bool>> releaseReceipt;
   int clients = 0;
+  std::unique_ptr<foxicmp::progressive::ResourceProbeManager> resourceProbes;
 };

@@ -8,6 +8,7 @@
 #include <initializer_list>
 #include "../../../shared/progressivesession.h"
 #include "../../../shared/progressivereaderlease.h"
+#include "../../../shared/progressiveresourceprobe.h"
 
 namespace {
 using rapidjson::Document;
@@ -58,7 +59,9 @@ std::string ClassicProgressiveApi::Information() {
     Document d;d.Parse(R"({"version":1,"schemaVersion":1,"releaseAcknowledgement":true,"playbackSchemaVersions":[1],"validationSchemaVersions":[2],"protocol":"progressive-manifest-v1","transport":"windows-pipe-json-lines","edition":"classic","profileSelectable":false,"maxRequestBytes":65536,"heartbeatSeconds":5,"disconnectAfterSeconds":15,"maxTrackPathChars":240,"actions":["capabilities","validate","probe","start","update","complete","heartbeat","status","cancel","release","error"],"containers":["fast-start-mp4","fragmented-mp4"],"videoCodecs":["h264"],"audioCodecs":["aac-lc"],"progressiveModes":["native-progressive","post-download"],"fallback":{"available":false,"reasonCode":"unsupported-native-format","networkRetry":false},"separateTracksRequired":true,"initializedTracksRequired":true,"startBufferSeconds":10,"resumeBufferSeconds":5,"pauseBufferSeconds":1})");
     auto& a=d.GetAllocator();d.AddMember("endpoint",Value(Utf8(Endpoint()).c_str(),a),a);d.AddMember("profile",Value(Utf8(ProfileDirectory()).c_str(),a),a);
     d.AddMember("readerLeaseProtocol",1,a);d.AddMember("readerLeaseOptIn",true,a);d.AddMember("maxReaderReceipts",128,a);
-    for(const auto* action:{"readerStatus","readerRelease","readerForget","readers"})d["actions"].PushBack(Value(action,a),a);
+    for(const auto* action:{"readerStatus","readerRelease","readerForget","readers","resourceProbe","resourceProbeUpdate","resourceProbeStatus","resourceProbeCancel","resourceProbeForget"})d["actions"].PushBack(Value(action,a),a);
+    d.AddMember("resourceIoProbeVersion",1,a);Value schemas(rapidjson::kArrayType);schemas.PushBack(2,a);
+    d.AddMember("resourceIoSchemaVersions",schemas,a);d.AddMember("resourceIoPlaybackSupported",false,a);
     return Encode(d);
 }
 std::wstring ClassicProgressiveApi::ReaderRegistry() {
@@ -158,6 +161,10 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
         harvester::UniqueKeys(d);
         if(harvester::Number(d,"version")!=1)return Failure("invalid_request","Expected version 1");
         const auto action=harvester::String(d,"action");
+        if(action=="resourceProbe" || action=="resourceProbeUpdate" || action=="resourceProbeStatus" || action=="resourceProbeCancel" || action=="resourceProbeForget") {
+            if(!resourceProbes)resourceProbes=std::make_unique<foxicmp::progressive::ResourceProbeManager>();
+            return resourceProbes->request(std::filesystem::path(ReaderRegistry()),raw);
+        }
         if(action=="readerStatus" || action=="readerRelease" || action=="readerForget" || action=="readers") {
             auto reply=foxicmp::progressive::ReaderRequest(std::filesystem::path(ReaderRegistry()),raw);
             Document result;result.Parse(reply.c_str());

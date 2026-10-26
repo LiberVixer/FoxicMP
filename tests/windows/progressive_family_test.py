@@ -20,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from progressive_v1_conformance import exercise_directory_contract
 from progressive_v2_conformance import check_player as check_v2_model
 from progressive_reader_api_conformance import exercise as exercise_reader_contract
+from progressive_resource_api_conformance import exercise as exercise_resource_contract
 
 
 def registration_snapshot():
@@ -121,11 +122,29 @@ def run(args):
         if args.sdk_only:
             model_cases = check_v2_model(client)
             readers = exercise_reader_contract(client, args.fixtures, Path(args.report)/'reader-contract')
+            active_root=Path(args.report)/'resource-active-v1';active_root.mkdir()
+            active_snapshot=dict(schemaVersion=1,sessionId=uuid.uuid4().hex,generation=1,revision=1,
+                state='downloading',duration100ns=200000000,tracks={})
+            for kind,name in [('video','video.mp4'),('audio','audio.m4a')]:
+                data=(Path(args.fixtures)/'progressive'/name).read_bytes();count=prefix(data,12)
+                target=active_root/(kind+'.part');target.write_bytes(data[:count])
+                active_snapshot['tracks'][kind]=dict(path=target.name,container='mp4' if kind=='video' else 'm4a',
+                    fragmented=True,initializationReady=True,availablePrefixBytes=count,expectedTotalBytes=None,state='downloading')
+            active_reply=client.start(active_snapshot,session_directory=active_root,activate=False,track_reader=True)
+            active_reader=active_reply['readerId']
+            try:
+                wait_status(client,active_snapshot['sessionId'],lambda reply:reply['state']=='playing',15)
+                resources=exercise_resource_contract(client,Path(args.report)/'resource-contract')
+                preserved=client.command('status',active_snapshot['sessionId'],readerId=active_reader)
+                assert preserved['active'] and preserved['readerId']==active_reader
+                resources['activeV1PlaybackPreserved']=True
+            finally:
+                if client.release_reader(active_reader,timeout=10)['released']:client.forget_reader(active_reader)
             for _ in range(100):
                 assert client.request(dict(version=1, action='capabilities'))['pid'] == process.pid
             sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
                 Path(args.fixtures)/'progressive/audio.m4a', Path(args.report)/'sdk-writer')
-            return [dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases),dict(contract='reader-leases',result=readers)]
+            return [dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases),dict(contract='reader-leases',result=readers),dict(contract='resource-io',result=resources)]
         common = exercise_directory_contract(client, args.fixtures, Path(args.report)/'relative-contract')
         results.append(dict(contract='sessionDirectory', scenarios=common))
         sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',

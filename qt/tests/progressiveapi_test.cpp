@@ -413,6 +413,20 @@ private slots:
     QVERIFY(report["terminal"].toObject()["released"].toBool());
     QCOMPARE(report["networkRequests"].toInt(), 0);
   }
+  void resourceIoProbeDoesNotReplaceActivePlayback() {
+    const auto dir=temporary.filePath("resource-io-profile");
+    const auto cleanup=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
+    Profile profile(dir);prepare(profile);Window w(profile);ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    QVERIFY(api.request(message("start"))["ok"].toBool());const auto retained=w.progressiveSession();QVERIFY(retained);
+    QProcess client;client.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{
+      FOXICMP_RESOURCE_CONFORMANCE_SCRIPT,"--player",playerExecutable(),"--profile",profile.directory,
+      "--work",temporary.filePath("resource-io-bytes"),"--expected-pid",QString::number(QCoreApplication::applicationPid())});
+    QVERIFY(client.waitForStarted());const auto guard=qScopeGuard([&]{if(client.state()!=QProcess::NotRunning){client.kill();client.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(client.state()==QProcess::NotRunning,30000);
+    QVERIFY2(client.exitCode()==0,client.readAllStandardError().constData());
+    const auto result=QJsonDocument::fromJson(client.readAllStandardOutput()).object();QCOMPARE(result["passed"].toInt(),11);
+    QCOMPARE(result["playbackSupported"],QJsonValue(false));QCOMPARE(w.progressiveSession(),retained);
+  }
   void legacyProviderPublishesWriterStateAndReleases_data() {
     QTest::addColumn<bool>("failed"); QTest::addColumn<bool>("restart");
     QTest::newRow("complete") << false << false; QTest::newRow("failed") << true << false;

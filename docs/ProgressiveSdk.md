@@ -8,7 +8,7 @@ SDK является частью FoxicMP и не меняет YouTubeHarvester.
 python3 tools/package_progressive_sdk.py --output /absolute/new/FoxicMP-progressive-sdk.zip
 ```
 
-В ZIP входят пять Python-модулей, эта инструкция, контракты v1 и draft v2,
+В ZIP входят шесть Python-модулей, эта инструкция, контракты v1 и draft v2,
 пример метаданных v2, отчёты, лицензия и JSON с исходным commit, dirty-флагом и
 SHA-256 файлов. Схема воспроизведения остаётся v1:
 две отдельные MP4/M4A H.264/AAC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
@@ -43,6 +43,11 @@ v2 возвращают `unsupported_schema`: codecs/live/remux ещё не ин
 тестом Harvester; исходники Harvester не изменялись.
 
 ## Подключение к событиям writer
+
+SDK 1.5 добавляет отдельный [ResourceProbe](ProgressiveResourceIo.md): асинхронное
+чтение подтверждённых диапазонов v2, обновления, ожидание и отмена без запуска
+воспроизведения. Старый PreviewSession продолжает использовать media-схему v1.
+Наличие resourceIoProbeVersion не означает поддержку decoder/remux v2.
 
 Добавьте каталог SDK в путь импорта Python. Укажите EXE своей редакции:
 `foxicmp-qt`, `FoxicMPq.exe` или `FoxicMP64.exe`. Клиент сам выберет транспорт.

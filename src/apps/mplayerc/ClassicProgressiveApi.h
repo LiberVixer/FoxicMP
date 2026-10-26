@@ -6,6 +6,7 @@
 #include <cstdint>
 class CMainFrame;
 class CHarvesterSession;
+namespace foxicmp { namespace progressive {class ResourceProbeManager;} }
 constexpr UINT WM_CLASSIC_PROGRESSIVE_REQUEST = WM_APP + 188;
 class ClassicProgressiveApi {
 public:
@@ -32,4 +33,5 @@ private:
     std::string sessionId, lastOutcome, readerId;
     uint64_t sessionGeneration=0;
     std::shared_ptr<std::atomic<bool>> releaseReceipt;
+    std::unique_ptr<foxicmp::progressive::ResourceProbeManager> resourceProbes;
 };

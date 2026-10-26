@@ -92,7 +92,7 @@ install(FILES resources/icon.png DESTINATION . RENAME foxiqmp-qt.png)
 if(WIN32)
  install(FILES resources/foxicmp.ico DESTINATION . RENAME FoxiqMP.ico)
 endif()
-install(FILES tools/progressive_client.py tools/progressive_windows.py tools/progressive_sdk.py tools/progressive_writer.py tools/progressive_schema.py DESTINATION integration)
+install(FILES tools/progressive_client.py tools/progressive_windows.py tools/progressive_sdk.py tools/progressive_writer.py tools/progressive_schema.py tools/progressive_resources.py DESTINATION integration)
 install(FILES ../docs/LinuxProgressiveApi.md DESTINATION integration)
 install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveTechnicalSpec-2026-10-25.ru.md ../docs/ProgressiveV1Validation-2026-10-25.md
@@ -100,7 +100,9 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveSdkValidation-2026-10-25.md ../docs/ProgressiveSdkValidation-2026-10-25.json
  ../docs/ProgressiveManifestV2.md ../docs/ProgressiveModelValidation-2026-10-25.md
  ../docs/ProgressiveModelValidation-2026-10-25.json ../docs/ProgressiveReaderLeases.md
- ../docs/ProgressiveReaderValidation-2026-10-25.md ../docs/ProgressiveReaderValidation-2026-10-25.json DESTINATION integration)
+ ../docs/ProgressiveReaderValidation-2026-10-25.md ../docs/ProgressiveReaderValidation-2026-10-25.json
+ ../docs/ProgressiveResourceIo.md ../docs/ProgressiveResourceValidation-2026-10-26.md
+ ../docs/ProgressiveResourceValidation-2026-10-26.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/vod.json DESTINATION integration RENAME progressive-v2-vod.json)
 install(FILES ../docs/images/foxicmp-qt-web-control.png DESTINATION . RENAME web-control.png)
 install(FILES ../docs/images/foxicmp-qt-web-browser.png DESTINATION . RENAME web-browser.png)
@@ -190,6 +192,13 @@ if(BUILD_TESTING)
  endif()
  add_test(NAME progressive-readers COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_reader_conformance.py" --runner "$<TARGET_FILE:foxicmp-progressive-reader-tests>")
  set_tests_properties(progressive-readers PROPERTIES TIMEOUT 90)
+ add_executable(foxicmp-progressive-resource-tests ../tests/progressive_resource_cli.cpp)
+ target_include_directories(foxicmp-progressive-resource-tests PRIVATE ../src)
+ if(WIN32)
+  target_link_libraries(foxicmp-progressive-resource-tests PRIVATE advapi32)
+ endif()
+ add_test(NAME progressive-resources COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_resource_conformance.py" --runner "$<TARGET_FILE:foxicmp-progressive-resource-tests>")
+ set_tests_properties(progressive-resources PROPERTIES TIMEOUT 90)
  add_executable(foxicmp-audio-mirror-tests tests/audiomirror_test.cpp)
  target_link_libraries(foxicmp-audio-mirror-tests PRIVATE foxicmp-ui Qt6::Test)
  add_test(NAME audio-mirror COMMAND foxicmp-audio-mirror-tests)
@@ -200,6 +209,7 @@ if(BUILD_TESTING)
  target_compile_definitions(foxicmp-progressive-api-tests PRIVATE FOXICMP_CONFORMANCE_SCRIPT="${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_v1_conformance.py")
  target_compile_definitions(foxicmp-progressive-api-tests PRIVATE FOXICMP_V2_CONFORMANCE_SCRIPT="${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_v2_conformance.py")
  target_compile_definitions(foxicmp-progressive-api-tests PRIVATE FOXICMP_READER_CONFORMANCE_SCRIPT="${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_reader_api_conformance.py")
+ target_compile_definitions(foxicmp-progressive-api-tests PRIVATE FOXICMP_RESOURCE_CONFORMANCE_SCRIPT="${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_resource_api_conformance.py")
  target_compile_definitions(foxicmp-progressive-api-tests PRIVATE FOXICMP_LEGACY_FIXTURE="${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_legacy_fixture.py" FOXICMP_WRITER_SCRIPT="${CMAKE_CURRENT_SOURCE_DIR}/tools/progressive_writer.py")
  add_dependencies(foxicmp-progressive-api-tests foxicmp-qt)
  add_test(NAME progressive-api COMMAND foxicmp-progressive-api-tests)

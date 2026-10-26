@@ -41,6 +41,7 @@ Classic восстановлен после экспериментальной �
 | Один контракт вызова загрузчиком | Есть v1 Windows named-pipe адаптер | Есть v1 Windows named-pipe API | Есть v1 Unix API | Общие JSON-команды и совместимые IPC-адаптеры |
 | Проверка расширенного manifest v2 | Общий validate, без открытия | Общий validate, без открытия | Общий validate, без открытия | [Модель и границы](ProgressiveManifestV2.md), [результаты](ProgressiveModelValidation-2026-10-25.md). Playback остаётся v1; динамические reader scopes v2 ещё не подключены |
 | Учёт reader по закреплённым файлам | Opt-in player-owned v1, IPC и OS receipts | Тот же runtime | Тот же runtime | [Reader leases](ProgressiveReaderLeases.md), [проверки](ProgressiveReaderValidation-2026-10-25.md); ресурсы v2 и legacy/provider не объявляются этим покрытыми |
+| Подтверждённые диапазоны v2, I/O-слой | Общий ResourceSource и resourceProbe | Тот же код | Тот же код | [Контракт](ProgressiveResourceIo.md), [проверки](ProgressiveResourceValidation-2026-10-26.md). Leases ресурсов и байтовое чтение; playback/remux v2 отсутствуют |
 | Пауза, точный seek, главы, покадровые команды | Есть | Есть | Есть | Допуски seek и ограничения live/growing-файлов |
 | Скорость, повторы, A–B | Есть | Есть | Есть | Края A–B, конец очереди, пауза и число проходов |
 | Действия после окончания | Есть, Win32 | Есть, Win32 | Есть, logind/session D-Bus | Один смысл постоянного и однократного действия; платформенные исполнители |

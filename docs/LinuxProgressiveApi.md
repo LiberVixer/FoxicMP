@@ -118,6 +118,7 @@ fMP4-дорожками; существующий тестовый HLS-адап�
 | `release` | `sessionId` | Закрыть reader; `released` подтверждает закрытие его файлов |
 | `readerStatus` / `readerRelease` / `readerForget` | `readerId` | Opt-in учёт по конкретному reader ID, независимо от текущего видео |
 | `readers` | `sessionId`, строковая `generation`, необязательный `afterReaderId` | Ограниченная постраничная выдача квитанций профиля |
+| `resourceProbe*` | snapshot v2 / probeId, согласно отдельному контракту | Асинхронная проверка подтверждённых диапазонов без запуска playback |
 | `error` | `sessionId`, `message` | Сообщить об ошибке загрузки и прекратить чтение |
 
 В финальном снимке `expectedTotalBytes == availablePrefixBytes` у обеих дорожек.
@@ -153,6 +154,10 @@ start/probe v2 отклоняются с `unsupported_schema` до открыт�
 SDK 1.4 добавляет `trackReader:true` во внешний start и
 `readerLeaseProtocol:1`. [Контракт reader leases и recovery](ProgressiveReaderLeases.md).
 Старые JSON-вызовы и release по sessionId сохраняются.
+
+SDK 1.5 объявляет resourceIoProbeVersion=1 и resourceIoPlaybackSupported=false.
+[ResourceProbe, ожидание, обновления и отмена](ProgressiveResourceIo.md) выполняют
+I/O в worker; прежние start/probe v2 остаются неподдержанными медиадвижком.
 
 Воспроизведение начинается с 10 общих секунд данных; завершённые короткие ролики
 стартуют сразу. Менее 1 секунды запаса включает буферизацию, 5 секунд возобновляют

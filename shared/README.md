@@ -35,3 +35,10 @@ v1 sources в Qt и Classic: приватные квитанции, OS locks, re
 identity и одинаковый IPC handler. Для динамических ресурсов v2 привязка ещё впереди.
 [Контракт и ограничения](../docs/ProgressiveManifestV2.md).
 [Runtime reader leases](../docs/ProgressiveReaderLeases.md).
+
+`progressiveresourceio.h` — закреплённые файлы v2, чтение только подтверждённых
+диапазонов, ожидание/отмена, независимые leases ресурсов, EOF по complete.
+`progressiveresourceprobe.h` — общий асинхронный I/O-стенд в API трёх редакций.
+Он не активирует playback. Контроль перезаписи ограничен последним прочитанным
+окном каждого файла; полной проверки integrity и demux/decode пока нет.
+[Контракт I/O](../docs/ProgressiveResourceIo.md).

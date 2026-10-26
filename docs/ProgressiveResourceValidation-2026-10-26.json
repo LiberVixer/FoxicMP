@@ -1,0 +1,277 @@
+{
+  "date": "2026-10-26",
+  "scope": "SDK 1.5: confirmed-range local resource I/O and asynchronous diagnostic bridge; no schema-2 decoding/remux",
+  "sourceBaseCommit": "b576a819fac3df9629f3532bd92917ad52e193da",
+  "builds": {
+    "linuxQt": {
+      "exitCode": 0,
+      "sha256": "78c9d092d04ab7ca5f38deebfc2b0079dff9d8109e973ef787c584cd73ed50ae"
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "sha256": "40a0ad9fbaa454b0c20b29072f8b1b70ccf9b6db76c4101ad8f6ce37cd519aca"
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "sha256": "0eb0bd4b95578be1bdd9a67a5215fcdaef87646b3902bca4e6d66b144826d2e8"
+    }
+  },
+  "tests": {
+    "linuxQt": {
+      "exitCode": 0,
+      "ctestGroups": 4,
+      "apiPassed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "apiSeconds": 102.377,
+      "nativeResources": {
+        "passed": 24,
+        "checks": [
+          "short-reads-stop-at-unconfirmed-holes",
+          "adjacent-confirmed-ranges-merge",
+          "publication-wakes-a-blocked-reader",
+          "timeout-is-waiting-never-eof",
+          "cancel-interrupts-range-wait",
+          "paused-writer-is-not-eof",
+          "unknown-length-is-not-eof",
+          "only-complete-resource-has-eof",
+          "late-resource-appears-and-binds",
+          "missing-complete-resource-is-error-not-eof",
+          "rename-and-path-replacement-keep-pinned-file",
+          "truncation-invalidates-confirmed-bytes",
+          "rewrite-of-last-read-window-detected",
+          "invalid-publication-preserves-current-source",
+          "writer-failure-is-not-successful-eof",
+          "exact-large-offsets-and-overflow-bounds",
+          "native-sparse-read-above-four-gib",
+          "new-reader-rejects-retired-resource",
+          "lease-lives-until-last-source-owner",
+          "new-resource-gets-independent-real-file-lease",
+          "hardlink-resource-is-rejected",
+          "symbolic-resource-is-rejected",
+          "symbolic-session-directory-is-rejected",
+          "asynchronous-probe-worker-public-contract"
+        ],
+        "exitCode": 0
+      },
+      "publicResourceApiChecks": 11,
+      "activeV1SourcePreserved": true
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "ctestGroups": 4,
+      "apiPassed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "apiSeconds": 97.44,
+      "nativeResources": {
+        "passed": 22,
+        "checks": [
+          "short-reads-stop-at-unconfirmed-holes",
+          "adjacent-confirmed-ranges-merge",
+          "publication-wakes-a-blocked-reader",
+          "timeout-is-waiting-never-eof",
+          "cancel-interrupts-range-wait",
+          "paused-writer-is-not-eof",
+          "unknown-length-is-not-eof",
+          "only-complete-resource-has-eof",
+          "late-resource-appears-and-binds",
+          "missing-complete-resource-is-error-not-eof",
+          "rename-and-path-replacement-keep-pinned-file",
+          "truncation-invalidates-confirmed-bytes",
+          "rewrite-of-last-read-window-detected",
+          "invalid-publication-preserves-current-source",
+          "writer-failure-is-not-successful-eof",
+          "exact-large-offsets-and-overflow-bounds",
+          "native-sparse-read-above-four-gib",
+          "new-reader-rejects-retired-resource",
+          "lease-lives-until-last-source-owner",
+          "new-resource-gets-independent-real-file-lease",
+          "hardlink-resource-is-rejected",
+          "asynchronous-probe-worker-public-contract"
+        ],
+        "exitCode": 0
+      },
+      "publicResourceApiChecks": 11,
+      "activeV1SourcePreserved": true
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "processExitCode": 0,
+      "scheduledTaskResult": 0,
+      "scheduledTaskRemoved": true,
+      "hkcuRegistrationPreserved": true,
+      "transportRoundTrips": 100,
+      "results": [
+        {
+          "contract": "sdk-writer",
+          "result": {
+            "schemaVersion": 1,
+            "sessionId": "9197fb07b7b144bba7769196e36e9836",
+            "sourceOpens": 2,
+            "networkRequests": 0,
+            "maxPositionBeforeComplete": 12.8446725,
+            "playingBeforeCompleteSeconds": 10.438000000023749,
+            "lastPublishState": "playing",
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "9197fb07b7b144bba7769196e36e9836",
+              "state": "finished",
+              "error": "",
+              "released": true,
+              "readerId": "c4f5b6211d87f407338104085682a770"
+            },
+            "release": {
+              "version": 1,
+              "ok": true,
+              "readerId": "c4f5b6211d87f407338104085682a770",
+              "released": true,
+              "reader": {
+                "version": 1,
+                "readerId": "c4f5b6211d87f407338104085682a770",
+                "sessionId": "9197fb07b7b144bba7769196e36e9836",
+                "generation": "1",
+                "pid": 6976,
+                "birth": "134374532455714026",
+                "filesClosed": true,
+                "resources": [
+                  {
+                    "id": "video",
+                    "device": "656024512",
+                    "fileId": "5066549581788921"
+                  },
+                  {
+                    "id": "audio",
+                    "device": "656024512",
+                    "fileId": "3940649674946298"
+                  }
+                ],
+                "released": true,
+                "reason": "files-closed"
+              }
+            }
+          }
+        },
+        {
+          "contract": "v2-metadata-validation",
+          "passed": 62
+        },
+        {
+          "contract": "reader-leases",
+          "result": {
+            "result": "PASS",
+            "trackedReaders": 2,
+            "boundMediaFilesPerReader": 2,
+            "repeatedStartIdempotent": true,
+            "oldReleasePreservesReplacement": true
+          }
+        },
+        {
+          "contract": "resource-io",
+          "result": {
+            "passed": 11,
+            "checks": [
+              "asynchronous-start-without-playback",
+              "idempotent-request-token-prevents-conflicting-replay",
+              "active-job-cannot-be-replaced-or-forgotten",
+              "control-api-responsive-during-wait",
+              "stale-writer-cannot-rebind-source",
+              "publication-wakes-real-range-read-and-releases-leases",
+              "cancellation-closes-waiting-source",
+              "timeout-is-not-eof-or-ready",
+              "short-read-does-not-claim-full-availability",
+              "explicit-complete-is-the-only-eof",
+              "media-never-modified"
+            ],
+            "playbackSupported": false,
+            "activeV1PlaybackPreserved": true
+          }
+        }
+      ]
+    },
+    "msvcNativeResources": {
+      "exitCode": 0,
+      "passed": 22
+    },
+    "asanUbsanNativeResources": {
+      "exitCode": 0,
+      "passed": 24,
+      "detectLeaks": true,
+      "includesAsynchronousWorker": true
+    },
+    "pythonSdk": {
+      "exitCode": 0,
+      "passed": 20,
+      "resourceProbeTests": 8,
+      "previousSdkTests": 12
+    },
+    "familyContract": {
+      "exitCode": 0,
+      "passed": 2
+    }
+  },
+  "initialAttempts": [
+    {
+      "check": "Standalone Linux native compile",
+      "exitCode": 1,
+      "reason": "Missing explicit atomic include; corrected"
+    },
+    {
+      "check": "Standalone MSVC native compile",
+      "exitCode": 2,
+      "reason": "Windows min macro collided with std::min; portable parenthesized call added"
+    },
+    {
+      "check": "Windows Qt initial resource groups",
+      "exitCode": null,
+      "reason": "unsafe-resource for current elevated token default owner; LastTest.log showed native failure and 1 API failure; original exec session expired before exit retrieval"
+    },
+    {
+      "check": "Classic first resource probe",
+      "exitCode": 1,
+      "scheduledTaskResult": 1,
+      "reason": "Resource ownership rejection finished diagnostic before active-job assertion; current token default owner handling corrected"
+    }
+  ],
+  "linuxInstallation": {
+    "oldSha256": "a59329791d31e6c0e6a037bf390d852550defe1d3a3daed0f569296ae33606ba",
+    "newSha256": "78c9d092d04ab7ca5f38deebfc2b0079dff9d8109e973ef787c584cd73ed50ae",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/backups/foxicmp-qt-before-sdk1.5-20261026-045804",
+    "profileBefore": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileAfter": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "atomicReplace": true,
+    "userProcessStopped": false,
+    "version": "FoxicMPQt 0.2.0"
+  },
+  "capabilities": {
+    "playbackSchemaVersions": [
+      1
+    ],
+    "validationSchemaVersions": [
+      2
+    ],
+    "resourceIoProbeVersion": 1,
+    "resourceIoSchemaVersions": [
+      2
+    ],
+    "resourceIoPlaybackSupported": false
+  },
+  "limits": {
+    "readBytes": 65536,
+    "probeReads": 16,
+    "probeWaitMilliseconds": 10000,
+    "queuedSnapshots": 8,
+    "requestBytes": 65536,
+    "integrityWindow": "only the most recent successful read per pinned resource, at most 64 KiB"
+  },
+  "notValidated": [
+    "decoder/remux integration with ResourceSource",
+    "full integrity guarantee over all published bytes",
+    "safe live resource removal and compaction",
+    "expanded codec/container matrix or real Harvester sources",
+    "physical A/V timing and long drift",
+    "Wayland and equipment (excluded)"
+  ]
+}

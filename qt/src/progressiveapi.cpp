@@ -11,6 +11,7 @@
 #include "platformpaths.h"
 #include "../../shared/progressivesession.h"
 #include "../../shared/progressivereaderlease.h"
+#include "../../shared/progressiveresourceprobe.h"
 #ifndef Q_OS_WIN
 #include <sys/socket.h>
 #include <unistd.h>
@@ -62,7 +63,8 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
 #endif
           }, {"profile", QDir(directory).absolutePath()},
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
-          {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers"}},
+          {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers", "resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget"}},
+          {"resourceIoProbeVersion", 1}, {"resourceIoSchemaVersions", QJsonArray{2}}, {"resourceIoPlaybackSupported", false},
           {"readerLeaseProtocol", 1}, {"readerLeaseOptIn", true}, {"maxReaderReceipts", 128},
           {"playbackSchemaVersions", QJsonArray{1}}, {"validationSchemaVersions", QJsonArray{2}},
           {"releaseAcknowledgement", true},
@@ -101,6 +103,12 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
   if (input.value("version") != QJsonValue(1) || !input.value("action").isString())
     return failure("invalid_request", "Expected version 1 and an action");
   const auto action = input.value("action").toString();
+  if (QStringList{"resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget"}.contains(action)) {
+    if (!resourceProbes) resourceProbes = std::make_unique<foxicmp::progressive::ResourceProbeManager>();
+    return QJsonDocument::fromJson(QByteArray::fromStdString(resourceProbes->request(
+        std::filesystem::u8path(readerRegistry.toUtf8().toStdString()),
+        QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString()))).object();
+  }
   if (action == "readerStatus" || action == "readerRelease" || action == "readerForget" || action == "readers") {
     const auto query = [&] { return QJsonDocument::fromJson(QByteArray::fromStdString(foxicmp::progressive::ReaderRequest(
         std::filesystem::u8path(readerRegistry.toUtf8().toStdString()),
