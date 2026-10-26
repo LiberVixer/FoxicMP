@@ -82,6 +82,7 @@ public:
   void exitApplication();
   bool requestedProfileReset(bool *keepLibrary) const;
 signals:
+  void playbackIntentChanged();
   void webControlChanged();
   void frameSaved(const QString &path, bool success);
   void imageCaptured(bool success);

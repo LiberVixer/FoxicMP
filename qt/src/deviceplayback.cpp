@@ -33,6 +33,7 @@ void errorText(QLabel *label, const QString &message) {
 } // namespace
 
 bool Window::openDeviceSource(const QString &source) {
+  emit playbackIntentChanged();
   const auto plan = DeviceSource::resolve(
       source, player->get("protocol-list").toStringList(),
       player->get("demuxer-lavf-list").toStringList(), profile.directory);

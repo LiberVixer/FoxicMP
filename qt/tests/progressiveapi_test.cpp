@@ -82,8 +82,8 @@ class ProgressiveApiTest : public QObject {
   }
   QJsonObject message(const QString &action) {
     QJsonObject out{{"version", 1}, {"action", action}};
-    if (action != "start") out["sessionId"] = snapshot["sessionId"];
-    if (action == "start" || action == "update" || action == "complete") out["session"] = snapshot;
+    if (action != "start" && action != "probe") out["sessionId"] = snapshot["sessionId"];
+    if (action == "start" || action == "probe" || action == "update" || action == "complete") out["session"] = snapshot;
     if (action == "start") { out["activate"] = false; out["title"] = "Тест загрузки YouTube / Rutube / VK"; }
     return out;
   }
@@ -323,6 +323,80 @@ private slots:
     QCOMPARE(results.size(), 2);
     for (const auto &entry : results)
       QCOMPARE(entry.toObject()["terminal"].toObject()["state"].toString(), QString("finished"));
+  }
+  void mediaPreparationKeepsUiResponsive_data() {
+    QTest::addColumn<QString>("action");QTest::addColumn<QString>("interruption");
+    for(const auto &action:{"start","probe"})for(const auto &interrupt:{"none","close","stop","disconnect"})
+      QTest::newRow(qPrintable(QString(action)+"-"+interrupt))<<QString(action)<<QString(interrupt);
+  }
+  void mediaPreparationKeepsUiResponsive() {
+    QFETCH(QString,action);QFETCH(QString,interruption);
+    Profile profile(temporary.filePath("async-"+action+"-"+interruption));prepare(profile);
+    Window w(profile);ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    auto entered=std::make_shared<std::promise<void>>();auto enteredFuture=entered->get_future();
+    auto release=std::make_shared<std::promise<void>>();const auto gate=release->get_future().share();
+    api.preparationHook=[entered,gate]{entered->set_value();gate.wait();};
+    const auto cleanup=qScopeGuard([release]{try{release->set_value();}catch(const std::future_error&){};});
+    QLocalSocket socket;const auto endpoint=ProgressiveApi::endpointFor(profile.directory);
+    socket.connectToServer(endpoint);QVERIFY(socket.waitForConnected(1000));
+    socket.write(QJsonDocument(message(action)).toJson(QJsonDocument::Compact)+'\n');socket.flush();
+    QTRY_VERIFY_WITH_TIMEOUT(enteredFuture.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,3000);
+    int ticks=0;QTimer tick;connect(&tick,&QTimer::timeout,&tick,[&]{++ticks;});tick.start(5);
+    QTest::qWait(100);QVERIFY(ticks>=5);
+    const auto caps=wire(endpoint,"{\"version\":1,\"action\":\"capabilities\"}\n");QVERIFY(caps["ok"].toBool());
+    const auto busy=wire(endpoint,QJsonDocument(message("probe")).toJson(QJsonDocument::Compact)+'\n');
+    QCOMPARE(busy["code"].toString(),QString("preparation_busy"));
+    if(interruption=="close")w.closeCurrent();
+    if(interruption=="stop")w.findChild<QAction*>("action_stop")->trigger();
+    if(interruption=="disconnect"){socket.abort();QTest::qWait(20);}
+    release->set_value();
+    QTRY_VERIFY_WITH_TIMEOUT(!api.preparation,3000);
+    if(interruption!="disconnect") {
+      QTRY_VERIFY_WITH_TIMEOUT(socket.bytesAvailable()>0,3000);
+      const auto reply=QJsonDocument::fromJson(socket.readAll()).object();
+      if(interruption=="none")QVERIFY2(reply["ok"].toBool(),qPrintable(reply["error"].toString()));
+      else QCOMPARE(reply["code"].toString(),QString("preparation_cancelled"));
+    }
+    QCOMPARE(bool(w.progressiveSession()),action=="start" && interruption=="none");
+    w.closeCurrent();
+  }
+  void deletingApiDoesNotWaitForPreparationWorker() {
+    Profile profile(temporary.filePath("async-delete"));prepare(profile);Window w(profile);
+    auto api=std::make_unique<ProgressiveApi>(&w);QVERIFY(api->listen(profile.directory));
+    auto entered=std::make_shared<std::promise<void>>();auto future=entered->get_future();
+    auto release=std::make_shared<std::promise<void>>();auto gate=release->get_future().share();
+    api->preparationHook=[entered,gate]{entered->set_value();gate.wait();};
+    const auto cleanup=qScopeGuard([release]{release->set_value();});
+    QLocalSocket socket;socket.connectToServer(ProgressiveApi::endpointFor(profile.directory));QVERIFY(socket.waitForConnected(1000));
+    socket.write(QJsonDocument(message("start")).toJson(QJsonDocument::Compact)+'\n');socket.flush();
+    QTRY_VERIFY_WITH_TIMEOUT(future.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,3000);
+    QElapsedTimer timer;timer.start();api.reset();QVERIFY(timer.elapsed()<200);QVERIFY(!w.progressiveSession());
+  }
+  void preparationWorkerFailureDoesNotPoisonSlot() {
+    Profile profile(temporary.filePath("async-failure"));prepare(profile);Window w(profile);
+    ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));const auto endpoint=ProgressiveApi::endpointFor(profile.directory);
+    for(const auto &action:{"probe","start"}) {
+      api.preparationHook=[]{throw std::runtime_error("Test preparation failure");};
+      const auto reply=wire(endpoint,QJsonDocument(message(action)).toJson(QJsonDocument::Compact)+'\n');
+      QVERIFY(!reply["ok"].toBool());QCOMPARE(reply["code"].toString(),QString("source_not_ready"));
+      QVERIFY(!w.progressiveSession());api.preparationHook={};
+      const auto retry=wire(endpoint,QJsonDocument(message("probe")).toJson(QJsonDocument::Compact)+'\n');
+      QVERIFY(retry["ok"].toBool());QVERIFY(retry["supported"].toBool());
+    }
+  }
+  void preparationDeadlineCannotStartPlaybackLater() {
+    Profile profile(temporary.filePath("async-timeout"));prepare(profile);Window w(profile);
+    ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    auto entered=std::make_shared<std::promise<void>>();auto future=entered->get_future();
+    auto release=std::make_shared<std::promise<void>>();const auto gate=release->get_future().share();
+    api.preparationHook=[entered,gate]{entered->set_value();gate.wait();};
+    const auto cleanup=qScopeGuard([release]{try{release->set_value();}catch(const std::future_error&){};});
+    QLocalSocket socket;socket.connectToServer(ProgressiveApi::endpointFor(profile.directory));QVERIFY(socket.waitForConnected(1000));
+    socket.write(QJsonDocument(message("start")).toJson(QJsonDocument::Compact)+'\n');socket.flush();
+    QTRY_VERIFY_WITH_TIMEOUT(future.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,3000);
+    QTRY_COMPARE_WITH_TIMEOUT(socket.state(),QLocalSocket::UnconnectedState,7000);
+    QVERIFY(!w.progressiveSession());release->set_value();QTRY_VERIFY_WITH_TIMEOUT(!api.preparation,3000);
+    QVERIFY(!w.progressiveSession());
   }
   void schemaTwoValidationDoesNotOpenOrReplaceMedia() {
     Profile profile(temporary.filePath("v2-validation-profile")); prepare(profile);

@@ -7711,7 +7711,7 @@ void CMainFrame::OnFileClosePlaylist()
 
 void CMainFrame::OnUpdateFileClose(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(m_eMediaLoadState == MLS_LOADED || m_eMediaLoadState == MLS_LOADING);
+	pCmdUI->Enable(m_eMediaLoadState == MLS_LOADED || m_eMediaLoadState == MLS_LOADING || (m_progressiveApi && m_progressiveApi->IsPreparing()));
 }
 
 // view
@@ -8635,6 +8635,7 @@ void CMainFrame::OnPlayPlayPause()
 
 void CMainFrame::OnPlayStop()
 {
+    if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged();
 	if (m_harvester && m_eMediaLoadState == MLS_LOADED) {
 		CloseMedia();
 		return;
@@ -8761,6 +8762,7 @@ void CMainFrame::OnUpdatePlayPauseStop(CCmdUI* pCmdUI)
 		fEnable = true;
 	}
 
+	if (pCmdUI->m_nID == ID_PLAY_STOP && m_progressiveApi && m_progressiveApi->IsPreparing()) fEnable = true;
 	pCmdUI->Enable(fEnable);
 }
 
@@ -18154,6 +18156,7 @@ void CMainFrame::AddCurDevToPlaylist()
 
 void CMainFrame::OpenMedia(std::unique_ptr<OpenMediaData> pOMD)
 {
+    if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged();
 	auto pFileData   = dynamic_cast<const OpenFileData*>(pOMD.get());
 	auto pDeviceData = dynamic_cast<const OpenDeviceData*>(pOMD.get());
 
@@ -18232,6 +18235,7 @@ bool CMainFrame::DisplayChange()
 
 void CMainFrame::CloseMedia(BOOL bNextIsOpened/* = FALSE*/)
 {
+    if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged();
     if(m_progressiveApi && m_harvester)m_progressiveApi->Ended(m_harvester,m_bGraphEventComplete);
 	if (m_eMediaLoadState == MLS_CLOSING || m_eMediaLoadState == MLS_CLOSED) {
 		return;
@@ -21561,7 +21565,7 @@ LRESULT CMainFrame::OnProgressiveRequest(WPARAM,LPARAM value)
 {
     std::unique_ptr<std::shared_ptr<ClassicProgressiveApi::Request>> message(reinterpret_cast<std::shared_ptr<ClassicProgressiveApi::Request>*>(value));
     const auto request=*message;
-    if(m_progressiveApi)request->output=m_progressiveApi->Handle(request->input);
+    if(m_progressiveApi)request->output=m_progressiveApi->Handle(request->input,request.get());
     SetEvent(request->done);
     return 0;
 }

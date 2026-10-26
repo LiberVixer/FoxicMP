@@ -43,6 +43,13 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Подготовка источника (SDK 1.7)
+
+В новых сборках первичное открытие/индексация probe/start через IPC выполняются
+вне UI. Формат ответа прежний; Stop/Close отменяют применение позднего результата.
+[Capabilities, таймауты, recovery и границы](ProgressivePreparation.md).
+Новые Python-команды не нужны. При TimeoutError сохранять файлы и искать readers.
+
 ## Медиапрофиль v2 (SDK 1.6)
 
 Новый `progressive_v2.V2PreviewSession` принимает полные снимки v2 и напрямую

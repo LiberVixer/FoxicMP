@@ -101,8 +101,9 @@ writerInstanceId. `decoderIoBytes.video/audio` — строки со счётч�
 прочитанных для медиадвижка; это не доказательство физического вывода звука/кадра.
 
 SDK начинает просмотр напрямую через start; пока init не готов —
-`waiting-initialization`. Прямой probe допустим, но синхронно читает init/index и
-не оставляет читателей. `unsupported_media` означает неподдерживаемый профиль;
+`waiting-initialization`. Прямой probe допустим, читает init/index и
+не оставляет читателей. С SDK 1.7 [подготовка через IPC вынесена из UI](ProgressivePreparation.md);
+клиент ждёт прежний конечный ответ. `unsupported_media` означает неподдерживаемый профиль;
 `waiting_initialization` — ожидание init; ошибки файлов/индекса возвращаются отдельно.
 Старый `validate` по-прежнему только проверяет метаданные: его `playbackSupported:false`
 и исторический `reasonCode:backend-not-integrated` **не** служат проверкой доступных
@@ -122,5 +123,5 @@ SDK не объявляет файлы свободными: искать все
 Даже подтверждённый один reader не разрешает удалить файл при других читателях.
 
 [Результаты проверки трёх редакций](ProgressiveMediaValidation-2026-10-26.md).
-Следующие этапы: перенос тяжёлой индексации из UI, другие codec/container-профили,
+Следующие этапы: перенос update/complete и shared I/O mutex из UI, другие codec/container-профили,
 общий demux/remux, полная integrity-модель, timeline/metadata/live и реальный Harvester.

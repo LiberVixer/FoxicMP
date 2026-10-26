@@ -64,6 +64,7 @@ std::string ClassicProgressiveApi::Information() {
     d.AddMember("resourceIoProbeVersion",1,a);Value schemas(rapidjson::kArrayType);schemas.PushBack(2,a);
     d.AddMember("resourceIoSchemaVersions",schemas,a);d.AddMember("resourceIoPlaybackSupported",false,a);
     d["playbackSchemaVersions"].PushBack(2,a);Document profile;profile.Parse(foxicmp::progressive::Fmp4V2Capabilities());d.AddMember("schema2Playback",Value(profile,a),a);
+    Document preparation;preparation.Parse(R"({"offUi":["probe","start"],"maxConcurrent":1,"responseDeadlineMilliseconds":5000,"updatesOffUi":false,"cancellableDiskIo":false})");d.AddMember("mediaPreparation",Value(preparation,a),a);
     return Encode(d);
 }
 std::wstring ClassicProgressiveApi::ReaderRegistry() {
@@ -75,7 +76,33 @@ ClassicProgressiveApi::ClassicProgressiveApi(CMainFrame& frame):frame(frame) {
     stop=CreateEventW(nullptr,TRUE,FALSE,nullptr);
     if(stop)worker=std::thread([this]{Serve();});
 }
-ClassicProgressiveApi::~ClassicProgressiveApi() {if(stop){SetEvent(stop);if(worker.joinable())worker.join();CloseHandle(stop);}}
+ClassicProgressiveApi::Request::~Request() {
+    if(candidate)std::thread([owned=std::move(candidate)]()mutable{owned.reset();}).detach();
+    if(done)CloseHandle(done);
+}
+ClassicProgressiveApi::~ClassicProgressiveApi() {if(preparation)preparation->abandoned.store(true);if(stop){SetEvent(stop);if(worker.joinable())worker.join();CloseHandle(stop);}}
+void ClassicProgressiveApi::Prepare(const std::shared_ptr<Request>& job) {
+    try {
+        if(!job->abandoned.load()) {
+            Document descriptor;descriptor.Parse(job->descriptor.c_str());
+            const bool v2=descriptor.HasMember("schemaVersion") && descriptor["schemaVersion"].IsUint() && descriptor["schemaVersion"].GetUint()==2;
+            CStringW error;std::string reason;
+            job->candidate=CHarvesterSession::OpenPublished(job->descriptor,error,job->registry,&reason,!job->probe);
+            if(job->probe) {
+                Document result;result.SetObject();auto& a=result.GetAllocator();const auto candidate=job->candidate;
+                result.AddMember("version",1,a);result.AddMember("ok",true,a);result.AddMember("action","probe",a);
+                result.AddMember("supported",candidate!=nullptr,a);result.AddMember("mode",Value(candidate?"native-progressive":v2?"unsupported":"post-download",a),a);
+                result.AddMember("reasonCode",Value(candidate?"supported":v2?reason.c_str():"native-progressive-rejected",a),a);
+                result.AddMember("reason",Value(Utf8(error.GetString()).c_str(),a),a);
+                if(candidate){result.AddMember("readySeconds",double(candidate->ReadyEnd())/10000000.,a);result.AddMember("complete",candidate->Complete(),a);}
+                else result.AddMember("requiresCompleteFile",!v2,a);
+                job->preparedReply=Encode(result);job->candidate.reset();
+            }else if(!job->candidate)job->preparedReply=Failure(v2?reason.c_str():"source_not_ready",Utf8(error.GetString()));
+        }
+    }catch(const std::exception& e){job->preparedReply=Failure("source_not_ready",e.what());}
+    if(job->abandoned.load())job->candidate.reset();
+    job->finished.store(true,std::memory_order_release);SetEvent(job->done);
+}
 void ClassicProgressiveApi::Serve() {
     const auto sid=UserSid();if(sid.empty())return;
     PSECURITY_DESCRIPTOR descriptor=nullptr;
@@ -111,9 +138,23 @@ void ClassicProgressiveApi::Serve() {
         if(input.empty() || input.size()>65536 || input.find('\n')!=input.size()-1)output=Failure("invalid_request","One JSON line of at most 65536 bytes is required");
         else {
             auto request=std::make_shared<Request>();request->input=std::move(input);
-            auto* message=new std::shared_ptr<Request>(request);
-            if(!frame.PostMessageW(WM_CLASSIC_PROGRESSIVE_REQUEST,0,reinterpret_cast<LPARAM>(message)))delete message;
-            else {HANDLE events[]={stop,request->done};if(WaitForMultipleObjects(2,events,FALSE,5000)==WAIT_OBJECT_0+1)output=request->output;}
+            const auto dispatch=[&]{
+                ResetEvent(request->done);auto* message=new std::shared_ptr<Request>(request);
+                if(!frame.PostMessageW(WM_CLASSIC_PROGRESSIVE_REQUEST,0,reinterpret_cast<LPARAM>(message))){delete message;return false;}
+                HANDLE events[]={stop,request->done};return WaitForMultipleObjects(2,events,FALSE,5000)==WAIT_OBJECT_0+1;
+            };
+            if(dispatch()) {
+                if(request->requested && !request->ready) {
+                    ResetEvent(request->done);
+                    try{std::thread([request]{Prepare(request);}).detach();}
+                    catch(const std::exception& e){request->preparedReply=Failure("preparation_unavailable",e.what());request->finished.store(true);SetEvent(request->done);}
+                    HANDLE events[]={stop,request->done};
+                    if(WaitForMultipleObjects(2,events,FALSE,5000)==WAIT_OBJECT_0+1) {
+                        if(!PeekNamedPipe(pipe,nullptr,0,nullptr,nullptr,nullptr))request->abandoned.store(true);
+                        request->ready=true;if(dispatch())output=request->output;else request->abandoned.store(true);
+                    }else{request->abandoned.store(true);output=Failure("preparation_timeout","Media preparation exceeded the response deadline");}
+                }else output=request->output;
+            }else request->abandoned.store(true);
         }
         if(!output.empty()) {
             output+='\n';DWORD written=0;
@@ -158,8 +199,10 @@ std::string ClassicProgressiveApi::Status() {
     d.AddMember("positionSeconds",double(frame.GetPos())/10000000.,a);d.AddMember("availableSeconds",double(session->ReadyEnd())/10000000.,a);
     d.AddMember("durationSeconds",double(snapshot.duration)/10000000.,a);return Encode(d);
 }
-std::string ClassicProgressiveApi::Handle(const std::string& raw) {
+std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepared) {
     try {
+        if(prepared && prepared->ready && preparation.get()==prepared)preparation.reset();
+        if(prepared && (prepared->abandoned.load() || (prepared->ready && prepared->epoch!=intentEpoch)))return Failure("preparation_cancelled","Playback intent changed while preparing the source");
         Document d;d.Parse<rapidjson::kParseValidateEncodingFlag|rapidjson::kParseIterativeFlag>(raw.data(),raw.size());
         if(d.HasParseError() || !d.IsObject())return Failure("invalid_request","Invalid JSON");
         harvester::UniqueKeys(d);
@@ -200,6 +243,12 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
             if(!Keys(d,{"version","action","session"},{"sessionDirectory"}) || !d["session"].IsObject())return Failure("invalid_request","Invalid probe request");
             Value descriptor(d["session"],d.GetAllocator());
             if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
+            if(prepared){
+                if(prepared->ready)return prepared->preparedReply;
+                if(preparation && !preparation->finished.load(std::memory_order_acquire))return Failure("preparation_busy","Another media source is being prepared");
+                preparation=prepared->shared_from_this();
+                prepared->requested=true;prepared->probe=true;prepared->descriptor=Encode(descriptor);prepared->registry=v2?ReaderRegistry():std::wstring();prepared->epoch=intentEpoch;return {};
+            }
             CStringW probeError;std::string reason;auto candidate=CHarvesterSession::OpenPublished(Encode(descriptor),probeError,v2?ReaderRegistry():std::wstring(),&reason,false);
             Document result;result.SetObject();auto& a=result.GetAllocator();result.AddMember("version",1,a);result.AddMember("ok",true,a);result.AddMember("action","probe",a);
             result.AddMember("supported",candidate!=nullptr,a);
@@ -236,7 +285,13 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw) {
             }
             Value descriptor(d["session"],d.GetAllocator());
             if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
-            CStringW error;std::string reason;auto next=CHarvesterSession::OpenPublished(Encode(descriptor),error,
+            if(prepared && !prepared->ready){
+                if(preparation && !preparation->finished.load(std::memory_order_acquire))return Failure("preparation_busy","Another media source is being prepared");
+                preparation=prepared->shared_from_this();
+                prepared->requested=true;prepared->descriptor=Encode(descriptor);prepared->registry=v2 || (d.HasMember("trackReader") && d["trackReader"].GetBool())?ReaderRegistry():std::wstring();prepared->epoch=intentEpoch;return {};
+            }
+            if(prepared && !prepared->preparedReply.empty())return prepared->preparedReply;
+            CStringW error;std::string reason;auto next=prepared?prepared->candidate:CHarvesterSession::OpenPublished(Encode(descriptor),error,
                 v2 || (d.HasMember("trackReader") && d["trackReader"].GetBool())?ReaderRegistry():std::wstring(),&reason);
             if(!next)return Failure(v2?reason.c_str():"source_not_ready",Utf8(error.GetString()));
             frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);

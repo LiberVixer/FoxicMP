@@ -12,6 +12,7 @@ import sys
 import time
 import traceback
 import uuid
+import concurrent.futures
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'qt' / 'tools'))
 from progressive_client import ProgressiveClient, ApiError
@@ -96,6 +97,66 @@ def wait_status(client, session, predicate, seconds=15):
     raise AssertionError(('Timed out', last))
 
 
+def exercise_preparation(client, pid, fixtures, work):
+    """Force many real file reads and ping the actual Classic UI concurrently."""
+    user=ctypes.WinDLL('user32',use_last_error=True)
+    callback_type=ctypes.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM)
+    user.EnumWindows.argtypes=[callback_type,w.LPARAM]
+    user.GetWindowThreadProcessId.argtypes=[w.HWND,ctypes.POINTER(w.DWORD)]
+    user.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,ctypes.c_int]
+    user.SendMessageTimeoutW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM,w.UINT,w.UINT,ctypes.POINTER(ctypes.c_size_t)]
+    windows=[]
+    @callback_type
+    def visit(hwnd,_):
+        owner=w.DWORD();user.GetWindowThreadProcessId(hwnd,ctypes.byref(owner))
+        name=ctypes.create_unicode_buffer(256);user.GetClassNameW(hwnd,name,256)
+        if owner.value==pid and name.value=='FoxicMP':windows.append(hwnd)
+        return True
+    user.EnumWindows(visit,0);assert len(windows)==1,windows
+    kernel=ctypes.WinDLL('kernel32',use_last_error=True)
+    class Counters(ctypes.Structure):
+        _fields_=[(name,ctypes.c_ulonglong) for name in ('reads','writes','others','readBytes','writeBytes','otherBytes')]
+    kernel.OpenProcess.argtypes=[w.DWORD,w.BOOL,w.DWORD];kernel.OpenProcess.restype=w.HANDLE
+    kernel.GetProcessIoCounters.argtypes=[w.HANDLE,ctypes.POINTER(Counters)];kernel.CloseHandle.argtypes=[w.HANDLE]
+    handle=kernel.OpenProcess(0x1000,False,pid);assert handle
+    def count():
+        value=Counters();assert kernel.GetProcessIoCounters(handle,ctypes.byref(value));return value.reads
+    work=Path(work);work.mkdir()
+    value=dict(schemaVersion=1,sessionId=uuid.uuid4().hex,generation=1,revision=1,state='downloading',duration100ns=200000000,tracks={})
+    for kind,name in [('video','video.mp4'),('audio','audio.m4a')]:
+        data=(Path(fixtures)/'progressive'/name).read_bytes();data=data[:prefix(data,5)]
+        if kind=='video':
+            ftyp=int.from_bytes(data[:4],'big');data=data[:ftyp]+b'\x00\x00\x00\x08free'*100000+data[ftyp:]
+        path=work/(kind+'.part');path.write_bytes(data)
+        value['tracks'][kind]=dict(path=path.name,container='mp4' if kind=='video' else 'm4a',fragmented=True,initializationReady=True,availablePrefixBytes=len(data),expectedTotalBytes=None,state='downloading')
+    reports=[]
+    try:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+            for action in ('probe','start'):
+                before=count();future=pool.submit(client.request,dict(version=1,action=action,session=value,sessionDirectory=str(work),**(dict(activate=False,trackReader=True) if action=='start' else {})),10)
+                deadline=time.monotonic()+4
+                while count()<before+500 and not future.done() and time.monotonic()<deadline:time.sleep(.002)
+                assert not future.done() and count()>=before+500,'Preparation finished before actual concurrent UI trial'
+                durations=[]
+                for _ in range(3):
+                    out=ctypes.c_size_t();start=time.perf_counter_ns()
+                    assert user.SendMessageTimeoutW(windows[0],0,0,0,2,500,ctypes.byref(out)),'UI did not respond during disk indexing'
+                    durations.append((time.perf_counter_ns()-start)/1000000)
+                command=803 if action=='probe' else 890  # Close / Stop before media exists.
+                post_command(pid,command)
+                try:reply=future.result(timeout=10)
+                except ApiError as error:reply=error.reply
+                assert reply.get('code')=='preparation_cancelled',reply
+                reports.append(dict(action=action,cancelCommand='close' if command==803 else 'stop',actualReadOperations=count()-before,uiPingMilliseconds=durations,result=reply))
+        recovered=client.readers(value['sessionId'],1)
+        for reader in recovered:
+            assert client.release_reader(reader['readerId'],timeout=5)['released'],reader
+            client.forget_reader(reader['readerId'])
+        assert client.readers(value['sessionId'],1)==[]
+        return dict(result='PASS',cases=reports,recoveredClosedReaders=len(recovered))
+    finally:kernel.CloseHandle(handle)
+
+
 def run(args):
     player = Path(args.player).resolve()
     ini = player.with_suffix('.ini')
@@ -120,6 +181,8 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.preparation_only:
+            return [dict(contract='async-preparation',result=exercise_preparation(client,process.pid,args.fixtures,Path(args.report)/'async-preparation'))]
         if args.sdk_only:
             model_cases = check_v2_model(client)
             readers = exercise_reader_contract(client, args.fixtures, Path(args.report)/'reader-contract')
@@ -146,7 +209,8 @@ def run(args):
             sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
                 Path(args.fixtures)/'progressive/audio.m4a', Path(args.report)/'sdk-writer')
             media = exercise_v2_playback(client,args.fixtures,Path(args.report)/'schema-2-media')
-            return [dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases),dict(contract='reader-leases',result=readers),dict(contract='resource-io',result=resources),dict(contract='v2-media',result=media)]
+            preparation = exercise_preparation(client,process.pid,args.fixtures,Path(args.report)/'async-preparation')
+            return [dict(contract='async-preparation',result=preparation),dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases),dict(contract='reader-leases',result=readers),dict(contract='resource-io',result=resources),dict(contract='v2-media',result=media)]
         common = exercise_directory_contract(client, args.fixtures, Path(args.report)/'relative-contract')
         results.append(dict(contract='sessionDirectory', scenarios=common))
         sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
@@ -214,6 +278,7 @@ def run(args):
 if __name__ == '__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--player',required=True);parser.add_argument('--fixtures',required=True);parser.add_argument('--report',required=True)
     parser.add_argument('--sdk-only', action='store_true')
+    parser.add_argument('--preparation-only', action='store_true')
     arguments=parser.parse_args();report=Path(arguments.report);report.mkdir(parents=True,exist_ok=True)
     try:
         result=run(arguments);(report/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')

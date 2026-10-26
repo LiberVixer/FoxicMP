@@ -4,6 +4,7 @@
 #include <QLockFile>
 #include <memory>
 #include <atomic>
+#include <functional>
 class Window;
 class ProgressiveSource;
 namespace foxicmp { namespace progressive {class ResourceProbeManager;} }
@@ -20,6 +21,12 @@ public:
   QJsonObject request(const QJsonObject &);
 
 private:
+  struct Preparation;
+  QJsonObject execute(const QJsonObject &, Preparation *);
+  void dispatch(const QJsonObject &, class QLocalSocket *, class QTimer *);
+  std::shared_ptr<Preparation> preparation;
+  friend class ProgressiveApiTest;
+  std::function<void()> preparationHook;
   void acceptClients();
   Window *window;
   QLocalServer server;

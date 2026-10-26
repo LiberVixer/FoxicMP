@@ -22,6 +22,7 @@ bool Window::openProgressiveSession(const QString &manifest) {
 }
 bool Window::openProgressiveSource(const std::shared_ptr<ProgressiveSource> &next) {
   if (!next) return false;
+  emit playbackIntentChanged();
   ++playbackGeneration;
   pendingLaunchOptions = {};
   savePosition();

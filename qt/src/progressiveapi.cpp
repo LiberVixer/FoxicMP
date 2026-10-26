@@ -8,6 +8,8 @@
 #include <QTimer>
 #include <QDir>
 #include <QCoreApplication>
+#include <QPointer>
+#include <thread>
 #include "platformpaths.h"
 #include "../../shared/progressivesession.h"
 #include "../../shared/progressivereaderlease.h"
@@ -30,7 +32,16 @@ bool keys(const QJsonObject &value, const QStringList &required, const QStringLi
   return true;
 }
 }
+struct ProgressiveApi::Preparation {
+  ~Preparation(){if(candidate)std::thread([owned=std::move(candidate)]()mutable{owned.reset();}).detach();}
+  bool requested=false, ready=false, probe=false;
+  std::atomic<bool> finished{false}, abandoned{false};
+  QJsonObject descriptor, reply;
+  QString registry;
+  std::shared_ptr<ProgressiveSource> candidate;
+};
 ProgressiveApi::ProgressiveApi(Window *w, QObject *parent) : QObject(parent), window(w) {
+  connect(window,&Window::playbackIntentChanged,this,[this]{if(preparation)preparation->abandoned.store(true);});
   server.setSocketOptions(QLocalServer::UserAccessOption);
   server.setMaxPendingConnections(16);
   connect(&server, &QLocalServer::newConnection, this, &ProgressiveApi::acceptClients);
@@ -44,7 +55,7 @@ ProgressiveApi::ProgressiveApi(Window *w, QObject *parent) : QObject(parent), wi
     source.reset();
   });
 }
-ProgressiveApi::~ProgressiveApi() { server.close(); }
+ProgressiveApi::~ProgressiveApi() { if(preparation)preparation->abandoned.store(true);server.close(); }
 QString ProgressiveApi::endpointFor(const QString &directory) {
   return InstanceBroker::endpointFor(directory) + ".progressive";
 }
@@ -71,6 +82,7 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
           {"playbackSchemaVersions", QJsonArray{1,2}}, {"validationSchemaVersions", QJsonArray{2}},
           {"schema2Playback",QJsonDocument::fromJson(foxicmp::progressive::Fmp4V2Capabilities()).object()},
           {"releaseAcknowledgement", true},
+          {"mediaPreparation",QJsonObject{{"offUi",QJsonArray{"probe","start"}},{"maxConcurrent",1},{"responseDeadlineMilliseconds",5000},{"updatesOffUi",false},{"cancellableDiskIo",false}}},
           {"containers", QJsonArray{"fast-start-mp4", "fragmented-mp4"}},
           {"videoCodecs", QJsonArray{"h264"}}, {"audioCodecs", QJsonArray{"aac-lc"}},
           {"progressiveModes", QJsonArray{"native-progressive", "post-download"}},
@@ -102,7 +114,8 @@ QString ProgressiveApi::readerRegistryFor(const QString &directory) {
   return endpointFor(directory) + ".readers";
 #endif
 }
-QJsonObject ProgressiveApi::request(const QJsonObject &input) {
+QJsonObject ProgressiveApi::request(const QJsonObject &input) {return execute(input,nullptr);}
+QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepared) {
   if (input.value("version") != QJsonValue(1) || !input.value("action").isString())
     return failure("invalid_request", "Expected version 1 and an action");
   const auto action = input.value("action").toString();
@@ -154,7 +167,9 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
       return failure("invalid_request", "Invalid probe request");
     auto descriptor = input.value("session").toObject();
     if (input.contains("sessionDirectory")) descriptor["sessionDirectory"] = input.value("sessionDirectory");
-    auto result = ProgressiveSource::probePublished(descriptor, readerRegistry);
+    if(prepared && !prepared->ready){prepared->requested=true;prepared->probe=true;prepared->descriptor=descriptor;prepared->registry=readerRegistry;return {};}
+    if(prepared && prepared->reply.value("ok")==QJsonValue(false))return prepared->reply;
+    auto result = prepared ? prepared->reply : ProgressiveSource::probePublished(descriptor, readerRegistry);
     result["version"] = 1; result["ok"] = true; result["action"] = "probe";
     return result;
   }
@@ -184,7 +199,11 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
     if (window->progressiveSession() && !input.value("replace").toBool())
       return failure("session_busy", "Another progressive session is active; replacement must be explicit");
     try {
-      auto next = ProgressiveSource::openPublished(descriptor, input.value("trackReader").toBool() || descriptor["schemaVersion"]==QJsonValue(2) ? readerRegistry : QString());
+      const auto registry=input.value("trackReader").toBool() || descriptor["schemaVersion"]==QJsonValue(2) ? readerRegistry : QString();
+      if(prepared && !prepared->ready){prepared->requested=true;prepared->descriptor=descriptor;prepared->registry=registry;return {};}
+      if(prepared && !prepared->reply.isEmpty())return prepared->reply;
+      auto next = prepared ? prepared->candidate : ProgressiveSource::openPublished(descriptor, registry);
+      if(!next || !next->status().error.isEmpty())return failure("source_not_ready","Prepared source is no longer readable");
       window->openProgressiveSource(next);
       auto title = input.value("title").toString();
       for (auto &c : title) if (c.category() == QChar::Other_Control) c = QChar(' ');
@@ -254,6 +273,45 @@ QJsonObject ProgressiveApi::request(const QJsonObject &input) {
   if (!readerId.isEmpty()) result["readerId"] = readerId;
   return result;
 }
+void ProgressiveApi::dispatch(const QJsonObject &input, QLocalSocket *socket, QTimer *deadline) {
+  const auto answer=[socket,deadline](const QJsonObject &reply){
+    deadline->stop();socket->write(QJsonDocument(reply).toJson(QJsonDocument::Compact)+'\n');socket->disconnectFromServer();
+  };
+  const auto action=input["action"].toString();
+  if(action!="start" && action!="probe"){answer(request(input));return;}
+  if(preparation){answer(failure("preparation_busy","Another media source is being prepared"));return;}
+  auto job=std::make_shared<Preparation>();const auto admitted=execute(input,job.get());
+  if(!job->requested){answer(admitted);return;}
+  preparation=job;
+  const auto hook=preparationHook;
+  // The detached worker owns its data and never accesses this API or the window.
+  // Destroying a window cannot join a thread blocked in filesystem I/O.
+  try {std::thread([job,hook]{
+    try{
+      if(hook)hook();
+      if(!job->abandoned.load()){
+        if(job->probe)job->reply=ProgressiveSource::probePublished(job->descriptor,job->registry);
+        else job->candidate=ProgressiveSource::openPublished(job->descriptor,job->registry);
+      }
+    }catch(const foxicmp::progressive::Error& e){job->reply=failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));}
+    catch(const std::exception& e){job->reply=failure("source_not_ready",QString::fromUtf8(e.what()));}
+    if(job->abandoned.load())job->candidate.reset();
+    job->finished.store(true,std::memory_order_release);
+  }).detach();}
+  catch(const std::exception& e){preparation.reset();answer(failure("preparation_unavailable",QString::fromUtf8(e.what())));return;}
+  const QPointer<QLocalSocket> guarded(socket);
+  auto *poll=new QTimer(this);poll->setInterval(10);
+  connect(socket,&QLocalSocket::disconnected,this,[job]{job->abandoned.store(true);});
+  connect(poll,&QTimer::timeout,this,[this,job,poll,guarded,deadline,input]{
+    if(!job->finished.load(std::memory_order_acquire))return;
+    poll->stop();poll->deleteLater();preparation.reset();
+    if(!guarded || guarded->state()!=QLocalSocket::ConnectedState)return;
+    job->ready=true;
+    const auto reply=job->abandoned.load()?failure("preparation_cancelled","Playback intent changed while preparing the source"):execute(input,job.get());
+    deadline->stop();guarded->write(QJsonDocument(reply).toJson(QJsonDocument::Compact)+'\n');guarded->disconnectFromServer();
+  });
+  poll->start();
+}
 void ProgressiveApi::acceptClients() {
   while (server.hasPendingConnections()) {
     auto *socket = server.nextPendingConnection();
@@ -288,7 +346,8 @@ void ProgressiveApi::acceptClients() {
         checked.Parse<rapidjson::kParseValidateEncodingFlag | rapidjson::kParseIterativeFlag>(buffer->constData(), size_t(buffer->size() - 1));
         if (checked.HasParseError() || !checked.IsObject()) throw std::runtime_error("Invalid JSON request");
         harvester::UniqueKeys(checked);
-        reply = request(QJsonDocument::fromJson(*buffer).object());
+        dispatch(QJsonDocument::fromJson(*buffer).object(),socket,deadline);
+        return;
       } catch (const std::exception &e) { reply = failure("invalid_request", QString::fromUtf8(e.what())); }
       deadline->stop();
       socket->write(QJsonDocument(reply).toJson(QJsonDocument::Compact) + '\n');

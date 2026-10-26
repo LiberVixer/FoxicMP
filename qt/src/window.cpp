@@ -782,6 +782,7 @@ void Window::buildActions() {
       player->command({"cycle", "pause"});
   });
   add("stop", uiTr("Стоп"), ".", [this] {
+    emit playbackIntentChanged();
     ++playbackGeneration;
     savePosition();
     completionArmed = false;
@@ -1203,6 +1204,7 @@ Window::~Window() {
 }
 
 bool Window::openStdin(int descriptor, const QJsonObject &options) {
+  emit playbackIntentChanged();
   closePlaybackFile();
   QString error;
   const auto source = player->attachStdin(descriptor, &error);
@@ -1381,6 +1383,7 @@ void Window::reopenCurrent() {
   playIndex(row, pendingResume);
 }
 void Window::closeCurrent() {
+  emit playbackIntentChanged();
   if (current.isEmpty() && !progressive && !stdinPlayback)
     return;
   savePosition();
@@ -1640,6 +1643,7 @@ void Window::playIndex(int index, double start, bool resetOrder,
   cancelMouseHold();
   if (index < 0 || index >= playlist->count())
     return;
+  emit playbackIntentChanged();
   ++playbackGeneration;
   pendingLaunchOptions = openingLaunchOptions;
   openingLaunchOptions = {};

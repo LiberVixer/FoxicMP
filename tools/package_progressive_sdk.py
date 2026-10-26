@@ -26,7 +26,9 @@ FILES = {
         'ProgressiveReaderValidation-2026-10-25.md', 'ProgressiveReaderValidation-2026-10-25.json',
         'ProgressiveResourceIo.md', 'ProgressiveResourceValidation-2026-10-26.md',
         'ProgressiveResourceValidation-2026-10-26.json', 'ProgressiveMediaV2.md',
-        'ProgressiveMediaValidation-2026-10-26.md', 'ProgressiveMediaValidation-2026-10-26.json')},
+        'ProgressiveMediaValidation-2026-10-26.md', 'ProgressiveMediaValidation-2026-10-26.json',
+        'ProgressivePreparation.md', 'ProgressivePreparationValidation-2026-10-26.md',
+        'ProgressivePreparationValidation-2026-10-26.json')},
 }
 
 def main():
@@ -36,10 +38,11 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.6', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.7', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',metadataApplied=False,live=False,muxed=False,segments=False),
+        mediaPreparation=dict(offUi=['probe','start'],maxConcurrent=1,responseDeadlineMilliseconds=5000,updatesOffUi=False,cancellableDiskIo=False),
         sourceCommit=version, sourceDirty=dirty,
         files={name: hashlib.sha256(data).hexdigest() for name, data in sorted(content.items())})
     content['sdk-manifest.json'] = (json.dumps(manifest, indent=2)+'\n').encode()
