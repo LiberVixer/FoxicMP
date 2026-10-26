@@ -79,8 +79,8 @@ Classic готовит новую неизменяемую копию fragment i
 ## Что ещё не закрыто
 
 Весь пункт ТЗ о неблокирующем I/O пока не объявляется завершённым. Остались
-legacy/provider opening и часть его старых блокировок, закрытие renderer/графа
-и ожидания ОС. [SDK 1.9](ProgressiveRetirement.md) дополняет этот этап: IPC реестра
+часть старых блокировок legacy watch/refresh/notify, закрытие renderer/графа
+и ожидания ОС. [SDK 1.10](ProgressiveLegacyOpening.md) выносит GUI/CLI legacy opening в worker. [SDK 1.9](ProgressiveRetirement.md) дополняет этот этап: IPC реестра
 и конечное уничтожение Source перенесены в workers с ограниченной очередью.
 Native read/open не прерывается принудительно: нет общей гарантии закрытия любого
 дескриптора за 2 секунды. Асинхронная публикация сама по себе не решает зависание

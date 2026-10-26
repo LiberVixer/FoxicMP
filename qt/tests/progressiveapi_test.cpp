@@ -638,6 +638,36 @@ private slots:
     const auto result=QJsonDocument::fromJson(client.readAllStandardOutput()).object();QCOMPARE(result["passed"].toInt(),11);
     QCOMPARE(result["playbackSupported"],QJsonValue(false));QCOMPARE(w.progressiveSession(),retained);
   }
+  void legacyOpeningKeepsUiResponsive_data() {
+    QTest::addColumn<QString>("mode");
+    for(const auto* mode:{"failure","stop","close","windowclose","replace","destroy","timeout"})QTest::newRow(mode)<<QString(mode);
+  }
+  void legacyOpeningKeepsUiResponsive() {
+    QFETCH(QString,mode);Profile profile(temporary.filePath("legacy-open-"+mode));prepare(profile);
+    auto window=std::make_unique<Window>(profile);auto* w=window.get();ProgressiveApi api(w);QVERIFY(api.listen(profile.directory));
+    auto entered=std::make_shared<std::promise<void>>();auto ready=entered->get_future();auto release=std::make_shared<std::promise<void>>();auto gate=release->get_future().share();
+    auto exited=std::make_shared<std::promise<void>>();auto done=exited->get_future();
+    w->legacyOpeningHook=[entered,gate,exited]{entered->set_value();gate.wait();exited->set_value();throw std::runtime_error("opening fixture failure");};
+    const auto cleanup=qScopeGuard([release]{try{release->set_value();}catch(const std::future_error&){};});
+    std::shared_ptr<ProgressiveSource> replacement;
+    if(mode=="failure"){QVERIFY(api.request(message("start"))["ok"].toBool());replacement=w->progressiveSession();QVERIFY(replacement);}
+    QSignalSpy completed(w,&Window::progressiveOpeningFinished);QElapsedTimer elapsed;elapsed.start();
+    QVERIFY(w->openProgressiveSession("unopened-fixture.json"));QVERIFY(elapsed.elapsed()<200);QVERIFY(w->progressiveOpening());
+    QVERIFY(!w->openProgressiveSession("second.json"));
+    QTRY_VERIFY_WITH_TIMEOUT(ready.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,3000);
+    int ticks=0;QTimer tick;connect(&tick,&QTimer::timeout,&tick,[&]{++ticks;});tick.start(5);QTRY_VERIFY_WITH_TIMEOUT(ticks>=4,1000);
+    const auto caps=wire(ProgressiveApi::endpointFor(profile.directory),"{\"version\":1,\"action\":\"capabilities\"}\n");
+    QVERIFY(caps["ok"].toBool());QVERIFY(caps["legacyPreparationPending"].toBool());
+    QCOMPARE(w->progressiveSession(),replacement);
+    if(mode=="stop")w->actions["stop"]->trigger();
+    else if(mode=="close")w->closeCurrent();
+    else if(mode=="windowclose")w->close();
+    else if(mode=="replace"){QVERIFY(api.request(message("start"))["ok"].toBool());replacement=w->progressiveSession();QVERIFY(replacement);}
+    else if(mode=="destroy"){elapsed.restart();window.reset();QVERIFY(elapsed.elapsed()<200);}
+    else if(mode=="timeout"){QTRY_COMPARE_WITH_TIMEOUT(completed.size(),1,6500);QVERIFY(w->progressiveOpening());QVERIFY(!completed[0][0].toBool());}
+    release->set_value();QTRY_VERIFY_WITH_TIMEOUT(done.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,3000);
+    if(window){QTRY_VERIFY_WITH_TIMEOUT(!w->progressiveOpening(),3000);QCOMPARE(completed.size(),1);QVERIFY(!completed[0][0].toBool());QCOMPARE(w->progressiveSession(),replacement);}
+  }
   void legacyProviderPublishesWriterStateAndReleases_data() {
     QTest::addColumn<bool>("failed"); QTest::addColumn<bool>("restart");
     QTest::newRow("complete") << false << false; QTest::newRow("failed") << true << false;
@@ -670,6 +700,7 @@ private slots:
     QSignalSpy errors(player, &Player::error);
     QSignalSpy diagnostics(player, &Player::diagnosticMessage);
     QVERIFY(w.openProgressiveSession(manifest));
+    QTRY_VERIFY_WITH_TIMEOUT(w.progressiveSession(),6000);
     auto source = w.progressiveSession(); QVERIFY(source);
     auto receipt = source->releaseReceipt();
     QVERIFY(source->status().available > 4); QVERIFY(!receipt->load());

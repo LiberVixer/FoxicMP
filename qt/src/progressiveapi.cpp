@@ -79,6 +79,7 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
           {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers", "resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget"}},
           {"resourceIoProbeVersion", 1}, {"resourceIoSchemaVersions", QJsonArray{2}}, {"resourceIoPlaybackSupported", false},
+          {"legacyPreparation",QJsonObject{{"offUi",true},{"maxConcurrent",1},{"responseDeadlineMilliseconds",5000},{"cancellableDiskIo",false},{"previousPlaybackUntilCommit",true}}},
           {"readerRegistryOffUi",true},{"sourceRetirement",QJsonObject{{"maxSources",int(foxicmp::progressive::SourceRetirement::Capacity)},{"workerLimit",int(foxicmp::progressive::SourceRetirement::WorkerLimit)},{"processOwned",true},{"filesClosedBeforeRelease",true}}},
           {"readerLeaseProtocol", 1}, {"readerLeaseOptIn", true}, {"maxReaderReceipts", 128},
           {"playbackSchemaVersions", QJsonArray{1,2}}, {"validationSchemaVersions", QJsonArray{2}},
@@ -154,6 +155,7 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
     auto result = information({});
     result.remove("endpoint"); result.remove("profile"); result["ok"] = true;
     result["pid"] = QCoreApplication::applicationPid();
+    result["legacyPreparationPending"] = window->progressiveOpening();
     return result;
   }
   if (action == "validate") {
@@ -213,6 +215,7 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
       return failure("session_busy", "Another progressive session is active; replacement must be explicit");
     try {
       const auto registry=input.value("trackReader").toBool() || descriptor["schemaVersion"]==QJsonValue(2) ? readerRegistry : QString();
+      if(!prepared || !prepared->ready)emit window->playbackIntentChanged();
       if(prepared && !prepared->ready){prepared->requested=true;prepared->descriptor=descriptor;prepared->registry=registry;return {};}
       if(prepared && !prepared->reply.isEmpty())return prepared->reply;
       auto next = prepared ? prepared->candidate : ProgressiveSource::openPublished(descriptor, registry);

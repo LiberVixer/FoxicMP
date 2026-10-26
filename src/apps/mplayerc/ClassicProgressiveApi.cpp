@@ -19,6 +19,10 @@ std::string Utf8(const std::wstring& text) {
     int size=WideCharToMultiByte(CP_UTF8,0,text.data(),int(text.size()),nullptr,0,nullptr,nullptr);
     std::string out(size,'\0');WideCharToMultiByte(CP_UTF8,0,text.data(),int(text.size()),out.data(),size,nullptr,nullptr);return out;
 }
+CStringW Wide(const std::string& text) {
+    const int count=MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,text.data(),int(text.size()),nullptr,0);
+    CStringW out;auto* buffer=out.GetBuffer(count);MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,text.data(),int(text.size()),buffer,count);out.ReleaseBuffer(count);return out;
+}
 std::string Encode(const Value& value) {rapidjson::StringBuffer b;rapidjson::Writer<rapidjson::StringBuffer>w(b);value.Accept(w);return {b.GetString(),b.GetSize()};}
 std::string Failure(const char* code,const std::string& text) {
     Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("version",1,a);d.AddMember("ok",false,a);
@@ -60,6 +64,7 @@ std::wstring ClassicProgressiveApi::Endpoint() {
 std::string ClassicProgressiveApi::Information() {
     Document d;d.Parse(R"({"version":1,"schemaVersion":1,"releaseAcknowledgement":true,"playbackSchemaVersions":[1],"validationSchemaVersions":[2],"protocol":"progressive-manifest-v1","transport":"windows-pipe-json-lines","edition":"classic","profileSelectable":false,"maxRequestBytes":65536,"heartbeatSeconds":5,"disconnectAfterSeconds":15,"maxTrackPathChars":240,"actions":["capabilities","validate","probe","start","update","complete","heartbeat","status","cancel","release","error"],"containers":["fast-start-mp4","fragmented-mp4"],"videoCodecs":["h264"],"audioCodecs":["aac-lc"],"progressiveModes":["native-progressive","post-download"],"fallback":{"available":false,"reasonCode":"unsupported-native-format","networkRetry":false},"separateTracksRequired":true,"initializedTracksRequired":true,"startBufferSeconds":10,"resumeBufferSeconds":5,"pauseBufferSeconds":1})");
     auto& a=d.GetAllocator();d.AddMember("endpoint",Value(Utf8(Endpoint()).c_str(),a),a);d.AddMember("profile",Value(Utf8(ProfileDirectory()).c_str(),a),a);
+    Value legacy(rapidjson::kObjectType);legacy.AddMember("offUi",true,a);legacy.AddMember("maxConcurrent",1,a);legacy.AddMember("responseDeadlineMilliseconds",5000,a);legacy.AddMember("cancellableDiskIo",false,a);legacy.AddMember("previousPlaybackUntilCommit",true,a);d.AddMember("legacyPreparation",legacy,a);
     d.AddMember("readerRegistryOffUi",true,a);Value retirement(rapidjson::kObjectType);retirement.AddMember("maxSources",uint32_t(foxicmp::progressive::SourceRetirement::Capacity),a);retirement.AddMember("workerLimit",uint32_t(foxicmp::progressive::SourceRetirement::WorkerLimit),a);retirement.AddMember("processOwned",true,a);retirement.AddMember("filesClosedBeforeRelease",true,a);d.AddMember("sourceRetirement",retirement,a);
     d.AddMember("readerLeaseProtocol",1,a);d.AddMember("readerLeaseOptIn",true,a);d.AddMember("maxReaderReceipts",128,a);
     for(const auto* action:{"readerStatus","readerRelease","readerForget","readers","resourceProbe","resourceProbeUpdate","resourceProbeStatus","resourceProbeCancel","resourceProbeForget"})d["actions"].PushBack(Value(action,a),a);
@@ -81,7 +86,32 @@ ClassicProgressiveApi::ClassicProgressiveApi(CMainFrame& frame):frame(frame) {
 ClassicProgressiveApi::Request::~Request() {
     if(done)CloseHandle(done);
 }
-ClassicProgressiveApi::~ClassicProgressiveApi() {if(preparation)preparation->abandoned.store(true);if(registryPreparation)registryPreparation->abandoned.store(true);if(stop){SetEvent(stop);if(worker.joinable())worker.join();CloseHandle(stop);}}
+ClassicProgressiveApi::~ClassicProgressiveApi() {frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);if(legacyOpening)legacyOpening->abandoned.store(true);if(preparation)preparation->abandoned.store(true);if(registryPreparation)registryPreparation->abandoned.store(true);if(stop){SetEvent(stop);if(worker.joinable())worker.join();CloseHandle(stop);}}
+bool ClassicProgressiveApi::BeginLegacy(const std::wstring& manifest) {
+    if(legacyOpening && legacyOpening->abandoned.load() && legacyOpening->finished.load(std::memory_order_acquire))legacyOpening.reset();
+    if(manifest.empty() || legacyOpening)return false;
+    PlaybackIntentChanged();legacyManifest=manifest;
+    try {
+        legacyOpening=foxicmp::progressive::SourceOpening<CHarvesterSession>::launch([manifest]{
+            CStringW error;auto candidate=CHarvesterSession::Open(manifest,error);
+            if(!candidate)throw std::runtime_error(Utf8(error.GetString()));return candidate;
+        });
+    }catch(const std::exception& e){frame.SendStatusMessage(L"Harvester: "+Wide(e.what()),5000);return false;}
+    if(!frame.SetTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN,20,nullptr)){legacyOpening->abandoned.store(true);return false;}
+    frame.SendStatusMessage(L"Harvester: подготовка источника…",5000);return true;
+}
+void ClassicProgressiveApi::PollLegacy() {
+    auto job=legacyOpening;
+    if(!job){frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);return;}
+    if(job->expired() && !job->abandoned.exchange(true))frame.SendStatusMessage(L"Harvester: истекло время подготовки источника",5000);
+    if(!job->finished.load(std::memory_order_acquire))return;
+    frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);legacyOpening.reset();
+    if(job->abandoned.load())return;
+    if(!job->candidate){frame.SendStatusMessage(L"Harvester: "+Wide(job->error),5000);return;}
+    auto data=std::make_unique<OpenFileData>();data->harvesterManifest=legacyManifest.c_str();
+    data->fi=CStringW(job->candidate->Path(0).c_str());data->auds.emplace_back(job->candidate->Path(1).c_str());data->bAddRecent=FALSE;
+    frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);frame.m_harvester=job->candidate;frame.OpenMedia(std::move(data));
+}
 void ClassicProgressiveApi::Prepare(const std::shared_ptr<Request>& job) {
     try {
         if(!job->abandoned.load() && job->readerQuery) {
@@ -246,7 +276,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
         if(action=="capabilities") {
             if(!Keys(d,{"version","action"}))return Failure("invalid_request","Unexpected fields");
             Document info;info.Parse(Information().c_str());info.RemoveMember("endpoint");info.RemoveMember("profile");
-            auto& a=info.GetAllocator();info.AddMember("ok",true,a);info.AddMember("pid",uint32_t(GetCurrentProcessId()),a);return Encode(info);
+            auto& a=info.GetAllocator();info.AddMember("ok",true,a);info.AddMember("pid",uint32_t(GetCurrentProcessId()),a);info.AddMember("legacyPreparationPending",bool(legacyOpening),a);return Encode(info);
         }
         if(action=="validate") {
             if(!Keys(d,{"version","action","session"},{"previous"}) || !d["session"].IsObject() ||
@@ -309,10 +339,12 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
             if(prepared && !prepared->ready){
                 if(preparation && !preparation->finished.load(std::memory_order_acquire))return Failure("preparation_busy","Another media source is being prepared");
+                PlaybackIntentChanged();
                 preparation=prepared->shared_from_this();
                 prepared->requested=true;prepared->descriptor=Encode(descriptor);prepared->registry=v2 || (d.HasMember("trackReader") && d["trackReader"].GetBool())?ReaderRegistry():std::wstring();prepared->epoch=intentEpoch;return {};
             }
             if(prepared && !prepared->preparedReply.empty())return prepared->preparedReply;
+            if(!prepared)PlaybackIntentChanged();
             CStringW error;std::string reason;auto next=prepared?prepared->candidate:CHarvesterSession::OpenPublished(Encode(descriptor),error,
                 v2 || (d.HasMember("trackReader") && d["trackReader"].GetBool())?ReaderRegistry():std::wstring(),&reason);
             if(!next)return Failure(v2?reason.c_str():"source_not_ready",Utf8(error.GetString()));

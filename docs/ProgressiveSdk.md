@@ -43,6 +43,14 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Legacy/provider opening (SDK 1.10)
+
+[CLI-подготовка legacy-источника вынесена из UI](ProgressiveLegacyOpening.md) во всех
+трёх редакциях. `legacyPreparation.offUi:true`, один слот, deadline 5000 мс;
+Stop/Close/замена запрещают поздний запуск. `legacyPreparationPending` в runtime
+capabilities показывает занятый слот, включая отменённое ожидание native I/O.
+Это не release receipt. SDK ZIP по-прежнему не заменяет EXE плеера.
+
 ## Реестр и освобождение источников (SDK 1.9)
 
 [Четыре reader-команды и уничтожение Source выполняются вне UI](ProgressiveRetirement.md).

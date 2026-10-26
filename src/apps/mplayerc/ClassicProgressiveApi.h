@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "../../../shared/progressiveopening.h"
 #include <string>
 #include <thread>
 #include <atomic>
@@ -8,6 +9,7 @@ class CMainFrame;
 class CHarvesterSession;
 namespace foxicmp { namespace progressive {class ResourceProbeManager;} }
 constexpr UINT WM_CLASSIC_PROGRESSIVE_REQUEST = WM_APP + 188;
+constexpr UINT_PTR TIMER_CLASSIC_PROGRESSIVE_OPEN = 0xF188;
 class ClassicProgressiveApi {
 public:
     struct Request : std::enable_shared_from_this<Request> {
@@ -29,12 +31,16 @@ public:
     static std::wstring ReaderRegistry();
     static std::string Information();
     std::string Handle(const std::string&, Request* = nullptr);
-    void PlaybackIntentChanged(){++intentEpoch;if(preparation)preparation->abandoned.store(true);}
-    bool IsPreparing() const{return preparation && !preparation->abandoned.load();}
+    void PlaybackIntentChanged(){++intentEpoch;if(preparation)preparation->abandoned.store(true);if(legacyOpening)legacyOpening->abandoned.store(true);}
+    bool BeginLegacy(const std::wstring&);
+    void PollLegacy();
+    bool IsPreparing() const{return (preparation && !preparation->abandoned.load()) || (legacyOpening && !legacyOpening->abandoned.load());}
     void Ended(const std::shared_ptr<CHarvesterSession>&, bool natural);
 private:
     static void Prepare(const std::shared_ptr<Request>&);
     std::shared_ptr<Request> preparation, registryPreparation;
+    std::shared_ptr<foxicmp::progressive::SourceOpening<CHarvesterSession>> legacyOpening;
+    std::wstring legacyManifest;
     uint64_t intentEpoch=0;
     void Serve();
     std::string Status();

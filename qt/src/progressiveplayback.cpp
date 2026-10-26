@@ -8,17 +8,39 @@
 #include "window.h"
 #include <QtWidgets>
 
+void Window::cancelProgressiveOpening() {
+  if(legacyOpening && !legacyOpening->abandoned.exchange(true))
+    emit progressiveOpeningFinished(false,uiTr("Подготовка источника отменена"));
+}
 bool Window::openProgressiveSession(const QString &manifest) {
-  std::shared_ptr<ProgressiveSource> next;
+  if(manifest.isEmpty() || legacyOpening)return false;
+  emit playbackIntentChanged();
+  const auto hook=legacyOpeningHook;
   try {
-    next = ProgressiveSource::open(manifest);
-  } catch (const std::exception &error) {
-    state->setText(uiTr("Прогрессивный источник: ") +
-                   QString::fromUtf8(error.what()));
-    state->setToolTip(state->text());
-    return false;
+    legacyOpening=foxicmp::progressive::SourceOpening<ProgressiveSource>::launch([manifest,hook]{
+      if(hook)hook();return ProgressiveSource::open(manifest);
+    });
+  }catch(const std::exception& error){
+    emit progressiveOpeningFinished(false,QString::fromUtf8(error.what()));return false;
   }
-  return openProgressiveSource(next);
+  state->setText(uiTr("Подготовка прогрессивного источника…"));
+  const auto job=legacyOpening;auto* poll=new QTimer(this);poll->setInterval(20);
+  connect(poll,&QTimer::timeout,this,[this,job,poll]{
+    if(job->expired() && !job->abandoned.exchange(true)) {
+        const auto error=uiTr("Истекло время подготовки прогрессивного источника");
+        state->setText(error);state->setToolTip(error);emit progressiveOpeningFinished(false,error);
+    }
+    if(!job->finished.load(std::memory_order_acquire))return;
+    poll->stop();poll->deleteLater();legacyOpening.reset();
+    if(job->abandoned.load())return;
+    if(!job->candidate) {
+      const auto error=uiTr("Прогрессивный источник: ")+QString::fromStdString(job->error);
+      state->setText(error);state->setToolTip(error);emit progressiveOpeningFinished(false,error);return;
+    }
+    const bool opened=openProgressiveSource(job->candidate);
+    emit progressiveOpeningFinished(opened,{});
+  });
+  poll->start();return true;
 }
 bool Window::openProgressiveSource(const std::shared_ptr<ProgressiveSource> &next) {
   if (!next) return false;

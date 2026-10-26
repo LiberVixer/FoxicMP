@@ -217,3 +217,11 @@ IPC readerStatus/readerRelease/readers/readerForget выполняются вн�
 объекта, не более двух workers. `source_limit` означает отказ нового Source до
 открытия файлов. Release остаётся подтверждением фактического закрытия, не таймером.
 [Capabilities, retry и ограничения](ProgressiveRetirement.md).
+
+## Legacy/provider opening (SDK 1.10)
+
+CLI `--harvester-session` сохраняется; manifest/provider attach/начальная индексация
+готовятся в worker. [Слот, deadline и отмена](ProgressiveLegacyOpening.md).
+Runtime capabilities содержат `legacyPreparationPending`; это занятость подготовки,
+а не разрешение на удаление ресурсов. Синхронный Source::open остаётся внутренним
+низкоуровневым вызовом.

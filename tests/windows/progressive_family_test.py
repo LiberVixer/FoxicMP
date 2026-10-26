@@ -308,6 +308,93 @@ def exercise_registry_oplock(client,pid,fixtures,work):
         except (OSError,RuntimeError):pass
 
 
+def run_legacy_opening(args):
+    """Hold the actual first media CreateFile on an oplock, then cancel/commit."""
+    player=Path(args.player).resolve();registration=registration_snapshot()
+    ini=player.with_suffix('.ini').read_bytes();settings=configparser.ConfigParser();settings.read_string(ini.decode('utf-16') if ini.startswith((b'\xff\xfe',b'\xfe\xff')) else ini.decode('utf-8-sig'))
+    assert settings.get('Settings','ContextMenuPrompted')=='1' and settings.get('Settings','ContextMenuEnabled')=='0'
+    kernel=ctypes.WinDLL('kernel32',use_last_error=True);user=ctypes.WinDLL('user32',use_last_error=True)
+    class Overlapped(ctypes.Structure):
+        _fields_=[('Internal',ctypes.c_size_t),('InternalHigh',ctypes.c_size_t),('Offset',w.DWORD),('OffsetHigh',w.DWORD),('hEvent',w.HANDLE)]
+    kernel.CreateFileW.argtypes=[w.LPCWSTR,w.DWORD,w.DWORD,ctypes.c_void_p,w.DWORD,w.DWORD,w.HANDLE];kernel.CreateFileW.restype=w.HANDLE
+    kernel.CreateEventW.argtypes=[ctypes.c_void_p,w.BOOL,w.BOOL,w.LPCWSTR];kernel.CreateEventW.restype=w.HANDLE
+    kernel.DeviceIoControl.argtypes=[w.HANDLE,w.DWORD,ctypes.c_void_p,w.DWORD,ctypes.c_void_p,w.DWORD,ctypes.POINTER(w.DWORD),ctypes.POINTER(Overlapped)]
+    kernel.WaitForSingleObject.argtypes=[w.HANDLE,w.DWORD];kernel.CloseHandle.argtypes=[w.HANDLE]
+    user.SendMessageTimeoutW.argtypes=[w.HWND,w.UINT,w.WPARAM,w.LPARAM,w.UINT,w.UINT,ctypes.POINTER(ctypes.c_size_t)]
+    callback=ctypes.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM);user.EnumWindows.argtypes=[callback,w.LPARAM]
+    user.GetWindowThreadProcessId.argtypes=[w.HWND,ctypes.POINTER(w.DWORD)];user.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,ctypes.c_int]
+    def read(path):
+        try:return json.loads(path.read_text(encoding='utf-8'))
+        except (OSError,ValueError):return {}
+    def wait(check,seconds=10):
+        end=time.monotonic()+seconds
+        while time.monotonic()<end:
+            result=check()
+            if result:return result
+            time.sleep(.03)
+        raise AssertionError('Opening test condition timed out')
+    cases=[]
+    for mode in ('commit','close','stop','timeout'):
+        root=Path(args.report)/mode;root.mkdir(parents=True)
+        value=dict(schemaVersion=1,sessionId=uuid.uuid4().hex,generation=1,revision=1,state='downloading',duration100ns=200000000,tracks={})
+        for kind,name in [('video','video.mp4'),('audio','audio.m4a')]:
+            data=(Path(args.fixtures)/'progressive'/name).read_bytes();length=prefix(data,12);(root/(kind+'.part')).write_bytes(data[:length])
+            value['tracks'][kind]=dict(path=kind+'.part',container='mp4' if kind=='video' else 'm4a',fragmented=True,initializationReady=True,availablePrefixBytes=length,expectedTotalBytes=None,state='downloading')
+        manifest=root/'session.json';manifest.write_text(json.dumps(value),encoding='utf-8')
+        provider=subprocess.Popen([sys.executable,str(Path(__file__).resolve().parents[1]/'progressive_legacy_fixture.py'),'--manifest',str(manifest),'--fixtures',str(Path(args.fixtures).resolve())],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        process=None;handle=None;event=None
+        try:
+            wait(lambda:(root/'fixture-ready.json').exists(),8)
+            handle=kernel.CreateFileW(str(root/'video.part'),0xC0000000,3,None,3,0x40000000,None);assert handle!=ctypes.c_void_p(-1).value
+            event=kernel.CreateEventW(None,True,False,None);ov=Overlapped();ov.hEvent=event;count=w.DWORD()
+            ok=kernel.DeviceIoControl(handle,0x90000,None,0,None,0,ctypes.byref(count),ctypes.byref(ov));assert not ok and ctypes.get_last_error()==997
+            process=subprocess.Popen([str(player),'/harvester-session',str(manifest),'/nofocus'],cwd=player.parent)
+            assert kernel.WaitForSingleObject(event,10000)==0,'Opening never reached real media file'
+            windows=[]
+            @callback
+            def visit(hwnd,_):
+                owner=w.DWORD();user.GetWindowThreadProcessId(hwnd,ctypes.byref(owner));name=ctypes.create_unicode_buffer(256);user.GetClassNameW(hwnd,name,256)
+                if owner.value==process.pid and name.value=='FoxicMP':windows.append(hwnd)
+                return True
+            user.EnumWindows(visit,0);assert len(windows)==1
+            times=[]
+            for _ in range(3):
+                out=ctypes.c_size_t();start=time.perf_counter_ns()
+                assert user.SendMessageTimeoutW(windows[0],0,0,0,2,500,ctypes.byref(out)),'UI blocked in legacy opening'
+                times.append((time.perf_counter_ns()-start)/1000000)
+            client=ProgressiveClient(str(player));caps=client.request(dict(version=1,action='capabilities'));assert caps['pid']==process.pid and caps['legacyPreparationPending'],caps
+            if mode in ('close','stop'):
+                post_command(process.pid,803 if mode=='close' else 890);time.sleep(.15)
+            elif mode=='timeout':time.sleep(5.3)
+            kernel.CloseHandle(handle);handle=None;kernel.CloseHandle(event);event=None
+            message=root/('player-'+str(process.pid)+'.json')
+            if mode=='commit':
+                notification=wait(lambda:read(message) if read(message).get('type')=='playing' else None,12)
+                post_command(process.pid,803)
+            else:
+                # The detached open may attach after cancellation, but it must
+                # never commit playback and must release the acquired lease.
+                wait(lambda:not client.request(dict(version=1,action='capabilities'))['legacyPreparationPending'],10)
+                wait(lambda:read(root/'leases.json').get('leases')=={},10)
+                time.sleep(.8);notification=read(message);assert notification.get('type')!='playing',notification
+            wait(lambda:read(root/'leases.json').get('leases')=={},10)
+            cases.append(dict(mode=mode,actualMediaOpenBlocked=True,uiPingMilliseconds=times,notification=notification,providerLeasesReleased=True))
+        finally:
+            if handle is not None:kernel.CloseHandle(handle)
+            if event is not None:kernel.CloseHandle(event)
+            if process is not None and process.poll() is None:
+                post_command(process.pid,0)
+                try:process.wait(timeout=10)
+                except subprocess.TimeoutExpired:process.kill();process.wait();raise
+            (root/'fixture-stop').touch()
+            try:provider.wait(timeout=8)
+            except subprocess.TimeoutExpired:provider.kill();provider.wait();raise
+            error=provider.stderr.read();provider.stdout.close();provider.stderr.close();assert provider.returncode==0,error
+            if process is not None:assert process.returncode==0,process.returncode
+            assert registration_snapshot()==registration,'Installed Classic shell registration changed'
+    return dict(contract='legacy-opening',result='PASS',cases=cases)
+
+
 def run_legacy(args):
     """Check the shared Classic index refactor through its retained provider CLI."""
     player=Path(args.player).resolve();registration=registration_snapshot();work=Path(args.report)/'legacy';work.mkdir(parents=True)
@@ -499,8 +586,9 @@ if __name__ == '__main__':
     parser.add_argument('--publication-only', action='store_true')
     parser.add_argument('--legacy-only', action='store_true')
     parser.add_argument('--registry-only', action='store_true')
+    parser.add_argument('--legacy-opening-only', action='store_true')
     arguments=parser.parse_args();report=Path(arguments.report);report.mkdir(parents=True,exist_ok=True)
     try:
-        result=run_legacy(arguments) if arguments.legacy_only else run(arguments);(report/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+        result=run_legacy_opening(arguments) if arguments.legacy_opening_only else run_legacy(arguments) if arguments.legacy_only else run(arguments);(report/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
     except BaseException:
         (report/'exception.txt').write_text(traceback.format_exc(),encoding='utf-8');raise

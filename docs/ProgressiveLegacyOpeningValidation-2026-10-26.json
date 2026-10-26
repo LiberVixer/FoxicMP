@@ -1,0 +1,227 @@
+{
+  "date": "2026-10-26",
+  "scope": "SDK 1.10: GUI/CLI legacy manifest/provider preparation outside UI, cancellation and commit guards",
+  "sourceBaseCommit": "165ccb8f28c82b25c73fe1577352eadbdf0efe07",
+  "builds": {
+    "linuxQt": {
+      "exitCode": 0,
+      "sha256": "49dcfbaa829644d0e902b3a916ec64b4fcc293dabf2168f67868a382413e55a4"
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "sha256": "7901317f4b707661828c91f6815bbd9993356d0258de54f4ea079904b3ca9c16"
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "sha256": "9370a01945f8f427aa8f256c7440385d0b8054b1a9b01cfff8eb8317146f5fbb"
+    }
+  },
+  "tests": {
+    "linuxQt": {
+      "fullApiPassed": 58,
+      "legacySourceRegressionPassed": 19,
+      "fullCtestGroups": 3,
+      "fullExitCode": 0,
+      "finalCtestGroups": 2,
+      "finalExitCode": 0,
+      "finalLegacyOpeningPassed": 11,
+      "finalV2PlaybackPassed": 3,
+      "privateX11DbusPulseAudio": true
+    },
+    "windowsQt": {
+      "fullApiPassed": 59,
+      "fullV2PlaybackPassed": 3,
+      "fullLegacyOpeningPassed": 12,
+      "fullCtestGroups": 3,
+      "fullExitCode": 0,
+      "finalEnhancedLegacyOpeningPassed": 12,
+      "finalExitCode": 0
+    },
+    "windowsClassic": {
+      "openingCases": [
+        {
+          "mode": "commit",
+          "actualMediaOpenBlocked": true,
+          "uiPingMilliseconds": [
+            0.2206,
+            0.1171,
+            0.054
+          ],
+          "notification": {
+            "schemaVersion": 1,
+            "sessionId": "6fc3be83b3354994b62a5e98285ea77e",
+            "generation": 1,
+            "revision": 1,
+            "type": "playing",
+            "pid": 8784,
+            "position100ns": 0,
+            "readyEnd100ns": 120000000,
+            "completionWaiters": 0
+          },
+          "providerLeasesReleased": true
+        },
+        {
+          "mode": "close",
+          "actualMediaOpenBlocked": true,
+          "uiPingMilliseconds": [
+            0.0825,
+            0.0309,
+            0.0945
+          ],
+          "notification": {},
+          "providerLeasesReleased": true
+        },
+        {
+          "mode": "stop",
+          "actualMediaOpenBlocked": true,
+          "uiPingMilliseconds": [
+            0.0799,
+            0.031,
+            0.089
+          ],
+          "notification": {},
+          "providerLeasesReleased": true
+        },
+        {
+          "mode": "timeout",
+          "actualMediaOpenBlocked": true,
+          "uiPingMilliseconds": [
+            0.1967,
+            0.0363,
+            0.0271
+          ],
+          "notification": {},
+          "providerLeasesReleased": true
+        }
+      ],
+      "uiPings": 12,
+      "maxUiPingMilliseconds": 0.2206,
+      "openingExitCode": 0,
+      "legacyProvider": {
+        "contract": "legacy-provider",
+        "result": "PASS",
+        "beforeComplete": {
+          "schemaVersion": 1,
+          "sessionId": "0b77cab6198746a291e34f561d2e287b",
+          "generation": 1,
+          "revision": 2,
+          "type": "playing",
+          "pid": 15320,
+          "position100ns": 109725184,
+          "readyEnd100ns": 120000000,
+          "completionWaiters": 0,
+          "observedPlaying": true
+        },
+        "complete": {
+          "schemaVersion": 1,
+          "sessionId": "0b77cab6198746a291e34f561d2e287b",
+          "generation": 1,
+          "revision": 3,
+          "type": "buffering",
+          "pid": 15320,
+          "position100ns": 110166217,
+          "readyEnd100ns": 200000000,
+          "completionWaiters": 0
+        },
+        "filesClosedLeaseReleased": true
+      },
+      "legacyExitCode": 0,
+      "fullSdkRegressionContracts": [
+        "reader-registry-oplock",
+        "async-publication",
+        "async-preparation",
+        "sdk-writer",
+        "v2-metadata-validation",
+        "reader-leases",
+        "resource-io",
+        "v2-media"
+      ],
+      "fullSdkRegressionExitCode": 0,
+      "openingBuildMatch": {
+        "testedCopySha256": "9370a01945f8f427aa8f256c7440385d0b8054b1a9b01cfff8eb8317146f5fbb",
+        "sourceSha256": "9370a01945f8f427aa8f256c7440385d0b8054b1a9b01cfff8eb8317146f5fbb",
+        "equal": true
+      },
+      "regressionBuildMatch": {
+        "testedCopySha256": "9370a01945f8f427aa8f256c7440385d0b8054b1a9b01cfff8eb8317146f5fbb",
+        "sourceSha256": "9370a01945f8f427aa8f256c7440385d0b8054b1a9b01cfff8eb8317146f5fbb",
+        "equal": true
+      },
+      "taskCleanup": [
+        {
+          "taskRemoved": true,
+          "lastTaskResult": 0
+        },
+        {
+          "taskRemoved": true,
+          "lastTaskResult": 0
+        }
+      ],
+      "installedShellRegistrationUnchanged": true
+    },
+    "pythonSdk": {
+      "passed": 35,
+      "exitCode": 0
+    },
+    "familyContract": {
+      "passed": 2,
+      "exitCode": 0
+    }
+  },
+  "linuxInstall": {
+    "installedSha256": "49dcfbaa829644d0e902b3a916ec64b4fcc293dabf2168f67868a382413e55a4",
+    "previousSha256": "1e6888d7110cc2fcc7d55df331dbabf74e6db55d63406bed25070869b9b7ae0e",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.10-20261026T111543Z",
+    "profileSha256Before": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileSha256After": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileUnchanged": true,
+    "atomicReplacement": true,
+    "playbackInterrupted": false,
+    "reportedVersion": "FoxicMPQt 0.2.0",
+    "capabilities": {
+      "legacyPreparation": {
+        "cancellableDiskIo": false,
+        "maxConcurrent": 1,
+        "offUi": true,
+        "previousPlaybackUntilCommit": true,
+        "responseDeadlineMilliseconds": 5000
+      },
+      "readerRegistryOffUi": true,
+      "sourceRetirement": {
+        "filesClosedBeforeRelease": true,
+        "maxSources": 32,
+        "processOwned": true,
+        "workerLimit": 2
+      }
+    }
+  },
+  "intermediateFailures": [
+    {
+      "stage": "Initial Linux API run",
+      "exitCode": 8,
+      "reason": "Three cancellation scenarios did not receive completion notification",
+      "resolution": "Added one cancellation completion signal; full and focused retries pass"
+    },
+    {
+      "stage": "Concurrent Ninja generation",
+      "exitCode": 1,
+      "reason": "Second build in the same directory encountered Text file busy on build.ninja",
+      "resolution": "Sequential final builds exit 0"
+    },
+    {
+      "stage": "Initial Classic opening harness",
+      "exitCode": 1,
+      "reason": "Harness required attached notification after cancellation",
+      "resolution": "Wait for pending slot to clear, prohibit playing, verify empty provider leases; final four cases plus legacy exit 0"
+    }
+  ],
+  "boundaries": [
+    "Harvester unchanged",
+    "Installed Windows apps/profiles unchanged",
+    "Native I/O not force cancellable",
+    "Graph/renderer close and legacy watch/refresh/notify locks not fully qualified",
+    "Direct low-level source open remains synchronous",
+    "Window::openProgressiveSession now signals final outcome asynchronously after admission",
+    "No new codec/live/remux profiles or installers"
+  ]
+}

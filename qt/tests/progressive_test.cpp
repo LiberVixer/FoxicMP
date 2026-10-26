@@ -437,7 +437,11 @@ private slots:
     QVERIFY(file.open(QIODevice::WriteOnly));
     file.write(QJsonDocument(malformed).toJson());
     file.close();
-    QVERIFY(!window.openProgressiveSession(unsupported));
+    QSignalSpy opening(&window,&Window::progressiveOpeningFinished);
+    QVERIFY(window.openProgressiveSession(unsupported));
+    QTRY_COMPARE_WITH_TIMEOUT(opening.size(),1,6000);
+    QVERIFY(!opening[0][0].toBool());
+    QVERIFY(!window.progressiveOpening());
     QCOMPARE(queue->count(), 1);
     QVERIFY(window.openProgressiveSession(manifest));
     QTest::qWait(400);

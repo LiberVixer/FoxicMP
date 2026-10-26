@@ -1,5 +1,6 @@
 #pragma once
 #include "displaymode.h"
+#include "../../shared/progressiveopening.h"
 #include "instancebroker.h"
 #include "profile.h"
 #include "videotransform.h"
@@ -60,7 +61,9 @@ public:
   void closeCurrent();
   void openClipboard();
   bool loadOnlinePlaylist(const QString &url);
+  // Returns admission; the result arrives through progressiveOpeningFinished.
   bool openProgressiveSession(const QString &manifest);
+  bool progressiveOpening() const { return bool(legacyOpening); }
   bool openProgressiveSource(const std::shared_ptr<ProgressiveSource> &);
   std::shared_ptr<ProgressiveSource> progressiveSession() const { return progressive; }
   QJsonObject progressivePlaybackStatus() const;
@@ -82,6 +85,7 @@ public:
   void exitApplication();
   bool requestedProfileReset(bool *keepLibrary) const;
 signals:
+  void progressiveOpeningFinished(bool success, const QString &error);
   void playbackIntentChanged();
   void webControlChanged();
   void frameSaved(const QString &path, bool success);
@@ -105,6 +109,10 @@ protected:
   void moveEvent(QMoveEvent *) override;
 
 private:
+  friend class ProgressiveApiTest;
+  std::shared_ptr<foxicmp::progressive::SourceOpening<ProgressiveSource>> legacyOpening;
+  std::function<void()> legacyOpeningHook;
+  void cancelProgressiveOpening();
   void playIndex(int index, double start = -1, bool resetOrder = true,
                  bool preservePasses = false, bool hold = false);
   bool advancePlaylist(bool forward, bool natural = false);

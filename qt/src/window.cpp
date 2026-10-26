@@ -73,6 +73,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
       displayMode(std::move(displayCommand)) {
   static const bool resourcesReady = [] { Q_INIT_RESOURCE(resources); return true; }();
   Q_UNUSED(resourcesReady);
+  connect(this, &Window::playbackIntentChanged, this, &Window::cancelProgressiveOpening);
   videoTransform = VideoTransform::load(profile.settings);
   const bool languageLoaded = I18n::load(profile.settings, profile.directory);
   Appearance::apply(*qApp, profile.settings);
@@ -1195,6 +1196,7 @@ bool Window::eventFilter(QObject *object, QEvent *event) {
   return inputEvent(object, event);
 }
 Window::~Window() {
+  cancelProgressiveOpening();
   delete webControl;
   webControl = nullptr;
   qApp->removeEventFilter(this);
@@ -2482,6 +2484,7 @@ void Window::closeEvent(QCloseEvent *e) {
   if (!forceExit && !qApp->isSavingSession() && profile.settings.value("desktop/closeToTray", false).toBool() && hideToTray()) {
     e->ignore(); return;
   }
+  cancelProgressiveOpening();
   cancelMouseHold();
   ++playbackGeneration;
   if (profile.settings.value("playlist/rememberPanel", true).toBool()) {

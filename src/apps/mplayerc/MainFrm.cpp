@@ -2510,6 +2510,7 @@ LRESULT CMainFrame::OnHotKey(WPARAM wParam, LPARAM lParam)
 
 void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 {
+    if(nIDEvent==TIMER_CLASSIC_PROGRESSIVE_OPEN){if(m_progressiveApi)m_progressiveApi->PollLegacy();return;}
 	CAppSettings& s = AfxGetAppSettings();
 
 	switch (nIDEvent) {
@@ -5837,21 +5838,11 @@ LRESULT CMainFrame::HandleCmdLine(WPARAM wParam, LPARAM lParam)
 	};
 
 	if (!s.strHarvesterSession.IsEmpty()) {
-		SendMessageW(WM_COMMAND, ID_FILE_CLOSEMEDIA);
-		CStringW error;
-		auto session = CHarvesterSession::Open(s.strHarvesterSession.GetString(), error);
-		if (!session) {
-			AfxMessageBox(L"Harvester: " + error, MB_ICONERROR);
-			return 0;
-		}
-		auto data = std::make_unique<OpenFileData>();
-		data->harvesterManifest = s.strHarvesterSession;
-		data->fi = CStringW(session->Path(0).c_str());
-		data->auds.emplace_back(session->Path(1).c_str());
-		data->bAddRecent = FALSE;
-		m_harvester = std::move(session);
-		OpenMedia(std::move(data));
-		fSetForegroundWindow = true;
+        if(!m_progressiveApi || !m_progressiveApi->BeginLegacy(s.strHarvesterSession.GetString())) {
+            SendStatusMessage(L"Harvester: подготовка другого источника ещё не завершена",5000);
+            return 0;
+        }
+        fSetForegroundWindow = true;
 	} else if ((s.nCLSwitches & CLSW_DVD) && !s.slFiles.empty()) {
 		SendMessageW(WM_COMMAND, ID_FILE_CLOSEMEDIA);
 		fSetForegroundWindow = true;
