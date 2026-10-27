@@ -11,7 +11,7 @@ from progressive_v1_conformance import fragment_prefix
 def run(runner,fixtures):
     inputs=[(Path(fixtures)/'progressive'/name).read_bytes() for name in ('video.mp4','audio.m4a')]
     names=[]
-    video_codec="h264"
+    video_codec="h264";audio_codec="aac-lc"
     def case(name,check):
         with tempfile.TemporaryDirectory(prefix='foxicmp-media-') as folder:
             root=Path(folder);data=root/'data';data.mkdir()
@@ -21,7 +21,7 @@ def run(runner,fixtures):
             for i,kind in enumerate(('video','audio')):
                 path=data/(kind+'.part');paths.append(path);count=fragment_prefix(inputs[i],5);path.write_bytes(inputs[i][:count])
                 value['resources'].append(dict(id=kind,name=path.name,length=None,ranges=[dict(offset='0',length=str(count))],state='downloading'))
-                value['tracks'].append(dict(id=kind,kind=kind,required=True,codecHint=video_codec if i==0 else 'aac-lc',containerHint='fmp4',initializationReady=True,state='downloading',source=dict(resourceId=kind)))
+                value['tracks'].append(dict(id=kind,kind=kind,required=True,codecHint=video_codec if i==0 else audio_codec,containerHint='fmp4',initializationReady=True,state='downloading',source=dict(resourceId=kind)))
             process=subprocess.Popen([runner,'--registry',str(root/'registry')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf-8')
             def rpc(action,**fields):
                 process.stdin.write(json.dumps(dict(action=action,**fields))+'\n');process.stdin.flush()
@@ -213,6 +213,46 @@ def run(runner,fixtures):
     case('vp9-confirmed-range-is-waiting',waiting)
     case('vp9-init-rewrite-is-persistent-error',rewrite)
     case('vp9-cancel-closes-resource-leases',cancelled)
+    video_codec="h264";audio_codec="opus"
+    for channels in (1,2):
+        inputs=[(Path(fixtures)/'progressive/video.mp4').read_bytes(),(Path(fixtures)/('progressive-opus-'+str(channels))/'audio.mp4').read_bytes()]
+        def opus_exact(v,paths,rpc,open_,read,readers,next_):
+            open_();state=rpc('status');assert state['audioCodec']=='opus' and state['mediaMode']=='separate-fmp4-h264-opus',state
+            assert read(track=1)['hex']==inputs[1][:8].hex();assert len(readers())==2
+            rpc('release');assert readers()==[]
+        case('opus-'+str(channels)+'-actual-init-and-resource-leases',opus_exact)
+        def opus_no_hint(v,paths,rpc,open_,read,readers,next_):
+            v['tracks'][1]['codecHint']='';open_();assert rpc('status')['audioCodec']=='opus'
+        case('opus-'+str(channels)+'-discover-without-codec-hint',opus_no_hint)
+        reject_edit('opus-'+str(channels)+'-false-aac-hint',lambda v,p:v['tracks'][1].update(codecHint='aac-lc'))
+    def short_opus(v,paths):
+        data=bytearray(paths[1].read_bytes());at=data.index(b'dOps',data.index(b'moov'));assert int.from_bytes(data[at-4:at],'big')==19
+        data[at-4:at+15]=(11).to_bytes(4,'big')+b'dOps'+data[at+4:at+7]+(8).to_bytes(4,'big')+b'free';paths[1].write_bytes(data)
+    reject_edit('opus-short-config',short_opus)
+    reject_edit('opus-missing-config',lambda v,p:mutate(p,1,b'dOps',0,b'free'))
+    for name,kind,relative,raw in (
+        ('config-version',b'dOps',4,b'\x01'),('zero-channels',b'dOps',5,b'\x00'),('multichannel',b'dOps',5,b'\x06'),
+        ('mapping-family-1',b'dOps',14,b'\x01'),('mapping-family-reserved',b'dOps',14,b'\xff'),
+        ('preskip-edit-mismatch',b'dOps',6,b'\x01\x39'),('sample-version',b'Opus',12,b'\x00\x01'),
+        ('sample-channel-mismatch',b'Opus',20,b'\x00\x01'),('sample-size',b'Opus',22,b'\x00\x18'),
+        ('sample-rate',b'Opus',28,b'\x00\x00\xbb\x80'),('media-clock',b'mdhd',16,b'\x00\x00\xac\x44'),
+        ('edit-flags',b'elst',7,b'\x01'),('multiple-edits',b'elst',8,b'\x00\x00\x00\x02'),
+        ('edit-version',b'elst',4,b'\x02'),('edit-rate',b'elst',20,b'\x00\x02\x00\x00'),
+        ('external-data-reference',b'url ',7,b'\x00'),('invalid-data-reference',b'Opus',10,b'\x00\x02'),
+        ('encrypted-entry',b'Opus',0,b'enca'),('encrypted-config',b'dOps',0,b'sinf'),('missing-edit-list',b'edts',0,b'free')):
+        reject_edit('opus-'+name,lambda v,p,k=kind,r=relative,b=raw:mutate(p,1,k,r,b))
+    def opus_informational_rate_gain(v,paths,rpc,open_,read,readers,next_):
+        mutate(paths,1,b'dOps',8,b'\x00'*4);mutate(paths,1,b'dOps',12,b'\xff\x00');open_();assert rpc('status')['audioCodec']=='opus'
+    case('opus-informational-input-rate-and-signed-gain',opus_informational_rate_gain)
+    def opus_waiting(v,paths,rpc,open_,read,readers,next_):
+        open_();end=paths[1].stat().st_size;assert read(end,track=1)['bytesRead']==-1
+        assert read(end-4,track=1)['bytesRead']==4
+    case('opus-confirmed-range-is-waiting',opus_waiting)
+    def opus_rewrite(v,paths,rpc,open_,read,readers,next_):
+        open_();original=paths[1].read_bytes();changed=bytearray(original);changed[original.index(b'dOps')+13]^=1;paths[1].write_bytes(changed)
+        assert not rpc('publish',session=next_())['ok'];paths[1].write_bytes(original);assert read(track=1)['bytesRead']==-1
+    case('opus-init-rewrite-is-persistent-error',opus_rewrite)
+    case('opus-cancel-closes-resource-leases',cancelled)
     return dict(result='PASS',passed=len(names),cases=names)
 
 if __name__=='__main__':

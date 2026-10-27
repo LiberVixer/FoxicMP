@@ -252,3 +252,7 @@ Classic отдельно объявляет `graphShutdown`, не detached teard
 SDK 1.16 добавляет [VP9 Profile 0/2 8/10-bit + AAC-LC fMP4](ProgressiveVp9.md).
 Проверять schema2Playback.profiles/videoCodecs; WebM и Opus пока не поддержаны
 этим progressive-мостом.
+
+SDK 1.17 добавляет [Opus mono/stereo + H.264/HEVC/AV1/VP9 fMP4](ProgressiveOpus.md).
+Проверять schema2Playback.profiles/audioCodecs. Нужен согласованный pre-skip/edit;
+WebM и multichannel не добавлены этим progressive-профилем.

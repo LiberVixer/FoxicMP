@@ -1,0 +1,5141 @@
+{
+  "date": "2026-10-27",
+  "scope": "SDK 1.17: schema-2 separate Opus mono/stereo fMP4 with H.264/HEVC/AV1/VP9 across three editions; no Harvester changes",
+  "sourceBaseCommit": "36c12cc4ac79e96e1f086172391d7c892f7c021e",
+  "builds": {
+    "linuxQt": {
+      "exitCode": 0,
+      "sha256": "2f6601b02bf6e5c018b12306626e56b93d8227d570c62bef778bee5744d79d56"
+    },
+    "windowsQt": {
+      "exitCode": 0,
+      "sha256": "a3da2ebcd3c200fd711184446835250dd5d12d8914905b02deed4d170261f730"
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "sha256": "182900a0eae9fc0b7d090f0ce9ba9482567b63a03248a43ff69fd1baf3a09b17",
+      "testedCopy": {
+        "testedCopySha256": "182900a0eae9fc0b7d090f0ce9ba9482567b63a03248a43ff69fd1baf3a09b17",
+        "sourceSha256": "182900a0eae9fc0b7d090f0ce9ba9482567b63a03248a43ff69fd1baf3a09b17",
+        "equal": true
+      }
+    }
+  },
+  "tests": {
+    "linuxQt": {
+      "ctestExitCode": 0,
+      "qtTestTotals": [
+        [
+          77,
+          0,
+          0
+        ],
+        [
+          19,
+          0,
+          0
+        ]
+      ],
+      "mediaProfiles": [
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "h264",
+          "fullBytes": [
+            659273,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            392908,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 12.032,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "ef2164749850183c6178714968f9e79f",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "d35e9d96e0a44cceb62534370cfe93f0",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "234582230264491ca36fde8bc9fb7501"
+          },
+          "profile": "h264",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "ef2164749850183c6178714968f9e79f",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6041587",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6041598",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "d35e9d96e0a44cceb62534370cfe93f0",
+              "version": 1
+            },
+            "readerId": "ef2164749850183c6178714968f9e79f",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "ok": true,
+            "readerId": "ef2164749850183c6178714968f9e79f",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "d35e9d96e0a44cceb62534370cfe93f0",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "234582230264491ca36fde8bc9fb7501"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "hevc",
+          "fullBytes": [
+            460107,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            272342,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 11.92,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "272342"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "6d37389cea419a6e8737ebd1546dfad6",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "6b57caea5b1f4377adbadaef7b68000b",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "a1c2b7b338244a11b807b6de5e22b432"
+          },
+          "profile": "hevc8",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "6d37389cea419a6e8737ebd1546dfad6",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6041644",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6041646",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "6b57caea5b1f4377adbadaef7b68000b",
+              "version": 1
+            },
+            "readerId": "6d37389cea419a6e8737ebd1546dfad6",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "460107"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "ok": true,
+            "readerId": "6d37389cea419a6e8737ebd1546dfad6",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "6b57caea5b1f4377adbadaef7b68000b",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "a1c2b7b338244a11b807b6de5e22b432"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "hevc",
+          "fullBytes": [
+            461968,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            273484,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 11.92,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "273484"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "ok": true,
+            "positionSeconds": 10.08,
+            "readerId": "b92bf78babf55472102d9bcfb9cb1ce6",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "ab9db974c0594f66901ba93843fb3a1f",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "6c3d7c88005d4a2bb0ec5310216a32c4"
+          },
+          "profile": "hevc10",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "b92bf78babf55472102d9bcfb9cb1ce6",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6041676",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6041677",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "ab9db974c0594f66901ba93843fb3a1f",
+              "version": 1
+            },
+            "readerId": "b92bf78babf55472102d9bcfb9cb1ce6",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "461968"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "ok": true,
+            "readerId": "b92bf78babf55472102d9bcfb9cb1ce6",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "ab9db974c0594f66901ba93843fb3a1f",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "6c3d7c88005d4a2bb0ec5310216a32c4"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "av1",
+          "fullBytes": [
+            584146,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            349185,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 12,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "349185"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "b1794169e2a0024cda352c9d0975a712",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "6c6f79dcc39f47ef9063663e521a315a",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "4ebbabe4d573477884df910834526282"
+          },
+          "profile": "av1-8",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "b1794169e2a0024cda352c9d0975a712",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6041659",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6041663",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "6c6f79dcc39f47ef9063663e521a315a",
+              "version": 1
+            },
+            "readerId": "b1794169e2a0024cda352c9d0975a712",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "584146"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "ok": true,
+            "readerId": "b1794169e2a0024cda352c9d0975a712",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "6c6f79dcc39f47ef9063663e521a315a",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "4ebbabe4d573477884df910834526282"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "av1",
+          "fullBytes": [
+            580423,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            347738,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 12,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "347738"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "ok": true,
+            "positionSeconds": 10.08,
+            "readerId": "cf16f2ae6a981e99d0cc3cf0f834f20a",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "35c613c0f8034d85a70a104bddc1bae8",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "0ebcfc0e6f174455ac3de0384673dc1e"
+          },
+          "profile": "av1-10",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "cf16f2ae6a981e99d0cc3cf0f834f20a",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6041682",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6041684",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "35c613c0f8034d85a70a104bddc1bae8",
+              "version": 1
+            },
+            "readerId": "cf16f2ae6a981e99d0cc3cf0f834f20a",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "580423"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "ok": true,
+            "readerId": "cf16f2ae6a981e99d0cc3cf0f834f20a",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "35c613c0f8034d85a70a104bddc1bae8",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "0ebcfc0e6f174455ac3de0384673dc1e"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "vp9",
+          "fullBytes": [
+            538907,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            321892,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 12,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "321892"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "f3d0c0fa8369c13b3c9b386ee46ae650",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "e6fe0d34cb7b469fa38caa44e0fc1096",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "0a71057b539d4159849dc7ef489777ec"
+          },
+          "profile": "vp9-8",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "f3d0c0fa8369c13b3c9b386ee46ae650",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6041692",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6041694",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "e6fe0d34cb7b469fa38caa44e0fc1096",
+              "version": 1
+            },
+            "readerId": "f3d0c0fa8369c13b3c9b386ee46ae650",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "538907"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "ok": true,
+            "readerId": "f3d0c0fa8369c13b3c9b386ee46ae650",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "e6fe0d34cb7b469fa38caa44e0fc1096",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "0a71057b539d4159849dc7ef489777ec"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "vp9",
+          "fullBytes": [
+            541637,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            323245,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 12,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "323245"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "ok": true,
+            "positionSeconds": 10.120000000000001,
+            "readerId": "63ec70d006801fa0b38291c768e0a9c8",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "e91d201a246b4c60b18d1565d3eb0867",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "cc54fb4f15d748c999fa8254461fb4a0"
+          },
+          "profile": "vp9-10",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "63ec70d006801fa0b38291c768e0a9c8",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6041748",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6041750",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "e91d201a246b4c60b18d1565d3eb0867",
+              "version": 1
+            },
+            "readerId": "63ec70d006801fa0b38291c768e0a9c8",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "541637"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "ok": true,
+            "readerId": "63ec70d006801fa0b38291c768e0a9c8",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "e91d201a246b4c60b18d1565d3eb0867",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "cc54fb4f15d748c999fa8254461fb4a0"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "h264",
+          "fullBytes": [
+            659273,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            392908,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "ok": true,
+            "positionSeconds": 10.08,
+            "readerId": "fd331ead971a001fc2ca1042ad0a2dba",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "ccb69c6e711847b88a9e16c5ccb5f734",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "e75ee5885913499eb494450717ecd6ba"
+          },
+          "profile": "h264-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "fd331ead971a001fc2ca1042ad0a2dba",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6041754",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6041756",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "ccb69c6e711847b88a9e16c5ccb5f734",
+              "version": 1
+            },
+            "readerId": "fd331ead971a001fc2ca1042ad0a2dba",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "ok": true,
+            "readerId": "fd331ead971a001fc2ca1042ad0a2dba",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "ccb69c6e711847b88a9e16c5ccb5f734",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "e75ee5885913499eb494450717ecd6ba"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "h264",
+          "fullBytes": [
+            659273,
+            320822
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            392908,
+            192208
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "192208",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "65065dfd07bcb415e2268deccb29d427",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "ee1234b6adc541c399833c548358fe1f",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "95783f7d64864703b8bd680dcecc984a"
+          },
+          "profile": "h264-opus-mono",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "65065dfd07bcb415e2268deccb29d427",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6042153",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6042155",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "ee1234b6adc541c399833c548358fe1f",
+              "version": 1
+            },
+            "readerId": "65065dfd07bcb415e2268deccb29d427",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "320822",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "ok": true,
+            "readerId": "65065dfd07bcb415e2268deccb29d427",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "ee1234b6adc541c399833c548358fe1f",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "95783f7d64864703b8bd680dcecc984a"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "hevc",
+          "fullBytes": [
+            460107,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            272342,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.92,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "272342"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "2fec7f459eec6acbf9582a59b26341af",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "b12eb26f0a234da29ec20172f910cda1",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "8ac1dfe455714bf58507898dd3f12122"
+          },
+          "profile": "hevc8-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "2fec7f459eec6acbf9582a59b26341af",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6042057",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6042058",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "b12eb26f0a234da29ec20172f910cda1",
+              "version": 1
+            },
+            "readerId": "2fec7f459eec6acbf9582a59b26341af",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "460107"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "ok": true,
+            "readerId": "2fec7f459eec6acbf9582a59b26341af",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "b12eb26f0a234da29ec20172f910cda1",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "8ac1dfe455714bf58507898dd3f12122"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "hevc",
+          "fullBytes": [
+            461968,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            273484,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.92,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "273484"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "ce6943e969332454b5feba06233a524c",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "f6e3b81e40964b97bf427a7123687dfc",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "2917e34205aa4d699dc442b983ea75a5"
+          },
+          "profile": "hevc10-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "ce6943e969332454b5feba06233a524c",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6042065",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6042067",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "f6e3b81e40964b97bf427a7123687dfc",
+              "version": 1
+            },
+            "readerId": "ce6943e969332454b5feba06233a524c",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "461968"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "ok": true,
+            "readerId": "ce6943e969332454b5feba06233a524c",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "f6e3b81e40964b97bf427a7123687dfc",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "2917e34205aa4d699dc442b983ea75a5"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "av1",
+          "fullBytes": [
+            584146,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            349185,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "349185"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "ffe8c0c65484b6ebd46c406f3ac87064",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "6ad8a79b630c4618848c46889e06f969",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "f40f64549d5a4030b33677878da2dc4f"
+          },
+          "profile": "av1-8-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "ffe8c0c65484b6ebd46c406f3ac87064",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6041776",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6041778",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "6ad8a79b630c4618848c46889e06f969",
+              "version": 1
+            },
+            "readerId": "ffe8c0c65484b6ebd46c406f3ac87064",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "584146"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "ok": true,
+            "readerId": "ffe8c0c65484b6ebd46c406f3ac87064",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "6ad8a79b630c4618848c46889e06f969",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "f40f64549d5a4030b33677878da2dc4f"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "av1",
+          "fullBytes": [
+            580423,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            347738,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "347738"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "5093539c8dc4ec08a367c840629488fa",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "bd9004bee28b41509f8420d3861f7cb2",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "6c0b04ce5cc74cdcbee44a71a2ce1ae4"
+          },
+          "profile": "av1-10-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "5093539c8dc4ec08a367c840629488fa",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6041836",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6041935",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "bd9004bee28b41509f8420d3861f7cb2",
+              "version": 1
+            },
+            "readerId": "5093539c8dc4ec08a367c840629488fa",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "580423"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "ok": true,
+            "readerId": "5093539c8dc4ec08a367c840629488fa",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "bd9004bee28b41509f8420d3861f7cb2",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "6c0b04ce5cc74cdcbee44a71a2ce1ae4"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "vp9",
+          "fullBytes": [
+            538907,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            321892,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "321892"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "d5b958411271b97aa6224e77424a66a8",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "3910f16617254277814553012bead531",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "7fb2c453c9194c04ac4d11a31b357c17"
+          },
+          "profile": "vp9-8-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "d5b958411271b97aa6224e77424a66a8",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6041940",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6041943",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "3910f16617254277814553012bead531",
+              "version": 1
+            },
+            "readerId": "d5b958411271b97aa6224e77424a66a8",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "538907"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "ok": true,
+            "readerId": "d5b958411271b97aa6224e77424a66a8",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "3910f16617254277814553012bead531",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "7fb2c453c9194c04ac4d11a31b357c17"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "vp9",
+          "fullBytes": [
+            541637,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            323245,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "323245"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "7ca3c9f51874e75a68c2962c6de2e906",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "e3e8e8bdfde348e6b375aef870edb97b",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "b6441e752c4f49c184fe106c1c3a00a2"
+          },
+          "profile": "vp9-10-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "976c271c-aa36-4442-b4f7-e85bb163e15e:3276908",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 348205,
+              "readerId": "7ca3c9f51874e75a68c2962c6de2e906",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "6042102",
+                  "id": "video"
+                },
+                {
+                  "device": "2051",
+                  "fileId": "6042104",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "e3e8e8bdfde348e6b375aef870edb97b",
+              "version": 1
+            },
+            "readerId": "7ca3c9f51874e75a68c2962c6de2e906",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "541637"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "ok": true,
+            "readerId": "7ca3c9f51874e75a68c2962c6de2e906",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "e3e8e8bdfde348e6b375aef870edb97b",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "b6441e752c4f49c184fe106c1c3a00a2"
+          }
+        }
+      ],
+      "decodedVideo": [
+        "h264 h264 yuv420p changing frames before complete",
+        "hevc8 hevc yuv420p changing frames before complete",
+        "hevc10 hevc yuv420p10 changing frames before complete",
+        "av1-8 av1 yuv420p changing frames before complete",
+        "av1-10 av1 yuv420p10 changing frames before complete",
+        "vp9-8 vp9 yuv420p changing frames before complete",
+        "vp9-10 vp9 yuv420p10 changing frames before complete",
+        "h264-opus h264 yuv420p changing frames before complete",
+        "h264-opus-mono h264 yuv420p changing frames before complete",
+        "hevc8-opus hevc yuv420p changing frames before complete",
+        "hevc10-opus hevc yuv420p10 changing frames before complete",
+        "av1-8-opus av1 yuv420p changing frames before complete",
+        "av1-10-opus av1 yuv420p10 changing frames before complete",
+        "vp9-8-opus vp9 yuv420p changing frames before complete",
+        "vp9-10-opus vp9 yuv420p10 changing frames before complete"
+      ],
+      "decodedAudio": [
+        "h264 aac 48000",
+        "hevc8 aac 48000",
+        "hevc10 aac 48000",
+        "av1-8 aac 48000",
+        "av1-10 aac 48000",
+        "vp9-8 aac 48000",
+        "vp9-10 aac 48000",
+        "h264-opus opus 48000",
+        "h264-opus-mono opus 48000",
+        "hevc8-opus opus 48000",
+        "hevc10-opus opus 48000",
+        "av1-8-opus opus 48000",
+        "av1-10-opus opus 48000",
+        "vp9-8-opus opus 48000",
+        "vp9-10-opus opus 48000"
+      ]
+    },
+    "windowsQt": {
+      "ctestExitCode": 0,
+      "qtTestTotals": [
+        [
+          78,
+          0,
+          0
+        ]
+      ],
+      "mediaProfiles": [
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "h264",
+          "fullBytes": [
+            659273,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            392908,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 12.032,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "e24688f896d3ac852c415bb5b202d26a",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "ce5300f23a624d3a9edfe769a8a0c381",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "7fa340b27e1c440989af38b158a5be75"
+          },
+          "profile": "h264",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "e24688f896d3ac852c415bb5b202d26a",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "3940649674947738",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "1407374884551839",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "ce5300f23a624d3a9edfe769a8a0c381",
+              "version": 1
+            },
+            "readerId": "e24688f896d3ac852c415bb5b202d26a",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "ok": true,
+            "readerId": "e24688f896d3ac852c415bb5b202d26a",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "ce5300f23a624d3a9edfe769a8a0c381",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "7fa340b27e1c440989af38b158a5be75"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "hevc",
+          "fullBytes": [
+            460107,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            272342,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 11.92,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "272342"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "7cd4b20d02e71010386bd0173dde05ae",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "4d1f164ce0e3459d8d6df6df48fa0b71",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "f0c5039b088140d2b5e8ea239e6fcc7d"
+          },
+          "profile": "hevc8",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "7cd4b20d02e71010386bd0173dde05ae",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "1688849861262528",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "1688849861262541",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "4d1f164ce0e3459d8d6df6df48fa0b71",
+              "version": 1
+            },
+            "readerId": "7cd4b20d02e71010386bd0173dde05ae",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "460107"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "ok": true,
+            "readerId": "7cd4b20d02e71010386bd0173dde05ae",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "4d1f164ce0e3459d8d6df6df48fa0b71",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "f0c5039b088140d2b5e8ea239e6fcc7d"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "hevc",
+          "fullBytes": [
+            461968,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            273484,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 11.92,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "273484"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "a16556a3ad9cc6464e56a4b12d334c43",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "ad1f778afaff420b8c52dbaefa089695",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "cb6e02e958cd4316b24410b0ebf51868"
+          },
+          "profile": "hevc10",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "a16556a3ad9cc6464e56a4b12d334c43",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "3659174698237192",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "2251799814683914",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "ad1f778afaff420b8c52dbaefa089695",
+              "version": 1
+            },
+            "readerId": "a16556a3ad9cc6464e56a4b12d334c43",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "461968"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "ok": true,
+            "readerId": "a16556a3ad9cc6464e56a4b12d334c43",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "ad1f778afaff420b8c52dbaefa089695",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "cb6e02e958cd4316b24410b0ebf51868"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "av1",
+          "fullBytes": [
+            584146,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            349185,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 12,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "349185"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "5916760fa5ce49148652b81cc43a143d",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "e3a9aa57cc4543fba1e75192e79f9c9b",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "60f5e99e880346b6989e7a683fbf624a"
+          },
+          "profile": "av1-8",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "5916760fa5ce49148652b81cc43a143d",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "3377699721526563",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "2533274791394597",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "e3a9aa57cc4543fba1e75192e79f9c9b",
+              "version": 1
+            },
+            "readerId": "5916760fa5ce49148652b81cc43a143d",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "584146"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "ok": true,
+            "readerId": "5916760fa5ce49148652b81cc43a143d",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "e3a9aa57cc4543fba1e75192e79f9c9b",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "60f5e99e880346b6989e7a683fbf624a"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "av1",
+          "fullBytes": [
+            580423,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            347738,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 12,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "347738"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "d9b9da5f981db7fc0dc36937ac17d0e5",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "5de7680bb7164912bbc921c2c2feac41",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "65e65eea28e24ef8b0cdb87dad527b0e"
+          },
+          "profile": "av1-10",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "d9b9da5f981db7fc0dc36937ac17d0e5",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "4503599628369195",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "3096224744815917",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "5de7680bb7164912bbc921c2c2feac41",
+              "version": 1
+            },
+            "readerId": "d9b9da5f981db7fc0dc36937ac17d0e5",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "580423"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "ok": true,
+            "readerId": "d9b9da5f981db7fc0dc36937ac17d0e5",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "5de7680bb7164912bbc921c2c2feac41",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "65e65eea28e24ef8b0cdb87dad527b0e"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "vp9",
+          "fullBytes": [
+            538907,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            321892,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 12,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "321892"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "222274c95a910f47121ce3d67646f599",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "e8b233616b434d4e84180f6e54cb49a3",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "22f5efd137a2412fa12ea607635cf90a"
+          },
+          "profile": "vp9-8",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "222274c95a910f47121ce3d67646f599",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "1970324837973313",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "2814749768105283",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "e8b233616b434d4e84180f6e54cb49a3",
+              "version": 1
+            },
+            "readerId": "222274c95a910f47121ce3d67646f599",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "538907"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "ok": true,
+            "readerId": "222274c95a910f47121ce3d67646f599",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "e8b233616b434d4e84180f6e54cb49a3",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "22f5efd137a2412fa12ea607635cf90a"
+          }
+        },
+        {
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "aac-lc",
+          "expectedVideoCodec": "vp9",
+          "fullBytes": [
+            541637,
+            180489
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            323245,
+            108398
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "availableSeconds": 12,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "323245"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "ff6f50a06c8c4b711cd116d3b1f1aa5d",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "97cdbd038b21415bbf2e3910d0e9c317",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "26f7d550caa849c5bc857ce3c91ceab1"
+          },
+          "profile": "vp9-10",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "ff6f50a06c8c4b711cd116d3b1f1aa5d",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "2251799814683991",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "844424931130713",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "97cdbd038b21415bbf2e3910d0e9c317",
+              "version": 1
+            },
+            "readerId": "ff6f50a06c8c4b711cd116d3b1f1aa5d",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "541637"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "ok": true,
+            "readerId": "ff6f50a06c8c4b711cd116d3b1f1aa5d",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "97cdbd038b21415bbf2e3910d0e9c317",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "26f7d550caa849c5bc857ce3c91ceab1"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "h264",
+          "fullBytes": [
+            659273,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            392908,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "80fbca3607a338fab5e860a003756e3b",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "67b64de9102b48e394fcf0979dd6acbf",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "9ced4e6d407848c98fbf8a6cff9e91dc"
+          },
+          "profile": "h264-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "80fbca3607a338fab5e860a003756e3b",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "2251799814684000",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "2251799814684003",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "67b64de9102b48e394fcf0979dd6acbf",
+              "version": 1
+            },
+            "readerId": "80fbca3607a338fab5e860a003756e3b",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "ok": true,
+            "readerId": "80fbca3607a338fab5e860a003756e3b",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "67b64de9102b48e394fcf0979dd6acbf",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "9ced4e6d407848c98fbf8a6cff9e91dc"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "h264",
+          "fullBytes": [
+            659273,
+            320822
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            392908,
+            192208
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "192208",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "447343f254bbc88b83d37d665d36e658",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "bb49aca36ffa4f2c85c1bfbb7f7b4dcb",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "e860f3f79c15455c9ff5897d7f13589f"
+          },
+          "profile": "h264-opus-mono",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "447343f254bbc88b83d37d665d36e658",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "2251799814684020",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "562949954420085",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "bb49aca36ffa4f2c85c1bfbb7f7b4dcb",
+              "version": 1
+            },
+            "readerId": "447343f254bbc88b83d37d665d36e658",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "320822",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "ok": true,
+            "readerId": "447343f254bbc88b83d37d665d36e658",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "bb49aca36ffa4f2c85c1bfbb7f7b4dcb",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "h264",
+            "writerInstanceId": "e860f3f79c15455c9ff5897d7f13589f"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "hevc",
+          "fullBytes": [
+            460107,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            272342,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.92,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "272342"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "ok": true,
+            "positionSeconds": 10.08,
+            "readerId": "85bb361bc40b2a2449f67e3048f32370",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "060ac35c0b354af386a37c03c19f64c7",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "ece4d0ae1ff54fd19b4bcb7b8fd8bd96"
+          },
+          "profile": "hevc8-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "85bb361bc40b2a2449f67e3048f32370",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "1970324837973375",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "2251799814684033",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "060ac35c0b354af386a37c03c19f64c7",
+              "version": 1
+            },
+            "readerId": "85bb361bc40b2a2449f67e3048f32370",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "460107"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "ok": true,
+            "readerId": "85bb361bc40b2a2449f67e3048f32370",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "060ac35c0b354af386a37c03c19f64c7",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "ece4d0ae1ff54fd19b4bcb7b8fd8bd96"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "hevc",
+          "fullBytes": [
+            461968,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            273484,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.92,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "273484"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "f53ac4762517328fd205eb1795fd18b2",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "b6226340d5af4d0781f50a962fea66f5",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "6afa3ccd40204e85bdff783bb6170cba"
+          },
+          "profile": "hevc10-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "f53ac4762517328fd205eb1795fd18b2",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "1407374884552075",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "1125899907841421",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "b6226340d5af4d0781f50a962fea66f5",
+              "version": 1
+            },
+            "readerId": "f53ac4762517328fd205eb1795fd18b2",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "461968"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "ok": true,
+            "readerId": "f53ac4762517328fd205eb1795fd18b2",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "b6226340d5af4d0781f50a962fea66f5",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "hevc",
+            "writerInstanceId": "6afa3ccd40204e85bdff783bb6170cba"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "av1",
+          "fullBytes": [
+            584146,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            349185,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "349185"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "b06e0136d4e7f46ac0a50645d5d9eced",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "341130dd862d4f0692543a189e2624a3",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "5dca7b08591c42b398dfe341bd52161e"
+          },
+          "profile": "av1-8-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "b06e0136d4e7f46ac0a50645d5d9eced",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "1688849861262743",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "1407374884552089",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "341130dd862d4f0692543a189e2624a3",
+              "version": 1
+            },
+            "readerId": "b06e0136d4e7f46ac0a50645d5d9eced",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "584146"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "ok": true,
+            "readerId": "b06e0136d4e7f46ac0a50645d5d9eced",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "341130dd862d4f0692543a189e2624a3",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "5dca7b08591c42b398dfe341bd52161e"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "av1",
+          "fullBytes": [
+            580423,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            347738,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "347738"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "d6425a949cf8b80332ac99cd0c9f36d2",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "6940e97e3c9b437388ef7ca160c3ee7f",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "8dd82ffc46f14efbbcddfcf0251bf9a0"
+          },
+          "profile": "av1-10-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "d6425a949cf8b80332ac99cd0c9f36d2",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "1688849861262755",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "1970324837973413",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "6940e97e3c9b437388ef7ca160c3ee7f",
+              "version": 1
+            },
+            "readerId": "d6425a949cf8b80332ac99cd0c9f36d2",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "580423"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "ok": true,
+            "readerId": "d6425a949cf8b80332ac99cd0c9f36d2",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "6940e97e3c9b437388ef7ca160c3ee7f",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "av1",
+            "writerInstanceId": "8dd82ffc46f14efbbcddfcf0251bf9a0"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "vp9",
+          "fullBytes": [
+            538907,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            321892,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "321892"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "908a22863f0a68aba3571c5725948759",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "2c5ab087277c4effb0ad9739bede2fe7",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "8152ff64269f4ecca4b1df2b71f650a7"
+          },
+          "profile": "vp9-8-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "908a22863f0a68aba3571c5725948759",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "2533274791394738",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "1688849861262772",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "2c5ab087277c4effb0ad9739bede2fe7",
+              "version": 1
+            },
+            "readerId": "908a22863f0a68aba3571c5725948759",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "538907"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "ok": true,
+            "readerId": "908a22863f0a68aba3571c5725948759",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "2c5ab087277c4effb0ad9739bede2fe7",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "8152ff64269f4ecca4b1df2b71f650a7"
+          }
+        },
+        {
+          "backwardSeekWhileIncomplete": true,
+          "cancelRestartAndReaderGuards": true,
+          "expectedAudioCodec": "opus",
+          "expectedVideoCodec": "vp9",
+          "fullBytes": [
+            541637,
+            351680
+          ],
+          "generation": "18446744073709551615",
+          "incompleteBytes": [
+            323245,
+            210667
+          ],
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "playingWhilePhysicallyIncomplete": {
+            "active": true,
+            "audioCodec": "opus",
+            "availableSeconds": 11.9935,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "210667",
+              "video": "323245"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "2e602975138cab241ef4c3cb886298d6",
+            "released": false,
+            "revision": "9007199254740994",
+            "schemaVersion": 2,
+            "sessionId": "c2befed629cf469cb43d0f7ee95e9af9",
+            "state": "playing",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "0a10dc5bc8dd4524b5ba91be7a02152a"
+          },
+          "profile": "vp9-10-opus",
+          "release": {
+            "ok": true,
+            "reader": {
+              "birth": "134375715500334000",
+              "filesClosed": true,
+              "generation": "18446744073709551615",
+              "pid": 5140,
+              "readerId": "2e602975138cab241ef4c3cb886298d6",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "1688849861262804",
+                  "id": "video"
+                },
+                {
+                  "device": "656024512",
+                  "fileId": "2533274791394774",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "c2befed629cf469cb43d0f7ee95e9af9",
+              "version": 1
+            },
+            "readerId": "2e602975138cab241ef4c3cb886298d6",
+            "released": true,
+            "version": 1
+          },
+          "result": "PASS",
+          "schemaVersion": 2,
+          "terminal": {
+            "active": false,
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "audio": "351680",
+              "video": "541637"
+            },
+            "error": "",
+            "generation": "18446744073709551615",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "ok": true,
+            "readerId": "2e602975138cab241ef4c3cb886298d6",
+            "released": true,
+            "revision": "9007199254740995",
+            "schemaVersion": 2,
+            "sessionId": "c2befed629cf469cb43d0f7ee95e9af9",
+            "state": "finished",
+            "version": 1,
+            "videoCodec": "vp9",
+            "writerInstanceId": "0a10dc5bc8dd4524b5ba91be7a02152a"
+          }
+        }
+      ],
+      "decodedVideo": [
+        "h264 h264 yuv420p changing frames before complete",
+        "hevc8 hevc yuv420p changing frames before complete",
+        "hevc10 hevc yuv420p10 changing frames before complete",
+        "av1-8 av1 yuv420p changing frames before complete",
+        "av1-10 av1 yuv420p10 changing frames before complete",
+        "vp9-8 vp9 yuv420p changing frames before complete",
+        "vp9-10 vp9 yuv420p10 changing frames before complete",
+        "h264-opus h264 yuv420p changing frames before complete",
+        "h264-opus-mono h264 yuv420p changing frames before complete",
+        "hevc8-opus hevc yuv420p changing frames before complete",
+        "hevc10-opus hevc yuv420p10 changing frames before complete",
+        "av1-8-opus av1 yuv420p changing frames before complete",
+        "av1-10-opus av1 yuv420p10 changing frames before complete",
+        "vp9-8-opus vp9 yuv420p changing frames before complete",
+        "vp9-10-opus vp9 yuv420p10 changing frames before complete"
+      ],
+      "decodedAudio": [
+        "h264 aac 48000",
+        "hevc8 aac 48000",
+        "hevc10 aac 48000",
+        "av1-8 aac 48000",
+        "av1-10 aac 48000",
+        "vp9-8 aac 48000",
+        "vp9-10 aac 48000",
+        "h264-opus opus 48000",
+        "h264-opus-mono opus 48000",
+        "hevc8-opus opus 48000",
+        "hevc10-opus opus 48000",
+        "av1-8-opus opus 48000",
+        "av1-10-opus opus 48000",
+        "vp9-8-opus opus 48000",
+        "vp9-10-opus opus 48000"
+      ]
+    },
+    "classic": {
+      "exitCode": 0,
+      "sdkContracts": [
+        "reader-registry-oplock",
+        "async-publication",
+        "async-preparation",
+        "sdk-writer",
+        "v2-metadata-validation",
+        "reader-leases",
+        "resource-io",
+        "v2-media"
+      ],
+      "mediaProfiles": {
+        "h264": {
+          "profile": "h264",
+          "expectedVideoCodec": "h264",
+          "expectedAudioCodec": "aac-lc",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "ae04125506bc419eb8db49e69d98e77e",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "8ed4b397b76701dd57d5f3c76788be6e",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "8c8f382855fd4b7ea9293c5785752264",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "videoCodec": "h264",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "389165",
+              "audio": "104847"
+            },
+            "positionSeconds": 10.0468398,
+            "availableSeconds": 12.0,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            392908,
+            108398
+          ],
+          "fullBytes": [
+            659273,
+            180489
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "ae04125506bc419eb8db49e69d98e77e",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "8c8f382855fd4b7ea9293c5785752264",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "videoCodec": "h264",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "652606",
+              "audio": "173962"
+            },
+            "released": true,
+            "readerId": "8ed4b397b76701dd57d5f3c76788be6e"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "8ed4b397b76701dd57d5f3c76788be6e",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "8ed4b397b76701dd57d5f3c76788be6e",
+              "sessionId": "ae04125506bc419eb8db49e69d98e77e",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "2251799814683783"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1407374884551816"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "hevc8": {
+          "profile": "hevc8",
+          "expectedVideoCodec": "hevc",
+          "expectedAudioCodec": "aac-lc",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "ad15fc0fc8ba4031809455eeb21c23cd",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "0e0cf4532e40ac8c57c87e46b627d909",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "88e6cc097a3447e4a5cd779990100a60",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "videoCodec": "hevc",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "268631",
+              "audio": "104847"
+            },
+            "positionSeconds": 10.0454856,
+            "availableSeconds": 11.84,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            272342,
+            108398
+          ],
+          "fullBytes": [
+            460107,
+            180489
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "ad15fc0fc8ba4031809455eeb21c23cd",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "88e6cc097a3447e4a5cd779990100a60",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "videoCodec": "hevc",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "453440",
+              "audio": "173962"
+            },
+            "released": true,
+            "readerId": "0e0cf4532e40ac8c57c87e46b627d909"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "0e0cf4532e40ac8c57c87e46b627d909",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "0e0cf4532e40ac8c57c87e46b627d909",
+              "sessionId": "ad15fc0fc8ba4031809455eeb21c23cd",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "5629499535211659"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "4503599628369037"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "hevc10": {
+          "profile": "hevc10",
+          "expectedVideoCodec": "hevc",
+          "expectedAudioCodec": "aac-lc",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "a99e84044a2e4ee3815b2a1003c73a7c",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "db23e6fd3437e28fdd96e841f96d7e27",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "a349fc4918434334b5b049c096e1a504",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "videoCodec": "hevc",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "269773",
+              "audio": "104847"
+            },
+            "positionSeconds": 10.0419127,
+            "availableSeconds": 11.84,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            273484,
+            108398
+          ],
+          "fullBytes": [
+            461968,
+            180489
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "a99e84044a2e4ee3815b2a1003c73a7c",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "a349fc4918434334b5b049c096e1a504",
+            "mediaMode": "separate-fmp4-hevc-aac-lc",
+            "videoCodec": "hevc",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "455301",
+              "audio": "173962"
+            },
+            "released": true,
+            "readerId": "db23e6fd3437e28fdd96e841f96d7e27"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "db23e6fd3437e28fdd96e841f96d7e27",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "db23e6fd3437e28fdd96e841f96d7e27",
+              "sessionId": "a99e84044a2e4ee3815b2a1003c73a7c",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "2533274791394484"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "3377699721526457"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "av1-8": {
+          "profile": "av1-8",
+          "expectedVideoCodec": "av1",
+          "expectedAudioCodec": "aac-lc",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "b0f74121bea448d09d60e3a98aa51b02",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "19c974279b7ff105714efa8e320f8291",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "b5e8cb1b2d1e49119611954f2a665f02",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "videoCodec": "av1",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "346642",
+              "audio": "104847"
+            },
+            "positionSeconds": 10.0455952,
+            "availableSeconds": 12.0,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            349185,
+            108398
+          ],
+          "fullBytes": [
+            584146,
+            180489
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "b0f74121bea448d09d60e3a98aa51b02",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "b5e8cb1b2d1e49119611954f2a665f02",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "videoCodec": "av1",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "579479",
+              "audio": "173962"
+            },
+            "released": true,
+            "readerId": "19c974279b7ff105714efa8e320f8291"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "19c974279b7ff105714efa8e320f8291",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "19c974279b7ff105714efa8e320f8291",
+              "sessionId": "b0f74121bea448d09d60e3a98aa51b02",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1970324837973222"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1688849861262588"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "av1-10": {
+          "profile": "av1-10",
+          "expectedVideoCodec": "av1",
+          "expectedAudioCodec": "aac-lc",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "e4979361460e4b55905b2de0e84eac13",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "28e4f8a62b7a02a2952603dd9379fe1b",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "22f451bece034b2586fd307cd8865396",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "videoCodec": "av1",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "345195",
+              "audio": "104847"
+            },
+            "positionSeconds": 10.0580124,
+            "availableSeconds": 12.0,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            347738,
+            108398
+          ],
+          "fullBytes": [
+            580423,
+            180489
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "e4979361460e4b55905b2de0e84eac13",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "22f451bece034b2586fd307cd8865396",
+            "mediaMode": "separate-fmp4-av1-aac-lc",
+            "videoCodec": "av1",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "575756",
+              "audio": "173962"
+            },
+            "released": true,
+            "readerId": "28e4f8a62b7a02a2952603dd9379fe1b"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "28e4f8a62b7a02a2952603dd9379fe1b",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "28e4f8a62b7a02a2952603dd9379fe1b",
+              "sessionId": "e4979361460e4b55905b2de0e84eac13",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "3377699721526558"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "4503599628369185"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "vp9-8": {
+          "profile": "vp9-8",
+          "expectedVideoCodec": "vp9",
+          "expectedAudioCodec": "aac-lc",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "83ca2c0cc138472e8bb0070dd89f82f1",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "b701bd72c5e9b107b07acb7526eaf797",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "c7b2319b2bcf433d8d4fb62cf42385dc",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "videoCodec": "vp9",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "319349",
+              "audio": "104847"
+            },
+            "positionSeconds": 10.0036731,
+            "availableSeconds": 12.0,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            321892,
+            108398
+          ],
+          "fullBytes": [
+            538907,
+            180489
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "83ca2c0cc138472e8bb0070dd89f82f1",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "c7b2319b2bcf433d8d4fb62cf42385dc",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "videoCodec": "vp9",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "534240",
+              "audio": "173962"
+            },
+            "released": true,
+            "readerId": "b701bd72c5e9b107b07acb7526eaf797"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "b701bd72c5e9b107b07acb7526eaf797",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "b701bd72c5e9b107b07acb7526eaf797",
+              "sessionId": "83ca2c0cc138472e8bb0070dd89f82f1",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1125899907841328"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "2814749768105266"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "vp9-10": {
+          "profile": "vp9-10",
+          "expectedVideoCodec": "vp9",
+          "expectedAudioCodec": "aac-lc",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "0a2b0a064d0d407e8e047bf597057daf",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "4c685be583c9fbcaccc6205f7195e429",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "e30eff66bb4f44848959c6b968228e7b",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "videoCodec": "vp9",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "320702",
+              "audio": "104847"
+            },
+            "positionSeconds": 10.0479074,
+            "availableSeconds": 12.0,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            323245,
+            108398
+          ],
+          "fullBytes": [
+            541637,
+            180489
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "0a2b0a064d0d407e8e047bf597057daf",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "e30eff66bb4f44848959c6b968228e7b",
+            "mediaMode": "separate-fmp4-vp9-aac-lc",
+            "videoCodec": "vp9",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "536970",
+              "audio": "173962"
+            },
+            "released": true,
+            "readerId": "4c685be583c9fbcaccc6205f7195e429"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "4c685be583c9fbcaccc6205f7195e429",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "4c685be583c9fbcaccc6205f7195e429",
+              "sessionId": "0a2b0a064d0d407e8e047bf597057daf",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "3940649674947891"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1688849861262646"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "h264-opus": {
+          "profile": "h264-opus",
+          "expectedVideoCodec": "h264",
+          "expectedAudioCodec": "opus",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "backwardSeekWhileIncomplete": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "97e38cc3509049bab060b0a8be66b4aa",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "4291389afc3c526c53303964e019a152",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "fabd3587799b47448a10a4b0b28d7ad0",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "videoCodec": "h264",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "592759",
+              "audio": "299117"
+            },
+            "positionSeconds": 10.0146543,
+            "availableSeconds": 11.9935,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            392908,
+            210667
+          ],
+          "fullBytes": [
+            659273,
+            351680
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "97e38cc3509049bab060b0a8be66b4aa",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "fabd3587799b47448a10a4b0b28d7ad0",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "videoCodec": "h264",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "856200",
+              "audio": "437111"
+            },
+            "released": true,
+            "readerId": "4291389afc3c526c53303964e019a152"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "4291389afc3c526c53303964e019a152",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "4291389afc3c526c53303964e019a152",
+              "sessionId": "97e38cc3509049bab060b0a8be66b4aa",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "3096224744815928"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "3377699721526587"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "h264-opus-mono": {
+          "profile": "h264-opus-mono",
+          "expectedVideoCodec": "h264",
+          "expectedAudioCodec": "opus",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "backwardSeekWhileIncomplete": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "bbce0491edc04399905cfa2421a3e9ca",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "737c5f3c861bbfe8b01290cbfc039370",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "ed6dc2d6c292470882725b94b92489bf",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "videoCodec": "h264",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "592759",
+              "audio": "272969"
+            },
+            "positionSeconds": 10.0257163,
+            "availableSeconds": 11.9935,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            392908,
+            192208
+          ],
+          "fullBytes": [
+            659273,
+            320822
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "bbce0491edc04399905cfa2421a3e9ca",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "ed6dc2d6c292470882725b94b92489bf",
+            "mediaMode": "separate-fmp4-h264-opus",
+            "videoCodec": "h264",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "856200",
+              "audio": "398564"
+            },
+            "released": true,
+            "readerId": "737c5f3c861bbfe8b01290cbfc039370"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "737c5f3c861bbfe8b01290cbfc039370",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "737c5f3c861bbfe8b01290cbfc039370",
+              "sessionId": "bbce0491edc04399905cfa2421a3e9ca",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "4222124651658576"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "3096224744815957"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "hevc8-opus": {
+          "profile": "hevc8-opus",
+          "expectedVideoCodec": "hevc",
+          "expectedAudioCodec": "opus",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "backwardSeekWhileIncomplete": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "9b27d867e360444d88dcd036306a9e10",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "91c0575109c8474738589e562abfe56c",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "61def47046c5498ca28af23d5219c2e1",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "videoCodec": "hevc",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "392544",
+              "audio": "298765"
+            },
+            "positionSeconds": 10.005268,
+            "availableSeconds": 11.84,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            272342,
+            210667
+          ],
+          "fullBytes": [
+            460107,
+            351680
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "9b27d867e360444d88dcd036306a9e10",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "61def47046c5498ca28af23d5219c2e1",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "videoCodec": "hevc",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "577353",
+              "audio": "436759"
+            },
+            "released": true,
+            "readerId": "91c0575109c8474738589e562abfe56c"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "91c0575109c8474738589e562abfe56c",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "91c0575109c8474738589e562abfe56c",
+              "sessionId": "9b27d867e360444d88dcd036306a9e10",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "2814749768105321"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "2533274791394669"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "hevc10-opus": {
+          "profile": "hevc10-opus",
+          "expectedVideoCodec": "hevc",
+          "expectedAudioCodec": "opus",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "backwardSeekWhileIncomplete": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "f2e0b7aeca4640b094c875de119beebe",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "9f6cca76b59538f59f162a7441b5e0b1",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "c181d7222e524b0e88f400b41ecd64fd",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "videoCodec": "hevc",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "414520",
+              "audio": "299798"
+            },
+            "positionSeconds": 10.0246643,
+            "availableSeconds": 11.84,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            273484,
+            210667
+          ],
+          "fullBytes": [
+            461968,
+            351680
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "f2e0b7aeca4640b094c875de119beebe",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "c181d7222e524b0e88f400b41ecd64fd",
+            "mediaMode": "separate-fmp4-hevc-opus",
+            "videoCodec": "hevc",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "600048",
+              "audio": "437792"
+            },
+            "released": true,
+            "readerId": "9f6cca76b59538f59f162a7441b5e0b1"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "9f6cca76b59538f59f162a7441b5e0b1",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "9f6cca76b59538f59f162a7441b5e0b1",
+              "sessionId": "f2e0b7aeca4640b094c875de119beebe",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "4222124651658607"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "2533274791394673"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "av1-8-opus": {
+          "profile": "av1-8-opus",
+          "expectedVideoCodec": "av1",
+          "expectedAudioCodec": "opus",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "backwardSeekWhileIncomplete": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "38211dab6b044976842cba9b2a8205c8",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "fee3cdb5ddce3e375720ca99ca85b4e0",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "b633527c699d47bcb841e92fdb97cab3",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "videoCodec": "av1",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "503460",
+              "audio": "299447"
+            },
+            "positionSeconds": 10.0848732,
+            "availableSeconds": 11.9935,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            349185,
+            210667
+          ],
+          "fullBytes": [
+            584146,
+            351680
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "38211dab6b044976842cba9b2a8205c8",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "b633527c699d47bcb841e92fdb97cab3",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "videoCodec": "av1",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "736297",
+              "audio": "437441"
+            },
+            "released": true,
+            "readerId": "fee3cdb5ddce3e375720ca99ca85b4e0"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "fee3cdb5ddce3e375720ca99ca85b4e0",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "fee3cdb5ddce3e375720ca99ca85b4e0",
+              "sessionId": "38211dab6b044976842cba9b2a8205c8",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "3377699721526648"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "2814749768105339"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "av1-10-opus": {
+          "profile": "av1-10-opus",
+          "expectedVideoCodec": "av1",
+          "expectedAudioCodec": "opus",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "backwardSeekWhileIncomplete": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "fa471510857c4b30b74e3583121d65fd",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "cd47adcb5bb154e4cd57b257ba26b089",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "e3df8d7188274f719a4d2d6967d1b95c",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "videoCodec": "av1",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "501048",
+              "audio": "299105"
+            },
+            "positionSeconds": 10.0936905,
+            "availableSeconds": 11.9935,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            347738,
+            210667
+          ],
+          "fullBytes": [
+            580423,
+            351680
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "fa471510857c4b30b74e3583121d65fd",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "e3df8d7188274f719a4d2d6967d1b95c",
+            "mediaMode": "separate-fmp4-av1-opus",
+            "videoCodec": "av1",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "731609",
+              "audio": "437099"
+            },
+            "released": true,
+            "readerId": "cd47adcb5bb154e4cd57b257ba26b089"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "cd47adcb5bb154e4cd57b257ba26b089",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "cd47adcb5bb154e4cd57b257ba26b089",
+              "sessionId": "fa471510857c4b30b74e3583121d65fd",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "3096224744816007"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1970324837973385"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "vp9-8-opus": {
+          "profile": "vp9-8-opus",
+          "expectedVideoCodec": "vp9",
+          "expectedAudioCodec": "opus",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "backwardSeekWhileIncomplete": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "0a97f5b7d55f485b98eade122b379f1d",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "4ae4da8455e2e4fba202594658f64479",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "c0252b3588d448f9a941dacded727daa",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "videoCodec": "vp9",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "499736",
+              "audio": "299453"
+            },
+            "positionSeconds": 10.0135185,
+            "availableSeconds": 11.9935,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            321892,
+            210667
+          ],
+          "fullBytes": [
+            538907,
+            351680
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "0a97f5b7d55f485b98eade122b379f1d",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "c0252b3588d448f9a941dacded727daa",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "videoCodec": "vp9",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "714627",
+              "audio": "437447"
+            },
+            "released": true,
+            "readerId": "4ae4da8455e2e4fba202594658f64479"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "4ae4da8455e2e4fba202594658f64479",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "4ae4da8455e2e4fba202594658f64479",
+              "sessionId": "0a97f5b7d55f485b98eade122b379f1d",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "3096224744816019"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "3096224744816021"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        },
+        "vp9-10-opus": {
+          "profile": "vp9-10-opus",
+          "expectedVideoCodec": "vp9",
+          "expectedAudioCodec": "opus",
+          "schemaVersion": 2,
+          "generation": "18446744073709551615",
+          "initialRevision": "9007199254740993",
+          "networkRequests": 0,
+          "cancelRestartAndReaderGuards": true,
+          "backwardSeekWhileIncomplete": true,
+          "playingWhilePhysicallyIncomplete": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "9c98bec3bcaa43179a4d08892d3d220b",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "3a717d6c094024e4c0804746f94fba25",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740994",
+            "writerInstanceId": "54daed170c284e9eb953f32283a8d863",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "videoCodec": "vp9",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "500165",
+              "audio": "299453"
+            },
+            "positionSeconds": 10.0135631,
+            "availableSeconds": 11.9935,
+            "durationSeconds": 20.0
+          },
+          "incompleteBytes": [
+            323245,
+            210667
+          ],
+          "fullBytes": [
+            541637,
+            351680
+          ],
+          "terminal": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "9c98bec3bcaa43179a4d08892d3d220b",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "revision": "9007199254740995",
+            "writerInstanceId": "54daed170c284e9eb953f32283a8d863",
+            "mediaMode": "separate-fmp4-vp9-opus",
+            "videoCodec": "vp9",
+            "audioCodec": "opus",
+            "decoderIoBytes": {
+              "video": "716433",
+              "audio": "437447"
+            },
+            "released": true,
+            "readerId": "3a717d6c094024e4c0804746f94fba25"
+          },
+          "release": {
+            "version": 1,
+            "ok": true,
+            "readerId": "3a717d6c094024e4c0804746f94fba25",
+            "released": true,
+            "reader": {
+              "version": 1,
+              "readerId": "3a717d6c094024e4c0804746f94fba25",
+              "sessionId": "9c98bec3bcaa43179a4d08892d3d220b",
+              "generation": "18446744073709551615",
+              "pid": 13072,
+              "birth": "134375716138004125",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "3377699721526687"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "2533274791394721"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          },
+          "result": "PASS"
+        }
+      },
+      "asyncClose": [
+        {
+          "case": "stop-loaded",
+          "result": "PASS",
+          "cancelSeconds": 0.0010044000009656884,
+          "maxUiPingSeconds": 0.0010509000057936646,
+          "ownerHeldUntilResume": true
+        },
+        {
+          "case": "stop-loading",
+          "result": "PASS",
+          "cancelSeconds": 0.001708600000711158,
+          "maxUiPingSeconds": 0.0003403000009711832,
+          "ownerHeldUntilResume": true
+        },
+        {
+          "case": "replace",
+          "result": "PASS",
+          "cancelSeconds": 0.0006576999949174933,
+          "maxUiPingSeconds": 0.000993699999526143,
+          "ownerHeldUntilResume": true
+        },
+        {
+          "case": "supersede",
+          "result": "PASS",
+          "cancelSeconds": 0.0006229999999050051,
+          "maxUiPingSeconds": 0.0012777000010828488,
+          "ownerHeldUntilResume": true
+        },
+        {
+          "case": "exit",
+          "result": "PASS",
+          "cancelSeconds": 0.0006735999995726161,
+          "maxUiPingSeconds": 0.0011985999954049475,
+          "ownerHeldUntilResume": true
+        }
+      ],
+      "legacy": {
+        "contract": "legacy-provider",
+        "result": "PASS",
+        "beforeComplete": {
+          "schemaVersion": 1,
+          "sessionId": "ddfaa1f6149e43f990a7341afe795868",
+          "generation": 1,
+          "revision": 2,
+          "type": "playing",
+          "pid": 12488,
+          "position100ns": 109694797,
+          "readyEnd100ns": 120000000,
+          "completionWaiters": 0,
+          "observedPlaying": true
+        },
+        "complete": {
+          "schemaVersion": 1,
+          "sessionId": "ddfaa1f6149e43f990a7341afe795868",
+          "generation": 1,
+          "revision": 3,
+          "type": "buffering",
+          "pid": 12488,
+          "position100ns": 110161463,
+          "readyEnd100ns": 200000000,
+          "completionWaiters": 0
+        },
+        "filesClosedLeaseReleased": true
+      },
+      "maintenance": {
+        "contract": "legacy-maintenance",
+        "result": "PASS",
+        "cases": [
+          {
+            "mode": "grow",
+            "readsAtOverlap": 632,
+            "uiPingMilliseconds": [
+              0.0736,
+              0.0515,
+              0.0288
+            ],
+            "notification": {
+              "schemaVersion": 1,
+              "sessionId": "0be6b8fbd1c84f8593c483923648f5ff",
+              "generation": 1,
+              "revision": 2,
+              "type": "buffering",
+              "pid": 8596,
+              "position100ns": 0,
+              "readyEnd100ns": 120000000,
+              "completionWaiters": 0
+            },
+            "providerLeasesReleased": true
+          },
+          {
+            "mode": "stop",
+            "readsAtOverlap": 902,
+            "uiPingMilliseconds": [
+              0.0596,
+              0.033,
+              0.028
+            ],
+            "notification": {
+              "schemaVersion": 1,
+              "sessionId": "db5685b2fee943b7b28fdf3813afa268",
+              "generation": 1,
+              "revision": 1,
+              "type": "buffering",
+              "pid": 10864,
+              "position100ns": 0,
+              "readyEnd100ns": 50000000,
+              "completionWaiters": 0
+            },
+            "providerLeasesReleased": true
+          },
+          {
+            "mode": "unchanged-truncate",
+            "readsAtOverlap": 0,
+            "uiPingMilliseconds": [],
+            "notification": {
+              "schemaVersion": 1,
+              "sessionId": "0843c4717fab4d8bb90b937fa82db32c",
+              "generation": 1,
+              "revision": 1,
+              "type": "error",
+              "pid": 13724,
+              "position100ns": 0,
+              "readyEnd100ns": 50000000,
+              "completionWaiters": 0
+            },
+            "providerLeasesReleased": true
+          }
+        ]
+      },
+      "opening": {
+        "contract": "legacy-opening",
+        "result": "PASS",
+        "cases": [
+          {
+            "mode": "commit",
+            "actualMediaOpenBlocked": true,
+            "uiPingMilliseconds": [
+              0.0842,
+              0.0831,
+              0.0584
+            ],
+            "notification": {
+              "schemaVersion": 1,
+              "sessionId": "2e2cb502bb034abca94e73d31b06846b",
+              "generation": 1,
+              "revision": 1,
+              "type": "playing",
+              "pid": 3284,
+              "position100ns": 0,
+              "readyEnd100ns": 120000000,
+              "completionWaiters": 0
+            },
+            "providerLeasesReleased": true
+          },
+          {
+            "mode": "close",
+            "actualMediaOpenBlocked": true,
+            "uiPingMilliseconds": [
+              0.3365,
+              0.1484,
+              0.0393
+            ],
+            "notification": {},
+            "providerLeasesReleased": true
+          },
+          {
+            "mode": "stop",
+            "actualMediaOpenBlocked": true,
+            "uiPingMilliseconds": [
+              0.3339,
+              0.1211,
+              0.2009
+            ],
+            "notification": {},
+            "providerLeasesReleased": true
+          },
+          {
+            "mode": "timeout",
+            "actualMediaOpenBlocked": true,
+            "uiPingMilliseconds": [
+              0.1414,
+              0.1547,
+              0.1806
+            ],
+            "notification": {},
+            "providerLeasesReleased": true
+          }
+        ]
+      },
+      "installedShellRegistrationUnchanged": true,
+      "taskCleanup": {
+        "taskRemoved": true,
+        "lastTaskResult": 0
+      }
+    },
+    "nativeMedia": {
+      "passed": 132,
+      "linuxCtestExitCode": 0,
+      "windowsCtestExitCode": 0,
+      "asanUbsanExitCode": 0,
+      "leakDetection": true,
+      "cases": [
+        "full-uint64-counters-and-real-source-bytes",
+        "internal-leases-close-after-last-media-owner",
+        "unconfirmed-tail-is-waiting-and-short-read",
+        "rename-pins-original-identity-and-complete-allows-eof",
+        "invalid-generation-update-keeps-current-reader",
+        "changed-init-fails-persistently-even-after-restoration",
+        "unsupported-clock",
+        "negative-timestamp-offset",
+        "indexed-container-not-fmp4",
+        "unsupported-codec-hint",
+        "initialization-not-ready",
+        "wait-for-complete-head-moov",
+        "external-data-reference",
+        "encrypted-avc-rejected",
+        "actual-codec-overrides-false-h264-hint",
+        "actual-aac-object-type-must-be-lc",
+        "cancel-unblocks-media-and-closes-leases",
+        "hevc8-actual-initialization-and-resource-leases",
+        "hevc8-discover-without-codec-hint",
+        "hevc8-false-h264-hint",
+        "hevc10-actual-initialization-and-resource-leases",
+        "hevc10-discover-without-codec-hint",
+        "hevc10-false-h264-hint",
+        "hevc-config-version",
+        "hevc-config-reserved-bits",
+        "hevc-unsupported-profile",
+        "hevc-unsupported-chroma",
+        "hevc-invalid-nal-length-size",
+        "hevc-missing-parameter-arrays",
+        "hevc-excessive-parameter-arrays",
+        "hevc-incomplete-hvc1-parameter-array",
+        "hevc-parameter-nal-out-of-bounds",
+        "hevc-parameter-nal-header-mismatch",
+        "hevc-parameter-nal-zero-temporal-id",
+        "hevc-encrypted-sample-entry",
+        "hevc-invalid-data-reference",
+        "hevc-external-data-reference",
+        "hevc-confirmed-range-is-waiting",
+        "hevc-init-rewrite-is-persistent-error",
+        "hevc-cancel-closes-resource-leases",
+        "av1-8-actual-initialization-and-resource-leases",
+        "av1-8-discover-without-codec-hint",
+        "av1-8-false-hevc-hint",
+        "av1-10-actual-initialization-and-resource-leases",
+        "av1-10-discover-without-codec-hint",
+        "av1-10-false-hevc-hint",
+        "av1-sequence-header-in-configuration-required",
+        "av1-configuration-marker",
+        "av1-configuration-version",
+        "av1-high-profile",
+        "av1-invalid-level",
+        "av1-twelve-bit",
+        "av1-monochrome",
+        "av1-unsupported-chroma",
+        "av1-reserved-configuration-bits",
+        "av1-presentation-delay",
+        "av1-obu-forbidden-bit",
+        "av1-obu-missing-size",
+        "av1-obu-reserved-bit",
+        "av1-obu-unsupported-type",
+        "av1-metadata-before-sequence",
+        "av1-obu-zero-payload",
+        "av1-obu-payload-overrun",
+        "av1-obu-truncated-size",
+        "av1-sequence-config-profile-mismatch",
+        "av1-encrypted-sample-entry",
+        "av1-invalid-data-reference",
+        "av1-confirmed-range-is-waiting",
+        "av1-init-rewrite-is-persistent-error",
+        "av1-cancel-closes-resource-leases",
+        "vp9-8-actual-initialization-and-resource-leases",
+        "vp9-8-discover-without-codec-hint",
+        "vp9-8-false-av1-hint",
+        "vp9-10-actual-initialization-and-resource-leases",
+        "vp9-10-discover-without-codec-hint",
+        "vp9-10-false-av1-hint",
+        "vp9-missing-configuration",
+        "vp9-truncated-configuration",
+        "vp9-version",
+        "vp9-flags",
+        "vp9-profile-1",
+        "vp9-profile-3",
+        "vp9-invalid-level",
+        "vp9-profile-depth-mismatch",
+        "vp9-twelve-bit",
+        "vp9-chroma-422",
+        "vp9-chroma-444",
+        "vp9-chroma-reserved",
+        "vp9-primaries-reserved",
+        "vp9-transfer-reserved",
+        "vp9-matrix-reserved",
+        "vp9-rgb-matrix-with-420",
+        "vp9-nonzero-init-size",
+        "vp9-encrypted-sample-entry",
+        "vp9-invalid-data-reference",
+        "vp9-external-data-reference",
+        "vp9-colocated-chroma-and-fullrange",
+        "vp9-confirmed-range-is-waiting",
+        "vp9-init-rewrite-is-persistent-error",
+        "vp9-cancel-closes-resource-leases",
+        "opus-1-actual-init-and-resource-leases",
+        "opus-1-discover-without-codec-hint",
+        "opus-1-false-aac-hint",
+        "opus-2-actual-init-and-resource-leases",
+        "opus-2-discover-without-codec-hint",
+        "opus-2-false-aac-hint",
+        "opus-short-config",
+        "opus-missing-config",
+        "opus-config-version",
+        "opus-zero-channels",
+        "opus-multichannel",
+        "opus-mapping-family-1",
+        "opus-mapping-family-reserved",
+        "opus-preskip-edit-mismatch",
+        "opus-sample-version",
+        "opus-sample-channel-mismatch",
+        "opus-sample-size",
+        "opus-sample-rate",
+        "opus-media-clock",
+        "opus-edit-flags",
+        "opus-multiple-edits",
+        "opus-edit-version",
+        "opus-edit-rate",
+        "opus-external-data-reference",
+        "opus-invalid-data-reference",
+        "opus-encrypted-entry",
+        "opus-encrypted-config",
+        "opus-missing-edit-list",
+        "opus-informational-input-rate-and-signed-gain",
+        "opus-confirmed-range-is-waiting",
+        "opus-init-rewrite-is-persistent-error",
+        "opus-cancel-closes-resource-leases"
+      ]
+    },
+    "fragmentClocks": {
+      "passed": 7,
+      "exitCode": 0,
+      "compares": [
+        "offset",
+        "size",
+        "PTS",
+        "DTS",
+        "sync"
+      ],
+      "toleranceSeconds": 1e-06,
+      "schemaOneOpusRejection": true,
+      "videoCodecAdmissionDoesNotAdmitOpus": true,
+      "opusPrimingSamples": 312,
+      "trimmedOpusPrimingSamples": 4800,
+      "prerollMilliseconds": 80,
+      "negativeTimelinePreroll": true,
+      "signedMinimumSeekSaturates": true
+    },
+    "fragmentIndexAsanUbsan": {
+      "exitCode": 0,
+      "result": "PASS",
+      "cases": 16,
+      "leakDetection": true,
+      "signedClockBoundary": true
+    },
+    "pythonSdk": {
+      "passed": 35,
+      "exitCode": 0
+    },
+    "familyContract": {
+      "passed": 2,
+      "exitCode": 0
+    }
+  },
+  "initialRuns": {
+    "linuxQt": {
+      "ctestExitCode": 8,
+      "description": "QtTest watchdog aborted the enlarged data-driven function; 56 PASS/1 fatal, source suite 19 PASS. CTest 840 s and explicit QTEST_FUNCTION_TIMEOUT 720000 ms now bound the complete suite; writer deadline remains 60 s."
+    },
+    "windowsQt": {
+      "ctestExitCode": 8,
+      "description": "77 PASS/1 failure: immediate empty registry assertion after close in HEVC8. Final harness separately requires every retained receipt to be released AND filesClosed before explicitly forgetting it; active readers still fail."
+    },
+    "classicExternalApi": {
+      "exitCode": 0,
+      "description": "Test used WM_COPYDATA seek without /slave master; Classic correctly did not execute that external command. Harness now uses ordinary jump command in its isolated INI (JumpDistM=2000)."
+    },
+    "classicSecondRun": {
+      "exitCode": 0,
+      "description": "VP9/Opus reached buffering at position 11.0093821 but test did not observe playing >=10 s before deadline. Focused final-build VP9/Opus playback and seek passed, then complete final-build matrix repeated."
+    },
+    "classicFocusedFinalBuild": {
+      "exitCode": 0,
+      "result": [
+        {
+          "contract": "v2-media",
+          "result": {
+            "profile": "vp9-8-opus",
+            "expectedVideoCodec": "vp9",
+            "expectedAudioCodec": "opus",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "initialRevision": "9007199254740993",
+            "networkRequests": 0,
+            "cancelRestartAndReaderGuards": true,
+            "backwardSeekWhileIncomplete": true,
+            "playingWhilePhysicallyIncomplete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "180e9801c19b484abcd8ce16c0ec5b0c",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "5c7bc707b99329577876b4dfc5b3125b",
+              "schemaVersion": 2,
+              "generation": "18446744073709551615",
+              "revision": "9007199254740994",
+              "writerInstanceId": "93b96619e23d4f1fb0790cc4ee384d9e",
+              "mediaMode": "separate-fmp4-vp9-opus",
+              "videoCodec": "vp9",
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "video": "499736",
+                "audio": "300143"
+              },
+              "positionSeconds": 10.0181704,
+              "availableSeconds": 11.9935,
+              "durationSeconds": 20.0
+            },
+            "incompleteBytes": [
+              321892,
+              210667
+            ],
+            "fullBytes": [
+              538907,
+              351680
+            ],
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "180e9801c19b484abcd8ce16c0ec5b0c",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 2,
+              "generation": "18446744073709551615",
+              "revision": "9007199254740995",
+              "writerInstanceId": "93b96619e23d4f1fb0790cc4ee384d9e",
+              "mediaMode": "separate-fmp4-vp9-opus",
+              "videoCodec": "vp9",
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "video": "714627",
+                "audio": "438137"
+              },
+              "released": true,
+              "readerId": "5c7bc707b99329577876b4dfc5b3125b"
+            },
+            "release": {
+              "version": 1,
+              "ok": true,
+              "readerId": "5c7bc707b99329577876b4dfc5b3125b",
+              "released": true,
+              "reader": {
+                "version": 1,
+                "readerId": "5c7bc707b99329577876b4dfc5b3125b",
+                "sessionId": "180e9801c19b484abcd8ce16c0ec5b0c",
+                "generation": "18446744073709551615",
+                "pid": 13528,
+                "birth": "134375715496477875",
+                "filesClosed": true,
+                "resources": [
+                  {
+                    "id": "video",
+                    "device": "656024512",
+                    "fileId": "126382264543271465"
+                  },
+                  {
+                    "id": "audio",
+                    "device": "656024512",
+                    "fileId": "62768919806663364"
+                  }
+                ],
+                "released": true,
+                "reason": "files-closed"
+              }
+            },
+            "result": "PASS"
+          }
+        }
+      ]
+    },
+    "cleanupWhileRunning": {
+      "exitCode": 1,
+      "description": "Cleanup refused a still-running test and did not remove it. Completed task was subsequently replaced by retry; final task removed with LastTaskResult=0."
+    }
+  },
+  "fixtures": [
+    {
+      "directory": "progressive-opus-1",
+      "channels": 1,
+      "stream": {
+        "index": 0,
+        "codec_name": "opus",
+        "codec_long_name": "Opus (Opus Interactive Audio Codec)",
+        "codec_type": "audio",
+        "codec_tag_string": "Opus",
+        "codec_tag": "0x7375704f",
+        "sample_fmt": "fltp",
+        "sample_rate": "48000",
+        "channels": 1,
+        "channel_layout": "mono",
+        "bits_per_sample": 0,
+        "initial_padding": 312,
+        "id": "0x1",
+        "r_frame_rate": "0/0",
+        "avg_frame_rate": "0/0",
+        "time_base": "1/48000",
+        "start_pts": -312,
+        "start_time": "-0.006500",
+        "duration_ts": 960312,
+        "duration": "20.006500",
+        "bit_rate": "125310",
+        "extradata_size": 19,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "SoundHandler",
+          "vendor_id": "[0][0][0][0]"
+        }
+      },
+      "sha256": "db95b9670d7454b7bb58f7c6dbea0bf5f8b7201a5608be1c43d1e55326278dc7"
+    },
+    {
+      "directory": "progressive-opus-2",
+      "channels": 2,
+      "stream": {
+        "index": 0,
+        "codec_name": "opus",
+        "codec_long_name": "Opus (Opus Interactive Audio Codec)",
+        "codec_type": "audio",
+        "codec_tag_string": "Opus",
+        "codec_tag": "0x7375704f",
+        "sample_fmt": "fltp",
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo",
+        "bits_per_sample": 0,
+        "initial_padding": 312,
+        "id": "0x1",
+        "r_frame_rate": "0/0",
+        "avg_frame_rate": "0/0",
+        "time_base": "1/48000",
+        "start_pts": -312,
+        "start_time": "-0.006500",
+        "duration_ts": 960312,
+        "duration": "20.006500",
+        "bit_rate": "137649",
+        "extradata_size": 19,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "SoundHandler",
+          "vendor_id": "[0][0][0][0]"
+        }
+      },
+      "sha256": "fd35a4f272afa36830b043234adafd10543c240fb4c22c5f7b16e4a7df222c78"
+    }
+  ],
+  "linuxInstall": {
+    "installedSha256": "2f6601b02bf6e5c018b12306626e56b93d8227d570c62bef778bee5744d79d56",
+    "previousInstalledSha256": "9e02955dea4c476c1c59a37821ac4279f8e779f89309a6d8cc978998fd64ba33",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.17-20261027T105548Z",
+    "profileSha256Before": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileSha256After": "ac9387b8d09f63317ed8ea3b681abad96e5abe8890400d4db6540017e3acde75",
+    "profileUnchanged": true,
+    "version": "FoxicMPQt 0.2.0",
+    "capabilities": {
+      "audioCodecs": [
+        "aac-lc",
+        "opus"
+      ],
+      "av1BitDepths": [
+        8,
+        10
+      ],
+      "av1Profiles": [
+        "main"
+      ],
+      "av1SampleEntries": [
+        "av01"
+      ],
+      "av1SequenceHeaderInConfigurationRequired": true,
+      "durationRequired": true,
+      "hevcBitDepths": [
+        8,
+        10
+      ],
+      "hevcProfiles": [
+        "main",
+        "main10"
+      ],
+      "hevcSampleEntries": [
+        "hvc1",
+        "hev1"
+      ],
+      "initializationLimitBytes": 1048576,
+      "live": false,
+      "metadataApplied": false,
+      "mode": "separate-fmp4-h264-aac-lc",
+      "muxed": false,
+      "negativeTimestampOffset": false,
+      "opusChannelMappingFamilies": [
+        0
+      ],
+      "opusChannels": [
+        1,
+        2
+      ],
+      "opusEditListRequired": true,
+      "opusPrerollMilliseconds": 80,
+      "opusSampleRate": 48000,
+      "profiles": [
+        "separate-fmp4-h264-aac-lc",
+        "separate-fmp4-hevc-aac-lc",
+        "separate-fmp4-av1-aac-lc",
+        "separate-fmp4-vp9-aac-lc",
+        "separate-fmp4-h264-opus",
+        "separate-fmp4-hevc-opus",
+        "separate-fmp4-av1-opus",
+        "separate-fmp4-vp9-opus"
+      ],
+      "segments": false,
+      "separateResourcesRequired": true,
+      "timebase": {
+        "denominator": 10000000,
+        "numerator": 1
+      },
+      "trackCount": 2,
+      "videoCodecs": [
+        "h264",
+        "hevc",
+        "av1",
+        "vp9"
+      ],
+      "vp9BitDepths": [
+        8,
+        10
+      ],
+      "vp9Profiles": [
+        0,
+        2
+      ],
+      "vp9SampleEntries": [
+        "vp09"
+      ]
+    }
+  },
+  "limitations": [
+    "Only Opus mono/stereo mapping family 0, 48 kHz media clock, separate fMP4 video/audio, one matching pre-skip media edit, known VOD duration",
+    "Fixed 80 ms Classic preroll including available packets before timeline zero; arbitrary custom roll groups not qualified",
+    "Qt active audio codec/rate, changing decoded video framebuffer and decoder pixel format before complete; no physical audio output or waveform timing measurement",
+    "Classic graph/status and decoder-read bytes, no optical display or physical audio measurement",
+    "No physical A/V synchronization, 30-minute drift, HDR/10-bit Qt output or 4K realtime qualification",
+    "WebM/MKV/Ogg/multichannel/muxed/remux/metadata/live and actual Harvester remain outstanding",
+    "Installed Windows EXE/profiles unchanged; no hardware or Wayland qualification"
+  ]
+}

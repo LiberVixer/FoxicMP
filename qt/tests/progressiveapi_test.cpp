@@ -611,7 +611,7 @@ private slots:
   }
   void schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete_data() {
     QTest::addColumn<QString>("mediaProfile");
-    for(const auto* profile:{"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10"})QTest::newRow(profile)<<QString(profile);
+    for(const auto* profile:{"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10","h264-opus","h264-opus-mono","hevc8-opus","hevc10-opus","av1-8-opus","av1-10-opus","vp9-8-opus","vp9-10-opus"})QTest::newRow(profile)<<QString(profile);
   }
   void schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete() {
     QFETCH(QString,mediaProfile);
@@ -619,13 +619,18 @@ private slots:
     const auto cleanup=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
     Profile profile(dir);prepare(profile);Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
     auto* player=w.findChild<Player*>();QVERIFY(player);
-    QByteArray firstFrame;bool changingDecodedVideo=false;QString decodedFormat,decodedPixelFormat;
+    QByteArray firstFrame;bool changingDecodedVideo=false,seekRequested=false,seekObserved=false;QString decodedFormat,decodedPixelFormat,decodedAudio;int decodedAudioRate=0;
     QTimer decoderSample;decoderSample.setInterval(100);
     connect(&decoderSample,&QTimer::timeout,this,[&]{
       if(!w.progressiveSession() || w.progressiveSession()->status().complete)return;
       const auto seconds=player->get("time-pos").toDouble();
       if(seconds<1 || player->get("dwidth").toInt()!=320)return;
+      if(mediaProfile.contains("-opus")) {
+        if(seekRequested && seconds<3)seekObserved=true;
+        if(!seekRequested && seconds>=4)seekRequested=w.seekTo(2);
+      }
       decodedFormat=player->get("video-format").toString();
+      decodedAudio=player->get("audio-codec-name").toString();decodedAudioRate=player->get("audio-params/samplerate").toInt();
       decodedPixelFormat=player->get("video-dec-params/pixelformat").toString();
       const auto frame=player->grabFramebuffer();if(frame.isNull())return;
       const auto bytes=QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes());
@@ -640,11 +645,16 @@ private slots:
     QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
     QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,60000);
     QVERIFY2(writer.exitCode()==0,writer.readAllStandardError().constData());
-    const auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));
+    auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));
+    if(mediaProfile.contains("-opus"))result["backwardSeekWhileIncomplete"]=seekObserved;
     decoderSample.stop();
-    QCOMPARE(decodedFormat,mediaProfile.startsWith("vp9-")?QString("vp9"):mediaProfile.startsWith("av1-")?QString("av1"):mediaProfile=="h264"?QString("h264"):QString("hevc"));
+    QCOMPARE(decodedFormat,mediaProfile.startsWith("vp9-")?QString("vp9"):mediaProfile.startsWith("av1-")?QString("av1"):mediaProfile.startsWith("h264")?QString("h264"):QString("hevc"));
     QVERIFY2(changingDecodedVideo,"No changing decoded video frames before writer complete");
-    if(mediaProfile=="hevc10" || mediaProfile=="av1-10" || mediaProfile=="vp9-10")QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
+    if(mediaProfile.startsWith("hevc10") || mediaProfile.startsWith("av1-10") || mediaProfile.startsWith("vp9-10"))QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
+    QVERIFY2(decodedAudio.contains(mediaProfile.contains("-opus")?"opus":"aac",Qt::CaseInsensitive),qPrintable(decodedAudio));
+    QCOMPARE(decodedAudioRate,48000);
+    if(mediaProfile.contains("-opus")){QVERIFY(seekRequested);QVERIFY(seekObserved);}
+    qInfo().noquote()<<"Decoded audio:"<<mediaProfile<<decodedAudio<<decodedAudioRate;
     qInfo().noquote()<<"Decoded video:"<<mediaProfile<<decodedFormat<<decodedPixelFormat<<"changing frames before complete";
     qInfo().noquote()<<"Schema-2 media report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
     QVERIFY(result["playingWhilePhysicallyIncomplete"].toObject()["positionSeconds"].toDouble()>=10);

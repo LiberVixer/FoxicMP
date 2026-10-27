@@ -43,6 +43,14 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Progressive Opus (SDK 1.17)
+
+[Opus mono/stereo + H.264/HEVC/AV1/VP9 в отдельных fMP4](ProgressiveOpus.md)
+добавлен в schema 2 трёх редакций. Нужны mapping family 0 и согласованный
+pre-skip/edit; проверять schema2Playback.profiles/audioCodecs текущего EXE.
+Python интерфейс прежний; WebM/MKV, multichannel, remux/live и metadata остаются
+отдельными этапами. Установщики 0.2.0 этим SDK не обновляются.
+
 ## Progressive VP9 (SDK 1.16)
 
 [VP9 Profile 0/2, 8/10-bit + AAC-LC fMP4](ProgressiveVp9.md) добавлен в schema 2

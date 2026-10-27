@@ -35,3 +35,6 @@ generate_av1(root)
 
 from generate_vp9_media import generate as generate_vp9
 generate_vp9(root)
+
+from generate_opus_media import generate as generate_opus
+generate_opus(root)

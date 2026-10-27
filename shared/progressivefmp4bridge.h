@@ -1,4 +1,4 @@
-// Bounded schema-2 H.264/HEVC/AV1/VP9 + AAC-LC fMP4 profiles. GPL-3.0-or-later.
+// Bounded schema-2 H.264/HEVC/AV1/VP9 + AAC-LC/Opus fMP4 profiles. GPL-3.0-or-later.
 // Reuses the proven fMP4 demuxers; ALL index and decoder bytes use ResourceSource.
 #pragma once
 #include "progressiveresourceio.h"
@@ -7,7 +7,7 @@
 
 namespace foxicmp { namespace progressive {
 inline const char* Fmp4V2Capabilities() {
-    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc"],"videoCodecs":["h264","hevc","av1","vp9"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
+    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus"],"audioCodecs":["aac-lc","opus"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
 }
 class Fmp4V2Bridge {
     Snapshot model;
@@ -22,7 +22,7 @@ class Fmp4V2Bridge {
     std::array<uint64_t,2> initOffsets{};
     std::atomic<uint64_t> decoderBytes[2]{};
     std::string failure;
-    std::string videoCodecName;
+    std::string videoCodecName,audioCodecName;
     mutable std::mutex mutex;
     static void supported(bool ok,const char* text) {Require(ok,"mediaProfile",text,"unsupported_media");}
     static harvester::State state(const std::string& text) {
@@ -47,7 +47,7 @@ class Fmp4V2Bridge {
             const auto& track=item.second;const int index=track.kind=="video"?0:track.kind=="audio"?1:-1;
             supported(index>=0 && !found[index] && track.required && !track.resource.empty() && track.segments.empty() && track.initialization.empty(),
                       "Media v2 currently supports one required video and one required audio track, without segments or external init");
-            supported(track.container=="fmp4" && (track.codec.empty() || (index?track.codec=="aac-lc":track.codec=="h264" || track.codec=="hevc" || track.codec=="av1" || track.codec=="vp9")),"Use the fmp4 container profile with H.264/HEVC/AV1/VP9 and AAC-LC");
+            supported(track.container=="fmp4" && (track.codec.empty() || (index?(track.codec=="aac-lc" || track.codec=="opus"):track.codec=="h264" || track.codec=="hevc" || track.codec=="av1" || track.codec=="vp9")),"Use the fmp4 container profile with H.264/HEVC/AV1/VP9 and AAC-LC/Opus");
             const auto& resource=snapshot.resources.at(track.resource);supported(!resource.retired,"Cannot start media from a retired resource");
             auto& output=result.tracks[index];output.path=resource.name;output.container=index?"m4a":"mp4";
             output.fragmented=true;output.initializationReady=track.initializationReady;output.available=prefix(resource);output.total=resource.known?resource.length:0;
@@ -150,6 +150,21 @@ class Fmp4V2Bridge {
         supported(b[9]==1 || b[9]==2 || (b[9]>=4 && b[9]<=14),"Invalid VP9 matrix for 4:2:0");
         supported(b[10]==0 && b[11]==0,"VP9 codec initialization data must be empty");
     }
+    static void opusConfiguration(harvester::BoxData sample,harvester::BoxData config,harvester::BoxData movie) {
+        supported(config.size==11 && config.data[0]==0,"Invalid Opus configuration size/version");
+        const auto channels=config.data[1];
+        supported((channels==1 || channels==2) && config.data[10]==0,"Only Opus mono/stereo mapping family 0 is enabled");
+        supported(sample.U32(16)==(uint32_t(channels)<<16 | 16) && sample.U32(24)==(48000u<<16),"Invalid Opus sample-entry channels/size/rate");
+        const auto media=movie.One("trak").One("mdia");const auto mdhd=media.One("mdhd");
+        supported(mdhd.size>=4 && mdhd.data[0]<=1 && mdhd.U32(mdhd.data[0]?20:12)==48000,"Opus requires a 48 kHz media clock");
+        const auto edit=movie.One("trak").One("edts").One("elst");
+        supported(edit.size>=8 && edit.data[0]<=1 && !(edit.U32(0)&0xffffff) && edit.U32(4)==1,"Opus requires one media edit");
+        const bool wide=edit.data[0]!=0;
+        supported(edit.size==(wide?28u:20u),"Invalid Opus edit-list length");
+        const auto start=wide?edit.U64(16):uint64_t(edit.U32(12));
+        const auto skip=(uint32_t(config.data[2])<<8)|config.data[3];
+        supported(start==skip && edit.U32(wide?24:16)==0x00010000,"Opus media edit must match pre-skip with unit rate");
+    }
     static std::string codec(int track,harvester::BoxData movie) {
         auto media=movie.One("trak").One("mdia");auto minf=media.One("minf");
         auto dref=minf.One("dinf").One("dref");supported(dref.size>=8 && dref.U32(4)==1,"External media references are not supported");
@@ -177,9 +192,10 @@ class Fmp4V2Bridge {
             hevcConfiguration(children.One("hvcC"),type==harvester::FourCC("hvc1"));
             return "hevc";
         }else {
-            supported(type==harvester::FourCC("mp4a"),"Unsupported audio sample entry");
-            supported(sample.size>=28 && sample.data[8]==0 && sample.data[9]==0,"Only version-zero AAC sample entries are supported");
-            auto children=sample.Slice(28,sample.size-28);supported(!children.One("sinf",true).data,"Encrypted AAC is unsupported");
+            supported(type==harvester::FourCC("mp4a") || type==harvester::FourCC("Opus"),"Unsupported audio sample entry");
+            supported(sample.size>=28 && sample.data[8]==0 && sample.data[9]==0,"Only version-zero audio sample entries are supported");
+            auto children=sample.Slice(28,sample.size-28);supported(!children.One("sinf",true).data,"Encrypted audio is unsupported");
+            if(type==harvester::FourCC("Opus")) {opusConfiguration(sample,children.One("dOps"),movie);return "opus";}
             auto esds=children.One("esds");supported(esds.size>=4,"Invalid AAC initialization");auto es=descriptor(esds.Slice(4,esds.size-4),3);
             supported(es.size>=3 && es.data[2]==0,"External/dependent AAC descriptors are unsupported");auto config=descriptor(es.Slice(3,es.size-3),4);
             supported(config.size>=13 && config.data[0]==0x40 && (config.data[1]>>2)==5,"Expected MPEG-4 AAC");
@@ -203,7 +219,7 @@ class Fmp4V2Bridge {
                     const auto actual=codec(track,{reinterpret_cast<const uint8_t*>(bytes.data()),bytes.size()});
                     for(const auto& item:model.tracks)if(item.second.kind==(track?"audio":"video"))
                         supported(item.second.codec.empty() || item.second.codec==actual,"Codec hint does not match the actual sample entry");
-                    if(!track)videoCodecName=actual;
+                    if(!track)videoCodecName=actual;else audioCodecName=actual;
                 }
                 catch(const Error&){throw;}
                 catch(const std::exception&){throw Error("unsupported_media","initialization","Invalid or unsupported fMP4 codec initialization");}
@@ -218,6 +234,7 @@ class Fmp4V2Bridge {
     }
 public:
     const std::string& videoCodec() const {return videoCodecName;}
+    const std::string& audioCodec() const {return audioCodecName;}
     static void CheckProfile(const std::string& json){map(Parse(json));}
     Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):model(Parse(json)),identityGeneration(model.generation),identityWriter(model.writer),detailsRevision(model.revision),registry(receipts) {
         legacy=map(model,&resourceIds);source=std::make_shared<ResourceSource>(root,receipts,json);
@@ -252,7 +269,8 @@ public:
         rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);
         d.AddMember("generation",Value(std::to_string(identityGeneration).c_str(),a),a);d.AddMember("revision",Value(std::to_string(detailsRevision.load()).c_str(),a),a);
         d.AddMember("writerInstanceId",Value(identityWriter.c_str(),a),a);
-        d.AddMember("mediaMode",Value(videoCodecName=="vp9"?"separate-fmp4-vp9-aac-lc":videoCodecName=="hevc"?"separate-fmp4-hevc-aac-lc":videoCodecName=="av1"?"separate-fmp4-av1-aac-lc":"separate-fmp4-h264-aac-lc",a),a);d.AddMember("videoCodec",Value(videoCodecName.c_str(),a),a);Value bytes(rapidjson::kObjectType);
+        const auto mode="separate-fmp4-"+videoCodecName+"-"+audioCodecName;
+        d.AddMember("mediaMode",Value(mode.c_str(),a),a);d.AddMember("videoCodec",Value(videoCodecName.c_str(),a),a);d.AddMember("audioCodec",Value(audioCodecName.c_str(),a),a);Value bytes(rapidjson::kObjectType);
         bytes.AddMember("video",Value(std::to_string(decoderBytes[0].load()).c_str(),a),a);bytes.AddMember("audio",Value(std::to_string(decoderBytes[1].load()).c_str(),a),a);d.AddMember("decoderIoBytes",bytes,a);
         return lease_detail::Encode(d);
     }

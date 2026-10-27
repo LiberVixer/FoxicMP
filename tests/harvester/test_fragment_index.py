@@ -97,6 +97,44 @@ class FragmentTests(unittest.TestCase):
                     self.assertAlmostEqual(int(indexed['start'])/1e7,float(packet['pts_time']),delta=.000001)
                     self.assertAlmostEqual(int(indexed['decode'])/1e7,float(packet['dts_time']),delta=.000001)
                     self.assertEqual(bool(int(indexed['sync'])),'K' in packet['flags'])
+    def test_opus_clocks_priming_and_seek_preroll(self):
+        for channels in (1,2):
+            with self.subTest(channels=channels):
+                path=self.root/('opus-'+str(channels)+'.mp4')
+                subprocess.run(['ffmpeg','-v','error','-y','-f','lavfi','-i','sine=frequency=880:sample_rate=48000:duration=4',
+                    '-ac',str(channels),'-c:a','libopus','-movflags','+delay_moov+frag_keyframe+default_base_moof',
+                    '-frag_duration','1000000',str(path)],check=True)
+                for mode in ('','hevc','av1','vp9'):
+                    rejected=subprocess.run([str(self.exe),str(path),'1',mode],capture_output=True,text=True)
+                    self.assertNotEqual(rejected.returncode,0);self.assertIn('Unsupported fragment sample entry',rejected.stderr)
+                accepted=subprocess.run([str(self.exe),str(path),'1','opus'],capture_output=True,text=True,check=True)
+                rows=list(csv.DictReader(io.StringIO(accepted.stdout)))
+                packets=json.loads(subprocess.check_output(['ffprobe','-v','quiet','-show_packets','-of','json',str(path)]))['packets']
+                self.assertEqual(len(rows),len(packets));self.assertEqual(int(rows[0]['start']),-65000)
+                self.assertEqual(int(rows[-1]['end']),40000000)
+                for indexed,packet in zip(rows,packets):
+                    self.assertEqual(int(indexed['offset']),int(packet['pos']));self.assertEqual(int(indexed['size']),int(packet['size']))
+                    self.assertAlmostEqual(int(indexed['start'])/1e7,float(packet['pts_time']),delta=.000001)
+                    self.assertAlmostEqual(int(indexed['decode'])/1e7,float(packet['dts_time']),delta=.000001)
+                    self.assertTrue(bool(int(indexed['sync'])))
+                for position in (0,500000,11510000,20000000):
+                    first=int(subprocess.check_output([str(self.exe),str(path),'1','opus',str(position)]))
+                    target=max(0,position-800000)
+                    self.assertLessEqual(int(rows[first]['start']),target)
+                    self.assertGreater(int(rows[first]['end']),target)
+                    if position>=800000:self.assertGreaterEqual(position-int(rows[first]['start']),800000)
+                # A trimmed stream can have >80 ms of real packets before timeline zero.
+                # Seeking to zero must retain that preroll instead of clamping to zero.
+                data=bytearray(path.read_bytes());at=data.index(b'dOps');struct.pack_into('>H',data,at+6,4800)
+                at=data.index(b'elst');struct.pack_into('>I',data,at+16,4800)
+                trimmed=path.with_name('trimmed-'+path.name);trimmed.write_bytes(data)
+                csv_text=subprocess.check_output([str(self.exe),str(trimmed),'1','opus'],text=True)
+                trimmed_rows=list(csv.DictReader(io.StringIO(csv_text)))
+                first=int(subprocess.check_output([str(self.exe),str(trimmed),'1','opus','0']))
+                self.assertLessEqual(int(trimmed_rows[first]['start']),-800000)
+                self.assertGreater(int(trimmed_rows[first]['end']),-800000)
+                first=int(subprocess.check_output([str(self.exe),str(trimmed),'1','opus',str(-(1<<63))]))
+                self.assertEqual(first,0)
     def test_incomplete_final_packet_is_rejected(self):
         data=(self.root/'video.mp4').read_bytes();position=0;end=0
         while position<len(data):

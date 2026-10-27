@@ -2311,13 +2311,14 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         if(!entry)return VFW_E_UNSUPPORTED_STREAM;
         const auto type=entry->GetType();
         const auto session=progressive->GetSession();
-        const bool validatedFragments=!kind && movie->HasFragments()
+        const bool validatedOpus=kind && movie->HasFragments() && session->AllowsOpusFragments() && type==AP4_ATOM_TYPE_Opus;
+        const bool validatedFragments=validatedOpus || (!kind && movie->HasFragments()
             && ((session->AllowsHevcFragments() && (type==AP4_ATOM_TYPE_HVC1 || type==AP4_ATOM_TYPE_HEV1))
                 || (session->AllowsAv1Fragments() && type==AP4_ATOM_TYPE_av01)
-                || (session->AllowsVp9Fragments() && type==AP4_ATOM_TYPE_vp09));
+                || (session->AllowsVp9Fragments() && type==AP4_ATOM_TYPE_vp09)));
         if(type!=(kind?AP4_ATOM_TYPE('m','p','4','a'):AP4_ATOM_TYPE('a','v','c','1')) && !validatedFragments)
             return VFW_E_UNSUPPORTED_STREAM;
-		if (kind) {
+		if (kind && !validatedOpus) {
 			auto desc = dynamic_cast<AP4_MpegAudioSampleDescription*>(track->GetSampleDescription(0));
 			if (!desc || desc->GetObjectTypeId() != AP4_MPEG4_AUDIO_OTI || desc->GetMpeg4AudioObjectType() != AOT_AAC_LC) return VFW_E_UNSUPPORTED_STREAM;
 		}
@@ -2799,7 +2800,7 @@ HRESULT CMP4SplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> p)
 	return __super::DeliverPacket(std::move(p));
 }
 
-// Only the explicit single-track H.264/AAC progressive source uses this path.
+// Only the explicitly validated single-track progressive source uses this path.
 // Metadata comes from Bento4; immutable packet ranges come from confirmed whole fragments.
 bool CMP4SplitterFilter::FragmentDemuxLoop(IHarvesterReader* reader) {
     if(m_trackpos.size()!=1)return false;

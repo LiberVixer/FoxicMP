@@ -12,14 +12,33 @@ from progressive_v2 import V2PreviewSession
 from progressive_v1_conformance import fragment_prefix, reject
 
 
-def exercise(client,fixtures,work,profile="h264"):
-    assert profile in {"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10"},profile
-    codec="vp9" if profile.startswith("vp9-") else "av1" if profile.startswith("av1-") else "h264" if profile=="h264" else "hevc"
-    fixture="progressive" if profile=="h264" else "progressive-"+profile
+MEDIA_PROFILES=('h264','hevc8','hevc10','av1-8','av1-10','vp9-8','vp9-10',
+    'h264-opus','h264-opus-mono','hevc8-opus','hevc10-opus','av1-8-opus','av1-10-opus','vp9-8-opus','vp9-10-opus')
+
+
+def forget_closed_readers(client,snapshot):
+    # SDK forget is best effort. A retained receipt must prove actual file close
+    # before the stand can remove it; an active reader is always a failure.
+    remaining=client.readers(snapshot['sessionId'],int(snapshot['generation']))
+    for reader in remaining:
+        assert reader.get('released') and reader.get('filesClosed'),remaining
+        client.forget_reader(reader['readerId'])
+    assert client.readers(snapshot['sessionId'],int(snapshot['generation']))==[]
+
+
+def exercise(client,fixtures,work,profile="h264",seek=None):
+    base=profile.removesuffix("-opus").removesuffix("-opus-mono")
+    assert base in {"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10"},profile
+    audio_codec="opus" if "-opus" in profile else "aac-lc"
+    channels=1 if profile.endswith("-mono") else 2
+    codec="vp9" if base.startswith("vp9-") else "av1" if base.startswith("av1-") else "h264" if base=="h264" else "hevc"
+    fixture="progressive" if base=="h264" else "progressive-"+base
     capabilities=client.request(dict(version=1,action="capabilities"))
     if codec!="h264":assert codec in capabilities["schema2Playback"]["videoCodecs"],capabilities
     work=Path(work).resolve();work.mkdir(parents=True)
-    inputs=[(Path(fixtures)/fixture/name).read_bytes() for name in ('video.mp4','audio.m4a')]
+    audio_path=Path(fixtures)/('progressive-opus-'+str(channels))/'audio.mp4' if audio_codec=='opus' else Path(fixtures)/fixture/'audio.m4a'
+    inputs=[(Path(fixtures)/fixture/'video.mp4').read_bytes(),audio_path.read_bytes()]
+    if audio_codec=='opus':assert 'opus' in capabilities['schema2Playback']['audioCodecs'],capabilities
     paths=[work/'видео.part',work/'звук.part'];names=[path.name for path in paths]
     value=dict(schemaVersion=2,sessionId=uuid.uuid4().hex,generation='18446744073709551615',revision='9007199254740993',
         writer=dict(instanceId=uuid.uuid4().hex,state='downloading'),timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration='200000000',timestampOffset='0'),
@@ -28,11 +47,11 @@ def exercise(client,fixtures,work,profile="h264"):
         prefix=fragment_prefix(inputs[index],5);paths[index].write_bytes(inputs[index][:prefix])
         rid='res-'+kind
         value['resources'].append(dict(id=rid,name=names[index],length=None,ranges=[dict(offset='0',length=str(prefix))],state='downloading'))
-        value['tracks'].append(dict(id=kind+'-main',kind=kind,required=True,codecHint=codec if not index else 'aac-lc',containerHint='fmp4',initializationReady=True,state='downloading',source=dict(resourceId=rid)))
+        value['tracks'].append(dict(id=kind+'-main',kind=kind,required=True,codecHint=codec if not index else audio_codec,containerHint='fmp4',initializationReady=True,state='downloading',source=dict(resourceId=rid)))
     probe=client.probe(value,work);assert probe['supported'],probe
     assert client.readers(value['sessionId'],int(value['generation']))==[], 'Probe retained its resource leases'
     preview=V2PreviewSession(client,str(work),title='Schema 2: physically incomplete fMP4')
-    report=dict(profile=profile,expectedVideoCodec=codec,schemaVersion=2,generation=value['generation'],initialRevision=value['revision'],networkRequests=0)
+    report=dict(profile=profile,expectedVideoCodec=codec,expectedAudioCodec=audio_codec,schemaVersion=2,generation=value['generation'],initialRevision=value['revision'],networkRequests=0)
     try:
         started=preview.publish(value);assert started['active'] and started['schemaVersion']==2 and started['generation']==value['generation']
         assert started['revision']==value['revision'];reader=preview.reader_id
@@ -42,7 +61,7 @@ def exercise(client,fixtures,work,profile="h264"):
         detached=client.command('release',value['sessionId'],readerId=reader)
         assert detached['generation']==value['generation'] and detached['revision']==value['revision']
         assert preview.close(timeout=10)['released']
-        assert client.readers(value['sessionId'],int(value['generation']))==[]
+        forget_closed_readers(client,value)
         preview=V2PreviewSession(client,str(work),title='Schema 2: resumed preview')
         preview.publish(value);assert preview.reader_id!=reader
         reject(client,dict(version=1,action='heartbeat',sessionId=value['sessionId'],readerId=reader),'reader_mismatch')
@@ -52,22 +71,33 @@ def exercise(client,fixtures,work,profile="h264"):
             with paths[index].open('ab') as stream:stream.write(inputs[index][stream.tell():prefix])
             value['resources'][index]['ranges']=[dict(offset='0',length=str(prefix))]
         value['revision']=str(int(value['revision'])+1);preview.publish(value)
-        deadline=time.monotonic()+22
+        seek_requested=False;seek_observed=False;observations=[];clock=time.monotonic()
+        deadline=time.monotonic()+26
         while time.monotonic()<deadline:
+            before=time.monotonic()
             try:state=preview.heartbeat()
             except ApiError as error:
                 final=client.command('status',value['sessionId'],readerId=preview.reader_id)
                 raise AssertionError(('Playback closed before 10 seconds',profile,error.reply,final)) from error
+            observations.append(dict(elapsed=round(time.monotonic()-clock,3),latency=round(time.monotonic()-before,3),state=state.get('state'),position=state.get('positionSeconds')))
+            observations=observations[-80:]
             if state.get('state')=='error':raise AssertionError(state)
+            if audio_codec=='opus' and seek is not None:
+                if seek_requested and state.get('positionSeconds',10)<3:seek_observed=True
+                if not seek_requested and state.get('state')=='playing' and state.get('positionSeconds',0)>=4:
+                    seek(2);seek_requested=True;continue
             if state.get('state')=='playing' and state['positionSeconds']>=10:
                 assert all(paths[i].stat().st_size<len(inputs[i]) for i in range(2))
                 assert all(int(state['decoderIoBytes'][kind])>0 for kind in ('video','audio'))
-                assert state['videoCodec']==codec and state['mediaMode']==('separate-fmp4-'+codec+'-aac-lc'),state
+                assert state['videoCodec']==codec and state['mediaMode']==('separate-fmp4-'+codec+'-'+audio_codec) and state['audioCodec']==audio_codec,state
+                if audio_codec=='opus' and seek is not None:
+                    assert seek_requested and seek_observed,'Backward seek was not observed'
+                    report['backwardSeekWhileIncomplete']=True
                 report['playingWhilePhysicallyIncomplete']=state
                 report['incompleteBytes']=[paths[i].stat().st_size for i in range(2)]
                 report['fullBytes']=list(map(len,inputs));break
             time.sleep(.1)
-        else:raise AssertionError(('No playback to 10 seconds while incomplete',state))
+        else:raise AssertionError(('No playback to 10 seconds while incomplete',state,observations))
         for index in range(2):
             final=paths[index].with_suffix('.done');paths[index].rename(final);paths[index]=final
             with final.open('ab') as stream:stream.write(inputs[index][stream.tell():])
@@ -84,7 +114,7 @@ def exercise(client,fixtures,work,profile="h264"):
             time.sleep(.1)
         else:raise AssertionError(('No natural schema-2 finish',state))
         report['release']=preview.close(timeout=5);assert report['release']['released']
-        assert client.readers(value['sessionId'],int(value['generation']))==[]
+        forget_closed_readers(client,value)
         report['result']='PASS';return report
     finally:
         if not preview.closed:
@@ -93,7 +123,7 @@ def exercise(client,fixtures,work,profile="h264"):
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--media-profile',choices=['h264','hevc8','hevc10','av1-8','av1-10','vp9-8','vp9-10'],default='h264');parser.add_argument('--player',required=True);parser.add_argument('--profile');parser.add_argument('--fixtures',required=True);parser.add_argument('--work',required=True);parser.add_argument('--expected-pid',type=int)
+    parser=argparse.ArgumentParser();parser.add_argument('--media-profile',choices=MEDIA_PROFILES,default='h264');parser.add_argument('--player',required=True);parser.add_argument('--profile');parser.add_argument('--fixtures',required=True);parser.add_argument('--work',required=True);parser.add_argument('--expected-pid',type=int)
     args=parser.parse_args();client=ProgressiveClient(args.player,args.profile)
     if args.expected_pid is not None:assert client.request(dict(version=1,action='capabilities'))['pid']==args.expected_pid
     print(json.dumps(exercise(client,args.fixtures,args.work,args.media_profile)))

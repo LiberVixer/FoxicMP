@@ -26,12 +26,18 @@ struct BoxData {
         if(n>1 || (!n && !optional))throw std::runtime_error("Missing/duplicate MP4 box");return found;
     }
 };
+// Audio preroll includes whole packets covering at least the requested duration.
+inline size_t AudioSeekSample(const std::vector<Sample>& samples,int64_t position,int64_t preroll=0) {
+    const auto target=preroll>0?(position<INT64_MIN+preroll?INT64_MIN:position-preroll):position;
+    size_t found=0;while(found<samples.size() && samples[found].end<=target)++found;
+    return found;
+}
 // Every scanned atom and sample is bounded by the writer-confirmed prefix.
 // Index updates are atomic per whole moof/mdat, so incomplete fragments stay invisible.
 class FragmentIndex {
     uint64_t position=0;uint32_t id=0,scale=0,defaultDuration=0,defaultSize=0,defaultFlags=0;
     int64_t edit=0,lastDecode=INT64_MIN, origin=0;
-    bool initialized=false,first=true,hevcEnabled=false,av1Enabled=false,vp9Enabled=false;
+    bool initialized=false,first=true,hevcEnabled=false,av1Enabled=false,vp9Enabled=false,opusEnabled=false;
     int kind=0;
     uint64_t scannedPrefix=0;
     std::vector<Sample> samples;
@@ -40,8 +46,8 @@ public:
     uint64_t Position() const {return position;}
     const std::vector<Sample>& Samples() const {return samples;}
     bool Initialized() const {return initialized;}
-    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false) {
-        hevcEnabled=allowHevc;av1Enabled=allowAv1;vp9Enabled=allowVp9;
+    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false) {
+        hevcEnabled=allowHevc;av1Enabled=allowAv1;vp9Enabled=allowVp9;opusEnabled=allowOpus;
         if(prefix<scannedPrefix)throw std::runtime_error("Fragment prefix regressed");
         scannedPrefix=prefix;kind=trackKind;origin=timestampOffset;
         auto header=[&](uint64_t at,uint64_t& n,uint32_t& type,size_t& h) {
@@ -89,7 +95,7 @@ private:
         const auto entries=stsd.Slice(8,stsd.size-8).Children();
         if(entries.size()!=1)throw std::runtime_error("Expected one fragment sample entry");
         const auto entry=entries.front().first;
-        if(kind?entry!=FourCC("mp4a"):
+        if(kind?(entry!=FourCC("mp4a") && !(opusEnabled && entry==FourCC("Opus"))):
                 (entry!=FourCC("avc1") && !(hevcEnabled && (entry==FourCC("hvc1") || entry==FourCC("hev1")))
                  && !(av1Enabled && entry==FourCC("av01")) && !(vp9Enabled && entry==FourCC("vp09"))))
             throw std::runtime_error("Unsupported fragment sample entry");

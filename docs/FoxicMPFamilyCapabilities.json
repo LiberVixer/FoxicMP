@@ -62,6 +62,13 @@
       "windows-qt": "schema2-profile0-8-profile2-10",
       "linux-qt": "schema2-profile0-8-profile2-10",
       "test": "confirmed incomplete VP9 Profile 0/2 fMP4 + AAC-LC, cancel/restart/EOF/release"
+    },
+    {
+      "id": "progressive-v2-fmp4-opus",
+      "windows-classic": "schema2-mono-stereo-mapping0",
+      "windows-qt": "schema2-mono-stereo-mapping0",
+      "linux-qt": "schema2-mono-stereo-mapping0",
+      "test": "incomplete H.264/HEVC/AV1/VP9 + separate Opus fMP4, decoding, backward seek, EOF and release"
     }
   ]
 }

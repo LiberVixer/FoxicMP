@@ -90,7 +90,7 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
           },
           track.available, i, harvester::EndReady(track),
           value.timestampOffset, v2Bridge && v2Bridge->videoCodec()=="hevc",
-          v2Bridge && v2Bridge->videoCodec()=="av1",v2Bridge && v2Bridge->videoCodec()=="vp9");
+          v2Bridge && v2Bridge->videoCodec()=="av1",v2Bridge && v2Bridge->videoCodec()=="vp9",v2Bridge && v2Bridge->audioCodec()=="opus");
     end = std::min(
         end, double(harvester::ReadyEnd(track.fragmented ? indexes[i].Samples()
                                                          : indexed[i].samples(),
