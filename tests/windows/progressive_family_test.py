@@ -602,7 +602,7 @@ def run(args):
                 assert client.request(dict(version=1, action='capabilities'))['pid'] == process.pid
             sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
                 Path(args.fixtures)/'progressive/audio.m4a', Path(args.report)/'sdk-writer')
-            media = {profile:exercise_v2_playback(client,args.fixtures,Path(args.report)/('schema-2-media-'+profile),profile) for profile in ('h264','hevc8','hevc10','av1-8','av1-10')}
+            media = {profile:exercise_v2_playback(client,args.fixtures,Path(args.report)/('schema-2-media-'+profile),profile) for profile in ('h264','hevc8','hevc10','av1-8','av1-10','vp9-8','vp9-10')}
             registry = exercise_registry_oplock(client,process.pid,args.fixtures,Path(args.report)/'registry-oplock')
             publication = exercise_publication(client,process.pid,args.fixtures,Path(args.report)/'async-publication')
             preparation = exercise_preparation(client,process.pid,args.fixtures,Path(args.report)/'async-preparation')
@@ -673,7 +673,7 @@ def run(args):
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--player',required=True);parser.add_argument('--fixtures',required=True);parser.add_argument('--report',required=True)
-    parser.add_argument('--media-profile',choices=['h264','hevc8','hevc10','av1-8','av1-10'])
+    parser.add_argument('--media-profile',choices=['h264','hevc8','hevc10','av1-8','av1-10','vp9-8','vp9-10'])
     parser.add_argument('--sdk-only', action='store_true')
     parser.add_argument('--preparation-only', action='store_true')
     parser.add_argument('--publication-only', action='store_true')

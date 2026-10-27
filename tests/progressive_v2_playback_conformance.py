@@ -1,4 +1,4 @@
-"""Real H.264/HEVC/AV1 schema-2 fMP4 playback while BOTH source files are incomplete."""
+"""Real H.264/HEVC/AV1/VP9 schema-2 fMP4 playback while BOTH source files are incomplete."""
 import argparse
 import copy
 import json
@@ -13,8 +13,8 @@ from progressive_v1_conformance import fragment_prefix, reject
 
 
 def exercise(client,fixtures,work,profile="h264"):
-    assert profile in {"h264","hevc8","hevc10","av1-8","av1-10"},profile
-    codec="av1" if profile.startswith("av1-") else "h264" if profile=="h264" else "hevc"
+    assert profile in {"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10"},profile
+    codec="vp9" if profile.startswith("vp9-") else "av1" if profile.startswith("av1-") else "h264" if profile=="h264" else "hevc"
     fixture="progressive" if profile=="h264" else "progressive-"+profile
     capabilities=client.request(dict(version=1,action="capabilities"))
     if codec!="h264":assert codec in capabilities["schema2Playback"]["videoCodecs"],capabilities
@@ -93,7 +93,7 @@ def exercise(client,fixtures,work,profile="h264"):
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--media-profile',choices=['h264','hevc8','hevc10','av1-8','av1-10'],default='h264');parser.add_argument('--player',required=True);parser.add_argument('--profile');parser.add_argument('--fixtures',required=True);parser.add_argument('--work',required=True);parser.add_argument('--expected-pid',type=int)
+    parser=argparse.ArgumentParser();parser.add_argument('--media-profile',choices=['h264','hevc8','hevc10','av1-8','av1-10','vp9-8','vp9-10'],default='h264');parser.add_argument('--player',required=True);parser.add_argument('--profile');parser.add_argument('--fixtures',required=True);parser.add_argument('--work',required=True);parser.add_argument('--expected-pid',type=int)
     args=parser.parse_args();client=ProgressiveClient(args.player,args.profile)
     if args.expected_pid is not None:assert client.request(dict(version=1,action='capabilities'))['pid']==args.expected_pid
     print(json.dumps(exercise(client,args.fixtures,args.work,args.media_profile)))

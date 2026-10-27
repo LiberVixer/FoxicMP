@@ -112,7 +112,8 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveEngineShutdownValidation-2026-10-26.md ../docs/ProgressiveEngineShutdownValidation-2026-10-26.json ../docs/ProgressiveClassicClose.md
  ../docs/ProgressiveClassicCloseValidation-2026-10-26.md ../docs/ProgressiveClassicCloseValidation-2026-10-26.json ../docs/ProgressiveHevc.md
  ../docs/ProgressiveHevcValidation-2026-10-26.md ../docs/ProgressiveHevcValidation-2026-10-26.json ../docs/ProgressiveAv1.md
- ../docs/ProgressiveAv1Validation-2026-10-26.md ../docs/ProgressiveAv1Validation-2026-10-26.json DESTINATION integration)
+ ../docs/ProgressiveAv1Validation-2026-10-26.md ../docs/ProgressiveAv1Validation-2026-10-26.json ../docs/ProgressiveVp9.md
+ ../docs/ProgressiveVp9Validation-2026-10-27.md ../docs/ProgressiveVp9Validation-2026-10-27.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/vod.json DESTINATION integration RENAME progressive-v2-vod.json)
 install(FILES ../docs/images/foxicmp-qt-web-control.png DESTINATION . RENAME web-control.png)
 install(FILES ../docs/images/foxicmp-qt-web-browser.png DESTINATION . RENAME web-browser.png)
@@ -244,7 +245,7 @@ if(BUILD_TESTING)
  target_compile_definitions(foxicmp-progressive-api-tests PRIVATE FOXICMP_LEGACY_FIXTURE="${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_legacy_fixture.py" FOXICMP_WRITER_SCRIPT="${CMAKE_CURRENT_SOURCE_DIR}/tools/progressive_writer.py")
  add_dependencies(foxicmp-progressive-api-tests foxicmp-qt)
  add_test(NAME progressive-api COMMAND foxicmp-progressive-api-tests)
- set_tests_properties(progressive-api PROPERTIES TIMEOUT 420)
+ set_tests_properties(progressive-api PROPERTIES TIMEOUT 540)
  add_test(NAME progressive-v2-playback COMMAND foxicmp-progressive-api-tests schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete)
  set_tests_properties(progressive-v2-playback PROPERTIES TIMEOUT 240)
  add_test(NAME progressive-preparation COMMAND foxicmp-progressive-api-tests mediaPreparationKeepsUiResponsive deletingApiDoesNotWaitForPreparationWorker preparationWorkerFailureDoesNotPoisonSlot preparationDeadlineCannotStartPlaybackLater)

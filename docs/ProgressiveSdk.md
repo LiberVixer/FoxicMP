@@ -43,11 +43,18 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Progressive VP9 (SDK 1.16)
+
+[VP9 Profile 0/2, 8/10-bit + AAC-LC fMP4](ProgressiveVp9.md) добавлен в schema 2
+трёх редакций. Проверять schema2Playback.profiles/videoCodecs текущего EXE.
+Python интерфейс прежний; WebM/MKV, Opus, remux/live и metadata остаются
+отдельными этапами. Готовые установщики 0.2.0 этим SDK не обновляются.
+
 ## Progressive AV1 (SDK 1.15)
 
 [AV1 Main 8/10-bit + AAC-LC fMP4](ProgressiveAv1.md) расширяет schema 2 трёх
 редакций. Требуется Sequence Header OBU в av1C. Python интерфейс прежний;
-проверять schema2Playback.profiles/videoCodecs текущего EXE. VP9/Opus, WebM/MKV,
+проверять schema2Playback.profiles/videoCodecs текущего EXE. Opus, WebM/MKV,
 remux/live и metadata остаются отдельными этапами.
 
 ## Progressive HEVC (SDK 1.14)

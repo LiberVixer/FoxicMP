@@ -248,3 +248,7 @@ Qt `engineRetirement`: 16 active/closing cores, до двух workers, native de
 и software renderer free вне UI; GL context free сохраняет owner thread.
 [Callback lifetime и подтверждение закрытия](ProgressiveEngineShutdown.md).
 Classic отдельно объявляет `graphShutdown`, не detached teardown.
+
+SDK 1.16 добавляет [VP9 Profile 0/2 8/10-bit + AAC-LC fMP4](ProgressiveVp9.md).
+Проверять schema2Playback.profiles/videoCodecs; WebM и Opus пока не поддержаны
+этим progressive-мостом.

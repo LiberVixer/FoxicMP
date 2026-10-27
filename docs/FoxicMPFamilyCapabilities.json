@@ -55,6 +55,13 @@
       "windows-qt": "schema2-main-8-10",
       "linux-qt": "schema2-main-8-10",
       "test": "confirmed incomplete AV1 Main 8/10-bit fMP4 + AAC-LC, cancel/restart/EOF/release"
+    },
+    {
+      "id": "progressive-v2-fmp4-vp9",
+      "windows-classic": "schema2-profile0-8-profile2-10",
+      "windows-qt": "schema2-profile0-8-profile2-10",
+      "linux-qt": "schema2-profile0-8-profile2-10",
+      "test": "confirmed incomplete VP9 Profile 0/2 fMP4 + AAC-LC, cancel/restart/EOF/release"
     }
   ]
 }

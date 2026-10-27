@@ -32,3 +32,6 @@ generate_hevc(root)
 
 from generate_av1_media import generate as generate_av1
 generate_av1(root)
+
+from generate_vp9_media import generate as generate_vp9
+generate_vp9(root)

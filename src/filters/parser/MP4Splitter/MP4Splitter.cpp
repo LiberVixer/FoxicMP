@@ -2313,7 +2313,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         const auto session=progressive->GetSession();
         const bool validatedFragments=!kind && movie->HasFragments()
             && ((session->AllowsHevcFragments() && (type==AP4_ATOM_TYPE_HVC1 || type==AP4_ATOM_TYPE_HEV1))
-                || (session->AllowsAv1Fragments() && type==AP4_ATOM_TYPE_av01));
+                || (session->AllowsAv1Fragments() && type==AP4_ATOM_TYPE_av01)
+                || (session->AllowsVp9Fragments() && type==AP4_ATOM_TYPE_vp09));
         if(type!=(kind?AP4_ATOM_TYPE('m','p','4','a'):AP4_ATOM_TYPE('a','v','c','1')) && !validatedFragments)
             return VFW_E_UNSUPPORTED_STREAM;
 		if (kind) {

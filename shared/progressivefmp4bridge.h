@@ -1,4 +1,4 @@
-// Bounded schema-2 H.264/HEVC/AV1 + AAC-LC fMP4 profiles. GPL-3.0-or-later.
+// Bounded schema-2 H.264/HEVC/AV1/VP9 + AAC-LC fMP4 profiles. GPL-3.0-or-later.
 // Reuses the proven fMP4 demuxers; ALL index and decoder bytes use ResourceSource.
 #pragma once
 #include "progressiveresourceio.h"
@@ -7,7 +7,7 @@
 
 namespace foxicmp { namespace progressive {
 inline const char* Fmp4V2Capabilities() {
-    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc"],"videoCodecs":["h264","hevc","av1"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
+    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc"],"videoCodecs":["h264","hevc","av1","vp9"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
 }
 class Fmp4V2Bridge {
     Snapshot model;
@@ -47,7 +47,7 @@ class Fmp4V2Bridge {
             const auto& track=item.second;const int index=track.kind=="video"?0:track.kind=="audio"?1:-1;
             supported(index>=0 && !found[index] && track.required && !track.resource.empty() && track.segments.empty() && track.initialization.empty(),
                       "Media v2 currently supports one required video and one required audio track, without segments or external init");
-            supported(track.container=="fmp4" && (track.codec.empty() || (index?track.codec=="aac-lc":track.codec=="h264" || track.codec=="hevc" || track.codec=="av1")),"Use the fmp4 container profile with H.264/HEVC/AV1 and AAC-LC");
+            supported(track.container=="fmp4" && (track.codec.empty() || (index?track.codec=="aac-lc":track.codec=="h264" || track.codec=="hevc" || track.codec=="av1" || track.codec=="vp9")),"Use the fmp4 container profile with H.264/HEVC/AV1/VP9 and AAC-LC");
             const auto& resource=snapshot.resources.at(track.resource);supported(!resource.retired,"Cannot start media from a retired resource");
             auto& output=result.tracks[index];output.path=resource.name;output.container=index?"m4a":"mp4";
             output.fragmented=true;output.initializationReady=track.initializationReady;output.available=prefix(resource);output.total=resource.known?resource.length:0;
@@ -137,6 +137,19 @@ class Fmp4V2Bridge {
         }
         supported(sequence,"This AV1 profile requires a Sequence Header OBU in av1C");
     }
+    static void vp9Configuration(harvester::BoxData config) {
+        // VP Codec ISO BMFF binding: FullBox v1, fixed record, no codec init data.
+        supported(config.size==12 && config.U32(0)==0x01000000,"Invalid VP9 configuration length/version/flags");
+        const auto* b=config.data;const unsigned profile=b[4],depth=b[6]>>4,chroma=(b[6]>>1)&7;
+        supported((profile==0 && depth==8) || (profile==2 && depth==10),"Only VP9 Profile 0/8-bit and Profile 2/10-bit are enabled");
+        supported(chroma<=1,"Only VP9 4:2:0 is enabled");
+        const auto level=b[5];
+        supported(level==0 || level==10 || level==11 || level==20 || level==21 || level==30 || level==31 || level==40 || level==41 || level==50 || level==51 || level==52 || level==60 || level==61 || level==62,"Invalid VP9 level");
+        supported(b[7]==1 || b[7]==2 || (b[7]>=4 && b[7]<=12) || b[7]==22,"Reserved VP9 colour primaries");
+        supported(b[8]==1 || b[8]==2 || (b[8]>=4 && b[8]<=18),"Reserved VP9 transfer characteristics");
+        supported(b[9]==1 || b[9]==2 || (b[9]>=4 && b[9]<=14),"Invalid VP9 matrix for 4:2:0");
+        supported(b[10]==0 && b[11]==0,"VP9 codec initialization data must be empty");
+    }
     static std::string codec(int track,harvester::BoxData movie) {
         auto media=movie.One("trak").One("mdia");auto minf=media.One("minf");
         auto dref=minf.One("dinf").One("dref");supported(dref.size>=8 && dref.U32(4)==1,"External media references are not supported");
@@ -147,7 +160,7 @@ class Fmp4V2Bridge {
         const auto type=entries.front().first;const auto sample=entries.front().second;
         supported(sample.size>=8 && sample.data[6]==0 && sample.data[7]==1,"Invalid media data reference index");
         if(!track) {
-            supported(type==harvester::FourCC("avc1") || type==harvester::FourCC("hvc1") || type==harvester::FourCC("hev1") || type==harvester::FourCC("av01"),"Unsupported video sample entry");
+            supported(type==harvester::FourCC("avc1") || type==harvester::FourCC("hvc1") || type==harvester::FourCC("hev1") || type==harvester::FourCC("av01") || type==harvester::FourCC("vp09"),"Unsupported video sample entry");
             supported(sample.size>=78,"Truncated video sample entry");auto children=sample.Slice(78,sample.size-78);
             supported(!children.One("sinf",true).data,"Encrypted video is unsupported");
             if(type==harvester::FourCC("avc1")) {
@@ -157,6 +170,9 @@ class Fmp4V2Bridge {
             }
             if(type==harvester::FourCC("av01")) {
                 av1Configuration(children.One("av1C"));return "av1";
+            }
+            if(type==harvester::FourCC("vp09")) {
+                vp9Configuration(children.One("vpcC"));return "vp9";
             }
             hevcConfiguration(children.One("hvcC"),type==harvester::FourCC("hvc1"));
             return "hevc";
@@ -236,7 +252,7 @@ public:
         rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);
         d.AddMember("generation",Value(std::to_string(identityGeneration).c_str(),a),a);d.AddMember("revision",Value(std::to_string(detailsRevision.load()).c_str(),a),a);
         d.AddMember("writerInstanceId",Value(identityWriter.c_str(),a),a);
-        d.AddMember("mediaMode",Value(videoCodecName=="hevc"?"separate-fmp4-hevc-aac-lc":videoCodecName=="av1"?"separate-fmp4-av1-aac-lc":"separate-fmp4-h264-aac-lc",a),a);d.AddMember("videoCodec",Value(videoCodecName.c_str(),a),a);Value bytes(rapidjson::kObjectType);
+        d.AddMember("mediaMode",Value(videoCodecName=="vp9"?"separate-fmp4-vp9-aac-lc":videoCodecName=="hevc"?"separate-fmp4-hevc-aac-lc":videoCodecName=="av1"?"separate-fmp4-av1-aac-lc":"separate-fmp4-h264-aac-lc",a),a);d.AddMember("videoCodec",Value(videoCodecName.c_str(),a),a);Value bytes(rapidjson::kObjectType);
         bytes.AddMember("video",Value(std::to_string(decoderBytes[0].load()).c_str(),a),a);bytes.AddMember("audio",Value(std::to_string(decoderBytes[1].load()).c_str(),a),a);d.AddMember("decoderIoBytes",bytes,a);
         return lease_detail::Encode(d);
     }
