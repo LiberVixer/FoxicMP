@@ -14,7 +14,7 @@ from progressive_webm_fixtures import webm_prefix
 
 
 MEDIA_PROFILES=('h264','hevc8','hevc10','av1-8','av1-10','vp9-8','vp9-10',
-    'h264-opus','h264-opus-mono','hevc8-opus','hevc10-opus','av1-8-opus','av1-10-opus','vp9-8-opus','vp9-10-opus','webm-vp9-8','webm-vp9-10','webm-av1-8','webm-av1-10')
+    'h264-opus','h264-opus-mono','hevc8-opus','hevc10-opus','av1-8-opus','av1-10-opus','vp9-8-opus','vp9-10-opus','webm-vp9-8','webm-vp9-10','webm-av1-8','webm-av1-10','mixed-h264-opus','mixed-hevc8-opus','mixed-hevc10-opus','mixed-av1-8-opus','mixed-av1-10-opus','mixed-vp9-8-opus','mixed-vp9-10-opus','mixed-webm-vp9-8-aac','mixed-webm-vp9-8-opus','mixed-webm-vp9-10-aac','mixed-webm-vp9-10-opus','mixed-webm-av1-8-aac','mixed-webm-av1-8-opus','mixed-webm-av1-10-aac','mixed-webm-av1-10-opus')
 
 
 def forget_closed_readers(client,snapshot):
@@ -28,30 +28,37 @@ def forget_closed_readers(client,snapshot):
 
 
 def exercise(client,fixtures,work,profile="h264",seek=None):
-    webm=profile.startswith("webm-")
-    prefix_of=webm_prefix if webm else fragment_prefix
-    base=profile.removeprefix("webm-").removesuffix("-opus").removesuffix("-opus-mono")
+    mixed=profile.startswith("mixed-")
+    normalized=profile.removeprefix("mixed-")
+    webm=normalized.startswith("webm-")
+    video_container="webm" if webm else "fmp4"
+    audio_container=("fmp4" if webm else "webm") if mixed else video_container
+    base=normalized.removeprefix("webm-").removesuffix("-opus").removesuffix("-opus-mono").removesuffix("-aac")
     assert base in {"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10"},profile
-    audio_codec="opus" if webm or "-opus" in profile else "aac-lc"
+    audio_codec="opus" if audio_container=="webm" or "-opus" in profile else "aac-lc"
     channels=1 if profile.endswith("-mono") else 2
     codec="vp9" if base.startswith("vp9-") else "av1" if base.startswith("av1-") else "h264" if base=="h264" else "hevc"
-    fixture="progressive-"+profile if webm else "progressive" if base=="h264" else "progressive-"+base
+    fixture="progressive-webm-"+base if webm else "progressive" if base=="h264" else "progressive-"+base
     capabilities=client.request(dict(version=1,action="capabilities"))
     if codec!="h264":assert codec in capabilities["schema2Playback"]["videoCodecs"],capabilities
+    if mixed:assert capabilities["schema2Playback"]["mixedContainers"],capabilities
     work=Path(work).resolve();work.mkdir(parents=True)
-    audio_path=Path(fixtures)/('progressive-opus-'+str(channels))/'audio.mp4' if audio_codec=='opus' else Path(fixtures)/fixture/'audio.m4a'
-    if webm:audio_path=Path(fixtures)/fixture/'audio.webm'
+    audio_path=Path(fixtures)/('progressive-opus-'+str(channels))/'audio.mp4' if audio_codec=='opus' else Path(fixtures)/'progressive/audio.m4a'
+    if audio_container=="webm":audio_path=Path(fixtures)/'progressive-webm-vp9-8/audio.webm'
     inputs=[(Path(fixtures)/fixture/('video.webm' if webm else 'video.mp4')).read_bytes(),audio_path.read_bytes()]
+    containers=[video_container,audio_container]
+    def prefix_of(data,seconds,index):
+        return (webm_prefix if containers[index]=="webm" else fragment_prefix)(data,seconds)
     if audio_codec=='opus':assert 'opus' in capabilities['schema2Playback']['audioCodecs'],capabilities
     paths=[work/'видео.part',work/'звук.part'];names=[path.name for path in paths]
     value=dict(schemaVersion=2,sessionId=uuid.uuid4().hex,generation='18446744073709551615',revision='9007199254740993',
         writer=dict(instanceId=uuid.uuid4().hex,state='downloading'),timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration='200000000',timestampOffset='0'),
         resources=[],tracks=[])
     for index,kind in enumerate(('video','audio')):
-        prefix=prefix_of(inputs[index],5);paths[index].write_bytes(inputs[index][:prefix])
+        prefix=prefix_of(inputs[index],5,index);paths[index].write_bytes(inputs[index][:prefix])
         rid='res-'+kind
         value['resources'].append(dict(id=rid,name=names[index],length=None,ranges=[dict(offset='0',length=str(prefix))],state='downloading'))
-        value['tracks'].append(dict(id=kind+'-main',kind=kind,required=True,codecHint=codec if not index else audio_codec,containerHint='webm' if webm else 'fmp4',initializationReady=True,state='downloading',source=dict(resourceId=rid)))
+        value['tracks'].append(dict(id=kind+'-main',kind=kind,required=True,codecHint=codec if not index else audio_codec,containerHint=containers[index],initializationReady=True,state='downloading',source=dict(resourceId=rid)))
     probe=client.probe(value,work);assert probe['supported'],probe
     assert client.readers(value['sessionId'],int(value['generation']))==[], 'Probe retained its resource leases'
     preview=V2PreviewSession(client,str(work),title='Schema 2: physically incomplete fMP4')
@@ -71,7 +78,7 @@ def exercise(client,fixtures,work,profile="h264",seek=None):
         reject(client,dict(version=1,action='heartbeat',sessionId=value['sessionId'],readerId=reader),'reader_mismatch')
         report['cancelRestartAndReaderGuards']=True
         for index in range(2):
-            prefix=prefix_of(inputs[index],12)
+            prefix=prefix_of(inputs[index],12,index)
             with paths[index].open('ab') as stream:stream.write(inputs[index][stream.tell():prefix])
             value['resources'][index]['ranges']=[dict(offset='0',length=str(prefix))]
         value['revision']=str(int(value['revision'])+1);preview.publish(value)
@@ -86,15 +93,16 @@ def exercise(client,fixtures,work,profile="h264",seek=None):
             observations.append(dict(elapsed=round(time.monotonic()-clock,3),latency=round(time.monotonic()-before,3),state=state.get('state'),position=state.get('positionSeconds')))
             observations=observations[-80:]
             if state.get('state')=='error':raise AssertionError(state)
-            if audio_codec=='opus' and seek is not None:
+            if (audio_codec=='opus' or mixed) and seek is not None:
                 if seek_requested and state.get('positionSeconds',10)<3:seek_observed=True
                 if not seek_requested and state.get('state')=='playing' and state.get('positionSeconds',0)>=4:
                     seek(2);seek_requested=True;continue
             if state.get('state')=='playing' and state['positionSeconds']>=10:
                 assert all(paths[i].stat().st_size<len(inputs[i]) for i in range(2))
                 assert all(int(state['decoderIoBytes'][kind])>0 for kind in ('video','audio'))
-                assert state['videoCodec']==codec and state['mediaMode']==('separate-'+('webm' if webm else 'fmp4')+'-'+codec+'-'+audio_codec) and state['audioCodec']==audio_codec,state
-                if audio_codec=='opus' and seek is not None:
+                assert state['videoContainer']==video_container and state['audioContainer']==audio_container,state
+                assert state['videoCodec']==codec and state['mediaMode']==('separate-'+video_container+('-'+audio_container if mixed else '')+'-'+codec+'-'+audio_codec) and state['audioCodec']==audio_codec,state
+                if (audio_codec=='opus' or mixed) and seek is not None:
                     assert seek_requested and seek_observed,'Backward seek was not observed'
                     report['backwardSeekWhileIncomplete']=True
                 report['playingWhilePhysicallyIncomplete']=state

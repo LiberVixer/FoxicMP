@@ -11,7 +11,8 @@ jobs:
     # The full matrix runs CTest twice, generates DVD/AV fixtures and performs
     # a one-minute continuous playback pass. Keep enough room for shared CI
     # runners without hiding a hung test behind an unbounded job.
-    timeout-minutes: 45
+    # SDK 1.20 qualifies 34 progressive media variants in each output mode.
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v6
       - name: Family command and capability contracts

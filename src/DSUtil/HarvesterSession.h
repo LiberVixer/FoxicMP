@@ -53,7 +53,7 @@ public:
     bool AllowsAv1Fragments() const;
     bool AllowsVp9Fragments() const;
     bool AllowsOpusFragments() const;
-    bool IsWebM() const;
+    bool IsWebM(int track=0) const;
     HRESULT ReadV2(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker);
     bool Publish(const std::string& json, CStringW& error);
     void PublishedHeartbeat() {m_lastUpdate=GetTickCount64(); m_connected=true;}

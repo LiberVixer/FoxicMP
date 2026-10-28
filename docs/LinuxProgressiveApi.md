@@ -256,3 +256,10 @@ SDK 1.16 добавляет [VP9 Profile 0/2 8/10-bit + AAC-LC fMP4](Progressive
 SDK 1.17 добавляет [Opus mono/stereo + H.264/HEVC/AV1/VP9 fMP4](ProgressiveOpus.md).
 Проверять schema2Playback.profiles/audioCodecs. Нужен согласованный pre-skip/edit;
 WebM и multichannel не добавлены этим progressive-профилем.
+
+SDK 1.18/1.19 добавляют ограниченные отдельные WebM VP9/AV1 + Opus
+[профили](ProgressiveWebMAv1.md). SDK 1.20 поддерживает
+[смешанные пары fMP4/WebM](ProgressiveMixedContainers.md) в обоих направлениях:
+контейнер задаётся каждой дорожке отдельно. Проверять `schema2Playback.profiles`
+и `mixedContainers` у текущего EXE; `status` сообщает `videoContainer` и
+`audioContainer`. Это расширение schema 2, а не изменение ограничений v1 выше.

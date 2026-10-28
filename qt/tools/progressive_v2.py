@@ -1,4 +1,4 @@
-"""Schema-2 separate fMP4 codec profiles and WebM VP9/AV1 + Opus; no downloader changes."""
+"""Schema-2 separate fMP4/WebM tracks, including mixed pairs; no downloader changes."""
 from __future__ import annotations
 import copy
 import threading

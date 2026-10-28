@@ -188,7 +188,7 @@ STDMETHODIMP CHarvesterFileReader::NonDelegatingQueryInterface(REFIID riid,void*
     return QI(IAsyncReader) QI(ISyncReader) QI(IFileHandle) QI(IHarvesterReader) __super::NonDelegatingQueryInterface(riid,ppv);
 }
 STDMETHODIMP CHarvesterFileReader::Length(LONGLONG* total,LONGLONG* available) {
-    const auto s=m_session->Snapshot();if(total)*total=m_session->IsWebM() && !harvester::EndReady(s.tracks[m_track])?INT64_MAX:s.tracks[m_track].total?s.tracks[m_track].total:s.tracks[m_track].available;if(available)*available=s.tracks[m_track].available;return S_OK;
+    const auto s=m_session->Snapshot();if(total)*total=m_session->IsWebM(m_track) && !harvester::EndReady(s.tracks[m_track])?INT64_MAX:s.tracks[m_track].total?s.tracks[m_track].total:s.tracks[m_track].available;if(available)*available=s.tracks[m_track].available;return S_OK;
 }
 STDMETHODIMP CHarvesterFileReader::SyncRead(LONGLONG offset,LONG size,BYTE* data) {
     if(offset<0 || size<0 || uint64_t(size)>uint64_t(INT64_MAX)-uint64_t(offset) || (!data && size))return E_INVALIDARG;

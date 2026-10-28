@@ -43,12 +43,20 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Смешанные MP4/WebM-дорожки (SDK 1.20)
+
+[Независимый контейнер каждой дорожки](ProgressiveMixedContainers.md):
+fMP4-видео H.264/HEVC/AV1/VP9 + WebM Opus; WebM-видео VP9/AV1 + fMP4 AAC-LC/Opus.
+Проверять `mixedContainers` и конкретный профиль в `schema2Playback.profiles`.
+В `status` добавлены `videoContainer`/`audioContainer`; Python интерфейс прежний.
+Сохранены ограничения кодеков, VOD и раздельных ресурсов; muxed/remux и live не добавлены.
+
 ## Progressive AV1 в WebM (SDK 1.19)
 
 [AV1 Main 8/10-bit + Opus в отдельных WebM](ProgressiveWebMAv1.md):
 профиль `separate-webm-av1-opus`. Требуется CodecPrivate с Sequence Header OBU
 и первый ключевой пакет с совпадающим sequence header. Python API сохранён;
-смешанные MP4/WebM-пары и остальные границы ТЗ остаются отдельными этапами.
+смешанные MP4/WebM-пары добавлены в SDK 1.20, остальные границы ТЗ сохраняются.
 
 ## Progressive WebM (SDK 1.18)
 

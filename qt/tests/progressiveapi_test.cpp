@@ -611,7 +611,7 @@ private slots:
   }
   void schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete_data() {
     QTest::addColumn<QString>("mediaProfile");
-    for(const auto* profile:{"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10","h264-opus","h264-opus-mono","hevc8-opus","hevc10-opus","av1-8-opus","av1-10-opus","vp9-8-opus","vp9-10-opus","webm-vp9-8","webm-vp9-10","webm-av1-8","webm-av1-10"})QTest::newRow(profile)<<QString(profile);
+    for(const auto* profile:{"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10","h264-opus","h264-opus-mono","hevc8-opus","hevc10-opus","av1-8-opus","av1-10-opus","vp9-8-opus","vp9-10-opus","webm-vp9-8","webm-vp9-10","webm-av1-8","webm-av1-10","mixed-h264-opus","mixed-hevc8-opus","mixed-hevc10-opus","mixed-av1-8-opus","mixed-av1-10-opus","mixed-vp9-8-opus","mixed-vp9-10-opus","mixed-webm-vp9-8-aac","mixed-webm-vp9-8-opus","mixed-webm-vp9-10-aac","mixed-webm-vp9-10-opus","mixed-webm-av1-8-aac","mixed-webm-av1-8-opus","mixed-webm-av1-10-aac","mixed-webm-av1-10-opus"})QTest::newRow(profile)<<QString(profile);
   }
   void schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete() {
     QFETCH(QString,mediaProfile);
@@ -625,7 +625,7 @@ private slots:
       if(!w.progressiveSession() || w.progressiveSession()->status().complete)return;
       const auto seconds=player->get("time-pos").toDouble();
       if(seconds<1 || player->get("dwidth").toInt()!=320)return;
-      if((mediaProfile.contains("-opus") || mediaProfile.startsWith("webm-"))) {
+      if((mediaProfile.contains("-opus") || mediaProfile.startsWith("webm-") || mediaProfile.startsWith("mixed-"))) {
         if(seekRequested && seconds<3)seekObserved=true;
         if(!seekRequested && seconds>=4)seekRequested=w.seekTo(2);
       }
@@ -646,14 +646,14 @@ private slots:
     QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,60000);
     QVERIFY2(writer.exitCode()==0,writer.readAllStandardError().constData());
     auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));
-    if((mediaProfile.contains("-opus") || mediaProfile.startsWith("webm-")))result["backwardSeekWhileIncomplete"]=seekObserved;
+    if((mediaProfile.contains("-opus") || mediaProfile.startsWith("webm-") || mediaProfile.startsWith("mixed-")))result["backwardSeekWhileIncomplete"]=seekObserved;
     decoderSample.stop();
-    QCOMPARE(decodedFormat,mediaProfile.contains("vp9-")?QString("vp9"):mediaProfile.contains("av1-")?QString("av1"):mediaProfile.startsWith("h264")?QString("h264"):QString("hevc"));
+    QCOMPARE(decodedFormat,mediaProfile.contains("vp9-")?QString("vp9"):mediaProfile.contains("av1-")?QString("av1"):mediaProfile.contains("h264")?QString("h264"):QString("hevc"));
     QVERIFY2(changingDecodedVideo,"No changing decoded video frames before writer complete");
-    if(mediaProfile.startsWith("hevc10") || mediaProfile.contains("av1-10") || mediaProfile.contains("vp9-10"))QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
+    if(mediaProfile.contains("hevc10") || mediaProfile.contains("av1-10") || mediaProfile.contains("vp9-10"))QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
     QVERIFY2(decodedAudio.contains((mediaProfile.contains("-opus") || mediaProfile.startsWith("webm-"))?"opus":"aac",Qt::CaseInsensitive),qPrintable(decodedAudio));
     QCOMPARE(decodedAudioRate,48000);
-    if((mediaProfile.contains("-opus") || mediaProfile.startsWith("webm-"))){QVERIFY(seekRequested);QVERIFY(seekObserved);}
+    if((mediaProfile.contains("-opus") || mediaProfile.startsWith("webm-") || mediaProfile.startsWith("mixed-"))){QVERIFY(seekRequested);QVERIFY(seekObserved);}
     qInfo().noquote()<<"Decoded audio:"<<mediaProfile<<decodedAudio<<decodedAudioRate;
     qInfo().noquote()<<"Decoded video:"<<mediaProfile<<decodedFormat<<decodedPixelFormat<<"changing frames before complete";
     qInfo().noquote()<<"Schema-2 media report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);

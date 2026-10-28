@@ -51,7 +51,9 @@ FILES = {
         'ProgressiveWebM.md', 'ProgressiveWebMValidation-2026-10-28.md',
         'ProgressiveWebMValidation-2026-10-28.json',
         'ProgressiveWebMAv1.md', 'ProgressiveWebMAv1Validation-2026-10-28.md',
-        'ProgressiveWebMAv1Validation-2026-10-28.json')},
+        'ProgressiveWebMAv1Validation-2026-10-28.json',
+        'ProgressiveMixedContainers.md', 'ProgressiveMixedValidation-2026-10-28.md',
+        'ProgressiveMixedValidation-2026-10-28.json')},
 }
 
 def main():
@@ -61,10 +63,10 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.19', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.20', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
-        schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',profiles=['separate-fmp4-h264-aac-lc','separate-fmp4-hevc-aac-lc','separate-fmp4-av1-aac-lc','separate-fmp4-vp9-aac-lc','separate-fmp4-h264-opus','separate-fmp4-hevc-opus','separate-fmp4-av1-opus','separate-fmp4-vp9-opus','separate-webm-vp9-opus','separate-webm-av1-opus'],containers=['fmp4','webm'],webm=dict(videoCodecs=['vp9','av1'],audioCodecs=['opus'],knownClusterSizesRequired=True,lacing=False,defaultVideoDurationRequired=True,clusterLimitBytes=16777216),audioCodecs=['aac-lc','opus'],opusChannels=[1,2],opusChannelMappingFamilies=[0],opusSampleRate=48000,opusPrerollMilliseconds=80,opusEditListRequired=True,videoCodecs=['h264','hevc','av1','vp9'],vp9Profiles=[0,2],vp9BitDepths=[8,10],vp9SampleEntries=['vp09'],av1Profiles=['main'],av1BitDepths=[8,10],av1SampleEntries=['av01'],av1SequenceHeaderInConfigurationRequired=True,hevcProfiles=['main','main10'],hevcBitDepths=[8,10],hevcSampleEntries=['hvc1','hev1'],metadataApplied=False,live=False,muxed=False,segments=False),
+        schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',profiles=['separate-fmp4-h264-aac-lc','separate-fmp4-hevc-aac-lc','separate-fmp4-av1-aac-lc','separate-fmp4-vp9-aac-lc','separate-fmp4-h264-opus','separate-fmp4-hevc-opus','separate-fmp4-av1-opus','separate-fmp4-vp9-opus','separate-webm-vp9-opus','separate-webm-av1-opus','separate-fmp4-webm-h264-opus','separate-fmp4-webm-hevc-opus','separate-fmp4-webm-av1-opus','separate-fmp4-webm-vp9-opus','separate-webm-fmp4-vp9-aac-lc','separate-webm-fmp4-av1-aac-lc','separate-webm-fmp4-vp9-opus','separate-webm-fmp4-av1-opus'],mixedContainers=True,containers=['fmp4','webm'],webm=dict(videoCodecs=['vp9','av1'],audioCodecs=['opus'],knownClusterSizesRequired=True,lacing=False,defaultVideoDurationRequired=True,clusterLimitBytes=16777216),audioCodecs=['aac-lc','opus'],opusChannels=[1,2],opusChannelMappingFamilies=[0],opusSampleRate=48000,opusPrerollMilliseconds=80,opusEditListRequired=True,videoCodecs=['h264','hevc','av1','vp9'],vp9Profiles=[0,2],vp9BitDepths=[8,10],vp9SampleEntries=['vp09'],av1Profiles=['main'],av1BitDepths=[8,10],av1SampleEntries=['av01'],av1SequenceHeaderInConfigurationRequired=True,hevcProfiles=['main','main10'],hevcBitDepths=[8,10],hevcSampleEntries=['hvc1','hev1'],metadataApplied=False,live=False,muxed=False,segments=False),
         mediaPreparation=dict(offUi=['probe','start','update','complete'],maxConcurrent=1,responseDeadlineMilliseconds=5000,updatesOffUi=True,cancellableDiskIo=False),
         qtEngineRetirement=dict(maxEngines=16,workerLimit=2,nativeDestroyOffUi=True,softwareRendererFreeOffUi=True,openGlRendererFreeOffUi=False,callbackDataRetained=True,processOwned=True),
         classicGraphShutdown=dict(owner="classic-sta",abortOpenWaitPumpsSentMessages=True,closeWaitPumpsSentMessages=True,nativeTeardownDetached=False,fullInputPump=False,progressiveStaCloseAsync=True,deferredStart=True,deferredExit=True,maxPendingStarts=1,uiOwnedGraphCloseAsync=False),

@@ -1266,7 +1266,7 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
 	if (m_harvester) {
 		int kind = lpcwstrFileName == m_harvester->Path(0) ? 0 : lpcwstrFileName == m_harvester->Path(1) ? 1 : -1;
 		if (kind < 0 || m_bOpeningAborted) return E_ABORT;
-		CBaseSplitterFilter* source = m_harvester->IsWebM() ? static_cast<CBaseSplitterFilter*>(DNew CMatroskaSourceFilter(nullptr, &hr)) : static_cast<CBaseSplitterFilter*>(DNew CMP4SourceFilter(nullptr, &hr));
+		CBaseSplitterFilter* source = m_harvester->IsWebM(kind) ? static_cast<CBaseSplitterFilter*>(DNew CMatroskaSourceFilter(nullptr, &hr)) : static_cast<CBaseSplitterFilter*>(DNew CMP4SourceFilter(nullptr, &hr));
 		CComPtr<IBaseFilter> filter = source;
 		auto reader = DNew CHarvesterFileReader(m_harvester, kind, hr);
 		CComPtr<IAsyncReader> async = reader;

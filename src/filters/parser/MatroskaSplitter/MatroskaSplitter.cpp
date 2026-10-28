@@ -1712,7 +1712,7 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 
     if(CComQIPtr<IHarvesterReader> reader=pAsyncReader) {
         const auto session=reader->GetSession();const auto kind=reader->GetTrack();
-        if(!session->IsWebM() || m_pTrackEntryMap.size()!=1)return VFW_E_UNSUPPORTED_STREAM;
+        if(!session->IsWebM(reader->GetTrack()) || m_pTrackEntryMap.size()!=1)return VFW_E_UNSUPPORTED_STREAM;
         const auto entry=m_pTrackEntryMap.begin()->second;
         if(entry->TrackType!=(kind?TrackEntry::TypeAudio:TrackEntry::TypeVideo)
             || entry->CodecID.ToString()!=(kind?"A_OPUS":session->AllowsAv1Fragments()?"V_AV1":"V_VP9"))return VFW_E_UNSUPPORTED_STREAM;
@@ -2077,7 +2077,7 @@ void CMatroskaSplitterFilter::SendVorbisHeaderSample()
 
 bool CMatroskaSplitterFilter::DemuxInit()
 {
-    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->IsWebM()){m_progressiveSample=0;return true;}
+    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->IsWebM(reader->GetTrack())){m_progressiveSample=0;return true;}
 	SetThreadName((DWORD)-1, "CMatroskaSplitterFilter");
 
 	CMatroskaNode Root(m_pFile.get());
@@ -2152,7 +2152,7 @@ bool CMatroskaSplitterFilter::DemuxInit()
 
 void CMatroskaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 {
-    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->IsWebM()){m_progressiveSample=reader->GetSession()->SeekSample(reader->GetTrack(),rt);return;}
+    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->IsWebM(reader->GetTrack())){m_progressiveSample=reader->GetSession()->SeekSample(reader->GetTrack(),rt);return;}
 	m_pCluster = m_pSegment->Child(MATROSKA_ID_CLUSTER);
 	m_pBlock.reset();
 
@@ -2286,7 +2286,7 @@ void CMatroskaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 bool CMatroskaSplitterFilter::DemuxLoop()
 {
-    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->IsWebM())return ProgressiveWebmLoop(reader);
+    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->IsWebM(reader->GetTrack()))return ProgressiveWebmLoop(reader);
 	HRESULT hr = S_OK;
 
 	if (!m_pCluster) {

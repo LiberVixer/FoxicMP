@@ -2,6 +2,7 @@
 import argparse
 import copy
 import json
+import os
 from pathlib import Path
 import subprocess
 import tempfile
@@ -12,7 +13,8 @@ from progressive_webm_fixtures import webm_prefix,locate
 def run(runner,fixtures):
     inputs=[(Path(fixtures)/'progressive'/name).read_bytes() for name in ('video.mp4','audio.m4a')]
     names=[]
-    video_codec="h264";audio_codec="aac-lc";container="fmp4";prefix_of=fragment_prefix
+    containers=None
+    video_codec="h264";audio_codec="aac-lc";container="fmp4"
     def case(name,check):
         with tempfile.TemporaryDirectory(prefix='foxicmp-media-') as folder:
             root=Path(folder);data=root/'data';data.mkdir()
@@ -20,9 +22,9 @@ def run(runner,fixtures):
                 writer=dict(instanceId='b'*32,state='downloading'),timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration='200000000',timestampOffset='0'),resources=[],tracks=[])
             paths=[]
             for i,kind in enumerate(('video','audio')):
-                path=data/(kind+'.part');paths.append(path);count=prefix_of(inputs[i],5);path.write_bytes(inputs[i][:count])
+                path=data/(kind+'.part');paths.append(path);count=(webm_prefix if (containers[i] if containers else container)=="webm" else fragment_prefix)(inputs[i],5);path.write_bytes(inputs[i][:count])
                 value['resources'].append(dict(id=kind,name=path.name,length=None,ranges=[dict(offset='0',length=str(count))],state='downloading'))
-                value['tracks'].append(dict(id=kind,kind=kind,required=True,codecHint=video_codec if i==0 else audio_codec,containerHint=container,initializationReady=True,state='downloading',source=dict(resourceId=kind)))
+                value['tracks'].append(dict(id=kind,kind=kind,required=True,codecHint=video_codec if i==0 else audio_codec,containerHint=containers[i] if containers else container,initializationReady=True,state='downloading',source=dict(resourceId=kind)))
             process=subprocess.Popen([runner,'--registry',str(root/'registry')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf-8')
             def rpc(action,**fields):
                 process.stdin.write(json.dumps(dict(action=action,**fields))+'\n');process.stdin.flush()
@@ -254,7 +256,7 @@ def run(runner,fixtures):
         assert not rpc('publish',session=next_())['ok'];paths[1].write_bytes(original);assert read(track=1)['bytesRead']==-1
     case('opus-init-rewrite-is-persistent-error',opus_rewrite)
     case('opus-cancel-closes-resource-leases',cancelled)
-    container='webm';video_codec='vp9';audio_codec='opus';prefix_of=webm_prefix
+    container='webm';video_codec='vp9';audio_codec='opus'
     for depth in (8,10):
         inputs=[(Path(fixtures)/('progressive-webm-vp9-'+str(depth))/(kind+'.webm')).read_bytes() for kind in ('video','audio')]
         def webm_exact(v,paths,rpc,open_,read,readers,next_):
@@ -288,7 +290,7 @@ def run(runner,fixtures):
     reject_edit('webm-opus-multichannel',lambda v,p:opus_header(p,9,6))
     reject_edit('webm-opus-mapping-family',lambda v,p:opus_header(p,18,1))
     reject_edit('webm-codec-hint-mismatch',lambda v,p:v['tracks'][0].update(codecHint='av1'))
-    reject_edit('webm-mixed-container-profile',lambda v,p:v['tracks'][1].update(containerHint='fmp4'))
+    reject_edit('webm-false-container-hint',lambda v,p:v['tracks'][1].update(containerHint='fmp4'))
     def webm_short(v,paths):
         paths[0].write_bytes(inputs[0][:16]);v['resources'][0]['ranges'][0]['length']='16'
     reject_edit('webm-wait-for-complete-initialization',webm_short,'waiting_initialization')
@@ -326,8 +328,35 @@ def run(runner,fixtures):
     case('webm-av1-confirmed-prefix-short-read-wait',waiting)
     case('webm-av1-cancel-closes-resource-leases',cancelled)
     case('webm-av1-published-header-rewrite-is-persistent-error',webm_rewrite)
+    # The two tracks now choose their containers independently. Hints never
+    # authorize bytes from a different container or bypass codec validation.
+    variants=(('h264','h264'),('hevc8','hevc'),('hevc10','hevc'),('av1-8','av1'),('av1-10','av1'),('vp9-8','vp9'),('vp9-10','vp9'))
+    pairs=[(base,codec,'fmp4','webm','opus') for base,codec in variants]
+    pairs += [('webm-'+base,codec,'webm','fmp4',audio) for base,codec in variants if codec in ('av1','vp9') for audio in ('aac-lc','opus')]
+    for base,video_codec,vc,ac,audio_codec in pairs:
+        folder='progressive' if base=='h264' else 'progressive-'+base
+        video=Path(fixtures)/folder/('video.webm' if vc=='webm' else 'video.mp4')
+        audio=Path(fixtures)/('progressive-webm-vp9-8/audio.webm' if ac=='webm' else 'progressive-opus-2/audio.mp4' if audio_codec=='opus' else 'progressive/audio.m4a')
+        inputs=[video.read_bytes(),audio.read_bytes()];containers=[vc,ac]
+        def mixed_exact(v,paths,rpc,open_,read,readers,next_):
+            open_();state=rpc('status')
+            assert state['mediaMode']=='separate-'+vc+'-'+ac+'-'+video_codec+'-'+audio_codec,state
+            assert (state['videoContainer'],state['audioContainer'])==(vc,ac),state
+            for i in range(2):assert read(track=i)['hex']==inputs[i][:8].hex()
+            assert len(readers())==2;rpc('release');assert readers()==[]
+        label='mixed-'+base+'-'+audio_codec
+        case(label+'-actual-initialization-and-pinned-leases',mixed_exact)
+        def mixed_no_hint(v,paths,rpc,open_,read,readers,next_):
+            for track in v['tracks']:track['codecHint']=''
+            mixed_exact(v,paths,rpc,open_,read,readers,next_)
+        case(label+'-discover-without-hints',mixed_no_hint)
+        case(label+'-rename-complete-and-identity-pinning',grow)
+        case(label+'-confirmed-prefix-short-read-wait',waiting)
+        case(label+'-cancel-closes-resource-leases',cancelled)
+        for i in range(2):
+            reject_edit(label+'-false-container-'+str(i),lambda v,p,index=i:v['tracks'][index].update(containerHint='webm' if containers[index]=='fmp4' else 'fmp4'))
     return dict(result='PASS',passed=len(names),cases=names)
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--runner',required=True);parser.add_argument('--fixtures',required=True);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--runner',required=True);parser.add_argument('--fixtures',default=os.environ.get('FOXICMP_TEST_MEDIA',str(Path(__file__).resolve().parents[1]/'_bin/qt-test-media')));args=parser.parse_args()
     print(json.dumps(run(args.runner,args.fixtures)))
