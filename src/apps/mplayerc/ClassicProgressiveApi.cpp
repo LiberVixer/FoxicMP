@@ -237,6 +237,11 @@ std::string ClassicProgressiveApi::Status() {
     d.AddMember("released",false,a);d.AddMember("connected",session->Connected(),a);d.AddMember("complete",session->Complete(),a);
     if(!readerId.empty())d.AddMember("readerId",Value(readerId.c_str(),a),a);
     Document details;details.Parse(session->PlaybackDetails().c_str());for(auto it=details.MemberBegin();it!=details.MemberEnd();++it)d.AddMember(Value(it->name,a),Value(it->value,a),a);
+    if(!pending && frame.m_eMediaLoadState==MLS_LOADED){CComQIPtr<IAMStreamSelect> select=frame.m_pSwitcherFilter.p;DWORD count=0;int index=-1;
+        if(select && SUCCEEDED(select->Count(&count)))for(DWORD i=0;i<count && i<9;++i){DWORD flags=0;if(SUCCEEDED(select->Info(i,nullptr,&flags,nullptr,nullptr,nullptr,nullptr,nullptr)) && (flags&(AMSTREAMSELECTINFO_ENABLED|AMSTREAMSELECTINFO_EXCLUSIVE)))index=int(i);}
+        Value selection(rapidjson::kObjectType);selection.AddMember("count",unsigned(count),a);selection.AddMember("index",index,a);d.AddMember("audioSelection",selection,a);
+        d.AddMember("loadedSubtitleCount",unsigned(frame.m_pSubStreams.size()),a);
+    }
     d.AddMember("positionSeconds",pending?0.:double(frame.GetPos())/10000000.,a);d.AddMember("availableSeconds",double(session->ReadyEnd())/10000000.,a);
     d.AddMember("durationSeconds",double(snapshot.duration)/10000000.,a);return Encode(d);
 }
@@ -351,7 +356,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             CStringW error;std::string reason;auto next=prepared?prepared->candidate:CHarvesterSession::OpenPublished(Encode(descriptor),error,
                 v2 || (d.HasMember("trackReader") && d["trackReader"].GetBool())?ReaderRegistry():std::wstring(),&reason);
             if(!next)return Failure(v2?reason.c_str():"source_not_ready",Utf8(error.GetString()));
-            auto data=std::make_unique<OpenFileData>();data->harvesterManifest=L"published-api";data->fi=CStringW(next->Path(0).c_str());data->auds.emplace_back(next->Path(1).c_str());data->bAddRecent=FALSE;
+            auto data=std::make_unique<OpenFileData>();data->harvesterManifest=L"published-api";data->fi=CStringW(next->Path(0).c_str());for(size_t i=1;i<next->TrackCount();++i)data->auds.emplace_back(next->Path(int(i)).c_str());data->bAddRecent=FALSE;
             if(!title.empty())data->fi.SetTitle(title.c_str());
             data->preparedHarvester=next;source=next;releaseReceipt=next->ReleaseReceipt();sessionId=id;sessionGeneration=next->Snapshot().generation;sessionSchema=v2?2:1;readerId=next->RegisteredReaderId();lastOutcome.clear();frame.OpenMedia(std::move(data));
             if(!d.HasMember("activate") || d["activate"].GetBool()){frame.ShowWindow(SW_RESTORE);frame.SetForegroundWindow();}

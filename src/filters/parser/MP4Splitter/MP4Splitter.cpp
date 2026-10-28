@@ -2311,7 +2311,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         if(!entry)return VFW_E_UNSUPPORTED_STREAM;
         const auto type=entry->GetType();
         const auto session=progressive->GetSession();
-        const bool validatedOpus=kind && movie->HasFragments() && session->AllowsOpusFragments() && type==AP4_ATOM_TYPE_Opus;
+        const bool validatedOpus=kind && movie->HasFragments() && session->AllowsOpusFragments(kind) && type==AP4_ATOM_TYPE_Opus;
         const bool validatedFragments=validatedOpus || (!kind && movie->HasFragments()
             && ((session->AllowsHevcFragments() && (type==AP4_ATOM_TYPE_HVC1 || type==AP4_ATOM_TYPE_HEV1))
                 || (session->AllowsAv1Fragments() && type==AP4_ATOM_TYPE_av01)

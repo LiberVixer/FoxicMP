@@ -268,3 +268,12 @@ SDK 1.21 расширяет WebM-профили [VP8/Vorbis](ProgressiveVp8Vorbi
 VP8-видео, Vorbis mono/stereo 48 kHz, floor 1, bounded setup. Поддержаны
 прежние видеокодеки с WebM Vorbis и VP8 с fMP4 AAC-LC/Opus; проверять
 конкретный профиль текущего EXE. v1 и Python API не меняются.
+
+SDK 1.22 добавляет [несколько аудио и полные UTF-8 SRT](ProgressiveMultiTrack.md):
+один video, 1–8 required audio и до четырёх optional SRT. Поздний complete SRT
+подключается во время просмотра. Поддержку проверять по multiAudio/audioTrackLimit
+и subtitles; прежнее trackCount:2 сохранено для старых клиентов.
+
+Qt capabilities отдельно сообщают `qtMultiAudioSeek`: при нескольких аудио
+переход по неполному источнику ограничен позициями 0–10 секунд; дальний переход
+явно отклоняется. Полностью готовые A/V допускают обычный byte seek.

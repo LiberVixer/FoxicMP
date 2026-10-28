@@ -57,7 +57,7 @@ bool Window::openProgressiveSource(const std::shared_ptr<ProgressiveSource> &nex
   releaseProgressive();
   player->command({"stop"});
   completionArmed = false;
-  progressive = next;
+  progressive = next;progressiveStartPosition=0;progressiveRestoreAudio.clear();progressiveRestoreSubtitle.clear();progressiveTracksReady=false;
   audioUserSelection = false;
   applyAudioSourceOptions();
   player->progressiveSource(next);
@@ -98,9 +98,12 @@ QJsonObject Window::progressivePlaybackStatus() const {
           {"connected", status.connected}, {"complete", status.complete},
           {"durationSeconds", status.duration}, {"availableSeconds", status.available},
           {"positionSeconds", pos}, {"error", status.error}};
-  const auto details=progressive->playbackDetails();for(auto it=details.begin();it!=details.end();++it)result[it.key()]=it.value();return result;
+  const auto details=progressive->playbackDetails();for(auto it=details.begin();it!=details.end();++it)result[it.key()]=it.value();
+  int count=0,index=-1;for(const auto& item:player->get("track-list").toList()){const auto track=item.toMap();if(track.value("type")=="audio"){if(track.value("selected").toBool())index=count;++count;}}
+  result["audioSelection"]=QJsonObject{{"count",count},{"index",index}};return result;
 }
 void Window::releaseProgressive(const QString &state) {
+  progressiveAttachedAudio.clear();progressiveAttachedSubtitles.clear();
   setProperty("foxicmpProgressiveTitle", {});
   if (!progressive)
     return;
@@ -123,12 +126,25 @@ bool Window::seekTo(double seconds) {
     showOsd(uiTr("Перемотка прямого входа недоступна"));
     return false;
   }
+  if(progressive && !progressive->status().complete && progressive->playbackDetails().value("mediaTracks").toArray().size()>2 && seconds>10){
+    showOsd(uiTr("При нескольких аудиодорожках переход дальше 10 секунд доступен после завершения загрузки"));return false;
+  }
   if (!seekAvailable(seconds, seconds)) {
     showOsd(
         uiTr("Выбранная позиция недоступна или отсутствует в кэше просмотра"));
     timeline->position = pos;
     timeline->update();
     return false;
+  }
+  if(progressive && progressive->playbackDetails().value("mediaTracks").toArray().size()>2){
+    // An unselected external audio demuxer need not retain its old packet cache.
+    // Reopen decoder streams against the same pinned source/reader group; retain
+    // IPC identity and re-read only confirmed bytes to restore all track clocks.
+    progressiveStartPosition=seconds;progressiveRestoreAudio=player->get("aid").toInt()>0?QString::number(player->get("aid").toInt()):QStringLiteral("no");
+    progressiveRestoreSubtitle=player->get("sid").toInt()>0?QString::number(player->get("sid").toInt()):QStringLiteral("no");
+    progressiveStarted=false;progressiveTracksReady=false;progressiveBuffering=true;
+    progressiveAttachedAudio.clear();progressiveAttachedSubtitles.clear();
+    updateProgressive();return true;
   }
   const double offset = progressive ? progressive->status().timestampOffset : 0;
   return player->command(
@@ -157,21 +173,31 @@ void Window::updateProgressive() {
   if (!progressiveStarted) {
     if (!status.connected || (!status.complete && status.available < 10))
       return;
-    progressiveStarted = true;
+    progressiveStarted = true;progressiveTracksReady=false;
     progressiveStreaming = !status.complete;
     progressiveBuffering = false;
     const QString url = "foxicmp-session://" + progressive->streamId();
     const auto details=progressive->playbackDetails();
-    const bool mixed=details.value("videoContainer")!=details.value("audioContainer");
+    const auto media=details.value("mediaTracks").toArray();
+    const bool mixed=media.size()>2 || !details.value("subtitleTracks").toArray().isEmpty() || details.value("videoContainer")!=details.value("audioContainer");
     // The external audio demuxer inherits lavf options. A forced mov/matroska
     // format would send the other container to the wrong demuxer in mixed pairs.
     // Both headers have already been validated by the per-track media bridge.
     const QString demuxer=mixed?QString():details.value("mediaMode").toString().startsWith("separate-webm-")?"matroska":"mov";
-    if (!player->loadSource(
-            url + "/video",
-            {{"audio-files-append", url + "/audio"},
+    QStringList audioFiles;
+    if(media.size()>2)for(int i=1;i<media.size();++i){audioFiles.append(url+(i==1?"/audio":"/track/"+QString::number(i)));if(i>1)progressiveAttachedAudio.insert(i);}
+    QMap<QString,QString> options{{"audio-files-append",url+"/audio"}};
+    if(!audioFiles.isEmpty()){
+      // mpv path lists use ':' on Unix and ';' on Windows; escape URL colons
+      // through the option parser, without constructing a command string.
+      const auto separator=QDir::listSeparator();QStringList escaped;
+      for(auto file:audioFiles){file.replace("\\","\\\\");file.replace(separator,QString("\\")+separator);escaped.append(file);}
+      options.clear();options["audio-files"]=escaped.join(separator);
+      options["aid"]=progressiveRestoreAudio.isEmpty()?QStringLiteral("1"):progressiveRestoreAudio;
+    }
+    options.insert(QMap<QString,QString>{
              {"rebase-start-time", "no"},
-             {"start", QString::number(status.timestampOffset, 'f', 6)},
+             {"start", QString::number(status.timestampOffset+(status.complete?progressiveStartPosition:0), 'f', 6)},
              {"pause", "yes"},
              {"cache", "yes"},
              {"cache-pause", "no"},
@@ -183,10 +209,45 @@ void Window::updateProgressive() {
              {"demuxer", "lavf"},
              {"demuxer-lavf-format", demuxer},
              {"demuxer-lavf-probesize", "32768"},
-             {"demuxer-lavf-analyzeduration", "0.2"}}))
-      return;
+             {"demuxer-lavf-analyzeduration", "0.2"}});
+    if(!player->loadSource(url+"/video",options))return;
+    if(status.complete)progressiveStartPosition=0;
     if (!progressive)
       return;
+  }
+  // Subtitles may become ready after A/V has started.
+  const auto url="foxicmp-session://"+progressive->streamId();
+  if(progressiveTracksReady && player->get("path").toString()==url+"/video" && player->get("track-list").toList().size()>=2){
+    for(const auto& value:progressive->playbackDetails().value("subtitleTracks").toArray()){
+      const auto track=value.toObject();const auto id=track.value("id").toString(),path=track.value("path").toString();
+      if(!track.value("ready").toBool() || path.isEmpty() || progressiveAttachedSubtitles.contains(id))continue;
+      const bool selected=!subtitleUserSelection && (track.value("default").toBool() || track.value("forced").toBool());
+      if(player->command({"sub-add",path,selected?"select":"auto",track.value("label").toString(),track.value("language").toString()}))progressiveAttachedSubtitles.insert(id);
+    }
+  }
+  if(progressiveTracksReady && !progressiveRestoreAudio.isEmpty() && progressiveAttachedAudio.size()+2==progressive->playbackDetails().value("mediaTracks").toArray().size()){
+    player->set("aid",progressiveRestoreAudio);progressiveRestoreAudio.clear();
+  }
+  if(progressiveTracksReady && !progressiveRestoreSubtitle.isEmpty()){
+    int ready=0;for(const auto& value:progressive->playbackDetails().value("subtitleTracks").toArray())if(value.toObject().value("ready").toBool())++ready;
+    int loaded=0;bool present=progressiveRestoreSubtitle=="no";
+    for(const auto& value:player->get("track-list").toList()){const auto track=value.toMap();if(track.value("type")=="sub"){++loaded;present|=track.value("id").toString()==progressiveRestoreSubtitle;}}
+    // sub-add is asynchronous: wait for the actual streams, not queued commands.
+    if(present && loaded>=ready && player->set("sid",progressiveRestoreSubtitle))progressiveRestoreSubtitle.clear();
+  }
+  if(progressiveStartPosition>0){
+    // The growing external streams are nonseekable at open. Build the chosen
+    // audio/video packet caches from their starts, then seek within that cache.
+    // A nonzero loadfile start would ask the external demuxer for a byte seek
+    // before its cache exists and can silently disable the chosen audio.
+    const double target=status.timestampOffset+progressiveStartPosition;
+    bool cached=false;
+    for(const auto& range:player->get("demuxer-cache-state").toMap().value("seekable-ranges").toList()){
+      const auto bounds=range.toMap();if(bounds.value("start").toDouble()<=target && bounds.value("end").toDouble()>=target+.25)cached=true;
+    }
+    if(!progressiveTracksReady || !cached){progressiveBuffering=true;player->set("pause",true);return;}
+    if(!player->command({"seek",QString::number(target,'f',3),"absolute+exact"}))return;
+    progressiveStartPosition=0;
   }
   const double ahead = status.available - pos;
   if (!status.connected || (!status.complete && ahead < 1))

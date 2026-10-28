@@ -10,7 +10,7 @@ namespace foxicmp { namespace progressive {class ReaderLease;class Fmp4V2Bridge;
 class CHarvesterSession {
     std::wstring m_manifest, m_root;
     bool m_published = false;
-    std::array<std::wstring, 2> m_publishedPaths;
+    std::array<std::wstring, harvester::MaxMediaTracks> m_publishedPaths;
     std::wstring m_publishedRoot;
     std::shared_ptr<std::atomic<bool>> m_released = std::make_shared<std::atomic<bool>>(false);
     std::unique_ptr<foxicmp::progressive::ReaderLease> m_readerLease;
@@ -18,13 +18,13 @@ class CHarvesterSession {
     harvester::Snapshot m_state;
     mutable std::mutex m_mutex;
     std::mutex m_publishMutex;
-    std::array<HANDLE,2> m_files{{INVALID_HANDLE_VALUE,INVALID_HANDLE_VALUE}};
-    std::array<std::vector<harvester::Sample>,2> m_samples;
-    using Fragments=std::array<std::shared_ptr<const harvester::FragmentIndex>,2>;
-    Fragments m_fragments{{std::make_shared<harvester::FragmentIndex>(),std::make_shared<harvester::FragmentIndex>()}};
-    std::array<int64_t,2> m_duration{{0,0}};
-    mutable std::array<size_t,2> m_indexPosition{{0,0}};
-    mutable std::array<int64_t,2> m_indexEnd{{0,0}};
+    std::array<HANDLE,harvester::MaxMediaTracks> m_files=[] {std::array<HANDLE,harvester::MaxMediaTracks> a;a.fill(INVALID_HANDLE_VALUE);return a;}();
+    std::array<std::vector<harvester::Sample>,harvester::MaxMediaTracks> m_samples;
+    using Fragments=std::array<std::shared_ptr<const harvester::FragmentIndex>,harvester::MaxMediaTracks>;
+    Fragments m_fragments;
+    std::array<int64_t,harvester::MaxMediaTracks> m_duration{{0,0}};
+    mutable std::array<size_t,harvester::MaxMediaTracks> m_indexPosition{{0,0}};
+    mutable std::array<int64_t,harvester::MaxMediaTracks> m_indexEnd{{0,0}};
     std::atomic<int64_t> m_position{0};
     std::atomic<unsigned> m_completionWaiters{0};
     std::thread m_thread;
@@ -52,7 +52,11 @@ public:
     bool AllowsHevcFragments() const;
     bool AllowsAv1Fragments() const;
     bool AllowsVp9Fragments() const;
-    bool AllowsOpusFragments() const;
+    bool AllowsOpusFragments(int track=1) const;
+    size_t TrackCount() const {return Snapshot().tracks.size();}
+    struct SubtitleFile {std::wstring path,label;std::string language;bool selected=false;};
+    std::vector<SubtitleFile> SubtitleFiles() const;
+    std::wstring TrackLabel(int index) const;
     std::string WebMCodec(int track) const;
     bool IsWebM(int track=0) const;
     HRESULT ReadV2(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker);

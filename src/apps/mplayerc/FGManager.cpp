@@ -1264,7 +1264,7 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
 	*/
 
 	if (m_harvester) {
-		int kind = lpcwstrFileName == m_harvester->Path(0) ? 0 : lpcwstrFileName == m_harvester->Path(1) ? 1 : -1;
+		int kind=-1;for(size_t i=0;i<m_harvester->TrackCount();++i)if(lpcwstrFileName==m_harvester->Path(int(i))){kind=int(i);break;}
 		if (kind < 0 || m_bOpeningAborted) return E_ABORT;
 		CBaseSplitterFilter* source = m_harvester->IsWebM(kind) ? static_cast<CBaseSplitterFilter*>(DNew CMatroskaSourceFilter(nullptr, &hr)) : static_cast<CBaseSplitterFilter*>(DNew CMP4SourceFilter(nullptr, &hr));
 		CComPtr<IBaseFilter> filter = source;
@@ -1272,7 +1272,7 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
 		CComPtr<IAsyncReader> async = reader;
 		if (FAILED(hr) || FAILED(hr = source->LoadReader(lpcwstrFileName, async))) return hr;
 		reader->StartStreaming();
-		if (FAILED(hr = AddFilter(filter, kind ? L"Harvester audio" : L"Harvester video"))) return hr;
+		if (FAILED(hr = AddFilter(filter, m_harvester->TrackLabel(kind).c_str()))) return hr;
 		hr = ConnectFilter(filter, nullptr);
 		if (FAILED(hr)) RemoveFilter(filter);
 		return hr;

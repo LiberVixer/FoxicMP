@@ -88,6 +88,7 @@ bool PipeWrite(HANDLE pipe,const std::string& data) {
 }
 }
 CHarvesterSession::CHarvesterSession() {
+    for(auto& index:m_fragments)index=std::make_shared<harvester::FragmentIndex>();
     m_cancel=CreateEventW(nullptr,TRUE,FALSE,nullptr); m_stop=CreateEventW(nullptr,TRUE,FALSE,nullptr);
 }
 CHarvesterSession::~CHarvesterSession() {
@@ -151,7 +152,7 @@ std::wstring PublishedPath(const std::wstring& root, const rapidjson::Value& tra
     }
     return LocalPath(raw,inspect);
 }
-void NormalizePublishedPaths(rapidjson::Document& input, std::array<std::wstring,2>& paths,
+void NormalizePublishedPaths(rapidjson::Document& input, std::array<std::wstring,harvester::MaxMediaTracks>& paths,
                              const std::wstring& root, bool inspect) {
     if(!input.HasMember("tracks") || !input["tracks"].IsObject()) throw std::runtime_error("Tracks missing");
     for(int i=0;i<2;++i) {
@@ -162,7 +163,7 @@ void NormalizePublishedPaths(rapidjson::Document& input, std::array<std::wstring
     }
     if(input.HasMember("sessionDirectory")) input.RemoveMember("sessionDirectory");
 }
-harvester::Snapshot PublishedSnapshot(const std::string& json, std::array<std::wstring, 2>& paths,
+harvester::Snapshot PublishedSnapshot(const std::string& json, std::array<std::wstring, harvester::MaxMediaTracks>& paths,
                                       std::wstring& root) {
     rapidjson::Document input;
     input.Parse<rapidjson::kParseValidateEncodingFlag|rapidjson::kParseIterativeFlag>(json.data(),json.size());
@@ -187,8 +188,8 @@ void RequireOwned(HANDLE file) {
 }
 bool CHarvesterSession::AllowsAv1Fragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="av1";}
 bool CHarvesterSession::AllowsVp9Fragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="vp9";}
-bool CHarvesterSession::AllowsOpusFragments() const {return m_v2Bridge && m_v2Bridge->audioCodec()=="opus";}
-std::string CHarvesterSession::WebMCodec(int track) const {return !m_v2Bridge?std::string():track?m_v2Bridge->audioCodec():m_v2Bridge->videoCodec();}
+bool CHarvesterSession::AllowsOpusFragments(int track) const {return m_v2Bridge && m_v2Bridge->audioCodec(track)=="opus";}
+std::string CHarvesterSession::WebMCodec(int track) const {return !m_v2Bridge?std::string():track?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
 bool CHarvesterSession::IsWebM(int track) const {return m_v2Bridge && m_v2Bridge->isWebm(track);}
 bool CHarvesterSession::AllowsHevcFragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="hevc";}
 std::string CHarvesterSession::RegisteredReaderId() const {return m_readerLease?m_readerLease->id():std::string();}
@@ -197,6 +198,14 @@ std::string CHarvesterSession::PlaybackDetails() const {
     std::lock_guard<std::mutex> lock(m_mutex);rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());
     auto& a=d.GetAllocator();d["revision"].SetString(std::to_string(m_state.revision).c_str(),a);
     return foxicmp::progressive::lease_detail::Encode(d);
+}
+std::vector<CHarvesterSession::SubtitleFile> CHarvesterSession::SubtitleFiles() const {
+    std::vector<SubtitleFile> out;if(!m_v2Bridge)return out;rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());
+    for(const auto& t:d["subtitleTracks"].GetArray())if(t["ready"].GetBool())out.push_back({Wide(t["path"].GetString()),Wide(t["label"].GetString()),t["language"].GetString(),t["default"].GetBool() || t["forced"].GetBool()});return out;
+}
+std::wstring CHarvesterSession::TrackLabel(int index) const {
+    if(!m_v2Bridge)return index?L"Harvester audio":L"Harvester video";rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());
+    const auto& t=d["mediaTracks"][index];const std::string label=t["label"].GetString(),language=t["language"].GetString();return Wide((label.empty()?std::string(t["id"].GetString()):label)+(language.empty()?std::string():" ["+language+"]"));
 }
 std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::string& json,CStringW& error,const std::wstring& readerRegistry,std::string* reasonCode,bool trackGroup) {
     std::shared_ptr<CHarvesterSession> context;
@@ -209,11 +218,11 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
             rapidjson::StringBuffer b;rapidjson::Writer<rapidjson::StringBuffer>w(b);descriptor.Accept(w);
             context->m_v2Bridge=std::make_shared<foxicmp::progressive::Fmp4V2Bridge>(std::filesystem::path(context->m_publishedRoot),std::filesystem::path(readerRegistry),std::string(b.GetString(),b.GetSize()));
             context->m_state=context->m_v2Bridge->snapshot();
-            for(int i=0;i<2;++i)context->m_publishedPaths[i]=context->m_publishedRoot+L"\\"+Wide(context->m_state.tracks[i].path);
+            for(int i=0;size_t(i)<context->m_state.tracks.size();++i)context->m_publishedPaths[i]=context->m_publishedRoot+L"\\"+Wide(context->m_state.tracks[i].path);
         }else context->m_state=PublishedSnapshot(json,context->m_publishedPaths,context->m_publishedRoot);
         if(context->m_state.state==harvester::State::Cancelled || context->m_state.state==harvester::State::Failed)
             throw std::runtime_error("Cannot start a terminal failed session");
-        for(int i=0;i<2;++i) {
+        for(int i=0;size_t(i)<context->m_state.tracks.size();++i) {
             const auto& track=context->m_state.tracks[i];
             if(!track.initializationReady)throw std::runtime_error("Initialization is not ready");
             if(context->m_v2Bridge)continue;
@@ -233,8 +242,7 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
         context->RefreshFragments();context->PublishedHeartbeat();
         if(context->m_v2Bridge && trackGroup) {
             const auto bindings=context->m_v2Bridge->bindings();
-            context->m_readerLease=foxicmp::progressive::ReaderLease::Create(std::filesystem::path(readerRegistry),context->m_state.sessionId,context->m_state.generation,
-                {{"video",bindings[0].device,bindings[0].fileId},{"audio",bindings[1].device,bindings[1].fileId}});
+            context->m_readerLease=foxicmp::progressive::ReaderLease::Create(std::filesystem::path(readerRegistry),context->m_state.sessionId,context->m_state.generation,bindings);
         }else if(!context->m_v2Bridge && !readerRegistry.empty())context->m_readerLease=foxicmp::progressive::ReaderLease::Create(
             std::filesystem::path(readerRegistry),context->m_state.sessionId,context->m_state.generation,
             {{"video",a.dwVolumeSerialNumber,(uint64_t(a.nFileIndexHigh)<<32)|a.nFileIndexLow},
@@ -274,7 +282,7 @@ bool CHarvesterSession::Publish(const std::string& json,CStringW& error) {
             PublishedDirectory(input,&m_publishedRoot);input.RemoveMember("sessionDirectory");
             m_v2Bridge->publish(foxicmp::progressive::lease_detail::Encode(input));next=m_v2Bridge->snapshot();
         }else {
-            std::array<std::wstring,2> paths;const auto root=PublishedDirectory(input,&m_publishedRoot);
+            std::array<std::wstring,harvester::MaxMediaTracks> paths;const auto root=PublishedDirectory(input,&m_publishedRoot);
             NormalizePublishedPaths(input,paths,root,false);
             next=harvester::Parse(foxicmp::progressive::lease_detail::Encode(input));
             if(paths!=m_publishedPaths)throw std::runtime_error("Track paths changed");
@@ -287,7 +295,7 @@ bool CHarvesterSession::Publish(const std::string& json,CStringW& error) {
         {std::lock_guard<std::mutex> lock(m_mutex);
          if(!m_error.empty() || WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0)throw std::runtime_error("Session is closed");
          m_state=next;retired=std::move(m_fragments);m_fragments=std::move(fragments);
-         for(int i=0;i<2;++i)if(next.tracks[i].fragmented)m_duration[i]=next.duration;
+         for(int i=0;size_t(i)<next.tracks.size();++i)if(next.tracks[i].fragmented)m_duration[i]=next.duration;
         }
         PublishedHeartbeat();
         if(next.state==harvester::State::Cancelled || next.state==harvester::State::Failed)Fail("Downloader cancelled or failed");
@@ -350,7 +358,7 @@ void CHarvesterSession::Watch() {
                 {std::lock_guard<std::mutex> lock(m_mutex);
                  if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || !m_error.empty())break;
                  m_state=next;retired=std::move(m_fragments);m_fragments=std::move(fragments);
-                 for(int i=0;i<2;++i)if(next.tracks[i].fragmented)m_duration[i]=next.duration;
+                 for(int i=0;size_t(i)<next.tracks.size();++i)if(next.tracks[i].fragmented)m_duration[i]=next.duration;
                  m_lastUpdate=GetTickCount64();}
             }
             const auto current=Snapshot();
@@ -415,8 +423,8 @@ bool CHarvesterSession::SetIndex(int track,std::vector<harvester::Sample> sample
 }
 int64_t CHarvesterSession::ReadyEnd() const {
     std::lock_guard<std::mutex> lock(m_mutex);
-    int64_t ready[2] = {};
-    for(int track=0;track<2;++track) {
+    int64_t ready[harvester::MaxMediaTracks] = {};
+    for(int track=0;size_t(track)<m_state.tracks.size();++track) {
         const auto& samples=Samples(track);auto& position=m_indexPosition[track];auto& end=m_indexEnd[track];
         while(position<samples.size() && harvester::RangeReady(samples[position].offset,samples[position].size,m_state.tracks[track].available)) {
             end=std::max(end,samples[position].end);++position;
@@ -425,9 +433,9 @@ int64_t CHarvesterSession::ReadyEnd() const {
         if(m_state.tracks[track].fragmented && !harvester::EndReady(m_state.tracks[track]) && !samples.empty())
             ready[track]=std::min(ready[track],harvester::AddTime(samples.back().decode,samples.back().end-samples.back().start));
     }
-    return std::min(ready[0],ready[1]);
+    return *std::min_element(ready,ready+m_state.tracks.size());
 }
-bool CHarvesterSession::Complete() const {auto s=Snapshot();return s.tracks[0].state==harvester::State::Complete && s.tracks[1].state==harvester::State::Complete;}
+bool CHarvesterSession::Complete() const {auto s=Snapshot();return std::all_of(s.tracks.begin(),s.tracks.end(),[](const auto& t){return harvester::EndReady(t);});}
 
 const std::vector<harvester::Sample>& CHarvesterSession::Samples(int track) const {
     return m_state.tracks[track].fragmented?m_fragments[track]->Samples():m_samples[track];
@@ -435,7 +443,7 @@ const std::vector<harvester::Sample>& CHarvesterSession::Samples(int track) cons
 CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::Snapshot& snapshot) {
     Fragments result;
     {std::lock_guard<std::mutex> lock(m_mutex);result=m_fragments;}
-    for(int track=0;track<2;++track)if(snapshot.tracks[track].fragmented) {
+    for(int track=0;size_t(track)<snapshot.tracks.size();++track)if(snapshot.tracks[track].fragmented) {
         // Clone and parse outside the metadata mutex used by UI readiness/seek.
         auto next=std::make_shared<harvester::FragmentIndex>(*result[track]);
         const auto& state=snapshot.tracks[track];
@@ -452,7 +460,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
             }
             CloseHandle(ov.hEvent);return ok && n==size;
         };
-        next->Update(diskRead,state.available,track,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec()=="opus",IsWebM(track));
+        next->Update(diskRead,state.available,track?1:0,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track));
         result[track]=std::move(next);
     }
     return result;
@@ -460,7 +468,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
 void CHarvesterSession::RefreshFragments() {
     const auto snapshot=Snapshot();auto fragments=BuildFragments(snapshot);Fragments retired;
     {std::lock_guard<std::mutex> lock(m_mutex);retired=std::move(m_fragments);m_fragments=std::move(fragments);
-     for(int i=0;i<2;++i)if(snapshot.tracks[i].fragmented)m_duration[i]=snapshot.duration;}
+     for(int i=0;size_t(i)<snapshot.tracks.size();++i)if(snapshot.tracks[i].fragmented)m_duration[i]=snapshot.duration;}
 }
 
 HRESULT CHarvesterSession::ReadV2(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker) {
@@ -483,6 +491,6 @@ int CHarvesterSession::SampleAt(int track,size_t index,harvester::Sample& sample
 size_t CHarvesterSession::SeekSample(int track,int64_t position) const {
     std::lock_guard<std::mutex> lock(m_mutex);const auto& samples=Samples(track);size_t found=0;
     if(track==0){for(size_t i=0;i<samples.size();++i)if(samples[i].sync && samples[i].start<=position)found=i;}
-    else {found=harvester::AudioSeekSample(samples,position,WebMCodec(1)=="vorbis"?2000000:AllowsOpusFragments()?800000:0);}
+    else {found=harvester::AudioSeekSample(samples,position,WebMCodec(track)=="vorbis"?2000000:AllowsOpusFragments(track)?800000:0);}
     return found;
 }

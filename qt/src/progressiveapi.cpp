@@ -87,6 +87,7 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
           {"readerLeaseProtocol", 1}, {"readerLeaseOptIn", true}, {"maxReaderReceipts", 128},
           {"playbackSchemaVersions", QJsonArray{1,2}}, {"validationSchemaVersions", QJsonArray{2}},
           {"schema2Playback",QJsonDocument::fromJson(foxicmp::progressive::Fmp4V2Capabilities()).object()},
+          {"qtMultiAudioSeek",QJsonObject{{"maxTargetSecondsWhileIncomplete",10},{"completeSourceByteSeek",true}}},
           {"releaseAcknowledgement", true},
           {"mediaPreparation",QJsonObject{{"offUi",QJsonArray{"probe","start","update","complete"}},{"maxConcurrent",1},{"responseDeadlineMilliseconds",5000},{"updatesOffUi",true},{"cancellableDiskIo",false}}},
           {"containers", QJsonArray{"fast-start-mp4", "fragmented-mp4"}},

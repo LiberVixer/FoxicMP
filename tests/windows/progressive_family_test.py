@@ -23,6 +23,7 @@ from progressive_v2_conformance import check_player as check_v2_model
 from progressive_reader_api_conformance import exercise as exercise_reader_contract
 from progressive_resource_api_conformance import exercise as exercise_resource_contract
 from progressive_v2_playback_conformance import exercise as exercise_v2_playback, MEDIA_PROFILES
+from progressive_multitrack_conformance import exercise as exercise_multitrack
 
 
 def registration_snapshot():
@@ -516,7 +517,7 @@ def run_legacy(args):
         except (OSError,ValueError):return {}
     try:
         wait(lambda:(work/'fixture-ready.json').exists(),8)
-        process=subprocess.Popen([str(player),'/harvester-session',str(manifest),'/nofocus'],cwd=player.parent)
+        process=subprocess.Popen([str(player),'/harvester-session',str(manifest),'/nofocus','/minimized'],cwd=player.parent)
         message=work/('player-'+str(process.pid)+'.json')
         attached=wait(lambda:read(message))
         assert attached['pid']==process.pid
@@ -562,7 +563,7 @@ def run(args):
     registration = registration_snapshot()
     client = ProgressiveClient(str(player))
     assert ini.read_bytes() == before, 'Read-only discovery modified the profile'
-    process = subprocess.Popen([str(player), '/new', '/nofocus'], cwd=player.parent)
+    process = subprocess.Popen([str(player), '/new', '/nofocus', '/minimized'], cwd=player.parent)
     results = []
     try:
         deadline = time.monotonic()+20
@@ -575,6 +576,8 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.multi_only:
+            return [dict(contract='multi-audio-subtitles',result=exercise_multitrack(client,args.fixtures,Path(args.report)/'multi-audio-subtitles',select_audio=lambda _:post_command(process.pid,952),select_subtitle=lambda:post_command(process.pid,954),seek=lambda seconds:seek_backward(process.pid,seconds)))]
         if args.media_profile:
             return [dict(contract='v2-media',result=exercise_v2_playback(client,args.fixtures,Path(args.report)/('schema-2-media-'+args.media_profile),args.media_profile,seek=lambda seconds:seek_backward(process.pid,seconds)))]
         if args.registry_only:
@@ -609,10 +612,11 @@ def run(args):
             sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
                 Path(args.fixtures)/'progressive/audio.m4a', Path(args.report)/'sdk-writer')
             media = {profile:exercise_v2_playback(client,args.fixtures,Path(args.report)/('schema-2-media-'+profile),profile,seek=lambda seconds:seek_backward(process.pid,seconds)) for profile in MEDIA_PROFILES}
+            multi = exercise_multitrack(client,args.fixtures,Path(args.report)/'multi-audio-subtitles',select_audio=lambda _:post_command(process.pid,952),select_subtitle=lambda:post_command(process.pid,954),seek=lambda seconds:seek_backward(process.pid,seconds))
             registry = exercise_registry_oplock(client,process.pid,args.fixtures,Path(args.report)/'registry-oplock')
             publication = exercise_publication(client,process.pid,args.fixtures,Path(args.report)/'async-publication')
             preparation = exercise_preparation(client,process.pid,args.fixtures,Path(args.report)/'async-preparation')
-            return [dict(contract='reader-registry-oplock',result=registry),dict(contract='async-publication',result=publication),dict(contract='async-preparation',result=preparation),dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases),dict(contract='reader-leases',result=readers),dict(contract='resource-io',result=resources),dict(contract='v2-media',result=media)]
+            return [dict(contract='reader-registry-oplock',result=registry),dict(contract='async-publication',result=publication),dict(contract='async-preparation',result=preparation),dict(contract='sdk-writer', result=sdk),dict(contract='v2-metadata-validation',passed=model_cases),dict(contract='reader-leases',result=readers),dict(contract='resource-io',result=resources),dict(contract='v2-media',result=media),dict(contract='multi-audio-subtitles',result=multi)]
         common = exercise_directory_contract(client, args.fixtures, Path(args.report)/'relative-contract')
         results.append(dict(contract='sessionDirectory', scenarios=common))
         sdk = run_sdk_writer(client, Path(args.fixtures)/'progressive/video.mp4',
@@ -680,6 +684,7 @@ def run(args):
 if __name__ == '__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--player',required=True);parser.add_argument('--fixtures',required=True);parser.add_argument('--report',required=True)
     parser.add_argument('--media-profile',choices=MEDIA_PROFILES)
+    parser.add_argument('--multi-only',action='store_true')
     parser.add_argument('--sdk-only', action='store_true')
     parser.add_argument('--preparation-only', action='store_true')
     parser.add_argument('--publication-only', action='store_true')

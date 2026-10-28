@@ -61,10 +61,10 @@ private:
   Status indexStatus(const harvester::Snapshot &);
   QString manifest, root;
   harvester::Snapshot snapshot;
-  std::array<intptr_t, 2> files{{-1, -1}};
-  std::array<uint64_t, 2> devices{}, inodes{};
-  std::array<harvester::FragmentIndex, 2> indexes;
-  std::array<IndexedMp4, 2> indexed;
+  std::array<intptr_t, harvester::MaxMediaTracks> files=[] {std::array<intptr_t,harvester::MaxMediaTracks> a;a.fill(-1);return a;}();
+  std::array<uint64_t, harvester::MaxMediaTracks> devices{}, inodes{};
+  std::array<harvester::FragmentIndex, harvester::MaxMediaTracks> indexes;
+  std::array<IndexedMp4, harvester::MaxMediaTracks> indexed;
   mutable std::mutex mutex;
   std::mutex publicationMutex;
   friend class ProgressiveApiTest;

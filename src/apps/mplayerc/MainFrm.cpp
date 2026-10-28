@@ -15178,7 +15178,7 @@ void CMainFrame::CloseMediaPrivate()
 		m_pGB.Release();
 	}
 
-	m_harvester.reset();
+	m_harvester.reset();m_harvesterSubtitles.clear();
 	m_harvesterBuffering = false;
 	m_harvesterStarted = false;
 	PreviewWindowHide();
@@ -21673,6 +21673,12 @@ void CMainFrame::UpdateHarvesterPlayback(REFERENCE_TIME now)
         CloseMedia();
         SetStatusMessage(diagnostic);
         return;
+    }
+    if(m_eMediaLoadState==MLS_LOADED)for(const auto& subtitle:m_harvester->SubtitleFiles())if(!m_harvesterSubtitles.count(subtitle.path)){
+        // LoadSubtitle returns a borrowed pointer owned by m_pSubStreams.
+        ISubStream* stream=nullptr;
+        const bool selected=subtitle.selected && AfxGetAppSettings().fEnableSubtitles;
+        if(LoadSubtitle(CExtraFileItem(subtitle.path.c_str(),subtitle.label.c_str(),subtitle.language.c_str()),selected?&stream:nullptr,true)){m_harvesterSubtitles.insert(subtitle.path);if(selected && stream)SetSubtitle(stream);}
     }
     m_harvester->ReportPosition(now);
     const auto ready = m_harvester->ReadyEnd();

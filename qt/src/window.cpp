@@ -343,6 +343,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
     updateClock();
     actions["play"]->setIcon(controlIcon("pause"));
     if (progressive) {
+      progressiveTracksReady=true;
       completionArmed = false;
       setSpeed(profile.settings.value("playback/keepSpeed", false).toBool()
                    ? sessionSpeed
@@ -1884,6 +1885,13 @@ void Window::refreshTracks() {
     if (type != "audio" && type != "sub")
       continue;
     int id = t.value("id").toInt();
+    if(progressive && type=="audio"){
+      const auto path=t.value("external-filename").toString();
+      const auto media=progressive->playbackDetails().value("mediaTracks").toArray();
+      for(const auto& value:media){const auto track=value.toObject();const int index=track.value("index").toInt();
+        if(index>0 && (path.endsWith(index==1?"/audio":"/track/"+QString::number(index)))){t["title"]=track.value("label").toString();t["lang"]=track.value("language").toString();break;}
+      }
+    }
     QString label =
         QString("%1: %2 %3 %4")
             .arg(id)

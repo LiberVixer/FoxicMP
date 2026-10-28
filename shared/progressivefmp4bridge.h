@@ -2,12 +2,13 @@
 // Reuses the existing MP4/Matroska demuxers; ALL index and decoder bytes use ResourceSource.
 #pragma once
 #include "progressiveresourceio.h"
+#include "progressivesubtitles.h"
 #include "DSUtil/HarvesterMP4.h"
 #include <array>
 
 namespace foxicmp { namespace progressive {
 inline const char* Fmp4V2Capabilities() {
-    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
+    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"trackCountMin":2,"trackCountMax":13,"mediaTrackCountMax":9,"audioTrackLimit":8,"multiAudio":true,"subtitles":{"containers":["srt"],"codecs":["srt"],"encoding":"utf-8","trackLimit":4,"completeFileRequired":true,"lateCompletion":true,"sizeLimitBytes":524288},"audioTracksRequired":true,"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
 }
 class Fmp4V2Bridge {
     Snapshot model;
@@ -17,13 +18,16 @@ class Fmp4V2Bridge {
     harvester::Snapshot legacy;
     std::shared_ptr<ResourceSource> source;
     std::filesystem::path registry;
-    std::array<std::string,2> resourceIds;
-    std::array<std::vector<char>,2> initialization;
-    std::array<uint64_t,2> initOffsets{};
-    std::atomic<uint64_t> decoderBytes[2]{};
+    std::array<std::string,harvester::MaxMediaTracks> resourceIds,trackIds,trackCodecs;
+    std::array<std::vector<char>,harvester::MaxMediaTracks> initialization;
+    std::array<uint64_t,harvester::MaxMediaTracks> initOffsets{};
+    std::atomic<uint64_t> decoderBytes[harvester::MaxMediaTracks]{};
     std::string failure;
     std::string videoCodecName,audioCodecName;
-    std::array<bool,2> webmMode{};
+    std::array<bool,harvester::MaxMediaTracks> webmMode{};
+    struct Subtitle {std::string id,resource,label,language,bytes,path;bool defaultTrack=false,forced=false;};
+    std::map<std::string,Subtitle> subtitleTracks;
+    std::unique_ptr<SubtitleCache> subtitleCache;
     mutable std::mutex mutex;
     static void supported(bool ok,const char* text) {Require(ok,"mediaProfile",text,"unsupported_media");}
     static harvester::State state(const std::string& text) {
@@ -37,26 +41,33 @@ class Fmp4V2Bridge {
     static uint64_t prefix(const Resource& resource) {
         uint64_t end=0;for(const auto& range:resource.ranges){if(range.offset>end)break;end=range.offset+range.length;}return end;
     }
-    static harvester::Snapshot map(const Snapshot& snapshot,std::array<std::string,2>* resources=nullptr) {
+    static harvester::Snapshot map(const Snapshot& snapshot,std::array<std::string,harvester::MaxMediaTracks>* resources=nullptr,std::array<std::string,harvester::MaxMediaTracks>* tracks=nullptr) {
         supported(!snapshot.live && !snapshot.hasWindow && snapshot.knownDuration && snapshot.numerator==1 && snapshot.denominator==10000000 && snapshot.offset>=0,
-                  "Media v2 currently requires VOD, known duration, 100 ns timebase and nonnegative timestamp offset");
-        supported(snapshot.tracks.size()==2 && snapshot.resources.size()==2,"Media v2 currently requires exactly two separate fMP4/WebM resources/tracks");
-        harvester::Snapshot result;result.sessionId=snapshot.id;result.generation=snapshot.generation;result.revision=snapshot.revision;
-        result.duration=snapshot.duration;result.timestampOffset=snapshot.offset;result.state=state(snapshot.state);
-        bool found[2]={false,false};std::array<std::string,2> ids;
-        for(const auto& item:snapshot.tracks) {
-            const auto& track=item.second;const int index=track.kind=="video"?0:track.kind=="audio"?1:-1;
-            supported(index>=0 && !found[index] && track.required && !track.resource.empty() && track.segments.empty() && track.initialization.empty(),
-                      "Media v2 currently supports one required video and one required audio track, without segments or external init");
-            const bool webm=track.container=="webm";
-            supported((webm || track.container=="fmp4") && (track.codec.empty() || (webm?(index?(track.codec=="opus" || track.codec=="vorbis"):track.codec=="vp8" || track.codec=="vp9" || track.codec=="av1"):(index?(track.codec=="aac-lc" || track.codec=="opus"):track.codec=="h264" || track.codec=="hevc" || track.codec=="av1" || track.codec=="vp9"))),"Use a declared separate fMP4 or WebM codec/container profile");
-            const auto& resource=snapshot.resources.at(track.resource);supported(!resource.retired,"Cannot start media from a retired resource");
-            auto& output=result.tracks[index];output.path=resource.name;output.container=webm?"webm":index?"m4a":"mp4";
-            output.fragmented=true;output.initializationReady=track.initializationReady;output.available=prefix(resource);output.total=resource.known?resource.length:0;
-            output.state=state(track.state);ids[index]=resource.id;found[index]=true;
+                  "Media v2 requires VOD, known duration, 100 ns timebase and nonnegative offset");
+        supported(snapshot.tracks.size()>=2 && snapshot.tracks.size()<=harvester::MaxMediaTracks+4 && snapshot.resources.size()==snapshot.tracks.size(),"Use one video and one to eight separate audio resources");
+        std::vector<const Track*> ordered;const Track* video=nullptr;unsigned defaults=0,subtitles=0;std::set<std::string> resourcesUsed;
+        for(const auto& item:snapshot.tracks){const auto& t=item.second;
+            supported(!t.resource.empty() && t.segments.empty() && t.initialization.empty() && resourcesUsed.insert(t.resource).second,"Each track needs a distinct resource without segments/external init");
+            if(t.kind=="subtitle"){supported(++subtitles<=4 && !t.required && t.container=="srt" && (t.codec.empty() || t.codec=="srt") && snapshot.offset==0,"Only optional UTF-8 SRT at zero timestamp offset is enabled");continue;}
+            supported(t.kind=="video" || t.kind=="audio","Unsupported track kind");
+            if(t.kind=="video"){supported(!video,"Only one video track is enabled");video=&t;}
+            else if(t.defaultTrack)++defaults;
         }
-        supported(found[0] && found[1] && ids[0]!=ids[1],"Audio and video must reference distinct resources");
-        if(resources)*resources=ids;
+        supported(video && defaults<=1,"Video is required; at most one default audio track");ordered.push_back(video);
+        for(const auto& item:snapshot.tracks)if(item.second.kind=="audio" && item.second.defaultTrack)ordered.push_back(&item.second);
+        for(const auto& item:snapshot.tracks)if(item.second.kind=="audio" && !item.second.defaultTrack)ordered.push_back(&item.second);
+        supported(ordered.size()>=2 && ordered.size()<=harvester::MaxMediaTracks,"One video and one to eight audio tracks are required");
+        harvester::Snapshot result;result.tracks.resize(ordered.size());result.sessionId=snapshot.id;result.generation=snapshot.generation;result.revision=snapshot.revision;
+        result.duration=snapshot.duration;result.timestampOffset=snapshot.offset;result.state=state(snapshot.state);std::set<std::string> ids;
+        for(size_t index=0;index<ordered.size();++index){const auto& track=*ordered[index];
+            supported(track.required && !track.resource.empty() && track.segments.empty() && track.initialization.empty(),"All media tracks must be required, separate and initialized; segments/external init are unsupported");
+            const bool webm=track.container=="webm";
+            supported((webm || track.container=="fmp4") && (track.codec.empty() || (webm?(index?(track.codec=="opus" || track.codec=="vorbis"):track.codec=="vp8" || track.codec=="vp9" || track.codec=="av1"):(index?(track.codec=="aac-lc" || track.codec=="opus"):track.codec=="h264" || track.codec=="hevc" || track.codec=="av1" || track.codec=="vp9"))),"Unsupported codec/container profile");
+            const auto& resource=snapshot.resources.at(track.resource);supported(!resource.retired && ids.insert(resource.id).second,"Tracks need distinct non-retired resources");
+            auto& output=result.tracks[index];output.path=resource.name;output.container=webm?"webm":index?"m4a":"mp4";
+            output.fragmented=true;output.initializationReady=track.initializationReady;output.available=prefix(resource);output.total=resource.known?resource.length:0;output.state=state(track.state);
+            if(resources)(*resources)[index]=resource.id;if(tracks)(*tracks)[index]=track.id;
+        }
         return result;
     }
     bool exact(int track,uint64_t offset,void* buffer,size_t count) {
@@ -180,10 +191,10 @@ class Fmp4V2Bridge {
     void initializeWebm(int track) {
         Require(legacy.tracks[track].initializationReady,"initializationReady","Wait for WebM initialization","waiting_initialization");
         try {
-            const auto info=harvester::WebMInitialization([&](uint64_t at,void* data,size_t count){return exact(track,at,data,count);},legacy.tracks[track].available,track);
-            for(const auto& item:model.tracks)if(item.second.kind==(track?"audio":"video"))
-                supported(item.second.codec.empty() || item.second.codec==info.codec,"Codec hint does not match WebM CodecID");
-            if(!track)videoCodecName=info.codec;else audioCodecName=info.codec;
+            const auto info=harvester::WebMInitialization([&](uint64_t at,void* data,size_t count){return exact(track,at,data,count);},legacy.tracks[track].available,track?1:0);
+            const auto& declared=model.tracks.at(trackIds[track]);
+            supported(declared.codec.empty() || declared.codec==info.codec,"Codec hint does not match WebM CodecID");
+            trackCodecs[track]=info.codec;if(!track)videoCodecName=info.codec;else if(track==1)audioCodecName=info.codec;
             initOffsets[track]=0;initialization[track].resize(size_t(info.headerEnd));
             Require(exact(track,0,initialization[track].data(),initialization[track].size()),"initialization","Cannot read WebM initialization","source_not_ready");
         }catch(const harvester::WebMWaiting&){throw Error("waiting_initialization","initialization","Wait for complete WebM initialization");}
@@ -204,9 +215,9 @@ class Fmp4V2Bridge {
                 Require(exact(track,at+width,bytes.data(),bytes.size()),"initialization","Cannot read MP4 initialization","source_not_ready");
                 try{
                     const auto actual=codec(track,{reinterpret_cast<const uint8_t*>(bytes.data()),bytes.size()});
-                    for(const auto& item:model.tracks)if(item.second.kind==(track?"audio":"video"))
-                        supported(item.second.codec.empty() || item.second.codec==actual,"Codec hint does not match the actual sample entry");
-                    if(!track)videoCodecName=actual;else audioCodecName=actual;
+                    const auto& declared=model.tracks.at(trackIds[track]);
+                    supported(declared.codec.empty() || declared.codec==actual,"Codec hint does not match the actual sample entry");
+                    trackCodecs[track]=actual;if(!track)videoCodecName=actual;else if(track==1)audioCodecName=actual;
                 }
                 catch(const Error&){throw;}
                 catch(const std::exception&){throw Error("unsupported_media","initialization","Invalid or unsupported fMP4 codec initialization");}
@@ -216,17 +227,31 @@ class Fmp4V2Bridge {
         }
         throw Error("waiting_initialization","initialization","Wait for complete MP4 initialization");
     }
+    void prepareSubtitles(const Snapshot& next) {
+        for(const auto& item:next.tracks){const auto& track=item.second;if(track.kind!="subtitle")continue;
+            auto& out=subtitleTracks[track.id];out.id=track.id;out.resource=track.resource;out.label=track.label;out.language=track.language;out.defaultTrack=track.defaultTrack;out.forced=track.forced;
+            const auto& resource=next.resources.at(track.resource);
+            if(track.state!="complete" || resource.state!="complete")continue;
+            supported(track.initializationReady && resource.known && resource.length>0 && resource.length<=524288 && prefix(resource)==resource.length,"SRT requires a complete bounded resource");
+            std::string bytes(size_t(resource.length),'\0');size_t at=0;
+            while(at<bytes.size()){const auto result=source->read(resource.id,at,&bytes[at],(std::min)(size_t(65536),bytes.size()-at));Require(result.data() && result.bytes>0,"subtitles","Cannot read complete SRT","source_not_ready");at+=result.bytes;}
+            if(!out.path.empty()){supported(out.bytes==bytes,"Published SRT bytes changed");continue;}
+            const auto checked=CheckedSrt(bytes,next.duration);
+            if(!subtitleCache)subtitleCache=std::make_unique<SubtitleCache>(registry);
+            out.path=subtitleCache->write(checked).u8string();out.bytes=std::move(bytes);
+        }
+    }
     void verifyInitialization() {
-        for(int i=0;i<2;++i) {std::vector<char> bytes(initialization[i].size());Require(exact(i,initOffsets[i],bytes.data(),bytes.size()) && bytes==initialization[i],"initialization","Published codec initialization changed","source_rewritten");}
+        for(size_t i=0;i<legacy.tracks.size();++i) {std::vector<char> bytes(initialization[i].size());Require(exact(i,initOffsets[i],bytes.data(),bytes.size()) && bytes==initialization[i],"initialization","Published codec initialization changed","source_rewritten");}
     }
 public:
     const std::string& videoCodec() const {return videoCodecName;}
-    const std::string& audioCodec() const {return audioCodecName;}
+    const std::string& audioCodec(int track=1) const {return trackCodecs.at(track);}
     bool isWebm(int track=0) const {return webmMode.at(track);}
     static void CheckProfile(const std::string& json){map(Parse(json));}
     Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):model(Parse(json)),identityGeneration(model.generation),identityWriter(model.writer),detailsRevision(model.revision),registry(receipts) {
-        legacy=map(model,&resourceIds);for(int i=0;i<2;++i)webmMode[i]=legacy.tracks[i].container=="webm";source=std::make_shared<ResourceSource>(root,receipts,json);
-        try {initialize(0);initialize(1);}catch(...){cleanup();throw;}
+        legacy=map(model,&resourceIds,&trackIds);for(size_t i=0;i<legacy.tracks.size();++i)webmMode[i]=legacy.tracks[i].container=="webm";source=std::make_shared<ResourceSource>(root,receipts,json);
+        try {for(size_t i=0;i<legacy.tracks.size();++i)initialize(int(i));prepareSubtitles(model);}catch(...){cleanup();throw;}
     }
     ~Fmp4V2Bridge(){cleanup();}
     void cleanup() noexcept {
@@ -237,7 +262,7 @@ public:
         }catch(...){source.reset();} // Failed acknowledgement retains a conservative receipt.
     }
     harvester::Snapshot snapshot() const {std::lock_guard<std::mutex> lock(mutex);return legacy;}
-    std::array<BoundResource,2> bindings() const {std::lock_guard<std::mutex> lock(mutex);return {source->binding(resourceIds[0]),source->binding(resourceIds[1])};}
+    std::vector<BoundResource> bindings() const {std::lock_guard<std::mutex> lock(mutex);std::vector<BoundResource> out;for(size_t i=0;i<legacy.tracks.size();++i)out.push_back(source->binding(resourceIds[i]));return out;}
     bool readIndex(int track,uint64_t offset,void* buffer,size_t count) {std::lock_guard<std::mutex> lock(mutex);return failure.empty() && exact(track,offset,buffer,count);}
     int64_t readPayload(int track,uint64_t offset,void* buffer,size_t count) {
         std::lock_guard<std::mutex> lock(mutex);if(!failure.empty())return -1;
@@ -246,14 +271,16 @@ public:
         return read.code=="eof"?0:-1;
     }
     void publish(const std::string& json) {
-        const auto next=Parse(json);const auto mapped=map(next);std::lock_guard<std::mutex> lock(mutex);Advance(model,next);
+        const auto next=Parse(json);std::array<std::string,harvester::MaxMediaTracks> nextIds;const auto mapped=map(next,nullptr,&nextIds);std::lock_guard<std::mutex> lock(mutex);
+        supported(nextIds==trackIds,"Media track set/default ordering cannot change; reopen playback");Advance(model,next);
         Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");
-        try{verifyInitialization();source->publish(json);}catch(const Error& error){failure=error.code;throw;}
+        try{verifyInitialization();source->publish(json);prepareSubtitles(next);}catch(const Error& error){failure=error.code;throw;}
         model=next;legacy=mapped;detailsRevision.store(next.revision);
     }
     void verify(){std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();}
     void cancel(){if(source)source->cancel();}
     std::string details() const {
+        std::lock_guard<std::mutex> lock(mutex);
         rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);
         d.AddMember("generation",Value(std::to_string(identityGeneration).c_str(),a),a);d.AddMember("revision",Value(std::to_string(detailsRevision.load()).c_str(),a),a);
         d.AddMember("writerInstanceId",Value(identityWriter.c_str(),a),a);
@@ -262,7 +289,12 @@ public:
         d.AddMember("videoContainer",Value(videoContainer.c_str(),a),a);d.AddMember("audioContainer",Value(audioContainer.c_str(),a),a);
         d.AddMember("mediaMode",Value(mode.c_str(),a),a);d.AddMember("videoCodec",Value(videoCodecName.c_str(),a),a);d.AddMember("audioCodec",Value(audioCodecName.c_str(),a),a);Value bytes(rapidjson::kObjectType);
         bytes.AddMember("video",Value(std::to_string(decoderBytes[0].load()).c_str(),a),a);bytes.AddMember("audio",Value(std::to_string(decoderBytes[1].load()).c_str(),a),a);d.AddMember("decoderIoBytes",bytes,a);
-        return lease_detail::Encode(d);
+        Value tracks(rapidjson::kArrayType);
+        for(size_t i=0;i<legacy.tracks.size();++i){const auto& t=model.tracks.at(trackIds[i]);Value item(rapidjson::kObjectType);
+            item.AddMember("index",unsigned(i),a);item.AddMember("id",Value(t.id.c_str(),a),a);item.AddMember("kind",Value(t.kind.c_str(),a),a);item.AddMember("label",Value(t.label.c_str(),a),a);item.AddMember("language",Value(t.language.c_str(),a),a);item.AddMember("codec",Value(trackCodecs[i].c_str(),a),a);item.AddMember("container",Value(t.container.c_str(),a),a);item.AddMember("default",t.defaultTrack,a);item.AddMember("decoderIoBytes",Value(std::to_string(decoderBytes[i].load()).c_str(),a),a);tracks.PushBack(item,a);
+        }
+        d.AddMember("mediaTracks",tracks,a);Value subtitles(rapidjson::kArrayType);
+        for(const auto& entry:subtitleTracks){const auto& t=entry.second;Value item(rapidjson::kObjectType);item.AddMember("id",Value(t.id.c_str(),a),a);item.AddMember("label",Value(t.label.c_str(),a),a);item.AddMember("language",Value(t.language.c_str(),a),a);item.AddMember("path",Value(t.path.c_str(),a),a);item.AddMember("ready",!t.path.empty(),a);item.AddMember("default",t.defaultTrack,a);item.AddMember("forced",t.forced,a);subtitles.PushBack(item,a);}d.AddMember("subtitleTracks",subtitles,a);return lease_detail::Encode(d);
     }
 };
 }} // namespace foxicmp::progressive

@@ -68,10 +68,13 @@ std::shared_ptr<ProgressiveSource>
 ProgressiveSource::openPublished(const QJsonObject &input, const QString &readerRegistry) {
   auto source = foxicmp::progressive::SourceRetirement::create<ProgressiveSource>([&]{return new ProgressiveSource(input,readerRegistry);});
   if (!readerRegistry.isEmpty())
+  {
+    std::vector<foxicmp::progressive::BoundResource> identities;
+    for(size_t i=0;i<source->snapshot.tracks.size();++i)identities.push_back({i?(i==1?"audio":"audio-"+std::to_string(i)):"video",source->devices[i],source->inodes[i]});
     source->readerLease = foxicmp::progressive::ReaderLease::Create(
         std::filesystem::u8path(readerRegistry.toUtf8().toStdString()), source->snapshot.sessionId,
-        source->snapshot.generation, {{"video", source->devices[0], source->inodes[0]},
-                                      {"audio", source->devices[1], source->inodes[1]}});
+        source->snapshot.generation, identities);
+  }
   source->worker = std::thread([raw = source.get()] { raw->watchPublished(); });
   return source;
 }
@@ -110,7 +113,7 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input, const QString &re
         std::filesystem::u8path(publishedRoot.toUtf8().toStdString()), std::filesystem::u8path(readerRegistry.toUtf8().toStdString()),
         QJsonDocument(manifest).toJson(QJsonDocument::Compact).toStdString());
     snapshot = v2Bridge->snapshot();const auto bindings = v2Bridge->bindings();
-    for (int i=0;i<2;++i) {
+    for (int i=0;size_t(i)<snapshot.tracks.size();++i) {
       publishedPaths.append(resolveTrackPath(QString::fromStdString(snapshot.tracks[i].path), publishedRoot));
       devices[i]=bindings[i].device; inodes[i]=bindings[i].fileId;
     }
@@ -119,7 +122,7 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input, const QString &re
       snapshot.state == harvester::State::Failed)
     throw std::runtime_error("Cannot start a terminal failed session");
   try {
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; size_t(i)<snapshot.tracks.size(); ++i) {
       const auto &track = snapshot.tracks[i];
       if (!track.initializationReady)
         throw std::runtime_error("MP4 initialization is not ready; retry start after the index is written");
@@ -131,7 +134,7 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input, const QString &re
     }
     if (devices[0] == devices[1] && inodes[0] == inodes[1])
       throw std::runtime_error("Video and audio must be distinct files");
-    for (int i = 0; i < 2; ++i)
+    for (int i = 0; size_t(i)<snapshot.tracks.size(); ++i)
       if (!snapshot.tracks[i].fragmented)
         indexed[i].open([&, i](uint64_t at, void *data, size_t count) {
           return readPublished(files[i], at, data, count);

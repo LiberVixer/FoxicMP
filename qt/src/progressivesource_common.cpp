@@ -32,20 +32,21 @@ QString ProgressiveSource::id() const {
 }
 int64_t ProgressiveSource::size(int track) const {
   std::lock_guard<std::mutex> lock(mutex);
-  return track >= 0 && track < 2 ? int64_t(snapshot.tracks[track].total) : -1;
+  return track >= 0 && size_t(track) < snapshot.tracks.size() ? int64_t(snapshot.tracks[track].total) : -1;
 }
 bool ProgressiveSource::seekable(int track, uint64_t offset) const {
   std::lock_guard<std::mutex> lock(mutex);
-  return track >= 0 && track < 2 && !stopping.load() &&
+  return track >= 0 && size_t(track) < snapshot.tracks.size() && !stopping.load() &&
          currentStatus.error.isEmpty() &&
          offset <= snapshot.tracks[track].available;
 }
 int64_t ProgressiveSource::read(int track, uint64_t offset, char *buffer,
                                 uint64_t count, const std::atomic<bool> *interrupted) {
-  if (track < 0 || track >= 2 || !buffer || count == 0 ||
+  if (track < 0 || !buffer || count == 0 ||
       offset > uint64_t(INT64_MAX))
     return -1;
   std::unique_lock<std::mutex> lock(mutex);
+  if(size_t(track)>=snapshot.tracks.size())return -1;
   for (;;) {
     if (stopping.load() || (interrupted && interrupted->load()) || !currentStatus.error.isEmpty())
       return -1;
@@ -79,7 +80,7 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
       value.duration > 0 ? value.duration : indexed[0].duration();
   double end = double(duration) / 10000000.;
   bool complete = true;
-  for (int i = 0; i < 2; ++i) {
+  for (int i = 0; size_t(i) < value.tracks.size(); ++i) {
     const auto &track = value.tracks[i];
     if (track.fragmented)
       indexes[i].Update(
@@ -88,9 +89,9 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
             return v2Bridge ? v2Bridge->readIndex(i,offset,buffer,count)
                             : ProgressiveFile::read(files[i], offset, buffer, count) == int64_t(count);
           },
-          track.available, i, harvester::EndReady(track),
+          track.available, i?1:0, harvester::EndReady(track),
           value.timestampOffset, v2Bridge && v2Bridge->videoCodec()=="hevc",
-          v2Bridge && v2Bridge->videoCodec()=="av1",v2Bridge && v2Bridge->videoCodec()=="vp9",v2Bridge && v2Bridge->audioCodec()=="opus",v2Bridge && v2Bridge->isWebm(i));
+          v2Bridge && v2Bridge->videoCodec()=="av1",v2Bridge && v2Bridge->videoCodec()=="vp9",v2Bridge && v2Bridge->audioCodec(i?i:1)=="opus",v2Bridge && v2Bridge->isWebm(i));
     end = std::min(
         end, double(harvester::ReadyEnd(track.fragmented ? indexes[i].Samples()
                                                          : indexed[i].samples(),
@@ -147,9 +148,8 @@ int ProgressiveStreams::open(void *self, char *uri, mpv_stream_cb_info *info) {
     source = streams->source;
   }
   const QUrl url(QString::fromUtf8(uri));
-  const int track = url.path() == "/video"   ? 0
-                    : url.path() == "/audio" ? 1
-                                             : -1;
+  int track=url.path()=="/video"?0:url.path()=="/audio"?1:-1;
+  if(url.path().startsWith("/track/")){bool ok=false;const auto index=url.path().mid(7).toInt(&ok);if(ok && source && index>=0 && source->size(index)>=0)track=index;}
   if (!source || track < 0 || url.host() != source->streamId())
     return MPV_ERROR_LOADING_FAILED;
   auto *reader = new StreamReader{source, track};

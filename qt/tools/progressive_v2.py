@@ -1,4 +1,4 @@
-"""Schema-2 separate fMP4/WebM tracks, including VP8/Vorbis and mixed pairs; no downloader changes."""
+"""Schema-2 separate fMP4/WebM tracks, including multiple audio tracks, complete SRT and mixed pairs; no downloader changes."""
 from __future__ import annotations
 import copy
 import threading

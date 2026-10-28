@@ -21,7 +21,7 @@ int main(int argc,char** argv) {
             else if(action=="verify")bridge->verify();
             else if(action=="status") {std::cout<<bridge->details()<<std::endl;continue;}
             else if(action=="read") {
-                const auto track=d["track"].GetInt();p::Require(track==0 || track==1,"track","Bad track");
+                const auto track=d["track"].GetInt();p::Require(track>=0 && size_t(track)<bridge->snapshot().tracks.size(),"track","Bad track");
                 const auto offset=p::Unsigned(d["offset"],"offset",p::MaxByte);const auto count=size_t(p::Unsigned(d["length"],"length",65536));
                 std::vector<char> bytes(count);const auto size=bridge->readPayload(track,offset,bytes.data(),count);
                 std::cout<<"{\"ok\":true,\"bytesRead\":"<<size<<",\"hex\":\"";

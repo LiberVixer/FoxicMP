@@ -391,6 +391,8 @@ def run(runner,fixtures):
     def setup_field(paths,offset,value):
         data=bytearray(paths[1].read_bytes());at=data.index(b'\x05vorbis')+offset;data[at:at+len(value)]=value;paths[1].write_bytes(data)
     reject_edit('vorbis-codebook-sync',lambda v,p:setup_field(p,8,b'\x00'))
+    from progressive_multitrack_native import run as run_multitrack
+    extra=run_multitrack(runner,fixtures);names+=extra['cases']
     return dict(result='PASS',passed=len(names),cases=names)
 
 if __name__=='__main__':

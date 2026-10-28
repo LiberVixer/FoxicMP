@@ -10,6 +10,7 @@
 #include "ExtLib/rapidjson/include/rapidjson/document.h"
 
 namespace harvester {
+constexpr size_t MaxMediaTracks = 9; // one video and up to eight audio tracks
 constexpr size_t MaxManifestBytes = 65536;
 enum class State { Downloading, Paused, Merging, Complete, Cancelled, Failed };
 inline State ParseState(const rapidjson::Value& value, bool track) {
@@ -61,7 +62,7 @@ struct Snapshot {
     uint64_t generation=0, revision=0;
     int64_t duration=0, timestampOffset=0;
     State state=State::Downloading;
-    std::array<Track,2> tracks;
+    std::vector<Track> tracks=std::vector<Track>(2);
 };
 inline Snapshot Parse(const std::string& text) {
     if (text.empty() || text.size() > MaxManifestBytes) throw std::runtime_error("Invalid manifest size");
