@@ -7,6 +7,7 @@
 #include "timeline.h"
 #include "window.h"
 #include <QtWidgets>
+#include <cmath>
 
 void Window::cancelProgressiveOpening() {
   if(legacyOpening && !legacyOpening->abandoned.exchange(true))
@@ -57,7 +58,7 @@ bool Window::openProgressiveSource(const std::shared_ptr<ProgressiveSource> &nex
   releaseProgressive();
   player->command({"stop"});
   completionArmed = false;
-  progressive = next;progressiveStartPosition=0;progressiveRestoreAudio.clear();progressiveRestoreSubtitle.clear();progressiveTracksReady=false;
+  progressive = next;progressivePendingSeek=-1;progressiveSeekTarget=-1;progressiveRestoreAudio.clear();progressiveRestoreSubtitle.clear();progressiveTracksReady=false;
   audioUserSelection = false;
   applyAudioSourceOptions();
   player->progressiveSource(next);
@@ -99,11 +100,14 @@ QJsonObject Window::progressivePlaybackStatus() const {
           {"durationSeconds", status.duration}, {"availableSeconds", status.available},
           {"positionSeconds", pos}, {"error", status.error}};
   const auto details=progressive->playbackDetails();for(auto it=details.begin();it!=details.end();++it)result[it.key()]=it.value();
+  result["seeking"] = progressiveSeekTarget >= 0;
+  if (progressiveSeekTarget >= 0) result["seekTargetSeconds"] = progressiveSeekTarget;
   int count=0,index=-1;for(const auto& item:player->get("track-list").toList()){const auto track=item.toMap();if(track.value("type")=="audio"){if(track.value("selected").toBool())index=count;++count;}}
   result["audioSelection"]=QJsonObject{{"count",count},{"index",index}};return result;
 }
 void Window::releaseProgressive(const QString &state) {
-  progressiveAttachedAudio.clear();progressiveAttachedSubtitles.clear();
+  progressiveAttachedSubtitles.clear();
+  progressivePendingSeek = progressiveSeekTarget = -1;
   setProperty("foxicmpProgressiveTitle", {});
   if (!progressive)
     return;
@@ -126,9 +130,6 @@ bool Window::seekTo(double seconds) {
     showOsd(uiTr("Перемотка прямого входа недоступна"));
     return false;
   }
-  if(progressive && !progressive->status().complete && progressive->playbackDetails().value("mediaTracks").toArray().size()>2 && seconds>10){
-    showOsd(uiTr("При нескольких аудиодорожках переход дальше 10 секунд доступен после завершения загрузки"));return false;
-  }
   if (!seekAvailable(seconds, seconds)) {
     showOsd(
         uiTr("Выбранная позиция недоступна или отсутствует в кэше просмотра"));
@@ -136,15 +137,26 @@ bool Window::seekTo(double seconds) {
     timeline->update();
     return false;
   }
-  if(progressive && progressive->playbackDetails().value("mediaTracks").toArray().size()>2){
-    // An unselected external audio demuxer need not retain its old packet cache.
-    // Reopen decoder streams against the same pinned source/reader group; retain
-    // IPC identity and re-read only confirmed bytes to restore all track clocks.
-    progressiveStartPosition=seconds;progressiveRestoreAudio=player->get("aid").toInt()>0?QString::number(player->get("aid").toInt()):QStringLiteral("no");
-    progressiveRestoreSubtitle=player->get("sid").toInt()>0?QString::number(player->get("sid").toInt()):QStringLiteral("no");
-    progressiveStarted=false;progressiveTracksReady=false;progressiveBuffering=true;
-    progressiveAttachedAudio.clear();progressiveAttachedSubtitles.clear();
-    updateProgressive();return true;
+  if (progressive && progressive->confirmedByteSeek()) {
+    if (progressivePendingSeek >= 0) {
+      progressivePendingSeek = progressiveSeekTarget = seconds;
+      return true;
+    }
+    // A decoder may already be blocked in read_fn at the unpublished tail.
+    // Retire those stream callbacks through loadfile, then seek freshly opened
+    // demuxers only after their selected audio/subtitle streams are ready.
+    // The pinned Source and its reader/session identity are not replaced.
+    progressivePendingSeek = progressiveSeekTarget = seconds;
+    progressiveRestoreAudio = player->get("aid").toInt() > 0
+        ? QString::number(player->get("aid").toInt()) : QStringLiteral("no");
+    progressiveRestoreSubtitle = player->get("sid").toInt() > 0
+        ? QString::number(player->get("sid").toInt()) : QStringLiteral("no");
+    progressiveStarted = false;
+    progressiveTracksReady = false;
+    progressiveBuffering = true;
+    progressiveAttachedSubtitles.clear();
+    updateProgressive();
+    return true;
   }
   const double offset = progressive ? progressive->status().timestampOffset : 0;
   return player->command(
@@ -167,7 +179,11 @@ void Window::updateProgressive() {
     return;
   }
   duration = status.duration;
+  if (progressiveSeekTarget >= 0 && progressivePendingSeek < 0 &&
+      !player->get("seeking").toBool() && std::abs(pos - progressiveSeekTarget) < .25)
+    progressiveSeekTarget = -1;
   timeline->duration = duration;
+  timeline->position = progressiveSeekTarget >= 0 ? progressiveSeekTarget : pos;
   timeline->available = status.available;
   timeline->update();
   if (!progressiveStarted) {
@@ -185,7 +201,7 @@ void Window::updateProgressive() {
     // Both headers have already been validated by the per-track media bridge.
     const QString demuxer=mixed?QString():details.value("mediaMode").toString().startsWith("separate-webm-")?"matroska":"mov";
     QStringList audioFiles;
-    if(media.size()>2)for(int i=1;i<media.size();++i){audioFiles.append(url+(i==1?"/audio":"/track/"+QString::number(i)));if(i>1)progressiveAttachedAudio.insert(i);}
+    if(media.size()>2)for(int i=1;i<media.size();++i){audioFiles.append(url+(i==1?"/audio":"/track/"+QString::number(i)));}
     QMap<QString,QString> options{{"audio-files-append",url+"/audio"}};
     if(!audioFiles.isEmpty()){
       // mpv path lists use ':' on Unix and ';' on Windows; escape URL colons
@@ -194,10 +210,14 @@ void Window::updateProgressive() {
       for(auto file:audioFiles){file.replace("\\","\\\\");file.replace(separator,QString("\\")+separator);escaped.append(file);}
       options.clear();options["audio-files"]=escaped.join(separator);
       options["aid"]=progressiveRestoreAudio.isEmpty()?QStringLiteral("1"):progressiveRestoreAudio;
+      // Keep AVIO seekable without MOV scanning the growing tail for an index.
+      // Validation/indexing in ResourceSource/FragmentIndex remains enabled.
+      options["demuxer-lavf-o"]="fflags=+ignidx";
+      options["demuxer-seekable-cache"]="no";
     }
     options.insert(QMap<QString,QString>{
              {"rebase-start-time", "no"},
-             {"start", QString::number(status.timestampOffset+(status.complete?progressiveStartPosition:0), 'f', 6)},
+             {"start", QString::number(status.timestampOffset, 'f', 6)},
              {"pause", "yes"},
              {"cache", "yes"},
              {"cache-pause", "no"},
@@ -210,46 +230,73 @@ void Window::updateProgressive() {
              {"demuxer-lavf-format", demuxer},
              {"demuxer-lavf-probesize", "32768"},
              {"demuxer-lavf-analyzeduration", "0.2"}});
+    if (!audioFiles.isEmpty()) {
+      // A blocking stream callback waiting for an unpublished tail cannot
+      // process a queued demuxer seek. Read on playback demand so prefetch
+      // cannot park a deselected audio demuxer there. Source's confirmed
+      // timeline still supplies the startup/resume buffer and tail guard.
+      options["cache"] = "no";
+      options["demuxer-readahead-secs"] = "0";
+    }
     if(!player->loadSource(url+"/video",options))return;
-    if(status.complete)progressiveStartPosition=0;
     if (!progressive)
       return;
   }
   // Subtitles may become ready after A/V has started.
   const auto url="foxicmp-session://"+progressive->streamId();
   if(progressiveTracksReady && player->get("path").toString()==url+"/video" && player->get("track-list").toList().size()>=2){
+    int loadedSubtitles=0;
+    for(const auto& track:player->get("track-list").toList())
+      loadedSubtitles += track.toMap().value("type") == "sub";
     for(const auto& value:progressive->playbackDetails().value("subtitleTracks").toArray()){
       const auto track=value.toObject();const auto id=track.value("id").toString(),path=track.value("path").toString();
       if(!track.value("ready").toBool() || path.isEmpty() || progressiveAttachedSubtitles.contains(id))continue;
+      // sub-add performs asynchronous I/O; serialize additions so runtime
+      // IDs retain the stable published order, including after a seek.
+      if (loadedSubtitles < progressiveAttachedSubtitles.size()) break;
       const bool selected=!subtitleUserSelection && (track.value("default").toBool() || track.value("forced").toBool());
       if(player->command({"sub-add",path,selected?"select":"auto",track.value("label").toString(),track.value("language").toString()}))progressiveAttachedSubtitles.insert(id);
+      break;
     }
   }
-  if(progressiveTracksReady && !progressiveRestoreAudio.isEmpty() && progressiveAttachedAudio.size()+2==progressive->playbackDetails().value("mediaTracks").toArray().size()){
-    player->set("aid",progressiveRestoreAudio);progressiveRestoreAudio.clear();
-  }
-  if(progressiveTracksReady && !progressiveRestoreSubtitle.isEmpty()){
-    int ready=0;for(const auto& value:progressive->playbackDetails().value("subtitleTracks").toArray())if(value.toObject().value("ready").toBool())++ready;
-    int loaded=0;bool present=progressiveRestoreSubtitle=="no";
-    for(const auto& value:player->get("track-list").toList()){const auto track=value.toMap();if(track.value("type")=="sub"){++loaded;present|=track.value("id").toString()==progressiveRestoreSubtitle;}}
-    // sub-add is asynchronous: wait for the actual streams, not queued commands.
-    if(present && loaded>=ready && player->set("sid",progressiveRestoreSubtitle))progressiveRestoreSubtitle.clear();
-  }
-  if(progressiveStartPosition>0){
-    // The growing external streams are nonseekable at open. Build the chosen
-    // audio/video packet caches from their starts, then seek within that cache.
-    // A nonzero loadfile start would ask the external demuxer for a byte seek
-    // before its cache exists and can silently disable the chosen audio.
-    const double target=status.timestampOffset+progressiveStartPosition;
-    bool cached=false;
-    for(const auto& range:player->get("demuxer-cache-state").toMap().value("seekable-ranges").toList()){
-      const auto bounds=range.toMap();if(bounds.value("start").toDouble()<=target && bounds.value("end").toDouble()>=target+.25)cached=true;
+  if (progressivePendingSeek >= 0) {
+    bool subtitleReady = progressiveRestoreSubtitle == "no";
+    int loaded = 0, ready = 0;
+    for (const auto& value : progressive->playbackDetails().value("subtitleTracks").toArray())
+      ready += value.toObject().value("ready").toBool();
+    for (const auto& value : player->get("track-list").toList()) {
+      const auto track = value.toMap();
+      if (track.value("type") == "sub") {
+        ++loaded;
+        subtitleReady |= track.value("id").toString() == progressiveRestoreSubtitle;
+      }
     }
-    if(!progressiveTracksReady || !cached){progressiveBuffering=true;player->set("pause",true);return;}
-    if(!player->command({"seek",QString::number(target,'f',3),"absolute+exact"}))return;
-    progressiveStartPosition=0;
+    const auto audio = player->get("aid").toInt();
+    const bool audioReady = progressiveRestoreAudio == "no" ? audio <= 0
+        : audio == progressiveRestoreAudio.toInt();
+    if (progressiveTracksReady && !audioReady)
+      player->set("aid", progressiveRestoreAudio);
+    if (!progressiveTracksReady || !audioReady || !subtitleReady || loaded < ready) {
+      progressiveBuffering = true;
+      player->set("pause", true);
+      return;
+    }
+    const auto subtitle = player->get("sid").toInt();
+    const bool subtitleSelected = progressiveRestoreSubtitle == "no" ? subtitle <= 0
+        : subtitle == progressiveRestoreSubtitle.toInt();
+    if (!subtitleSelected) { player->set("sid", progressiveRestoreSubtitle); return; }
+    if (player->get("seeking").toBool()) return;
+    if (!player->command({"seek", QString::number(status.timestampOffset + progressivePendingSeek, 'f', 3), "absolute+exact"}))
+      return;
+    progressivePendingSeek = -1;
+    progressiveRestoreAudio.clear();
+    progressiveRestoreSubtitle.clear();
   }
-  const double ahead = status.available - pos;
+  // While the decoder is still resolving a seek, its last decoded position
+  // can remain near zero after reopening. Buffer against the requested target,
+  // not that stale clock, so a tail wait stays visible and another seek can
+  // retire the blocked readers. positionSeconds remains the real decoder clock.
+  const double ahead = status.available - (progressiveSeekTarget >= 0 ? progressiveSeekTarget : pos);
   if (!status.connected || (!status.complete && ahead < 1))
     progressiveBuffering = true;
   else if (status.complete || ahead >= 5)

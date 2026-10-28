@@ -119,7 +119,8 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveWebMAv1.md ../docs/ProgressiveWebMAv1Validation-2026-10-28.md ../docs/ProgressiveWebMAv1Validation-2026-10-28.json
  ../docs/ProgressiveMixedContainers.md ../docs/ProgressiveMixedValidation-2026-10-28.md ../docs/ProgressiveMixedValidation-2026-10-28.json
  ../docs/ProgressiveVp8Vorbis.md ../docs/ProgressiveVp8VorbisValidation-2026-10-28.md ../docs/ProgressiveVp8VorbisValidation-2026-10-28.json
- ../docs/ProgressiveMultiTrack.md ../docs/ProgressiveMultiTrackValidation-2026-10-28.md ../docs/ProgressiveMultiTrackValidation-2026-10-28.json DESTINATION integration)
+ ../docs/ProgressiveMultiTrack.md ../docs/ProgressiveMultiTrackValidation-2026-10-28.md ../docs/ProgressiveMultiTrackValidation-2026-10-28.json
+ ../docs/ProgressiveSeek.md ../docs/ProgressiveSeekValidation-2026-10-28.md ../docs/ProgressiveSeekValidation-2026-10-28.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/vod.json DESTINATION integration RENAME progressive-v2-vod.json)
 install(FILES ../docs/images/foxicmp-qt-web-control.png DESTINATION . RENAME web-control.png)
 install(FILES ../docs/images/foxicmp-qt-web-browser.png DESTINATION . RENAME web-browser.png)
@@ -252,6 +253,8 @@ if(BUILD_TESTING)
  add_dependencies(foxicmp-progressive-api-tests foxicmp-qt)
  add_test(NAME progressive-api COMMAND foxicmp-progressive-api-tests)
  set_tests_properties(progressive-api PROPERTIES TIMEOUT 2100 ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=1800000")
+ add_test(NAME progressive-confirmed-seek COMMAND foxicmp-progressive-api-tests multiAudioFarSeekWhileIncomplete multiAudioAndLateSubtitlesWhileIncomplete)
+ set_tests_properties(progressive-confirmed-seek PROPERTIES TIMEOUT 500 ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=450000")
  add_test(NAME progressive-v2-playback COMMAND foxicmp-progressive-api-tests schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete)
  set_tests_properties(progressive-v2-playback PROPERTIES TIMEOUT 1600 ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=1500000")
  add_test(NAME progressive-preparation COMMAND foxicmp-progressive-api-tests mediaPreparationKeepsUiResponsive deletingApiDoesNotWaitForPreparationWorker preparationWorkerFailureDoesNotPoisonSlot preparationDeadlineCannotStartPlaybackLater)

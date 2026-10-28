@@ -41,6 +41,7 @@ public:
   int64_t read(int track, uint64_t offset, char *buffer, uint64_t count, const std::atomic<bool> *interrupted = nullptr);
   int64_t size(int track) const;
   bool seekable(int track, uint64_t offset) const;
+  bool confirmedByteSeek() const;
   QString id() const;
   QString registeredReaderId() const;
   QString streamId() const;

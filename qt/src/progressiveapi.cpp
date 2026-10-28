@@ -24,6 +24,8 @@
 
 namespace {
 constexpr int limit = 65536;
+// Legacy numeric capability: ceiling of signed 64-bit 100 ns VOD timestamps.
+constexpr double maxVodSeconds = 922337203686.0;
 QJsonObject failure(const QString &code, const QString &message) {
   return {{"version", 1}, {"ok", false}, {"code", code}, {"error", message}};
 }
@@ -87,7 +89,7 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
           {"readerLeaseProtocol", 1}, {"readerLeaseOptIn", true}, {"maxReaderReceipts", 128},
           {"playbackSchemaVersions", QJsonArray{1,2}}, {"validationSchemaVersions", QJsonArray{2}},
           {"schema2Playback",QJsonDocument::fromJson(foxicmp::progressive::Fmp4V2Capabilities()).object()},
-          {"qtMultiAudioSeek",QJsonObject{{"maxTargetSecondsWhileIncomplete",10},{"completeSourceByteSeek",true}}},
+          {"qtMultiAudioSeek",QJsonObject{{"maxTargetSecondsWhileIncomplete",maxVodSeconds},{"completeSourceByteSeek",true},{"confirmedRangesOnly",true},{"mode","confirmed-byte-seek"}}},
           {"releaseAcknowledgement", true},
           {"mediaPreparation",QJsonObject{{"offUi",QJsonArray{"probe","start","update","complete"}},{"maxConcurrent",1},{"responseDeadlineMilliseconds",5000},{"updatesOffUi",true},{"cancellableDiskIo",false}}},
           {"containers", QJsonArray{"fast-start-mp4", "fragmented-mp4"}},

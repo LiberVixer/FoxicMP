@@ -44,3 +44,6 @@ generate_webm(root)
 
 from generate_vp8_vorbis_media import generate as generate_vp8_vorbis
 generate_vp8_vorbis(root)
+
+from generate_progressive_seek_media import generate as generate_seek
+generate_seek(root)

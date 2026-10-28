@@ -34,6 +34,9 @@ int64_t ProgressiveSource::size(int track) const {
   std::lock_guard<std::mutex> lock(mutex);
   return track >= 0 && size_t(track) < snapshot.tracks.size() ? int64_t(snapshot.tracks[track].total) : -1;
 }
+bool ProgressiveSource::confirmedByteSeek() const {
+  std::lock_guard<std::mutex> lock(mutex);return bool(v2Bridge) && snapshot.tracks.size()>2;
+}
 bool ProgressiveSource::seekable(int track, uint64_t offset) const {
   std::lock_guard<std::mutex> lock(mutex);
   return track >= 0 && size_t(track) < snapshot.tracks.size() && !stopping.load() &&
@@ -173,10 +176,11 @@ int ProgressiveStreams::open(void *self, char *uri, mpv_stream_cb_info *info) {
     reader->position = uint64_t(position);
     return position;
   };
-  // FFmpeg's MOV header reader scans a seekable fragmented stream to its end.
-  // A growing fMP4 must open as a stream; mpv can still seek its retained
-  // packet cache. Completed sources opened afresh use ordinary byte seeking.
-  if (!source->status().complete)
+  // Keep legacy/two-track startup unchanged. Schema-2 multi-audio uses lavf
+  // fflags=+ignidx so MOV stops its opening scan at the first media fragment.
+  // Its byte seeks remain bounded by the current writer-confirmed prefix;
+  // reaching an unfinished tail still waits rather than returning EOF.
+  if (!source->status().complete && !source->confirmedByteSeek())
     info->seek_fn = nullptr;
   info->size_fn = [](void *cookie) -> int64_t {
     auto *reader = static_cast<StreamReader *>(cookie);

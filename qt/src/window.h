@@ -207,7 +207,6 @@ private:
   QByteArray subtitleStyleStamp;
   QString subtitleStylePath;
   bool subtitleUserSelection = false;
-  QSet<int> progressiveAttachedAudio;
   QSet<QString> progressiveAttachedSubtitles;
   QString watchedSubtitle, subtitleOptionsStamp, subtitleCodepage;
   QByteArray watchedSubtitleHash, pendingSubtitleHash;
@@ -313,7 +312,7 @@ private:
   void updateProgressive();
   void releaseProgressive(const QString &state = QStringLiteral("stopped"));
   std::shared_ptr<ProgressiveSource> progressive;
-  double progressiveStartPosition=0;
+  double progressivePendingSeek = -1, progressiveSeekTarget = -1;
   QString progressiveRestoreAudio, progressiveRestoreSubtitle;
   bool progressiveTracksReady=false;
   bool progressiveStarted = false, progressiveBuffering = true,

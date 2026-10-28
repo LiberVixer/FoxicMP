@@ -49,10 +49,13 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 audio в отдельных ресурсах. До четырёх optional UTF-8 SRT подключаются после
 полного завершения, включая появление файла во время просмотра. Старый v1 и
 двухдорожечные v2 профили сохранены. Проверять capabilities текущего EXE;
-В Qt несколько аудио ограничивают переход по недокачанному источнику первыми
-10 секундами; после готовности A/V доступен byte seek по всей длительности.
-Проверять отдельный объект `qtMultiAudioSeek`. Classic этого лимита не имеет.
-Harvester не изменён. [Проверки трёх редакций](ProgressiveMultiTrackValidation-2026-10-28.md).
+SDK 1.23 добавляет [подтверждённую байтовую перемотку Qt](ProgressiveSeek.md):
+предел 10 секунд снят, доступна подтверждённая часть всех required A/V.
+`qtMultiAudioSeek.mode:confirmed-byte-seek` и `confirmedRangesOnly:true` отличают
+новый EXE. После готовности A/V доступна вся длительность. Classic сохраняет
+свой native индекс и не меняется в этом этапе.
+Harvester не изменён. [Проверки multi-audio трёх редакций SDK 1.22](ProgressiveMultiTrackValidation-2026-10-28.md)
+и [перемотки Qt SDK 1.23](ProgressiveSeekValidation-2026-10-28.md).
 
 ## VP8 и Vorbis (SDK 1.21)
 

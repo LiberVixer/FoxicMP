@@ -37,6 +37,10 @@ void Window::rememberTrack(const char *name, const QString &selection) {
   }
   if (QString::fromLatin1(name) == "aid")
     audioUserSelection = true;
+  if (progressive && progressivePendingSeek >= 0) {
+    if (QString::fromLatin1(name) == "aid") progressiveRestoreAudio = selection;
+    if (QString::fromLatin1(name) == "sid") progressiveRestoreSubtitle = selection;
+  }
   pendingTrackSelections.remove(QString::fromLatin1(name));
   player->set(name, selection);
   if (!currentItem || progressive || stopped ||

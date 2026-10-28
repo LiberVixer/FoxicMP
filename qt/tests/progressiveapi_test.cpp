@@ -661,7 +661,7 @@ private slots:
   }
   void multiAudioAndLateSubtitlesWhileIncomplete() {
     Profile profile(temporary.filePath("multi-audio-profile"));prepare(profile);Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
-    auto* player=w.findChild<Player*>();QVERIFY(player);QSet<QString> audioDecoded;bool lateText=false,seekDone=false,seekObserved=false,audioLabels=false,lateSelected=false,restoredSelections=false,restoredDecoded=false,farSeekDenied=false,completeSeek=false,completeSeekObserved=false;int stage=0;
+    auto* player=w.findChild<Player*>();QVERIFY(player);QSet<QString> audioDecoded;bool lateText=false,seekDone=false,seekObserved=false,audioLabels=false,lateSelected=false,restoredSelections=false,restoredDecoded=false,unconfirmedSeekRejected=false,completeSeek=false,completeSeekObserved=false;int stage=0;
     QTimer sample;sample.setInterval(100);connect(&sample,&QTimer::timeout,this,[&]{
       if(!w.progressiveSession())return;
       if(w.progressiveSession()->status().complete){if(!completeSeek)completeSeek=w.seekTo(19);else if(player->get("time-pos").toDouble()>18 && player->get("aid").toInt()==3 && player->get("sid").toInt()==2)completeSeekObserved=true;return;}
@@ -674,7 +674,7 @@ private slots:
       else if(stage==2 && codec.contains("opus") && seconds>=6){w.rememberTrack("aid","1");stage=3;}
       if(subs==2 && !lateSelected){w.rememberTrack("sid","2");lateSelected=true;}
       if(stage==3 && codec.contains("aac") && seconds>=8){w.rememberTrack("aid","3");stage=4;}
-      if(stage==4 && codec.contains("vorbis") && !seekDone){farSeekDenied=!w.seekTo(11);seekDone=w.seekTo(2);}
+      if(stage==4 && codec.contains("vorbis") && !seekDone){unconfirmedSeekRejected=!w.seekTo(15);seekDone=w.seekTo(2);}
       if(seekDone && seconds<3){seekObserved=true;restoredSelections|=player->get("aid").toInt()==3 && player->get("sid").toInt()==2;}
       if(restoredSelections && seconds>=4 && codec=="vorbis" && player->get("aid").toInt()==3 && player->get("sid").toInt()==2)restoredDecoded=true;
     });sample.start();
@@ -682,8 +682,59 @@ private slots:
     QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
     QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,90000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QVERIFY(writer.exitCode()==0);sample.stop();
     qInfo()<<"Multi-track selections"<<audioDecoded<<stage<<seekDone<<seekObserved<<lateSelected<<restoredSelections;
-    QVERIFY(audioDecoded.contains("aac"));QVERIFY(audioDecoded.contains("opus"));QVERIFY(audioDecoded.contains("vorbis"));QVERIFY(seekDone);QVERIFY(seekObserved);QVERIFY(lateText);QVERIFY(audioLabels);QVERIFY(restoredSelections);QVERIFY(restoredDecoded);QVERIFY(farSeekDenied);QVERIFY(completeSeek);QVERIFY(completeSeekObserved);
-    auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();result["backwardSeek"]=seekObserved;result["decodedAudioCodecs"]=QJsonArray::fromStringList(audioDecoded.values());result["lateSubtitleTextObserved"]=lateText;result["audioMenuLabelsObserved"]=audioLabels;result["selectedTracksRestoredAfterSeek"]=restoredSelections && restoredDecoded;result["incompleteFarSeekRejected"]=farSeekDenied;result["completeFarSeekObserved"]=completeSeekObserved;QCOMPARE(result["result"].toString(),QString("PASS"));qInfo().noquote()<<"Multi-track report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
+    QVERIFY(audioDecoded.contains("aac"));QVERIFY(audioDecoded.contains("opus"));QVERIFY(audioDecoded.contains("vorbis"));QVERIFY(seekDone);QVERIFY(seekObserved);QVERIFY(lateText);QVERIFY(audioLabels);QVERIFY(restoredSelections);QVERIFY(restoredDecoded);QVERIFY(unconfirmedSeekRejected);QVERIFY(completeSeek);QVERIFY(completeSeekObserved);
+    auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();result["backwardSeek"]=seekObserved;result["decodedAudioCodecs"]=QJsonArray::fromStringList(audioDecoded.values());result["lateSubtitleTextObserved"]=lateText;result["audioMenuLabelsObserved"]=audioLabels;result["selectedTracksRestoredAfterSeek"]=restoredSelections && restoredDecoded;result["unconfirmedSeekRejected"]=unconfirmedSeekRejected;result["completeFarSeekObserved"]=completeSeekObserved;QCOMPARE(result["result"].toString(),QString("PASS"));qInfo().noquote()<<"Multi-track report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
+  }
+  void multiAudioFarSeekWhileIncomplete_data() {
+    QTest::addColumn<QString>("seekProfile");
+    for(const auto& name:{"mixed","fmp4","webm","mixed-hevc10","mixed-av1-10","mixed-vp8","mixed-known","fmp4-known","webm-known","mixed-hidden-tail"})QTest::newRow(name)<<QString(name);
+  }
+  void multiAudioFarSeekWhileIncomplete() {
+    QFETCH(QString,seekProfile);
+    Profile profile(temporary.filePath("far-profile-"+seekProfile));prepare(profile);Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    const auto seekCaps=api.request(QJsonObject{{"version",1},{"action","capabilities"}})["qtMultiAudioSeek"].toObject();
+    QCOMPARE(seekCaps["mode"].toString(),QString("confirmed-byte-seek"));QVERIFY(seekCaps["confirmedRangesOnly"].toBool());QVERIFY(seekCaps["maxTargetSecondsWhileIncomplete"].toDouble()>=90);
+    auto* player=w.findChild<Player*>();QVERIFY(player);
+    const QString third=seekProfile.startsWith("fmp4")?"aac":"vorbis",second="opus";
+    int stage=0;bool subtitleChosen=false,forward=false,backward=false,pausedSeek=false,resumed=false,completeSeek=false,completeObserved=false,unconfirmedRejected=false,changingFrames=false,audioClockAtTarget=false;
+    double pausePosition=0,maxSoftwareAvSync=0;bool seekFromBuffering=false,subtitleTextAtTarget=false,speedPreserved=true;QString observedSubtitleText;int syncSamples=0;QElapsedTimer pauseClock,forwardClock,tailClock,resumeClock; qint64 forwardLatency=-1;QByteArray firstFrame;
+    QTimer sample;sample.setInterval(50);connect(&sample,&QTimer::timeout,this,[&]{
+      if(!w.progressiveSession())return;
+      const auto seconds=player->get("time-pos").toDouble();const auto codec=player->get("audio-codec-name").toString();
+      const int aid=player->get("aid").toInt(),sid=player->get("sid").toInt();
+      if(stage==7 && seconds>=51 && !player->get("pause").toBool()){
+        resumed=true;if(!resumeClock.isValid())resumeClock.start();
+        if(resumeClock.elapsed()>=300 && w.seekTo(w.progressiveSession()->status().available-.5))stage=8;
+      }
+      if(stage==8 && w.progressivePendingSeek<0 && (seconds>70 || w.progressiveSeekTarget>70) && w.progressivePlaybackStatus()["state"]=="buffering"){
+        if(!tailClock.isValid())tailClock.start();
+        if(tailClock.elapsed()>=800 && w.seekTo(30))stage=9;
+      }
+      if(stage==9 && seconds>=29.9 && seconds<34 && !player->get("seeking").toBool() && !player->get("pause").toBool()){
+        seekFromBuffering=aid==2 && sid==2 && codec==second;stage=10;
+      }
+      if(stage>=2 && stage<=10 && w.progressivePendingSeek<0 && !player->get("seeking").toBool())speedPreserved &= std::abs(player->get("speed").toDouble()-1.2)<.001;
+      if(stage==3 && seconds>=60.4 && seconds<61.5){observedSubtitleText=player->get("sub-text").toString();subtitleTextAtTarget |= observedSubtitleText.contains(QString::fromUtf8("Дальняя перемотка 1"));const auto audio=player->get("audio-pts"),sync=player->get("avsync");if(audio.isValid())audioClockAtTarget|=std::abs(audio.toDouble()-seconds)<1;if(sync.isValid()){++syncSamples;maxSoftwareAvSync=std::max(maxSoftwareAvSync,std::abs(sync.toDouble()));}}
+      if(w.progressiveSession()->status().complete){if(!completeSeek)completeSeek=w.seekTo(88);else if(seconds>=87.9 && aid==2 && sid==2 && codec==second)completeObserved=true;return;}
+      int audios=0,subs=0;for(const auto& v:player->get("track-list").toList()){const auto type=v.toMap().value("type").toString();audios+=type=="audio";subs+=type=="sub";}
+      if(subs==2 && !subtitleChosen){w.rememberTrack("sid","2");subtitleChosen=true;}
+      if(stage==0 && audios==3 && subtitleChosen && seconds>=1){w.rememberTrack("aid","3");stage=1;}
+      else if(stage==1 && aid==3 && codec==third && sid==2 && seconds>=1.5){w.setSpeed(1.2);forwardClock.start();if(w.seekTo(40) && w.seekTo(60))stage=2;}
+      else if(stage==2 && seconds>=59.9 && seconds<63 && aid==3 && sid==2 && codec==third){forward=true;forwardLatency=forwardClock.elapsed();stage=3;}
+      if(stage==3 && seconds>=60 && seconds<62){const auto frame=player->grabFramebuffer();if(!frame.isNull()){const auto digest=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);if(firstFrame.isEmpty())firstFrame=digest;else changingFrames|=digest!=firstFrame;}}
+      if(stage==3 && seconds>=61.5){w.rememberTrack("aid","2");stage=4;}
+      else if(stage==4 && aid==2 && codec==second){if(w.seekTo(30))stage=5;}
+      else if(stage==5 && seconds>=29.9 && seconds<34 && aid==2 && sid==2 && codec==second){backward=true;if(seconds>=31){w.actions["play"]->trigger();if(w.seekTo(50))stage=6;}}
+      else if(stage==6 && seconds>=49.9 && seconds<51 && player->get("pause").toBool() && aid==2 && sid==2 && codec==second){
+        if(!pauseClock.isValid()){pausePosition=seconds;pauseClock.start();}
+        if(pauseClock.elapsed()>=800){pausedSeek=std::abs(seconds-pausePosition)<.08;unconfirmedRejected=!w.seekTo(80);w.actions["play"]->trigger();stage=7;}
+      }
+    });sample.start();
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_far_seek_conformance.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",temporary.filePath("far-bytes-"+seekProfile),"--media-profile",seekProfile});
+    QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,85000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QVERIFY(writer.exitCode()==0);sample.stop();
+    QVERIFY(forward);QVERIFY(backward);QVERIFY(pausedSeek);QVERIFY(resumed);QVERIFY(seekFromBuffering);QVERIFY2(subtitleTextAtTarget,qPrintable(observedSubtitleText));QVERIFY(speedPreserved);QVERIFY(unconfirmedRejected);QVERIFY(completeSeek);QVERIFY(completeObserved);QVERIFY(changingFrames);QVERIFY(audioClockAtTarget);QVERIFY(forwardLatency>=0 && forwardLatency<10000);
+    auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));result["audioClockAtTarget"]=audioClockAtTarget;result["softwareAvSyncSamples"]=syncSamples;result["maxSoftwareAvSyncSeconds"]=maxSoftwareAvSync;result["forwardSeekMilliseconds"]=forwardLatency;result["decodedVideoChangesAtTarget"]=changingFrames;result["audioSubtitleSelectionPreserved"]=forward && backward && pausedSeek && completeObserved;result["pausePreserved"]=pausedSeek;result["seekFromBuffering"]=seekFromBuffering;result["subtitleTextAtTarget"]=subtitleTextAtTarget;result["speedPreserved"]=speedPreserved;result["unconfirmedSeekRejected"]=unconfirmedRejected;qInfo().noquote()<<"Far-seek report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
   }
   void resourceIoProbeDoesNotReplaceActivePlayback() {
     const auto dir=temporary.filePath("resource-io-profile");

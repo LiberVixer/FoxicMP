@@ -22,7 +22,7 @@ bool Window::seekAvailable(double start, double end) const {
       status.complete ? status.duration : std::max(0., status.available - .2);
   if (!status.connected || end > boundary)
     return false;
-  if (!progressiveStreaming)
+  if (!progressiveStreaming || progressive->confirmedByteSeek())
     return true;
   for (const auto &value : player->get("demuxer-cache-state")
                                .toMap()

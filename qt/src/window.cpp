@@ -345,7 +345,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
     if (progressive) {
       progressiveTracksReady=true;
       completionArmed = false;
-      setSpeed(profile.settings.value("playback/keepSpeed", false).toBool()
+      setSpeed((progressivePendingSeek >= 0 || profile.settings.value("playback/keepSpeed", false).toBool())
                    ? sessionSpeed
                    : 1);
       player->set("pause", progressiveBuffering || progressiveUserPause ||
