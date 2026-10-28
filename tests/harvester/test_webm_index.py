@@ -3,7 +3,9 @@ import csv
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
+import shlex
 import shutil
 import subprocess
 import sys
@@ -20,19 +22,28 @@ class WebMIndexTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.temp = tempfile.TemporaryDirectory(prefix='foxicmp-webm-index-')
+        cls.addClassCleanup(cls.temp.cleanup)
         cls.root = Path(cls.temp.name)
         cls.exe = cls.root / 'index'
-        subprocess.run(['g++', '-std=c++17', '-O2', '-I' + str(REPO / 'src'),
+        flags=shlex.split(os.environ.get('FOXICMP_INDEX_TEST_FLAGS','-O2'))
+        subprocess.run(['g++', '-std=c++17', *flags, '-I' + str(REPO / 'src'),
                         str(REPO / 'tests/harvester/fragment_index.cpp'), '-o', str(cls.exe)], check=True)
         cls.paths = []
-        for kind in ('video8', 'video10', 'audio1', 'audio2'):
+        for kind in ('video8', 'video10', 'av1video8', 'av1video10', 'audio1', 'audio2'):
             path = cls.root / (kind + '.webm')
-            args = (['-f', 'lavfi', '-i', 'testsrc2=s=320x180:r=25:d=3', '-c:v', 'libvpx-vp9',
-                     '-pix_fmt', 'yuv420p10le' if kind == 'video10' else 'yuv420p',
+            args = (['-f', 'lavfi', '-i', 'testsrc2=s=320x180:r=25:d=3', '-c:v', 'libaom-av1' if kind.startswith('av1') else 'libvpx-vp9',
+                     '-pix_fmt', 'yuv420p10le' if kind.endswith('10') else 'yuv420p',
                      '-threads', '2', '-filter_threads', '1', '-cpu-used', '8', '-g', '25']
-                    if kind.startswith('video') else
+                    if 'video' in kind else
                     ['-f', 'lavfi', '-i', 'sine=frequency=880:sample_rate=48000:duration=3',
                      '-ac', kind[-1], '-c:a', 'libopus'])
+            if kind.startswith('av1'):
+                # FFmpeg's WebM muxer needs AV1 configuration before its header.
+                # Encode to delayed-moov MP4 first, then copy the actual packets.
+                encoded=path.with_suffix('.mp4')
+                subprocess.run(['ffmpeg','-v','error','-y',*args,'-movflags',
+                                '+delay_moov+frag_keyframe+default_base_moof',str(encoded)],check=True)
+                args=['-i',str(encoded),'-map','0:0','-c','copy']
             subprocess.run(['ffmpeg', '-v', 'error', '-y', *args, '-f', 'webm',
                             '-cluster_time_limit', '1000', '-live', '1', str(path)], check=True)
             cls.paths.append(path)
@@ -73,6 +84,34 @@ class WebMIndexTests(unittest.TestCase):
                             self.assertGreaterEqual(position - int(rows[first]['start']), 800000)
                         else:
                             self.assertEqual(first, 0)
+
+    def test_av1_initial_packet_requires_matching_sequence_and_key_frame(self):
+        from progressive_webm_fixtures import width
+        source=next(p for p in self.paths if p.name=='av1video8.webm')
+        original=source.read_bytes();_,body,stop=locate(original,0xa3)
+        at=body+width(original[body])+3;obus={}
+        while at<stop:
+            header=at;value=original[at];at+=1;kind=(value>>3)&15
+            if value&4:at+=1
+            size=0
+            if value&2:
+                for i in range(8):
+                    byte=original[at];at+=1;size|=(byte&127)<<(7*i)
+                    if byte<128:break
+            else:size=stop-at
+            obus[kind]=(header,at,at+size);at+=size
+        self.assertIn(1,obus);self.assertIn(6,obus)
+        for name,at,value in (
+            ('missing-sequence',obus[1][0],0x7a),
+            ('sequence-mismatch',obus[1][1]+1,original[obus[1][1]+1]^1),
+            ('not-key-frame',obus[6][1],original[obus[6][1]]|0x20),
+            ('show-existing-frame',obus[6][1],original[obus[6][1]]|0x80),
+            ('missing-frame',obus[6][0],0x7a),
+            ('forbidden-header',obus[6][0],original[obus[6][0]]|0x80)):
+            with self.subTest(name=name):
+                data=bytearray(original);data[at]=value
+                path=self.root/('av1-'+name+'.webm');path.write_bytes(data)
+                self.assertNotEqual(self.index(path,check=False).returncode,0)
 
     def test_schema_one_and_fmp4_flags_do_not_admit_webm(self):
         for path in self.paths:

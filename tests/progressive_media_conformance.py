@@ -296,6 +296,36 @@ def run(runner,fixtures):
         open_();original=paths[0].read_bytes();data=bytearray(original);data[10]^=1;paths[0].write_bytes(data)
         assert not rpc('publish',session=next_())['ok'];paths[0].write_bytes(original);assert read()['bytesRead']==-1
     case('webm-published-header-rewrite-is-persistent-error',webm_rewrite)
+    video_codec='av1'
+    for depth in (8,10):
+        inputs=[(Path(fixtures)/('progressive-webm-av1-'+str(depth))/(kind+'.webm')).read_bytes() for kind in ('video','audio')]
+        def av1_webm_exact(v,paths,rpc,open_,read,readers,next_):
+            open_();state=rpc('status');assert state['mediaMode']=='separate-webm-av1-opus' and state['videoCodec']=='av1',state
+            assert read()['hex']==inputs[0][:8].hex();assert len(readers())==2
+            rpc('release');assert readers()==[]
+        case('webm-av1-'+str(depth)+'-actual-header-and-pinned-leases',av1_webm_exact)
+        def av1_webm_no_hint(v,paths,rpc,open_,read,readers,next_):
+            v['tracks'][0]['codecHint']='';open_();assert rpc('status')['videoCodec']=='av1'
+        case('webm-av1-'+str(depth)+'-discover-without-hint',av1_webm_no_hint)
+    inputs=[(Path(fixtures)/'progressive-webm-av1-8'/(kind+'.webm')).read_bytes() for kind in ('video','audio')]
+    def av1_private(paths,relative,value):
+        data=bytearray(paths[0].read_bytes());_,at,end=locate(data,0x63a2)
+        assert relative+len(value)<=end-at;data[at+relative:at+relative+len(value)]=value;paths[0].write_bytes(data)
+    for name,relative,value in (
+        ('marker',0,b'\x01'),('version',0,b'\x82'),('profile',1,b'\x20'),('level',1,b'\x1f'),
+        ('twelve-bit',2,b'\x6c'),('monochrome',2,b'\x1c'),('chroma',2,b'\x08'),('reserved-bits',3,b'\x80'),
+        ('delay',3,b'\x10'),('obu-forbidden',4,b'\x8a'),('obu-no-size',4,b'\x08'),
+        ('obu-reserved',4,b'\x0b'),('obu-frame-in-config',4,b'\x32'),('metadata-before-sequence',4,b'\x2a'),
+        ('zero-obu-payload',5,b'\x00'),('payload-overrun',5,b'\x7f'),('sequence-profile-mismatch',6,b'\x20')):
+        reject_edit('webm-av1-'+name,lambda v,p,r=relative,b=value:av1_private(p,r,b))
+    def missing_av1_private(v,paths):
+        data=bytearray(paths[0].read_bytes());start,_,_=locate(data,0x63a2);data[start:start+2]=b'\x63\xa3';paths[0].write_bytes(data)
+    reject_edit('webm-av1-missing-codec-private',missing_av1_private)
+    reject_edit('webm-av1-false-vp9-hint',lambda v,p:v['tracks'][0].update(codecHint='vp9'))
+    case('webm-av1-rename-complete-and-identity-pinning',grow)
+    case('webm-av1-confirmed-prefix-short-read-wait',waiting)
+    case('webm-av1-cancel-closes-resource-leases',cancelled)
+    case('webm-av1-published-header-rewrite-is-persistent-error',webm_rewrite)
     return dict(result='PASS',passed=len(names),cases=names)
 
 if __name__=='__main__':

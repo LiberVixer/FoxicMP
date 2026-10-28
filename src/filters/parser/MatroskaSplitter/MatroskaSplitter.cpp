@@ -1715,7 +1715,7 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         if(!session->IsWebM() || m_pTrackEntryMap.size()!=1)return VFW_E_UNSUPPORTED_STREAM;
         const auto entry=m_pTrackEntryMap.begin()->second;
         if(entry->TrackType!=(kind?TrackEntry::TypeAudio:TrackEntry::TypeVideo)
-            || entry->CodecID.ToString()!=(kind?"A_OPUS":"V_VP9"))return VFW_E_UNSUPPORTED_STREAM;
+            || entry->CodecID.ToString()!=(kind?"A_OPUS":session->AllowsAv1Fragments()?"V_AV1":"V_VP9"))return VFW_E_UNSUPPORTED_STREAM;
         m_sps.clear();m_rtNewStop=m_rtStop=m_rtDuration=session->Snapshot().duration;return m_pOutputs.empty()?E_FAIL:S_OK;
     }
 	Info& info = m_pFile->m_segment.SegmentInfo;

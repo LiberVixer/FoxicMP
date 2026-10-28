@@ -611,7 +611,7 @@ private slots:
   }
   void schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete_data() {
     QTest::addColumn<QString>("mediaProfile");
-    for(const auto* profile:{"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10","h264-opus","h264-opus-mono","hevc8-opus","hevc10-opus","av1-8-opus","av1-10-opus","vp9-8-opus","vp9-10-opus","webm-vp9-8","webm-vp9-10"})QTest::newRow(profile)<<QString(profile);
+    for(const auto* profile:{"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10","h264-opus","h264-opus-mono","hevc8-opus","hevc10-opus","av1-8-opus","av1-10-opus","vp9-8-opus","vp9-10-opus","webm-vp9-8","webm-vp9-10","webm-av1-8","webm-av1-10"})QTest::newRow(profile)<<QString(profile);
   }
   void schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete() {
     QFETCH(QString,mediaProfile);
@@ -648,9 +648,9 @@ private slots:
     auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));
     if((mediaProfile.contains("-opus") || mediaProfile.startsWith("webm-")))result["backwardSeekWhileIncomplete"]=seekObserved;
     decoderSample.stop();
-    QCOMPARE(decodedFormat,mediaProfile.contains("vp9-")?QString("vp9"):mediaProfile.startsWith("av1-")?QString("av1"):mediaProfile.startsWith("h264")?QString("h264"):QString("hevc"));
+    QCOMPARE(decodedFormat,mediaProfile.contains("vp9-")?QString("vp9"):mediaProfile.contains("av1-")?QString("av1"):mediaProfile.startsWith("h264")?QString("h264"):QString("hevc"));
     QVERIFY2(changingDecodedVideo,"No changing decoded video frames before writer complete");
-    if(mediaProfile.startsWith("hevc10") || mediaProfile.startsWith("av1-10") || mediaProfile.contains("vp9-10"))QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
+    if(mediaProfile.startsWith("hevc10") || mediaProfile.contains("av1-10") || mediaProfile.contains("vp9-10"))QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
     QVERIFY2(decodedAudio.contains((mediaProfile.contains("-opus") || mediaProfile.startsWith("webm-"))?"opus":"aac",Qt::CaseInsensitive),qPrintable(decodedAudio));
     QCOMPARE(decodedAudioRate,48000);
     if((mediaProfile.contains("-opus") || mediaProfile.startsWith("webm-"))){QVERIFY(seekRequested);QVERIFY(seekObserved);}

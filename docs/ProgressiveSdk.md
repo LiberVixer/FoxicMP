@@ -43,6 +43,13 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Progressive AV1 в WebM (SDK 1.19)
+
+[AV1 Main 8/10-bit + Opus в отдельных WebM](ProgressiveWebMAv1.md):
+профиль `separate-webm-av1-opus`. Требуется CodecPrivate с Sequence Header OBU
+и первый ключевой пакет с совпадающим sequence header. Python API сохранён;
+смешанные MP4/WebM-пары и остальные границы ТЗ остаются отдельными этапами.
+
 ## Progressive WebM (SDK 1.18)
 
 [Отдельные WebM VP9 8/10-bit и Opus mono/stereo](ProgressiveWebM.md):

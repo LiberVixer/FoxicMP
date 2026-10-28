@@ -2,6 +2,7 @@
 // GPL-3.0-or-later. Decoder bytes remain in the pinned ResourceSource.
 #pragma once
 #include "HarvesterState.h"
+#include "HarvesterAV1.h"
 #include <functional>
 #include <cstring>
 #include <set>
@@ -71,6 +72,7 @@ struct WebMInfo {
     uint64_t headerEnd=0,segmentEnd=UINT64_MAX,track=0,scale=1000000,frameDuration=0,delay=0;
     unsigned channels=0;int vp9Profile=-1,vp9Depth=-1;
     std::string codec;
+    std::vector<uint8_t> av1Sequence;
 };
 inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind) {
     using namespace webm;WebMInfo result;Element e;
@@ -100,12 +102,13 @@ inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind
             const auto id=entry.One(0x86).Text();
             result.delay=OptionalNumber(entry,0x56aa,0);result.frameDuration=OptionalNumber(entry,0x23e383,0);
             if(!kind) {
-                Check(id=="V_VP9" && result.delay==0,"Only VP9 video is enabled in this WebM profile");result.codec="vp9";
+                Check((id=="V_VP9" || id=="V_AV1") && result.delay==0,"Only VP9/AV1 video is enabled in this WebM profile");result.codec=id=="V_AV1"?"av1":"vp9";
                 const auto video=entry.One(0xe0);const auto width=video.One(0xb0).Number(),height=video.One(0xba).Number();
                 Check(width>0 && width<=16384 && height>0 && height<=16384,"Invalid WebM dimensions");
-                Check(result.frameDuration>0 && result.frameDuration<=1000000000 && result.frameDuration%100==0,"WebM VP9 requires a bounded DefaultDuration");
+                Check(result.frameDuration>0 && result.frameDuration<=1000000000 && result.frameDuration%100==0,"WebM video requires a bounded DefaultDuration");
                 const auto config=entry.One(0x63a2,true);std::set<uint8_t> features;
-                for(size_t i=0;i<config.size;) {
+                if(result.codec=="av1")result.av1Sequence=AV1Configuration(config.bytes,config.size,Check);
+                else for(size_t i=0;i<config.size;) {
                     Check(config.size-i>=3 && config.bytes[i+1]==1 && features.insert(config.bytes[i]).second,"Invalid VP9 CodecPrivate feature framing");
                     const auto field=config.bytes[i],value=config.bytes[i+2];
                     Check(field>=1 && field<=4,"Unsupported VP9 CodecPrivate feature");
@@ -131,6 +134,37 @@ inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind
 class WebMIndex {
     WebMInfo info;uint64_t position=0,scannedPrefix=0;bool initialized=false;int kind=0;int64_t origin=0;
     std::vector<Sample> samples;
+    void InitialAv1(webm::Data packet,bool sync) const {
+        using namespace webm;Check(sync,"Expected an initial AV1 keyframe");
+        bool sequence=false,frame=false;unsigned units=0;
+        for(size_t at=0;at<packet.size;) {
+            Check(++units<=128,"Too many initial AV1 packet OBUs");
+            const auto header=packet.bytes[at++];const unsigned type=(header>>3)&15;
+            Check(!(header&0x81),"Invalid initial AV1 OBU header");
+            Check(type==1 || type==2 || type==5 || type==6 || type==15,"Unsupported initial AV1 OBU type");
+            if(header&4)Check(at<packet.size && packet.bytes[at++]==0,"Unsupported initial AV1 OBU layer");
+            uint64_t length=packet.size-at;
+            if(header&2) {
+                length=0;bool ended=false;
+                for(unsigned i=0;i<8;++i) {
+                    Check(at<packet.size,"Truncated initial AV1 OBU size");const auto part=packet.bytes[at++];
+                    length|=uint64_t(part&127)<<(7*i);if(!(part&128)){ended=true;break;}
+                }
+                Check(ended,"Invalid initial AV1 OBU size");
+            }
+            Check(length<=packet.size-at,"Initial AV1 OBU exceeds packet");
+            if(type==1) {
+                Check(!sequence && !frame && length==info.av1Sequence.size()
+                    && !std::memcmp(packet.bytes+at,info.av1Sequence.data(),size_t(length)),"AV1 packet/configuration sequence mismatch");sequence=true;
+            }else if(type==6) {
+                Check(sequence && !frame && length>0,"Initial AV1 frame lacks sequence or payload");
+                const bool reduced=(info.av1Sequence[0]&8)!=0;
+                Check(reduced || !(packet.bytes[at]&0xe0),"Initial AV1 frame is not a keyframe");frame=true;
+            }else if(type==2)Check(length==0 && !sequence && !frame,"Invalid initial AV1 temporal delimiter");
+            at+=size_t(length);
+        }
+        Check(sequence && frame,"Initial AV1 packet requires sequence and frame OBUs");
+    }
     static int64_t OpusDuration(webm::Data packet) {
         using namespace webm;Check(packet.size>0,"Empty Opus packet");const auto toc=packet.bytes[0];const unsigned config=toc>>3;
         const int64_t durations[]={10000000,20000000,40000000,60000000};
@@ -146,7 +180,8 @@ class WebMIndex {
         const auto relative=int16_t(uint16_t(data.bytes[width])<<8|data.bytes[width+1]);const auto flags=data.bytes[width+2];
         Check(!(flags&0x76),"WebM lacing/reserved block flags are unsupported");
         const auto skip=width+3;Data packet{data.bytes+skip,data.size-skip,data.base+skip};
-        if(!kind && samples.empty() && append.empty()) {
+        if(!kind && samples.empty() && append.empty() && info.codec=="av1")InitialAv1(packet,sync);
+        else if(!kind && samples.empty() && append.empty()) {
             Check(sync && packet.size>=5 && (packet.bytes[0]>>6)==2 && !(packet.bytes[0]&12)
                 && packet.bytes[1]==0x49 && packet.bytes[2]==0x83 && packet.bytes[3]==0x42,"Expected an initial VP9 keyframe");
             const int profile=((packet.bytes[0]>>5)&1)|(((packet.bytes[0]>>4)&1)<<1);

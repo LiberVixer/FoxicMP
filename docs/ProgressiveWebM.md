@@ -1,5 +1,8 @@
 # Progressive WebM: отдельные VP9 и Opus дорожки
 
+SDK 1.19 добавляет отдельный [AV1/Opus WebM-профиль](ProgressiveWebMAv1.md).
+Ниже описан исходный VP9-профиль SDK 1.18.
+
 Расширение schema 2 плеера для `separate-webm-vp9-opus`. Публичные Python
 методы SDK и протокол v1 сохраняются. YouTubeHarvester не изменяется.
 Перед запуском загрузчик проверяет `capabilities.schema2Playback.profiles`

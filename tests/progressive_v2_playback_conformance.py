@@ -1,4 +1,4 @@
-"""Real H.264/HEVC/AV1/VP9 schema-2 fMP4 playback while BOTH source files are incomplete."""
+"""Real schema-2 fMP4/WebM playback while BOTH source files are incomplete."""
 import argparse
 import copy
 import json
@@ -14,7 +14,7 @@ from progressive_webm_fixtures import webm_prefix
 
 
 MEDIA_PROFILES=('h264','hevc8','hevc10','av1-8','av1-10','vp9-8','vp9-10',
-    'h264-opus','h264-opus-mono','hevc8-opus','hevc10-opus','av1-8-opus','av1-10-opus','vp9-8-opus','vp9-10-opus','webm-vp9-8','webm-vp9-10')
+    'h264-opus','h264-opus-mono','hevc8-opus','hevc10-opus','av1-8-opus','av1-10-opus','vp9-8-opus','vp9-10-opus','webm-vp9-8','webm-vp9-10','webm-av1-8','webm-av1-10')
 
 
 def forget_closed_readers(client,snapshot):

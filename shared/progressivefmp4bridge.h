@@ -7,7 +7,7 @@
 
 namespace foxicmp { namespace progressive {
 inline const char* Fmp4V2Capabilities() {
-    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus"],"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp9"],"audioCodecs":["opus"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
+    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus"],"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp9","av1"],"audioCodecs":["opus"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
 }
 class Fmp4V2Bridge {
     Snapshot model;
@@ -49,7 +49,7 @@ class Fmp4V2Bridge {
             const auto& track=item.second;const int index=track.kind=="video"?0:track.kind=="audio"?1:-1;
             supported(index>=0 && !found[index] && track.required && !track.resource.empty() && track.segments.empty() && track.initialization.empty(),
                       "Media v2 currently supports one required video and one required audio track, without segments or external init");
-            supported(track.container==(webm?"webm":"fmp4") && (track.codec.empty() || (webm?(track.codec==(index?"opus":"vp9")):(index?(track.codec=="aac-lc" || track.codec=="opus"):track.codec=="h264" || track.codec=="hevc" || track.codec=="av1" || track.codec=="vp9"))),"Use a declared separate fMP4 or WebM codec/container profile");
+            supported(track.container==(webm?"webm":"fmp4") && (track.codec.empty() || (webm?(index?track.codec=="opus":track.codec=="vp9" || track.codec=="av1"):(index?(track.codec=="aac-lc" || track.codec=="opus"):track.codec=="h264" || track.codec=="hevc" || track.codec=="av1" || track.codec=="vp9"))),"Use a declared separate fMP4 or WebM codec/container profile");
             const auto& resource=snapshot.resources.at(track.resource);supported(!resource.retired,"Cannot start media from a retired resource");
             auto& output=result.tracks[index];output.path=resource.name;output.container=webm?"webm":index?"m4a":"mp4";
             output.fragmented=true;output.initializationReady=track.initializationReady;output.available=prefix(resource);output.total=resource.known?resource.length:0;
@@ -109,35 +109,7 @@ class Fmp4V2Bridge {
         supported(at==config.size && parameterSets[0] && parameterSets[1] && parameterSets[2],"HEVC requires complete VPS/SPS/PPS initialization");
     }
     static void av1Configuration(harvester::BoxData config) {
-        // AV1CodecConfigurationRecord + bounded low-overhead config OBU framing.
-        // Sequence/frame decoding belongs to libmpv/DirectShow, not this validator.
-        supported(config.size>=4 && config.data[0]==0x81,"Invalid AV1 configuration marker/version");
-        const auto* b=config.data;
-        supported((b[1]>>5)==0 && (b[1]&31)<=23,"Only AV1 Main is enabled");
-        supported(!(b[2]&0xb0) && (b[2]&12)==12 && (b[2]&3)!=3,"Only Main-tier 8/10-bit AV1 4:2:0 is enabled");
-        supported(b[3]==0,"AV1 presentation-delay configuration is unsupported or reserved bits are invalid");
-        size_t at=4;bool sequence=false;unsigned units=0;
-        while(at<config.size) {
-            supported(++units<=128,"Too many AV1 configuration OBUs");
-            const auto header=b[at++];const unsigned type=(header>>3)&15;
-            supported(!(header&0x81) && (header&2),"Invalid AV1 configuration OBU header/size flag");
-            supported(type==1 || type==5,"Only AV1 sequence/metadata configuration OBUs are enabled");
-            if(header&4) {supported(at<config.size && b[at++]==0,"Unsupported AV1 configuration OBU layer or reserved bits");}
-            uint64_t size=0;bool ended=false;
-            for(unsigned i=0;i<8;++i) {
-                supported(at<config.size,"Truncated AV1 OBU size");const auto part=b[at++];
-                size|=uint64_t(part&127)<<(i*7);
-                if(!(part&128)){ended=true;break;}
-            }
-            supported(ended && size>0 && size<=config.size-at,"Invalid AV1 OBU payload length");
-            if(type==1) {
-                supported(!sequence && units==1,"AV1 requires one initial Sequence Header OBU");
-                supported((b[at]>>5)==(b[1]>>5),"AV1 sequence/configuration profile mismatch");
-                sequence=true;
-            }else supported(sequence,"AV1 sequence header must precede metadata");
-            at+=size_t(size);
-        }
-        supported(sequence,"This AV1 profile requires a Sequence Header OBU in av1C");
+        harvester::AV1Configuration(config.data,config.size,supported);
     }
     static void vp9Configuration(harvester::BoxData config) {
         // VP Codec ISO BMFF binding: FullBox v1, fixed record, no codec init data.
