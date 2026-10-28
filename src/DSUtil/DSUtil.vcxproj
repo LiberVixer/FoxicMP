@@ -121,6 +121,8 @@
     <ClInclude Include="HarvesterSession.h" />
     <ClInclude Include="HarvesterState.h" />
     <ClInclude Include="HarvesterMP4.h" />
+    <ClInclude Include="HarvesterAV1.h" />
+    <ClInclude Include="HarvesterVorbis.h" />
     <ClInclude Include="HTTPAsync.h" />
     <ClInclude Include="ID3Tag.h" />
     <ClInclude Include="ID3v2PictureType.h" />

@@ -28,15 +28,17 @@ class WebMIndexTests(unittest.TestCase):
         flags=shlex.split(os.environ.get('FOXICMP_INDEX_TEST_FLAGS','-O2'))
         subprocess.run(['g++', '-std=c++17', *flags, '-I' + str(REPO / 'src'),
                         str(REPO / 'tests/harvester/fragment_index.cpp'), '-o', str(cls.exe)], check=True)
+        cls.vorbis_exe=cls.root/'vorbis-headers'
+        subprocess.run(['g++','-std=c++17',*flags,'-I'+str(REPO/'src'),str(REPO/'tests/harvester/vorbis_headers_tests.cpp'),'-o',str(cls.vorbis_exe)],check=True)
         cls.paths = []
-        for kind in ('video8', 'video10', 'av1video8', 'av1video10', 'audio1', 'audio2'):
+        for kind in ('video8', 'video10', 'av1video8', 'av1video10', 'audio1', 'audio2', 'vp8video', 'vorbisaudio1', 'vorbisaudio2'):
             path = cls.root / (kind + '.webm')
-            args = (['-f', 'lavfi', '-i', 'testsrc2=s=320x180:r=25:d=3', '-c:v', 'libaom-av1' if kind.startswith('av1') else 'libvpx-vp9',
+            args = (['-f', 'lavfi', '-i', 'testsrc2=s=320x180:r=25:d=3', '-c:v', 'libaom-av1' if kind.startswith('av1') else 'libvpx' if kind.startswith('vp8') else 'libvpx-vp9',
                      '-pix_fmt', 'yuv420p10le' if kind.endswith('10') else 'yuv420p',
                      '-threads', '2', '-filter_threads', '1', '-cpu-used', '8', '-g', '25']
                     if 'video' in kind else
                     ['-f', 'lavfi', '-i', 'sine=frequency=880:sample_rate=48000:duration=3',
-                     '-ac', kind[-1], '-c:a', 'libopus'])
+                     '-ac', kind[-1], '-c:a', 'libvorbis' if kind.startswith('vorbis') else 'libopus'])
             if kind.startswith('av1'):
                 # FFmpeg's WebM muxer needs AV1 configuration before its header.
                 # Encode to delayed-moov MP4 first, then copy the actual packets.
@@ -53,7 +55,7 @@ class WebMIndexTests(unittest.TestCase):
         cls.temp.cleanup()
 
     def index(self, path, mode='webm', check=True):
-        return subprocess.run([str(self.exe), str(path), '1' if path.name.startswith('audio') else '0', mode],
+        return subprocess.run([str(self.exe), str(path), '1' if 'audio' in path.name else '0', mode],
                               capture_output=True, text=True, check=check)
 
     def test_packet_payloads_timestamps_and_preroll(self):
@@ -75,9 +77,12 @@ class WebMIndexTests(unittest.TestCase):
                     self.assertAlmostEqual(int(indexed['start']) / 1e7,
                                            float(packet['pts_time']), delta=.000501)
                     self.assertEqual(bool(int(indexed['sync'])), 'K' in packet['flags'])
-                if path.name.startswith('audio'):
-                    self.assertEqual(int(rows[0]['start']), -65000)
-                    self.assertAlmostEqual(int(rows[-1]['end']) / 1e7, 3, delta=.001)
+                    if 'duration_time' in packet:
+                        padding=sum(item.get('discard_padding',0) for item in packet.get('side_data_list',[]))/48000
+                        self.assertAlmostEqual((int(indexed['end'])-int(indexed['start']))/1e7,float(packet['duration_time'])-padding,delta=.0011)
+                if 'audio' in path.name:
+                    self.assertEqual(int(rows[0]['start']), 0 if path.name.startswith('vorbis') else -65000)
+                    self.assertAlmostEqual(int(rows[-1]['end']) / 1e7, 3, delta=.025 if path.name.startswith('vorbis') else .001)
                     for position in (0, 20000000, -(1 << 63)):
                         first = int(subprocess.check_output([str(self.exe), str(path), '1', 'webm', str(position)]))
                         if position >= 800000:
@@ -112,6 +117,26 @@ class WebMIndexTests(unittest.TestCase):
                 data=bytearray(original);data[at]=value
                 path=self.root/('av1-'+name+'.webm');path.write_bytes(data)
                 self.assertNotEqual(self.index(path,check=False).returncode,0)
+
+    def test_vp8_first_packet_and_vorbis_headers_are_bounded(self):
+        from progressive_webm_fixtures import width
+        source=next(p for p in self.paths if p.name=='vp8video.webm');original=source.read_bytes();_,body,stop=locate(original,0xa3);start=body+width(original[body])+3
+        for name,offset,value in [('inter',0,original[start]|1),('invisible',0,original[start]&~16),('version',0,original[start]|14),('signature',3,0),('width',6,0),('scale',7,original[start+7]|128),('partition',2,255)]:
+            with self.subTest(name=name):
+                data=bytearray(original);data[start+offset]=value;path=self.root/('vp8-'+name+'.webm');path.write_bytes(data);self.assertNotEqual(self.index(path,check=False).returncode,0)
+        source=next(p for p in self.paths if p.name=='vorbisaudio2.webm');original=source.read_bytes();_,body,stop=locate(original,0x63a2)
+        id_start=original.index(b'\x01vorbis',body,stop);setup_start=original.index(b'\x05vorbis',body,stop)
+        for name,offset,value in [('count',body,1),('id-version',id_start+7,1),('channels',id_start+11,6),('rate',id_start+12,0),('block',id_start+28,0),('framing',id_start+29,0),('setup-sync',setup_start+8,0),('last-framing',stop-1,0)]:
+            with self.subTest(name=name):
+                data=bytearray(original);data[offset]=value;path=self.root/('vorbisaudio-'+name+'.webm');path.write_bytes(data);self.assertNotEqual(self.index(path,check=False).returncode,0)
+        _,body,stop=locate(original,0xa3);packet=body+width(original[body])+3
+        data=bytearray(original);data[packet]|=1;path=self.root/'vorbisaudio-header-packet.webm';path.write_bytes(data);self.assertNotEqual(self.index(path,check=False).returncode,0)
+
+    def test_vorbis_configuration_truncation_mutations(self):
+        for source in self.paths:
+            if not source.name.startswith('vorbisaudio'):continue
+            data=source.read_bytes();_,body,end=locate(data,0x63a2);private=self.root/(source.stem+'.private');private.write_bytes(data[body:end])
+            subprocess.run([str(self.vorbis_exe),str(private)],check=True)
 
     def test_schema_one_and_fmp4_flags_do_not_admit_webm(self):
         for path in self.paths:

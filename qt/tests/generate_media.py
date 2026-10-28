@@ -41,3 +41,6 @@ generate_opus(root)
 
 from generate_webm_media import generate as generate_webm
 generate_webm(root)
+
+from generate_vp8_vorbis_media import generate as generate_vp8_vorbis
+generate_vp8_vorbis(root)

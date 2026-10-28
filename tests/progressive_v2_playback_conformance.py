@@ -14,7 +14,7 @@ from progressive_webm_fixtures import webm_prefix
 
 
 MEDIA_PROFILES=('h264','hevc8','hevc10','av1-8','av1-10','vp9-8','vp9-10',
-    'h264-opus','h264-opus-mono','hevc8-opus','hevc10-opus','av1-8-opus','av1-10-opus','vp9-8-opus','vp9-10-opus','webm-vp9-8','webm-vp9-10','webm-av1-8','webm-av1-10','mixed-h264-opus','mixed-hevc8-opus','mixed-hevc10-opus','mixed-av1-8-opus','mixed-av1-10-opus','mixed-vp9-8-opus','mixed-vp9-10-opus','mixed-webm-vp9-8-aac','mixed-webm-vp9-8-opus','mixed-webm-vp9-10-aac','mixed-webm-vp9-10-opus','mixed-webm-av1-8-aac','mixed-webm-av1-8-opus','mixed-webm-av1-10-aac','mixed-webm-av1-10-opus')
+    'h264-opus','h264-opus-mono','hevc8-opus','hevc10-opus','av1-8-opus','av1-10-opus','vp9-8-opus','vp9-10-opus','webm-vp9-8','webm-vp9-10','webm-av1-8','webm-av1-10','mixed-h264-opus','mixed-hevc8-opus','mixed-hevc10-opus','mixed-av1-8-opus','mixed-av1-10-opus','mixed-vp9-8-opus','mixed-vp9-10-opus','mixed-webm-vp9-8-aac','mixed-webm-vp9-8-opus','mixed-webm-vp9-10-aac','mixed-webm-vp9-10-opus','mixed-webm-av1-8-aac','mixed-webm-av1-8-opus','mixed-webm-av1-10-aac','mixed-webm-av1-10-opus','webm-vp8-opus','webm-vp8-vorbis','webm-vp8-vorbis-mono','webm-vp9-8-vorbis','webm-vp9-10-vorbis','webm-av1-8-vorbis','webm-av1-10-vorbis','mixed-h264-vorbis','mixed-hevc8-vorbis','mixed-hevc10-vorbis','mixed-av1-8-vorbis','mixed-av1-10-vorbis','mixed-vp9-8-vorbis','mixed-vp9-10-vorbis','mixed-webm-vp8-aac','mixed-webm-vp8-opus')
 
 
 def forget_closed_readers(client,snapshot):
@@ -33,23 +33,23 @@ def exercise(client,fixtures,work,profile="h264",seek=None):
     webm=normalized.startswith("webm-")
     video_container="webm" if webm else "fmp4"
     audio_container=("fmp4" if webm else "webm") if mixed else video_container
-    base=normalized.removeprefix("webm-").removesuffix("-opus").removesuffix("-opus-mono").removesuffix("-aac")
-    assert base in {"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10"},profile
-    audio_codec="opus" if audio_container=="webm" or "-opus" in profile else "aac-lc"
+    base=normalized.removeprefix("webm-").removesuffix("-opus").removesuffix("-opus-mono").removesuffix("-aac").removesuffix("-vorbis").removesuffix("-vorbis-mono")
+    assert base in {"h264","hevc8","hevc10","av1-8","av1-10","vp9-8","vp9-10","vp8"},profile
+    audio_codec="vorbis" if "-vorbis" in profile else "opus" if audio_container=="webm" or "-opus" in profile else "aac-lc"
     channels=1 if profile.endswith("-mono") else 2
-    codec="vp9" if base.startswith("vp9-") else "av1" if base.startswith("av1-") else "h264" if base=="h264" else "hevc"
+    codec="vp8" if base=="vp8" else "vp9" if base.startswith("vp9-") else "av1" if base.startswith("av1-") else "h264" if base=="h264" else "hevc"
     fixture="progressive-webm-"+base if webm else "progressive" if base=="h264" else "progressive-"+base
     capabilities=client.request(dict(version=1,action="capabilities"))
     if codec!="h264":assert codec in capabilities["schema2Playback"]["videoCodecs"],capabilities
     if mixed:assert capabilities["schema2Playback"]["mixedContainers"],capabilities
     work=Path(work).resolve();work.mkdir(parents=True)
     audio_path=Path(fixtures)/('progressive-opus-'+str(channels))/'audio.mp4' if audio_codec=='opus' else Path(fixtures)/'progressive/audio.m4a'
-    if audio_container=="webm":audio_path=Path(fixtures)/'progressive-webm-vp9-8/audio.webm'
+    if audio_container=="webm":audio_path=Path(fixtures)/("progressive-webm-vorbis-"+str(channels)+"/audio.webm" if audio_codec=="vorbis" else "progressive-webm-vp9-8/audio.webm")
     inputs=[(Path(fixtures)/fixture/('video.webm' if webm else 'video.mp4')).read_bytes(),audio_path.read_bytes()]
     containers=[video_container,audio_container]
     def prefix_of(data,seconds,index):
         return (webm_prefix if containers[index]=="webm" else fragment_prefix)(data,seconds)
-    if audio_codec=='opus':assert 'opus' in capabilities['schema2Playback']['audioCodecs'],capabilities
+    if audio_codec in ('opus','vorbis'):assert audio_codec in capabilities['schema2Playback']['audioCodecs'],capabilities
     paths=[work/'видео.part',work/'звук.part'];names=[path.name for path in paths]
     value=dict(schemaVersion=2,sessionId=uuid.uuid4().hex,generation='18446744073709551615',revision='9007199254740993',
         writer=dict(instanceId=uuid.uuid4().hex,state='downloading'),timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration='200000000',timestampOffset='0'),
@@ -93,7 +93,7 @@ def exercise(client,fixtures,work,profile="h264",seek=None):
             observations.append(dict(elapsed=round(time.monotonic()-clock,3),latency=round(time.monotonic()-before,3),state=state.get('state'),position=state.get('positionSeconds')))
             observations=observations[-80:]
             if state.get('state')=='error':raise AssertionError(state)
-            if (audio_codec=='opus' or mixed) and seek is not None:
+            if (audio_codec in ('opus','vorbis') or mixed) and seek is not None:
                 if seek_requested and state.get('positionSeconds',10)<3:seek_observed=True
                 if not seek_requested and state.get('state')=='playing' and state.get('positionSeconds',0)>=4:
                     seek(2);seek_requested=True;continue
@@ -102,7 +102,7 @@ def exercise(client,fixtures,work,profile="h264",seek=None):
                 assert all(int(state['decoderIoBytes'][kind])>0 for kind in ('video','audio'))
                 assert state['videoContainer']==video_container and state['audioContainer']==audio_container,state
                 assert state['videoCodec']==codec and state['mediaMode']==('separate-'+video_container+('-'+audio_container if mixed else '')+'-'+codec+'-'+audio_codec) and state['audioCodec']==audio_codec,state
-                if (audio_codec=='opus' or mixed) and seek is not None:
+                if (audio_codec in ('opus','vorbis') or mixed) and seek is not None:
                     assert seek_requested and seek_observed,'Backward seek was not observed'
                     report['backwardSeekWhileIncomplete']=True
                 report['playingWhilePhysicallyIncomplete']=state

@@ -263,3 +263,8 @@ SDK 1.18/1.19 добавляют ограниченные отдельные Web
 контейнер задаётся каждой дорожке отдельно. Проверять `schema2Playback.profiles`
 и `mixedContainers` у текущего EXE; `status` сообщает `videoContainer` и
 `audioContainer`. Это расширение schema 2, а не изменение ограничений v1 выше.
+
+SDK 1.21 расширяет WebM-профили [VP8/Vorbis](ProgressiveVp8Vorbis.md):
+VP8-видео, Vorbis mono/stereo 48 kHz, floor 1, bounded setup. Поддержаны
+прежние видеокодеки с WebM Vorbis и VP8 с fMP4 AAC-LC/Opus; проверять
+конкретный профиль текущего EXE. v1 и Python API не меняются.

@@ -278,7 +278,7 @@ def run(runner,fixtures):
     for name,track,tag,value in (
         ('doctype',0,0x4282,b'mkv!'),('reader-version',0,0x42f7,b'\x02'),('doctype-read-version-zero',0,0x4285,b'\x00'),
         ('max-id-width-zero',0,0x42f2,b'\x00'),('max-size-width-zero',0,0x42f3,b'\x00'),
-        ('wrong-video-codec',0,0x86,b'V_VP8'),('wrong-audio-codec',1,0x86,b'A_AC3X')):
+        ('wrong-video-codec',0,0x86,b'V_XXX'),('wrong-audio-codec',1,0x86,b'A_AC3X')):
         reject_edit('webm-'+name,lambda v,p,t=track,k=tag,b=value:ebml_mutate(p,t,k,b))
     def zero_number(paths,track,tag):
         data=bytearray(paths[track].read_bytes());_,at,end=locate(data,tag);data[at:end]=bytes(end-at);paths[track].write_bytes(data)
@@ -355,6 +355,42 @@ def run(runner,fixtures):
         case(label+'-cancel-closes-resource-leases',cancelled)
         for i in range(2):
             reject_edit(label+'-false-container-'+str(i),lambda v,p,index=i:v['tracks'][index].update(containerHint='webm' if containers[index]=='fmp4' else 'fmp4'))
+    variants=[('vp8','vp8','webm','webm','opus',2),('vp8','vp8','webm','fmp4','aac-lc',2),('vp8','vp8','webm','fmp4','opus',2)]
+    variants += [(base,codec,vc,'webm','vorbis',channels) for base,codec,vc in
+        [('vp8','vp8','webm'),('vp9-8','vp9','webm'),('vp9-10','vp9','webm'),('av1-8','av1','webm'),('av1-10','av1','webm'),
+         ('h264','h264','fmp4'),('hevc8','hevc','fmp4'),('hevc10','hevc','fmp4'),('av1-8','av1','fmp4'),('av1-10','av1','fmp4'),('vp9-8','vp9','fmp4'),('vp9-10','vp9','fmp4')] for channels in (1,2)]
+    for base,video_codec,vc,ac,audio_codec,channels in variants:
+        folder='progressive-webm-'+base if vc=='webm' else 'progressive' if base=='h264' else 'progressive-'+base
+        video=Path(fixtures)/folder/('video.webm' if vc=='webm' else 'video.mp4')
+        audio=Path(fixtures)/(('progressive-webm-vorbis-'+str(channels)+'/audio.webm') if audio_codec=='vorbis' else 'progressive-webm-vp9-8/audio.webm' if ac=='webm' else 'progressive-opus-2/audio.mp4' if audio_codec=='opus' else 'progressive/audio.m4a')
+        inputs=[video.read_bytes(),audio.read_bytes()];containers=[vc,ac]
+        def actual(v,paths,rpc,open_,read,readers,next_):
+            open_();state=rpc('status');assert state['videoCodec']==video_codec and state['audioCodec']==audio_codec,state
+            assert state['videoContainer']==vc and state['audioContainer']==ac,state
+            for i in range(2):assert read(track=i)['hex']==inputs[i][:8].hex()
+            rpc('release');assert readers()==[]
+        label='vp8-vorbis-'+vc+'-'+base+'-'+audio_codec+'-'+str(channels)
+        case(label+'-actual-headers',actual)
+        def no_hints(v,paths,rpc,open_,read,readers,next_):
+            for track in v['tracks']:track['codecHint']=''
+            actual(v,paths,rpc,open_,read,readers,next_)
+        case(label+'-discovery',no_hints);case(label+'-rename-complete',grow);case(label+'-waiting',waiting);case(label+'-cancel',cancelled)
+    # Mutate both Xiph framing and the actual three headers, not only hints.
+    inputs=[(Path(fixtures)/'progressive-webm-vp8/video.webm').read_bytes(),(Path(fixtures)/'progressive-webm-vorbis-2/audio.webm').read_bytes()];containers=['webm','webm'];video_codec='vp8';audio_codec='vorbis'
+    def vorbis_edit(paths,where,value):
+        data=bytearray(paths[1].read_bytes());_,at,end=locate(data,0x63a2)
+        if isinstance(where,str):at=data.index(bytes([{'id':1,'comment':3,'setup':5}[where]])+b'vorbis',at,end)
+        else:at+=where
+        data[at:at+len(value)]=value;paths[1].write_bytes(data)
+    for name,where,value in [('count',0,b'\x01'),('length',1,b'\xff'),('id','id',b'\x02'),('comment','comment',b'\x04'),('setup','setup',b'\x06')]:
+        reject_edit('vorbis-header-'+name,lambda v,p,w=where,b=value:vorbis_edit(p,w,b))
+    def id_field(paths,offset,value):
+        data=bytearray(paths[1].read_bytes());at=data.index(b'\x01vorbis')+offset;data[at:at+len(value)]=value;paths[1].write_bytes(data)
+    for name,offset,value in [('version',7,b'\x01'),('channels',11,b'\x06'),('rate',12,b'\x44\xac\x00\x00'),('blocks',28,b'\x55'),('framing',29,b'\x00')]:
+        reject_edit('vorbis-id-'+name,lambda v,p,o=offset,b=value:id_field(p,o,b))
+    def setup_field(paths,offset,value):
+        data=bytearray(paths[1].read_bytes());at=data.index(b'\x05vorbis')+offset;data[at:at+len(value)]=value;paths[1].write_bytes(data)
+    reject_edit('vorbis-codebook-sync',lambda v,p:setup_field(p,8,b'\x00'))
     return dict(result='PASS',passed=len(names),cases=names)
 
 if __name__=='__main__':

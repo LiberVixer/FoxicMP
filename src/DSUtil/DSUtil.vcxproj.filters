@@ -289,5 +289,7 @@
     <ClInclude Include="HarvesterSession.h" />
     <ClInclude Include="HarvesterState.h" />
     <ClInclude Include="HarvesterMP4.h" />
+    <ClInclude Include="HarvesterAV1.h" />
+    <ClInclude Include="HarvesterVorbis.h" />
   </ItemGroup>
 </Project>

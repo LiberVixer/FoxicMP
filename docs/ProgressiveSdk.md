@@ -43,6 +43,14 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## VP8 и Vorbis (SDK 1.21)
+
+[VP8 8-bit и Vorbis I mono/stereo 48 kHz в WebM](ProgressiveVp8Vorbis.md)
+добавлены во все три редакции, включая пары с прежними VP9/AV1 и смешанные
+fMP4/WebM. Проверять профили текущего EXE и `webm.videoCodecs/audioCodecs`.
+Vorbis ограничен floor 1 и bounded setup; Ogg, произвольные режимы и muxed/remux
+не добавлены. Python API сохраняется.
+
 ## Смешанные MP4/WebM-дорожки (SDK 1.20)
 
 [Независимый контейнер каждой дорожки](ProgressiveMixedContainers.md):

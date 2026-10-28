@@ -3,6 +3,7 @@
 #pragma once
 #include "HarvesterState.h"
 #include "HarvesterAV1.h"
+#include "HarvesterVorbis.h"
 #include <functional>
 #include <cstring>
 #include <set>
@@ -70,7 +71,7 @@ inline uint64_t OptionalNumber(Data parent,uint32_t id,uint64_t fallback) {const
 } // namespace webm
 struct WebMInfo {
     uint64_t headerEnd=0,segmentEnd=UINT64_MAX,track=0,scale=1000000,frameDuration=0,delay=0;
-    unsigned channels=0;int vp9Profile=-1,vp9Depth=-1;
+    unsigned channels=0,width=0,height=0;VorbisInfo vorbis;int vp9Profile=-1,vp9Depth=-1;
     std::string codec;
     std::vector<uint8_t> av1Sequence;
 };
@@ -102,12 +103,13 @@ inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind
             const auto id=entry.One(0x86).Text();
             result.delay=OptionalNumber(entry,0x56aa,0);result.frameDuration=OptionalNumber(entry,0x23e383,0);
             if(!kind) {
-                Check((id=="V_VP9" || id=="V_AV1") && result.delay==0,"Only VP9/AV1 video is enabled in this WebM profile");result.codec=id=="V_AV1"?"av1":"vp9";
+                Check((id=="V_VP8" || id=="V_VP9" || id=="V_AV1") && result.delay==0,"Only VP8/VP9/AV1 video is enabled in this WebM profile");result.codec=id=="V_AV1"?"av1":id=="V_VP8"?"vp8":"vp9";
                 const auto video=entry.One(0xe0);const auto width=video.One(0xb0).Number(),height=video.One(0xba).Number();
-                Check(width>0 && width<=16384 && height>0 && height<=16384,"Invalid WebM dimensions");
+                Check(width>0 && width<=16384 && height>0 && height<=16384,"Invalid WebM dimensions");result.width=unsigned(width);result.height=unsigned(height);
                 Check(result.frameDuration>0 && result.frameDuration<=1000000000 && result.frameDuration%100==0,"WebM video requires a bounded DefaultDuration");
                 const auto config=entry.One(0x63a2,true);std::set<uint8_t> features;
                 if(result.codec=="av1")result.av1Sequence=AV1Configuration(config.bytes,config.size,Check);
+                else if(result.codec=="vp8")Check(!config.bytes,"VP8 CodecPrivate is unsupported");
                 else for(size_t i=0;i<config.size;) {
                     Check(config.size-i>=3 && config.bytes[i+1]==1 && features.insert(config.bytes[i]).second,"Invalid VP9 CodecPrivate feature framing");
                     const auto field=config.bytes[i],value=config.bytes[i+2];
@@ -117,7 +119,12 @@ inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind
                     if(field==4)Check(value<=1,"Only VP9 4:2:0 is enabled");i+=3;
                 }
             }else {
-                Check(id=="A_OPUS","Only Opus audio is enabled in this WebM profile");result.codec="opus";
+                Check(id=="A_OPUS" || id=="A_VORBIS","Only Opus/Vorbis audio is enabled in this WebM profile");result.codec=id=="A_OPUS"?"opus":"vorbis";
+                if(result.codec=="vorbis"){
+                    const auto config=entry.One(0x63a2);result.vorbis=VorbisConfiguration(config.bytes,config.size);result.channels=result.vorbis.channels;
+                    const auto audio=entry.One(0xe1);Check(OptionalNumber(audio,0x9f,1)==result.channels && audio.One(0xb5).Float()==result.vorbis.rate,"Vorbis channels/rate mismatch");
+                    Check(result.delay==0 && OptionalNumber(entry,0x56bb,0)==0,"Vorbis delay/preroll is unsupported");
+                }else {
                 const auto config=entry.One(0x63a2);
                 Check(config.size==19 && !std::memcmp(config.bytes,"OpusHead",8) && config.bytes[8]==1 && config.bytes[18]==0,"Invalid/unsupported OpusHead");
                 result.channels=config.bytes[9];Check(result.channels==1 || result.channels==2,"Only Opus mono/stereo is enabled");
@@ -125,6 +132,7 @@ inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind
                 Check(result.delay<=2000000000 && result.delay*48000==skip*1000000000,"Opus CodecDelay/pre-skip mismatch");
                 Check(OptionalNumber(entry,0x56bb,0)==80000000,"Opus requires the 80 ms seek preroll profile");
                 const auto audio=entry.One(0xe1);Check(OptionalNumber(audio,0x9f,1)==result.channels && audio.One(0xb5).Float()==48000.0,"Opus channels/rate mismatch");
+                }
             }
         }else Check(e.id==0x114d9b74 || e.id==0x1254c367 || e.id==0xec || e.id==0xbf,"Unsupported WebM initialization element");
         at=e.end;
@@ -181,7 +189,15 @@ class WebMIndex {
         Check(!(flags&0x76),"WebM lacing/reserved block flags are unsupported");
         const auto skip=width+3;Data packet{data.bytes+skip,data.size-skip,data.base+skip};
         if(!kind && samples.empty() && append.empty() && info.codec=="av1")InitialAv1(packet,sync);
-        else if(!kind && samples.empty() && append.empty()) {
+        else if(!kind && samples.empty() && append.empty() && info.codec=="vp8"){
+            Check(sync && packet.size>=10 && !(packet.bytes[0]&1) && ((packet.bytes[0]>>1)&7)<=3 && (packet.bytes[0]&16)
+                && packet.bytes[3]==0x9d && packet.bytes[4]==1 && packet.bytes[5]==0x2a,"Expected an initial displayed VP8 keyframe");
+            const auto partition=(uint32_t(packet.bytes[0])|(uint32_t(packet.bytes[1])<<8)|(uint32_t(packet.bytes[2])<<16))>>5;
+            Check(partition>0 && partition<=packet.size-10,"Invalid VP8 first partition size");
+            Check((unsigned(packet.bytes[6])|(unsigned(packet.bytes[7]&63)<<8))==info.width
+                && (unsigned(packet.bytes[8])|(unsigned(packet.bytes[9]&63)<<8))==info.height
+                && !(packet.bytes[7]&192) && !(packet.bytes[9]&192),"VP8 dimensions/scaling mismatch");
+        }else if(!kind && samples.empty() && append.empty()) {
             Check(sync && packet.size>=5 && (packet.bytes[0]>>6)==2 && !(packet.bytes[0]&12)
                 && packet.bytes[1]==0x49 && packet.bytes[2]==0x83 && packet.bytes[3]==0x42,"Expected an initial VP9 keyframe");
             const int profile=((packet.bytes[0]>>5)&1)|(((packet.bytes[0]>>4)&1)<<1);
@@ -192,8 +208,8 @@ class WebMIndex {
         Check(cluster<=uint64_t(INT64_MAX),"WebM clock overflow");const auto ticks=AddTime(int64_t(cluster),relative);
         Check(ticks>=0 && uint64_t(ticks)<=uint64_t(INT64_MAX)/info.scale,"WebM timestamp overflow");
         const auto raw=uint64_t(ticks)*info.scale;const auto start=AddTime(AddTime(int64_t(raw/100),-int64_t(info.delay/100)),-origin);
-        int64_t length=kind?OpusDuration(packet):int64_t(info.frameDuration);
-        if(duration){Check(duration<=uint64_t(INT64_MAX)/info.scale,"WebM duration overflow");const auto ns=duration*info.scale;Check(ns>0 && ns<=1000000000,"Unsupported WebM block duration");if(kind)Check(int64_t(ns)==length,"Opus BlockDuration mismatch");length=int64_t(ns);}
+        int64_t length=kind?(info.codec=="vorbis"?info.vorbis.Duration(packet.bytes,packet.size):OpusDuration(packet)):int64_t(info.frameDuration);
+        if(duration){Check(duration<=uint64_t(INT64_MAX)/info.scale,"WebM duration overflow");const auto ns=duration*info.scale;Check(ns>0 && ns<=1000000000,"Unsupported WebM block duration");if(kind)Check(std::abs(int64_t(ns)-length)<=(info.codec=="vorbis"?int64_t(info.scale):0),"Audio BlockDuration mismatch");length=int64_t(ns);}
         Check(padding>=0 && padding<=length,"Unsupported WebM discard padding");
         Sample sample;sample.offset=packet.base;sample.size=packet.size;sample.start=sample.decode=start;sample.end=AddTime(start,(length-padding)/100);sample.sync=kind || sync;
         const auto previous=!append.empty()?append.back().decode:!samples.empty()?samples.back().decode:INT64_MIN;

@@ -117,7 +117,8 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveOpusValidation-2026-10-27.md ../docs/ProgressiveOpusValidation-2026-10-27.json
  ../docs/ProgressiveWebM.md ../docs/ProgressiveWebMValidation-2026-10-28.md ../docs/ProgressiveWebMValidation-2026-10-28.json
  ../docs/ProgressiveWebMAv1.md ../docs/ProgressiveWebMAv1Validation-2026-10-28.md ../docs/ProgressiveWebMAv1Validation-2026-10-28.json
- ../docs/ProgressiveMixedContainers.md ../docs/ProgressiveMixedValidation-2026-10-28.md ../docs/ProgressiveMixedValidation-2026-10-28.json DESTINATION integration)
+ ../docs/ProgressiveMixedContainers.md ../docs/ProgressiveMixedValidation-2026-10-28.md ../docs/ProgressiveMixedValidation-2026-10-28.json
+ ../docs/ProgressiveVp8Vorbis.md ../docs/ProgressiveVp8VorbisValidation-2026-10-28.md ../docs/ProgressiveVp8VorbisValidation-2026-10-28.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/vod.json DESTINATION integration RENAME progressive-v2-vod.json)
 install(FILES ../docs/images/foxicmp-qt-web-control.png DESTINATION . RENAME web-control.png)
 install(FILES ../docs/images/foxicmp-qt-web-browser.png DESTINATION . RENAME web-browser.png)
@@ -249,9 +250,9 @@ if(BUILD_TESTING)
  target_compile_definitions(foxicmp-progressive-api-tests PRIVATE FOXICMP_LEGACY_FIXTURE="${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_legacy_fixture.py" FOXICMP_WRITER_SCRIPT="${CMAKE_CURRENT_SOURCE_DIR}/tools/progressive_writer.py")
  add_dependencies(foxicmp-progressive-api-tests foxicmp-qt)
  add_test(NAME progressive-api COMMAND foxicmp-progressive-api-tests)
- set_tests_properties(progressive-api PROPERTIES TIMEOUT 1500 ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=1200000")
+ set_tests_properties(progressive-api PROPERTIES TIMEOUT 2100 ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=1800000")
  add_test(NAME progressive-v2-playback COMMAND foxicmp-progressive-api-tests schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete)
- set_tests_properties(progressive-v2-playback PROPERTIES TIMEOUT 1000 ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=900000")
+ set_tests_properties(progressive-v2-playback PROPERTIES TIMEOUT 1600 ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=1500000")
  add_test(NAME progressive-preparation COMMAND foxicmp-progressive-api-tests mediaPreparationKeepsUiResponsive deletingApiDoesNotWaitForPreparationWorker preparationWorkerFailureDoesNotPoisonSlot preparationDeadlineCannotStartPlaybackLater)
  set_tests_properties(progressive-preparation PROPERTIES TIMEOUT 90)
  add_test(NAME progressive-publication COMMAND foxicmp-progressive-api-tests publishedUpdatesKeepUiResponsive)
