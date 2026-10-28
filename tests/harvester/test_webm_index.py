@@ -1,0 +1,102 @@
+"""Compare confirmed WebM packet payloads/clocks with FFprobe, without a decoder."""
+import csv
+import hashlib
+import io
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+
+REPO = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO / 'tests'))
+from progressive_webm_fixtures import locate
+
+
+@unittest.skipUnless(shutil.which('g++') and shutil.which('ffmpeg'), 'C++ and FFmpeg required')
+class WebMIndexTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.temp = tempfile.TemporaryDirectory(prefix='foxicmp-webm-index-')
+        cls.root = Path(cls.temp.name)
+        cls.exe = cls.root / 'index'
+        subprocess.run(['g++', '-std=c++17', '-O2', '-I' + str(REPO / 'src'),
+                        str(REPO / 'tests/harvester/fragment_index.cpp'), '-o', str(cls.exe)], check=True)
+        cls.paths = []
+        for kind in ('video8', 'video10', 'audio1', 'audio2'):
+            path = cls.root / (kind + '.webm')
+            args = (['-f', 'lavfi', '-i', 'testsrc2=s=320x180:r=25:d=3', '-c:v', 'libvpx-vp9',
+                     '-pix_fmt', 'yuv420p10le' if kind == 'video10' else 'yuv420p',
+                     '-threads', '2', '-filter_threads', '1', '-cpu-used', '8', '-g', '25']
+                    if kind.startswith('video') else
+                    ['-f', 'lavfi', '-i', 'sine=frequency=880:sample_rate=48000:duration=3',
+                     '-ac', kind[-1], '-c:a', 'libopus'])
+            subprocess.run(['ffmpeg', '-v', 'error', '-y', *args, '-f', 'webm',
+                            '-cluster_time_limit', '1000', '-live', '1', str(path)], check=True)
+            cls.paths.append(path)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.temp.cleanup()
+
+    def index(self, path, mode='webm', check=True):
+        return subprocess.run([str(self.exe), str(path), '1' if path.name.startswith('audio') else '0', mode],
+                              capture_output=True, text=True, check=check)
+
+    def test_packet_payloads_timestamps_and_preroll(self):
+        for path in self.paths:
+            with self.subTest(path=path.name):
+                data = path.read_bytes()
+                rows = list(csv.DictReader(io.StringIO(self.index(path).stdout)))
+                packets = json.loads(subprocess.check_output([
+                    'ffprobe', '-v', 'error', '-show_packets', '-show_data_hash', 'sha256',
+                    '-of', 'json', str(path)]))['packets']
+                self.assertEqual(len(rows), len(packets))
+                for indexed, packet in zip(rows, packets):
+                    start, size = int(indexed['offset']), int(indexed['size'])
+                    self.assertEqual(size, int(packet['size']))
+                    # Matroska FFprobe pos points to the Block header, not the payload.
+                    self.assertEqual(hashlib.sha256(data[start:start + size]).hexdigest(),
+                                     packet['data_hash'].split(':', 1)[1].lower())
+                    # FFprobe quantizes CodecDelay to the 1 ms stream timebase.
+                    self.assertAlmostEqual(int(indexed['start']) / 1e7,
+                                           float(packet['pts_time']), delta=.000501)
+                    self.assertEqual(bool(int(indexed['sync'])), 'K' in packet['flags'])
+                if path.name.startswith('audio'):
+                    self.assertEqual(int(rows[0]['start']), -65000)
+                    self.assertAlmostEqual(int(rows[-1]['end']) / 1e7, 3, delta=.001)
+                    for position in (0, 20000000, -(1 << 63)):
+                        first = int(subprocess.check_output([str(self.exe), str(path), '1', 'webm', str(position)]))
+                        if position >= 800000:
+                            self.assertGreaterEqual(position - int(rows[first]['start']), 800000)
+                        else:
+                            self.assertEqual(first, 0)
+
+    def test_schema_one_and_fmp4_flags_do_not_admit_webm(self):
+        for path in self.paths:
+            for mode in ('', 'hevc', 'av1', 'vp9', 'opus'):
+                with self.subTest(path=path.name, mode=mode):
+                    self.assertNotEqual(self.index(path, mode, check=False).returncode, 0)
+
+    def test_damaged_packets_and_incomplete_final_cluster_are_rejected(self):
+        video = self.paths[0].read_bytes()
+        mutations = {}
+        mutations['truncated'] = video[:-1]
+        for name, change in [('lacing', lambda d, at: d.__setitem__(at + 3, d[at + 3] | 2)),
+                             ('other-track', lambda d, at: d.__setitem__(at, 0x82)),
+                             ('not-keyframe', lambda d, at: d.__setitem__(at + 3, d[at + 3] & 127))]:
+            data = bytearray(video)
+            _, at, _ = locate(data, 0xa3)
+            change(data, at)
+            mutations[name] = data
+        for name, data in mutations.items():
+            with self.subTest(name=name):
+                path = self.root / (name + '.webm')
+                path.write_bytes(data)
+                self.assertNotEqual(self.index(path, check=False).returncode, 0)
+
+
+if __name__ == '__main__':
+    unittest.main()

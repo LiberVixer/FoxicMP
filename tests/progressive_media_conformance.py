@@ -6,12 +6,13 @@ from pathlib import Path
 import subprocess
 import tempfile
 from progressive_v1_conformance import fragment_prefix
+from progressive_webm_fixtures import webm_prefix,locate
 
 
 def run(runner,fixtures):
     inputs=[(Path(fixtures)/'progressive'/name).read_bytes() for name in ('video.mp4','audio.m4a')]
     names=[]
-    video_codec="h264";audio_codec="aac-lc"
+    video_codec="h264";audio_codec="aac-lc";container="fmp4";prefix_of=fragment_prefix
     def case(name,check):
         with tempfile.TemporaryDirectory(prefix='foxicmp-media-') as folder:
             root=Path(folder);data=root/'data';data.mkdir()
@@ -19,9 +20,9 @@ def run(runner,fixtures):
                 writer=dict(instanceId='b'*32,state='downloading'),timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration='200000000',timestampOffset='0'),resources=[],tracks=[])
             paths=[]
             for i,kind in enumerate(('video','audio')):
-                path=data/(kind+'.part');paths.append(path);count=fragment_prefix(inputs[i],5);path.write_bytes(inputs[i][:count])
+                path=data/(kind+'.part');paths.append(path);count=prefix_of(inputs[i],5);path.write_bytes(inputs[i][:count])
                 value['resources'].append(dict(id=kind,name=path.name,length=None,ranges=[dict(offset='0',length=str(count))],state='downloading'))
-                value['tracks'].append(dict(id=kind,kind=kind,required=True,codecHint=video_codec if i==0 else audio_codec,containerHint='fmp4',initializationReady=True,state='downloading',source=dict(resourceId=kind)))
+                value['tracks'].append(dict(id=kind,kind=kind,required=True,codecHint=video_codec if i==0 else audio_codec,containerHint=container,initializationReady=True,state='downloading',source=dict(resourceId=kind)))
             process=subprocess.Popen([runner,'--registry',str(root/'registry')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf-8')
             def rpc(action,**fields):
                 process.stdin.write(json.dumps(dict(action=action,**fields))+'\n');process.stdin.flush()
@@ -253,6 +254,48 @@ def run(runner,fixtures):
         assert not rpc('publish',session=next_())['ok'];paths[1].write_bytes(original);assert read(track=1)['bytesRead']==-1
     case('opus-init-rewrite-is-persistent-error',opus_rewrite)
     case('opus-cancel-closes-resource-leases',cancelled)
+    container='webm';video_codec='vp9';audio_codec='opus';prefix_of=webm_prefix
+    for depth in (8,10):
+        inputs=[(Path(fixtures)/('progressive-webm-vp9-'+str(depth))/(kind+'.webm')).read_bytes() for kind in ('video','audio')]
+        def webm_exact(v,paths,rpc,open_,read,readers,next_):
+            open_();state=rpc('status');assert state['mediaMode']=='separate-webm-vp9-opus',state
+            assert read()['hex']==inputs[0][:8].hex();assert read(track=1)['hex']==inputs[1][:8].hex()
+            assert len(readers())==2;rpc('release');assert readers()==[]
+        case('webm-vp9-'+str(depth)+'-actual-header-and-pinned-leases',webm_exact)
+        def webm_no_hint(v,paths,rpc,open_,read,readers,next_):
+            for t in v['tracks']:t['codecHint']=''
+            open_();assert rpc('status')['audioCodec']=='opus'
+        case('webm-vp9-'+str(depth)+'-discover-without-hints',webm_no_hint)
+    case('webm-rename-complete-and-identity-pinning',grow)
+    case('webm-retained-readers-hold-files',held)
+    case('webm-confirmed-prefix-short-read-wait',waiting)
+    case('webm-cancel-closes-resource-leases',cancelled)
+    def ebml_mutate(paths,track,tag,value):
+        data=bytearray(paths[track].read_bytes());_,at,end=locate(data,tag);assert end-at==len(value)
+        data[at:end]=value;paths[track].write_bytes(data)
+    for name,track,tag,value in (
+        ('doctype',0,0x4282,b'mkv!'),('reader-version',0,0x42f7,b'\x02'),('doctype-read-version-zero',0,0x4285,b'\x00'),
+        ('max-id-width-zero',0,0x42f2,b'\x00'),('max-size-width-zero',0,0x42f3,b'\x00'),
+        ('wrong-video-codec',0,0x86,b'V_VP8'),('wrong-audio-codec',1,0x86,b'A_AC3X')):
+        reject_edit('webm-'+name,lambda v,p,t=track,k=tag,b=value:ebml_mutate(p,t,k,b))
+    def zero_number(paths,track,tag):
+        data=bytearray(paths[track].read_bytes());_,at,end=locate(data,tag);data[at:end]=bytes(end-at);paths[track].write_bytes(data)
+    for name,track,tag in (('zero-scale',0,0x2ad7b1),('zero-width',0,0xb0),('zero-duration',0,0x23e383),('opus-delay-mismatch',1,0x56aa),('opus-seek-preroll',1,0x56bb)):
+        reject_edit('webm-'+name,lambda v,p,t=track,k=tag:zero_number(p,t,k))
+    def opus_header(paths,offset,value):
+        data=bytearray(paths[1].read_bytes());_,at,end=locate(data,0x63a2);data[at+offset]=value;paths[1].write_bytes(data)
+    reject_edit('webm-opus-header-version',lambda v,p:opus_header(p,8,2))
+    reject_edit('webm-opus-multichannel',lambda v,p:opus_header(p,9,6))
+    reject_edit('webm-opus-mapping-family',lambda v,p:opus_header(p,18,1))
+    reject_edit('webm-codec-hint-mismatch',lambda v,p:v['tracks'][0].update(codecHint='av1'))
+    reject_edit('webm-mixed-container-profile',lambda v,p:v['tracks'][1].update(containerHint='fmp4'))
+    def webm_short(v,paths):
+        paths[0].write_bytes(inputs[0][:16]);v['resources'][0]['ranges'][0]['length']='16'
+    reject_edit('webm-wait-for-complete-initialization',webm_short,'waiting_initialization')
+    def webm_rewrite(v,paths,rpc,open_,read,readers,next_):
+        open_();original=paths[0].read_bytes();data=bytearray(original);data[10]^=1;paths[0].write_bytes(data)
+        assert not rpc('publish',session=next_())['ok'];paths[0].write_bytes(original);assert read()['bytesRead']==-1
+    case('webm-published-header-rewrite-is-persistent-error',webm_rewrite)
     return dict(result='PASS',passed=len(names),cases=names)
 
 if __name__=='__main__':

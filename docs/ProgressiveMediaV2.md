@@ -1,6 +1,7 @@
 # Schema 2: первый сквозной медиапрофиль
 
 SDK 1.6, Linux Qt, Windows Qt и Classic.
+SDK 1.18 отдельно расширяет матрицу [WebM VP9/Opus](ProgressiveWebM.md).
 С SDK 1.14 добавлен [HEVC Main/Main10 профиль](ProgressiveHevc.md). Ниже сохранено
 описание исходного H.264-профиля и его ограничений. [Модель v2](ProgressiveManifestV2.md)
 теперь связана с реальным чтением декодера через [ResourceSource](ProgressiveResourceIo.md).

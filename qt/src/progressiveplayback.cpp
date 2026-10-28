@@ -161,6 +161,7 @@ void Window::updateProgressive() {
     progressiveStreaming = !status.complete;
     progressiveBuffering = false;
     const QString url = "foxicmp-session://" + progressive->streamId();
+    const QString demuxer=progressive->playbackDetails().value("mediaMode").toString().startsWith("separate-webm-")?"matroska":"mov";
     if (!player->loadSource(
             url + "/video",
             {{"audio-files-append", url + "/audio"},
@@ -174,7 +175,7 @@ void Window::updateProgressive() {
              {"demuxer-max-back-bytes", "128MiB"},
              {"sub-auto", "no"},
              {"audio-file-auto", "no"},
-             {"demuxer-lavf-format", "mov"},
+             {"demuxer-lavf-format", demuxer},
              {"demuxer-lavf-probesize", "32768"},
              {"demuxer-lavf-analyzeduration", "0.2"}}))
       return;

@@ -25,6 +25,7 @@
 #include <moreuuids.h>
 
 #include "MatroskaSplitter.h"
+#include "../BaseSplitter/AsyncReader.h"
 #include "../BaseSplitter/TimecodeAnalyzer.h"
 #include "DSUtil/AudioParser.h"
 #include "DSUtil/MP4AudioDecoderConfig.h"
@@ -1709,6 +1710,14 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		}
 	}
 
+    if(CComQIPtr<IHarvesterReader> reader=pAsyncReader) {
+        const auto session=reader->GetSession();const auto kind=reader->GetTrack();
+        if(!session->IsWebM() || m_pTrackEntryMap.size()!=1)return VFW_E_UNSUPPORTED_STREAM;
+        const auto entry=m_pTrackEntryMap.begin()->second;
+        if(entry->TrackType!=(kind?TrackEntry::TypeAudio:TrackEntry::TypeVideo)
+            || entry->CodecID.ToString()!=(kind?"A_OPUS":"V_VP9"))return VFW_E_UNSUPPORTED_STREAM;
+        m_sps.clear();m_rtNewStop=m_rtStop=m_rtDuration=session->Snapshot().duration;return m_pOutputs.empty()?E_FAIL:S_OK;
+    }
 	Info& info = m_pFile->m_segment.SegmentInfo;
 	m_rtDuration = (REFERENCE_TIME)(info.Duration * info.TimeCodeScale / 100);
 
@@ -2068,6 +2077,7 @@ void CMatroskaSplitterFilter::SendVorbisHeaderSample()
 
 bool CMatroskaSplitterFilter::DemuxInit()
 {
+    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->IsWebM()){m_progressiveSample=0;return true;}
 	SetThreadName((DWORD)-1, "CMatroskaSplitterFilter");
 
 	CMatroskaNode Root(m_pFile.get());
@@ -2142,6 +2152,7 @@ bool CMatroskaSplitterFilter::DemuxInit()
 
 void CMatroskaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 {
+    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->IsWebM()){m_progressiveSample=reader->GetSession()->SeekSample(reader->GetTrack(),rt);return;}
 	m_pCluster = m_pSegment->Child(MATROSKA_ID_CLUSTER);
 	m_pBlock.reset();
 
@@ -2275,6 +2286,7 @@ void CMatroskaSplitterFilter::DemuxSeek(REFERENCE_TIME rt)
 
 bool CMatroskaSplitterFilter::DemuxLoop()
 {
+    if(CComQIPtr<IHarvesterReader> reader=m_pSyncReader;reader && reader->GetSession()->IsWebM())return ProgressiveWebmLoop(reader);
 	HRESULT hr = S_OK;
 
 	if (!m_pCluster) {
@@ -3104,4 +3116,21 @@ HRESULT CMatroskaSplitterOutputPin::QueuePacket(std::unique_ptr<CPacket> p)
 	}
 
 	return __super::QueuePacket(std::move(p));
+}
+
+// Only validated schema-2 single-track WebM uses the confirmed packet index.
+bool CMatroskaSplitterFilter::ProgressiveWebmLoop(IHarvesterReader* reader) {
+    if(m_pTrackEntryMap.size()!=1)return false;
+    const auto id=m_pTrackEntryMap.begin()->first;CComQIPtr<IAsyncReader> bytes=reader;
+    while(!CheckRequest(nullptr)) {
+        harvester::Sample sample;const auto hr=reader->WaitForSample(m_progressiveSample,&sample);
+        if(hr!=S_OK)break;
+        auto data=std::make_unique<CBinary>();data->resize(size_t(sample.size));
+        if(bytes->SyncRead(sample.offset,LONG(sample.size),data->data())!=S_OK){if(!m_fFlushing && !CheckRequest(nullptr))reader->GetSession()->Fail("WebM packet read failed");break;}
+        auto packet=std::make_unique<CMatroskaPacket>();packet->TrackNumber=id;
+        packet->rtStart=sample.start;packet->rtStop=sample.end;packet->bSyncPoint=sample.sync;
+        packet->bg=std::make_unique<BlockGroup>();packet->bg->Block.BlockData.emplace_back(std::move(data));
+        ++m_progressiveSample;if(FAILED(DeliverMatroskaPacket(std::move(packet))))break;
+    }
+    return true;
 }

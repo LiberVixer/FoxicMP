@@ -43,6 +43,14 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Progressive WebM (SDK 1.18)
+
+[Отдельные WebM VP9 8/10-bit и Opus mono/stereo](ProgressiveWebM.md):
+`containerHint: "webm"`, профиль `separate-webm-vp9-opus`. Нужны известные
+размеры кластеров, DefaultDuration видео и согласованные CodecDelay/PreSkip.
+Python интерфейс сохранён. Поддержка остальных WebM/MKV-вариантов, muxed/remux,
+live и реальная интеграция Harvester этим этапом не заявляются.
+
 ## Progressive Opus (SDK 1.17)
 
 [Opus mono/stereo + H.264/HEVC/AV1/VP9 в отдельных fMP4](ProgressiveOpus.md)

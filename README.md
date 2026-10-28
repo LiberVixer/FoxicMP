@@ -104,7 +104,7 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-Предварительный [SDK 1.17](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.17)
+Предварительный [SDK 1.18](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.18)
 предназначен для интеграционных проверок с новыми сборками плеера.
 В текущих исходниках исправлена совместимость v1, добавлены SDK, подтверждение
 освобождения файлов и Windows Qt legacy/provider. Добавлен общий для трёх редакций
@@ -119,7 +119,8 @@ SDK 1.14 добавляет [HEVC Main/Main10 + AAC-LC в отдельных fMP
 SDK 1.15 — [AV1 Main 8/10-bit + AAC-LC fMP4](docs/ProgressiveAv1.md),
 SDK 1.16 — [VP9 Profile 0/2 8/10-bit + AAC-LC fMP4](docs/ProgressiveVp9.md),
 SDK 1.17 — [Opus mono/stereo + все четыре видеокодека в fMP4](docs/ProgressiveOpus.md).
-WebM/MKV, multichannel Opus, remux, metadata и live ещё не подключены.
+SDK 1.18 — [отдельные WebM VP9 8/10-bit и Opus дорожки](docs/ProgressiveWebM.md).
+Другие WebM/MKV-варианты, multichannel Opus, remux, metadata и live ещё не подключены.
 [Первичная подготовка probe/start](docs/ProgressivePreparation.md) выполняется вне UI
 и защищена от позднего запуска после Stop/Close. [Update/complete](docs/ProgressivePublication.md)
 также вынесены в worker; I/O опубликованного источника отделён от metadata mutex UI.

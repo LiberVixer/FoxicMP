@@ -85,7 +85,7 @@ QJsonObject ProgressiveSource::probePublished(const QJsonObject &input, const QS
     const auto current = source->status();
     return {{"supported", true}, {"mode", "native-progressive"},
             {"reasonCode", "supported"},
-            {"reason", "MP4/M4A tracks are initialized and the confirmed prefix is readable"},
+            {"reason", "Tracks are initialized and the confirmed prefix is readable"},
             {"readySeconds", current.available}, {"complete", current.complete}};
   } catch (const foxicmp::progressive::RetirementBusy &error) {
     return {{"supported",false},{"mode","waiting-player"},{"reasonCode","source_limit"},{"reason",QString::fromUtf8(error.what())},{"requiresCompleteFile",false}};

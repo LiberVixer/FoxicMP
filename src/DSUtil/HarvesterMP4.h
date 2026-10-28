@@ -1,6 +1,8 @@
 // Bounded single-track fragmented MP4 index. GPL-3.0-or-later.
 #pragma once
 #include "HarvesterState.h"
+#include "HarvesterWebM.h"
+#include <memory>
 #include <functional>
 
 namespace harvester {
@@ -41,12 +43,15 @@ class FragmentIndex {
     int kind=0;
     uint64_t scannedPrefix=0;
     std::vector<Sample> samples;
+    std::shared_ptr<WebMIndex> webmIndex;
 public:
     using Read=std::function<bool(uint64_t,void*,size_t)>;
-    uint64_t Position() const {return position;}
-    const std::vector<Sample>& Samples() const {return samples;}
-    bool Initialized() const {return initialized;}
-    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false) {
+    uint64_t Position() const {return webmIndex?webmIndex->Position():position;}
+    const std::vector<Sample>& Samples() const {return webmIndex?webmIndex->Samples():samples;}
+    bool Initialized() const {return webmIndex?webmIndex->Initialized():initialized;}
+    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false,bool allowWebm=false) {
+        if(allowWebm){auto next=webmIndex?std::make_shared<WebMIndex>(*webmIndex):std::make_shared<WebMIndex>();next->Update(read,prefix,trackKind,complete,timestampOffset);webmIndex=std::move(next);return;}
+        if(webmIndex)throw std::runtime_error("Progressive container changed");
         hevcEnabled=allowHevc;av1Enabled=allowAv1;vp9Enabled=allowVp9;opusEnabled=allowOpus;
         if(prefix<scannedPrefix)throw std::runtime_error("Fragment prefix regressed");
         scannedPrefix=prefix;kind=trackKind;origin=timestampOffset;

@@ -38,3 +38,6 @@ generate_vp9(root)
 
 from generate_opus_media import generate as generate_opus
 generate_opus(root)
+
+from generate_webm_media import generate as generate_webm
+generate_webm(root)

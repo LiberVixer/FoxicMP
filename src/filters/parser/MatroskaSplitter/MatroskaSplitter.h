@@ -30,6 +30,8 @@
 #include <ITrackInfo.h>
 #include "filters/filters/FilterInterfacesImpl.h"
 
+struct IHarvesterReader;
+
 #define MatroskaSplitterName L"MPC Matroska Splitter"
 #define MatroskaSourceName   L"MPC Matroska Source"
 
@@ -106,6 +108,8 @@ class __declspec(uuid("149D2E01-C32E-4939-80F6-C07B81015A7A"))
 	bool DemuxInit();
 	void DemuxSeek(REFERENCE_TIME rt);
 	bool DemuxLoop();
+    bool ProgressiveWebmLoop(IHarvesterReader* reader);
+    size_t m_progressiveSample=0;
 
 	HRESULT DeliverMatroskaPacket(MatroskaReader::TrackEntry* pTE, std::unique_ptr<CMatroskaPacket> p);
 	HRESULT DeliverMatroskaPacket(std::unique_ptr<CMatroskaPacket> p, REFERENCE_TIME rtBlockDuration = 0);

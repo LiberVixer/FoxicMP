@@ -188,6 +188,7 @@ void RequireOwned(HANDLE file) {
 bool CHarvesterSession::AllowsAv1Fragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="av1";}
 bool CHarvesterSession::AllowsVp9Fragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="vp9";}
 bool CHarvesterSession::AllowsOpusFragments() const {return m_v2Bridge && m_v2Bridge->audioCodec()=="opus";}
+bool CHarvesterSession::IsWebM() const {return m_v2Bridge && m_v2Bridge->isWebm();}
 bool CHarvesterSession::AllowsHevcFragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="hevc";}
 std::string CHarvesterSession::RegisteredReaderId() const {return m_readerLease?m_readerLease->id():std::string();}
 std::string CHarvesterSession::PlaybackDetails() const {
@@ -450,7 +451,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
             }
             CloseHandle(ov.hEvent);return ok && n==size;
         };
-        next->Update(diskRead,state.available,track,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec()=="opus");
+        next->Update(diskRead,state.available,track,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec()=="opus",IsWebM());
         result[track]=std::move(next);
     }
     return result;
