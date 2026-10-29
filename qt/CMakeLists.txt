@@ -120,7 +120,8 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveMixedContainers.md ../docs/ProgressiveMixedValidation-2026-10-28.md ../docs/ProgressiveMixedValidation-2026-10-28.json
  ../docs/ProgressiveVp8Vorbis.md ../docs/ProgressiveVp8VorbisValidation-2026-10-28.md ../docs/ProgressiveVp8VorbisValidation-2026-10-28.json
  ../docs/ProgressiveMultiTrack.md ../docs/ProgressiveMultiTrackValidation-2026-10-28.md ../docs/ProgressiveMultiTrackValidation-2026-10-28.json
- ../docs/ProgressiveSeek.md ../docs/ProgressiveSeekValidation-2026-10-28.md ../docs/ProgressiveSeekValidation-2026-10-28.json DESTINATION integration)
+ ../docs/ProgressiveSeek.md ../docs/ProgressiveSeekValidation-2026-10-28.md ../docs/ProgressiveSeekValidation-2026-10-28.json
+ ../docs/ProgressiveOptionalSrt.md ../docs/ProgressiveOptionalSrtValidation-2026-10-29.md ../docs/ProgressiveOptionalSrtValidation-2026-10-29.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/vod.json DESTINATION integration RENAME progressive-v2-vod.json)
 install(FILES ../docs/images/foxicmp-qt-web-control.png DESTINATION . RENAME web-control.png)
 install(FILES ../docs/images/foxicmp-qt-web-browser.png DESTINATION . RENAME web-browser.png)
@@ -253,6 +254,8 @@ if(BUILD_TESTING)
  add_dependencies(foxicmp-progressive-api-tests foxicmp-qt)
  add_test(NAME progressive-api COMMAND foxicmp-progressive-api-tests)
  set_tests_properties(progressive-api PROPERTIES TIMEOUT 2100 ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=1800000")
+ add_test(NAME progressive-optional-srt COMMAND foxicmp-progressive-api-tests optionalSubtitleErrorsKeepPlayback)
+ set_tests_properties(progressive-optional-srt PROPERTIES TIMEOUT 500 ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=450000")
  add_test(NAME progressive-confirmed-seek COMMAND foxicmp-progressive-api-tests multiAudioFarSeekWhileIncomplete multiAudioAndLateSubtitlesWhileIncomplete)
  set_tests_properties(progressive-confirmed-seek PROPERTIES TIMEOUT 500 ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=450000")
  add_test(NAME progressive-v2-playback COMMAND foxicmp-progressive-api-tests schemaTwoPlaysThroughResourceIoWhileFilesAreIncomplete)

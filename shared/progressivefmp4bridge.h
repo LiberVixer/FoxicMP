@@ -8,7 +8,7 @@
 
 namespace foxicmp { namespace progressive {
 inline const char* Fmp4V2Capabilities() {
-    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"trackCountMin":2,"trackCountMax":13,"mediaTrackCountMax":9,"audioTrackLimit":8,"multiAudio":true,"subtitles":{"containers":["srt"],"codecs":["srt"],"encoding":"utf-8","trackLimit":4,"completeFileRequired":true,"lateCompletion":true,"sizeLimitBytes":524288},"audioTracksRequired":true,"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
+    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"trackCountMin":2,"trackCountMax":13,"mediaTrackCountMax":9,"audioTrackLimit":8,"multiAudio":true,"subtitles":{"containers":["srt"],"codecs":["srt"],"encoding":"utf-8","trackLimit":4,"completeFileRequired":true,"lateCompletion":true,"optionalErrorIsolation":true,"retainsValidatedCopyOnSourceError":true,"sizeLimitBytes":524288},"audioTracksRequired":true,"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
 }
 class Fmp4V2Bridge {
     Snapshot model;
@@ -25,7 +25,7 @@ class Fmp4V2Bridge {
     std::string failure;
     std::string videoCodecName,audioCodecName;
     std::array<bool,harvester::MaxMediaTracks> webmMode{};
-    struct Subtitle {std::string id,resource,label,language,bytes,path;bool defaultTrack=false,forced=false;};
+    struct Subtitle {std::string id,resource,label,language,bytes,path,errorCode,error;bool defaultTrack=false,forced=false;};
     std::map<std::string,Subtitle> subtitleTracks;
     std::unique_ptr<SubtitleCache> subtitleCache;
     mutable std::mutex mutex;
@@ -227,19 +227,44 @@ class Fmp4V2Bridge {
         }
         throw Error("waiting_initialization","initialization","Wait for complete MP4 initialization");
     }
+    static void subtitleError(Subtitle& out,const std::string& code,const std::string& reason) {
+        if(out.errorCode.empty()){out.errorCode=code;out.error=reason;}
+    }
+    void subtitleResourceErrors() {
+        for(auto& item:subtitleTracks) {
+            const auto error=source->resourceError(item.second.resource);
+            if(!error.code.empty())subtitleError(item.second,error.code,error.reason);
+        }
+    }
     void prepareSubtitles(const Snapshot& next) {
         for(const auto& item:next.tracks){const auto& track=item.second;if(track.kind!="subtitle")continue;
             auto& out=subtitleTracks[track.id];out.id=track.id;out.resource=track.resource;out.label=track.label;out.language=track.language;out.defaultTrack=track.defaultTrack;out.forced=track.forced;
+            if(!out.errorCode.empty())continue; // Immutable published resource: do not retry bad bytes.
             const auto& resource=next.resources.at(track.resource);
+            if(track.state=="failed" || track.state=="cancelled" || resource.state=="failed" || resource.state=="cancelled" || resource.retired) {
+                subtitleError(out,"resource-failed","Optional SRT failed, was cancelled or retired");continue;
+            }
             if(track.state!="complete" || resource.state!="complete")continue;
-            supported(track.initializationReady && resource.known && resource.length>0 && resource.length<=524288 && prefix(resource)==resource.length,"SRT requires a complete bounded resource");
-            std::string bytes(size_t(resource.length),'\0');size_t at=0;
-            while(at<bytes.size()){const auto result=source->read(resource.id,at,&bytes[at],(std::min)(size_t(65536),bytes.size()-at));Require(result.data() && result.bytes>0,"subtitles","Cannot read complete SRT","source_not_ready");at+=result.bytes;}
-            if(!out.path.empty()){supported(out.bytes==bytes,"Published SRT bytes changed");continue;}
-            const auto checked=CheckedSrt(bytes,next.duration);
-            if(!subtitleCache)subtitleCache=std::make_unique<SubtitleCache>(registry);
-            out.path=subtitleCache->write(checked).u8string();out.bytes=std::move(bytes);
+            try {
+                Require(track.initializationReady && resource.known && resource.length>0 && resource.length<=524288 && prefix(resource)==resource.length,"subtitles","SRT requires a complete bounded resource","unsupported_media");
+                std::string bytes(size_t(resource.length),'\0');size_t at=0;
+                while(at<bytes.size()) {
+                    const auto result=source->read(resource.id,at,&bytes[at],(std::min)(size_t(65536),bytes.size()-at));
+                    if(!result.data() || !result.bytes)throw Error(result.code.empty()?"source_not_ready":result.code.c_str(),"subtitles",result.reason.empty()?"Cannot read complete SRT":result.reason.c_str());
+                    at+=result.bytes;
+                }
+                if(!out.path.empty()){Require(out.bytes==bytes,"subtitles","Published SRT bytes changed","source_rewritten");continue;}
+                const auto checked=CheckedSrt(bytes,next.duration);
+                if(!subtitleCache)subtitleCache=std::make_unique<SubtitleCache>(registry);
+                out.path=subtitleCache->write(checked).u8string();out.bytes=std::move(bytes);
+            }catch(const Error& error) {
+                // Parsing, local I/O and materialization errors belong to this
+                // optional track. Required A/V and snapshot validation stay strict.
+                if(error.code=="cancelled")throw;
+                subtitleError(out,error.code,error.what());
+            }
         }
+        subtitleResourceErrors();
     }
     void verifyInitialization() {
         for(size_t i=0;i<legacy.tracks.size();++i) {std::vector<char> bytes(initialization[i].size());Require(exact(i,initOffsets[i],bytes.data(),bytes.size()) && bytes==initialization[i],"initialization","Published codec initialization changed","source_rewritten");}
@@ -250,7 +275,7 @@ public:
     bool isWebm(int track=0) const {return webmMode.at(track);}
     static void CheckProfile(const std::string& json){map(Parse(json));}
     Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):model(Parse(json)),identityGeneration(model.generation),identityWriter(model.writer),detailsRevision(model.revision),registry(receipts) {
-        legacy=map(model,&resourceIds,&trackIds);for(size_t i=0;i<legacy.tracks.size();++i)webmMode[i]=legacy.tracks[i].container=="webm";source=std::make_shared<ResourceSource>(root,receipts,json);
+        legacy=map(model,&resourceIds,&trackIds);for(size_t i=0;i<legacy.tracks.size();++i)webmMode[i]=legacy.tracks[i].container=="webm";source=std::make_shared<ResourceSource>(root,receipts,json,ResourceFailurePolicy::IsolateOptionalSrt);
         try {for(size_t i=0;i<legacy.tracks.size();++i)initialize(int(i));prepareSubtitles(model);}catch(...){cleanup();throw;}
     }
     ~Fmp4V2Bridge(){cleanup();}
@@ -277,7 +302,7 @@ public:
         try{verifyInitialization();source->publish(json);prepareSubtitles(next);}catch(const Error& error){failure=error.code;throw;}
         model=next;legacy=mapped;detailsRevision.store(next.revision);
     }
-    void verify(){std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();}
+    void verify(){std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();subtitleResourceErrors();}
     void cancel(){if(source)source->cancel();}
     std::string details() const {
         std::lock_guard<std::mutex> lock(mutex);
@@ -294,7 +319,7 @@ public:
             item.AddMember("index",unsigned(i),a);item.AddMember("id",Value(t.id.c_str(),a),a);item.AddMember("kind",Value(t.kind.c_str(),a),a);item.AddMember("label",Value(t.label.c_str(),a),a);item.AddMember("language",Value(t.language.c_str(),a),a);item.AddMember("codec",Value(trackCodecs[i].c_str(),a),a);item.AddMember("container",Value(t.container.c_str(),a),a);item.AddMember("default",t.defaultTrack,a);item.AddMember("decoderIoBytes",Value(std::to_string(decoderBytes[i].load()).c_str(),a),a);tracks.PushBack(item,a);
         }
         d.AddMember("mediaTracks",tracks,a);Value subtitles(rapidjson::kArrayType);
-        for(const auto& entry:subtitleTracks){const auto& t=entry.second;Value item(rapidjson::kObjectType);item.AddMember("id",Value(t.id.c_str(),a),a);item.AddMember("label",Value(t.label.c_str(),a),a);item.AddMember("language",Value(t.language.c_str(),a),a);item.AddMember("path",Value(t.path.c_str(),a),a);item.AddMember("ready",!t.path.empty(),a);item.AddMember("default",t.defaultTrack,a);item.AddMember("forced",t.forced,a);subtitles.PushBack(item,a);}d.AddMember("subtitleTracks",subtitles,a);return lease_detail::Encode(d);
+        for(const auto& entry:subtitleTracks){const auto& t=entry.second;Value item(rapidjson::kObjectType);item.AddMember("id",Value(t.id.c_str(),a),a);item.AddMember("label",Value(t.label.c_str(),a),a);item.AddMember("language",Value(t.language.c_str(),a),a);item.AddMember("path",Value(t.path.c_str(),a),a);item.AddMember("ready",!t.path.empty(),a);item.AddMember("state",Value(t.errorCode.empty()?(t.path.empty()?"waiting":"ready"):(t.path.empty()?"error":"cached"),a),a);item.AddMember("errorCode",Value(t.errorCode.c_str(),a),a);item.AddMember("error",Value(t.error.c_str(),a),a);item.AddMember("default",t.defaultTrack,a);item.AddMember("forced",t.forced,a);subtitles.PushBack(item,a);}d.AddMember("subtitleTracks",subtitles,a);return lease_detail::Encode(d);
     }
 };
 }} // namespace foxicmp::progressive

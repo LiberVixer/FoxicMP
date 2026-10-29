@@ -24,6 +24,7 @@ from progressive_reader_api_conformance import exercise as exercise_reader_contr
 from progressive_resource_api_conformance import exercise as exercise_resource_contract
 from progressive_v2_playback_conformance import exercise as exercise_v2_playback, MEDIA_PROFILES
 from progressive_multitrack_conformance import exercise as exercise_multitrack
+from progressive_subtitle_isolation_conformance import exercise as exercise_srt_isolation, PROFILES as SRT_ISOLATION_PROFILES
 
 
 def registration_snapshot():
@@ -576,6 +577,14 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.subtitle_only:
+            results=[]
+            for profile in SRT_ISOLATION_PROFILES:
+                folder=Path(args.report)/('srt-'+profile)
+                result=exercise_srt_isolation(client,args.fixtures,folder,profile,select_subtitle=lambda:post_command(process.pid,954),seek=lambda seconds:seek_backward(process.pid,seconds))
+                (folder/'conformance.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+                results.append(dict(contract='optional-srt-isolation',result=result))
+            return results
         if args.multi_only:
             return [dict(contract='multi-audio-subtitles',result=exercise_multitrack(client,args.fixtures,Path(args.report)/'multi-audio-subtitles',select_audio=lambda _:post_command(process.pid,952),select_subtitle=lambda:post_command(process.pid,954),seek=lambda seconds:seek_backward(process.pid,seconds)))]
         if args.media_profile:
@@ -684,6 +693,7 @@ def run(args):
 if __name__ == '__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--player',required=True);parser.add_argument('--fixtures',required=True);parser.add_argument('--report',required=True)
     parser.add_argument('--media-profile',choices=MEDIA_PROFILES)
+    parser.add_argument('--subtitle-only',action='store_true')
     parser.add_argument('--multi-only',action='store_true')
     parser.add_argument('--sdk-only', action='store_true')
     parser.add_argument('--preparation-only', action='store_true')

@@ -21679,6 +21679,7 @@ void CMainFrame::UpdateHarvesterPlayback(REFERENCE_TIME now)
         ISubStream* stream=nullptr;
         const bool selected=subtitle.selected && AfxGetAppSettings().fEnableSubtitles;
         if(LoadSubtitle(CExtraFileItem(subtitle.path.c_str(),subtitle.label.c_str(),subtitle.language.c_str()),selected?&stream:nullptr,true)){m_harvesterSubtitles.insert(subtitle.path);if(selected && stream)SetSubtitle(stream);}
+        else m_harvester->SubtitleLoadFailed(subtitle.path);
     }
     m_harvester->ReportPosition(now);
     const auto ready = m_harvester->ReadyEnd();

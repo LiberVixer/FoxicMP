@@ -36,7 +36,7 @@ int main(int argc,char** argv) {
             }
             if(action.rfind("resourceProbe",0)==0){std::cout<<probes.request(registry,line)<<std::endl;continue;}
             if(action=="readerStatus" || action=="readerForget" || action=="readers"){std::cout<<p::ReaderRequest(registry,line)<<std::endl;continue;}
-            if(action=="open")source=std::make_shared<p::ResourceSource>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,p::lease_detail::Encode(d["session"]));
+            if(action=="open")source=std::make_shared<p::ResourceSource>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,p::lease_detail::Encode(d["session"]),d.HasMember("isolateOptionalSrt") && d["isolateOptionalSrt"].GetBool()?p::ResourceFailurePolicy::IsolateOptionalSrt:p::ResourceFailurePolicy::Strict);
             else if(action=="read") {p::Require(bool(source),"source","No source");std::cout<<read(source,d)<<std::endl;continue;}
             else if(action=="beginRead") {
                 p::Require(bool(source) && !pending.valid(),"source","Pending read already exists");const auto raw=p::lease_detail::Encode(d);

@@ -43,6 +43,17 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Ошибки optional SRT (SDK 1.24)
+
+[Изоляция SRT](ProgressiveOptionalSrt.md) применяется в Classic и обеих Qt-версиях.
+Некорректный SRT не мешает start/update/complete и обязательному A/V, а ошибка
+сообщается в subtitleTracks. Уже проверенная копия сохраняется при повреждении
+оригинала. `ready` описывает её подготовку, `loaded` — подключение backend;
+backendErrorCode/backendError сообщают отдельный отказ декодера. Неизменяемость
+снимка и ошибки required audio/video остаются строгими. Проверять capabilities
+subtitles.optionalErrorIsolation и retainsValidatedCopyOnSourceError у EXE.
+[Проверки трёх редакций](ProgressiveOptionalSrtValidation-2026-10-29.md).
+
 ## Несколько аудио и поздние SRT (SDK 1.22)
 
 [Медиапрофиль](ProgressiveMultiTrack.md) допускает один video и до восьми required

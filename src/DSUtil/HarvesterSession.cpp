@@ -197,11 +197,23 @@ std::string CHarvesterSession::PlaybackDetails() const {
     if(!m_v2Bridge)return "{\"schemaVersion\":1}";
     std::lock_guard<std::mutex> lock(m_mutex);rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());
     auto& a=d.GetAllocator();d["revision"].SetString(std::to_string(m_state.revision).c_str(),a);
+    for(auto& track:d["subtitleTracks"].GetArray()) {
+        if(!track["path"].GetStringLength())continue;
+        const auto found=m_subtitleLoadErrors.find(Wide(track["path"].GetString()));
+        if(found!=m_subtitleLoadErrors.end()) {
+            track.AddMember("backendErrorCode","decoder_error",a);
+            track.AddMember("backendError",rapidjson::Value(found->second.c_str(),a),a);
+        }
+    }
     return foxicmp::progressive::lease_detail::Encode(d);
 }
+void CHarvesterSession::SubtitleLoadFailed(const std::wstring& path) {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_subtitleLoadErrors.emplace(path,"Cannot load optional subtitle copy");
+}
 std::vector<CHarvesterSession::SubtitleFile> CHarvesterSession::SubtitleFiles() const {
-    std::vector<SubtitleFile> out;if(!m_v2Bridge)return out;rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());
-    for(const auto& t:d["subtitleTracks"].GetArray())if(t["ready"].GetBool())out.push_back({Wide(t["path"].GetString()),Wide(t["label"].GetString()),t["language"].GetString(),t["default"].GetBool() || t["forced"].GetBool()});return out;
+    std::vector<SubtitleFile> out;if(!m_v2Bridge)return out;std::lock_guard<std::mutex> lock(m_mutex);rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());
+    for(const auto& t:d["subtitleTracks"].GetArray())if(t["ready"].GetBool() && !m_subtitleLoadErrors.count(Wide(t["path"].GetString())))out.push_back({Wide(t["path"].GetString()),Wide(t["label"].GetString()),t["language"].GetString(),t["default"].GetBool() || t["forced"].GetBool()});return out;
 }
 std::wstring CHarvesterSession::TrackLabel(int index) const {
     if(!m_v2Bridge)return index?L"Harvester audio":L"Harvester video";rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());

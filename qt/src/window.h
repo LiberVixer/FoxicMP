@@ -208,6 +208,10 @@ private:
   QString subtitleStylePath;
   bool subtitleUserSelection = false;
   QSet<QString> progressiveAttachedSubtitles;
+  QMap<quint64,QString> progressiveSubtitleRequests;
+  QMap<QString,QString> progressiveSubtitleLoadErrors;
+  quint64 progressiveSubtitleSequence = 0;
+  QString progressiveSubtitlePath(const QString &selection) const;
   QString watchedSubtitle, subtitleOptionsStamp, subtitleCodepage;
   QByteArray watchedSubtitleHash, pendingSubtitleHash;
   void showPlaybackInformation();

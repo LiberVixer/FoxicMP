@@ -9,6 +9,18 @@
 #include <QtWidgets>
 #include <cmath>
 
+namespace {
+QString subtitleFileKey(const QString& path) {
+  if(path.isEmpty())return {};
+  auto key=QDir::cleanPath(QDir::fromNativeSeparators(path));
+#ifdef Q_OS_WIN
+  key=key.toCaseFolded();
+#endif
+  return key;
+}
+}
+
+
 void Window::cancelProgressiveOpening() {
   if(legacyOpening && !legacyOpening->abandoned.exchange(true))
     emit progressiveOpeningFinished(false,uiTr("Подготовка источника отменена"));
@@ -102,18 +114,31 @@ QJsonObject Window::progressivePlaybackStatus() const {
   const auto details=progressive->playbackDetails();for(auto it=details.begin();it!=details.end();++it)result[it.key()]=it.value();
   result["seeking"] = progressiveSeekTarget >= 0;
   if (progressiveSeekTarget >= 0) result["seekTargetSeconds"] = progressiveSeekTarget;
+  QJsonArray subtitles;
+  for(const auto& value:result.value("subtitleTracks").toArray()) {
+    auto track=value.toObject();bool loaded=false;
+    for(const auto& actual:player->get("track-list").toList()) {
+      const auto item=actual.toMap();loaded |= item.value("type")=="sub" && !track.value("path").toString().isEmpty() && subtitleFileKey(item.value("external-filename").toString())==subtitleFileKey(track.value("path").toString());
+    }
+    track["loaded"]=loaded;
+    const auto error=progressiveSubtitleLoadErrors.value(track.value("id").toString());
+    if(!error.isEmpty()){track["backendErrorCode"]="decoder_error";track["backendError"]=error;}
+    subtitles.append(track);
+  }
+  result["subtitleTracks"]=subtitles;
   int count=0,index=-1;for(const auto& item:player->get("track-list").toList()){const auto track=item.toMap();if(track.value("type")=="audio"){if(track.value("selected").toBool())index=count;++count;}}
   result["audioSelection"]=QJsonObject{{"count",count},{"index",index}};return result;
 }
 void Window::releaseProgressive(const QString &state) {
   progressiveAttachedSubtitles.clear();
+  progressiveSubtitleRequests.clear();
   progressivePendingSeek = progressiveSeekTarget = -1;
   setProperty("foxicmpProgressiveTitle", {});
-  if (!progressive)
-    return;
+  if (!progressive) { progressiveSubtitleLoadErrors.clear(); return; }
   const auto sourceError = progressive->status().error;
   const auto error = sourceError.isEmpty() ? lastError : sourceError;
   emit progressiveSessionEnded(progressive->id(), error.isEmpty() ? state : "error", error);
+  progressiveSubtitleLoadErrors.clear();
   progressive->cancel();
   player->progressiveSource({});
   progressive.reset();
@@ -122,6 +147,14 @@ void Window::releaseProgressive(const QString &state) {
   timeline->update();
   actions["frameNext"]->setEnabled(true);
   actions["frameBack"]->setEnabled(true);
+}
+QString Window::progressiveSubtitlePath(const QString &selection) const {
+  for (const auto& value : player->get("track-list").toList()) {
+    const auto track=value.toMap();
+    if(track.value("type")=="sub" && track.value("id").toString()==selection)
+      return subtitleFileKey(track.value("external-filename").toString());
+  }
+  return {};
 }
 bool Window::seekTo(double seconds) {
   if (stopped || stdinPlayback)
@@ -149,12 +182,12 @@ bool Window::seekTo(double seconds) {
     progressivePendingSeek = progressiveSeekTarget = seconds;
     progressiveRestoreAudio = player->get("aid").toInt() > 0
         ? QString::number(player->get("aid").toInt()) : QStringLiteral("no");
-    progressiveRestoreSubtitle = player->get("sid").toInt() > 0
-        ? QString::number(player->get("sid").toInt()) : QStringLiteral("no");
+    progressiveRestoreSubtitle = progressiveSubtitlePath(player->get("sid").toString());
     progressiveStarted = false;
     progressiveTracksReady = false;
     progressiveBuffering = true;
     progressiveAttachedSubtitles.clear();
+    progressiveSubtitleRequests.clear();
     updateProgressive();
     return true;
   }
@@ -250,27 +283,33 @@ void Window::updateProgressive() {
       loadedSubtitles += track.toMap().value("type") == "sub";
     for(const auto& value:progressive->playbackDetails().value("subtitleTracks").toArray()){
       const auto track=value.toObject();const auto id=track.value("id").toString(),path=track.value("path").toString();
-      if(!track.value("ready").toBool() || path.isEmpty() || progressiveAttachedSubtitles.contains(id))continue;
+      if(!track.value("ready").toBool() || path.isEmpty() || progressiveAttachedSubtitles.contains(id) || progressiveSubtitleLoadErrors.contains(id))continue;
       // sub-add performs asynchronous I/O; serialize additions so runtime
       // IDs retain the stable published order, including after a seek.
       if (loadedSubtitles < progressiveAttachedSubtitles.size()) break;
       const bool selected=!subtitleUserSelection && (track.value("default").toBool() || track.value("forced").toBool());
-      if(player->command({"sub-add",path,selected?"select":"auto",track.value("label").toString(),track.value("language").toString()}))progressiveAttachedSubtitles.insert(id);
+      const auto request=(quint64(0x5355)<<48) | ++progressiveSubtitleSequence;
+      progressiveSubtitleRequests.insert(request,id);progressiveAttachedSubtitles.insert(id);
+      player->command({"sub-add",path,selected?"select":"auto",track.value("label").toString(),track.value("language").toString()},request);
       break;
     }
   }
   if (progressivePendingSeek >= 0) {
-    bool subtitleReady = progressiveRestoreSubtitle == "no";
-    int loaded = 0, ready = 0;
-    for (const auto& value : progressive->playbackDetails().value("subtitleTracks").toArray())
-      ready += value.toObject().value("ready").toBool();
-    for (const auto& value : player->get("track-list").toList()) {
-      const auto track = value.toMap();
-      if (track.value("type") == "sub") {
+    bool wantSubtitle=false;
+    int loaded=0,ready=0;QString desiredSubtitle="no";
+    for(const auto& value:progressive->playbackDetails().value("subtitleTracks").toArray()) {
+      const auto track=value.toObject();
+      if(!track.value("ready").toBool() || progressiveSubtitleLoadErrors.contains(track.value("id").toString()))continue;
+      ++ready;wantSubtitle |= !progressiveRestoreSubtitle.isEmpty() && subtitleFileKey(track.value("path").toString())==progressiveRestoreSubtitle;
+    }
+    for(const auto& value:player->get("track-list").toList()) {
+      const auto track=value.toMap();
+      if(track.value("type")=="sub") {
         ++loaded;
-        subtitleReady |= track.value("id").toString() == progressiveRestoreSubtitle;
+        if(wantSubtitle && subtitleFileKey(track.value("external-filename").toString())==progressiveRestoreSubtitle)desiredSubtitle=track.value("id").toString();
       }
     }
+    const bool subtitleReady=!wantSubtitle || desiredSubtitle!="no";
     const auto audio = player->get("aid").toInt();
     const bool audioReady = progressiveRestoreAudio == "no" ? audio <= 0
         : audio == progressiveRestoreAudio.toInt();
@@ -282,9 +321,9 @@ void Window::updateProgressive() {
       return;
     }
     const auto subtitle = player->get("sid").toInt();
-    const bool subtitleSelected = progressiveRestoreSubtitle == "no" ? subtitle <= 0
-        : subtitle == progressiveRestoreSubtitle.toInt();
-    if (!subtitleSelected) { player->set("sid", progressiveRestoreSubtitle); return; }
+    const bool subtitleSelected = desiredSubtitle == "no" ? subtitle <= 0
+        : subtitle == desiredSubtitle.toInt();
+    if (!subtitleSelected) { player->set("sid", desiredSubtitle); return; }
     if (player->get("seeking").toBool()) return;
     if (!player->command({"seek", QString::number(status.timestampOffset + progressivePendingSeek, 'f', 3), "absolute+exact"}))
       return;

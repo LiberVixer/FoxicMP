@@ -237,6 +237,8 @@ std::string ClassicProgressiveApi::Status() {
     d.AddMember("released",false,a);d.AddMember("connected",session->Connected(),a);d.AddMember("complete",session->Complete(),a);
     if(!readerId.empty())d.AddMember("readerId",Value(readerId.c_str(),a),a);
     Document details;details.Parse(session->PlaybackDetails().c_str());for(auto it=details.MemberBegin();it!=details.MemberEnd();++it)d.AddMember(Value(it->name,a),Value(it->value,a),a);
+    if(d.HasMember("subtitleTracks"))for(auto& track:d["subtitleTracks"].GetArray())
+        track.AddMember("loaded",frame.m_harvesterSubtitles.count(std::wstring(Wide(track["path"].GetString()).GetString()))!=0,a);
     if(!pending && frame.m_eMediaLoadState==MLS_LOADED){CComQIPtr<IAMStreamSelect> select=frame.m_pSwitcherFilter.p;DWORD count=0;int index=-1;
         if(select && SUCCEEDED(select->Count(&count)))for(DWORD i=0;i<count && i<9;++i){DWORD flags=0;if(SUCCEEDED(select->Info(i,nullptr,&flags,nullptr,nullptr,nullptr,nullptr,nullptr)) && (flags&(AMSTREAMSELECTINFO_ENABLED|AMSTREAMSELECTINFO_EXCLUSIVE)))index=int(i);}
         Value selection(rapidjson::kObjectType);selection.AddMember("count",unsigned(count),a);selection.AddMember("index",index,a);d.AddMember("audioSelection",selection,a);

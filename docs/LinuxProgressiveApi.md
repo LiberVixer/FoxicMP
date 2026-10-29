@@ -286,3 +286,10 @@ Qt status во время перехода включает `seeking:true` и `s
 `positionSeconds` остаётся фактической позицией декодера. У хвоста буферизация
 считается относительно цели; новый seek может отменить ожидание через переоткрытие
 декодеров на том же Source.
+
+SDK 1.24 добавляет общую для трёх редакций [изоляцию optional SRT](ProgressiveOptionalSrt.md).
+subtitleTracks.state: waiting/ready/error/cached; errorCode/error относятся к
+отдельной SRT. Backend подключение сообщает loaded и backendErrorCode/backendError.
+Корневой error сохраняется для A/V/сеанса; неудачная SRT не прерывает видео.
+Проверять subtitles.optionalErrorIsolation и retainsValidatedCopyOnSourceError.
+Метаданные, required-дорожки и reader release по-прежнему проверяются строго.

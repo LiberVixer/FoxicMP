@@ -1,0 +1,5587 @@
+{
+  "date": "2026-10-29",
+  "result": "PASS",
+  "sdkVersion": "1.24",
+  "sourceBaseCommit": "28927fc880f5d75360bf3d5de763e35dd224298c",
+  "scope": "Optional SRT source/backend errors isolated from required A/V in all three editions; player-only",
+  "builds": {
+    "linuxQt": {
+      "sha256": "10c20d6d2238f42ce08c3424d0222c5c62805f6e3069ebae6f7127352ff13ab0",
+      "exitCode": 0
+    },
+    "windowsQt": {
+      "sha256": "b44c45b0a583cb1b11f0a98ed4487b6e2988326bd5e8477d38ac17f610a7aba8",
+      "exitCode": 0
+    },
+    "windowsClassic": {
+      "sha256": "f3d5517c34663ea7c257995070e3a1e544686ad2c03105fd61d0bcecdd74515d",
+      "exitCode": 0,
+      "testedCopyMatch": {
+        "lastTaskResult": 0,
+        "taskRemoved": true,
+        "stageRemoved": true,
+        "builtSha256": "f3d5517c34663ea7c257995070e3a1e544686ad2c03105fd61d0bcecdd74515d",
+        "testedSha256": "f3d5517c34663ea7c257995070e3a1e544686ad2c03105fd61d0bcecdd74515d",
+        "equal": true,
+        "testExitCode": 0
+      }
+    }
+  },
+  "tests": {
+    "linuxQt": {
+      "ctestExitCode": 0,
+      "log": "srt-isolation-linux-regression.log",
+      "qtestTotals": [
+        [
+          5,
+          0,
+          0
+        ],
+        [
+          19,
+          0,
+          0
+        ],
+        [
+          12,
+          0,
+          0
+        ],
+        [
+          71,
+          0,
+          0
+        ]
+      ],
+      "subtitleIsolation": {
+        "initial-invalid": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10.08,
+            "readerId": "fa78e0e665b1aa6a04c69394ebd8ecb5",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "479c353c9c4c44f8940966a03ef6a0de",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Invalid UTF-8 SRT",
+                "errorCode": "unsupported_media",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "/run/user/1000/FoxicMPQt-1000-cf832fc7a30a00088c85e61e4f4ef3f7.sock.progressive.readers/subtitles-581d29783d9616bbc412e97e58bb4135/b968de546f88aaf6377214b239051248.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "f0f1d14086bf4589a6782b52091a28dc"
+          },
+          "profile": "initial-invalid",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "fa78e0e665b1aa6a04c69394ebd8ecb5",
+            "released": true,
+            "revision": "3",
+            "schemaVersion": 2,
+            "sessionId": "479c353c9c4c44f8940966a03ef6a0de",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Invalid UTF-8 SRT",
+                "errorCode": "unsupported_media",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "/run/user/1000/FoxicMPQt-1000-cf832fc7a30a00088c85e61e4f4ef3f7.sock.progressive.readers/subtitles-581d29783d9616bbc412e97e58bb4135/b968de546f88aaf6377214b239051248.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "f0f1d14086bf4589a6782b52091a28dc"
+          },
+          "validSubtitleTextObserved": true
+        },
+        "late-invalid": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "8dfb80ef435248f89ecb0d82d2591122",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "38821c23da1a4cd5aba02218ca84a9b6",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "/run/user/1000/FoxicMPQt-1000-1496b699d40b2edeeab6fdeeed64c90b.sock.progressive.readers/subtitles-c141c1cf1a8181373eb56b7714969894/1e48d72ba14fbcbb8856e8e4262a8a8a.srt",
+                "ready": true,
+                "state": "ready"
+              },
+              {
+                "default": false,
+                "error": "SRT cue needs a numeric index",
+                "errorCode": "unsupported_media",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "a4a32245e96248f3abd4b56c783c5130"
+          },
+          "profile": "late-invalid",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "8dfb80ef435248f89ecb0d82d2591122",
+            "released": true,
+            "revision": "3",
+            "schemaVersion": 2,
+            "sessionId": "38821c23da1a4cd5aba02218ca84a9b6",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "/run/user/1000/FoxicMPQt-1000-1496b699d40b2edeeab6fdeeed64c90b.sock.progressive.readers/subtitles-c141c1cf1a8181373eb56b7714969894/1e48d72ba14fbcbb8856e8e4262a8a8a.srt",
+                "ready": true,
+                "state": "ready"
+              },
+              {
+                "default": false,
+                "error": "SRT cue needs a numeric index",
+                "errorCode": "unsupported_media",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "a4a32245e96248f3abd4b56c783c5130"
+          },
+          "validSubtitleTextObserved": true
+        },
+        "cached-truncate": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10.08,
+            "readerId": "1bd3d9d1bf50298d31f3cd173b505fb5",
+            "released": false,
+            "revision": "1",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "04638ba05434447aacd2ea64dcc63aff",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Confirmed bytes were truncated or never written",
+                "errorCode": "source-truncated",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "/run/user/1000/FoxicMPQt-1000-7f9aebee995ed9813de88213503b37fd.sock.progressive.readers/subtitles-afd076a17962aab5f72cee127a45330c/e7a2871c146be5cedbb3218d04695c86.srt",
+                "ready": true,
+                "state": "cached"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "waiting"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "fe800df8f7c1461aa6dbb707a543d7ed"
+          },
+          "profile": "cached-truncate",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "1bd3d9d1bf50298d31f3cd173b505fb5",
+            "released": true,
+            "revision": "2",
+            "schemaVersion": 2,
+            "sessionId": "04638ba05434447aacd2ea64dcc63aff",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Confirmed bytes were truncated or never written",
+                "errorCode": "source-truncated",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "/run/user/1000/FoxicMPQt-1000-7f9aebee995ed9813de88213503b37fd.sock.progressive.readers/subtitles-afd076a17962aab5f72cee127a45330c/e7a2871c146be5cedbb3218d04695c86.srt",
+                "ready": true,
+                "state": "cached"
+              },
+              {
+                "default": false,
+                "error": "Optional SRT failed, was cancelled or retired",
+                "errorCode": "resource-failed",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "fe800df8f7c1461aa6dbb707a543d7ed"
+          },
+          "validSubtitleTextObserved": true,
+          "validatedCopySha256": "eb6deb209ac43ab27a04d9bea2c7f15767f40aab66e4795ae3f34ad30717dc23"
+        },
+        "cached-rewrite": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10.08,
+            "readerId": "a6ee0ecc8ac9bf087178acdda7b124d0",
+            "released": false,
+            "revision": "1",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "cacc6b7640704e58b70c992a382e7d9a",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "The last verified read was overwritten",
+                "errorCode": "source-rewritten",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "/run/user/1000/FoxicMPQt-1000-5c49cdf138d5d6c0d855f56df1e758bc.sock.progressive.readers/subtitles-10d3d9866eb863ac849df5b0570323c0/1d18ea39efb4d3364f4926b3c99872bf.srt",
+                "ready": true,
+                "state": "cached"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "waiting"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "bfe90cb54ac742889dc9c53de9daf892"
+          },
+          "profile": "cached-rewrite",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "a6ee0ecc8ac9bf087178acdda7b124d0",
+            "released": true,
+            "revision": "2",
+            "schemaVersion": 2,
+            "sessionId": "cacc6b7640704e58b70c992a382e7d9a",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "The last verified read was overwritten",
+                "errorCode": "source-rewritten",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "/run/user/1000/FoxicMPQt-1000-5c49cdf138d5d6c0d855f56df1e758bc.sock.progressive.readers/subtitles-10d3d9866eb863ac849df5b0570323c0/1d18ea39efb4d3364f4926b3c99872bf.srt",
+                "ready": true,
+                "state": "cached"
+              },
+              {
+                "default": false,
+                "error": "Optional SRT failed, was cancelled or retired",
+                "errorCode": "resource-failed",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "bfe90cb54ac742889dc9c53de9daf892"
+          },
+          "validSubtitleTextObserved": true,
+          "validatedCopySha256": "eb6deb209ac43ab27a04d9bea2c7f15767f40aab66e4795ae3f34ad30717dc23"
+        },
+        "missing-complete": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "22b2bc13ef748f77aa3c29f72f0a022a",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "de3c9b3b1cfd417e9a69241f1aa5fdf1",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Completed resource is missing",
+                "errorCode": "missing-resource",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "/run/user/1000/FoxicMPQt-1000-042fac85c32b069834d9d4b954d996a6.sock.progressive.readers/subtitles-bcb30d187d11d67a4f5983c5e45b050d/a84af51e2e6356473f9847365a077b94.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "0a016dede6624b6d95078a7df76f63b7"
+          },
+          "profile": "missing-complete",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "22b2bc13ef748f77aa3c29f72f0a022a",
+            "released": true,
+            "revision": "3",
+            "schemaVersion": 2,
+            "sessionId": "de3c9b3b1cfd417e9a69241f1aa5fdf1",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Completed resource is missing",
+                "errorCode": "missing-resource",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "/run/user/1000/FoxicMPQt-1000-042fac85c32b069834d9d4b954d996a6.sock.progressive.readers/subtitles-bcb30d187d11d67a4f5983c5e45b050d/a84af51e2e6356473f9847365a077b94.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "0a016dede6624b6d95078a7df76f63b7"
+          },
+          "validSubtitleTextObserved": true
+        },
+        "writer-failed": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "3b8cec7cb1bf0ce3c1d02541a97aba69",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "4d743e7af82946f2bb1b5f9af695219e",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Optional SRT failed, was cancelled or retired",
+                "errorCode": "resource-failed",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "/run/user/1000/FoxicMPQt-1000-d02149e782df63908f5d5149132b4f0c.sock.progressive.readers/subtitles-935fa4a4091829f348473c3138345ef9/f94a09de6e551e977336e188e3691745.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "a5940d3f600442d89e0fed24be3703ff"
+          },
+          "profile": "writer-failed",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "3b8cec7cb1bf0ce3c1d02541a97aba69",
+            "released": true,
+            "revision": "3",
+            "schemaVersion": 2,
+            "sessionId": "4d743e7af82946f2bb1b5f9af695219e",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Optional SRT failed, was cancelled or retired",
+                "errorCode": "resource-failed",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "/run/user/1000/FoxicMPQt-1000-d02149e782df63908f5d5149132b4f0c.sock.progressive.readers/subtitles-935fa4a4091829f348473c3138345ef9/f94a09de6e551e977336e188e3691745.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "a5940d3f600442d89e0fed24be3703ff"
+          },
+          "validSubtitleTextObserved": true
+        },
+        "cache-missing": {
+          "backwardSeekAfterBackendFailure": true,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "173934",
+              "video": "655052"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "655052",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "173934",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "112872",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "bba54ebf7b11bd5cac8dd0cb9892c18b",
+            "released": false,
+            "revision": "3",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "3695d7861df34163acbe7fdfa10948ba",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "backendError": "error running command",
+                "backendErrorCode": "decoder_error",
+                "default": true,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "/run/user/1000/FoxicMPQt-1000-caf845fc8f79a6041d64894dd4d242eb.sock.progressive.readers/subtitles-aae734e248154433ad825055488377ed/d4517423b15ab04c4130ef474841d502.srt",
+                "ready": true,
+                "state": "ready"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "/run/user/1000/FoxicMPQt-1000-caf845fc8f79a6041d64894dd4d242eb.sock.progressive.readers/subtitles-aae734e248154433ad825055488377ed/d9863b9c6d7799aeaa02cc4e34e25bc0.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "217f4a84a09540f2978c4cf3eee31d5b"
+          },
+          "profile": "cache-missing",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "246025",
+              "video": "921417"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "921417",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "246025",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "112872",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "bba54ebf7b11bd5cac8dd0cb9892c18b",
+            "released": true,
+            "revision": "4",
+            "schemaVersion": 2,
+            "sessionId": "3695d7861df34163acbe7fdfa10948ba",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "backendError": "error running command",
+                "backendErrorCode": "decoder_error",
+                "default": true,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "/run/user/1000/FoxicMPQt-1000-caf845fc8f79a6041d64894dd4d242eb.sock.progressive.readers/subtitles-aae734e248154433ad825055488377ed/d4517423b15ab04c4130ef474841d502.srt",
+                "ready": true,
+                "state": "ready"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "/run/user/1000/FoxicMPQt-1000-caf845fc8f79a6041d64894dd4d242eb.sock.progressive.readers/subtitles-aae734e248154433ad825055488377ed/d9863b9c6d7799aeaa02cc4e34e25bc0.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "217f4a84a09540f2978c4cf3eee31d5b"
+          },
+          "validSubtitleTextObserved": true
+        },
+        "required-audio-truncated": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": false,
+          "decodedAudioBeforeFailure": true,
+          "profile": "required-audio-truncated",
+          "requiredFailureRejected": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "65536",
+              "video": "131072"
+            },
+            "error": "Confirmed bytes were truncated or never written",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "65536",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "Русский AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "0c31d1e18437b969f7cda90b458d8298",
+            "released": true,
+            "revision": "1",
+            "schemaVersion": 2,
+            "sessionId": "75e99df72af84494b0a5bbad5fe5c2d6",
+            "state": "error",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "/run/user/1000/FoxicMPQt-1000-dceafcee5095d1180e9c42bfe9f0f392.sock.progressive.readers/subtitles-6a18446bd1b06bd0440fac18548f0cd2/c0bef789936fec43a7aa89e6b46d7f47.srt",
+                "ready": true,
+                "state": "ready"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "waiting"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "d6529431431b44e1831e2a0cb37ff6d0"
+          },
+          "validSubtitleTextObserved": false
+        }
+      },
+      "farSeekProfiles": [
+        "mixed",
+        "fmp4",
+        "webm",
+        "mixed-hevc10",
+        "mixed-av1-10",
+        "mixed-vp8",
+        "mixed-known",
+        "fmp4-known",
+        "webm-known",
+        "mixed-hidden-tail"
+      ],
+      "mediaRoutingProfiles": [
+        "h264",
+        "webm-vp9-8",
+        "mixed-h264-vorbis"
+      ],
+      "nativeMediaPassed": 459
+    },
+    "windowsQt": {
+      "ctestExitCode": 0,
+      "log": "srt-isolation-windows-regression.log",
+      "qtestTotals": [
+        [
+          5,
+          0,
+          0
+        ],
+        [
+          12,
+          0,
+          0
+        ],
+        [
+          72,
+          0,
+          0
+        ]
+      ],
+      "subtitleIsolation": {
+        "initial-invalid": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10,
+            "readerId": "f7faf3d0fdf506efb2bb1f79779b8a44",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "af492e109c15495a99b150e1917b55c7",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Invalid UTF-8 SRT",
+                "errorCode": "unsupported_media",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-d31e43b590debb95b2982d23720b7cbe.progressive.readers\\subtitles-e9ecf01d7df28d19d5d2c496475c2e96\\5a7bab819c4d3f8fda0e98a745811cd3.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "02fb4b020f114893a4dd2038135368d3"
+          },
+          "profile": "initial-invalid",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "f7faf3d0fdf506efb2bb1f79779b8a44",
+            "released": true,
+            "revision": "3",
+            "schemaVersion": 2,
+            "sessionId": "af492e109c15495a99b150e1917b55c7",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Invalid UTF-8 SRT",
+                "errorCode": "unsupported_media",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-d31e43b590debb95b2982d23720b7cbe.progressive.readers\\subtitles-e9ecf01d7df28d19d5d2c496475c2e96\\5a7bab819c4d3f8fda0e98a745811cd3.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "02fb4b020f114893a4dd2038135368d3"
+          },
+          "validSubtitleTextObserved": true
+        },
+        "late-invalid": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10.08,
+            "readerId": "cee278fcb90e7eb4fdeb9520b5429cd1",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "b7da1c16908f4777954784e3b23ef40d",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-52f9316956fe3be5de0ee7181ad54639.progressive.readers\\subtitles-8b2db6d750561d82fedd9e7fc37de62e\\2c2a3d8fbc44f48f62c6b6549c7c140a.srt",
+                "ready": true,
+                "state": "ready"
+              },
+              {
+                "default": false,
+                "error": "SRT cue needs a numeric index",
+                "errorCode": "unsupported_media",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "767de5b0b2714399a892d5d0e7be6904"
+          },
+          "profile": "late-invalid",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "cee278fcb90e7eb4fdeb9520b5429cd1",
+            "released": true,
+            "revision": "3",
+            "schemaVersion": 2,
+            "sessionId": "b7da1c16908f4777954784e3b23ef40d",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-52f9316956fe3be5de0ee7181ad54639.progressive.readers\\subtitles-8b2db6d750561d82fedd9e7fc37de62e\\2c2a3d8fbc44f48f62c6b6549c7c140a.srt",
+                "ready": true,
+                "state": "ready"
+              },
+              {
+                "default": false,
+                "error": "SRT cue needs a numeric index",
+                "errorCode": "unsupported_media",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "767de5b0b2714399a892d5d0e7be6904"
+          },
+          "validSubtitleTextObserved": true
+        },
+        "cached-truncate": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "ae766a5d76103b19ae2ff53870b45ded",
+            "released": false,
+            "revision": "1",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "f073697ea1d948cf9a7e92f84037e762",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Confirmed bytes were truncated or never written",
+                "errorCode": "source-truncated",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-4a8b967400c70cc2cef5e49c22d9ae3d.progressive.readers\\subtitles-e88f9a2bae059e6afc88809e045463c7\\27f44a359d5d1901397d9d8dd96f2fe8.srt",
+                "ready": true,
+                "state": "cached"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "waiting"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "9b4a1772231b4790af3247f91f7214cd"
+          },
+          "profile": "cached-truncate",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "ae766a5d76103b19ae2ff53870b45ded",
+            "released": true,
+            "revision": "2",
+            "schemaVersion": 2,
+            "sessionId": "f073697ea1d948cf9a7e92f84037e762",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Confirmed bytes were truncated or never written",
+                "errorCode": "source-truncated",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-4a8b967400c70cc2cef5e49c22d9ae3d.progressive.readers\\subtitles-e88f9a2bae059e6afc88809e045463c7\\27f44a359d5d1901397d9d8dd96f2fe8.srt",
+                "ready": true,
+                "state": "cached"
+              },
+              {
+                "default": false,
+                "error": "Optional SRT failed, was cancelled or retired",
+                "errorCode": "resource-failed",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "9b4a1772231b4790af3247f91f7214cd"
+          },
+          "validSubtitleTextObserved": true,
+          "validatedCopySha256": "eb6deb209ac43ab27a04d9bea2c7f15767f40aab66e4795ae3f34ad30717dc23"
+        },
+        "cached-rewrite": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "0d7f438600c0583fc916f292ce1325fc",
+            "released": false,
+            "revision": "1",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "a0c0f2baf49948b7a8a7a600a583f661",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "The last verified read was overwritten",
+                "errorCode": "source-rewritten",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-f25ebfb924e0b501e764cdb8be2752d6.progressive.readers\\subtitles-45f1ab9f25a38b9a773234db35965a09\\c81c9e35694a00edb5f4331a3800d8e7.srt",
+                "ready": true,
+                "state": "cached"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "waiting"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "aea745b23c684ddfbaf919b346cbf6af"
+          },
+          "profile": "cached-rewrite",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "0d7f438600c0583fc916f292ce1325fc",
+            "released": true,
+            "revision": "2",
+            "schemaVersion": 2,
+            "sessionId": "a0c0f2baf49948b7a8a7a600a583f661",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "The last verified read was overwritten",
+                "errorCode": "source-rewritten",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-f25ebfb924e0b501e764cdb8be2752d6.progressive.readers\\subtitles-45f1ab9f25a38b9a773234db35965a09\\c81c9e35694a00edb5f4331a3800d8e7.srt",
+                "ready": true,
+                "state": "cached"
+              },
+              {
+                "default": false,
+                "error": "Optional SRT failed, was cancelled or retired",
+                "errorCode": "resource-failed",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "aea745b23c684ddfbaf919b346cbf6af"
+          },
+          "validSubtitleTextObserved": true,
+          "validatedCopySha256": "eb6deb209ac43ab27a04d9bea2c7f15767f40aab66e4795ae3f34ad30717dc23"
+        },
+        "missing-complete": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "34b060a6e5591c710b82296a48af0d15",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "2578866354564369a67ac22bd79a707a",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Completed resource is missing",
+                "errorCode": "missing-resource",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-92361ff5e413370b0818b85caab7a011.progressive.readers\\subtitles-006e95da6953661e2f5aeea63aa2de06\\02d203ca1ee02f2477ad3308751623ca.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "fb9c6dfceca54009bad1916f05b1e28e"
+          },
+          "profile": "missing-complete",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "34b060a6e5591c710b82296a48af0d15",
+            "released": true,
+            "revision": "3",
+            "schemaVersion": 2,
+            "sessionId": "2578866354564369a67ac22bd79a707a",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Completed resource is missing",
+                "errorCode": "missing-resource",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-92361ff5e413370b0818b85caab7a011.progressive.readers\\subtitles-006e95da6953661e2f5aeea63aa2de06\\02d203ca1ee02f2477ad3308751623ca.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "fb9c6dfceca54009bad1916f05b1e28e"
+          },
+          "validSubtitleTextObserved": true
+        },
+        "writer-failed": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "108398",
+              "video": "392908"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "392908",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "108398",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "e463ee4dc4c22ce331af68d3c65f8fac",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "c80ed73be1e64ccb9832905389b5d4aa",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Optional SRT failed, was cancelled or retired",
+                "errorCode": "resource-failed",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-fcde55d4333e87412779f686b299a9ab.progressive.readers\\subtitles-f5bf7d8d18b609d32c33a57f6d7bc7a4\\7fbaebe37d104d635eed16eeb6ebd7af.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "345617b31abb4a61a61f86dca0c03267"
+          },
+          "profile": "writer-failed",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "180489",
+              "video": "659273"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "659273",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "180489",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "e463ee4dc4c22ce331af68d3c65f8fac",
+            "released": true,
+            "revision": "3",
+            "schemaVersion": 2,
+            "sessionId": "c80ed73be1e64ccb9832905389b5d4aa",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "Optional SRT failed, was cancelled or retired",
+                "errorCode": "resource-failed",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "error"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-fcde55d4333e87412779f686b299a9ab.progressive.readers\\subtitles-f5bf7d8d18b609d32c33a57f6d7bc7a4\\7fbaebe37d104d635eed16eeb6ebd7af.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "345617b31abb4a61a61f86dca0c03267"
+          },
+          "validSubtitleTextObserved": true
+        },
+        "cache-missing": {
+          "backwardSeekAfterBackendFailure": true,
+          "changingDecodedVideo": true,
+          "decodedAudioBeforeFailure": true,
+          "playingWhileIncomplete": {
+            "active": true,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 3,
+              "index": 0
+            },
+            "availableSeconds": 11.7933333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "173934",
+              "video": "655052"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "655052",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "173934",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "112872",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "positionSeconds": 10.040000000000001,
+            "readerId": "4bebd0421f8698cc58d168e0757beef1",
+            "released": false,
+            "revision": "3",
+            "schemaVersion": 2,
+            "seeking": false,
+            "sessionId": "5fc48e6891fc4779bb75a2ee983fa12f",
+            "state": "playing",
+            "subtitleTracks": [
+              {
+                "backendError": "error running command",
+                "backendErrorCode": "decoder_error",
+                "default": true,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-801bbfac5f540e3f40436dea3e1622e8.progressive.readers\\subtitles-6ecf1488c0ccb0332492ee47bd5dd85f\\5241ae9b3c7a3ddf7e41e0181786475d.srt",
+                "ready": true,
+                "state": "ready"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-801bbfac5f540e3f40436dea3e1622e8.progressive.readers\\subtitles-6ecf1488c0ccb0332492ee47bd5dd85f\\7838691c968ec4a4e9c9dce3bd5e80ca.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "590b6173da8f44b897dc4f86cd640b6f"
+          },
+          "profile": "cache-missing",
+          "readerIdentityPreserved": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "246025",
+              "video": "921417"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "921417",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "246025",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "112872",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "4bebd0421f8698cc58d168e0757beef1",
+            "released": true,
+            "revision": "4",
+            "schemaVersion": 2,
+            "sessionId": "5fc48e6891fc4779bb75a2ee983fa12f",
+            "state": "finished",
+            "subtitleTracks": [
+              {
+                "backendError": "error running command",
+                "backendErrorCode": "decoder_error",
+                "default": true,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-801bbfac5f540e3f40436dea3e1622e8.progressive.readers\\subtitles-6ecf1488c0ccb0332492ee47bd5dd85f\\5241ae9b3c7a3ddf7e41e0181786475d.srt",
+                "ready": true,
+                "state": "ready"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-801bbfac5f540e3f40436dea3e1622e8.progressive.readers\\subtitles-6ecf1488c0ccb0332492ee47bd5dd85f\\7838691c968ec4a4e9c9dce3bd5e80ca.srt",
+                "ready": true,
+                "state": "ready"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "590b6173da8f44b897dc4f86cd640b6f"
+          },
+          "validSubtitleTextObserved": true
+        },
+        "required-audio-truncated": {
+          "backwardSeekAfterBackendFailure": false,
+          "changingDecodedVideo": false,
+          "decodedAudioBeforeFailure": true,
+          "profile": "required-audio-truncated",
+          "requiredFailureRejected": true,
+          "result": "PASS",
+          "terminal": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "65536",
+              "video": "131072"
+            },
+            "error": "Confirmed bytes were truncated or never written",
+            "generation": "1",
+            "mediaMode": "separate-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "id": "track-0",
+                "index": 0,
+                "kind": "video",
+                "label": "Video",
+                "language": ""
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "65536",
+                "default": true,
+                "id": "track-1",
+                "index": 1,
+                "kind": "audio",
+                "label": "������� AAC",
+                "language": "rus"
+              },
+              {
+                "codec": "opus",
+                "container": "webm",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "id": "track-2",
+                "index": 2,
+                "kind": "audio",
+                "label": "English Opus",
+                "language": "eng"
+              },
+              {
+                "codec": "vorbis",
+                "container": "webm",
+                "decoderIoBytes": "56436",
+                "default": false,
+                "id": "track-3",
+                "index": 3,
+                "kind": "audio",
+                "label": "Commentary Vorbis",
+                "language": "deu"
+              }
+            ],
+            "ok": true,
+            "readerId": "b25f38bd76d0f0f0369d8fe200ce9236",
+            "released": true,
+            "revision": "1",
+            "schemaVersion": 2,
+            "sessionId": "c367b3d8db2843918bc94ca5e87ea823",
+            "state": "error",
+            "subtitleTracks": [
+              {
+                "default": true,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-0",
+                "label": "Early Russian",
+                "language": "rus",
+                "loaded": true,
+                "path": "C:/Users/User/AppData/Local/Temp/FoxicMPq/FoxicMPq-3ea68dbd9e949909-ab8ee61af42f638b0882c9af1ae0824c.progressive.readers\\subtitles-e00a07e833adfc0e88a45307f5a1588b\\2feca5993de3f7bdd73f2ac7b4a8c965.srt",
+                "ready": true,
+                "state": "ready"
+              },
+              {
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "forced": false,
+                "id": "sub-1",
+                "label": "Late Russian",
+                "language": "rus",
+                "loaded": false,
+                "path": "",
+                "ready": false,
+                "state": "waiting"
+              }
+            ],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "c0e1139435db4b969cb9d7c3d786dd30"
+          },
+          "validSubtitleTextObserved": false
+        }
+      },
+      "farSeekProfiles": [
+        "mixed",
+        "fmp4",
+        "webm",
+        "mixed-hevc10",
+        "mixed-av1-10",
+        "mixed-vp8",
+        "mixed-known",
+        "fmp4-known",
+        "webm-known",
+        "mixed-hidden-tail"
+      ],
+      "mediaRoutingProfiles": [
+        "h264",
+        "webm-vp9-8",
+        "mixed-h264-vorbis"
+      ],
+      "nativeMediaPassed": 459
+    },
+    "windowsClassic": {
+      "exitCode": 0,
+      "subtitleIsolation": [
+        {
+          "contract": "optional-srt-isolation",
+          "result": {
+            "profile": "initial-invalid",
+            "playingWhileIncomplete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "19c2d4457fc947c884797464a871bef0",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "a612ce97b6686b9b45347f7a56f57c4d",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "2",
+              "writerInstanceId": "abf75409bf5547eca621eef23bfe24ef",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "389165",
+                "audio": "104847"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "389165"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "104847"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "206363"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "53001"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "error",
+                  "errorCode": "unsupported_media",
+                  "error": "Invalid UTF-8 SRT",
+                  "default": true,
+                  "forced": false,
+                  "loaded": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-5669d1d83de01a6108800885ba69664f\\8292cd3face5d5fd48a05da721c1dbbd.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false,
+                  "loaded": true
+                }
+              ],
+              "audioSelection": {
+                "count": 3,
+                "index": 0
+              },
+              "loadedSubtitleCount": 1,
+              "positionSeconds": 10.0289597,
+              "availableSeconds": 11.7933333,
+              "durationSeconds": 20.0
+            },
+            "readerIdentityPreserved": true,
+            "backwardSeekAfterBackendFailure": false,
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "19c2d4457fc947c884797464a871bef0",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "3",
+              "writerInstanceId": "abf75409bf5547eca621eef23bfe24ef",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "652606",
+                "audio": "173962"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "652606"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "173962"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "344697"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "86613"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "error",
+                  "errorCode": "unsupported_media",
+                  "error": "Invalid UTF-8 SRT",
+                  "default": true,
+                  "forced": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-5669d1d83de01a6108800885ba69664f\\8292cd3face5d5fd48a05da721c1dbbd.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false
+                }
+              ],
+              "released": true,
+              "readerId": "a612ce97b6686b9b45347f7a56f57c4d"
+            },
+            "result": "PASS"
+          }
+        },
+        {
+          "contract": "optional-srt-isolation",
+          "result": {
+            "profile": "late-invalid",
+            "playingWhileIncomplete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "03cad0575fe24cde831b49f18362593e",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "b48a8464f90c949bd7cb0f9bd04403e8",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "2",
+              "writerInstanceId": "f2ba86aecad948939608cc9aa0c9063b",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "389165",
+                "audio": "104847"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "389165"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "104847"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "206363"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "53001"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-8b9bb6d11d94d01e90c178112449d5b6\\ae98196d4bb00f731e10c6b6dd992572.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": true,
+                  "forced": false,
+                  "loaded": true
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "error",
+                  "errorCode": "unsupported_media",
+                  "error": "SRT cue needs a numeric index",
+                  "default": false,
+                  "forced": false,
+                  "loaded": false
+                }
+              ],
+              "audioSelection": {
+                "count": 3,
+                "index": 0
+              },
+              "loadedSubtitleCount": 1,
+              "positionSeconds": 10.0615168,
+              "availableSeconds": 11.7933333,
+              "durationSeconds": 20.0
+            },
+            "readerIdentityPreserved": true,
+            "backwardSeekAfterBackendFailure": false,
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "03cad0575fe24cde831b49f18362593e",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "3",
+              "writerInstanceId": "f2ba86aecad948939608cc9aa0c9063b",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "652606",
+                "audio": "173962"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "652606"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "173962"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "344697"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "86613"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-8b9bb6d11d94d01e90c178112449d5b6\\ae98196d4bb00f731e10c6b6dd992572.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": true,
+                  "forced": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "error",
+                  "errorCode": "unsupported_media",
+                  "error": "SRT cue needs a numeric index",
+                  "default": false,
+                  "forced": false
+                }
+              ],
+              "released": true,
+              "readerId": "b48a8464f90c949bd7cb0f9bd04403e8"
+            },
+            "result": "PASS"
+          }
+        },
+        {
+          "contract": "optional-srt-isolation",
+          "result": {
+            "profile": "cached-truncate",
+            "validatedCopySha256": "eb6deb209ac43ab27a04d9bea2c7f15767f40aab66e4795ae3f34ad30717dc23",
+            "playingWhileIncomplete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "c70ce151e9ee442e859fb6206c0d157f",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "f3709f6333e9210edc607ac8aa204b34",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "1",
+              "writerInstanceId": "159d02e2558e4e39be35ec833a02aa2f",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "389165",
+                "audio": "104847"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "389165"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "104847"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "206363"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "53001"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-fde6ddd6fb26b35ad14510319e1d65ab\\5f3a2042b50493a884eddb6659b1c905.srt",
+                  "ready": true,
+                  "state": "cached",
+                  "errorCode": "source-truncated",
+                  "error": "Confirmed bytes were truncated or never written",
+                  "default": true,
+                  "forced": false,
+                  "loaded": true
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "waiting",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false,
+                  "loaded": false
+                }
+              ],
+              "audioSelection": {
+                "count": 3,
+                "index": 0
+              },
+              "loadedSubtitleCount": 1,
+              "positionSeconds": 10.0425073,
+              "availableSeconds": 11.7933333,
+              "durationSeconds": 20.0
+            },
+            "readerIdentityPreserved": true,
+            "backwardSeekAfterBackendFailure": false,
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "c70ce151e9ee442e859fb6206c0d157f",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "2",
+              "writerInstanceId": "159d02e2558e4e39be35ec833a02aa2f",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "652606",
+                "audio": "173962"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "652606"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "173962"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "344697"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "86613"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-fde6ddd6fb26b35ad14510319e1d65ab\\5f3a2042b50493a884eddb6659b1c905.srt",
+                  "ready": true,
+                  "state": "cached",
+                  "errorCode": "source-truncated",
+                  "error": "Confirmed bytes were truncated or never written",
+                  "default": true,
+                  "forced": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "error",
+                  "errorCode": "resource-failed",
+                  "error": "Optional SRT failed, was cancelled or retired",
+                  "default": false,
+                  "forced": false
+                }
+              ],
+              "released": true,
+              "readerId": "f3709f6333e9210edc607ac8aa204b34"
+            },
+            "result": "PASS"
+          }
+        },
+        {
+          "contract": "optional-srt-isolation",
+          "result": {
+            "profile": "cached-rewrite",
+            "validatedCopySha256": "eb6deb209ac43ab27a04d9bea2c7f15767f40aab66e4795ae3f34ad30717dc23",
+            "playingWhileIncomplete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "4933838acf0c434999840398d44c848f",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "585e26d217f967756b3721775f359fb7",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "1",
+              "writerInstanceId": "405da0e1076d478b97472f4d18cfd5d2",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "389165",
+                "audio": "104847"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "389165"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "104847"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "206363"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "53001"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-731a47efbfcf10e9c4f7b69cef5e04a5\\6d7a2e59fc97c11cfa26d1ace7d7895a.srt",
+                  "ready": true,
+                  "state": "cached",
+                  "errorCode": "source-rewritten",
+                  "error": "The last verified read was overwritten",
+                  "default": true,
+                  "forced": false,
+                  "loaded": true
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "waiting",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false,
+                  "loaded": false
+                }
+              ],
+              "audioSelection": {
+                "count": 3,
+                "index": 0
+              },
+              "loadedSubtitleCount": 1,
+              "positionSeconds": 10.0328091,
+              "availableSeconds": 11.7933333,
+              "durationSeconds": 20.0
+            },
+            "readerIdentityPreserved": true,
+            "backwardSeekAfterBackendFailure": false,
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "4933838acf0c434999840398d44c848f",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "2",
+              "writerInstanceId": "405da0e1076d478b97472f4d18cfd5d2",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "652606",
+                "audio": "173962"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "652606"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "173962"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "344697"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "86613"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-731a47efbfcf10e9c4f7b69cef5e04a5\\6d7a2e59fc97c11cfa26d1ace7d7895a.srt",
+                  "ready": true,
+                  "state": "cached",
+                  "errorCode": "source-rewritten",
+                  "error": "The last verified read was overwritten",
+                  "default": true,
+                  "forced": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "error",
+                  "errorCode": "resource-failed",
+                  "error": "Optional SRT failed, was cancelled or retired",
+                  "default": false,
+                  "forced": false
+                }
+              ],
+              "released": true,
+              "readerId": "585e26d217f967756b3721775f359fb7"
+            },
+            "result": "PASS"
+          }
+        },
+        {
+          "contract": "optional-srt-isolation",
+          "result": {
+            "profile": "missing-complete",
+            "playingWhileIncomplete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "b56a8c23689742efad63dc5f8e8951dd",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "22ea5c0f3fb0d99596b0ebee1d86959c",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "2",
+              "writerInstanceId": "fb3d7a41f3e34b32b8af8c8cf7d90bbf",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "389165",
+                "audio": "104847"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "389165"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "104847"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "206363"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "53001"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "error",
+                  "errorCode": "missing-resource",
+                  "error": "Completed resource is missing",
+                  "default": true,
+                  "forced": false,
+                  "loaded": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-7bdccac71cf28a35519977b8f4f08bd3\\c4ffc8fc35a37988882aa375abce30a3.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false,
+                  "loaded": true
+                }
+              ],
+              "audioSelection": {
+                "count": 3,
+                "index": 0
+              },
+              "loadedSubtitleCount": 1,
+              "positionSeconds": 10.0255433,
+              "availableSeconds": 11.7933333,
+              "durationSeconds": 20.0
+            },
+            "readerIdentityPreserved": true,
+            "backwardSeekAfterBackendFailure": false,
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "b56a8c23689742efad63dc5f8e8951dd",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "3",
+              "writerInstanceId": "fb3d7a41f3e34b32b8af8c8cf7d90bbf",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "652606",
+                "audio": "173962"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "652606"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "173962"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "344697"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "86613"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "error",
+                  "errorCode": "missing-resource",
+                  "error": "Completed resource is missing",
+                  "default": true,
+                  "forced": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-7bdccac71cf28a35519977b8f4f08bd3\\c4ffc8fc35a37988882aa375abce30a3.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false
+                }
+              ],
+              "released": true,
+              "readerId": "22ea5c0f3fb0d99596b0ebee1d86959c"
+            },
+            "result": "PASS"
+          }
+        },
+        {
+          "contract": "optional-srt-isolation",
+          "result": {
+            "profile": "writer-failed",
+            "playingWhileIncomplete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "0e2ca52dd39f4d44986641fb5ed877e9",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "f84ba77a6abe99de99a66b6c63b5ccfd",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "2",
+              "writerInstanceId": "a59f816812b3420fa8c5d0766413114b",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "389165",
+                "audio": "104847"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "389165"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "104847"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "206363"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "53001"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "error",
+                  "errorCode": "resource-failed",
+                  "error": "Optional SRT failed, was cancelled or retired",
+                  "default": true,
+                  "forced": false,
+                  "loaded": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-2a734b638f762c42b7fc831ee15490c0\\6533d11f1aa89dbdb31ca6b9f0f4ecbd.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false,
+                  "loaded": true
+                }
+              ],
+              "audioSelection": {
+                "count": 3,
+                "index": 0
+              },
+              "loadedSubtitleCount": 1,
+              "positionSeconds": 10.0519542,
+              "availableSeconds": 11.7933333,
+              "durationSeconds": 20.0
+            },
+            "readerIdentityPreserved": true,
+            "backwardSeekAfterBackendFailure": false,
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "0e2ca52dd39f4d44986641fb5ed877e9",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "3",
+              "writerInstanceId": "a59f816812b3420fa8c5d0766413114b",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "652606",
+                "audio": "173962"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "652606"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "173962"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "344697"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "86613"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "error",
+                  "errorCode": "resource-failed",
+                  "error": "Optional SRT failed, was cancelled or retired",
+                  "default": true,
+                  "forced": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-2a734b638f762c42b7fc831ee15490c0\\6533d11f1aa89dbdb31ca6b9f0f4ecbd.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false
+                }
+              ],
+              "released": true,
+              "readerId": "f84ba77a6abe99de99a66b6c63b5ccfd"
+            },
+            "result": "PASS"
+          }
+        },
+        {
+          "contract": "optional-srt-isolation",
+          "result": {
+            "profile": "cache-missing",
+            "seekObservedSeconds": 4.944352,
+            "seekFromSeconds": 6.0279284,
+            "playingWhileIncomplete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "55f2f68358bf4eb29e4a0378767a4161",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "7dbf9d44871ea30862729ba53a3d0936",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "3",
+              "writerInstanceId": "ed5fd2e4aca841cda446bb8cc58451df",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "597741",
+                "audio": "150901"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "597741"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "150901"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "344569"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "85573"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-e665e01b66c8207ac6724f177bb7734c\\87a26100724e0a837cdbf5384ec258c0.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": true,
+                  "forced": false,
+                  "backendErrorCode": "decoder_error",
+                  "backendError": "Cannot load optional subtitle copy",
+                  "loaded": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-e665e01b66c8207ac6724f177bb7734c\\93521a59ad14e91e5ac940d3aa311fb8.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false,
+                  "loaded": true
+                }
+              ],
+              "audioSelection": {
+                "count": 3,
+                "index": 0
+              },
+              "loadedSubtitleCount": 1,
+              "positionSeconds": 10.0522316,
+              "availableSeconds": 11.7933333,
+              "durationSeconds": 20.0
+            },
+            "readerIdentityPreserved": true,
+            "backwardSeekAfterBackendFailure": true,
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "55f2f68358bf4eb29e4a0378767a4161",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "4",
+              "writerInstanceId": "ed5fd2e4aca841cda446bb8cc58451df",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "861182",
+                "audio": "220016"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "861182"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "220016"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "482903"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "119185"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-e665e01b66c8207ac6724f177bb7734c\\87a26100724e0a837cdbf5384ec258c0.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": true,
+                  "forced": false,
+                  "backendErrorCode": "decoder_error",
+                  "backendError": "Cannot load optional subtitle copy"
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-e665e01b66c8207ac6724f177bb7734c\\93521a59ad14e91e5ac940d3aa311fb8.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false
+                }
+              ],
+              "released": true,
+              "readerId": "7dbf9d44871ea30862729ba53a3d0936"
+            },
+            "result": "PASS"
+          }
+        },
+        {
+          "contract": "optional-srt-isolation",
+          "result": {
+            "result": "PASS",
+            "profile": "required-audio-truncated",
+            "requiredFailureRejected": true,
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "84bf883fb47443579895d9d3bde8c314",
+              "state": "error",
+              "error": "Confirmed bytes were truncated or never written",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "1",
+              "writerInstanceId": "d62e352d564c4cc0814b68f0b6282639",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "169600",
+                "audio": "47186"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "169600"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "47186"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "206363"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "53001"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-cdf1eaac8067c72b7ce8788661f90674\\4c37ec739c4fa394b0309dba5c4124bb.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": true,
+                  "forced": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "",
+                  "ready": false,
+                  "state": "waiting",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false
+                }
+              ],
+              "released": true,
+              "readerId": "b691e5b432f73a84649991b02729cce7"
+            }
+          }
+        }
+      ],
+      "multiTrack": [
+        {
+          "contract": "multi-audio-subtitles",
+          "result": {
+            "playingWhileIncomplete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "8fde6ed896364194afb10aeed18a94da",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "951cbab8294c92bcc6a43f18d88ba908",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "2",
+              "writerInstanceId": "a89ee89857ce4afd8e68bb7b1ea09fad",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "944929",
+                "audio": "299084"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "944929"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "299084"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "642633"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "164402"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-3c2f31b6a483bb13d67a0d6ddd1df612\\bef26df7f78d7cc33fdba074179b5620.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": true,
+                  "forced": false,
+                  "loaded": true
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-3c2f31b6a483bb13d67a0d6ddd1df612\\4717076098cf4bddc5bf26b53456d03f.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false,
+                  "loaded": true
+                }
+              ],
+              "audioSelection": {
+                "count": 3,
+                "index": 0
+              },
+              "loadedSubtitleCount": 2,
+              "positionSeconds": 10.0138867,
+              "availableSeconds": 11.7933333,
+              "durationSeconds": 20.0
+            },
+            "backwardSeek": true,
+            "audioIndicesSeen": [
+              0,
+              1,
+              2
+            ],
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "8fde6ed896364194afb10aeed18a94da",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 2,
+              "generation": "1",
+              "revision": "3",
+              "writerInstanceId": "a89ee89857ce4afd8e68bb7b1ea09fad",
+              "videoContainer": "fmp4",
+              "audioContainer": "fmp4",
+              "mediaMode": "separate-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "1208370",
+                "audio": "368199"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "track-0",
+                  "kind": "video",
+                  "label": "Video",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "1208370"
+                },
+                {
+                  "index": 1,
+                  "id": "track-1",
+                  "kind": "audio",
+                  "label": "Русский AAC",
+                  "language": "rus",
+                  "codec": "aac-lc",
+                  "container": "fmp4",
+                  "default": true,
+                  "decoderIoBytes": "368199"
+                },
+                {
+                  "index": 2,
+                  "id": "track-2",
+                  "kind": "audio",
+                  "label": "English Opus",
+                  "language": "eng",
+                  "codec": "opus",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "780967"
+                },
+                {
+                  "index": 3,
+                  "id": "track-3",
+                  "kind": "audio",
+                  "label": "Commentary Vorbis",
+                  "language": "deu",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "198014"
+                }
+              ],
+              "subtitleTracks": [
+                {
+                  "id": "sub-0",
+                  "label": "Early Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-3c2f31b6a483bb13d67a0d6ddd1df612\\bef26df7f78d7cc33fdba074179b5620.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": true,
+                  "forced": false
+                },
+                {
+                  "id": "sub-1",
+                  "label": "Late Russian",
+                  "language": "rus",
+                  "path": "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-590f4f70f8e8c417.progressive.readers\\subtitles-3c2f31b6a483bb13d67a0d6ddd1df612\\4717076098cf4bddc5bf26b53456d03f.srt",
+                  "ready": true,
+                  "state": "ready",
+                  "errorCode": "",
+                  "error": "",
+                  "default": false,
+                  "forced": false
+                }
+              ],
+              "released": true,
+              "readerId": "951cbab8294c92bcc6a43f18d88ba908"
+            },
+            "result": "PASS"
+          }
+        }
+      ],
+      "mixedH264Vorbis": [
+        {
+          "contract": "v2-media",
+          "result": {
+            "profile": "mixed-h264-vorbis",
+            "expectedVideoCodec": "h264",
+            "expectedAudioCodec": "vorbis",
+            "schemaVersion": 2,
+            "generation": "18446744073709551615",
+            "initialRevision": "9007199254740993",
+            "networkRequests": 0,
+            "cancelRestartAndReaderGuards": true,
+            "backwardSeekWhileIncomplete": true,
+            "playingWhilePhysicallyIncomplete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "f59973afb10648b181d2bd82392668b6",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "871f1dc30e0f2c016020b2d675dca657",
+              "schemaVersion": 2,
+              "generation": "18446744073709551615",
+              "revision": "9007199254740994",
+              "writerInstanceId": "e511e486d590437ab6483f48c354d1d0",
+              "videoContainer": "fmp4",
+              "audioContainer": "webm",
+              "mediaMode": "separate-fmp4-webm-h264-vorbis",
+              "videoCodec": "h264",
+              "audioCodec": "vorbis",
+              "decoderIoBytes": {
+                "video": "592759",
+                "audio": "75639"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "video-main",
+                  "kind": "video",
+                  "label": "",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "592759"
+                },
+                {
+                  "index": 1,
+                  "id": "audio-main",
+                  "kind": "audio",
+                  "label": "",
+                  "language": "",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "75639"
+                }
+              ],
+              "subtitleTracks": [],
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "positionSeconds": 10.0022425,
+              "availableSeconds": 11.7933333,
+              "durationSeconds": 20.0
+            },
+            "incompleteBytes": [
+              392908,
+              56436
+            ],
+            "fullBytes": [
+              659273,
+              92461
+            ],
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "f59973afb10648b181d2bd82392668b6",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 2,
+              "generation": "18446744073709551615",
+              "revision": "9007199254740995",
+              "writerInstanceId": "e511e486d590437ab6483f48c354d1d0",
+              "videoContainer": "fmp4",
+              "audioContainer": "webm",
+              "mediaMode": "separate-fmp4-webm-h264-vorbis",
+              "videoCodec": "h264",
+              "audioCodec": "vorbis",
+              "decoderIoBytes": {
+                "video": "856200",
+                "audio": "109251"
+              },
+              "mediaTracks": [
+                {
+                  "index": 0,
+                  "id": "video-main",
+                  "kind": "video",
+                  "label": "",
+                  "language": "",
+                  "codec": "h264",
+                  "container": "fmp4",
+                  "default": false,
+                  "decoderIoBytes": "856200"
+                },
+                {
+                  "index": 1,
+                  "id": "audio-main",
+                  "kind": "audio",
+                  "label": "",
+                  "language": "",
+                  "codec": "vorbis",
+                  "container": "webm",
+                  "default": false,
+                  "decoderIoBytes": "109251"
+                }
+              ],
+              "subtitleTracks": [],
+              "released": true,
+              "readerId": "871f1dc30e0f2c016020b2d675dca657"
+            },
+            "release": {
+              "version": 1,
+              "ok": true,
+              "readerId": "871f1dc30e0f2c016020b2d675dca657",
+              "released": true,
+              "reader": {
+                "version": 1,
+                "readerId": "871f1dc30e0f2c016020b2d675dca657",
+                "sessionId": "f59973afb10648b181d2bd82392668b6",
+                "generation": "18446744073709551615",
+                "pid": 10132,
+                "birth": "134377137392625516",
+                "filesClosed": true,
+                "resources": [
+                  {
+                    "id": "res-video",
+                    "device": "656024512",
+                    "fileId": "1688849861265702"
+                  },
+                  {
+                    "id": "res-audio",
+                    "device": "656024512",
+                    "fileId": "1407374884555047"
+                  }
+                ],
+                "released": true,
+                "reason": "files-closed"
+              }
+            },
+            "result": "PASS"
+          }
+        }
+      ],
+      "legacyProvider": {
+        "contract": "legacy-provider",
+        "result": "PASS",
+        "beforeComplete": {
+          "schemaVersion": 1,
+          "sessionId": "51cb3c761f9b4d39b9fa4dafc2420402",
+          "generation": 1,
+          "revision": 2,
+          "type": "playing",
+          "pid": 3484,
+          "position100ns": 100214700,
+          "readyEnd100ns": 120000000,
+          "completionWaiters": 0,
+          "observedPlaying": true
+        },
+        "complete": {
+          "schemaVersion": 1,
+          "sessionId": "51cb3c761f9b4d39b9fa4dafc2420402",
+          "generation": 1,
+          "revision": 3,
+          "type": "playing",
+          "pid": 3484,
+          "position100ns": 110495806,
+          "readyEnd100ns": 200000000,
+          "completionWaiters": 0
+        },
+        "filesClosedLeaseReleased": true
+      },
+      "shellRegistrationBeforeAfterUnchanged": true
+    },
+    "resourcePolicy": {
+      "srt-isolation-resources": {
+        "passed": 30,
+        "checks": [
+          "short-reads-stop-at-unconfirmed-holes",
+          "adjacent-confirmed-ranges-merge",
+          "publication-wakes-a-blocked-reader",
+          "timeout-is-waiting-never-eof",
+          "cancel-interrupts-range-wait",
+          "paused-writer-is-not-eof",
+          "unknown-length-is-not-eof",
+          "only-complete-resource-has-eof",
+          "late-resource-appears-and-binds",
+          "missing-complete-resource-is-error-not-eof",
+          "rename-and-path-replacement-keep-pinned-file",
+          "truncation-invalidates-confirmed-bytes",
+          "rewrite-of-last-read-window-detected",
+          "invalid-publication-preserves-current-source",
+          "writer-failure-is-not-successful-eof",
+          "exact-large-offsets-and-overflow-bounds",
+          "native-sparse-read-above-four-gib",
+          "new-reader-rejects-retired-resource",
+          "lease-lives-until-last-source-owner",
+          "new-resource-gets-independent-real-file-lease",
+          "hardlink-resource-is-rejected",
+          "symbolic-resource-is-rejected",
+          "symbolic-session-directory-is-rejected",
+          "asynchronous-probe-worker-public-contract",
+          "optional-srt-keeps-default-resource-policy-strict",
+          "optional-srt-isolation-requires-explicit-policy",
+          "optional-policy-never-isolates-required",
+          "optional-policy-never-isolates-initialization",
+          "optional-policy-never-isolates-segment",
+          "optional-policy-never-isolates-segment-init"
+        ],
+        "exitCode": 0
+      },
+      "srt-isolation-resource-windows": {
+        "passed": 28,
+        "checks": [
+          "short-reads-stop-at-unconfirmed-holes",
+          "adjacent-confirmed-ranges-merge",
+          "publication-wakes-a-blocked-reader",
+          "timeout-is-waiting-never-eof",
+          "cancel-interrupts-range-wait",
+          "paused-writer-is-not-eof",
+          "unknown-length-is-not-eof",
+          "only-complete-resource-has-eof",
+          "late-resource-appears-and-binds",
+          "missing-complete-resource-is-error-not-eof",
+          "rename-and-path-replacement-keep-pinned-file",
+          "truncation-invalidates-confirmed-bytes",
+          "rewrite-of-last-read-window-detected",
+          "invalid-publication-preserves-current-source",
+          "writer-failure-is-not-successful-eof",
+          "exact-large-offsets-and-overflow-bounds",
+          "native-sparse-read-above-four-gib",
+          "new-reader-rejects-retired-resource",
+          "lease-lives-until-last-source-owner",
+          "new-resource-gets-independent-real-file-lease",
+          "hardlink-resource-is-rejected",
+          "asynchronous-probe-worker-public-contract",
+          "optional-srt-keeps-default-resource-policy-strict",
+          "optional-srt-isolation-requires-explicit-policy",
+          "optional-policy-never-isolates-required",
+          "optional-policy-never-isolates-initialization",
+          "optional-policy-never-isolates-segment",
+          "optional-policy-never-isolates-segment-init"
+        ],
+        "exitCode": 0
+      }
+    },
+    "pythonSdkFamily": {
+      "passed": 29,
+      "exitCode": 0
+    }
+  },
+  "linuxInstall": {
+    "installedSha256": "10c20d6d2238f42ce08c3424d0222c5c62805f6e3069ebae6f7127352ff13ab0",
+    "previousInstalledSha256": "3bddb94d0d6148f8e59fd78807156bd29f3bb52e4dc724d482a9c995721e9f79",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.24-20261029T022549Z",
+    "profileSha256Before": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "profileSha256After": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "profileUnchanged": true,
+    "protectedFilesVerified": 97,
+    "version": "FoxicMPQt 0.2.0",
+    "capabilities": {
+      "audioCodecs": [
+        "aac-lc",
+        "opus",
+        "vorbis"
+      ],
+      "audioTrackLimit": 8,
+      "audioTracksRequired": true,
+      "av1BitDepths": [
+        8,
+        10
+      ],
+      "av1Profiles": [
+        "main"
+      ],
+      "av1SampleEntries": [
+        "av01"
+      ],
+      "av1SequenceHeaderInConfigurationRequired": true,
+      "containers": [
+        "fmp4",
+        "webm"
+      ],
+      "durationRequired": true,
+      "hevcBitDepths": [
+        8,
+        10
+      ],
+      "hevcProfiles": [
+        "main",
+        "main10"
+      ],
+      "hevcSampleEntries": [
+        "hvc1",
+        "hev1"
+      ],
+      "initializationLimitBytes": 1048576,
+      "live": false,
+      "mediaTrackCountMax": 9,
+      "metadataApplied": false,
+      "mixedContainers": true,
+      "mode": "separate-fmp4-h264-aac-lc",
+      "multiAudio": true,
+      "muxed": false,
+      "negativeTimestampOffset": false,
+      "opusChannelMappingFamilies": [
+        0
+      ],
+      "opusChannels": [
+        1,
+        2
+      ],
+      "opusEditListRequired": true,
+      "opusPrerollMilliseconds": 80,
+      "opusSampleRate": 48000,
+      "profiles": [
+        "separate-fmp4-h264-aac-lc",
+        "separate-fmp4-hevc-aac-lc",
+        "separate-fmp4-av1-aac-lc",
+        "separate-fmp4-vp9-aac-lc",
+        "separate-fmp4-h264-opus",
+        "separate-fmp4-hevc-opus",
+        "separate-fmp4-av1-opus",
+        "separate-fmp4-vp9-opus",
+        "separate-webm-vp9-opus",
+        "separate-webm-av1-opus",
+        "separate-fmp4-webm-h264-opus",
+        "separate-fmp4-webm-hevc-opus",
+        "separate-fmp4-webm-av1-opus",
+        "separate-fmp4-webm-vp9-opus",
+        "separate-webm-fmp4-vp9-aac-lc",
+        "separate-webm-fmp4-av1-aac-lc",
+        "separate-webm-fmp4-vp9-opus",
+        "separate-webm-fmp4-av1-opus",
+        "separate-webm-vp8-opus",
+        "separate-webm-vp8-vorbis",
+        "separate-webm-vp9-vorbis",
+        "separate-webm-av1-vorbis",
+        "separate-fmp4-webm-h264-vorbis",
+        "separate-fmp4-webm-hevc-vorbis",
+        "separate-fmp4-webm-av1-vorbis",
+        "separate-fmp4-webm-vp9-vorbis",
+        "separate-webm-fmp4-vp8-aac-lc",
+        "separate-webm-fmp4-vp8-opus"
+      ],
+      "segments": false,
+      "separateResourcesRequired": true,
+      "subtitles": {
+        "codecs": [
+          "srt"
+        ],
+        "completeFileRequired": true,
+        "containers": [
+          "srt"
+        ],
+        "encoding": "utf-8",
+        "lateCompletion": true,
+        "optionalErrorIsolation": true,
+        "retainsValidatedCopyOnSourceError": true,
+        "sizeLimitBytes": 524288,
+        "trackLimit": 4
+      },
+      "timebase": {
+        "denominator": 10000000,
+        "numerator": 1
+      },
+      "trackCount": 2,
+      "trackCountMax": 13,
+      "trackCountMin": 2,
+      "videoCodecs": [
+        "h264",
+        "hevc",
+        "av1",
+        "vp9",
+        "vp8"
+      ],
+      "vorbisChannels": [
+        1,
+        2
+      ],
+      "vorbisCodebookEntryLimit": 65536,
+      "vorbisFloorTypes": [
+        1
+      ],
+      "vorbisSampleRate": 48000,
+      "vorbisSeekPrerollMilliseconds": 200,
+      "vp9BitDepths": [
+        8,
+        10
+      ],
+      "vp9Profiles": [
+        0,
+        2
+      ],
+      "vp9SampleEntries": [
+        "vp09"
+      ],
+      "webm": {
+        "audioCodecs": [
+          "opus",
+          "vorbis"
+        ],
+        "clusterLimitBytes": 16777216,
+        "defaultVideoDurationRequired": true,
+        "knownClusterSizesRequired": true,
+        "lacing": false,
+        "videoCodecs": [
+          "vp8",
+          "vp9",
+          "av1"
+        ]
+      }
+    },
+    "qtMultiAudioSeek": {
+      "completeSourceByteSeek": true,
+      "confirmedRangesOnly": true,
+      "maxTargetSecondsWhileIncomplete": 922337203686,
+      "mode": "confirmed-byte-seek"
+    }
+  },
+  "cleanup": {
+    "lastTaskResult": 0,
+    "taskRemoved": true,
+    "stageRemoved": true,
+    "builtSha256": "f3d5517c34663ea7c257995070e3a1e544686ad2c03105fd61d0bcecdd74515d",
+    "testedSha256": "f3d5517c34663ea7c257995070e3a1e544686ad2c03105fd61d0bcecdd74515d",
+    "equal": true,
+    "testExitCode": 0
+  },
+  "developmentFindings": [
+    "Required audio correctly closes the source: negative-control test was corrected to poll status instead of heartbeat after closure",
+    "Classic ordinary backward command is a relative 2-second jump: test now checks observed position decrease instead of requiring an absolute 2-second target"
+  ],
+  "limitations": [
+    "Local 20-second fixtures, no real Harvester/network source run",
+    "Classic validates native subtitle loading, graph position and data consumption; Qt additionally checks decoded changing pixels, audio and subtitle text",
+    "Representative decoder routing regression (H.264 fMP4, VP9 WebM, mixed H.264/Vorbis), not a new full 50-profile decoder qualification",
+    "Resource limits, physical A/V drift, large files, hardware/Wayland and remaining expanded TЗ features are not qualified"
+  ]
+}

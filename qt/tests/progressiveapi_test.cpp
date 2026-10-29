@@ -685,6 +685,47 @@ private slots:
     QVERIFY(audioDecoded.contains("aac"));QVERIFY(audioDecoded.contains("opus"));QVERIFY(audioDecoded.contains("vorbis"));QVERIFY(seekDone);QVERIFY(seekObserved);QVERIFY(lateText);QVERIFY(audioLabels);QVERIFY(restoredSelections);QVERIFY(restoredDecoded);QVERIFY(unconfirmedSeekRejected);QVERIFY(completeSeek);QVERIFY(completeSeekObserved);
     auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();result["backwardSeek"]=seekObserved;result["decodedAudioCodecs"]=QJsonArray::fromStringList(audioDecoded.values());result["lateSubtitleTextObserved"]=lateText;result["audioMenuLabelsObserved"]=audioLabels;result["selectedTracksRestoredAfterSeek"]=restoredSelections && restoredDecoded;result["unconfirmedSeekRejected"]=unconfirmedSeekRejected;result["completeFarSeekObserved"]=completeSeekObserved;QCOMPARE(result["result"].toString(),QString("PASS"));qInfo().noquote()<<"Multi-track report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
   }
+  void optionalSubtitleErrorsKeepPlayback_data() {
+    QTest::addColumn<QString>("srtProfile");
+    for(const auto* name:{"initial-invalid","late-invalid","cached-truncate","cached-rewrite","missing-complete","writer-failed","cache-missing","required-audio-truncated"})QTest::newRow(name)<<QString(name);
+  }
+  void optionalSubtitleErrorsKeepPlayback() {
+    QFETCH(QString,srtProfile);
+    Profile profile(temporary.filePath("srt-isolation-"+srtProfile));prepare(profile);
+    Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    auto* player=w.findChild<Player*>();QVERIFY(player);
+    bool audioDecoded=false,changingVideo=false,textObserved=false,selected=false,seekDone=false,seekObserved=false,restoredText=false;
+    QByteArray firstFrame;
+    const QString expected=srtProfile=="late-invalid" || srtProfile.startsWith("cached-")?QString::fromUtf8("Ранние"):QString::fromUtf8("Поздние");
+    QTimer sample;sample.setInterval(100);connect(&sample,&QTimer::timeout,this,[&]{
+      if(!w.progressiveSession())return;
+      const auto seconds=player->get("time-pos").toDouble();
+      if(seconds>=1 && player->get("audio-codec-name").toString().contains("aac") && player->get("audio-params/samplerate").toInt()==48000)audioDecoded=true;
+      if(srtProfile=="required-audio-truncated")return;
+      const auto status=w.progressivePlaybackStatus();bool good=false;
+      for(const auto& value:status["subtitleTracks"].toArray()) {
+        const auto track=value.toObject();if(track["loaded"].toBool() && track["backendError"].toString().isEmpty())good=true;
+      }
+      if(good && seconds>=4 && !selected){w.rememberTrack("sid","1");selected=true;}
+      textObserved |= seconds>=4 && player->get("sub-text").toString().contains(expected);
+      if(srtProfile=="cache-missing" && selected && seconds>=6 && !seekDone)seekDone=w.seekTo(2);
+      if(seekDone && seconds<3 && !player->get("seeking").toBool())seekObserved=true;
+      if(seekObserved && seconds>=4 && player->get("sub-text").toString().contains(expected))restoredText=true;
+      if(seconds>=4){const auto frame=player->grabFramebuffer();if(!frame.isNull()){
+        const auto digest=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);
+        if(firstFrame.isEmpty())firstFrame=digest;else changingVideo |= digest!=firstFrame;
+      }}
+    });sample.start();
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_subtitle_isolation_conformance.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",temporary.filePath("srt-bytes-"+srtProfile),"--media-profile",srtProfile});
+    QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,85000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QVERIFY(writer.exitCode()==0);sample.stop();
+    QVERIFY(audioDecoded);
+    if(srtProfile!="required-audio-truncated"){QVERIFY(changingVideo);QVERIFY(textObserved);}
+    if(srtProfile=="cache-missing"){QVERIFY(seekDone);QVERIFY(seekObserved);QVERIFY(restoredText);}
+    auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));
+    result["decodedAudioBeforeFailure"]=audioDecoded;result["changingDecodedVideo"]=changingVideo;result["validSubtitleTextObserved"]=textObserved;result["backwardSeekAfterBackendFailure"]=seekObserved && restoredText;
+    qInfo().noquote()<<"SRT isolation report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
+  }
   void multiAudioFarSeekWhileIncomplete_data() {
     QTest::addColumn<QString>("seekProfile");
     for(const auto& name:{"mixed","fmp4","webm","mixed-hevc10","mixed-av1-10","mixed-vp8","mixed-known","fmp4-known","webm-known","mixed-hidden-tail"})QTest::newRow(name)<<QString(name);

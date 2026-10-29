@@ -149,6 +149,7 @@ struct ResourceRead {
     std::string code,reason;size_t bytes=0;
     bool data() const {return code=="data";}
 };
+enum class ResourceFailurePolicy { Strict, IsolateOptionalSrt };
 class ResourceSource {
     using Directory=resource_detail::Directory;
     using Pin=resource_detail::Pin;
@@ -159,6 +160,40 @@ class ResourceSource {
     mutable std::mutex mutex;std::condition_variable changed;
     std::atomic<bool> cancelled{false};
     std::string failure;
+    ResourceFailurePolicy failurePolicy;
+    std::map<std::string,ResourceRead> resourceFailures;
+    bool isolate(const std::string& id) const {
+        if(failurePolicy!=ResourceFailurePolicy::IsolateOptionalSrt)return false;
+        bool found=false;
+        for(const auto& item:snapshot.tracks) {
+            const auto& track=item.second;
+            if(track.initialization==id)return false;
+            for(const auto& segment:track.segments)
+                if(segment.resource==id || segment.initialization==id)return false;
+            if(track.resource==id) {
+                if(track.required || track.kind!="subtitle" || track.container!="srt" ||
+                   (!track.codec.empty() && track.codec!="srt"))return false;
+                found=true;
+            }
+        }
+        return found;
+    }
+    void failed(const std::string& id,const ResourceRead& error) {
+        if(isolate(id))resourceFailures.emplace(id,error);
+        else failure=error.code;
+        changed.notify_all();
+    }
+    void verifyPins(const Snapshot& next) {
+        for(const auto& item:pins) {
+            if(resourceFailures.count(item.first))continue;
+            try{item.second->verify(next.resources.at(item.first),cancelled);}
+            catch(const Error& error) {
+                if(error.code=="cancelled")throw;
+                failed(item.first,{error.code,error.what(),0});
+                if(!isolate(item.first))throw;
+            }
+        }
+    }
     std::shared_ptr<std::atomic<bool>> released=std::make_shared<std::atomic<bool>>(false);
     Pin& pin(const Resource& resource) {
         auto found=pins.find(resource.id);if(found!=pins.end())return *found->second;
@@ -178,7 +213,7 @@ class ResourceSource {
         return offset-start;
     }
 public:
-    ResourceSource(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):registry(receipts),snapshot(Parse(json)) {
+    ResourceSource(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json,ResourceFailurePolicy policy=ResourceFailurePolicy::Strict):registry(receipts),snapshot(Parse(json)),failurePolicy(policy) {
         directory=std::make_unique<Directory>(root);
         resource_detail::Check(snapshot.state!="failed" && snapshot.state!="cancelled","writer-failed","Cannot attach a failed/cancelled writer");
     }
@@ -189,8 +224,7 @@ public:
         const auto next=Parse(json);std::lock_guard<std::mutex> lock(mutex);
         resource_detail::Check(!cancelled.load() && failure.empty(),"session-closed","Resource source was closed");
         Advance(snapshot,next); // Invalid metadata never changes the active snapshot.
-        try {for(const auto& item:pins)item.second->verify(next.resources.at(item.first),cancelled);}
-        catch(const Error& error){failure=error.code;changed.notify_all();throw;}
+        verifyPins(next);
         snapshot=next;changed.notify_all();
     }
     ResourceRead read(const std::string& id,uint64_t offset,void* buffer,size_t count,std::chrono::milliseconds wait=std::chrono::milliseconds(0)) {
@@ -203,6 +237,7 @@ public:
             if(snapshot.state=="failed" || snapshot.state=="cancelled")return {"writer-failed","Writer failed or cancelled",0};
             const auto found=snapshot.resources.find(id);if(found==snapshot.resources.end())return {"unknown-resource","Resource ID is unknown",0};
             const auto& resource=found->second;
+            const auto quarantined=resourceFailures.find(id);if(quarantined!=resourceFailures.end())return quarantined->second;
             if(resource.state=="failed" || resource.state=="cancelled")return {"resource-failed","Resource writer failed or cancelled",0};
             if(resource.known && offset>resource.length)return {"out-of-range","Offset exceeds resource length",0};
             if(!count)return {"data","Empty read",0};
@@ -218,11 +253,11 @@ public:
                     return {"data","Confirmed bytes",size};
                 }
             }catch(const Error& error) {
-                if(error.code=="waiting-resource" && resource.state=="complete") {failure="missing-resource";return {failure,"Completed resource is missing",0};}
+                if(error.code=="waiting-resource" && resource.state=="complete") {const ResourceRead result{"missing-resource","Completed resource is missing",0};failed(id,result);return result;}
                 else if(error.code=="waiting-resource")waiting={error.code,error.what(),0};
                 else if(error.code=="resource-retired" || error.code=="reader_registry_busy" || error.code=="reader_limit")return {error.code,error.what(),0};
-                else {if(error.code!="cancelled")failure=error.code;return {error.code,error.what(),0};}
-            }catch(const std::exception& error){failure="resource-io-error";return {failure,error.what(),0};}
+                else {const ResourceRead result{error.code,error.what(),0};if(error.code!="cancelled")failed(id,result);return result;}
+            }catch(const std::exception& error){const ResourceRead result{"resource-io-error",error.what(),0};failed(id,result);return result;}
             if(std::chrono::steady_clock::now()>=deadline)return waiting;
             changed.wait_until(lock,(std::min)(deadline,std::chrono::steady_clock::now()+std::chrono::milliseconds(25)));
         }
@@ -236,8 +271,12 @@ public:
     void verifyPinned() {
         std::lock_guard<std::mutex> lock(mutex);
         resource_detail::Check(!cancelled.load() && failure.empty(),"session-closed","Resource source was closed");
-        try{for(const auto& item:pins)item.second->verify(snapshot.resources.at(item.first),cancelled);}
-        catch(const Error& error){if(error.code!="cancelled")failure=error.code;throw;}
+        verifyPins(snapshot);
+    }
+    ResourceRead resourceError(const std::string& id) const {
+        std::lock_guard<std::mutex> lock(mutex);
+        const auto found=resourceFailures.find(id);
+        return found==resourceFailures.end()?ResourceRead{}:found->second;
     }
     std::shared_ptr<std::atomic<bool>> releaseReceipt() const {return released;}
 };

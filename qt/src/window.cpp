@@ -420,6 +420,15 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
     while (diagnosticMessages.size() > 100) diagnosticMessages.removeFirst();
   };
   connect(player, &Player::diagnosticMessage, this, rememberDiagnostic);
+  connect(player, &Player::commandFinished, this, [this](quint64 request,int status) {
+    const auto found=progressiveSubtitleRequests.find(request);
+    if(found==progressiveSubtitleRequests.end())return;
+    const auto id=found.value();progressiveSubtitleRequests.erase(found);
+    if(status<0) {
+      progressiveSubtitleLoadErrors[id]=QString::fromUtf8(mpv_error_string(status));
+      progressiveAttachedSubtitles.remove(id);
+    }
+  });
   connect(player, &Player::error, this, rememberDiagnostic);
   connect(player, &Player::error, this, [this](const QString &msg) {
     lastError = msg;

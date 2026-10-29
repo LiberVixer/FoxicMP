@@ -49,8 +49,42 @@ def run(runner,fixtures):
             t=copy.deepcopy(v['tracks'][1]);t.update(id=r['id'],default=False);t['source']=dict(resourceId=r['id']);v['tracks'].append(t)
     case('eight-audio-tracks-boundary',lambda v,d,p:audio_count(v,d,p,8),check=lambda v,d,p,r,rs: (len(r('status')['mediaTracks'])==9 or (_ for _ in ()).throw(AssertionError())))
     case('nine-audio-tracks-rejected',lambda v,d,p:audio_count(v,d,p,9),error='unsupported_media')
+    def isolated(v,data,path,rpc,readers):
+        state=rpc('status');bad=next(t for t in state['subtitleTracks'] if t['id']=='sub-0')
+        assert bad['state']=='error' and bad['errorCode'] and bad['error'] and not bad['ready'] and not bad['path'],bad
+        assert rpc('verify')['ok'];assert rpc('read',track=0,offset='0',length='8')['bytesRead']==8
+        # A later valid track and the manifest revision remain usable.
+        r=v['resources'][5];(path/r['name']).write_bytes(data[5]);r.update(length=str(len(data[5])),ranges=[dict(offset='0',length=str(len(data[5])))],state='complete');v['tracks'][5].update(state='complete',initializationReady=True);v['revision']='2'
+        assert rpc('publish',session=v)['ok'];state=rpc('status');assert state['revision']=='2'
+        assert [t['state'] for t in state['subtitleTracks']]==['error','ready'],state
+        assert rpc('read',track=1,offset='0',length='8')['bytesRead']==8
     for name,text in [('utf8',b'\xff'),('nul',b'1\x00'),('clock',b'1\n00:00:00,000 --> 00:00:30,000\ntext\n'),('reverse',b'1\n00:00:02,000 --> 00:00:01,000\ntext\n'),('bare-cr',b'1\r'),('index',b'x\n00:00:00,000 --> 00:00:01,000\ntext\n')]:
         def corrupt(v,data,path,text=text):
             r=v['resources'][4];(path/r['name']).write_bytes(text);r.update(length=str(len(text)),ranges=[dict(offset='0',length=str(len(text)))])
-        case('invalid-srt-'+name,corrupt,error='unsupported_media')
+        case('invalid-srt-'+name+'-isolated',corrupt,check=isolated)
+
+    case('missing-completed-srt-isolated',lambda v,d,p:(p/v['resources'][4]['name']).unlink(),check=isolated)
+    def oversized(v,d,p):
+        r=v['resources'][4];text=b'x'*524289;(p/r['name']).write_bytes(text);r.update(length=str(len(text)),ranges=[dict(offset='0',length=str(len(text)))])
+    case('oversized-srt-isolated-before-reading',oversized,check=isolated)
+    def failed(v,d,p):
+        v['resources'][4]['state']='failed';v['tracks'][4]['state']='failed'
+    case('optional-writer-failure-isolated',failed,check=isolated)
+    def cached(v,data,path,rpc,readers,publish=False):
+        original=next(t for t in rpc('status')['subtitleTracks'] if t['id']=='sub-0');copy=Path(original['path']);before=copy.read_bytes()
+        (path/v['resources'][4]['name']).write_bytes(b'changed')
+        if publish:
+            v['revision']='2';assert rpc('publish',session=v)['ok']
+        else:assert rpc('verify')['ok']
+        state=rpc('status');track=next(t for t in state['subtitleTracks'] if t['id']=='sub-0')
+        assert track['state']=='cached' and track['ready'] and track['path']==original['path'] and track['errorCode'],track
+        assert copy.read_bytes()==before;assert rpc('read',track=0,offset='0',length='8')['bytesRead']==8
+    case('verified-copy-survives-original-truncation-on-verify',check=cached)
+    case('verified-copy-survives-original-truncation-on-update',check=lambda *args:cached(*args,publish=True))
+    def late_bad(v,data,path,rpc,readers):
+        r=v['resources'][5];text=b'bad SRT';(path/r['name']).write_bytes(text);r.update(length=str(len(text)),ranges=[dict(offset='0',length=str(len(text)))],state='complete');v['tracks'][5].update(state='complete',initializationReady=True);v['revision']='2'
+        assert rpc('publish',session=v)['ok'];state=rpc('status');assert state['revision']=='2'
+        assert [t['state'] for t in state['subtitleTracks']]==['ready','error'],state
+        assert rpc('verify')['ok'];assert rpc('read',track=0,offset='0',length='8')['bytesRead']==8
+    case('late-malformed-srt-update-keeps-av-and-existing-subtitle',check=late_bad)
     return dict(result='PASS',passed=len(names),cases=names)

@@ -56,6 +56,7 @@ ProgressiveApi::ProgressiveApi(Window *w, QObject *parent) : QObject(parent), wi
                    {"sessionId", id}, {"state", state},
                    {"error", error}};
     if(auto active=source.lock()){const auto details=active->playbackDetails();for(auto it=details.begin();it!=details.end();++it)lastOutcome[it.key()]=it.value();}
+    if(window && lastOutcome.contains("subtitleTracks"))lastOutcome["subtitleTracks"]=window->progressivePlaybackStatus().value("subtitleTracks");
     source.reset();
   });
 }

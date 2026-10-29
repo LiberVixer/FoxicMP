@@ -161,6 +161,29 @@ def run(runner):
             def reader_status(self,reader):return self.request(dict(version=1,action='readerStatus',readerId=reader))['reader']
         result=exercise(Client(),f.base/'async-probe');assert result['passed']==11
     case('asynchronous-probe-worker-public-contract',asynchronous)
+    def srt_policy(f,enabled=False,reference=None):
+        value=snapshot();sub=f.data/'sub.part';sub.write_bytes(b'ABCD')
+        value['resources'].append(dict(id='sub',name=sub.name,length='4',ranges=[dict(offset='0',length='4')],state='complete'))
+        track=dict(id='subtitle',kind='subtitle',required=False,codecHint='srt',containerHint='srt',state='complete',initializationReady=True,source=dict(resourceId='sub'))
+        value['tracks'].append(track)
+        if reference=='required':
+            audio=copy.deepcopy(value['tracks'][0]);audio.update(id='audio',kind='audio');audio['source']=dict(resourceId='sub');value['tracks'].append(audio)
+        if reference=='initialization':value['tracks'][0]['initializationResourceId']='sub'
+        if reference in ('segment','segment-init'):
+            segment=dict(resourceId='sub' if reference=='segment' else 'media',sequence='1',start='0',duration='1000',timestampOffset='0',discontinuity=False,configurationId='cfg')
+            if reference=='segment-init':segment['initializationResourceId']='sub'
+            value['tracks'][0]['source']=dict(segments=[segment])
+        assert f.rpc('open',directory=str(f.data),session=value,isolateOptionalSrt=enabled)['ok']
+        assert f.read(0,4)['code']=='data';assert f.rpc('read',resourceId='sub',offset='0',length='4')['code']=='data'
+        sub.write_bytes(b'');value['revision']='2';reply=f.rpc('publish',session=value)
+        isolated=enabled and reference is None
+        assert reply['ok']==isolated,reply
+        assert f.rpc('read',resourceId='sub',offset='0',length='4')['code']=='source-truncated'
+        assert f.read(0,4)['code']==('data' if isolated else 'source-truncated')
+    case('optional-srt-keeps-default-resource-policy-strict',srt_policy)
+    case('optional-srt-isolation-requires-explicit-policy',lambda f:srt_policy(f,True))
+    for reference in ('required','initialization','segment','segment-init'):
+        case('optional-policy-never-isolates-'+reference,lambda f,reference=reference:srt_policy(f,True,reference))
     return dict(passed=len(names),checks=names,exitCode=0)
 
 

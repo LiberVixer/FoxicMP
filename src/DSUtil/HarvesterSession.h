@@ -5,6 +5,7 @@
 #include <mutex>
 #include <thread>
 #include <memory>
+#include <map>
 namespace foxicmp { namespace progressive {class ReaderLease;class Fmp4V2Bridge;} }
 
 class CHarvesterSession {
@@ -30,6 +31,7 @@ class CHarvesterSession {
     std::thread m_thread;
     HANDLE m_cancel=nullptr, m_stop=nullptr;
     std::string m_error, m_status="attached";
+    std::map<std::wstring,std::string> m_subtitleLoadErrors;
     std::atomic<ULONGLONG> m_lastUpdate{0};
     std::atomic<bool> m_connected{false};
     HANDLE m_pipe=INVALID_HANDLE_VALUE;
@@ -56,6 +58,7 @@ public:
     size_t TrackCount() const {return Snapshot().tracks.size();}
     struct SubtitleFile {std::wstring path,label;std::string language;bool selected=false;};
     std::vector<SubtitleFile> SubtitleFiles() const;
+    void SubtitleLoadFailed(const std::wstring& path);
     std::wstring TrackLabel(int index) const;
     std::string WebMCodec(int track) const;
     bool IsWebM(int track=0) const;
