@@ -250,6 +250,17 @@ std::string ClassicProgressiveApi::Status() {
             const auto error=frame.m_harvesterAudioErrors.find(mediaIndex);if(error!=frame.m_harvesterAudioErrors.end()){track.AddMember("backendErrorCode","decoder_error",a);track.AddMember("backendError",Value(error->second.c_str(),a),a);}
         }
     }
+    if(!pending && frame.m_eMediaLoadState==MLS_LOADED && frame.m_pCB) {
+        Value applied(rapidjson::kObjectType),chapters(rapidjson::kArrayType);
+        applied.AddMember("revision",Value(frame.m_harvesterMetadataRevision?std::to_string(frame.m_harvesterMetadataRevision).c_str():"",a),a);
+        applied.AddMember("title",Value(Utf8(frame.GetMediaTitleOrFileName().GetString()).c_str(),a),a);
+        for(DWORD i=0;i<frame.m_pCB->ChapGetCount();++i) {
+            REFERENCE_TIME at=0;CComBSTR title;if(FAILED(frame.m_pCB->ChapGet(i,&at,&title)))continue;
+            Value chapter(rapidjson::kObjectType);chapter.AddMember("time",Value(std::to_string(at).c_str(),a),a);
+            chapter.AddMember("title",Value(Utf8(title.m_str?title.m_str:L"").c_str(),a),a);chapters.PushBack(chapter,a);
+        }
+        applied.AddMember("chapters",chapters,a);d.AddMember("appliedMetadata",applied,a);
+    }
     d.AddMember("positionSeconds",pending?0.:double(frame.GetPos())/10000000.,a);d.AddMember("availableSeconds",double(session->ReadyEnd())/10000000.,a);
     d.AddMember("durationSeconds",double(snapshot.duration)/10000000.,a);return Encode(d);
 }

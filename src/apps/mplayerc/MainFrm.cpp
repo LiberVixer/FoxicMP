@@ -13049,6 +13049,7 @@ CString CMainFrame::OpenFile(OpenFileData* pOFD, const CStringW& youtubeUrl)
 				EndEnumFilters;
 			}
 
+            if(m_harvester && !pOFD->fi.GetTitle().IsEmpty())m_SessionInfo.Title=pOFD->fi.GetTitle();
 			if (m_SessionInfo.Title.IsEmpty()) {
 				CPlaylistItem pli;
 				if (m_wndPlaylistBar.GetCur(pli)) {
@@ -15183,7 +15184,7 @@ void CMainFrame::CloseMediaPrivate()
 		m_pGB.Release();
 	}
 
-	m_harvester.reset();m_harvesterSubtitles.clear();m_harvesterAudioAttempted.clear();m_harvesterAudioErrors.clear();m_harvesterAudioStreams.clear();
+	m_harvester.reset();m_harvesterSubtitles.clear();m_harvesterAudioAttempted.clear();m_harvesterAudioErrors.clear();m_harvesterAudioStreams.clear();m_harvesterMetadataRevision=0;m_harvesterInitialTitle.Empty();
 	m_harvesterBuffering = false;
 	m_harvesterStarted = false;
 	PreviewWindowHide();
@@ -21736,38 +21737,32 @@ void CMainFrame::UpdateHarvesterPlayback(REFERENCE_TIME now)
 
 void CMainFrame::UpdateHarvesterMetadata()
 {
-    if (!m_harvester || !m_pGB || !m_harvester->HasV2Bridge()) return;
-    rapidjson::Document details;
-    details.Parse(m_harvester->PlaybackDetails().c_str());
-    if (details.HasParseError() || !details.IsObject() || !details.HasMember("metadata")) return;
-    const auto& metadata = details["metadata"];
-    if (!metadata.IsObject() || !metadata.HasMember("revision") || !metadata["revision"].IsString()) return;
-    uint64_t revision = 0;
-    try { revision = std::stoull(metadata["revision"].GetString()); } catch (...) { return; }
-    if (revision == m_harvesterMetadataRevision || !metadata.HasMember("chapters")) return;
-    const auto& chapters = metadata["chapters"];
-    if (!chapters.IsArray() || chapters.Size() > 128) return;
-    CComQIPtr<IDSMChapterBag> bag = m_pCB;
-    if (!bag) {
-        BeginEnumFilters(m_pGB, pE, pBF) {
-            if (CComQIPtr<IDSMChapterBag> candidate = pBF.p) { bag = candidate; break; }
-        }
-        EndEnumFilters;
+    if (m_eMediaLoadState!=MLS_LOADED || !m_harvester || !m_pGB || !m_pCB || !m_harvester->HasV2Bridge()) return;
+    rapidjson::Document details;details.Parse(m_harvester->PlaybackDetails().c_str());
+    if (!details.HasMember("metadata")) return;
+    const auto& metadata=details["metadata"];
+    // The common parser has already validated canonical uint64/string times.
+    const auto revision=std::stoull(metadata["revision"].GetString());
+    if (revision==m_harvesterMetadataRevision) return;
+    if (!m_harvesterMetadataRevision)m_harvesterInitialTitle=m_SessionInfo.Title;
+    CString title=m_harvesterInitialTitle;
+    if(metadata.HasMember("title")) {
+        CString candidate(CA2W(metadata["title"].GetString(),CP_UTF8));
+        for(int i=0;i<candidate.GetLength();++i)if(candidate[i]<32 || candidate[i]==127 || candidate[i]==0x2028 || candidate[i]==0x2029)candidate.SetAt(i,L' ');
+        candidate.Trim();if(!candidate.IsEmpty())title=candidate;
     }
-    if (!bag) return;
-    bag->ChapRemoveAll();
-    for (const auto& chapter : chapters.GetArray()) {
-        if (!chapter.IsObject() || !chapter.HasMember("time") || !chapter["time"].IsString() ||
-            !chapter.HasMember("title") || !chapter["title"].IsString()) continue;
-        try {
-            const auto ticks = std::stoll(chapter["time"].GetString());
-            const auto title = CStringW(CA2W(chapter["title"].GetString(), CP_UTF8));
-            bag->ChapAppend(ticks, title);
-        } catch (...) { continue; }
+    m_SessionInfo.Title=title;
+    m_pCB->ChapRemoveAll();
+    if(metadata.HasMember("chapters"))for(const auto& chapter:metadata["chapters"].GetArray()) {
+        const auto ticks=std::stoll(chapter["time"].GetString());
+        const CStringW name(CA2W(chapter["title"].GetString(),CP_UTF8));
+        m_pCB->ChapAppend(ticks,name);
     }
-    m_pCB = bag;
-    m_harvesterMetadataRevision = revision;
-    SetupNavChaptersSubMenu();
+    m_pCB->ChapSort();
+    m_wndSeekBar.SetChapterBag(m_pCB);m_wndSeekBar.Invalidate();
+    m_OSD.SetChapterBag(m_pCB);
+    m_harvesterMetadataRevision=revision;
+    SetupNavChaptersSubMenu();UpdateWindowTitle();UpdatePlayerStatus();
 }
 
 LRESULT CMainFrame::OnProgressiveRequest(WPARAM,LPARAM value)

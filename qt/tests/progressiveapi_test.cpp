@@ -4,6 +4,7 @@
 #include "player.h"
 #include "profile.h"
 #include "window.h"
+#include "timeline.h"
 #include <QtTest>
 #include <QtWidgets>
 #include <QLocalSocket>
@@ -685,6 +686,35 @@ private slots:
     qInfo()<<"Multi-track selections"<<audioDecoded<<stage<<seekDone<<seekObserved<<lateSelected<<restoredSelections;
     QVERIFY(metadataObserved);QVERIFY(audioDecoded.contains("aac"));QVERIFY(audioDecoded.contains("opus"));QVERIFY(audioDecoded.contains("vorbis"));QVERIFY(seekDone);QVERIFY(seekObserved);QVERIFY(lateText);QVERIFY(audioLabels);QVERIFY(restoredSelections);QVERIFY(restoredDecoded);QVERIFY(unconfirmedSeekRejected);QVERIFY(completeSeek);QVERIFY(completeSeekObserved);
     auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();result["backwardSeek"]=seekObserved;result["decodedAudioCodecs"]=QJsonArray::fromStringList(audioDecoded.values());result["lateSubtitleTextObserved"]=lateText;result["audioMenuLabelsObserved"]=audioLabels;result["selectedTracksRestoredAfterSeek"]=restoredSelections && restoredDecoded;result["unconfirmedSeekRejected"]=unconfirmedSeekRejected;result["completeFarSeekObserved"]=completeSeekObserved;QCOMPARE(result["result"].toString(),QString("PASS"));qInfo().noquote()<<"Multi-track report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
+  }
+  void progressiveMetadataUpdatesActualUi() {
+    Profile profile(temporary.filePath("metadata-ui"));prepare(profile);profile.settings.setValue("ui/titleMode","title");
+    Window w(profile);w.resize(800,500);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    auto* player=w.findChild<Player*>();QVERIFY(player);bool initial=false,late=false,cleared=false,restored=false,restarted=false,marker=false,noMarker=false,jumped=false,requested=false;
+    QTimer sample;sample.setInterval(50);connect(&sample,&QTimer::timeout,this,[&]{
+      if(!w.progressiveSession())return;
+      const auto metadata=w.progressiveSession()->playbackDetails().value("metadata").toObject();
+      const auto rev=metadata.value("revision").toString();const auto title=metadata.value("title").toString();
+      const auto labels=[&]{QStringList out;for(auto* item:w.chapterMenu->actions())if(item->isEnabled())out<<item->text();return out;}();
+      if(rev=="1" && title==QString::fromUtf8("Первый {app}"))initial|=w.timeline->chapters.size()==2 && labels.size()==2 && w.windowTitle().startsWith(title);
+      if(rev=="2") {
+        late|=w.timeline->chapters.size()==3 && labels.size()==3 && labels[1].contains(QString::fromUtf8("Выбор главы")) && w.windowTitle().startsWith(title);
+        const auto image=w.timeline->grab().toImage();if(image.width()>10 && image.height()>5){const int x=qRound(.8*(image.width()-1));marker|=image.pixelColor(x,2)==QColor(94,99,104) && image.pixelColor(x,image.height()-3)==QColor(94,99,104);}
+        if(!requested && late && w.pos>=1.6 && w.pos<3){requested=true;w.chapterMenu->actions()[1]->trigger();}
+        if(requested && w.pos>=3.9 && w.pos<5)jumped=true;
+      }
+      if(rev=="3") {
+        cleared|=w.timeline->chapters.isEmpty() && labels.isEmpty() && w.windowTitle().startsWith(title);
+        const auto image=w.timeline->grab().toImage();if(image.width()>10){const int x=qRound(.8*(image.width()-1));noMarker|=image.pixelColor(x,2)!=QColor(94,99,104);}
+      }
+      if(rev=="5")restored|=w.timeline->chapters.size()==1 && labels.size()==1 && w.windowTitle().startsWith(title);
+      if(rev=="1" && title==QString::fromUtf8("Второй сеанс"))restarted|=w.timeline->chapters.size()==2 && labels.size()==2 && w.windowTitle().startsWith(title);
+    });sample.start();
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_metadata_conformance.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",temporary.filePath("metadata-ui-bytes")});
+    QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,85000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QVERIFY(writer.exitCode()==0);sample.stop();
+    QVERIFY(initial);QVERIFY(late);QVERIFY(cleared);QVERIFY(restored);QVERIFY(restarted);QVERIFY(marker);QVERIFY(noMarker);QVERIFY(jumped);
+    qInfo().noquote()<<"Actual metadata UI report:"<<writer.readAllStandardOutput();
   }
   void optionalAudioDoesNotBlockPlayback_data() {
     QTest::addColumn<QString>("audioProfile");

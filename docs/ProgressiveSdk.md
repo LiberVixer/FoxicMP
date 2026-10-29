@@ -43,6 +43,14 @@ v2 с SDK 1.6 поддерживают [отдельный fMP4-профиль](
 [Проверки модели](ProgressiveModelValidation-2026-10-25.md) не являются сквозным
 тестом Harvester; исходники Harvester не изменялись.
 
+## Фактическое применение metadata (SDK 1.27)
+
+[Главы и title](ProgressiveMetadata.md) теперь проверяются в видимом UI, включая
+пустой список глав, отсутствие title и второй сеанс с metadata revision 1.
+Status.appliedMetadata позволяет отличить принятую revision от применённой
+интерфейсом. Частично скачиваемый выбранный optional audio остаётся следующим
+этапом; этот выпуск исправляет основу metadata SDK 1.26.
+
 ## Ошибки optional SRT (SDK 1.24)
 
 [Изоляция SRT](ProgressiveOptionalSrt.md) применяется в Classic и обеих Qt-версиях.

@@ -23,6 +23,7 @@ from progressive_v2_conformance import check_player as check_v2_model
 from progressive_reader_api_conformance import exercise as exercise_reader_contract
 from progressive_resource_api_conformance import exercise as exercise_resource_contract
 from progressive_v2_playback_conformance import exercise as exercise_v2_playback, MEDIA_PROFILES
+from progressive_metadata_conformance import exercise as exercise_metadata
 from progressive_multitrack_conformance import exercise as exercise_multitrack
 from progressive_optional_audio_conformance import exercise as exercise_optional_audio, PROFILES as OPTIONAL_AUDIO_PROFILES
 from progressive_subtitle_isolation_conformance import exercise as exercise_srt_isolation, PROFILES as SRT_ISOLATION_PROFILES
@@ -87,6 +88,22 @@ def post_command(pid, command):
     user.EnumWindows(visit, 0)
     if not found: raise RuntimeError('Owned test Classic window missing')
     user.PostMessageW(found[0], 0x111 if command else 0x10, command, 0)
+
+
+def check_window_title(pid,expected):
+    user=ctypes.WinDLL('user32',use_last_error=True)
+    callback_type=ctypes.WINFUNCTYPE(w.BOOL,w.HWND,w.LPARAM)
+    user.EnumWindows.argtypes=[callback_type,w.LPARAM];user.GetWindowThreadProcessId.argtypes=[w.HWND,ctypes.POINTER(w.DWORD)]
+    user.GetClassNameW.argtypes=[w.HWND,w.LPWSTR,ctypes.c_int];user.GetWindowTextW.argtypes=[w.HWND,w.LPWSTR,ctypes.c_int]
+    titles=[]
+    @callback_type
+    def visit(hwnd,_):
+        owner=w.DWORD();user.GetWindowThreadProcessId(hwnd,ctypes.byref(owner));name=ctypes.create_unicode_buffer(128);user.GetClassNameW(hwnd,name,128)
+        if owner.value==pid and name.value=='FoxicMP':
+            title=ctypes.create_unicode_buffer(8192);user.GetWindowTextW(hwnd,title,8192);titles.append(title.value)
+        return True
+    user.EnumWindows(visit,0)
+    assert len(titles)==1 and titles[0].startswith(expected),('Actual Classic caption',expected,titles)
 
 
 def seek_backward(pid,seconds):
@@ -578,6 +595,11 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.metadata_only:
+            folder=Path(args.report)/'metadata'
+            result=exercise_metadata(client,args.fixtures,folder,select_chapter=lambda index:post_command(process.pid,4400+index),check_title=lambda title:check_window_title(process.pid,title))
+            (folder/'conformance.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+            return [dict(contract='actual-metadata-ui',result=result)]
         if args.optional_audio_only or args.optional_audio_profile:
             results=[]
             for profile in ([args.optional_audio_profile] if args.optional_audio_profile else OPTIONAL_AUDIO_PROFILES):
@@ -705,6 +727,7 @@ if __name__ == '__main__':
     parser.add_argument('--optional-audio-profile',choices=OPTIONAL_AUDIO_PROFILES)
     parser.add_argument('--optional-audio-only',action='store_true')
     parser.add_argument('--subtitle-only',action='store_true')
+    parser.add_argument('--metadata-only',action='store_true')
     parser.add_argument('--multi-only',action='store_true')
     parser.add_argument('--sdk-only', action='store_true')
     parser.add_argument('--preparation-only', action='store_true')

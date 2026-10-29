@@ -3,6 +3,7 @@
 #include "player.h"
 #include "playlistpanel.h"
 #include "profile.h"
+#include "progressivesource.h"
 #include "timeline.h"
 #include "window.h"
 #include <QProcess>
@@ -93,11 +94,23 @@ void Window::updatePlaylistChapters() {
                             : QVariantList{};
   timeline->chapters =
       chapters.isEmpty() ? player->get("chapter-list").toList() : chapters;
+  if(progressive) {
+    const auto metadata=progressive->playbackDetails().value("metadata").toObject();
+    if(metadata.contains("chapters")) {
+      timeline->chapters.clear();
+      for(const auto& value:metadata.value("chapters").toArray()) {
+        const auto chapter=value.toObject();
+        timeline->chapters.append(QVariantMap{{"id",chapter.value("id").toString()},
+          {"time",chapter.value("time").toString().toLongLong()/10000000.},
+          {"title",chapter.value("title").toString()}});
+      }
+    }
+  }
   timeline->update();
   refreshChapters();
 }
 bool Window::changeChapter(int direction, double backThreshold) {
-  const double now = player->get("time-pos").toDouble();
+  const double now = progressive ? pos : player->get("time-pos").toDouble();
   double target = -1;
   if (direction > 0) {
     for (const auto &chapter : timeline->chapters) {

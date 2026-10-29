@@ -112,6 +112,14 @@ QJsonObject Window::progressivePlaybackStatus() const {
           {"durationSeconds", status.duration}, {"availableSeconds", status.available},
           {"positionSeconds", pos}, {"error", status.error}};
   const auto details=progressive->playbackDetails();for(auto it=details.begin();it!=details.end();++it)result[it.key()]=it.value();
+  QJsonArray appliedChapters;
+  for(const auto& value:timeline->chapters) {
+    const auto chapter=value.toMap();appliedChapters.append(QJsonObject{
+      {"time",QString::number(qRound64(chapter.value("time").toDouble()*10000000.))},
+      {"title",chapter.value("title").toString()}});
+  }
+  result["appliedMetadata"]=QJsonObject{{"revision",property("foxicmpAppliedMetadata").toMap().value("revision").toString()},
+    {"title",mediaStatusTitle()},{"chapters",appliedChapters}};
   result["seeking"] = progressiveSeekTarget >= 0;
   if (progressiveSeekTarget >= 0) result["seekTargetSeconds"] = progressiveSeekTarget;
   QJsonArray subtitles;
@@ -147,6 +155,8 @@ void Window::releaseProgressive(const QString &state) {
   progressiveSubtitleRequests.clear();
   progressivePendingSeek = progressiveSeekTarget = -1;
   setProperty("foxicmpProgressiveTitle", {});
+  setProperty("foxicmpAppliedMetadata", {});
+  timeline->chapters.clear();refreshChapters();timeline->update();
   if (!progressive) { progressiveSubtitleLoadErrors.clear();progressiveAudioLoadErrors.clear(); return; }
   const auto sourceError = progressive->status().error;
   const auto error = sourceError.isEmpty() ? lastError : sourceError;
@@ -295,18 +305,12 @@ void Window::updateProgressive() {
   // the separate asynchronous request namespace isolates attachment failures.
   const auto mediaDetails=progressive->playbackDetails();
   const auto metadata=mediaDetails.value("metadata").toObject();
-  QVariantList progressiveChapters;
-  for(const auto& value:metadata.value("chapters").toArray()) {
-    const auto chapter=value.toObject();
-    progressiveChapters.append(QVariantMap{{"id",chapter.value("id").toString()},
-      {"time",chapter.value("time").toVariant().toLongLong()/10000000.},
-      {"title",chapter.value("title").toString()}});
-  }
-  if(!progressiveChapters.isEmpty() && timeline->chapters!=progressiveChapters) {
-    timeline->chapters=progressiveChapters;
-    refreshChapters();
-    timeline->update();
+  // This stamp is session-local and cleared on release. Empty chapter arrays
+  // and title-only revisions are meaningful replacements, too.
+  if(property("foxicmpAppliedMetadata").toMap()!=metadata.toVariantMap()) {
+    setProperty("foxicmpAppliedMetadata",metadata.toVariantMap());
     updatePlaylistChapters();
+    updateWindowTitle();
   }
   const auto menuStamp=mediaDetails.value("revision").toString();
   if(progressiveMediaMenuStamp!=menuStamp){progressiveMediaMenuStamp=menuStamp;refreshTracks();}

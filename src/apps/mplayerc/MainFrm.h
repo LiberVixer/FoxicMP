@@ -487,6 +487,7 @@ private:
     std::map<int,DWORD> m_harvesterAudioStreams;
     std::map<int,std::string> m_harvesterAudioErrors;
     uint64_t m_harvesterMetadataRevision = 0;
+    CString m_harvesterInitialTitle;
 	bool m_harvesterBuffering = false, m_harvesterWantPlay = true, m_harvesterStarted = false;
 	void UpdateHarvesterPlayback(REFERENCE_TIME now);
 	void UpdateHarvesterMetadata();

@@ -352,6 +352,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
                                pausedByMinimize);
       refreshPlaybackControls();
       updateMinimizePause();
+      updatePlaylistChapters();
       return;
     }
     if (stdinPlayback) {

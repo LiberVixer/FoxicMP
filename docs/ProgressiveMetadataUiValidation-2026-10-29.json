@@ -1,0 +1,430 @@
+{
+  "date": "2026-10-29",
+  "sdkVersion": "1.27",
+  "result": "PASS",
+  "exitCodes": {
+    "metadata-ui-linux-test": 0,
+    "metadata-ui-win-qt-test": 0,
+    "metadata-ui-linux-regression": 0,
+    "metadata-ui-win-regression-test": 0,
+    "metadata-ui-native": 0,
+    "metadata-ui-family-contract": 0,
+    "metadata-ui-classic-finalize": 0,
+    "metadata-ui-linux-install": 0
+  },
+  "linuxQt": {
+    "ctestGroups": 4,
+    "totals": [
+      {
+        "passed": 11,
+        "failed": 0,
+        "skipped": 0,
+        "milliseconds": 22121
+      },
+      {
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "milliseconds": 7714
+      },
+      {
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "milliseconds": 5694
+      },
+      {
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "milliseconds": 236250
+      }
+    ],
+    "menuAndTimelinePixelsChecked": true
+  },
+  "windowsQt": {
+    "ctestGroups": 2,
+    "totals": [
+      {
+        "passed": 3,
+        "failed": 0,
+        "skipped": 0,
+        "milliseconds": 6209
+      },
+      {
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "milliseconds": 193190
+      }
+    ],
+    "menuAndTimelinePixelsChecked": true
+  },
+  "classic": {
+    "exitCode": 0,
+    "cases": [
+      {
+        "case": "initial",
+        "sessionId": "026454c030554fd8a084bf58401df9ec",
+        "readerId": "7d07add2ace4247976453d80e210264a",
+        "revision": "1",
+        "title": "Первый {app}",
+        "chapters": [
+          {
+            "time": "0",
+            "title": "Введение"
+          },
+          {
+            "time": "40000000",
+            "title": "Часть 1"
+          }
+        ],
+        "positionSeconds": 1.0195715
+      },
+      {
+        "case": "late",
+        "sessionId": "026454c030554fd8a084bf58401df9ec",
+        "readerId": "7d07add2ace4247976453d80e210264a",
+        "revision": "2",
+        "title": "Позднее название",
+        "chapters": [
+          {
+            "time": "0",
+            "title": "Введение"
+          },
+          {
+            "time": "40000000",
+            "title": "Выбор главы"
+          },
+          {
+            "time": "160000000",
+            "title": "Будущая глава"
+          }
+        ],
+        "positionSeconds": 1.5354434
+      },
+      {
+        "case": "chapterNavigation",
+        "sessionId": "026454c030554fd8a084bf58401df9ec",
+        "readerId": "7d07add2ace4247976453d80e210264a",
+        "revision": "2",
+        "title": "Позднее название",
+        "chapters": [
+          {
+            "time": "0",
+            "title": "Введение"
+          },
+          {
+            "time": "40000000",
+            "title": "Выбор главы"
+          },
+          {
+            "time": "160000000",
+            "title": "Будущая глава"
+          }
+        ],
+        "positionSeconds": 4.0
+      },
+      {
+        "case": "same-revision",
+        "sessionId": "026454c030554fd8a084bf58401df9ec",
+        "readerId": "7d07add2ace4247976453d80e210264a",
+        "revision": "2",
+        "title": "Позднее название",
+        "chapters": [
+          {
+            "time": "0",
+            "title": "Введение"
+          },
+          {
+            "time": "40000000",
+            "title": "Выбор главы"
+          },
+          {
+            "time": "160000000",
+            "title": "Будущая глава"
+          }
+        ],
+        "positionSeconds": 4.1237881
+      },
+      {
+        "case": "outside-duration",
+        "sessionId": "026454c030554fd8a084bf58401df9ec",
+        "readerId": "7d07add2ace4247976453d80e210264a",
+        "revision": "2",
+        "title": "Позднее название",
+        "chapters": [
+          {
+            "time": "0",
+            "title": "Введение"
+          },
+          {
+            "time": "40000000",
+            "title": "Выбор главы"
+          },
+          {
+            "time": "160000000",
+            "title": "Будущая глава"
+          }
+        ],
+        "positionSeconds": 4.3188675
+      },
+      {
+        "case": "cleared",
+        "sessionId": "026454c030554fd8a084bf58401df9ec",
+        "readerId": "7d07add2ace4247976453d80e210264a",
+        "revision": "3",
+        "title": "Очищено",
+        "chapters": [],
+        "positionSeconds": 4.5991399
+      },
+      {
+        "case": "omitted",
+        "sessionId": "026454c030554fd8a084bf58401df9ec",
+        "readerId": "7d07add2ace4247976453d80e210264a",
+        "revision": "4",
+        "title": "Запрос проигрывания",
+        "chapters": [],
+        "positionSeconds": 4.8275296
+      },
+      {
+        "case": "restored",
+        "sessionId": "026454c030554fd8a084bf58401df9ec",
+        "readerId": "7d07add2ace4247976453d80e210264a",
+        "revision": "5",
+        "title": "Восстановлено",
+        "chapters": [
+          {
+            "time": "0",
+            "title": "Возвращённая глава"
+          }
+        ],
+        "positionSeconds": 5.1096612
+      },
+      {
+        "case": "secondSession",
+        "sessionId": "0267741b487d47a5ba4ba279d36d7a42",
+        "readerId": "6010a97450ddb0010945a98f771c755d",
+        "revision": "1",
+        "title": "Второй сеанс",
+        "chapters": [
+          {
+            "time": "0",
+            "title": "Введение"
+          },
+          {
+            "time": "40000000",
+            "title": "Часть 1"
+          }
+        ],
+        "positionSeconds": 1.0121554
+      }
+    ],
+    "actualWindowCaptionChecked": true,
+    "nativeChapterCommandChecked": true,
+    "registrationUnchanged": true,
+    "cleanup": {
+      "lastTaskResult": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "builtSha256": "fa4bf8f23e32ce57e8589dcace051706cc19ba35ce1d7e0895111dc161b26198",
+      "testedSha256": "fa4bf8f23e32ce57e8589dcace051706cc19ba35ce1d7e0895111dc161b26198",
+      "equal": true,
+      "testExitCode": 0
+    }
+  },
+  "nativeMedia": 463,
+  "buildSha256": {
+    "linuxQt": "4264170a8d3e708329f13519800603095e5076b9e6b110626bf8a45ecae13e4d",
+    "windowsQt": "4695e5d2fc13f285191eb57ea22ebadac1c9d99dadb9023367de0a4588108e01",
+    "windowsClassic": "fa4bf8f23e32ce57e8589dcace051706cc19ba35ce1d7e0895111dc161b26198"
+  },
+  "linuxInstall": {
+    "installedSha256": "4264170a8d3e708329f13519800603095e5076b9e6b110626bf8a45ecae13e4d",
+    "previousInstalledSha256": "c273cbf315bafc2adacb1c3bd238d6125f2e03b231feebada35559eb084be16c",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.27-20261029T114257Z",
+    "profileSha256Before": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "profileSha256After": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "profileUnchanged": true,
+    "protectedFilesVerified": 100,
+    "version": "FoxicMPQt 0.2.0",
+    "capabilities": {
+      "audioCodecs": [
+        "aac-lc",
+        "opus",
+        "vorbis"
+      ],
+      "audioTrackLimit": 8,
+      "audioTracksRequired": false,
+      "av1BitDepths": [
+        8,
+        10
+      ],
+      "av1Profiles": [
+        "main"
+      ],
+      "av1SampleEntries": [
+        "av01"
+      ],
+      "av1SequenceHeaderInConfigurationRequired": true,
+      "containers": [
+        "fmp4",
+        "webm"
+      ],
+      "durationRequired": true,
+      "hevcBitDepths": [
+        8,
+        10
+      ],
+      "hevcProfiles": [
+        "main",
+        "main10"
+      ],
+      "hevcSampleEntries": [
+        "hvc1",
+        "hev1"
+      ],
+      "initializationLimitBytes": 1048576,
+      "live": false,
+      "mediaTrackCountMax": 9,
+      "metadata": {
+        "chapters": true,
+        "lateRevision": true,
+        "maxChapters": 128,
+        "title": true
+      },
+      "metadataApplied": true,
+      "mixedContainers": true,
+      "mode": "separate-fmp4-h264-aac-lc",
+      "multiAudio": true,
+      "muxed": false,
+      "negativeTimestampOffset": false,
+      "optionalAudio": {
+        "activeResourceErrorsFatal": true,
+        "completeFileRequired": true,
+        "lateCompletion": true,
+        "pendingErrorIsolation": true,
+        "requiredPrimaryAudio": true
+      },
+      "opusChannelMappingFamilies": [
+        0
+      ],
+      "opusChannels": [
+        1,
+        2
+      ],
+      "opusEditListRequired": true,
+      "opusPrerollMilliseconds": 80,
+      "opusSampleRate": 48000,
+      "profiles": [
+        "separate-fmp4-h264-aac-lc",
+        "separate-fmp4-hevc-aac-lc",
+        "separate-fmp4-av1-aac-lc",
+        "separate-fmp4-vp9-aac-lc",
+        "separate-fmp4-h264-opus",
+        "separate-fmp4-hevc-opus",
+        "separate-fmp4-av1-opus",
+        "separate-fmp4-vp9-opus",
+        "separate-webm-vp9-opus",
+        "separate-webm-av1-opus",
+        "separate-fmp4-webm-h264-opus",
+        "separate-fmp4-webm-hevc-opus",
+        "separate-fmp4-webm-av1-opus",
+        "separate-fmp4-webm-vp9-opus",
+        "separate-webm-fmp4-vp9-aac-lc",
+        "separate-webm-fmp4-av1-aac-lc",
+        "separate-webm-fmp4-vp9-opus",
+        "separate-webm-fmp4-av1-opus",
+        "separate-webm-vp8-opus",
+        "separate-webm-vp8-vorbis",
+        "separate-webm-vp9-vorbis",
+        "separate-webm-av1-vorbis",
+        "separate-fmp4-webm-h264-vorbis",
+        "separate-fmp4-webm-hevc-vorbis",
+        "separate-fmp4-webm-av1-vorbis",
+        "separate-fmp4-webm-vp9-vorbis",
+        "separate-webm-fmp4-vp8-aac-lc",
+        "separate-webm-fmp4-vp8-opus"
+      ],
+      "segments": false,
+      "separateResourcesRequired": true,
+      "subtitles": {
+        "codecs": [
+          "srt"
+        ],
+        "completeFileRequired": true,
+        "containers": [
+          "srt"
+        ],
+        "encoding": "utf-8",
+        "lateCompletion": true,
+        "optionalErrorIsolation": true,
+        "retainsValidatedCopyOnSourceError": true,
+        "sizeLimitBytes": 524288,
+        "trackLimit": 4
+      },
+      "timebase": {
+        "denominator": 10000000,
+        "numerator": 1
+      },
+      "trackCount": 2,
+      "trackCountMax": 13,
+      "trackCountMin": 2,
+      "videoCodecs": [
+        "h264",
+        "hevc",
+        "av1",
+        "vp9",
+        "vp8"
+      ],
+      "vorbisChannels": [
+        1,
+        2
+      ],
+      "vorbisCodebookEntryLimit": 65536,
+      "vorbisFloorTypes": [
+        1
+      ],
+      "vorbisSampleRate": 48000,
+      "vorbisSeekPrerollMilliseconds": 200,
+      "vp9BitDepths": [
+        8,
+        10
+      ],
+      "vp9Profiles": [
+        0,
+        2
+      ],
+      "vp9SampleEntries": [
+        "vp09"
+      ],
+      "webm": {
+        "audioCodecs": [
+          "opus",
+          "vorbis"
+        ],
+        "clusterLimitBytes": 16777216,
+        "defaultVideoDurationRequired": true,
+        "knownClusterSizesRequired": true,
+        "lacing": false,
+        "videoCodecs": [
+          "vp8",
+          "vp9",
+          "av1"
+        ]
+      }
+    },
+    "qtMultiAudioSeek": {
+      "completeSourceByteSeek": true,
+      "confirmedRangesOnly": true,
+      "maxTargetSecondsWhileIncomplete": 922337203686,
+      "mode": "confirmed-byte-seek"
+    }
+  },
+  "boundaries": [
+    "Selected incomplete optional audio remains unsupported.",
+    "Classic respects its saved title mode; the isolated caption test sets TitleBarText=2.",
+    "No Harvester changes or Windows installation/profile updates.",
+    "No hardware or Wayland validation."
+  ]
+}
