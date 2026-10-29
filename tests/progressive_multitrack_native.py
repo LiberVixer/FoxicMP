@@ -24,6 +24,7 @@ def run(runner,fixtures):
                 process.stdin.close();process.wait(timeout=10);messages=process.stderr.read();assert process.returncode==0,messages
     def initialized(v,data,path,rpc,readers):
         state=rpc('status');assert len(state['mediaTracks'])==4 and [t['codec'] for t in state['mediaTracks']]==['h264','aac-lc','opus','vorbis'],state
+        assert state['metadata']['revision']=='1' and [c['id'] for c in state['metadata']['chapters']]==['intro','main'],state
         assert [t['label'] for t in state['mediaTracks']][1:]==['Русский AAC','English Opus','Commentary Vorbis']
         assert sum(t['ready'] for t in state['subtitleTracks'])==1;assert len(readers())==5
         for i in range(4):assert rpc('read',track=i,offset='0',length='8')['hex']==data[i][:8].hex()
@@ -55,7 +56,8 @@ def run(runner,fixtures):
         assert rpc('verify')['ok'];assert rpc('read',track=0,offset='0',length='8')['bytesRead']==8
         # A later valid track and the manifest revision remain usable.
         r=v['resources'][5];(path/r['name']).write_bytes(data[5]);r.update(length=str(len(data[5])),ranges=[dict(offset='0',length=str(len(data[5])))],state='complete');v['tracks'][5].update(state='complete',initializationReady=True);v['revision']='2'
-        assert rpc('publish',session=v)['ok'];state=rpc('status');assert state['revision']=='2'
+        v['metadata']['revision']='2';v['metadata']['chapters'].append(dict(id='end',time='150000000',title='Конец'))
+        assert rpc('publish',session=v)['ok'];state=rpc('status');assert state['revision']=='2' and state['metadata']['revision']=='2' and len(state['metadata']['chapters'])==3
         assert [t['state'] for t in state['subtitleTracks']]==['error','ready'],state
         assert rpc('read',track=1,offset='0',length='8')['bytesRead']==8
     for name,text in [('utf8',b'\xff'),('nul',b'1\x00'),('clock',b'1\n00:00:00,000 --> 00:00:30,000\ntext\n'),('reverse',b'1\n00:00:02,000 --> 00:00:01,000\ntext\n'),('bare-cr',b'1\r'),('index',b'x\n00:00:00,000 --> 00:00:01,000\ntext\n')]:

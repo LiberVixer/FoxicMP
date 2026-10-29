@@ -294,6 +294,20 @@ void Window::updateProgressive() {
   // Complete optional audio can arrive after opening. Keep initial selection;
   // the separate asynchronous request namespace isolates attachment failures.
   const auto mediaDetails=progressive->playbackDetails();
+  const auto metadata=mediaDetails.value("metadata").toObject();
+  QVariantList progressiveChapters;
+  for(const auto& value:metadata.value("chapters").toArray()) {
+    const auto chapter=value.toObject();
+    progressiveChapters.append(QVariantMap{{"id",chapter.value("id").toString()},
+      {"time",chapter.value("time").toVariant().toLongLong()/10000000.},
+      {"title",chapter.value("title").toString()}});
+  }
+  if(!progressiveChapters.isEmpty() && timeline->chapters!=progressiveChapters) {
+    timeline->chapters=progressiveChapters;
+    refreshChapters();
+    timeline->update();
+    updatePlaylistChapters();
+  }
   const auto menuStamp=mediaDetails.value("revision").toString();
   if(progressiveMediaMenuStamp!=menuStamp){progressiveMediaMenuStamp=menuStamp;refreshTracks();}
   if(progressiveTracksReady && progressivePendingSeek<0 && progressiveAudioRequests.isEmpty()) {

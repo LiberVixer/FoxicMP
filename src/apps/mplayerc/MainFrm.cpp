@@ -21717,6 +21717,7 @@ void CMainFrame::UpdateHarvesterPlayback(REFERENCE_TIME now)
         }
     }
     m_harvester->ReportPosition(now);
+    UpdateHarvesterMetadata();
     const auto ready = m_harvester->ReadyEnd();
     const bool complete = m_harvester->Complete();
     const auto needed = (m_harvesterStarted ? 5 : 10) * UNITS;
@@ -21731,6 +21732,42 @@ void CMainFrame::UpdateHarvesterPlayback(REFERENCE_TIME now)
         if (m_harvesterWantPlay) {OnPlayPlay();m_harvester->Notify("playing");}
     }
     UpdatePlayerStatus();
+}
+
+void CMainFrame::UpdateHarvesterMetadata()
+{
+    if (!m_harvester || !m_pGB || !m_harvester->HasV2Bridge()) return;
+    rapidjson::Document details;
+    details.Parse(m_harvester->PlaybackDetails().c_str());
+    if (details.HasParseError() || !details.IsObject() || !details.HasMember("metadata")) return;
+    const auto& metadata = details["metadata"];
+    if (!metadata.IsObject() || !metadata.HasMember("revision") || !metadata["revision"].IsString()) return;
+    uint64_t revision = 0;
+    try { revision = std::stoull(metadata["revision"].GetString()); } catch (...) { return; }
+    if (revision == m_harvesterMetadataRevision || !metadata.HasMember("chapters")) return;
+    const auto& chapters = metadata["chapters"];
+    if (!chapters.IsArray() || chapters.Size() > 128) return;
+    CComQIPtr<IDSMChapterBag> bag = m_pCB;
+    if (!bag) {
+        BeginEnumFilters(m_pGB, pE, pBF) {
+            if (CComQIPtr<IDSMChapterBag> candidate = pBF.p) { bag = candidate; break; }
+        }
+        EndEnumFilters;
+    }
+    if (!bag) return;
+    bag->ChapRemoveAll();
+    for (const auto& chapter : chapters.GetArray()) {
+        if (!chapter.IsObject() || !chapter.HasMember("time") || !chapter["time"].IsString() ||
+            !chapter.HasMember("title") || !chapter["title"].IsString()) continue;
+        try {
+            const auto ticks = std::stoll(chapter["time"].GetString());
+            const auto title = CStringW(CA2W(chapter["title"].GetString(), CP_UTF8));
+            bag->ChapAppend(ticks, title);
+        } catch (...) { continue; }
+    }
+    m_pCB = bag;
+    m_harvesterMetadataRevision = revision;
+    SetupNavChaptersSubMenu();
 }
 
 LRESULT CMainFrame::OnProgressiveRequest(WPARAM,LPARAM value)

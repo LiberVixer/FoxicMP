@@ -13,7 +13,7 @@ def fixture(fixtures,work):
     sources=['progressive/video.mp4','progressive/audio.m4a','progressive-webm-vp9-8/audio.webm','progressive-webm-vorbis-2/audio.webm']
     codecs=['h264','aac-lc','opus','vorbis'];containers=['fmp4','fmp4','webm','webm'];labels=['Video','Русский AAC','English Opus','Commentary Vorbis'];languages=['','rus','eng','deu']
     data=[(Path(fixtures)/name).read_bytes() for name in sources]
-    value=dict(schemaVersion=2,sessionId=uuid.uuid4().hex,generation='1',revision='1',writer=dict(instanceId=uuid.uuid4().hex,state='downloading'),timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration='200000000',timestampOffset='0'),resources=[],tracks=[])
+    value=dict(schemaVersion=2,sessionId=uuid.uuid4().hex,generation='1',revision='1',writer=dict(instanceId=uuid.uuid4().hex,state='downloading'),timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration='200000000',timestampOffset='0'),metadata=dict(revision='1',title='Progressive test',chapters=[dict(id='intro',time='0',title='Введение'),dict(id='main',time='50000000',title='Основная часть')]),resources=[],tracks=[])
     for index,content in enumerate(data):
         count=(fragment_prefix if index<2 else webm_prefix)(content,12);name='track-'+str(index)+'.part';(root/name).write_bytes(content[:count]);rid='res-'+str(index)
         value['resources'].append(dict(id=rid,name=name,length=None,ranges=[dict(offset='0',length=str(count))],state='downloading'))

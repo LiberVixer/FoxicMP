@@ -76,3 +76,5 @@ audio или независимую буферизацию выбранной ч
 Qt: CTest `progressive-optional-audio`. Classic:
 `tests/windows/progressive_family_test.py --optional-audio-only` либо
 `--optional-audio-profile NAME`, только в отдельной тестовой копии.
+
+Главы и title из `metadata` обновляются отдельным revision и не требуют повторного открытия декодера; см. текущий контракт SDK 1.26.

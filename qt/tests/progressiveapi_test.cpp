@@ -661,11 +661,12 @@ private slots:
   }
   void multiAudioAndLateSubtitlesWhileIncomplete() {
     Profile profile(temporary.filePath("multi-audio-profile"));prepare(profile);Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
-    auto* player=w.findChild<Player*>();QVERIFY(player);QSet<QString> audioDecoded;bool lateText=false,seekDone=false,seekObserved=false,audioLabels=false,lateSelected=false,restoredSelections=false,restoredDecoded=false,unconfirmedSeekRejected=false,completeSeek=false,completeSeekObserved=false;int stage=0;
+    auto* player=w.findChild<Player*>();QVERIFY(player);QSet<QString> audioDecoded;bool metadataObserved=false,lateText=false,seekDone=false,seekObserved=false,audioLabels=false,lateSelected=false,restoredSelections=false,restoredDecoded=false,unconfirmedSeekRejected=false,completeSeek=false,completeSeekObserved=false;int stage=0;
     QTimer sample;sample.setInterval(100);connect(&sample,&QTimer::timeout,this,[&]{
       if(!w.progressiveSession())return;
       if(w.progressiveSession()->status().complete){if(!completeSeek)completeSeek=w.seekTo(19);else if(player->get("time-pos").toDouble()>18 && player->get("aid").toInt()==3 && player->get("sid").toInt()==2)completeSeekObserved=true;return;}
       const auto seconds=player->get("time-pos").toDouble();const auto codec=player->get("audio-codec-name").toString();
+      const auto metadata=w.progressivePlaybackStatus().value("metadata").toObject();metadataObserved|=metadata.value("revision").toString()=="1" && metadata.value("chapters").toArray().size()==2;
       if(seconds>1 && !codec.isEmpty())audioDecoded.insert(codec);if(player->get("sub-text").toString().contains(QString::fromUtf8("Поздние")))lateText=true;
       const auto tracks=player->get("track-list").toList();int audios=0,subs=0;for(const auto& v:tracks){const auto type=v.toMap().value("type").toString();if(type=="audio")++audios;if(type=="sub")++subs;}
       if(audios==3){QStringList labels;for(auto* action:w.audioMenu->actions())labels<<action->text();const auto all=labels.join(" ");audioLabels|=all.contains(QString::fromUtf8("Русский AAC")) && all.contains("English Opus") && all.contains("Commentary Vorbis");}
@@ -682,7 +683,7 @@ private slots:
     QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
     QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,90000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QVERIFY(writer.exitCode()==0);sample.stop();
     qInfo()<<"Multi-track selections"<<audioDecoded<<stage<<seekDone<<seekObserved<<lateSelected<<restoredSelections;
-    QVERIFY(audioDecoded.contains("aac"));QVERIFY(audioDecoded.contains("opus"));QVERIFY(audioDecoded.contains("vorbis"));QVERIFY(seekDone);QVERIFY(seekObserved);QVERIFY(lateText);QVERIFY(audioLabels);QVERIFY(restoredSelections);QVERIFY(restoredDecoded);QVERIFY(unconfirmedSeekRejected);QVERIFY(completeSeek);QVERIFY(completeSeekObserved);
+    QVERIFY(metadataObserved);QVERIFY(audioDecoded.contains("aac"));QVERIFY(audioDecoded.contains("opus"));QVERIFY(audioDecoded.contains("vorbis"));QVERIFY(seekDone);QVERIFY(seekObserved);QVERIFY(lateText);QVERIFY(audioLabels);QVERIFY(restoredSelections);QVERIFY(restoredDecoded);QVERIFY(unconfirmedSeekRejected);QVERIFY(completeSeek);QVERIFY(completeSeekObserved);
     auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();result["backwardSeek"]=seekObserved;result["decodedAudioCodecs"]=QJsonArray::fromStringList(audioDecoded.values());result["lateSubtitleTextObserved"]=lateText;result["audioMenuLabelsObserved"]=audioLabels;result["selectedTracksRestoredAfterSeek"]=restoredSelections && restoredDecoded;result["unconfirmedSeekRejected"]=unconfirmedSeekRejected;result["completeFarSeekObserved"]=completeSeekObserved;QCOMPARE(result["result"].toString(),QString("PASS"));qInfo().noquote()<<"Multi-track report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
   }
   void optionalAudioDoesNotBlockPlayback_data() {
