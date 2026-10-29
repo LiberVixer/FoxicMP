@@ -176,7 +176,7 @@ bool ProgressiveSource::publish(const QJsonObject &input, QString *error) {
     {std::lock_guard<std::mutex> lock(mutex);
      if(stopping.load() || !currentStatus.error.isEmpty())throw std::runtime_error("Session is no longer writable");
      snapshot=next;currentStatus.duration=indexedStatus.duration;currentStatus.timestampOffset=indexedStatus.timestampOffset;
-     currentStatus.available=indexedStatus.available;currentStatus.complete=indexedStatus.complete;
+     currentStatus.available=indexedStatus.available;currentStatus.complete=indexedStatus.complete;currentStatus.mediaAvailable=indexedStatus.mediaAvailable;currentStatus.mediaComplete=indexedStatus.mediaComplete;
      lastPublished=std::chrono::steady_clock::now();currentStatus.connected=true;
      if(next.state==harvester::State::Failed || next.state==harvester::State::Cancelled)currentStatus.error="Writer failed or cancelled";
     }
@@ -203,7 +203,9 @@ void ProgressiveSource::watchPublished() {
       else for(int i=0;i<2;++i)checkFile(files[i],current.tracks[i].available);
     }catch(const std::exception& e){if(!stopping.load())fail(QString::fromUtf8(e.what()));return;}
     std::unique_lock<std::mutex> lock(mutex);
-    if(!currentStatus.complete && std::chrono::steady_clock::now()-lastPublished>std::chrono::seconds(15)) {
+    const bool selectedComplete=selectedAudioTrack<=0 || size_t(selectedAudioTrack)>=snapshot.tracks.size() ||
+        snapshot.tracks[selectedAudioTrack].required || currentStatus.mediaComplete[selectedAudioTrack];
+    if((!currentStatus.complete || !selectedComplete) && std::chrono::steady_clock::now()-lastPublished>std::chrono::seconds(15)) {
       currentStatus.connected=false;changed.notify_all();
     }
     changed.wait_for(lock,std::chrono::milliseconds(100),[this]{return stopping.load();});

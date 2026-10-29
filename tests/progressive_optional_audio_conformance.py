@@ -33,7 +33,7 @@ def exercise(client,fixtures,work,profile,select_audio=None,seek=None):
             data=all_data[1];(root/later_resource['name']).write_bytes(data)
             later_resource.update(length=str(len(data)),ranges=[dict(offset='0',length=str(len(data)))],state='complete');later.update(initializationReady=True,state='complete')
     caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['optionalAudio']
-    assert caps['completeFileRequired'] and caps['lateCompletion'] and caps['pendingErrorIsolation'] and caps['activeResourceErrorsFatal'],caps
+    assert not caps['completeFileRequired'] and caps['selectedTrackBuffering'] and caps['lateCompletion'] and caps['pendingErrorIsolation'] and caps['activeResourceErrorsFatal'],caps
     assert client.probe(value,root)['supported']
     preview=V2PreviewSession(client,str(root),title='Optional audio '+profile)
     report=dict(profile=profile);published=profile=='initial-ready';selected=seek_sent=backward=False;seek_from=None

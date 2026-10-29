@@ -1849,6 +1849,7 @@
     "Добавить FoxiqMP qt в «Открыть с помощью» и контекстное меню Windows для видеофайлов?": "Add FoxiqMP qt to Open with and the Windows video file context menu?",
     "Недоступно": "Unavailable",
     "Загрузка…": "Downloading…",
-    "Дорожка станет доступна после полной загрузки": "This track will become available after the complete download"
+    "Дорожка станет доступна после полной загрузки": "This track will become available after the complete download",
+    "Ожидание инициализации и первых пяти секунд звука": "Waiting for initialization and the first five seconds of audio"
   }
 }

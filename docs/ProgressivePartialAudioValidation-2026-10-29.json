@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-29",
+  "sdkVersion": "1.28",
+  "result": "PASS",
+  "exitCodes": {
+    "linuxQtPartialAndSubtitles": 0,
+    "windowsQtPartialAndSubtitles": 0,
+    "windowsQtRegression": 0,
+    "classicPartialAudio": 0,
+    "nativeMedia": 0,
+    "familyContract": 0
+  },
+  "scenarios": {
+    "partialAudio": ["aac", "opus-webm", "vorbis", "opus-fmp4"],
+    "actions": ["unselected-prefix", "select-behind-clock", "buffer", "switch-back", "append", "resume", "pause", "seek-backward", "resume-after-seek"],
+    "minimumReadySeconds": 5,
+    "selectedTrackBuffering": true,
+    "readerIdentityPreserved": true,
+    "falseEof": false,
+    "lateSubtitlesRestored": true
+  },
+  "nativeMedia": {"passed": 465, "failed": 0},
+  "boundaries": ["active optional audio resource errors remain fatal", "no Harvester changes", "no Windows installation/profile changes", "Wayland and hardware excluded"]
+}

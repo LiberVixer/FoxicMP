@@ -38,6 +38,19 @@ void Window::rememberTrack(const char *name, const QString &selection) {
   }
   if (QString::fromLatin1(name) == "aid")
     audioUserSelection = true;
+  if(progressive && QString::fromLatin1(name)=="aid" && progressive->confirmedByteSeek()) {
+    QString path="no";int sourceTrack=-1;
+    for(const auto& entry:player->get("track-list").toList()) {
+      const auto track=entry.toMap();
+      if(track.value("type")=="audio" && track.value("id").toString()==selection) {
+        path=track.value("external-filename").toString();
+        sourceTrack=path.endsWith("/audio")?1:QUrl(path).path().mid(7).toInt();break;
+      }
+    }
+    progressive->selectAudioTrack(sourceTrack);
+    reloadProgressive(progressiveSeekTarget>=0?progressiveSeekTarget:pos,path);
+    return;
+  }
   if (progressive && progressivePendingSeek >= 0) {
     if (QString::fromLatin1(name) == "aid") progressiveRestoreAudio = selection;
     if (QString::fromLatin1(name) == "sid") progressiveRestoreSubtitle = progressiveSubtitlePath(selection);

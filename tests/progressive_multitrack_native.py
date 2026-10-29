@@ -2,6 +2,7 @@
 import copy,json,subprocess,tempfile
 from pathlib import Path
 from progressive_multitrack_conformance import fixture
+from progressive_webm_fixtures import webm_prefix
 
 def run(runner,fixtures):
     names=[]
@@ -113,4 +114,31 @@ def run(runner,fixtures):
             (path/r['name']).write_bytes(b'changed');assert not rpc('verify')['ok']
     for mode in ('complete','missing','invalid','failed'):
         case('pending-optional-audio-'+mode,optional,check=lambda *args,m=mode:optional_check(*args,m))
+    def partial_optional(v,data,path,seconds=6):
+        optional(v,data,path)
+        count=webm_prefix(data[2],seconds)
+        (path/v['resources'][2]['name']).write_bytes(data[2][:count])
+        v['resources'][2]['ranges']=[dict(offset='0',length=str(count))]
+        v['tracks'][2]['initializationReady']=True
+    def partial_ready(v,data,path,rpc,readers):
+        state=rpc('status');track=next(t for t in state['mediaTracks'] if t['id']=='track-2')
+        assert track['ready'] and track['state']=='ready' and not track['required'],track
+        assert rpc('read',track=track['index'],offset='0',length='8')['hex']==data[2][:8].hex()
+        # Publication must append to the same pinned resource, not reopen it.
+        count=webm_prefix(data[2],12);p=path/v['resources'][2]['name']
+        with p.open('ab') as stream:stream.write(data[2][p.stat().st_size:count])
+        v['resources'][2]['ranges']=[dict(offset='0',length=str(count))];v['revision']='2'
+        assert rpc('publish',session=v)['ok'] and rpc('verify')['ok']
+        assert next(t for t in rpc('status')['mediaTracks'] if t['id']=='track-2')['ready']
+    case('partial-optional-audio-ready-and-append',partial_optional,check=partial_ready)
+    def partial_short(v,data,path,rpc,readers):
+        track=next(t for t in rpc('status')['mediaTracks'] if t['id']=='track-2')
+        assert not track['ready'] and track['state']=='waiting' and not track['errorCode'],track
+        assert rpc('read',track=1,offset='0',length='8')['bytesRead']==8
+        count=webm_prefix(data[2],6);p=path/v['resources'][2]['name']
+        with p.open('ab') as stream:stream.write(data[2][p.stat().st_size:count])
+        v['resources'][2]['ranges']=[dict(offset='0',length=str(count))];v['revision']='2'
+        assert rpc('publish',session=v)['ok']
+        assert next(t for t in rpc('status')['mediaTracks'] if t['id']=='track-2')['ready']
+    case('short-optional-audio-waits-until-five-seconds',lambda v,d,p:partial_optional(v,d,p,2),check=partial_short)
     return dict(result='PASS',passed=len(names),cases=names)

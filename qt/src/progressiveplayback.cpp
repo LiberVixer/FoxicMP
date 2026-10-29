@@ -198,28 +198,29 @@ bool Window::seekTo(double seconds) {
       progressivePendingSeek = progressiveSeekTarget = seconds;
       return true;
     }
-    // A decoder may already be blocked in read_fn at the unpublished tail.
-    // Retire those stream callbacks through loadfile, then seek freshly opened
-    // demuxers only after their selected audio/subtitle streams are ready.
-    // The pinned Source and its reader/session identity are not replaced.
-    progressivePendingSeek = progressiveSeekTarget = seconds;
-    progressiveRestoreAudio="no";
+    QString audio="no";
     for(const auto& value:player->get("track-list").toList()) {
-      const auto track=value.toMap();if(track.value("type")=="audio" && track.value("selected").toBool())progressiveRestoreAudio=track.value("external-filename").toString();
+      const auto track=value.toMap();if(track.value("type")=="audio" && track.value("selected").toBool())audio=track.value("external-filename").toString();
     }
-    progressiveRestoreSubtitle = progressiveSubtitlePath(player->get("sid").toString());
-    progressiveStarted = false;
-    progressiveTracksReady = false;
-    progressiveBuffering = true;
-    progressiveAttachedAudio.clear();progressiveAudioRequests.clear();
-    progressiveAttachedSubtitles.clear();
-    progressiveSubtitleRequests.clear();
-    updateProgressive();
+    reloadProgressive(seconds,audio);
     return true;
   }
   const double offset = progressive ? progressive->status().timestampOffset : 0;
   return player->command(
       {"seek", QString::number(seconds + offset, 'f', 3), "absolute+exact"});
+}
+void Window::reloadProgressive(double seconds,const QString &audioPath) {
+  // loadfile cancels blocked stream callbacks without replacing the pinned source.
+  // During an earlier reload sid may already be cleared by the backend.
+  // Keep the user's saved subtitle path when another audio choice supersedes it.
+  if(progressivePendingSeek<0)
+    progressiveRestoreSubtitle=progressiveSubtitlePath(player->get("sid").toString());
+  progressivePendingSeek=progressiveSeekTarget=seconds;
+  progressiveRestoreAudio=audioPath;
+  progressiveStarted=false;progressiveTracksReady=false;progressiveBuffering=true;
+  progressiveAttachedAudio.clear();progressiveAudioRequests.clear();
+  progressiveAttachedSubtitles.clear();progressiveSubtitleRequests.clear();
+  updateProgressive();
 }
 void Window::updateProgressive() {
   if (!progressive)
@@ -246,7 +247,7 @@ void Window::updateProgressive() {
   timeline->available = status.available;
   timeline->update();
   if (!progressiveStarted) {
-    if (!status.connected || (!status.complete && status.available < 10))
+    if (!status.connected || (progressivePendingSeek<0 && !status.complete && status.available < 10))
       return;
     progressiveStarted = true;progressiveTracksReady=false;
     progressiveStreaming = !status.complete;
@@ -376,6 +377,11 @@ void Window::updateProgressive() {
         : subtitle == desiredSubtitle.toInt();
     if (!subtitleSelected) { player->set("sid", desiredSubtitle); return; }
     if (player->get("seeking").toBool()) return;
+    // A newly selected optional track can lag behind the video clock. Keep
+    // that target pending until its published packets cover it, without EOF.
+    if(!status.complete && progressivePendingSeek>=status.available-.2) {
+      progressiveBuffering=true;player->set("pause",true);return;
+    }
     if (!player->command({"seek", QString::number(status.timestampOffset + progressivePendingSeek, 'f', 3), "absolute+exact"}))
       return;
     progressivePendingSeek = -1;

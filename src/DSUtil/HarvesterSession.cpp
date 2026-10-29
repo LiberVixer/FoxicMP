@@ -437,7 +437,7 @@ int64_t CHarvesterSession::ReadyEnd() const {
     std::lock_guard<std::mutex> lock(m_mutex);
     int64_t ready[harvester::MaxMediaTracks] = {};
     for(int track=0;size_t(track)<m_state.tracks.size();++track) {
-        if(!m_state.tracks[track].required){ready[track]=INT64_MAX;continue;}
+        if(!m_state.tracks[track].required && track!=m_selectedAudioTrack.load()){ready[track]=INT64_MAX;continue;}
         const auto& samples=Samples(track);auto& position=m_indexPosition[track];auto& end=m_indexEnd[track];
         while(position<samples.size() && harvester::RangeReady(samples[position].offset,samples[position].size,m_state.tracks[track].available)) {
             end=std::max(end,samples[position].end);++position;
@@ -448,7 +448,8 @@ int64_t CHarvesterSession::ReadyEnd() const {
     }
     return *std::min_element(ready,ready+m_state.tracks.size());
 }
-bool CHarvesterSession::Complete() const {auto s=Snapshot();return std::all_of(s.tracks.begin(),s.tracks.end(),[](const auto& t){return !t.required || harvester::EndReady(t);});}
+void CHarvesterSession::SelectAudioTrack(int track) {m_selectedAudioTrack=track;}
+bool CHarvesterSession::Complete() const {auto s=Snapshot();const auto selected=m_selectedAudioTrack.load();for(size_t i=0;i<s.tracks.size();++i)if((s.tracks[i].required || int(i)==selected) && !harvester::EndReady(s.tracks[i]))return false;return true;}
 
 const std::vector<harvester::Sample>& CHarvesterSession::Samples(int track) const {
     return m_state.tracks[track].fragmented?m_fragments[track]->Samples():m_samples[track];

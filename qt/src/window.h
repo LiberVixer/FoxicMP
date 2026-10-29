@@ -69,6 +69,7 @@ public:
   QJsonObject progressivePlaybackStatus() const;
   bool openDeviceSource(const QString &source);
   bool seekTo(double seconds);
+  void reloadProgressive(double seconds,const QString &audioPath);
   bool setAbLoop(double a, double b, int plays = 0);
   void clearAbLoop();
   bool loadPlaylist(const QString &path);

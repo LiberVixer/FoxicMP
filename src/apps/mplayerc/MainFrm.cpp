@@ -5220,7 +5220,7 @@ void CMainFrame::OnStreamAudio(UINT nID)
 						}
 						newStream %= cStreams;
 
-						pSS->Enable(newStream, AMSTREAMSELECTENABLE_ENABLE);
+						if(m_harvester)SelectHarvesterAudio(pSS,newStream);else pSS->Enable(newStream, AMSTREAMSELECTENABLE_ENABLE);
 					}
 
 					CComHeapPtr<WCHAR> pszName;
@@ -10277,7 +10277,7 @@ void CMainFrame::OnNavigateAudio(UINT nID)
 		CComQIPtr<IAMStreamSelect> pSS = m_pSwitcherFilter.p;
 		DWORD cStreams = 0;
 		if (pSS && SUCCEEDED(pSS->Count(&cStreams))) {
-			pSS->Enable(nID, AMSTREAMSELECTENABLE_ENABLE);
+			if(m_harvester)SelectHarvesterAudio(pSS,nID);else pSS->Enable(nID, AMSTREAMSELECTENABLE_ENABLE);
 		}
 	} else if (GetPlaybackMode() == PM_DVD) {
 		m_pDVDC->SelectAudioStream(nID, DVD_CMD_FLAG_Block, nullptr);
@@ -21678,6 +21678,23 @@ void CMainFrame::Stop()
 	m_CMediaControls.UpdateButtons();
 }
 
+
+HRESULT CMainFrame::SelectHarvesterAudio(IAMStreamSelect* streams,DWORD index)
+{
+    if(!m_harvester || !m_pMC || !m_pMS)return streams->Enable(index,AMSTREAMSELECTENABLE_ENABLE);
+    REFERENCE_TIME now=0;m_pMS->GetCurrentPosition(&now);
+    const bool wantPlay=m_harvesterWantPlay;
+    // Stop/flush retires demuxer waits before changing the active stream.
+    m_pMC->Stop();
+    const auto hr=streams->Enable(index,AMSTREAMSELECTENABLE_ENABLE);
+    if(SUCCEEDED(hr)) {
+        int selected=-1;for(const auto& entry:m_harvesterAudioStreams)if(entry.second==index){selected=entry.first;break;}
+        m_harvester->SelectAudioTrack(selected);
+    }
+    m_pMS->SetPositions(&now,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning);
+    m_pMC->Pause();m_harvesterWantPlay=wantPlay;m_harvesterBuffering=true;
+    UpdateHarvesterPlayback(now);return hr;
+}
 
 void CMainFrame::UpdateHarvesterPlayback(REFERENCE_TIME now)
 {

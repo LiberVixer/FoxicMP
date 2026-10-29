@@ -490,6 +490,7 @@ private:
     CString m_harvesterInitialTitle;
 	bool m_harvesterBuffering = false, m_harvesterWantPlay = true, m_harvesterStarted = false;
 	void UpdateHarvesterPlayback(REFERENCE_TIME now);
+    HRESULT SelectHarvesterAudio(IAMStreamSelect* streams,DWORD index);
 	void UpdateHarvesterMetadata();
 	std::unique_ptr<OpenMediaData> m_lastOMD;
 

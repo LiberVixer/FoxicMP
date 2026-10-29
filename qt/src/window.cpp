@@ -1928,7 +1928,7 @@ void Window::refreshTracks() {
     const auto track=value.toObject();if(track.value("kind")!="audio" || track.value("required").toBool() || (track.value("ready").toBool() && !progressiveAudioLoadErrors.contains(track.value("id").toString())))continue;
     const bool error=!track.value("errorCode").toString().isEmpty() || progressiveAudioLoadErrors.contains(track.value("id").toString());
     auto* item=audioMenu->addAction(track.value("label").toString()+QStringLiteral(" — ")+(error?uiTr("Недоступно"):uiTr("Загрузка…")));item->setEnabled(false);
-    item->setToolTip(error?track.value("error").toString():uiTr("Дорожка станет доступна после полной загрузки"));
+    item->setToolTip(error?track.value("error").toString():uiTr("Ожидание инициализации и первых пяти секунд звука"));
   }
   if (audioMenu->isEmpty()) {
     auto *empty = audioMenu->addAction(uiTr("Аудиодорожек нет"));

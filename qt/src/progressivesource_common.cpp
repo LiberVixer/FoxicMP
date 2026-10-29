@@ -24,7 +24,16 @@ void ProgressiveSource::notify(const QString &state) {
 }
 ProgressiveSource::Status ProgressiveSource::status() const {
   std::lock_guard<std::mutex> lock(mutex);
-  return currentStatus;
+  auto result=currentStatus;
+  if(selectedAudioTrack>0 && size_t(selectedAudioTrack)<snapshot.tracks.size() && !snapshot.tracks[selectedAudioTrack].required) {
+    result.available=std::min(result.available,result.mediaAvailable[selectedAudioTrack]);
+    result.complete=result.complete && result.mediaComplete[selectedAudioTrack];
+  }
+  return result;
+}
+void ProgressiveSource::selectAudioTrack(int track) {
+  std::lock_guard<std::mutex> lock(mutex);
+  selectedAudioTrack=track>0 && size_t(track)<snapshot.tracks.size()?track:-1;
 }
 QString ProgressiveSource::id() const {
   std::lock_guard<std::mutex> lock(mutex);
@@ -96,13 +105,11 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
           track.available, i?1:0, harvester::EndReady(track),
           value.timestampOffset, v2Bridge && v2Bridge->videoCodec()=="hevc",
           v2Bridge && v2Bridge->videoCodec()=="av1",v2Bridge && v2Bridge->videoCodec()=="vp9",v2Bridge && v2Bridge->audioCodec(i?i:1)=="opus",v2Bridge && v2Bridge->isWebm(i));
+    result.mediaAvailable[i]=double(harvester::ReadyEnd(track.fragmented ? indexes[i].Samples() : indexed[i].samples(),track.available,duration))/10000000.;
+    result.mediaComplete[i]=harvester::EndReady(track);
     if (!track.required) continue;
-    end = std::min(
-        end, double(harvester::ReadyEnd(track.fragmented ? indexes[i].Samples()
-                                                         : indexed[i].samples(),
-                                        track.available, duration)) /
-                 10000000.);
-    complete = complete && harvester::EndReady(track);
+    end=std::min(end,result.mediaAvailable[i]);
+    complete=complete && result.mediaComplete[i];
   }
   result.duration = double(duration) / 10000000.;
   result.timestampOffset = double(value.timestampOffset) / 10000000.;
@@ -113,7 +120,7 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
 void ProgressiveSource::updateIndexes() {
   const auto value=indexStatus(snapshot);
   currentStatus.duration=value.duration;currentStatus.timestampOffset=value.timestampOffset;
-  currentStatus.available=value.available;currentStatus.complete=value.complete;
+  currentStatus.available=value.available;currentStatus.complete=value.complete;currentStatus.mediaAvailable=value.mediaAvailable;currentStatus.mediaComplete=value.mediaComplete;
 }
 
 void ProgressiveSource::fail(const QString &error) {

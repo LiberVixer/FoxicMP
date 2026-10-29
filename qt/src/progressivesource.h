@@ -24,6 +24,8 @@ public:
     bool connected = false, complete = false, cancelled = false;
     double duration = 0, available = 0, timestampOffset = 0;
     QString error;
+    std::array<double,harvester::MaxMediaTracks> mediaAvailable{};
+    std::array<bool,harvester::MaxMediaTracks> mediaComplete{};
   };
   static std::shared_ptr<ProgressiveSource> open(const QString &manifest);
   // Player-owned published-prefix session, without a downloader-side server.
@@ -36,6 +38,7 @@ public:
   void cancel();
   void notify(const QString &state);
   Status status() const;
+  void selectAudioTrack(int track);
   // Short reads are legal. 0 means confirmed complete EOF, -1 means error or
   // cancellation. Unpublished bytes wait without a timeout-to-EOF conversion.
   int64_t read(int track, uint64_t offset, char *buffer, uint64_t count, const std::atomic<bool> *interrupted = nullptr);
@@ -75,6 +78,7 @@ private:
   std::thread worker;
   std::atomic<bool> stopping{false};
   Status currentStatus;
+  int selectedAudioTrack=1;
   QString playbackState = "buffering";
   QString readerId;
   int socket = -1;

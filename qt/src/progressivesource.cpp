@@ -155,7 +155,7 @@ void ProgressiveSource::refresh() {
    if(stopping.load() || !currentStatus.error.isEmpty())return;
    snapshot=next;currentStatus.duration=indexedStatus.duration;
    currentStatus.timestampOffset=indexedStatus.timestampOffset;
-   currentStatus.available=indexedStatus.available;currentStatus.complete=indexedStatus.complete;}
+   currentStatus.available=indexedStatus.available;currentStatus.complete=indexedStatus.complete;currentStatus.mediaAvailable=indexedStatus.mediaAvailable;currentStatus.mediaComplete=indexedStatus.mediaComplete;}
   changed.notify_all();
 }
 bool ProgressiveSource::connectProvider() {

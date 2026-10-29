@@ -27,6 +27,7 @@ class CHarvesterSession {
     mutable std::array<size_t,harvester::MaxMediaTracks> m_indexPosition{{0,0}};
     mutable std::array<int64_t,harvester::MaxMediaTracks> m_indexEnd{{0,0}};
     std::atomic<int64_t> m_position{0};
+    std::atomic<int> m_selectedAudioTrack{1};
     std::atomic<unsigned> m_completionWaiters{0};
     std::thread m_thread;
     HANDLE m_cancel=nullptr, m_stop=nullptr;
@@ -80,6 +81,7 @@ public:
     bool SetIndex(int track, std::vector<harvester::Sample> samples, int64_t duration);
     int SampleAt(int track,size_t index,harvester::Sample& sample) const; // 0 waiting, 1 packet, 2 confirmed EOF
     size_t SeekSample(int track,int64_t position) const;
+    void SelectAudioTrack(int track);
     int64_t ReadyEnd() const;
     bool Complete() const;
     void Notify(const char* status);
