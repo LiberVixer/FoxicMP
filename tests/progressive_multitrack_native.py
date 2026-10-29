@@ -38,7 +38,7 @@ def run(runner,fixtures):
     def reject_change(v,data,path,rpc,readers):
         v['revision']='2';v['tracks'][2]['default']=True;v['tracks'][1]['default']=False;assert not rpc('publish',session=v)['ok'];assert rpc('read',track=0,offset='0',length='8')['bytesRead']==8
     case('default-order-change-requires-reopen-and-preserves-current',check=reject_change)
-    for name,edit in [('optional-audio',lambda v,d,p:v['tracks'][2].update(required=False)),('two-defaults',lambda v,d,p:v['tracks'][2].update(default=True)),('false-secondary-codec',lambda v,d,p:v['tracks'][3].update(codecHint='opus')),('required-subtitle',lambda v,d,p:v['tracks'][4].update(required=True)),('subtitle-nonzero-offset',lambda v,d,p:v['timeline'].update(timestampOffset='10000'))]:case(name,edit,error='unsupported_media')
+    for name,edit in [('optional-default-audio',lambda v,d,p:v['tracks'][1].update(required=False)),('two-defaults',lambda v,d,p:v['tracks'][2].update(default=True)),('false-secondary-codec',lambda v,d,p:v['tracks'][3].update(codecHint='opus')),('required-subtitle',lambda v,d,p:v['tracks'][4].update(required=True)),('subtitle-nonzero-offset',lambda v,d,p:v['timeline'].update(timestampOffset='10000'))]:case(name,edit,error='unsupported_media')
     def audio_count(v,data,path,count):
         for r in v['resources'][2:]:
             target=path/r['name']
@@ -87,4 +87,28 @@ def run(runner,fixtures):
         assert [t['state'] for t in state['subtitleTracks']]==['ready','error'],state
         assert rpc('verify')['ok'];assert rpc('read',track=0,offset='0',length='8')['bytesRead']==8
     case('late-malformed-srt-update-keeps-av-and-existing-subtitle',check=late_bad)
+    def optional(v,data,path):
+        v['tracks'][2]['required']=False;v['tracks'][2]['initializationReady']=False
+        # Stable ordering keeps required primary/secondary ahead of optional.
+        r=v['resources'][2];r['ranges']=[];(path/r['name']).unlink()
+    def optional_check(v,data,path,rpc,readers,mode):
+        state=rpc('status');out=next(t for t in state['mediaTracks'] if t['id']=='track-2');index=out['index']
+        assert out['state']=='waiting' and not out['ready'] and not out['required'],out
+        assert rpc('read',track=index,offset='0',length='8')['bytesRead']==-1
+        assert rpc('read',track=0,offset='0',length='8')['bytesRead']==8
+        r=v['resources'][2];r.update(length=str(len(data[2])),ranges=[dict(offset='0',length=str(len(data[2])))],state='complete');v['tracks'][2].update(initializationReady=True,state='complete');v['revision']='2'
+        if mode!='missing':(path/r['name']).write_bytes(data[2] if mode!='invalid' else b'x'*len(data[2]))
+        if mode=='failed':r['state']='failed';v['tracks'][2]['state']='failed'
+        assert rpc('publish',session=v)['ok'];state=rpc('status');out=next(t for t in state['mediaTracks'] if t['id']=='track-2')
+        assert out['index']==index and state['revision']=='2',state
+        if mode in ('missing','invalid','failed'):
+            assert out['state']=='error' and out['errorCode'] and not out['ready'],out
+            assert rpc('verify')['ok'] and rpc('read',track=1,offset='0',length='8')['bytesRead']==8
+        else:
+            assert out['state']=='ready' and out['ready'] and out['codec']=='opus',out
+            assert rpc('read',track=index,offset='0',length='8')['hex']==data[2][:8].hex()
+            # Once activated, audio retains the existing strict A/V integrity boundary.
+            (path/r['name']).write_bytes(b'changed');assert not rpc('verify')['ok']
+    for mode in ('complete','missing','invalid','failed'):
+        case('pending-optional-audio-'+mode,optional,check=lambda *args,m=mode:optional_check(*args,m))
     return dict(result='PASS',passed=len(names),cases=names)

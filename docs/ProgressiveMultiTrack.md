@@ -12,7 +12,7 @@ Harvester не изменяется. Возможности проверять �
 этого первого профиля должны быть required и иметь готовую инициализацию до
 start. Доступная позиция — общий подтверждённый участок всех аудио и видео;
 незагруженная аудиодорожка может задержать общий старт/буферизацию.
-Независимое ожидание только выбранного optional audio остаётся отдельным этапом.
+Отложенное подключение полного optional audio добавлено в [SDK 1.25](ProgressiveOptionalAudio.md); частично скачанная optional дорожка пока не подключается.
 
 Кодеки/контейнеры сохраняют ограничения SDK 1.14–1.21. Допускается смешение
 fMP4 AAC-LC/Opus и WebM Opus/Vorbis в одном сеансе. Не более одного default audio:
@@ -65,7 +65,7 @@ Backend-ошибки подключения также не закрывают A
 доступна диагностика loadedSubtitleCount. Видимость субтитров и native renderer
 подчиняются настройкам пользователя; defaults и профиль установки не меняются.
 
-ASS/bitmap/embedded subtitles, потоковые cues, несколько video, optional audio,
+ASS/bitmap/embedded subtitles, потоковые cues, несколько video, optional audio beyond the complete-file profile,
 сегменты/live и muxed/remux не добавлены. Общая metadataApplied остаётся false:
 главы и общие metadata ещё не подключены.
 

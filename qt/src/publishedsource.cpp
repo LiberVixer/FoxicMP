@@ -70,7 +70,7 @@ ProgressiveSource::openPublished(const QJsonObject &input, const QString &reader
   if (!readerRegistry.isEmpty())
   {
     std::vector<foxicmp::progressive::BoundResource> identities;
-    for(size_t i=0;i<source->snapshot.tracks.size();++i)identities.push_back({i?(i==1?"audio":"audio-"+std::to_string(i)):"video",source->devices[i],source->inodes[i]});
+    for(size_t i=0;i<source->snapshot.tracks.size();++i)if(source->snapshot.tracks[i].initializationReady)identities.push_back({i?(i==1?"audio":"audio-"+std::to_string(i)):"video",source->devices[i],source->inodes[i]});
     source->readerLease = foxicmp::progressive::ReaderLease::Create(
         std::filesystem::u8path(readerRegistry.toUtf8().toStdString()), source->snapshot.sessionId,
         source->snapshot.generation, identities);
@@ -113,9 +113,10 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input, const QString &re
         std::filesystem::u8path(publishedRoot.toUtf8().toStdString()), std::filesystem::u8path(readerRegistry.toUtf8().toStdString()),
         QJsonDocument(manifest).toJson(QJsonDocument::Compact).toStdString());
     snapshot = v2Bridge->snapshot();const auto bindings = v2Bridge->bindings();
+    size_t bound=0;
     for (int i=0;size_t(i)<snapshot.tracks.size();++i) {
       publishedPaths.append(resolveTrackPath(QString::fromStdString(snapshot.tracks[i].path), publishedRoot));
-      devices[i]=bindings[i].device; inodes[i]=bindings[i].fileId;
+      if(snapshot.tracks[i].initializationReady){devices[i]=bindings[bound].device; inodes[i]=bindings[bound++].fileId;}
     }
   } else snapshot = snapshotFor(input, &publishedPaths, publishedRoot);
   if (snapshot.state == harvester::State::Cancelled ||
@@ -124,7 +125,7 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input, const QString &re
   try {
     for (int i = 0; size_t(i)<snapshot.tracks.size(); ++i) {
       const auto &track = snapshot.tracks[i];
-      if (!track.initializationReady)
+      if (!track.initializationReady && track.required)
         throw std::runtime_error("MP4 initialization is not ready; retry start after the index is written");
       if (!v2Bridge) {
         files[i] = ProgressiveFile::open(publishedPaths[i]);

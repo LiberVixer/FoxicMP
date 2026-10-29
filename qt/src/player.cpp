@@ -412,9 +412,9 @@ void Player::drainEvents() {
         }
         continue;
       }
-      // Optional progressive SRT failure must not become a fatal A/V error.
+      // Optional progressive track attachment must not become a fatal A/V error.
       // The owner correlates these private requests with its source generation.
-      if ((event->reply_userdata >> 48) == 0x5355) {
+      if (((event->reply_userdata >> 48) == 0x5355 || (event->reply_userdata >> 48) == 0x4155)) {
         emit commandFinished(event->reply_userdata, event->error);
         continue;
       }
@@ -449,7 +449,7 @@ bool Player::command(const QStringList &arguments, quint64 requestId) {
   args.append(nullptr);
   int result = mpv_command_async(handle, requestId, args.data());
   if (result < 0) {
-    if ((requestId >> 48) == 0x5355) emit commandFinished(requestId,result);
+    if (((requestId >> 48) == 0x5355 || (requestId >> 48) == 0x4155)) emit commandFinished(requestId,result);
     else emit error(QString::fromUtf8(mpv_error_string(result)));
   }
   return result >= 0;

@@ -149,7 +149,7 @@ struct ResourceRead {
     std::string code,reason;size_t bytes=0;
     bool data() const {return code=="data";}
 };
-enum class ResourceFailurePolicy { Strict, IsolateOptionalSrt };
+enum class ResourceFailurePolicy { Strict, IsolateOptionalSrt, IsolatePendingAudioAndSrt };
 class ResourceSource {
     using Directory=resource_detail::Directory;
     using Pin=resource_detail::Pin;
@@ -162,8 +162,9 @@ class ResourceSource {
     std::string failure;
     ResourceFailurePolicy failurePolicy;
     std::map<std::string,ResourceRead> resourceFailures;
+    std::set<std::string> activeMedia;
     bool isolate(const std::string& id) const {
-        if(failurePolicy!=ResourceFailurePolicy::IsolateOptionalSrt)return false;
+        if(failurePolicy==ResourceFailurePolicy::Strict || activeMedia.count(id))return false;
         bool found=false;
         for(const auto& item:snapshot.tracks) {
             const auto& track=item.second;
@@ -171,8 +172,9 @@ class ResourceSource {
             for(const auto& segment:track.segments)
                 if(segment.resource==id || segment.initialization==id)return false;
             if(track.resource==id) {
-                if(track.required || track.kind!="subtitle" || track.container!="srt" ||
-                   (!track.codec.empty() && track.codec!="srt"))return false;
+                const bool srt=track.kind=="subtitle" && track.container=="srt" && (track.codec.empty() || track.codec=="srt");
+                const bool audio=failurePolicy==ResourceFailurePolicy::IsolatePendingAudioAndSrt && track.kind=="audio" && (track.container=="fmp4" || track.container=="webm");
+                if(track.required || !(srt || audio))return false;
                 found=true;
             }
         }
@@ -272,6 +274,13 @@ public:
         std::lock_guard<std::mutex> lock(mutex);
         resource_detail::Check(!cancelled.load() && failure.empty(),"session-closed","Resource source was closed");
         verifyPins(snapshot);
+    }
+    // A validated optional audio resource enters the ordinary strict media
+    // lifetime before any backend can consume it. Pending failures stay local.
+    void activateMedia(const std::string& id) {
+        std::lock_guard<std::mutex> lock(mutex);
+        resource_detail::Check(!resourceFailures.count(id),"resource-failed","Cannot activate a quarantined resource");
+        activeMedia.insert(id);
     }
     ResourceRead resourceError(const std::string& id) const {
         std::lock_guard<std::mutex> lock(mutex);

@@ -421,6 +421,12 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
   };
   connect(player, &Player::diagnosticMessage, this, rememberDiagnostic);
   connect(player, &Player::commandFinished, this, [this](quint64 request,int status) {
+    const auto audio=progressiveAudioRequests.find(request);
+    if(audio!=progressiveAudioRequests.end()) {
+      const auto id=audio.value();progressiveAudioRequests.erase(audio);
+      if(status<0){progressiveAudioLoadErrors[id]=QString::fromUtf8(mpv_error_string(status));progressiveAttachedAudio.remove(id);}
+      refreshTracks();return;
+    }
     const auto found=progressiveSubtitleRequests.find(request);
     if(found==progressiveSubtitleRequests.end())return;
     const auto id=found.value();progressiveSubtitleRequests.erase(found);
@@ -1916,6 +1922,12 @@ void Window::refreshTracks() {
     a->setEnabled(subtitleTrackAllowed(t));
     a->setCheckable(true);
     a->setChecked(t.value("selected").toBool());
+  }
+  if(progressive)for(const auto& value:progressive->playbackDetails().value("mediaTracks").toArray()) {
+    const auto track=value.toObject();if(track.value("kind")!="audio" || track.value("required").toBool() || (track.value("ready").toBool() && !progressiveAudioLoadErrors.contains(track.value("id").toString())))continue;
+    const bool error=!track.value("errorCode").toString().isEmpty() || progressiveAudioLoadErrors.contains(track.value("id").toString());
+    auto* item=audioMenu->addAction(track.value("label").toString()+QStringLiteral(" — ")+(error?uiTr("Недоступно"):uiTr("Загрузка…")));item->setEnabled(false);
+    item->setToolTip(error?track.value("error").toString():uiTr("Дорожка станет доступна после полной загрузки"));
   }
   if (audioMenu->isEmpty()) {
     auto *empty = audioMenu->addAction(uiTr("Аудиодорожек нет"));

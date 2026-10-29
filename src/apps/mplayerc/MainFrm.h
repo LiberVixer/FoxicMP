@@ -483,6 +483,9 @@ private:
 	CString					m_LastOpenFile;
 	std::shared_ptr<CHarvesterSession> m_harvester;
     std::set<std::wstring> m_harvesterSubtitles;
+    std::set<int> m_harvesterAudioAttempted;
+    std::map<int,DWORD> m_harvesterAudioStreams;
+    std::map<int,std::string> m_harvesterAudioErrors;
 	bool m_harvesterBuffering = false, m_harvesterWantPlay = true, m_harvesterStarted = false;
 	void UpdateHarvesterPlayback(REFERENCE_TIME now);
 	std::unique_ptr<OpenMediaData> m_lastOMD;

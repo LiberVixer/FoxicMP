@@ -207,6 +207,11 @@ private:
   QByteArray subtitleStyleStamp;
   QString subtitleStylePath;
   bool subtitleUserSelection = false;
+  QSet<QString> progressiveAttachedAudio;
+  QMap<quint64,QString> progressiveAudioRequests;
+  QMap<QString,QString> progressiveAudioLoadErrors;
+  quint64 progressiveAudioSequence = 0;
+  QString progressiveMediaMenuStamp;
   QSet<QString> progressiveAttachedSubtitles;
   QMap<quint64,QString> progressiveSubtitleRequests;
   QMap<QString,QString> progressiveSubtitleLoadErrors;

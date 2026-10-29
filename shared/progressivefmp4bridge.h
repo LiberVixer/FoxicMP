@@ -8,7 +8,7 @@
 
 namespace foxicmp { namespace progressive {
 inline const char* Fmp4V2Capabilities() {
-    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"trackCountMin":2,"trackCountMax":13,"mediaTrackCountMax":9,"audioTrackLimit":8,"multiAudio":true,"subtitles":{"containers":["srt"],"codecs":["srt"],"encoding":"utf-8","trackLimit":4,"completeFileRequired":true,"lateCompletion":true,"optionalErrorIsolation":true,"retainsValidatedCopyOnSourceError":true,"sizeLimitBytes":524288},"audioTracksRequired":true,"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
+    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"trackCountMin":2,"trackCountMax":13,"mediaTrackCountMax":9,"audioTrackLimit":8,"multiAudio":true,"subtitles":{"containers":["srt"],"codecs":["srt"],"encoding":"utf-8","trackLimit":4,"completeFileRequired":true,"lateCompletion":true,"optionalErrorIsolation":true,"retainsValidatedCopyOnSourceError":true,"sizeLimitBytes":524288},"audioTracksRequired":false,"optionalAudio":{"completeFileRequired":true,"lateCompletion":true,"pendingErrorIsolation":true,"activeResourceErrorsFatal":true,"requiredPrimaryAudio":true},"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"metadataApplied":false,"initializationLimitBytes":1048576})";
 }
 class Fmp4V2Bridge {
     Snapshot model;
@@ -23,6 +23,7 @@ class Fmp4V2Bridge {
     std::array<uint64_t,harvester::MaxMediaTracks> initOffsets{};
     std::atomic<uint64_t> decoderBytes[harvester::MaxMediaTracks]{};
     std::string failure;
+    std::array<std::string,harvester::MaxMediaTracks> audioErrors,audioErrorCodes;
     std::string videoCodecName,audioCodecName;
     std::array<bool,harvester::MaxMediaTracks> webmMode{};
     struct Subtitle {std::string id,resource,label,language,bytes,path,errorCode,error;bool defaultTrack=false,forced=false;};
@@ -53,19 +54,21 @@ class Fmp4V2Bridge {
             if(t.kind=="video"){supported(!video,"Only one video track is enabled");video=&t;}
             else if(t.defaultTrack)++defaults;
         }
-        supported(video && defaults<=1,"Video is required; at most one default audio track");ordered.push_back(video);
-        for(const auto& item:snapshot.tracks)if(item.second.kind=="audio" && item.second.defaultTrack)ordered.push_back(&item.second);
-        for(const auto& item:snapshot.tracks)if(item.second.kind=="audio" && !item.second.defaultTrack)ordered.push_back(&item.second);
+        supported(video && video->required && defaults<=1,"Required video and at most one default audio track are needed");ordered.push_back(video);
+        for(const auto& item:snapshot.tracks)if(item.second.kind=="audio" && item.second.defaultTrack){supported(item.second.required,"The default audio track must be required");ordered.push_back(&item.second);}
+        for(const auto& item:snapshot.tracks)if(item.second.kind=="audio" && item.second.required && !item.second.defaultTrack)ordered.push_back(&item.second);
+        supported(ordered.size()>=2,"At least one required primary audio track is needed");
+        for(const auto& item:snapshot.tracks)if(item.second.kind=="audio" && !item.second.required)ordered.push_back(&item.second);
         supported(ordered.size()>=2 && ordered.size()<=harvester::MaxMediaTracks,"One video and one to eight audio tracks are required");
         harvester::Snapshot result;result.tracks.resize(ordered.size());result.sessionId=snapshot.id;result.generation=snapshot.generation;result.revision=snapshot.revision;
         result.duration=snapshot.duration;result.timestampOffset=snapshot.offset;result.state=state(snapshot.state);std::set<std::string> ids;
         for(size_t index=0;index<ordered.size();++index){const auto& track=*ordered[index];
-            supported(track.required && !track.resource.empty() && track.segments.empty() && track.initialization.empty(),"All media tracks must be required, separate and initialized; segments/external init are unsupported");
+            supported(!track.resource.empty() && track.segments.empty() && track.initialization.empty(),"All media tracks must be separate; segments/external init are unsupported");
             const bool webm=track.container=="webm";
             supported((webm || track.container=="fmp4") && (track.codec.empty() || (webm?(index?(track.codec=="opus" || track.codec=="vorbis"):track.codec=="vp8" || track.codec=="vp9" || track.codec=="av1"):(index?(track.codec=="aac-lc" || track.codec=="opus"):track.codec=="h264" || track.codec=="hevc" || track.codec=="av1" || track.codec=="vp9"))),"Unsupported codec/container profile");
             const auto& resource=snapshot.resources.at(track.resource);supported(!resource.retired && ids.insert(resource.id).second,"Tracks need distinct non-retired resources");
             auto& output=result.tracks[index];output.path=resource.name;output.container=webm?"webm":index?"m4a":"mp4";
-            output.fragmented=true;output.initializationReady=track.initializationReady;output.available=prefix(resource);output.total=resource.known?resource.length:0;output.state=state(track.state);
+            output.required=track.required;output.fragmented=true;output.initializationReady=track.initializationReady;output.available=prefix(resource);output.total=resource.known?resource.length:0;output.state=state(track.state);
             if(resources)(*resources)[index]=resource.id;if(tracks)(*tracks)[index]=track.id;
         }
         return result;
@@ -266,8 +269,33 @@ class Fmp4V2Bridge {
         }
         subtitleResourceErrors();
     }
+    void prepareAudio() {
+        for(size_t i=1;i<legacy.tracks.size();++i) {
+            auto& out=legacy.tracks[i];if(out.required)continue;
+            if(!initialization[i].empty()){out.initializationReady=true;continue;}
+            out.initializationReady=false;
+            if(!audioErrorCodes[i].empty())continue;
+            const auto& track=model.tracks.at(trackIds[i]);const auto& resource=model.resources.at(resourceIds[i]);
+            if(track.state=="failed" || track.state=="cancelled" || resource.state=="failed" || resource.state=="cancelled") {
+                audioErrorCodes[i]="resource-failed";audioErrors[i]="Optional audio failed or was cancelled before activation";continue;
+            }
+            if(track.state!="complete" || resource.state!="complete")continue;
+            try {
+                Require(track.initializationReady && resource.known && resource.length && prefix(resource)==resource.length,"optionalAudio","Optional audio needs a complete initialized resource","source_not_ready");
+                out.initializationReady=true;initialize(int(i));
+                harvester::FragmentIndex index;
+                index.Update([&](uint64_t at,void* data,size_t count){return exact(int(i),at,data,count);},out.available,1,true,legacy.timestampOffset,false,false,false,trackCodecs[i]=="opus",isWebm(int(i)));
+                Require(!index.Samples().empty(),"optionalAudio","Optional audio contains no validated packets","unsupported_media");
+                source->activateMedia(resourceIds[i]);
+            }catch(const std::exception& error) {
+                const auto* typed=dynamic_cast<const Error*>(&error);if(typed && typed->code=="cancelled")throw;
+                audioErrorCodes[i]=typed?typed->code:"unsupported_media";audioErrors[i]=error.what();
+                initialization[i].clear();trackCodecs[i].clear();out.initializationReady=false;
+            }
+        }
+    }
     void verifyInitialization() {
-        for(size_t i=0;i<legacy.tracks.size();++i) {std::vector<char> bytes(initialization[i].size());Require(exact(i,initOffsets[i],bytes.data(),bytes.size()) && bytes==initialization[i],"initialization","Published codec initialization changed","source_rewritten");}
+        for(size_t i=0;i<legacy.tracks.size();++i) {if(initialization[i].empty())continue;std::vector<char> bytes(initialization[i].size());Require(exact(i,initOffsets[i],bytes.data(),bytes.size()) && bytes==initialization[i],"initialization","Published codec initialization changed","source_rewritten");}
     }
 public:
     const std::string& videoCodec() const {return videoCodecName;}
@@ -275,8 +303,8 @@ public:
     bool isWebm(int track=0) const {return webmMode.at(track);}
     static void CheckProfile(const std::string& json){map(Parse(json));}
     Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):model(Parse(json)),identityGeneration(model.generation),identityWriter(model.writer),detailsRevision(model.revision),registry(receipts) {
-        legacy=map(model,&resourceIds,&trackIds);for(size_t i=0;i<legacy.tracks.size();++i)webmMode[i]=legacy.tracks[i].container=="webm";source=std::make_shared<ResourceSource>(root,receipts,json,ResourceFailurePolicy::IsolateOptionalSrt);
-        try {for(size_t i=0;i<legacy.tracks.size();++i)initialize(int(i));prepareSubtitles(model);}catch(...){cleanup();throw;}
+        legacy=map(model,&resourceIds,&trackIds);for(size_t i=0;i<legacy.tracks.size();++i)webmMode[i]=legacy.tracks[i].container=="webm";source=std::make_shared<ResourceSource>(root,receipts,json,ResourceFailurePolicy::IsolatePendingAudioAndSrt);
+        try {for(size_t i=0;i<legacy.tracks.size();++i)if(legacy.tracks[i].required)initialize(int(i));prepareAudio();prepareSubtitles(model);}catch(...){cleanup();throw;}
     }
     ~Fmp4V2Bridge(){cleanup();}
     void cleanup() noexcept {
@@ -287,10 +315,10 @@ public:
         }catch(...){source.reset();} // Failed acknowledgement retains a conservative receipt.
     }
     harvester::Snapshot snapshot() const {std::lock_guard<std::mutex> lock(mutex);return legacy;}
-    std::vector<BoundResource> bindings() const {std::lock_guard<std::mutex> lock(mutex);std::vector<BoundResource> out;for(size_t i=0;i<legacy.tracks.size();++i)out.push_back(source->binding(resourceIds[i]));return out;}
-    bool readIndex(int track,uint64_t offset,void* buffer,size_t count) {std::lock_guard<std::mutex> lock(mutex);return failure.empty() && exact(track,offset,buffer,count);}
+    std::vector<BoundResource> bindings() const {std::lock_guard<std::mutex> lock(mutex);std::vector<BoundResource> out;for(size_t i=0;i<legacy.tracks.size();++i)if(legacy.tracks[i].initializationReady)out.push_back(source->binding(resourceIds[i]));return out;}
+    bool readIndex(int track,uint64_t offset,void* buffer,size_t count) {std::lock_guard<std::mutex> lock(mutex);return failure.empty() && legacy.tracks.at(track).initializationReady && exact(track,offset,buffer,count);}
     int64_t readPayload(int track,uint64_t offset,void* buffer,size_t count) {
-        std::lock_guard<std::mutex> lock(mutex);if(!failure.empty())return -1;
+        std::lock_guard<std::mutex> lock(mutex);if(!failure.empty() || !legacy.tracks.at(track).initializationReady)return -1;
         const auto read=source->read(resourceIds[track],offset,buffer,(std::min)(count,size_t(65536)));
         if(read.data()){const auto size=uint64_t(read.bytes);const auto previous=decoderBytes[track].load();decoderBytes[track].store(size<=UINT64_MAX-previous?previous+size:UINT64_MAX);return int64_t(size);}
         return read.code=="eof"?0:-1;
@@ -299,8 +327,8 @@ public:
         const auto next=Parse(json);std::array<std::string,harvester::MaxMediaTracks> nextIds;const auto mapped=map(next,nullptr,&nextIds);std::lock_guard<std::mutex> lock(mutex);
         supported(nextIds==trackIds,"Media track set/default ordering cannot change; reopen playback");Advance(model,next);
         Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");
-        try{verifyInitialization();source->publish(json);prepareSubtitles(next);}catch(const Error& error){failure=error.code;throw;}
-        model=next;legacy=mapped;detailsRevision.store(next.revision);
+        try{verifyInitialization();source->publish(json);model=next;legacy=mapped;prepareAudio();prepareSubtitles(next);}catch(const Error& error){failure=error.code;throw;}
+        detailsRevision.store(next.revision);
     }
     void verify(){std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();subtitleResourceErrors();}
     void cancel(){if(source)source->cancel();}
@@ -316,7 +344,9 @@ public:
         bytes.AddMember("video",Value(std::to_string(decoderBytes[0].load()).c_str(),a),a);bytes.AddMember("audio",Value(std::to_string(decoderBytes[1].load()).c_str(),a),a);d.AddMember("decoderIoBytes",bytes,a);
         Value tracks(rapidjson::kArrayType);
         for(size_t i=0;i<legacy.tracks.size();++i){const auto& t=model.tracks.at(trackIds[i]);Value item(rapidjson::kObjectType);
-            item.AddMember("index",unsigned(i),a);item.AddMember("id",Value(t.id.c_str(),a),a);item.AddMember("kind",Value(t.kind.c_str(),a),a);item.AddMember("label",Value(t.label.c_str(),a),a);item.AddMember("language",Value(t.language.c_str(),a),a);item.AddMember("codec",Value(trackCodecs[i].c_str(),a),a);item.AddMember("container",Value(t.container.c_str(),a),a);item.AddMember("default",t.defaultTrack,a);item.AddMember("decoderIoBytes",Value(std::to_string(decoderBytes[i].load()).c_str(),a),a);tracks.PushBack(item,a);
+            item.AddMember("index",unsigned(i),a);item.AddMember("id",Value(t.id.c_str(),a),a);item.AddMember("kind",Value(t.kind.c_str(),a),a);item.AddMember("label",Value(t.label.c_str(),a),a);item.AddMember("language",Value(t.language.c_str(),a),a);item.AddMember("codec",Value(trackCodecs[i].c_str(),a),a);item.AddMember("container",Value(t.container.c_str(),a),a);item.AddMember("default",t.defaultTrack,a);item.AddMember("required",t.required,a);item.AddMember("ready",legacy.tracks[i].initializationReady,a);
+            item.AddMember("state",Value(audioErrorCodes[i].empty()?(legacy.tracks[i].initializationReady?"ready":"waiting"):"error",a),a);
+            item.AddMember("errorCode",Value(audioErrorCodes[i].c_str(),a),a);item.AddMember("error",Value(audioErrors[i].c_str(),a),a);item.AddMember("decoderIoBytes",Value(std::to_string(decoderBytes[i].load()).c_str(),a),a);tracks.PushBack(item,a);
         }
         d.AddMember("mediaTracks",tracks,a);Value subtitles(rapidjson::kArrayType);
         for(const auto& entry:subtitleTracks){const auto& t=entry.second;Value item(rapidjson::kObjectType);item.AddMember("id",Value(t.id.c_str(),a),a);item.AddMember("label",Value(t.label.c_str(),a),a);item.AddMember("language",Value(t.language.c_str(),a),a);item.AddMember("path",Value(t.path.c_str(),a),a);item.AddMember("ready",!t.path.empty(),a);item.AddMember("state",Value(t.errorCode.empty()?(t.path.empty()?"waiting":"ready"):(t.path.empty()?"error":"cached"),a),a);item.AddMember("errorCode",Value(t.errorCode.c_str(),a),a);item.AddMember("error",Value(t.error.c_str(),a),a);item.AddMember("default",t.defaultTrack,a);item.AddMember("forced",t.forced,a);subtitles.PushBack(item,a);}d.AddMember("subtitleTracks",subtitles,a);return lease_detail::Encode(d);

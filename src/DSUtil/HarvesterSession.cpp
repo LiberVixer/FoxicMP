@@ -236,7 +236,7 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
             throw std::runtime_error("Cannot start a terminal failed session");
         for(int i=0;size_t(i)<context->m_state.tracks.size();++i) {
             const auto& track=context->m_state.tracks[i];
-            if(!track.initializationReady)throw std::runtime_error("Initialization is not ready");
+            if(!track.initializationReady && track.required)throw std::runtime_error("Initialization is not ready");
             if(context->m_v2Bridge)continue;
             context->m_files[i]=OpenLocal(context->m_publishedPaths[i],true);
             RequireOwned(context->m_files[i]);
@@ -437,6 +437,7 @@ int64_t CHarvesterSession::ReadyEnd() const {
     std::lock_guard<std::mutex> lock(m_mutex);
     int64_t ready[harvester::MaxMediaTracks] = {};
     for(int track=0;size_t(track)<m_state.tracks.size();++track) {
+        if(!m_state.tracks[track].required){ready[track]=INT64_MAX;continue;}
         const auto& samples=Samples(track);auto& position=m_indexPosition[track];auto& end=m_indexEnd[track];
         while(position<samples.size() && harvester::RangeReady(samples[position].offset,samples[position].size,m_state.tracks[track].available)) {
             end=std::max(end,samples[position].end);++position;
@@ -447,7 +448,7 @@ int64_t CHarvesterSession::ReadyEnd() const {
     }
     return *std::min_element(ready,ready+m_state.tracks.size());
 }
-bool CHarvesterSession::Complete() const {auto s=Snapshot();return std::all_of(s.tracks.begin(),s.tracks.end(),[](const auto& t){return harvester::EndReady(t);});}
+bool CHarvesterSession::Complete() const {auto s=Snapshot();return std::all_of(s.tracks.begin(),s.tracks.end(),[](const auto& t){return !t.required || harvester::EndReady(t);});}
 
 const std::vector<harvester::Sample>& CHarvesterSession::Samples(int track) const {
     return m_state.tracks[track].fragmented?m_fragments[track]->Samples():m_samples[track];
@@ -455,7 +456,7 @@ const std::vector<harvester::Sample>& CHarvesterSession::Samples(int track) cons
 CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::Snapshot& snapshot) {
     Fragments result;
     {std::lock_guard<std::mutex> lock(m_mutex);result=m_fragments;}
-    for(int track=0;size_t(track)<snapshot.tracks.size();++track)if(snapshot.tracks[track].fragmented) {
+    for(int track=0;size_t(track)<snapshot.tracks.size();++track)if(snapshot.tracks[track].fragmented && snapshot.tracks[track].initializationReady) {
         // Clone and parse outside the metadata mutex used by UI readiness/seek.
         auto next=std::make_shared<harvester::FragmentIndex>(*result[track]);
         const auto& state=snapshot.tracks[track];

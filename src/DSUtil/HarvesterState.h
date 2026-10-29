@@ -54,7 +54,7 @@ inline void UniqueKeys(const rapidjson::Value& v, unsigned depth=0) {
 struct Track {
     std::string path, container;
     uint64_t available=0, total=0;
-    bool initializationReady=false, fragmented=false;
+    bool initializationReady=false, fragmented=false, required=true;
     State state=State::Downloading;
 };
 struct Snapshot {

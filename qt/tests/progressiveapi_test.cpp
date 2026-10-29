@@ -685,6 +685,37 @@ private slots:
     QVERIFY(audioDecoded.contains("aac"));QVERIFY(audioDecoded.contains("opus"));QVERIFY(audioDecoded.contains("vorbis"));QVERIFY(seekDone);QVERIFY(seekObserved);QVERIFY(lateText);QVERIFY(audioLabels);QVERIFY(restoredSelections);QVERIFY(restoredDecoded);QVERIFY(unconfirmedSeekRejected);QVERIFY(completeSeek);QVERIFY(completeSeekObserved);
     auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();result["backwardSeek"]=seekObserved;result["decodedAudioCodecs"]=QJsonArray::fromStringList(audioDecoded.values());result["lateSubtitleTextObserved"]=lateText;result["audioMenuLabelsObserved"]=audioLabels;result["selectedTracksRestoredAfterSeek"]=restoredSelections && restoredDecoded;result["unconfirmedSeekRejected"]=unconfirmedSeekRejected;result["completeFarSeekObserved"]=completeSeekObserved;QCOMPARE(result["result"].toString(),QString("PASS"));qInfo().noquote()<<"Multi-track report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
   }
+  void optionalAudioDoesNotBlockPlayback_data() {
+    QTest::addColumn<QString>("audioProfile");
+    for(const auto* name:{"late-aac","late-opus","late-vorbis","initial-ready","missing-complete","invalid-complete","writer-failed","never-ready","out-of-order","late-opus-fmp4"})QTest::newRow(name)<<QString(name);
+  }
+  void optionalAudioDoesNotBlockPlayback() {
+    QFETCH(QString,audioProfile);
+    Profile profile(temporary.filePath("optional-audio-"+audioProfile));prepare(profile);Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    auto* player=w.findChild<Player*>();QVERIFY(player);
+    const bool positive=audioProfile=="late-aac" || audioProfile=="late-opus" || audioProfile=="late-vorbis" || audioProfile=="initial-ready" || audioProfile=="out-of-order" || audioProfile=="late-opus-fmp4";
+    const QString expected=audioProfile=="late-aac"?"aac":audioProfile=="late-vorbis"?"vorbis":"opus";
+    bool primaryDecoded=false,optionalDecoded=false,selected=false,seekDone=false,seekObserved=false,restored=false,changingFrames=false;QByteArray firstFrame;
+    QTimer sample;sample.setInterval(100);connect(&sample,&QTimer::timeout,this,[&]{
+      if(!w.progressiveSession())return;
+      const auto seconds=player->get("time-pos").toDouble();const auto codec=player->get("audio-codec-name").toString();
+      if(seconds>=1 && player->get("aid").toInt()==1 && codec=="aac" && player->get("audio-params/samplerate").toInt()==48000)primaryDecoded=true;
+      const auto tracks=w.progressivePlaybackStatus()["mediaTracks"].toArray();bool ready=false,optionalSelected=false;
+      for(const auto& value:tracks){const auto track=value.toObject();if(track["id"]=="optional-audio" && track["loaded"].toBool()){ready=true;optionalSelected=track["selected"].toBool();}}
+      if(positive && ready && seconds>=4.3 && !selected){w.rememberTrack("aid","2");selected=true;}
+      if(selected && optionalSelected && codec==expected && player->get("audio-params/samplerate").toInt()==48000)optionalDecoded=true;
+      if(optionalDecoded && seconds>=6.3 && !seekDone)seekDone=w.seekTo(2);
+      if(seekDone && seconds<3 && !player->get("seeking").toBool())seekObserved=true;
+      if(seekObserved && seconds>=4 && optionalSelected && codec==expected)restored=true;
+      if(seconds>=4){const auto frame=player->grabFramebuffer();if(!frame.isNull()){const auto digest=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);if(firstFrame.isEmpty())firstFrame=digest;else changingFrames|=digest!=firstFrame;}}
+    });sample.start();
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_optional_audio_conformance.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",temporary.filePath("optional-audio-bytes-"+audioProfile),"--media-profile",audioProfile});
+    QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,85000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QVERIFY(writer.exitCode()==0);sample.stop();
+    QVERIFY(primaryDecoded);QVERIFY(changingFrames);if(positive){QVERIFY(optionalDecoded);QVERIFY(seekDone);QVERIFY(seekObserved);QVERIFY(restored);}
+    auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));result["primaryAudioDecoded"]=primaryDecoded;result["optionalAudioDecoded"]=optionalDecoded;result["changingDecodedVideo"]=changingFrames;result["selectionRestoredAfterSeek"]=restored;
+    qInfo().noquote()<<"Optional audio report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
+  }
   void optionalSubtitleErrorsKeepPlayback_data() {
     QTest::addColumn<QString>("srtProfile");
     for(const auto* name:{"initial-invalid","late-invalid","cached-truncate","cached-rewrite","missing-complete","writer-failed","cache-missing","required-audio-truncated"})QTest::newRow(name)<<QString(name);

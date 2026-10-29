@@ -12979,7 +12979,12 @@ CString CMainFrame::OpenFile(OpenFileData* pOFD, const CStringW& youtubeUrl)
 			if (bIsDirSet) {
 				::SetCurrentDirectoryW(oldcurdir);
 			}
-            if (m_harvester && FAILED(hr)) return L"Harvester: не удалось подключить аудиодорожку";
+            if (m_harvester) {
+                const auto snapshot=m_harvester->Snapshot();
+                for(size_t i=1;i<snapshot.tracks.size();++i)if(m_harvester->Path(int(i))==std::wstring(fn.GetString()) && !snapshot.tracks[i].required){m_harvesterAudioAttempted.insert(int(i));if(FAILED(hr))m_harvesterAudioErrors[int(i)]="Optional audio decoder attachment failed";}
+                if(SUCCEEDED(hr)){CComQIPtr<IAMStreamSelect> streams=FindSwitcherFilter();DWORD count=0;if(streams && SUCCEEDED(streams->Count(&count)) && count)for(size_t i=1;i<snapshot.tracks.size();++i)if(m_harvester->Path(int(i))==std::wstring(fn.GetString()))m_harvesterAudioStreams[int(i)]=count-1;}
+                if(FAILED(hr) && !std::any_of(m_harvesterAudioErrors.begin(),m_harvesterAudioErrors.end(),[&](const auto& item){return m_harvester->Path(item.first)==std::wstring(fn.GetString());}))return L"Harvester: не удалось подключить аудиодорожку";
+            }
 		}
 	}
 
@@ -15178,7 +15183,7 @@ void CMainFrame::CloseMediaPrivate()
 		m_pGB.Release();
 	}
 
-	m_harvester.reset();m_harvesterSubtitles.clear();
+	m_harvester.reset();m_harvesterSubtitles.clear();m_harvesterAudioAttempted.clear();m_harvesterAudioErrors.clear();m_harvesterAudioStreams.clear();
 	m_harvesterBuffering = false;
 	m_harvesterStarted = false;
 	PreviewWindowHide();
@@ -16392,6 +16397,16 @@ void CMainFrame::SetupAudioTracksSubMenu()
 				submenu.AppendMenuW(flags, id++, name);
 			}
 		}
+        if(m_harvester && m_harvester->HasV2Bridge()) {
+            rapidjson::Document details;details.Parse(m_harvester->PlaybackDetails().c_str());
+            if(details.HasMember("mediaTracks"))for(const auto& track:details["mediaTracks"].GetArray()) {
+                const auto index=track["index"].GetInt();if(index==0 || track["required"].GetBool() || (track["ready"].GetBool() && !m_harvesterAudioErrors.count(index)))continue;
+                CString name(m_harvester->TrackLabel(index).c_str());name.Replace(L"&",L"&&");
+                // Use existing translated native resource strings.
+                name+=L" [";name+=ResStr(track["ready"].GetBool() || track["errorCode"].GetStringLength()?IDS_AG_ERROR:IDS_SUBDL_DLG_DOWNLOADING);name+=L"]";
+                submenu.AppendMenuW(MF_STRING|MF_GRAYED,0,name);
+            }
+        }
 	} else if (GetPlaybackMode() == PM_DVD) {
 		ULONG ulStreamsAvailable, ulCurrentStream;
 		if (FAILED(m_pDVDI->GetCurrentAudio(&ulStreamsAvailable, &ulCurrentStream))) {
@@ -21680,6 +21695,26 @@ void CMainFrame::UpdateHarvesterPlayback(REFERENCE_TIME now)
         const bool selected=subtitle.selected && AfxGetAppSettings().fEnableSubtitles;
         if(LoadSubtitle(CExtraFileItem(subtitle.path.c_str(),subtitle.label.c_str(),subtitle.language.c_str()),selected?&stream:nullptr,true)){m_harvesterSubtitles.insert(subtitle.path);if(selected && stream)SetSubtitle(stream);}
         else m_harvester->SubtitleLoadFailed(subtitle.path);
+    }
+    if(m_eMediaLoadState==MLS_LOADED && m_harvester->HasV2Bridge()) {
+        const auto snapshot=m_harvester->Snapshot();
+        for(size_t i=1;i<snapshot.tracks.size();++i) {
+            if(snapshot.tracks[i].required || !snapshot.tracks[i].initializationReady || m_harvesterAudioAttempted.count(int(i)))continue;
+            m_harvesterAudioAttempted.insert(int(i));
+            CComQIPtr<IGraphBuilderAudio> graph=m_pGB.p;if(!graph)continue;
+            CComQIPtr<IAMStreamSelect> streams=m_pSwitcherFilter.p;DWORD count=0,selected=0;
+            if(streams && SUCCEEDED(streams->Count(&count)))for(DWORD j=0;j<count;++j){DWORD flags=0;if(SUCCEEDED(streams->Info(j,nullptr,&flags,nullptr,nullptr,nullptr,nullptr,nullptr)) && flags)selected=j;}
+            const bool running=GetMediaState()==State_Running;
+            m_pMC->Stop();
+            const auto hr=graph->RenderAudioFile(m_harvester->Path(int(i)).c_str());
+            m_pSwitcherFilter.Release();m_pSwitcherFilter=FindSwitcherFilter();
+            if(CComQIPtr<IAMStreamSelect> next=m_pSwitcherFilter.p)next->Enable(selected,AMSTREAMSELECTENABLE_ENABLE);
+            if(m_pMS)m_pMS->SetPositions(&now,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning);
+            if(running)m_pMC->Run();else m_pMC->Pause();
+            if(FAILED(hr))m_harvesterAudioErrors[int(i)]="Optional audio decoder attachment failed";
+            else {CComQIPtr<IAMStreamSelect> next=m_pSwitcherFilter.p;DWORD after=0;if(next && SUCCEEDED(next->Count(&after)) && after>count)m_harvesterAudioStreams[int(i)]=after-1;}
+            SetToolBarAudioButton();
+        }
     }
     m_harvester->ReportPosition(now);
     const auto ready = m_harvester->ReadyEnd();

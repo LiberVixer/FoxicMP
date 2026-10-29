@@ -85,6 +85,7 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
   bool complete = true;
   for (int i = 0; size_t(i) < value.tracks.size(); ++i) {
     const auto &track = value.tracks[i];
+    if (!track.initializationReady) continue;
     if (track.fragmented)
       indexes[i].Update(
           [&, i](uint64_t offset, void *buffer, size_t count) {
@@ -95,6 +96,7 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
           track.available, i?1:0, harvester::EndReady(track),
           value.timestampOffset, v2Bridge && v2Bridge->videoCodec()=="hevc",
           v2Bridge && v2Bridge->videoCodec()=="av1",v2Bridge && v2Bridge->videoCodec()=="vp9",v2Bridge && v2Bridge->audioCodec(i?i:1)=="opus",v2Bridge && v2Bridge->isWebm(i));
+    if (!track.required) continue;
     end = std::min(
         end, double(harvester::ReadyEnd(track.fragmented ? indexes[i].Samples()
                                                          : indexed[i].samples(),

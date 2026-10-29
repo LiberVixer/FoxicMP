@@ -1846,6 +1846,9 @@
     "Пункт меню FoxiqMP qt удалён.": "FoxiqMP qt menu entry removed.",
     "Удалить пункт меню FoxiqMP qt": "Remove FoxiqMP qt menu entry",
     "FoxiqMP qt %1 — Windows x64": "FoxiqMP qt %1 — Windows x64",
-    "Добавить FoxiqMP qt в «Открыть с помощью» и контекстное меню Windows для видеофайлов?": "Add FoxiqMP qt to Open with and the Windows video file context menu?"
+    "Добавить FoxiqMP qt в «Открыть с помощью» и контекстное меню Windows для видеофайлов?": "Add FoxiqMP qt to Open with and the Windows video file context menu?",
+    "Недоступно": "Unavailable",
+    "Загрузка…": "Downloading…",
+    "Дорожка станет доступна после полной загрузки": "This track will become available after the complete download"
   }
 }

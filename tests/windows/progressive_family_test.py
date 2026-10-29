@@ -24,6 +24,7 @@ from progressive_reader_api_conformance import exercise as exercise_reader_contr
 from progressive_resource_api_conformance import exercise as exercise_resource_contract
 from progressive_v2_playback_conformance import exercise as exercise_v2_playback, MEDIA_PROFILES
 from progressive_multitrack_conformance import exercise as exercise_multitrack
+from progressive_optional_audio_conformance import exercise as exercise_optional_audio, PROFILES as OPTIONAL_AUDIO_PROFILES
 from progressive_subtitle_isolation_conformance import exercise as exercise_srt_isolation, PROFILES as SRT_ISOLATION_PROFILES
 
 
@@ -577,6 +578,14 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.optional_audio_only or args.optional_audio_profile:
+            results=[]
+            for profile in ([args.optional_audio_profile] if args.optional_audio_profile else OPTIONAL_AUDIO_PROFILES):
+                folder=Path(args.report)/('audio-'+profile)
+                result=exercise_optional_audio(client,args.fixtures,folder,profile,select_audio=lambda:post_command(process.pid,952),seek=lambda seconds:seek_backward(process.pid,seconds))
+                (folder/'conformance.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
+                results.append(dict(contract='optional-audio',result=result))
+            return results
         if args.subtitle_only:
             results=[]
             for profile in SRT_ISOLATION_PROFILES:
@@ -693,6 +702,8 @@ def run(args):
 if __name__ == '__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--player',required=True);parser.add_argument('--fixtures',required=True);parser.add_argument('--report',required=True)
     parser.add_argument('--media-profile',choices=MEDIA_PROFILES)
+    parser.add_argument('--optional-audio-profile',choices=OPTIONAL_AUDIO_PROFILES)
+    parser.add_argument('--optional-audio-only',action='store_true')
     parser.add_argument('--subtitle-only',action='store_true')
     parser.add_argument('--multi-only',action='store_true')
     parser.add_argument('--sdk-only', action='store_true')

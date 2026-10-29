@@ -126,19 +126,32 @@ QJsonObject Window::progressivePlaybackStatus() const {
     subtitles.append(track);
   }
   result["subtitleTracks"]=subtitles;
+  QJsonArray media;
+  for(const auto& value:result.value("mediaTracks").toArray()) {
+    auto track=value.toObject();const int index=track.value("index").toInt();bool loaded=false,selected=false;
+    const auto suffix=index==0?QStringLiteral("/video"):index==1?QStringLiteral("/audio"):"/track/"+QString::number(index);
+    for(const auto& actual:player->get("track-list").toList()) {
+      const auto item=actual.toMap();if(index>0 && item.value("type")=="audio" && item.value("external-filename").toString().endsWith(suffix)){loaded=true;selected=item.value("selected").toBool();}
+    }
+    track["loaded"]=index==0?progressiveTracksReady:loaded;track["selected"]=selected;
+    const auto error=progressiveAudioLoadErrors.value(track.value("id").toString());if(!error.isEmpty()){track["backendErrorCode"]="decoder_error";track["backendError"]=error;}
+    media.append(track);
+  }
+  result["mediaTracks"]=media;
   int count=0,index=-1;for(const auto& item:player->get("track-list").toList()){const auto track=item.toMap();if(track.value("type")=="audio"){if(track.value("selected").toBool())index=count;++count;}}
   result["audioSelection"]=QJsonObject{{"count",count},{"index",index}};return result;
 }
 void Window::releaseProgressive(const QString &state) {
+  progressiveAttachedAudio.clear();progressiveAudioRequests.clear();progressiveMediaMenuStamp.clear();
   progressiveAttachedSubtitles.clear();
   progressiveSubtitleRequests.clear();
   progressivePendingSeek = progressiveSeekTarget = -1;
   setProperty("foxicmpProgressiveTitle", {});
-  if (!progressive) { progressiveSubtitleLoadErrors.clear(); return; }
+  if (!progressive) { progressiveSubtitleLoadErrors.clear();progressiveAudioLoadErrors.clear(); return; }
   const auto sourceError = progressive->status().error;
   const auto error = sourceError.isEmpty() ? lastError : sourceError;
   emit progressiveSessionEnded(progressive->id(), error.isEmpty() ? state : "error", error);
-  progressiveSubtitleLoadErrors.clear();
+  progressiveSubtitleLoadErrors.clear();progressiveAudioLoadErrors.clear();
   progressive->cancel();
   player->progressiveSource({});
   progressive.reset();
@@ -180,12 +193,15 @@ bool Window::seekTo(double seconds) {
     // demuxers only after their selected audio/subtitle streams are ready.
     // The pinned Source and its reader/session identity are not replaced.
     progressivePendingSeek = progressiveSeekTarget = seconds;
-    progressiveRestoreAudio = player->get("aid").toInt() > 0
-        ? QString::number(player->get("aid").toInt()) : QStringLiteral("no");
+    progressiveRestoreAudio="no";
+    for(const auto& value:player->get("track-list").toList()) {
+      const auto track=value.toMap();if(track.value("type")=="audio" && track.value("selected").toBool())progressiveRestoreAudio=track.value("external-filename").toString();
+    }
     progressiveRestoreSubtitle = progressiveSubtitlePath(player->get("sid").toString());
     progressiveStarted = false;
     progressiveTracksReady = false;
     progressiveBuffering = true;
+    progressiveAttachedAudio.clear();progressiveAudioRequests.clear();
     progressiveAttachedSubtitles.clear();
     progressiveSubtitleRequests.clear();
     updateProgressive();
@@ -234,7 +250,7 @@ void Window::updateProgressive() {
     // Both headers have already been validated by the per-track media bridge.
     const QString demuxer=mixed?QString():details.value("mediaMode").toString().startsWith("separate-webm-")?"matroska":"mov";
     QStringList audioFiles;
-    if(media.size()>2)for(int i=1;i<media.size();++i){audioFiles.append(url+(i==1?"/audio":"/track/"+QString::number(i)));}
+    if(media.size()>2)for(int i=1;i<media.size();++i){const auto track=media[i].toObject();if(!track.value("ready").toBool() || progressiveAudioLoadErrors.contains(track.value("id").toString()))continue;audioFiles.append(url+(i==1?"/audio":"/track/"+QString::number(i)));progressiveAttachedAudio.insert(track.value("id").toString());}
     QMap<QString,QString> options{{"audio-files-append",url+"/audio"}};
     if(!audioFiles.isEmpty()){
       // mpv path lists use ':' on Unix and ';' on Windows; escape URL colons
@@ -242,7 +258,7 @@ void Window::updateProgressive() {
       const auto separator=QDir::listSeparator();QStringList escaped;
       for(auto file:audioFiles){file.replace("\\","\\\\");file.replace(separator,QString("\\")+separator);escaped.append(file);}
       options.clear();options["audio-files"]=escaped.join(separator);
-      options["aid"]=progressiveRestoreAudio.isEmpty()?QStringLiteral("1"):progressiveRestoreAudio;
+      options["aid"]=progressiveRestoreAudio=="no"?QStringLiteral("no"):QStringLiteral("1");
       // Keep AVIO seekable without MOV scanning the growing tail for an index.
       // Validation/indexing in ResourceSource/FragmentIndex remains enabled.
       options["demuxer-lavf-o"]="fflags=+ignidx";
@@ -274,6 +290,21 @@ void Window::updateProgressive() {
     if(!player->loadSource(url+"/video",options))return;
     if (!progressive)
       return;
+  }
+  // Complete optional audio can arrive after opening. Keep initial selection;
+  // the separate asynchronous request namespace isolates attachment failures.
+  const auto mediaDetails=progressive->playbackDetails();
+  const auto menuStamp=mediaDetails.value("revision").toString();
+  if(progressiveMediaMenuStamp!=menuStamp){progressiveMediaMenuStamp=menuStamp;refreshTracks();}
+  if(progressiveTracksReady && progressivePendingSeek<0 && progressiveAudioRequests.isEmpty()) {
+    const auto audioUrl="foxicmp-session://"+progressive->streamId();
+    for(const auto& value:mediaDetails.value("mediaTracks").toArray()) {
+      const auto track=value.toObject();const auto id=track.value("id").toString();const int index=track.value("index").toInt();
+      if(index<2 || track.value("required").toBool() || !track.value("ready").toBool() || progressiveAttachedAudio.contains(id) || progressiveAudioLoadErrors.contains(id))continue;
+      const auto request=(quint64(0x4155)<<48) | ++progressiveAudioSequence;
+      progressiveAudioRequests.insert(request,id);progressiveAttachedAudio.insert(id);
+      player->command({"audio-add",audioUrl+"/track/"+QString::number(index),"auto",track.value("label").toString(),track.value("language").toString()},request);break;
+    }
   }
   // Subtitles may become ready after A/V has started.
   const auto url="foxicmp-session://"+progressive->streamId();
@@ -310,11 +341,13 @@ void Window::updateProgressive() {
       }
     }
     const bool subtitleReady=!wantSubtitle || desiredSubtitle!="no";
-    const auto audio = player->get("aid").toInt();
-    const bool audioReady = progressiveRestoreAudio == "no" ? audio <= 0
-        : audio == progressiveRestoreAudio.toInt();
-    if (progressiveTracksReady && !audioReady)
-      player->set("aid", progressiveRestoreAudio);
+    QString desiredAudio="no";
+    for(const auto& value:player->get("track-list").toList()) {
+      const auto track=value.toMap();if(track.value("type")=="audio" && track.value("external-filename").toString()==progressiveRestoreAudio)desiredAudio=track.value("id").toString();
+    }
+    const auto audio=player->get("aid").toInt();
+    const bool audioReady=desiredAudio=="no"?audio<=0:audio==desiredAudio.toInt();
+    if(progressiveTracksReady && !audioReady)player->set("aid",desiredAudio);
     if (!progressiveTracksReady || !audioReady || !subtitleReady || loaded < ready) {
       progressiveBuffering = true;
       player->set("pause", true);
