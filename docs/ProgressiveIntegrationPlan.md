@@ -18,8 +18,8 @@
 
 SDK 1.23–1.28 закрывают подтверждённую Qt multi-audio перемотку, изоляцию
 optional SRT, подключение optional audio, поздние главы/metadata и буферизацию
-выбранной частичной audio в ограниченном профиле. Следующие шаги — изоляция
-ошибок уже активного optional audio, полная проверка integrity и расширение
+выбранной частичной audio в ограниченном профиле. SDK 1.29 добавляет изоляцию
+обнаруженных ошибок активного optional audio. Следующие шаги — полная проверка integrity и расширение
 backend demux/remux; затем segmented HLS/DASH timeline и live.
 Полное ТЗ остаётся открытым.
 
@@ -61,7 +61,7 @@ SDK 1.5 добавляет [I/O-слой v2](ProgressiveResourceIo.md) с при
 подтверждёнными диапазонами, ожиданием/отменой и асинхронным стендом трёх редакций.
 [Результаты](ProgressiveResourceValidation-2026-10-26.md) отделяют байтовое чтение от
 готовности декодера. SDK 1.6 добавляет [проверенный сквозной медиамост](ProgressiveMediaV2.md)
-для двух отдельных fMP4 H.264/AAC-LC; SDK 1.14 расширяет его [HEVC Main/Main10](ProgressiveHevc.md), SDK 1.15 — [AV1 Main 8/10-bit](ProgressiveAv1.md). SDK 1.16 — [VP9 Profile 0/2](ProgressiveVp9.md). SDK 1.17 — [Opus mono/stereo](ProgressiveOpus.md). SDK 1.18 добавляет [WebM VP9/Opus](ProgressiveWebM.md), SDK 1.19 — [AV1/Opus в WebM](ProgressiveWebMAv1.md). SDK 1.20 — [смешанные пары fMP4/WebM](ProgressiveMixedContainers.md) в обоих направлениях. SDK 1.21 — [VP8 и Vorbis mono/stereo в WebM](ProgressiveVp8Vorbis.md). SDK 1.22 — [несколько аудиодорожек и поздние полные UTF-8 SRT](ProgressiveMultiTrack.md). SDK 1.23 добавляет [перемотку Qt в подтверждённом участке](ProgressiveSeek.md); SDK 1.24 — [изоляцию optional SRT](ProgressiveOptionalSrt.md). SDK 1.25–1.28 добавляют optional audio, поздние главы/metadata и выбранный частичный audio. Следующие шаги — изоляция ошибок активного audio, расширение backend demux/remux и полная проверка integrity;
+для двух отдельных fMP4 H.264/AAC-LC; SDK 1.14 расширяет его [HEVC Main/Main10](ProgressiveHevc.md), SDK 1.15 — [AV1 Main 8/10-bit](ProgressiveAv1.md). SDK 1.16 — [VP9 Profile 0/2](ProgressiveVp9.md). SDK 1.17 — [Opus mono/stereo](ProgressiveOpus.md). SDK 1.18 добавляет [WebM VP9/Opus](ProgressiveWebM.md), SDK 1.19 — [AV1/Opus в WebM](ProgressiveWebMAv1.md). SDK 1.20 — [смешанные пары fMP4/WebM](ProgressiveMixedContainers.md) в обоих направлениях. SDK 1.21 — [VP8 и Vorbis mono/stereo в WebM](ProgressiveVp8Vorbis.md). SDK 1.22 — [несколько аудиодорожек и поздние полные UTF-8 SRT](ProgressiveMultiTrack.md). SDK 1.23 добавляет [перемотку Qt в подтверждённом участке](ProgressiveSeek.md); SDK 1.24 — [изоляцию optional SRT](ProgressiveOptionalSrt.md). SDK 1.25–1.28 добавляют optional audio, поздние главы/metadata и выбранный частичный audio. SDK 1.29 изолирует обнаруженные ошибки активного audio. Следующие шаги — расширение backend demux/remux и полная проверка integrity;
 добавление codecHint само по себе не добавляет кодек.
 
 ## Общий regression каталога v1

@@ -1,3 +1,4 @@
+#include "progressivetrack.h"
 #include "devicesource.h"
 #include "i18n.h"
 #include "mediaremote.h"
@@ -212,6 +213,7 @@ void Window::cycleTrack(bool audio, int direction) {
     ids.append("no");
   for (const auto &value : player->get("track-list").toList()) {
     const auto track = value.toMap();
+    if(progressive && audio && !progressiveAudioTrackAllowed(track,progressive->playbackDetails().value("mediaTracks").toArray()))continue;
     if (track.value("type").toString() == (audio ? "audio" : "sub") &&
         subtitleTrackAllowed(track))
       ids.append(track.value("id").toString());

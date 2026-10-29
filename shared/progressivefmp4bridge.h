@@ -8,7 +8,7 @@
 
 namespace foxicmp { namespace progressive {
 inline const char* Fmp4V2Capabilities() {
-    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"trackCountMin":2,"trackCountMax":13,"mediaTrackCountMax":9,"audioTrackLimit":8,"multiAudio":true,"subtitles":{"containers":["srt"],"codecs":["srt"],"encoding":"utf-8","trackLimit":4,"completeFileRequired":true,"lateCompletion":true,"optionalErrorIsolation":true,"retainsValidatedCopyOnSourceError":true,"sizeLimitBytes":524288},"audioTracksRequired":false,"optionalAudio":{"completeFileRequired":false,"selectedTrackBuffering":true,"minimumReadySeconds":5,"lateCompletion":true,"pendingErrorIsolation":true,"activeResourceErrorsFatal":true,"requiredPrimaryAudio":true},"metadataApplied":true,"metadata":{"chapters":true,"lateRevision":true,"title":true,"maxChapters":128},"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"initializationLimitBytes":1048576})";
+    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"trackCountMin":2,"trackCountMax":13,"mediaTrackCountMax":9,"audioTrackLimit":8,"multiAudio":true,"subtitles":{"containers":["srt"],"codecs":["srt"],"encoding":"utf-8","trackLimit":4,"completeFileRequired":true,"lateCompletion":true,"optionalErrorIsolation":true,"retainsValidatedCopyOnSourceError":true,"sizeLimitBytes":524288},"audioTracksRequired":false,"optionalAudio":{"completeFileRequired":false,"selectedTrackBuffering":true,"minimumReadySeconds":5,"lateCompletion":true,"pendingErrorIsolation":true,"activeResourceErrorsFatal":false,"activeOptionalAudioErrorsIsolated":true,"requiredPrimaryAudio":true},"metadataApplied":true,"metadata":{"chapters":true,"lateRevision":true,"title":true,"maxChapters":128},"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"initializationLimitBytes":1048576})";
 }
 class Fmp4V2Bridge {
     Snapshot model;
@@ -24,6 +24,7 @@ class Fmp4V2Bridge {
     std::atomic<uint64_t> decoderBytes[harvester::MaxMediaTracks]{};
     std::string failure;
     std::array<std::string,harvester::MaxMediaTracks> audioErrors,audioErrorCodes;
+    std::array<bool,harvester::MaxMediaTracks> optionalFailed{};
     std::string videoCodecName,audioCodecName;
     std::array<bool,harvester::MaxMediaTracks> webmMode{};
     struct Subtitle {std::string id,resource,label,language,bytes,path,errorCode,error;bool defaultTrack=false,forced=false;};
@@ -269,16 +270,30 @@ class Fmp4V2Bridge {
         }
         subtitleResourceErrors();
     }
+    void audioFailure(size_t i,const std::string& code,const std::string& reason) {
+        if(audioErrorCodes[i].empty()){audioErrorCodes[i]=code;audioErrors[i]=reason;}
+        optionalFailed[i]=true;
+        legacy.tracks[i].initializationReady=false;
+    }
+    void markOptionalFailures() {
+        for(size_t i=1;i<legacy.tracks.size();++i) {
+            if(legacy.tracks[i].required || optionalFailed[i])continue;
+            const auto& track=model.tracks.at(trackIds[i]);
+            const auto& resource=model.resources.at(resourceIds[i]);
+            if(track.state=="failed" || track.state=="cancelled" || resource.state=="failed" || resource.state=="cancelled")
+                audioFailure(i,"resource-failed","Optional audio writer failed or cancelled");
+            const auto error=source->resourceError(resourceIds[i]);
+            if(!error.code.empty())audioFailure(i,error.code,error.reason);
+        }
+    }
     void prepareAudio() {
+        markOptionalFailures();
         for(size_t i=1;i<legacy.tracks.size();++i) {
             auto& out=legacy.tracks[i];if(out.required)continue;
-            if(!initialization[i].empty()){out.initializationReady=true;continue;}
             out.initializationReady=false;
-            if(!audioErrorCodes[i].empty())continue;
+            if(optionalFailed[i] || !audioErrorCodes[i].empty())continue;
+            if(!initialization[i].empty()){out.initializationReady=true;continue;}
             const auto& track=model.tracks.at(trackIds[i]);const auto& resource=model.resources.at(resourceIds[i]);
-            if(track.state=="failed" || track.state=="cancelled" || resource.state=="failed" || resource.state=="cancelled") {
-                audioErrorCodes[i]="resource-failed";audioErrors[i]="Optional audio failed or was cancelled before activation";continue;
-            }
             if(!track.initializationReady)continue;
             const bool complete=track.state=="complete" && resource.state=="complete";
             try {
@@ -286,7 +301,6 @@ class Fmp4V2Bridge {
                 out.initializationReady=true;initialize(int(i));
                 harvester::FragmentIndex index;
                 index.Update([&](uint64_t at,void* data,size_t count){return exact(int(i),at,data,count);},out.available,1,complete,legacy.timestampOffset,false,false,false,trackCodecs[i]=="opus",isWebm(int(i)));
-                // Do not expose a short header-only source to backend probing.
                 const auto end=harvester::ReadyEnd(index.Samples(),out.available,legacy.duration);
                 if(!complete && end<50000000) {
                     initialization[i].clear();trackCodecs[i].clear();out.initializationReady=false;continue;
@@ -296,13 +310,21 @@ class Fmp4V2Bridge {
             }catch(const std::exception& error) {
                 const auto* typed=dynamic_cast<const Error*>(&error);if(typed && typed->code=="cancelled")throw;
                 const bool waiting=!complete && typed && (typed->code=="waiting_initialization" || typed->code=="source_not_ready");
-                if(!waiting){audioErrorCodes[i]=typed?typed->code:"unsupported_media";audioErrors[i]=error.what();}
+                if(!waiting)audioFailure(i,typed?typed->code:"unsupported_media",error.what());
                 initialization[i].clear();trackCodecs[i].clear();out.initializationReady=false;
             }
         }
     }
     void verifyInitialization() {
-        for(size_t i=0;i<legacy.tracks.size();++i) {if(initialization[i].empty())continue;std::vector<char> bytes(initialization[i].size());Require(exact(i,initOffsets[i],bytes.data(),bytes.size()) && bytes==initialization[i],"initialization","Published codec initialization changed","source_rewritten");}
+        for(size_t i=0;i<legacy.tracks.size();++i) {
+            if(initialization[i].empty() || optionalFailed[i])continue;
+            std::vector<char> bytes(initialization[i].size());
+            if(!exact(int(i),initOffsets[i],bytes.data(),bytes.size()) || bytes!=initialization[i]) {
+                if(legacy.tracks[i].required)throw Error("source_rewritten","initialization","Published codec initialization changed");
+                const auto error=source->resourceError(resourceIds[i]);
+                audioFailure(i,error.code.empty()?"source_rewritten":error.code,error.reason.empty()?"Published codec initialization changed":error.reason);
+            }
+        }
     }
 public:
     const std::string& videoCodec() const {return videoCodecName;}
@@ -310,7 +332,7 @@ public:
     bool isWebm(int track=0) const {return webmMode.at(track);}
     static void CheckProfile(const std::string& json){map(Parse(json));}
     Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):model(Parse(json)),identityGeneration(model.generation),identityWriter(model.writer),detailsRevision(model.revision),registry(receipts) {
-        legacy=map(model,&resourceIds,&trackIds);for(size_t i=0;i<legacy.tracks.size();++i)webmMode[i]=legacy.tracks[i].container=="webm";source=std::make_shared<ResourceSource>(root,receipts,json,ResourceFailurePolicy::IsolatePendingAudioAndSrt);
+        legacy=map(model,&resourceIds,&trackIds);for(size_t i=0;i<legacy.tracks.size();++i)webmMode[i]=legacy.tracks[i].container=="webm";source=std::make_shared<ResourceSource>(root,receipts,json,ResourceFailurePolicy::IsolateOptionalAudioAndSrt);
         try {for(size_t i=0;i<legacy.tracks.size();++i)if(legacy.tracks[i].required)initialize(int(i));prepareAudio();prepareSubtitles(model);}catch(...){cleanup();throw;}
     }
     ~Fmp4V2Bridge(){cleanup();}
@@ -323,11 +345,24 @@ public:
     }
     harvester::Snapshot snapshot() const {std::lock_guard<std::mutex> lock(mutex);return legacy;}
     std::vector<BoundResource> bindings() const {std::lock_guard<std::mutex> lock(mutex);std::vector<BoundResource> out;for(size_t i=0;i<legacy.tracks.size();++i)if(legacy.tracks[i].initializationReady)out.push_back(source->binding(resourceIds[i]));return out;}
-    bool readIndex(int track,uint64_t offset,void* buffer,size_t count) {std::lock_guard<std::mutex> lock(mutex);return failure.empty() && legacy.tracks.at(track).initializationReady && exact(track,offset,buffer,count);}
+    bool optionalTrackFailed(int track) const {std::lock_guard<std::mutex> lock(mutex);return track>=0 && size_t(track)<legacy.tracks.size() && optionalFailed[track];}
+    void rejectOptionalIndex(int track,const std::string& reason) {
+        std::lock_guard<std::mutex> lock(mutex);
+        Require(track>0 && size_t(track)<legacy.tracks.size() && !legacy.tracks[track].required,"audio","Cannot isolate a required track","unsupported_media");
+        audioFailure(size_t(track),"invalid-media-index",reason);
+    }
+    bool readIndex(int track,uint64_t offset,void* buffer,size_t count) {
+        std::lock_guard<std::mutex> lock(mutex);
+        if(!failure.empty() || !legacy.tracks.at(track).initializationReady || optionalFailed[track])return false;
+        const bool result=exact(track,offset,buffer,count);markOptionalFailures();return result;
+    }
     int64_t readPayload(int track,uint64_t offset,void* buffer,size_t count) {
-        std::lock_guard<std::mutex> lock(mutex);if(!failure.empty() || !legacy.tracks.at(track).initializationReady)return -1;
+        std::lock_guard<std::mutex> lock(mutex);
+        if(!failure.empty() || !legacy.tracks.at(track).initializationReady || optionalFailed[track])return -1;
         const auto read=source->read(resourceIds[track],offset,buffer,(std::min)(count,size_t(65536)));
         if(read.data()){const auto size=uint64_t(read.bytes);const auto previous=decoderBytes[track].load();decoderBytes[track].store(size<=UINT64_MAX-previous?previous+size:UINT64_MAX);return int64_t(size);}
+        if(!legacy.tracks[track].required && read.code!="cancelled" && read.code!="eof" && read.code!="waiting-range" && read.code!="waiting-resource")
+            audioFailure(size_t(track),read.code.empty()?"resource-io-error":read.code,read.reason.empty()?"Optional audio resource failed":read.reason);
         return read.code=="eof"?0:-1;
     }
     void publish(const std::string& json) {
@@ -337,7 +372,7 @@ public:
         try{verifyInitialization();source->publish(json);model=next;legacy=mapped;prepareAudio();prepareSubtitles(next);}catch(const Error& error){failure=error.code;throw;}
         detailsRevision.store(next.revision);
     }
-    void verify(){std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();subtitleResourceErrors();}
+    void verify(){std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();markOptionalFailures();subtitleResourceErrors();}
     void cancel(){if(source)source->cancel();}
     std::string details() const {
         std::lock_guard<std::mutex> lock(mutex);

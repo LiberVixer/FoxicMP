@@ -62,6 +62,7 @@ int64_t ProgressiveSource::read(int track, uint64_t offset, char *buffer,
   for (;;) {
     if (stopping.load() || (interrupted && interrupted->load()) || !currentStatus.error.isEmpty())
       return -1;
+    if(v2Bridge && v2Bridge->optionalTrackFailed(track))return -1;
     const auto item = snapshot.tracks[track];
     if (currentStatus.connected) {
       if (offset < item.available) {
@@ -73,6 +74,10 @@ int64_t ProgressiveSource::read(int track, uint64_t offset, char *buffer,
         lock.lock();
         if(stopping.load() || (interrupted && interrupted->load()) || !currentStatus.error.isEmpty())return -1;
         if (result <= 0) {
+          if (v2Bridge && v2Bridge->optionalTrackFailed(track)) {
+            changed.notify_all();
+            return -1;
+          }
           currentStatus.error = uiTr("Ошибка чтения подтверждённых данных");
           changed.notify_all();
           return -1;
@@ -95,7 +100,12 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
   for (int i = 0; size_t(i) < value.tracks.size(); ++i) {
     const auto &track = value.tracks[i];
     if (!track.initializationReady) continue;
-    if (track.fragmented)
+    if (v2Bridge && !track.required && v2Bridge->optionalTrackFailed(i)) {
+      result.mediaAvailable[i] = 0;
+      result.mediaComplete[i] = false;
+      continue;
+    }
+    if (track.fragmented) try {
       indexes[i].Update(
           [&, i](uint64_t offset, void *buffer, size_t count) {
             if(stopping.load())return false;
@@ -105,6 +115,10 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
           track.available, i?1:0, harvester::EndReady(track),
           value.timestampOffset, v2Bridge && v2Bridge->videoCodec()=="hevc",
           v2Bridge && v2Bridge->videoCodec()=="av1",v2Bridge && v2Bridge->videoCodec()=="vp9",v2Bridge && v2Bridge->audioCodec(i?i:1)=="opus",v2Bridge && v2Bridge->isWebm(i));
+    } catch(const std::exception& error) {
+      if(!v2Bridge || track.required)throw;
+      v2Bridge->rejectOptionalIndex(i,error.what());continue;
+    }
     result.mediaAvailable[i]=double(harvester::ReadyEnd(track.fragmented ? indexes[i].Samples() : indexed[i].samples(),track.available,duration))/10000000.;
     result.mediaComplete[i]=harvester::EndReady(track);
     if (!track.required) continue;

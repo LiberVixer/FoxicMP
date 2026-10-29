@@ -309,6 +309,15 @@ private slots:
     Profile profile(temporary.filePath("relative-contract-profile")); prepare(profile);
     Window w(profile); w.show();
     ProgressiveApi api(&w); QVERIFY(api.listen(profile.directory));
+    QSet<QString> audioCommands;
+    QTimer controls;controls.setInterval(100);
+    connect(&controls,&QTimer::timeout,this,[&]{
+      const auto source=w.progressiveSession();
+      if(!source || w.pos<1 || audioCommands.contains(source->id()))return;
+      for(auto* action:w.audioMenu->actions())if(action->isEnabled() && action->data().toInt()==1) {
+        action->trigger();w.cycleTrack(true,1);audioCommands.insert(source->id());break;
+      }
+    });controls.start();
     QProcess client;
     client.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE), {
         FOXICMP_CONFORMANCE_SCRIPT, "--player", playerExecutable(),
@@ -323,6 +332,7 @@ private slots:
     QVERIFY2(client.exitCode() == 0, client.readAllStandardError().constData());
     const auto results = QJsonDocument::fromJson(client.readAllStandardOutput()).array();
     QCOMPARE(results.size(), 2);
+    QCOMPARE(audioCommands.size(),2);
     for (const auto &entry : results)
       QCOMPARE(entry.toObject()["terminal"].toObject()["state"].toString(), QString("finished"));
   }
@@ -718,7 +728,7 @@ private slots:
   }
   void partialOptionalAudio_data() {
     QTest::addColumn<QString>("audioProfile");
-    for(const auto* name:{"aac","opus-webm","vorbis","opus-fmp4"})QTest::newRow(name)<<QString(name);
+    for(const auto* name:{"aac","opus-webm","vorbis","opus-fmp4","active-error","active-writer-error","active-init-error","inactive-error","paused-active-error","required-error","active-opus-error","active-vorbis-error"})QTest::newRow(name)<<QString(name);
   }
   void partialOptionalAudio() {
     QFETCH(QString,audioProfile);
@@ -726,7 +736,7 @@ private slots:
     Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
     auto* player=w.findChild<Player*>();QVERIFY(player);
     const auto work=temporary.filePath("partial-audio-bytes-"+audioProfile);
-    int sequence=0;bool decoded=false,changingVideo=false,subtitleRestored=false;QByteArray firstFrame;
+    int sequence=0;bool decoded=false,changingVideo=false,subtitleRestored=false,activeFailure=false;QByteArray firstFrame;
     QTimer sample;sample.setInterval(50);connect(&sample,&QTimer::timeout,this,[&]{
       QFile control(work+"/control.json");
       if(control.open(QIODevice::ReadOnly)) {
@@ -741,14 +751,18 @@ private slots:
       if(!w.progressiveSession())return;
       const auto state=w.progressivePlaybackStatus();bool selected=false;
       for(const auto& value:state["mediaTracks"].toArray()){const auto t=value.toObject();selected|=t["id"]=="optional-audio" && t["selected"].toBool();}
-      const auto codec=audioProfile=="aac"?"aac":audioProfile=="vorbis"?"vorbis":"opus";
+      const bool failureProfile=audioProfile.endsWith("error");
+      const auto codec=audioProfile=="active-opus-error"?"opus":audioProfile=="active-vorbis-error"?"vorbis":(audioProfile=="aac" || failureProfile)?"aac":audioProfile=="vorbis"?"vorbis":"opus";
       if(selected && state["state"]=="playing" && player->get("audio-codec-name")==codec && player->get("audio-params/samplerate").toInt()==48000)decoded=true;
       if(decoded && selected && state["state"]=="playing")subtitleRestored|=player->get("sub-text").toString().contains(QString::fromUtf8("Ранние subtitles"));
+      if(failureProfile && audioProfile!="required-error") {
+        for(const auto& value:state["mediaTracks"].toArray()) {const auto t=value.toObject();activeFailure|=t["id"]=="optional-audio" && t["state"]=="error" && state["audioSelection"].toObject()["index"].toInt()==0 && state["state"]=="playing" && player->get("audio-codec-name")=="aac" && player->get("audio-params/samplerate").toInt()==48000;}
+      }
       if(decoded){const auto frame=player->grabFramebuffer();if(!frame.isNull()){const auto digest=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);if(firstFrame.isEmpty())firstFrame=digest;else changingVideo|=digest!=firstFrame;}}
     });sample.start();
     QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_partial_audio_conformance.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work,"--media-profile",audioProfile});
     QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
-    QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,180000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QVERIFY(writer.exitCode()==0);sample.stop();QVERIFY(decoded);QVERIFY(changingVideo);QVERIFY(subtitleRestored);
+    QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,180000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QVERIFY(writer.exitCode()==0);sample.stop();if(audioProfile!="inactive-error")QVERIFY(decoded);if(audioProfile!="inactive-error")QVERIFY(changingVideo);if(audioProfile.endsWith("error") && audioProfile!="required-error")QVERIFY(activeFailure);else if(audioProfile!="required-error")QVERIFY(subtitleRestored);
     qInfo().noquote()<<"Partial audio report:"<<writer.readAllStandardOutput();
   }
   void optionalAudioDoesNotBlockPlayback_data() {

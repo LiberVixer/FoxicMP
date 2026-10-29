@@ -419,6 +419,7 @@ void CHarvesterSession::Watch() {
 HRESULT CHarvesterSession::WaitRange(int track,uint64_t offset,uint64_t size,HANDLE flush,HANDLE breaker,bool completion) {
     for(;;) {
         if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0))return E_ABORT;
+        if(OptionalAudioFailed(track))return E_ABORT;
         auto s=Snapshot(); const auto& t=s.tracks[track];
         if(t.total && !harvester::RangeReady(offset,size,t.total))return E_FAIL;
         if(completion ? harvester::EndReady(t) : harvester::RangeReady(offset,size,t.available))return S_OK;
@@ -437,7 +438,7 @@ int64_t CHarvesterSession::ReadyEnd() const {
     std::lock_guard<std::mutex> lock(m_mutex);
     int64_t ready[harvester::MaxMediaTracks] = {};
     for(int track=0;size_t(track)<m_state.tracks.size();++track) {
-        if(!m_state.tracks[track].required && track!=m_selectedAudioTrack.load()){ready[track]=INT64_MAX;continue;}
+        if(!m_state.tracks[track].required && (track!=m_selectedAudioTrack.load() || OptionalAudioFailed(track))){ready[track]=INT64_MAX;continue;}
         const auto& samples=Samples(track);auto& position=m_indexPosition[track];auto& end=m_indexEnd[track];
         while(position<samples.size() && harvester::RangeReady(samples[position].offset,samples[position].size,m_state.tracks[track].available)) {
             end=std::max(end,samples[position].end);++position;
@@ -474,7 +475,10 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
             }
             CloseHandle(ov.hEvent);return ok && n==size;
         };
+        if(OptionalAudioFailed(track))continue;
+        try {
         next->Update(diskRead,state.available,track?1:0,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track));
+        } catch(const std::exception& error) {if(!m_v2Bridge || state.required)throw;m_v2Bridge->rejectOptionalIndex(track,error.what());continue;}
         result[track]=std::move(next);
     }
     return result;
@@ -485,18 +489,21 @@ void CHarvesterSession::RefreshFragments() {
      for(int i=0;size_t(i)<snapshot.tracks.size();++i)if(snapshot.tracks[i].fragmented)m_duration[i]=snapshot.duration;}
 }
 
+bool CHarvesterSession::OptionalAudioFailed(int track) const {return m_v2Bridge && m_v2Bridge->optionalTrackFailed(track);}
+
 HRESULT CHarvesterSession::ReadV2(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker) {
     auto* bytes=static_cast<char*>(data);
     while(size) {
         if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0))return E_ABORT;
         const auto count=m_v2Bridge->readPayload(track,offset,bytes,size);
-        if(count<=0){if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0)return E_ABORT;Fail("Confirmed v2 resource I/O failed");return E_FAIL;}
+        if(count<=0){if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || OptionalAudioFailed(track))return E_ABORT;Fail("Confirmed v2 resource I/O failed");return E_FAIL;}
         bytes+=count;offset+=uint64_t(count);size-=size_t(count);
     }
     return S_OK;
 }
 
 int CHarvesterSession::SampleAt(int track,size_t index,harvester::Sample& sample) const {
+    if(OptionalAudioFailed(track))return 2;
     std::lock_guard<std::mutex> lock(m_mutex);const auto& samples=Samples(track);
     if(index<samples.size()){sample=samples[index];return 1;}
     const auto& t=m_state.tracks[track];

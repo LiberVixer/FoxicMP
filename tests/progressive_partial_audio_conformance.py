@@ -5,18 +5,19 @@ The caller controls actual UI commands; no downloader changes are involved.
 import argparse, copy, json, sys, time
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'qt/tools'))
-from progressive_client import ProgressiveClient
+from progressive_client import ProgressiveClient, ApiError
 from progressive_v2 import V2PreviewSession
 from progressive_multitrack_conformance import fixture
 from progressive_v1_conformance import fragment_prefix
 from progressive_webm_fixtures import webm_prefix
 from progressive_v2_playback_conformance import forget_closed_readers
-PROFILES=('aac','opus-webm','vorbis','opus-fmp4')
+ERROR_PROFILES=('active-error','active-writer-error','active-init-error','inactive-error','paused-active-error','required-error','active-opus-error','active-vorbis-error')
+PROFILES=('aac','opus-webm','vorbis','opus-fmp4')+ERROR_PROFILES
 
 def exercise(client,fixtures,work,profile,select_audio,pause,seek):
     root=Path(work);value,data=fixture(fixtures,root)
     value['metadata']['chapters'][1]['time']='20000000'
-    index={'aac':1,'opus-webm':2,'vorbis':3,'opus-fmp4':2}[profile]
+    index=2 if profile=='active-opus-error' else 3 if profile=='active-vorbis-error' else 1 if profile in ERROR_PROFILES else {'aac':1,'opus-webm':2,'vorbis':3,'opus-fmp4':2}[profile]
     extra=copy.deepcopy(value['tracks'][index]);resource=copy.deepcopy(value['resources'][index]);content=data[index]
     if profile=='opus-fmp4':
         content=(Path(fixtures)/'progressive-opus-2/audio.mp4').read_bytes();extra['containerHint']='fmp4'
@@ -45,7 +46,11 @@ def exercise(client,fixtures,work,profile,select_audio,pause,seek):
         def wait(predicate,label,timeout=25):
             deadline=time.monotonic()+timeout;state=None
             while time.monotonic()<deadline:
-                state=preview.heartbeat();(root/'last-status.json').write_text(json.dumps(dict(phase=label,status=state),ensure_ascii=False,indent=2),encoding='utf-8')
+                try:state=preview.heartbeat()
+                except ApiError as error:
+                    if error.code!='session_closed':raise
+                    state=preview.status()
+                (root/'last-status.json').write_text(json.dumps(dict(phase=label,status=state),ensure_ascii=False,indent=2),encoding='utf-8')
                 assert not state.get('error') and state['state']!='error',state
                 assert state['readerId']==reader,state
                 if selected(state) and state['state']=='playing':
@@ -61,6 +66,16 @@ def exercise(client,fixtures,work,profile,select_audio,pause,seek):
             extra['initializationReady']=True;publish()
         state=wait(lambda s:s['positionSeconds']>=7.5 and s['audioSelection']['count']==2,'unselected-tail-does-not-block')
         assert state['availableSeconds']>=17 and next(t for t in state['mediaTracks'] if t['id']=='optional-audio')['ready'],state
+        if profile=='inactive-error':
+            path=root/resource['name'];original=path.read_bytes()
+            with path.open('r+b') as stream:stream.truncate(len(original)-1)
+            state=wait(lambda s:s['audioSelection']['index']==0 and s['state']=='playing' and s['positionSeconds']>=8.3 and any(t['id']=='optional-audio' and t['state']=='error' for t in s['mediaTracks']),'inactive-audio-error-isolated')
+            # Restoring bytes cannot reactivate the quarantined track.
+            path.write_bytes(original);publish();select_audio(1)
+            wait(lambda s:s['audioSelection']['index']==0 and s['positionSeconds']>=9 and any(t['id']=='optional-audio' and not t['ready'] for t in s['mediaTracks']),'failed-audio-cannot-be-selected')
+            seek(2);wait(lambda s:s['audioSelection']['index']==0 and 1.8<=s['positionSeconds']<3,'seek-after-inactive-error')
+            preview.close(timeout=10);forget_closed_readers(client,value)
+            report.update(result='PASS',activeOptionalErrorIsolated=True,requiredAudioContinued=True,released=True);return report
         select_audio(1)
         state=wait(lambda s:selected(s) and s['state']=='buffering' and s['availableSeconds']<6.5,'selected-behind-clock-buffers')
         time.sleep(.4)
@@ -81,6 +96,50 @@ def exercise(client,fixtures,work,profile,select_audio,pause,seek):
         wait(lambda s:s['audioSelection']['index']==0 and s['state']=='playing' and s['positionSeconds']>=8,'switch-back-during-buffering')
         prefix_at(14);publish();select_audio(1)
         wait(lambda s:selected(s) and s['state']=='playing' and s['positionSeconds']>=9,'partial-audio-playing')
+        if profile in ERROR_PROFILES:
+            if profile=='required-error':
+                path=root/value['resources'][1]['name']
+                with path.open('r+b') as stream:stream.truncate(path.stat().st_size-1)
+                deadline=time.monotonic()+10
+                while time.monotonic()<deadline:
+                    terminal=preview.status()
+                    if terminal['state']=='error':break
+                    time.sleep(.1)
+                else:raise AssertionError(('Required audio error was hidden',terminal))
+                assert terminal.get('error'),terminal
+                report['phases'].append(dict(phase='required-audio-error-is-fatal',status=terminal))
+                preview.close(timeout=10);forget_closed_readers(client,value)
+                report.update(result='PASS',requiredAudioErrorsFatal=True,released=True);return report
+            paused=profile=='paused-active-error'
+            if paused:
+                pause();wait(lambda s:s['state']=='paused','pause-before-audio-error')
+            path=root/resource['name']
+            if profile=='active-writer-error':
+                extra['state']=resource['state']='failed';publish()
+            elif profile=='active-init-error':
+                at=content.index(b'moov')+4
+                with path.open('r+b') as stream:
+                    stream.seek(at);stream.write(bytes([content[at]^1]))
+                publish()
+            else:
+                with path.open('r+b') as stream:stream.truncate(path.stat().st_size-1)
+            expected_state='paused' if paused else 'playing'
+            state=wait(lambda s:s['audioSelection']['index']==0 and s['state']==expected_state and any(t['id']=='optional-audio' and t['state']=='error' for t in s['mediaTracks']),'active-audio-error-falls-back')
+            position=state['positionSeconds']
+            if paused:
+                time.sleep(.5);assert abs(preview.heartbeat()['positionSeconds']-position)<.3
+                pause()
+            wait(lambda s:s['audioSelection']['index']==0 and s['state']=='playing' and s['positionSeconds']>=position+.7,'primary-audio-continues-after-error')
+            seek(2);wait(lambda s:s['audioSelection']['index']==0 and 1.8<=s['positionSeconds']<3,'seek-after-active-error')
+            # Updates and natural EOF remain usable with a permanently failed leaf.
+            for i,r in enumerate(value['resources'][:2]):
+                path=root/r['name'];count=path.stat().st_size
+                with path.open('ab') as stream:stream.write(data[i][count:])
+                r.update(length=str(len(data[i])),ranges=[dict(offset='0',length=str(len(data[i])))],state='complete');value['tracks'][i]['state']='complete'
+            extra['state']=resource['state']='failed';value['writer']['state']='complete';publish()
+            wait(lambda s:s['state']=='finished' and s.get('released'),'natural-finish-after-audio-error',timeout=30)
+            preview.close(timeout=10);forget_closed_readers(client,value)
+            report.update(result='PASS',activeOptionalErrorIsolated=True,requiredAudioContinued=True,released=True);return report
         state=wait(lambda s:selected(s) and s['state']=='buffering' and s['positionSeconds']>=12,'selected-tail-buffers')
         position=state['positionSeconds'];time.sleep(.5)
         held=preview.heartbeat();assert abs(held['positionSeconds']-position)<.5,held

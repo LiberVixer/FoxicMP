@@ -305,6 +305,24 @@ void Window::updateProgressive() {
   // Complete optional audio can arrive after opening. Keep initial selection;
   // the separate asynchronous request namespace isolates attachment failures.
   const auto mediaDetails=progressive->playbackDetails();
+  // An already active optional resource may fail after it was attached. Keep
+  // the required primary audio alive and let the failed track remain visible
+  // as an isolated error instead of closing the whole progressive session.
+  for(const auto& value:mediaDetails.value("mediaTracks").toArray()) {
+    const auto track=value.toObject();
+    bool selected=false;
+    const int failedIndex=track.value("index").toInt();
+    const QString failedSuffix=failedIndex==1?QStringLiteral("/audio"):QStringLiteral("/track/")+QString::number(failedIndex);
+    for(const auto& actual:player->get("track-list").toList()) {
+      const auto item=actual.toMap();
+      selected|=item.value("type")=="audio" && item.value("selected").toBool() && item.value("external-filename").toString().endsWith(failedSuffix);
+    }
+    if(!track.value("required").toBool() && track.value("state").toString()=="error" && selected) {
+      progressive->selectAudioTrack(1);
+      reloadProgressive(progressiveSeekTarget>=0?progressiveSeekTarget:pos,"foxicmp-session://"+progressive->streamId()+"/audio");
+      return;
+    }
+  }
   const auto metadata=mediaDetails.value("metadata").toObject();
   // This stamp is session-local and cleared on release. Empty chapter arrays
   // and title-only revisions are meaningful replacements, too.
@@ -313,7 +331,8 @@ void Window::updateProgressive() {
     updatePlaylistChapters();
     updateWindowTitle();
   }
-  const auto menuStamp=mediaDetails.value("revision").toString();
+  auto menuStamp=mediaDetails.value("revision").toString();
+  for(const auto& entry:mediaDetails.value("mediaTracks").toArray())menuStamp+=QStringLiteral("/")+entry.toObject().value("errorCode").toString();
   if(progressiveMediaMenuStamp!=menuStamp){progressiveMediaMenuStamp=menuStamp;refreshTracks();}
   if(progressiveTracksReady && progressivePendingSeek<0 && progressiveAudioRequests.isEmpty()) {
     const auto audioUrl="foxicmp-session://"+progressive->streamId();

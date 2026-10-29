@@ -1,3 +1,4 @@
+#include "progressivetrack.h"
 #include "../../shared/familydefaults.h"
 #include "window.h"
 #include "classicpreferences.h"
@@ -1900,6 +1901,7 @@ void Window::refreshTracks() {
     QString type = t.value("type").toString();
     if (type != "audio" && type != "sub")
       continue;
+    if(progressive && !progressiveAudioTrackAllowed(t,progressive->playbackDetails().value("mediaTracks").toArray()))continue;
     int id = t.value("id").toInt();
     if(progressive && type=="audio"){
       const auto path=t.value("external-filename").toString();

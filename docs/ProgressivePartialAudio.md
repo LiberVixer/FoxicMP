@@ -1,5 +1,8 @@
 # Частично скачанная выбранная аудиодорожка — SDK 1.28
 
+SDK 1.29 добавляет [изоляцию ошибок уже активной optional audio](ProgressiveActiveAudioErrors.md).
+Приведённые ниже ограничения ошибок описывают исходный SDK 1.28.
+
 Плеер принимает optional audio schema 2 до полной загрузки. Изменены Classic,
 Windows Qt и Linux Qt. YouTubeHarvester не менялся; формат snapshot и Python API
 совместимы с прежними версиями. Требуется новая сборка плеера, а не только SDK ZIP.

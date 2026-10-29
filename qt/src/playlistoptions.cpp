@@ -1,3 +1,4 @@
+#include "progressivetrack.h"
 #include "i18n.h"
 #include "mediasource.h"
 #include "player.h"
@@ -35,6 +36,13 @@ void Window::rememberTrack(const char *name, const QString &selection) {
         return;
     }
     subtitleUserSelection = true;
+  }
+  if(progressive && QString::fromLatin1(name)=="aid") {
+    for(const auto& value:player->get("track-list").toList()) {
+      const auto track=value.toMap();
+      if(track.value("type")=="audio" && track.value("id").toString()==selection &&
+         !progressiveAudioTrackAllowed(track,progressive->playbackDetails().value("mediaTracks").toArray()))return;
+    }
   }
   if (QString::fromLatin1(name) == "aid")
     audioUserSelection = true;

@@ -63,6 +63,7 @@ public:
     std::wstring TrackLabel(int index) const;
     std::string WebMCodec(int track) const;
     bool IsWebM(int track=0) const;
+    bool OptionalAudioFailed(int track) const;
     HRESULT ReadV2(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker);
     bool Publish(const std::string& json, CStringW& error);
     void PublishedHeartbeat() {m_lastUpdate=GetTickCount64(); m_connected=true;}

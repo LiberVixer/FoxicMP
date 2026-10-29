@@ -110,8 +110,15 @@ def run(runner,fixtures):
         else:
             assert out['state']=='ready' and out['ready'] and out['codec']=='opus',out
             assert rpc('read',track=index,offset='0',length='8')['hex']==data[2][:8].hex()
-            # Once activated, audio retains the existing strict A/V integrity boundary.
-            (path/r['name']).write_bytes(b'changed');assert not rpc('verify')['ok']
+            # Already activated optional resources stay quarantined after failure.
+            (path/r['name']).write_bytes(b'changed');assert rpc('verify')['ok']
+            damaged=next(t for t in rpc('status')['mediaTracks'] if t['id']=='track-2')
+            assert damaged['state']=='error' and not damaged['ready'] and damaged['errorCode'],damaged
+            assert rpc('read',track=1,offset='0',length='8')['bytesRead']==8
+            (path/r['name']).write_bytes(data[2]);v['revision']='3'
+            assert rpc('publish',session=v)['ok']
+            assert not next(t for t in rpc('status')['mediaTracks'] if t['id']=='track-2')['ready']
+            assert rpc('read',track=index,offset='0',length='8')['bytesRead']==-1
     for mode in ('complete','missing','invalid','failed'):
         case('pending-optional-audio-'+mode,optional,check=lambda *args,m=mode:optional_check(*args,m))
     def partial_optional(v,data,path,seconds=6):
@@ -141,4 +148,26 @@ def run(runner,fixtures):
         assert rpc('publish',session=v)['ok']
         assert next(t for t in rpc('status')['mediaTracks'] if t['id']=='track-2')['ready']
     case('short-optional-audio-waits-until-five-seconds',lambda v,d,p:partial_optional(v,d,p,2),check=partial_short)
+    def active_failure(v,data,path,rpc,readers,mode):
+        track=next(t for t in rpc('status')['mediaTracks'] if t['id']=='track-2');index=track['index']
+        assert track['ready'] and not track['required'],track
+        r=v['resources'][2];p=path/r['name']
+        if mode=='writer-failed':
+            r['state']='failed';v['tracks'][2]['state']='failed';v['revision']='2'
+            assert rpc('publish',session=v)['ok']
+        elif mode=='initialization-rewrite':
+            # The WebM initialization starts at byte zero and is cached by the bridge.
+            with p.open('r+b') as stream:stream.write(b'x')
+            v['revision']='2';assert rpc('publish',session=v)['ok']
+        else:
+            with p.open('r+b') as stream:stream.truncate(p.stat().st_size-1)
+            # Exercise decoder-read discovery before a periodic verify.
+            assert rpc('read',track=index,offset='0',length='8')['bytesRead']==-1
+        assert rpc('verify')['ok']
+        track=next(t for t in rpc('status')['mediaTracks'] if t['id']=='track-2')
+        assert track['state']=='error' and track['errorCode'] and not track['ready'],track
+        assert rpc('read',track=1,offset='0',length='8')['bytesRead']==8
+        v['revision']=str(int(v['revision'])+1);assert rpc('publish',session=v)['ok']
+    for mode in ('writer-failed','initialization-rewrite','decoder-read-truncate'):
+        case('active-optional-audio-'+mode,partial_optional,check=lambda *args,m=mode:active_failure(*args,m))
     return dict(result='PASS',passed=len(names),cases=names)

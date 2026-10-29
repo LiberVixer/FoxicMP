@@ -5219,6 +5219,12 @@ void CMainFrame::OnStreamAudio(UINT nID)
 							newStream += cStreams - 1;
 						}
 						newStream %= cStreams;
+                        if(m_harvester)for(DWORD attempt=0;attempt<cStreams;++attempt) {
+                            bool failed=false;
+                            for(const auto& entry:m_harvesterAudioStreams)if(entry.second==DWORD(newStream) && m_harvester->OptionalAudioFailed(entry.first))failed=true;
+                            if(!failed)break;
+                            newStream=(newStream+(nID==ID_STREAM_AUDIO_NEXT?1:cStreams-1))%cStreams;
+                        }
 
 						if(m_harvester)SelectHarvesterAudio(pSS,newStream);else pSS->Enable(newStream, AMSTREAMSELECTENABLE_ENABLE);
 					}
@@ -16394,6 +16400,7 @@ void CMainFrame::SetupAudioTracksSubMenu()
 					sep = true;
 				}
 
+                if(m_harvester)for(const auto& entry:m_harvesterAudioStreams)if(entry.second==i && m_harvester->OptionalAudioFailed(entry.first))flags|=MF_GRAYED;
 				name.Replace(L"&", L"&&");
 				submenu.AppendMenuW(flags, id++, name);
 			}
@@ -21682,10 +21689,12 @@ void CMainFrame::Stop()
 HRESULT CMainFrame::SelectHarvesterAudio(IAMStreamSelect* streams,DWORD index)
 {
     if(!m_harvester || !m_pMC || !m_pMS)return streams->Enable(index,AMSTREAMSELECTENABLE_ENABLE);
+    for(const auto& entry:m_harvesterAudioStreams)if(entry.second==index && m_harvester->OptionalAudioFailed(entry.first))return E_FAIL;
     REFERENCE_TIME now=0;m_pMS->GetCurrentPosition(&now);
     const bool wantPlay=m_harvesterWantPlay;
     // Stop/flush retires demuxer waits before changing the active stream.
     m_pMC->Stop();
+    m_bEndOfStream=false;m_bGraphEventComplete=false;
     const auto hr=streams->Enable(index,AMSTREAMSELECTENABLE_ENABLE);
     if(SUCCEEDED(hr)) {
         int selected=-1;for(const auto& entry:m_harvesterAudioStreams)if(entry.second==index){selected=entry.first;break;}
@@ -21706,6 +21715,25 @@ void CMainFrame::UpdateHarvesterPlayback(REFERENCE_TIME now)
         CloseMedia();
         SetStatusMessage(diagnostic);
         return;
+    }
+    if(m_eMediaLoadState==MLS_LOADED && m_harvester->HasV2Bridge()) {
+        rapidjson::Document details;details.Parse(m_harvester->PlaybackDetails().c_str());
+        CComQIPtr<IAMStreamSelect> streams=m_pSwitcherFilter.p;DWORD count=0,selected=0;
+        if(streams && SUCCEEDED(streams->Count(&count))) {
+            for(DWORD j=0;j<count;++j){DWORD flags=0;if(SUCCEEDED(streams->Info(j,nullptr,&flags,nullptr,nullptr,nullptr,nullptr,nullptr)) && flags)selected=j;}
+            if(details.HasMember("mediaTracks")) for(const auto& track:details["mediaTracks"].GetArray()) {
+                if(track["index"].GetInt()==0 || track["required"].GetBool() || !track.HasMember("errorCode") || !track["errorCode"].GetStringLength())continue;
+                const int index=track["index"].GetInt();
+                const auto runtime=m_harvesterAudioStreams.find(index);
+                if(runtime==m_harvesterAudioStreams.end())continue;
+                m_harvesterAudioErrors[index]=track["error"].GetString();
+                if(runtime->second==selected) {
+                    const auto primary=m_harvesterAudioStreams.find(1);
+                    if(primary!=m_harvesterAudioStreams.end())SelectHarvesterAudio(streams,primary->second);
+                    break;
+                }
+            }
+        }
     }
     if(m_eMediaLoadState==MLS_LOADED)for(const auto& subtitle:m_harvester->SubtitleFiles())if(!m_harvesterSubtitles.count(subtitle.path)){
         // LoadSubtitle returns a borrowed pointer owned by m_pSubStreams.

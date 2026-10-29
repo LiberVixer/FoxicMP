@@ -3126,7 +3126,7 @@ bool CMatroskaSplitterFilter::ProgressiveWebmLoop(IHarvesterReader* reader) {
         harvester::Sample sample;const auto hr=reader->WaitForSample(m_progressiveSample,&sample);
         if(hr!=S_OK)break;
         auto data=std::make_unique<CBinary>();data->resize(size_t(sample.size));
-        if(bytes->SyncRead(sample.offset,LONG(sample.size),data->data())!=S_OK){if(!m_fFlushing && !CheckRequest(nullptr))reader->GetSession()->Fail("WebM packet read failed");break;}
+        if(bytes->SyncRead(sample.offset,LONG(sample.size),data->data())!=S_OK){if(!m_fFlushing && !CheckRequest(nullptr) && !reader->GetSession()->OptionalAudioFailed(reader->GetTrack()))reader->GetSession()->Fail("WebM packet read failed");break;}
         auto packet=std::make_unique<CMatroskaPacket>();packet->TrackNumber=id;
         packet->rtStart=sample.start;packet->rtStop=sample.end;packet->bSyncPoint=sample.sync;
         packet->bg=std::make_unique<BlockGroup>();packet->bg->Block.BlockData.emplace_back(std::move(data));

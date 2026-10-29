@@ -2566,7 +2566,7 @@ bool CMP4SplitterFilter::DemuxLoop()
 			p->rtStop -= m_rtMovieOffset;
 			hr = DeliverPacket(std::move(p));
 		} else if (CComQIPtr<IHarvesterReader> progressive = m_pSyncReader) {
-            if (!m_fFlushing && !CheckRequest(nullptr)) progressive->GetSession()->Fail("MP4 packet read failed");
+            if (!m_fFlushing && !CheckRequest(nullptr) && !progressive->GetSession()->OptionalAudioFailed(progressive->GetTrack())) progressive->GetSession()->Fail("MP4 packet read failed");
             break;
         }
 
@@ -2816,7 +2816,7 @@ bool CMP4SplitterFilter::FragmentDemuxLoop(IHarvesterReader* reader) {
         if(packet->rtStop==packet->rtStart && packet->rtStart<MAXLONGLONG)++packet->rtStop;
         packet->resize(size_t(sample.size));
         if(bytes->SyncRead(sample.offset,LONG(sample.size),packet->data())!=S_OK) {
-            if(!m_fFlushing && !CheckRequest(nullptr))reader->GetSession()->Fail("Fragment packet read failed");
+            if(!m_fFlushing && !CheckRequest(nullptr) && !reader->GetSession()->OptionalAudioFailed(reader->GetTrack()))reader->GetSession()->Fail("Fragment packet read failed");
             break;
         }
         ++m_fragmentSample;

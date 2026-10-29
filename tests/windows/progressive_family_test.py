@@ -25,7 +25,7 @@ from progressive_resource_api_conformance import exercise as exercise_resource_c
 from progressive_v2_playback_conformance import exercise as exercise_v2_playback, MEDIA_PROFILES
 from progressive_metadata_conformance import exercise as exercise_metadata
 from progressive_multitrack_conformance import exercise as exercise_multitrack
-from progressive_partial_audio_conformance import exercise as exercise_partial_audio, PROFILES as PARTIAL_AUDIO_PROFILES
+from progressive_partial_audio_conformance import exercise as exercise_partial_audio, PROFILES as PARTIAL_AUDIO_PROFILES, ERROR_PROFILES as ACTIVE_AUDIO_PROFILES
 from progressive_optional_audio_conformance import exercise as exercise_optional_audio, PROFILES as OPTIONAL_AUDIO_PROFILES
 from progressive_subtitle_isolation_conformance import exercise as exercise_srt_isolation, PROFILES as SRT_ISOLATION_PROFILES
 
@@ -596,14 +596,16 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.directory_only:
+            return [dict(contract='sessionDirectory',scenarios=exercise_directory_contract(client,args.fixtures,Path(args.report)/'relative-contract'))]
         if args.metadata_only:
             folder=Path(args.report)/'metadata'
             result=exercise_metadata(client,args.fixtures,folder,select_chapter=lambda index:post_command(process.pid,4400+index),check_title=lambda title:check_window_title(process.pid,title))
             (folder/'conformance.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
             return [dict(contract='actual-metadata-ui',result=result)]
-        if args.partial_audio_profile or args.partial_audio_only:
+        if args.partial_audio_profile or args.partial_audio_only or args.active_audio_only:
             results=[]
-            for profile in ([args.partial_audio_profile] if args.partial_audio_profile else PARTIAL_AUDIO_PROFILES):
+            for profile in ([args.partial_audio_profile] if args.partial_audio_profile else ACTIVE_AUDIO_PROFILES if args.active_audio_only else PARTIAL_AUDIO_PROFILES):
                 folder=Path(args.report)/('partial-audio-'+profile)
                 result=exercise_partial_audio(client,args.fixtures,folder,profile,select_audio=lambda index:post_command(process.pid,2200+index),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401))
                 (folder/'conformance.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8')
@@ -733,12 +735,14 @@ def run(args):
 if __name__ == '__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--player',required=True);parser.add_argument('--fixtures',required=True);parser.add_argument('--report',required=True)
     parser.add_argument('--media-profile',choices=MEDIA_PROFILES)
+    parser.add_argument('--active-audio-only',action='store_true')
     parser.add_argument('--partial-audio-only',action='store_true')
     parser.add_argument('--partial-audio-profile',choices=PARTIAL_AUDIO_PROFILES)
     parser.add_argument('--optional-audio-profile',choices=OPTIONAL_AUDIO_PROFILES)
     parser.add_argument('--optional-audio-only',action='store_true')
     parser.add_argument('--subtitle-only',action='store_true')
     parser.add_argument('--metadata-only',action='store_true')
+    parser.add_argument('--directory-only',action='store_true')
     parser.add_argument('--multi-only',action='store_true')
     parser.add_argument('--sdk-only', action='store_true')
     parser.add_argument('--preparation-only', action='store_true')
