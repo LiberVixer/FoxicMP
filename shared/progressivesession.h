@@ -13,6 +13,11 @@ namespace foxicmp { namespace progressive {
 using rapidjson::Value;
 constexpr uint64_t MaxByte = uint64_t(INT64_MAX);
 constexpr size_t MaxResources = 64, MaxTracks = 32, MaxRanges = 128, MaxReaders = 128;
+// Catalog expansion is an internal, explicitly selected parse scope. Public
+// schema-2 validation continues to use the original inline limits.
+enum class SnapshotScope { Inline, ExpandedCatalog };
+constexpr size_t MaxCatalogResources=8192, MaxCatalogSegments=4096;
+constexpr size_t MaxCatalogSnapshotBytes=16*1024*1024;
 constexpr size_t MaxIntegrityBlocks=4096, MaxIntegrityBlockBytes=4*1024*1024;
 struct Error : std::runtime_error {
     std::string code, path;
@@ -121,11 +126,24 @@ inline void PlainName(const std::string& name,const std::string& p) {
     auto stem=name.substr(0,name.find('.'));for(auto& c:stem)if(c>='a' && c<='z')c-=32;
     Require(stem!="CON" && stem!="PRN" && stem!="AUX" && stem!="NUL" && !(stem.size()==4 && (stem.substr(0,3)=="COM" || stem.substr(0,3)=="LPT") && stem[3]>='1' && stem[3]<='9'),p,"Windows device names are forbidden");
 }
-inline Snapshot Parse(const std::string& json) {
-    Require(!json.empty() && json.size()<=harvester::MaxManifestBytes,"$","Snapshot exceeds 65536 bytes");
+inline void ExpandedCatalogKeys(const Value& value,unsigned depth=0) {
+    Require(depth<=32 && (!value.IsObject() || value.MemberCount()<=128) &&
+        (!value.IsArray() || value.Size()<=MaxCatalogResources),"$","Excessive expanded catalog nesting or field count");
+    if(value.IsObject()) {
+        for(auto item=value.MemberBegin();item!=value.MemberEnd();++item) {
+            for(auto previous=value.MemberBegin();previous!=item;++previous)
+                Require(previous->name!=item->name,"$","Duplicate JSON field");
+            ExpandedCatalogKeys(item->value,depth+1);
+        }
+    }else if(value.IsArray())for(const auto& item:value.GetArray())ExpandedCatalogKeys(item,depth+1);
+}
+inline Snapshot Parse(const std::string& json,SnapshotScope scope=SnapshotScope::Inline) {
+    const bool catalog=scope==SnapshotScope::ExpandedCatalog;
+    Require(!json.empty() && json.size()<=(catalog?MaxCatalogSnapshotBytes:harvester::MaxManifestBytes),"$",catalog?"Expanded catalog exceeds its byte limit":"Snapshot exceeds 65536 bytes");
     rapidjson::Document d;d.Parse<rapidjson::kParseValidateEncodingFlag|rapidjson::kParseIterativeFlag>(json.data(),json.size());
     Require(!d.HasParseError() && d.IsObject(),"$","Invalid UTF-8 JSON object");
-    try {harvester::UniqueKeys(d);}catch(const std::exception& e){throw Error("invalid_snapshot","$",e.what());}
+    if(catalog)ExpandedCatalogKeys(d);
+    else try {harvester::UniqueKeys(d);}catch(const std::exception& e){throw Error("invalid_snapshot","$",e.what());}
     Keys(d,"$",{"schemaVersion","sessionId","generation","revision","writer","timeline","resources","tracks"},{"metadata"});
     Require(d["schemaVersion"].IsUint() && d["schemaVersion"].GetUint()==2,"$.schemaVersion","Expected schema 2","unsupported_schema");
     Snapshot s;s.id=Id(d["sessionId"],"$.sessionId",true);s.generation=Unsigned(d["generation"],"$.generation",UINT64_MAX,true);s.revision=Unsigned(d["revision"],"$.revision",UINT64_MAX,true);
@@ -141,7 +159,7 @@ inline Snapshot Parse(const std::string& json) {
         s.windowStart=Signed(window["start"],"$.timeline.window.start");s.windowEnd=Signed(window["end"],"$.timeline.window.end");
         Require(s.live && s.windowStart<s.windowEnd,"$.timeline.window","Invalid live window");
     }
-    const auto& resources=d["resources"];Require(resources.IsArray() && resources.Size()>0 && resources.Size()<=MaxResources,"$.resources","Expected 1..64 resources");std::set<std::string> names;
+    const auto& resources=d["resources"];Require(resources.IsArray() && resources.Size()>0 && resources.Size()<=(catalog?MaxCatalogResources:MaxResources),"$.resources",catalog?"Expanded catalog exceeds its resource limit":"Expected 1..64 resources");std::set<std::string> names;
     for(rapidjson::SizeType i=0;i<resources.Size();++i) {
         const auto p="$.resources["+std::to_string(i)+"]";const auto& v=resources[i];
         Keys(v,p,{"id","name","length","ranges","state"},{"retired","integrity"});Resource r;
@@ -195,7 +213,7 @@ inline Snapshot Parse(const std::string& json) {
         Require(source.HasMember("resourceId")!=source.HasMember("segments"),p+".source","Expected a resource or segments, exclusively");
         if(source.HasMember("resourceId"))t.resource=Id(source["resourceId"],p+".source.resourceId");
         else {
-            const auto& list=source["segments"];Require(list.IsArray() && list.Size()<=128,p+".source.segments","Invalid segment list");uint64_t seq=0;int64_t end=INT64_MIN,presentationEnd=INT64_MIN;
+            const auto& list=source["segments"];Require(list.IsArray() && list.Size()<=(catalog?MaxCatalogSegments:128),p+".source.segments","Invalid segment list");uint64_t seq=0;int64_t end=INT64_MIN,presentationEnd=INT64_MIN;
             for(rapidjson::SizeType j=0;j<list.Size();++j) {
                 const auto q=p+".source.segments["+std::to_string(j)+"]";const auto& item=list[j];
                 Keys(item,q,{"resourceId","sequence","start","duration","timestampOffset","discontinuity","configurationId"},{"initializationResourceId"});Segment seg;

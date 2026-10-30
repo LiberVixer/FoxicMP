@@ -1,0 +1,141 @@
+{
+  "date": "2026-10-30",
+  "scope": "pure-model-only",
+  "result": "PASS",
+  "publicPlaybackCapability": false,
+  "releaseSdkVersionUnchanged": "1.36",
+  "catalog": {
+    "result": "PASS",
+    "count": 51,
+    "checks": [
+      "decode-0-segments-with-bounded-pages",
+      "decode-64-segments-with-bounded-pages",
+      "decode-160-segments-with-bounded-pages",
+      "decode-8190-segments-with-bounded-pages",
+      "legacy-inline-snapshot-still-valid",
+      "old-public-parser-does-not-enable-catalog",
+      "missing-index-is-explicit-waiting",
+      "digest-mismatch",
+      "length-mismatch",
+      "reject-descriptor-name-../page.json",
+      "reject-descriptor-name-CON.json",
+      "reject-descriptor-length-65537",
+      "reject-descriptor-length-3",
+      "reject-descriptor-length-01",
+      "reject-descriptor-sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "reject-descriptor-sha256-000000000000000000000000000000000000000000000000000000000000000",
+      "duplicate-page-id-before-loading",
+      "case-insensitive-page-filename-collision",
+      "catalog-page-count-bound-before-loading",
+      "reject-page-sessionId-identity",
+      "reject-page-generation-identity",
+      "reject-page-writerInstanceId-identity",
+      "reject-page-unknown-field",
+      "reject-page-version",
+      "reject-page-unknown-track",
+      "reject-page-duplicate-track",
+      "reject-page-unreferenced-resource",
+      "reject-page-cross-page-resource",
+      "reject-page-duplicate-segment-resource",
+      "reject-page-incomplete-resource",
+      "reject-page-unknown-length",
+      "reject-page-unconfirmed-tail",
+      "reject-page-retired-resource",
+      "reject-page-float-sequence",
+      "reject-page-overlapping-timeline",
+      "reject-page-path-traversal-resource",
+      "reject-page-page-as-media",
+      "duplicate-json-key",
+      "invalid-page-unicode",
+      "embedded-null-cannot-hide-trailing-payload",
+      "exact-64-KiB-page-boundary",
+      "timestamps-above-javascript-exact-number-boundary",
+      "inline-track-keeps-128-segment-bound",
+      "expanded-resource-limit-8192-includes-init",
+      "expanded-track-segment-limit-4096",
+      "append-pages-preserves-published-prefix",
+      "reject-published-page-rewrite-without-mutating-active-model",
+      "reject-published-page-reorder-without-mutating-active-model",
+      "reject-published-page-remove-without-mutating-active-model",
+      "move-published-inline-tail-to-immutable-page",
+      "root-keeps-64-inline-resource-bound"
+    ],
+    "scope": "pure-model-only",
+    "maxTestedResources": 8192,
+    "publicPlaybackCapability": false
+  },
+  "linux": {
+    "compiler": "GCC",
+    "exitCode": 0,
+    "regressionCases": [
+      90,
+      11
+    ],
+    "ctestGroups": 3
+  },
+  "windowsMingw": {
+    "compiler": "MinGW GCC",
+    "exitCode": 0,
+    "regressionCases": [
+      90,
+      11
+    ],
+    "ctestGroups": 3
+  },
+  "windowsMsvc": {
+    "compiler": "MSVC 19.50 / Visual Studio 18 x64",
+    "exitCode": 0,
+    "modelCases": 51,
+    "playbackTested": false
+  },
+  "exitCodes": {
+    "catalog-model-linux-final-build": 0,
+    "catalog-model-linux-final-tests": 0,
+    "catalog-model-win-build": 0,
+    "catalog-model-win-tests": 0,
+    "catalog-model-win-final3": 0,
+    "catalog-model-msvc-build": 0,
+    "catalog-model-msvc-tests": 0,
+    "catalog-model-msvc-final3": 0
+  },
+  "initialFailures": [
+    {
+      "scope": "compile-test-fixture",
+      "exitCode": 1,
+      "reason": "RapidJSON AddMember temporary key required an lvalue; corrected test CLI"
+    },
+    {
+      "scope": "catalog-first-run",
+      "exitCode": 1,
+      "reason": "Expanded JSON still used the old 128-array structural guard; added a bounded expanded-only guard"
+    },
+    {
+      "scope": "catalog-duration-fixture-regression",
+      "linuxCtestExitCode": 8,
+      "windowsCtestExitCode": 8,
+      "msvcPythonExitCode": 1,
+      "reason": "Test generated different known VOD duration when appending pages; session clock invariant correctly rejected it. Fixed fixture to keep the known duration stable; final repeat passed."
+    }
+  ],
+  "sourceFiles": {
+    "shared/progressivesession.h": "4cbcfd0863704265263a7146f32273c6da9c3128c6270914b717ded39501acfe",
+    "shared/progressivesegmentcatalog.h": "be764f09590d48e39279a95c693d1547243ea118ce04d73e809b886ec9f0fe06",
+    "tests/progressive_catalog_cli.cpp": "ff58732b808da97b7c201c52cd14cba4c854cdd5d307fae8044c3774a070b532",
+    "tests/progressive_catalog_conformance.py": "180dbd3353774cd538fbda234f7daa30155982ed9e4cc9e04491cf62c2eaefe7",
+    "qt/CMakeLists.txt": "0b9dd72a3a819dc338234632003a1a22f1de8968102df53b57180d874d082d5d"
+  },
+  "installedLinux": {
+    "executableSha256": "6b4b24e39050fba46cb5659f086530afaf0ad319e97adc70ba09fefd0fdabdd7",
+    "iniSha256": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "replaced": false
+  },
+  "windowsInstalledApplicationsChanged": false,
+  "harvesterChanged": false,
+  "remaining": [
+    "safe-local-page-loader",
+    "bounded-resource-handles-and-reader-leases",
+    "bridge-and-backend-integration",
+    "negotiated-public-sdk-api",
+    "long-real-playback-tests-all-three-editions"
+  ]
+}
