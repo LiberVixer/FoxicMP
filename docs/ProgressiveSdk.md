@@ -22,6 +22,8 @@ SDK 1.30: [контрольные суммы подтверждённых бло
 
 SDK 1.32: [staging и индекс одного сегмента](ProgressiveSegmentStaging.md), `ResourceProbe.start_segment`, capability `segmentProbeVersion=1`. Это диагностический API, без запуска segment playback.
 
+SDK 1.33: [реальное воспроизведение цепочки fMP4 H.264/AAC-LC](ProgressiveSegmentPlayback.md), capability `schema2Playback.segmentedPlayback`. Требуются новые сборки; сегменты должны быть полностью опубликованы по отдельности, весь ролик может оставаться недокачанным.
+
 ## Проверка расширенной схемы (SDK 1.3)
 
 Новые сборки отдельно объявляют `validationSchemaVersions:[2]` и

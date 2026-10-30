@@ -3,12 +3,13 @@
 #pragma once
 #include "progressiveresourceio.h"
 #include "progressivesubtitles.h"
+#include "progressivesegmentstream.h"
 #include "DSUtil/HarvesterMP4.h"
 #include <array>
 
 namespace foxicmp { namespace progressive {
 inline const char* Fmp4V2Capabilities() {
-    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"integrity":{"algorithm":"sha256","maxBlockBytes":4194304,"maxBlocksPerResource":4096,"confirmedRangesCovered":true,"verifiedBeforeDecoder":true,"readChunkBytes":65536,"boundedReadAudit":true},"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"trackCountMin":2,"trackCountMax":13,"mediaTrackCountMax":9,"audioTrackLimit":8,"multiAudio":true,"subtitles":{"containers":["srt"],"codecs":["srt"],"encoding":"utf-8","trackLimit":4,"completeFileRequired":true,"lateCompletion":true,"optionalErrorIsolation":true,"retainsValidatedCopyOnSourceError":true,"sizeLimitBytes":524288},"audioTracksRequired":false,"optionalAudio":{"completeFileRequired":false,"selectedTrackBuffering":true,"minimumReadySeconds":5,"lateCompletion":true,"pendingErrorIsolation":true,"activeResourceErrorsFatal":false,"activeOptionalAudioErrorsIsolated":true,"requiredPrimaryAudio":true},"metadataApplied":true,"metadata":{"chapters":true,"lateRevision":true,"title":true,"maxChapters":128},"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":false,"live":false,"initializationLimitBytes":1048576})";
+    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["segmented-fmp4-h264-aac-lc","separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"integrity":{"algorithm":"sha256","maxBlockBytes":4194304,"maxBlocksPerResource":4096,"confirmedRangesCovered":true,"verifiedBeforeDecoder":true,"readChunkBytes":65536,"boundedReadAudit":true},"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"trackCountMin":2,"trackCountMax":13,"mediaTrackCountMax":9,"audioTrackLimit":8,"multiAudio":true,"subtitles":{"containers":["srt"],"codecs":["srt"],"encoding":"utf-8","trackLimit":4,"completeFileRequired":true,"lateCompletion":true,"optionalErrorIsolation":true,"retainsValidatedCopyOnSourceError":true,"sizeLimitBytes":524288},"audioTracksRequired":false,"optionalAudio":{"completeFileRequired":false,"selectedTrackBuffering":true,"minimumReadySeconds":5,"lateCompletion":true,"pendingErrorIsolation":true,"activeResourceErrorsFatal":false,"activeOptionalAudioErrorsIsolated":true,"requiredPrimaryAudio":true},"metadataApplied":true,"metadata":{"chapters":true,"lateRevision":true,"title":true,"maxChapters":128},"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":true,"segmentedPlayback":{"mode":"segmented-fmp4-h264-aac-lc","completeSegmentsRequired":true,"discontinuity":false,"configurationChanges":false,"timestampRebasing":false,"live":false,"trackCount":2,"maxInitBytes":1048576,"maxSegmentBytes":16777216},"live":false,"initializationLimitBytes":1048576})";
 }
 class Fmp4V2Bridge {
     Snapshot model;
@@ -27,6 +28,9 @@ class Fmp4V2Bridge {
     std::array<bool,harvester::MaxMediaTracks> optionalFailed{};
     std::string videoCodecName,audioCodecName;
     std::array<bool,harvester::MaxMediaTracks> webmMode{};
+    bool segmented=false;
+    std::array<SegmentLayout,harvester::MaxMediaTracks> segmentLayouts;
+    std::set<std::string> validatedSegments;
     struct Subtitle {std::string id,resource,label,language,bytes,path,errorCode,error;bool defaultTrack=false,forced=false;};
     std::map<std::string,Subtitle> subtitleTracks;
     std::unique_ptr<SubtitleCache> subtitleCache;
@@ -43,7 +47,38 @@ class Fmp4V2Bridge {
     static uint64_t prefix(const Resource& resource) {
         uint64_t end=0;for(const auto& range:resource.ranges){if(range.offset>end)break;end=range.offset+range.length;}return end;
     }
+    static bool segmentProfile(const Snapshot& snapshot) {
+        for(const auto& item:snapshot.tracks)if((item.second.kind=="video" || item.second.kind=="audio") && item.second.resource.empty())return true;
+        return false;
+    }
+    static harvester::Snapshot mapSegments(const Snapshot& snapshot,std::array<std::string,harvester::MaxMediaTracks>* resources,
+                                           std::array<std::string,harvester::MaxMediaTracks>* tracks) {
+        supported(!snapshot.live && !snapshot.hasWindow && snapshot.knownDuration && snapshot.numerator==1 && snapshot.denominator==10000000 && snapshot.offset==0,
+                  "Segment playback requires VOD with a known duration, 100 ns timebase and zero session offset");
+        supported(snapshot.tracks.size()==2,"Segment playback currently requires exactly one video and one audio track");
+        const Track* video=nullptr;const Track* audio=nullptr;
+        for(const auto& item:snapshot.tracks) {
+            if(item.second.kind=="video"){supported(!video,"Only one segmented video track is enabled");video=&item.second;}
+            else if(item.second.kind=="audio"){supported(!audio,"Only one segmented audio track is enabled");audio=&item.second;}
+        }
+        supported(video && audio,"Both segmented video and audio tracks are required");
+        harvester::Snapshot result;result.tracks.resize(2);result.sessionId=snapshot.id;result.generation=snapshot.generation;result.revision=snapshot.revision;
+        result.duration=snapshot.duration;result.timestampOffset=0;result.state=state(snapshot.state);std::set<std::string> used;
+        const Track* ordered[2]={video,audio};
+        for(size_t i=0;i<2;++i) {
+            const auto& track=*ordered[i];const auto layout=BuildSegmentLayout(snapshot,track);
+            supported(used.insert(layout.initialization).second,"Segmented tracks need independent initialization resources");
+            for(const auto& segment:track.segments)supported(used.insert(segment.resource).second,"Segmented tracks need distinct media resources");
+            auto& output=result.tracks[i];output.path=snapshot.resources.at(layout.initialization).name;output.container=i?"m4a":"mp4";
+            output.required=true;output.fragmented=true;output.initializationReady=layout.initialized;output.available=layout.available;
+            output.total=layout.complete?layout.available:0;output.state=state(track.state);
+            if(resources)(*resources)[i]=layout.initialization;if(tracks)(*tracks)[i]=track.id;
+        }
+        supported(used.size()==snapshot.resources.size(),"Segment playback accepts only resources referenced by its two tracks");
+        return result;
+    }
     static harvester::Snapshot map(const Snapshot& snapshot,std::array<std::string,harvester::MaxMediaTracks>* resources=nullptr,std::array<std::string,harvester::MaxMediaTracks>* tracks=nullptr) {
+        if(segmentProfile(snapshot))return mapSegments(snapshot,resources,tracks);
         supported(!snapshot.live && !snapshot.hasWindow && snapshot.knownDuration && snapshot.numerator==1 && snapshot.denominator==10000000 && snapshot.offset>=0,
                   "Media v2 requires VOD, known duration, 100 ns timebase and nonnegative offset");
         supported(snapshot.tracks.size()>=2 && snapshot.tracks.size()<=harvester::MaxMediaTracks+4 && snapshot.resources.size()==snapshot.tracks.size(),"Use one video and one to eight separate audio resources");
@@ -74,10 +109,13 @@ class Fmp4V2Bridge {
         }
         return result;
     }
+    ResourceRead resourceRead(int track,uint64_t offset,void* buffer,size_t count) {
+        return segmented?ReadSegmentStream(*source,segmentLayouts[track],offset,buffer,count):source->read(resourceIds[track],offset,buffer,count);
+    }
     bool exact(int track,uint64_t offset,void* buffer,size_t count) {
         auto* out=static_cast<char*>(buffer);
         while(count) {
-            const auto size=(std::min)(count,size_t(65536));const auto read=source->read(resourceIds[track],offset,out,size);
+            const auto size=(std::min)(count,size_t(65536));const auto read=resourceRead(track,offset,out,size);
             if(!read.data() || read.bytes!=size)return false;
             out+=size;offset+=size;count-=size;
         }
@@ -330,10 +368,15 @@ public:
     const std::string& videoCodec() const {return videoCodecName;}
     const std::string& audioCodec(int track=1) const {return trackCodecs.at(track);}
     bool isWebm(int track=0) const {return webmMode.at(track);}
+    bool isSegmented() const {return segmented;}
     static void CheckProfile(const std::string& json){map(Parse(json));}
     Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):model(Parse(json)),identityGeneration(model.generation),identityWriter(model.writer),detailsRevision(model.revision),registry(receipts) {
-        legacy=map(model,&resourceIds,&trackIds);for(size_t i=0;i<legacy.tracks.size();++i)webmMode[i]=legacy.tracks[i].container=="webm";source=std::make_shared<ResourceSource>(root,receipts,json,ResourceFailurePolicy::IsolateOptionalAudioAndSrt);
-        try {for(size_t i=0;i<legacy.tracks.size();++i)if(legacy.tracks[i].required)initialize(int(i));prepareAudio();prepareSubtitles(model);}catch(...){cleanup();throw;}
+        legacy=map(model,&resourceIds,&trackIds);segmented=segmentProfile(model);
+        for(size_t i=0;i<legacy.tracks.size();++i){webmMode[i]=legacy.tracks[i].container=="webm";if(segmented)segmentLayouts[i]=BuildSegmentLayout(model,model.tracks.at(trackIds[i]));}
+        source=std::make_shared<ResourceSource>(root,receipts,json,ResourceFailurePolicy::IsolateOptionalAudioAndSrt);
+        try {for(size_t i=0;i<legacy.tracks.size();++i)if(legacy.tracks[i].required)initialize(int(i));
+             if(segmented)ValidateSegmentMedia(model,trackIds,segmentLayouts,source,validatedSegments);
+             prepareAudio();prepareSubtitles(model);}catch(...){cleanup();throw;}
     }
     ~Fmp4V2Bridge(){cleanup();}
     void cleanup() noexcept {
@@ -359,7 +402,7 @@ public:
     int64_t readPayload(int track,uint64_t offset,void* buffer,size_t count) {
         std::lock_guard<std::mutex> lock(mutex);
         if(!failure.empty() || !legacy.tracks.at(track).initializationReady || optionalFailed[track])return -1;
-        const auto read=source->read(resourceIds[track],offset,buffer,(std::min)(count,size_t(65536)));
+        const auto read=resourceRead(track,offset,buffer,(std::min)(count,size_t(65536)));
         if(read.data()){const auto size=uint64_t(read.bytes);const auto previous=decoderBytes[track].load();decoderBytes[track].store(size<=UINT64_MAX-previous?previous+size:UINT64_MAX);return int64_t(size);}
         if(!legacy.tracks[track].required && read.code!="cancelled" && read.code!="eof" && read.code!="waiting-range" && read.code!="waiting-resource")
             audioFailure(size_t(track),read.code.empty()?"resource-io-error":read.code,read.reason.empty()?"Optional audio resource failed":read.reason);
@@ -369,7 +412,15 @@ public:
         const auto next=Parse(json);std::array<std::string,harvester::MaxMediaTracks> nextIds;const auto mapped=map(next,nullptr,&nextIds);std::lock_guard<std::mutex> lock(mutex);
         supported(nextIds==trackIds,"Media track set/default ordering cannot change; reopen playback");Advance(model,next);
         Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");
-        try{verifyInitialization();source->publish(json);model=next;legacy=mapped;prepareAudio();prepareSubtitles(next);}catch(const Error& error){failure=error.code;throw;}
+        try{verifyInitialization();source->publish(json);
+            if(segmented) {
+                auto layouts=segmentLayouts;for(size_t i=0;i<2;++i) {
+                    layouts[i]=BuildSegmentLayout(next,next.tracks.at(trackIds[i]));
+                    supported(layouts[i].initialization==segmentLayouts[i].initialization,"Segment initialization cannot change during playback");
+                }
+                ValidateSegmentMedia(next,trackIds,layouts,source,validatedSegments);segmentLayouts=std::move(layouts);
+            }
+            model=next;legacy=mapped;prepareAudio();prepareSubtitles(next);}catch(const Error& error){failure=error.code;throw;}
         detailsRevision.store(next.revision);
     }
     void verify(){std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();markOptionalFailures();subtitleResourceErrors();}
@@ -388,7 +439,8 @@ public:
             }
         }
         const std::string videoContainer=isWebm(0)?"webm":"fmp4",audioContainer=isWebm(1)?"webm":"fmp4";
-        const auto mode="separate-"+videoContainer+(videoContainer==audioContainer?"":"-"+audioContainer)+"-"+videoCodecName+"-"+audioCodecName;
+        const auto mode=(segmented?"segmented-":"separate-")+videoContainer+(videoContainer==audioContainer?"":"-"+audioContainer)+"-"+videoCodecName+"-"+audioCodecName;
+        d.AddMember("segments",segmented,a);
         d.AddMember("videoContainer",Value(videoContainer.c_str(),a),a);d.AddMember("audioContainer",Value(audioContainer.c_str(),a),a);
         d.AddMember("mediaMode",Value(mode.c_str(),a),a);d.AddMember("videoCodec",Value(videoCodecName.c_str(),a),a);d.AddMember("audioCodec",Value(audioCodecName.c_str(),a),a);Value bytes(rapidjson::kObjectType);
         bytes.AddMember("video",Value(std::to_string(decoderBytes[0].load()).c_str(),a),a);bytes.AddMember("audio",Value(std::to_string(decoderBytes[1].load()).c_str(),a),a);d.AddMember("decoderIoBytes",bytes,a);

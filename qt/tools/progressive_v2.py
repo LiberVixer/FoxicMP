@@ -19,6 +19,7 @@ class V2PreviewSession:
         self.client=client;self.directory=directory;self.title=title;self.activate=activate;self.replace=replace
         self.lock=threading.RLock();self.last=None;self.reader_id=None;self.started=False;self.closed=False;self.uncertain=False;self.receipt=None
         caps=client.request(dict(version=1,action='capabilities'))
+        self.segments_supported=caps.get('schema2Playback',{}).get('segmentedPlayback',{}).get('mode')=='segmented-fmp4-h264-aac-lc'
         self.integrity_supported=caps.get('schema2Playback',{}).get('integrity',{}).get('algorithm')=='sha256'
         if 2 not in caps.get('playbackSchemaVersions',[]) or caps.get('schema2Playback',{}).get('mode')!='separate-fmp4-h264-aac-lc' or caps.get('readerLeaseProtocol')!=1:
             raise RuntimeError('Player lacks the bounded schema-2 media profile; update the player')
@@ -30,6 +31,8 @@ class V2PreviewSession:
         with self.lock:
             if self.closed:raise RuntimeError('Preview was detached; create a new V2PreviewSession')
             current=copy.deepcopy(snapshot);counter(current['generation']);revision=counter(current['revision'])
+            if any('segments' in t.get('source',{}) for t in current.get('tracks',[])) and not self.segments_supported:
+                raise RuntimeError('Player lacks the segmented fMP4 playback profile; update the player')
             if any('integrity' in r for r in current.get('resources',[])) and not self.integrity_supported:
                 raise RuntimeError('Player lacks SHA-256 resource integrity; update the player')
             if self.last is not None:

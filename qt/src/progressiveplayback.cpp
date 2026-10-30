@@ -270,6 +270,8 @@ void Window::updateProgressive() {
       for(auto file:audioFiles){file.replace("\\","\\\\");file.replace(separator,QString("\\")+separator);escaped.append(file);}
       options.clear();options["audio-files"]=escaped.join(separator);
       options["aid"]=progressiveRestoreAudio=="no"?QStringLiteral("no"):QStringLiteral("1");
+    }
+    if(progressive->confirmedByteSeek()) {
       // Keep AVIO seekable without MOV scanning the growing tail for an index.
       // Validation/indexing in ResourceSource/FragmentIndex remains enabled.
       options["demuxer-lavf-o"]="fflags=+ignidx";
@@ -290,7 +292,7 @@ void Window::updateProgressive() {
              {"demuxer-lavf-format", demuxer},
              {"demuxer-lavf-probesize", "32768"},
              {"demuxer-lavf-analyzeduration", "0.2"}});
-    if (!audioFiles.isEmpty()) {
+    if (progressive->confirmedByteSeek()) {
       // A blocking stream callback waiting for an unpublished tail cannot
       // process a queued demuxer seek. Read on playback demand so prefetch
       // cannot park a deselected audio demuxer there. Source's confirmed

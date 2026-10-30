@@ -23,6 +23,20 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_segments_require_playback_capability_not_diagnostic_probe(self):
+        client=Client();preview=V2PreviewSession(client,'/unused');value=snapshot()
+        value['tracks'][0]['source']=dict(segments=[])
+        with self.assertRaisesRegex(RuntimeError,'segment'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,segmentProbeVersion=1,
+                                    schema2Playback=dict(mode='separate-fmp4-h264-aac-lc'))
+        with self.assertRaisesRegex(RuntimeError,'segment'):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls)
+    def test_segment_playback_capability_admits_segment_session(self):
+        client=Client();client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,
+            schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',segmentedPlayback=dict(mode='segmented-fmp4-h264-aac-lc')))
+        value=snapshot();value['tracks'][0]['source']=dict(segments=[])
+        preview=V2PreviewSession(client,'/unused');preview.publish(value);self.assertEqual(client.calls[0][0],'start')
     def test_integrity_requires_player_capability_before_start(self):
         client=Client();preview=V2PreviewSession(client,'/unused');value=snapshot()
         value['resources']=[dict(integrity=dict(algorithm='sha256',blocks=[]))]

@@ -4,7 +4,7 @@ Linux Qt, Windows Qt и Classic предоставляют асинхронну�
 секции schema 2 через прежний `resourceProbe`. Это первый путь чтения и demux
 сегмента через `ResourceSource`; он не запускает декодер, не собирает общий
 HLS/DASH stream и не заменяет уже открытое воспроизведение. Harvester не меняется.
-Capability `schema2Playback.segments=false` сохраняется.
+В SDK 1.32 capability `schema2Playback.segments=false` сохранялся. SDK 1.33 отдельно добавляет [ограниченный playback](ProgressiveSegmentPlayback.md); этот диагностический запрос по-прежнему не запускает декодер.
 
 ## Запрос
 

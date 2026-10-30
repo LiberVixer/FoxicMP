@@ -1,0 +1,2295 @@
+{
+  "sdkVersion": "1.33",
+  "date": "2026-10-30",
+  "profile": "segmented-fmp4-h264-aac-lc",
+  "native": {
+    "linux": {
+      "result": "PASS",
+      "count": 14,
+      "checks": [
+        "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+        "reject-discontinuity",
+        "reject-configuration-change",
+        "reject-sequence-gap",
+        "reject-timestamp-offset",
+        "reject-wrong-packet-duration",
+        "reject-unknown-codec",
+        "reject-optional-track",
+        "initialization-only-then-append-resources-and-segments",
+        "initialization-cannot-hide-media-fragments",
+        "media-cannot-introduce-another-initialization",
+        "new-segment-integrity-error-is-fatal-before-decoder",
+        "pinned-segment-truncation-is-persistent-error",
+        "cancel-and-close-release-all-resources"
+      ]
+    },
+    "windows": {
+      "result": "PASS",
+      "count": 14,
+      "checks": [
+        "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+        "reject-discontinuity",
+        "reject-configuration-change",
+        "reject-sequence-gap",
+        "reject-timestamp-offset",
+        "reject-wrong-packet-duration",
+        "reject-unknown-codec",
+        "reject-optional-track",
+        "initialization-only-then-append-resources-and-segments",
+        "initialization-cannot-hide-media-fragments",
+        "media-cannot-introduce-another-initialization",
+        "new-segment-integrity-error-is-fatal-before-decoder",
+        "pinned-segment-truncation-is-persistent-error",
+        "cancel-and-close-release-all-resources"
+      ]
+    }
+  },
+  "actualPlayback": {
+    "linuxQt": {
+      "phases": [
+        {
+          "phase": "gap-stops-contiguous-prefix",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 0,
+              "index": -1
+            },
+            "availableSeconds": 5.08,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "0",
+              "video": "0"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "0",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": false,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "0",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": false,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 0,
+            "readerId": "ce5ec38787ade99fede216a588c18aa7",
+            "released": false,
+            "revision": "1",
+            "schemaVersion": 2,
+            "seeking": false,
+            "segments": true,
+            "sessionId": "ba703e9c9d264614a702181e486849eb",
+            "state": "buffering",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "1bbc20b80b6a4df38c7211ce41da219d"
+          }
+        },
+        {
+          "phase": "playing-before-complete",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 12.032,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "65536",
+              "video": "131072"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": true,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 3.08,
+            "readerId": "ce5ec38787ade99fede216a588c18aa7",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "segments": true,
+            "sessionId": "ba703e9c9d264614a702181e486849eb",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "1bbc20b80b6a4df38c7211ce41da219d"
+          }
+        },
+        {
+          "phase": "user-pause",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 12.032,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "65536",
+              "video": "131072"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": true,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 3.12,
+            "readerId": "ce5ec38787ade99fede216a588c18aa7",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "segments": true,
+            "sessionId": "ba703e9c9d264614a702181e486849eb",
+            "state": "paused",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "1bbc20b80b6a4df38c7211ce41da219d"
+          }
+        },
+        {
+          "phase": "backward-seek-while-paused",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 14.0373333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "131072",
+              "video": "196608"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "196608",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": true,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 2,
+            "readerId": "ce5ec38787ade99fede216a588c18aa7",
+            "released": false,
+            "revision": "3",
+            "schemaVersion": 2,
+            "seekTargetSeconds": 2,
+            "seeking": true,
+            "segments": true,
+            "sessionId": "ba703e9c9d264614a702181e486849eb",
+            "state": "paused",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "1bbc20b80b6a4df38c7211ce41da219d"
+          }
+        },
+        {
+          "phase": "resume-after-seek",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 14.0373333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "131072",
+              "video": "327680"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "327680",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": true,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 4,
+            "readerId": "ce5ec38787ade99fede216a588c18aa7",
+            "released": false,
+            "revision": "3",
+            "schemaVersion": 2,
+            "seeking": false,
+            "segments": true,
+            "sessionId": "ba703e9c9d264614a702181e486849eb",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "1bbc20b80b6a4df38c7211ce41da219d"
+          }
+        },
+        {
+          "phase": "unfinished-tail-waits-not-eof",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 14.0373333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "191811",
+              "video": "585638"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "585638",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "191811",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": true,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 13.120000000000001,
+            "readerId": "ce5ec38787ade99fede216a588c18aa7",
+            "released": false,
+            "revision": "3",
+            "schemaVersion": 2,
+            "seeking": false,
+            "segments": true,
+            "sessionId": "ba703e9c9d264614a702181e486849eb",
+            "state": "buffering",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "1bbc20b80b6a4df38c7211ce41da219d"
+          }
+        },
+        {
+          "phase": "explicit-complete-and-natural-eof",
+          "status": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "245597",
+              "video": "789917"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "789917",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "245597",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": false,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "readerId": "ce5ec38787ade99fede216a588c18aa7",
+            "released": true,
+            "revision": "4",
+            "schemaVersion": 2,
+            "segments": true,
+            "sessionId": "ba703e9c9d264614a702181e486849eb",
+            "state": "finished",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "1bbc20b80b6a4df38c7211ce41da219d"
+          }
+        }
+      ],
+      "networkRequests": 0,
+      "result": "PASS",
+      "readerIdentityPreserved": true,
+      "playingBeforeComplete": true,
+      "pausedSeek": true,
+      "tailWaitsForPublication": true,
+      "released": true
+    },
+    "windowsQt": {
+      "phases": [
+        {
+          "phase": "gap-stops-contiguous-prefix",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 0,
+              "index": -1
+            },
+            "availableSeconds": 5.08,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "0",
+              "video": "0"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "0",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": false,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "0",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": false,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 0,
+            "readerId": "846b18efd7efecce39a6b22673e9511a",
+            "released": false,
+            "revision": "1",
+            "schemaVersion": 2,
+            "seeking": false,
+            "segments": true,
+            "sessionId": "e0bd4c17401e4f0c8f5c01629ae723a3",
+            "state": "buffering",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "a24029bec3ac4125b158d077f23c50b6"
+          }
+        },
+        {
+          "phase": "playing-before-complete",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 12.032,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "65536",
+              "video": "131072"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": true,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 3.08,
+            "readerId": "846b18efd7efecce39a6b22673e9511a",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "segments": true,
+            "sessionId": "e0bd4c17401e4f0c8f5c01629ae723a3",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "a24029bec3ac4125b158d077f23c50b6"
+          }
+        },
+        {
+          "phase": "user-pause",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 12.032,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "65536",
+              "video": "131072"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "65536",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": true,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 3.12,
+            "readerId": "846b18efd7efecce39a6b22673e9511a",
+            "released": false,
+            "revision": "2",
+            "schemaVersion": 2,
+            "seeking": false,
+            "segments": true,
+            "sessionId": "e0bd4c17401e4f0c8f5c01629ae723a3",
+            "state": "paused",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "a24029bec3ac4125b158d077f23c50b6"
+          }
+        },
+        {
+          "phase": "backward-seek-while-paused",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 14.0373333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "131072",
+              "video": "262144"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "262144",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": true,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 2,
+            "readerId": "846b18efd7efecce39a6b22673e9511a",
+            "released": false,
+            "revision": "3",
+            "schemaVersion": 2,
+            "seeking": false,
+            "segments": true,
+            "sessionId": "e0bd4c17401e4f0c8f5c01629ae723a3",
+            "state": "paused",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "a24029bec3ac4125b158d077f23c50b6"
+          }
+        },
+        {
+          "phase": "resume-after-seek",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 14.0373333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "131072",
+              "video": "327680"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "327680",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "131072",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": true,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 4.04,
+            "readerId": "846b18efd7efecce39a6b22673e9511a",
+            "released": false,
+            "revision": "3",
+            "schemaVersion": 2,
+            "seeking": false,
+            "segments": true,
+            "sessionId": "e0bd4c17401e4f0c8f5c01629ae723a3",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "a24029bec3ac4125b158d077f23c50b6"
+          }
+        },
+        {
+          "phase": "unfinished-tail-waits-not-eof",
+          "status": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 14.0373333,
+            "complete": false,
+            "connected": true,
+            "decoderIoBytes": {
+              "audio": "191811",
+              "video": "585638"
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "585638",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "191811",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": true,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "positionSeconds": 13.16,
+            "readerId": "846b18efd7efecce39a6b22673e9511a",
+            "released": false,
+            "revision": "3",
+            "schemaVersion": 2,
+            "seeking": false,
+            "segments": true,
+            "sessionId": "e0bd4c17401e4f0c8f5c01629ae723a3",
+            "state": "buffering",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "a24029bec3ac4125b158d077f23c50b6"
+          }
+        },
+        {
+          "phase": "explicit-complete-and-natural-eof",
+          "status": {
+            "active": false,
+            "audioCodec": "aac-lc",
+            "audioContainer": "fmp4",
+            "decoderIoBytes": {
+              "audio": "245597",
+              "video": "789917"
+            },
+            "error": "",
+            "generation": "1",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "mediaTracks": [
+              {
+                "codec": "h264",
+                "container": "fmp4",
+                "decoderIoBytes": "789917",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "video",
+                "index": 0,
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "loaded": true,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              },
+              {
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "decoderIoBytes": "245597",
+                "default": false,
+                "error": "",
+                "errorCode": "",
+                "id": "audio",
+                "index": 1,
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "loaded": false,
+                "ready": true,
+                "required": true,
+                "selected": false,
+                "state": "ready"
+              }
+            ],
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "ok": true,
+            "readerId": "846b18efd7efecce39a6b22673e9511a",
+            "released": true,
+            "revision": "4",
+            "schemaVersion": 2,
+            "segments": true,
+            "sessionId": "e0bd4c17401e4f0c8f5c01629ae723a3",
+            "state": "finished",
+            "subtitleTracks": [],
+            "version": 1,
+            "videoCodec": "h264",
+            "videoContainer": "fmp4",
+            "writerInstanceId": "a24029bec3ac4125b158d077f23c50b6"
+          }
+        }
+      ],
+      "networkRequests": 0,
+      "result": "PASS",
+      "readerIdentityPreserved": true,
+      "playingBeforeComplete": true,
+      "pausedSeek": true,
+      "tailWaitsForPublication": true,
+      "released": true
+    },
+    "classic": {
+      "phases": [
+        {
+          "phase": "gap-stops-contiguous-prefix",
+          "status": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "867ab169cb3147b8a4fad861f9dad527",
+            "state": "buffering",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "e7a8a997933538b38ba7dfdc86afe8c1",
+            "schemaVersion": 2,
+            "generation": "1",
+            "revision": "1",
+            "writerInstanceId": "206bcb15f1ab431ebd4f6accb8d69c4c",
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "segments": true,
+            "videoContainer": "fmp4",
+            "audioContainer": "fmp4",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "videoCodec": "h264",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            },
+            "mediaTracks": [
+              {
+                "index": 0,
+                "id": "video",
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "codec": "h264",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "0"
+              },
+              {
+                "index": 1,
+                "id": "audio",
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "0"
+              }
+            ],
+            "subtitleTracks": [],
+            "positionSeconds": 0.0,
+            "availableSeconds": 5.0,
+            "durationSeconds": 20.0
+          }
+        },
+        {
+          "phase": "playing-before-complete",
+          "status": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "867ab169cb3147b8a4fad861f9dad527",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "e7a8a997933538b38ba7dfdc86afe8c1",
+            "schemaVersion": 2,
+            "generation": "1",
+            "revision": "2",
+            "writerInstanceId": "206bcb15f1ab431ebd4f6accb8d69c4c",
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "segments": true,
+            "videoContainer": "fmp4",
+            "audioContainer": "fmp4",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "videoCodec": "h264",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "200844",
+              "audio": "55647"
+            },
+            "mediaTracks": [
+              {
+                "index": 0,
+                "id": "video",
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "codec": "h264",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "200844",
+                "loaded": true,
+                "selected": false
+              },
+              {
+                "index": 1,
+                "id": "audio",
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "55647",
+                "loaded": true,
+                "selected": true
+              }
+            ],
+            "subtitleTracks": [],
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "1",
+              "title": "Segmented fMP4 playback",
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ]
+            },
+            "positionSeconds": 3.0305116,
+            "availableSeconds": 12.0,
+            "durationSeconds": 20.0
+          }
+        },
+        {
+          "phase": "user-pause",
+          "status": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "867ab169cb3147b8a4fad861f9dad527",
+            "state": "paused",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "e7a8a997933538b38ba7dfdc86afe8c1",
+            "schemaVersion": 2,
+            "generation": "1",
+            "revision": "2",
+            "writerInstanceId": "206bcb15f1ab431ebd4f6accb8d69c4c",
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "segments": true,
+            "videoContainer": "fmp4",
+            "audioContainer": "fmp4",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "videoCodec": "h264",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "200844",
+              "audio": "55837"
+            },
+            "mediaTracks": [
+              {
+                "index": 0,
+                "id": "video",
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "codec": "h264",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "200844",
+                "loaded": true,
+                "selected": false
+              },
+              {
+                "index": 1,
+                "id": "audio",
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "55837",
+                "loaded": true,
+                "selected": true
+              }
+            ],
+            "subtitleTracks": [],
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "1",
+              "title": "Segmented fMP4 playback",
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ]
+            },
+            "positionSeconds": 3.0305116,
+            "availableSeconds": 12.0,
+            "durationSeconds": 20.0
+          }
+        },
+        {
+          "phase": "backward-seek-while-paused",
+          "status": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "867ab169cb3147b8a4fad861f9dad527",
+            "state": "paused",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "e7a8a997933538b38ba7dfdc86afe8c1",
+            "schemaVersion": 2,
+            "generation": "1",
+            "revision": "3",
+            "writerInstanceId": "206bcb15f1ab431ebd4f6accb8d69c4c",
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "segments": true,
+            "videoContainer": "fmp4",
+            "audioContainer": "fmp4",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "videoCodec": "h264",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "200844",
+              "audio": "67063"
+            },
+            "mediaTracks": [
+              {
+                "index": 0,
+                "id": "video",
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "codec": "h264",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "200844",
+                "loaded": true,
+                "selected": false
+              },
+              {
+                "index": 1,
+                "id": "audio",
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "67063",
+                "loaded": true,
+                "selected": true
+              }
+            ],
+            "subtitleTracks": [],
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "1",
+              "title": "Segmented fMP4 playback",
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ]
+            },
+            "positionSeconds": 2.0,
+            "availableSeconds": 14.0,
+            "durationSeconds": 20.0
+          }
+        },
+        {
+          "phase": "resume-after-seek",
+          "status": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "867ab169cb3147b8a4fad861f9dad527",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "e7a8a997933538b38ba7dfdc86afe8c1",
+            "schemaVersion": 2,
+            "generation": "1",
+            "revision": "3",
+            "writerInstanceId": "206bcb15f1ab431ebd4f6accb8d69c4c",
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "segments": true,
+            "videoContainer": "fmp4",
+            "audioContainer": "fmp4",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "videoCodec": "h264",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "404438",
+              "audio": "102636"
+            },
+            "mediaTracks": [
+              {
+                "index": 0,
+                "id": "video",
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "codec": "h264",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "404438",
+                "loaded": true,
+                "selected": false
+              },
+              {
+                "index": 1,
+                "id": "audio",
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "102636",
+                "loaded": true,
+                "selected": true
+              }
+            ],
+            "subtitleTracks": [],
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "1",
+              "title": "Segmented fMP4 playback",
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ]
+            },
+            "positionSeconds": 4.0974875,
+            "availableSeconds": 14.0,
+            "durationSeconds": 20.0
+          }
+        },
+        {
+          "phase": "unfinished-tail-waits-not-eof",
+          "status": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "867ab169cb3147b8a4fad861f9dad527",
+            "state": "buffering",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "e7a8a997933538b38ba7dfdc86afe8c1",
+            "schemaVersion": 2,
+            "generation": "1",
+            "revision": "3",
+            "writerInstanceId": "206bcb15f1ab431ebd4f6accb8d69c4c",
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "segments": true,
+            "videoContainer": "fmp4",
+            "audioContainer": "fmp4",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "videoCodec": "h264",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "619992",
+              "audio": "160096"
+            },
+            "mediaTracks": [
+              {
+                "index": 0,
+                "id": "video",
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "codec": "h264",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "619992",
+                "loaded": true,
+                "selected": false
+              },
+              {
+                "index": 1,
+                "id": "audio",
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "160096",
+                "loaded": true,
+                "selected": true
+              }
+            ],
+            "subtitleTracks": [],
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "1",
+              "title": "Segmented fMP4 playback",
+              "chapters": [
+                {
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ]
+            },
+            "positionSeconds": 13.0496514,
+            "availableSeconds": 14.0,
+            "durationSeconds": 20.0
+          }
+        },
+        {
+          "phase": "explicit-complete-and-natural-eof",
+          "status": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "867ab169cb3147b8a4fad861f9dad527",
+            "state": "finished",
+            "error": "",
+            "schemaVersion": 2,
+            "generation": "1",
+            "revision": "4",
+            "writerInstanceId": "206bcb15f1ab431ebd4f6accb8d69c4c",
+            "metadata": {
+              "chapters": [
+                {
+                  "id": "intro",
+                  "time": "0",
+                  "title": "Intro"
+                },
+                {
+                  "id": "chapter",
+                  "time": "20000000",
+                  "title": "Two seconds"
+                }
+              ],
+              "revision": "1",
+              "title": "Segmented fMP4 playback"
+            },
+            "segments": true,
+            "videoContainer": "fmp4",
+            "audioContainer": "fmp4",
+            "mediaMode": "segmented-fmp4-h264-aac-lc",
+            "videoCodec": "h264",
+            "audioCodec": "aac-lc",
+            "decoderIoBytes": {
+              "video": "822399",
+              "audio": "211926"
+            },
+            "mediaTracks": [
+              {
+                "index": 0,
+                "id": "video",
+                "kind": "video",
+                "label": "",
+                "language": "",
+                "codec": "h264",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "822399"
+              },
+              {
+                "index": 1,
+                "id": "audio",
+                "kind": "audio",
+                "label": "",
+                "language": "",
+                "codec": "aac-lc",
+                "container": "fmp4",
+                "default": false,
+                "required": true,
+                "ready": true,
+                "state": "ready",
+                "errorCode": "",
+                "error": "",
+                "decoderIoBytes": "211926"
+              }
+            ],
+            "subtitleTracks": [],
+            "released": true,
+            "readerId": "e7a8a997933538b38ba7dfdc86afe8c1"
+          }
+        }
+      ],
+      "networkRequests": 0,
+      "result": "PASS",
+      "readerIdentityPreserved": true,
+      "playingBeforeComplete": true,
+      "pausedSeek": true,
+      "tailWaitsForPublication": true,
+      "released": true
+    }
+  },
+  "qtDecoderEvidence": {
+    "linux": {
+      "aac48000": true,
+      "changingVideoFrames": true,
+      "qTestPassed": 3
+    },
+    "windows": {
+      "aac48000": true,
+      "changingVideoFrames": true,
+      "qTestPassed": 3
+    },
+    "physicalOutputMeasurement": false
+  },
+  "regression": {
+    "linuxCTestGroups": 9,
+    "windowsCTestGroups": 10,
+    "nativeMediaCasesPerOS": 468,
+    "segmentDiagnosticCasesPerEdition": 12,
+    "qtCompatibilityResultsPerOS": 5,
+    "v2SdkCases": 15,
+    "familyContractCases": 2,
+    "classicV1DirectoryContract": true
+  },
+  "exitCodes": {
+    "segmentplay-linux-build3": 0,
+    "segmentplay-linux-test2": 0,
+    "segmentplay-native-final": 0,
+    "segmentplay-linux-regression": 0,
+    "segmentplay-sdk-test": 0,
+    "segmentplay-family-contract": 0,
+    "segmentplay-linux-compat": 0,
+    "segmentplay-winqt-build-final2": 0,
+    "segmentplay-checked-win-tests": 0,
+    "segmentplay-native-win-final": 0,
+    "segmentplay-winqt-compat": 0,
+    "segmentplay-classic-build-final": 0,
+    "segmentplay-classic-finalize": 0,
+    "segmentplay-linux-install": 0
+  },
+  "classicCleanup": {
+    "lastTaskResult": 0,
+    "taskRemoved": true,
+    "stageRemoved": true,
+    "builtSha256": "8be1971ca042216c2048d1956a69820ca32eba149975690934aa9a79e66f2c1a",
+    "testedSha256": "8be1971ca042216c2048d1956a69820ca32eba149975690934aa9a79e66f2c1a",
+    "equal": true,
+    "testExitCode": 0
+  },
+  "binarySha256": {
+    "linuxQt": "285386db4bafcca0d5ee828a01514fe870a27742d75053b7a6a82c16d36307b6",
+    "windowsQt": "5d6f0cc3fe5c3f256e93232ccb9ed8e050580926c2274d8b12d1defba6f287d8",
+    "classic": "8be1971ca042216c2048d1956a69820ca32eba149975690934aa9a79e66f2c1a"
+  },
+  "linuxInstallation": {
+    "installedSha256": "285386db4bafcca0d5ee828a01514fe870a27742d75053b7a6a82c16d36307b6",
+    "previousInstalledSha256": "14cdcde7ac454639f7b4295f8ad02e1a03f52fbb52687ac931412ed41393239e",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.33-20261030T042110Z",
+    "profileSha256Before": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "profileSha256After": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "profileUnchanged": true,
+    "protectedFilesVerified": 191,
+    "version": "FoxicMPQt 0.2.0",
+    "segmentProbeVersion": 1,
+    "segmentsPlayback": true
+  },
+  "initialAttempts": [
+    {
+      "step": "native-test-development",
+      "exitCode": 1,
+      "reason": "Fixture used ffprobe full AAC duration instead of final shortened trun sample; corrected fixture and reader pagination/expected error assertions"
+    },
+    {
+      "step": "linux-playback-first-run",
+      "exitCode": 8,
+      "reason": "MOV opening scanned the unfinished tail; enabled confirmed byte seek lavf ignidx and demand reads; rerun exit 0"
+    },
+    {
+      "step": "windows-qt-first-build",
+      "exitCode": 1,
+      "reason": "Windows near macro collided with local lambda name; renamed closeEnough"
+    },
+    {
+      "step": "windows-qt-overlapping-build",
+      "exitCode": 1,
+      "reason": "Ninja recompaction permission error with preceding build still active; subsequent builds serialized and passed"
+    },
+    {
+      "step": "classic-first-run",
+      "exitCode": 1,
+      "reason": "ffprobe absent from test PATH; supplied private build tool path and reran"
+    }
+  ],
+  "boundaries": [
+    "VOD only",
+    "required separate H.264/AAC-LC fMP4",
+    "complete per-segment resources",
+    "constant init/configuration",
+    "zero timestamp rebasing",
+    "64 resources",
+    "no TS/muxed/live/config changes"
+  ],
+  "harvesterModified": false,
+  "installedWindowsPlayersModified": false
+}

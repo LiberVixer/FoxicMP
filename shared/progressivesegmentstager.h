@@ -98,6 +98,7 @@ class SegmentStager {
         return out;
     }
 public:
+    SegmentStager(const Snapshot& value,const std::shared_ptr<ResourceSource>& io):snapshot(value),source(io) {}
     SegmentStager(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& json)
         :snapshot(Parse(json)),source(std::make_shared<ResourceSource>(root,registry,json)) {}
     void publish(const std::string& json) {

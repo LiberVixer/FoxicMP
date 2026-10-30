@@ -293,3 +293,5 @@ subtitleTracks.state: waiting/ready/error/cached; errorCode/error относят
 Корневой error сохраняется для A/V/сеанса; неудачная SRT не прерывает видео.
 Проверять subtitles.optionalErrorIsolation и retainsValidatedCopyOnSourceError.
 Метаданные, required-дорожки и reader release по-прежнему проверяются строго.
+
+SDK 1.33 добавляет [ограниченное воспроизведение цепочки fMP4 H.264/AAC-LC](ProgressiveSegmentPlayback.md) через общий I/O трёх редакций. TS, live, смена codec/init и произвольный HLS/DASH остаются за границей этого профиля; Harvester не менялся.

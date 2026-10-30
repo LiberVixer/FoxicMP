@@ -743,6 +743,40 @@ private slots:
     QVERIFY(initial);QVERIFY(late);QVERIFY(cleared);QVERIFY(restored);QVERIFY(restarted);QVERIFY(marker);QVERIFY(noMarker);QVERIFY(jumped);
     qInfo().noquote()<<"Actual metadata UI report:"<<writer.readAllStandardOutput();
   }
+  void segmentedFmp4Playback() {
+    Profile profile(temporary.filePath("segment-playback-profile"));prepare(profile);
+    Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    auto* player=w.findChild<Player*>();QVERIFY(player);
+    const auto work=temporary.filePath("segment-playback-bytes");
+    int sequence=0;bool decoded=false,changingVideo=false;QByteArray firstFrame;
+    QTimer sample;sample.setInterval(50);connect(&sample,&QTimer::timeout,this,[&]{
+      QFile control(work+"/control.json");
+      if(control.open(QIODevice::ReadOnly)) {
+        const auto c=QJsonDocument::fromJson(control.readAll()).object();control.close();
+        if(c["sequence"].toInt()>sequence) {
+          sequence=c["sequence"].toInt();const auto action=c["action"].toString();
+          if(action=="pause")w.actions["play"]->trigger();
+          else if(action=="seek")QVERIFY(w.seekTo(c["value"].toDouble()));
+        }
+      }
+      if(!w.progressiveSession())return;
+      const auto state=w.progressivePlaybackStatus();
+      if(state["state"]=="playing" && state["mediaMode"]=="segmented-fmp4-h264-aac-lc" &&
+         player->get("audio-codec-name")=="aac" && player->get("audio-params/samplerate").toInt()==48000)decoded=true;
+      if(decoded && state["state"]=="playing") {
+        const auto frame=player->grabFramebuffer();if(!frame.isNull()) {
+          const auto digest=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);
+          if(firstFrame.isEmpty())firstFrame=digest;else changingVideo|=digest!=firstFrame;
+        }
+      }
+    });sample.start();
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_segment_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work});
+    QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,150000);
+    if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();
+    QCOMPARE(writer.exitCode(),0);sample.stop();QVERIFY(decoded);QVERIFY(changingVideo);
+    qInfo().noquote()<<"Segment playback report:"<<writer.readAllStandardOutput();
+  }
   void partialOptionalAudio_data() {
     QTest::addColumn<QString>("audioProfile");
     for(const auto* name:{"aac","opus-webm","vorbis","opus-fmp4","active-error","active-writer-error","active-init-error","inactive-error","paused-active-error","required-error","active-opus-error","active-vorbis-error","integrity-active-error","integrity-inactive-error","integrity-required-error","integrity-opus-error"})QTest::newRow(name)<<QString(name);

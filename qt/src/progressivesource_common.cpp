@@ -44,7 +44,7 @@ int64_t ProgressiveSource::size(int track) const {
   return track >= 0 && size_t(track) < snapshot.tracks.size() ? int64_t(snapshot.tracks[track].total) : -1;
 }
 bool ProgressiveSource::confirmedByteSeek() const {
-  std::lock_guard<std::mutex> lock(mutex);return bool(v2Bridge) && snapshot.tracks.size()>2;
+  std::lock_guard<std::mutex> lock(mutex);return bool(v2Bridge) && (snapshot.tracks.size()>2 || v2Bridge->isSegmented());
 }
 bool ProgressiveSource::seekable(int track, uint64_t offset) const {
   std::lock_guard<std::mutex> lock(mutex);
