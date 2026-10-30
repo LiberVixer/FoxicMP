@@ -7,17 +7,18 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'qt/tools'))
 from progressive_client import ProgressiveClient, ApiError
 from progressive_v2 import V2PreviewSession
+from progressive_integrity import protect_snapshot
 from progressive_multitrack_conformance import fixture
 from progressive_v1_conformance import fragment_prefix
 from progressive_webm_fixtures import webm_prefix
 from progressive_v2_playback_conformance import forget_closed_readers
-ERROR_PROFILES=('active-error','active-writer-error','active-init-error','inactive-error','paused-active-error','required-error','active-opus-error','active-vorbis-error')
+ERROR_PROFILES=('active-error','active-writer-error','active-init-error','inactive-error','paused-active-error','required-error','active-opus-error','active-vorbis-error','integrity-active-error','integrity-inactive-error','integrity-required-error','integrity-opus-error')
 PROFILES=('aac','opus-webm','vorbis','opus-fmp4')+ERROR_PROFILES
 
 def exercise(client,fixtures,work,profile,select_audio,pause,seek):
     root=Path(work);value,data=fixture(fixtures,root)
     value['metadata']['chapters'][1]['time']='20000000'
-    index=2 if profile=='active-opus-error' else 3 if profile=='active-vorbis-error' else 1 if profile in ERROR_PROFILES else {'aac':1,'opus-webm':2,'vorbis':3,'opus-fmp4':2}[profile]
+    index=2 if profile in ('active-opus-error','integrity-opus-error') else 3 if profile=='active-vorbis-error' else 1 if profile in ERROR_PROFILES else {'aac':1,'opus-webm':2,'vorbis':3,'opus-fmp4':2}[profile]
     extra=copy.deepcopy(value['tracks'][index]);resource=copy.deepcopy(value['resources'][index]);content=data[index]
     if profile=='opus-fmp4':
         content=(Path(fixtures)/'progressive-opus-2/audio.mp4').read_bytes();extra['containerHint']='fmp4'
@@ -37,7 +38,22 @@ def exercise(client,fixtures,work,profile,select_audio,pause,seek):
             with (root/r['name']).open('ab') as stream:stream.write(data[i][count:])
             r.update(length=str(len(data[i])),ranges=[dict(offset='0',length=str(len(data[i])))],state='complete')
             value['tracks'][i]['state']='complete'
-    caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['optionalAudio']
+    integrity=profile.startswith('integrity-');protected_previous=None
+    def add_integrity():
+        nonlocal protected_previous
+        if not integrity:return
+        protected=protect_snapshot(value,root,previous=protected_previous,block_bytes=65536)
+        for target,source in zip(value['resources'],protected['resources']):target['integrity']=source['integrity']
+        protected_previous=copy.deepcopy(value)
+    def corrupt(path,content):
+        at=content.index(b'mdat')+12 if b'mdat' in content else len(content[:webm_prefix(content,2)])-9
+        with path.open('r+b') as stream:
+            stream.seek(at);before=stream.read(1);assert before
+            stream.seek(at);stream.write(bytes([before[0]^1]))
+    add_integrity()
+    capabilities=client.request(dict(version=1,action='capabilities'))['schema2Playback']
+    if integrity:assert capabilities.get('integrity',{}).get('algorithm')=='sha256'
+    caps=capabilities['optionalAudio']
     assert not caps['completeFileRequired'] and caps['selectedTrackBuffering'],caps
     assert client.probe(value,root)['supported']
     preview=V2PreviewSession(client,str(root),title='Partial audio '+profile);report=dict(profile=profile,phases=[])
@@ -60,16 +76,22 @@ def exercise(client,fixtures,work,profile,select_audio,pause,seek):
                 time.sleep(.1)
             raise AssertionError(('partial audio timeout',label,state))
         def selected(s):return any(t['id']=='optional-audio' and t.get('selected') for t in s['mediaTracks'])
-        def publish():value['revision']=str(int(value['revision'])+1);preview.publish(value)
+        def publish():
+            value['revision']=str(int(value['revision'])+1);add_integrity();preview.publish(value)
         if profile=='aac':
             wait(lambda s:s['positionSeconds']>=2 and s['audioSelection']['count']==1,'primary-before-late-partial-audio')
             extra['initializationReady']=True;publish()
         state=wait(lambda s:s['positionSeconds']>=7.5 and s['audioSelection']['count']==2,'unselected-tail-does-not-block')
         assert state['availableSeconds']>=17 and next(t for t in state['mediaTracks'] if t['id']=='optional-audio')['ready'],state
-        if profile=='inactive-error':
+        if profile in ('inactive-error','integrity-inactive-error'):
             path=root/resource['name'];original=path.read_bytes()
-            with path.open('r+b') as stream:stream.truncate(len(original)-1)
+            if integrity:corrupt(path,content)
+            else:
+                with path.open('r+b') as stream:stream.truncate(len(original)-1)
             state=wait(lambda s:s['audioSelection']['index']==0 and s['state']=='playing' and s['positionSeconds']>=8.3 and any(t['id']=='optional-audio' and t['state']=='error' for t in s['mediaTracks']),'inactive-audio-error-isolated')
+            # A small inactive file may still be the last cached read: that
+            # earlier guard can detect the same mutation before the SHA audit.
+            if integrity:assert next(t for t in state['mediaTracks'] if t['id']=='optional-audio')['errorCode'] in ('integrity-mismatch','source-rewritten'),state
             # Restoring bytes cannot reactivate the quarantined track.
             path.write_bytes(original);publish();select_audio(1)
             wait(lambda s:s['audioSelection']['index']==0 and s['positionSeconds']>=9 and any(t['id']=='optional-audio' and not t['ready'] for t in s['mediaTracks']),'failed-audio-cannot-be-selected')
@@ -97,9 +119,11 @@ def exercise(client,fixtures,work,profile,select_audio,pause,seek):
         prefix_at(14);publish();select_audio(1)
         wait(lambda s:selected(s) and s['state']=='playing' and s['positionSeconds']>=9,'partial-audio-playing')
         if profile in ERROR_PROFILES:
-            if profile=='required-error':
+            if profile in ('required-error','integrity-required-error'):
                 path=root/value['resources'][1]['name']
-                with path.open('r+b') as stream:stream.truncate(path.stat().st_size-1)
+                if integrity:corrupt(path,data[1])
+                else:
+                    with path.open('r+b') as stream:stream.truncate(path.stat().st_size-1)
                 deadline=time.monotonic()+10
                 while time.monotonic()<deadline:
                     terminal=preview.status()
@@ -121,10 +145,12 @@ def exercise(client,fixtures,work,profile,select_audio,pause,seek):
                 with path.open('r+b') as stream:
                     stream.seek(at);stream.write(bytes([content[at]^1]))
                 publish()
+            elif integrity:corrupt(path,content)
             else:
                 with path.open('r+b') as stream:stream.truncate(path.stat().st_size-1)
             expected_state='paused' if paused else 'playing'
             state=wait(lambda s:s['audioSelection']['index']==0 and s['state']==expected_state and any(t['id']=='optional-audio' and t['state']=='error' for t in s['mediaTracks']),'active-audio-error-falls-back')
+            if integrity:assert next(t for t in state['mediaTracks'] if t['id']=='optional-audio')['errorCode']=='integrity-mismatch',state
             position=state['positionSeconds']
             if paused:
                 time.sleep(.5);assert abs(preview.heartbeat()['positionSeconds']-position)<.3

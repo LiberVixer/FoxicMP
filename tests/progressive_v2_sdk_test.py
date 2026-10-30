@@ -23,6 +23,11 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_integrity_requires_player_capability_before_start(self):
+        client=Client();preview=V2PreviewSession(client,'/unused');value=snapshot()
+        value['resources']=[dict(integrity=dict(algorithm='sha256',blocks=[]))]
+        with self.assertRaisesRegex(RuntimeError,'SHA-256'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
     def test_canonical_exact_counters(self):
         self.assertEqual(counter('18446744073709551615'),2**64-1)
         for value in (True,1,1.0,'01','0','+1','1.0','１２','18446744073709551616',''):

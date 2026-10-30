@@ -728,7 +728,7 @@ private slots:
   }
   void partialOptionalAudio_data() {
     QTest::addColumn<QString>("audioProfile");
-    for(const auto* name:{"aac","opus-webm","vorbis","opus-fmp4","active-error","active-writer-error","active-init-error","inactive-error","paused-active-error","required-error","active-opus-error","active-vorbis-error"})QTest::newRow(name)<<QString(name);
+    for(const auto* name:{"aac","opus-webm","vorbis","opus-fmp4","active-error","active-writer-error","active-init-error","inactive-error","paused-active-error","required-error","active-opus-error","active-vorbis-error","integrity-active-error","integrity-inactive-error","integrity-required-error","integrity-opus-error"})QTest::newRow(name)<<QString(name);
   }
   void partialOptionalAudio() {
     QFETCH(QString,audioProfile);
@@ -752,17 +752,17 @@ private slots:
       const auto state=w.progressivePlaybackStatus();bool selected=false;
       for(const auto& value:state["mediaTracks"].toArray()){const auto t=value.toObject();selected|=t["id"]=="optional-audio" && t["selected"].toBool();}
       const bool failureProfile=audioProfile.endsWith("error");
-      const auto codec=audioProfile=="active-opus-error"?"opus":audioProfile=="active-vorbis-error"?"vorbis":(audioProfile=="aac" || failureProfile)?"aac":audioProfile=="vorbis"?"vorbis":"opus";
+      const auto codec=audioProfile.endsWith("opus-error")?"opus":audioProfile=="active-vorbis-error"?"vorbis":(audioProfile=="aac" || failureProfile)?"aac":audioProfile=="vorbis"?"vorbis":"opus";
       if(selected && state["state"]=="playing" && player->get("audio-codec-name")==codec && player->get("audio-params/samplerate").toInt()==48000)decoded=true;
       if(decoded && selected && state["state"]=="playing")subtitleRestored|=player->get("sub-text").toString().contains(QString::fromUtf8("Ранние subtitles"));
-      if(failureProfile && audioProfile!="required-error") {
+      if(failureProfile && !audioProfile.endsWith("required-error")) {
         for(const auto& value:state["mediaTracks"].toArray()) {const auto t=value.toObject();activeFailure|=t["id"]=="optional-audio" && t["state"]=="error" && state["audioSelection"].toObject()["index"].toInt()==0 && state["state"]=="playing" && player->get("audio-codec-name")=="aac" && player->get("audio-params/samplerate").toInt()==48000;}
       }
       if(decoded){const auto frame=player->grabFramebuffer();if(!frame.isNull()){const auto digest=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);if(firstFrame.isEmpty())firstFrame=digest;else changingVideo|=digest!=firstFrame;}}
     });sample.start();
     QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_partial_audio_conformance.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work,"--media-profile",audioProfile});
     QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
-    QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,180000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QVERIFY(writer.exitCode()==0);sample.stop();if(audioProfile!="inactive-error")QVERIFY(decoded);if(audioProfile!="inactive-error")QVERIFY(changingVideo);if(audioProfile.endsWith("error") && audioProfile!="required-error")QVERIFY(activeFailure);else if(audioProfile!="required-error")QVERIFY(subtitleRestored);
+    QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,180000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QVERIFY(writer.exitCode()==0);sample.stop();if(!audioProfile.endsWith("inactive-error"))QVERIFY(decoded);if(!audioProfile.endsWith("inactive-error"))QVERIFY(changingVideo);if(audioProfile.endsWith("error") && !audioProfile.endsWith("required-error"))QVERIFY(activeFailure);else if(!audioProfile.endsWith("required-error"))QVERIFY(subtitleRestored);
     qInfo().noquote()<<"Partial audio report:"<<writer.readAllStandardOutput();
   }
   void optionalAudioDoesNotBlockPlayback_data() {

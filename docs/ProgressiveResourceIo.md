@@ -6,6 +6,8 @@ ResourceSource к [ограниченному медиапрофилю v2](Progr
 resourceIoPlaybackSupported=false относится к диагностике, а validate v2
 сохраняет прежний смысл и не открывает файлы. YouTubeHarvester не изменяется.
 
+SDK 1.30 добавляет [SHA-256 проверку блоков перед возвратом байтов](ProgressiveIntegrity.md). Прежние ограничения проверки payload ниже относятся к ресурсам без `integrity`.
+
 ## Что реализовано
 
 `shared/progressiveresourceio.h` предоставляет ResourceSource для диагностики и медиамоста:

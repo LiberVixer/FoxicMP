@@ -16,6 +16,34 @@ def sample():
 def cases():
     base = sample()
     yield 'valid-muxed-metadata', dict(session=base), True, None
+    protected=copy.deepcopy(base)
+    protected['resources'][0]['integrity']=dict(algorithm='sha256',blocks=[dict(offset=r['offset'],length=r['length'],sha256='a'*64) for r in protected['resources'][0]['ranges']])
+    yield 'valid-integrity-metadata-without-file-io',dict(session=protected),True,None
+    for name,mutate in {
+        'algorithm':lambda r:r['integrity'].update(algorithm='sha1'),
+        'uppercase':lambda r:r['integrity']['blocks'][0].update(sha256='A'*64),
+        'digest-length':lambda r:r['integrity']['blocks'][0].update(sha256='a'*63),
+        'numeric-offset':lambda r:r['integrity']['blocks'][0].update(offset=0),
+        'coverage-hole':lambda r:r['integrity']['blocks'][0].update(length='1'),
+        'overlap':lambda r:r['integrity']['blocks'].append(copy.deepcopy(r['integrity']['blocks'][0])),
+        'unconfirmed':lambda r:r['integrity']['blocks'][0].update(length='99'),
+        'zero-length':lambda r:r['integrity']['blocks'][0].update(length='0'),
+        'block-size-limit':lambda r:r['integrity']['blocks'][0].update(length='4194305'),
+    }.items():
+        bad=copy.deepcopy(protected);mutate(bad['resources'][0])
+        yield 'integrity-invalid-'+name,dict(session=bad),False,'invalid_snapshot'
+    for name,mutate in {
+        'withdraw':lambda r:r.pop('integrity'),
+        'replace-digest':lambda r:r['integrity']['blocks'][0].update(sha256='b'*64),
+    }.items():
+        bad=copy.deepcopy(protected);bad['revision']='2';mutate(bad['resources'][0])
+        yield 'integrity-advance-'+name,dict(session=bad,previous=protected),False,'invalid_snapshot'
+    upgraded=copy.deepcopy(protected);upgraded['revision']='2'
+    yield 'integrity-cannot-enable-mid-session',dict(session=upgraded,previous=base),False,'invalid_snapshot'
+    extended=copy.deepcopy(protected);extended['revision']='2';r=extended['resources'][0]
+    end=int(r['ranges'][-1]['offset'])+int(r['ranges'][-1]['length'])
+    r['ranges'].append(dict(offset=str(end),length='1'));r['integrity']['blocks'].append(dict(offset=str(end),length='1',sha256='b'*64))
+    yield 'integrity-append-new-confirmed-block',dict(session=extended,previous=protected),True,None
     for kind in ('audio','video'):
         value=copy.deepcopy(base);value['tracks']=[t for t in value['tracks'] if t['kind']==kind]
         yield kind+'-only',dict(session=value),True,None

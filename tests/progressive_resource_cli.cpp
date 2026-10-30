@@ -24,6 +24,13 @@ int main(int argc,char** argv) {
         try {
             rapidjson::Document d;d.Parse(line.c_str());p::Require(!d.HasParseError() && d.IsObject(),"$","Invalid command");
             const auto action=p::Text(d["action"],"action");
+            if(action=="sha256") {
+                p::Require(d.HasMember("text") && d["text"].IsString(),"text","Expected hash test data");
+                const auto count=d["text"].GetStringLength();const auto step=d.HasMember("step")?d["step"].GetUint():65536;
+                p::Require(step>0,"step","Invalid SHA test step");p::Sha256 hash;
+                for(size_t i=0;i<count;i+=step)hash.update(d["text"].GetString()+i,(std::min)(size_t(step),size_t(count)-i));
+                std::cout<<"{\"ok\":true,\"sha256\":\""<<hash.hex()<<"\"}"<<std::endl;continue;
+            }
             if(action=="sparseFixture") {
                 const auto path=std::filesystem::u8path(p::Text(d["path"],"path",8192));const auto at=p::Unsigned(d["offset"],"offset",p::MaxByte-1);
 #ifdef _WIN32

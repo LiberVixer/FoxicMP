@@ -2,6 +2,7 @@
 // No decoder, URLs, remux or implicit file deletion.
 #pragma once
 #include "progressivereaderlease.h"
+#include "progressivesha256.h"
 #include <condition_variable>
 #include <chrono>
 #include <cstring>
@@ -124,6 +125,10 @@ inline size_t ReadAt(const Handle& file,uint64_t offset,void* data,size_t size,c
 struct Pin {
     Handle file;Info identity;std::unique_ptr<ReaderLease> lease;
     uint64_t lastOffset=0;std::vector<char> lastRead;
+    struct VerifiedChunk {size_t length=0;std::array<unsigned char,32> digest{};};
+    std::map<uint64_t,VerifiedChunk> verified;
+    std::set<uint64_t> verifiedBlocks;
+    uint64_t auditOffset=0;
     Pin(Handle opened,Info info):file(std::move(opened)),identity(info){}
     ~Pin() {
 #ifdef _WIN32
@@ -140,6 +145,46 @@ struct Pin {
         if(!lastRead.empty()) {
             std::vector<char> bytes(lastRead.size());
             Check(ReadAt(file,lastOffset,bytes.data(),bytes.size(),cancelled)==bytes.size() && bytes==lastRead,"source-rewritten","The last verified read was overwritten");
+        }
+        // One bounded audit per verification also revisits consumed bytes that
+        // are no longer the most recent decoder read. It is not a full disk scan.
+        if(!verified.empty()) {
+            auto found=verified.lower_bound(auditOffset);if(found==verified.end())found=verified.begin();
+            checkedChunk(found->first,found->second,cancelled);auditOffset=found->first+found->second.length;
+        }
+    }
+    std::vector<char> checkedChunk(uint64_t offset,const VerifiedChunk& expected,const std::atomic<bool>& cancelled) {
+        std::vector<char> bytes(expected.length);
+        Check(ReadAt(file,offset,bytes.data(),bytes.size(),cancelled)==bytes.size(),"source-truncated","Integrity read returned short physical data");
+        Sha256 hash;hash.update(bytes.data(),bytes.size());
+        Check(hash.finish()==expected.digest,"integrity-mismatch","Confirmed media bytes differ from their SHA-256 digest");
+        return bytes;
+    }
+    void checkBlock(const IntegrityBlock& block,const std::atomic<bool>& cancelled) {
+        if(verifiedBlocks.count(block.offset))return;
+        Sha256 hash;std::vector<std::pair<uint64_t,VerifiedChunk>> chunks;
+        for(uint64_t at=block.offset;at<block.offset+block.length;) {
+            const auto count=size_t((std::min)(uint64_t(65536),block.offset+block.length-at));std::vector<char> bytes(count);
+            Check(ReadAt(file,at,bytes.data(),count,cancelled)==count,"source-truncated","Integrity block returned short physical data");
+            hash.update(bytes.data(),count);Sha256 chunk;chunk.update(bytes.data(),count);
+            chunks.push_back({at,{count,chunk.finish()}});at+=count;
+        }
+        Check(hash.hex()==block.sha256,"integrity-mismatch","Confirmed media block does not match the published SHA-256 digest");
+        for(auto& chunk:chunks)verified.emplace(chunk.first,std::move(chunk.second));
+        verifiedBlocks.insert(block.offset);
+    }
+    void readProtected(const Resource& resource,uint64_t offset,std::vector<char>& data,const std::atomic<bool>& cancelled) {
+        size_t copied=0;
+        while(copied<data.size()) {
+            const auto at=offset+copied;
+            auto block=std::lower_bound(resource.blocks.begin(),resource.blocks.end(),at,
+                [](const IntegrityBlock& b,uint64_t position){return b.offset+b.length<=position;});
+            Check(block!=resource.blocks.end() && block->offset<=at,"integrity-missing","Confirmed bytes have no integrity block");
+            checkBlock(*block,cancelled);
+            const auto chunkOffset=block->offset+((at-block->offset)/65536)*65536;
+            const auto& chunk=verified.at(chunkOffset);const auto bytes=checkedChunk(chunkOffset,chunk,cancelled);
+            const auto inside=size_t(at-chunkOffset),count=(std::min)(data.size()-copied,bytes.size()-inside);
+            std::memcpy(data.data()+copied,bytes.data()+inside,count);copied+=count;
         }
     }
 };
@@ -258,7 +303,8 @@ public:
                 const auto ready=contiguous(resource,offset);
                 if(ready) {
                     const auto size=size_t(std::min<uint64_t>(ready,count));std::vector<char> data(size);
-                    Check(ReadAt(opened.file,offset,data.data(),size,cancelled)==size,"source-truncated","Confirmed read returned short physical data");
+                    if(resource.integrity)opened.readProtected(resource,offset,data,cancelled);
+                    else Check(ReadAt(opened.file,offset,data.data(),size,cancelled)==size,"source-truncated","Confirmed read returned short physical data");
                     std::memcpy(buffer,data.data(),size);opened.lastOffset=offset;opened.lastRead=std::move(data);
                     return {"data","Confirmed bytes",size};
                 }

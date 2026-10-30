@@ -13,6 +13,7 @@ namespace foxicmp { namespace progressive {
 using rapidjson::Value;
 constexpr uint64_t MaxByte = uint64_t(INT64_MAX);
 constexpr size_t MaxResources = 64, MaxTracks = 32, MaxRanges = 128, MaxReaders = 128;
+constexpr size_t MaxIntegrityBlocks=4096, MaxIntegrityBlockBytes=4*1024*1024;
 struct Error : std::runtime_error {
     std::string code, path;
     Error(const char* c, const std::string& p, const char* why):std::runtime_error(why),code(c),path(p){}
@@ -76,9 +77,11 @@ template<class Writer> inline void Canonical(const Value& value,Writer& writer) 
     else value.Accept(writer);
 }
 struct Range {uint64_t offset=0,length=0;};
+struct IntegrityBlock {uint64_t offset=0,length=0;std::string sha256;};
 struct Resource {
     std::string id,name,state;bool known=false,retired=false;uint64_t length=0;
     std::vector<Range> ranges;
+    bool integrity=false;std::vector<IntegrityBlock> blocks;
     bool covers(uint64_t offset,uint64_t count) const {
         if(offset>MaxByte || count>MaxByte-offset || (known && (offset>length || count>length-offset)))return false;
         if(!count)return true;
@@ -140,7 +143,7 @@ inline Snapshot Parse(const std::string& json) {
     const auto& resources=d["resources"];Require(resources.IsArray() && resources.Size()>0 && resources.Size()<=MaxResources,"$.resources","Expected 1..64 resources");std::set<std::string> names;
     for(rapidjson::SizeType i=0;i<resources.Size();++i) {
         const auto p="$.resources["+std::to_string(i)+"]";const auto& v=resources[i];
-        Keys(v,p,{"id","name","length","ranges","state"},{"retired"});Resource r;
+        Keys(v,p,{"id","name","length","ranges","state"},{"retired","integrity"});Resource r;
         r.id=Id(v["id"],p+".id");r.name=Text(v["name"],p+".name");PlainName(r.name,p+".name");
         std::string portable=r.name;for(auto& c:portable)if(c>='A' && c<='Z')c+=32;
         Require(names.insert(portable).second,p+".name","Duplicate portable resource filename");
@@ -152,6 +155,24 @@ inline Snapshot Parse(const std::string& json) {
             Range a{Unsigned(range["offset"],q+".offset",MaxByte),Unsigned(range["length"],q+".length",MaxByte,true)};
             Require(a.length<=MaxByte-a.offset && a.offset>=previousEnd && (!r.known || (a.offset<=r.length && a.length<=r.length-a.offset)),q,"Overlapping, unsorted or out-of-bounds range");
             previousEnd=a.offset+a.length;r.ranges.push_back(a);
+        }
+        if(v.HasMember("integrity")) {
+            r.integrity=true;const auto q=p+".integrity";const auto& integrity=v["integrity"];
+            Keys(integrity,q,{"algorithm","blocks"});
+            Require(Text(integrity["algorithm"],q+".algorithm")=="sha256",q,"Unsupported integrity algorithm");
+            const auto& blocks=integrity["blocks"];
+            Require(blocks.IsArray() && blocks.Size()<=MaxIntegrityBlocks,q,"Too many integrity blocks");
+            uint64_t previous=0,total=0,confirmed=0;for(const auto& range:r.ranges)confirmed+=range.length;
+            for(const auto& block:blocks.GetArray()) {
+                Keys(block,q+".blocks[]",{"offset","length","sha256"});IntegrityBlock b;
+                b.offset=Unsigned(block["offset"],q+".blocks[].offset",MaxByte);
+                b.length=Unsigned(block["length"],q+".blocks[].length",MaxIntegrityBlockBytes,true);
+                b.sha256=Text(block["sha256"],q+".blocks[].sha256",64);
+                Require(b.sha256.size()==64 && b.sha256.find_first_not_of("0123456789abcdef")==std::string::npos,q,"Expected a lowercase SHA-256 digest");
+                Require(b.offset>=previous && r.covers(b.offset,b.length),q,"Integrity blocks overlap or include unconfirmed bytes");
+                previous=b.offset+b.length;total+=b.length;r.blocks.push_back(std::move(b));
+            }
+            Require(total==confirmed,q,"Integrity blocks must cover every confirmed byte");
         }
         Require(r.state!="complete" || (r.known && r.covers(0,r.length)),p,"Complete resource has gaps or unknown length","incomplete_resource");
         Require(s.resources.emplace(r.id,std::move(r)).second,p+".id","Duplicate resource ID");
@@ -218,6 +239,14 @@ inline void Advance(const Snapshot& old,const Snapshot& next) {
     for(const auto& item:old.resources) {
         auto found=next.resources.find(item.first);Require(found!=next.resources.end(),"$.resources","Resource removal needs a runtime reader registry","readers_required");const auto& a=item.second;const auto& b=found->second;
         Require(a.name==b.name && (!a.known || (b.known && a.length==b.length)) && (!a.retired || b.retired),"$.resources","Resource identity changed");
+        Require(a.integrity==b.integrity,"$.resources.integrity","Integrity mode changed; reopen the resource");
+        size_t blockIndex=0;
+        for(const auto& block:a.blocks) {
+            while(blockIndex<b.blocks.size() && b.blocks[blockIndex].offset<block.offset)++blockIndex;
+            Require(blockIndex<b.blocks.size() && b.blocks[blockIndex].offset==block.offset &&
+                    b.blocks[blockIndex].length==block.length && b.blocks[blockIndex].sha256==block.sha256,
+                    "$.resources.integrity","Published integrity blocks changed or were withdrawn");
+        }
         Require(!Terminal(a.state) || a.state==b.state,"$.resources","Terminal resource state changed");
         for(const auto& range:a.ranges)Require(b.covers(range.offset,range.length),"$.resources.ranges","Published bytes were withdrawn");
         if(Terminal(old.state)) {
