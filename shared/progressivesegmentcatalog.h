@@ -1,6 +1,6 @@
 // Bounded, filesystem-free decoder for immutable segment catalog pages.
-// Preparation only: no public playback capability until the bounded I/O adapter
-// and both media backends consume this contract. GPL-3.0-or-later.
+// The catalog playback capability is negotiated separately from inline schema 2.
+// This layer performs no filesystem or backend work. GPL-3.0-or-later.
 #pragma once
 #include "progressivesession.h"
 #include "progressivesha256.h"

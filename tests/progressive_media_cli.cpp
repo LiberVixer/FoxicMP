@@ -9,6 +9,7 @@ int main(int argc,char** argv) {
     while(std::getline(std::cin,line))try {
         rapidjson::Document d;d.Parse(line.c_str());p::Require(!d.HasParseError() && d.IsObject(),"$","Invalid command");
         const auto action=p::Text(d["action"],"action");
+        if(action=="preflight"){p::Fmp4V2Bridge::CheckProfile(p::lease_detail::Encode(d["session"]));std::cout<<"{\"ok\":true}"<<std::endl;continue;}
         if(action=="readers"){std::cout<<p::ReaderRequest(registry,line)<<std::endl;continue;}
         if(action=="open")bridge=std::make_shared<p::Fmp4V2Bridge>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,p::lease_detail::Encode(d["session"]));
         else if(action=="release")bridge.reset();

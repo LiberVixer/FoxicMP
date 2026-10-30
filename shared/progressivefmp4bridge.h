@@ -4,14 +4,16 @@
 #include "progressiveresourceio.h"
 #include "progressivesubtitles.h"
 #include "progressivesegmentstream.h"
+#include "progressivelocalcatalog.h"
 #include "DSUtil/HarvesterMP4.h"
 #include <array>
 
 namespace foxicmp { namespace progressive {
 inline const char* Fmp4V2Capabilities() {
-    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["segmented-fmp4-vp9-aac-lc","segmented-fmp4-h264-opus","segmented-fmp4-hevc-opus","segmented-fmp4-av1-opus","segmented-fmp4-vp9-opus","segmented-fmp4-av1-aac-lc","segmented-fmp4-hevc-aac-lc","segmented-fmp4-h264-aac-lc","separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"integrity":{"algorithm":"sha256","maxBlockBytes":4194304,"maxBlocksPerResource":4096,"confirmedRangesCovered":true,"verifiedBeforeDecoder":true,"readChunkBytes":65536,"boundedReadAudit":true},"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"trackCountMin":2,"trackCountMax":13,"mediaTrackCountMax":9,"audioTrackLimit":8,"multiAudio":true,"subtitles":{"containers":["srt"],"codecs":["srt"],"encoding":"utf-8","trackLimit":4,"completeFileRequired":true,"lateCompletion":true,"optionalErrorIsolation":true,"retainsValidatedCopyOnSourceError":true,"sizeLimitBytes":524288},"audioTracksRequired":false,"optionalAudio":{"completeFileRequired":false,"selectedTrackBuffering":true,"minimumReadySeconds":5,"lateCompletion":true,"pendingErrorIsolation":true,"activeResourceErrorsFatal":false,"activeOptionalAudioErrorsIsolated":true,"requiredPrimaryAudio":true},"metadataApplied":true,"metadata":{"chapters":true,"lateRevision":true,"title":true,"maxChapters":128},"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":true,"segmentedPlayback":{"mode":"segmented-fmp4-h264-aac-lc","profiles":["segmented-fmp4-h264-aac-lc","segmented-fmp4-hevc-aac-lc","segmented-fmp4-av1-aac-lc","segmented-fmp4-vp9-aac-lc","segmented-fmp4-h264-opus","segmented-fmp4-hevc-opus","segmented-fmp4-av1-opus","segmented-fmp4-vp9-opus"],"videoCodecs":["h264","hevc","av1","vp9"],"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"completeSegmentsRequired":true,"discontinuity":false,"configurationChanges":false,"timestampRebasing":false,"live":false,"trackCount":2,"maxInitBytes":1048576,"maxSegmentBytes":16777216,"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"audioCodecs":["aac-lc","opus"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true},"live":false,"initializationLimitBytes":1048576})";
+    return R"({"mode":"separate-fmp4-h264-aac-lc","profiles":["segmented-fmp4-vp9-aac-lc","segmented-fmp4-h264-opus","segmented-fmp4-hevc-opus","segmented-fmp4-av1-opus","segmented-fmp4-vp9-opus","segmented-fmp4-av1-aac-lc","segmented-fmp4-hevc-aac-lc","segmented-fmp4-h264-aac-lc","separate-fmp4-h264-aac-lc","separate-fmp4-hevc-aac-lc","separate-fmp4-av1-aac-lc","separate-fmp4-vp9-aac-lc","separate-fmp4-h264-opus","separate-fmp4-hevc-opus","separate-fmp4-av1-opus","separate-fmp4-vp9-opus","separate-webm-vp9-opus","separate-webm-av1-opus","separate-fmp4-webm-h264-opus","separate-fmp4-webm-hevc-opus","separate-fmp4-webm-av1-opus","separate-fmp4-webm-vp9-opus","separate-webm-fmp4-vp9-aac-lc","separate-webm-fmp4-av1-aac-lc","separate-webm-fmp4-vp9-opus","separate-webm-fmp4-av1-opus","separate-webm-vp8-opus","separate-webm-vp8-vorbis","separate-webm-vp9-vorbis","separate-webm-av1-vorbis","separate-fmp4-webm-h264-vorbis","separate-fmp4-webm-hevc-vorbis","separate-fmp4-webm-av1-vorbis","separate-fmp4-webm-vp9-vorbis","separate-webm-fmp4-vp8-aac-lc","separate-webm-fmp4-vp8-opus"],"mixedContainers":true,"integrity":{"algorithm":"sha256","maxBlockBytes":4194304,"maxBlocksPerResource":4096,"confirmedRangesCovered":true,"verifiedBeforeDecoder":true,"readChunkBytes":65536,"boundedReadAudit":true},"vorbisChannels":[1,2],"vorbisSampleRate":48000,"vorbisFloorTypes":[1],"vorbisCodebookEntryLimit":65536,"vorbisSeekPrerollMilliseconds":200,"containers":["fmp4","webm"],"webm":{"videoCodecs":["vp8","vp9","av1"],"audioCodecs":["opus","vorbis"],"knownClusterSizesRequired":true,"lacing":false,"defaultVideoDurationRequired":true,"clusterLimitBytes":16777216},"audioCodecs":["aac-lc","opus","vorbis"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"videoCodecs":["h264","hevc","av1","vp9","vp8"],"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"trackCount":2,"trackCountMin":2,"trackCountMax":13,"mediaTrackCountMax":9,"audioTrackLimit":8,"multiAudio":true,"subtitles":{"containers":["srt"],"codecs":["srt"],"encoding":"utf-8","trackLimit":4,"completeFileRequired":true,"lateCompletion":true,"optionalErrorIsolation":true,"retainsValidatedCopyOnSourceError":true,"sizeLimitBytes":524288},"audioTracksRequired":false,"optionalAudio":{"completeFileRequired":false,"selectedTrackBuffering":true,"minimumReadySeconds":5,"lateCompletion":true,"pendingErrorIsolation":true,"activeResourceErrorsFatal":false,"activeOptionalAudioErrorsIsolated":true,"requiredPrimaryAudio":true},"metadataApplied":true,"metadata":{"chapters":true,"lateRevision":true,"title":true,"maxChapters":128},"separateResourcesRequired":true,"durationRequired":true,"timebase":{"numerator":1,"denominator":10000000},"negativeTimestampOffset":false,"muxed":false,"segments":true,"segmentedPlayback":{"mode":"segmented-fmp4-h264-aac-lc","profiles":["segmented-fmp4-h264-aac-lc","segmented-fmp4-hevc-aac-lc","segmented-fmp4-av1-aac-lc","segmented-fmp4-vp9-aac-lc","segmented-fmp4-h264-opus","segmented-fmp4-hevc-opus","segmented-fmp4-av1-opus","segmented-fmp4-vp9-opus"],"videoCodecs":["h264","hevc","av1","vp9"],"hevcProfiles":["main","main10"],"hevcBitDepths":[8,10],"hevcSampleEntries":["hvc1","hev1"],"completeSegmentsRequired":true,"discontinuity":false,"configurationChanges":false,"timestampRebasing":false,"live":false,"trackCount":2,"maxInitBytes":1048576,"maxSegmentBytes":16777216,"av1Profiles":["main"],"av1BitDepths":[8,10],"av1SampleEntries":["av01"],"av1SequenceHeaderInConfigurationRequired":true,"vp9Profiles":[0,2],"vp9BitDepths":[8,10],"vp9SampleEntries":["vp09"],"audioCodecs":["aac-lc","opus"],"opusChannels":[1,2],"opusChannelMappingFamilies":[0],"opusSampleRate":48000,"opusPrerollMilliseconds":80,"opusEditListRequired":true,"catalog":{"mode":"paged-fmp4-v1","maxPages":128,"maxPageBytes":65536,"maxResources":8192,"maxSegmentsPerTrack":4096,"maxOpenResources":8,"integrityRequired":true,"pageIntegrity":"sha256","publishedPagesImmutable":true,"retainAllPublishedResourcesUntilRelease":true,"validation":"probe-with-sessionDirectory"}},"live":false,"initializationLimitBytes":1048576})";
 }
 class Fmp4V2Bridge {
+    std::unique_ptr<LocalSegmentCatalog> catalog;
     Snapshot model;
     const uint64_t identityGeneration;
     const std::string identityWriter;
@@ -35,6 +37,14 @@ class Fmp4V2Bridge {
     std::map<std::string,Subtitle> subtitleTracks;
     std::unique_ptr<SubtitleCache> subtitleCache;
     mutable std::mutex mutex;
+    std::mutex publicationMutex;
+    static bool catalogDeclared(const std::string& json) {
+        return catalog_detail::Json(json,harvester::MaxManifestBytes,"$").HasMember("segmentCatalog");
+    }
+    static std::unique_ptr<LocalSegmentCatalog> openCatalog(const std::filesystem::path& root,const std::string& json) {
+        if(!catalogDeclared(json))return {};
+        auto value=std::make_unique<LocalSegmentCatalog>(root);value->publish(json);return value;
+    }
     static void supported(bool ok,const char* text) {Require(ok,"mediaProfile",text,"unsupported_media");}
     static harvester::State state(const std::string& text) {
         if(text=="paused")return harvester::State::Paused;
@@ -369,11 +379,24 @@ public:
     const std::string& audioCodec(int track=1) const {return trackCodecs.at(track);}
     bool isWebm(int track=0) const {return webmMode.at(track);}
     bool isSegmented() const {return segmented;}
-    static void CheckProfile(const std::string& json){map(Parse(json));}
-    Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):model(Parse(json)),identityGeneration(model.generation),identityWriter(model.writer),detailsRevision(model.revision),registry(receipts) {
+    bool usesCatalog() const {return bool(catalog);}
+    static void CheckProfile(const std::string& json) {
+        if(!catalogDeclared(json)){map(Parse(json));return;}
+        // Metadata-only admission on UI: reuse the decoder's complete envelope
+        // checks, stopping exactly at its first page request. Worker preparation
+        // subsequently validates every page and the actual media profile.
+        struct PagesDeferred {};
+        try {
+            auto value=DecodeSegmentCatalog(json,[](const SegmentCatalogPage&)->std::string{throw PagesDeferred{};});
+            map(value.snapshot); // Empty catalog has no external pages to defer.
+        }catch(const PagesDeferred&){}
+    }
+    Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):catalog(openCatalog(root,json)),model(catalog?catalog->catalog().snapshot:Parse(json)),identityGeneration(model.generation),identityWriter(model.writer),detailsRevision(model.revision),registry(receipts) {
         legacy=map(model,&resourceIds,&trackIds);segmented=segmentProfile(model);
+        supported(!catalog || segmented,"Catalog playback requires segmented fMP4 tracks");
         for(size_t i=0;i<legacy.tracks.size();++i){webmMode[i]=legacy.tracks[i].container=="webm";if(segmented)segmentLayouts[i]=BuildSegmentLayout(model,model.tracks.at(trackIds[i]));}
-        source=std::make_shared<ResourceSource>(root,receipts,json,ResourceFailurePolicy::IsolateOptionalAudioAndSrt);
+        source=std::make_shared<ResourceSource>(root,receipts,catalog?catalog->catalog().expandedJson:json,ResourceFailurePolicy::IsolateOptionalAudioAndSrt,
+            catalog?ResourceMode::BoundedCatalog:ResourceMode::Inline);
         try {for(size_t i=0;i<legacy.tracks.size();++i)if(legacy.tracks[i].required)initialize(int(i));
              if(segmented)ValidateSegmentMedia(model,trackIds,segmentLayouts,source,validatedSegments);
              prepareAudio();prepareSubtitles(model);}catch(...){cleanup();throw;}
@@ -409,10 +432,15 @@ public:
         return read.code=="eof"?0:-1;
     }
     void publish(const std::string& json) {
-        const auto next=Parse(json);std::array<std::string,harvester::MaxMediaTracks> nextIds;const auto mapped=map(next,nullptr,&nextIds);std::lock_guard<std::mutex> lock(mutex);
+        std::lock_guard<std::mutex> publication(publicationMutex);
+        supported(bool(catalog)==catalogDeclared(json),"Catalog/inline mode cannot change within a session");
+        LocalSegmentCatalog::Prepared prepared;
+        if(catalog)prepared=catalog->prepare(json); // Filesystem work outside the status/backend mutex.
+        const auto next=catalog?prepared.value->snapshot:Parse(json);
+        std::array<std::string,harvester::MaxMediaTracks> nextIds;const auto mapped=map(next,nullptr,&nextIds);std::lock_guard<std::mutex> lock(mutex);
         supported(nextIds==trackIds,"Media track set/default ordering cannot change; reopen playback");Advance(model,next);
         Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");
-        try{verifyInitialization();source->publish(json);
+        try{verifyInitialization();source->publish(catalog?prepared.value->expandedJson:json);
             if(segmented) {
                 auto layouts=segmentLayouts;for(size_t i=0;i<2;++i) {
                     layouts[i]=BuildSegmentLayout(next,next.tracks.at(trackIds[i]));
@@ -420,16 +448,24 @@ public:
                 }
                 ValidateSegmentMedia(next,trackIds,layouts,source,validatedSegments);segmentLayouts=std::move(layouts);
             }
-            model=next;legacy=mapped;prepareAudio();prepareSubtitles(next);}catch(const Error& error){failure=error.code;throw;}
+            model=next;legacy=mapped;prepareAudio();prepareSubtitles(next);
+            if(catalog)catalog->commit(std::move(prepared));}catch(const Error& error){failure=error.code;throw;}
         detailsRevision.store(next.revision);
     }
     void verify(){std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();markOptionalFailures();subtitleResourceErrors();}
-    void cancel(){if(source)source->cancel();}
+    void cancel(){if(catalog)catalog->cancel();if(source)source->cancel();}
     std::string details() const {
         std::lock_guard<std::mutex> lock(mutex);
         rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);
         d.AddMember("generation",Value(std::to_string(identityGeneration).c_str(),a),a);d.AddMember("revision",Value(std::to_string(detailsRevision.load()).c_str(),a),a);
         d.AddMember("writerInstanceId",Value(identityWriter.c_str(),a),a);
+        if(catalog) {
+            Value info(rapidjson::kObjectType);info.AddMember("mode","paged-fmp4-v1",a);
+            info.AddMember("pageCount",unsigned(catalog->catalog().pages.size()),a);
+            info.AddMember("resourceCount",unsigned(model.resources.size()),a);
+            info.AddMember("maxOpenResources",unsigned(MaxCatalogOpenResources),a);
+            info.AddMember("integrityRequired",true,a);d.AddMember("segmentCatalog",info,a);
+        }
         if(!model.metadata.empty()) {
             rapidjson::Document metadata;
             metadata.Parse(model.metadata.c_str());

@@ -24,6 +24,7 @@ from progressive_reader_api_conformance import exercise as exercise_reader_contr
 from progressive_resource_api_conformance import exercise as exercise_resource_contract
 from progressive_segment_api_conformance import exercise as exercise_segment_contract
 from progressive_segment_playback import exercise as exercise_segment_playback, PLAYBACK_PROFILES
+from progressive_catalog_playback import exercise as exercise_catalog_playback
 from progressive_v2_playback_conformance import exercise as exercise_v2_playback, MEDIA_PROFILES
 from progressive_metadata_conformance import exercise as exercise_metadata
 from progressive_multitrack_conformance import exercise as exercise_multitrack
@@ -598,6 +599,8 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.catalog_playback_only:
+            return [dict(contract='actual-paged-catalog-playback',result=exercise_catalog_playback(client,args.fixtures,Path(args.report)/('catalog-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4400+{2:1,35:2,68:3,87:4}[seconds]),profile=profile)) for profile in ('h264','hevc10-opus','av1-10')]
         if args.segment_playback_only:
             return [dict(contract='actual-segmented-playback',result=exercise_segment_playback(client,args.fixtures,Path(args.report)/('segment-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401),profile=profile)) for profile in PLAYBACK_PROFILES]
         if args.segment_only:
@@ -751,6 +754,7 @@ if __name__ == '__main__':
     parser.add_argument('--directory-only',action='store_true')
     parser.add_argument('--segment-only',action='store_true')
     parser.add_argument('--segment-playback-only',action='store_true')
+    parser.add_argument('--catalog-playback-only',action='store_true')
     parser.add_argument('--multi-only',action='store_true')
     parser.add_argument('--sdk-only', action='store_true')
     parser.add_argument('--preparation-only', action='store_true')

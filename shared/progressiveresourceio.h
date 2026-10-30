@@ -207,8 +207,8 @@ enum class ResourceFailurePolicy {
     IsolatePendingAudioAndSrt,
     IsolateOptionalAudioAndSrt
 };
-// Internal catalog path only. Existing/public readers retain their pinned-file
-// behavior and original inline limits until catalog playback is negotiated.
+// Catalog playback opts into this mode explicitly. Existing inline readers
+// retain their pinned-file behavior and original limits.
 enum class ResourceMode { Inline, BoundedCatalog };
 constexpr size_t MaxCatalogOpenResources=8, MaxCatalogMediaBytes=16*1024*1024;
 class ResourceSource {

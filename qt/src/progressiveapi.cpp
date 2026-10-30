@@ -277,7 +277,7 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
       if(prepared){
         if(!prepared->reply.isEmpty())return prepared->reply;
         if(prepared->candidate!=active)return failure("reader_mismatch","Prepared update belongs to another reader");
-      }else{QString error;if(!active->publish(descriptor,&error))return failure("invalid_update",error);}
+      }else{QString error,reason;if(!active->publish(descriptor,&error,&reason))return failure(reason.isEmpty()?"invalid_update":reason,error);}
     } else if (action == "heartbeat") {
       active->publishedHeartbeat();
     } else if (action == "cancel" || action == "release") {
@@ -321,7 +321,7 @@ void ProgressiveApi::dispatch(const QJsonObject &input, QLocalSocket *socket, QT
       if(!job->abandoned.load()) {
         if(job->readerQuery)job->reply=QJsonDocument::fromJson(QByteArray::fromStdString(foxicmp::progressive::ReaderRequest(
             std::filesystem::u8path(job->registry.toUtf8().toStdString()),QJsonDocument(job->descriptor).toJson(QJsonDocument::Compact).toStdString()))).object();
-        else if(job->publication){QString error;if(!job->candidate->publish(job->descriptor,&error))job->reply=failure("invalid_update",error);}
+        else if(job->publication){QString error,reason;if(!job->candidate->publish(job->descriptor,&error,&reason))job->reply=failure(reason.isEmpty()?"invalid_update":reason,error);}
         else if(job->probe)job->reply=ProgressiveSource::probePublished(job->descriptor,job->registry);
         else job->candidate=ProgressiveSource::openPublished(job->descriptor,job->registry);
       }

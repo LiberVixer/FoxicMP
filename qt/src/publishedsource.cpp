@@ -150,7 +150,7 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input, const QString &re
   }
 }
 
-bool ProgressiveSource::publish(const QJsonObject &input, QString *error) {
+bool ProgressiveSource::publish(const QJsonObject &input, QString *error, QString *reasonCode) {
   std::lock_guard<std::mutex> publication(publicationMutex);
   try {
     harvester::Snapshot previous;
@@ -181,6 +181,10 @@ bool ProgressiveSource::publish(const QJsonObject &input, QString *error) {
      if(next.state==harvester::State::Failed || next.state==harvester::State::Cancelled)currentStatus.error="Writer failed or cancelled";
     }
     changed.notify_all();return true;
+  }catch(const foxicmp::progressive::Error& e){
+    if(error)*error=QString::fromUtf8(e.what());
+    if(reasonCode && v2Bridge && v2Bridge->usesCatalog())*reasonCode=QString::fromStdString(e.code);
+    return false;
   }catch(const std::exception& e){if(error)*error=QString::fromUtf8(e.what());return false;}
 }
 

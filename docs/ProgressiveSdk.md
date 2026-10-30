@@ -30,6 +30,8 @@ SDK 1.35: [AV1 Main 8/10-bit в сегментном fMP4](ProgressiveSegmentAv1
 
 SDK 1.36: [сегментные VP9 8/10-bit и Opus mono/stereo](ProgressiveSegmentVp9Opus.md), согласование точной пары видео/аудио; прежние профили с AAC сохраняются.
 
+SDK 1.37: [постраничный каталог fMP4](ProgressiveCatalogPlayback.md) для трёх редакций — отдельная capability `segmentedPlayback.catalog`, до 8192 metadata-ресурсов, восемь открытых медиафайлов и обязательный SHA-256. Проверены playback/seek/reopen 182–183 ресурсов; многочасовая приёмка остаётся отдельной. Для каталога используйте `probe` с `sessionDirectory`, не чистый inline `validate`. Храните все опубликованные файлы до release главного reader ID. Требуются новые сборки приложений; старые EXE не обновляются Python SDK.
+
 ## Проверка расширенной схемы (SDK 1.3)
 
 Новые сборки отдельно объявляют `validationSchemaVersions:[2]` и

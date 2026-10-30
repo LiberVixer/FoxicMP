@@ -45,14 +45,15 @@ def fragment_durations(fragment):
     return durations
 
 
-def fixture(fixtures,profile="h264"):
+def fixture(fixtures,profile="h264",*,paths=None,duration=20,resource_limit=64):
     base_profile,video_codec,audio_codec,channels=profile_info(profile)
     value=dict(schemaVersion=2,sessionId=uuid.uuid4().hex,generation='1',revision='1',writer=dict(instanceId=uuid.uuid4().hex,state='downloading'),
-        timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration='200000000',timestampOffset='0'),resources=[],tracks=[],
+        timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration=str(duration*10000000),timestampOffset='0'),resources=[],tracks=[],
         metadata=dict(revision='1',title='Segmented fMP4 playback',chapters=[dict(id='intro',time='0',title='Intro'),dict(id='chapter',time='20000000',title='Two seconds')]))
     data={};expected={}
     for kind,name in [('video','video.mp4'),('audio','audio.m4a')]:
         path=Path(fixtures)/('progressive-opus-'+str(channels))/'audio.mp4' if kind=='audio' and audio_codec=='opus' else Path(fixtures)/('progressive' if kind=='audio' or base_profile=='h264' else 'progressive-'+base_profile)/name
+        if paths is not None:path=Path(paths[kind])
         content=path.read_bytes();top=list(boxes(content));first=next(i for i,b in enumerate(top) if b[2]==b'moof')
         raw=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_packets','-show_streams','-show_entries','stream=time_base:packet=pos,size,pts,dts,duration','-of','json',str(path)],text=True))
         base=Fraction(raw['streams'][0]['time_base']);packets=raw['packets'];ticks=lambda v:int(Fraction(int(v))*base*10000000)
@@ -70,7 +71,7 @@ def fixture(fixtures,profile="h264"):
             value['resources'].append(dict(id=rid,name=rid+'.part',length=str(len(fragment)),ranges=[],state='downloading'))
             track['source']['segments'].append(dict(resourceId=rid,sequence=str(len(parts)),start=str(begin),duration=str(finish-begin),timestampOffset='0',discontinuity=False,configurationId=kind+'-config'))
         value['tracks'].append(track);expected[kind]=init_bytes+b''.join(parts)
-    assert len(value['resources'])<=64
+    assert resource_limit is None or len(value['resources'])<=resource_limit
     return value,data,expected
 
 

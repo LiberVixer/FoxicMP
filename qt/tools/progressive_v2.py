@@ -21,6 +21,7 @@ class V2PreviewSession:
         caps=client.request(dict(version=1,action='capabilities'))
         self.segments_supported=caps.get('schema2Playback',{}).get('segmentedPlayback',{}).get('mode')=='segmented-fmp4-h264-aac-lc'
         self.segment_profiles=set(caps.get('schema2Playback',{}).get('segmentedPlayback',{}).get('profiles',[]))
+        self.catalog_supported=caps.get('schema2Playback',{}).get('segmentedPlayback',{}).get('catalog',{}).get('mode')=='paged-fmp4-v1'
         self.integrity_supported=caps.get('schema2Playback',{}).get('integrity',{}).get('algorithm')=='sha256'
         if 2 not in caps.get('playbackSchemaVersions',[]) or caps.get('schema2Playback',{}).get('mode')!='separate-fmp4-h264-aac-lc' or caps.get('readerLeaseProtocol')!=1:
             raise RuntimeError('Player lacks the bounded schema-2 media profile; update the player')
@@ -32,6 +33,8 @@ class V2PreviewSession:
         with self.lock:
             if self.closed:raise RuntimeError('Preview was detached; create a new V2PreviewSession')
             current=copy.deepcopy(snapshot);counter(current['generation']);revision=counter(current['revision'])
+            if 'segmentCatalog' in current and not self.catalog_supported:
+                raise RuntimeError('Player lacks the paged fMP4 catalog playback profile; update the player')
             if any('segments' in t.get('source',{}) for t in current.get('tracks',[])) and not self.segments_supported:
                 raise RuntimeError('Player lacks the segmented fMP4 playback profile; update the player')
             segment_tracks=[t for t in current.get('tracks',[]) if 'segments' in t.get('source',{})]
@@ -68,9 +71,9 @@ class V2PreviewSession:
                 try:
                     reply=self.client.start(current,title=self.title,activate=self.activate,replace=self.replace,session_directory=self.directory,track_reader=True)
                 except ApiError as error:
-                    if error.code=='waiting_initialization':
+                    if error.code in {'waiting_initialization','waiting-index'}:
                         self.uncertain=False
-                        return dict(version=1,ok=True,active=False,state='waiting-initialization',reason=str(error))
+                        return dict(version=1,ok=True,active=False,state='waiting-index' if error.code=='waiting-index' else 'waiting-initialization',reason=str(error))
                     raise
                 reader=reply.get('readerId')
                 if not isinstance(reader,str) or len(reader)!=32 or any(c not in '0123456789abcdef' for c in reader):raise RuntimeError('Missing reader ID; retain files and recover the reader')

@@ -23,6 +23,31 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_catalog_requires_separate_capability_before_mutating_state(self):
+        client=Client();preview=V2PreviewSession(client,'/unused');value=snapshot();value['segmentCatalog']=[]
+        with self.assertRaisesRegex(RuntimeError,'catalog'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+    def test_catalog_capability_forwards_root_without_reading_pages(self):
+        client=Client();client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,
+            schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',segmentedPlayback=dict(mode='segmented-fmp4-h264-aac-lc',catalog=dict(mode='paged-fmp4-v1'))))
+        value=snapshot();value['segmentCatalog']=[dict(id='p',name='does-not-exist.json',length='1',sha256='0'*64)]
+        preview=V2PreviewSession(client,'/unused');preview.publish(value)
+        self.assertEqual(client.calls[0][1]['segmentCatalog'],value['segmentCatalog']);self.assertTrue(preview.started)
+    def test_missing_catalog_page_start_is_known_waiting_not_uncertain_start(self):
+        client=Client();client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,
+            schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',segmentedPlayback=dict(mode='segmented-fmp4-h264-aac-lc',catalog=dict(mode='paged-fmp4-v1'))))
+        client.start=lambda *args,**kw:(_ for _ in ()).throw(ApiError(dict(code='waiting-index',error='not published')))
+        value=snapshot();value['segmentCatalog']=[];preview=V2PreviewSession(client,'/unused')
+        self.assertEqual(preview.publish(value)['state'],'waiting-index');self.assertFalse(preview.started);self.assertFalse(preview.uncertain)
+        self.assertTrue(preview.close()['released'])
+    def test_failed_catalog_update_retains_last_accepted_revision(self):
+        client=Client();client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,
+            schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',segmentedPlayback=dict(mode='segmented-fmp4-h264-aac-lc',catalog=dict(mode='paged-fmp4-v1'))))
+        value=snapshot();value['segmentCatalog']=[];preview=V2PreviewSession(client,'/unused');preview.publish(value)
+        following=copy.deepcopy(value);following['revision']=str(int(value['revision'])+1)
+        client.update=lambda *args,**kw:(_ for _ in ()).throw(ApiError(dict(code='waiting-index',error='not published')))
+        with self.assertRaises(ApiError):preview.publish(following)
+        self.assertEqual(preview.last,value);self.assertTrue(preview.started);self.assertFalse(preview.uncertain)
     def test_segments_require_playback_capability_not_diagnostic_probe(self):
         client=Client();preview=V2PreviewSession(client,'/unused');value=snapshot()
         value['tracks'][0]['source']=dict(segments=[])

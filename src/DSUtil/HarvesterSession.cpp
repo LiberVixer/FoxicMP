@@ -279,7 +279,7 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
     catch(const foxicmp::progressive::Error& e) {if(reasonCode)*reasonCode=e.code;error=Wide(e.what()).c_str();return nullptr;}
     catch(const std::exception& e) {if(reasonCode)*reasonCode="source_not_ready";error=Wide(e.what()).c_str();return nullptr;}
 }
-bool CHarvesterSession::Publish(const std::string& json,CStringW& error) {
+bool CHarvesterSession::Publish(const std::string& json,CStringW& error,std::string* reasonCode) {
     std::lock_guard<std::mutex> publication(m_publishMutex);
     try {
         harvester::Snapshot previous;
@@ -312,6 +312,8 @@ bool CHarvesterSession::Publish(const std::string& json,CStringW& error) {
         PublishedHeartbeat();
         if(next.state==harvester::State::Cancelled || next.state==harvester::State::Failed)Fail("Downloader cancelled or failed");
         return true;
+    }catch(const foxicmp::progressive::Error& e){
+        error=Wide(e.what()).c_str();if(reasonCode && m_v2Bridge && m_v2Bridge->usesCatalog())*reasonCode=e.code;return false;
     }catch(const std::exception& e){error=Wide(e.what()).c_str();return false;}
 }
 

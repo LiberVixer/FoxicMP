@@ -122,7 +122,7 @@ void ClassicProgressiveApi::Prepare(const std::shared_ptr<Request>& job) {
             Document descriptor;descriptor.Parse(job->descriptor.c_str());
             const bool v2=descriptor.HasMember("schemaVersion") && descriptor["schemaVersion"].IsUint() && descriptor["schemaVersion"].GetUint()==2;
             CStringW error;std::string reason;
-            if(job->publication){if(!job->candidate->Publish(job->descriptor,error))job->preparedReply=Failure("invalid_update",Utf8(error.GetString()));}
+            if(job->publication){if(!job->candidate->Publish(job->descriptor,error,&reason))job->preparedReply=Failure(reason.empty()?"invalid_update":reason.c_str(),Utf8(error.GetString()));}
             else job->candidate=CHarvesterSession::OpenPublished(job->descriptor,error,job->registry,&reason,!job->probe);
             if(job->publication){} // The existing source remains owned by its graph.
             else if(job->probe) {
@@ -401,7 +401,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             if(prepared){
                 if(!prepared->preparedReply.empty())return prepared->preparedReply;
                 if(prepared->candidate!=active)return Failure("reader_mismatch","Prepared update belongs to another reader");
-            }else{CStringW error;if(!active->Publish(Encode(descriptor),error))return Failure("invalid_update",Utf8(error.GetString()));}
+            }else{CStringW error;std::string reason;if(!active->Publish(Encode(descriptor),error,&reason))return Failure(reason.empty()?"invalid_update":reason.c_str(),Utf8(error.GetString()));}
         }else if(action=="heartbeat")active->PublishedHeartbeat();
         else if(action=="cancel" || action=="release") {
             frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);Document result;result.Parse(lastOutcome.c_str());

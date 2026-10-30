@@ -1,5 +1,5 @@
 // Local, bounded page I/O for the internal segmented catalog model.
-// Not a public player capability yet. GPL-3.0-or-later.
+// Used by the separately negotiated catalog playback path. GPL-3.0-or-later.
 #pragma once
 #include "progressivesegmentcatalog.h"
 #include "progressiveresourceio.h"
@@ -43,11 +43,15 @@ class LocalSegmentCatalog {
         // file is closed here, before the decoder consumes the returned bytes.
     }
 public:
+    struct Prepared {
+        std::unique_ptr<SegmentCatalog> value;
+        std::map<std::string,resource_detail::Info> bindings;
+    };
     // publish/catalog are serialized by the owner on its worker. Only cancel
     // is concurrent. No UI dispatch, timer, network, media handles or leases.
     explicit LocalSegmentCatalog(const std::filesystem::path& root):directory(root){}
     void cancel(){cancelled.store(true);}
-    void publish(const std::string& json) {
+    Prepared prepare(const std::string& json) const {
         checkCancelled();std::map<std::string,resource_detail::Info> nextBindings;
         auto next=DecodeSegmentCatalog(json,[&](const SegmentCatalogPage& page) {
             auto value=read(page);
@@ -60,7 +64,15 @@ public:
         // All page handles have closed; failed decode/update never commits new
         // bindings or overwrites the last accepted model. Allocate before swap.
         auto accepted=std::make_unique<SegmentCatalog>(std::move(next));checkCancelled();
-        current.swap(accepted);bindings.swap(nextBindings);
+        return {std::move(accepted),std::move(nextBindings)};
+    }
+    // The serialized owner commits only its own most recently prepared value.
+    // No filesystem I/O or allocation after the media publication succeeds.
+    void commit(Prepared&& accepted) noexcept {
+        current.swap(accepted.value);bindings.swap(accepted.bindings);
+    }
+    void publish(const std::string& json) {
+        auto accepted=prepare(json);commit(std::move(accepted));
     }
     const SegmentCatalog& catalog() const {
         Require(bool(current),"segmentCatalog","No accepted catalog","waiting-index");return *current;

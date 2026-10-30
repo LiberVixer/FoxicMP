@@ -750,16 +750,27 @@ private slots:
     for(const auto& name:profiles)QTest::newRow(qPrintable(name))<<name;
   }
   void segmentedFmp4Playback() {
-    QFETCH(QString,mediaProfile);
+    QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,false);
+  }
+  void catalogFmp4Playback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& name:QStringList{"h264","hevc10-opus","av1-10"})QTest::newRow(qPrintable(name))<<name;
+  }
+  void catalogFmp4Playback() {
+    QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,true);
+  }
+private:
+  void checkSegmentPlayback(const QString& mediaProfile,bool catalogMode) {
     const QString expectedCodec=mediaProfile.startsWith("av1-")?"av1":mediaProfile.startsWith("vp9-")?"vp9":mediaProfile.startsWith("h264")?"h264":"hevc";
     const QString expectedAudio=mediaProfile.contains("-opus")?"opus":"aac";
     const QString expectedMode="segmented-fmp4-"+expectedCodec+"-"+(expectedAudio=="opus"?"opus":"aac-lc");
     const int expectedChannels=expectedAudio=="aac" || mediaProfile.endsWith("-mono")?1:2;
-    Profile profile(temporary.filePath("segment-playback-profile-"+mediaProfile));prepare(profile);
+    const auto prefix=catalogMode?QStringLiteral("catalog-"):QStringLiteral("segment-");
+    Profile profile(temporary.filePath(prefix+"playback-profile-"+mediaProfile));prepare(profile);
     Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
     auto* player=w.findChild<Player*>();QVERIFY(player);
-    const auto work=temporary.filePath("segment-playback-bytes-"+mediaProfile);
-    int sequence=0;bool decoded=false,changingVideo=false;int decodedChannels=0;QByteArray firstFrame;QString decodedFormat,decodedPixelFormat;
+    const auto work=temporary.filePath(prefix+"playback-bytes-"+mediaProfile);
+    int sequence=0;bool decoded=false,changingVideo=false;int decodedChannels=0;QByteArray firstFrame;QString decodedFormat,decodedPixelFormat;QMap<int,QByteArray> zoneFrames;QSet<int> changingZones;
     QTimer sample;sample.setInterval(50);connect(&sample,&QTimer::timeout,this,[&]{
       QFile control(work+"/control.json");
       if(control.open(QIODevice::ReadOnly)) {
@@ -781,20 +792,26 @@ private slots:
         const auto frame=player->grabFramebuffer();if(!frame.isNull()) {
           const auto digest=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);
           if(firstFrame.isEmpty())firstFrame=digest;else changingVideo|=digest!=firstFrame;
+          if(catalogMode) {
+            const auto position=state["positionSeconds"].toDouble();const int zone=position>=68?2:position>=35 && position<40?1:position<10?0:-1;
+            if(zone>=0) {if(!zoneFrames.contains(zone))zoneFrames[zone]=digest;else if(zoneFrames[zone]!=digest)changingZones.insert(zone);}
+          }
         }
       }
     });sample.start();
-    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_segment_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work,"--media-profile",mediaProfile});
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath(catalogMode?"progressive_catalog_playback.py":"progressive_segment_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work,"--media-profile",mediaProfile});
     QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
     QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,150000);
     if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();
     QCOMPARE(writer.exitCode(),0);sample.stop();QVERIFY(decoded);QVERIFY(changingVideo);
+    if(catalogMode){QVERIFY(changingZones.contains(0));QVERIFY(changingZones.contains(1));QVERIFY(changingZones.contains(2));}
     QCOMPARE(decodedFormat,expectedCodec);QCOMPARE(decodedChannels,expectedChannels);
     if(mediaProfile.contains("hevc10") || mediaProfile.contains("-10"))QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
     qInfo().noquote()<<"Segment decoded audio:"<<mediaProfile<<expectedAudio<<decodedChannels<<48000;
     qInfo().noquote()<<"Segment decoded video:"<<mediaProfile<<decodedFormat<<decodedPixelFormat;
     qInfo().noquote()<<"Segment playback report:"<<writer.readAllStandardOutput();
   }
+private slots:
   void partialOptionalAudio_data() {
     QTest::addColumn<QString>("audioProfile");
     for(const auto* name:{"aac","opus-webm","vorbis","opus-fmp4","active-error","active-writer-error","active-init-error","inactive-error","paused-active-error","required-error","active-opus-error","active-vorbis-error","integrity-active-error","integrity-inactive-error","integrity-required-error","integrity-opus-error"})QTest::newRow(name)<<QString(name);

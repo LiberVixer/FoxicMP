@@ -296,3 +296,5 @@ SDK 1.36 добавляет [VP9 8/10-bit и Opus mono/stereo в сегмент�
 Следующий подготовительный этап завершён: [локальный адаптер страниц](ProgressiveLocalCatalog.md), проверки на Linux, Windows MinGW и MSVC. Далее — ограниченные media handles/reader leases с проверкой повторного открытия, затем bridge/движки и длинный playback. Ни страницы, ни модель пока не объявлены публичной capability.
 
 Подготовлен [внутренний кэш media resources](ProgressiveCatalogCache.md): до восьми открытых файлов, LRU, SHA-256 обязателен, release/forget после фактического закрытия. Проверки одинаковы для GCC/MinGW/MSVC; дальше — интеграция `Fmp4V2Bridge`, обе Qt-сборки и Classic, capability/SDK и длинные A/V-тесты. Действующий playback всё ещё использует прежний inline-режим.
+
+SDK 1.37 подключает [каталог к playback всех трёх редакций](ProgressiveCatalogPlayback.md). Проверены 90-секундные записи и 182–183 ресурса, pause/seek/update/reopen/release. Далее по порядку — WebM/TS-сегменты, затем muxed A/V, смена конфигурации/live и реальные источники с многочасовой A/V-приёмкой. Оптимизация старта большого полностью готового каталога остаётся ограничением этого этапа; Harvester не меняется.

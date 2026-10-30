@@ -103,3 +103,5 @@ SDK 1.36 добавляет [VP9 8/10-bit и Opus mono/stereo в сегмент�
 [Локальное чтение страниц](ProgressiveLocalCatalog.md) реализовано и проверено отдельно на обеих ОС с GCC/MinGW/MSVC. Ограничение media handles/leases и подключение к playback остаются следующими этапами; SDK 1.36 не меняется.
 
 [Внутренний bounded media cache](ProgressiveCatalogCache.md) добавлен и проверен отдельно: восемь файлов, reader leases, повторное открытие с SHA-256. Это ещё не playback большого каталога: нужны bridge/движки, negotiation SDK и реальные длинные A/V-сценарии.
+
+SDK 1.37 соединяет [каталог, bounded media cache и playback трёх редакций](ProgressiveCatalogPlayback.md). 182–183 ресурса и 90 секунд проверены с декодированием/управлением; предел модели 8192 не выдаётся за playback-тест такого размера. Следующие этапы: WebM/TS-сегменты, muxed A/V, смена конфигурации/live, реальные источники и длительная A/V sync. Harvester не изменяется.
