@@ -295,3 +295,5 @@ subtitleTracks.state: waiting/ready/error/cached; errorCode/error относят
 Метаданные, required-дорожки и reader release по-прежнему проверяются строго.
 
 SDK 1.33 добавляет [ограниченное воспроизведение цепочки fMP4 H.264/AAC-LC](ProgressiveSegmentPlayback.md) через общий I/O трёх редакций. TS, live, смена codec/init и произвольный HLS/DASH остаются за границей этого профиля; Harvester не менялся.
+
+SDK 1.34 добавляет [HEVC Main/Main10 в сегментном fMP4](ProgressiveSegmentHevc.md) с AAC-LC для всех трёх редакций. Требуется явная capability профиля; TS/live и смена конфигурации остаются за границей этого этапа.

@@ -13,6 +13,7 @@ struct SegmentStage {
 };
 class SegmentStager {
     Snapshot snapshot;
+    bool validatedHevc=false;
     std::shared_ptr<ResourceSource> source;
     mutable std::mutex mutex;
     std::atomic<bool> cancelled{false};
@@ -71,7 +72,7 @@ class SegmentStager {
         if(demux) {
             Require(track.container=="fmp4" && (track.kind=="video" || track.kind=="audio"),"track","Only single-track fMP4 packet indexing is enabled","unsupported_media");
             Require(snapshot.numerator==1 && snapshot.denominator==10000000,"timeline.timebase","Segment index requires the 100 ns timebase","unsupported_media");
-            Require(track.codec.empty() || track.codec==(track.kind=="video"?"h264":"aac-lc"),"track.codecHint","Segment index profile is H.264/AAC","unsupported_media");
+            Require(track.codec.empty() || (track.kind=="video"?(track.codec=="h264" || (validatedHevc && track.codec=="hevc")):track.codec=="aac-lc"),"track.codecHint","Segment index requires H.264/AAC or a bridge-validated HEVC initialization","unsupported_media");
             try {
                 // Bound allocation before FragmentIndex handles the trun tables.
                 uint64_t packets=0;harvester::BoxData data{reinterpret_cast<const uint8_t*>(out.bytes.data()),out.bytes.size()};
@@ -87,7 +88,7 @@ class SegmentStager {
                 indexer.Update([&](uint64_t at,void* buffer,size_t count){
                     if(at>out.bytes.size() || count>out.bytes.size()-size_t(at))return false;
                     std::memcpy(buffer,out.bytes.data()+size_t(at),count);return true;
-                },out.bytes.size(),track.kind=="audio"?1:0,true);
+                },out.bytes.size(),track.kind=="audio"?1:0,true,0,validatedHevc);
                 Require(indexer.Initialized() && !indexer.Samples().empty(),"segment","Segment has no indexed packets","unsupported_media");
                 out.samples=indexer.Samples();
             }catch(const Error&){throw;}
@@ -98,7 +99,9 @@ class SegmentStager {
         return out;
     }
 public:
-    SegmentStager(const Snapshot& value,const std::shared_ptr<ResourceSource>& io):snapshot(value),source(io) {}
+    // The playback bridge validates actual codec configuration before enabling HEVC.
+    SegmentStager(const Snapshot& value,const std::shared_ptr<ResourceSource>& io,bool allowValidatedHevc=false)
+        :snapshot(value),validatedHevc(allowValidatedHevc),source(io) {}
     SegmentStager(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& json)
         :snapshot(Parse(json)),source(std::make_shared<ResourceSource>(root,registry,json)) {}
     void publish(const std::string& json) {

@@ -24,6 +24,8 @@ SDK 1.32: [staging и индекс одного сегмента](ProgressiveSeg
 
 SDK 1.33: [реальное воспроизведение цепочки fMP4 H.264/AAC-LC](ProgressiveSegmentPlayback.md), capability `schema2Playback.segmentedPlayback`. Требуются новые сборки; сегменты должны быть полностью опубликованы по отдельности, весь ролик может оставаться недокачанным.
 
+SDK 1.34: [HEVC Main/Main10 в сегментном fMP4](ProgressiveSegmentHevc.md), capability `segmentedPlayback.profiles` и предварительное согласование HEVC в Python helper. Диагностика одного сегмента не расширяется этим профилем.
+
 ## Проверка расширенной схемы (SDK 1.3)
 
 Новые сборки отдельно объявляют `validationSchemaVersions:[2]` и

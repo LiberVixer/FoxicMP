@@ -37,6 +37,16 @@ class V2SdkTest(unittest.TestCase):
             schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',segmentedPlayback=dict(mode='segmented-fmp4-h264-aac-lc')))
         value=snapshot();value['tracks'][0]['source']=dict(segments=[])
         preview=V2PreviewSession(client,'/unused');preview.publish(value);self.assertEqual(client.calls[0][0],'start')
+    def test_segmented_hevc_requires_explicit_profile(self):
+        client=Client();client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,
+            schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',segmentedPlayback=dict(mode='segmented-fmp4-h264-aac-lc')))
+        value=snapshot();value['tracks'][0].update(codecHint='hevc',source=dict(segments=[]))
+        preview=V2PreviewSession(client,'/unused')
+        with self.assertRaisesRegex(RuntimeError,'HEVC'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,
+            schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',segmentedPlayback=dict(mode='segmented-fmp4-h264-aac-lc',profiles=['segmented-fmp4-hevc-aac-lc'])))
+        V2PreviewSession(client,'/unused').publish(value);self.assertEqual(client.calls[0][0],'start')
     def test_integrity_requires_player_capability_before_start(self):
         client=Client();preview=V2PreviewSession(client,'/unused');value=snapshot()
         value['resources']=[dict(integrity=dict(algorithm='sha256',blocks=[]))]

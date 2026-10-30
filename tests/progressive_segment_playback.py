@@ -34,18 +34,19 @@ def fragment_durations(fragment):
     return durations
 
 
-def fixture(fixtures):
+def fixture(fixtures,profile="h264"):
+    assert profile in ("h264","hevc8","hevc10");video_codec="h264" if profile=="h264" else "hevc"
     value=dict(schemaVersion=2,sessionId=uuid.uuid4().hex,generation='1',revision='1',writer=dict(instanceId=uuid.uuid4().hex,state='downloading'),
         timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration='200000000',timestampOffset='0'),resources=[],tracks=[],
         metadata=dict(revision='1',title='Segmented fMP4 playback',chapters=[dict(id='intro',time='0',title='Intro'),dict(id='chapter',time='20000000',title='Two seconds')]))
     data={};expected={}
     for kind,name in [('video','video.mp4'),('audio','audio.m4a')]:
-        path=Path(fixtures)/'progressive'/name;content=path.read_bytes();top=list(boxes(content));first=next(i for i,b in enumerate(top) if b[2]==b'moof')
+        path=Path(fixtures)/('progressive' if kind=='audio' or profile=='h264' else 'progressive-'+profile)/name;content=path.read_bytes();top=list(boxes(content));first=next(i for i,b in enumerate(top) if b[2]==b'moof')
         raw=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_packets','-show_streams','-show_entries','stream=time_base:packet=pos,size,pts,dts,duration','-of','json',str(path)],text=True))
         base=Fraction(raw['streams'][0]['time_base']);packets=raw['packets'];ticks=lambda v:int(Fraction(int(v))*base*10000000)
         init=kind+'-init';init_bytes=content[:top[first][0]];data[init]=init_bytes
         value['resources'].append(dict(id=init,name=init+'.part',length=str(len(init_bytes)),ranges=[dict(offset='0',length=str(len(init_bytes)))],state='complete'))
-        track=dict(id=kind,kind=kind,required=True,codecHint='h264' if kind=='video' else 'aac-lc',containerHint='fmp4',state='downloading',initializationReady=True,initializationResourceId=init,source=dict(segments=[]))
+        track=dict(id=kind,kind=kind,required=True,codecHint=video_codec if kind=='video' else 'aac-lc',containerHint='fmp4',state='downloading',initializationReady=True,initializationResourceId=init,source=dict(segments=[]))
         parts=[]
         for i,(start,size,typ) in enumerate(top):
             if typ!=b'moof':continue
@@ -73,22 +74,24 @@ def publish_resources(value,data,root,seconds,*,hole=None):
             resource.update(state='complete',ranges=[dict(offset='0',length=str(len(payload)))])
 
 
-def exercise(client,fixtures,work,pause,seek):
-    root=Path(work).resolve();root.mkdir(parents=True);value,data,_=fixture(fixtures)
+def exercise(client,fixtures,work,pause,seek,profile="h264"):
+    root=Path(work).resolve();root.mkdir(parents=True);value,data,_=fixture(fixtures,profile)
     publish_resources(value,data,root,12,hole='video-5')
     value=protect_snapshot(value,root);previous=copy.deepcopy(value)
     capabilities=client.request(dict(version=1,action='capabilities'))['schema2Playback']
     assert capabilities['segmentedPlayback']['mode']=='segmented-fmp4-h264-aac-lc'
+    mode='segmented-fmp4-'+('h264' if profile=='h264' else 'hevc')+'-aac-lc'
+    if profile!='h264':assert mode in capabilities['segmentedPlayback']['profiles']
     probe=client.probe(value,root);assert probe['supported'] and probe['readySeconds']<6,probe
     forget_closed_readers(client,value)
-    preview=V2PreviewSession(client,str(root),title='Segmented fMP4 playback');report=dict(phases=[],networkRequests=0)
+    preview=V2PreviewSession(client,str(root),title='Segmented fMP4 playback');report=dict(profile=profile,phases=[],networkRequests=0)
     try:
         preview.publish(value);reader=preview.reader_id
         def state_until(predicate,label,timeout=25):
             deadline=time.monotonic()+timeout
             while time.monotonic()<deadline:
                 state=preview.heartbeat();assert not state.get('error') and state['state']!='error',state
-                assert state['readerId']==reader and state['mediaMode']=='segmented-fmp4-h264-aac-lc',state
+                assert state['readerId']==reader and state['mediaMode']==mode,state
                 if predicate(state):report['phases'].append(dict(phase=label,status=state));return state
                 time.sleep(.1)
             raise AssertionError(('Segment playback timeout',label,state))
@@ -119,7 +122,7 @@ def exercise(client,fixtures,work,pause,seek):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--player',required=True);p.add_argument('--profile');p.add_argument('--fixtures',required=True);p.add_argument('--work',required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--player',required=True);p.add_argument('--profile');p.add_argument('--fixtures',required=True);p.add_argument('--work',required=True);p.add_argument('--media-profile',choices=['h264','hevc8','hevc10'],default='h264');a=p.parse_args()
     sequence=[0]
     def command(action,value=None):
         sequence[0]+=1;path=Path(a.work)/'control.json';temp=path.with_suffix('.tmp')
@@ -130,4 +133,4 @@ if __name__=='__main__':
             except PermissionError:
                 if time.monotonic()>=deadline:raise
                 time.sleep(.01)
-    print(json.dumps(exercise(ProgressiveClient(a.player,a.profile),a.fixtures,a.work,lambda:command('pause'),lambda t:command('seek',t))))
+    print(json.dumps(exercise(ProgressiveClient(a.player,a.profile),a.fixtures,a.work,lambda:command('pause'),lambda t:command('seek',t),a.media_profile)))

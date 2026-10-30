@@ -66,3 +66,5 @@ SHA-256 проверяется при наличии integrity. Закреплё
 в сегментном профиле. Возможности прежних scalar-resource профилей сохраняются.
 
 Проверки и точные exit codes: [отчёт](ProgressiveSegmentPlaybackValidation-2026-10-30.md).
+
+SDK 1.34 отдельно расширяет этот профиль [HEVC Main/Main10 с AAC-LC](ProgressiveSegmentHevc.md); остальные границы сохраняются.
