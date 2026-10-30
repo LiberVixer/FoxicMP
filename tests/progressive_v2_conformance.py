@@ -67,6 +67,15 @@ def cases():
     value=copy.deepcopy(base);value['resources'].append(dict(id='s1',name='s1.part',length=None,ranges=[],state='downloading'))
     value['tracks'][0]['source']=dict(segments=[dict(resourceId='s1',sequence='9007199254740993',start='0',duration='100',timestampOffset='-10',discontinuity=False,configurationId='init1')])
     yield 'segment-sequence-exact',dict(session=value),True,None
+    offset_overlap=copy.deepcopy(value)
+    offset_overlap['tracks'][0]['source']['segments']=[
+        dict(resourceId='media',sequence='1',start='0',duration='100',timestampOffset='0',discontinuity=False,configurationId='c1'),
+        dict(resourceId='media',sequence='2',start='100',duration='100',timestampOffset='-150',discontinuity=False,configurationId='c1')]
+    yield 'timestamp-offset-overlap',dict(session=offset_overlap),False,'invalid_snapshot'
+    offset_overflow=copy.deepcopy(value)
+    offset_overflow['tracks'][0]['source']['segments'][0]['start']='9223372036854775807'
+    offset_overflow['tracks'][0]['source']['segments'][0]['timestampOffset']='1'
+    yield 'timestamp-offset-overflow',dict(session=offset_overflow),False,'invalid_snapshot'
     previous=copy.deepcopy(base);value=copy.deepcopy(base);value['revision']='2';value['resources'][0]['ranges']=[dict(offset='0',length='20')]
     yield 'advance-prefix',dict(session=value,previous=previous),True,None
     value=copy.deepcopy(base);value['revision']='2';value['metadata']['revision']='2';value['metadata']['title']='Updated title'
@@ -76,8 +85,17 @@ def cases():
     segmented=copy.deepcopy(base)
     segmented['tracks'][0]['source']=dict(segments=[dict(resourceId='media',sequence='1',start='-10',duration='10',timestampOffset='0',discontinuity=False,configurationId='c1')])
     value=copy.deepcopy(segmented);value['revision']='2'
-    value['tracks'][0]['source']['segments'].append(dict(resourceId='media',sequence='2',start='0',duration='10',timestampOffset='-10',discontinuity=True,configurationId='c2',initializationResourceId='media'))
+    value['tracks'][0]['source']['segments'].append(dict(resourceId='media',sequence='2',start='0',duration='10',timestampOffset='0',discontinuity=True,configurationId='c2',initializationResourceId='media'))
     yield 'configuration-change-with-init',dict(session=value,previous=segmented),True,None
+    live=copy.deepcopy(segmented)
+    live['timeline'].update(live=True,duration=None,window=dict(start='0',end='10'))
+    live['resources'][0]['ranges']=[dict(offset='0',length='10')]
+    yield 'live-segment-window-start',dict(session=live),True,None
+    live_next=copy.deepcopy(live);live_next['revision']='2';live_next['timeline']['window']['end']='20'
+    live_next['tracks'][0]['source']['segments'].append(dict(resourceId='media',sequence='2',start='10',duration='10',timestampOffset='0',discontinuity=False,configurationId='c1'))
+    yield 'live-segment-window-advances',dict(session=live_next,previous=live),True,None
+    live_back=copy.deepcopy(live);live_back['revision']='2';live_back['timeline']['window']['start']='-1'
+    yield 'live-segment-window-backwards',dict(session=live_back,previous=live),False,'invalid_snapshot'
     bad=copy.deepcopy(value);bad['tracks'][0]['source']['segments'][1].pop('initializationResourceId')
     yield 'configuration-change-without-init',dict(session=bad),False,'invalid_snapshot'
     bad=copy.deepcopy(value);bad['tracks'][0]['source']['segments'][1]['start']='-5'
@@ -187,7 +205,7 @@ def check_player(client):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();mode=parser.add_mutually_exclusive_group(required=True)
-    mode.add_argument('--runner');mode.add_argument('--player');parser.add_argument('--profile');parser.add_argument('--expected-pid',type=int)
+    mode.add_argument('--runner');mode.add_argument('--player');parser.add_argument('--profile');parser.add_argument('--expected-pid',type=int);parser.add_argument('--only',choices=['segments'])
     args=parser.parse_args()
     if args.player:
         import sys
@@ -198,7 +216,9 @@ if __name__=='__main__':
             assert client.request(dict(version=1,action='capabilities'))['pid']==args.expected_pid
         print(json.dumps(dict(passed=check_player(client),mode='player-api-validation-only')))
         raise SystemExit(0)
-    vectors=list(cases());raw=''.join(json.dumps(m,separators=(',',':'))+'\n' for _,m,_,_ in vectors)
+    vectors=list(cases())
+    if args.only=='segments':vectors=[item for item in vectors if any(word in item[0] for word in ('segment','configuration-change','live-'))]
+    raw=''.join(json.dumps(m,separators=(',',':'))+'\n' for _,m,_,_ in vectors)
     process=subprocess.run([args.runner],input=raw,capture_output=True,text=True,timeout=20)
     assert process.returncode==0,process.stderr
     replies=[json.loads(line) for line in process.stdout.splitlines()]

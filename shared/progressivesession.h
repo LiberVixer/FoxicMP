@@ -97,6 +97,7 @@ struct Resource {
 };
 struct Segment {
     std::string resource,initialization,configuration;uint64_t sequence=0;int64_t start=0,duration=0,offset=0;bool discontinuity=false;
+    int64_t presentationStart=0;
 };
 struct Track {
     std::string id,kind,codec,container,state,label,language,resource,initialization;
@@ -194,15 +195,19 @@ inline Snapshot Parse(const std::string& json) {
         Require(source.HasMember("resourceId")!=source.HasMember("segments"),p+".source","Expected a resource or segments, exclusively");
         if(source.HasMember("resourceId"))t.resource=Id(source["resourceId"],p+".source.resourceId");
         else {
-            const auto& list=source["segments"];Require(list.IsArray() && list.Size()<=128,p+".source.segments","Invalid segment list");uint64_t seq=0;int64_t end=INT64_MIN;
+            const auto& list=source["segments"];Require(list.IsArray() && list.Size()<=128,p+".source.segments","Invalid segment list");uint64_t seq=0;int64_t end=INT64_MIN,presentationEnd=INT64_MIN;
             for(rapidjson::SizeType j=0;j<list.Size();++j) {
                 const auto q=p+".source.segments["+std::to_string(j)+"]";const auto& item=list[j];
                 Keys(item,q,{"resourceId","sequence","start","duration","timestampOffset","discontinuity","configurationId"},{"initializationResourceId"});Segment seg;
                 seg.resource=Id(item["resourceId"],q+".resourceId");seg.sequence=Unsigned(item["sequence"],q+".sequence");seg.start=Signed(item["start"],q+".start");seg.duration=int64_t(Unsigned(item["duration"],q+".duration",MaxByte,true));seg.offset=Signed(item["timestampOffset"],q+".timestampOffset");seg.discontinuity=Flag(item["discontinuity"],q+".discontinuity");seg.configuration=Id(item["configurationId"],q+".configurationId");
                 if(item.HasMember("initializationResourceId"))seg.initialization=Id(item["initializationResourceId"],q+".initializationResourceId");
-                Require((!j || seg.sequence>seq) && seg.start>=end && seg.start<=INT64_MAX-seg.duration,q,"Invalid segment order or timestamp overflow");
+                Require(seg.offset>=0?seg.start<=INT64_MAX-seg.offset:seg.start>=INT64_MIN-seg.offset,q,"Segment timestamp offset overflows");
+                seg.presentationStart=seg.start+seg.offset;
+                Require((!j || seg.sequence>seq) && seg.start>=end && seg.start<=INT64_MAX-seg.duration &&
+                        (!j || seg.presentationStart>=presentationEnd),q,"Invalid segment order, overlap or timestamp overflow");
                 if(j && seg.configuration!=t.segments.back().configuration)Require(seg.discontinuity && !seg.initialization.empty(),q,"Codec configuration change requires discontinuity and initialization");
-                seq=seg.sequence;end=seg.start+seg.duration;t.segments.push_back(seg);
+                Require(seg.presentationStart<=INT64_MAX-seg.duration,q,"Segment presentation time overflows");
+                seq=seg.sequence;end=seg.start+seg.duration;presentationEnd=seg.presentationStart+seg.duration;t.segments.push_back(seg);
             }
         }
         for(const auto& id:t.resources())Require(s.resources.count(id)!=0,p+".source","Unknown resource reference");

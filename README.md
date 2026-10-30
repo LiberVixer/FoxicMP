@@ -113,6 +113,10 @@ SDK 1.29 добавляет [изоляцию обнаруженных ошиб�
 SDK 1.30 добавляет [SHA-256 проверку подтверждённых блоков](docs/ProgressiveIntegrity.md):
 защищённый блок проверяется до передачи декодеру, а optional-ошибка изолируется
 по уже действующим правилам. [Отчёт проверки 30 октября](docs/ProgressiveIntegrityValidation-2026-10-30.md).
+SDK 1.31 добавляет [проверку сегментного timeline](docs/ProgressiveSegments.md)
+для подготовки HLS/DASH: sequence, timestamp offset, discontinuity и движение
+live-окна. [Отчёт проверки](docs/ProgressiveSegmentsValidation-2026-10-30.md).
+Сегментное воспроизведение пока не заявляется.
 В текущих исходниках исправлена совместимость v1, добавлены SDK, подтверждение
 освобождения файлов и Windows Qt legacy/provider. Добавлен общий для трёх редакций
 [валидатор метаданных v2](docs/ProgressiveManifestV2.md): ресурсы, диапазоны,
