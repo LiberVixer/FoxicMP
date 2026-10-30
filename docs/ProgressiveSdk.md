@@ -28,6 +28,8 @@ SDK 1.34: [HEVC Main/Main10 в сегментном fMP4](ProgressiveSegmentHevc
 
 SDK 1.35: [AV1 Main 8/10-bit в сегментном fMP4](ProgressiveSegmentAv1.md), отдельная capability профиля и согласование AV1 до start; H.264/HEVC остаются совместимыми.
 
+SDK 1.36: [сегментные VP9 8/10-bit и Opus mono/stereo](ProgressiveSegmentVp9Opus.md), согласование точной пары видео/аудио; прежние профили с AAC сохраняются.
+
 ## Проверка расширенной схемы (SDK 1.3)
 
 Новые сборки отдельно объявляют `validationSchemaVersions:[2]` и

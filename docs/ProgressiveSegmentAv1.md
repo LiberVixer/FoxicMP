@@ -48,3 +48,5 @@ live/sliding window, смена init/codec и timestamp rebasing. Прежние
 HDR, GPU или физическую задержку аудио.
 
 [Проверки всех трёх редакций](ProgressiveSegmentAv1Validation-2026-10-30.md).
+
+SDK 1.36 отдельно добавляет [VP9 8/10-bit и пары H.264/HEVC/AV1/VP9 с Opus mono/stereo](ProgressiveSegmentVp9Opus.md).

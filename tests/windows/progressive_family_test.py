@@ -23,7 +23,7 @@ from progressive_v2_conformance import check_player as check_v2_model
 from progressive_reader_api_conformance import exercise as exercise_reader_contract
 from progressive_resource_api_conformance import exercise as exercise_resource_contract
 from progressive_segment_api_conformance import exercise as exercise_segment_contract
-from progressive_segment_playback import exercise as exercise_segment_playback
+from progressive_segment_playback import exercise as exercise_segment_playback, PLAYBACK_PROFILES
 from progressive_v2_playback_conformance import exercise as exercise_v2_playback, MEDIA_PROFILES
 from progressive_metadata_conformance import exercise as exercise_metadata
 from progressive_multitrack_conformance import exercise as exercise_multitrack
@@ -599,7 +599,7 @@ def run(args):
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
         if args.segment_playback_only:
-            return [dict(contract='actual-segmented-playback',result=exercise_segment_playback(client,args.fixtures,Path(args.report)/('segment-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401),profile=profile)) for profile in ('h264','hevc8','hevc10','av1-8','av1-10')]
+            return [dict(contract='actual-segmented-playback',result=exercise_segment_playback(client,args.fixtures,Path(args.report)/('segment-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401),profile=profile)) for profile in PLAYBACK_PROFILES]
         if args.segment_only:
             return [dict(contract='segment-staging-index-only',result=exercise_segment_contract(client,Path(args.report)/'segment-probe',args.fixtures))]
         if args.directory_only:

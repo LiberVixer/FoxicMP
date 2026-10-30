@@ -11,7 +11,7 @@ inline void SegmentProfile(bool condition,const char* message) {Require(conditio
 inline SegmentLayout BuildSegmentLayout(const Snapshot& snapshot,const Track& track) {
     SegmentProfile(track.resource.empty() && track.required && track.container=="fmp4" &&
         (track.kind=="video" || track.kind=="audio"),"Segment playback requires required separate fMP4 video/audio tracks");
-    SegmentProfile(track.codec.empty() || (track.kind=="video"?(track.codec=="h264" || track.codec=="hevc" || track.codec=="av1"):track.codec=="aac-lc"),"Segment playback enables only H.264/HEVC/AV1 video with AAC-LC");
+    SegmentProfile(track.codec.empty() || (track.kind=="video"?(track.codec=="h264" || track.codec=="hevc" || track.codec=="av1" || track.codec=="vp9"):(track.codec=="aac-lc" || track.codec=="opus")),"Segment playback enables only H.264/HEVC/AV1/VP9 video with AAC-LC/Opus");
     SegmentLayout out;out.initialization=track.initialization;
     if(!track.segments.empty() && !track.segments.front().initialization.empty())out.initialization=track.segments.front().initialization;
     SegmentProfile(!out.initialization.empty(),"Segment playback requires an explicit external initialization resource");
@@ -62,7 +62,7 @@ inline ResourceRead ReadSegmentStream(ResourceSource& source,const SegmentLayout
 }
 inline void ValidateSegmentMedia(const Snapshot& snapshot,const std::array<std::string,harvester::MaxMediaTracks>& ids,
     const std::array<SegmentLayout,harvester::MaxMediaTracks>& layouts,const std::shared_ptr<ResourceSource>& source,std::set<std::string>& validated) {
-    SegmentStager stager(snapshot,source,true,true);
+    SegmentStager stager(snapshot,source,true,true,true,true);
     for(size_t track=0;track<2;++track) {
         const auto& layout=layouts[track];if(!layout.initialized || validated.count(layout.initialization))continue;
         const auto length=snapshot.resources.at(layout.initialization).length;std::vector<char> bytes(size_t(length),0);

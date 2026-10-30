@@ -34,9 +34,17 @@ class V2PreviewSession:
             current=copy.deepcopy(snapshot);counter(current['generation']);revision=counter(current['revision'])
             if any('segments' in t.get('source',{}) for t in current.get('tracks',[])) and not self.segments_supported:
                 raise RuntimeError('Player lacks the segmented fMP4 playback profile; update the player')
-            for codec in ('hevc','av1'):
-                if any('segments' in t.get('source',{}) and t.get('kind')=='video' and t.get('codecHint')==codec for t in current.get('tracks',[])) and 'segmented-fmp4-'+codec+'-aac-lc' not in self.segment_profiles:
-                    raise RuntimeError('Player lacks the segmented '+codec.upper()+' playback profile; update the player')
+            segment_tracks=[t for t in current.get('tracks',[]) if 'segments' in t.get('source',{})]
+            opus_requested=any(t.get('kind')=='audio' and t.get('codecHint')=='opus' for t in segment_tracks)
+            audio_codec='opus' if opus_requested else 'aac-lc'
+            for codec in ('hevc','av1','vp9'):
+                if any(t.get('kind')=='video' and t.get('codecHint')==codec for t in segment_tracks) and 'segmented-fmp4-'+codec+'-'+audio_codec not in self.segment_profiles:
+                    raise RuntimeError('Player lacks the segmented '+codec.upper()+'/'+audio_codec+' playback profile; update the player')
+            if opus_requested:
+                video=next((t.get('codecHint') for t in segment_tracks if t.get('kind')=='video'),None)
+                profiles=['segmented-fmp4-'+video+'-opus'] if video in ('h264','hevc','av1','vp9') else [p for p in self.segment_profiles if p.endswith('-opus')]
+                if not profiles or not any(p in self.segment_profiles for p in profiles):
+                    raise RuntimeError('Player lacks the requested segmented Opus playback profile; update the player')
             if any('integrity' in r for r in current.get('resources',[])) and not self.integrity_supported:
                 raise RuntimeError('Player lacks SHA-256 resource integrity; update the player')
             if self.last is not None:
