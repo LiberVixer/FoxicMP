@@ -1,4 +1,4 @@
-// Append-only virtual fMP4 track over confirmed segment resources. GPL-3.0-or-later.
+// Append-only virtual fMP4/WebM track over confirmed segment resources. GPL-3.0-or-later.
 #pragma once
 #include "progressivesegmentstager.h"
 namespace foxicmp { namespace progressive {
@@ -9,9 +9,10 @@ struct SegmentLayout {
 };
 inline void SegmentProfile(bool condition,const char* message) {Require(condition,"segmentProfile",message,"unsupported_media");}
 inline SegmentLayout BuildSegmentLayout(const Snapshot& snapshot,const Track& track) {
-    SegmentProfile(track.resource.empty() && track.required && track.container=="fmp4" &&
-        (track.kind=="video" || track.kind=="audio"),"Segment playback requires required separate fMP4 video/audio tracks");
-    SegmentProfile(track.codec.empty() || (track.kind=="video"?(track.codec=="h264" || track.codec=="hevc" || track.codec=="av1" || track.codec=="vp9"):(track.codec=="aac-lc" || track.codec=="opus")),"Segment playback enables only H.264/HEVC/AV1/VP9 video with AAC-LC/Opus");
+    SegmentProfile(track.resource.empty() && track.required && (track.container=="fmp4" || track.container=="webm") &&
+        (track.kind=="video" || track.kind=="audio"),"Segment playback requires required separate fMP4 or WebM video/audio tracks");
+    const bool webm=track.container=="webm";
+    SegmentProfile(track.codec.empty() || (webm?(track.kind=="video"?(track.codec=="vp8" || track.codec=="vp9" || track.codec=="av1"):track.codec=="opus"):(track.kind=="video"?(track.codec=="h264" || track.codec=="hevc" || track.codec=="av1" || track.codec=="vp9"):(track.codec=="aac-lc" || track.codec=="opus"))),"Unsupported segmented container/codec profile");
     SegmentLayout out;out.initialization=track.initialization;
     if(!track.segments.empty() && !track.segments.front().initialization.empty())out.initialization=track.segments.front().initialization;
     SegmentProfile(!out.initialization.empty(),"Segment playback requires an explicit external initialization resource");
@@ -30,7 +31,7 @@ inline SegmentLayout BuildSegmentLayout(const Snapshot& snapshot,const Track& tr
             (segment.initialization.empty() || segment.initialization==out.initialization),
             "Discontinuity, timestamp rebasing and codec/init changes require another playback profile");
         SegmentProfile(i==0 || (previousSequence<UINT64_MAX && segment.sequence==previousSequence+1),"Segment sequences must be consecutive");
-        SegmentProfile(i==0 || (segment.start>=previousEnd && uint64_t(segment.start)-uint64_t(previousEnd)<=10),"Segment timeline must be contiguous");
+        SegmentProfile(i==0 || (segment.start>=previousEnd && uint64_t(segment.start)-uint64_t(previousEnd)<=uint64_t(webm?10000:10)),"Segment timeline must be contiguous");
         SegmentProfile(i!=0 || (track.kind=="video"?(segment.start>=0 && segment.start<=10000000):(segment.start>=-10000000 && segment.start<=10)),"First segment must start near zero, allowing bounded video reordering/AAC preroll");
         SegmentProfile(resources.insert(resource.id).second && !resource.retired,"Each segment needs a distinct non-retired resource");
         SegmentProfile(!resource.known || (resource.length>0 && resource.length<=16777216),"Segment media resource exceeds its 16 MiB bound");
@@ -62,7 +63,7 @@ inline ResourceRead ReadSegmentStream(ResourceSource& source,const SegmentLayout
 }
 inline void ValidateSegmentMedia(const Snapshot& snapshot,const std::array<std::string,harvester::MaxMediaTracks>& ids,
     const std::array<SegmentLayout,harvester::MaxMediaTracks>& layouts,const std::shared_ptr<ResourceSource>& source,std::set<std::string>& validated) {
-    SegmentStager stager(snapshot,source,true,true,true,true);
+    SegmentStager stager(snapshot,source,true,true,true,true,true);
     for(size_t track=0;track<2;++track) {
         const auto& layout=layouts[track];if(!layout.initialized || validated.count(layout.initialization))continue;
         const auto length=snapshot.resources.at(layout.initialization).length;std::vector<char> bytes(size_t(length),0);
@@ -72,6 +73,15 @@ inline void ValidateSegmentMedia(const Snapshot& snapshot,const std::array<std::
             Require(read.data() && read.bytes==count,"segmentProfile",read.reason.c_str(),read.code.c_str());at+=count;
         }
         try {
+            if(snapshot.tracks.at(ids[track]).container=="webm") {
+                const auto info=harvester::WebMInitialization([&](uint64_t at,void* buffer,size_t count){
+                    if(at>bytes.size() || count>bytes.size()-size_t(at))return false;
+                    std::memcpy(buffer,bytes.data()+size_t(at),count);return true;
+                },length,int(track),true);
+                SegmentProfile(info.headerEnd==length && info.segmentEnd==UINT64_MAX && info.scale==1000000,
+                    "Segmented WebM initialization requires an unknown-size Segment, 1 ms clock and no Clusters/Cues");
+                SegmentProfile(track==0 || info.codec=="opus","Segmented WebM currently requires Opus audio");
+            }else {
             unsigned ftyp=0,moov=0;
             for(const auto& box:harvester::BoxData{reinterpret_cast<const uint8_t*>(bytes.data()),bytes.size()}.Children()) {
                 if(box.first==harvester::FourCC("ftyp"))++ftyp;
@@ -79,6 +89,7 @@ inline void ValidateSegmentMedia(const Snapshot& snapshot,const std::array<std::
                 else SegmentProfile(box.first==harvester::FourCC("free"),"Initialization may contain only ftyp, moov and free boxes");
             }
             SegmentProfile(ftyp==1 && moov==1,"Initialization needs exactly one ftyp and moov box");
+            }
         }catch(const Error&){throw;}catch(const std::exception&){SegmentProfile(false,"Malformed segment initialization boxes");}
         validated.insert(layout.initialization);
     }
@@ -89,12 +100,14 @@ inline void ValidateSegmentMedia(const Snapshot& snapshot,const std::array<std::
             auto staged=stager.stage(media.id,part.segment,true);
             Require(staged.ready(),"segmentProfile",staged.reason.c_str(),staged.code.c_str());
             try {
+                if(media.container!="webm") {
                 const auto initSize=snapshot.resources.at(layouts[track].initialization).length;
                 const harvester::BoxData bytes{reinterpret_cast<const uint8_t*>(staged.bytes.data()+size_t(initSize)),staged.bytes.size()-size_t(initSize)};
                 for(const auto& box:bytes.Children())
                     SegmentProfile(box.first==harvester::FourCC("moof") || box.first==harvester::FourCC("mdat") ||
                         box.first==harvester::FourCC("styp") || box.first==harvester::FourCC("sidx"),
                         "Media segment may contain only moof, mdat, styp and sidx boxes");
+                }
             }catch(const Error&){throw;}catch(const std::exception&){SegmentProfile(false,"Malformed media segment boxes");}
             int64_t start=INT64_MAX,end=INT64_MIN;
             for(const auto& sample:staged.samples){start=(std::min)(start,sample.start);end=(std::max)(end,sample.end);}

@@ -87,18 +87,27 @@ def publish_resources(value,data,root,seconds,*,hole=None):
             resource.update(state='complete',ranges=[dict(offset='0',length=str(len(payload)))])
 
 
-def exercise(client,fixtures,work,pause,seek,profile="h264"):
-    root=Path(work).resolve();root.mkdir(parents=True);value,data,_=fixture(fixtures,profile)
+def exercise(client,fixtures,work,pause,seek,profile="h264",*,webm=False):
+    root=Path(work).resolve();root.mkdir(parents=True)
+    if webm:
+        from progressive_webm_segment_playback import fixture as webm_fixture
+        value,data,_=webm_fixture(fixtures,profile)
+    else:value,data,_=fixture(fixtures,profile)
     publish_resources(value,data,root,12,hole='video-5')
     value=protect_snapshot(value,root);previous=copy.deepcopy(value)
     capabilities=client.request(dict(version=1,action='capabilities'))['schema2Playback']
     assert capabilities['segmentedPlayback']['mode']=='segmented-fmp4-h264-aac-lc'
-    _,video_codec,audio_codec,channels=profile_info(profile)
-    mode='segmented-fmp4-'+video_codec+'-'+audio_codec
-    if profile!='h264':assert mode in capabilities['segmentedPlayback']['profiles']
+    if webm:
+        video_codec=value['tracks'][0]['codecHint'];audio_codec='opus';channels=2
+        mode='segmented-webm-'+video_codec+'-opus'
+        assert mode in capabilities['segmentedPlayback']['webm']['profiles']
+    else:
+        _,video_codec,audio_codec,channels=profile_info(profile)
+        mode='segmented-fmp4-'+video_codec+'-'+audio_codec
+    if not webm and profile!='h264':assert mode in capabilities['segmentedPlayback']['profiles']
     probe=client.probe(value,root);assert probe['supported'] and probe['readySeconds']<6,probe
     forget_closed_readers(client,value)
-    preview=V2PreviewSession(client,str(root),title='Segmented fMP4 playback');report=dict(profile=profile,videoCodec=video_codec,audioCodec=audio_codec,channels=channels,phases=[],networkRequests=0)
+    preview=V2PreviewSession(client,str(root),title='Segmented WebM playback' if webm else 'Segmented fMP4 playback');report=dict(profile=profile,videoCodec=video_codec,audioCodec=audio_codec,channels=channels,phases=[],networkRequests=0)
     try:
         preview.publish(value);reader=preview.reader_id
         def state_until(predicate,label,timeout=25):

@@ -23,6 +23,27 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_webm_requires_its_own_codec_and_catalog_capabilities(self):
+        client=Client();value=snapshot()
+        for t in value['tracks']:t.update(containerHint='webm',source=dict(segments=[]),codecHint='vp9' if t['kind']=='video' else 'opus')
+        preview=V2PreviewSession(client,'/unused')
+        with self.assertRaisesRegex(RuntimeError,'WebM'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        webm=dict(mode='segmented-webm-vp9-opus',profiles=['segmented-webm-vp9-opus'])
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,
+            schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',segmentedPlayback=dict(webm=webm)))
+        preview=V2PreviewSession(client,'/unused');preview.publish(value);self.assertTrue(preview.started);client.calls.clear()
+        value['segmentCatalog']=[];preview=V2PreviewSession(client,'/unused')
+        with self.assertRaisesRegex(RuntimeError,'catalog'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last)
+        webm['catalog']=dict(mode='paged-webm-v1');V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
+        for field,setting in [('codecHint','av1'),('containerHint','fmp4')]:
+            bad=copy.deepcopy(value);bad['tracks'][0][field]=setting;preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(bad)
+            self.assertIsNone(preview.last);self.assertFalse(preview.uncertain);self.assertFalse(client.calls)
+        bad=copy.deepcopy(value);bad['tracks'][1]['codecHint']='vorbis'
+        with self.assertRaisesRegex(RuntimeError,'WebM'):V2PreviewSession(client,'/unused').publish(bad)
+        self.assertFalse(client.calls)
     def test_catalog_requires_separate_capability_before_mutating_state(self):
         client=Client();preview=V2PreviewSession(client,'/unused');value=snapshot();value['segmentCatalog']=[]
         with self.assertRaisesRegex(RuntimeError,'catalog'):preview.publish(value)

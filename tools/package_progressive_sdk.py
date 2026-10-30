@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 import subprocess
 import zipfile
@@ -13,6 +14,7 @@ FILES = {
         'progressive_client.py', 'progressive_windows.py', 'progressive_sdk.py', 'progressive_writer.py',
         'progressive_schema.py', 'progressive_resources.py', 'progressive_v2.py', 'progressive_integrity.py')},
     'progressive-v2-vod.json': 'tests/fixtures/progressive-v2/vod.json',
+    **{name:'docs/'+name for name in ('ProgressiveWebmSegments.md','ProgressiveWebmSegmentsValidation-2026-10-30.md','ProgressiveWebmSegmentsValidation-2026-10-30.json')},
     'README.ru.md': 'docs/ProgressiveSdk.md',
     'ProgressiveSdk.md': 'docs/ProgressiveSdk.md',
     'LinuxProgressiveApi.md': 'docs/LinuxProgressiveApi.md',
@@ -62,6 +64,14 @@ FILES = {
         'ProgressiveOptionalAudio.md','ProgressiveOptionalAudioValidation-2026-10-29.md','ProgressiveMetadata.md','ProgressiveMetadataValidation-2026-10-29.md','ProgressiveMetadataUiValidation-2026-10-29.md','ProgressiveMetadataUiValidation-2026-10-29.json','ProgressivePartialAudio.md','ProgressivePartialAudioValidation-2026-10-29.md','ProgressivePartialAudioValidation-2026-10-29.json','ProgressiveIntegrity.md','ProgressiveIntegrityValidation-2026-10-30.md','ProgressiveSegments.md','ProgressiveSegmentsValidation-2026-10-30.md','ProgressiveSegmentStaging.md','ProgressiveSegmentStagingValidation-2026-10-30.md','ProgressiveSegmentStagingValidation-2026-10-30.json','ProgressiveSegmentPlayback.md','ProgressiveSegmentPlaybackValidation-2026-10-30.md','ProgressiveSegmentPlaybackValidation-2026-10-30.json','ProgressiveSegmentHevc.md','ProgressiveSegmentHevcValidation-2026-10-30.md','ProgressiveSegmentHevcValidation-2026-10-30.json','ProgressiveSegmentAv1.md','ProgressiveSegmentAv1Validation-2026-10-30.md','ProgressiveSegmentAv1Validation-2026-10-30.json','ProgressiveSegmentVp9Opus.md','ProgressiveSegmentVp9OpusValidation-2026-10-30.md','ProgressiveSegmentVp9OpusValidation-2026-10-30.json','ProgressiveSegmentCatalog.md','ProgressiveSegmentCatalogValidation-2026-10-30.md','ProgressiveSegmentCatalogValidation-2026-10-30.json','ProgressiveLocalCatalog.md','ProgressiveLocalCatalogValidation-2026-10-30.md','ProgressiveLocalCatalogValidation-2026-10-30.json','ProgressiveCatalogCache.md','ProgressiveCatalogCacheValidation-2026-10-30.md','ProgressiveCatalogCacheValidation-2026-10-30.json','ProgressiveCatalogPlayback.md','ProgressiveCatalogPlaybackValidation-2026-10-30.md','ProgressiveCatalogPlaybackValidation-2026-10-30.json','ProgressiveActiveAudioErrors.md','ProgressiveActiveAudioValidation-2026-10-29.md','ProgressiveActiveAudioValidation-2026-10-29.json')},
 }
 
+def schema2_playback():
+    # Keep the standalone manifest equal to the capability compiled into all
+    # three editions, including nested codec/catalog limits.
+    source=(ROOT/'shared/progressivefmp4bridge.h').read_text(encoding='utf-8')
+    match=re.search(r'inline const char\* Fmp4V2Capabilities\(\).*?return R"\((.*?)\)";',source,re.S)
+    if not match:raise ValueError('Cannot locate the shared playback capability')
+    return json.loads(match.group(1))
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
@@ -69,10 +79,10 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.37', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.38', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
-        schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',separateResourcesRequired=True,durationRequired=True,timebase=dict(numerator=1,denominator=10000000),negativeTimestampOffset=False,initializationLimitBytes=1048576,profiles=['segmented-fmp4-vp9-aac-lc','segmented-fmp4-h264-opus','segmented-fmp4-hevc-opus','segmented-fmp4-av1-opus','segmented-fmp4-vp9-opus','segmented-fmp4-av1-aac-lc','segmented-fmp4-hevc-aac-lc','segmented-fmp4-h264-aac-lc','separate-fmp4-h264-aac-lc','separate-fmp4-hevc-aac-lc','separate-fmp4-av1-aac-lc','separate-fmp4-vp9-aac-lc','separate-fmp4-h264-opus','separate-fmp4-hevc-opus','separate-fmp4-av1-opus','separate-fmp4-vp9-opus','separate-webm-vp9-opus','separate-webm-av1-opus','separate-fmp4-webm-h264-opus','separate-fmp4-webm-hevc-opus','separate-fmp4-webm-av1-opus','separate-fmp4-webm-vp9-opus','separate-webm-fmp4-vp9-aac-lc','separate-webm-fmp4-av1-aac-lc','separate-webm-fmp4-vp9-opus','separate-webm-fmp4-av1-opus','separate-webm-vp8-opus','separate-webm-vp8-vorbis','separate-webm-vp9-vorbis','separate-webm-av1-vorbis','separate-fmp4-webm-h264-vorbis','separate-fmp4-webm-hevc-vorbis','separate-fmp4-webm-av1-vorbis','separate-fmp4-webm-vp9-vorbis','separate-webm-fmp4-vp8-aac-lc','separate-webm-fmp4-vp8-opus'],mixedContainers=True,integrity=dict(algorithm="sha256",maxBlockBytes=4194304,maxBlocksPerResource=4096,confirmedRangesCovered=True,verifiedBeforeDecoder=True,readChunkBytes=65536,boundedReadAudit=True),trackCount=2,trackCountMin=2,trackCountMax=13,mediaTrackCountMax=9,audioTrackLimit=8,multiAudio=True,audioTracksRequired=False,optionalAudio=dict(completeFileRequired=False,selectedTrackBuffering=True,minimumReadySeconds=5,lateCompletion=True,pendingErrorIsolation=True,activeResourceErrorsFatal=False,activeOptionalAudioErrorsIsolated=True,requiredPrimaryAudio=True),subtitles=dict(containers=['srt'],codecs=['srt'],encoding='utf-8',trackLimit=4,completeFileRequired=True,lateCompletion=True,optionalErrorIsolation=True,retainsValidatedCopyOnSourceError=True,sizeLimitBytes=524288),vorbisChannels=[1,2],vorbisSampleRate=48000,vorbisFloorTypes=[1],vorbisCodebookEntryLimit=65536,vorbisSeekPrerollMilliseconds=200,containers=['fmp4','webm'],webm=dict(videoCodecs=['vp8','vp9','av1'],audioCodecs=['opus','vorbis'],knownClusterSizesRequired=True,lacing=False,defaultVideoDurationRequired=True,clusterLimitBytes=16777216),audioCodecs=['aac-lc','opus','vorbis'],opusChannels=[1,2],opusChannelMappingFamilies=[0],opusSampleRate=48000,opusPrerollMilliseconds=80,opusEditListRequired=True,videoCodecs=['h264','hevc','av1','vp9','vp8'],vp9Profiles=[0,2],vp9BitDepths=[8,10],vp9SampleEntries=['vp09'],av1Profiles=['main'],av1BitDepths=[8,10],av1SampleEntries=['av01'],av1SequenceHeaderInConfigurationRequired=True,hevcProfiles=['main','main10'],hevcBitDepths=[8,10],hevcSampleEntries=['hvc1','hev1'],metadataApplied=True,metadata=dict(chapters=True,lateRevision=True,title=True,maxChapters=128),live=False,muxed=False,segments=True,segmentedPlayback=dict(mode='segmented-fmp4-h264-aac-lc',profiles=['segmented-fmp4-h264-aac-lc','segmented-fmp4-hevc-aac-lc','segmented-fmp4-av1-aac-lc','segmented-fmp4-vp9-aac-lc','segmented-fmp4-h264-opus','segmented-fmp4-hevc-opus','segmented-fmp4-av1-opus','segmented-fmp4-vp9-opus'],videoCodecs=['h264','hevc','av1','vp9'],hevcProfiles=['main','main10'],hevcBitDepths=[8,10],hevcSampleEntries=['hvc1','hev1'],av1Profiles=['main'],av1BitDepths=[8,10],av1SampleEntries=['av01'],av1SequenceHeaderInConfigurationRequired=True,vp9Profiles=[0,2],vp9BitDepths=[8,10],vp9SampleEntries=['vp09'],audioCodecs=['aac-lc','opus'],opusChannels=[1,2],opusChannelMappingFamilies=[0],opusSampleRate=48000,opusPrerollMilliseconds=80,opusEditListRequired=True,completeSegmentsRequired=True,discontinuity=False,configurationChanges=False,timestampRebasing=False,live=False,trackCount=2,maxInitBytes=1048576,maxSegmentBytes=16777216,catalog=dict(mode='paged-fmp4-v1',maxPages=128,maxPageBytes=65536,maxResources=8192,maxSegmentsPerTrack=4096,maxOpenResources=8,integrityRequired=True,pageIntegrity='sha256',publishedPagesImmutable=True,retainAllPublishedResourcesUntilRelease=True,validation='probe-with-sessionDirectory'))),
+        schema2Playback=schema2_playback(),
         qtMultiAudioSeek=dict(maxTargetSecondsWhileIncomplete=922337203686,completeSourceByteSeek=True,confirmedRangesOnly=True,mode='confirmed-byte-seek'),
         mediaPreparation=dict(offUi=['probe','start','update','complete'],maxConcurrent=1,responseDeadlineMilliseconds=5000,updatesOffUi=True,cancellableDiskIo=False),
         qtEngineRetirement=dict(maxEngines=16,workerLimit=2,nativeDestroyOffUi=True,softwareRendererFreeOffUi=True,openGlRendererFreeOffUi=False,callbackDataRetained=True,processOwned=True),

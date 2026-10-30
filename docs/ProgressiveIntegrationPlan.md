@@ -105,3 +105,5 @@ SDK 1.36 добавляет [VP9 8/10-bit и Opus mono/stereo в сегмент�
 [Внутренний bounded media cache](ProgressiveCatalogCache.md) добавлен и проверен отдельно: восемь файлов, reader leases, повторное открытие с SHA-256. Это ещё не playback большого каталога: нужны bridge/движки, negotiation SDK и реальные длинные A/V-сценарии.
 
 SDK 1.37 соединяет [каталог, bounded media cache и playback трёх редакций](ProgressiveCatalogPlayback.md). 182–183 ресурса и 90 секунд проверены с декодированием/управлением; предел модели 8192 не выдаётся за playback-тест такого размера. Следующие этапы: WebM/TS-сегменты, muxed A/V, смена конфигурации/live, реальные источники и длительная A/V sync. Harvester не изменяется.
+
+SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](ProgressiveWebmSegments.md) и отдельную capability `paged-webm-v1` во всех трёх редакциях. Проверки охватывают 20 секунд, пять видеопрофилей и три варианта каталога; многочасовая A/V-приёмка этим не закрывается. Следующий этап — MPEG-TS, затем muxed A/V, смена конфигурации/live и реальные источники. Segmented Vorbis требует отдельного профиля с состоянием между сегментами. Harvester не меняется.

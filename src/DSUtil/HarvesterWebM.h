@@ -75,7 +75,7 @@ struct WebMInfo {
     std::string codec;
     std::vector<uint8_t> av1Sequence;
 };
-inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind) {
+inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind,bool headerOnly=false) {
     using namespace webm;WebMInfo result;Element e;
     if(!Header(read,0,prefix,e))throw WebMWaiting();Check(e.id==0x1a45dfa3,"Expected EBML header");
     auto bytes=Body(read,e,prefix,4096);Data header{bytes.data(),bytes.size(),e.data};
@@ -87,6 +87,7 @@ inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind
     const auto next=e.end;if(!Header(read,next,prefix,e))throw WebMWaiting();Check(e.id==0x18538067,"Expected one WebM Segment");
     result.segmentEnd=e.end;uint64_t at=e.data;bool info=false,tracks=false;
     while(at<1048576) {
+        if(headerOnly && at==prefix && info && tracks){result.headerEnd=at;return result;}
         if(!Header(read,at,prefix,e))throw WebMWaiting();
         Check(e.end<=result.segmentEnd,"WebM element exceeds Segment");
         if(e.id==0x1f43b675){Check(info && tracks,"WebM Info/Tracks must precede clusters");result.headerEnd=at;return result;}
@@ -95,6 +96,7 @@ inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind
             Check(!info,"Repeated WebM Info");info=true;result.scale=OptionalNumber(data,0x2ad7b1,1000000);
             Check(result.scale>0 && result.scale<=1000000000 && result.scale%100==0,"Unsupported WebM timestamp scale");
         }else if(e.id==0x1654ae6b) {
+            Check(!headerOnly || info,"Segmented WebM requires Info before Tracks");
             Check(!tracks,"Repeated WebM Tracks");tracks=true;const auto entry=data.One(0xae);
             result.track=entry.One(0xd7).Number();Check(result.track>0 && result.track<=UINT32_MAX,"Invalid WebM track number");
             Check(entry.One(0x83).Number()==uint64_t(kind?2:1),"Wrong WebM track kind");

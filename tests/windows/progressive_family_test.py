@@ -601,6 +601,12 @@ def run(args):
                 time.sleep(.1)
         if args.catalog_playback_only:
             return [dict(contract='actual-paged-catalog-playback',result=exercise_catalog_playback(client,args.fixtures,Path(args.report)/('catalog-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4400+{2:1,35:2,68:3,87:4}[seconds]),profile=profile)) for profile in ('h264','hevc10-opus','av1-10')]
+        if args.webm_segment_playback_only:
+            from progressive_webm_segment_playback import PROFILES as WEBM_PROFILES
+            from progressive_webm_segment_playback import exercise_catalog as exercise_webm_catalog
+            inline=[dict(contract='actual-webm-segmented-playback',result=exercise_segment_playback(client,args.fixtures,Path(args.report)/('webm-segment-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401),profile=profile,webm=True)) for profile in WEBM_PROFILES]
+            paged=[dict(contract='actual-webm-catalog-playback',result=exercise_webm_catalog(client,args.fixtures,Path(args.report)/('webm-catalog-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401 if seconds==2 else 4402),profile=profile)) for profile in ('vp8','vp9-10','av1-10')]
+            return inline+paged
         if args.segment_playback_only:
             return [dict(contract='actual-segmented-playback',result=exercise_segment_playback(client,args.fixtures,Path(args.report)/('segment-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401),profile=profile)) for profile in PLAYBACK_PROFILES]
         if args.segment_only:
@@ -754,6 +760,7 @@ if __name__ == '__main__':
     parser.add_argument('--directory-only',action='store_true')
     parser.add_argument('--segment-only',action='store_true')
     parser.add_argument('--segment-playback-only',action='store_true')
+    parser.add_argument('--webm-segment-playback-only',action='store_true')
     parser.add_argument('--catalog-playback-only',action='store_true')
     parser.add_argument('--multi-only',action='store_true')
     parser.add_argument('--sdk-only', action='store_true')

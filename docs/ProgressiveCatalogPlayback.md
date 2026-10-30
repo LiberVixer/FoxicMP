@@ -131,3 +131,5 @@ GPU retirement и обычных Classic-графов также не объяв
 
 SDK-архив содержит клиент/документацию; новые EXE/установщики в него не входят.
 Исходники трёх приложений доступны в соответствующем git tag проекта.
+
+SDK 1.38 отдельно включает [whole-Cluster WebM с Opus](ProgressiveWebmSegments.md), в том числе `paged-webm-v1`. Это отдельная capability: прежняя fMP4 capability не означает поддержку WebM.

@@ -13,7 +13,7 @@ struct SegmentStage {
 };
 class SegmentStager {
     Snapshot snapshot;
-    bool validatedHevc=false,validatedAv1=false,validatedVp9=false,validatedOpus=false;
+    bool validatedHevc=false,validatedAv1=false,validatedVp9=false,validatedOpus=false,validatedWebm=false;
     std::shared_ptr<ResourceSource> source;
     mutable std::mutex mutex;
     std::atomic<bool> cancelled{false};
@@ -70,10 +70,27 @@ class SegmentStager {
         out.bytes.insert(out.bytes.end(),payload.bytes.begin(),payload.bytes.end());
         out.initializationResource=initialization;out.resource=segment.resource;
         if(demux) {
-            Require(track.container=="fmp4" && (track.kind=="video" || track.kind=="audio"),"track","Only single-track fMP4 packet indexing is enabled","unsupported_media");
+            const bool webm=track.container=="webm" && validatedWebm;
+            Require((track.container=="fmp4" || webm) && (track.kind=="video" || track.kind=="audio"),"track","Only fMP4 or bridge-validated single-track WebM indexing is enabled","unsupported_media");
             Require(snapshot.numerator==1 && snapshot.denominator==10000000,"timeline.timebase","Segment index requires the 100 ns timebase","unsupported_media");
-            Require(track.codec.empty() || (track.kind=="video"?(track.codec=="h264" || (validatedHevc && track.codec=="hevc") || (validatedAv1 && track.codec=="av1") || (validatedVp9 && track.codec=="vp9")):(track.codec=="aac-lc" || (validatedOpus && track.codec=="opus"))),"track.codecHint","Segment index requires H.264/AAC or a bridge-validated HEVC/AV1/VP9/Opus initialization","unsupported_media");
+            Require(track.codec.empty() || (webm?(track.kind=="video"?(track.codec=="vp8" || track.codec=="vp9" || track.codec=="av1"):track.codec=="opus"):
+                (track.kind=="video"?(track.codec=="h264" || (validatedHevc && track.codec=="hevc") || (validatedAv1 && track.codec=="av1") || (validatedVp9 && track.codec=="vp9")):(track.codec=="aac-lc" || (validatedOpus && track.codec=="opus")))),"track.codecHint","Unsupported segment codec profile","unsupported_media");
             try {
+                if(webm) {
+                    const auto initSize=out.bytes.size()-payload.bytes.size();
+                    harvester::webm::Check(initSize>0,"WebM segments require an external initialization");
+                    uint64_t packets=0;
+                    for(size_t at=initSize;at<out.bytes.size();) {
+                        harvester::webm::Element element;
+                        harvester::webm::Check(harvester::webm::Header(reinterpret_cast<const uint8_t*>(out.bytes.data()+at),out.bytes.size()-at,element) &&
+                            element.id==0x1f43b675 && !element.unknown && element.end<=out.bytes.size()-at,"WebM media may contain only whole known-size Clusters");
+                        const harvester::webm::Data cluster{reinterpret_cast<const uint8_t*>(out.bytes.data()+at+size_t(element.data)),size_t(element.size),0};
+                        for(const auto& child:cluster.Children(65536))if(child.id==0xa3 || child.id==0xa0) {
+                            Require(packets<MaxSamples,"segment","Segment packet count exceeds its bound","segment-too-large");++packets;
+                        }
+                        at+=size_t(element.end);
+                    }
+                }else {
                 // Bound allocation before FragmentIndex handles the trun tables.
                 uint64_t packets=0;harvester::BoxData data{reinterpret_cast<const uint8_t*>(out.bytes.data()),out.bytes.size()};
                 for(const auto& box:data.Children())if(box.first==harvester::FourCC("moof")) {
@@ -84,15 +101,17 @@ class SegmentStager {
                         Require(count<=MaxSamples-packets,"trun","Segment packet count exceeds its bound","segment-too-large");packets+=count;
                     }
                 }
+                }
                 harvester::FragmentIndex indexer;
                 indexer.Update([&](uint64_t at,void* buffer,size_t count){
                     if(at>out.bytes.size() || count>out.bytes.size()-size_t(at))return false;
                     std::memcpy(buffer,out.bytes.data()+size_t(at),count);return true;
-                },out.bytes.size(),track.kind=="audio"?1:0,true,0,validatedHevc,validatedAv1,validatedVp9,validatedOpus);
+                },out.bytes.size(),track.kind=="audio"?1:0,true,0,validatedHevc,validatedAv1,validatedVp9,validatedOpus,webm);
                 Require(indexer.Initialized() && !indexer.Samples().empty(),"segment","Segment has no indexed packets","unsupported_media");
+                Require(indexer.Samples().size()<=MaxSamples,"segment","Segment packet count exceeds its bound","segment-too-large");
                 out.samples=indexer.Samples();
             }catch(const Error&){throw;}
-             catch(const std::exception&){return result("unsupported_media","Invalid or unsupported fragmented MP4 segment");}
+             catch(const std::exception&){return result("unsupported_media","Invalid or unsupported media segment");}
         }
         const auto final=source->read(segment.resource,0,&unused,0);
         if(!final.data())return result(final.code.c_str(),final.reason.c_str());
@@ -100,8 +119,8 @@ class SegmentStager {
     }
 public:
     // The playback bridge validates actual codec configuration before enabling HEVC/AV1/VP9/Opus.
-    SegmentStager(const Snapshot& value,const std::shared_ptr<ResourceSource>& io,bool allowValidatedHevc=false,bool allowValidatedAv1=false,bool allowValidatedVp9=false,bool allowValidatedOpus=false)
-        :snapshot(value),validatedHevc(allowValidatedHevc),validatedAv1(allowValidatedAv1),validatedVp9(allowValidatedVp9),validatedOpus(allowValidatedOpus),source(io) {}
+    SegmentStager(const Snapshot& value,const std::shared_ptr<ResourceSource>& io,bool allowValidatedHevc=false,bool allowValidatedAv1=false,bool allowValidatedVp9=false,bool allowValidatedOpus=false,bool allowValidatedWebm=false)
+        :snapshot(value),validatedHevc(allowValidatedHevc),validatedAv1(allowValidatedAv1),validatedVp9(allowValidatedVp9),validatedOpus(allowValidatedOpus),validatedWebm(allowValidatedWebm),source(io) {}
     SegmentStager(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& json)
         :snapshot(Parse(json)),source(std::make_shared<ResourceSource>(root,registry,json)) {}
     void publish(const std::string& json) {

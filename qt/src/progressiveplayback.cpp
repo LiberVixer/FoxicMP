@@ -259,7 +259,7 @@ void Window::updateProgressive() {
     // The external audio demuxer inherits lavf options. A forced mov/matroska
     // format would send the other container to the wrong demuxer in mixed pairs.
     // Both headers have already been validated by the per-track media bridge.
-    const QString demuxer=mixed?QString():details.value("mediaMode").toString().startsWith("separate-webm-")?"matroska":"mov";
+    const QString demuxer=mixed?QString():details.value("videoContainer").toString()=="webm"?"matroska":"mov";
     QStringList audioFiles;
     if(media.size()>2)for(int i=1;i<media.size();++i){const auto track=media[i].toObject();if(!track.value("ready").toBool() || progressiveAudioLoadErrors.contains(track.value("id").toString()))continue;audioFiles.append(url+(i==1?"/audio":"/track/"+QString::number(i)));progressiveAttachedAudio.insert(track.value("id").toString());}
     QMap<QString,QString> options{{"audio-files-append",url+"/audio"}};

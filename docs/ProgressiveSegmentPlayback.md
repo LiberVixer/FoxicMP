@@ -72,3 +72,5 @@ SDK 1.34 отдельно расширяет этот профиль [HEVC Main/
 SDK 1.35 отдельно добавляет [сегментный AV1 Main 8/10-bit с AAC-LC](ProgressiveSegmentAv1.md).
 
 SDK 1.36 отдельно добавляет [VP9 8/10-bit и пары H.264/HEVC/AV1/VP9 с Opus mono/stereo](ProgressiveSegmentVp9Opus.md).
+
+SDK 1.38 отдельно включает [whole-Cluster WebM с Opus](ProgressiveWebmSegments.md), в том числе `paged-webm-v1`. Это отдельная capability: прежняя fMP4 capability не означает поддержку WebM.

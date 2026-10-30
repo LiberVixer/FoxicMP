@@ -22,6 +22,10 @@ class V2PreviewSession:
         self.segments_supported=caps.get('schema2Playback',{}).get('segmentedPlayback',{}).get('mode')=='segmented-fmp4-h264-aac-lc'
         self.segment_profiles=set(caps.get('schema2Playback',{}).get('segmentedPlayback',{}).get('profiles',[]))
         self.catalog_supported=caps.get('schema2Playback',{}).get('segmentedPlayback',{}).get('catalog',{}).get('mode')=='paged-fmp4-v1'
+        webm=caps.get('schema2Playback',{}).get('segmentedPlayback',{}).get('webm',{})
+        self.webm_segments_supported=webm.get('mode')=='segmented-webm-vp9-opus'
+        self.webm_segment_profiles=set(webm.get('profiles',[]))
+        self.webm_catalog_supported=webm.get('catalog',{}).get('mode')=='paged-webm-v1'
         self.integrity_supported=caps.get('schema2Playback',{}).get('integrity',{}).get('algorithm')=='sha256'
         if 2 not in caps.get('playbackSchemaVersions',[]) or caps.get('schema2Playback',{}).get('mode')!='separate-fmp4-h264-aac-lc' or caps.get('readerLeaseProtocol')!=1:
             raise RuntimeError('Player lacks the bounded schema-2 media profile; update the player')
@@ -33,21 +37,32 @@ class V2PreviewSession:
         with self.lock:
             if self.closed:raise RuntimeError('Preview was detached; create a new V2PreviewSession')
             current=copy.deepcopy(snapshot);counter(current['generation']);revision=counter(current['revision'])
-            if 'segmentCatalog' in current and not self.catalog_supported:
-                raise RuntimeError('Player lacks the paged fMP4 catalog playback profile; update the player')
-            if any('segments' in t.get('source',{}) for t in current.get('tracks',[])) and not self.segments_supported:
-                raise RuntimeError('Player lacks the segmented fMP4 playback profile; update the player')
             segment_tracks=[t for t in current.get('tracks',[]) if 'segments' in t.get('source',{})]
-            opus_requested=any(t.get('kind')=='audio' and t.get('codecHint')=='opus' for t in segment_tracks)
-            audio_codec='opus' if opus_requested else 'aac-lc'
-            for codec in ('hevc','av1','vp9'):
-                if any(t.get('kind')=='video' and t.get('codecHint')==codec for t in segment_tracks) and 'segmented-fmp4-'+codec+'-'+audio_codec not in self.segment_profiles:
-                    raise RuntimeError('Player lacks the segmented '+codec.upper()+'/'+audio_codec+' playback profile; update the player')
-            if opus_requested:
+            webm_segments=any(t.get('containerHint')=='webm' for t in segment_tracks)
+            if webm_segments:
+                if len(segment_tracks)!=2 or any(t.get('containerHint')!='webm' for t in segment_tracks):
+                    raise RuntimeError('Segmented WebM requires separate WebM video and audio tracks')
                 video=next((t.get('codecHint') for t in segment_tracks if t.get('kind')=='video'),None)
-                profiles=['segmented-fmp4-'+video+'-opus'] if video in ('h264','hevc','av1','vp9') else [p for p in self.segment_profiles if p.endswith('-opus')]
-                if not profiles or not any(p in self.segment_profiles for p in profiles):
-                    raise RuntimeError('Player lacks the requested segmented Opus playback profile; update the player')
+                audio=next((t.get('codecHint') for t in segment_tracks if t.get('kind')=='audio'),None)
+                if not self.webm_segments_supported or audio not in (None,'','opus') or (video and 'segmented-webm-'+video+'-opus' not in self.webm_segment_profiles):
+                    raise RuntimeError('Player lacks the requested segmented WebM/Opus playback profile; update the player')
+                if 'segmentCatalog' in current and not self.webm_catalog_supported:
+                    raise RuntimeError('Player lacks the paged WebM catalog playback profile; update the player')
+            else:
+                if 'segmentCatalog' in current and not self.catalog_supported:
+                    raise RuntimeError('Player lacks the paged fMP4 catalog playback profile; update the player')
+                if any('segments' in t.get('source',{}) for t in current.get('tracks',[])) and not self.segments_supported:
+                    raise RuntimeError('Player lacks the segmented fMP4 playback profile; update the player')
+                opus_requested=any(t.get('kind')=='audio' and t.get('codecHint')=='opus' for t in segment_tracks)
+                audio_codec='opus' if opus_requested else 'aac-lc'
+                for codec in ('hevc','av1','vp9'):
+                    if any(t.get('kind')=='video' and t.get('codecHint')==codec for t in segment_tracks) and 'segmented-fmp4-'+codec+'-'+audio_codec not in self.segment_profiles:
+                        raise RuntimeError('Player lacks the segmented '+codec.upper()+'/'+audio_codec+' playback profile; update the player')
+                if opus_requested:
+                    video=next((t.get('codecHint') for t in segment_tracks if t.get('kind')=='video'),None)
+                    profiles=['segmented-fmp4-'+video+'-opus'] if video in ('h264','hevc','av1','vp9') else [p for p in self.segment_profiles if p.endswith('-opus')]
+                    if not profiles or not any(p in self.segment_profiles for p in profiles):
+                        raise RuntimeError('Player lacks the requested segmented Opus playback profile; update the player')
             if any('integrity' in r for r in current.get('resources',[])) and not self.integrity_supported:
                 raise RuntimeError('Player lacks SHA-256 resource integrity; update the player')
             if self.last is not None:

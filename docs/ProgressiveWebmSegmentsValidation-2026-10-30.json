@@ -1,0 +1,4829 @@
+{
+  "sdkVersion": "1.38",
+  "date": "2026-10-30",
+  "mode": "segmented-webm-vp9-opus",
+  "actualPlayback": {
+    "linuxQt": [
+      {
+        "profile": "vp8",
+        "videoCodec": "vp8",
+        "audioCodec": "opus",
+        "channels": 2,
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 0,
+              "readerId": "bdb7ab3d48a5435de68de512ee079fd2",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 3.04,
+              "readerId": "bdb7ab3d48a5435de68de512ee079fd2",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 3.08,
+              "readerId": "bdb7ab3d48a5435de68de512ee079fd2",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 2,
+              "readerId": "bdb7ab3d48a5435de68de512ee079fd2",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "327680"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 4.08,
+              "readerId": "bdb7ab3d48a5435de68de512ee079fd2",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "580000"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 13.08,
+              "readerId": "bdb7ab3d48a5435de68de512ee079fd2",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "417470",
+                "video": "774125"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "readerId": "bdb7ab3d48a5435de68de512ee079fd2",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "vp8"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "vp9-8",
+        "videoCodec": "vp9",
+        "audioCodec": "opus",
+        "channels": 2,
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 0,
+              "readerId": "6b1a33b687e2b50856cb506eccf3c7c5",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3.04,
+              "readerId": "6b1a33b687e2b50856cb506eccf3c7c5",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3.08,
+              "readerId": "6b1a33b687e2b50856cb506eccf3c7c5",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 2,
+              "readerId": "6b1a33b687e2b50856cb506eccf3c7c5",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 4.04,
+              "readerId": "6b1a33b687e2b50856cb506eccf3c7c5",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "503234"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 13.08,
+              "readerId": "6b1a33b687e2b50856cb506eccf3c7c5",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "417470",
+                "video": "668815"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "readerId": "6b1a33b687e2b50856cb506eccf3c7c5",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "vp9"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "vp9-10",
+        "videoCodec": "vp9",
+        "audioCodec": "opus",
+        "channels": 2,
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 0,
+              "readerId": "07c29d3d5334556cb2c7ca15f451e09c",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3,
+              "readerId": "07c29d3d5334556cb2c7ca15f451e09c",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3,
+              "readerId": "07c29d3d5334556cb2c7ca15f451e09c",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 2,
+              "readerId": "07c29d3d5334556cb2c7ca15f451e09c",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 4.04,
+              "readerId": "07c29d3d5334556cb2c7ca15f451e09c",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "504811"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 13.16,
+              "readerId": "07c29d3d5334556cb2c7ca15f451e09c",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "417470",
+                "video": "671545"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "readerId": "07c29d3d5334556cb2c7ca15f451e09c",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "vp9"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-8",
+        "videoCodec": "av1",
+        "audioCodec": "opus",
+        "channels": 2,
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 0,
+              "readerId": "c870756ba62ace672337cd8f39da9c67",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3,
+              "readerId": "c870756ba62ace672337cd8f39da9c67",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3.12,
+              "readerId": "c870756ba62ace672337cd8f39da9c67",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 2,
+              "readerId": "c870756ba62ace672337cd8f39da9c67",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 4.04,
+              "readerId": "c870756ba62ace672337cd8f39da9c67",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "524288"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 13.040000000000001,
+              "readerId": "c870756ba62ace672337cd8f39da9c67",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "417470",
+                "video": "714069"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "readerId": "c870756ba62ace672337cd8f39da9c67",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "av1"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-10",
+        "videoCodec": "av1",
+        "audioCodec": "opus",
+        "channels": 2,
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 0,
+              "readerId": "af5e09c47df5256880c20e4876d131eb",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3,
+              "readerId": "af5e09c47df5256880c20e4876d131eb",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3,
+              "readerId": "af5e09c47df5256880c20e4876d131eb",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 2,
+              "readerId": "af5e09c47df5256880c20e4876d131eb",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 4.04,
+              "readerId": "af5e09c47df5256880c20e4876d131eb",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "524288"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 13.040000000000001,
+              "readerId": "af5e09c47df5256880c20e4876d131eb",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "417470",
+                "video": "710346"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "readerId": "af5e09c47df5256880c20e4876d131eb",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "av1"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "vp8",
+        "networkRequests": 0,
+        "result": "PASS",
+        "released": true,
+        "missingPageRetry": true,
+        "pausedSeek": true,
+        "phases": [
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 3.08,
+              "readerId": "5c1565af3f44bdd6496f94d044f8b3d5",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "playing",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 3.08,
+              "readerId": "5c1565af3f44bdd6496f94d044f8b3d5",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "forward-seek-after-page-publication",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "655360"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 14,
+              "readerId": "5c1565af3f44bdd6496f94d044f8b3d5",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "decode-after-forward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "655360"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 15,
+              "readerId": "5c1565af3f44bdd6496f94d044f8b3d5",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "playing",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "pause-before-backward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "655360"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 15.040000000000001,
+              "readerId": "5c1565af3f44bdd6496f94d044f8b3d5",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "backward-seek-reopens-evicted-media",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "458752",
+                "video": "786432"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 2,
+              "readerId": "5c1565af3f44bdd6496f94d044f8b3d5",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1298413"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 19.12,
+              "readerId": "5c1565af3f44bdd6496f94d044f8b3d5",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "buffering",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1298413"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "readerId": "5c1565af3f44bdd6496f94d044f8b3d5",
+              "released": true,
+              "revision": "3",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "finished",
+              "videoCodec": "vp8"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "vp9-10",
+        "networkRequests": 0,
+        "result": "PASS",
+        "released": true,
+        "missingPageRetry": true,
+        "pausedSeek": true,
+        "phases": [
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3.08,
+              "readerId": "8a9cf2a2207ed8a15f367bd69dd939d8",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3.08,
+              "readerId": "8a9cf2a2207ed8a15f367bd69dd939d8",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "forward-seek-after-page-publication",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 14,
+              "readerId": "8a9cf2a2207ed8a15f367bd69dd939d8",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "decode-after-forward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 15,
+              "readerId": "8a9cf2a2207ed8a15f367bd69dd939d8",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "pause-before-backward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 15,
+              "readerId": "8a9cf2a2207ed8a15f367bd69dd939d8",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "backward-seek-reopens-evicted-media",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "458752",
+                "video": "720896"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 2,
+              "readerId": "8a9cf2a2207ed8a15f367bd69dd939d8",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1130297"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 19.080000000000002,
+              "readerId": "8a9cf2a2207ed8a15f367bd69dd939d8",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "buffering",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1130297"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "readerId": "8a9cf2a2207ed8a15f367bd69dd939d8",
+              "released": true,
+              "revision": "3",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "finished",
+              "videoCodec": "vp9"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-10",
+        "networkRequests": 0,
+        "result": "PASS",
+        "released": true,
+        "missingPageRetry": true,
+        "pausedSeek": true,
+        "phases": [
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3.04,
+              "readerId": "75533b59ca03bc8680e7704ebd743358",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3.04,
+              "readerId": "75533b59ca03bc8680e7704ebd743358",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "forward-seek-after-page-publication",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 14,
+              "readerId": "75533b59ca03bc8680e7704ebd743358",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "decode-after-forward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 15,
+              "readerId": "75533b59ca03bc8680e7704ebd743358",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "pause-before-backward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 15.040000000000001,
+              "readerId": "75533b59ca03bc8680e7704ebd743358",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "backward-seek-reopens-evicted-media",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "458752",
+                "video": "720896"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 2,
+              "readerId": "75533b59ca03bc8680e7704ebd743358",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1169098"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 19.12,
+              "readerId": "75533b59ca03bc8680e7704ebd743358",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1169098"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "readerId": "75533b59ca03bc8680e7704ebd743358",
+              "released": true,
+              "revision": "3",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "finished",
+              "videoCodec": "av1"
+            }
+          }
+        ]
+      }
+    ],
+    "windowsQt": [
+      {
+        "profile": "vp8",
+        "videoCodec": "vp8",
+        "audioCodec": "opus",
+        "channels": 2,
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 0,
+              "readerId": "b1018c0b919eb59691b9b16d1a7604fe",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 3.08,
+              "readerId": "b1018c0b919eb59691b9b16d1a7604fe",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 3.12,
+              "readerId": "b1018c0b919eb59691b9b16d1a7604fe",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 2,
+              "readerId": "b1018c0b919eb59691b9b16d1a7604fe",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "327680"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 4,
+              "readerId": "b1018c0b919eb59691b9b16d1a7604fe",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "580000"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 13.040000000000001,
+              "readerId": "b1018c0b919eb59691b9b16d1a7604fe",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "417470",
+                "video": "774125"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "readerId": "b1018c0b919eb59691b9b16d1a7604fe",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "vp8"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "vp9-8",
+        "videoCodec": "vp9",
+        "audioCodec": "opus",
+        "channels": 2,
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 0,
+              "readerId": "9a0754f83559538a9b0fcb15e0d260a5",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3.08,
+              "readerId": "9a0754f83559538a9b0fcb15e0d260a5",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3.12,
+              "readerId": "9a0754f83559538a9b0fcb15e0d260a5",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 2,
+              "readerId": "9a0754f83559538a9b0fcb15e0d260a5",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 4,
+              "readerId": "9a0754f83559538a9b0fcb15e0d260a5",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "503234"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 13.08,
+              "readerId": "9a0754f83559538a9b0fcb15e0d260a5",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "417470",
+                "video": "668815"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "readerId": "9a0754f83559538a9b0fcb15e0d260a5",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "vp9"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "vp9-10",
+        "videoCodec": "vp9",
+        "audioCodec": "opus",
+        "channels": 2,
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 0,
+              "readerId": "97678ea23fbed2b4277782834f26abed",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3.08,
+              "readerId": "97678ea23fbed2b4277782834f26abed",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3.16,
+              "readerId": "97678ea23fbed2b4277782834f26abed",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 2,
+              "readerId": "97678ea23fbed2b4277782834f26abed",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 4,
+              "readerId": "97678ea23fbed2b4277782834f26abed",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "504811"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 13.040000000000001,
+              "readerId": "97678ea23fbed2b4277782834f26abed",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "417470",
+                "video": "671545"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "readerId": "97678ea23fbed2b4277782834f26abed",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "vp9"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-8",
+        "videoCodec": "av1",
+        "audioCodec": "opus",
+        "channels": 2,
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 0,
+              "readerId": "2a471be1782faef31753ec096c9ad451",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3.12,
+              "readerId": "2a471be1782faef31753ec096c9ad451",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3.16,
+              "readerId": "2a471be1782faef31753ec096c9ad451",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 2,
+              "readerId": "2a471be1782faef31753ec096c9ad451",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 4,
+              "readerId": "2a471be1782faef31753ec096c9ad451",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "524288"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 13.040000000000001,
+              "readerId": "2a471be1782faef31753ec096c9ad451",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "417470",
+                "video": "714069"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "readerId": "2a471be1782faef31753ec096c9ad451",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "av1"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-10",
+        "videoCodec": "av1",
+        "audioCodec": "opus",
+        "channels": 2,
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 0,
+              "readerId": "3e9fb63ba2bdc083ef5189f4a09f1b8b",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3.08,
+              "readerId": "3e9fb63ba2bdc083ef5189f4a09f1b8b",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3.12,
+              "readerId": "3e9fb63ba2bdc083ef5189f4a09f1b8b",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 2,
+              "readerId": "3e9fb63ba2bdc083ef5189f4a09f1b8b",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 4,
+              "readerId": "3e9fb63ba2bdc083ef5189f4a09f1b8b",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "524288"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 13.08,
+              "readerId": "3e9fb63ba2bdc083ef5189f4a09f1b8b",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "417470",
+                "video": "710346"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "readerId": "3e9fb63ba2bdc083ef5189f4a09f1b8b",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "av1"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "vp8",
+        "networkRequests": 0,
+        "result": "PASS",
+        "released": true,
+        "missingPageRetry": true,
+        "pausedSeek": true,
+        "phases": [
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 3.08,
+              "readerId": "be19ba6a0c96e4e1933d97f2b2260c15",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "playing",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 3.12,
+              "readerId": "be19ba6a0c96e4e1933d97f2b2260c15",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "forward-seek-after-page-publication",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "655360"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 14,
+              "readerId": "be19ba6a0c96e4e1933d97f2b2260c15",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "decode-after-forward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "655360"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 15,
+              "readerId": "be19ba6a0c96e4e1933d97f2b2260c15",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "playing",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "pause-before-backward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "655360"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 15.040000000000001,
+              "readerId": "be19ba6a0c96e4e1933d97f2b2260c15",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "backward-seek-reopens-evicted-media",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "458752",
+                "video": "786432"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 2,
+              "readerId": "be19ba6a0c96e4e1933d97f2b2260c15",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1298413"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "positionSeconds": 19.04,
+              "readerId": "be19ba6a0c96e4e1933d97f2b2260c15",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "buffering",
+              "videoCodec": "vp8"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1298413"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp8-opus",
+              "readerId": "be19ba6a0c96e4e1933d97f2b2260c15",
+              "released": true,
+              "revision": "3",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "finished",
+              "videoCodec": "vp8"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "vp9-10",
+        "networkRequests": 0,
+        "result": "PASS",
+        "released": true,
+        "missingPageRetry": true,
+        "pausedSeek": true,
+        "phases": [
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3.04,
+              "readerId": "fa1b411f0ca2360f61253d3c6d77dcc0",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 3.08,
+              "readerId": "fa1b411f0ca2360f61253d3c6d77dcc0",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "forward-seek-after-page-publication",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 14,
+              "readerId": "fa1b411f0ca2360f61253d3c6d77dcc0",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "decode-after-forward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 15.08,
+              "readerId": "fa1b411f0ca2360f61253d3c6d77dcc0",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "playing",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "pause-before-backward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 15.120000000000001,
+              "readerId": "fa1b411f0ca2360f61253d3c6d77dcc0",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "backward-seek-reopens-evicted-media",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "458752",
+                "video": "720896"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 2,
+              "readerId": "fa1b411f0ca2360f61253d3c6d77dcc0",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1130297"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "positionSeconds": 19.04,
+              "readerId": "fa1b411f0ca2360f61253d3c6d77dcc0",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "buffering",
+              "videoCodec": "vp9"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1130297"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-vp9-opus",
+              "readerId": "fa1b411f0ca2360f61253d3c6d77dcc0",
+              "released": true,
+              "revision": "3",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "finished",
+              "videoCodec": "vp9"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-10",
+        "networkRequests": 0,
+        "result": "PASS",
+        "released": true,
+        "missingPageRetry": true,
+        "pausedSeek": true,
+        "phases": [
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3,
+              "readerId": "216743e4c549e235e091bc3056b36b24",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 3.04,
+              "readerId": "216743e4c549e235e091bc3056b36b24",
+              "released": false,
+              "revision": "1",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 0,
+                "resourceCount": 27
+              },
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "forward-seek-after-page-publication",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 14,
+              "readerId": "216743e4c549e235e091bc3056b36b24",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "decode-after-forward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 15.08,
+              "readerId": "216743e4c549e235e091bc3056b36b24",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "pause-before-backward-seek",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "393216",
+                "video": "589824"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 15.120000000000001,
+              "readerId": "216743e4c549e235e091bc3056b36b24",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "backward-seek-reopens-evicted-media",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "458752",
+                "video": "720896"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 2,
+              "readerId": "216743e4c549e235e091bc3056b36b24",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "audioCodec": "opus",
+              "availableSeconds": 20,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1169098"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "positionSeconds": 19.04,
+              "readerId": "216743e4c549e235e091bc3056b36b24",
+              "released": false,
+              "revision": "2",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "audioCodec": "opus",
+              "decoderIoBytes": {
+                "audio": "745150",
+                "video": "1169098"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-webm-av1-opus",
+              "readerId": "216743e4c549e235e091bc3056b36b24",
+              "released": true,
+              "revision": "3",
+              "segmentCatalog": {
+                "integrityRequired": true,
+                "maxOpenResources": 8,
+                "mode": "paged-webm-v1",
+                "pageCount": 1,
+                "resourceCount": 43
+              },
+              "state": "finished",
+              "videoCodec": "av1"
+            }
+          }
+        ]
+      }
+    ],
+    "windowsClassic": [
+      {
+        "contract": "actual-webm-segmented-playback",
+        "result": {
+          "profile": "vp8",
+          "videoCodec": "vp8",
+          "audioCodec": "opus",
+          "channels": 2,
+          "networkRequests": 0,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "released": true,
+          "phases": [
+            {
+              "phase": "gap-stops-contiguous-prefix",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fb4455fdfed913645c9327701cd63321",
+                "generation": "1",
+                "revision": "1",
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "0",
+                  "audio": "0"
+                },
+                "positionSeconds": 0.0,
+                "availableSeconds": 5.0
+              }
+            },
+            {
+              "phase": "playing-before-complete",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fb4455fdfed913645c9327701cd63321",
+                "generation": "1",
+                "revision": "2",
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "238192",
+                  "audio": "109071"
+                },
+                "positionSeconds": 3.0199337,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "user-pause",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fb4455fdfed913645c9327701cd63321",
+                "generation": "1",
+                "revision": "2",
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "239336",
+                  "audio": "109413"
+                },
+                "positionSeconds": 3.0199337,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fb4455fdfed913645c9327701cd63321",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "243831",
+                  "audio": "117657"
+                },
+                "positionSeconds": 2.0,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fb4455fdfed913645c9327701cd63321",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "447981",
+                  "audio": "203607"
+                },
+                "positionSeconds": 4.1209534,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "unfinished-tail-waits-not-eof",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fb4455fdfed913645c9327701cd63321",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "623450",
+                  "audio": "333911"
+                },
+                "positionSeconds": 13.0269618,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "explicit-complete-and-natural-eof",
+              "status": {
+                "state": "finished",
+                "error": "",
+                "generation": "1",
+                "revision": "4",
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "816459",
+                  "audio": "420675"
+                },
+                "released": true,
+                "readerId": "fb4455fdfed913645c9327701cd63321"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "contract": "actual-webm-segmented-playback",
+        "result": {
+          "profile": "vp9-8",
+          "videoCodec": "vp9",
+          "audioCodec": "opus",
+          "channels": 2,
+          "networkRequests": 0,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "released": true,
+          "phases": [
+            {
+              "phase": "gap-stops-contiguous-prefix",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "261f5d7022d32295628ceaaefb53e7e1",
+                "generation": "1",
+                "revision": "1",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "0",
+                  "audio": "0"
+                },
+                "positionSeconds": 0.0,
+                "availableSeconds": 5.0
+              }
+            },
+            {
+              "phase": "playing-before-complete",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "261f5d7022d32295628ceaaefb53e7e1",
+                "generation": "1",
+                "revision": "2",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "204048",
+                  "audio": "109413"
+                },
+                "positionSeconds": 3.0585047,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "user-pause",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "261f5d7022d32295628ceaaefb53e7e1",
+                "generation": "1",
+                "revision": "2",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "205598",
+                  "audio": "110099"
+                },
+                "positionSeconds": 3.0585047,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "261f5d7022d32295628ceaaefb53e7e1",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "205598",
+                  "audio": "124879"
+                },
+                "positionSeconds": 2.0,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "261f5d7022d32295628ceaaefb53e7e1",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "384522",
+                  "audio": "203612"
+                },
+                "positionSeconds": 4.0814074,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "unfinished-tail-waits-not-eof",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "261f5d7022d32295628ceaaefb53e7e1",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "525561",
+                  "audio": "334597"
+                },
+                "positionSeconds": 13.0318843,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "explicit-complete-and-natural-eof",
+              "status": {
+                "state": "finished",
+                "error": "",
+                "generation": "1",
+                "revision": "4",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "690026",
+                  "audio": "421361"
+                },
+                "released": true,
+                "readerId": "261f5d7022d32295628ceaaefb53e7e1"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "contract": "actual-webm-segmented-playback",
+        "result": {
+          "profile": "vp9-10",
+          "videoCodec": "vp9",
+          "audioCodec": "opus",
+          "channels": 2,
+          "networkRequests": 0,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "released": true,
+          "phases": [
+            {
+              "phase": "gap-stops-contiguous-prefix",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "2037eca585bc350b56ffd1e26841a063",
+                "generation": "1",
+                "revision": "1",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "0",
+                  "audio": "0"
+                },
+                "positionSeconds": 0.0,
+                "availableSeconds": 5.0
+              }
+            },
+            {
+              "phase": "playing-before-complete",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "2037eca585bc350b56ffd1e26841a063",
+                "generation": "1",
+                "revision": "2",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "203738",
+                  "audio": "109413"
+                },
+                "positionSeconds": 3.0417932,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "user-pause",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "2037eca585bc350b56ffd1e26841a063",
+                "generation": "1",
+                "revision": "2",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "203738",
+                  "audio": "109413"
+                },
+                "positionSeconds": 3.0417932,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "2037eca585bc350b56ffd1e26841a063",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "205472",
+                  "audio": "113538"
+                },
+                "positionSeconds": 2.0,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "2037eca585bc350b56ffd1e26841a063",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "384348",
+                  "audio": "202584"
+                },
+                "positionSeconds": 4.0003639,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "unfinished-tail-waits-not-eof",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "2037eca585bc350b56ffd1e26841a063",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "526632",
+                  "audio": "334256"
+                },
+                "positionSeconds": 13.0451484,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "explicit-complete-and-natural-eof",
+              "status": {
+                "state": "finished",
+                "error": "",
+                "generation": "1",
+                "revision": "4",
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "692250",
+                  "audio": "421020"
+                },
+                "released": true,
+                "readerId": "2037eca585bc350b56ffd1e26841a063"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "contract": "actual-webm-segmented-playback",
+        "result": {
+          "profile": "av1-8",
+          "videoCodec": "av1",
+          "audioCodec": "opus",
+          "channels": 2,
+          "networkRequests": 0,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "released": true,
+          "phases": [
+            {
+              "phase": "gap-stops-contiguous-prefix",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "8900015b18f676e3e14c38d9e9f067f0",
+                "generation": "1",
+                "revision": "1",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "0",
+                  "audio": "0"
+                },
+                "positionSeconds": 0.0,
+                "availableSeconds": 5.0
+              }
+            },
+            {
+              "phase": "playing-before-complete",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "8900015b18f676e3e14c38d9e9f067f0",
+                "generation": "1",
+                "revision": "2",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "185901",
+                  "audio": "109758"
+                },
+                "positionSeconds": 3.0712485,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "user-pause",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "8900015b18f676e3e14c38d9e9f067f0",
+                "generation": "1",
+                "revision": "2",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "185901",
+                  "audio": "110099"
+                },
+                "positionSeconds": 3.0712485,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "8900015b18f676e3e14c38d9e9f067f0",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "189953",
+                  "audio": "123500"
+                },
+                "positionSeconds": 2.0,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "8900015b18f676e3e14c38d9e9f067f0",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "343892",
+                  "audio": "202914"
+                },
+                "positionSeconds": 4.0007947,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "unfinished-tail-waits-not-eof",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "8900015b18f676e3e14c38d9e9f067f0",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "532660",
+                  "audio": "334937"
+                },
+                "positionSeconds": 13.0474153,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "explicit-complete-and-natural-eof",
+              "status": {
+                "state": "finished",
+                "error": "",
+                "generation": "1",
+                "revision": "4",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "709150",
+                  "audio": "421701"
+                },
+                "released": true,
+                "readerId": "8900015b18f676e3e14c38d9e9f067f0"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "contract": "actual-webm-segmented-playback",
+        "result": {
+          "profile": "av1-10",
+          "videoCodec": "av1",
+          "audioCodec": "opus",
+          "channels": 2,
+          "networkRequests": 0,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "released": true,
+          "phases": [
+            {
+              "phase": "gap-stops-contiguous-prefix",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "30a021de564ae35325eb797ea1b4938e",
+                "generation": "1",
+                "revision": "1",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "0",
+                  "audio": "0"
+                },
+                "positionSeconds": 0.0,
+                "availableSeconds": 5.0
+              }
+            },
+            {
+              "phase": "playing-before-complete",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "30a021de564ae35325eb797ea1b4938e",
+                "generation": "1",
+                "revision": "2",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "184790",
+                  "audio": "109758"
+                },
+                "positionSeconds": 3.0766,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "user-pause",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "30a021de564ae35325eb797ea1b4938e",
+                "generation": "1",
+                "revision": "2",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "185948",
+                  "audio": "110439"
+                },
+                "positionSeconds": 3.0766,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "30a021de564ae35325eb797ea1b4938e",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "188931",
+                  "audio": "114570"
+                },
+                "positionSeconds": 2.0,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "30a021de564ae35325eb797ea1b4938e",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "341801",
+                  "audio": "203265"
+                },
+                "positionSeconds": 4.0028582,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "unfinished-tail-waits-not-eof",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "30a021de564ae35325eb797ea1b4938e",
+                "generation": "1",
+                "revision": "3",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "529625",
+                  "audio": "335288"
+                },
+                "positionSeconds": 13.0044233,
+                "availableSeconds": 14.0
+              }
+            },
+            {
+              "phase": "explicit-complete-and-natural-eof",
+              "status": {
+                "state": "finished",
+                "error": "",
+                "generation": "1",
+                "revision": "4",
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "704504",
+                  "audio": "422052"
+                },
+                "released": true,
+                "readerId": "30a021de564ae35325eb797ea1b4938e"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "contract": "actual-webm-catalog-playback",
+        "result": {
+          "profile": "vp8",
+          "networkRequests": 0,
+          "result": "PASS",
+          "released": true,
+          "missingPageRetry": true,
+          "pausedSeek": true,
+          "phases": [
+            {
+              "phase": "playing-before-complete",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "a5b14a9522a3c82b2a3f623c27afd8a3",
+                "generation": "1",
+                "revision": "1",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 0,
+                  "resourceCount": 27,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "239336",
+                  "audio": "109413"
+                },
+                "positionSeconds": 3.0678923,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "user-pause",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "a5b14a9522a3c82b2a3f623c27afd8a3",
+                "generation": "1",
+                "revision": "1",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 0,
+                  "resourceCount": 27,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "240506",
+                  "audio": "109758"
+                },
+                "positionSeconds": 3.0678923,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "forward-seek-after-page-publication",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "a5b14a9522a3c82b2a3f623c27afd8a3",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "240506",
+                  "audio": "121791"
+                },
+                "positionSeconds": 14.0,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "decode-after-forward-seek",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "a5b14a9522a3c82b2a3f623c27afd8a3",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "417087",
+                  "audio": "185394"
+                },
+                "positionSeconds": 15.0782554,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "pause-before-backward-seek",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "a5b14a9522a3c82b2a3f623c27afd8a3",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "417087",
+                  "audio": "186422"
+                },
+                "positionSeconds": 15.0782554,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "backward-seek-reopens-evicted-media",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "a5b14a9522a3c82b2a3f623c27afd8a3",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "422775",
+                  "audio": "191921"
+                },
+                "positionSeconds": 2.0,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "unfinished-tail-waits-not-eof",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "a5b14a9522a3c82b2a3f623c27afd8a3",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "995403",
+                  "audio": "497684"
+                },
+                "positionSeconds": 19.0146717,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "explicit-complete-and-natural-eof",
+              "status": {
+                "state": "finished",
+                "error": "",
+                "generation": "1",
+                "revision": "3",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp8-opus",
+                "videoCodec": "vp8",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "995403",
+                  "audio": "497684"
+                },
+                "released": true,
+                "readerId": "a5b14a9522a3c82b2a3f623c27afd8a3"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "contract": "actual-webm-catalog-playback",
+        "result": {
+          "profile": "vp9-10",
+          "networkRequests": 0,
+          "result": "PASS",
+          "released": true,
+          "missingPageRetry": true,
+          "pausedSeek": true,
+          "phases": [
+            {
+              "phase": "playing-before-complete",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fa192671aaa539eae66ff1ba9e0e92b9",
+                "generation": "1",
+                "revision": "1",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 0,
+                  "resourceCount": 27,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "205472",
+                  "audio": "109413"
+                },
+                "positionSeconds": 3.0711122,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "user-pause",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fa192671aaa539eae66ff1ba9e0e92b9",
+                "generation": "1",
+                "revision": "1",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 0,
+                  "resourceCount": 27,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "205472",
+                  "audio": "109758"
+                },
+                "positionSeconds": 3.0711122,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "forward-seek-after-page-publication",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fa192671aaa539eae66ff1ba9e0e92b9",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "211935",
+                  "audio": "114915"
+                },
+                "positionSeconds": 14.0,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "decode-after-forward-seek",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fa192671aaa539eae66ff1ba9e0e92b9",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "357235",
+                  "audio": "185736"
+                },
+                "positionSeconds": 15.0747179,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "pause-before-backward-seek",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fa192671aaa539eae66ff1ba9e0e92b9",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "357235",
+                  "audio": "186422"
+                },
+                "positionSeconds": 15.0747179,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "backward-seek-reopens-evicted-media",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fa192671aaa539eae66ff1ba9e0e92b9",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "358841",
+                  "audio": "188483"
+                },
+                "positionSeconds": 2.0,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "unfinished-tail-waits-not-eof",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "fa192671aaa539eae66ff1ba9e0e92b9",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "845619",
+                  "audio": "497684"
+                },
+                "positionSeconds": 19.0026761,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "explicit-complete-and-natural-eof",
+              "status": {
+                "state": "finished",
+                "error": "",
+                "generation": "1",
+                "revision": "3",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-vp9-opus",
+                "videoCodec": "vp9",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "845619",
+                  "audio": "497684"
+                },
+                "released": true,
+                "readerId": "fa192671aaa539eae66ff1ba9e0e92b9"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "contract": "actual-webm-catalog-playback",
+        "result": {
+          "profile": "av1-10",
+          "networkRequests": 0,
+          "result": "PASS",
+          "released": true,
+          "missingPageRetry": true,
+          "pausedSeek": true,
+          "phases": [
+            {
+              "phase": "playing-before-complete",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "7b9dfe963e03395ca3e73ee4f4c5cf52",
+                "generation": "1",
+                "revision": "1",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 0,
+                  "resourceCount": 27,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "184790",
+                  "audio": "109413"
+                },
+                "positionSeconds": 3.0621554,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "user-pause",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "7b9dfe963e03395ca3e73ee4f4c5cf52",
+                "generation": "1",
+                "revision": "1",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 0,
+                  "resourceCount": 27,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "184790",
+                  "audio": "110099"
+                },
+                "positionSeconds": 3.0621554,
+                "availableSeconds": 12.0
+              }
+            },
+            {
+              "phase": "forward-seek-after-page-publication",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "7b9dfe963e03395ca3e73ee4f4c5cf52",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "188863",
+                  "audio": "119381"
+                },
+                "positionSeconds": 14.0,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "decode-after-forward-seek",
+              "status": {
+                "state": "playing",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "7b9dfe963e03395ca3e73ee4f4c5cf52",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "311676",
+                  "audio": "185044"
+                },
+                "positionSeconds": 15.0147183,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "pause-before-backward-seek",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "7b9dfe963e03395ca3e73ee4f4c5cf52",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "311676",
+                  "audio": "185044"
+                },
+                "positionSeconds": 15.0147183,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "backward-seek-reopens-evicted-media",
+              "status": {
+                "state": "paused",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "7b9dfe963e03395ca3e73ee4f4c5cf52",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "315809",
+                  "audio": "201883"
+                },
+                "positionSeconds": 2.0,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "unfinished-tail-waits-not-eof",
+              "status": {
+                "state": "buffering",
+                "error": "",
+                "released": false,
+                "complete": false,
+                "readerId": "7b9dfe963e03395ca3e73ee4f4c5cf52",
+                "generation": "1",
+                "revision": "2",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "831382",
+                  "audio": "496306"
+                },
+                "positionSeconds": 19.044921,
+                "availableSeconds": 20.0
+              }
+            },
+            {
+              "phase": "explicit-complete-and-natural-eof",
+              "status": {
+                "state": "finished",
+                "error": "",
+                "generation": "1",
+                "revision": "3",
+                "segmentCatalog": {
+                  "mode": "paged-webm-v1",
+                  "pageCount": 1,
+                  "resourceCount": 43,
+                  "maxOpenResources": 8,
+                  "integrityRequired": true
+                },
+                "mediaMode": "segmented-webm-av1-opus",
+                "videoCodec": "av1",
+                "audioCodec": "opus",
+                "decoderIoBytes": {
+                  "video": "831382",
+                  "audio": "496306"
+                },
+                "released": true,
+                "readerId": "7b9dfe963e03395ca3e73ee4f4c5cf52"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "qtDecoderEvidence": {
+    "linuxQt": {
+      "video": {
+        "vp8": [
+          "vp8",
+          "yuv420p"
+        ],
+        "vp9-8": [
+          "vp9",
+          "yuv420p"
+        ],
+        "vp9-10": [
+          "vp9",
+          "yuv420p10"
+        ],
+        "av1-8": [
+          "av1",
+          "yuv420p"
+        ],
+        "av1-10": [
+          "av1",
+          "yuv420p10"
+        ]
+      },
+      "audio": {
+        "vp8": [
+          "opus",
+          2,
+          48000
+        ],
+        "vp9-8": [
+          "opus",
+          2,
+          48000
+        ],
+        "vp9-10": [
+          "opus",
+          2,
+          48000
+        ],
+        "av1-8": [
+          "opus",
+          2,
+          48000
+        ],
+        "av1-10": [
+          "opus",
+          2,
+          48000
+        ]
+      },
+      "changingDecodedFrames": true,
+      "physicalAvSyncMeasured": false
+    },
+    "windowsQt": {
+      "video": {
+        "vp8": [
+          "vp8",
+          "yuv420p"
+        ],
+        "vp9-8": [
+          "vp9",
+          "yuv420p"
+        ],
+        "vp9-10": [
+          "vp9",
+          "yuv420p10"
+        ],
+        "av1-8": [
+          "av1",
+          "yuv420p"
+        ],
+        "av1-10": [
+          "av1",
+          "yuv420p10"
+        ]
+      },
+      "audio": {
+        "vp8": [
+          "opus",
+          2,
+          48000
+        ],
+        "vp9-8": [
+          "opus",
+          2,
+          48000
+        ],
+        "vp9-10": [
+          "opus",
+          2,
+          48000
+        ],
+        "av1-8": [
+          "opus",
+          2,
+          48000
+        ],
+        "av1-10": [
+          "opus",
+          2,
+          48000
+        ]
+      },
+      "changingDecodedFrames": true,
+      "physicalAvSyncMeasured": false
+    }
+  },
+  "nativeWebmChecksPerOS": [
+    "av1-10:gap-cross-resource-bytes-append-eof-and-leases",
+    "av1-10:initialization-only-then-append",
+    "av1-10:multiple-whole-clusters-in-one-media-resource",
+    "av1-10:paged-catalog-backward-reads-and-eight-handle-bound",
+    "av1-10:reject-configuration-change",
+    "av1-10:reject-discontinuity",
+    "av1-10:reject-init-hides-cluster",
+    "av1-10:reject-known-segment-size",
+    "av1-10:reject-media-hides-init",
+    "av1-10:reject-mixed-container",
+    "av1-10:reject-segment-missing-keyframe",
+    "av1-10:reject-timestamp-rebase",
+    "av1-10:reject-truncated-cluster",
+    "av1-10:reject-truncated-init",
+    "av1-10:reject-unbounded-time-gap",
+    "av1-10:reject-unknown-cluster-size",
+    "av1-10:reject-unsupported-clock",
+    "av1-10:reject-vorbis-not-enabled",
+    "av1-10:reject-wrong-codec-hint",
+    "av1-10:reject-wrong-envelope",
+    "av1-8:gap-cross-resource-bytes-append-eof-and-leases",
+    "av1-8:initialization-only-then-append",
+    "av1-8:multiple-whole-clusters-in-one-media-resource",
+    "av1-8:paged-catalog-backward-reads-and-eight-handle-bound",
+    "av1-8:reject-configuration-change",
+    "av1-8:reject-discontinuity",
+    "av1-8:reject-init-hides-cluster",
+    "av1-8:reject-known-segment-size",
+    "av1-8:reject-media-hides-init",
+    "av1-8:reject-mixed-container",
+    "av1-8:reject-segment-missing-keyframe",
+    "av1-8:reject-timestamp-rebase",
+    "av1-8:reject-truncated-cluster",
+    "av1-8:reject-truncated-init",
+    "av1-8:reject-unbounded-time-gap",
+    "av1-8:reject-unknown-cluster-size",
+    "av1-8:reject-unsupported-clock",
+    "av1-8:reject-vorbis-not-enabled",
+    "av1-8:reject-wrong-codec-hint",
+    "av1-8:reject-wrong-envelope",
+    "vp8:gap-cross-resource-bytes-append-eof-and-leases",
+    "vp8:initialization-only-then-append",
+    "vp8:multiple-whole-clusters-in-one-media-resource",
+    "vp8:paged-catalog-backward-reads-and-eight-handle-bound",
+    "vp8:reject-configuration-change",
+    "vp8:reject-discontinuity",
+    "vp8:reject-init-hides-cluster",
+    "vp8:reject-known-segment-size",
+    "vp8:reject-media-hides-init",
+    "vp8:reject-mixed-container",
+    "vp8:reject-segment-missing-keyframe",
+    "vp8:reject-timestamp-rebase",
+    "vp8:reject-truncated-cluster",
+    "vp8:reject-truncated-init",
+    "vp8:reject-unbounded-time-gap",
+    "vp8:reject-unknown-cluster-size",
+    "vp8:reject-unsupported-clock",
+    "vp8:reject-vorbis-not-enabled",
+    "vp8:reject-wrong-codec-hint",
+    "vp8:reject-wrong-envelope",
+    "vp9-10:gap-cross-resource-bytes-append-eof-and-leases",
+    "vp9-10:initialization-only-then-append",
+    "vp9-10:multiple-whole-clusters-in-one-media-resource",
+    "vp9-10:paged-catalog-backward-reads-and-eight-handle-bound",
+    "vp9-10:reject-configuration-change",
+    "vp9-10:reject-discontinuity",
+    "vp9-10:reject-init-hides-cluster",
+    "vp9-10:reject-known-segment-size",
+    "vp9-10:reject-media-hides-init",
+    "vp9-10:reject-mixed-container",
+    "vp9-10:reject-segment-missing-keyframe",
+    "vp9-10:reject-timestamp-rebase",
+    "vp9-10:reject-truncated-cluster",
+    "vp9-10:reject-truncated-init",
+    "vp9-10:reject-unbounded-time-gap",
+    "vp9-10:reject-unknown-cluster-size",
+    "vp9-10:reject-unsupported-clock",
+    "vp9-10:reject-vorbis-not-enabled",
+    "vp9-10:reject-wrong-codec-hint",
+    "vp9-10:reject-wrong-envelope",
+    "vp9-8:gap-cross-resource-bytes-append-eof-and-leases",
+    "vp9-8:initialization-only-then-append",
+    "vp9-8:multiple-whole-clusters-in-one-media-resource",
+    "vp9-8:paged-catalog-backward-reads-and-eight-handle-bound",
+    "vp9-8:reject-configuration-change",
+    "vp9-8:reject-discontinuity",
+    "vp9-8:reject-init-hides-cluster",
+    "vp9-8:reject-known-segment-size",
+    "vp9-8:reject-media-hides-init",
+    "vp9-8:reject-mixed-container",
+    "vp9-8:reject-segment-missing-keyframe",
+    "vp9-8:reject-timestamp-rebase",
+    "vp9-8:reject-truncated-cluster",
+    "vp9-8:reject-truncated-init",
+    "vp9-8:reject-unbounded-time-gap",
+    "vp9-8:reject-unknown-cluster-size",
+    "vp9-8:reject-unsupported-clock",
+    "vp9-8:reject-vorbis-not-enabled",
+    "vp9-8:reject-wrong-codec-hint",
+    "vp9-8:reject-wrong-envelope"
+  ],
+  "nativeWebmCountPerOS": 100,
+  "regression": {
+    "linux": {
+      "oldSegmentStream": 295,
+      "scalarMedia": 468,
+      "fmp4Catalog": 22,
+      "segmentStaging": 18
+    },
+    "windows": {
+      "oldSegmentStream": 295,
+      "scalarMedia": 468,
+      "fmp4Catalog": 22,
+      "segmentStaging": 18
+    }
+  },
+  "sdkV2Tests": 24,
+  "sdkV1Tests": 15,
+  "familyContractTests": 2,
+  "qtCompatibilityFunctionsPerOS": 4,
+  "classicV1DirectoryContract": true,
+  "exitCodes": {
+    "webm-segment-build3-linux": 0,
+    "webm-segment-native-final-linux": 0,
+    "webm-segment-multiple-linux": 0,
+    "webm-segment-ui-linux": 0,
+    "webm-segment-ui-final-linux": 0,
+    "webm-segment-winqt-build": 0,
+    "webm-segment-winqt-build2": 0,
+    "webm-segment-ui-windows": 0,
+    "webm-segment-native-windows": 0,
+    "webm-segment-compat-windows": 0,
+    "webm-segment-classic-build": 0,
+    "webm-segment-classic-schedule": 0,
+    "webm-segment-classic-finalize": 0,
+    "webm-segment-sdk": 0,
+    "webm-segment-sdk-v1": 0,
+    "webm-segment-family-contract": 0,
+    "webm-segment-linux-install": 0
+  },
+  "classicCleanup": {
+    "lastTaskResult": 0,
+    "taskRemoved": true,
+    "stageRemoved": true,
+    "builtSha256": "57730195aad655cb8edf1934418d078530804ace711f8fc63554c21f995f8c24",
+    "testedSha256": "57730195aad655cb8edf1934418d078530804ace711f8fc63554c21f995f8c24",
+    "equal": true,
+    "testExitCode": 0
+  },
+  "binarySha256": {
+    "linuxQt": "298fa5a4eb9a8c1ce998c9b234e036fe8ee78795edb89f989162c0d30caa2a64",
+    "windowsQt": "7add6dbaa49998d749934516565572c40d26a644223f8d606c282df50a56c7fe",
+    "windowsClassic": "57730195aad655cb8edf1934418d078530804ace711f8fc63554c21f995f8c24"
+  },
+  "sourceFilesSha256": {
+    "shared/progressivefmp4bridge.h": "2fe0f019ce63c5a5e5f9861b67e0721ab4c27a25e233358e8b008eba9c9e8c5f",
+    "shared/progressivesegmentstream.h": "5eaf3fdb14593e389e8313e19e2d520310dffb90d412320d3e3a2a8809ded78f",
+    "shared/progressivesegmentstager.h": "7f4565a49c721ce49a4a1bbc01d1b3556818d55aa3d8e488c07033f13de5098f",
+    "src/DSUtil/HarvesterWebM.h": "70247034c4f4538c44c32b8e8ec8b91be62bd94f800f702ddc8a8b473d6b2fb0",
+    "qt/src/progressiveplayback.cpp": "5635fca2d2d5ae0ace6d334df59dae040eabda207d4de6a6d8283fb15d11531d",
+    "qt/tools/progressive_v2.py": "51d673b7ed51db9cb3740a1402091dc061d7b67bc723129e7807f1a09c62c9cd",
+    "tests/progressive_webm_segment_playback.py": "8a5a0b345b0498ffa4b1560338241482e5574a8a937ed1152dc6dd01c02f816b",
+    "tests/progressive_webm_segment_conformance.py": "6046fa557c767a4614496eca6c6b4aebd7d19715461d45669d0be51c4ebf60e8",
+    "tests/progressive_segment_playback.py": "d4ab6d4c48b777d59badba69d2368509c3bcd21bfed08f86d7c489da5350fc51",
+    "tests/progressive_v2_sdk_test.py": "35a570de95a0a9b68fcd9548629d8e2e8c80d803e050f8509e735c74606034fe",
+    "qt/tests/progressiveapi_test.cpp": "9d058bf61f96906d1872c9cda92ff7e64e5ebac056428beb7b37b2c0a6021e8b",
+    "tests/windows/progressive_family_test.py": "74c03da3edc8668cdc5623c4946c44e48009c0f0126bca9f0ee6d9ca007ca7af",
+    "qt/CMakeLists.txt": "23c027318a0a302c7bb820ba0827a42758ff270d775a7e42058771fa2c9a686b",
+    "tools/package_progressive_sdk.py": "020bebe22feb9e4399a42a5818cc1bf00361bc18d2fe1a5cd3d4b8b89ebe258d"
+  },
+  "linuxInstallation": {
+    "installedSha256": "298fa5a4eb9a8c1ce998c9b234e036fe8ee78795edb89f989162c0d30caa2a64",
+    "previousInstalledSha256": "524c5b7b79ba9f946c5913ca7b4e4faf6cf8f22a58a4b9959a21accd8c9dfe2a",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.38-20261030T165641Z",
+    "profileSha256Before": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "profileSha256After": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "profileUnchanged": true,
+    "protectedFilesVerified": 196,
+    "version": "FoxicMPQt 0.2.0",
+    "catalog": {
+      "integrityRequired": true,
+      "maxOpenResources": 8,
+      "maxPageBytes": 65536,
+      "maxPages": 128,
+      "maxResources": 8192,
+      "maxSegmentsPerTrack": 4096,
+      "mode": "paged-webm-v1",
+      "pageIntegrity": "sha256",
+      "publishedPagesImmutable": true,
+      "retainAllPublishedResourcesUntilRelease": true,
+      "validation": "probe-with-sessionDirectory"
+    },
+    "runningInstalledProcessesBefore": 0,
+    "viewerInterrupted": false
+  },
+  "harvesterModified": false,
+  "installedWindowsPlayersModified": false,
+  "physicalAvSyncMeasured": false,
+  "multiHourPlaybackTested": false,
+  "initialAttempts": [
+    {
+      "step": "classic-compile",
+      "exitCode": 1,
+      "reason": "MSVC RapidJSON rejected a conditional const char pointer AddMember argument; changed it to an owned Value and rebuilt successfully."
+    },
+    {
+      "step": "linux-regression-with-extended-tests-before-rebuild-completed",
+      "exitCode": 8,
+      "reason": "Four existing groups passed. The newly added truncated-init case ran against the preceding executable and returned waiting_initialization. After rebuild, the complete WebM tests passed: 95 cases plus five additional multi-Cluster cases, exit 0."
+    }
+  ],
+  "limitations": [
+    "Segmented Vorbis, MPEG-TS, muxed A/V, live and configuration/init changes remain separate stages.",
+    "Playback fixtures are 20 seconds and contain 43 resources; metadata limits and longer fMP4 results are not WebM multi-hour evidence.",
+    "WebM UI audio fixtures are Opus stereo; mono uses the same existing validated WebM header/parser path but was not a separate UI case in this run.",
+    "Classic uses owned real playback graphs and chapter commands; changing framebuffer pixels are checked only for Qt.",
+    "No physical A/V sync measurement, real source acceptance or hardware/Wayland testing.",
+    "Large already-complete catalogs may still exceed the preparation deadline; no OS syscall hard deadline is added."
+  ]
+}
