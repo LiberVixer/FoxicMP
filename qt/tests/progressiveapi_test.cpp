@@ -531,6 +531,23 @@ private slots:
     owned.clear();QTRY_COMPARE_WITH_TIMEOUT(Pool::occupied(),size_t(0),3000);
     QVERIFY(api.request(message("start"))["ok"].toBool());w.closeCurrent();
   }
+  void segmentProbeDoesNotReplacePlayback() {
+    const auto directory=temporary.filePath("segment-probe-profile");
+    const auto cleanupRegistry=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(directory)).removeRecursively();});
+    Profile profile(directory);prepare(profile);
+    Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    QVERIFY(api.request(message("start"))["ok"].toBool());const auto active=w.progressiveSession();QVERIFY(active);
+    QProcess client;client.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{
+      QFileInfo(FOXICMP_RESOURCE_CONFORMANCE_SCRIPT).dir().filePath("progressive_segment_api_conformance.py"),
+      "--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),
+      "--work",temporary.filePath("segment-probe-data")});
+    QVERIFY(client.waitForStarted());const auto cleanup=qScopeGuard([&]{if(client.state()!=QProcess::NotRunning){client.kill();client.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(client.state()==QProcess::NotRunning,45000);
+    QVERIFY2(client.exitCode()==0,client.readAllStandardError().constData());
+    const auto report=client.readAllStandardOutput();qInfo().noquote()<<"Segment probe report:"<<report;
+    QVERIFY(QJsonDocument::fromJson(report).object()["passed"].toInt()>=10);
+    QCOMPARE(w.progressiveSession(),active);
+  }
   void schemaTwoValidationDoesNotOpenOrReplaceMedia() {
     Profile profile(temporary.filePath("v2-validation-profile")); prepare(profile);
     Window w(profile); w.show(); ProgressiveApi api(&w); QVERIFY(api.listen(profile.directory));

@@ -87,3 +87,5 @@ Classic — из `tests/windows/progressive_family_test.py` в отдельно�
 но и зависимые `BaseSplitter` и `MP4Splitter` (либо выполнить обычную сборку
 с зависимостями). Ускоренная сборка с `BuildProjectReferences=false` и прежними
 статическими библиотеками оставляет несовместимую раскладку класса в reader.
+
+SDK 1.32 добавляет [staging и demux одного fMP4-сегмента](ProgressiveSegmentStaging.md) через `resourceProbe`; это диагностика, не segment playback. Harvester не меняется.

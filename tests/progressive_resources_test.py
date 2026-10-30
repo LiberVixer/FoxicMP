@@ -20,6 +20,15 @@ class Client:
 
 
 class ResourceSdkTest(unittest.TestCase):
+    def test_segment_start_requires_capability_before_any_job_is_sent(self):
+        client=Client();probe=ResourceProbe(client);before=len(client.calls)
+        with self.assertRaises(RuntimeError):probe.start_segment(dict(sessionId='a'*32,generation='1'),'/unused','video',0)
+        self.assertEqual(len(client.calls),before);self.assertIsNone(probe.identity)
+    def test_segment_index_and_demux_are_exact_types(self):
+        probe=ResourceProbe(Client())
+        for index in (True,-1,128,0.5):
+            with self.assertRaises(ValueError):probe.start_segment({},'/unused','video',index)
+        with self.assertRaises(ValueError):probe.start_segment({},'/unused','video',0,demux=1)
     def start(self,client):
         probe=ResourceProbe(client);probe.start(dict(sessionId='a'*32,generation='1'),'/unused',[dict(resourceId='media',offset='0',length='4')]);return probe
     def test_old_player_is_rejected_without_opening_media(self):

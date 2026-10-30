@@ -71,7 +71,7 @@ std::string ClassicProgressiveApi::Information() {
     d.AddMember("readerLeaseProtocol",1,a);d.AddMember("readerLeaseOptIn",true,a);d.AddMember("maxReaderReceipts",128,a);
     for(const auto* action:{"readerStatus","readerRelease","readerForget","readers","resourceProbe","resourceProbeUpdate","resourceProbeStatus","resourceProbeCancel","resourceProbeForget"})d["actions"].PushBack(Value(action,a),a);
     d.AddMember("resourceIoProbeVersion",1,a);Value schemas(rapidjson::kArrayType);schemas.PushBack(2,a);
-    d.AddMember("resourceIoSchemaVersions",schemas,a);d.AddMember("resourceIoPlaybackSupported",false,a);
+    d.AddMember("resourceIoSchemaVersions",schemas,a);d.AddMember("resourceIoPlaybackSupported",false,a);d.AddMember("segmentProbeVersion",1,a);
     d["playbackSchemaVersions"].PushBack(2,a);Document profile;profile.Parse(foxicmp::progressive::Fmp4V2Capabilities());d.AddMember("schema2Playback",Value(profile,a),a);
     Document preparation;preparation.Parse(R"({"offUi":["probe","start","update","complete"],"maxConcurrent":1,"responseDeadlineMilliseconds":5000,"updatesOffUi":true,"cancellableDiskIo":false})");d.AddMember("mediaPreparation",Value(preparation,a),a);
     return Encode(d);

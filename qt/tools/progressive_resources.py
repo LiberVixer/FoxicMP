@@ -13,6 +13,7 @@ class ResourceProbe:
     def __init__(self, client: ProgressiveClient):
         self.client=client;self.probe_id=None;self.identity=None;self.request_id=None;self.acknowledged=False
         caps=client.request(dict(version=1,action='capabilities'))
+        self.segment_supported=caps.get('segmentProbeVersion')==1
         required={'resourceProbe','resourceProbeUpdate','resourceProbeStatus','resourceProbeCancel','resourceProbeForget'}
         if caps.get('resourceIoProbeVersion')!=1 or caps.get('resourceIoPlaybackSupported') is not False or not required<=set(caps.get('actions',[])):
             raise RuntimeError('Player lacks the resource-I/O diagnostic contract')
@@ -28,17 +29,27 @@ class ResourceProbe:
         self.probe_id=identifier
         return reply
 
-    def start(self, snapshot: dict, directory: str, reads: list[dict], *, wait_milliseconds: int=0):
+    def start(self, snapshot: dict, directory: str, reads: list[dict], *, wait_milliseconds: int=0, segment: dict | None=None):
         if self.identity is not None and not self.acknowledged:
             raise RuntimeError('Acknowledge the previous resource probe first')
         if type(wait_milliseconds) is not int or not 0<=wait_milliseconds<=10000:
             raise ValueError('Resource probe wait must be 0..10000 milliseconds')
+        if segment is not None:
+            if not self.segment_supported:raise RuntimeError('Player lacks the segment staging/indexing diagnostic contract')
+            if reads:raise ValueError('Segment probe cannot contain raw read queries')
         self.probe_id=None;self.acknowledged=False;self.identity=(snapshot['sessionId'],snapshot['generation'])
         self.request_id=uuid.uuid4().hex
         # Save identity BEFORE sending: a lost start reply is recovered through
         # read-only discovery, without cancelling an unrelated job or playback.
-        return self._check(self.client.request(dict(version=1,action='resourceProbe',session=copy.deepcopy(snapshot),
-            sessionDirectory=str(Path(directory).resolve()),reads=copy.deepcopy(reads),waitMilliseconds=wait_milliseconds,requestId=self.request_id)))
+        request=dict(version=1,action='resourceProbe',session=copy.deepcopy(snapshot),
+            sessionDirectory=str(Path(directory).resolve()),reads=copy.deepcopy(reads),waitMilliseconds=wait_milliseconds,requestId=self.request_id)
+        if segment is not None:request['segment']=copy.deepcopy(segment)
+        return self._check(self.client.request(request))
+
+    def start_segment(self,snapshot: dict,directory: str,track_id: str,index: int,*,demux: bool=True,wait_milliseconds: int=0):
+        if type(index) is not int or not 0<=index<=127 or type(demux) is not bool:
+            raise ValueError('Segment index must be 0..127 and demux must be boolean')
+        return self.start(snapshot,directory,[],segment=dict(trackId=track_id,index=str(index),demux=demux),wait_milliseconds=wait_milliseconds)
 
     def status(self, timeout: float=5):
         if self.identity is None:raise RuntimeError('No resource probe was requested')

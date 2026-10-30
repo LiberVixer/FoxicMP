@@ -1,7 +1,7 @@
 // Asynchronous diagnostic bridge for the v2 I/O adapter. GPL-3.0-or-later.
 // Does NOT activate playback or expose media bytes through IPC.
 #pragma once
-#include "progressiveresourceio.h"
+#include "progressivesegmentstager.h"
 #include <deque>
 #include <thread>
 
@@ -16,6 +16,8 @@ class ResourceProbeManager {
         std::vector<Query> queries;std::vector<Result> results;std::vector<std::string> readers;
         std::deque<std::string> updates;
         uint64_t appliedRevision=0;unsigned waitMs=0;
+        bool segmentMode=false,segmentDemux=true;std::string segmentTrack,segmentCode,segmentReason,segmentInit,segmentResource,segmentSha;
+        size_t segmentIndex=0,segmentBytes=0,segmentPackets=0;
         std::mutex mutex;std::condition_variable changed;
         std::atomic<bool> cancel{false},stop{false},done{false};
         bool forgetRequested=false,finished=false;
@@ -29,19 +31,36 @@ class ResourceProbeManager {
             std::shared_ptr<ResourceSource> active;{std::lock_guard<std::mutex> lock(mutex);active=source.lock();}
             if(active)active->cancel();changed.notify_all();
         }
-        void apply(ResourceSource& active) {
+        void apply(ResourceSource& active,SegmentStager* stager=nullptr) {
             std::deque<std::string> pending;
             {std::lock_guard<std::mutex> lock(mutex);pending.swap(updates);}
-            for(const auto& json:pending){active.publish(json);std::lock_guard<std::mutex> lock(mutex);appliedRevision=Parse(json).revision;}
+            for(const auto& json:pending){if(stager)stager->publish(json);else active.publish(json);std::lock_guard<std::mutex> lock(mutex);appliedRevision=Parse(json).revision;}
         }
         void run() {
             std::shared_ptr<ResourceSource> active;
-            std::string terminal="finished",failure;
+            std::unique_ptr<SegmentStager> stager;
+            std::string terminal="finished",failure,failureReason;
             try {
-                active=std::make_shared<ResourceSource>(directory,registry,initial);
+                if(segmentMode){stager=std::make_unique<SegmentStager>(directory,registry,initial);active=stager->io();}
+                else active=std::make_shared<ResourceSource>(directory,registry,initial);
                 {std::lock_guard<std::mutex> lock(mutex);source=active;released=active->releaseReceipt();appliedRevision=Parse(initial).revision;phase="running";}
                 const auto deadline=std::chrono::steady_clock::now()+std::chrono::milliseconds(waitMs);
                 std::vector<char> data(65536);
+                if(segmentMode) {
+                    SegmentStage result;
+                    for(;;) {
+                        if(cancel.load() || stop.load()){stager->cancel();result.code="cancelled";result.reason="Segment probe was cancelled";break;}
+                        apply(*active,stager.get());result=stager->stage(segmentTrack,segmentIndex,segmentDemux);
+                        const bool waiting=result.code=="waiting-range" || result.code=="waiting-resource" || result.code=="waiting-segment" || result.code=="waiting-initialization";
+                        if(!waiting || std::chrono::steady_clock::now()>=deadline)break;
+                        std::unique_lock<std::mutex> lock(mutex);
+                        changed.wait_until(lock,(std::min)(deadline,std::chrono::steady_clock::now()+std::chrono::milliseconds(25)),[&]{return cancel.load() || stop.load() || !updates.empty();});
+                    }
+                    std::string digest;if(result.ready()){Sha256 hash;hash.update(result.bytes.data(),result.bytes.size());digest=hash.hex();}
+                    {std::lock_guard<std::mutex> lock(mutex);segmentCode=result.code;segmentReason=result.reason;segmentBytes=result.bytes.size();segmentPackets=result.samples.size();segmentInit=result.initializationResource;segmentResource=result.resource;segmentSha=std::move(digest);}
+                    if(result.code=="cancelled")terminal="cancelled";
+                    else if(!result.ready() && result.code!="waiting-range" && result.code!="waiting-resource" && result.code!="waiting-segment" && result.code!="waiting-initialization" && result.code!="resource-retired") {terminal="error";failure=result.code;}
+                }
                 for(const auto& query:queries) {
                     ResourceRead read;
                     for(;;) {
@@ -58,10 +77,11 @@ class ResourceProbeManager {
                         terminal="error";failure=read.code;break;
                     }
                 }
-            }catch(const Error& e){terminal=cancel.load()?"cancelled":"error";failure=e.code;}
+            }catch(const Error& e){terminal=cancel.load()?"cancelled":"error";failure=e.code;failureReason=e.what();}
             catch(const std::exception&){terminal="error";failure="resource-io-error";}
-            {std::lock_guard<std::mutex> lock(mutex);phase="closing";if(active)readers=active->readerIds();}
-            active.reset(); // Actual media handles close before the job reports a release.
+            {std::lock_guard<std::mutex> lock(mutex);phase="closing";if(active)readers=active->readerIds();
+                if(segmentMode && segmentCode.empty()){segmentCode=terminal=="cancelled"?"cancelled":failure;segmentReason=failureReason;}}
+            stager.reset();active.reset(); // Actual media handles close before reporting release.
             {
                 std::lock_guard<std::mutex> lock(mutex);
                 if(source.expired() && readers.empty())released->store(true);
@@ -103,6 +123,15 @@ class ResourceProbeManager {
                 r.AddMember("code",Value(result.read.code.c_str(),a),a);r.AddMember("reason",Value(result.read.reason.c_str(),a),a);r.AddMember("bytesRead",uint32_t(result.read.bytes),a);reads.PushBack(r,a);
                 allReadable=allReadable && ((result.read.data() && result.read.bytes==result.query.count) || result.read.code=="eof");
             }
+            if(segmentMode) {
+                Value segment(rapidjson::kObjectType);segment.AddMember("trackId",Value(segmentTrack.c_str(),a),a);
+                segment.AddMember("index",Value(std::to_string(segmentIndex).c_str(),a),a);segment.AddMember("demux",segmentDemux,a);
+                segment.AddMember("code",Value((segmentCode.empty()?error:segmentCode).c_str(),a),a);segment.AddMember("reason",Value(segmentReason.c_str(),a),a);
+                segment.AddMember("bytesStaged",uint32_t(segmentBytes),a);segment.AddMember("packetCount",uint32_t(segmentPackets),a);
+                segment.AddMember("initializationResourceId",Value(segmentInit.c_str(),a),a);segment.AddMember("resourceId",Value(segmentResource.c_str(),a),a);
+                segment.AddMember("sha256",Value(segmentSha.c_str(),a),a);out.AddMember("segment",segment,a);
+                allReadable=finished && segmentCode=="data" && error.empty();
+            }
             out.AddMember("reads",reads,a);out.AddMember("allReadable",allReadable,a);return lease_detail::Encode(out);
         }
     };
@@ -120,7 +149,7 @@ public:
             resource_detail::Check(d.HasMember("version") && d["version"].IsUint() && d["version"].GetUint()==1 && d.HasMember("action"),"invalid_request","Expected API version 1");
             const auto action=Text(d["action"],"action",32);
             if(action=="resourceProbe") {
-                Keys(d,"request",{"version","action","session","sessionDirectory","reads"},{"waitMilliseconds","requestId"});
+                Keys(d,"request",{"version","action","session","sessionDirectory","reads"},{"waitMilliseconds","requestId","segment"});
                 const auto requestId=d.HasMember("requestId")?Id(d["requestId"],"requestId",true):lease_detail::RandomId();
                 rapidjson::StringBuffer canonical;rapidjson::Writer<rapidjson::StringBuffer> writer(canonical);Canonical(d,writer);
                 const std::string fingerprint(canonical.GetString(),canonical.GetSize());
@@ -132,7 +161,14 @@ public:
                 next->directory=std::filesystem::u8path(Text(d["sessionDirectory"],"sessionDirectory",8192));
                 next->initial=lease_detail::Encode(d["session"]);next->accepted=Parse(next->initial);
                 if(d.HasMember("waitMilliseconds")){resource_detail::Check(d["waitMilliseconds"].IsUint() && d["waitMilliseconds"].GetUint()<=10000,"invalid_request","Probe wait limit is 10000 ms");next->waitMs=d["waitMilliseconds"].GetUint();}
-                resource_detail::Check(d["reads"].IsArray() && d["reads"].Size()>0 && d["reads"].Size()<=16,"invalid_request","Expected 1..16 read queries");
+                if(d.HasMember("segment")) {
+                    const auto& segment=d["segment"];Keys(segment,"segment",{"trackId","index"},{"demux"});
+                    next->segmentMode=true;next->segmentTrack=Id(segment["trackId"],"segment.trackId");next->segmentIndex=size_t(Unsigned(segment["index"],"segment.index",127));
+                    if(segment.HasMember("demux"))next->segmentDemux=Flag(segment["demux"],"segment.demux");
+                    resource_detail::Check(next->accepted.tracks.count(next->segmentTrack)!=0,"invalid_request","Unknown segment track");
+                    resource_detail::Check(d["reads"].IsArray() && d["reads"].Empty(),"invalid_request","Segment probe requires an empty reads array");
+                }
+                resource_detail::Check(d["reads"].IsArray() && d["reads"].Size()<=16 && (next->segmentMode || d["reads"].Size()>0),"invalid_request","Expected 1..16 read queries or a segment query");
                 for(const auto& item:d["reads"].GetArray()) {
                     Keys(item,"reads[]",{"resourceId","offset","length"});Query query;
                     query.resource=Id(item["resourceId"],"resourceId");query.offset=Unsigned(item["offset"],"offset",MaxByte);query.count=size_t(Unsigned(item["length"],"length",65536));

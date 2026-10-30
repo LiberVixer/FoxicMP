@@ -280,3 +280,5 @@ Xvfb/D-Bus/PulseAudio; Windows — отдельные копии/профили,
 их возможности не объявлять подтверждёнными. Эти задачи не возобновляются
 автоматически в рамках сближения. Профили MPC/MPC-BE и
 `C:\FoxBroxer\Prg\MPMY` не изменять. Повторяющиеся проверки по времени не создавать.
+
+SDK 1.32 добавляет [staging и demux одного fMP4-сегмента](ProgressiveSegmentStaging.md) через `resourceProbe`; это диагностика, не segment playback. Harvester не меняется.

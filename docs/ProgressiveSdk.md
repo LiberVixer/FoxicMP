@@ -20,6 +20,8 @@ SHA-256 файлов. Воспроизведение v1 сохраняется; 
 
 SDK 1.30: [контрольные суммы подтверждённых блоков](ProgressiveIntegrity.md), helper `progressive_integrity.py`, согласование capability и прежняя изоляция optional audio. Контрольные суммы необязательны; без них гарантия проверки каждого блока не заявляется.
 
+SDK 1.32: [staging и индекс одного сегмента](ProgressiveSegmentStaging.md), `ResourceProbe.start_segment`, capability `segmentProbeVersion=1`. Это диагностический API, без запуска segment playback.
+
 ## Проверка расширенной схемы (SDK 1.3)
 
 Новые сборки отдельно объявляют `validationSchemaVersions:[2]` и
