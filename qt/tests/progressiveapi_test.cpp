@@ -745,10 +745,11 @@ private slots:
   }
   void segmentedFmp4Playback_data() {
     QTest::addColumn<QString>("mediaProfile");
-    for(const auto* name:{"h264","hevc8","hevc10"})QTest::newRow(name)<<QString(name);
+    for(const auto* name:{"h264","hevc8","hevc10","av1-8","av1-10"})QTest::newRow(name)<<QString(name);
   }
   void segmentedFmp4Playback() {
     QFETCH(QString,mediaProfile);
+    const QString expectedCodec=mediaProfile.startsWith("av1-")?"av1":mediaProfile=="h264"?"h264":"hevc";
     Profile profile(temporary.filePath("segment-playback-profile-"+mediaProfile));prepare(profile);
     Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
     auto* player=w.findChild<Player*>();QVERIFY(player);
@@ -766,7 +767,7 @@ private slots:
       }
       if(!w.progressiveSession())return;
       const auto state=w.progressivePlaybackStatus();
-      if(state["state"]=="playing" && state["mediaMode"]==("segmented-fmp4-"+QString(mediaProfile=="h264"?"h264":"hevc")+"-aac-lc") &&
+      if(state["state"]=="playing" && state["mediaMode"]==("segmented-fmp4-"+expectedCodec+"-aac-lc") &&
          player->get("audio-codec-name")=="aac" && player->get("audio-params/samplerate").toInt()==48000)decoded=true;
       if(decoded && state["state"]=="playing") {
         const auto format=player->get("video-format").toString(),pixels=player->get("video-dec-params/pixelformat").toString();
@@ -782,8 +783,8 @@ private slots:
     QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,150000);
     if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();
     QCOMPARE(writer.exitCode(),0);sample.stop();QVERIFY(decoded);QVERIFY(changingVideo);
-    QCOMPARE(decodedFormat,QString(mediaProfile=="h264"?"h264":"hevc"));
-    if(mediaProfile=="hevc10")QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
+    QCOMPARE(decodedFormat,expectedCodec);
+    if(mediaProfile=="hevc10" || mediaProfile=="av1-10")QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
     qInfo().noquote()<<"Segment decoded video:"<<mediaProfile<<decodedFormat<<decodedPixelFormat;
     qInfo().noquote()<<"Segment playback report:"<<writer.readAllStandardOutput();
   }

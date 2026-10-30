@@ -68,3 +68,5 @@ SHA-256 проверяется при наличии integrity. Закреплё
 Проверки и точные exit codes: [отчёт](ProgressiveSegmentPlaybackValidation-2026-10-30.md).
 
 SDK 1.34 отдельно расширяет этот профиль [HEVC Main/Main10 с AAC-LC](ProgressiveSegmentHevc.md); остальные границы сохраняются.
+
+SDK 1.35 отдельно добавляет [сегментный AV1 Main 8/10-bit с AAC-LC](ProgressiveSegmentAv1.md).

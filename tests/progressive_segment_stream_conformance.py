@@ -60,7 +60,7 @@ def run(runner,fixtures,profile="h264"):
         ('sequence-gap',lambda v:v['tracks'][0]['source']['segments'][1].update(sequence='10')),
         ('timestamp-offset',lambda v:v['tracks'][0]['source']['segments'][0].update(timestampOffset='1')),
         ('wrong-packet-duration',lambda v:v['tracks'][0]['source']['segments'][-1].update(duration='1')),
-        ('unknown-codec',lambda v:v['tracks'][0].update(codecHint='av1')),
+        ('unknown-codec',lambda v:v['tracks'][0].update(codecHint='vp9')),
         ('optional-track',lambda v:v['tracks'][1].update(required=False)),
     ]:
         # Validate the last segment's duration only after publishing that segment.
@@ -102,7 +102,7 @@ def run(runner,fixtures,profile="h264"):
         with (d/'video-1.part').open('r+b') as f:f.truncate(8)
         assert not rpc('verify')['ok'];assert read(0,8)['bytesRead']==-1;rpc('release');assert not readers()
     case('pinned-segment-truncation-is-persistent-error',truncated)
-    if profile!='h264':
+    if profile.startswith('hevc'):
         def no_hint(v,p,e,d,rpc,open_,pub,read,readers):
             v['tracks'][0]['codecHint']='';open_();assert rpc('status')['mediaMode']=='segmented-fmp4-hevc-aac-lc'
         case('discover-real-hevc-without-codec-hint',no_hint)
@@ -124,10 +124,28 @@ def run(runner,fixtures,profile="h264"):
         for name,offset,content in [('version',4,b'\x02'),('profile',5,b'\x04'),('chroma',20,b'\xff'),('length-size',25,b'\x0c'),('missing-parameter-arrays',26,b'\x00'),('incomplete-parameter-arrays',27,b'\x20')]:
             case('reject-hevc-'+name,lambda *args,offset=offset,content=content:mutate_init(*args,b'hvcC',offset,content))
         case('hev1-sample-entry',lambda *args:mutate_init(*args,b'hvc1',0,b'hev1',accepted=True))
+    if profile.startswith('av1-'):
+        def no_hint(v,p,e,d,rpc,open_,pub,read,readers):
+            v['tracks'][0]['codecHint']='';open_();assert rpc('status')['mediaMode']=='segmented-fmp4-av1-aac-lc'
+        case('discover-real-av1-without-codec-hint',no_hint)
+        for hint in ('h264','hevc'):
+            case('reject-false-'+hint+'-hint',lambda *args,hint=hint:reject(*args,change=lambda v:v['tracks'][0].update(codecHint=hint)))
+        def mutate_av1(v,p,e,d,rpc,open_,pub,read,readers,offset,content,remove_sequence=False):
+            path=d/'video-init.part';payload=bytearray(path.read_bytes());at=payload.index(b'av1C')
+            if remove_sequence:
+                size=int.from_bytes(payload[at-4:at],'big');assert size>=20
+                payload[at-4:at-4+size]=(12).to_bytes(4,'big')+b'av1C'+payload[at+4:at+8]+(size-12).to_bytes(4,'big')+b'free'+bytes(size-20)
+            else:payload[at+offset:at+offset+len(content)]=content
+            path.write_bytes(payload);resource=next(r for r in v['resources'] if r['id']=='video-init');resource.pop('integrity',None)
+            protected=protect_snapshot(v,d);v.clear();v.update(protected)
+            answer=rpc('open',directory=str(d),session=v);assert not answer['ok'],(profile,offset,content.hex(),answer);assert not readers()
+        for name,offset,content in [('marker',4,b'\x01'),('version',4,b'\x82'),('high-profile',5,b'\x20'),('level',5,b'\x1f'),('twelve-bit',6,b'\x6c'),('monochrome',6,b'\x1c'),('chroma',6,b'\x08'),('reserved-bits',7,b'\x80'),('presentation-delay',7,b'\x10'),('obu-forbidden',8,b'\x8a'),('obu-missing-size',8,b'\x08'),('obu-zero-payload',9,b'\x00'),('obu-overrun',9,b'\x7f'),('obu-truncated-size',9,b'\x80'*8),('sequence-profile-mismatch',10,b'\x20')]:
+            case('reject-av1-'+name,lambda *args,offset=offset,content=content:mutate_av1(*args,offset,content))
+        case('require-av1-sequence-in-configuration',lambda *args:mutate_av1(*args,0,b'',remove_sequence=True))
     def cancel(v,p,e,d,rpc,open_,pub,read,readers):
         open_();rpc('cancel');assert read(0,8)['bytesRead']==-1;rpc('release');assert not readers()
     case('cancel-and-close-release-all-resources',cancel)
     return dict(result='PASS',profile=profile,count=len(checks),checks=checks)
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--runner',required=True);parser.add_argument('--fixtures',default=os.environ.get('FOXICMP_TEST_MEDIA',str(Path(__file__).resolve().parents[1]/'_bin/qt-test-media')));parser.add_argument('--media-profile',choices=['h264','hevc8','hevc10','all'],default='h264');a=parser.parse_args();print(json.dumps([run(a.runner,a.fixtures,p) for p in ('h264','hevc8','hevc10')] if a.media_profile=='all' else run(a.runner,a.fixtures,a.media_profile)))
+    parser=argparse.ArgumentParser();parser.add_argument('--runner',required=True);parser.add_argument('--fixtures',default=os.environ.get('FOXICMP_TEST_MEDIA',str(Path(__file__).resolve().parents[1]/'_bin/qt-test-media')));parser.add_argument('--media-profile',choices=['h264','hevc8','hevc10','av1-8','av1-10','all'],default='h264');a=parser.parse_args();print(json.dumps([run(a.runner,a.fixtures,p) for p in ('h264','hevc8','hevc10','av1-8','av1-10')] if a.media_profile=='all' else run(a.runner,a.fixtures,a.media_profile)))

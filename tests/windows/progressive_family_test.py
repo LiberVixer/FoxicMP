@@ -599,7 +599,7 @@ def run(args):
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
         if args.segment_playback_only:
-            return [dict(contract='actual-segmented-playback',result=exercise_segment_playback(client,args.fixtures,Path(args.report)/('segment-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401),profile=profile)) for profile in ('h264','hevc8','hevc10')]
+            return [dict(contract='actual-segmented-playback',result=exercise_segment_playback(client,args.fixtures,Path(args.report)/('segment-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401),profile=profile)) for profile in ('h264','hevc8','hevc10','av1-8','av1-10')]
         if args.segment_only:
             return [dict(contract='segment-staging-index-only',result=exercise_segment_contract(client,Path(args.report)/'segment-probe',args.fixtures))]
         if args.directory_only:

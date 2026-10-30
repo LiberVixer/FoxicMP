@@ -43,3 +43,5 @@ timestamp rebasing и HDR-вывод. Возможности старых scalar
 сохраняются. Проверка 10-bit декодирования не является подтверждением HDR или GPU.
 
 [Проверки трёх редакций](ProgressiveSegmentHevcValidation-2026-10-30.md).
+
+SDK 1.35 отдельно добавляет [сегментный AV1 Main 8/10-bit с AAC-LC](ProgressiveSegmentAv1.md).

@@ -1,4 +1,4 @@
-"""Player-only producer for stable-config segmented H.264/AAC fMP4 VOD."""
+"""Player-only producer for stable-config segmented H.264/HEVC/AV1 + AAC fMP4 VOD."""
 import argparse,copy,json,os,subprocess,sys,time,uuid
 from fractions import Fraction
 from pathlib import Path
@@ -35,7 +35,7 @@ def fragment_durations(fragment):
 
 
 def fixture(fixtures,profile="h264"):
-    assert profile in ("h264","hevc8","hevc10");video_codec="h264" if profile=="h264" else "hevc"
+    assert profile in ("h264","hevc8","hevc10","av1-8","av1-10");video_codec="av1" if profile.startswith("av1-") else "h264" if profile=="h264" else "hevc"
     value=dict(schemaVersion=2,sessionId=uuid.uuid4().hex,generation='1',revision='1',writer=dict(instanceId=uuid.uuid4().hex,state='downloading'),
         timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration='200000000',timestampOffset='0'),resources=[],tracks=[],
         metadata=dict(revision='1',title='Segmented fMP4 playback',chapters=[dict(id='intro',time='0',title='Intro'),dict(id='chapter',time='20000000',title='Two seconds')]))
@@ -80,7 +80,7 @@ def exercise(client,fixtures,work,pause,seek,profile="h264"):
     value=protect_snapshot(value,root);previous=copy.deepcopy(value)
     capabilities=client.request(dict(version=1,action='capabilities'))['schema2Playback']
     assert capabilities['segmentedPlayback']['mode']=='segmented-fmp4-h264-aac-lc'
-    mode='segmented-fmp4-'+('h264' if profile=='h264' else 'hevc')+'-aac-lc'
+    mode='segmented-fmp4-'+('av1' if profile.startswith('av1-') else 'h264' if profile=='h264' else 'hevc')+'-aac-lc'
     if profile!='h264':assert mode in capabilities['segmentedPlayback']['profiles']
     probe=client.probe(value,root);assert probe['supported'] and probe['readySeconds']<6,probe
     forget_closed_readers(client,value)
@@ -122,7 +122,7 @@ def exercise(client,fixtures,work,pause,seek,profile="h264"):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--player',required=True);p.add_argument('--profile');p.add_argument('--fixtures',required=True);p.add_argument('--work',required=True);p.add_argument('--media-profile',choices=['h264','hevc8','hevc10'],default='h264');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--player',required=True);p.add_argument('--profile');p.add_argument('--fixtures',required=True);p.add_argument('--work',required=True);p.add_argument('--media-profile',choices=['h264','hevc8','hevc10','av1-8','av1-10'],default='h264');a=p.parse_args()
     sequence=[0]
     def command(action,value=None):
         sequence[0]+=1;path=Path(a.work)/'control.json';temp=path.with_suffix('.tmp')

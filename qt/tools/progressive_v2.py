@@ -34,8 +34,9 @@ class V2PreviewSession:
             current=copy.deepcopy(snapshot);counter(current['generation']);revision=counter(current['revision'])
             if any('segments' in t.get('source',{}) for t in current.get('tracks',[])) and not self.segments_supported:
                 raise RuntimeError('Player lacks the segmented fMP4 playback profile; update the player')
-            if any('segments' in t.get('source',{}) and t.get('kind')=='video' and t.get('codecHint')=='hevc' for t in current.get('tracks',[])) and 'segmented-fmp4-hevc-aac-lc' not in self.segment_profiles:
-                raise RuntimeError('Player lacks the segmented HEVC playback profile; update the player')
+            for codec in ('hevc','av1'):
+                if any('segments' in t.get('source',{}) and t.get('kind')=='video' and t.get('codecHint')==codec for t in current.get('tracks',[])) and 'segmented-fmp4-'+codec+'-aac-lc' not in self.segment_profiles:
+                    raise RuntimeError('Player lacks the segmented '+codec.upper()+' playback profile; update the player')
             if any('integrity' in r for r in current.get('resources',[])) and not self.integrity_supported:
                 raise RuntimeError('Player lacks SHA-256 resource integrity; update the player')
             if self.last is not None:

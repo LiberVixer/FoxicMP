@@ -1,0 +1,2920 @@
+{
+  "sdkVersion": "1.35",
+  "date": "2026-10-30",
+  "profile": "segmented-fmp4-av1-aac-lc",
+  "native": {
+    "linux": [
+      {
+        "result": "PASS",
+        "profile": "h264",
+        "count": 14,
+        "checks": [
+          "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+          "reject-discontinuity",
+          "reject-configuration-change",
+          "reject-sequence-gap",
+          "reject-timestamp-offset",
+          "reject-wrong-packet-duration",
+          "reject-unknown-codec",
+          "reject-optional-track",
+          "initialization-only-then-append-resources-and-segments",
+          "initialization-cannot-hide-media-fragments",
+          "media-cannot-introduce-another-initialization",
+          "new-segment-integrity-error-is-fatal-before-decoder",
+          "pinned-segment-truncation-is-persistent-error",
+          "cancel-and-close-release-all-resources"
+        ]
+      },
+      {
+        "result": "PASS",
+        "profile": "hevc8",
+        "count": 23,
+        "checks": [
+          "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+          "reject-discontinuity",
+          "reject-configuration-change",
+          "reject-sequence-gap",
+          "reject-timestamp-offset",
+          "reject-wrong-packet-duration",
+          "reject-unknown-codec",
+          "reject-optional-track",
+          "initialization-only-then-append-resources-and-segments",
+          "initialization-cannot-hide-media-fragments",
+          "media-cannot-introduce-another-initialization",
+          "new-segment-integrity-error-is-fatal-before-decoder",
+          "pinned-segment-truncation-is-persistent-error",
+          "discover-real-hevc-without-codec-hint",
+          "reject-false-h264-hint",
+          "reject-hevc-version",
+          "reject-hevc-profile",
+          "reject-hevc-chroma",
+          "reject-hevc-length-size",
+          "reject-hevc-missing-parameter-arrays",
+          "reject-hevc-incomplete-parameter-arrays",
+          "hev1-sample-entry",
+          "cancel-and-close-release-all-resources"
+        ]
+      },
+      {
+        "result": "PASS",
+        "profile": "hevc10",
+        "count": 23,
+        "checks": [
+          "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+          "reject-discontinuity",
+          "reject-configuration-change",
+          "reject-sequence-gap",
+          "reject-timestamp-offset",
+          "reject-wrong-packet-duration",
+          "reject-unknown-codec",
+          "reject-optional-track",
+          "initialization-only-then-append-resources-and-segments",
+          "initialization-cannot-hide-media-fragments",
+          "media-cannot-introduce-another-initialization",
+          "new-segment-integrity-error-is-fatal-before-decoder",
+          "pinned-segment-truncation-is-persistent-error",
+          "discover-real-hevc-without-codec-hint",
+          "reject-false-h264-hint",
+          "reject-hevc-version",
+          "reject-hevc-profile",
+          "reject-hevc-chroma",
+          "reject-hevc-length-size",
+          "reject-hevc-missing-parameter-arrays",
+          "reject-hevc-incomplete-parameter-arrays",
+          "hev1-sample-entry",
+          "cancel-and-close-release-all-resources"
+        ]
+      },
+      {
+        "result": "PASS",
+        "profile": "av1-8",
+        "count": 33,
+        "checks": [
+          "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+          "reject-discontinuity",
+          "reject-configuration-change",
+          "reject-sequence-gap",
+          "reject-timestamp-offset",
+          "reject-wrong-packet-duration",
+          "reject-unknown-codec",
+          "reject-optional-track",
+          "initialization-only-then-append-resources-and-segments",
+          "initialization-cannot-hide-media-fragments",
+          "media-cannot-introduce-another-initialization",
+          "new-segment-integrity-error-is-fatal-before-decoder",
+          "pinned-segment-truncation-is-persistent-error",
+          "discover-real-av1-without-codec-hint",
+          "reject-false-h264-hint",
+          "reject-false-hevc-hint",
+          "reject-av1-marker",
+          "reject-av1-version",
+          "reject-av1-high-profile",
+          "reject-av1-level",
+          "reject-av1-twelve-bit",
+          "reject-av1-monochrome",
+          "reject-av1-chroma",
+          "reject-av1-reserved-bits",
+          "reject-av1-presentation-delay",
+          "reject-av1-obu-forbidden",
+          "reject-av1-obu-missing-size",
+          "reject-av1-obu-zero-payload",
+          "reject-av1-obu-overrun",
+          "reject-av1-obu-truncated-size",
+          "reject-av1-sequence-profile-mismatch",
+          "require-av1-sequence-in-configuration",
+          "cancel-and-close-release-all-resources"
+        ]
+      },
+      {
+        "result": "PASS",
+        "profile": "av1-10",
+        "count": 33,
+        "checks": [
+          "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+          "reject-discontinuity",
+          "reject-configuration-change",
+          "reject-sequence-gap",
+          "reject-timestamp-offset",
+          "reject-wrong-packet-duration",
+          "reject-unknown-codec",
+          "reject-optional-track",
+          "initialization-only-then-append-resources-and-segments",
+          "initialization-cannot-hide-media-fragments",
+          "media-cannot-introduce-another-initialization",
+          "new-segment-integrity-error-is-fatal-before-decoder",
+          "pinned-segment-truncation-is-persistent-error",
+          "discover-real-av1-without-codec-hint",
+          "reject-false-h264-hint",
+          "reject-false-hevc-hint",
+          "reject-av1-marker",
+          "reject-av1-version",
+          "reject-av1-high-profile",
+          "reject-av1-level",
+          "reject-av1-twelve-bit",
+          "reject-av1-monochrome",
+          "reject-av1-chroma",
+          "reject-av1-reserved-bits",
+          "reject-av1-presentation-delay",
+          "reject-av1-obu-forbidden",
+          "reject-av1-obu-missing-size",
+          "reject-av1-obu-zero-payload",
+          "reject-av1-obu-overrun",
+          "reject-av1-obu-truncated-size",
+          "reject-av1-sequence-profile-mismatch",
+          "require-av1-sequence-in-configuration",
+          "cancel-and-close-release-all-resources"
+        ]
+      }
+    ],
+    "windows": [
+      {
+        "result": "PASS",
+        "profile": "h264",
+        "count": 14,
+        "checks": [
+          "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+          "reject-discontinuity",
+          "reject-configuration-change",
+          "reject-sequence-gap",
+          "reject-timestamp-offset",
+          "reject-wrong-packet-duration",
+          "reject-unknown-codec",
+          "reject-optional-track",
+          "initialization-only-then-append-resources-and-segments",
+          "initialization-cannot-hide-media-fragments",
+          "media-cannot-introduce-another-initialization",
+          "new-segment-integrity-error-is-fatal-before-decoder",
+          "pinned-segment-truncation-is-persistent-error",
+          "cancel-and-close-release-all-resources"
+        ]
+      },
+      {
+        "result": "PASS",
+        "profile": "hevc8",
+        "count": 23,
+        "checks": [
+          "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+          "reject-discontinuity",
+          "reject-configuration-change",
+          "reject-sequence-gap",
+          "reject-timestamp-offset",
+          "reject-wrong-packet-duration",
+          "reject-unknown-codec",
+          "reject-optional-track",
+          "initialization-only-then-append-resources-and-segments",
+          "initialization-cannot-hide-media-fragments",
+          "media-cannot-introduce-another-initialization",
+          "new-segment-integrity-error-is-fatal-before-decoder",
+          "pinned-segment-truncation-is-persistent-error",
+          "discover-real-hevc-without-codec-hint",
+          "reject-false-h264-hint",
+          "reject-hevc-version",
+          "reject-hevc-profile",
+          "reject-hevc-chroma",
+          "reject-hevc-length-size",
+          "reject-hevc-missing-parameter-arrays",
+          "reject-hevc-incomplete-parameter-arrays",
+          "hev1-sample-entry",
+          "cancel-and-close-release-all-resources"
+        ]
+      },
+      {
+        "result": "PASS",
+        "profile": "hevc10",
+        "count": 23,
+        "checks": [
+          "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+          "reject-discontinuity",
+          "reject-configuration-change",
+          "reject-sequence-gap",
+          "reject-timestamp-offset",
+          "reject-wrong-packet-duration",
+          "reject-unknown-codec",
+          "reject-optional-track",
+          "initialization-only-then-append-resources-and-segments",
+          "initialization-cannot-hide-media-fragments",
+          "media-cannot-introduce-another-initialization",
+          "new-segment-integrity-error-is-fatal-before-decoder",
+          "pinned-segment-truncation-is-persistent-error",
+          "discover-real-hevc-without-codec-hint",
+          "reject-false-h264-hint",
+          "reject-hevc-version",
+          "reject-hevc-profile",
+          "reject-hevc-chroma",
+          "reject-hevc-length-size",
+          "reject-hevc-missing-parameter-arrays",
+          "reject-hevc-incomplete-parameter-arrays",
+          "hev1-sample-entry",
+          "cancel-and-close-release-all-resources"
+        ]
+      },
+      {
+        "result": "PASS",
+        "profile": "av1-8",
+        "count": 33,
+        "checks": [
+          "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+          "reject-discontinuity",
+          "reject-configuration-change",
+          "reject-sequence-gap",
+          "reject-timestamp-offset",
+          "reject-wrong-packet-duration",
+          "reject-unknown-codec",
+          "reject-optional-track",
+          "initialization-only-then-append-resources-and-segments",
+          "initialization-cannot-hide-media-fragments",
+          "media-cannot-introduce-another-initialization",
+          "new-segment-integrity-error-is-fatal-before-decoder",
+          "pinned-segment-truncation-is-persistent-error",
+          "discover-real-av1-without-codec-hint",
+          "reject-false-h264-hint",
+          "reject-false-hevc-hint",
+          "reject-av1-marker",
+          "reject-av1-version",
+          "reject-av1-high-profile",
+          "reject-av1-level",
+          "reject-av1-twelve-bit",
+          "reject-av1-monochrome",
+          "reject-av1-chroma",
+          "reject-av1-reserved-bits",
+          "reject-av1-presentation-delay",
+          "reject-av1-obu-forbidden",
+          "reject-av1-obu-missing-size",
+          "reject-av1-obu-zero-payload",
+          "reject-av1-obu-overrun",
+          "reject-av1-obu-truncated-size",
+          "reject-av1-sequence-profile-mismatch",
+          "require-av1-sequence-in-configuration",
+          "cancel-and-close-release-all-resources"
+        ]
+      },
+      {
+        "result": "PASS",
+        "profile": "av1-10",
+        "count": 33,
+        "checks": [
+          "gap-cross-boundary-append-offsets-complete-eof-and-last-owner-leases",
+          "reject-discontinuity",
+          "reject-configuration-change",
+          "reject-sequence-gap",
+          "reject-timestamp-offset",
+          "reject-wrong-packet-duration",
+          "reject-unknown-codec",
+          "reject-optional-track",
+          "initialization-only-then-append-resources-and-segments",
+          "initialization-cannot-hide-media-fragments",
+          "media-cannot-introduce-another-initialization",
+          "new-segment-integrity-error-is-fatal-before-decoder",
+          "pinned-segment-truncation-is-persistent-error",
+          "discover-real-av1-without-codec-hint",
+          "reject-false-h264-hint",
+          "reject-false-hevc-hint",
+          "reject-av1-marker",
+          "reject-av1-version",
+          "reject-av1-high-profile",
+          "reject-av1-level",
+          "reject-av1-twelve-bit",
+          "reject-av1-monochrome",
+          "reject-av1-chroma",
+          "reject-av1-reserved-bits",
+          "reject-av1-presentation-delay",
+          "reject-av1-obu-forbidden",
+          "reject-av1-obu-missing-size",
+          "reject-av1-obu-zero-payload",
+          "reject-av1-obu-overrun",
+          "reject-av1-obu-truncated-size",
+          "reject-av1-sequence-profile-mismatch",
+          "require-av1-sequence-in-configuration",
+          "cancel-and-close-release-all-resources"
+        ]
+      }
+    ]
+  },
+  "actualPlayback": {
+    "linuxQt": [
+      {
+        "profile": "h264",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 5.08,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 0,
+              "readerId": "57c903deb4d4f840d46242a177db97a8",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 3,
+              "readerId": "57c903deb4d4f840d46242a177db97a8",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 3.04,
+              "readerId": "57c903deb4d4f840d46242a177db97a8",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "196608"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 2,
+              "readerId": "57c903deb4d4f840d46242a177db97a8",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "327680"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 4.04,
+              "readerId": "57c903deb4d4f840d46242a177db97a8",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "191811",
+                "video": "585638"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 13.040000000000001,
+              "readerId": "57c903deb4d4f840d46242a177db97a8",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "audio": "245597",
+                "video": "789917"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "readerId": "57c903deb4d4f840d46242a177db97a8",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "h264"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "hevc8",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 4.92,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 0,
+              "readerId": "ae09d7975d0b363ac53d90333ee4926f",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 3,
+              "readerId": "ae09d7975d0b363ac53d90333ee4926f",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 3.04,
+              "readerId": "ae09d7975d0b363ac53d90333ee4926f",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "196608"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 2,
+              "readerId": "ae09d7975d0b363ac53d90333ee4926f",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 4.08,
+              "readerId": "ae09d7975d0b363ac53d90333ee4926f",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "191811",
+                "video": "458752"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 13.040000000000001,
+              "readerId": "ae09d7975d0b363ac53d90333ee4926f",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "audio": "245597",
+                "video": "590751"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "readerId": "ae09d7975d0b363ac53d90333ee4926f",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "hevc"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "hevc10",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 4.92,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 0,
+              "readerId": "309f82bb927e11b9ad73223574410342",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 3.04,
+              "readerId": "309f82bb927e11b9ad73223574410342",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 3.04,
+              "readerId": "309f82bb927e11b9ad73223574410342",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "196608"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 2,
+              "readerId": "309f82bb927e11b9ad73223574410342",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 4.08,
+              "readerId": "309f82bb927e11b9ad73223574410342",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "191811",
+                "video": "458752"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 13.08,
+              "readerId": "309f82bb927e11b9ad73223574410342",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "audio": "245597",
+                "video": "592612"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "readerId": "309f82bb927e11b9ad73223574410342",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "hevc"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-8",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 0,
+              "readerId": "8ecd0cda4ff31a164ca896338e48ad7b",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 3,
+              "readerId": "8ecd0cda4ff31a164ca896338e48ad7b",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 3,
+              "readerId": "8ecd0cda4ff31a164ca896338e48ad7b",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "196608"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 2,
+              "readerId": "8ecd0cda4ff31a164ca896338e48ad7b",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "327680"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 4.08,
+              "readerId": "8ecd0cda4ff31a164ca896338e48ad7b",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "191811",
+                "video": "524288"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 13.08,
+              "readerId": "8ecd0cda4ff31a164ca896338e48ad7b",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "audio": "245597",
+                "video": "714790"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "readerId": "8ecd0cda4ff31a164ca896338e48ad7b",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "av1"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-10",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 0,
+              "readerId": "ca2a12dc101b074494f21e74c7773321",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 3.12,
+              "readerId": "ca2a12dc101b074494f21e74c7773321",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 3.16,
+              "readerId": "ca2a12dc101b074494f21e74c7773321",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 2,
+              "readerId": "ca2a12dc101b074494f21e74c7773321",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 4,
+              "readerId": "ca2a12dc101b074494f21e74c7773321",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "191811",
+                "video": "524288"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 13.08,
+              "readerId": "ca2a12dc101b074494f21e74c7773321",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "audio": "245597",
+                "video": "711067"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "readerId": "ca2a12dc101b074494f21e74c7773321",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "av1"
+            }
+          }
+        ]
+      }
+    ],
+    "windowsQt": [
+      {
+        "profile": "h264",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 5.08,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 0,
+              "readerId": "2945c6bbe32a80966684a12d1f96b6c6",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 3.04,
+              "readerId": "2945c6bbe32a80966684a12d1f96b6c6",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 3.08,
+              "readerId": "2945c6bbe32a80966684a12d1f96b6c6",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 2,
+              "readerId": "2945c6bbe32a80966684a12d1f96b6c6",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "327680"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 4.04,
+              "readerId": "2945c6bbe32a80966684a12d1f96b6c6",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "191811",
+                "video": "585638"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "positionSeconds": 13.08,
+              "readerId": "2945c6bbe32a80966684a12d1f96b6c6",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "h264"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "audio": "245597",
+                "video": "789917"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "readerId": "2945c6bbe32a80966684a12d1f96b6c6",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "h264"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "hevc8",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 4.92,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 0,
+              "readerId": "c16b3c7eff485e39660e25d8a2f91cbb",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 3.04,
+              "readerId": "c16b3c7eff485e39660e25d8a2f91cbb",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 3.08,
+              "readerId": "c16b3c7eff485e39660e25d8a2f91cbb",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "196608"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 2,
+              "readerId": "c16b3c7eff485e39660e25d8a2f91cbb",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 4.12,
+              "readerId": "c16b3c7eff485e39660e25d8a2f91cbb",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "191811",
+                "video": "458752"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 13.120000000000001,
+              "readerId": "c16b3c7eff485e39660e25d8a2f91cbb",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "audio": "245597",
+                "video": "590751"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "readerId": "c16b3c7eff485e39660e25d8a2f91cbb",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "hevc"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "hevc10",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 4.92,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 0,
+              "readerId": "8fb79717e0d8b4db90d3747b018d5eef",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 3,
+              "readerId": "8fb79717e0d8b4db90d3747b018d5eef",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12.032,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 3.04,
+              "readerId": "8fb79717e0d8b4db90d3747b018d5eef",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "196608"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 2,
+              "readerId": "8fb79717e0d8b4db90d3747b018d5eef",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 4,
+              "readerId": "8fb79717e0d8b4db90d3747b018d5eef",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14.0373333,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "191811",
+                "video": "458752"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "positionSeconds": 13.08,
+              "readerId": "8fb79717e0d8b4db90d3747b018d5eef",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "hevc"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "audio": "245597",
+                "video": "592612"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "readerId": "8fb79717e0d8b4db90d3747b018d5eef",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "hevc"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-8",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 0,
+              "readerId": "e7b4b62161e65f3cc14ee47965873e7c",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 3.12,
+              "readerId": "e7b4b62161e65f3cc14ee47965873e7c",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 3.12,
+              "readerId": "e7b4b62161e65f3cc14ee47965873e7c",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 2,
+              "readerId": "e7b4b62161e65f3cc14ee47965873e7c",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "327680"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 4.08,
+              "readerId": "e7b4b62161e65f3cc14ee47965873e7c",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "191811",
+                "video": "524288"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 13.040000000000001,
+              "readerId": "e7b4b62161e65f3cc14ee47965873e7c",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "audio": "245597",
+                "video": "714790"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "readerId": "e7b4b62161e65f3cc14ee47965873e7c",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "av1"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-10",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 5,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 0,
+              "readerId": "1f8c167bc878463ac81b4abf3532326c",
+              "released": false,
+              "revision": "1",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 3,
+              "readerId": "1f8c167bc878463ac81b4abf3532326c",
+              "released": false,
+              "revision": "2",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 12,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "65536",
+                "video": "131072"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 3.04,
+              "readerId": "1f8c167bc878463ac81b4abf3532326c",
+              "released": false,
+              "revision": "2",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 2,
+              "readerId": "1f8c167bc878463ac81b4abf3532326c",
+              "released": false,
+              "revision": "3",
+              "state": "paused",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "262144"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 4,
+              "readerId": "1f8c167bc878463ac81b4abf3532326c",
+              "released": false,
+              "revision": "3",
+              "state": "playing",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "audioCodec": "aac-lc",
+              "availableSeconds": 14,
+              "complete": false,
+              "decoderIoBytes": {
+                "audio": "191811",
+                "video": "524288"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "positionSeconds": 13.040000000000001,
+              "readerId": "1f8c167bc878463ac81b4abf3532326c",
+              "released": false,
+              "revision": "3",
+              "state": "buffering",
+              "videoCodec": "av1"
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "audio": "245597",
+                "video": "711067"
+              },
+              "error": "",
+              "generation": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "readerId": "1f8c167bc878463ac81b4abf3532326c",
+              "released": true,
+              "revision": "4",
+              "state": "finished",
+              "videoCodec": "av1"
+            }
+          }
+        ]
+      }
+    ],
+    "classic": [
+      {
+        "profile": "h264",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "37ca80c50c9ebd8627af1140daa98043",
+              "generation": "1",
+              "revision": "1",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "0",
+                "audio": "0"
+              },
+              "positionSeconds": 0.0,
+              "availableSeconds": 5.0
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "37ca80c50c9ebd8627af1140daa98043",
+              "generation": "1",
+              "revision": "2",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "200844",
+                "audio": "55647"
+              },
+              "positionSeconds": 3.0429035,
+              "availableSeconds": 12.0
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "state": "paused",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "37ca80c50c9ebd8627af1140daa98043",
+              "generation": "1",
+              "revision": "2",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "200844",
+                "audio": "56014"
+              },
+              "positionSeconds": 3.0429035,
+              "availableSeconds": 12.0
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "state": "paused",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "37ca80c50c9ebd8627af1140daa98043",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "200844",
+                "audio": "58397"
+              },
+              "positionSeconds": 2.0,
+              "availableSeconds": 14.0
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "37ca80c50c9ebd8627af1140daa98043",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "404438",
+                "audio": "102265"
+              },
+              "positionSeconds": 4.0446949,
+              "availableSeconds": 14.0
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "37ca80c50c9ebd8627af1140daa98043",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "619992",
+                "audio": "160096"
+              },
+              "positionSeconds": 13.0474609,
+              "availableSeconds": 14.0
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "state": "finished",
+              "error": "",
+              "generation": "1",
+              "revision": "4",
+              "mediaMode": "segmented-fmp4-h264-aac-lc",
+              "videoCodec": "h264",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "822399",
+                "audio": "211926"
+              },
+              "released": true,
+              "readerId": "37ca80c50c9ebd8627af1140daa98043"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "hevc8",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "51a44c6992c209187b680529f099cb2f",
+              "generation": "1",
+              "revision": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "0",
+                "audio": "0"
+              },
+              "positionSeconds": 0.0,
+              "availableSeconds": 4.84
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "51a44c6992c209187b680529f099cb2f",
+              "generation": "1",
+              "revision": "2",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "141720",
+                "audio": "55837"
+              },
+              "positionSeconds": 3.0336746,
+              "availableSeconds": 12.032
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "state": "paused",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "51a44c6992c209187b680529f099cb2f",
+              "generation": "1",
+              "revision": "2",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "141720",
+                "audio": "56014"
+              },
+              "positionSeconds": 3.0336746,
+              "availableSeconds": 12.032
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "state": "paused",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "51a44c6992c209187b680529f099cb2f",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "145485",
+                "audio": "62652"
+              },
+              "positionSeconds": 2.0,
+              "availableSeconds": 14.0373333
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "51a44c6992c209187b680529f099cb2f",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "285845",
+                "audio": "102636"
+              },
+              "positionSeconds": 4.0908632,
+              "availableSeconds": 14.0373333
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "51a44c6992c209187b680529f099cb2f",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "452251",
+                "audio": "160096"
+              },
+              "positionSeconds": 13.0420645,
+              "availableSeconds": 14.0373333
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "state": "finished",
+              "error": "",
+              "generation": "1",
+              "revision": "4",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "573915",
+                "audio": "211926"
+              },
+              "released": true,
+              "readerId": "51a44c6992c209187b680529f099cb2f"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "hevc10",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "32e3447f742a6edc5fd9ada43302bc0d",
+              "generation": "1",
+              "revision": "1",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "0",
+                "audio": "0"
+              },
+              "positionSeconds": 0.0,
+              "availableSeconds": 4.84
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "32e3447f742a6edc5fd9ada43302bc0d",
+              "generation": "1",
+              "revision": "2",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "142437",
+                "audio": "55647"
+              },
+              "positionSeconds": 3.076441,
+              "availableSeconds": 12.032
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "state": "paused",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "32e3447f742a6edc5fd9ada43302bc0d",
+              "generation": "1",
+              "revision": "2",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "142437",
+                "audio": "56014"
+              },
+              "positionSeconds": 3.076441,
+              "availableSeconds": 12.032
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "state": "paused",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "32e3447f742a6edc5fd9ada43302bc0d",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "146137",
+                "audio": "62652"
+              },
+              "positionSeconds": 2.0,
+              "availableSeconds": 14.0373333
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "32e3447f742a6edc5fd9ada43302bc0d",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "287184",
+                "audio": "102265"
+              },
+              "positionSeconds": 4.0391171,
+              "availableSeconds": 14.0373333
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "32e3447f742a6edc5fd9ada43302bc0d",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "454993",
+                "audio": "160096"
+              },
+              "positionSeconds": 13.0408637,
+              "availableSeconds": 14.0373333
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "state": "finished",
+              "error": "",
+              "generation": "1",
+              "revision": "4",
+              "mediaMode": "segmented-fmp4-hevc-aac-lc",
+              "videoCodec": "hevc",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "576481",
+                "audio": "211926"
+              },
+              "released": true,
+              "readerId": "32e3447f742a6edc5fd9ada43302bc0d"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-8",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "52c7ec4b0218ec2c6c201bc3b4e54d38",
+              "generation": "1",
+              "revision": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "0",
+                "audio": "0"
+              },
+              "positionSeconds": 0.0,
+              "availableSeconds": 5.0
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "52c7ec4b0218ec2c6c201bc3b4e54d38",
+              "generation": "1",
+              "revision": "2",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "186084",
+                "audio": "56014"
+              },
+              "positionSeconds": 3.0688674,
+              "availableSeconds": 12.0
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "state": "paused",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "52c7ec4b0218ec2c6c201bc3b4e54d38",
+              "generation": "1",
+              "revision": "2",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "187257",
+                "audio": "56379"
+              },
+              "positionSeconds": 3.1131302,
+              "availableSeconds": 12.0
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "state": "paused",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "52c7ec4b0218ec2c6c201bc3b4e54d38",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "195798",
+                "audio": "68560"
+              },
+              "positionSeconds": 2.0,
+              "availableSeconds": 14.0
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "52c7ec4b0218ec2c6c201bc3b4e54d38",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "347622",
+                "audio": "103001"
+              },
+              "positionSeconds": 4.0902507,
+              "availableSeconds": 14.0
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "52c7ec4b0218ec2c6c201bc3b4e54d38",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "534050",
+                "audio": "160461"
+              },
+              "positionSeconds": 13.0452162,
+              "availableSeconds": 14.0
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "state": "finished",
+              "error": "",
+              "generation": "1",
+              "revision": "4",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "710540",
+                "audio": "212291"
+              },
+              "released": true,
+              "readerId": "52c7ec4b0218ec2c6c201bc3b4e54d38"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-10",
+        "networkRequests": 0,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "released": true,
+        "phases": [
+          {
+            "phase": "gap-stops-contiguous-prefix",
+            "status": {
+              "active": true,
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "af5ec8ef3b45196e33e3bf0773f04a1f",
+              "generation": "1",
+              "revision": "1",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "0",
+                "audio": "0"
+              },
+              "positionSeconds": 0.0,
+              "availableSeconds": 5.0
+            }
+          },
+          {
+            "phase": "playing-before-complete",
+            "status": {
+              "active": true,
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "af5ec8ef3b45196e33e3bf0773f04a1f",
+              "generation": "1",
+              "revision": "2",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "184973",
+                "audio": "56014"
+              },
+              "positionSeconds": 3.0742425,
+              "availableSeconds": 12.0
+            }
+          },
+          {
+            "phase": "user-pause",
+            "status": {
+              "active": true,
+              "state": "paused",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "af5ec8ef3b45196e33e3bf0773f04a1f",
+              "generation": "1",
+              "revision": "2",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "186131",
+                "audio": "56204"
+              },
+              "positionSeconds": 3.0742425,
+              "availableSeconds": 12.0
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "status": {
+              "active": true,
+              "state": "paused",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "af5ec8ef3b45196e33e3bf0773f04a1f",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "189114",
+                "audio": "65610"
+              },
+              "positionSeconds": 2.0,
+              "availableSeconds": 14.0
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "status": {
+              "active": true,
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "af5ec8ef3b45196e33e3bf0773f04a1f",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "341984",
+                "audio": "102095"
+              },
+              "positionSeconds": 4.0009761,
+              "availableSeconds": 14.0
+            }
+          },
+          {
+            "phase": "unfinished-tail-waits-not-eof",
+            "status": {
+              "active": true,
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "complete": false,
+              "readerId": "af5ec8ef3b45196e33e3bf0773f04a1f",
+              "generation": "1",
+              "revision": "3",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "529808",
+                "audio": "160286"
+              },
+              "positionSeconds": 13.0441053,
+              "availableSeconds": 14.0
+            }
+          },
+          {
+            "phase": "explicit-complete-and-natural-eof",
+            "status": {
+              "active": false,
+              "state": "finished",
+              "error": "",
+              "generation": "1",
+              "revision": "4",
+              "mediaMode": "segmented-fmp4-av1-aac-lc",
+              "videoCodec": "av1",
+              "audioCodec": "aac-lc",
+              "decoderIoBytes": {
+                "video": "704687",
+                "audio": "212116"
+              },
+              "released": true,
+              "readerId": "af5ec8ef3b45196e33e3bf0773f04a1f"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "qtDecoderEvidence": {
+    "linuxQt": [
+      {
+        "profile": "h264",
+        "videoCodec": "h264",
+        "pixelFormat": "yuv420p",
+        "changingFrames": true,
+        "aac48000": true
+      },
+      {
+        "profile": "hevc8",
+        "videoCodec": "hevc",
+        "pixelFormat": "yuv420p",
+        "changingFrames": true,
+        "aac48000": true
+      },
+      {
+        "profile": "hevc10",
+        "videoCodec": "hevc",
+        "pixelFormat": "yuv420p10",
+        "changingFrames": true,
+        "aac48000": true
+      },
+      {
+        "profile": "av1-8",
+        "videoCodec": "av1",
+        "pixelFormat": "yuv420p",
+        "changingFrames": true,
+        "aac48000": true
+      },
+      {
+        "profile": "av1-10",
+        "videoCodec": "av1",
+        "pixelFormat": "yuv420p10",
+        "changingFrames": true,
+        "aac48000": true
+      }
+    ],
+    "windowsQt": [
+      {
+        "profile": "h264",
+        "videoCodec": "h264",
+        "pixelFormat": "yuv420p",
+        "changingFrames": true,
+        "aac48000": true
+      },
+      {
+        "profile": "hevc8",
+        "videoCodec": "hevc",
+        "pixelFormat": "yuv420p",
+        "changingFrames": true,
+        "aac48000": true
+      },
+      {
+        "profile": "hevc10",
+        "videoCodec": "hevc",
+        "pixelFormat": "yuv420p10",
+        "changingFrames": true,
+        "aac48000": true
+      },
+      {
+        "profile": "av1-8",
+        "videoCodec": "av1",
+        "pixelFormat": "yuv420p",
+        "changingFrames": true,
+        "aac48000": true
+      },
+      {
+        "profile": "av1-10",
+        "videoCodec": "av1",
+        "pixelFormat": "yuv420p10",
+        "changingFrames": true,
+        "aac48000": true
+      }
+    ]
+  },
+  "regression": {
+    "linuxCTestGroups": 9,
+    "windowsCTestGroups": 10,
+    "nativeStreamCasesPerOS": 126,
+    "nativeMediaCasesPerOS": 468,
+    "segmentDiagnosticNativeCasesPerOS": 18,
+    "segmentDiagnosticWireCasesPerQtEdition": 12,
+    "v2SdkCases": 17,
+    "familyContractCases": 2,
+    "classicV1DirectoryContract": true,
+    "qtPlaybackQTestResultsPerOS": 7,
+    "qtCompatibilityQTestResultsPerOS": 4
+  },
+  "exitCodes": {
+    "segav1-native-build": 0,
+    "segav1-native": 0,
+    "segav1-sdk": 0,
+    "segav1-linux-build": 0,
+    "segav1-linux-tests": 0,
+    "segav1-linux-compat": 0,
+    "segav1-winqt-build": 0,
+    "segav1-checked-win-tests": 0,
+    "segav1-winqt-compat": 0,
+    "segav1-classic-build": 0,
+    "segav1-classic-finalize": 0,
+    "segav1-family-contract": 0,
+    "segav1-linux-install": 0
+  },
+  "initialAttempts": [],
+  "classicCleanup": {
+    "lastTaskResult": 0,
+    "taskRemoved": true,
+    "stageRemoved": true,
+    "builtSha256": "5855246d689341478585193851fabb3428433535a85d9aa2d30163dc48c4e385",
+    "testedSha256": "5855246d689341478585193851fabb3428433535a85d9aa2d30163dc48c4e385",
+    "equal": true,
+    "testExitCode": 0
+  },
+  "binarySha256": {
+    "linuxQt": "4eee103019489bcadca8ad06c66b410e3bf79cfb3cfb0823a3cb22df34b81f15",
+    "windowsQt": "fc92a51c4f63e8cecf083da109f06bf844a681fffd04d89b34788e2c19ba6733",
+    "classic": "5855246d689341478585193851fabb3428433535a85d9aa2d30163dc48c4e385"
+  },
+  "linuxInstallation": {
+    "installedSha256": "4eee103019489bcadca8ad06c66b410e3bf79cfb3cfb0823a3cb22df34b81f15",
+    "previousInstalledSha256": "732b640ddd4f0e6d3375ebfbc47f45bea71c49cb02af2a5e47d9e7b998608a88",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.35-20261030T050615Z",
+    "profileSha256Before": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "profileSha256After": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "profileUnchanged": true,
+    "protectedFilesVerified": 193,
+    "version": "FoxicMPQt 0.2.0",
+    "segmentProbeVersion": 1,
+    "segmentsPlayback": true
+  },
+  "physicalOutputMeasurement": false,
+  "harvesterModified": false,
+  "installedWindowsPlayersModified": false
+}
