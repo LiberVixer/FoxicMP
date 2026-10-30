@@ -1,0 +1,183 @@
+{
+  "date": "2026-10-30",
+  "scope": "local-page-io-only",
+  "result": "PASS",
+  "publicPlaybackCapability": false,
+  "mediaReaderLeasesTested": false,
+  "linux": {
+    "result": "PASS",
+    "scope": "local-page-io-only",
+    "count": 25,
+    "checks": [
+      "local-160-segments-without-opening-media",
+      "local-catalog-8192-resources",
+      "missing-page-is-waiting-and-can-be-retried",
+      "missing-appended-page-retains-accepted-model",
+      "reject-physical-page-short",
+      "reject-physical-page-long",
+      "reject-physical-page-oversized",
+      "reject-physical-page-digest",
+      "read-exact-64-KiB-page-in-bounded-chunks",
+      "reopening-detects-identity-replacement-even-with-identical-bytes",
+      "reopening-detects-in-place-content-rewrite",
+      "published-page-disappearance-is-error-not-waiting",
+      "failed-update-does-not-commit-new-page-bindings",
+      "repeated-publish-closes-page-handles-and-owner-closes-directory",
+      "cancel-before-read-retains-accepted-model",
+      "cancel-during-large-catalog-retains-accepted-model",
+      "reject-hard-linked-page",
+      "reject-symbolic-linked-page",
+      "reject-directory-instead-of-page",
+      "reject-linked-or-reparse-root-directory",
+      "reject-linked-or-reparse-ancestor-directory",
+      "directory-rename-cannot-retarget-the-reader",
+      "reject-traversal-before-opening-page",
+      "reject-absolute-path-before-opening-page",
+      "fifo-page-is-rejected-without-blocking"
+    ],
+    "skipped": [],
+    "platform": "posix",
+    "maxTestedResources": 8192,
+    "publicPlaybackCapability": false,
+    "readerLeasesTested": false
+  },
+  "windowsMingw": {
+    "result": "PASS",
+    "scope": "local-page-io-only",
+    "count": 24,
+    "checks": [
+      "local-160-segments-without-opening-media",
+      "local-catalog-8192-resources",
+      "missing-page-is-waiting-and-can-be-retried",
+      "missing-appended-page-retains-accepted-model",
+      "reject-physical-page-short",
+      "reject-physical-page-long",
+      "reject-physical-page-oversized",
+      "reject-physical-page-digest",
+      "read-exact-64-KiB-page-in-bounded-chunks",
+      "reopening-detects-identity-replacement-even-with-identical-bytes",
+      "reopening-detects-in-place-content-rewrite",
+      "published-page-disappearance-is-error-not-waiting",
+      "failed-update-does-not-commit-new-page-bindings",
+      "repeated-publish-closes-page-handles-and-owner-closes-directory",
+      "cancel-before-read-retains-accepted-model",
+      "cancel-during-large-catalog-retains-accepted-model",
+      "reject-hard-linked-page",
+      "reject-symbolic-linked-page",
+      "reject-directory-instead-of-page",
+      "reject-linked-or-reparse-root-directory",
+      "reject-linked-or-reparse-ancestor-directory",
+      "directory-rename-cannot-retarget-the-reader",
+      "reject-traversal-before-opening-page",
+      "reject-absolute-path-before-opening-page"
+    ],
+    "skipped": [],
+    "platform": "nt",
+    "maxTestedResources": 8192,
+    "publicPlaybackCapability": false,
+    "readerLeasesTested": false
+  },
+  "windowsMsvc": {
+    "result": "PASS",
+    "scope": "local-page-io-only",
+    "count": 24,
+    "checks": [
+      "local-160-segments-without-opening-media",
+      "local-catalog-8192-resources",
+      "missing-page-is-waiting-and-can-be-retried",
+      "missing-appended-page-retains-accepted-model",
+      "reject-physical-page-short",
+      "reject-physical-page-long",
+      "reject-physical-page-oversized",
+      "reject-physical-page-digest",
+      "read-exact-64-KiB-page-in-bounded-chunks",
+      "reopening-detects-identity-replacement-even-with-identical-bytes",
+      "reopening-detects-in-place-content-rewrite",
+      "published-page-disappearance-is-error-not-waiting",
+      "failed-update-does-not-commit-new-page-bindings",
+      "repeated-publish-closes-page-handles-and-owner-closes-directory",
+      "cancel-before-read-retains-accepted-model",
+      "cancel-during-large-catalog-retains-accepted-model",
+      "reject-hard-linked-page",
+      "reject-symbolic-linked-page",
+      "reject-directory-instead-of-page",
+      "reject-linked-or-reparse-root-directory",
+      "reject-linked-or-reparse-ancestor-directory",
+      "directory-rename-cannot-retarget-the-reader",
+      "reject-traversal-before-opening-page",
+      "reject-absolute-path-before-opening-page"
+    ],
+    "skipped": [],
+    "platform": "nt",
+    "maxTestedResources": 8192,
+    "publicPlaybackCapability": false,
+    "readerLeasesTested": false
+  },
+  "regressions": {
+    "linux": {
+      "model": 90,
+      "segments": 11,
+      "catalogModel": 51,
+      "resourceIo": 30,
+      "integrity": 10,
+      "ctestGroups": 6,
+      "exitCode": 0
+    },
+    "windows": {
+      "model": 90,
+      "segments": 11,
+      "catalogModel": 51,
+      "resourceIo": 28,
+      "integrity": 10,
+      "originalCtestGroups": 6,
+      "originalExitCode": 8,
+      "passedOriginalGroups": 5,
+      "catalogIoRecheckExitCode": 0
+    }
+  },
+  "exitCodes": {
+    "catalog-io-linux-build": 0,
+    "catalog-io-linux-resource-build": 0,
+    "catalog-io-linux-rebuild": 0,
+    "catalog-io-linux-final-tests": 0,
+    "catalog-io-linux-final": 0,
+    "catalog-io-win-build": 0,
+    "catalog-io-win-recheck": 0,
+    "catalog-io-msvc-build": 0,
+    "catalog-io-msvc-tests": 0,
+    "catalog-io-msvc-recheck": 0
+  },
+  "initialFailures": [
+    {
+      "windowsCtestExitCode": 8,
+      "msvcPythonExitCode": 1,
+      "reason": "Handle-count test used a cold-process baseline. After a complete-path warmup, 30 publications and 15 owner cycles remained stable."
+    },
+    {
+      "windowsCtestExitCode": 8,
+      "msvcPythonExitCode": 1,
+      "reason": "Directory-as-page test expected Linux Inspect classification. Windows CreateFile rejects it earlier with resource-io-error. Test now verifies the actual platform rejection; adapter unchanged."
+    }
+  ],
+  "sourceFiles": {
+    "shared/progressivelocalcatalog.h": "e3b2484b3d3f977650da270aec5f6f272d5a9bc7d83a623c6e273e01a14db8af",
+    "shared/progressiveresourceio.h": "eba7e869018e81708b2fc4371d4c5c6846461bb015701eac969d0a913fe4b2b3",
+    "tests/progressive_catalog_io_cli.cpp": "15f2f752cabd010f21f9697d5fee1590612ac5f39c822c00796d99c897700426",
+    "tests/progressive_catalog_io_conformance.py": "443813d555eda8071ba8815256ba7f26ea497c797d6e3fd96ac032f18948e034",
+    "qt/CMakeLists.txt": "0131d051a40de33022a0a0b1c0436918ea51e443d57528078b84b22190b164e3"
+  },
+  "installedLinux": {
+    "executableSha256": "6b4b24e39050fba46cb5659f086530afaf0ad319e97adc70ba09fefd0fdabdd7",
+    "iniSha256": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "replaced": false
+  },
+  "windowsInstalledApplicationsChanged": false,
+  "harvesterChanged": false,
+  "limitations": [
+    "not-connected-to-player-api-or-playback",
+    "no-media-handle-cache-or-lease-LRU-yet",
+    "owner-must-serialize-and-dispatch-off-UI",
+    "cancellation-is-cooperative-not-a-syscall-deadline",
+    "long-A/V-and-seek-tests-still-required"
+  ]
+}

@@ -82,6 +82,12 @@ public:
         file.value=std::exchange(current.value,-1);Inspect(file,true);
 #endif
     }
+    void verify() const {
+        Inspect(file,true);
+#ifdef _WIN32
+        Check(_wcsicmp(Final(file.value).c_str(),root.c_str())==0,"unsafe-resource","Pinned session directory path changed");
+#endif
+    }
     Handle open(const std::string& name) const {
         PlainName(name,"resource.name");
 #ifdef _WIN32
