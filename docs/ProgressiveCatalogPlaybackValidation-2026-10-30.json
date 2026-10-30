@@ -3629,6 +3629,11 @@
   },
   "initialAttempts": [
     {
+      "step": "sdk-package-full-capability-compare",
+      "exitCode": 1,
+      "reason": "The previously partial SDK manifest omitted five existing descriptive schema2 fields. Added them so the complete schema2Playback capability matches the installed app, not only its segmentedPlayback subtree."
+    },
+    {
       "step": "linux-catalog-first-playback",
       "exitCode": 8,
       "reason": "Test sought to 68 s with only 72 s ready, below the existing resume buffer. All three correctly stayed buffering; producer now publishes 80 s before this seek."
