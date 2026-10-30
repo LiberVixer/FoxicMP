@@ -7,6 +7,7 @@
 #include <chrono>
 #include <cstring>
 #include <atomic>
+#include <list>
 #ifndef _WIN32
 #include <sys/vfs.h>
 #endif
@@ -206,6 +207,10 @@ enum class ResourceFailurePolicy {
     IsolatePendingAudioAndSrt,
     IsolateOptionalAudioAndSrt
 };
+// Internal catalog path only. Existing/public readers retain their pinned-file
+// behavior and original inline limits until catalog playback is negotiated.
+enum class ResourceMode { Inline, BoundedCatalog };
+constexpr size_t MaxCatalogOpenResources=8, MaxCatalogMediaBytes=16*1024*1024;
 class ResourceSource {
     using Directory=resource_detail::Directory;
     using Pin=resource_detail::Pin;
@@ -213,10 +218,44 @@ class ResourceSource {
     std::filesystem::path registry;
     Snapshot snapshot;
     std::map<std::string,std::unique_ptr<Pin>> pins;
+    ResourceMode mode;
+    std::list<std::string> recent;
+    std::map<std::string,std::list<std::string>::iterator> positions;
+    std::map<std::string,resource_detail::Info> history;
+    std::map<std::pair<uint64_t,uint64_t>,std::string> identities;
+    std::set<std::string> closingReaders;
     mutable std::mutex mutex;std::condition_variable changed;
     std::atomic<bool> cancelled{false};
     std::string failure;
     ResourceFailurePolicy failurePolicy;
+    static void checkCatalog(const Snapshot& value) {
+        for(const auto& item:value.resources) {
+            const auto& resource=item.second;
+            Require(resource.integrity,"resourceIo","Bounded catalog resources require SHA-256","integrity-required");
+            Require(!resource.retired && (!resource.known || (resource.length>0 && resource.length<=MaxCatalogMediaBytes)) &&
+                (resource.ranges.empty() || resource.ranges.back().offset+resource.ranges.back().length<=MaxCatalogMediaBytes),
+                "resourceIo","Bounded catalog resource is retired or exceeds 16 MiB","unsupported_media");
+        }
+    }
+    void acknowledgeClosedReaders() {
+        if(closingReaders.empty())return;
+        lease_detail::Directory receipts(registry,false);auto guard=receipts.file(".guard",true);
+        lease_detail::Check(guard.lock(),"Reader registry is busy","reader_registry_busy");
+        const auto ids=receipts.ids();
+        for(auto it=closingReaders.begin();it!=closingReaders.end();) {
+            if(std::find(ids.begin(),ids.end(),*it)!=ids.end()) {
+                auto receipt=lease_detail::Inspect(receipts,*it);
+                lease_detail::Check(receipt["released"].GetBool(),"Closed media reader has no release acknowledgement","reader_in_use");
+                receipts.erase(*it);
+            } // Another owner may already have acknowledged/forgotten it.
+            it=closingReaders.erase(it);
+        }
+    }
+    void touch(const std::string& id) {
+        auto at=positions.find(id);
+        if(at!=positions.end())recent.splice(recent.end(),recent,at->second);
+        else {recent.push_back(id);try{positions.emplace(id,std::prev(recent.end()));}catch(...){recent.pop_back();throw;}}
+    }
     std::map<std::string,ResourceRead> resourceFailures;
     std::set<std::string> activeMedia;
     bool isolate(const std::string& id) const {
@@ -257,12 +296,35 @@ class ResourceSource {
     }
     std::shared_ptr<std::atomic<bool>> released=std::make_shared<std::atomic<bool>>(false);
     Pin& pin(const Resource& resource) {
-        auto found=pins.find(resource.id);if(found!=pins.end())return *found->second;
+        if(mode==ResourceMode::BoundedCatalog)acknowledgeClosedReaders();
+        auto found=pins.find(resource.id);if(found!=pins.end()) {
+            if(mode==ResourceMode::BoundedCatalog)touch(resource.id);
+            return *found->second;
+        }
         resource_detail::Check(!resource.retired,"resource-retired","Cannot attach a new reader to a retired resource");
+        if(mode==ResourceMode::BoundedCatalog) {
+            if(pins.size()>=MaxCatalogOpenResources) {
+                const auto id=recent.front();const auto reader=pins.at(id)->lease->id();
+                closingReaders.insert(reader);
+                // Pin destroys the media HANDLE/fd BEFORE filesClosed and the
+                // lease lock. A failed acknowledgement prevents further opens.
+                pins.erase(id);positions.erase(id);recent.pop_front();acknowledgeClosedReaders();
+            }
+            directory->verify();
+        }
         auto file=directory->open(resource.name);const auto info=resource_detail::Inspect(file);
+        if(mode==ResourceMode::BoundedCatalog) {
+            auto old=history.find(resource.id);
+            resource_detail::Check(old==history.end() || (old->second.device==info.device && old->second.fileId==info.fileId),"source-replaced","Previously opened catalog resource was replaced");
+            const auto key=std::make_pair(info.device,info.fileId);auto alias=identities.find(key);
+            resource_detail::Check(alias==identities.end() || alias->second==resource.id,"resource-alias","Different catalog resources refer to the same file");
+        }
         for(const auto& item:pins)resource_detail::Check(info.device!=item.second->identity.device || info.fileId!=item.second->identity.fileId,"resource-alias","Different resources refer to the same file");
         auto next=std::make_unique<Pin>(std::move(file),info);next->verify(resource,cancelled);
         next->lease=ReaderLease::Create(registry,snapshot.id,snapshot.generation,{{resource.id,info.device,info.fileId}});
+        if(mode==ResourceMode::BoundedCatalog) {
+            history.emplace(resource.id,info);identities.emplace(std::make_pair(info.device,info.fileId),resource.id);touch(resource.id);
+        }
         auto& result=*next;pins.emplace(resource.id,std::move(next));return result;
     }
     static uint64_t contiguous(const Resource& resource,uint64_t offset) {
@@ -274,7 +336,8 @@ class ResourceSource {
         return offset-start;
     }
 public:
-    ResourceSource(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json,ResourceFailurePolicy policy=ResourceFailurePolicy::Strict):registry(receipts),snapshot(Parse(json)),failurePolicy(policy) {
+    ResourceSource(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json,ResourceFailurePolicy policy=ResourceFailurePolicy::Strict,ResourceMode sourceMode=ResourceMode::Inline):registry(receipts),snapshot(Parse(json,sourceMode==ResourceMode::BoundedCatalog?SnapshotScope::ExpandedCatalog:SnapshotScope::Inline)),mode(sourceMode),failurePolicy(policy) {
+        if(mode==ResourceMode::BoundedCatalog)checkCatalog(snapshot);
         directory=std::make_unique<Directory>(root);
         resource_detail::Check(snapshot.state!="failed" && snapshot.state!="cancelled","writer-failed","Cannot attach a failed/cancelled writer");
     }
@@ -282,7 +345,9 @@ public:
     ResourceSource(const ResourceSource&)=delete;ResourceSource& operator=(const ResourceSource&)=delete;
     void cancel(){cancelled.store(true);changed.notify_all();}
     void publish(const std::string& json) {
-        const auto next=Parse(json);std::lock_guard<std::mutex> lock(mutex);
+        const auto next=Parse(json,mode==ResourceMode::BoundedCatalog?SnapshotScope::ExpandedCatalog:SnapshotScope::Inline);
+        if(mode==ResourceMode::BoundedCatalog)checkCatalog(next);
+        std::lock_guard<std::mutex> lock(mutex);
         resource_detail::Check(!cancelled.load() && failure.empty(),"session-closed","Resource source was closed");
         Advance(snapshot,next); // Invalid metadata never changes the active snapshot.
         verifyPins(next);
@@ -324,9 +389,13 @@ public:
             changed.wait_until(lock,(std::min)(deadline,std::chrono::steady_clock::now()+std::chrono::milliseconds(25)));
         }
     }
-    std::vector<std::string> readerIds() const {std::lock_guard<std::mutex> lock(mutex);std::vector<std::string> ids;for(const auto& pin:pins)ids.push_back(pin.second->lease->id());return ids;}
+    std::vector<std::string> readerIds() const {std::lock_guard<std::mutex> lock(mutex);std::vector<std::string> ids;for(const auto& pin:pins)ids.push_back(pin.second->lease->id());ids.insert(ids.end(),closingReaders.begin(),closingReaders.end());return ids;}
     BoundResource binding(const std::string& id) const {
         std::lock_guard<std::mutex> lock(mutex);const auto found=pins.find(id);
+        if(found==pins.end() && mode==ResourceMode::BoundedCatalog) {
+            const auto old=history.find(id);resource_detail::Check(old!=history.end(),"unknown-resource","Resource has not been pinned");
+            return {id,old->second.device,old->second.fileId};
+        }
         resource_detail::Check(found!=pins.end(),"unknown-resource","Resource has not been pinned");
         return {id,found->second->identity.device,found->second->identity.fileId};
     }

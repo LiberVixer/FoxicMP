@@ -101,3 +101,5 @@ SDK 1.36 добавляет [VP9 8/10-bit и Opus mono/stereo в сегмент�
 30 октября подготовлена [модель постраничного каталога](ProgressiveSegmentCatalog.md). Это внутренний этап без публичной capability: требуется файловый адаптер с ограничением handles/leases, подключение к трём редакциям и реальные длинные A/V-проверки. Действующий SDK 1.36 и Harvester не изменены.
 
 [Локальное чтение страниц](ProgressiveLocalCatalog.md) реализовано и проверено отдельно на обеих ОС с GCC/MinGW/MSVC. Ограничение media handles/leases и подключение к playback остаются следующими этапами; SDK 1.36 не меняется.
+
+[Внутренний bounded media cache](ProgressiveCatalogCache.md) добавлен и проверен отдельно: восемь файлов, reader leases, повторное открытие с SHA-256. Это ещё не playback большого каталога: нужны bridge/движки, negotiation SDK и реальные длинные A/V-сценарии.

@@ -24,6 +24,16 @@ int main(int argc,char** argv) {
         try {
             rapidjson::Document d;d.Parse(line.c_str());p::Require(!d.HasParseError() && d.IsObject(),"$","Invalid command");
             const auto action=p::Text(d["action"],"action");
+            if(action=="handles") {
+                unsigned count=0;
+#ifdef _WIN32
+                DWORD handles=0;p::Require(GetProcessHandleCount(GetCurrentProcess(),&handles)!=FALSE,"test","Cannot inspect handles");count=handles;
+#else
+                DIR* directory=opendir("/proc/self/fd");p::Require(directory!=nullptr,"test","Cannot inspect handles");
+                while(auto entry=readdir(directory))if(entry->d_name[0]!='.')++count;closedir(directory);
+#endif
+                std::cout<<"{\"ok\":true,\"handles\":"<<count<<"}"<<std::endl;continue;
+            }
             if(action=="sha256") {
                 p::Require(d.HasMember("text") && d["text"].IsString(),"text","Expected hash test data");
                 const auto count=d["text"].GetStringLength();const auto step=d.HasMember("step")?d["step"].GetUint():65536;
@@ -43,7 +53,7 @@ int main(int argc,char** argv) {
             }
             if(action.rfind("resourceProbe",0)==0){std::cout<<probes.request(registry,line)<<std::endl;continue;}
             if(action=="readerStatus" || action=="readerForget" || action=="readers"){std::cout<<p::ReaderRequest(registry,line)<<std::endl;continue;}
-            if(action=="open")source=std::make_shared<p::ResourceSource>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,p::lease_detail::Encode(d["session"]),d.HasMember("isolateOptionalSrt") && d["isolateOptionalSrt"].GetBool()?p::ResourceFailurePolicy::IsolateOptionalSrt:p::ResourceFailurePolicy::Strict);
+            if(action=="open" || action=="openCatalog")source=std::make_shared<p::ResourceSource>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,p::lease_detail::Encode(d["session"]),d.HasMember("isolateOptionalSrt") && d["isolateOptionalSrt"].GetBool()?p::ResourceFailurePolicy::IsolateOptionalSrt:p::ResourceFailurePolicy::Strict,action=="openCatalog"?p::ResourceMode::BoundedCatalog:p::ResourceMode::Inline);
             else if(action=="read") {p::Require(bool(source),"source","No source");std::cout<<read(source,d)<<std::endl;continue;}
             else if(action=="beginRead") {
                 p::Require(bool(source) && !pending.valid(),"source","Pending read already exists");const auto raw=p::lease_detail::Encode(d);

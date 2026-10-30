@@ -1,0 +1,129 @@
+{
+  "date": "2026-10-30",
+  "scope": "internal-catalog-cache-only",
+  "result": "PASS",
+  "publicPlaybackCapability": false,
+  "catalogCache": {
+    "result": "PASS",
+    "scope": "internal-catalog-cache-only",
+    "count": 15,
+    "checks": [
+      "200-resources-exceed-reader-lifetime-cap-with-only-eight-active-leases",
+      "least-recently-used-reader-evicted-and-reopened-with-new-receipt",
+      "8192-resource-metadata-opens-only-requested-files",
+      "evicted-file-identity-replacement-is-persistent-error",
+      "evicted-file-in-place-rewrite-rehashes-before-returning-bytes",
+      "evicted-complete-file-disappearance-is-not-waiting-or-eof",
+      "evicted-file-truncation-is-detected-on-reopen",
+      "catalog-requires-digests-without-changing-inline-compatibility",
+      "catalog-resource-size-bound",
+      "catalog-unknown-length-confirmed-extent-bound",
+      "catalog-retired-resources-require-another-lifecycle",
+      "established-inline-mode-still-pins-all-read-resources",
+      "last-owner-closes-all-files-before-release-receipts",
+      "catalog-update-appends-resources-and-invalid-update-preserves-current-source",
+      "bounded-read-eof-offset-and-cancellation-contracts"
+    ],
+    "maxOpenResources": 8,
+    "sequentialResourcesTested": 200,
+    "maxMetadataResourcesTested": 8192,
+    "readerLeasesTested": true,
+    "publicPlaybackCapability": false
+  },
+  "osHandleGrowthChecked": true,
+  "finalPolicyClarification": "The 16 MiB confirmed-extent bound also applies when length is unknown; only new BoundedCatalog policy changed. Final cache cases=15 on all compilers, Linux resource/integrity/cache groups=3 with exit 0.",
+  "compilers": [
+    "Linux GCC",
+    "Windows MinGW GCC",
+    "Windows MSVC x64"
+  ],
+  "regressions": {
+    "linux": {
+      "groups": 8,
+      "exitCode": 0,
+      "model": 90,
+      "segments": 11,
+      "catalogModel": 51,
+      "catalogIo": 25,
+      "resourceIo": 30,
+      "integrity": 10,
+      "segmentStream": 295
+    },
+    "windows": {
+      "originalGroups": 7,
+      "originalExitCode": 8,
+      "passedOriginalGroups": 6,
+      "catalogCacheRecheckExitCode": 0,
+      "model": 90,
+      "segments": 11,
+      "catalogModel": 51,
+      "catalogIo": 24,
+      "resourceIo": 28,
+      "integrity": 10,
+      "segmentStreamExitCode": 0,
+      "segmentStream": 295
+    }
+  },
+  "exitCodes": {
+    "catalog-cache-final-linux-build": 0,
+    "catalog-cache-final-linux": 0,
+    "catalog-cache-final-win": 0,
+    "catalog-cache-final-msvc": 0,
+    "catalog-cache-linux-build": 0,
+    "catalog-cache-linux-regression-build": 0,
+    "catalog-cache-linux-regressions": 0,
+    "catalog-cache-handles-linux-build": 0,
+    "catalog-cache-handles-linux": 0,
+    "catalog-cache-win-build": 0,
+    "catalog-cache-win-recheck": 0,
+    "catalog-cache-handles-win": 0,
+    "catalog-cache-msvc-build": 0,
+    "catalog-cache-msvc-tests": 0,
+    "catalog-cache-handles-msvc": 0,
+    "catalog-cache-win-stream-build": 0,
+    "catalog-cache-win-stream-tests": 0
+  },
+  "initialFailures": [
+    {
+      "scope": "linux-new-cache-test",
+      "exitCode": 1,
+      "reason": "Oversize test described a complete resource with a gap; old model correctly returned incomplete_resource first. Corrected fixture to downloading with confirmed bytes."
+    },
+    {
+      "scope": "private-fixture-read-length-test",
+      "linuxPythonExitCode": 1,
+      "windowsCtestExitCode": 8,
+      "msvcPythonExitCode": 1,
+      "reason": "Test expected resource invalid-read, while the private CLI rejects length >65536 before invoking read with invalid_snapshot. Corrected expectation; cache unchanged."
+    }
+  ],
+  "sourceFiles": {
+    "shared/progressiveresourceio.h": "1f9ac90c2159bfafdf0c20e5d50b8befd64bd5ccb82a9ee30a3226f42fcd27b0",
+    "tests/progressive_resource_cli.cpp": "e2ee0d1493fa1b1fdc29decaf1c9c6d4e72a8860a4c2ce23f264954ae3805698",
+    "tests/progressive_catalog_cache_conformance.py": "848ac08e0b6c83016b33f771494e95b652d159817431648ccbe61f57d58a16b6",
+    "qt/CMakeLists.txt": "6fc5c524d7556243a4bf508eacf8c22fba7f9bbc14bd6d19788ae15aa73e1bf7"
+  },
+  "nativeRunnerSha256": {
+    "_bin/release-build-0.2.0/foxicmp-progressive-resource-tests": "18ddedab6725ff2e4fa00bce2e1f1e3b2ac6a5ef67448e5899496ddede6bfade",
+    "_bin/qt-release-0.2.0-win4/foxicmp-progressive-resource-tests.exe": "94ad1c98b8474b2b532cdecf6cc2f141ae04cf2034a2ec0c4cccf4d97e9ae219",
+    "_bin/catalog-cache-msvc.exe": "8370e2da624dc75f02e82dcf84713d7ae1e727d3d4799a6df31fa28d2faa3d46"
+  },
+  "installedLinux": {
+    "executableSha256": "6b4b24e39050fba46cb5659f086530afaf0ad319e97adc70ba09fefd0fdabdd7",
+    "iniSha256": "ee2a51243880e578a7b1f38a0278ed178d1e2e379ba0f4f756b5f77427ac24b6",
+    "replaced": false
+  },
+  "windowsInstalledApplicationsChanged": false,
+  "harvesterChanged": false,
+  "remaining": [
+    "bridge-and-backend-connection",
+    "public-capability-and-python-sdk-negotiation",
+    "session-level-retention-contract",
+    "real-long-A/V-seek-restart-release-tests"
+  ],
+  "limitations": [
+    "resource-sha256-mandatory-only-in-new-internal-mode",
+    "no-hard-syscall-or-registry-ack-deadline",
+    "closed-resources-verified-on-next-read-not-background-full-scan"
+  ]
+}
