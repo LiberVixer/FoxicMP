@@ -46,3 +46,8 @@ identity и одинаковый IPC handler. Для динамических р
 `../src/DSUtil/HarvesterTS.h` — общий внутренний C++17 transport parser для
 будущего сегментного MPEG-TS: PAT/PMT/CRC, continuity, PCR/PTS/DTS и PES payload
 ranges. Пока не подключён к Source/index/decoder/IPC; [границы этапа](../docs/ProgressiveTsTransport.md).
+
+`../src/DSUtil/HarvesterTSCodec.h` — внутренний общий framing/clock/index слой
+поверх TS PES: ограниченный fixed-rate AVC, ADTS AAC, declared envelope,
+межсегментные invariants, IDR/audio seek и readiness.
+[Границы и результаты](../docs/ProgressiveTsAccessIndex.md); в приложения пока не включён.

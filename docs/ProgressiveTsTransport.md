@@ -67,8 +67,9 @@ player IPC. Он не используется в обычном запуске 
 
 Следующие необходимые шаги:
 
-1. AVC/AAC access-unit parser, постоянство конфигурации и отдельный ограниченный
-   clock/index с проверкой envelope и межсегментного перехода.
+1. [Ограниченный AVC/AAC access-unit parser и clock/index](ProgressiveTsAccessIndex.md)
+   реализованы отдельно: fixed-rate AVC, ADTS AAC, envelope/configuration и
+   межсегментный переход. Entropy decoding и подключение к плеерам ещё впереди.
 2. Чтение через существующие ResourceSource/leases/integrity, staging и виртуальный
    поток; elementary payload из нескольких ranges для Classic demux.
 3. Адаптеры Classic и обеих Qt-сборок: buffer/seek/complete/release, реальные
@@ -79,3 +80,7 @@ player IPC. Он не используется в обычном запуске 
 Harvester, установленный Linux-плеер и Windows-установки на этом этапе не меняются:
 новый код пока не входит в приложение. Новая версия SDK или установка EXE для
 самостоятельного native-парсера не требуется.
+
+Следующий внутренний слой выполнен: [AVC/AAC framing и индекс](ProgressiveTsAccessIndex.md).
+Ранние ограничения транспортного этапа выше описывают именно его собственные
+проверки; новый слой не включает TS playback capability.
