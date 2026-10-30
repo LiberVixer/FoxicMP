@@ -307,3 +307,6 @@ SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](Progress
 
 
 Подготовлен [TS ResourceSource/staging и виртуальный поток](ProgressiveTsResourceStream.md): обязательный SHA, bounded cache восьми файлов, непрерывный готовый префикс, inline/paged catalog, byte/sample read, seek и last-owner leases. Проверены 242 ресурса и два реальных AVC/AAC-профиля: 438 packet hashes и внешнее FFmpeg-декодирование совпадают с исходными TS. Ошибки metadata до публикации допускают retry; ошибки ресурса/codec после публикации закрывают источник до reopen. Далее — bridge/engine adapters Classic и обеих Qt-сборок с buffer/seek/update/complete/release, затем capability/SDK. SDK 1.38 и пользовательские установки не меняются; Harvester не затрагивается.
+
+
+SDK 1.39 подключает [сегментный MPEG-TS AVC/AAC](ProgressiveTsPlayback.md) ко всем трём редакциям через общий виртуальный fMP4 без перекодирования. Обязательны SHA-256, отдельные video/audio, внешний PAT/PMT init и строгий VOD-профиль; каталог согласуется отдельно как `paged-mpegts-v1`. Проверяются обычный manifest, каталог и отрицательный преролл, pause/backward/forward seek, tail waiting и complete/release. Harvester не меняется. Далее — muxed A/V, смена конфигурации/live и реальные источники с длительной A/V-приёмкой; этот выпуск не объявляет их готовыми.

@@ -51,10 +51,12 @@ ranges. Используется внутренними codec/index/ResourceSour
 `../src/DSUtil/HarvesterTSCodec.h` — внутренний общий framing/clock/index слой
 поверх TS PES: ограниченный fixed-rate AVC, ADTS AAC, declared envelope,
 межсегментные invariants, IDR/audio seek и readiness.
-[Границы и результаты](../docs/ProgressiveTsAccessIndex.md); в приложения пока не включён.
+[Границы и результаты](../docs/ProgressiveTsAccessIndex.md); в SDK 1.39 используется через общий TS → fMP4 адаптер.
 
 `progressivetsstream.h` — внутренний TS ResourceSource/staging: подтверждённый
 непрерывный префикс, bounded cache/leases/SHA, inline или paged catalog,
 виртуальные byte reads и сборка AVC/AAC access units. Есть проверки GCC/MinGW/
 MSVC и внешнего FFmpeg; [профиль и ошибки](../docs/ProgressiveTsResourceStream.md).
-К движкам/IPC не подключён, SDK остаётся 1.38.
+SDK 1.39 подключает его через `progressivetsmp4.h` к общему playback bridge:
+виртуальные moov/moof/mdat, AVC length prefixes и AAC без ADTS, без перекодирования.
+[TS playback всех трёх редакций](../docs/ProgressiveTsPlayback.md).

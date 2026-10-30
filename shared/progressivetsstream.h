@@ -137,6 +137,18 @@ class TsResourceStream {
         try{const auto ids=source->readerIds();source.reset();for(const auto& id:ids)ReaderRequest(registry,"{\"version\":1,\"action\":\"readerForget\",\"readerId\":\""+id+"\"}");}catch(...){source.reset();}
     }
 public:
+    static bool Declared(const std::string& json) {
+        const auto d=catalog_detail::Json(json,harvester::MaxManifestBytes,"$");
+        if(d.HasMember("tracks") && d["tracks"].IsArray())for(const auto& t:d["tracks"].GetArray())
+            if(t.IsObject() && t.HasMember("containerHint") && t["containerHint"].IsString() && std::string(t["containerHint"].GetString(),t["containerHint"].GetStringLength())=="mpegts")return true;
+        return false;
+    }
+    static Snapshot RootModel(const std::string& json){auto d=catalog_detail::Json(json,harvester::MaxManifestBytes,"$");d.RemoveMember("segmentCatalog");return Parse(lease_detail::Encode(d));}
+    static void CheckProfile(const std::string& json) {
+        if(!hasCatalog(json)){plan(Parse(json),0);return;}
+        struct PagesDeferred {};
+        try{auto decoded=DecodeSegmentCatalog(json,[](const SegmentCatalogPage&)->std::string{throw PagesDeferred{};});plan(std::move(decoded.snapshot),decoded.pages.size());}catch(const PagesDeferred&){}
+    }
     struct Status {uint64_t revision=0;std::array<uint64_t,2> bytes{};std::array<size_t,2> units{};std::array<bool,2> initialized{},trackComplete{};std::array<int64_t,2> ready{};int64_t available=0;size_t pages=0,resources=0;bool complete=false;std::string code;};
     struct Packet {ResourceRead result;harvester::Sample sample;std::vector<char> bytes;};
     TsResourceStream(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):registry(receipts) {
@@ -186,13 +198,19 @@ public:
         const auto state=std::atomic_load(&current);Status out;out.revision=state->model.revision;out.pages=state->pages;out.resources=state->model.resources.size();out.complete=state->model.state=="complete";
         out.available=state->model.duration;
         for(size_t i=0;i<2;++i){const auto& track=state->tracks[i];out.bytes[i]=track.available;out.initialized[i]=track.initialized;out.trackComplete[i]=track.complete;out.complete=out.complete && track.complete;
-            if(track.index){out.units[i]=track.index->samples().size();out.ready[i]=(std::max)(int64_t(0),(std::min)(state->model.duration,track.index->availableEnd(track.available)));}out.available=(std::min)(out.available,out.ready[i]);}
+            // Every indexed PES belongs to the fully confirmed published prefix.
+            if(track.index){out.units[i]=track.index->samples().size();out.ready[i]=(std::max)(int64_t(0),(std::min)(state->model.duration,track.index->readyEnd()));}out.available=(std::min)(out.available,out.ready[i]);}
         if(cancelled.load())out.code="cancelled";else if(failed.load())out.code=failure().code;
         if(!out.code.empty()){out.available=0;out.complete=false;}return out;
     }
     size_t seekSample(unsigned kind,int64_t position) const {check();Require(kind<2,"track","Unknown TS track","unknown-track");const auto state=std::atomic_load(&current);return state->tracks[kind].index?state->tracks[kind].index->seekSample(position):0;}
     void verify(){check();try{source->verifyPinned();}catch(const Error& error){fail(error.code,error.what());throw;}}
     std::vector<std::string> readerIds() const {return source->readerIds();}
+    Snapshot model() const {return std::atomic_load(&current)->model;}
+    void ensureOpen() const {check();}
+    std::shared_ptr<const harvester::ts::AccessIndex> index(unsigned kind) const {check();Require(kind<2,"track","Unknown TS track","unknown-track");return std::atomic_load(&current)->tracks[kind].index;}
+    std::vector<BoundResource> bindings() const {const auto state=std::atomic_load(&current);std::vector<BoundResource> out;for(const auto& track:state->tracks)if(track.initialized)out.push_back(source->binding(track.initialization));return out;}
+    bool usesCatalog() const {return bool(catalog);}
     std::shared_ptr<std::atomic<bool>> releaseReceipt() const {return source->releaseReceipt();}
 };
 }} // namespace foxicmp::progressive

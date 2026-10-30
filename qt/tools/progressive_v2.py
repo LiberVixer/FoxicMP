@@ -26,6 +26,9 @@ class V2PreviewSession:
         self.webm_segments_supported=webm.get('mode')=='segmented-webm-vp9-opus'
         self.webm_segment_profiles=set(webm.get('profiles',[]))
         self.webm_catalog_supported=webm.get('catalog',{}).get('mode')=='paged-webm-v1'
+        ts=caps.get('schema2Playback',{}).get('segmentedPlayback',{}).get('mpegts',{})
+        self.ts_segments_supported=ts.get('mode')=='segmented-mpegts-h264-aac-lc'
+        self.ts_catalog_supported=ts.get('catalog',{}).get('mode')=='paged-mpegts-v1'
         self.integrity_supported=caps.get('schema2Playback',{}).get('integrity',{}).get('algorithm')=='sha256'
         if 2 not in caps.get('playbackSchemaVersions',[]) or caps.get('schema2Playback',{}).get('mode')!='separate-fmp4-h264-aac-lc' or caps.get('readerLeaseProtocol')!=1:
             raise RuntimeError('Player lacks the bounded schema-2 media profile; update the player')
@@ -39,7 +42,17 @@ class V2PreviewSession:
             current=copy.deepcopy(snapshot);counter(current['generation']);revision=counter(current['revision'])
             segment_tracks=[t for t in current.get('tracks',[]) if 'segments' in t.get('source',{})]
             webm_segments=any(t.get('containerHint')=='webm' for t in segment_tracks)
-            if webm_segments:
+            ts_segments=any(t.get('containerHint')=='mpegts' for t in segment_tracks)
+            if ts_segments:
+                if len(segment_tracks)!=2 or any(t.get('containerHint')!='mpegts' for t in segment_tracks):
+                    raise RuntimeError('Segmented MPEG-TS requires separate TS video and audio tracks')
+                if not self.ts_segments_supported or any(t.get('codecHint') not in (None,'','h264' if t.get('kind')=='video' else 'aac-lc') for t in segment_tracks):
+                    raise RuntimeError('Player lacks the segmented MPEG-TS AVC/AAC playback profile; update the player')
+                if 'segmentCatalog' in current and not self.ts_catalog_supported:
+                    raise RuntimeError('Player lacks the paged MPEG-TS playback profile; update the player')
+                if not all('integrity' in r for r in current.get('resources',[])):
+                    raise RuntimeError('MPEG-TS playback requires SHA-256 for every resource')
+            elif webm_segments:
                 if len(segment_tracks)!=2 or any(t.get('containerHint')!='webm' for t in segment_tracks):
                     raise RuntimeError('Segmented WebM requires separate WebM video and audio tracks')
                 video=next((t.get('codecHint') for t in segment_tracks if t.get('kind')=='video'),None)

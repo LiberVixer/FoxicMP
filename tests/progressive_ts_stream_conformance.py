@@ -185,52 +185,9 @@ def real_cases(runner,checks):
     for profile,rate,audio_rate in [('main-bframes','25',48000),('high-fractional','30000/1001',44100)]:
         with tempfile.TemporaryDirectory(prefix='foxicmp-ts-stream-real-') as tmp:
             root=Path(tmp);data=root/'data';data.mkdir()
-            value,payload,_,_=fixture(1);value['resources']=[];value['tracks']=[]
-            models=[]
-            for kind in ('video','audio'):
-                path=root/(kind+'.ts')
-                if kind=='video':
-                    avc_profile='main' if profile=='main-bframes' else 'high'
-                    options=['-f','lavfi','-i','testsrc2=size=160x90:rate='+rate+':duration=3','-an','-c:v','libx264','-preset','veryfast','-profile:v',avc_profile,'-pix_fmt','yuv420p','-x264-params','force-cfr=1:repeat-headers=1:keyint=25:min-keyint=25:scenecut=0:open-gop=0:bframes=2'+(':8x8dct=1' if avc_profile=='high' else '')]
-                else:options=['-f','lavfi','-i','sine=frequency=880:sample_rate='+str(audio_rate)+':duration=3','-vn','-c:a','aac','-ac','2','-b:a','96k']
-                subprocess.run(['ffmpeg','-v','error','-y',*options,'-avoid_negative_ts','make_zero','-muxdelay','0.3','-f','mpegts',str(path)],check=True,capture_output=True)
-                raw=path.read_bytes();packets=[raw[a:a+188] for a in range(0,len(raw),188)];pid=lambda p:((p[1]&31)<<8)|p[2]
-                initial=next(p for p in packets if pid(p)==0)+next(p for p in packets if pid(p)==4096)
-                offsets={};kept=[]
-                for at,packet in enumerate(packets):
-                    offsets[at*188]=len(kept)*188
-                    if pid(packet)!=17:kept.append(packet)
-                media=b''.join(kept)
-                probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_packets','-show_data_hash','sha256','-of','json',str(path)]))['packets']
-                # ffprobe only reports pos on the first AAC frame of a PES.
-                last_pos=None
-                for p in probe:
-                    last_pos=p.get('pos',last_pos);assert last_pos is not None;p['pos']=last_pos
-                if kind=='video':boundaries=[i for i,p in enumerate(probe) if 'K' in p.get('flags','')]
-                else:
-                    pes=[i for i,p in enumerate(probe) if i==0 or p['pos']!=probe[i-1]['pos']];boundaries=pes[::6]
-                models.append((kind,path,initial,media,probe,offsets,boundaries))
-            origin=min(int(p[0]['dts']) for _,_,_,_,p,_,_ in models);ticks=lambda v:v*10000000//90000
-            value['timeline']['timestampOffset']=str(ticks(origin));duration=0;expected={};payload={}
-            for kind,path,initial,media,probe,offsets,boundaries in models:
-                rid=kind+'-init';payload[rid]=initial;expected[kind]=initial+media
-                value['resources'].append(dict(id=rid,name=rid+'.part',length=str(len(initial)),state='complete',ranges=[dict(offset='0',length=str(len(initial)))]))
-                track=dict(id=kind,kind=kind,required=True,codecHint='h264' if kind=='video' else 'aac-lc',containerHint='mpegts',state='downloading',initializationReady=True,initializationResourceId=rid,source=dict(segments=[]))
-                boundaries.append(len(probe))
-                for seq,(a,b) in enumerate(zip(boundaries,boundaries[1:])):
-                    start=0 if a==0 else offsets[int(probe[a]['pos'])];end=len(media) if b==len(probe) else offsets[int(probe[b]['pos'])]
-                    part=media[start:end];rid=kind+'-'+str(seq);payload[rid]=part
-                    first=min(ticks(int(p['pts']))-ticks(origin) for p in probe[a:b])
-                    # The metadata envelope follows the rational audio/video cadence;
-                    # access validation independently allows one 90 kHz rounding tick.
-                    if b<len(probe):last=min(ticks(int(p['pts']))-ticks(origin) for p in probe[b:boundaries[seq+2]])
-                    elif kind=='audio':last=ticks(int(probe[-1]['pts']))-ticks(origin)+1024*10000000//audio_rate
-                    else:last=max(ticks(int(p['pts'])+int(p['duration']))-ticks(origin) for p in probe[a:b])
-                    duration=max(duration,last)
-                    value['resources'].append(dict(id=rid,name=rid+'.part',length=str(len(part)),state='downloading',ranges=[]))
-                    track['source']['segments'].append(dict(resourceId=rid,sequence=str(seq+1),start=str(first),duration=str(last-first),timestampOffset='0',discontinuity=False,configurationId=kind+'-constant'))
-                value['tracks'].append(track)
-            value['timeline']['duration']=str(duration)
+            from progressive_ts_playback import fixture as real_fixture
+            value,payload,expected,models=real_fixture(root,profile,seconds=3)
+            origin=int(value['timeline']['timestampOffset'])*90000//10000000;ticks=lambda v:v*10000000//90000
             publish_resources(value,payload,data,1);value=protect_snapshot(value,data)
             proc=subprocess.Popen([runner,'--registry',str(root/'registry')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf-8')
             def rpc(action,**fields):

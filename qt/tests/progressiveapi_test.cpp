@@ -773,12 +773,19 @@ private slots:
   void catalogWebmPlayback() {
     QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,true,true);
   }
+  void segmentedTsPlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& name:QStringList{"main-bframes","high-fractional","main-preroll"})QTest::newRow(qPrintable(name))<<name;
+  }
+  void segmentedTsPlayback() {QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,false,false,true);}
+  void catalogTsPlayback() {checkSegmentPlayback("main-bframes",true,false,true);}
 private:
-  void checkSegmentPlayback(const QString& mediaProfile,bool catalogMode,bool webm=false) {
-    const QString expectedCodec=mediaProfile=="vp8"?"vp8":mediaProfile.startsWith("av1-")?"av1":mediaProfile.startsWith("vp9-")?"vp9":mediaProfile.startsWith("h264")?"h264":"hevc";
+  void checkSegmentPlayback(const QString& mediaProfile,bool catalogMode,bool webm=false,bool ts=false) {
+    const QString expectedCodec=ts?"h264":mediaProfile=="vp8"?"vp8":mediaProfile.startsWith("av1-")?"av1":mediaProfile.startsWith("vp9-")?"vp9":mediaProfile.startsWith("h264")?"h264":"hevc";
     const QString expectedAudio=webm || mediaProfile.contains("-opus")?"opus":"aac";
-    const QString expectedMode=QString(webm?"segmented-webm-":"segmented-fmp4-")+expectedCodec+"-"+(expectedAudio=="opus"?"opus":"aac-lc");
-    const int expectedChannels=expectedAudio=="aac" || mediaProfile.endsWith("-mono")?1:2;
+    const QString expectedMode=QString(ts?"segmented-mpegts-":webm?"segmented-webm-":"segmented-fmp4-")+expectedCodec+"-"+(expectedAudio=="opus"?"opus":"aac-lc");
+    const int expectedChannels=ts?2:expectedAudio=="aac" || mediaProfile.endsWith("-mono")?1:2;
+    const int expectedRate=ts && mediaProfile=="high-fractional"?44100:48000;
     const auto prefix=catalogMode?QStringLiteral("catalog-"):QStringLiteral("segment-");
     Profile profile(temporary.filePath(prefix+"playback-profile-"+mediaProfile));prepare(profile);
     Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
@@ -798,7 +805,7 @@ private:
       if(!w.progressiveSession())return;
       const auto state=w.progressivePlaybackStatus();
       if(state["state"]=="playing" && state["mediaMode"]==expectedMode &&
-         player->get("audio-codec-name")==expectedAudio && player->get("audio-params/samplerate").toInt()==48000)decoded=true;
+         player->get("audio-codec-name")==expectedAudio && player->get("audio-params/samplerate").toInt()==expectedRate)decoded=true;
       if(decoded && state["state"]=="playing") {
         const auto channels=player->get("audio-params/channel-count").toInt();if(channels>0)decodedChannels=channels;
         const auto format=player->get("video-format").toString(),pixels=player->get("video-dec-params/pixelformat").toString();
@@ -806,24 +813,24 @@ private:
         const auto frame=player->grabFramebuffer();if(!frame.isNull()) {
           const auto digest=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);
           if(firstFrame.isEmpty())firstFrame=digest;else changingVideo|=digest!=firstFrame;
-          if(catalogMode && !webm) {
+          if(catalogMode && !webm && !ts) {
             const auto position=state["positionSeconds"].toDouble();const int zone=position>=68?2:position>=35 && position<40?1:position<10?0:-1;
             if(zone>=0) {if(!zoneFrames.contains(zone))zoneFrames[zone]=digest;else if(zoneFrames[zone]!=digest)changingZones.insert(zone);}
           }
         }
       }
     });sample.start();
-    QStringList writerArgs{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath(webm?"progressive_webm_segment_playback.py":catalogMode?"progressive_catalog_playback.py":"progressive_segment_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work,"--media-profile",mediaProfile};
-    if(webm && catalogMode)writerArgs<<"--catalog";
+    QStringList writerArgs{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath(ts?"progressive_ts_playback.py":webm?"progressive_webm_segment_playback.py":catalogMode?"progressive_catalog_playback.py":"progressive_segment_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work,"--media-profile",mediaProfile};
+    if((webm || ts) && catalogMode)writerArgs<<"--catalog";
     QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),writerArgs);
     QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
     QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,150000);
     if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();
     QCOMPARE(writer.exitCode(),0);sample.stop();QVERIFY(decoded);QVERIFY(changingVideo);
-    if(catalogMode && !webm){QVERIFY(changingZones.contains(0));QVERIFY(changingZones.contains(1));QVERIFY(changingZones.contains(2));}
+    if(catalogMode && !webm && !ts){QVERIFY(changingZones.contains(0));QVERIFY(changingZones.contains(1));QVERIFY(changingZones.contains(2));}
     QCOMPARE(decodedFormat,expectedCodec);QCOMPARE(decodedChannels,expectedChannels);
     if(mediaProfile.contains("hevc10") || mediaProfile.contains("-10"))QVERIFY2(decodedPixelFormat.contains("10"),qPrintable(decodedPixelFormat));
-    qInfo().noquote()<<"Segment decoded audio:"<<mediaProfile<<expectedAudio<<decodedChannels<<48000;
+    qInfo().noquote()<<"Segment decoded audio:"<<mediaProfile<<expectedAudio<<decodedChannels<<expectedRate;
     qInfo().noquote()<<"Segment decoded video:"<<mediaProfile<<decodedFormat<<decodedPixelFormat;
     qInfo().noquote()<<"Segment playback report:"<<writer.readAllStandardOutput();
   }

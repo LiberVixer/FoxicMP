@@ -23,6 +23,22 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_mpegts_negotiation_is_separate_and_requires_integrity(self):
+        client=Client();value=snapshot();value['resources']=[dict(id='v',integrity={}),dict(id='a',integrity={})]
+        for t in value['tracks']:t.update(containerHint='mpegts',source=dict(segments=[]),codecHint='h264' if t['kind']=='video' else 'aac-lc')
+        preview=V2PreviewSession(client,'/unused')
+        with self.assertRaisesRegex(RuntimeError,'MPEG-TS'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last)
+        ts=dict(mode='segmented-mpegts-h264-aac-lc')
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),segmentedPlayback=dict(mpegts=ts)))
+        V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
+        for change in [lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][0].update(containerHint='webm'),lambda v:v['tracks'][1].update(codecHint='opus')]:
+            bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(bad)
+            self.assertIsNone(preview.last);self.assertFalse(preview.uncertain);self.assertFalse(client.calls)
+        value['segmentCatalog']=[]
+        with self.assertRaisesRegex(RuntimeError,'paged MPEG-TS'):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls);ts['catalog']=dict(mode='paged-mpegts-v1');V2PreviewSession(client,'/unused').publish(value)
     def test_webm_requires_its_own_codec_and_catalog_capabilities(self):
         client=Client();value=snapshot()
         for t in value['tracks']:t.update(containerHint='webm',source=dict(segments=[]),codecHint='vp9' if t['kind']=='video' else 'opus')
