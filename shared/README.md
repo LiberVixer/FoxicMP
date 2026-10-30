@@ -42,3 +42,7 @@ identity и одинаковый IPC handler. Для динамических р
 Он не активирует playback. Контроль перезаписи ограничен последним прочитанным
 окном каждого файла; полной проверки integrity и demux/decode пока нет.
 [Контракт I/O](../docs/ProgressiveResourceIo.md).
+
+`../src/DSUtil/HarvesterTS.h` — общий внутренний C++17 transport parser для
+будущего сегментного MPEG-TS: PAT/PMT/CRC, continuity, PCR/PTS/DTS и PES payload
+ranges. Пока не подключён к Source/index/decoder/IPC; [границы этапа](../docs/ProgressiveTsTransport.md).
