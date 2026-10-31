@@ -16,7 +16,7 @@ FILES = {
     'progressive-v2-vod.json': 'tests/fixtures/progressive-v2/vod.json',
     'progressive-v2-growing-ts-vod.json': 'tests/fixtures/progressive-v2/growing-ts-vod.json',
     'progressive-v2-muxed-fmp4-hevc-vod.json': 'tests/fixtures/progressive-v2/muxed-fmp4-hevc-vod.json',
-    **{name:'docs/'+name for name in ('ProgressiveCompletionChecklist.md','ProgressiveMuxedFmp4Hevc.md','ProgressiveMuxedFmp4HevcValidation-2026-10-31.md','ProgressiveMuxedFmp4HevcValidation-2026-10-31.json')},
+    **{name:'docs/'+name for name in ('FoxicMPFamilyPlan.md','FoxicMPFamilyMatrix.md','ProgressiveCompletionChecklist.md','ProgressiveMuxedFmp4Hevc.md','ProgressiveMuxedFmp4HevcValidation-2026-10-31.md','ProgressiveMuxedFmp4HevcValidation-2026-10-31.json')},
     'progressive-v2-muxed-webm-vorbis-vod.json': 'tests/fixtures/progressive-v2/muxed-webm-vorbis-vod.json',
     **{name:'docs/'+name for name in ('ProgressiveMuxedWebmVorbis.md','ProgressiveMuxedWebmVorbisValidation-2026-10-31.md','ProgressiveMuxedWebmVorbisValidation-2026-10-31.json')},
     'progressive-v2-muxed-webm-vp8-vod.json': 'tests/fixtures/progressive-v2/muxed-webm-vp8-vod.json',

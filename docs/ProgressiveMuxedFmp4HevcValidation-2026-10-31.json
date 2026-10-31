@@ -4332,7 +4332,7 @@
     "tests/progressive_mux_mp4_playback.py": "70097d437708fbab97ad0924c21f5c2158b98517afdf4f67e7f9517ff221c3a8",
     "tests/progressive_v2_sdk_test.py": "2e4ad72f28160b0ec82b6c41c8cf5ebc701ed0fae818e9c31368368034258833",
     "tests/windows/progressive_family_test.py": "851c7e23793c2cc239df7a9d226a2a1e55de9b568bdd800129e14cda84a2221e",
-    "tools/package_progressive_sdk.py": "91b0c052a53d2371d6f9e14c275ce288dbe0837f000fa3acbcfe8d0591752e82"
+    "tools/package_progressive_sdk.py": "6db3ba274710d6d709e9cd4a9a16c75bd09200e597714ab3682e016b293708c5"
   },
   "linuxInstallation": {
     "installedSha256": "064223f73e51dd0877ee44331ae9e2065c118e650b1441e7e6187f1357e94de1",
