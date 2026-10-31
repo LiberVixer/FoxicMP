@@ -15,8 +15,12 @@ def exercise(client, fixtures, work, pause, seek, profile='main-bframes'):
     plan, raw, _, groups, scales = fixture(root, profile)
     plan['metadata']['chapters'].append(dict(id='tail', time='170000000', title='Tail'))
     caps = client.request(dict(version=1, action='capabilities'))['schema2Playback']['muxedPlayback']['fmp4']
-    mode = 'growing-muxed-fmp4-h264-aac-lc'
-    assert caps['mode']==mode and caps['integrityRequired'] and caps['decoderContainer']=='fmp4', caps
+    mode = 'growing-muxed-fmp4-'+plan['tracks'][0]['codecHint']+'-aac-lc'
+    if plan['tracks'][0]['codecHint']=='hevc':
+        assert caps['hevc']['mode']==mode, caps
+    else:
+        assert caps['mode']==mode, caps
+    assert caps['integrityRequired'] and caps['decoderContainer']=='fmp4', caps
     def cut(seconds):
         return int(next(p['pos'] for p in groups[0] if (int(p['pts'])-int(groups[0][0]['pts']))*scales[0]>=seconds))-97
     value = publish(plan, raw, root, 17)

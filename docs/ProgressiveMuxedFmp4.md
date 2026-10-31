@@ -104,3 +104,6 @@ rewrite/truncate/replacement, cancellation и last-owner release.
 обычного MP4 с moov в хвосте, multi-audio, live/config changes или приёмку
 реальных сайтов и многочасовой физической A/V sync. Соответствующие прежние
 **раздельные** профили продолжают работать в своих границах.
+
+SDK 1.47 расширяет этот shared layout [профилем HEVC Main/Main10 + AAC-LC](ProgressiveMuxedFmp4Hevc.md)
+с отдельной capability. Описание AVC mode выше сохраняет исходные границы SDK 1.42.

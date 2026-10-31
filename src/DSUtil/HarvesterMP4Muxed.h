@@ -30,7 +30,7 @@ public:
 private:
     struct Atom {uint64_t at=0,size=0;uint32_t type=0;size_t header=0;};
     uint64_t position=0,scanned=0;uint32_t sequence=0;
-    size_t fragments=0,atoms=0;bool initialized=false,trailer=false;
+    size_t fragments=0,atoms=0;bool initialized=false,trailer=false,hevc=false;
     Bytes ftyp;
     static bool Header(const Read& read,uint64_t prefix,uint64_t at,Atom& a) {
         if(!RangeReady(at,8,prefix))return false;
@@ -62,6 +62,7 @@ private:
             for(const auto& table:stbl.Children()) {
                 if(table.first==FourCC("stts") || table.first==FourCC("stsc") || table.first==FourCC("stco") || table.first==FourCC("co64") || table.first==FourCC("ctts") || table.first==FourCC("stss"))
                     Check(table.second.size==8 && table.second.U32(0)==0 && table.second.U32(4)==0,"Nonempty nonfragmented sample table");
+                else if(table.first==FourCC("sdtp"))Check(table.second.size==4 && table.second.U32(0)==0,"Nonempty/invalid nonfragmented sample-dependency table");
                 else if(table.first==FourCC("stsz"))Check(table.second.size==12 && table.second.U32(0)==0 && table.second.U32(8)==0,"Nonempty sample-size table");
                 else Check(table.first==FourCC("stsd") || table.first==FourCC("sgpd") || table.first==FourCC("sbgp"),"Unsupported/encrypted sample table");
             }
@@ -70,9 +71,10 @@ private:
             Check((tkhd.U32(0)>>24)<=1,"Unsupported tkhd version");
             const auto type=handler.U32(8);Check(type==FourCC("vide") || type==FourCC("soun"),"Unsupported muxed MP4 track kind");
             const unsigned k=type==FourCC("vide")?0:1;Check(!selected[k].data,"Duplicate muxed MP4 track kind");selected[k]=track;
+            if(k==0)hevc=entries[0].first==FourCC("hvc1") || entries[0].first==FourCC("hev1");
             tracks[k].id=tkhd.U32(tkhd.data[0]?20:12);Check(tracks[k].id!=0,"Zero MP4 track ID");
         }
-        Check(count==2 && selected[0].data && selected[1].data && tracks[0].id!=tracks[1].id,"Expected distinct AVC/AAC tracks");
+        Check(count==2 && selected[0].data && selected[1].data && tracks[0].id!=tracks[1].id,"Expected distinct video/audio tracks");
         std::array<BoxData,2> defaults{};size_t trexCount=0;
         for(const auto& child:mvex.Children()) {
             Check(child.first==FourCC("trex") || child.first==FourCC("mehd"),"Unsupported mvex child");
@@ -129,7 +131,7 @@ private:
         for(unsigned k=0;k<2;++k) {
             auto& view=tracks[k];const auto old=view.index.Samples().size();Memory(view,Project(body,view.id,moof.size));const auto start=view.bytes;
             Check(mdat.size<=uint64_t(INT64_MAX)-view.bytes,"MP4 virtual size overflow");view.spans.push_back({view.bytes,mdat.size,mdat.at,{}});view.bytes+=mdat.size;
-            view.index.Update([&](uint64_t at,void* out,size_t n){return ReadAt(read,k,at,out,n);},view.bytes,int(k));
+            view.index.Update([&](uint64_t at,void* out,size_t n){return ReadAt(read,k,at,out,n);},view.bytes,int(k),false,0,hevc);
             const auto& samples=view.index.Samples();Check(samples.size()>old,"Fragment lacks one logical track");
             for(size_t i=old;i<samples.size();++i) {
                 const auto& sample=samples[i];Check(sample.end>sample.start && sample.offset>=start+mdat.header && RangeReady(sample.offset,sample.size,view.bytes),"Invalid muxed sample envelope");

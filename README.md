@@ -245,3 +245,9 @@ SDK 1.45 добавляет [VP8 + Opus в растущем WebM](docs/Progressi
 SDK 1.46 добавляет [Vorbis с VP8/VP9/AV1 в растущем WebM](docs/ProgressiveMuxedWebmVorbis.md),
 без перекодирования, с отдельным согласованием пары; Opus сохранён.
 [Проверки трёх редакций](docs/ProgressiveMuxedWebmVorbisValidation-2026-10-31.md).
+
+[Чеклист завершения progressive-ТЗ](docs/ProgressiveCompletionChecklist.md).
+
+SDK 1.47: [HEVC Main/Main10 + AAC-LC в одном растущем fMP4](docs/ProgressiveMuxedFmp4Hevc.md),
+Classic и обе Qt-редакции; [проверки](docs/ProgressiveMuxedFmp4HevcValidation-2026-10-31.md).
+SDK ZIP содержит клиент и документацию; установщики 0.2.0 выше этот новый профиль не включают.

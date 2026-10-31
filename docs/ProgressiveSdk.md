@@ -395,3 +395,7 @@ SDK 1.46: [VP8/VP9/AV1 + Vorbis в общем растущем WebM](Progressive
 Нужны `muxedPlayback.webm.vorbis.mode` и точная пара в `vorbis.profiles`,
 явные video/audio codecHint. Пример — `progressive-v2-muxed-webm-vorbis-vod.json`.
 Opus defaults сохранены. Нужны новые EXE.
+
+SDK 1.47: [общий HEVC Main/Main10 + AAC-LC fMP4](ProgressiveMuxedFmp4Hevc.md),
+точный `muxedPlayback.fmp4.hevc.mode`, пример manifest и прежний совместимый AVC mode.
+Полный [чеклист до завершения ТЗ](ProgressiveCompletionChecklist.md) включён в SDK.

@@ -1,5 +1,7 @@
 # Подготовка интеграции Harvester: этапы и границы готовности
 
+Актуальный [чеклист до завершения ТЗ](ProgressiveCompletionChecklist.md).
+
 Основание — [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md).
 Документ ТЗ сохранён без изменения требований. Работы этого репозитория относятся
 только к FoxicMP; исходники, кнопки и настройки YouTubeHarvester не изменяются.
@@ -133,3 +135,8 @@ WebM, расширение fMP4 codec matrix, смена конфигураци�
 SDK 1.46 добавляет [shared WebM Vorbis](ProgressiveMuxedWebmVorbis.md) с
 точным согласованием video/audio pair и сохранением Opus. Далее — кодеки
 muxed fMP4, смена конфигурации/live и длительная приёмка реальных источников.
+
+SDK 1.47 добавляет [HEVC Main/Main10 + AAC-LC в одном растущем fMP4](ProgressiveMuxedFmp4Hevc.md).
+Прежний AVC mode сохранён; HEVC согласуется отдельно через `muxedPlayback.fmp4.hevc.mode`.
+Следующий шаг [чеклиста](ProgressiveCompletionChecklist.md) — AV1/AAC в shared fMP4;
+полное ТЗ, real-source и длительная физическая A/V-приёмка остаются открытыми. Harvester не меняется.

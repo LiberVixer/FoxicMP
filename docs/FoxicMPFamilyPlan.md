@@ -1,5 +1,7 @@
 # Единый план развития FoxicMP
 
+Актуальный [чеклист до завершения ТЗ](ProgressiveCompletionChecklist.md).
+
 Рабочий план по запросу пользователя от 24 октября 2026 года.
 **Эталон организации меню и настроек — Linux Qt** (уточнение пользователя
 24 октября 2026). Windows Qt и Classic приводятся к этой структуре: общие
@@ -342,3 +344,8 @@ SDK 1.46: [Vorbis в shared WebM](ProgressiveMuxedWebmVorbis.md), пары с
 VP8/VP9/AV1, state между Clusters, CodecDelay и padding. Следом — HEVC/AV1
 и остальные кодеки muxed fMP4, смена конфигурации/live и длительная реальная
 A/V-приёмка. Harvester не меняется.
+
+SDK 1.47 добавляет [HEVC Main/Main10 + AAC-LC в одном растущем fMP4](ProgressiveMuxedFmp4Hevc.md).
+Прежний AVC mode сохранён; HEVC согласуется отдельно через `muxedPlayback.fmp4.hevc.mode`.
+Следующий шаг [чеклиста](ProgressiveCompletionChecklist.md) — AV1/AAC в shared fMP4;
+полное ТЗ, real-source и длительная физическая A/V-приёмка остаются открытыми. Harvester не меняется.
