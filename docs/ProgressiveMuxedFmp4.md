@@ -113,3 +113,6 @@ SDK 1.48 добавляет [AV1 Main 8/10-bit + AAC-LC](ProgressiveMuxedFmp4Av1
 
 SDK 1.49 добавляет [VP9 Profile 0/2 8/10-bit + AAC-LC](ProgressiveMuxedFmp4Vp9.md)
 с отдельной capability, сохраняя AVC/HEVC/AV1 profiles.
+
+SDK 1.50 добавляет [Opus mono/stereo с четырьмя видеокодеками](ProgressiveMuxedFmp4Opus.md)
+с отдельным согласованием каждой пары и сохранением AAC-LC defaults.

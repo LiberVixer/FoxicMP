@@ -154,6 +154,29 @@ class V2SdkTest(unittest.TestCase):
             self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
         value['tracks'][0]['codecHint']='h264';mp4.pop('vp9');V2PreviewSession(client,'/unused').publish(value)
 
+    def test_shared_mp4_opus_requires_exact_pair_and_preserves_legacy_aac(self):
+        client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
+        for t in value['tracks']:t.update(containerHint='fmp4-muxed',source=dict(resourceId='mux'),codecHint='h264' if t['kind']=='video' else 'opus')
+        opus=dict(mode='growing-muxed-fmp4-opus',profiles=[])
+        mp4=dict(mode='growing-muxed-fmp4-h264-aac-lc',hevc=dict(mode='growing-muxed-fmp4-hevc-aac-lc'),av1=dict(mode='growing-muxed-fmp4-av1-aac-lc'),vp9=dict(mode='growing-muxed-fmp4-vp9-aac-lc'),opus=opus)
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',profiles=['separate-fmp4-h264-opus'],integrity=dict(algorithm='sha256'),muxedPlayback=dict(fmp4=mp4,webm=dict(mode='growing-muxed-webm-vp9-opus'))))
+        for video in ('h264','hevc','av1','vp9'):
+            value['tracks'][0]['codecHint']=video
+            pair='growing-muxed-fmp4-'+video+'-opus'
+            for mode,profiles in [('growing-muxed-fmp4-opus',[]),('separate-fmp4-h264-opus',[pair]),('growing-muxed-webm-vp9-opus',[pair]),('growing-muxed-fmp4-opus',['growing-muxed-fmp4-vp8-opus'])]:
+                opus.update(mode=mode,profiles=profiles);preview=V2PreviewSession(client,'/unused')
+                with self.assertRaisesRegex(RuntimeError,'Opus'):preview.publish(value)
+                self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+            opus.update(mode='growing-muxed-fmp4-opus',profiles=[pair]);V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
+        for change in [lambda v:v['tracks'][0].update(codecHint=''),lambda v:v['tracks'][0].pop('codecHint'),lambda v:v['tracks'][1].update(codecHint='vorbis'),lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][1].update(source=dict(resourceId='other'))]:
+            bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(bad)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        # The new child mode must work without claiming AAC siblings, while the old default stays AAC.
+        saved=copy.deepcopy(mp4);mp4.clear();mp4['opus']=opus;V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
+        mp4.clear();mp4.update(saved);value['tracks'][0]['codecHint']='h264';value['tracks'][1]['codecHint']='aac-lc';mp4.pop('opus')
+        V2PreviewSession(client,'/unused').publish(value)
+
     def test_growing_ts_requires_its_own_capability_and_shared_scalar_views(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
         for t in value['tracks']:t.update(containerHint='mpegts-growing',source=dict(resourceId='mux'),codecHint='h264' if t['kind']=='video' else 'aac-lc')

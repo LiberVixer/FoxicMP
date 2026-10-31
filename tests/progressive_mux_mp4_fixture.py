@@ -19,10 +19,10 @@ def boxes(raw):
 
 def fixture(root,profile='main-bframes',seconds=20):
     root=Path(root);root.mkdir(parents=True,exist_ok=True)
-    vp9=profile.startswith('vp9-');av1=profile.startswith('av1-');hevc=profile.startswith('hevc');ten=profile.startswith(('hevc10','av1-10','vp9-10'));high=profile in ('high-fractional','hevc10-fractional','av1-10-fractional','vp9-10-fractional');rate='30000/1001' if high else '25';audio_rate=44100 if high else 48000
+    opus='-opus' in profile;mono=opus and '-mono' in profile;vp9=profile.startswith('vp9-');av1=profile.startswith('av1-');hevc=profile.startswith('hevc');ten=profile.startswith(('hevc10','av1-10','vp9-10'));high=(opus and profile.endswith('-fractional')) or profile in ('high-fractional','hevc10-fractional','av1-10-fractional','vp9-10-fractional');rate='30000/1001' if high else '25';audio_rate=44100 if high and not opus else 48000
     original=root/'mux-original.mp4'
     options=['-f','lavfi','-i',f'testsrc2=size=160x90:rate={rate}:duration={seconds}',
-             '-f','lavfi','-i',f'sine=frequency=880:sample_rate={audio_rate}:duration={seconds}',
+             '-f','lavfi','-i',('aevalsrc='+('sin(2*PI*880*t)' if mono else 'sin(2*PI*880*t)|sin(2*PI*440*t)')+f':s=48000:d={seconds}') if opus else f'sine=frequency=880:sample_rate={audio_rate}:duration={seconds}',
              '-map','0:v','-map','1:a',*(
                  ['-c:v','libvpx-vp9','-threads','2','-filter_threads','1','-pix_fmt','yuv420p10le' if ten else 'yuv420p',
                   '-profile:v','2' if ten else '0','-deadline','good','-cpu-used','4','-row-mt','1','-g','25','-keyint_min','25','-crf','40','-b:v','0','-lag-in-frames','25','-auto-alt-ref','1'] if vp9 else
@@ -30,24 +30,25 @@ def fixture(root,profile='main-bframes',seconds=20):
                   '-cpu-used','8','-row-mt','1','-g','25','-keyint_min','25','-crf','40','-b:v','0','-lag-in-frames','0'] if av1 else
                  ['-c:v','libx265','-threads','2','-filter_threads','1','-preset','fast','-pix_fmt','yuv420p10le' if ten else 'yuv420p',
                   '-x265-params','pools=1:frame-threads=1:log-level=error:keyint=25:min-keyint=25:scenecut=0:open-gop=0:bframes=2',
-                  '-tag:v','hvc1' if profile=='hevc-main' else 'hev1'] if hevc else
+                  '-tag:v','hvc1' if (profile=='hevc-main' or profile.startswith('hevc8')) else 'hev1'] if hevc else
                  ['-c:v','libx264','-preset','veryfast','-profile:v','high' if high else 'main','-pix_fmt','yuv420p',
                   '-x264-params','force-cfr=1:keyint=25:min-keyint=25:scenecut=0:open-gop=0:bframes=2']),
-             '-c:a','aac','-ac','2','-b:a','96k','-avoid_negative_ts','make_zero',
-             '-movflags',('delay_moov' if vp9 or av1 or profile in ('main-delayed','hevc-delayed') else 'empty_moov')+'+frag_keyframe+default_base_moof+negative_cts_offsets',str(original)]
+             *(['-c:a','libopus','-frame_duration','20','-application','audio'] if opus else ['-c:a','aac']),
+             '-ac','1' if mono else '2','-b:a','96k','-avoid_negative_ts','disabled' if opus else 'make_zero',
+             '-movflags',('delay_moov' if opus or vp9 or av1 or profile in ('main-delayed','hevc-delayed') else 'empty_moov')+'+frag_keyframe+default_base_moof+negative_cts_offsets',str(original)]
     subprocess.run(['ffmpeg','-v','error','-y',*options],check=True,capture_output=True)
     raw=original.read_bytes()
     probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_packets','-show_streams','-show_data_hash','sha256','-of','json',str(original)]))
     groups=[[p for p in probe['packets'] if p['codec_type']==kind] for kind in ('video','audio')]
     scales=[Fraction(s['time_base']) for s in probe['streams']]
-    durations=[int(Fraction(1,1)/Fraction(probe['streams'][0]['r_frame_rate'])/scales[0]),1024]
+    durations=[int(Fraction(1,1)/Fraction(probe['streams'][0]['r_frame_rate'])/scales[0]),960 if opus else 1024]
     for k,g in enumerate(groups):
         for p in g:p.setdefault('duration',str(durations[k]))
     duration=max(int((int(p['pts'])+int(p['duration']))*scales[k]*10000000) for k,g in enumerate(groups) for p in g)
     model=dict(schemaVersion=2,sessionId=uuid.uuid4().hex,generation='1',revision='1',writer=dict(instanceId=uuid.uuid4().hex,state='downloading'),
                timeline=dict(timebase=dict(numerator=1,denominator=10000000),live=False,duration=str(duration),timestampOffset='0'),
                resources=[dict(id='mux',name='mux.part',length=None if high else str(len(raw)),state='downloading',ranges=[])],tracks=[])
-    for kind,codec in [('video','vp9' if vp9 else 'av1' if av1 else 'hevc' if hevc else 'h264'),('audio','aac-lc')]:
+    for kind,codec in [('video','vp9' if vp9 else 'av1' if av1 else 'hevc' if hevc else 'h264'),('audio','opus' if opus else 'aac-lc')]:
         model['tracks'].append(dict(id=kind,kind=kind,required=True,codecHint=codec,containerHint='fmp4-muxed',state='downloading',initializationReady=True,source=dict(resourceId='mux')))
     model['metadata']=dict(revision='1',title='Muxed fMP4 '+profile,chapters=[dict(id='intro',time='0',title='Intro'),dict(id='two',time='20000000',title='Two seconds')])
     return model,raw,original,groups,scales

@@ -33,6 +33,8 @@ class V2PreviewSession:
         self.mux_ts_supported=mux.get('mode')=='segmented-muxed-mpegts-h264-aac-lc'
         self.mux_ts_catalog_supported=mux.get('catalog',{}).get('mode')=='paged-muxed-mpegts-v1'
         self.growing_ts_supported=ts.get('growing',{}).get('mode')=='growing-muxed-mpegts-h264-aac-lc'
+        mp4_opus=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('opus',{})
+        self.muxed_mp4_opus_modes=set(mp4_opus.get('profiles',[])) if mp4_opus.get('mode')=='growing-muxed-fmp4-opus' else set()
         self.muxed_vp9_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('vp9',{}).get('mode')=='growing-muxed-fmp4-vp9-aac-lc'
         self.muxed_av1_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('av1',{}).get('mode')=='growing-muxed-fmp4-av1-aac-lc'
         self.muxed_hevc_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('hevc',{}).get('mode')=='growing-muxed-fmp4-hevc-aac-lc'
@@ -67,9 +69,12 @@ class V2PreviewSession:
                 video=next((t.get('codecHint') for t in tracks if t.get('kind')=='video'),None) or ('vp9' if muxed_webm else 'h264')
                 audio=next((t.get('codecHint') for t in tracks if t.get('kind')=='audio'),None) or ('opus' if muxed_webm else 'aac-lc')
                 vorbis=muxed_webm and audio=='vorbis'
+                mp4_opus=muxed_mp4 and audio=='opus'
+                if mp4_opus and (not any(t.get('kind')=='video' and t.get('codecHint')==video for t in tracks) or 'growing-muxed-fmp4-'+video+'-opus' not in self.muxed_mp4_opus_modes):
+                    raise RuntimeError('Player lacks this shared fMP4 Opus pair or its explicit video hint; update the player')
                 if vorbis and (not any(t.get('kind')=='video' and t.get('codecHint')==video for t in tracks) or 'growing-muxed-webm-'+video+'-vorbis' not in self.muxed_vorbis_modes):
                     raise RuntimeError('Player lacks this shared WebM Vorbis pair or its explicit video hint; update the player')
-                if not vorbis and audio!=('opus' if muxed_webm else 'aac-lc'):
+                if not vorbis and not mp4_opus and audio!=('opus' if muxed_webm else 'aac-lc'):
                     raise RuntimeError('Unsupported muxed audio codec')
                 if muxed_webm and not vorbis and video=='vp8' and not self.muxed_webm_vp8_supported:
                     raise RuntimeError('Player lacks muxed WebM VP8/Opus playback; update the player')
@@ -77,15 +82,15 @@ class V2PreviewSession:
                     raise RuntimeError('Player lacks muxed WebM AV1/Opus playback; update the player')
                 if muxed_mp4 and video not in ('h264','hevc','av1','vp9'):
                     raise RuntimeError('Unsupported muxed fMP4 video codec')
-                if muxed_mp4 and video=='vp9' and not self.muxed_vp9_mp4_supported:
+                if muxed_mp4 and not mp4_opus and video=='vp9' and not self.muxed_vp9_mp4_supported:
                     raise RuntimeError('Player lacks muxed fMP4 VP9/AAC-LC playback; update the player')
-                if muxed_mp4 and video=='av1' and not self.muxed_av1_mp4_supported:
+                if muxed_mp4 and not mp4_opus and video=='av1' and not self.muxed_av1_mp4_supported:
                     raise RuntimeError('Player lacks muxed fMP4 AV1/AAC-LC playback; update the player')
-                if muxed_mp4 and video=='hevc' and not self.muxed_hevc_mp4_supported:
+                if muxed_mp4 and not mp4_opus and video=='hevc' and not self.muxed_hevc_mp4_supported:
                     raise RuntimeError('Player lacks muxed fMP4 HEVC/AAC-LC playback; update the player')
                 if muxed_webm and video not in ('vp8','vp9','av1'):
                     raise RuntimeError('Unsupported muxed WebM video codec')
-                if not vorbis and not (self.muxed_webm_vp8_supported if muxed_webm and not vorbis and video=='vp8' else self.muxed_webm_av1_supported if muxed_webm and not vorbis and video=='av1' else self.muxed_webm_supported if muxed_webm else self.muxed_vp9_mp4_supported if video=='vp9' else self.muxed_av1_mp4_supported if video=='av1' else self.muxed_hevc_mp4_supported if video=='hevc' else self.muxed_mp4_supported):
+                if not vorbis and not mp4_opus and not (self.muxed_webm_vp8_supported if muxed_webm and not vorbis and video=='vp8' else self.muxed_webm_av1_supported if muxed_webm and not vorbis and video=='av1' else self.muxed_webm_supported if muxed_webm else self.muxed_vp9_mp4_supported if video=='vp9' else self.muxed_av1_mp4_supported if video=='av1' else self.muxed_hevc_mp4_supported if video=='hevc' else self.muxed_mp4_supported):
                     raise RuntimeError('Player lacks '+label+' playback; update the player')
                 if len(tracks)!=2 or {t.get('kind') for t in tracks}!={'video','audio'} or len(resources)!=1 or 'segmentCatalog' in current:
                     raise RuntimeError(label+' requires two logical views and one scalar resource')

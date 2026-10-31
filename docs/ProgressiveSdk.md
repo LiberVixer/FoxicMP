@@ -405,3 +405,7 @@ SDK 1.48: [общий AV1 Main 8/10-bit + AAC-LC fMP4](ProgressiveMuxedFmp4Av1.m
 
 SDK 1.49: [общий VP9 Profile 0/2 8/10-bit + AAC-LC fMP4](ProgressiveMuxedFmp4Vp9.md),
 точный `muxedPlayback.fmp4.vp9.mode`, пример manifest и сохранение AVC/HEVC/AV1 modes.
+
+SDK 1.50: [общий fMP4 H.264/HEVC/AV1/VP9 + Opus](ProgressiveMuxedFmp4Opus.md),
+точный `muxedPlayback.fmp4.opus.mode` и пара в `opus.profiles`, mono/stereo 48 kHz,
+исходные dOps/pre-skip/edit list; AAC-LC modes/defaults сохранены.

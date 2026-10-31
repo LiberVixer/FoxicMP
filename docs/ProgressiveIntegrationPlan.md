@@ -152,3 +152,9 @@ SDK 1.49: [VP9 Profile 0/2 8/10-bit + AAC-LC в одном растущем fMP4
 Далее по [чеклисту](ProgressiveCompletionChecklist.md) — допустимые shared fMP4 Opus пары.
 Остальное ТЗ, реальные источники и длительная физическая A/V-приёмка остаются открытыми.
 Harvester не меняется.
+
+SDK 1.50: [Opus mono/stereo с H.264/HEVC/AV1/VP9 в общем растущем fMP4](ProgressiveMuxedFmp4Opus.md),
+`muxedPlayback.fmp4.opus.mode` и exact pair profiles, исходные dOps/edit/pre-skip сохранены.
+Ограниченная матрица shared fMP4 AAC/Opus закрыта; далее [пункт 2 чеклиста](ProgressiveCompletionChecklist.md) —
+общий backend demux и локальная подготовка. Полное ТЗ и реальная длительная A/V-приёмка остаются открытыми.
+Harvester не меняется.

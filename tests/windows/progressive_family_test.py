@@ -607,6 +607,12 @@ def run(args):
         if args.mux_webm_playback_only or args.mux_webm_smoke_only:
             from progressive_mux_webm_playback import exercise as exercise_mux_webm
             return [dict(contract='actual-muxed-webm-playback',result=exercise_mux_webm(client,args.fixtures,Path(args.report)/('mux-webm-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401 if seconds==2 else 4402),profile=profile)) for profile in (('vp8','vp9-10','av1-10') if args.mux_webm_smoke_only else ('vp9-8','vp9-10','vp9-fractional','av1-8','av1-10','av1-fractional','vp8','vp8-fractional'))]
+        if args.mux_mp4_compat_only:
+            from progressive_mux_mp4_playback import exercise as exercise_mux_mp4
+            return [dict(contract='actual-muxed-fmp4-compat-playback',result=exercise_mux_mp4(client,args.fixtures,Path(args.report)/('mux-mp4-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401 if seconds==2 else 4402),profile=profile)) for profile in ('main-bframes','hevc10-fractional','av1-10-fractional','vp9-10-fractional')]
+        if args.mux_opus_mp4_playback_only:
+            from progressive_mux_mp4_playback import exercise as exercise_mux_mp4
+            return [dict(contract='actual-muxed-opus-fmp4-playback',result=exercise_mux_mp4(client,args.fixtures,Path(args.report)/('mux-opus-mp4-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401 if seconds==2 else 4402),profile=profile)) for profile in ('h264-opus','h264-opus-mono-fractional','hevc8-opus','hevc10-opus-mono-fractional','av1-8-opus','av1-10-opus-mono-fractional','vp9-8-opus','vp9-10-opus-mono-fractional')]
         if args.mux_vp9_mp4_playback_only:
             from progressive_mux_mp4_playback import exercise as exercise_mux_mp4
             return [dict(contract='actual-muxed-vp9-fmp4-playback',result=exercise_mux_mp4(client,args.fixtures,Path(args.report)/('mux-vp9-mp4-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401 if seconds==2 else 4402),profile=profile)) for profile in ('vp9-8','vp9-10','vp9-10-fractional')]
@@ -791,6 +797,8 @@ if __name__ == '__main__':
     parser.add_argument('--ts-playback-only',action='store_true')
     parser.add_argument('--mux-ts-playback-only',action='store_true')
     parser.add_argument('--growing-ts-playback-only',action='store_true')
+    parser.add_argument('--mux-mp4-compat-only',action='store_true')
+    parser.add_argument('--mux-opus-mp4-playback-only',action='store_true')
     parser.add_argument('--mux-vp9-mp4-playback-only',action='store_true')
     parser.add_argument('--mux-av1-mp4-playback-only',action='store_true')
     parser.add_argument('--mux-hevc-mp4-playback-only',action='store_true')

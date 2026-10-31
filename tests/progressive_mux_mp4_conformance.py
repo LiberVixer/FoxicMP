@@ -62,7 +62,7 @@ def run(runner, media_cases=None, legacy_faults=True):
                     for at in range(len(result)-1,-1,-65521):
                         start=max(0,at-1023);assert rpc('read',track=k,offset=str(start),length=str(at-start+1))['hex']==result[start:at+1].hex()
                     assert rpc('read',track=k,offset=str(len(result)),length='1')['bytesRead']==0
-                status=rpc('status');assert status['mediaMode']=='growing-muxed-fmp4-'+model['tracks'][0]['codecHint']+'-aac-lc' and status['physicalResources']==1,status
+                status=rpc('status');assert status['mediaMode']=='growing-muxed-fmp4-'+model['tracks'][0]['codecHint']+'-'+model['tracks'][1]['codecHint'] and status['physicalResources']==1,status
                 readers=lambda:rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers']
                 assert len(readers())==1;rpc('retain');rpc('release');assert readers();rpc('dropRetained');assert not readers()
                 assert sorted(p.name for p in data.iterdir())==['mux.part']
@@ -71,7 +71,7 @@ def run(runner, media_cases=None, legacy_faults=True):
                 checks.append('packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-'+profile+str(seconds))
             finally:rpc.close()
     if not legacy_faults:
-        return dict(result='PASS',scope='muxed-'+model['tracks'][0]['codecHint']+'-fmp4-native',count=len(checks),checks=checks,realMedia=reports,playerDecoderTested=False,networkRequests=0,physicalAvSyncMeasured=False)
+        return dict(result='PASS',scope='muxed-fmp4-opus-native' if model['tracks'][1]['codecHint']=='opus' else 'muxed-'+model['tracks'][0]['codecHint']+'-fmp4-native',count=len(checks),checks=checks,realMedia=reports,playerDecoderTested=False,networkRequests=0,physicalAvSyncMeasured=False)
     with tempfile.TemporaryDirectory(prefix='foxicmp-mux-mp4-errors-') as tmp:
         root=Path(tmp);model,raw,_,_,_=fixture(root,seconds=4);atoms=list(boxes(raw));fragments=[a for a,n,k,h in atoms if k==b'moof']
         def case(name,changed,initial=False):
