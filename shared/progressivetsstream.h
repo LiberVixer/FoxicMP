@@ -14,7 +14,7 @@ class TsResourceStream {
         harvester::ts::Program program;
         std::shared_ptr<const harvester::ts::AccessIndex> index;
     };
-    struct Published {Snapshot model;std::array<TrackState,2> tracks;size_t pages=0;};
+    struct Published {Snapshot model;std::array<TrackState,2> tracks;size_t pages=0;bool muxed=false;};
     std::unique_ptr<LocalSegmentCatalog> catalog;
     std::shared_ptr<ResourceSource> source;
     std::filesystem::path registry;
@@ -35,7 +35,7 @@ class TsResourceStream {
         supported(value<(uint64_t(1)<<33) && harvester::Time100ns(int64_t(value),90000)==model.offset,"TS origin must equal an exact rescaled 90 kHz timestamp");return value;
     }
     static TrackState layout(const Snapshot& model,const Track& track) {
-        supported(track.required && track.resource.empty() && track.container=="mpegts" && (track.kind=="video" || track.kind=="audio"),"TS requires separate required segmented video/audio tracks");
+        supported(track.required && track.resource.empty() && (track.container=="mpegts" || track.container=="mpegts-muxed") && (track.kind=="video" || track.kind=="audio"),"TS requires two required logical segmented video/audio tracks");
         supported(track.codec.empty() || track.codec==(track.kind=="video"?"h264":"aac-lc"),"Unsupported TS codec hint");
         Require(track.state!="failed" && track.state!="cancelled","tsProfile","Required TS track writer failed","resource-failed");
         TrackState out;out.id=track.id;out.initialization=track.initialization;
@@ -66,14 +66,21 @@ class TsResourceStream {
         supported(!model.live && !model.hasWindow && model.knownDuration && model.numerator==1 && model.denominator==10000000 && model.tracks.size()==2,"TS requires known-duration VOD and two tracks in the 100 ns timebase");origin(model);
         Require(model.state!="failed" && model.state!="cancelled","tsProfile","Required TS writer failed","writer-failed");
         auto out=std::make_shared<Published>();out->model=std::move(model);out->pages=pages;
+        for(const auto& item:out->model.tracks)out->muxed|=item.second.container=="mpegts-muxed";
         std::set<std::string> used;std::array<bool,2> kinds{};
         for(const auto& item:out->model.tracks) {
             const auto& track=item.second;supported(track.kind=="video" || track.kind=="audio","Only TS video/audio are enabled");const auto kind=track.kind=="video"?0u:1u;
             supported(!kinds[kind],"Duplicate TS track kind");kinds[kind]=true;out->tracks[kind]=layout(out->model,track);
-            supported(used.insert(out->tracks[kind].initialization).second,"TS tracks need distinct initialization resources");
-            for(const auto& segment:track.segments)supported(used.insert(segment.resource).second,"TS tracks need distinct media resources");
+            supported(track.container==(out->muxed?"mpegts-muxed":"mpegts"),"TS muxed/separate modes cannot be mixed");
+            const bool fresh=used.insert(out->tracks[kind].initialization).second;supported(fresh || out->muxed,"Separate TS tracks need distinct initialization resources");
+            for(const auto& segment:track.segments){const bool added=used.insert(segment.resource).second;supported(added || out->muxed,"Separate TS tracks need distinct media resources");}
         }
         supported(kinds[0] && kinds[1] && used.size()==out->model.resources.size(),"TS accepts only resources referenced by its two tracks");
+        if(out->muxed) {
+            const auto& video=out->model.tracks.at(out->tracks[0].id);const auto& audio=out->model.tracks.at(out->tracks[1].id);
+            supported(out->tracks[0].initialization==out->tracks[1].initialization && video.initializationReady==audio.initializationReady && video.state==audio.state && video.segments.size()==audio.segments.size(),"Muxed TS views need the same init, readiness, state and segment count");
+            for(size_t i=0;i<video.segments.size();++i)supported(video.segments[i].resource==audio.segments[i].resource && video.segments[i].sequence==audio.segments[i].sequence,"Muxed TS views must reference identical ordered resources and sequences");
+        }
         for(const auto& item:out->model.resources)Require(item.second.integrity,"tsProfile","TS staging requires SHA-256 for every resource","integrity-required");return out;
     }
     void check() const {
@@ -98,7 +105,7 @@ class TsResourceStream {
         for(size_t kind=0;kind<2;++kind) {
             auto& track=next.tracks[kind];if(!track.initialized)continue;
             const auto init=load(next.model.resources.at(track.initialization));
-            track.program=harvester::ts::Initialization({init.data(),init.size()},int(kind));
+            track.program=harvester::ts::Initialization({init.data(),init.size()},int(kind),next.muxed);
             const auto old=previous?&previous->tracks[kind]:nullptr;
             if(old && old->initialized)supported(old->initialization==track.initialization && old->program.pat==track.program.pat && old->program.pmt==track.program.pmt,"TS initialization changed");
             const auto already=old && old->index?old->spans.size()-1:0;
@@ -140,7 +147,7 @@ public:
     static bool Declared(const std::string& json) {
         const auto d=catalog_detail::Json(json,harvester::MaxManifestBytes,"$");
         if(d.HasMember("tracks") && d["tracks"].IsArray())for(const auto& t:d["tracks"].GetArray())
-            if(t.IsObject() && t.HasMember("containerHint") && t["containerHint"].IsString() && std::string(t["containerHint"].GetString(),t["containerHint"].GetStringLength())=="mpegts")return true;
+            if(t.IsObject() && t.HasMember("containerHint") && t["containerHint"].IsString() && (std::string(t["containerHint"].GetString(),t["containerHint"].GetStringLength())=="mpegts" || std::string(t["containerHint"].GetString(),t["containerHint"].GetStringLength())=="mpegts-muxed"))return true;
         return false;
     }
     static Snapshot RootModel(const std::string& json){auto d=catalog_detail::Json(json,harvester::MaxManifestBytes,"$");d.RemoveMember("segmentCatalog");return Parse(lease_detail::Encode(d));}
@@ -209,8 +216,9 @@ public:
     Snapshot model() const {return std::atomic_load(&current)->model;}
     void ensureOpen() const {check();}
     std::shared_ptr<const harvester::ts::AccessIndex> index(unsigned kind) const {check();Require(kind<2,"track","Unknown TS track","unknown-track");return std::atomic_load(&current)->tracks[kind].index;}
-    std::vector<BoundResource> bindings() const {const auto state=std::atomic_load(&current);std::vector<BoundResource> out;for(const auto& track:state->tracks)if(track.initialized)out.push_back(source->binding(track.initialization));return out;}
+    std::vector<BoundResource> bindings() const {const auto state=std::atomic_load(&current);std::vector<BoundResource> out;for(const auto& track:state->tracks)if(track.initialized){auto binding=source->binding(track.initialization);if(state->muxed)binding.id=track.id;out.push_back(std::move(binding));}return out;}
     bool usesCatalog() const {return bool(catalog);}
+    bool isMuxed() const {return std::atomic_load(&current)->muxed;}
     std::shared_ptr<std::atomic<bool>> releaseReceipt() const {return source->releaseReceipt();}
 };
 }} // namespace foxicmp::progressive

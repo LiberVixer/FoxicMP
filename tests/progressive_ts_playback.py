@@ -63,31 +63,36 @@ def fixture(root,profile='main-bframes',seconds=20):
     return value,payload,expected,models
 
 
-def exercise(client,fixtures,work,pause,seek,profile='main-bframes',catalog=False):
+def exercise(client,fixtures,work,pause,seek,profile='main-bframes',catalog=False,muxed=False):
     from progressive_segment_playback import publish_resources
     from progressive_catalog_playback import catalog_snapshot
     from progressive_integrity import protect_snapshot
     from progressive_v2 import V2PreviewSession
     from progressive_v2_playback_conformance import forget_closed_readers
     root=Path(work).resolve();root.mkdir(parents=True,exist_ok=True)
-    plan,data,_,_=fixture(root,profile,seconds=40 if catalog else 20)
-    tail=35 if catalog else 17
+    if muxed:
+        from progressive_mux_ts_playback import fixture as producer
+    else:producer=fixture
+    plan,data,_,_=producer(root,profile,seconds=(80 if muxed else 40) if catalog else 20)
+    tail=(75 if muxed else 35) if catalog else 17
     plan['metadata']['chapters'].append(dict(id='tail',time=str(tail*10000000),title='Tail'))
     if catalog:value,previous=catalog_snapshot(plan,data,root,12)
     else:
-        value=plan;publish_resources(value,data,root,12,hole='video-5');value=protect_snapshot(value,root);previous=copy.deepcopy(value)
+        value=plan;publish_resources(value,data,root,12,hole='mux-5' if muxed else 'video-5');value=protect_snapshot(value,root);previous=copy.deepcopy(value)
     caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['segmentedPlayback']['mpegts']
-    assert caps['mode']=='segmented-mpegts-h264-aac-lc' and caps['integrityRequired'] and caps['decoderContainer']=='fmp4'
+    if muxed:caps=caps['muxed']
+    mode='segmented-muxed-mpegts-h264-aac-lc' if muxed else 'segmented-mpegts-h264-aac-lc'
+    assert caps['mode']==mode and caps['integrityRequired'] and caps['decoderContainer']=='fmp4'
     probe=client.probe(value,root);assert probe['supported'] and not probe['complete'],probe
     forget_closed_readers(client,value)
-    preview=V2PreviewSession(client,str(root),title='MPEG-TS '+profile);report=dict(profile=profile,catalog=catalog,phases=[],networkRequests=0)
+    preview=V2PreviewSession(client,str(root),title='MPEG-TS '+profile);report=dict(profile=profile,catalog=catalog,muxed=muxed,phases=[],networkRequests=0)
     try:
         preview.publish(value);reader=preview.reader_id
         def wait(predicate,label,timeout=30):
             deadline=time.monotonic()+timeout
             while time.monotonic()<deadline:
                 state=preview.heartbeat();assert state.get('ok') and not state.get('error') and state['state']!='error',state
-                assert state['readerId']==reader and state['mediaMode']=='segmented-mpegts-h264-aac-lc',state
+                assert state['readerId']==reader and state['mediaMode']==mode,state
                 if predicate(state):report['phases'].append(dict(phase=label,status=state));return state
                 time.sleep(.1)
             raise AssertionError(('TS playback timeout',label,state))

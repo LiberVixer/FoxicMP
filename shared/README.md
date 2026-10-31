@@ -60,3 +60,5 @@ MSVC и внешнего FFmpeg; [профиль и ошибки](../docs/Progre
 SDK 1.39 подключает его через `progressivetsmp4.h` к общему playback bridge:
 виртуальные moov/moof/mdat, AVC length prefixes и AAC без ADTS, без перекодирования.
 [TS playback всех трёх редакций](../docs/ProgressiveTsPlayback.md).
+
+SDK 1.40 расширяет TS parser/ResourceSource/MP4 bridge явным профилем `mpegts-muxed`: один AVC PID и один AAC PID, общий init/media и две logical views. Sharing в каталоге разрешён только этому профилю; старые режимы сохраняют проверки distinct resources. [Контракт и границы](../docs/ProgressiveMuxedTsPlayback.md).

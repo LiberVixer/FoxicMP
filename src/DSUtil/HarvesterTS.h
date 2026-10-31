@@ -1,5 +1,5 @@
 // Bounded transport-layer staging for segmented MPEG-TS. GPL-3.0-or-later.
-// Internal preparation only: no decoder, player capability or IPC activation.
+// Codec/clock validation and player admission are owned by the caller.
 #pragma once
 #include <algorithm>
 #include <cstdint>
@@ -28,6 +28,7 @@ struct Pes {
 struct Program {
     uint16_t number=0,pmtPid=0,streamPid=0,pcrPid=0;
     uint8_t streamType=0;
+    uint16_t otherPid=0;uint8_t otherType=0;
     std::vector<uint8_t> pat,pmt;
 };
 struct Segment {std::vector<Pes> packets;uint64_t firstPcr=0,lastPcr=0;size_t pcrCount=0;};
@@ -85,7 +86,7 @@ public:
     void finish() const {Check(pending.empty(),"Incomplete final PSI section","ts-truncated");}
 };
 class Tables {
-    bool media=false;
+    bool media=false,muxed=false;
     size_t pats=0,pmts=0;
     void common(Data d,uint8_t id) const {
         Check(d.size>=12 && d.bytes[0]==id && (d.bytes[5]&0xc1)==0xc1 && d.bytes[6]==0 && d.bytes[7]==0,
@@ -93,7 +94,7 @@ class Tables {
     }
 public:
     Program program;
-    Tables()=default;
+    explicit Tables(bool allowMuxed=false):muxed(allowMuxed){}
     explicit Tables(const Program& p):media(true),program(p){}
     void pat(Data d) {
         common(d,0);++pats;
@@ -119,15 +120,17 @@ public:
         Check(info<=d.size-4-at,"Truncated program descriptors");Descriptors({d.bytes+at,info});at+=info;
         unsigned streams=0;
         while(at<d.size-4) {
-            Check(d.size-4-at>=5 && ++streams==1,"Only one elementary stream per TS resource is enabled");
+            Check(d.size-4-at>=5 && ++streams<=(muxed?2u:1u),"Unexpected elementary stream count");
             Check((d.bytes[at+1]&0xe0)==0xe0 && (d.bytes[at+3]&0xf0)==0xf0,"Invalid elementary stream reserved bits");
-            program.streamType=d.bytes[at];program.streamPid=U16(d.bytes+at+1)&8191;
-            Check(program.streamType==0x1b || program.streamType==0x0f,"Only AVC or ADTS AAC stream types are staged");
-            Check(program.streamPid>=32 && program.streamPid<8191 && program.streamPid!=program.pmtPid,"Invalid elementary PID");
+            const auto type=d.bytes[at];const auto pid=uint16_t(U16(d.bytes+at+1)&8191);
+            Check(type==0x1b || type==0x0f,"Only AVC or ADTS AAC stream types are staged");
+            Check(pid>=32 && pid<8191 && pid!=program.pmtPid,"Invalid elementary PID");
+            if(streams==1){program.streamType=type;program.streamPid=pid;}
+            else {Check(type!=program.streamType && pid!=program.streamPid,"Muxed TS requires distinct AVC and AAC PIDs");program.otherType=type;program.otherPid=pid;}
             const auto length=size_t(U16(d.bytes+at+3)&4095);at+=5;
             Check(length<=d.size-4-at,"Truncated stream descriptors");Descriptors({d.bytes+at,length});at+=length;
         }
-        Check(streams==1 && program.pcrPid==program.streamPid,"PCR must use the single elementary PID");
+        Check(muxed?(streams==2 && program.pcrPid==(program.streamType==0x1b?program.streamPid:program.otherPid)):(streams==1 && program.pcrPid==program.streamPid),"PCR must use the selected single stream or muxed AVC PID");
         program.pmt.assign(d.bytes,d.bytes+d.size);
     }
     void finish() const {Check(!program.pat.empty() && !program.pmt.empty() && (media || (pats==1 && pmts==1)),"Missing initialization PAT/PMT","ts-truncated");}
@@ -220,10 +223,10 @@ public:
         bytes.clear();ranges.clear();expected=0;
     }
 };
-inline Program Initialization(Data bytes,int kind) {
+inline Program Initialization(Data bytes,int kind,bool muxed=false) {
     Check((kind==0 || kind==1) && bytes.size>0 && bytes.size<=MaxInitBytes,"Invalid TS initialization bound","ts-limit");
     Check(bytes.size%PacketBytes==0,"Partial TS initialization packet","ts-truncated");
-    Tables tables;Sections pat,pmt;Continuity continuity;
+    Tables tables(muxed);Sections pat,pmt;Continuity continuity;
     for(size_t at=0;at<bytes.size;at+=188) {
         const auto p=Transport({bytes.bytes+at,188});continuity.append(p);
         Check(!p.hasPcr,"Initialization cannot contain a media clock");
@@ -234,6 +237,7 @@ inline Program Initialization(Data bytes,int kind) {
         else pmt.append(p.data,p.start,[&](Data d){tables.pmt(d);});
     }
     pat.finish();pmt.finish();tables.finish();
+    if(muxed && tables.program.streamType!=(kind?0x0f:0x1b)){std::swap(tables.program.streamType,tables.program.otherType);std::swap(tables.program.streamPid,tables.program.otherPid);}
     Check(tables.program.streamType==(kind?0x0f:0x1b),"TS initialization kind differs from stream type");return tables.program;
 }
 inline Segment Media(const Program& program,Data bytes) {
@@ -244,7 +248,7 @@ inline Segment Media(const Program& program,Data bytes) {
     for(size_t at=0;at<bytes.size;at+=188) {
         const auto p=Transport({bytes.bytes+at,188});continuity.append(p);
         if(p.pid==8191)continue;
-        Check(p.pid==0 || p.pid==program.pmtPid || p.pid==program.streamPid,"Undeclared media PID");
+        Check(p.pid==0 || p.pid==program.pmtPid || p.pid==program.streamPid || (program.otherPid && p.pid==program.otherPid),"Undeclared media PID");
         if(p.hasPcr) {
             Check(p.pid==program.pcrPid,"PCR occurs on the wrong PID");
             Check(!out.pcrCount || p.pcr>=out.lastPcr,"PCR regressed or rolled over","ts-timestamp");
@@ -253,13 +257,14 @@ inline Segment Media(const Program& program,Data bytes) {
         if(!p.payload)continue;
         if(p.pid==0)pat.append(p.data,p.start,[&](Data d){tables.pat(d);});
         else if(p.pid==program.pmtPid)pmt.append(p.data,p.start,[&](Data d){tables.pmt(d);});
-        else {
-            Check(out.pcrCount>0,"PCR must precede media payload");
+        else if(p.pid==program.streamPid) {
+            Check(out.pcrCount>0 || program.otherPid,"PCR must precede single-stream media payload");
             if(p.start)pes.finish(out);else Check(!pes.empty(),"Media begins inside an incomplete PES","ts-truncated");
             pes.append(p,at);
         }
     }
     pat.finish();pmt.finish();tables.finish();pes.finish(out);
+    Check(!program.otherPid || out.pcrCount>0,"Muxed TS media must contain a PCR");
     Check(!out.packets.empty(),"TS segment has no PES packets");return out;
 }
 }} // namespace harvester::ts

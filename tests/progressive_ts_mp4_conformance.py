@@ -7,11 +7,14 @@ from progressive_segment_playback import publish_resources
 from progressive_integrity import protect_snapshot
 from progressive_catalog_playback import catalog_snapshot
 
-def run(runner):
+def run(runner,muxed=False):
+    if muxed:
+        from progressive_mux_ts_playback import fixture as producer
+    else:producer=fixture
     checks=[];reports=[]
     for profile,catalog in [('main-bframes',False),('high-fractional',False),('main-preroll',False),('main-bframes',True)]:
         with tempfile.TemporaryDirectory(prefix='foxicmp-ts-mp4-') as tmp:
-            root=Path(tmp);data=root/'data';data.mkdir();plan,payload,_,models=fixture(root,profile,seconds=40 if catalog else 3)
+            root=Path(tmp);data=root/'data';data.mkdir();plan,payload,_,models=producer(root,profile,seconds=(80 if muxed else 40) if catalog else 3)
             if catalog:value,expanded=catalog_snapshot(plan,payload,data,12)
             else:publish_resources(plan,payload,data,1);value=protect_snapshot(plan,data)
             proc=subprocess.Popen([runner,'--registry',str(root/'registry')],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf-8')
@@ -46,7 +49,7 @@ def run(runner):
                     assert rpc('read',track=kind,offset=str(len(raw)),length='8')['bytesRead']==0
                     probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_packets','-show_streams','-of','json',str(file)]));found=probe['packets'];clock=Fraction(probe['streams'][0]['time_base']);origin=int(value['timeline']['timestampOffset'])
                     assert len(found)==len(packets),(profile,len(found),len(packets))
-                    if profile=='main-preroll' and kind==1:assert found[0]['side_data_list'][0]['skip_samples']==3840,found[0]
+                    if profile=='main-preroll' and kind==1:assert found[0]['side_data_list'][0]['skip_samples']==(480 if muxed else 3840),found[0]
                     tolerance=0
                     for a,b in zip(found,packets):
                         for field in ('pts','dts'):
@@ -56,13 +59,13 @@ def run(runner):
                     times.append(tolerance)
                     def decoded_hash(path):
                         options=['-an','-pix_fmt','yuv420p','-c:v','rawvideo','-threads','1'] if kind==0 else ['-vn','-c:a','pcm_s16le']
-                        if profile=='main-preroll' and kind==1 and path==original:options+=['-af','atrim=start_sample=3840']
+                        if profile=='main-preroll' and kind==1 and path==original:options+=['-af','atrim=start_sample='+str(480 if muxed else 3840)]
                         return subprocess.check_output(['ffmpeg','-v','error','-i',str(path),*options,'-f','hash','-hash','sha256','-'],stderr=subprocess.PIPE).strip().decode()
                     assert decoded_hash(original)==decoded_hash(file),(profile,name,'decoded content differs')
                     # Random backward metadata/payload reads reproduce the exact virtual file.
                     for at in range(len(raw)-1,-1,-65536):
                         start=max(0,at-1023);assert rpc('read',track=kind,offset=str(start),length=str(at-start+1))['hex']==raw[start:at+1].hex()
-                status=rpc('status');assert status['mediaMode']=='segmented-mpegts-h264-aac-lc' and status['decoderContainer']=='fmp4',status
+                status=rpc('status');assert status['mediaMode']==('segmented-muxed-mpegts-h264-aac-lc' if muxed else 'segmented-mpegts-h264-aac-lc') and status['decoderContainer']=='fmp4',status
                 if catalog:assert status['segmentCatalog']['resourceCount']>64 and status['segmentCatalog']['maxOpenResources']==8,status
                 rpc('retain');rpc('release');a=rpc('readers',version=1,sessionId=value['sessionId'],generation='1');assert a['readers'];rpc('dropRetained');a=rpc('readers',version=1,sessionId=value['sessionId'],generation='1');assert not a['readers'],a
                 label=profile+('-catalog' if catalog else '')
@@ -74,7 +77,7 @@ def run(runner):
                 try:proc.wait(timeout=10)
                 except subprocess.TimeoutExpired:proc.kill();proc.wait();raise
                 error=proc.stderr.read();proc.stdout.close();proc.stderr.close();assert proc.returncode==0,error
-    return dict(result='PASS',scope='ts-virtual-fmp4-bridge',count=len(checks),checks=checks,realMedia=reports,playerDecoderTested=False,physicalAvSyncMeasured=False,networkRequests=0)
+    return dict(result='PASS',scope='muxed-ts-virtual-fmp4-bridge' if muxed else 'ts-virtual-fmp4-bridge',count=len(checks),checks=checks,realMedia=reports,playerDecoderTested=False,physicalAvSyncMeasured=False,networkRequests=0)
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--runner',required=True);a=p.parse_args();print(json.dumps(run(a.runner)))
+    p=argparse.ArgumentParser();p.add_argument('--runner',required=True);p.add_argument('--muxed',action='store_true');a=p.parse_args();print(json.dumps(run(a.runner,a.muxed)))

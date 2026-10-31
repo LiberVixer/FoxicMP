@@ -50,6 +50,14 @@ template<class Loader> SegmentCatalog DecodeSegmentCatalog(const std::string& js
     Require(descriptors.IsArray() && descriptors.Size()<=MaxCatalogPages,"$.segmentCatalog","Too many catalog pages");
     Require(root["resources"].IsArray() && root["resources"].Size()<=MaxResources,"$.resources","Too many inline resources");
     Require(root["tracks"].IsArray() && root["tracks"].Size()==2,"$.tracks","Catalog requires two segmented media tracks");
+    // Only the explicit muxed TS profile may describe two logical views over
+    // one physical resource. Other catalog profiles retain exclusive ownership.
+    bool muxedTs=true;std::set<std::string> muxKinds;
+    for(const auto& t:root["tracks"].GetArray()) {
+        muxedTs=muxedTs && t.IsObject() && t.HasMember("containerHint") && t["containerHint"].IsString() && std::string(t["containerHint"].GetString(),t["containerHint"].GetStringLength())=="mpegts-muxed";
+        if(t.IsObject() && t.HasMember("kind") && t["kind"].IsString())muxKinds.insert(std::string(t["kind"].GetString(),t["kind"].GetStringLength()));
+    }
+    muxedTs=muxedTs && muxKinds==std::set<std::string>{"video","audio"};
     auto& allocator=root.GetAllocator();
     std::map<std::string,size_t> tracks;std::map<std::string,Value> segments;
     for(rapidjson::SizeType i=0;i<root["tracks"].Size();++i) {
@@ -103,10 +111,12 @@ template<class Loader> SegmentCatalog DecodeSegmentCatalog(const std::string& js
             Require(parts.IsArray() && parts.Size()>0 && parts.Size()<=MaxResources,"page.tracks[].segments","Invalid archived segment list");
             auto& output=segments.at(id);
             Require(output.Size()<=MaxCatalogSegments-parts.Size(),"page.tracks[].segments","Too many expanded segments");
+            std::set<std::string> trackResources;
             for(const auto& part:parts.GetArray()) {
                 Require(part.IsObject() && part.HasMember("resourceId"),"page.tracks[].segments","Invalid archived segment");
                 const auto resource=Id(part["resourceId"],"page.segments[].resourceId");
-                Require(pageResources.count(resource) && used.insert(resource).second,"page.segments","Each page segment needs its own resource in the same page");
+                const bool first=used.insert(resource).second;
+                Require(pageResources.count(resource) && trackResources.insert(resource).second && (first || muxedTs),"page.segments","Each page segment needs a resource in the same page; sharing is restricted to explicit muxed TS views");
                 output.PushBack(Value(part,allocator),allocator);
             }
         }

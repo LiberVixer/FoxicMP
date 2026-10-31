@@ -310,3 +310,6 @@ SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](Progress
 
 
 SDK 1.39 подключает [сегментный MPEG-TS AVC/AAC](ProgressiveTsPlayback.md) ко всем трём редакциям через общий виртуальный fMP4 без перекодирования. Обязательны SHA-256, отдельные video/audio, внешний PAT/PMT init и строгий VOD-профиль; каталог согласуется отдельно как `paged-mpegts-v1`. Проверяются обычный manifest, каталог и отрицательный преролл, pause/backward/forward seek, tail waiting и complete/release. Harvester не меняется. Далее — muxed A/V, смена конфигурации/live и реальные источники с длительной A/V-приёмкой; этот выпуск не объявляет их готовыми.
+
+
+SDK 1.40 добавляет [совместные MPEG-TS AVC/AAC сегменты](ProgressiveMuxedTsPlayback.md) для Classic и обеих Qt-сборок: общий init/media resource, два logical view, виртуальный fMP4, общий SHA/cache/leases и отдельный `paged-muxed-mpegts-v1`. Старые профили sharing не допускают. Далее — один растущий muxed-файл без сегментации, muxed fMP4/WebM, смена конфигурации/live и реальные источники с длительной A/V-приёмкой. Harvester не меняется.

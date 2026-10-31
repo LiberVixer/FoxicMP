@@ -29,6 +29,9 @@ class V2PreviewSession:
         ts=caps.get('schema2Playback',{}).get('segmentedPlayback',{}).get('mpegts',{})
         self.ts_segments_supported=ts.get('mode')=='segmented-mpegts-h264-aac-lc'
         self.ts_catalog_supported=ts.get('catalog',{}).get('mode')=='paged-mpegts-v1'
+        mux=ts.get('muxed',{})
+        self.mux_ts_supported=mux.get('mode')=='segmented-muxed-mpegts-h264-aac-lc'
+        self.mux_ts_catalog_supported=mux.get('catalog',{}).get('mode')=='paged-muxed-mpegts-v1'
         self.integrity_supported=caps.get('schema2Playback',{}).get('integrity',{}).get('algorithm')=='sha256'
         if 2 not in caps.get('playbackSchemaVersions',[]) or caps.get('schema2Playback',{}).get('mode')!='separate-fmp4-h264-aac-lc' or caps.get('readerLeaseProtocol')!=1:
             raise RuntimeError('Player lacks the bounded schema-2 media profile; update the player')
@@ -43,7 +46,17 @@ class V2PreviewSession:
             segment_tracks=[t for t in current.get('tracks',[]) if 'segments' in t.get('source',{})]
             webm_segments=any(t.get('containerHint')=='webm' for t in segment_tracks)
             ts_segments=any(t.get('containerHint')=='mpegts' for t in segment_tracks)
-            if ts_segments:
+            mux_ts_segments=any(t.get('containerHint')=='mpegts-muxed' for t in segment_tracks)
+            if mux_ts_segments:
+                if len(segment_tracks)!=2 or any(t.get('containerHint')!='mpegts-muxed' for t in segment_tracks):
+                    raise RuntimeError('Muxed MPEG-TS requires two logical TS views over shared resources')
+                if not self.mux_ts_supported or any(t.get('codecHint') not in (None,'','h264' if t.get('kind')=='video' else 'aac-lc') for t in segment_tracks):
+                    raise RuntimeError('Player lacks the muxed MPEG-TS AVC/AAC playback profile; update the player')
+                if 'segmentCatalog' in current and not self.mux_ts_catalog_supported:
+                    raise RuntimeError('Player lacks the paged muxed MPEG-TS playback profile; update the player')
+                if not all('integrity' in r for r in current.get('resources',[])):
+                    raise RuntimeError('Muxed MPEG-TS playback requires SHA-256 for every resource')
+            elif ts_segments:
                 if len(segment_tracks)!=2 or any(t.get('containerHint')!='mpegts' for t in segment_tracks):
                     raise RuntimeError('Segmented MPEG-TS requires separate TS video and audio tracks')
                 if not self.ts_segments_supported or any(t.get('codecHint') not in (None,'','h264' if t.get('kind')=='video' else 'aac-lc') for t in segment_tracks):

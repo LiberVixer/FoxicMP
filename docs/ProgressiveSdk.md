@@ -350,3 +350,5 @@ probe/подготовки источника из UI остаётся рабо�
 manifest/provider для всех трёх редакций без Win32-кода в Harvester.
 
 SDK 1.39: [сегментный MPEG-TS AVC/AAC](ProgressiveTsPlayback.md), общий виртуальный fMP4 без перекодирования, обязательный SHA-256 и отдельная capability каталога `paged-mpegts-v1`. Для playback требуются новые EXE всех трёх редакций; SDK содержит клиент и документацию, Harvester не меняется.
+
+SDK 1.40: [совместные MPEG-TS H.264/AAC сегменты](ProgressiveMuxedTsPlayback.md), два logical view над одним resource/init, общий SHA/cache/leases, отдельный каталог `paged-muxed-mpegts-v1`. Это профиль полных сегментов; один растущий файл и muxed fMP4/WebM остаются последующими этапами.

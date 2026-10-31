@@ -133,7 +133,7 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input, const QString &re
         devices[i] = info.device; inodes[i] = info.inode;
       }
     }
-    if (devices[0] == devices[1] && inodes[0] == inodes[1])
+    if ((!v2Bridge || !v2Bridge->isMuxed()) && devices[0] == devices[1] && inodes[0] == inodes[1])
       throw std::runtime_error("Video and audio must be distinct files");
     for (int i = 0; size_t(i)<snapshot.tracks.size(); ++i)
       if (!snapshot.tracks[i].fragmented)

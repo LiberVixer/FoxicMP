@@ -22,9 +22,11 @@ def catalog_snapshot(value,data,root,seconds,*,previous=None,complete=False):
     """
     value=copy.deepcopy(value);root=Path(root)
     publish_resources(value,data,root,seconds)
+    muxed=all(t.get('containerHint')=='mpegts-muxed' for t in value['tracks'])
+    ready={r['id'] for r in value['resources'] if r['state']=='complete'}
     used=set()
     for track in value['tracks']:
-        parts=[s for s in track['source']['segments'] if int(s['start'])<seconds*10000000]
+        parts=[s for s in track['source']['segments'] if (s['resourceId'] in ready if muxed else int(s['start'])<seconds*10000000)]
         track['source']['segments']=parts;used.add(track['initializationResourceId']);used.update(s['resourceId'] for s in parts)
         if complete:track['state']='complete'
     value['resources']=[r for r in value['resources'] if r['id'] in used]
@@ -39,7 +41,9 @@ def catalog_snapshot(value,data,root,seconds,*,previous=None,complete=False):
             parts=track['source']['segments'][i*16:(i+1)*16]
             page['tracks'].append(dict(trackId=track['id'],segments=parts))
             for part in parts:
-                rid=part['resourceId'];page['resources'].append(resources[rid]);archived.add(rid)
+                rid=part['resourceId']
+                if rid not in {r['id'] for r in page['resources']}:page['resources'].append(resources[rid])
+                archived.add(rid)
         raw=json.dumps(page,separators=(',',':'),ensure_ascii=False).encode('utf-8')
         assert len(raw)<=65536
         name='page-'+str(i)+'.json';path=root/name

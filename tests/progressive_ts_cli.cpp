@@ -29,7 +29,7 @@ int main() {
             p::Require(d.HasMember("path") && d.HasMember("kind"),"$","Missing initialization fields");
             const auto kind=p::Text(d["kind"],"kind");p::Require(kind=="video" || kind=="audio","kind","Invalid track kind");
             const auto bytes=Load(d["path"],ts::MaxInitBytes);
-            auto next=ts::Initialization({bytes.data(),bytes.size()},kind=="audio"?1:0);
+            auto next=ts::Initialization({bytes.data(),bytes.size()},kind=="audio"?1:0,d.HasMember("muxed") && d["muxed"].GetBool());
             const auto nextOrigin=d.HasMember("origin90k")?p::Unsigned(d["origin90k"],"origin90k",(uint64_t(1)<<33)-1):0;
             auto nextIndex=std::make_unique<ts::AccessIndex>(next,bytes.size(),nextOrigin);program=std::move(next);index=std::move(nextIndex);origin=nextOrigin;last.reset();
         }else if(action=="stage") {
@@ -48,6 +48,7 @@ int main() {
         if(program) {
             out.AddMember("program",program->number,a);out.AddMember("pmtPid",program->pmtPid,a);out.AddMember("streamPid",program->streamPid,a);
             out.AddMember("pcrPid",program->pcrPid,a);out.AddMember("streamType",program->streamType,a);
+            if(program->otherPid){out.AddMember("otherPid",program->otherPid,a);out.AddMember("otherType",program->otherType,a);}
         }
         if(index){out.AddMember("indexedUnits",uint32_t(index->samples().size()),a);out.AddMember("indexRanges",uint32_t(index->rangeCount()),a);out.AddMember("indexEnd",p::Value(std::to_string(index->readyEnd()).c_str(),a),a);out.AddMember("indexBytes",p::Value(std::to_string(index->position()).c_str(),a),a);}
         if(action=="seek"){p::Require(bool(index) && d.HasMember("position"),"$","Missing index or position");out.AddMember("seekSample",uint32_t(index->seekSample(p::Signed(d["position"],"position"))),a);}

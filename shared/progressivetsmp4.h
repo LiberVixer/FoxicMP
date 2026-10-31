@@ -88,7 +88,7 @@ class TsMp4Bridge {
                     track.entries.push_back({track.bytes,uint32_t(bytes.size()),uint32_t(end-start),decode,int32_t(composition),units[i].sample.sync});track.bytes+=tsmp4::HeaderBytes+bytes.size();
                 }
             }
-            auto& mapped=legacy.tracks[kind];mapped.path=next->model.resources.at(track.init).name;mapped.container=kind?"m4a":"mp4";mapped.initializationReady=!track.initialization.empty();mapped.fragmented=true;mapped.required=true;mapped.available=track.bytes;mapped.total=ready.trackComplete[kind]?track.bytes:0;mapped.state=State(declared.state);
+            auto& mapped=legacy.tracks[kind];mapped.path=input.isMuxed()?(kind?"audio.fmp4":"video.fmp4"):next->model.resources.at(track.init).name;mapped.container=kind?"m4a":"mp4";mapped.initializationReady=!track.initialization.empty();mapped.fragmented=true;mapped.required=true;mapped.available=track.bytes;mapped.total=ready.trackComplete[kind]?track.bytes:0;mapped.state=State(declared.state);
         }
         check();std::shared_ptr<const Published> accepted=std::move(next);std::atomic_store(&current,std::move(accepted));
     }
@@ -115,6 +115,7 @@ public:
     harvester::Snapshot snapshot() const {return std::atomic_load(&current)->legacy;}
     std::vector<BoundResource> bindings() const {return input.bindings();}
     bool usesCatalog() const {return input.usesCatalog();}
+    bool isMuxed() const {return input.isMuxed();}
     bool readIndex(unsigned kind,uint64_t offset,void* data,size_t count) {
         auto* p=static_cast<char*>(data);size_t at=0;
         while(at<count){const auto n=(std::min)(count-at,size_t(65536));const auto r=read(kind,offset+at,p+at,n);if(!r.data() || r.bytes!=n)return false;at+=n;}return true;
@@ -129,9 +130,9 @@ public:
     void cancel(){input.cancel();}
     std::string details() const {
         const auto state=std::atomic_load(&current);rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);d.AddMember("generation",Value(std::to_string(state->model.generation).c_str(),a),a);d.AddMember("revision",Value(std::to_string(state->model.revision).c_str(),a),a);d.AddMember("writerInstanceId",Value(state->model.writer.c_str(),a),a);
-        d.AddMember("mediaMode","segmented-mpegts-h264-aac-lc",a);d.AddMember("videoContainer","mpegts",a);d.AddMember("audioContainer","mpegts",a);d.AddMember("decoderContainer","fmp4",a);d.AddMember("videoCodec","h264",a);d.AddMember("audioCodec","aac-lc",a);d.AddMember("segments",true,a);d.AddMember("sourceTimestampOffset",Value(std::to_string(state->model.offset).c_str(),a),a);
+        d.AddMember("mediaMode",Value(isMuxed()?"segmented-muxed-mpegts-h264-aac-lc":"segmented-mpegts-h264-aac-lc",a),a);d.AddMember("muxed",isMuxed(),a);d.AddMember("videoContainer","mpegts",a);d.AddMember("audioContainer","mpegts",a);d.AddMember("decoderContainer","fmp4",a);d.AddMember("videoCodec","h264",a);d.AddMember("audioCodec","aac-lc",a);d.AddMember("segments",true,a);d.AddMember("sourceTimestampOffset",Value(std::to_string(state->model.offset).c_str(),a),a);
         Value bytes(rapidjson::kObjectType);bytes.AddMember("video",Value(std::to_string(decoderBytes[0].load()).c_str(),a),a);bytes.AddMember("audio",Value(std::to_string(decoderBytes[1].load()).c_str(),a),a);d.AddMember("decoderIoBytes",bytes,a);
-        if(usesCatalog()){const auto s=input.status();Value info(rapidjson::kObjectType);info.AddMember("mode","paged-mpegts-v1",a);info.AddMember("pageCount",unsigned(s.pages),a);info.AddMember("resourceCount",unsigned(s.resources),a);info.AddMember("maxOpenResources",8,a);info.AddMember("integrityRequired",true,a);d.AddMember("segmentCatalog",info,a);}
+        if(usesCatalog()){const auto s=input.status();Value info(rapidjson::kObjectType);info.AddMember("mode",Value(isMuxed()?"paged-muxed-mpegts-v1":"paged-mpegts-v1",a),a);info.AddMember("pageCount",unsigned(s.pages),a);info.AddMember("resourceCount",unsigned(s.resources),a);info.AddMember("maxOpenResources",8,a);info.AddMember("integrityRequired",true,a);d.AddMember("segmentCatalog",info,a);}
         if(!state->model.metadata.empty()){rapidjson::Document m;m.Parse(state->model.metadata.c_str());Value v(m,a);d.AddMember("metadata",v,a);}
         Value tracks(rapidjson::kArrayType);for(unsigned i=0;i<2;++i){const auto& t=state->model.tracks.at(state->tracks[i].id);Value v(rapidjson::kObjectType);v.AddMember("index",i,a);v.AddMember("id",Value(t.id.c_str(),a),a);v.AddMember("kind",Value(t.kind.c_str(),a),a);v.AddMember("label",Value(t.label.c_str(),a),a);v.AddMember("language",Value(t.language.c_str(),a),a);v.AddMember("codec",Value(i?"aac-lc":"h264",a),a);v.AddMember("container","mpegts",a);v.AddMember("default",t.defaultTrack,a);v.AddMember("required",true,a);v.AddMember("ready",state->legacy.tracks[i].initializationReady,a);v.AddMember("state",Value(state->legacy.tracks[i].initializationReady?"ready":"waiting",a),a);v.AddMember("errorCode","",a);v.AddMember("error","",a);v.AddMember("decoderIoBytes",Value(std::to_string(decoderBytes[i].load()).c_str(),a),a);tracks.PushBack(v,a);}d.AddMember("mediaTracks",tracks,a);d.AddMember("subtitleTracks",Value(rapidjson::kArrayType),a);return lease_detail::Encode(d);
     }
