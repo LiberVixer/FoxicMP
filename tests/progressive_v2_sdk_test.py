@@ -36,6 +36,22 @@ class V2SdkTest(unittest.TestCase):
             bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
             with self.assertRaises(RuntimeError):preview.publish(bad)
             self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+    def test_muxed_av1_webm_requires_exact_capability_and_keeps_legacy_vp9(self):
+        client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
+        for t in value['tracks']:t.update(containerHint='webm-muxed',source=dict(resourceId='mux'),codecHint='av1' if t['kind']=='video' else 'opus')
+        webm=dict(mode='growing-muxed-webm-vp9-opus',profiles=['av1'],av1={})
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),muxedPlayback=dict(webm=webm)))
+        for mode in (None,'segmented-webm-av1-opus','growing-muxed-webm-vp9-opus'):
+            webm['av1']={} if mode is None else dict(mode=mode);preview=V2PreviewSession(client,'/unused')
+            with self.assertRaisesRegex(RuntimeError,'AV1/Opus'):preview.publish(value)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        webm['av1']=dict(mode='growing-muxed-webm-av1-opus');V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
+        for codec in ('vp8','hevc'):
+            bad=copy.deepcopy(value);bad['tracks'][0]['codecHint']=codec;preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(bad)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last)
+        value['tracks'][0]['codecHint']='vp9';webm.pop('av1');V2PreviewSession(client,'/unused').publish(value)
+
     def test_muxed_mp4_requires_its_own_capability_before_mutating_session(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
         for t in value['tracks']:t.update(containerHint='fmp4-muxed',source=dict(resourceId='mux'),codecHint='h264' if t['kind']=='video' else 'aac-lc')
@@ -45,7 +61,7 @@ class V2SdkTest(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError,'muxed fMP4'):preview.publish(value)
         self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
         capability['mode']='growing-muxed-fmp4-h264-aac-lc';V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
-        for change in [lambda v:v.update(segmentCatalog=[]),lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][0].update(initializationResourceId='mux'),lambda v:v['tracks'][1].update(containerHint='fmp4'),lambda v:v['tracks'][0].update(source=dict(segments=[])),lambda v:v['tracks'][1].update(source=dict(resourceId='different')),lambda v:v['tracks'][1].update(codecHint='opus')]:
+        for change in [lambda v:v.update(segmentCatalog=[]),lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][0].update(initializationResourceId='mux'),lambda v:v['tracks'][1].update(containerHint='fmp4'),lambda v:v['tracks'][0].update(source=dict(segments=[])),lambda v:v['tracks'][1].update(source=dict(resourceId='different')),lambda v:v['tracks'][1].update(codecHint='opus'),lambda v:v['tracks'][0].update(codecHint='av1')]:
             bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
             with self.assertRaises(RuntimeError):preview.publish(bad)
             self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
@@ -58,7 +74,7 @@ class V2SdkTest(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError,'growing MPEG-TS'):preview.publish(value)
         self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
         growing['mode']='growing-muxed-mpegts-h264-aac-lc';V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
-        for change in [lambda v:v.update(segmentCatalog=[]),lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][0].update(initializationResourceId='mux'),lambda v:v['tracks'][1].update(containerHint='mpegts-muxed'),lambda v:v['tracks'][0].update(source=dict(segments=[])),lambda v:v['tracks'][1].update(source=dict(resourceId='different')),lambda v:v['tracks'][1].update(codecHint='opus')]:
+        for change in [lambda v:v.update(segmentCatalog=[]),lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][0].update(initializationResourceId='mux'),lambda v:v['tracks'][1].update(containerHint='mpegts-muxed'),lambda v:v['tracks'][0].update(source=dict(segments=[])),lambda v:v['tracks'][1].update(source=dict(resourceId='different')),lambda v:v['tracks'][1].update(codecHint='opus'),lambda v:v['tracks'][0].update(codecHint='av1')]:
             bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
             with self.assertRaises(RuntimeError):preview.publish(bad)
             self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
@@ -74,7 +90,7 @@ class V2SdkTest(unittest.TestCase):
         value['segmentCatalog']=[]
         with self.assertRaisesRegex(RuntimeError,'paged muxed'):V2PreviewSession(client,'/unused').publish(value)
         self.assertFalse(client.calls);mux['catalog']=dict(mode='paged-muxed-mpegts-v1');V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
-        for change in [lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][0].update(containerHint='mpegts'),lambda v:v['tracks'][1].update(codecHint='opus')]:
+        for change in [lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][0].update(containerHint='mpegts'),lambda v:v['tracks'][1].update(codecHint='opus'),lambda v:v['tracks'][0].update(codecHint='av1')]:
             bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
             with self.assertRaises(RuntimeError):preview.publish(bad)
             self.assertIsNone(preview.last);self.assertFalse(preview.uncertain);self.assertFalse(client.calls)
@@ -87,7 +103,7 @@ class V2SdkTest(unittest.TestCase):
         ts=dict(mode='segmented-mpegts-h264-aac-lc')
         client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),segmentedPlayback=dict(mpegts=ts)))
         V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
-        for change in [lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][0].update(containerHint='webm'),lambda v:v['tracks'][1].update(codecHint='opus')]:
+        for change in [lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][0].update(containerHint='webm'),lambda v:v['tracks'][1].update(codecHint='opus'),lambda v:v['tracks'][0].update(codecHint='av1')]:
             bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
             with self.assertRaises(RuntimeError):preview.publish(bad)
             self.assertIsNone(preview.last);self.assertFalse(preview.uncertain);self.assertFalse(client.calls)

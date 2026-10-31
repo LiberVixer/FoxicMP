@@ -8,9 +8,11 @@ struct MuxedMp4Profile {
     static constexpr uint64_t MaxAppend=16777216,Tolerance=0;
     static const char* Tag(){return "muxedMp4";}
     static const char* Hint(){return "fmp4-muxed";}
-    static const char* Mode(){return "growing-muxed-fmp4-h264-aac-lc";}
+    static const char* Mode(const std::string&){return "growing-muxed-fmp4-h264-aac-lc";}
     static const char* Name(){return "fmp4";}
     static const char* Video(){return "h264";}
+    static bool AcceptsVideo(const std::string& codec){return codec==Video();}
+    static Layout::Validate Validation(Layout::Validate validate,const std::string&){return validate;}
     static const char* Audio(){return "aac-lc";}
     static const char* Path(unsigned k){return k?"audio.fmp4":"video.fmp4";}
     static const char* Container(unsigned k){return k?"m4a":"mp4";}

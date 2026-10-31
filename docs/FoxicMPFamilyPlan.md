@@ -327,3 +327,8 @@ projected moov/traf, общий mdat и physical lease, SHA и ожидание 
 SDK 1.43: [shared growing WebM VP9/Opus](ProgressiveMuxedWebm.md) и общий
 scalar bridge с fMP4. Далее — расширение muxed codec matrix, затем
 конфигурация/live и отдельная реальная длительная A/V-приёмка.
+
+SDK 1.44: [shared WebM AV1/Opus](ProgressiveMuxedWebmAv1.md), Main 8/10-bit,
+с отдельным согласованием и сохранением VP9. Следом — VP8/Vorbis в shared
+WebM и расширение muxed fMP4, затем смена конфигурации/live и длительная
+приёмка реальных источников.

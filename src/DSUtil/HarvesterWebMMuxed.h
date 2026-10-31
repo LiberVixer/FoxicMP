@@ -71,7 +71,7 @@ private:
         for(unsigned k=0;k<2;++k) {
             Bytes bytes=ebml;Join(bytes,Bytes{0x18,0x53,0x80,0x67,0x01,0xff,0xff,0xff,0xff,0xff,0xff,0xff});Join(bytes,info);Join(bytes,Element(0x1654ae6b,{entries[k].data(),entries[k].size()}));
             const auto config=WebMInitialization([&](uint64_t at,void* out,size_t n){if(!RangeReady(at,n,bytes.size()))return false;if(n)std::memcpy(out,bytes.data()+size_t(at),n);return true;},bytes.size(),int(k),true);
-            Check(config.codec==(k?"opus":"vp9"),"Muxed WebM currently enables VP9/Opus only");validate(k,config);Memory(tracks[k],std::move(bytes));
+            Check((k?config.codec=="opus":config.codec=="vp9" || config.codec=="av1"),"Muxed WebM enables VP9/AV1 with Opus only");validate(k,config);Memory(tracks[k],std::move(bytes));
         }
         initialized=true;
     }

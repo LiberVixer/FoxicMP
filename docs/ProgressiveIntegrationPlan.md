@@ -120,3 +120,7 @@ SDK 1.39 подключает [сегментный MPEG-TS AVC/AAC](Progressive
 
 
 SDK 1.40 добавляет [совместные MPEG-TS AVC/AAC сегменты](ProgressiveMuxedTsPlayback.md) для Classic и обеих Qt-сборок: общий init/media resource, два logical view, виртуальный fMP4, общий SHA/cache/leases и отдельный `paged-muxed-mpegts-v1`. Старые профили sharing не допускают. SDK 1.41 добавляет [один растущий TS файл](ProgressiveGrowingTs.md): inline PAT/PMT/SDT, один physical resource с двумя scalar AVC/AAC views, partial packet/PES и закрытые GOP, SHA/leases и прежний virtual MP4. SDK 1.42 добавляет [общий растущий fMP4 AVC/AAC](ProgressiveMuxedFmp4.md): два virtual moov/traf view, общий mdat/SHA/lease и complete-fragment publication. SDK 1.43 добавляет [совместный WebM VP9/Opus](ProgressiveMuxedWebm.md), direct block views и общий scalar Source для WebM/fMP4. Далее — VP8/AV1/Vorbis в muxed WebM, дополнительные кодеки muxed fMP4, смена конфигурации/live и реальные источники с длительной A/V-приёмкой. Harvester не меняется.
+
+SDK 1.44 расширяет shared WebM профилем [AV1/Opus](ProgressiveMuxedWebmAv1.md).
+Нужна точная capability `muxedPlayback.webm.av1.mode`; прежний VP9 не меняется.
+Далее — оставшиеся muxed codecs, смена конфигурации/live и длительная реальная A/V-приёмка. Harvester не меняется.

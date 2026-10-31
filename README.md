@@ -104,7 +104,7 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-Предварительный [SDK 1.43](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.43)
+Предварительный [SDK 1.44](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.44)
 предназначен для интеграционных проверок с новыми сборками плеера.
 SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](docs/ProgressiveWebmSegments.md), включая постраничный каталог, в трёх редакциях. Требуются новые EXE; SDK содержит клиент и документацию.
 SDK 1.39 добавляет [сегментный MPEG-TS H.264/AAC](docs/ProgressiveTsPlayback.md): отдельные подтверждённые дорожки, SHA-256, inline или постраничный каталог, общий виртуальный MP4 без перекодирования. Harvester не изменяется.
@@ -233,3 +233,7 @@ SDK 1.42 добавляет [один растущий fMP4 H.264/AAC](docs/Prog
 SDK 1.43 добавляет [один растущий WebM VP9/Opus](docs/ProgressiveMuxedWebm.md)
 с двумя virtual track views, общим SHA/lease и ожиданием полного Cluster.
 [Проверки трёх редакций](docs/ProgressiveMuxedWebmValidation-2026-10-31.md).
+
+SDK 1.44 добавляет [AV1 Main 8/10-bit + Opus в растущем WebM](docs/ProgressiveMuxedWebmAv1.md)
+с отдельной capability, без перекодирования; режим VP9 сохранён.
+[Проверки трёх редакций](docs/ProgressiveMuxedWebmAv1Validation-2026-10-31.md).

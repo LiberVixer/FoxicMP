@@ -317,3 +317,7 @@ Capability согласуется как `schema2Playback.muxedPlayback.fmp4`; �
 SDK 1.43: [shared WebM VP9/Opus](ProgressiveMuxedWebm.md),
 `containerHint: webm-muxed`, capability `schema2Playback.muxedPlayback.webm`;
 VP9 8/10-bit, Opus mono/stereo, fractional DefaultDuration и complete Clusters.
+
+SDK 1.44: [shared WebM AV1/Opus](ProgressiveMuxedWebmAv1.md),
+точное согласование `schema2Playback.muxedPlayback.webm.av1.mode`,
+`containerHint: webm-muxed` и обязательный video `codecHint: av1`.

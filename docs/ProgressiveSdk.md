@@ -380,3 +380,8 @@ SDK 1.43: [один растущий WebM VP9/Opus](ProgressiveMuxedWebm.md),
 mono/stereo 48 kHz, дробный DefaultDuration и оба варианта Opus BlockDuration.
 Пример — `progressive-v2-muxed-webm-vod.json`. VP8/AV1/Vorbis и live в этом
 совместном профиле требуют отдельного расширения.
+
+SDK 1.44: [AV1 Main 8/10-bit + Opus в общем растущем WebM](ProgressiveMuxedWebmAv1.md),
+`codecHint: av1`, точная capability `schema2Playback.muxedPlayback.webm.av1`.
+VP9 остаётся прежним профилем; одного `muxed` либо separate/segmented AV1 недостаточно.
+Пример — `progressive-v2-muxed-webm-av1-vod.json`. Нужны новые EXE.

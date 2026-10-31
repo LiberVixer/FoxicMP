@@ -14,7 +14,7 @@ from progressive_mux_ts_conformance import Rpc
 
 def run(runner):
     checks=[];reports=[];replacement_blocked=False
-    for profile,seconds in [('vp9-8',4),('vp9-10',4),('vp9-fractional',4),('vp9-known',4),('vp9-8',80)]:
+    for profile,seconds in [('vp9-8',4),('vp9-10',4),('vp9-fractional',4),('vp9-known',4),('vp9-8',80),('av1-8',4),('av1-10',4),('av1-fractional',4),('av1-known',4),('av1-8',80)]:
         with tempfile.TemporaryDirectory(prefix='foxicmp-mux-webm-') as tmp:
             root=Path(tmp);data=root/'data';data.mkdir();model,raw,original,groups,scales=fixture(root,profile,seconds)
             fragments=[a for t,a,b,e in top_elements(raw) if t==0x1f43b675];assert len(fragments)>=3
@@ -36,6 +36,8 @@ def run(runner):
                 for k in (0,1):assert rpc('read',track=k,offset=str(len(prefix[k])),length='1')['bytesRead']==-1
                 bad=copy.deepcopy(value);bad['revision']=str(int(value['revision'])+1);bad['tracks'][1]['containerHint']='fmp4'
                 assert not rpc('publish',session=bad)['ok'];assert rpc('index')==first
+                bad=copy.deepcopy(value);bad['revision']=str(int(value['revision'])+1);bad['tracks'][0]['codecHint']='vp9' if profile.startswith('av1-') else 'av1'
+                assert not rpc('publish',session=bad)['ok'];assert rpc('index')==first
                 # Append by arbitrary physical byte cuts; metadata/index prefix
                 # commits atomically only after all blocks of both tracks in the entire Cluster.
                 stops=sorted(set(list(range(next_stop+4091,len(raw),4091))+[len(raw)])) if seconds==4 else [len(raw)]
@@ -56,13 +58,13 @@ def run(runner):
                             d=abs(int(Fraction(int(a[field]))*clock*10000000)-int(Fraction(int(b[field]))*scales[k]*10000000));delta=max(delta,d);assert d==0,(profile,k,field,a,b,d)
                     times.append(delta)
                     def decoded(path):
-                        options=['-an','-pix_fmt','yuv420p10le' if profile=='vp9-10' else 'yuv420p','-fps_mode','passthrough','-c:v','rawvideo','-threads','1'] if k==0 else ['-vn','-c:a','pcm_s16le']
+                        options=['-an','-pix_fmt','yuv420p10le' if profile.endswith('-10') else 'yuv420p','-fps_mode','passthrough','-c:v','rawvideo','-threads','1'] if k==0 else ['-vn','-c:a','pcm_s16le']
                         return subprocess.check_output(['ffmpeg','-v','error','-i',str(path),*options,'-f','hash','-hash','sha256','-'],stderr=subprocess.PIPE).strip()
                     assert decoded(original)==decoded(file),(profile,k,'decoded bytes differ')
                     for at in range(len(result)-1,-1,-65521):
                         start=max(0,at-1023);assert rpc('read',track=k,offset=str(start),length=str(at-start+1))['hex']==result[start:at+1].hex()
                     assert rpc('read',track=k,offset=str(len(result)),length='1')['bytesRead']==0
-                status=rpc('status');assert status['mediaMode']=='growing-muxed-webm-vp9-opus' and status['physicalResources']==1,status
+                status=rpc('status');assert status['mediaMode']==('growing-muxed-webm-av1-opus' if profile.startswith('av1-') else 'growing-muxed-webm-vp9-opus') and status['physicalResources']==1,status
                 readers=lambda:rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers']
                 assert len(readers())==1;rpc('retain');rpc('release');assert readers();rpc('dropRetained');assert not readers()
                 assert sorted(p.name for p in data.iterdir())==['mux.part']
@@ -177,6 +179,23 @@ def run(runner):
             for k in (0,1):assert rpc('read',track=k,offset='0',length='8')['bytesRead']==-1
             rpc('release');assert not rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers'];checks.append('cancellation-releases-shared-resource')
         finally:rpc.close()
+    # AV1 admission must use actual configuration/initial packet, not merely
+    # the manifest hint. A rejected constructor must leave no reader lease.
+    with tempfile.TemporaryDirectory(prefix='foxicmp-mux-av1-errors-') as tmp:
+        from progressive_webm_fixtures import locate
+        root=Path(tmp);av1model,av1raw,_,_,_=fixture(root,'av1-8',4)
+        def rejected(name,raw,model):
+            data=root/name;data.mkdir();rpc=Rpc([runner,'--registry',str(root/(name+'-registry'))])
+            try:
+                value=publish(model,raw,data,len(raw),complete=True);answer=rpc('open',directory=str(data),session=value)
+                assert not answer['ok'] and answer.get('code')!='waiting_initialization',(name,answer)
+                assert not rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers'];checks.append(name)
+            finally:rpc.close()
+        bad=copy.deepcopy(av1model);bad['tracks'][0]['codecHint']='vp9';rejected('av1-actual-codec-rejects-vp9-hint',av1raw,bad)
+        vp9model,vp9raw,_,_,_=fixture(root/'vp9','vp9-8',4);vp9model['tracks'][0]['codecHint']='av1';rejected('vp9-actual-codec-rejects-av1-hint',vp9raw,vp9model)
+        _,b,e=locate(av1raw,0x63a2)
+        for name,offset,value in [('av1-invalid-configuration-marker',b,0),('av1-non-main-profile-rejected',b+1,av1raw[b+1]|0x20),('av1-sequence-and-first-packet-mismatch',e-1,av1raw[e-1]^1)]:
+            changed=bytearray(av1raw);changed[offset]=value;rejected(name,changed,av1model)
     return dict(result='PASS',scope='muxed-webm-native',count=len(checks),checks=checks,realMedia=reports,replacementProtectedByOs=replacement_blocked,playerDecoderTested=False,physicalAvSyncMeasured=False,networkRequests=0)
 
 

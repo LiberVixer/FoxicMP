@@ -81,3 +81,8 @@ SDK 1.43: `progressivemuxscalar.h` общий для shared fMP4 и WebM;
 в direct Source spans. `WebMIndex` сохраняет fractional DefaultDuration
 и использует Opus TOC с однократным применением padding независимо от
 округлённого duration hint. [Контракт](../docs/ProgressiveMuxedWebm.md).
+
+SDK 1.44: shared WebM выбирает VP9/AV1 по неизменному manifest codecHint;
+actual TrackEntry/configuration обязаны совпадать. `progressivemuxscalar.h`
+сохраняет выбранный codec/mode в каждом атомарно опубликованном snapshot;
+fMP4 по-прежнему ограничен AVC/AAC.

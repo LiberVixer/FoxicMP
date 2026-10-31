@@ -35,6 +35,7 @@ class V2PreviewSession:
         self.growing_ts_supported=ts.get('growing',{}).get('mode')=='growing-muxed-mpegts-h264-aac-lc'
         self.muxed_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('mode')=='growing-muxed-fmp4-h264-aac-lc'
         self.muxed_webm_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('webm',{}).get('mode')=='growing-muxed-webm-vp9-opus'
+        self.muxed_webm_av1_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('webm',{}).get('av1',{}).get('mode')=='growing-muxed-webm-av1-opus'
         self.integrity_supported=caps.get('schema2Playback',{}).get('integrity',{}).get('algorithm')=='sha256'
         if 2 not in caps.get('playbackSchemaVersions',[]) or caps.get('schema2Playback',{}).get('mode')!='separate-fmp4-h264-aac-lc' or caps.get('readerLeaseProtocol')!=1:
             raise RuntimeError('Player lacks the bounded schema-2 media profile; update the player')
@@ -57,8 +58,15 @@ class V2PreviewSession:
                 tracks=current.get('tracks',[]);resources=current.get('resources',[])
                 label='muxed WebM' if muxed_webm else 'muxed fMP4'
                 hint='webm-muxed' if muxed_webm else 'fmp4-muxed'
-                video,audio=('vp9','opus') if muxed_webm else ('h264','aac-lc')
-                if not (self.muxed_webm_supported if muxed_webm else self.muxed_mp4_supported):
+                video=next((t.get('codecHint') for t in tracks if t.get('kind')=='video'),None) or ('vp9' if muxed_webm else 'h264')
+                audio='opus' if muxed_webm else 'aac-lc'
+                if muxed_webm and video=='av1' and not self.muxed_webm_av1_supported:
+                    raise RuntimeError('Player lacks muxed WebM AV1/Opus playback; update the player')
+                if muxed_mp4 and video!='h264':
+                    raise RuntimeError('Unsupported muxed fMP4 video codec')
+                if muxed_webm and video not in ('vp9','av1'):
+                    raise RuntimeError('Unsupported muxed WebM video codec')
+                if not (self.muxed_webm_av1_supported if muxed_webm and video=='av1' else self.muxed_webm_supported if muxed_webm else self.muxed_mp4_supported):
                     raise RuntimeError('Player lacks '+label+' playback; update the player')
                 if len(tracks)!=2 or {t.get('kind') for t in tracks}!={'video','audio'} or len(resources)!=1 or 'segmentCatalog' in current:
                     raise RuntimeError(label+' requires two logical views and one scalar resource')
