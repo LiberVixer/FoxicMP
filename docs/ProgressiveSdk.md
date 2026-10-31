@@ -8,7 +8,7 @@ SDK является частью FoxicMP и не меняет YouTubeHarvester.
 python3 tools/package_progressive_sdk.py --output /absolute/new/FoxicMP-progressive-sdk.zip
 ```
 
-В ZIP входят семь Python-модулей, эта инструкция, контракты v1 и draft v2,
+В ZIP входят восемь Python-модулей, эта инструкция, контракты v1 и draft v2,
 пример метаданных v2, отчёты, лицензия и JSON с исходным commit, dirty-флагом и
 SHA-256 файлов. Воспроизведение v1 сохраняется; SDK 1.6 добавляет
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
@@ -372,3 +372,11 @@ virtual moov/traf и trun offsets выделяют нужную дорожку �
 Новый fragment публикуется только целиком после проверки обеих traf.
 Пример — `progressive-v2-muxed-fmp4-vod.json`. Профиль VOD ограничен H.264/AAC,
 zero session offset, head moov, default-base-is-moof и self-contained dref.
+
+SDK 1.43: [один растущий WebM VP9/Opus](ProgressiveMuxedWebm.md),
+`containerHint: webm-muxed`, capability `schema2Playback.muxedPlayback.webm`.
+Два scalar view одного SHA-защищённого resource публикуют данные после
+проверки полного Cluster. Поддержаны VP9 Profile 0/2 (8/10-bit), Opus
+mono/stereo 48 kHz, дробный DefaultDuration и оба варианта Opus BlockDuration.
+Пример — `progressive-v2-muxed-webm-vod.json`. VP8/AV1/Vorbis и live в этом
+совместном профиле требуют отдельного расширения.

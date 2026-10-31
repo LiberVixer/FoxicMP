@@ -323,3 +323,7 @@ SDK 1.42 расширяет F4 [одним shared fMP4 AVC/AAC VOD](ProgressiveM
 projected moov/traf, общий mdat и physical lease, SHA и ожидание полного fragment.
 Следом — muxed WebM и дополнительные кодеки muxed fMP4; live и реальная
 длительная A/V-приёмка остаются отдельными этапами.
+
+SDK 1.43: [shared growing WebM VP9/Opus](ProgressiveMuxedWebm.md) и общий
+scalar bridge с fMP4. Далее — расширение muxed codec matrix, затем
+конфигурация/live и отдельная реальная длительная A/V-приёмка.

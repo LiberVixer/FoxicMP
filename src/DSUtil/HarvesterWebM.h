@@ -108,7 +108,10 @@ inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind
                 Check((id=="V_VP8" || id=="V_VP9" || id=="V_AV1") && result.delay==0,"Only VP8/VP9/AV1 video is enabled in this WebM profile");result.codec=id=="V_AV1"?"av1":id=="V_VP8"?"vp8":"vp9";
                 const auto video=entry.One(0xe0);const auto width=video.One(0xb0).Number(),height=video.One(0xba).Number();
                 Check(width>0 && width<=16384 && height>0 && height<=16384,"Invalid WebM dimensions");result.width=unsigned(width);result.height=unsigned(height);
-                Check(result.frameDuration>0 && result.frameDuration<=1000000000 && result.frameDuration%100==0,"WebM video requires a bounded DefaultDuration");
+                // Preserve nanosecond DefaultDuration (e.g. 30000/1001 fps).
+                // Each sample end is independently rounded down to 100 ns;
+                // block timestamps remain authoritative, so drift cannot add.
+                Check(result.frameDuration>=100 && result.frameDuration<=1000000000,"WebM video requires a bounded DefaultDuration");
                 const auto config=entry.One(0x63a2,true);std::set<uint8_t> features;
                 if(result.codec=="av1")result.av1Sequence=AV1Configuration(config.bytes,config.size,Check);
                 else if(result.codec=="vp8")Check(!config.bytes,"VP8 CodecPrivate is unsupported");
@@ -211,7 +214,17 @@ class WebMIndex {
         Check(ticks>=0 && uint64_t(ticks)<=uint64_t(INT64_MAX)/info.scale,"WebM timestamp overflow");
         const auto raw=uint64_t(ticks)*info.scale;const auto start=AddTime(AddTime(int64_t(raw/100),-int64_t(info.delay/100)),-origin);
         int64_t length=kind?(info.codec=="vorbis"?info.vorbis.Duration(packet.bytes,packet.size):OpusDuration(packet)):int64_t(info.frameDuration);
-        if(duration){Check(duration<=uint64_t(INT64_MAX)/info.scale,"WebM duration overflow");const auto ns=duration*info.scale;Check(ns>0 && ns<=1000000000,"Unsupported WebM block duration");if(kind)Check(std::abs(int64_t(ns)-length)<=(info.codec=="vorbis"?int64_t(info.scale):0),"Audio BlockDuration mismatch");length=int64_t(ns);}
+        if(kind && info.codec=="opus")Check(padding>=0 && padding<=length,"Unsupported WebM discard padding");
+        if(duration){
+            Check(duration<=uint64_t(INT64_MAX)/info.scale,"WebM duration overflow");const auto ns=duration*info.scale;Check(ns>0 && ns<=1000000000,"Unsupported WebM block duration");
+            if(kind && info.codec=="opus") {
+                // Muxers publish either packet duration or audible duration
+                // rounded to Track Ticks. TOC is authoritative; subtract
+                // DiscardPadding exactly once, independently of that hint.
+                auto rounded=[&](int64_t target){const auto lower=uint64_t(target)/info.scale*info.scale;return ns==uint64_t(target) || (info.scale<=1000000 && (ns==lower || (uint64_t(target)%info.scale && ns==lower+info.scale)));};
+                Check(rounded(length) || (padding && rounded(length-padding)),"Audio BlockDuration mismatch");
+            }else {if(kind)Check(std::abs(int64_t(ns)-length)<=int64_t(info.scale),"Audio BlockDuration mismatch");length=int64_t(ns);Check(padding<=length,"Discard padding exceeds BlockDuration");}
+        }
         Check(padding>=0 && padding<=length,"Unsupported WebM discard padding");
         Sample sample;sample.offset=packet.base;sample.size=packet.size;sample.start=sample.decode=start;sample.end=AddTime(start,(length-padding)/100);sample.sync=kind || sync;
         const auto previous=!append.empty()?append.back().decode:!samples.empty()?samples.back().decode:INT64_MIN;

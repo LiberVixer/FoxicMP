@@ -74,3 +74,10 @@ SDK 1.42: `HarvesterMP4Muxed.h` строит отдельные moov/traf для
 полный общий mdat и ResourceSource/SHA/lease; обычный `FragmentIndex` проверяет
 выбранные samples, затем общий проход исключает пересечения/дыры payload.
 [Контракт](../docs/ProgressiveMuxedFmp4.md), H.264/AAC-LC VOD.
+
+SDK 1.43: `progressivemuxscalar.h` общий для shared fMP4 и WebM;
+`progressivemuxwebm.h` задаёт VP9/Opus профиль. `HarvesterWebMMuxed.h`
+проектирует свою TrackEntry/Cluster, сохраняя исходные Block/BlockGroup
+в direct Source spans. `WebMIndex` сохраняет fractional DefaultDuration
+и использует Opus TOC с однократным применением padding независимо от
+округлённого duration hint. [Контракт](../docs/ProgressiveMuxedWebm.md).

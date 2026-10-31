@@ -313,3 +313,7 @@ SDK 1.42: [общий растущий fMP4 H.264/AAC](ProgressiveMuxedFmp4.md),
 `containerHint: fmp4-muxed`, две scalar views одного physical resource.
 Capability согласуется как `schema2Playback.muxedPlayback.fmp4`; новый
 индекс публикуется после полного moof/mdat обеих дорожек.
+
+SDK 1.43: [shared WebM VP9/Opus](ProgressiveMuxedWebm.md),
+`containerHint: webm-muxed`, capability `schema2Playback.muxedPlayback.webm`;
+VP9 8/10-bit, Opus mono/stereo, fractional DefaultDuration и complete Clusters.

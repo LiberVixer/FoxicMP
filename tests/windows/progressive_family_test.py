@@ -601,6 +601,9 @@ def run(args):
                 time.sleep(.1)
         if args.catalog_playback_only:
             return [dict(contract='actual-paged-catalog-playback',result=exercise_catalog_playback(client,args.fixtures,Path(args.report)/('catalog-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4400+{2:1,35:2,68:3,87:4}[seconds]),profile=profile)) for profile in ('h264','hevc10-opus','av1-10')]
+        if args.mux_webm_playback_only:
+            from progressive_mux_webm_playback import exercise as exercise_mux_webm
+            return [dict(contract='actual-muxed-webm-playback',result=exercise_mux_webm(client,args.fixtures,Path(args.report)/('mux-webm-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401 if seconds==2 else 4402),profile=profile)) for profile in ('vp9-8','vp9-10','vp9-fractional')]
         if args.mux_mp4_playback_only:
             from progressive_mux_mp4_playback import exercise as exercise_mux_mp4
             return [dict(contract='actual-muxed-fmp4-playback',result=exercise_mux_mp4(client,args.fixtures,Path(args.report)/('mux-mp4-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401 if seconds==2 else 4402),profile=profile)) for profile in ('main-bframes','high-fractional','main-delayed')]
@@ -777,6 +780,7 @@ if __name__ == '__main__':
     parser.add_argument('--mux-ts-playback-only',action='store_true')
     parser.add_argument('--growing-ts-playback-only',action='store_true')
     parser.add_argument('--mux-mp4-playback-only',action='store_true')
+    parser.add_argument('--mux-webm-playback-only',action='store_true')
     parser.add_argument('--catalog-playback-only',action='store_true')
     parser.add_argument('--multi-only',action='store_true')
     parser.add_argument('--sdk-only', action='store_true')
