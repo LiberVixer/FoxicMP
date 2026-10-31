@@ -86,3 +86,7 @@ SDK 1.44: shared WebM выбирает VP9/AV1 по неизменному manif
 actual TrackEntry/configuration обязаны совпадать. `progressivemuxscalar.h`
 сохраняет выбранный codec/mode в каждом атомарно опубликованном snapshot;
 fMP4 по-прежнему ограничен AVC/AAC.
+
+SDK 1.45: shared WebM дополнен VP8/Opus. Выбор codec/mode, общий resource
+и SHA/leases сохранены; первый VP8 packet проверяет существующий WebMIndex.
+Actual codec обязан совпасть с hint, прежний default — VP9.

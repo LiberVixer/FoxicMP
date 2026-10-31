@@ -385,3 +385,8 @@ SDK 1.44: [AV1 Main 8/10-bit + Opus в общем растущем WebM](Progres
 `codecHint: av1`, точная capability `schema2Playback.muxedPlayback.webm.av1`.
 VP9 остаётся прежним профилем; одного `muxed` либо separate/segmented AV1 недостаточно.
 Пример — `progressive-v2-muxed-webm-av1-vod.json`. Нужны новые EXE.
+
+SDK 1.45: [VP8 + Opus в общем растущем WebM](ProgressiveMuxedWebmVp8.md),
+`codecHint: vp8`, точная capability `schema2Playback.muxedPlayback.webm.vp8`.
+Пример — `progressive-v2-muxed-webm-vp8-vod.json`. Нужны новые EXE;
+VP9/AV1 capabilities нового профиля не разрешают.

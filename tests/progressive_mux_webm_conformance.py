@@ -14,7 +14,7 @@ from progressive_mux_ts_conformance import Rpc
 
 def run(runner):
     checks=[];reports=[];replacement_blocked=False
-    for profile,seconds in [('vp9-8',4),('vp9-10',4),('vp9-fractional',4),('vp9-known',4),('vp9-8',80),('av1-8',4),('av1-10',4),('av1-fractional',4),('av1-known',4),('av1-8',80)]:
+    for profile,seconds in [('vp9-8',4),('vp9-10',4),('vp9-fractional',4),('vp9-known',4),('vp9-8',80),('av1-8',4),('av1-10',4),('av1-fractional',4),('av1-known',4),('av1-8',80),('vp8',4),('vp8-fractional',4),('vp8-known',4),('vp8',80)]:
         with tempfile.TemporaryDirectory(prefix='foxicmp-mux-webm-') as tmp:
             root=Path(tmp);data=root/'data';data.mkdir();model,raw,original,groups,scales=fixture(root,profile,seconds)
             fragments=[a for t,a,b,e in top_elements(raw) if t==0x1f43b675];assert len(fragments)>=3
@@ -64,7 +64,7 @@ def run(runner):
                     for at in range(len(result)-1,-1,-65521):
                         start=max(0,at-1023);assert rpc('read',track=k,offset=str(start),length=str(at-start+1))['hex']==result[start:at+1].hex()
                     assert rpc('read',track=k,offset=str(len(result)),length='1')['bytesRead']==0
-                status=rpc('status');assert status['mediaMode']==('growing-muxed-webm-av1-opus' if profile.startswith('av1-') else 'growing-muxed-webm-vp9-opus') and status['physicalResources']==1,status
+                status=rpc('status');assert status['mediaMode']==('growing-muxed-webm-vp8-opus' if profile.startswith('vp8') else 'growing-muxed-webm-av1-opus' if profile.startswith('av1-') else 'growing-muxed-webm-vp9-opus') and status['physicalResources']==1,status
                 readers=lambda:rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers']
                 assert len(readers())==1;rpc('retain');rpc('release');assert readers();rpc('dropRetained');assert not readers()
                 assert sorted(p.name for p in data.iterdir())==['mux.part']
@@ -196,6 +196,28 @@ def run(runner):
         _,b,e=locate(av1raw,0x63a2)
         for name,offset,value in [('av1-invalid-configuration-marker',b,0),('av1-non-main-profile-rejected',b+1,av1raw[b+1]|0x20),('av1-sequence-and-first-packet-mismatch',e-1,av1raw[e-1]^1)]:
             changed=bytearray(av1raw);changed[offset]=value;rejected(name,changed,av1model)
+    with tempfile.TemporaryDirectory(prefix='foxicmp-mux-vp8-errors-') as tmp:
+        from progressive_webm_segment_playback import children
+        from progressive_webm_fixtures import width
+        root=Path(tmp);vp8model,vp8raw,_,_,_=fixture(root,'vp8',4)
+        def rejected_vp8(name,raw,model):
+            data=root/name;data.mkdir();rpc=Rpc([runner,'--registry',str(root/(name+'-registry'))])
+            try:
+                value=publish(model,raw,data,len(raw),complete=True);answer=rpc('open',directory=str(data),session=value)
+                assert not answer['ok'] and answer.get('code')!='waiting_initialization',(name,answer)
+                assert not rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers'];checks.append(name)
+            finally:rpc.close()
+        for hint in ('vp9',None):
+            model=copy.deepcopy(vp8model)
+            if hint:model['tracks'][0]['codecHint']=hint
+            else:model['tracks'][0].pop('codecHint')
+            rejected_vp8('vp8-actual-codec-rejects-'+str(hint)+'-hint',vp8raw,model)
+        model,raw,_,_,_=fixture(root/'vp9','vp9-8',4);model['tracks'][0]['codecHint']='vp8';rejected_vp8('vp9-actual-codec-rejects-vp8-hint',raw,model)
+        packets=[(b,e) for tag,_,body,end in top_elements(vp8raw) if tag==0x1f43b675 for t,_,b,e in children(vp8raw,body,end) if t==0xa3 and vp8raw[b]==0x81]
+        assert packets
+        b,e=packets[0];start=b+width(vp8raw[b])+3
+        for name,offset,value in [('inter',0,vp8raw[start]|1),('invisible',0,vp8raw[start]&~16),('version',0,vp8raw[start]|14),('signature',3,0),('width',6,0),('scale',7,vp8raw[start+7]|128),('partition',2,255)]:
+            raw=bytearray(vp8raw);raw[start+offset]=value;rejected_vp8('vp8-invalid-initial-'+name,raw,vp8model)
     return dict(result='PASS',scope='muxed-webm-native',count=len(checks),checks=checks,realMedia=reports,replacementProtectedByOs=replacement_blocked,playerDecoderTested=False,physicalAvSyncMeasured=False,networkRequests=0)
 
 

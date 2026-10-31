@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 2,
+  "sessionId": "11111111111111111111111111111111",
+  "generation": "1",
+  "revision": "1",
+  "writer": {
+    "instanceId": "22222222222222222222222222222222",
+    "state": "downloading"
+  },
+  "timeline": {
+    "timebase": {
+      "numerator": 1,
+      "denominator": 10000000
+    },
+    "live": false,
+    "duration": "1200000000",
+    "timestampOffset": "0"
+  },
+  "resources": [
+    {
+      "id": "mux",
+      "name": "mux.part",
+      "length": null,
+      "state": "downloading",
+      "ranges": [],
+      "integrity": {
+        "algorithm": "sha256",
+        "blocks": []
+      }
+    }
+  ],
+  "tracks": [
+    {
+      "id": "video",
+      "kind": "video",
+      "required": true,
+      "codecHint": "vp8",
+      "containerHint": "webm-muxed",
+      "state": "downloading",
+      "initializationReady": false,
+      "source": {
+        "resourceId": "mux"
+      }
+    },
+    {
+      "id": "audio",
+      "kind": "audio",
+      "required": true,
+      "codecHint": "opus",
+      "containerHint": "webm-muxed",
+      "state": "downloading",
+      "initializationReady": false,
+      "source": {
+        "resourceId": "mux"
+      }
+    }
+  ]
+}

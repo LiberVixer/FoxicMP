@@ -124,3 +124,8 @@ SDK 1.40 добавляет [совместные MPEG-TS AVC/AAC сегмент
 SDK 1.44 расширяет shared WebM профилем [AV1/Opus](ProgressiveMuxedWebmAv1.md).
 Нужна точная capability `muxedPlayback.webm.av1.mode`; прежний VP9 не меняется.
 Далее — оставшиеся muxed codecs, смена конфигурации/live и длительная реальная A/V-приёмка. Harvester не меняется.
+
+SDK 1.45 добавляет [VP8/Opus в общем растущем WebM](ProgressiveMuxedWebmVp8.md),
+`muxedPlayback.webm.vp8.mode`; VP9/AV1 сохранены. Следом — Vorbis в shared
+WebM, расширение fMP4 codec matrix, смена конфигурации/live и длительная
+приёмка реальных источников. Harvester не меняется.

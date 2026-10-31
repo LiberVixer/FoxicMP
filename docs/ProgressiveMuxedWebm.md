@@ -108,3 +108,6 @@ arbitrary Matroska fields, codec changes/live, реальные сайты и д
 
 SDK 1.44 добавляет [отдельно согласуемый AV1/Opus](ProgressiveMuxedWebmAv1.md)
 в том же общем ресурсе. Прежний VP9 mode и его ограничения сохраняются.
+
+SDK 1.45 добавляет [отдельно согласуемый VP8/Opus](ProgressiveMuxedWebmVp8.md).
+VP9 и AV1 сохраняют собственные mode.

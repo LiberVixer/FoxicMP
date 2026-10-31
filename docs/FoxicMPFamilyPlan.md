@@ -332,3 +332,8 @@ SDK 1.44: [shared WebM AV1/Opus](ProgressiveMuxedWebmAv1.md), Main 8/10-bit,
 с отдельным согласованием и сохранением VP9. Следом — VP8/Vorbis в shared
 WebM и расширение muxed fMP4, затем смена конфигурации/live и длительная
 приёмка реальных источников.
+
+SDK 1.45: [shared WebM VP8/Opus](ProgressiveMuxedWebmVp8.md) с отдельной
+capability, прежними VP9/AV1 и проверкой первого displayed keyframe. Далее —
+Vorbis в shared WebM, дополнительные кодеки muxed fMP4, смена конфигурации/live
+и длительная приёмка реальных источников.

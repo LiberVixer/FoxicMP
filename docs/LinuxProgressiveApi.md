@@ -321,3 +321,7 @@ VP9 8/10-bit, Opus mono/stereo, fractional DefaultDuration и complete Clusters.
 SDK 1.44: [shared WebM AV1/Opus](ProgressiveMuxedWebmAv1.md),
 точное согласование `schema2Playback.muxedPlayback.webm.av1.mode`,
 `containerHint: webm-muxed` и обязательный video `codecHint: av1`.
+
+SDK 1.45: [shared WebM VP8/Opus](ProgressiveMuxedWebmVp8.md),
+`containerHint: webm-muxed`, обязательный video `codecHint: vp8`,
+точное согласование `schema2Playback.muxedPlayback.webm.vp8.mode`.

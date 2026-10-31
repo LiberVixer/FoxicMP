@@ -52,6 +52,22 @@ class V2SdkTest(unittest.TestCase):
             self.assertFalse(client.calls);self.assertIsNone(preview.last)
         value['tracks'][0]['codecHint']='vp9';webm.pop('av1');V2PreviewSession(client,'/unused').publish(value)
 
+    def test_muxed_vp8_requires_exact_mode_and_preserves_other_webm_profiles(self):
+        client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
+        for t in value['tracks']:t.update(containerHint='webm-muxed',source=dict(resourceId='mux'),codecHint='vp8' if t['kind']=='video' else 'opus')
+        webm=dict(mode='growing-muxed-webm-vp9-opus',av1=dict(mode='growing-muxed-webm-av1-opus'),profiles=['vp8'],vp8={})
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),muxedPlayback=dict(webm=webm)))
+        for mode in (None,'segmented-webm-vp8-opus','growing-muxed-webm-vp9-opus'):
+            webm['vp8']={} if mode is None else dict(mode=mode);preview=V2PreviewSession(client,'/unused')
+            with self.assertRaisesRegex(RuntimeError,'VP8/Opus'):preview.publish(value)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        webm['vp8']=dict(mode='growing-muxed-webm-vp8-opus');V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
+        bad=copy.deepcopy(value);bad['tracks'][1]['codecHint']='vorbis';preview=V2PreviewSession(client,'/unused')
+        with self.assertRaises(RuntimeError):preview.publish(bad)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        for codec in ('vp9','av1'):
+            value['tracks'][0]['codecHint']=codec;webm.pop('vp8',None);V2PreviewSession(client,'/unused').publish(value)
+
     def test_muxed_mp4_requires_its_own_capability_before_mutating_session(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
         for t in value['tracks']:t.update(containerHint='fmp4-muxed',source=dict(resourceId='mux'),codecHint='h264' if t['kind']=='video' else 'aac-lc')

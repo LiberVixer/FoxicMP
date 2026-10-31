@@ -15,7 +15,8 @@ def exercise(client, fixtures, work, pause, seek, profile='vp9-8'):
     plan, raw, _, groups, scales = fixture(root, profile)
     plan['metadata']['chapters'].append(dict(id='tail', time='170000000', title='Tail'))
     caps = client.request(dict(version=1, action='capabilities'))['schema2Playback']['muxedPlayback']['webm']
-    mode = 'growing-muxed-webm-av1-opus' if profile.startswith('av1-') else 'growing-muxed-webm-vp9-opus'
+    mode = 'growing-muxed-webm-vp8-opus' if profile.startswith('vp8') else 'growing-muxed-webm-av1-opus' if profile.startswith('av1-') else 'growing-muxed-webm-vp9-opus'
+    if profile.startswith('vp8'):assert caps.get('vp8',{}).get('mode')==mode,caps
     if profile.startswith('av1-'):assert caps.get('av1',{}).get('mode')==mode,caps
     assert caps['mode']=='growing-muxed-webm-vp9-opus' and caps['integrityRequired'] and caps['decoderContainer']=='webm', caps
     def cut(seconds):
