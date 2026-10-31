@@ -15,6 +15,8 @@ FILES = {
         'progressive_schema.py', 'progressive_resources.py', 'progressive_v2.py', 'progressive_integrity.py')},
     'progressive-v2-vod.json': 'tests/fixtures/progressive-v2/vod.json',
     'progressive-v2-growing-ts-vod.json': 'tests/fixtures/progressive-v2/growing-ts-vod.json',
+    'progressive-v2-muxed-fmp4-vod.json': 'tests/fixtures/progressive-v2/muxed-fmp4-vod.json',
+    **{name:'docs/'+name for name in ('ProgressiveMuxedFmp4.md','ProgressiveMuxedFmp4Validation-2026-10-31.md','ProgressiveMuxedFmp4Validation-2026-10-31.json')},
     **{name:'docs/'+name for name in ('ProgressiveGrowingTs.md','ProgressiveGrowingTsValidation-2026-10-31.md','ProgressiveGrowingTsValidation-2026-10-31.json')},
     **{name:'docs/'+name for name in ('ProgressiveWebmSegments.md','ProgressiveWebmSegmentsValidation-2026-10-30.md','ProgressiveWebmSegmentsValidation-2026-10-30.json')},
     **{name:'docs/'+name for name in ('ProgressiveTsPlayback.md','ProgressiveTsPlaybackValidation-2026-10-30.md','ProgressiveTsPlaybackValidation-2026-10-30.json','ProgressiveTsTransport.md','ProgressiveTsAccessIndex.md','ProgressiveTsResourceStream.md','ProgressiveTsTransportValidation-2026-10-30.md','ProgressiveTsTransportValidation-2026-10-30.json','ProgressiveTsAccessIndexValidation-2026-10-30.md','ProgressiveTsAccessIndexValidation-2026-10-30.json','ProgressiveTsResourceStreamValidation-2026-10-30.md','ProgressiveTsResourceStreamValidation-2026-10-30.json')},
@@ -83,7 +85,7 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.41', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.42', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(),

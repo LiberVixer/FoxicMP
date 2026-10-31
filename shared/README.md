@@ -68,3 +68,9 @@ SDK 1.41: `HarvesterTSGrowing.h` и `progressivetsgrowing.h` добавляют 
 `mpegts-growing`. Индексы публикуются по завершённым AAC PES и закрытым AVC
 GOP, оба decoder view получают virtual fMP4. Partial tail ждёт update, SHA и
 ошибки источника общие для обеих дорожек. [Контракт](../docs/ProgressiveGrowingTs.md).
+
+SDK 1.42: `HarvesterMP4Muxed.h` строит отдельные moov/traf для двух дорожек
+одного growing fMP4. `progressivemuxmp4.h` соединяет immutable virtual layout,
+полный общий mdat и ResourceSource/SHA/lease; обычный `FragmentIndex` проверяет
+выбранные samples, затем общий проход исключает пересечения/дыры payload.
+[Контракт](../docs/ProgressiveMuxedFmp4.md), H.264/AAC-LC VOD.

@@ -787,15 +787,20 @@ private slots:
   void catalogMuxTsPlayback() {checkSegmentPlayback("main-bframes",true,false,true,true);}
   void growingTsPlayback_data() {segmentedMuxTsPlayback_data();}
   void growingTsPlayback() {QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,false,false,true,true,true);}
+  void muxedMp4Playback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& name:QStringList{"main-bframes","high-fractional","main-delayed"})QTest::newRow(qPrintable(name))<<name;
+  }
+  void muxedMp4Playback() {QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,false,false,false,false,false,true);}
 private:
-  void checkSegmentPlayback(const QString& mediaProfile,bool catalogMode,bool webm=false,bool ts=false,bool muxed=false,bool growing=false) {
-    const QString expectedCodec=ts?"h264":mediaProfile=="vp8"?"vp8":mediaProfile.startsWith("av1-")?"av1":mediaProfile.startsWith("vp9-")?"vp9":mediaProfile.startsWith("h264")?"h264":"hevc";
+  void checkSegmentPlayback(const QString& mediaProfile,bool catalogMode,bool webm=false,bool ts=false,bool muxed=false,bool growing=false,bool muxedMp4=false) {
+    const QString expectedCodec=ts || muxedMp4?"h264":mediaProfile=="vp8"?"vp8":mediaProfile.startsWith("av1-")?"av1":mediaProfile.startsWith("vp9-")?"vp9":mediaProfile.startsWith("h264")?"h264":"hevc";
     const QString expectedAudio=webm || mediaProfile.contains("-opus")?"opus":"aac";
-    const QString expectedMode=QString(growing?"growing-muxed-mpegts-":muxed?"segmented-muxed-mpegts-":ts?"segmented-mpegts-":webm?"segmented-webm-":"segmented-fmp4-")+expectedCodec+"-"+(expectedAudio=="opus"?"opus":"aac-lc");
-    const int expectedChannels=ts?2:expectedAudio=="aac" || mediaProfile.endsWith("-mono")?1:2;
-    const int expectedRate=ts && mediaProfile=="high-fractional"?44100:48000;
+    const QString expectedMode=QString(muxedMp4?"growing-muxed-fmp4-":growing?"growing-muxed-mpegts-":muxed?"segmented-muxed-mpegts-":ts?"segmented-mpegts-":webm?"segmented-webm-":"segmented-fmp4-")+expectedCodec+"-"+(expectedAudio=="opus"?"opus":"aac-lc");
+    const int expectedChannels=ts || muxedMp4?2:expectedAudio=="aac" || mediaProfile.endsWith("-mono")?1:2;
+    const int expectedRate=(ts || muxedMp4) && mediaProfile=="high-fractional"?44100:48000;
     const auto prefix=QString(catalogMode?"catalog-":"segment-")+
-        (growing?"growing-ts-":muxed?"mux-ts-":ts?"ts-":webm?"webm-":"fmp4-");
+        (muxedMp4?"mux-mp4-":growing?"growing-ts-":muxed?"mux-ts-":ts?"ts-":webm?"webm-":"fmp4-");
     Profile profile(temporary.filePath(prefix+"playback-profile-"+mediaProfile));prepare(profile);
     Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
     auto* player=w.findChild<Player*>();QVERIFY(player);
@@ -829,7 +834,7 @@ private:
         }
       }
     });sample.start();
-    QStringList writerArgs{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath(growing?"progressive_growing_ts_playback.py":muxed?"progressive_mux_ts_playback.py":ts?"progressive_ts_playback.py":webm?"progressive_webm_segment_playback.py":catalogMode?"progressive_catalog_playback.py":"progressive_segment_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work,"--media-profile",mediaProfile};
+    QStringList writerArgs{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath(muxedMp4?"progressive_mux_mp4_playback.py":growing?"progressive_growing_ts_playback.py":muxed?"progressive_mux_ts_playback.py":ts?"progressive_ts_playback.py":webm?"progressive_webm_segment_playback.py":catalogMode?"progressive_catalog_playback.py":"progressive_segment_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work,"--media-profile",mediaProfile};
     if((webm || ts) && catalogMode)writerArgs<<"--catalog";
     QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),writerArgs);
     QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});

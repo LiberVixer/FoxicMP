@@ -318,3 +318,8 @@ SDK 1.41 расширяет F4 [одним растущим TS VOD](ProgressiveG
 две required AVC/AAC проекции поверх одного SHA-защищённого префикса,
 ожидание partial packet/PES/GOP и виртуальный MP4 для всех трёх редакций.
 Далее — muxed fMP4/WebM и отдельная приёмка реальных источников/live.
+
+SDK 1.42 расширяет F4 [одним shared fMP4 AVC/AAC VOD](ProgressiveMuxedFmp4.md):
+projected moov/traf, общий mdat и physical lease, SHA и ожидание полного fragment.
+Следом — muxed WebM и дополнительные кодеки muxed fMP4; live и реальная
+длительная A/V-приёмка остаются отдельными этапами.

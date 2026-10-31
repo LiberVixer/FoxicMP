@@ -308,3 +308,8 @@ SDK 1.41: [один растущий TS AVC/AAC VOD](ProgressiveGrowingTs.md),
 `containerHint: mpegts-growing`, одна physical resource и две required
 logical scalar views. Capability согласуется отдельно; incomplete packet/PES
 и закрытие GOP не превращаются в ложный EOF. [Проверки](ProgressiveGrowingTsValidation-2026-10-31.md).
+
+SDK 1.42: [общий растущий fMP4 H.264/AAC](ProgressiveMuxedFmp4.md),
+`containerHint: fmp4-muxed`, две scalar views одного physical resource.
+Capability согласуется как `schema2Playback.muxedPlayback.fmp4`; новый
+индекс публикуется после полного moof/mdat обеих дорожек.

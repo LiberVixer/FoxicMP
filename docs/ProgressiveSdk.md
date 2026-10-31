@@ -363,3 +363,12 @@ SDK 1.41: [один растущий MPEG-TS AVC/AAC файл](ProgressiveGrowin
 на значения своего VOD, записать bytes и digest, затем включить readiness.
 Отдельные установленные Windows-приложения нужно обновлять из соответствующей
 сборки; один только ZIP SDK не меняет возможности ранее установленного EXE.
+
+SDK 1.42: [один растущий fMP4 AVC/AAC](ProgressiveMuxedFmp4.md),
+`containerHint: fmp4-muxed`, одна physical resource и две required scalar
+views. Согласование — `schema2Playback.muxedPlayback.fmp4`, без наследования
+возможности из прежнего `muxed` flag. Общий mdat читается через ResourceSource;
+virtual moov/traf и trun offsets выделяют нужную дорожку без перекодирования.
+Новый fragment публикуется только целиком после проверки обеих traf.
+Пример — `progressive-v2-muxed-fmp4-vod.json`. Профиль VOD ограничен H.264/AAC,
+zero session offset, head moov, default-base-is-moof и self-contained dref.

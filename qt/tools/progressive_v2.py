@@ -33,6 +33,7 @@ class V2PreviewSession:
         self.mux_ts_supported=mux.get('mode')=='segmented-muxed-mpegts-h264-aac-lc'
         self.mux_ts_catalog_supported=mux.get('catalog',{}).get('mode')=='paged-muxed-mpegts-v1'
         self.growing_ts_supported=ts.get('growing',{}).get('mode')=='growing-muxed-mpegts-h264-aac-lc'
+        self.muxed_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('mode')=='growing-muxed-fmp4-h264-aac-lc'
         self.integrity_supported=caps.get('schema2Playback',{}).get('integrity',{}).get('algorithm')=='sha256'
         if 2 not in caps.get('playbackSchemaVersions',[]) or caps.get('schema2Playback',{}).get('mode')!='separate-fmp4-h264-aac-lc' or caps.get('readerLeaseProtocol')!=1:
             raise RuntimeError('Player lacks the bounded schema-2 media profile; update the player')
@@ -49,7 +50,18 @@ class V2PreviewSession:
             ts_segments=any(t.get('containerHint')=='mpegts' for t in segment_tracks)
             mux_ts_segments=any(t.get('containerHint')=='mpegts-muxed' for t in segment_tracks)
             growing_ts=any(t.get('containerHint')=='mpegts-growing' for t in current.get('tracks',[]))
-            if growing_ts:
+            muxed_mp4=any(t.get('containerHint')=='fmp4-muxed' for t in current.get('tracks',[]))
+            if muxed_mp4:
+                tracks=current.get('tracks',[]);resources=current.get('resources',[])
+                if not self.muxed_mp4_supported:
+                    raise RuntimeError('Player lacks muxed fMP4 AVC/AAC playback; update the player')
+                if len(tracks)!=2 or {t.get('kind') for t in tracks}!={'video','audio'} or len(resources)!=1 or 'segmentCatalog' in current:
+                    raise RuntimeError('Muxed fMP4 requires two logical views and one scalar resource')
+                if any(t.get('containerHint')!='fmp4-muxed' or not t.get('required') or 'initializationResourceId' in t or t.get('source')!={'resourceId':resources[0].get('id')} or t.get('codecHint') not in (None,'','h264' if t.get('kind')=='video' else 'aac-lc') for t in tracks):
+                    raise RuntimeError('Muxed fMP4 requires shared scalar AVC/AAC views without external initialization')
+                if resources[0].get('integrity',{}).get('algorithm')!='sha256':
+                    raise RuntimeError('Muxed fMP4 playback requires SHA-256')
+            elif growing_ts:
                 tracks=current.get('tracks',[]);resources=current.get('resources',[])
                 if not self.growing_ts_supported:
                     raise RuntimeError('Player lacks growing MPEG-TS AVC/AAC playback; update the player')

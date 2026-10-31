@@ -23,6 +23,19 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_muxed_mp4_requires_its_own_capability_before_mutating_session(self):
+        client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
+        for t in value['tracks']:t.update(containerHint='fmp4-muxed',source=dict(resourceId='mux'),codecHint='h264' if t['kind']=='video' else 'aac-lc')
+        capability={}
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',muxed=True,integrity=dict(algorithm='sha256'),muxedPlayback=dict(fmp4=capability)))
+        preview=V2PreviewSession(client,'/unused')
+        with self.assertRaisesRegex(RuntimeError,'muxed fMP4'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        capability['mode']='growing-muxed-fmp4-h264-aac-lc';V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
+        for change in [lambda v:v.update(segmentCatalog=[]),lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][0].update(initializationResourceId='mux'),lambda v:v['tracks'][1].update(containerHint='fmp4'),lambda v:v['tracks'][0].update(source=dict(segments=[])),lambda v:v['tracks'][1].update(source=dict(resourceId='different')),lambda v:v['tracks'][1].update(codecHint='opus')]:
+            bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(bad)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
     def test_growing_ts_requires_its_own_capability_and_shared_scalar_views(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
         for t in value['tracks']:t.update(containerHint='mpegts-growing',source=dict(resourceId='mux'),codecHint='h264' if t['kind']=='video' else 'aac-lc')
