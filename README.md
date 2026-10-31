@@ -255,3 +255,7 @@ SDK ZIP содержит клиент и документацию; устано�
 SDK 1.48: [AV1 Main 8/10-bit + AAC-LC в одном растущем fMP4](docs/ProgressiveMuxedFmp4Av1.md),
 Classic и обе Qt-редакции; [проверки](docs/ProgressiveMuxedFmp4Av1Validation-2026-10-31.md).
 SDK ZIP содержит клиент и документацию; установщики 0.2.0 выше этот профиль не включают.
+
+SDK 1.49: [VP9 Profile 0/2 8/10-bit + AAC-LC в одном растущем fMP4](docs/ProgressiveMuxedFmp4Vp9.md),
+Classic и обе Qt-редакции; [проверки](docs/ProgressiveMuxedFmp4Vp9Validation-2026-10-31.md).
+SDK ZIP содержит клиент и документацию; установщики 0.2.0 выше этот профиль не включают.

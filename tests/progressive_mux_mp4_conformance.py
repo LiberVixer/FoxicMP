@@ -56,7 +56,7 @@ def run(runner, media_cases=None, legacy_faults=True):
                             d=abs(int(Fraction(int(a[field]))*clock*10000000)-int(Fraction(int(b[field]))*scales[k]*10000000));delta=max(delta,d);assert d==0,(profile,k,field,a,b,d)
                     times.append(delta)
                     def decoded(path):
-                        options=['-an','-pix_fmt','yuv420p10le' if profile.startswith(('hevc10','av1-10')) else 'yuv420p','-fps_mode','passthrough','-c:v','rawvideo','-threads','1'] if k==0 else ['-vn','-c:a','pcm_s16le']
+                        options=['-an','-pix_fmt','yuv420p10le' if profile.startswith(('hevc10','av1-10','vp9-10')) else 'yuv420p','-fps_mode','passthrough','-c:v','rawvideo','-threads','1'] if k==0 else ['-vn','-c:a','pcm_s16le']
                         return subprocess.check_output(['ffmpeg','-v','error','-i',str(path),*options,'-f','hash','-hash','sha256','-'],stderr=subprocess.PIPE).strip()
                     assert decoded(original)==decoded(file),(profile,k,'decoded bytes differ')
                     for at in range(len(result)-1,-1,-65521):

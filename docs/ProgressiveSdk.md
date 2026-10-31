@@ -402,3 +402,6 @@ SDK 1.47: [общий HEVC Main/Main10 + AAC-LC fMP4](ProgressiveMuxedFmp4Hevc.m
 
 SDK 1.48: [общий AV1 Main 8/10-bit + AAC-LC fMP4](ProgressiveMuxedFmp4Av1.md),
 точный `muxedPlayback.fmp4.av1.mode`, пример manifest и сохранение AVC/HEVC modes.
+
+SDK 1.49: [общий VP9 Profile 0/2 8/10-bit + AAC-LC fMP4](ProgressiveMuxedFmp4Vp9.md),
+точный `muxedPlayback.fmp4.vp9.mode`, пример manifest и сохранение AVC/HEVC/AV1 modes.

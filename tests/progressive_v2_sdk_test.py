@@ -136,6 +136,24 @@ class V2SdkTest(unittest.TestCase):
             self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
         value['tracks'][0]['codecHint']='h264';mp4.pop('av1');V2PreviewSession(client,'/unused').publish(value)
 
+    def test_shared_vp9_mp4_requires_exact_capability_and_preserves_unstarted_state(self):
+        client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
+        for t in value['tracks']:t.update(containerHint='fmp4-muxed',source=dict(resourceId='mux'),codecHint='vp9' if t['kind']=='video' else 'aac-lc')
+        vp9={};mp4=dict(mode='growing-muxed-fmp4-h264-aac-lc',hevc=dict(mode='growing-muxed-fmp4-hevc-aac-lc'),av1=dict(mode='growing-muxed-fmp4-av1-aac-lc'),vp9=vp9)
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',profiles=['separate-fmp4-vp9-aac-lc','segmented-fmp4-vp9-aac-lc'],integrity=dict(algorithm='sha256'),muxedPlayback=dict(fmp4=mp4)))
+        for mode in (None,'segmented-fmp4-vp9-aac-lc','separate-fmp4-vp9-aac-lc','growing-muxed-fmp4-h264-aac-lc','growing-muxed-fmp4-hevc-aac-lc','growing-muxed-fmp4-av1-aac-lc','growing-muxed-webm-vp9-opus'):
+            vp9.clear()
+            if mode:vp9['mode']=mode
+            preview=V2PreviewSession(client,'/unused')
+            with self.assertRaisesRegex(RuntimeError,'VP9'):preview.publish(value)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        vp9['mode']='growing-muxed-fmp4-vp9-aac-lc';V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
+        for change in [lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][1].update(codecHint='opus'),lambda v:v['tracks'][0].update(source=dict(resourceId='other')),lambda v:v['tracks'][1].update(containerHint='fmp4'),lambda v:v['tracks'][0].update(initializationResourceId='mux')]:
+            bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(bad)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        value['tracks'][0]['codecHint']='h264';mp4.pop('vp9');V2PreviewSession(client,'/unused').publish(value)
+
     def test_growing_ts_requires_its_own_capability_and_shared_scalar_views(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
         for t in value['tracks']:t.update(containerHint='mpegts-growing',source=dict(resourceId='mux'),codecHint='h264' if t['kind']=='video' else 'aac-lc')

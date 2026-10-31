@@ -16,7 +16,9 @@ def exercise(client, fixtures, work, pause, seek, profile='main-bframes'):
     plan['metadata']['chapters'].append(dict(id='tail', time='170000000', title='Tail'))
     caps = client.request(dict(version=1, action='capabilities'))['schema2Playback']['muxedPlayback']['fmp4']
     mode = 'growing-muxed-fmp4-'+plan['tracks'][0]['codecHint']+'-aac-lc'
-    if plan['tracks'][0]['codecHint']=='av1':
+    if plan['tracks'][0]['codecHint']=='vp9':
+        assert caps['vp9']['mode']==mode, caps
+    elif plan['tracks'][0]['codecHint']=='av1':
         assert caps['av1']['mode']==mode, caps
     elif plan['tracks'][0]['codecHint']=='hevc':
         assert caps['hevc']['mode']==mode, caps

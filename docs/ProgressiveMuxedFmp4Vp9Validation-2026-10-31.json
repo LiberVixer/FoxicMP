@@ -1,0 +1,4879 @@
+{
+  "date": "2026-10-31",
+  "sdkVersion": "1.49",
+  "feature": "growing-muxed-fmp4-vp9-aac-lc",
+  "playerVersion": "0.2.0",
+  "capabilityEnabled": true,
+  "players": {
+    "linuxQt": {
+      "result": "PASS",
+      "profiles": [
+        {
+          "profile": "vp9-8",
+          "networkRequests": 0,
+          "physicalResources": 1,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "forwardSeek": true,
+          "released": true,
+          "partialPacketStartWaits": true,
+          "phases": [
+            {
+              "phase": "partial-prefix-buffers",
+              "state": "buffering",
+              "availableSeconds": 4.021,
+              "positionSeconds": 0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "decoded-before-complete",
+              "state": "playing",
+              "availableSeconds": 12.021,
+              "positionSeconds": 3.061015625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "pause",
+              "state": "paused",
+              "availableSeconds": 12.021,
+              "positionSeconds": 3.061015625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "state": "paused",
+              "availableSeconds": 14.021,
+              "positionSeconds": 2,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "196608"
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "state": "playing",
+              "availableSeconds": 14.021,
+              "positionSeconds": 4.1010156250000005,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "262144",
+                "video": "262144"
+              }
+            },
+            {
+              "phase": "partial-moof-mdat-tail-waits-not-eof",
+              "state": "buffering",
+              "availableSeconds": 14.021,
+              "positionSeconds": 13.101015625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "504160",
+                "video": "503022"
+              }
+            },
+            {
+              "phase": "forward-seek-to-published-tail",
+              "state": "playing",
+              "availableSeconds": 20.021,
+              "positionSeconds": 17,
+              "complete": true,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "569696",
+                "video": "568558"
+              }
+            },
+            {
+              "phase": "complete-and-natural-eof",
+              "state": "finished",
+              "availableSeconds": null,
+              "positionSeconds": null,
+              "complete": null,
+              "released": true,
+              "decoderIoBytes": {
+                "audio": "1041901",
+                "video": "1038937"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "vp9-10",
+          "networkRequests": 0,
+          "physicalResources": 1,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "forwardSeek": true,
+          "released": true,
+          "partialPacketStartWaits": true,
+          "phases": [
+            {
+              "phase": "partial-prefix-buffers",
+              "state": "buffering",
+              "availableSeconds": 4.021,
+              "positionSeconds": 0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "decoded-before-complete",
+              "state": "playing",
+              "availableSeconds": 12.021,
+              "positionSeconds": 3.061015625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "pause",
+              "state": "paused",
+              "availableSeconds": 12.021,
+              "positionSeconds": 3.101015625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "state": "paused",
+              "availableSeconds": 14.021,
+              "positionSeconds": 2,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "196608"
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "state": "playing",
+              "availableSeconds": 14.021,
+              "positionSeconds": 4.021015625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "262144",
+                "video": "262144"
+              }
+            },
+            {
+              "phase": "partial-moof-mdat-tail-waits-not-eof",
+              "state": "buffering",
+              "availableSeconds": 14.021,
+              "positionSeconds": 13.021015625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "504871",
+                "video": "503733"
+              }
+            },
+            {
+              "phase": "forward-seek-to-published-tail",
+              "state": "playing",
+              "availableSeconds": 20.021,
+              "positionSeconds": 17,
+              "complete": true,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "570407",
+                "video": "569269"
+              }
+            },
+            {
+              "phase": "complete-and-natural-eof",
+              "state": "finished",
+              "availableSeconds": null,
+              "positionSeconds": null,
+              "complete": null,
+              "released": true,
+              "decoderIoBytes": {
+                "audio": "1043968",
+                "video": "1041004"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "vp9-10-fractional",
+          "networkRequests": 0,
+          "physicalResources": 1,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "forwardSeek": true,
+          "released": true,
+          "partialPacketStartWaits": true,
+          "phases": [
+            {
+              "phase": "partial-prefix-buffers",
+              "state": "buffering",
+              "availableSeconds": 3.3596666,
+              "positionSeconds": 0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "decoded-before-complete",
+              "state": "playing",
+              "availableSeconds": 11.7013333,
+              "positionSeconds": 3.0260000000000002,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "pause",
+              "state": "paused",
+              "availableSeconds": 11.7013333,
+              "positionSeconds": 3.0260000000000002,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "state": "paused",
+              "availableSeconds": 13.3696666,
+              "positionSeconds": 2,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "196608",
+                "video": "196608"
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "state": "playing",
+              "availableSeconds": 13.3696666,
+              "positionSeconds": 4.1271,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "327680"
+              }
+            },
+            {
+              "phase": "partial-moof-mdat-tail-waits-not-eof",
+              "state": "buffering",
+              "availableSeconds": 13.3696666,
+              "positionSeconds": 12.468766666666667,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "533290",
+                "video": "524288"
+              }
+            },
+            {
+              "phase": "forward-seek-to-published-tail",
+              "state": "playing",
+              "availableSeconds": 20.0232199,
+              "positionSeconds": 17,
+              "complete": true,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "598826",
+                "video": "589824"
+              }
+            },
+            {
+              "phase": "complete-and-natural-eof",
+              "state": "finished",
+              "availableSeconds": null,
+              "positionSeconds": null,
+              "complete": null,
+              "released": true,
+              "decoderIoBytes": {
+                "audio": "1140703",
+                "video": "1130643"
+              }
+            }
+          ]
+        }
+      ],
+      "changingDecodedVideoAsserted": true,
+      "decodedVideoCodecs": [
+        "vp9",
+        "vp9",
+        "vp9"
+      ],
+      "decodedVideoFormats": [
+        "yuv420p",
+        "yuv420p10",
+        "yuv420p10"
+      ],
+      "decodedAudioCodec": "aac",
+      "decodedChannels": [
+        2,
+        2,
+        2
+      ],
+      "decodedRates": [
+        48000,
+        48000,
+        44100
+      ],
+      "qtestPassed": 5,
+      "qtestFailed": 0
+    },
+    "windowsQt": {
+      "result": "PASS",
+      "profiles": [
+        {
+          "profile": "vp9-8",
+          "networkRequests": 0,
+          "physicalResources": 1,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "forwardSeek": true,
+          "released": true,
+          "partialPacketStartWaits": true,
+          "phases": [
+            {
+              "phase": "partial-prefix-buffers",
+              "state": "buffering",
+              "availableSeconds": 4.0213958,
+              "positionSeconds": 0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "decoded-before-complete",
+              "state": "playing",
+              "availableSeconds": 12.0213958,
+              "positionSeconds": 3.06140625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "pause",
+              "state": "paused",
+              "availableSeconds": 12.0213958,
+              "positionSeconds": 3.10140625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "state": "paused",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 2.02140625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "262144",
+                "video": "196608"
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "state": "playing",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 4.02140625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "262144",
+                "video": "262144"
+              }
+            },
+            {
+              "phase": "partial-moof-mdat-tail-waits-not-eof",
+              "state": "buffering",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 13.02140625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "504107",
+                "video": "502969"
+              }
+            },
+            {
+              "phase": "forward-seek-to-published-tail",
+              "state": "playing",
+              "availableSeconds": 20.0213333,
+              "positionSeconds": 17,
+              "complete": true,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "831787",
+                "video": "1027257"
+              }
+            },
+            {
+              "phase": "complete-and-natural-eof",
+              "state": "finished",
+              "availableSeconds": null,
+              "positionSeconds": null,
+              "complete": null,
+              "released": true,
+              "decoderIoBytes": {
+                "audio": "1041879",
+                "video": "1038915"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "vp9-10",
+          "networkRequests": 0,
+          "physicalResources": 1,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "forwardSeek": true,
+          "released": true,
+          "partialPacketStartWaits": true,
+          "phases": [
+            {
+              "phase": "partial-prefix-buffers",
+              "state": "buffering",
+              "availableSeconds": 4.0213958,
+              "positionSeconds": 0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "decoded-before-complete",
+              "state": "playing",
+              "availableSeconds": 12.0213958,
+              "positionSeconds": 3.10140625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "pause",
+              "state": "paused",
+              "availableSeconds": 12.0213958,
+              "positionSeconds": 3.14140625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "state": "paused",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 2.02140625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "262144",
+                "video": "196608"
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "state": "playing",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 4.02140625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "262144",
+                "video": "262144"
+              }
+            },
+            {
+              "phase": "partial-moof-mdat-tail-waits-not-eof",
+              "state": "buffering",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 13.10140625,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "504818",
+                "video": "503680"
+              }
+            },
+            {
+              "phase": "forward-seek-to-published-tail",
+              "state": "playing",
+              "availableSeconds": 20.0213333,
+              "positionSeconds": 17,
+              "complete": true,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "898034",
+                "video": "1027968"
+              }
+            },
+            {
+              "phase": "complete-and-natural-eof",
+              "state": "finished",
+              "availableSeconds": null,
+              "positionSeconds": null,
+              "complete": null,
+              "released": true,
+              "decoderIoBytes": {
+                "audio": "1043946",
+                "video": "1040982"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "vp9-10-fractional",
+          "networkRequests": 0,
+          "physicalResources": 1,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "forwardSeek": true,
+          "released": true,
+          "partialPacketStartWaits": true,
+          "phases": [
+            {
+              "phase": "partial-prefix-buffers",
+              "state": "buffering",
+              "availableSeconds": 3.3598999,
+              "positionSeconds": 0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "decoded-before-complete",
+              "state": "playing",
+              "availableSeconds": 11.7015666,
+              "positionSeconds": 3.0262333333333333,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "pause",
+              "state": "paused",
+              "availableSeconds": 11.7015666,
+              "positionSeconds": 3.0596,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "131072",
+                "video": "131072"
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "state": "paused",
+              "availableSeconds": 13.3698999,
+              "positionSeconds": 2,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "262144",
+                "video": "262144"
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "state": "playing",
+              "availableSeconds": 13.3698999,
+              "positionSeconds": 4.093966666666667,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "327680",
+                "video": "327680"
+              }
+            },
+            {
+              "phase": "partial-moof-mdat-tail-waits-not-eof",
+              "state": "buffering",
+              "availableSeconds": 13.3698999,
+              "positionSeconds": 12.469000000000001,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "533266",
+                "video": "524288"
+              }
+            },
+            {
+              "phase": "forward-seek-to-published-tail",
+              "state": "playing",
+              "availableSeconds": 20.0232199,
+              "positionSeconds": 17,
+              "complete": true,
+              "released": false,
+              "decoderIoBytes": {
+                "audio": "992018",
+                "video": "1114112"
+              }
+            },
+            {
+              "phase": "complete-and-natural-eof",
+              "state": "finished",
+              "availableSeconds": null,
+              "positionSeconds": null,
+              "complete": null,
+              "released": true,
+              "decoderIoBytes": {
+                "audio": "1140625",
+                "video": "1130589"
+              }
+            }
+          ]
+        }
+      ],
+      "changingDecodedVideoAsserted": true,
+      "decodedVideoCodecs": [
+        "vp9",
+        "vp9",
+        "vp9"
+      ],
+      "decodedVideoFormats": [
+        "yuv420p",
+        "yuv420p10",
+        "yuv420p10"
+      ],
+      "decodedAudioCodec": "aac",
+      "decodedChannels": [
+        2,
+        2,
+        2
+      ],
+      "decodedRates": [
+        48000,
+        48000,
+        44100
+      ],
+      "qtestPassed": 5,
+      "qtestFailed": 0
+    },
+    "windowsClassic": {
+      "result": "PASS",
+      "profiles": [
+        {
+          "profile": "vp9-8",
+          "networkRequests": 0,
+          "physicalResources": 1,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "forwardSeek": true,
+          "released": true,
+          "partialPacketStartWaits": true,
+          "phases": [
+            {
+              "phase": "partial-prefix-buffers",
+              "state": "buffering",
+              "availableSeconds": 4.0213958,
+              "positionSeconds": 0.0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "0",
+                "audio": "0"
+              }
+            },
+            {
+              "phase": "decoded-before-complete",
+              "state": "playing",
+              "availableSeconds": 12.0213958,
+              "positionSeconds": 3.0497983,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "109546",
+                "audio": "77028"
+              }
+            },
+            {
+              "phase": "pause",
+              "state": "paused",
+              "availableSeconds": 12.0213958,
+              "positionSeconds": 3.0497983,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "109546",
+                "audio": "77028"
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "state": "paused",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 2.0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "110578",
+                "audio": "80603"
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "state": "playing",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 4.0767041,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "221506",
+                "audio": "141880"
+              }
+            },
+            {
+              "phase": "partial-moof-mdat-tail-waits-not-eof",
+              "state": "buffering",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 13.0249393,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "297092",
+                "audio": "222066"
+              }
+            },
+            {
+              "phase": "forward-seek-to-published-tail",
+              "state": "playing",
+              "availableSeconds": 20.0213333,
+              "positionSeconds": 17.0,
+              "complete": true,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "300207",
+                "audio": "222323"
+              }
+            },
+            {
+              "phase": "complete-and-natural-eof",
+              "state": "finished",
+              "availableSeconds": null,
+              "positionSeconds": null,
+              "complete": null,
+              "released": true,
+              "decoderIoBytes": {
+                "video": "358026",
+                "audio": "258799"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "vp9-10",
+          "networkRequests": 0,
+          "physicalResources": 1,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "forwardSeek": true,
+          "released": true,
+          "partialPacketStartWaits": true,
+          "phases": [
+            {
+              "phase": "partial-prefix-buffers",
+              "state": "buffering",
+              "availableSeconds": 4.0213958,
+              "positionSeconds": 0.0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "0",
+                "audio": "0"
+              }
+            },
+            {
+              "phase": "decoded-before-complete",
+              "state": "playing",
+              "availableSeconds": 12.0213958,
+              "positionSeconds": 3.050168,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "110041",
+                "audio": "76790"
+              }
+            },
+            {
+              "phase": "pause",
+              "state": "paused",
+              "availableSeconds": 12.0213958,
+              "positionSeconds": 3.050168,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "110041",
+                "audio": "77286"
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "state": "paused",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 2.0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "111048",
+                "audio": "82405"
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "state": "playing",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 4.0023866,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "221365",
+                "audio": "141366"
+              }
+            },
+            {
+              "phase": "partial-moof-mdat-tail-waits-not-eof",
+              "state": "buffering",
+              "availableSeconds": 14.0213958,
+              "positionSeconds": 13.0476578,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "298226",
+                "audio": "222066"
+              }
+            },
+            {
+              "phase": "forward-seek-to-published-tail",
+              "state": "playing",
+              "availableSeconds": 20.0213333,
+              "positionSeconds": 17.0,
+              "complete": true,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "303988",
+                "audio": "222591"
+              }
+            },
+            {
+              "phase": "complete-and-natural-eof",
+              "state": "finished",
+              "availableSeconds": null,
+              "positionSeconds": null,
+              "complete": null,
+              "released": true,
+              "decoderIoBytes": {
+                "video": "362783",
+                "audio": "258799"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "vp9-10-fractional",
+          "networkRequests": 0,
+          "physicalResources": 1,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "playingBeforeComplete": true,
+          "pausedSeek": true,
+          "tailWaitsForPublication": true,
+          "forwardSeek": true,
+          "released": true,
+          "partialPacketStartWaits": true,
+          "phases": [
+            {
+              "phase": "partial-prefix-buffers",
+              "state": "buffering",
+              "availableSeconds": 3.3598999,
+              "positionSeconds": 0.0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "0",
+                "audio": "0"
+              }
+            },
+            {
+              "phase": "decoded-before-complete",
+              "state": "playing",
+              "availableSeconds": 11.7015666,
+              "positionSeconds": 3.0415696,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "131303",
+                "audio": "76737"
+              }
+            },
+            {
+              "phase": "pause",
+              "state": "paused",
+              "availableSeconds": 11.7015666,
+              "positionSeconds": 3.0415696,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "131303",
+                "audio": "77314"
+              }
+            },
+            {
+              "phase": "backward-seek-while-paused",
+              "state": "paused",
+              "availableSeconds": 13.3698999,
+              "positionSeconds": 2.0,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "131879",
+                "audio": "82348"
+              }
+            },
+            {
+              "phase": "resume-after-seek",
+              "state": "playing",
+              "availableSeconds": 13.3698999,
+              "positionSeconds": 4.0402772,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "254156",
+                "audio": "141724"
+              }
+            },
+            {
+              "phase": "partial-moof-mdat-tail-waits-not-eof",
+              "state": "buffering",
+              "availableSeconds": 13.3698999,
+              "positionSeconds": 12.388391,
+              "complete": false,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "341729",
+                "audio": "213955"
+              }
+            },
+            {
+              "phase": "forward-seek-to-published-tail",
+              "state": "playing",
+              "availableSeconds": 20.0232199,
+              "positionSeconds": 17.0,
+              "complete": true,
+              "released": false,
+              "decoderIoBytes": {
+                "video": "345170",
+                "audio": "214262"
+              }
+            },
+            {
+              "phase": "complete-and-natural-eof",
+              "state": "finished",
+              "availableSeconds": null,
+              "positionSeconds": null,
+              "complete": null,
+              "released": true,
+              "decoderIoBytes": {
+                "video": "403887",
+                "audio": "250263"
+              }
+            }
+          ]
+        }
+      ],
+      "graphPlaybackAndDecoderIoVerified": true,
+      "changingPixelCaptureTested": false,
+      "physicalAudioCaptureTested": false,
+      "profileContextMenuDisabled": true,
+      "installedShellRegistrationUnchanged": true
+    }
+  },
+  "nativeRuns": {
+    "linuxGcc": {
+      "result": "PASS",
+      "scope": "muxed-vp9-fmp4-native",
+      "count": 34,
+      "checks": [
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-84",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-84",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-104",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-104",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-10-fractional4",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-10-fractional4",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-880",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-880",
+        "reject-vp9-actual-with-h264-hint",
+        "reject-vp9-actual-with-hevc-hint",
+        "reject-vp9-actual-with-av1-hint",
+        "reject-vp9-actual-with-default-avc-hint",
+        "reject-avc-actual-with-vp9-hint",
+        "reject-vp9-version",
+        "reject-vp9-flags",
+        "reject-vp9-profile-1",
+        "reject-vp9-profile-3",
+        "reject-vp9-invalid-level",
+        "reject-vp9-profile-depth-mismatch",
+        "reject-vp9-twelve-bit",
+        "reject-vp9-chroma-422",
+        "reject-vp9-chroma-444",
+        "reject-vp9-reserved-chroma",
+        "reject-vp9-reserved-primaries",
+        "reject-vp9-reserved-transfer",
+        "reject-vp9-reserved-matrix",
+        "reject-vp9-rgb-matrix-with-420",
+        "reject-vp9-nonzero-initialization-size",
+        "reject-vp9-missing-configuration",
+        "reject-vp9-truncated-configuration",
+        "metadata-codec-change-keeps-published-vp9-index-and-bytes",
+        "vp9-partial-init-no-lease-leak",
+        "vp9-cancel-no-lease-leak",
+        "vp9-sha-rewrite-no-lease-leak"
+      ],
+      "realMedia": [
+        {
+          "profile": "vp9-8",
+          "seconds": 4,
+          "accessUnits": [
+            100,
+            189
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-10",
+          "seconds": 4,
+          "accessUnits": [
+            100,
+            189
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-10-fractional",
+          "seconds": 4,
+          "accessUnits": [
+            120,
+            174
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-8",
+          "seconds": 80,
+          "accessUnits": [
+            2000,
+            3751
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        }
+      ],
+      "playerDecoderTested": false,
+      "networkRequests": 0,
+      "physicalAvSyncMeasured": false
+    },
+    "windowsMingw": {
+      "result": "PASS",
+      "scope": "muxed-vp9-fmp4-native",
+      "count": 34,
+      "checks": [
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-84",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-84",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-104",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-104",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-10-fractional4",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-10-fractional4",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-880",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-880",
+        "reject-vp9-actual-with-h264-hint",
+        "reject-vp9-actual-with-hevc-hint",
+        "reject-vp9-actual-with-av1-hint",
+        "reject-vp9-actual-with-default-avc-hint",
+        "reject-avc-actual-with-vp9-hint",
+        "reject-vp9-version",
+        "reject-vp9-flags",
+        "reject-vp9-profile-1",
+        "reject-vp9-profile-3",
+        "reject-vp9-invalid-level",
+        "reject-vp9-profile-depth-mismatch",
+        "reject-vp9-twelve-bit",
+        "reject-vp9-chroma-422",
+        "reject-vp9-chroma-444",
+        "reject-vp9-reserved-chroma",
+        "reject-vp9-reserved-primaries",
+        "reject-vp9-reserved-transfer",
+        "reject-vp9-reserved-matrix",
+        "reject-vp9-rgb-matrix-with-420",
+        "reject-vp9-nonzero-initialization-size",
+        "reject-vp9-missing-configuration",
+        "reject-vp9-truncated-configuration",
+        "metadata-codec-change-keeps-published-vp9-index-and-bytes",
+        "vp9-partial-init-no-lease-leak",
+        "vp9-cancel-no-lease-leak",
+        "vp9-sha-rewrite-no-lease-leak"
+      ],
+      "realMedia": [
+        {
+          "profile": "vp9-8",
+          "seconds": 4,
+          "accessUnits": [
+            100,
+            189
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-10",
+          "seconds": 4,
+          "accessUnits": [
+            100,
+            189
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-10-fractional",
+          "seconds": 4,
+          "accessUnits": [
+            120,
+            174
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-8",
+          "seconds": 80,
+          "accessUnits": [
+            2000,
+            3751
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        }
+      ],
+      "playerDecoderTested": false,
+      "networkRequests": 0,
+      "physicalAvSyncMeasured": false
+    },
+    "windowsMsvc": {
+      "result": "PASS",
+      "scope": "muxed-vp9-fmp4-native",
+      "count": 34,
+      "checks": [
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-84",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-84",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-104",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-104",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-10-fractional4",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-10-fractional4",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-880",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-880",
+        "reject-vp9-actual-with-h264-hint",
+        "reject-vp9-actual-with-hevc-hint",
+        "reject-vp9-actual-with-av1-hint",
+        "reject-vp9-actual-with-default-avc-hint",
+        "reject-avc-actual-with-vp9-hint",
+        "reject-vp9-version",
+        "reject-vp9-flags",
+        "reject-vp9-profile-1",
+        "reject-vp9-profile-3",
+        "reject-vp9-invalid-level",
+        "reject-vp9-profile-depth-mismatch",
+        "reject-vp9-twelve-bit",
+        "reject-vp9-chroma-422",
+        "reject-vp9-chroma-444",
+        "reject-vp9-reserved-chroma",
+        "reject-vp9-reserved-primaries",
+        "reject-vp9-reserved-transfer",
+        "reject-vp9-reserved-matrix",
+        "reject-vp9-rgb-matrix-with-420",
+        "reject-vp9-nonzero-initialization-size",
+        "reject-vp9-missing-configuration",
+        "reject-vp9-truncated-configuration",
+        "metadata-codec-change-keeps-published-vp9-index-and-bytes",
+        "vp9-partial-init-no-lease-leak",
+        "vp9-cancel-no-lease-leak",
+        "vp9-sha-rewrite-no-lease-leak"
+      ],
+      "realMedia": [
+        {
+          "profile": "vp9-8",
+          "seconds": 4,
+          "accessUnits": [
+            100,
+            189
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-10",
+          "seconds": 4,
+          "accessUnits": [
+            100,
+            189
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-10-fractional",
+          "seconds": 4,
+          "accessUnits": [
+            120,
+            174
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-8",
+          "seconds": 80,
+          "accessUnits": [
+            2000,
+            3751
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        }
+      ],
+      "playerDecoderTested": false,
+      "networkRequests": 0,
+      "physicalAvSyncMeasured": false
+    },
+    "linuxAsanUbsan": {
+      "result": "PASS",
+      "scope": "muxed-vp9-fmp4-native",
+      "count": 34,
+      "checks": [
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-84",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-84",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-104",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-104",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-10-fractional4",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-10-fractional4",
+        "partial-fragment-index-immutable-prefix-and-complete-vp9-880",
+        "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-880",
+        "reject-vp9-actual-with-h264-hint",
+        "reject-vp9-actual-with-hevc-hint",
+        "reject-vp9-actual-with-av1-hint",
+        "reject-vp9-actual-with-default-avc-hint",
+        "reject-avc-actual-with-vp9-hint",
+        "reject-vp9-version",
+        "reject-vp9-flags",
+        "reject-vp9-profile-1",
+        "reject-vp9-profile-3",
+        "reject-vp9-invalid-level",
+        "reject-vp9-profile-depth-mismatch",
+        "reject-vp9-twelve-bit",
+        "reject-vp9-chroma-422",
+        "reject-vp9-chroma-444",
+        "reject-vp9-reserved-chroma",
+        "reject-vp9-reserved-primaries",
+        "reject-vp9-reserved-transfer",
+        "reject-vp9-reserved-matrix",
+        "reject-vp9-rgb-matrix-with-420",
+        "reject-vp9-nonzero-initialization-size",
+        "reject-vp9-missing-configuration",
+        "reject-vp9-truncated-configuration",
+        "metadata-codec-change-keeps-published-vp9-index-and-bytes",
+        "vp9-partial-init-no-lease-leak",
+        "vp9-cancel-no-lease-leak",
+        "vp9-sha-rewrite-no-lease-leak"
+      ],
+      "realMedia": [
+        {
+          "profile": "vp9-8",
+          "seconds": 4,
+          "accessUnits": [
+            100,
+            189
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-10",
+          "seconds": 4,
+          "accessUnits": [
+            100,
+            189
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-10-fractional",
+          "seconds": 4,
+          "accessUnits": [
+            120,
+            174
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        },
+        {
+          "profile": "vp9-8",
+          "seconds": 80,
+          "accessUnits": [
+            2000,
+            3751
+          ],
+          "maxTimestampDifference100ns": [
+            0,
+            0
+          ],
+          "decodedVideoAndPcmMatch": true
+        }
+      ],
+      "playerDecoderTested": false,
+      "networkRequests": 0,
+      "physicalAvSyncMeasured": false
+    }
+  },
+  "compatibility": {
+    "qtRuntimeScenarios": "v1 writer + growing TS + shared AVC/AAC + shared HEVC and AV1 Main10 fractional/AAC + shared VP8/VP9/AV1 Opus WebM + optional Vorbis",
+    "windowsClassicV1": [
+      {
+        "contract": "sessionDirectory",
+        "scenarios": [
+          {
+            "fragmented": false,
+            "playing": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "9595628c170440b69e9d7109b590d07c",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "positionSeconds": 0.2901522,
+              "availableSeconds": 15.8933333,
+              "durationSeconds": 20.0
+            },
+            "complete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "9595628c170440b69e9d7109b590d07c",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": true,
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "positionSeconds": 0.2901522,
+              "availableSeconds": 20.0,
+              "durationSeconds": 20.0
+            },
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "9595628c170440b69e9d7109b590d07c",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 1,
+              "released": true
+            }
+          },
+          {
+            "fragmented": true,
+            "playing": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "66bf09c6a32e4407b5fd4f1184208e9e",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "positionSeconds": 0.2688707,
+              "availableSeconds": 16.0,
+              "durationSeconds": 20.0
+            },
+            "complete": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "66bf09c6a32e4407b5fd4f1184208e9e",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": true,
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "positionSeconds": 0.2688707,
+              "availableSeconds": 20.0,
+              "durationSeconds": 20.0
+            },
+            "terminal": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "66bf09c6a32e4407b5fd4f1184208e9e",
+              "state": "finished",
+              "error": "",
+              "schemaVersion": 1,
+              "released": true
+            }
+          }
+        ]
+      }
+    ],
+    "windowsClassicMuxedFmp4": [
+      {
+        "profile": "main-bframes",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 3.0026666,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 11.0026666,
+            "positionSeconds": 3.0825639,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "108381",
+              "audio": "76477"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 11.0026666,
+            "positionSeconds": 3.0825639,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "108381",
+              "audio": "76754"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 13.008,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "110194",
+              "audio": "78820"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 13.008,
+            "positionSeconds": 4.0385534,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "220865",
+              "audio": "140863"
+            }
+          },
+          {
+            "phase": "partial-moof-mdat-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 13.008,
+            "positionSeconds": 12.0476428,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "315495",
+              "audio": "209030"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.08,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "315495",
+              "audio": "210538"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "387683",
+              "audio": "247014"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "high-fractional",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 3.3407482,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 11.6999319,
+            "positionSeconds": 3.0590833,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "123101",
+              "audio": "76701"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 11.6999319,
+            "positionSeconds": 3.0590833,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "123101",
+              "audio": "76701"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 13.3485487,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "123101",
+              "audio": "80345"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 13.3485487,
+            "positionSeconds": 4.0600899,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "237321",
+              "audio": "141692"
+            }
+          },
+          {
+            "phase": "partial-moof-mdat-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 13.3485487,
+            "positionSeconds": 12.3525213,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "354659",
+              "audio": "213356"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.0667346,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "354659",
+              "audio": "214188"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "423766",
+              "audio": "250189"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "main-delayed",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 4.0053332,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 12.0053332,
+            "positionSeconds": 3.0189645,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "108429",
+              "audio": "75761"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 12.0053332,
+            "positionSeconds": 3.0189645,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "108429",
+              "audio": "76290"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 14.0106666,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "108429",
+              "audio": "76819"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 14.0106666,
+            "positionSeconds": 4.0488706,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "219100",
+              "audio": "140666"
+            }
+          },
+          {
+            "phase": "partial-moof-mdat-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 14.0106666,
+            "positionSeconds": 13.0497816,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "329462",
+              "audio": "220601"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.0799999,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "329462",
+              "audio": "220854"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "401650",
+              "audio": "257836"
+            }
+          }
+        ]
+      }
+    ],
+    "windowsClassicMuxedHevc": [
+      {
+        "profile": "hevc-main",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 3.0026666,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 11.0026666,
+            "positionSeconds": 3.039965,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "97379",
+              "audio": "75952"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 11.0026666,
+            "positionSeconds": 3.039965,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "97379",
+              "audio": "76242"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 13.008,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "97379",
+              "audio": "78037"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 13.008,
+            "positionSeconds": 4.059673,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "193621",
+              "audio": "140851"
+            }
+          },
+          {
+            "phase": "partial-moof-mdat-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 13.008,
+            "positionSeconds": 12.0329379,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "275576",
+              "audio": "208518"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.08,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "275576",
+              "audio": "209020"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "338201",
+              "audio": "245753"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "hevc10-fractional",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 3.3407482,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 11.6999319,
+            "positionSeconds": 3.0719428,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "104649",
+              "audio": "77007"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 11.6999319,
+            "positionSeconds": 3.0719428,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "104649",
+              "audio": "77278"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 13.3485487,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "104649",
+              "audio": "81169"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 13.3485487,
+            "positionSeconds": 4.0022928,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "195720",
+              "audio": "141118"
+            }
+          },
+          {
+            "phase": "partial-moof-mdat-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 13.3485487,
+            "positionSeconds": 12.3911463,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "290958",
+              "audio": "213627"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.0667346,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "290958",
+              "audio": "213889"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "347358",
+              "audio": "250460"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "hevc-delayed",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 4.0053332,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 12.0053332,
+            "positionSeconds": 3.0702254,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "97427",
+              "audio": "76000"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 12.0053332,
+            "positionSeconds": 3.0702254,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "97427",
+              "audio": "76525"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 14.0106666,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "98858",
+              "audio": "77552"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 14.0106666,
+            "positionSeconds": 4.0632774,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "195100",
+              "audio": "141134"
+            }
+          },
+          {
+            "phase": "partial-moof-mdat-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 14.0106666,
+            "positionSeconds": 13.0131056,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "290798",
+              "audio": "220836"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.0799999,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "293877",
+              "audio": "221089"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "353423",
+              "audio": "258071"
+            }
+          }
+        ]
+      }
+    ],
+    "windowsClassicMuxedAv1": [
+      {
+        "profile": "av1-8",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 4.0213958,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 12.0213958,
+            "positionSeconds": 3.0457239,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "56302",
+              "audio": "76794"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 12.0213958,
+            "positionSeconds": 3.0457239,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "56302",
+              "audio": "77032"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 14.0213958,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "56589",
+              "audio": "77530"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 14.0213958,
+            "positionSeconds": 4.0418763,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "114500",
+              "audio": "141381"
+            }
+          },
+          {
+            "phase": "partial-moof-mdat-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 14.0213958,
+            "positionSeconds": 13.0432666,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "169640",
+              "audio": "221812"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.0213333,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "181662",
+              "audio": "222872"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "218107",
+              "audio": "259348"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-10",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 4.0213958,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 12.0213958,
+            "positionSeconds": 3.0751737,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "56970",
+              "audio": "77032"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 12.0213958,
+            "positionSeconds": 3.0751737,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "56970",
+              "audio": "77032"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 14.0213958,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "57252",
+              "audio": "81111"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 14.0213958,
+            "positionSeconds": 4.0629806,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "116656",
+              "audio": "141884"
+            }
+          },
+          {
+            "phase": "partial-moof-mdat-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 14.0213958,
+            "positionSeconds": 13.0693445,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "172768",
+              "audio": "222070"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.0213333,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "172768",
+              "audio": "223112"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "209809",
+              "audio": "258803"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-10-fractional",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 3.3598999,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 11.7015666,
+            "positionSeconds": 3.0619388,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "68275",
+              "audio": "77047"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 11.7015666,
+            "positionSeconds": 3.0619388,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "68275",
+              "audio": "77047"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 13.3698999,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "68526",
+              "audio": "80653"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 13.3698999,
+            "positionSeconds": 4.0587249,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "132745",
+              "audio": "141728"
+            }
+          },
+          {
+            "phase": "partial-moof-mdat-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 13.3698999,
+            "positionSeconds": 12.3981369,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "197103",
+              "audio": "213959"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.0232199,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "197103",
+              "audio": "214522"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "235490",
+              "audio": "250267"
+            }
+          }
+        ]
+      }
+    ],
+    "windowsClassicMuxedOpus": [
+      {
+        "profile": "vp8",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 3.9945,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 11.9945,
+            "positionSeconds": 3.0947199,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "283723",
+              "audio": "100291"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 11.9945,
+            "positionSeconds": 3.0947199,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "283723",
+              "audio": "100602"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 13.9945,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "284886",
+              "audio": "103101"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 13.9945,
+            "positionSeconds": 4.0484021,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "528291",
+              "audio": "185469"
+            }
+          },
+          {
+            "phase": "partial-cluster-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 13.9945,
+            "positionSeconds": 12.9983033,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "735783",
+              "audio": "289051"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.0,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "738809",
+              "audio": "289365"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "852297",
+              "audio": "337503"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "vp9-10",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 3.9945,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 11.9945,
+            "positionSeconds": 3.0002408,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "191168",
+              "audio": "98421"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 11.9945,
+            "positionSeconds": 3.0002408,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "191168",
+              "audio": "98421"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 13.9945,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "191956",
+              "audio": "103411"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 13.9945,
+            "positionSeconds": 4.0608295,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "352887",
+              "audio": "183909"
+            }
+          },
+          {
+            "phase": "partial-cluster-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 13.9945,
+            "positionSeconds": 13.010865,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "486115",
+              "audio": "287491"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.0,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "494286",
+              "audio": "300598"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "569317",
+              "audio": "335943"
+            }
+          }
+        ]
+      },
+      {
+        "profile": "av1-10",
+        "networkRequests": 0,
+        "physicalResources": 1,
+        "result": "PASS",
+        "readerIdentityPreserved": true,
+        "playingBeforeComplete": true,
+        "pausedSeek": true,
+        "tailWaitsForPublication": true,
+        "forwardSeek": true,
+        "released": true,
+        "partialPacketStartWaits": true,
+        "phases": [
+          {
+            "phase": "partial-prefix-buffers",
+            "state": "buffering",
+            "availableSeconds": 3.9945,
+            "positionSeconds": 0.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "decoded-before-complete",
+            "state": "playing",
+            "availableSeconds": 11.9945,
+            "positionSeconds": 3.0009596,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "238340",
+              "audio": "98421"
+            }
+          },
+          {
+            "phase": "pause",
+            "state": "paused",
+            "availableSeconds": 11.9945,
+            "positionSeconds": 3.0009596,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "238340",
+              "audio": "99042"
+            }
+          },
+          {
+            "phase": "backward-seek-while-paused",
+            "state": "paused",
+            "availableSeconds": 13.9945,
+            "positionSeconds": 2.0,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "239912",
+              "audio": "99669"
+            }
+          },
+          {
+            "phase": "resume-after-seek",
+            "state": "playing",
+            "availableSeconds": 13.9945,
+            "positionSeconds": 4.0769543,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "452386",
+              "audio": "184221"
+            }
+          },
+          {
+            "phase": "partial-cluster-tail-waits-not-eof",
+            "state": "buffering",
+            "availableSeconds": 13.9945,
+            "positionSeconds": 13.0331834,
+            "complete": false,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "696031",
+              "audio": "287491"
+            }
+          },
+          {
+            "phase": "forward-seek-to-published-tail",
+            "state": "playing",
+            "availableSeconds": 20.0,
+            "positionSeconds": 17.0,
+            "complete": true,
+            "released": false,
+            "decoderIoBytes": {
+              "video": "696031",
+              "audio": "288430"
+            }
+          },
+          {
+            "phase": "complete-and-natural-eof",
+            "state": "finished",
+            "availableSeconds": null,
+            "positionSeconds": null,
+            "complete": null,
+            "released": true,
+            "decoderIoBytes": {
+              "video": "808995",
+              "audio": "335943"
+            }
+          }
+        ]
+      }
+    ],
+    "nativeSuitesPerOs": 5,
+    "nativeRegressions": {
+      "linux": [
+        {
+          "result": "PASS",
+          "passed": 468,
+          "cases": [
+            "full-uint64-counters-and-real-source-bytes",
+            "internal-leases-close-after-last-media-owner",
+            "unconfirmed-tail-is-waiting-and-short-read",
+            "rename-pins-original-identity-and-complete-allows-eof",
+            "invalid-generation-update-keeps-current-reader",
+            "changed-init-fails-persistently-even-after-restoration",
+            "unsupported-clock",
+            "negative-timestamp-offset",
+            "indexed-container-not-fmp4",
+            "unsupported-codec-hint",
+            "initialization-not-ready",
+            "wait-for-complete-head-moov",
+            "external-data-reference",
+            "encrypted-avc-rejected",
+            "actual-codec-overrides-false-h264-hint",
+            "actual-aac-object-type-must-be-lc",
+            "cancel-unblocks-media-and-closes-leases",
+            "hevc8-actual-initialization-and-resource-leases",
+            "hevc8-discover-without-codec-hint",
+            "hevc8-false-h264-hint",
+            "hevc10-actual-initialization-and-resource-leases",
+            "hevc10-discover-without-codec-hint",
+            "hevc10-false-h264-hint",
+            "hevc-config-version",
+            "hevc-config-reserved-bits",
+            "hevc-unsupported-profile",
+            "hevc-unsupported-chroma",
+            "hevc-invalid-nal-length-size",
+            "hevc-missing-parameter-arrays",
+            "hevc-excessive-parameter-arrays",
+            "hevc-incomplete-hvc1-parameter-array",
+            "hevc-parameter-nal-out-of-bounds",
+            "hevc-parameter-nal-header-mismatch",
+            "hevc-parameter-nal-zero-temporal-id",
+            "hevc-encrypted-sample-entry",
+            "hevc-invalid-data-reference",
+            "hevc-external-data-reference",
+            "hevc-confirmed-range-is-waiting",
+            "hevc-init-rewrite-is-persistent-error",
+            "hevc-cancel-closes-resource-leases",
+            "av1-8-actual-initialization-and-resource-leases",
+            "av1-8-discover-without-codec-hint",
+            "av1-8-false-hevc-hint",
+            "av1-10-actual-initialization-and-resource-leases",
+            "av1-10-discover-without-codec-hint",
+            "av1-10-false-hevc-hint",
+            "av1-sequence-header-in-configuration-required",
+            "av1-configuration-marker",
+            "av1-configuration-version",
+            "av1-high-profile",
+            "av1-invalid-level",
+            "av1-twelve-bit",
+            "av1-monochrome",
+            "av1-unsupported-chroma",
+            "av1-reserved-configuration-bits",
+            "av1-presentation-delay",
+            "av1-obu-forbidden-bit",
+            "av1-obu-missing-size",
+            "av1-obu-reserved-bit",
+            "av1-obu-unsupported-type",
+            "av1-metadata-before-sequence",
+            "av1-obu-zero-payload",
+            "av1-obu-payload-overrun",
+            "av1-obu-truncated-size",
+            "av1-sequence-config-profile-mismatch",
+            "av1-encrypted-sample-entry",
+            "av1-invalid-data-reference",
+            "av1-confirmed-range-is-waiting",
+            "av1-init-rewrite-is-persistent-error",
+            "av1-cancel-closes-resource-leases",
+            "vp9-8-actual-initialization-and-resource-leases",
+            "vp9-8-discover-without-codec-hint",
+            "vp9-8-false-av1-hint",
+            "vp9-10-actual-initialization-and-resource-leases",
+            "vp9-10-discover-without-codec-hint",
+            "vp9-10-false-av1-hint",
+            "vp9-missing-configuration",
+            "vp9-truncated-configuration",
+            "vp9-version",
+            "vp9-flags",
+            "vp9-profile-1",
+            "vp9-profile-3",
+            "vp9-invalid-level",
+            "vp9-profile-depth-mismatch",
+            "vp9-twelve-bit",
+            "vp9-chroma-422",
+            "vp9-chroma-444",
+            "vp9-chroma-reserved",
+            "vp9-primaries-reserved",
+            "vp9-transfer-reserved",
+            "vp9-matrix-reserved",
+            "vp9-rgb-matrix-with-420",
+            "vp9-nonzero-init-size",
+            "vp9-encrypted-sample-entry",
+            "vp9-invalid-data-reference",
+            "vp9-external-data-reference",
+            "vp9-colocated-chroma-and-fullrange",
+            "vp9-confirmed-range-is-waiting",
+            "vp9-init-rewrite-is-persistent-error",
+            "vp9-cancel-closes-resource-leases",
+            "opus-1-actual-init-and-resource-leases",
+            "opus-1-discover-without-codec-hint",
+            "opus-1-false-aac-hint",
+            "opus-2-actual-init-and-resource-leases",
+            "opus-2-discover-without-codec-hint",
+            "opus-2-false-aac-hint",
+            "opus-short-config",
+            "opus-missing-config",
+            "opus-config-version",
+            "opus-zero-channels",
+            "opus-multichannel",
+            "opus-mapping-family-1",
+            "opus-mapping-family-reserved",
+            "opus-preskip-edit-mismatch",
+            "opus-sample-version",
+            "opus-sample-channel-mismatch",
+            "opus-sample-size",
+            "opus-sample-rate",
+            "opus-media-clock",
+            "opus-edit-flags",
+            "opus-multiple-edits",
+            "opus-edit-version",
+            "opus-edit-rate",
+            "opus-external-data-reference",
+            "opus-invalid-data-reference",
+            "opus-encrypted-entry",
+            "opus-encrypted-config",
+            "opus-missing-edit-list",
+            "opus-informational-input-rate-and-signed-gain",
+            "opus-confirmed-range-is-waiting",
+            "opus-init-rewrite-is-persistent-error",
+            "opus-cancel-closes-resource-leases",
+            "webm-vp9-8-actual-header-and-pinned-leases",
+            "webm-vp9-8-discover-without-hints",
+            "webm-vp9-10-actual-header-and-pinned-leases",
+            "webm-vp9-10-discover-without-hints",
+            "webm-rename-complete-and-identity-pinning",
+            "webm-retained-readers-hold-files",
+            "webm-confirmed-prefix-short-read-wait",
+            "webm-cancel-closes-resource-leases",
+            "webm-doctype",
+            "webm-reader-version",
+            "webm-doctype-read-version-zero",
+            "webm-max-id-width-zero",
+            "webm-max-size-width-zero",
+            "webm-wrong-video-codec",
+            "webm-wrong-audio-codec",
+            "webm-zero-scale",
+            "webm-zero-width",
+            "webm-zero-duration",
+            "webm-opus-delay-mismatch",
+            "webm-opus-seek-preroll",
+            "webm-opus-header-version",
+            "webm-opus-multichannel",
+            "webm-opus-mapping-family",
+            "webm-codec-hint-mismatch",
+            "webm-false-container-hint",
+            "webm-wait-for-complete-initialization",
+            "webm-published-header-rewrite-is-persistent-error",
+            "webm-av1-8-actual-header-and-pinned-leases",
+            "webm-av1-8-discover-without-hint",
+            "webm-av1-10-actual-header-and-pinned-leases",
+            "webm-av1-10-discover-without-hint",
+            "webm-av1-marker",
+            "webm-av1-version",
+            "webm-av1-profile",
+            "webm-av1-level",
+            "webm-av1-twelve-bit",
+            "webm-av1-monochrome",
+            "webm-av1-chroma",
+            "webm-av1-reserved-bits",
+            "webm-av1-delay",
+            "webm-av1-obu-forbidden",
+            "webm-av1-obu-no-size",
+            "webm-av1-obu-reserved",
+            "webm-av1-obu-frame-in-config",
+            "webm-av1-metadata-before-sequence",
+            "webm-av1-zero-obu-payload",
+            "webm-av1-payload-overrun",
+            "webm-av1-sequence-profile-mismatch",
+            "webm-av1-missing-codec-private",
+            "webm-av1-false-vp9-hint",
+            "webm-av1-rename-complete-and-identity-pinning",
+            "webm-av1-confirmed-prefix-short-read-wait",
+            "webm-av1-cancel-closes-resource-leases",
+            "webm-av1-published-header-rewrite-is-persistent-error",
+            "mixed-h264-opus-actual-initialization-and-pinned-leases",
+            "mixed-h264-opus-discover-without-hints",
+            "mixed-h264-opus-rename-complete-and-identity-pinning",
+            "mixed-h264-opus-confirmed-prefix-short-read-wait",
+            "mixed-h264-opus-cancel-closes-resource-leases",
+            "mixed-h264-opus-false-container-0",
+            "mixed-h264-opus-false-container-1",
+            "mixed-hevc8-opus-actual-initialization-and-pinned-leases",
+            "mixed-hevc8-opus-discover-without-hints",
+            "mixed-hevc8-opus-rename-complete-and-identity-pinning",
+            "mixed-hevc8-opus-confirmed-prefix-short-read-wait",
+            "mixed-hevc8-opus-cancel-closes-resource-leases",
+            "mixed-hevc8-opus-false-container-0",
+            "mixed-hevc8-opus-false-container-1",
+            "mixed-hevc10-opus-actual-initialization-and-pinned-leases",
+            "mixed-hevc10-opus-discover-without-hints",
+            "mixed-hevc10-opus-rename-complete-and-identity-pinning",
+            "mixed-hevc10-opus-confirmed-prefix-short-read-wait",
+            "mixed-hevc10-opus-cancel-closes-resource-leases",
+            "mixed-hevc10-opus-false-container-0",
+            "mixed-hevc10-opus-false-container-1",
+            "mixed-av1-8-opus-actual-initialization-and-pinned-leases",
+            "mixed-av1-8-opus-discover-without-hints",
+            "mixed-av1-8-opus-rename-complete-and-identity-pinning",
+            "mixed-av1-8-opus-confirmed-prefix-short-read-wait",
+            "mixed-av1-8-opus-cancel-closes-resource-leases",
+            "mixed-av1-8-opus-false-container-0",
+            "mixed-av1-8-opus-false-container-1",
+            "mixed-av1-10-opus-actual-initialization-and-pinned-leases",
+            "mixed-av1-10-opus-discover-without-hints",
+            "mixed-av1-10-opus-rename-complete-and-identity-pinning",
+            "mixed-av1-10-opus-confirmed-prefix-short-read-wait",
+            "mixed-av1-10-opus-cancel-closes-resource-leases",
+            "mixed-av1-10-opus-false-container-0",
+            "mixed-av1-10-opus-false-container-1",
+            "mixed-vp9-8-opus-actual-initialization-and-pinned-leases",
+            "mixed-vp9-8-opus-discover-without-hints",
+            "mixed-vp9-8-opus-rename-complete-and-identity-pinning",
+            "mixed-vp9-8-opus-confirmed-prefix-short-read-wait",
+            "mixed-vp9-8-opus-cancel-closes-resource-leases",
+            "mixed-vp9-8-opus-false-container-0",
+            "mixed-vp9-8-opus-false-container-1",
+            "mixed-vp9-10-opus-actual-initialization-and-pinned-leases",
+            "mixed-vp9-10-opus-discover-without-hints",
+            "mixed-vp9-10-opus-rename-complete-and-identity-pinning",
+            "mixed-vp9-10-opus-confirmed-prefix-short-read-wait",
+            "mixed-vp9-10-opus-cancel-closes-resource-leases",
+            "mixed-vp9-10-opus-false-container-0",
+            "mixed-vp9-10-opus-false-container-1",
+            "mixed-webm-av1-8-aac-lc-actual-initialization-and-pinned-leases",
+            "mixed-webm-av1-8-aac-lc-discover-without-hints",
+            "mixed-webm-av1-8-aac-lc-rename-complete-and-identity-pinning",
+            "mixed-webm-av1-8-aac-lc-confirmed-prefix-short-read-wait",
+            "mixed-webm-av1-8-aac-lc-cancel-closes-resource-leases",
+            "mixed-webm-av1-8-aac-lc-false-container-0",
+            "mixed-webm-av1-8-aac-lc-false-container-1",
+            "mixed-webm-av1-8-opus-actual-initialization-and-pinned-leases",
+            "mixed-webm-av1-8-opus-discover-without-hints",
+            "mixed-webm-av1-8-opus-rename-complete-and-identity-pinning",
+            "mixed-webm-av1-8-opus-confirmed-prefix-short-read-wait",
+            "mixed-webm-av1-8-opus-cancel-closes-resource-leases",
+            "mixed-webm-av1-8-opus-false-container-0",
+            "mixed-webm-av1-8-opus-false-container-1",
+            "mixed-webm-av1-10-aac-lc-actual-initialization-and-pinned-leases",
+            "mixed-webm-av1-10-aac-lc-discover-without-hints",
+            "mixed-webm-av1-10-aac-lc-rename-complete-and-identity-pinning",
+            "mixed-webm-av1-10-aac-lc-confirmed-prefix-short-read-wait",
+            "mixed-webm-av1-10-aac-lc-cancel-closes-resource-leases",
+            "mixed-webm-av1-10-aac-lc-false-container-0",
+            "mixed-webm-av1-10-aac-lc-false-container-1",
+            "mixed-webm-av1-10-opus-actual-initialization-and-pinned-leases",
+            "mixed-webm-av1-10-opus-discover-without-hints",
+            "mixed-webm-av1-10-opus-rename-complete-and-identity-pinning",
+            "mixed-webm-av1-10-opus-confirmed-prefix-short-read-wait",
+            "mixed-webm-av1-10-opus-cancel-closes-resource-leases",
+            "mixed-webm-av1-10-opus-false-container-0",
+            "mixed-webm-av1-10-opus-false-container-1",
+            "mixed-webm-vp9-8-aac-lc-actual-initialization-and-pinned-leases",
+            "mixed-webm-vp9-8-aac-lc-discover-without-hints",
+            "mixed-webm-vp9-8-aac-lc-rename-complete-and-identity-pinning",
+            "mixed-webm-vp9-8-aac-lc-confirmed-prefix-short-read-wait",
+            "mixed-webm-vp9-8-aac-lc-cancel-closes-resource-leases",
+            "mixed-webm-vp9-8-aac-lc-false-container-0",
+            "mixed-webm-vp9-8-aac-lc-false-container-1",
+            "mixed-webm-vp9-8-opus-actual-initialization-and-pinned-leases",
+            "mixed-webm-vp9-8-opus-discover-without-hints",
+            "mixed-webm-vp9-8-opus-rename-complete-and-identity-pinning",
+            "mixed-webm-vp9-8-opus-confirmed-prefix-short-read-wait",
+            "mixed-webm-vp9-8-opus-cancel-closes-resource-leases",
+            "mixed-webm-vp9-8-opus-false-container-0",
+            "mixed-webm-vp9-8-opus-false-container-1",
+            "mixed-webm-vp9-10-aac-lc-actual-initialization-and-pinned-leases",
+            "mixed-webm-vp9-10-aac-lc-discover-without-hints",
+            "mixed-webm-vp9-10-aac-lc-rename-complete-and-identity-pinning",
+            "mixed-webm-vp9-10-aac-lc-confirmed-prefix-short-read-wait",
+            "mixed-webm-vp9-10-aac-lc-cancel-closes-resource-leases",
+            "mixed-webm-vp9-10-aac-lc-false-container-0",
+            "mixed-webm-vp9-10-aac-lc-false-container-1",
+            "mixed-webm-vp9-10-opus-actual-initialization-and-pinned-leases",
+            "mixed-webm-vp9-10-opus-discover-without-hints",
+            "mixed-webm-vp9-10-opus-rename-complete-and-identity-pinning",
+            "mixed-webm-vp9-10-opus-confirmed-prefix-short-read-wait",
+            "mixed-webm-vp9-10-opus-cancel-closes-resource-leases",
+            "mixed-webm-vp9-10-opus-false-container-0",
+            "mixed-webm-vp9-10-opus-false-container-1",
+            "vp8-vorbis-webm-vp8-opus-2-actual-headers",
+            "vp8-vorbis-webm-vp8-opus-2-discovery",
+            "vp8-vorbis-webm-vp8-opus-2-rename-complete",
+            "vp8-vorbis-webm-vp8-opus-2-waiting",
+            "vp8-vorbis-webm-vp8-opus-2-cancel",
+            "vp8-vorbis-webm-vp8-aac-lc-2-actual-headers",
+            "vp8-vorbis-webm-vp8-aac-lc-2-discovery",
+            "vp8-vorbis-webm-vp8-aac-lc-2-rename-complete",
+            "vp8-vorbis-webm-vp8-aac-lc-2-waiting",
+            "vp8-vorbis-webm-vp8-aac-lc-2-cancel",
+            "vp8-vorbis-webm-vp8-opus-2-actual-headers",
+            "vp8-vorbis-webm-vp8-opus-2-discovery",
+            "vp8-vorbis-webm-vp8-opus-2-rename-complete",
+            "vp8-vorbis-webm-vp8-opus-2-waiting",
+            "vp8-vorbis-webm-vp8-opus-2-cancel",
+            "vp8-vorbis-webm-vp8-vorbis-1-actual-headers",
+            "vp8-vorbis-webm-vp8-vorbis-1-discovery",
+            "vp8-vorbis-webm-vp8-vorbis-1-rename-complete",
+            "vp8-vorbis-webm-vp8-vorbis-1-waiting",
+            "vp8-vorbis-webm-vp8-vorbis-1-cancel",
+            "vp8-vorbis-webm-vp8-vorbis-2-actual-headers",
+            "vp8-vorbis-webm-vp8-vorbis-2-discovery",
+            "vp8-vorbis-webm-vp8-vorbis-2-rename-complete",
+            "vp8-vorbis-webm-vp8-vorbis-2-waiting",
+            "vp8-vorbis-webm-vp8-vorbis-2-cancel",
+            "vp8-vorbis-webm-vp9-8-vorbis-1-actual-headers",
+            "vp8-vorbis-webm-vp9-8-vorbis-1-discovery",
+            "vp8-vorbis-webm-vp9-8-vorbis-1-rename-complete",
+            "vp8-vorbis-webm-vp9-8-vorbis-1-waiting",
+            "vp8-vorbis-webm-vp9-8-vorbis-1-cancel",
+            "vp8-vorbis-webm-vp9-8-vorbis-2-actual-headers",
+            "vp8-vorbis-webm-vp9-8-vorbis-2-discovery",
+            "vp8-vorbis-webm-vp9-8-vorbis-2-rename-complete",
+            "vp8-vorbis-webm-vp9-8-vorbis-2-waiting",
+            "vp8-vorbis-webm-vp9-8-vorbis-2-cancel",
+            "vp8-vorbis-webm-vp9-10-vorbis-1-actual-headers",
+            "vp8-vorbis-webm-vp9-10-vorbis-1-discovery",
+            "vp8-vorbis-webm-vp9-10-vorbis-1-rename-complete",
+            "vp8-vorbis-webm-vp9-10-vorbis-1-waiting",
+            "vp8-vorbis-webm-vp9-10-vorbis-1-cancel",
+            "vp8-vorbis-webm-vp9-10-vorbis-2-actual-headers",
+            "vp8-vorbis-webm-vp9-10-vorbis-2-discovery",
+            "vp8-vorbis-webm-vp9-10-vorbis-2-rename-complete",
+            "vp8-vorbis-webm-vp9-10-vorbis-2-waiting",
+            "vp8-vorbis-webm-vp9-10-vorbis-2-cancel",
+            "vp8-vorbis-webm-av1-8-vorbis-1-actual-headers",
+            "vp8-vorbis-webm-av1-8-vorbis-1-discovery",
+            "vp8-vorbis-webm-av1-8-vorbis-1-rename-complete",
+            "vp8-vorbis-webm-av1-8-vorbis-1-waiting",
+            "vp8-vorbis-webm-av1-8-vorbis-1-cancel",
+            "vp8-vorbis-webm-av1-8-vorbis-2-actual-headers",
+            "vp8-vorbis-webm-av1-8-vorbis-2-discovery",
+            "vp8-vorbis-webm-av1-8-vorbis-2-rename-complete",
+            "vp8-vorbis-webm-av1-8-vorbis-2-waiting",
+            "vp8-vorbis-webm-av1-8-vorbis-2-cancel",
+            "vp8-vorbis-webm-av1-10-vorbis-1-actual-headers",
+            "vp8-vorbis-webm-av1-10-vorbis-1-discovery",
+            "vp8-vorbis-webm-av1-10-vorbis-1-rename-complete",
+            "vp8-vorbis-webm-av1-10-vorbis-1-waiting",
+            "vp8-vorbis-webm-av1-10-vorbis-1-cancel",
+            "vp8-vorbis-webm-av1-10-vorbis-2-actual-headers",
+            "vp8-vorbis-webm-av1-10-vorbis-2-discovery",
+            "vp8-vorbis-webm-av1-10-vorbis-2-rename-complete",
+            "vp8-vorbis-webm-av1-10-vorbis-2-waiting",
+            "vp8-vorbis-webm-av1-10-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-h264-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-h264-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-h264-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-h264-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-h264-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-h264-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-h264-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-h264-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-h264-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-h264-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-hevc8-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-hevc8-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-hevc8-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-hevc8-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-hevc8-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-hevc8-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-hevc8-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-hevc8-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-hevc8-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-hevc8-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-hevc10-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-hevc10-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-hevc10-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-hevc10-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-hevc10-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-hevc10-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-hevc10-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-hevc10-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-hevc10-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-hevc10-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-av1-8-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-av1-8-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-av1-8-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-av1-8-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-av1-8-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-av1-8-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-av1-8-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-av1-8-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-av1-8-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-av1-8-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-av1-10-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-av1-10-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-av1-10-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-av1-10-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-av1-10-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-av1-10-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-av1-10-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-av1-10-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-av1-10-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-av1-10-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-2-cancel",
+            "vorbis-header-count",
+            "vorbis-header-length",
+            "vorbis-header-id",
+            "vorbis-header-comment",
+            "vorbis-header-setup",
+            "vorbis-id-version",
+            "vorbis-id-channels",
+            "vorbis-id-rate",
+            "vorbis-id-blocks",
+            "vorbis-id-framing",
+            "vorbis-codebook-sync",
+            "multi-audio-discovery-labels-languages-optional-missing-srt-and-cache-cleanup",
+            "late-srt-completion-creates-pinned-reader-and-private-copy",
+            "default-order-change-requires-reopen-and-preserves-current",
+            "optional-default-audio",
+            "two-defaults",
+            "false-secondary-codec",
+            "required-subtitle",
+            "subtitle-nonzero-offset",
+            "eight-audio-tracks-boundary",
+            "nine-audio-tracks-rejected",
+            "invalid-srt-utf8-isolated",
+            "invalid-srt-nul-isolated",
+            "invalid-srt-clock-isolated",
+            "invalid-srt-reverse-isolated",
+            "invalid-srt-bare-cr-isolated",
+            "invalid-srt-index-isolated",
+            "missing-completed-srt-isolated",
+            "oversized-srt-isolated-before-reading",
+            "optional-writer-failure-isolated",
+            "verified-copy-survives-original-truncation-on-verify",
+            "verified-copy-survives-original-truncation-on-update",
+            "late-malformed-srt-update-keeps-av-and-existing-subtitle",
+            "pending-optional-audio-complete",
+            "pending-optional-audio-missing",
+            "pending-optional-audio-invalid",
+            "pending-optional-audio-failed",
+            "partial-optional-audio-ready-and-append",
+            "short-optional-audio-waits-until-five-seconds",
+            "active-optional-audio-writer-failed",
+            "active-optional-audio-initialization-rewrite",
+            "active-optional-audio-decoder-read-truncate"
+          ]
+        },
+        {
+          "result": "PASS",
+          "scope": "muxed-vp9-fmp4-native",
+          "count": 34,
+          "checks": [
+            "partial-fragment-index-immutable-prefix-and-complete-vp9-84",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-84",
+            "partial-fragment-index-immutable-prefix-and-complete-vp9-104",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-104",
+            "partial-fragment-index-immutable-prefix-and-complete-vp9-10-fractional4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-10-fractional4",
+            "partial-fragment-index-immutable-prefix-and-complete-vp9-880",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-880",
+            "reject-vp9-actual-with-h264-hint",
+            "reject-vp9-actual-with-hevc-hint",
+            "reject-vp9-actual-with-av1-hint",
+            "reject-vp9-actual-with-default-avc-hint",
+            "reject-avc-actual-with-vp9-hint",
+            "reject-vp9-version",
+            "reject-vp9-flags",
+            "reject-vp9-profile-1",
+            "reject-vp9-profile-3",
+            "reject-vp9-invalid-level",
+            "reject-vp9-profile-depth-mismatch",
+            "reject-vp9-twelve-bit",
+            "reject-vp9-chroma-422",
+            "reject-vp9-chroma-444",
+            "reject-vp9-reserved-chroma",
+            "reject-vp9-reserved-primaries",
+            "reject-vp9-reserved-transfer",
+            "reject-vp9-reserved-matrix",
+            "reject-vp9-rgb-matrix-with-420",
+            "reject-vp9-nonzero-initialization-size",
+            "reject-vp9-missing-configuration",
+            "reject-vp9-truncated-configuration",
+            "metadata-codec-change-keeps-published-vp9-index-and-bytes",
+            "vp9-partial-init-no-lease-leak",
+            "vp9-cancel-no-lease-leak",
+            "vp9-sha-rewrite-no-lease-leak"
+          ],
+          "realMedia": [
+            {
+              "profile": "vp9-8",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "vp9-10",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "vp9-10-fractional",
+              "seconds": 4,
+              "accessUnits": [
+                120,
+                174
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "vp9-8",
+              "seconds": 80,
+              "accessUnits": [
+                2000,
+                3751
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            }
+          ],
+          "playerDecoderTested": false,
+          "networkRequests": 0,
+          "physicalAvSyncMeasured": false
+        },
+        {
+          "result": "PASS",
+          "scope": "muxed-av1-fmp4-native",
+          "count": 35,
+          "checks": [
+            "partial-fragment-index-immutable-prefix-and-complete-av1-84",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-av1-84",
+            "partial-fragment-index-immutable-prefix-and-complete-av1-104",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-av1-104",
+            "partial-fragment-index-immutable-prefix-and-complete-av1-10-fractional4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-av1-10-fractional4",
+            "partial-fragment-index-immutable-prefix-and-complete-av1-880",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-av1-880",
+            "reject-av1-actual-with-h264-hint",
+            "reject-av1-actual-with-hevc-hint",
+            "reject-av1-actual-with-default-avc-hint",
+            "reject-avc-actual-with-av1-hint",
+            "reject-av1-marker",
+            "reject-av1-version",
+            "reject-av1-high-profile",
+            "reject-av1-invalid-level",
+            "reject-av1-twelve-bit",
+            "reject-av1-monochrome",
+            "reject-av1-unsupported-chroma",
+            "reject-av1-reserved-bits",
+            "reject-av1-presentation-delay",
+            "reject-av1-obu-forbidden-bit",
+            "reject-av1-obu-missing-size",
+            "reject-av1-obu-reserved-bit",
+            "reject-av1-obu-unsupported-type",
+            "reject-av1-metadata-before-sequence",
+            "reject-av1-obu-zero-payload",
+            "reject-av1-obu-payload-overrun",
+            "reject-av1-obu-truncated-size",
+            "reject-av1-sequence-profile-mismatch",
+            "reject-av1-missing-sequence-header",
+            "metadata-codec-change-keeps-published-av1-index-and-bytes",
+            "av1-partial-init-no-lease-leak",
+            "av1-cancel-no-lease-leak",
+            "av1-sha-rewrite-no-lease-leak"
+          ],
+          "realMedia": [
+            {
+              "profile": "av1-8",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "av1-10",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "av1-10-fractional",
+              "seconds": 4,
+              "accessUnits": [
+                120,
+                174
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "av1-8",
+              "seconds": 80,
+              "accessUnits": [
+                2000,
+                3751
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            }
+          ],
+          "playerDecoderTested": false,
+          "networkRequests": 0,
+          "physicalAvSyncMeasured": false
+        },
+        {
+          "result": "PASS",
+          "scope": "muxed-hevc-fmp4-native",
+          "count": 22,
+          "checks": [
+            "partial-fragment-index-immutable-prefix-and-complete-hevc-main4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-hevc-main4",
+            "partial-fragment-index-immutable-prefix-and-complete-hevc10-fractional4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-hevc10-fractional4",
+            "partial-fragment-index-immutable-prefix-and-complete-hevc-delayed4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-hevc-delayed4",
+            "partial-fragment-index-immutable-prefix-and-complete-hevc-main80",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-hevc-main80",
+            "reject-hevc-actual-with-avc-hint",
+            "reject-hevc-actual-with-default-avc-hint",
+            "reject-avc-actual-with-hevc-hint",
+            "reject-nonempty-sample-dependency-table",
+            "reject-invalid-sample-dependency-flags",
+            "accept-empty-sample-dependency-table",
+            "reject-configuration-version",
+            "reject-unsupported-profile",
+            "reject-non-four-byte-nal-length",
+            "reject-unsupported-chroma",
+            "reject-unsupported-bit-depth",
+            "reject-unsupported-array-type",
+            "reject-hvc1-incomplete-parameter-set-array",
+            "metadata-codec-change-keeps-published-hevc-index-and-bytes"
+          ],
+          "realMedia": [
+            {
+              "profile": "hevc-main",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "hevc10-fractional",
+              "seconds": 4,
+              "accessUnits": [
+                120,
+                174
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "hevc-delayed",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "hevc-main",
+              "seconds": 80,
+              "accessUnits": [
+                2000,
+                3751
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            }
+          ],
+          "playerDecoderTested": false,
+          "networkRequests": 0,
+          "physicalAvSyncMeasured": false
+        },
+        {
+          "result": "PASS",
+          "scope": "muxed-fmp4-native",
+          "count": 21,
+          "checks": [
+            "partial-fragment-index-immutable-prefix-and-complete-main-bframes4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-main-bframes4",
+            "partial-fragment-index-immutable-prefix-and-complete-high-fractional4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-high-fractional4",
+            "partial-fragment-index-immutable-prefix-and-complete-main-delayed4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-main-delayed4",
+            "partial-fragment-index-immutable-prefix-and-complete-main-bframes80",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-main-bframes80",
+            "fragment-sequence-error-closes-both-views",
+            "payload-offset-outside-mdat-closes-both-views",
+            "unknown-track-closes-both-views",
+            "overlapping-audio-video-payload-closes-both-views",
+            "reject-external-data-reference",
+            "reject-nonfragmented-sample-table",
+            "reject-unsupported-actual-codec",
+            "sha-rewrite-fails-both-views",
+            "truncate-fails-both-views",
+            "file-replacement-protected-until-release",
+            "partial-mdat-is-fatal-only-on-explicit-complete",
+            "partial-initial-header-waits-without-leak",
+            "cancellation-closes-both-views"
+          ],
+          "realMedia": [
+            {
+              "profile": "main-bframes",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "high-fractional",
+              "seconds": 4,
+              "accessUnits": [
+                120,
+                174
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "main-delayed",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "main-bframes",
+              "seconds": 80,
+              "accessUnits": [
+                2000,
+                3751
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            }
+          ],
+          "playerDecoderTested": false,
+          "networkRequests": 0,
+          "physicalAvSyncMeasured": false,
+          "replacementProtectedByOs": false
+        }
+      ],
+      "windows": [
+        {
+          "result": "PASS",
+          "passed": 468,
+          "cases": [
+            "full-uint64-counters-and-real-source-bytes",
+            "internal-leases-close-after-last-media-owner",
+            "unconfirmed-tail-is-waiting-and-short-read",
+            "rename-pins-original-identity-and-complete-allows-eof",
+            "invalid-generation-update-keeps-current-reader",
+            "changed-init-fails-persistently-even-after-restoration",
+            "unsupported-clock",
+            "negative-timestamp-offset",
+            "indexed-container-not-fmp4",
+            "unsupported-codec-hint",
+            "initialization-not-ready",
+            "wait-for-complete-head-moov",
+            "external-data-reference",
+            "encrypted-avc-rejected",
+            "actual-codec-overrides-false-h264-hint",
+            "actual-aac-object-type-must-be-lc",
+            "cancel-unblocks-media-and-closes-leases",
+            "hevc8-actual-initialization-and-resource-leases",
+            "hevc8-discover-without-codec-hint",
+            "hevc8-false-h264-hint",
+            "hevc10-actual-initialization-and-resource-leases",
+            "hevc10-discover-without-codec-hint",
+            "hevc10-false-h264-hint",
+            "hevc-config-version",
+            "hevc-config-reserved-bits",
+            "hevc-unsupported-profile",
+            "hevc-unsupported-chroma",
+            "hevc-invalid-nal-length-size",
+            "hevc-missing-parameter-arrays",
+            "hevc-excessive-parameter-arrays",
+            "hevc-incomplete-hvc1-parameter-array",
+            "hevc-parameter-nal-out-of-bounds",
+            "hevc-parameter-nal-header-mismatch",
+            "hevc-parameter-nal-zero-temporal-id",
+            "hevc-encrypted-sample-entry",
+            "hevc-invalid-data-reference",
+            "hevc-external-data-reference",
+            "hevc-confirmed-range-is-waiting",
+            "hevc-init-rewrite-is-persistent-error",
+            "hevc-cancel-closes-resource-leases",
+            "av1-8-actual-initialization-and-resource-leases",
+            "av1-8-discover-without-codec-hint",
+            "av1-8-false-hevc-hint",
+            "av1-10-actual-initialization-and-resource-leases",
+            "av1-10-discover-without-codec-hint",
+            "av1-10-false-hevc-hint",
+            "av1-sequence-header-in-configuration-required",
+            "av1-configuration-marker",
+            "av1-configuration-version",
+            "av1-high-profile",
+            "av1-invalid-level",
+            "av1-twelve-bit",
+            "av1-monochrome",
+            "av1-unsupported-chroma",
+            "av1-reserved-configuration-bits",
+            "av1-presentation-delay",
+            "av1-obu-forbidden-bit",
+            "av1-obu-missing-size",
+            "av1-obu-reserved-bit",
+            "av1-obu-unsupported-type",
+            "av1-metadata-before-sequence",
+            "av1-obu-zero-payload",
+            "av1-obu-payload-overrun",
+            "av1-obu-truncated-size",
+            "av1-sequence-config-profile-mismatch",
+            "av1-encrypted-sample-entry",
+            "av1-invalid-data-reference",
+            "av1-confirmed-range-is-waiting",
+            "av1-init-rewrite-is-persistent-error",
+            "av1-cancel-closes-resource-leases",
+            "vp9-8-actual-initialization-and-resource-leases",
+            "vp9-8-discover-without-codec-hint",
+            "vp9-8-false-av1-hint",
+            "vp9-10-actual-initialization-and-resource-leases",
+            "vp9-10-discover-without-codec-hint",
+            "vp9-10-false-av1-hint",
+            "vp9-missing-configuration",
+            "vp9-truncated-configuration",
+            "vp9-version",
+            "vp9-flags",
+            "vp9-profile-1",
+            "vp9-profile-3",
+            "vp9-invalid-level",
+            "vp9-profile-depth-mismatch",
+            "vp9-twelve-bit",
+            "vp9-chroma-422",
+            "vp9-chroma-444",
+            "vp9-chroma-reserved",
+            "vp9-primaries-reserved",
+            "vp9-transfer-reserved",
+            "vp9-matrix-reserved",
+            "vp9-rgb-matrix-with-420",
+            "vp9-nonzero-init-size",
+            "vp9-encrypted-sample-entry",
+            "vp9-invalid-data-reference",
+            "vp9-external-data-reference",
+            "vp9-colocated-chroma-and-fullrange",
+            "vp9-confirmed-range-is-waiting",
+            "vp9-init-rewrite-is-persistent-error",
+            "vp9-cancel-closes-resource-leases",
+            "opus-1-actual-init-and-resource-leases",
+            "opus-1-discover-without-codec-hint",
+            "opus-1-false-aac-hint",
+            "opus-2-actual-init-and-resource-leases",
+            "opus-2-discover-without-codec-hint",
+            "opus-2-false-aac-hint",
+            "opus-short-config",
+            "opus-missing-config",
+            "opus-config-version",
+            "opus-zero-channels",
+            "opus-multichannel",
+            "opus-mapping-family-1",
+            "opus-mapping-family-reserved",
+            "opus-preskip-edit-mismatch",
+            "opus-sample-version",
+            "opus-sample-channel-mismatch",
+            "opus-sample-size",
+            "opus-sample-rate",
+            "opus-media-clock",
+            "opus-edit-flags",
+            "opus-multiple-edits",
+            "opus-edit-version",
+            "opus-edit-rate",
+            "opus-external-data-reference",
+            "opus-invalid-data-reference",
+            "opus-encrypted-entry",
+            "opus-encrypted-config",
+            "opus-missing-edit-list",
+            "opus-informational-input-rate-and-signed-gain",
+            "opus-confirmed-range-is-waiting",
+            "opus-init-rewrite-is-persistent-error",
+            "opus-cancel-closes-resource-leases",
+            "webm-vp9-8-actual-header-and-pinned-leases",
+            "webm-vp9-8-discover-without-hints",
+            "webm-vp9-10-actual-header-and-pinned-leases",
+            "webm-vp9-10-discover-without-hints",
+            "webm-rename-complete-and-identity-pinning",
+            "webm-retained-readers-hold-files",
+            "webm-confirmed-prefix-short-read-wait",
+            "webm-cancel-closes-resource-leases",
+            "webm-doctype",
+            "webm-reader-version",
+            "webm-doctype-read-version-zero",
+            "webm-max-id-width-zero",
+            "webm-max-size-width-zero",
+            "webm-wrong-video-codec",
+            "webm-wrong-audio-codec",
+            "webm-zero-scale",
+            "webm-zero-width",
+            "webm-zero-duration",
+            "webm-opus-delay-mismatch",
+            "webm-opus-seek-preroll",
+            "webm-opus-header-version",
+            "webm-opus-multichannel",
+            "webm-opus-mapping-family",
+            "webm-codec-hint-mismatch",
+            "webm-false-container-hint",
+            "webm-wait-for-complete-initialization",
+            "webm-published-header-rewrite-is-persistent-error",
+            "webm-av1-8-actual-header-and-pinned-leases",
+            "webm-av1-8-discover-without-hint",
+            "webm-av1-10-actual-header-and-pinned-leases",
+            "webm-av1-10-discover-without-hint",
+            "webm-av1-marker",
+            "webm-av1-version",
+            "webm-av1-profile",
+            "webm-av1-level",
+            "webm-av1-twelve-bit",
+            "webm-av1-monochrome",
+            "webm-av1-chroma",
+            "webm-av1-reserved-bits",
+            "webm-av1-delay",
+            "webm-av1-obu-forbidden",
+            "webm-av1-obu-no-size",
+            "webm-av1-obu-reserved",
+            "webm-av1-obu-frame-in-config",
+            "webm-av1-metadata-before-sequence",
+            "webm-av1-zero-obu-payload",
+            "webm-av1-payload-overrun",
+            "webm-av1-sequence-profile-mismatch",
+            "webm-av1-missing-codec-private",
+            "webm-av1-false-vp9-hint",
+            "webm-av1-rename-complete-and-identity-pinning",
+            "webm-av1-confirmed-prefix-short-read-wait",
+            "webm-av1-cancel-closes-resource-leases",
+            "webm-av1-published-header-rewrite-is-persistent-error",
+            "mixed-h264-opus-actual-initialization-and-pinned-leases",
+            "mixed-h264-opus-discover-without-hints",
+            "mixed-h264-opus-rename-complete-and-identity-pinning",
+            "mixed-h264-opus-confirmed-prefix-short-read-wait",
+            "mixed-h264-opus-cancel-closes-resource-leases",
+            "mixed-h264-opus-false-container-0",
+            "mixed-h264-opus-false-container-1",
+            "mixed-hevc8-opus-actual-initialization-and-pinned-leases",
+            "mixed-hevc8-opus-discover-without-hints",
+            "mixed-hevc8-opus-rename-complete-and-identity-pinning",
+            "mixed-hevc8-opus-confirmed-prefix-short-read-wait",
+            "mixed-hevc8-opus-cancel-closes-resource-leases",
+            "mixed-hevc8-opus-false-container-0",
+            "mixed-hevc8-opus-false-container-1",
+            "mixed-hevc10-opus-actual-initialization-and-pinned-leases",
+            "mixed-hevc10-opus-discover-without-hints",
+            "mixed-hevc10-opus-rename-complete-and-identity-pinning",
+            "mixed-hevc10-opus-confirmed-prefix-short-read-wait",
+            "mixed-hevc10-opus-cancel-closes-resource-leases",
+            "mixed-hevc10-opus-false-container-0",
+            "mixed-hevc10-opus-false-container-1",
+            "mixed-av1-8-opus-actual-initialization-and-pinned-leases",
+            "mixed-av1-8-opus-discover-without-hints",
+            "mixed-av1-8-opus-rename-complete-and-identity-pinning",
+            "mixed-av1-8-opus-confirmed-prefix-short-read-wait",
+            "mixed-av1-8-opus-cancel-closes-resource-leases",
+            "mixed-av1-8-opus-false-container-0",
+            "mixed-av1-8-opus-false-container-1",
+            "mixed-av1-10-opus-actual-initialization-and-pinned-leases",
+            "mixed-av1-10-opus-discover-without-hints",
+            "mixed-av1-10-opus-rename-complete-and-identity-pinning",
+            "mixed-av1-10-opus-confirmed-prefix-short-read-wait",
+            "mixed-av1-10-opus-cancel-closes-resource-leases",
+            "mixed-av1-10-opus-false-container-0",
+            "mixed-av1-10-opus-false-container-1",
+            "mixed-vp9-8-opus-actual-initialization-and-pinned-leases",
+            "mixed-vp9-8-opus-discover-without-hints",
+            "mixed-vp9-8-opus-rename-complete-and-identity-pinning",
+            "mixed-vp9-8-opus-confirmed-prefix-short-read-wait",
+            "mixed-vp9-8-opus-cancel-closes-resource-leases",
+            "mixed-vp9-8-opus-false-container-0",
+            "mixed-vp9-8-opus-false-container-1",
+            "mixed-vp9-10-opus-actual-initialization-and-pinned-leases",
+            "mixed-vp9-10-opus-discover-without-hints",
+            "mixed-vp9-10-opus-rename-complete-and-identity-pinning",
+            "mixed-vp9-10-opus-confirmed-prefix-short-read-wait",
+            "mixed-vp9-10-opus-cancel-closes-resource-leases",
+            "mixed-vp9-10-opus-false-container-0",
+            "mixed-vp9-10-opus-false-container-1",
+            "mixed-webm-av1-8-aac-lc-actual-initialization-and-pinned-leases",
+            "mixed-webm-av1-8-aac-lc-discover-without-hints",
+            "mixed-webm-av1-8-aac-lc-rename-complete-and-identity-pinning",
+            "mixed-webm-av1-8-aac-lc-confirmed-prefix-short-read-wait",
+            "mixed-webm-av1-8-aac-lc-cancel-closes-resource-leases",
+            "mixed-webm-av1-8-aac-lc-false-container-0",
+            "mixed-webm-av1-8-aac-lc-false-container-1",
+            "mixed-webm-av1-8-opus-actual-initialization-and-pinned-leases",
+            "mixed-webm-av1-8-opus-discover-without-hints",
+            "mixed-webm-av1-8-opus-rename-complete-and-identity-pinning",
+            "mixed-webm-av1-8-opus-confirmed-prefix-short-read-wait",
+            "mixed-webm-av1-8-opus-cancel-closes-resource-leases",
+            "mixed-webm-av1-8-opus-false-container-0",
+            "mixed-webm-av1-8-opus-false-container-1",
+            "mixed-webm-av1-10-aac-lc-actual-initialization-and-pinned-leases",
+            "mixed-webm-av1-10-aac-lc-discover-without-hints",
+            "mixed-webm-av1-10-aac-lc-rename-complete-and-identity-pinning",
+            "mixed-webm-av1-10-aac-lc-confirmed-prefix-short-read-wait",
+            "mixed-webm-av1-10-aac-lc-cancel-closes-resource-leases",
+            "mixed-webm-av1-10-aac-lc-false-container-0",
+            "mixed-webm-av1-10-aac-lc-false-container-1",
+            "mixed-webm-av1-10-opus-actual-initialization-and-pinned-leases",
+            "mixed-webm-av1-10-opus-discover-without-hints",
+            "mixed-webm-av1-10-opus-rename-complete-and-identity-pinning",
+            "mixed-webm-av1-10-opus-confirmed-prefix-short-read-wait",
+            "mixed-webm-av1-10-opus-cancel-closes-resource-leases",
+            "mixed-webm-av1-10-opus-false-container-0",
+            "mixed-webm-av1-10-opus-false-container-1",
+            "mixed-webm-vp9-8-aac-lc-actual-initialization-and-pinned-leases",
+            "mixed-webm-vp9-8-aac-lc-discover-without-hints",
+            "mixed-webm-vp9-8-aac-lc-rename-complete-and-identity-pinning",
+            "mixed-webm-vp9-8-aac-lc-confirmed-prefix-short-read-wait",
+            "mixed-webm-vp9-8-aac-lc-cancel-closes-resource-leases",
+            "mixed-webm-vp9-8-aac-lc-false-container-0",
+            "mixed-webm-vp9-8-aac-lc-false-container-1",
+            "mixed-webm-vp9-8-opus-actual-initialization-and-pinned-leases",
+            "mixed-webm-vp9-8-opus-discover-without-hints",
+            "mixed-webm-vp9-8-opus-rename-complete-and-identity-pinning",
+            "mixed-webm-vp9-8-opus-confirmed-prefix-short-read-wait",
+            "mixed-webm-vp9-8-opus-cancel-closes-resource-leases",
+            "mixed-webm-vp9-8-opus-false-container-0",
+            "mixed-webm-vp9-8-opus-false-container-1",
+            "mixed-webm-vp9-10-aac-lc-actual-initialization-and-pinned-leases",
+            "mixed-webm-vp9-10-aac-lc-discover-without-hints",
+            "mixed-webm-vp9-10-aac-lc-rename-complete-and-identity-pinning",
+            "mixed-webm-vp9-10-aac-lc-confirmed-prefix-short-read-wait",
+            "mixed-webm-vp9-10-aac-lc-cancel-closes-resource-leases",
+            "mixed-webm-vp9-10-aac-lc-false-container-0",
+            "mixed-webm-vp9-10-aac-lc-false-container-1",
+            "mixed-webm-vp9-10-opus-actual-initialization-and-pinned-leases",
+            "mixed-webm-vp9-10-opus-discover-without-hints",
+            "mixed-webm-vp9-10-opus-rename-complete-and-identity-pinning",
+            "mixed-webm-vp9-10-opus-confirmed-prefix-short-read-wait",
+            "mixed-webm-vp9-10-opus-cancel-closes-resource-leases",
+            "mixed-webm-vp9-10-opus-false-container-0",
+            "mixed-webm-vp9-10-opus-false-container-1",
+            "vp8-vorbis-webm-vp8-opus-2-actual-headers",
+            "vp8-vorbis-webm-vp8-opus-2-discovery",
+            "vp8-vorbis-webm-vp8-opus-2-rename-complete",
+            "vp8-vorbis-webm-vp8-opus-2-waiting",
+            "vp8-vorbis-webm-vp8-opus-2-cancel",
+            "vp8-vorbis-webm-vp8-aac-lc-2-actual-headers",
+            "vp8-vorbis-webm-vp8-aac-lc-2-discovery",
+            "vp8-vorbis-webm-vp8-aac-lc-2-rename-complete",
+            "vp8-vorbis-webm-vp8-aac-lc-2-waiting",
+            "vp8-vorbis-webm-vp8-aac-lc-2-cancel",
+            "vp8-vorbis-webm-vp8-opus-2-actual-headers",
+            "vp8-vorbis-webm-vp8-opus-2-discovery",
+            "vp8-vorbis-webm-vp8-opus-2-rename-complete",
+            "vp8-vorbis-webm-vp8-opus-2-waiting",
+            "vp8-vorbis-webm-vp8-opus-2-cancel",
+            "vp8-vorbis-webm-vp8-vorbis-1-actual-headers",
+            "vp8-vorbis-webm-vp8-vorbis-1-discovery",
+            "vp8-vorbis-webm-vp8-vorbis-1-rename-complete",
+            "vp8-vorbis-webm-vp8-vorbis-1-waiting",
+            "vp8-vorbis-webm-vp8-vorbis-1-cancel",
+            "vp8-vorbis-webm-vp8-vorbis-2-actual-headers",
+            "vp8-vorbis-webm-vp8-vorbis-2-discovery",
+            "vp8-vorbis-webm-vp8-vorbis-2-rename-complete",
+            "vp8-vorbis-webm-vp8-vorbis-2-waiting",
+            "vp8-vorbis-webm-vp8-vorbis-2-cancel",
+            "vp8-vorbis-webm-vp9-8-vorbis-1-actual-headers",
+            "vp8-vorbis-webm-vp9-8-vorbis-1-discovery",
+            "vp8-vorbis-webm-vp9-8-vorbis-1-rename-complete",
+            "vp8-vorbis-webm-vp9-8-vorbis-1-waiting",
+            "vp8-vorbis-webm-vp9-8-vorbis-1-cancel",
+            "vp8-vorbis-webm-vp9-8-vorbis-2-actual-headers",
+            "vp8-vorbis-webm-vp9-8-vorbis-2-discovery",
+            "vp8-vorbis-webm-vp9-8-vorbis-2-rename-complete",
+            "vp8-vorbis-webm-vp9-8-vorbis-2-waiting",
+            "vp8-vorbis-webm-vp9-8-vorbis-2-cancel",
+            "vp8-vorbis-webm-vp9-10-vorbis-1-actual-headers",
+            "vp8-vorbis-webm-vp9-10-vorbis-1-discovery",
+            "vp8-vorbis-webm-vp9-10-vorbis-1-rename-complete",
+            "vp8-vorbis-webm-vp9-10-vorbis-1-waiting",
+            "vp8-vorbis-webm-vp9-10-vorbis-1-cancel",
+            "vp8-vorbis-webm-vp9-10-vorbis-2-actual-headers",
+            "vp8-vorbis-webm-vp9-10-vorbis-2-discovery",
+            "vp8-vorbis-webm-vp9-10-vorbis-2-rename-complete",
+            "vp8-vorbis-webm-vp9-10-vorbis-2-waiting",
+            "vp8-vorbis-webm-vp9-10-vorbis-2-cancel",
+            "vp8-vorbis-webm-av1-8-vorbis-1-actual-headers",
+            "vp8-vorbis-webm-av1-8-vorbis-1-discovery",
+            "vp8-vorbis-webm-av1-8-vorbis-1-rename-complete",
+            "vp8-vorbis-webm-av1-8-vorbis-1-waiting",
+            "vp8-vorbis-webm-av1-8-vorbis-1-cancel",
+            "vp8-vorbis-webm-av1-8-vorbis-2-actual-headers",
+            "vp8-vorbis-webm-av1-8-vorbis-2-discovery",
+            "vp8-vorbis-webm-av1-8-vorbis-2-rename-complete",
+            "vp8-vorbis-webm-av1-8-vorbis-2-waiting",
+            "vp8-vorbis-webm-av1-8-vorbis-2-cancel",
+            "vp8-vorbis-webm-av1-10-vorbis-1-actual-headers",
+            "vp8-vorbis-webm-av1-10-vorbis-1-discovery",
+            "vp8-vorbis-webm-av1-10-vorbis-1-rename-complete",
+            "vp8-vorbis-webm-av1-10-vorbis-1-waiting",
+            "vp8-vorbis-webm-av1-10-vorbis-1-cancel",
+            "vp8-vorbis-webm-av1-10-vorbis-2-actual-headers",
+            "vp8-vorbis-webm-av1-10-vorbis-2-discovery",
+            "vp8-vorbis-webm-av1-10-vorbis-2-rename-complete",
+            "vp8-vorbis-webm-av1-10-vorbis-2-waiting",
+            "vp8-vorbis-webm-av1-10-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-h264-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-h264-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-h264-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-h264-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-h264-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-h264-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-h264-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-h264-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-h264-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-h264-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-hevc8-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-hevc8-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-hevc8-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-hevc8-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-hevc8-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-hevc8-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-hevc8-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-hevc8-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-hevc8-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-hevc8-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-hevc10-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-hevc10-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-hevc10-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-hevc10-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-hevc10-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-hevc10-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-hevc10-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-hevc10-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-hevc10-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-hevc10-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-av1-8-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-av1-8-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-av1-8-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-av1-8-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-av1-8-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-av1-8-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-av1-8-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-av1-8-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-av1-8-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-av1-8-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-av1-10-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-av1-10-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-av1-10-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-av1-10-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-av1-10-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-av1-10-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-av1-10-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-av1-10-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-av1-10-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-av1-10-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-vp9-8-vorbis-2-cancel",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-1-actual-headers",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-1-discovery",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-1-rename-complete",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-1-waiting",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-1-cancel",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-2-actual-headers",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-2-discovery",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-2-rename-complete",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-2-waiting",
+            "vp8-vorbis-fmp4-vp9-10-vorbis-2-cancel",
+            "vorbis-header-count",
+            "vorbis-header-length",
+            "vorbis-header-id",
+            "vorbis-header-comment",
+            "vorbis-header-setup",
+            "vorbis-id-version",
+            "vorbis-id-channels",
+            "vorbis-id-rate",
+            "vorbis-id-blocks",
+            "vorbis-id-framing",
+            "vorbis-codebook-sync",
+            "multi-audio-discovery-labels-languages-optional-missing-srt-and-cache-cleanup",
+            "late-srt-completion-creates-pinned-reader-and-private-copy",
+            "default-order-change-requires-reopen-and-preserves-current",
+            "optional-default-audio",
+            "two-defaults",
+            "false-secondary-codec",
+            "required-subtitle",
+            "subtitle-nonzero-offset",
+            "eight-audio-tracks-boundary",
+            "nine-audio-tracks-rejected",
+            "invalid-srt-utf8-isolated",
+            "invalid-srt-nul-isolated",
+            "invalid-srt-clock-isolated",
+            "invalid-srt-reverse-isolated",
+            "invalid-srt-bare-cr-isolated",
+            "invalid-srt-index-isolated",
+            "missing-completed-srt-isolated",
+            "oversized-srt-isolated-before-reading",
+            "optional-writer-failure-isolated",
+            "verified-copy-survives-original-truncation-on-verify",
+            "verified-copy-survives-original-truncation-on-update",
+            "late-malformed-srt-update-keeps-av-and-existing-subtitle",
+            "pending-optional-audio-complete",
+            "pending-optional-audio-missing",
+            "pending-optional-audio-invalid",
+            "pending-optional-audio-failed",
+            "partial-optional-audio-ready-and-append",
+            "short-optional-audio-waits-until-five-seconds",
+            "active-optional-audio-writer-failed",
+            "active-optional-audio-initialization-rewrite",
+            "active-optional-audio-decoder-read-truncate"
+          ]
+        },
+        {
+          "result": "PASS",
+          "scope": "muxed-vp9-fmp4-native",
+          "count": 34,
+          "checks": [
+            "partial-fragment-index-immutable-prefix-and-complete-vp9-84",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-84",
+            "partial-fragment-index-immutable-prefix-and-complete-vp9-104",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-104",
+            "partial-fragment-index-immutable-prefix-and-complete-vp9-10-fractional4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-10-fractional4",
+            "partial-fragment-index-immutable-prefix-and-complete-vp9-880",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-vp9-880",
+            "reject-vp9-actual-with-h264-hint",
+            "reject-vp9-actual-with-hevc-hint",
+            "reject-vp9-actual-with-av1-hint",
+            "reject-vp9-actual-with-default-avc-hint",
+            "reject-avc-actual-with-vp9-hint",
+            "reject-vp9-version",
+            "reject-vp9-flags",
+            "reject-vp9-profile-1",
+            "reject-vp9-profile-3",
+            "reject-vp9-invalid-level",
+            "reject-vp9-profile-depth-mismatch",
+            "reject-vp9-twelve-bit",
+            "reject-vp9-chroma-422",
+            "reject-vp9-chroma-444",
+            "reject-vp9-reserved-chroma",
+            "reject-vp9-reserved-primaries",
+            "reject-vp9-reserved-transfer",
+            "reject-vp9-reserved-matrix",
+            "reject-vp9-rgb-matrix-with-420",
+            "reject-vp9-nonzero-initialization-size",
+            "reject-vp9-missing-configuration",
+            "reject-vp9-truncated-configuration",
+            "metadata-codec-change-keeps-published-vp9-index-and-bytes",
+            "vp9-partial-init-no-lease-leak",
+            "vp9-cancel-no-lease-leak",
+            "vp9-sha-rewrite-no-lease-leak"
+          ],
+          "realMedia": [
+            {
+              "profile": "vp9-8",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "vp9-10",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "vp9-10-fractional",
+              "seconds": 4,
+              "accessUnits": [
+                120,
+                174
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "vp9-8",
+              "seconds": 80,
+              "accessUnits": [
+                2000,
+                3751
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            }
+          ],
+          "playerDecoderTested": false,
+          "networkRequests": 0,
+          "physicalAvSyncMeasured": false
+        },
+        {
+          "result": "PASS",
+          "scope": "muxed-av1-fmp4-native",
+          "count": 35,
+          "checks": [
+            "partial-fragment-index-immutable-prefix-and-complete-av1-84",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-av1-84",
+            "partial-fragment-index-immutable-prefix-and-complete-av1-104",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-av1-104",
+            "partial-fragment-index-immutable-prefix-and-complete-av1-10-fractional4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-av1-10-fractional4",
+            "partial-fragment-index-immutable-prefix-and-complete-av1-880",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-av1-880",
+            "reject-av1-actual-with-h264-hint",
+            "reject-av1-actual-with-hevc-hint",
+            "reject-av1-actual-with-default-avc-hint",
+            "reject-avc-actual-with-av1-hint",
+            "reject-av1-marker",
+            "reject-av1-version",
+            "reject-av1-high-profile",
+            "reject-av1-invalid-level",
+            "reject-av1-twelve-bit",
+            "reject-av1-monochrome",
+            "reject-av1-unsupported-chroma",
+            "reject-av1-reserved-bits",
+            "reject-av1-presentation-delay",
+            "reject-av1-obu-forbidden-bit",
+            "reject-av1-obu-missing-size",
+            "reject-av1-obu-reserved-bit",
+            "reject-av1-obu-unsupported-type",
+            "reject-av1-metadata-before-sequence",
+            "reject-av1-obu-zero-payload",
+            "reject-av1-obu-payload-overrun",
+            "reject-av1-obu-truncated-size",
+            "reject-av1-sequence-profile-mismatch",
+            "reject-av1-missing-sequence-header",
+            "metadata-codec-change-keeps-published-av1-index-and-bytes",
+            "av1-partial-init-no-lease-leak",
+            "av1-cancel-no-lease-leak",
+            "av1-sha-rewrite-no-lease-leak"
+          ],
+          "realMedia": [
+            {
+              "profile": "av1-8",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "av1-10",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "av1-10-fractional",
+              "seconds": 4,
+              "accessUnits": [
+                120,
+                174
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "av1-8",
+              "seconds": 80,
+              "accessUnits": [
+                2000,
+                3751
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            }
+          ],
+          "playerDecoderTested": false,
+          "networkRequests": 0,
+          "physicalAvSyncMeasured": false
+        },
+        {
+          "result": "PASS",
+          "scope": "muxed-hevc-fmp4-native",
+          "count": 22,
+          "checks": [
+            "partial-fragment-index-immutable-prefix-and-complete-hevc-main4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-hevc-main4",
+            "partial-fragment-index-immutable-prefix-and-complete-hevc10-fractional4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-hevc10-fractional4",
+            "partial-fragment-index-immutable-prefix-and-complete-hevc-delayed4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-hevc-delayed4",
+            "partial-fragment-index-immutable-prefix-and-complete-hevc-main80",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-hevc-main80",
+            "reject-hevc-actual-with-avc-hint",
+            "reject-hevc-actual-with-default-avc-hint",
+            "reject-avc-actual-with-hevc-hint",
+            "reject-nonempty-sample-dependency-table",
+            "reject-invalid-sample-dependency-flags",
+            "accept-empty-sample-dependency-table",
+            "reject-configuration-version",
+            "reject-unsupported-profile",
+            "reject-non-four-byte-nal-length",
+            "reject-unsupported-chroma",
+            "reject-unsupported-bit-depth",
+            "reject-unsupported-array-type",
+            "reject-hvc1-incomplete-parameter-set-array",
+            "metadata-codec-change-keeps-published-hevc-index-and-bytes"
+          ],
+          "realMedia": [
+            {
+              "profile": "hevc-main",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "hevc10-fractional",
+              "seconds": 4,
+              "accessUnits": [
+                120,
+                174
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "hevc-delayed",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "hevc-main",
+              "seconds": 80,
+              "accessUnits": [
+                2000,
+                3751
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            }
+          ],
+          "playerDecoderTested": false,
+          "networkRequests": 0,
+          "physicalAvSyncMeasured": false
+        },
+        {
+          "result": "PASS",
+          "scope": "muxed-fmp4-native",
+          "count": 21,
+          "checks": [
+            "partial-fragment-index-immutable-prefix-and-complete-main-bframes4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-main-bframes4",
+            "partial-fragment-index-immutable-prefix-and-complete-high-fractional4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-high-fractional4",
+            "partial-fragment-index-immutable-prefix-and-complete-main-delayed4",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-main-delayed4",
+            "partial-fragment-index-immutable-prefix-and-complete-main-bframes80",
+            "packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-main-bframes80",
+            "fragment-sequence-error-closes-both-views",
+            "payload-offset-outside-mdat-closes-both-views",
+            "unknown-track-closes-both-views",
+            "overlapping-audio-video-payload-closes-both-views",
+            "reject-external-data-reference",
+            "reject-nonfragmented-sample-table",
+            "reject-unsupported-actual-codec",
+            "sha-rewrite-fails-both-views",
+            "truncate-fails-both-views",
+            "file-replacement-protected-until-release",
+            "partial-mdat-is-fatal-only-on-explicit-complete",
+            "partial-initial-header-waits-without-leak",
+            "cancellation-closes-both-views"
+          ],
+          "realMedia": [
+            {
+              "profile": "main-bframes",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "high-fractional",
+              "seconds": 4,
+              "accessUnits": [
+                120,
+                174
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "main-delayed",
+              "seconds": 4,
+              "accessUnits": [
+                100,
+                189
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            },
+            {
+              "profile": "main-bframes",
+              "seconds": 80,
+              "accessUnits": [
+                2000,
+                3751
+              ],
+              "maxTimestampDifference100ns": [
+                0,
+                0
+              ],
+              "decodedVideoAndPcmMatch": true
+            }
+          ],
+          "playerDecoderTested": false,
+          "networkRequests": 0,
+          "physicalAvSyncMeasured": false,
+          "replacementProtectedByOs": true
+        }
+      ]
+    },
+    "msvcAv1Checks": 35,
+    "msvcHevcChecks": 22,
+    "msvcAndSanitizerSharedAvcFmp4Checks": 21
+  },
+  "pythonTests": {
+    "v1": 15,
+    "v2": 35,
+    "family": 2,
+    "total": 52
+  },
+  "exitCodes": {
+    "linux-build": 0,
+    "native-regression-linux": 0,
+    "ui-linux": 0,
+    "final-winqt-build": 0,
+    "ui-windows": 0,
+    "native-windows": 0,
+    "final-msvc-build": 0,
+    "final-msvc-tests": 0,
+    "final-classic-build": 0,
+    "classic-finalize": 0,
+    "sdk-v1": 0,
+    "sdk-v2": 0,
+    "family": 0,
+    "sanitized-build": 0,
+    "sanitized": 0,
+    "mp4-sanitized": 0,
+    "compat-linux": 0,
+    "compat-windows": 0,
+    "hevc-msvc": 0,
+    "mp4-msvc": 0,
+    "av1-msvc": 0,
+    "linux-install": 0
+  },
+  "initialLinuxInstallationGuard": {
+    "exitCode": 1,
+    "installedFilesChanged": false,
+    "reason": "The early SDK test exit record had a timestamp about seven seconds older than the run clock on the shared filesystem. The installation guard refused the artifact; the 35 SDK tests were rerun successfully before installation."
+  },
+  "testTeardownWarnings": {
+    "mux-mp4-vp9-ui-linux": [
+      "A connection to the bus can't be made"
+    ],
+    "mux-mp4-vp9-ui-windows": [
+      "QEventDispatcherWin32::wakeUp"
+    ],
+    "mux-mp4-vp9-compat-linux": [
+      "A connection to the bus can't be made"
+    ],
+    "mux-mp4-vp9-compat-windows": [
+      "QEventDispatcherWin32::wakeUp"
+    ]
+  },
+  "binarySha256": {
+    "linuxQt": "12d233459a304b0c6eec289f9e601aeb57a4ce1fc4ed984c6f37fcbcb9d15670",
+    "windowsQt": "97b2a6fd4b8d1965cc8e4aaec58c6a9c1eba8659320346601bf812ee89053c3f",
+    "windowsClassic": "bb5ec49d03703ef01984384572f803ccb44f8bd812b55eea005c0ec624087885"
+  },
+  "nativeBinarySha256": {
+    "linuxGcc": "763b47acc9475b700e0755d257bdc39f3e6a3086f0724702519c83fa6f2d9ca0",
+    "windowsMingw": "808533d70ce19e22c67e7fd87fc1fb83ad7849f4dbab7c7b228c26acbf43052d",
+    "windowsMsvc": "7fa0cb97523a259a4bb07dac4a61920099a617fd3c6ef2c7cbde034737e66e99",
+    "linuxAsanUbsan": "175b66ef779cef00042e9f4210badeb5459999d1f0e8841325b53f69a60fb6c6"
+  },
+  "sourceFilesSha256": {
+    "qt/CMakeLists.txt": "4dec97bb24cf96af6acce772e1dff00ae2cc8f6b55795b088afaf84a7046bbc6",
+    "qt/tests/progressiveapi_test.cpp": "fd3334ff479d3dfe03c64b2c0d7a69e9668a4938f596581bbfced473db3ee1ae",
+    "qt/tools/progressive_v2.py": "8b24e4bff558ef4937c296708e02ab5b487c7925d7f178cbd1e0b7db4c500f36",
+    "shared/progressivefmp4bridge.h": "b6be3a67b02673f3130fcad25cb61e318bd5024700c5a7852758ab5d462151ba",
+    "shared/progressivemuxmp4.h": "960bbd8b08c438b8782083587f93416531aeb90a247ae1e5f7f0aaf7b3e47cbf",
+    "src/DSUtil/HarvesterMP4Muxed.h": "a9b9100105de5bd003f5a1dd4f9d03fcd49ddad7ff1039c232dfc5dddc6e8908",
+    "tests/fixtures/progressive-v2/muxed-fmp4-vp9-vod.json": "089218c57d107ed918d14873971edfef2df0c75b22e2c2962117e5f9d85e2c55",
+    "tests/progressive_mux_mp4_conformance.py": "e5f8a1eec4c51df780abdee24941683928d8b4a0d3322d444703bdd1c6d3fbda",
+    "tests/progressive_mux_mp4_fixture.py": "a2ea266a59d63119657077b0c04afe78033f367dd1dd516cb6cea09238c950dd",
+    "tests/progressive_mux_mp4_playback.py": "75cb4d3e49af5a8675b7b613b29f61ddbaba554864b7fde797d020626d96f63a",
+    "tests/progressive_mux_vp9_mp4_conformance.py": "5518954ba28adc0ff1c936c5528bab408c1b70e7ef2821b843f9ad7e3a2d59a4",
+    "tests/progressive_v2_sdk_test.py": "426f17f8fa4fb2218efc844f6945aba8d0d357ce0bce6da6cfb928a1068220a7",
+    "tests/windows/progressive_family_test.py": "ab810cdb9facab3c9b3f12503c1bada7ce51474924299c0599d29732b5ff5fe3",
+    "tools/package_progressive_sdk.py": "7097189dcc06bf37dc6aefc0d118d625e6119136e8afab858e9f28ca07edadd9"
+  },
+  "linuxInstallation": {
+    "installedSha256": "12d233459a304b0c6eec289f9e601aeb57a4ce1fc4ed984c6f37fcbcb9d15670",
+    "previousInstalledSha256": "f48578eaf4cdad70129dbde71684895b6be32aa7bd68679688a4b5ebab7c30fc",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.49-20261031T111332Z",
+    "profileSha256Before": "703b669653acb3f84eb6a1a04119733368cd2a750b2c65a1bf4e4b4b8fccfd68",
+    "profileSha256After": "703b669653acb3f84eb6a1a04119733368cd2a750b2c65a1bf4e4b4b8fccfd68",
+    "profileUnchanged": true,
+    "protectedFilesVerified": 207,
+    "version": "FoxicMPQt 0.2.0",
+    "catalog": {
+      "audioCodecs": [
+        "aac-lc"
+      ],
+      "av1": {
+        "audioCodec": "aac-lc",
+        "chroma": "420",
+        "configurationChanges": false,
+        "depths": [
+          8,
+          10
+        ],
+        "mode": "growing-muxed-fmp4-av1-aac-lc",
+        "profiles": [
+          "main"
+        ],
+        "sampleEntries": [
+          "av01"
+        ],
+        "sequenceHeaderInConfigurationRequired": true,
+        "videoCodec": "av1",
+        "videoCodecHintRequired": true
+      },
+      "completeFragmentsRequired": true,
+      "configurationChanges": false,
+      "containerHint": "fmp4-muxed",
+      "contiguousConfirmedPrefixRequired": true,
+      "decoderContainer": "fmp4",
+      "defaultBaseIsMoofRequired": true,
+      "durationRequired": true,
+      "explicitFirstRunOffsetRequired": true,
+      "externalDataReferences": false,
+      "headMoovRequired": true,
+      "hevc": {
+        "audioCodecs": [
+          "aac-lc"
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "configurationChanges": false,
+        "mode": "growing-muxed-fmp4-hevc-aac-lc",
+        "nalLengthBytes": 4,
+        "sampleEntries": [
+          "hvc1",
+          "hev1"
+        ],
+        "videoCodecs": [
+          "hevc"
+        ],
+        "videoProfiles": [
+          "Main",
+          "Main10"
+        ]
+      },
+      "integrityRequired": true,
+      "live": false,
+      "logicalTrackCount": 2,
+      "maxAppendBytes": 16777216,
+      "maxFragments": 8192,
+      "maxIndexSamplesPerTrack": 2000000,
+      "maxInitBytes": 1048576,
+      "maxMdatBytes": 16777216,
+      "maxMoofBytes": 1048576,
+      "mode": "growing-muxed-fmp4-h264-aac-lc",
+      "nonfragmentedSampleTables": false,
+      "partialFragmentsWait": true,
+      "physicalResourceCount": 1,
+      "readChunkBytes": 65536,
+      "segmentCatalog": false,
+      "sharedMdat": true,
+      "videoCodecs": [
+        "h264",
+        "hevc",
+        "av1",
+        "vp9"
+      ],
+      "vp9": {
+        "audioCodec": "aac-lc",
+        "chroma": "420",
+        "configurationChanges": false,
+        "depths": [
+          8,
+          10
+        ],
+        "mode": "growing-muxed-fmp4-vp9-aac-lc",
+        "profiles": [
+          0,
+          2
+        ],
+        "sampleEntries": [
+          "vp09"
+        ],
+        "videoCodec": "vp9",
+        "videoCodecHintRequired": true
+      }
+    },
+    "runningInstalledProcessesBefore": 0,
+    "viewerInterrupted": false
+  },
+  "classicFinalization": {
+    "lastTaskResult": 0,
+    "taskRemoved": true,
+    "stageRemoved": true,
+    "builtSha256": "bb5ec49d03703ef01984384572f803ccb44f8bd812b55eea005c0ec624087885",
+    "testedSha256": "bb5ec49d03703ef01984384572f803ccb44f8bd812b55eea005c0ec624087885",
+    "equal": true,
+    "testExitCode": 0
+  },
+  "evidenceScope": {
+    "uniqueVp9Fmp4ArtifactNamespace": true,
+    "requiredLogsAndExitCodesNewerThanCurrentSourceEdit": true
+  },
+  "harvesterModified": false,
+  "installedWindowsPlayersModified": false,
+  "nativeComparedAccessUnitsPerRun": 6623,
+  "physicalResourceCount": 1,
+  "clock": {
+    "ptsDtsComparedWithFfprobe": true,
+    "measuredMaximumTimestampDifference100ns": 0,
+    "decodedVideoAndPcmHashesMatch": true,
+    "sourceTimebasePreserved": true,
+    "tenBitComparedWithoutDepthReduction": true
+  },
+  "internalProjection": {
+    "transcoding": false,
+    "intermediateMediaFile": false,
+    "sourceIntegrityRequired": true,
+    "readLimitBytes": 65536,
+    "maxAppendBytes": 16777216,
+    "maxMdatBytes": 16777216,
+    "maxInitBytes": 1048576,
+    "maxMoofBytes": 1048576,
+    "maxFragments": 8192,
+    "completeFragmentPublication": true,
+    "externalDataReferences": false
+  },
+  "physicalAvSyncMeasured": false,
+  "multiHourPlaybackTested": false,
+  "realNetworkSourcesTested": false,
+  "waylandTested": false,
+  "hardwareTested": false,
+  "temporaryTaskCleanupVerified": true,
+  "limitations": [
+    "Exactly two required scalar VP9 Profile 0/2 8/10-bit plus AAC-LC views of one fMP4 resource; known-duration zero-offset VOD and complete moof/mdat publication. VP9 encoder fixtures use lag-in-frames 25, auto-alt-ref 1 and delay_moov.",
+    "Layout/index snapshots are copied. Worst-case memory, maximum index size and multi-hour throughput have not been stress-tested.",
+    "Container/header validation is not full elementary-stream entropy validation; decoder output remains authoritative.",
+    "Native decoded hashes and timestamp comparison do not measure physical output synchronization.",
+    "Installed Windows EXEs/INIs were not replaced."
+  ]
+}

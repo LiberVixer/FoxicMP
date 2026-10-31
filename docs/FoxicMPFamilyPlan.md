@@ -355,3 +355,9 @@ SDK 1.48: [AV1 Main 8/10-bit + AAC-LC в одном растущем fMP4](Progr
 Далее по [чеклисту](ProgressiveCompletionChecklist.md) — shared fMP4 VP9/AAC,
 затем допустимые Opus пары. Остальное ТЗ и длительная реальная A/V-приёмка остаются открытыми.
 Harvester не меняется.
+
+SDK 1.49: [VP9 Profile 0/2 8/10-bit + AAC-LC в одном растущем fMP4](ProgressiveMuxedFmp4Vp9.md),
+отдельный `muxedPlayback.fmp4.vp9.mode`; прежние AVC/HEVC/AV1 сохранены.
+Далее по [чеклисту](ProgressiveCompletionChecklist.md) — допустимые shared fMP4 Opus пары.
+Остальное ТЗ, реальные источники и длительная физическая A/V-приёмка остаются открытыми.
+Harvester не меняется.
