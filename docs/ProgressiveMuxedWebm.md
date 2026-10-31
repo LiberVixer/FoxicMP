@@ -111,3 +111,6 @@ SDK 1.44 добавляет [отдельно согласуемый AV1/Opus](P
 
 SDK 1.45 добавляет [отдельно согласуемый VP8/Opus](ProgressiveMuxedWebmVp8.md).
 VP9 и AV1 сохраняют собственные mode.
+
+SDK 1.46 добавляет [отдельно согласуемые пары Vorbis](ProgressiveMuxedWebmVorbis.md).
+Прежние Opus modes и defaults сохраняются.

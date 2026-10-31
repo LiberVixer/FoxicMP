@@ -129,3 +129,7 @@ SDK 1.45 добавляет [VP8/Opus в общем растущем WebM](Progr
 `muxedPlayback.webm.vp8.mode`; VP9/AV1 сохранены. Следом — Vorbis в shared
 WebM, расширение fMP4 codec matrix, смена конфигурации/live и длительная
 приёмка реальных источников. Harvester не меняется.
+
+SDK 1.46 добавляет [shared WebM Vorbis](ProgressiveMuxedWebmVorbis.md) с
+точным согласованием video/audio pair и сохранением Opus. Далее — кодеки
+muxed fMP4, смена конфигурации/live и длительная приёмка реальных источников.

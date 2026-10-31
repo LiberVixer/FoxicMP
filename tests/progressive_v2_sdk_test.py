@@ -68,6 +68,25 @@ class V2SdkTest(unittest.TestCase):
         for codec in ('vp9','av1'):
             value['tracks'][0]['codecHint']=codec;webm.pop('vp8',None);V2PreviewSession(client,'/unused').publish(value)
 
+    def test_shared_vorbis_requires_exact_video_audio_pair_before_state_changes(self):
+        client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
+        for t in value['tracks']:t.update(containerHint='webm-muxed',source=dict(resourceId='mux'),codecHint='vp9' if t['kind']=='video' else 'vorbis')
+        vorbis=dict(mode='growing-muxed-webm-vorbis',profiles=[])
+        webm=dict(mode='growing-muxed-webm-vp9-opus',av1=dict(mode='growing-muxed-webm-av1-opus'),vp8=dict(mode='growing-muxed-webm-vp8-opus'),vorbis=vorbis)
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),muxedPlayback=dict(webm=webm)))
+        for codec in ('vp8','vp9','av1'):
+            value['tracks'][0]['codecHint']=codec;vorbis['profiles']=[];preview=V2PreviewSession(client,'/unused')
+            with self.assertRaisesRegex(RuntimeError,'Vorbis'):preview.publish(value)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+            vorbis['profiles']=['growing-muxed-webm-'+codec+'-vorbis'];V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
+        for change in [lambda v:v['tracks'][0].pop('codecHint'),lambda v:v['tracks'][1].update(codecHint='aac-lc'),lambda v:v['resources'][0].pop('integrity')]:
+            bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(bad)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        vorbis['mode']='segmented-webm-vorbis';preview=V2PreviewSession(client,'/unused')
+        with self.assertRaisesRegex(RuntimeError,'Vorbis'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last)
+
     def test_muxed_mp4_requires_its_own_capability_before_mutating_session(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
         for t in value['tracks']:t.update(containerHint='fmp4-muxed',source=dict(resourceId='mux'),codecHint='h264' if t['kind']=='video' else 'aac-lc')

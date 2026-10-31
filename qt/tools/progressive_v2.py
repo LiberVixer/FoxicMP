@@ -37,6 +37,8 @@ class V2PreviewSession:
         self.muxed_webm_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('webm',{}).get('mode')=='growing-muxed-webm-vp9-opus'
         self.muxed_webm_av1_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('webm',{}).get('av1',{}).get('mode')=='growing-muxed-webm-av1-opus'
         self.muxed_webm_vp8_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('webm',{}).get('vp8',{}).get('mode')=='growing-muxed-webm-vp8-opus'
+        vorbis=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('webm',{}).get('vorbis',{})
+        self.muxed_vorbis_modes=set(vorbis.get('profiles',[])) if vorbis.get('mode')=='growing-muxed-webm-vorbis' else set()
         self.integrity_supported=caps.get('schema2Playback',{}).get('integrity',{}).get('algorithm')=='sha256'
         if 2 not in caps.get('playbackSchemaVersions',[]) or caps.get('schema2Playback',{}).get('mode')!='separate-fmp4-h264-aac-lc' or caps.get('readerLeaseProtocol')!=1:
             raise RuntimeError('Player lacks the bounded schema-2 media profile; update the player')
@@ -60,16 +62,21 @@ class V2PreviewSession:
                 label='muxed WebM' if muxed_webm else 'muxed fMP4'
                 hint='webm-muxed' if muxed_webm else 'fmp4-muxed'
                 video=next((t.get('codecHint') for t in tracks if t.get('kind')=='video'),None) or ('vp9' if muxed_webm else 'h264')
-                audio='opus' if muxed_webm else 'aac-lc'
-                if muxed_webm and video=='vp8' and not self.muxed_webm_vp8_supported:
+                audio=next((t.get('codecHint') for t in tracks if t.get('kind')=='audio'),None) or ('opus' if muxed_webm else 'aac-lc')
+                vorbis=muxed_webm and audio=='vorbis'
+                if vorbis and (not any(t.get('kind')=='video' and t.get('codecHint')==video for t in tracks) or 'growing-muxed-webm-'+video+'-vorbis' not in self.muxed_vorbis_modes):
+                    raise RuntimeError('Player lacks this shared WebM Vorbis pair or its explicit video hint; update the player')
+                if not vorbis and audio!=('opus' if muxed_webm else 'aac-lc'):
+                    raise RuntimeError('Unsupported muxed audio codec')
+                if muxed_webm and not vorbis and video=='vp8' and not self.muxed_webm_vp8_supported:
                     raise RuntimeError('Player lacks muxed WebM VP8/Opus playback; update the player')
-                if muxed_webm and video=='av1' and not self.muxed_webm_av1_supported:
+                if muxed_webm and not vorbis and video=='av1' and not self.muxed_webm_av1_supported:
                     raise RuntimeError('Player lacks muxed WebM AV1/Opus playback; update the player')
                 if muxed_mp4 and video!='h264':
                     raise RuntimeError('Unsupported muxed fMP4 video codec')
                 if muxed_webm and video not in ('vp8','vp9','av1'):
                     raise RuntimeError('Unsupported muxed WebM video codec')
-                if not (self.muxed_webm_vp8_supported if muxed_webm and video=='vp8' else self.muxed_webm_av1_supported if muxed_webm and video=='av1' else self.muxed_webm_supported if muxed_webm else self.muxed_mp4_supported):
+                if not vorbis and not (self.muxed_webm_vp8_supported if muxed_webm and not vorbis and video=='vp8' else self.muxed_webm_av1_supported if muxed_webm and not vorbis and video=='av1' else self.muxed_webm_supported if muxed_webm else self.muxed_mp4_supported):
                     raise RuntimeError('Player lacks '+label+' playback; update the player')
                 if len(tracks)!=2 or {t.get('kind') for t in tracks}!={'video','audio'} or len(resources)!=1 or 'segmentCatalog' in current:
                     raise RuntimeError(label+' requires two logical views and one scalar resource')

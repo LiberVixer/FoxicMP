@@ -90,3 +90,7 @@ fMP4 по-прежнему ограничен AVC/AAC.
 SDK 1.45: shared WebM дополнен VP8/Opus. Выбор codec/mode, общий resource
 и SHA/leases сохранены; первый VP8 packet проверяет существующий WebMIndex.
 Actual codec обязан совпасть с hint, прежний default — VP9.
+
+SDK 1.46: shared scalar bridge хранит обе выбранные codec identities;
+WebM поддерживает Opus/Vorbis, fMP4 остаётся AVC/AAC. Vorbis сохраняет state
+между Clusters; CodecDelay sample-aligned и bounded, padding вычитается один раз.

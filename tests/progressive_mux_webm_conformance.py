@@ -12,9 +12,9 @@ from progressive_mux_webm_fixture import fixture,publish,top_elements
 from progressive_mux_ts_conformance import Rpc
 
 
-def run(runner):
+def run(runner,media_cases=None,legacy_faults=True):
     checks=[];reports=[];replacement_blocked=False
-    for profile,seconds in [('vp9-8',4),('vp9-10',4),('vp9-fractional',4),('vp9-known',4),('vp9-8',80),('av1-8',4),('av1-10',4),('av1-fractional',4),('av1-known',4),('av1-8',80),('vp8',4),('vp8-fractional',4),('vp8-known',4),('vp8',80)]:
+    for profile,seconds in (media_cases if media_cases is not None else [('vp9-8',4),('vp9-10',4),('vp9-fractional',4),('vp9-known',4),('vp9-8',80),('av1-8',4),('av1-10',4),('av1-fractional',4),('av1-known',4),('av1-8',80),('vp8',4),('vp8-fractional',4),('vp8-known',4),('vp8',80)]):
         with tempfile.TemporaryDirectory(prefix='foxicmp-mux-webm-') as tmp:
             root=Path(tmp);data=root/'data';data.mkdir();model,raw,original,groups,scales=fixture(root,profile,seconds)
             fragments=[a for t,a,b,e in top_elements(raw) if t==0x1f43b675];assert len(fragments)>=3
@@ -58,13 +58,13 @@ def run(runner):
                             d=abs(int(Fraction(int(a[field]))*clock*10000000)-int(Fraction(int(b[field]))*scales[k]*10000000));delta=max(delta,d);assert d==0,(profile,k,field,a,b,d)
                     times.append(delta)
                     def decoded(path):
-                        options=['-an','-pix_fmt','yuv420p10le' if profile.endswith('-10') else 'yuv420p','-fps_mode','passthrough','-c:v','rawvideo','-threads','1'] if k==0 else ['-vn','-c:a','pcm_s16le']
+                        options=['-an','-pix_fmt','yuv420p10le' if '-10' in profile else 'yuv420p','-fps_mode','passthrough','-c:v','rawvideo','-threads','1'] if k==0 else ['-vn','-c:a','pcm_s16le']
                         return subprocess.check_output(['ffmpeg','-v','error','-i',str(path),*options,'-f','hash','-hash','sha256','-'],stderr=subprocess.PIPE).strip()
                     assert decoded(original)==decoded(file),(profile,k,'decoded bytes differ')
                     for at in range(len(result)-1,-1,-65521):
                         start=max(0,at-1023);assert rpc('read',track=k,offset=str(start),length=str(at-start+1))['hex']==result[start:at+1].hex()
                     assert rpc('read',track=k,offset=str(len(result)),length='1')['bytesRead']==0
-                status=rpc('status');assert status['mediaMode']==('growing-muxed-webm-vp8-opus' if profile.startswith('vp8') else 'growing-muxed-webm-av1-opus' if profile.startswith('av1-') else 'growing-muxed-webm-vp9-opus') and status['physicalResources']==1,status
+                status=rpc('status');assert status['mediaMode']=='growing-muxed-webm-'+model['tracks'][0]['codecHint']+'-'+model['tracks'][1]['codecHint'] and status['physicalResources']==1,status
                 readers=lambda:rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers']
                 assert len(readers())==1;rpc('retain');rpc('release');assert readers();rpc('dropRetained');assert not readers()
                 assert sorted(p.name for p in data.iterdir())==['mux.part']
@@ -72,6 +72,8 @@ def run(runner):
                 checks.append('partial-fragment-index-immutable-prefix-and-complete-'+profile+str(seconds))
                 checks.append('packet-hashes-pts-dts-decoded-hashes-backward-reads-single-lease-'+profile+str(seconds))
             finally:rpc.close()
+    if not legacy_faults:
+        return dict(result='PASS',scope='muxed-webm-native',count=len(checks),checks=checks,realMedia=reports,playerDecoderTested=False,physicalAvSyncMeasured=False,networkRequests=0)
     with tempfile.TemporaryDirectory(prefix='foxicmp-mux-webm-errors-') as tmp:
         from progressive_webm_fixtures import element,width
         root=Path(tmp);model,raw,_,_,_=fixture(root,seconds=4);tops=list(top_elements(raw));clusters=[(a,b,e) for t,a,b,e in tops if t==0x1f43b675]

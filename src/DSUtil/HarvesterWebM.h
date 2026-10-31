@@ -128,7 +128,14 @@ inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind
                 if(result.codec=="vorbis"){
                     const auto config=entry.One(0x63a2);result.vorbis=VorbisConfiguration(config.bytes,config.size);result.channels=result.vorbis.channels;
                     const auto audio=entry.One(0xe1);Check(OptionalNumber(audio,0x9f,1)==result.channels && audio.One(0xb5).Float()==result.vorbis.rate,"Vorbis channels/rate mismatch");
-                    Check(result.delay==0 && OptionalNumber(entry,0x56bb,0)==0,"Vorbis delay/preroll is unsupported");
+                    // Preserve a muxer's initial sample discard, bounded by the
+                    // largest half-window and aligned to floor/ceil nanoseconds
+                    // of a whole-sample count. Decoder headers keep this value.
+                    const auto maxDelay=(uint64_t(result.vorbis.blocks[1])*1000000000+2*result.vorbis.rate-1)/(2*result.vorbis.rate);
+                    Check(result.delay<=maxDelay && OptionalNumber(entry,0x56bb,0)==0,"Vorbis delay/preroll exceeds the bounded profile");
+                    const auto delaySamples=(result.delay*result.vorbis.rate+500000000)/1000000000;
+                    const auto lower=delaySamples*1000000000/result.vorbis.rate,upper=(delaySamples*1000000000+result.vorbis.rate-1)/result.vorbis.rate;
+                    Check(result.delay==lower || result.delay==upper,"Vorbis CodecDelay must describe whole samples");
                 }else {
                 const auto config=entry.One(0x63a2);
                 Check(config.size==19 && !std::memcmp(config.bytes,"OpusHead",8) && config.bytes[8]==1 && config.bytes[18]==0,"Invalid/unsupported OpusHead");
@@ -214,14 +221,14 @@ class WebMIndex {
         Check(ticks>=0 && uint64_t(ticks)<=uint64_t(INT64_MAX)/info.scale,"WebM timestamp overflow");
         const auto raw=uint64_t(ticks)*info.scale;const auto start=AddTime(AddTime(int64_t(raw/100),-int64_t(info.delay/100)),-origin);
         int64_t length=kind?(info.codec=="vorbis"?info.vorbis.Duration(packet.bytes,packet.size):OpusDuration(packet)):int64_t(info.frameDuration);
-        if(kind && info.codec=="opus")Check(padding>=0 && padding<=length,"Unsupported WebM discard padding");
+        if(kind)Check(padding>=0 && padding<=length,"Unsupported WebM discard padding");
         if(duration){
             Check(duration<=uint64_t(INT64_MAX)/info.scale,"WebM duration overflow");const auto ns=duration*info.scale;Check(ns>0 && ns<=1000000000,"Unsupported WebM block duration");
-            if(kind && info.codec=="opus") {
-                // Muxers publish either packet duration or audible duration
-                // rounded to Track Ticks. TOC is authoritative; subtract
+            if(kind) {
+                // Muxers publish either packet/mode duration or audible duration
+                // rounded to Track Ticks. Packet/mode length is authoritative; subtract
                 // DiscardPadding exactly once, independently of that hint.
-                auto rounded=[&](int64_t target){const auto lower=uint64_t(target)/info.scale*info.scale;return ns==uint64_t(target) || (info.scale<=1000000 && (ns==lower || (uint64_t(target)%info.scale && ns==lower+info.scale)));};
+                auto rounded=[&](int64_t target){const auto lower=uint64_t(target)/info.scale*info.scale;return ns==uint64_t(target) || (info.codec=="vorbis" && info.scale>1000000 && std::abs(int64_t(ns)-target)<=int64_t(info.scale)) || (info.scale<=1000000 && (ns==lower || (uint64_t(target)%info.scale && ns==lower+info.scale)));};
                 Check(rounded(length) || (padding && rounded(length-padding)),"Audio BlockDuration mismatch");
             }else {if(kind)Check(std::abs(int64_t(ns)-length)<=int64_t(info.scale),"Audio BlockDuration mismatch");length=int64_t(ns);Check(padding<=length,"Discard padding exceeds BlockDuration");}
         }

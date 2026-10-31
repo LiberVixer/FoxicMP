@@ -15,10 +15,12 @@ def exercise(client, fixtures, work, pause, seek, profile='vp9-8'):
     plan, raw, _, groups, scales = fixture(root, profile)
     plan['metadata']['chapters'].append(dict(id='tail', time='170000000', title='Tail'))
     caps = client.request(dict(version=1, action='capabilities'))['schema2Playback']['muxedPlayback']['webm']
-    mode = 'growing-muxed-webm-vp8-opus' if profile.startswith('vp8') else 'growing-muxed-webm-av1-opus' if profile.startswith('av1-') else 'growing-muxed-webm-vp9-opus'
-    if profile.startswith('vp8'):assert caps.get('vp8',{}).get('mode')==mode,caps
-    if profile.startswith('av1-'):assert caps.get('av1',{}).get('mode')==mode,caps
-    assert caps['mode']=='growing-muxed-webm-vp9-opus' and caps['integrityRequired'] and caps['decoderContainer']=='webm', caps
+    video=plan['tracks'][0]['codecHint'];audio=plan['tracks'][1]['codecHint']
+    mode='growing-muxed-webm-'+video+'-'+audio
+    if audio=='vorbis':assert caps.get('vorbis',{}).get('mode')=='growing-muxed-webm-vorbis' and mode in caps['vorbis']['profiles'],caps
+    elif video!='vp9':assert caps.get(video,{}).get('mode')==mode,caps
+    else:assert caps['mode']==mode,caps
+    assert caps['integrityRequired'] and caps['decoderContainer']=='webm',caps
     def cut(seconds):
         return int(next(p['pos'] for p in groups[0] if (int(p['pts'])-int(groups[0][0]['pts']))*scales[0]>=seconds))-97
     value = publish(plan, raw, root, 17)

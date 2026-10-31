@@ -325,3 +325,6 @@ SDK 1.44: [shared WebM AV1/Opus](ProgressiveMuxedWebmAv1.md),
 SDK 1.45: [shared WebM VP8/Opus](ProgressiveMuxedWebmVp8.md),
 `containerHint: webm-muxed`, обязательный video `codecHint: vp8`,
 точное согласование `schema2Playback.muxedPlayback.webm.vp8.mode`.
+
+SDK 1.46: [shared WebM Vorbis](ProgressiveMuxedWebmVorbis.md), явные video/audio
+codecHint и capability `schema2Playback.muxedPlayback.webm.vorbis` с точной парой.

@@ -337,3 +337,8 @@ SDK 1.45: [shared WebM VP8/Opus](ProgressiveMuxedWebmVp8.md) с отдельно
 capability, прежними VP9/AV1 и проверкой первого displayed keyframe. Далее —
 Vorbis в shared WebM, дополнительные кодеки muxed fMP4, смена конфигурации/live
 и длительная приёмка реальных источников.
+
+SDK 1.46: [Vorbis в shared WebM](ProgressiveMuxedWebmVorbis.md), пары с
+VP8/VP9/AV1, state между Clusters, CodecDelay и padding. Следом — HEVC/AV1
+и остальные кодеки muxed fMP4, смена конфигурации/live и длительная реальная
+A/V-приёмка. Harvester не меняется.
