@@ -399,3 +399,6 @@ Opus defaults сохранены. Нужны новые EXE.
 SDK 1.47: [общий HEVC Main/Main10 + AAC-LC fMP4](ProgressiveMuxedFmp4Hevc.md),
 точный `muxedPlayback.fmp4.hevc.mode`, пример manifest и прежний совместимый AVC mode.
 Полный [чеклист до завершения ТЗ](ProgressiveCompletionChecklist.md) включён в SDK.
+
+SDK 1.48: [общий AV1 Main 8/10-bit + AAC-LC fMP4](ProgressiveMuxedFmp4Av1.md),
+точный `muxedPlayback.fmp4.av1.mode`, пример manifest и сохранение AVC/HEVC modes.

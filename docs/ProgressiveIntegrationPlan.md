@@ -140,3 +140,9 @@ SDK 1.47 добавляет [HEVC Main/Main10 + AAC-LC в одном расту�
 Прежний AVC mode сохранён; HEVC согласуется отдельно через `muxedPlayback.fmp4.hevc.mode`.
 Следующий шаг [чеклиста](ProgressiveCompletionChecklist.md) — AV1/AAC в shared fMP4;
 полное ТЗ, real-source и длительная физическая A/V-приёмка остаются открытыми. Harvester не меняется.
+
+SDK 1.48: [AV1 Main 8/10-bit + AAC-LC в одном растущем fMP4](ProgressiveMuxedFmp4Av1.md),
+отдельный `muxedPlayback.fmp4.av1.mode`; прежние AVC/HEVC сохранены.
+Далее по [чеклисту](ProgressiveCompletionChecklist.md) — shared fMP4 VP9/AAC,
+затем допустимые Opus пары. Остальное ТЗ и длительная реальная A/V-приёмка остаются открытыми.
+Harvester не меняется.

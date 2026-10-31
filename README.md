@@ -251,3 +251,7 @@ SDK 1.46 добавляет [Vorbis с VP8/VP9/AV1 в растущем WebM](doc
 SDK 1.47: [HEVC Main/Main10 + AAC-LC в одном растущем fMP4](docs/ProgressiveMuxedFmp4Hevc.md),
 Classic и обе Qt-редакции; [проверки](docs/ProgressiveMuxedFmp4HevcValidation-2026-10-31.md).
 SDK ZIP содержит клиент и документацию; установщики 0.2.0 выше этот новый профиль не включают.
+
+SDK 1.48: [AV1 Main 8/10-bit + AAC-LC в одном растущем fMP4](docs/ProgressiveMuxedFmp4Av1.md),
+Classic и обе Qt-редакции; [проверки](docs/ProgressiveMuxedFmp4Av1Validation-2026-10-31.md).
+SDK ZIP содержит клиент и документацию; установщики 0.2.0 выше этот профиль не включают.

@@ -797,6 +797,11 @@ private slots:
     for(const auto& name:QStringList{"hevc-main","hevc10-fractional","hevc-delayed"})QTest::newRow(qPrintable(name))<<name;
   }
   void muxedHevcMp4Playback() {QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,false,false,false,false,false,true);}
+  void muxedAv1Mp4Playback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& name:QStringList{"av1-8","av1-10","av1-10-fractional"})QTest::newRow(qPrintable(name))<<name;
+  }
+  void muxedAv1Mp4Playback() {QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,false,false,false,false,false,true);}
   void muxedWebmPlayback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& name:QStringList{"vp9-8","vp9-10","vp9-fractional","av1-8","av1-10","av1-fractional","vp8","vp8-fractional"})QTest::newRow(qPrintable(name))<<name;
@@ -810,11 +815,11 @@ private slots:
 
 private:
   void checkSegmentPlayback(const QString& mediaProfile,bool catalogMode,bool webm=false,bool ts=false,bool muxed=false,bool growing=false,bool muxedMp4=false,bool muxedWebm=false) {
-    const QString expectedCodec=ts || (muxedMp4 && !mediaProfile.startsWith("hevc"))?"h264":mediaProfile.startsWith("vp8")?"vp8":mediaProfile.startsWith("av1-")?"av1":mediaProfile.startsWith("vp9-")?"vp9":mediaProfile.startsWith("h264")?"h264":"hevc";
+    const QString expectedCodec=ts || (muxedMp4 && !mediaProfile.startsWith("hevc") && !mediaProfile.startsWith("av1-"))?"h264":mediaProfile.startsWith("vp8")?"vp8":mediaProfile.startsWith("av1-")?"av1":mediaProfile.startsWith("vp9-")?"vp9":mediaProfile.startsWith("h264")?"h264":"hevc";
     const QString expectedAudio=mediaProfile.contains("vorbis")?"vorbis":webm || mediaProfile.contains("-opus")?"opus":"aac";
     const QString expectedMode=QString(muxedWebm?"growing-muxed-webm-":muxedMp4?"growing-muxed-fmp4-":growing?"growing-muxed-mpegts-":muxed?"segmented-muxed-mpegts-":ts?"segmented-mpegts-":webm?"segmented-webm-":"segmented-fmp4-")+expectedCodec+"-"+(expectedAudio=="aac"?QString("aac-lc"):expectedAudio);
     const int expectedChannels=muxedWebm && mediaProfile.endsWith("-fractional")?1:ts || muxedMp4?2:expectedAudio=="aac" || mediaProfile.endsWith("-mono")?1:2;
-    const int expectedRate=(ts || muxedMp4) && (mediaProfile=="high-fractional" || mediaProfile=="hevc10-fractional")?44100:48000;
+    const int expectedRate=(ts || muxedMp4) && (mediaProfile=="high-fractional" || mediaProfile=="hevc10-fractional" || mediaProfile=="av1-10-fractional")?44100:48000;
     const auto prefix=QString(catalogMode?"catalog-":"segment-")+
         (muxedWebm?"mux-webm-":muxedMp4?"mux-mp4-":growing?"growing-ts-":muxed?"mux-ts-":ts?"ts-":webm?"webm-":"fmp4-");
     Profile profile(temporary.filePath(prefix+"playback-profile-"+mediaProfile));prepare(profile);

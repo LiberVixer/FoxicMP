@@ -15,6 +15,8 @@ FILES = {
         'progressive_schema.py', 'progressive_resources.py', 'progressive_v2.py', 'progressive_integrity.py')},
     'progressive-v2-vod.json': 'tests/fixtures/progressive-v2/vod.json',
     'progressive-v2-growing-ts-vod.json': 'tests/fixtures/progressive-v2/growing-ts-vod.json',
+    'progressive-v2-muxed-fmp4-av1-vod.json': 'tests/fixtures/progressive-v2/muxed-fmp4-av1-vod.json',
+    **{name:'docs/'+name for name in ('ProgressiveMuxedFmp4Av1.md','ProgressiveMuxedFmp4Av1Validation-2026-10-31.md','ProgressiveMuxedFmp4Av1Validation-2026-10-31.json')},
     'progressive-v2-muxed-fmp4-hevc-vod.json': 'tests/fixtures/progressive-v2/muxed-fmp4-hevc-vod.json',
     **{name:'docs/'+name for name in ('FoxicMPFamilyPlan.md','FoxicMPFamilyMatrix.md','ProgressiveCompletionChecklist.md','ProgressiveMuxedFmp4Hevc.md','ProgressiveMuxedFmp4HevcValidation-2026-10-31.md','ProgressiveMuxedFmp4HevcValidation-2026-10-31.json')},
     'progressive-v2-muxed-webm-vorbis-vod.json': 'tests/fixtures/progressive-v2/muxed-webm-vorbis-vod.json',
@@ -95,7 +97,7 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.47', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.48', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(),

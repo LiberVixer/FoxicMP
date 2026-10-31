@@ -107,3 +107,6 @@ rewrite/truncate/replacement, cancellation и last-owner release.
 
 SDK 1.47 расширяет этот shared layout [профилем HEVC Main/Main10 + AAC-LC](ProgressiveMuxedFmp4Hevc.md)
 с отдельной capability. Описание AVC mode выше сохраняет исходные границы SDK 1.42.
+
+SDK 1.48 добавляет [AV1 Main 8/10-bit + AAC-LC](ProgressiveMuxedFmp4Av1.md)
+с отдельной capability, сохраняя AVC/HEVC profiles.
