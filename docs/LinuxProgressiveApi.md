@@ -303,3 +303,8 @@ SDK 1.35 добавляет [AV1 Main 8/10-bit в сегментном fMP4 с A
 SDK 1.36 добавляет [VP9 8/10-bit и Opus mono/stereo в сегментном fMP4](ProgressiveSegmentVp9Opus.md) для всех трёх редакций. Следующий этап — длинные ролики без упора в 64 ресурса; WebM/TS, muxed A/V, смена конфигурации и live остаются последующими этапами.
 
 SDK 1.37 добавляет [постраничный каталог fMP4](ProgressiveCatalogPlayback.md), capability `schema2Playback.segmentedPlayback.catalog.mode=paged-fmp4-v1`. В новом режиме до 8192 раскрытых metadata-ресурсов, восемь открытых файлов, обязательны SHA-256 и сохранение всех опубликованных файлов до release главного reader ID. Проверены три редакции с 182–183 ресурсами; многочасовая A/V-приёмка ещё нужна. Inline `validate` не читает страницы; проверяйте каталог через `probe` с `sessionDirectory`.
+
+SDK 1.41: [один растущий TS AVC/AAC VOD](ProgressiveGrowingTs.md),
+`containerHint: mpegts-growing`, одна physical resource и две required
+logical scalar views. Capability согласуется отдельно; incomplete packet/PES
+и закрытие GOP не превращаются в ложный EOF. [Проверки](ProgressiveGrowingTsValidation-2026-10-31.md).

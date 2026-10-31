@@ -1,6 +1,6 @@
 // Lossless virtual fMP4 adapter over verified TS access units. GPL-3.0-or-later.
 #pragma once
-#include "progressivetsstream.h"
+#include "progressivetsgrowing.h"
 
 namespace foxicmp { namespace progressive {
 namespace tsmp4 {
@@ -57,7 +57,7 @@ inline Bytes Header(const Entry& e,size_t index,uint64_t bias) {
 class TsMp4Bridge {
     struct Track {std::string id,init;tsmp4::Bytes initialization;std::vector<tsmp4::Entry> entries;uint64_t bytes=0,bias=0;int64_t decodeOrigin=0;};
     struct Published {Snapshot model;std::array<Track,2> tracks;harvester::Snapshot legacy;};
-    TsResourceStream input;
+    TsPlaybackInput input;
     std::shared_ptr<const Published> current;
     std::mutex publication;
     std::atomic<bool> fatal{false};
@@ -71,7 +71,7 @@ class TsMp4Bridge {
         for(const auto& item:next->model.tracks)next->tracks[item.second.kind=="video"?0:1].id=item.first;
         for(unsigned kind=0;kind<2;++kind) {
             auto& track=next->tracks[kind];const auto index=input.index(kind);if(old)track=old->tracks[kind];
-            const auto& declared=next->model.tracks.at(track.id);track.init=declared.initialization;if(!declared.segments.empty() && !declared.segments.front().initialization.empty())track.init=declared.segments.front().initialization;
+            const auto& declared=next->model.tracks.at(track.id);track.init=input.isGrowing()?declared.resource:declared.initialization;if(!declared.segments.empty() && !declared.segments.front().initialization.empty())track.init=declared.segments.front().initialization;
             if(index && !index->samples().empty()) {
                 const auto& config=*index->configuration();const auto& units=index->samples();
                 if(track.initialization.empty()){
@@ -116,6 +116,7 @@ public:
     std::vector<BoundResource> bindings() const {return input.bindings();}
     bool usesCatalog() const {return input.usesCatalog();}
     bool isMuxed() const {return input.isMuxed();}
+    bool isGrowing() const {return input.isGrowing();}
     bool readIndex(unsigned kind,uint64_t offset,void* data,size_t count) {
         auto* p=static_cast<char*>(data);size_t at=0;
         while(at<count){const auto n=(std::min)(count-at,size_t(65536));const auto r=read(kind,offset+at,p+at,n);if(!r.data() || r.bytes!=n)return false;at+=n;}return true;
@@ -130,7 +131,7 @@ public:
     void cancel(){input.cancel();}
     std::string details() const {
         const auto state=std::atomic_load(&current);rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);d.AddMember("generation",Value(std::to_string(state->model.generation).c_str(),a),a);d.AddMember("revision",Value(std::to_string(state->model.revision).c_str(),a),a);d.AddMember("writerInstanceId",Value(state->model.writer.c_str(),a),a);
-        d.AddMember("mediaMode",Value(isMuxed()?"segmented-muxed-mpegts-h264-aac-lc":"segmented-mpegts-h264-aac-lc",a),a);d.AddMember("muxed",isMuxed(),a);d.AddMember("videoContainer","mpegts",a);d.AddMember("audioContainer","mpegts",a);d.AddMember("decoderContainer","fmp4",a);d.AddMember("videoCodec","h264",a);d.AddMember("audioCodec","aac-lc",a);d.AddMember("segments",true,a);d.AddMember("sourceTimestampOffset",Value(std::to_string(state->model.offset).c_str(),a),a);
+        d.AddMember("mediaMode",Value(isGrowing()?"growing-muxed-mpegts-h264-aac-lc":isMuxed()?"segmented-muxed-mpegts-h264-aac-lc":"segmented-mpegts-h264-aac-lc",a),a);d.AddMember("muxed",isMuxed(),a);d.AddMember("videoContainer","mpegts",a);d.AddMember("audioContainer","mpegts",a);d.AddMember("decoderContainer","fmp4",a);d.AddMember("videoCodec","h264",a);d.AddMember("audioCodec","aac-lc",a);d.AddMember("segments",!isGrowing(),a);d.AddMember("sourceTimestampOffset",Value(std::to_string(state->model.offset).c_str(),a),a);
         Value bytes(rapidjson::kObjectType);bytes.AddMember("video",Value(std::to_string(decoderBytes[0].load()).c_str(),a),a);bytes.AddMember("audio",Value(std::to_string(decoderBytes[1].load()).c_str(),a),a);d.AddMember("decoderIoBytes",bytes,a);
         if(usesCatalog()){const auto s=input.status();Value info(rapidjson::kObjectType);info.AddMember("mode",Value(isMuxed()?"paged-muxed-mpegts-v1":"paged-mpegts-v1",a),a);info.AddMember("pageCount",unsigned(s.pages),a);info.AddMember("resourceCount",unsigned(s.resources),a);info.AddMember("maxOpenResources",8,a);info.AddMember("integrityRequired",true,a);d.AddMember("segmentCatalog",info,a);}
         if(!state->model.metadata.empty()){rapidjson::Document m;m.Parse(state->model.metadata.c_str());Value v(m,a);d.AddMember("metadata",v,a);}

@@ -352,3 +352,14 @@ manifest/provider для всех трёх редакций без Win32-код�
 SDK 1.39: [сегментный MPEG-TS AVC/AAC](ProgressiveTsPlayback.md), общий виртуальный fMP4 без перекодирования, обязательный SHA-256 и отдельная capability каталога `paged-mpegts-v1`. Для playback требуются новые EXE всех трёх редакций; SDK содержит клиент и документацию, Harvester не меняется.
 
 SDK 1.40: [совместные MPEG-TS H.264/AAC сегменты](ProgressiveMuxedTsPlayback.md), два logical view над одним resource/init, общий SHA/cache/leases, отдельный каталог `paged-muxed-mpegts-v1`. Это профиль полных сегментов; один растущий файл и muxed fMP4/WebM остаются последующими этапами.
+
+SDK 1.41: [один растущий MPEG-TS AVC/AAC файл](ProgressiveGrowingTs.md),
+`containerHint: mpegts-growing`, два required scalar view над одним resource.
+Согласование через `schema2Playback.segmentedPlayback.mpegts.growing`;
+`V2PreviewSession` отклоняет старый плеер до start. Неполные packet/PES/GOP
+ждут publication, SHA-256 обязателен, decoder получает virtual fMP4 без
+перекодирования и промежуточного файла. Пример начального manifest —
+`progressive-v2-growing-ts-vod.json`: заменить IDs, duration и timestampOffset
+на значения своего VOD, записать bytes и digest, затем включить readiness.
+Отдельные установленные Windows-приложения нужно обновлять из соответствующей
+сборки; один только ZIP SDK не меняет возможности ранее установленного EXE.

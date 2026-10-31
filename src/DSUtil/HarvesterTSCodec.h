@@ -162,13 +162,12 @@ inline std::vector<Range> Subranges(const Pes& pes,size_t offset,size_t size) {
 }
 inline int64_t Clock(uint64_t raw,uint64_t origin) {CodecCheck(raw<(uint64_t(1)<<33) && origin<(uint64_t(1)<<33),"TS timestamp exceeds 33-bit clock");return AddTime(Time100ns(int64_t(raw),90000),-Time100ns(int64_t(origin),90000));}
 inline bool Close(int64_t a,int64_t b){return a>=b?uint64_t(a)-uint64_t(b)<=uint64_t(ClockTolerance):uint64_t(b)-uint64_t(a)<=uint64_t(ClockTolerance);}
-inline AccessSegment AccessUnits(const Program& program,Data media,uint64_t origin=0,const CodecConfig* previous=nullptr) {
-    const auto transport=Media(program,media);AccessSegment out;out.config.video=program.streamType==0x1b;
+template<class Load> inline AccessSegment AccessPes(const Program& program,const Segment& transport,Load&& load,uint64_t origin=0,const CodecConfig* previous=nullptr) {
+    AccessSegment out;out.config.video=program.streamType==0x1b;
     if(previous)CodecCheck(previous->video==out.config.video,"Codec kind changed","ts-frame-config");
     bool seenSps=false,seenPps=false;int64_t previousDecodeEnd=0;bool first=true;
     for(const auto& pes:transport.packets) {
-        std::vector<uint8_t> bytes;bytes.reserve(pes.size);
-        for(const auto& range:pes.payload){CodecCheck(range.offset<=media.size && range.size<=media.size-range.offset,"PES range exceeds media");bytes.insert(bytes.end(),media.bytes+range.offset,media.bytes+range.offset+range.size);}
+        const auto bytes=load(pes);
         CodecCheck(bytes.size()==pes.size,"PES size/ranges mismatch");
         auto append=[&](AccessUnit unit) {
             CodecCheck(out.units.size()<MaxAccessUnits,"Too many access units","ts-limit");
@@ -243,6 +242,14 @@ inline AccessSegment AccessUnits(const Program& program,Data media,uint64_t orig
     }
     return out;
 }
+inline AccessSegment AccessUnits(const Program& program,Data media,uint64_t origin=0,const CodecConfig* previous=nullptr) {
+    const auto transport=Media(program,media);
+    return AccessPes(program,transport,[&](const Pes& pes){
+        std::vector<uint8_t> bytes;bytes.reserve(pes.size);
+        for(const auto& range:pes.payload){CodecCheck(range.offset<=media.size && range.size<=media.size-range.offset,"PES range exceeds media");bytes.insert(bytes.end(),media.bytes+range.offset,media.bytes+range.offset+range.size);}
+        return bytes;
+    },origin,previous);
+}
 class AccessIndex {
     Program program;uint64_t origin=0,nextOffset=0;size_t ranges=0;
     std::shared_ptr<const CodecConfig> config;
@@ -254,6 +261,12 @@ public:
         CodecCheck(expectedDuration>0 && expectedStart<=INT64_MAX-expectedDuration,"Invalid declared TS envelope");
         auto next=AccessUnits(program,media,origin,config.get());
         CodecCheck(Close(next.start,expectedStart) && Close(next.end,expectedStart+expectedDuration),"Declared TS envelope differs from access units","ts-frame-envelope");
+        CodecCheck(media.size<=uint64_t(INT64_MAX)-nextOffset && nextOffset<=uint64_t(SIZE_MAX)-media.size,"TS virtual stream overflow","ts-limit");
+        accept(std::move(next),nextOffset+media.size,nextOffset);
+    }
+    void appendParsed(AccessSegment next,uint64_t parsedPrefix) {CodecCheck(!next.units.empty(),"No streaming access units");accept(std::move(next),parsedPrefix,0);}
+private:
+    void accept(AccessSegment next,uint64_t position,uint64_t offset) {
         CodecCheck(units.empty() || (Close(next.start,end) && Close(next.decodeStart,decodeEnd)),"TS segment clock gap/overlap","ts-frame-timestamp");
         CodecCheck(next.units.size()<=MaxIndexUnits-units.size() && next.ranges<=MaxIndexRanges-ranges,"TS index exceeds its bound","ts-limit");
         const auto presentationOrigin=units.empty()?next.start:start,decodeOrigin=units.empty()?next.decodeStart:decodeStart;
@@ -264,12 +277,13 @@ public:
         }
         std::sort(presentation.begin(),presentation.end(),[](const AccessUnit* a,const AccessUnit* b){return a->sample.start<b->sample.start;});
         for(size_t i=0;i<presentation.size();++i)CodecCheck(Close(presentation[i]->sample.start,AddTime(presentationOrigin,Cadence(next.config,units.size()+i))),"Cross-segment presentation cadence accumulated drift","ts-frame-timestamp");
-        CodecCheck(media.size<=uint64_t(INT64_MAX)-nextOffset && nextOffset<=uint64_t(SIZE_MAX)-media.size,"TS virtual stream overflow","ts-limit");
-        for(auto& unit:next.units){unit.sample.offset+=nextOffset;for(auto* list:{&unit.encoded,&unit.payload})for(auto& range:*list)range.offset+=size_t(nextOffset);}
+        CodecCheck(position>=nextOffset && position<=uint64_t(INT64_MAX) && position<=uint64_t(SIZE_MAX),"TS virtual stream overflow","ts-limit");
+        for(auto& unit:next.units){unit.sample.offset+=offset;for(auto* list:{&unit.encoded,&unit.payload})for(auto& range:*list)range.offset+=size_t(offset);CodecCheck(RangeReady(unit.sample.offset,unit.sample.size,position),"Access unit exceeds parsed prefix");}
         auto nextConfig=std::make_shared<const CodecConfig>(std::move(next.config));
         units.insert(units.end(),std::make_move_iterator(next.units.begin()),std::make_move_iterator(next.units.end()));
-        config=std::move(nextConfig);ranges+=next.ranges;nextOffset+=media.size;start=presentationOrigin;decodeStart=decodeOrigin;end=next.end;decodeEnd=next.decodeEnd;
+        config=std::move(nextConfig);ranges+=next.ranges;nextOffset=position;start=presentationOrigin;decodeStart=decodeOrigin;end=next.end;decodeEnd=next.decodeEnd;
     }
+public:
     const std::vector<AccessUnit>& samples() const {return units;}
     const CodecConfig* configuration() const {return config.get();}
     uint64_t position() const {return nextOffset;}

@@ -601,6 +601,9 @@ def run(args):
                 time.sleep(.1)
         if args.catalog_playback_only:
             return [dict(contract='actual-paged-catalog-playback',result=exercise_catalog_playback(client,args.fixtures,Path(args.report)/('catalog-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4400+{2:1,35:2,68:3,87:4}[seconds]),profile=profile)) for profile in ('h264','hevc10-opus','av1-10')]
+        if args.growing_ts_playback_only:
+            from progressive_growing_ts_playback import exercise as exercise_growing_ts
+            return [dict(contract='actual-growing-mpegts-playback',result=exercise_growing_ts(client,args.fixtures,Path(args.report)/('growing-ts-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401 if seconds==2 else 4402),profile=profile)) for profile in ('main-bframes','high-fractional','main-preroll')]
         if args.mux_ts_playback_only:
             from progressive_ts_playback import exercise as exercise_ts
             return [dict(contract='actual-muxed-mpegts-playback',result=exercise_ts(client,args.fixtures,Path(args.report)/('mux-ts-'+profile+('-catalog' if catalog else '')),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401 if seconds==2 else 4402),profile=profile,catalog=catalog,muxed=True)) for profile,catalog in [('main-bframes',False),('high-fractional',False),('main-preroll',False),('main-bframes',True)]]
@@ -769,6 +772,7 @@ if __name__ == '__main__':
     parser.add_argument('--webm-segment-playback-only',action='store_true')
     parser.add_argument('--ts-playback-only',action='store_true')
     parser.add_argument('--mux-ts-playback-only',action='store_true')
+    parser.add_argument('--growing-ts-playback-only',action='store_true')
     parser.add_argument('--catalog-playback-only',action='store_true')
     parser.add_argument('--multi-only',action='store_true')
     parser.add_argument('--sdk-only', action='store_true')

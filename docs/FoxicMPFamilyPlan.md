@@ -313,3 +313,8 @@ SDK 1.39 подключает [сегментный MPEG-TS AVC/AAC](Progressive
 
 
 SDK 1.40 добавляет [совместные MPEG-TS AVC/AAC сегменты](ProgressiveMuxedTsPlayback.md) для Classic и обеих Qt-сборок: общий init/media resource, два logical view, виртуальный fMP4, общий SHA/cache/leases и отдельный `paged-muxed-mpegts-v1`. Старые профили sharing не допускают. Далее — один растущий muxed-файл без сегментации, muxed fMP4/WebM, смена конфигурации/live и реальные источники с длительной A/V-приёмкой. Harvester не меняется.
+
+SDK 1.41 расширяет F4 [одним растущим TS VOD](ProgressiveGrowingTs.md):
+две required AVC/AAC проекции поверх одного SHA-защищённого префикса,
+ожидание partial packet/PES/GOP и виртуальный MP4 для всех трёх редакций.
+Далее — muxed fMP4/WebM и отдельная приёмка реальных источников/live.

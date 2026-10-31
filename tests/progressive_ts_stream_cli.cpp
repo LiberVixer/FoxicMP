@@ -1,5 +1,5 @@
 // Internal TS ResourceSource fixture, never a player IPC endpoint.
-#include "../shared/progressivetsstream.h"
+#include "../shared/progressivetsgrowing.h"
 #include <iostream>
 namespace p=foxicmp::progressive;
 static void Emit(p::ResourceRead value,const std::vector<char>& bytes,bool untouched=true) {
@@ -10,11 +10,11 @@ static void Emit(p::ResourceRead value,const std::vector<char>& bytes,bool untou
 int main(int argc,char** argv) {
     if(argc!=3 || std::string(argv[1])!="--registry")return 2;
     const auto registry=std::filesystem::u8path(argv[2]);p::lease_detail::Directory receipts(registry,true);
-    std::shared_ptr<p::TsResourceStream> stream,retained;std::shared_ptr<std::atomic<bool>> released;std::string line;
+    std::shared_ptr<p::TsPlaybackInput> stream,retained;std::shared_ptr<std::atomic<bool>> released;std::string line;
     while(std::getline(std::cin,line))try {
         rapidjson::Document d;d.Parse(line.c_str());p::Require(!d.HasParseError() && d.IsObject() && d.HasMember("action"),"$","Invalid command");const auto action=p::Text(d["action"],"action");
         if(action=="readers" || action=="readerStatus" || action=="readerForget"){std::cout<<p::ReaderRequest(registry,line)<<std::endl;continue;}
-        if(action=="open")stream=std::make_shared<p::TsResourceStream>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,p::lease_detail::Encode(d["session"]));
+        if(action=="open")stream=std::make_shared<p::TsPlaybackInput>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,p::lease_detail::Encode(d["session"]));
         else if(action=="retain")retained=stream;
         else if(action=="dropRetained")retained.reset();
         else if(action=="release"){if(stream)released=stream->releaseReceipt();stream.reset();}

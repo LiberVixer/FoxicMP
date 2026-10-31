@@ -62,3 +62,9 @@ SDK 1.39 подключает его через `progressivetsmp4.h` к обще
 [TS playback всех трёх редакций](../docs/ProgressiveTsPlayback.md).
 
 SDK 1.40 расширяет TS parser/ResourceSource/MP4 bridge явным профилем `mpegts-muxed`: один AVC PID и один AAC PID, общий init/media и две logical views. Sharing в каталоге разрешён только этому профилю; старые режимы сохраняют проверки distinct resources. [Контракт и границы](../docs/ProgressiveMuxedTsPlayback.md).
+
+SDK 1.41: `HarvesterTSGrowing.h` и `progressivetsgrowing.h` добавляют один
+растущий TS resource с inline PAT/PMT/SDT и двумя scalar views
+`mpegts-growing`. Индексы публикуются по завершённым AAC PES и закрытым AVC
+GOP, оба decoder view получают virtual fMP4. Partial tail ждёт update, SHA и
+ошибки источника общие для обеих дорожек. [Контракт](../docs/ProgressiveGrowingTs.md).

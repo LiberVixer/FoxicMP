@@ -23,6 +23,19 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_growing_ts_requires_its_own_capability_and_shared_scalar_views(self):
+        client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
+        for t in value['tracks']:t.update(containerHint='mpegts-growing',source=dict(resourceId='mux'),codecHint='h264' if t['kind']=='video' else 'aac-lc')
+        growing={}
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),segmentedPlayback=dict(mpegts=dict(mode='segmented-mpegts-h264-aac-lc',muxed=dict(mode='segmented-muxed-mpegts-h264-aac-lc'),growing=growing))))
+        preview=V2PreviewSession(client,'/unused')
+        with self.assertRaisesRegex(RuntimeError,'growing MPEG-TS'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
+        growing['mode']='growing-muxed-mpegts-h264-aac-lc';V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
+        for change in [lambda v:v.update(segmentCatalog=[]),lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][0].update(initializationResourceId='mux'),lambda v:v['tracks'][1].update(containerHint='mpegts-muxed'),lambda v:v['tracks'][0].update(source=dict(segments=[])),lambda v:v['tracks'][1].update(source=dict(resourceId='different')),lambda v:v['tracks'][1].update(codecHint='opus')]:
+            bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(bad)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last);self.assertFalse(preview.uncertain)
     def test_muxed_ts_does_not_reuse_separate_ts_or_fmp4_negotiation(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity={})]
         for t in value['tracks']:t.update(containerHint='mpegts-muxed',source=dict(segments=[]),codecHint='h264' if t['kind']=='video' else 'aac-lc')

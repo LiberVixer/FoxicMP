@@ -51,6 +51,7 @@ inline void Descriptors(Data d) {
 class Sections {
     std::vector<uint8_t> pending;
     size_t expected=0;
+    uint8_t syntax=0xb0;
     using Accept=std::function<void(Data)>;
     void feed(Data data,bool allowStart,const Accept& accept) {
         for(size_t at=0;at<data.size;) {
@@ -61,7 +62,7 @@ class Sections {
             const auto count=(std::min)(data.size-at,(expected?expected:size_t(3))-pending.size());
             pending.insert(pending.end(),data.bytes+at,data.bytes+at+count);at+=count;
             if(!expected && pending.size()==3) {
-                Check((pending[1]&0xf0)==0xb0,"Unsupported PSI section syntax");
+                Check((pending[1]&0xf0)==syntax,"Unsupported PSI section syntax");
                 expected=3+size_t((pending[1]&15)<<8|pending[2]);
                 Check(expected>=12 && expected<=1024,"PSI section exceeds its bound","ts-limit");
             }
@@ -74,6 +75,7 @@ class Sections {
         }
     }
 public:
+    explicit Sections(uint8_t sectionSyntax=0xb0):syntax(sectionSyntax){}
     void append(Data data,bool start,const Accept& accept) {
         if(start) {
             Check(data.size>0,"Missing PSI pointer field");const auto pointer=data.bytes[0];
@@ -180,7 +182,7 @@ inline uint64_t Timestamp(const uint8_t* b,unsigned prefix) {
     return uint64_t((b[0]>>1)&7)<<30|uint64_t(b[1])<<22|uint64_t(b[2]>>1)<<15|uint64_t(b[3])<<7|uint64_t(b[4]>>1);
 }
 class PesBuilder {
-    const Program& program;
+    Program program;
     std::vector<uint8_t> bytes;
     std::vector<Range> ranges;
     size_t begin=0,end=0,expected=0;
@@ -188,6 +190,7 @@ class PesBuilder {
 public:
     explicit PesBuilder(const Program& p):program(p){}
     bool empty() const {return bytes.empty();}
+    bool complete() const {return expected && bytes.size()==expected;}
     void append(const Packet& packet,size_t at) {
         if(bytes.empty())begin=at;
         Check(packet.data.size<=MaxPesBytes-bytes.size(),"PES exceeds its staging bound","ts-limit");
