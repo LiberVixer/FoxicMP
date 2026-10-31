@@ -23,6 +23,10 @@ if ($deployCode) { throw 'Qt runtime deployment failed' }
 # MSYS2 uses share/qt6/plugins at build time; the portable package is flat.
 [IO.File]::WriteAllText((Join-Path $Destination 'qt.conf'), "[Paths]`nPrefix=.`nPlugins=.`nLibraries=.`nTranslations=translations`n")
 Copy-Item (Join-Path $ToolchainDirectory 'ucrt64\share\qt6\plugins\platforms\qoffscreen.dll') (Join-Path $Destination 'platforms')
+# The AVIO diagnostic worker loads its version-matched FFmpeg DLLs explicitly.
+if (Test-Path (Join-Path $Destination 'foxicmp-demux-worker.exe')) {
+  & (Join-Path $PSScriptRoot '../../../tools/demux/deploy_runtime.ps1') -BinDirectory $bin -Destination $Destination
+}
 # Helpers must be found next to the player, independent of the user's PATH.
 Copy-Item "$bin\ffmpeg.exe" $Destination
 if ($YtDlpExecutable) { Copy-Item $YtDlpExecutable (Join-Path $Destination 'yt-dlp.exe') }

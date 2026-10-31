@@ -599,6 +599,9 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.backend_demux_only:
+            from progressive_backend_demux_conformance import run as exercise_backend_demux
+            return [dict(contract='backend-demux-diagnostic-only',result=exercise_backend_demux(client=client))]
         if args.catalog_playback_only:
             return [dict(contract='actual-paged-catalog-playback',result=exercise_catalog_playback(client,args.fixtures,Path(args.report)/('catalog-playback-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4400+{2:1,35:2,68:3,87:4}[seconds]),profile=profile)) for profile in ('h264','hevc10-opus','av1-10')]
         if args.mux_vorbis_webm_playback_only:
@@ -790,6 +793,7 @@ if __name__ == '__main__':
     parser.add_argument('--optional-audio-only',action='store_true')
     parser.add_argument('--subtitle-only',action='store_true')
     parser.add_argument('--metadata-only',action='store_true')
+    parser.add_argument('--backend-demux-only',action='store_true')
     parser.add_argument('--directory-only',action='store_true')
     parser.add_argument('--segment-only',action='store_true')
     parser.add_argument('--segment-playback-only',action='store_true')

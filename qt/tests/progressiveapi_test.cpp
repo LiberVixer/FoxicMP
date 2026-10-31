@@ -1042,6 +1042,23 @@ private slots:
     QVERIFY(forward);QVERIFY(backward);QVERIFY(pausedSeek);QVERIFY(resumed);QVERIFY(seekFromBuffering);QVERIFY2(subtitleTextAtTarget,qPrintable(observedSubtitleText));QVERIFY(speedPreserved);QVERIFY(unconfirmedRejected);QVERIFY(completeSeek);QVERIFY(completeObserved);QVERIFY(changingFrames);QVERIFY(audioClockAtTarget);QVERIFY(forwardLatency>=0 && forwardLatency<10000);
     auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));result["audioClockAtTarget"]=audioClockAtTarget;result["softwareAvSyncSamples"]=syncSamples;result["maxSoftwareAvSyncSeconds"]=maxSoftwareAvSync;result["forwardSeekMilliseconds"]=forwardLatency;result["decodedVideoChangesAtTarget"]=changingFrames;result["audioSubtitleSelectionPreserved"]=forward && backward && pausedSeek && completeObserved;result["pausePreserved"]=pausedSeek;result["seekFromBuffering"]=seekFromBuffering;result["subtitleTextAtTarget"]=subtitleTextAtTarget;result["speedPreserved"]=speedPreserved;result["unconfirmedSeekRejected"]=unconfirmedRejected;qInfo().noquote()<<"Far-seek report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
   }
+  void backendDemuxKeepsPlaybackAndUiResponsive() {
+    const auto dir=temporary.filePath("backend-demux-profile");
+    const auto cleanup=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
+    Profile profile(dir);prepare(profile);Window w(profile);ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    QVERIFY(api.request(message("start"))["ok"].toBool());const auto retained=w.progressiveSession();QVERIFY(retained);
+    int ticks=0;QTimer timer;timer.setInterval(20);connect(&timer,&QTimer::timeout,&w,[&]{++ticks;});timer.start();
+    QProcess client;client.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{
+      QFileInfo(FOXICMP_RESOURCE_CONFORMANCE_SCRIPT).dir().filePath("progressive_backend_demux_conformance.py"),
+      "--player",playerExecutable(),"--profile",profile.directory});
+    QVERIFY(client.waitForStarted());const auto guard=qScopeGuard([&]{if(client.state()!=QProcess::NotRunning){client.kill();client.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(client.state()==QProcess::NotRunning,180000);
+    QVERIFY2(client.exitCode()==0,client.readAllStandardError().constData());
+    const auto result=QJsonDocument::fromJson(client.readAllStandardOutput()).object();
+    QCOMPARE(result["result"].toString(),QString("PASS"));QCOMPARE(result["count"].toInt(),24);
+    QVERIFY(ticks>10);QCOMPARE(w.progressiveSession(),retained);
+    qInfo().noquote()<<"Backend demux report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
+  }
   void resourceIoProbeDoesNotReplaceActivePlayback() {
     const auto dir=temporary.filePath("resource-io-profile");
     const auto cleanup=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});

@@ -409,3 +409,8 @@ SDK 1.49: [общий VP9 Profile 0/2 8/10-bit + AAC-LC fMP4](ProgressiveMuxedFm
 SDK 1.50: [общий fMP4 H.264/HEVC/AV1/VP9 + Opus](ProgressiveMuxedFmp4Opus.md),
 точный `muxedPlayback.fmp4.opus.mode` и пара в `opus.profiles`, mono/stereo 48 kHz,
 исходные dOps/pre-skip/edit list; AAC-LC modes/defaults сохранены.
+
+SDK 1.51: [backend demux диагностика через FFmpeg AVIO](ProgressiveBackendDemux.md),
+`ResourceProbe.start_media` и capability `backendDemuxProbe`. Поддержка проверяется
+на каждый запрос; требуются новый плеер, adjacent worker и совпадающий FFmpeg runtime.
+Диагностика не запускает воспроизведение/remux, не скачивает данные и не меняет Harvester.

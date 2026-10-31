@@ -263,3 +263,8 @@ SDK ZIP содержит клиент и документацию; устано�
 SDK 1.50: [Opus mono/stereo с H.264/HEVC/AV1/VP9 в одном растущем fMP4](docs/ProgressiveMuxedFmp4Opus.md),
 Classic и обе Qt-редакции; [проверки](docs/ProgressiveMuxedFmp4OpusValidation-2026-10-31.md).
 SDK ZIP содержит клиент и документацию; установщики 0.2.0 выше эти профили не включают.
+
+SDK 1.51: [backend demux через подтверждённые ranges](docs/ProgressiveBackendDemux.md),
+Classic и обе Qt-редакции; [проверки](docs/ProgressiveBackendDemuxValidation-2026-10-31.md).
+Первый этап общей локальной подготовки: анализ дорожек/пакетов, без нового playback/remux.
+SDK ZIP содержит клиент и документацию; установщики 0.2.0 этот этап не включают.

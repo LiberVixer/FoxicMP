@@ -1,0 +1,2984 @@
+{
+  "date": "2026-10-31",
+  "sdkVersion": "1.51",
+  "playerVersion": "0.2.0",
+  "feature": "libavformat-avio-probe-v1",
+  "result": "PASS",
+  "analysisOnly": true,
+  "newPlaybackProfile": false,
+  "remuxImplemented": false,
+  "players": {
+    "linuxQt": {
+      "analysisOnly": true,
+      "cancelSeconds": 0.013983617012854666,
+      "checks": [
+        "mp4-real-demux-hashes-clocks-and-release",
+        "mov-real-demux-hashes-clocks-and-release",
+        "webm-real-demux-hashes-clocks-and-release",
+        "matroska-real-demux-hashes-clocks-and-release",
+        "mpegts-real-demux-hashes-clocks-and-release",
+        "m4a-real-demux-hashes-clocks-and-release",
+        "adts-real-demux-hashes-clocks-and-release",
+        "mp3-real-demux-hashes-clocks-and-release",
+        "ogg-real-demux-hashes-clocks-and-release",
+        "flac-real-demux-hashes-clocks-and-release",
+        "wav-real-demux-hashes-clocks-and-release",
+        "partial-header-waits-without-false-success",
+        "faststart-demux-before-complete",
+        "tail-moov-requests-confirmed-missing-range",
+        "published-range-update-retries-demux",
+        "cancellation-releases-in-under-two-seconds",
+        "reject-http-format",
+        "reject-hls-format",
+        "reject-concat-format",
+        "reject-lavfi-format",
+        "physical-tail-does-not-bypass-confirmed-ranges",
+        "sparse-hole-is-waiting-not-zero-packets",
+        "sha256-mismatch-never-reaches-success",
+        "corrupt-complete-input-is-not-ready"
+      ],
+      "count": 24,
+      "networkRequests": 0,
+      "playbackTested": false,
+      "realMedia": [
+        {
+          "backend": {
+            "avcodecVersion": 3940198,
+            "avformatVersion": 3936356,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          },
+          "format": "mp4",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 0,
+              "codec": "h264",
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e",
+              "height": 180,
+              "index": 0,
+              "kind": "video",
+              "sampleRate": 0,
+              "timebaseDenominator": 12800,
+              "timebaseNumerator": 1,
+              "width": 320
+            },
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409",
+              "height": 0,
+              "index": 1,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 3940198,
+            "avformatVersion": 3936356,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          },
+          "format": "mov",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 0,
+              "codec": "h264",
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e",
+              "height": 180,
+              "index": 0,
+              "kind": "video",
+              "sampleRate": 0,
+              "timebaseDenominator": 12800,
+              "timebaseNumerator": 1,
+              "width": 320
+            },
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409",
+              "height": 0,
+              "index": 1,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 3940198,
+            "avformatVersion": 3936356,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          },
+          "format": "webm",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 0,
+              "codec": "vp9",
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "height": 180,
+              "index": 0,
+              "kind": "video",
+              "sampleRate": 0,
+              "timebaseDenominator": 1000,
+              "timebaseNumerator": 1,
+              "width": 320
+            },
+            {
+              "channels": 1,
+              "codec": "opus",
+              "extradataBytes": 19,
+              "extradataSha256": "21701d1a08824aed1bb94053e240c792bd0c3634bcdf21e5b9b405732fd6df8b",
+              "height": 0,
+              "index": 1,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 1000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 3940198,
+            "avformatVersion": 3936356,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          },
+          "format": "matroska",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 0,
+              "codec": "h264",
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e",
+              "height": 180,
+              "index": 0,
+              "kind": "video",
+              "sampleRate": 0,
+              "timebaseDenominator": 1000,
+              "timebaseNumerator": 1,
+              "width": 320
+            },
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409",
+              "height": 0,
+              "index": 1,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 1000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 3940198,
+            "avformatVersion": 3936356,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          },
+          "format": "mpegts",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 0,
+              "codec": "h264",
+              "extradataBytes": 34,
+              "extradataSha256": "3c28afff22372c6112ec6a3aae3d18c960cc9f8ca2e060c07a8176f5bfab550d",
+              "height": 180,
+              "index": 0,
+              "kind": "video",
+              "sampleRate": 0,
+              "timebaseDenominator": 90000,
+              "timebaseNumerator": 1,
+              "width": 320
+            },
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "height": 0,
+              "index": 1,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 90000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 3940198,
+            "avformatVersion": 3936356,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          },
+          "format": "m4a",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 3940198,
+            "avformatVersion": 3936356,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          },
+          "format": "adts",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 28224000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 3940198,
+            "avformatVersion": 3936356,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          },
+          "format": "mp3",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "mp3",
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 14112000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 3940198,
+            "avformatVersion": 3936356,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          },
+          "format": "ogg",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "vorbis",
+              "extradataBytes": 3251,
+              "extradataSha256": "76cffe17b8bb711142fde6073e4d18d0b95653a183c2dfd3d4e7cb33bfbae592",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 3940198,
+            "avformatVersion": 3936356,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          },
+          "format": "flac",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "flac",
+              "extradataBytes": 34,
+              "extradataSha256": "f8231dab2f09af7a2b5a9fe387c3983f079cdf51e0376ae6d31502fe8a7ee77c",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 3940198,
+            "avformatVersion": 3936356,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          },
+          "format": "wav",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "pcm_s16le",
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        }
+      ],
+      "remuxTested": false,
+      "result": "PASS",
+      "scope": "backend-demux-player-api"
+    },
+    "windowsQt": {
+      "analysisOnly": true,
+      "cancelSeconds": 0.019418300013057888,
+      "checks": [
+        "mp4-real-demux-hashes-clocks-and-release",
+        "mov-real-demux-hashes-clocks-and-release",
+        "webm-real-demux-hashes-clocks-and-release",
+        "matroska-real-demux-hashes-clocks-and-release",
+        "mpegts-real-demux-hashes-clocks-and-release",
+        "m4a-real-demux-hashes-clocks-and-release",
+        "adts-real-demux-hashes-clocks-and-release",
+        "mp3-real-demux-hashes-clocks-and-release",
+        "ogg-real-demux-hashes-clocks-and-release",
+        "flac-real-demux-hashes-clocks-and-release",
+        "wav-real-demux-hashes-clocks-and-release",
+        "partial-header-waits-without-false-success",
+        "faststart-demux-before-complete",
+        "tail-moov-requests-confirmed-missing-range",
+        "published-range-update-retries-demux",
+        "cancellation-releases-in-under-two-seconds",
+        "reject-http-format",
+        "reject-hls-format",
+        "reject-concat-format",
+        "reject-lavfi-format",
+        "physical-tail-does-not-bypass-confirmed-ranges",
+        "sparse-hole-is-waiting-not-zero-packets",
+        "sha256-mismatch-never-reaches-success",
+        "corrupt-complete-input-is-not-ready"
+      ],
+      "count": 24,
+      "networkRequests": 0,
+      "playbackTested": false,
+      "realMedia": [
+        {
+          "backend": {
+            "avcodecVersion": 4129126,
+            "avformatVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          },
+          "format": "mp4",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 0,
+              "codec": "h264",
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e",
+              "height": 180,
+              "index": 0,
+              "kind": "video",
+              "sampleRate": 0,
+              "timebaseDenominator": 12800,
+              "timebaseNumerator": 1,
+              "width": 320
+            },
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409",
+              "height": 0,
+              "index": 1,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 4129126,
+            "avformatVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          },
+          "format": "mov",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 0,
+              "codec": "h264",
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e",
+              "height": 180,
+              "index": 0,
+              "kind": "video",
+              "sampleRate": 0,
+              "timebaseDenominator": 12800,
+              "timebaseNumerator": 1,
+              "width": 320
+            },
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409",
+              "height": 0,
+              "index": 1,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 4129126,
+            "avformatVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          },
+          "format": "webm",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 0,
+              "codec": "vp9",
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "height": 180,
+              "index": 0,
+              "kind": "video",
+              "sampleRate": 0,
+              "timebaseDenominator": 1000,
+              "timebaseNumerator": 1,
+              "width": 320
+            },
+            {
+              "channels": 1,
+              "codec": "opus",
+              "extradataBytes": 19,
+              "extradataSha256": "21701d1a08824aed1bb94053e240c792bd0c3634bcdf21e5b9b405732fd6df8b",
+              "height": 0,
+              "index": 1,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 1000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 4129126,
+            "avformatVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          },
+          "format": "matroska",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 0,
+              "codec": "h264",
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e",
+              "height": 180,
+              "index": 0,
+              "kind": "video",
+              "sampleRate": 0,
+              "timebaseDenominator": 1000,
+              "timebaseNumerator": 1,
+              "width": 320
+            },
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409",
+              "height": 0,
+              "index": 1,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 1000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 4129126,
+            "avformatVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          },
+          "format": "mpegts",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 0,
+              "codec": "h264",
+              "extradataBytes": 36,
+              "extradataSha256": "dfcb240ad85c829d9264bc5699a4c98a8ea0b555962c8ea7f6785c8458a00466",
+              "height": 180,
+              "index": 0,
+              "kind": "video",
+              "sampleRate": 0,
+              "timebaseDenominator": 90000,
+              "timebaseNumerator": 1,
+              "width": 320
+            },
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "height": 0,
+              "index": 1,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 90000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 4129126,
+            "avformatVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          },
+          "format": "m4a",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 4129126,
+            "avformatVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          },
+          "format": "adts",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "aac",
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 28224000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 4129126,
+            "avformatVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          },
+          "format": "mp3",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "mp3",
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 14112000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 4129126,
+            "avformatVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          },
+          "format": "ogg",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "vorbis",
+              "extradataBytes": 3250,
+              "extradataSha256": "202abfcdff0b5ae4bc58a53f0aca2f5b3958a068865c0601d603503a7ffe195a",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 4129126,
+            "avformatVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          },
+          "format": "flac",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "flac",
+              "extradataBytes": 34,
+              "extradataSha256": "19695936fd1b2ed0660f50174ac3d0f60fe75b0cf58b3d40fd6bf7ecef17e2d3",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        },
+        {
+          "backend": {
+            "avcodecVersion": 4129126,
+            "avformatVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          },
+          "format": "wav",
+          "packetHashesAndClocksMatch": true,
+          "packets": 12,
+          "streams": [
+            {
+              "channels": 1,
+              "codec": "pcm_s16le",
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "height": 0,
+              "index": 0,
+              "kind": "audio",
+              "sampleRate": 48000,
+              "timebaseDenominator": 48000,
+              "timebaseNumerator": 1,
+              "width": 0
+            }
+          ]
+        }
+      ],
+      "remuxTested": false,
+      "result": "PASS",
+      "scope": "backend-demux-player-api"
+    },
+    "classic": {
+      "result": "PASS",
+      "scope": "backend-demux-player-api",
+      "count": 24,
+      "checks": [
+        "mp4-real-demux-hashes-clocks-and-release",
+        "mov-real-demux-hashes-clocks-and-release",
+        "webm-real-demux-hashes-clocks-and-release",
+        "matroska-real-demux-hashes-clocks-and-release",
+        "mpegts-real-demux-hashes-clocks-and-release",
+        "m4a-real-demux-hashes-clocks-and-release",
+        "adts-real-demux-hashes-clocks-and-release",
+        "mp3-real-demux-hashes-clocks-and-release",
+        "ogg-real-demux-hashes-clocks-and-release",
+        "flac-real-demux-hashes-clocks-and-release",
+        "wav-real-demux-hashes-clocks-and-release",
+        "partial-header-waits-without-false-success",
+        "faststart-demux-before-complete",
+        "tail-moov-requests-confirmed-missing-range",
+        "published-range-update-retries-demux",
+        "cancellation-releases-in-under-two-seconds",
+        "reject-http-format",
+        "reject-hls-format",
+        "reject-concat-format",
+        "reject-lavfi-format",
+        "physical-tail-does-not-bypass-confirmed-ranges",
+        "sparse-hole-is-waiting-not-zero-packets",
+        "sha256-mismatch-never-reaches-success",
+        "corrupt-complete-input-is-not-ready"
+      ],
+      "realMedia": [
+        {
+          "format": "mp4",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 12800,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "mov",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 12800,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "webm",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "vp9",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "opus",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 19,
+              "extradataSha256": "21701d1a08824aed1bb94053e240c792bd0c3634bcdf21e5b9b405732fd6df8b"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "matroska",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "mpegts",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 90000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 36,
+              "extradataSha256": "dfcb240ad85c829d9264bc5699a4c98a8ea0b555962c8ea7f6785c8458a00466"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 90000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "m4a",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "adts",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 28224000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "mp3",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "mp3",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 14112000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "ogg",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "vorbis",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 3250,
+              "extradataSha256": "202abfcdff0b5ae4bc58a53f0aca2f5b3958a068865c0601d603503a7ffe195a"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "flac",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "flac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 34,
+              "extradataSha256": "19695936fd1b2ed0660f50174ac3d0f60fe75b0cf58b3d40fd6bf7ecef17e2d3"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "wav",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "pcm_s16le",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        }
+      ],
+      "analysisOnly": true,
+      "playbackTested": false,
+      "remuxTested": false,
+      "networkRequests": 0,
+      "cancelSeconds": 0.014999999955762178
+    }
+  },
+  "native": {
+    "linux": {
+      "result": "PASS",
+      "scope": "backend-demux-native",
+      "count": 24,
+      "checks": [
+        "mp4-real-demux-hashes-clocks-and-release",
+        "mov-real-demux-hashes-clocks-and-release",
+        "webm-real-demux-hashes-clocks-and-release",
+        "matroska-real-demux-hashes-clocks-and-release",
+        "mpegts-real-demux-hashes-clocks-and-release",
+        "m4a-real-demux-hashes-clocks-and-release",
+        "adts-real-demux-hashes-clocks-and-release",
+        "mp3-real-demux-hashes-clocks-and-release",
+        "ogg-real-demux-hashes-clocks-and-release",
+        "flac-real-demux-hashes-clocks-and-release",
+        "wav-real-demux-hashes-clocks-and-release",
+        "partial-header-waits-without-false-success",
+        "faststart-demux-before-complete",
+        "tail-moov-requests-confirmed-missing-range",
+        "published-range-update-retries-demux",
+        "cancellation-releases-in-under-two-seconds",
+        "reject-http-format",
+        "reject-hls-format",
+        "reject-concat-format",
+        "reject-lavfi-format",
+        "physical-tail-does-not-bypass-confirmed-ranges",
+        "sparse-hole-is-waiting-not-zero-packets",
+        "sha256-mismatch-never-reaches-success",
+        "corrupt-complete-input-is-not-ready"
+      ],
+      "realMedia": [
+        {
+          "format": "mp4",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 12800,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "mov",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 12800,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "webm",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "vp9",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "opus",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 19,
+              "extradataSha256": "21701d1a08824aed1bb94053e240c792bd0c3634bcdf21e5b9b405732fd6df8b"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "matroska",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "mpegts",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 90000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 34,
+              "extradataSha256": "3c28afff22372c6112ec6a3aae3d18c960cc9f8ca2e060c07a8176f5bfab550d"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 90000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "m4a",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "adts",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 28224000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "mp3",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "mp3",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 14112000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "ogg",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "vorbis",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 3251,
+              "extradataSha256": "76cffe17b8bb711142fde6073e4d18d0b95653a183c2dfd3d4e7cb33bfbae592"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "flac",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "flac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 34,
+              "extradataSha256": "f8231dab2f09af7a2b5a9fe387c3983f079cdf51e0376ae6d31502fe8a7ee77c"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "wav",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "pcm_s16le",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        }
+      ],
+      "analysisOnly": true,
+      "playbackTested": false,
+      "remuxTested": false,
+      "networkRequests": 0,
+      "cancelSeconds": 0.011995289009064436
+    },
+    "windowsMinGW": {
+      "result": "PASS",
+      "scope": "backend-demux-native",
+      "count": 24,
+      "checks": [
+        "mp4-real-demux-hashes-clocks-and-release",
+        "mov-real-demux-hashes-clocks-and-release",
+        "webm-real-demux-hashes-clocks-and-release",
+        "matroska-real-demux-hashes-clocks-and-release",
+        "mpegts-real-demux-hashes-clocks-and-release",
+        "m4a-real-demux-hashes-clocks-and-release",
+        "adts-real-demux-hashes-clocks-and-release",
+        "mp3-real-demux-hashes-clocks-and-release",
+        "ogg-real-demux-hashes-clocks-and-release",
+        "flac-real-demux-hashes-clocks-and-release",
+        "wav-real-demux-hashes-clocks-and-release",
+        "partial-header-waits-without-false-success",
+        "faststart-demux-before-complete",
+        "tail-moov-requests-confirmed-missing-range",
+        "published-range-update-retries-demux",
+        "cancellation-releases-in-under-two-seconds",
+        "reject-http-format",
+        "reject-hls-format",
+        "reject-concat-format",
+        "reject-lavfi-format",
+        "physical-tail-does-not-bypass-confirmed-ranges",
+        "sparse-hole-is-waiting-not-zero-packets",
+        "sha256-mismatch-never-reaches-success",
+        "corrupt-complete-input-is-not-ready"
+      ],
+      "realMedia": [
+        {
+          "format": "mp4",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 12800,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "mov",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 12800,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "webm",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "vp9",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "opus",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 19,
+              "extradataSha256": "21701d1a08824aed1bb94053e240c792bd0c3634bcdf21e5b9b405732fd6df8b"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "matroska",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "mpegts",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 90000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 36,
+              "extradataSha256": "dfcb240ad85c829d9264bc5699a4c98a8ea0b555962c8ea7f6785c8458a00466"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 90000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "m4a",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "adts",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 28224000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "mp3",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "mp3",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 14112000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "ogg",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "vorbis",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 3250,
+              "extradataSha256": "202abfcdff0b5ae4bc58a53f0aca2f5b3958a068865c0601d603503a7ffe195a"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "flac",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "flac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 34,
+              "extradataSha256": "19695936fd1b2ed0660f50174ac3d0f60fe75b0cf58b3d40fd6bf7ecef17e2d3"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "wav",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "pcm_s16le",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        }
+      ],
+      "analysisOnly": true,
+      "playbackTested": false,
+      "remuxTested": false,
+      "networkRequests": 0,
+      "cancelSeconds": 0.011220599990338087
+    },
+    "windowsMSVC": {
+      "result": "PASS",
+      "scope": "backend-demux-native",
+      "count": 24,
+      "checks": [
+        "mp4-real-demux-hashes-clocks-and-release",
+        "mov-real-demux-hashes-clocks-and-release",
+        "webm-real-demux-hashes-clocks-and-release",
+        "matroska-real-demux-hashes-clocks-and-release",
+        "mpegts-real-demux-hashes-clocks-and-release",
+        "m4a-real-demux-hashes-clocks-and-release",
+        "adts-real-demux-hashes-clocks-and-release",
+        "mp3-real-demux-hashes-clocks-and-release",
+        "ogg-real-demux-hashes-clocks-and-release",
+        "flac-real-demux-hashes-clocks-and-release",
+        "wav-real-demux-hashes-clocks-and-release",
+        "partial-header-waits-without-false-success",
+        "faststart-demux-before-complete",
+        "tail-moov-requests-confirmed-missing-range",
+        "published-range-update-retries-demux",
+        "cancellation-releases-in-under-two-seconds",
+        "reject-http-format",
+        "reject-hls-format",
+        "reject-concat-format",
+        "reject-lavfi-format",
+        "physical-tail-does-not-bypass-confirmed-ranges",
+        "sparse-hole-is-waiting-not-zero-packets",
+        "sha256-mismatch-never-reaches-success",
+        "corrupt-complete-input-is-not-ready"
+      ],
+      "realMedia": [
+        {
+          "format": "mp4",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 12800,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "mov",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 12800,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "webm",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "vp9",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "opus",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 19,
+              "extradataSha256": "21701d1a08824aed1bb94053e240c792bd0c3634bcdf21e5b9b405732fd6df8b"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "matroska",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "mpegts",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 90000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 36,
+              "extradataSha256": "dfcb240ad85c829d9264bc5699a4c98a8ea0b555962c8ea7f6785c8458a00466"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 90000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "m4a",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "adts",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 28224000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "mp3",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "mp3",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 14112000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "ogg",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "vorbis",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 3250,
+              "extradataSha256": "202abfcdff0b5ae4bc58a53f0aca2f5b3958a068865c0601d603503a7ffe195a"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "flac",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "flac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 34,
+              "extradataSha256": "19695936fd1b2ed0660f50174ac3d0f60fe75b0cf58b3d40fd6bf7ecef17e2d3"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        },
+        {
+          "format": "wav",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "pcm_s16le",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 4129126,
+            "avcodecVersion": 4129126,
+            "avutilVersion": 3998054,
+            "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02"
+          }
+        }
+      ],
+      "analysisOnly": true,
+      "playbackTested": false,
+      "remuxTested": false,
+      "networkRequests": 0,
+      "cancelSeconds": 0.0
+    },
+    "linuxAsanUbsan": {
+      "result": "PASS",
+      "scope": "backend-demux-native",
+      "count": 24,
+      "checks": [
+        "mp4-real-demux-hashes-clocks-and-release",
+        "mov-real-demux-hashes-clocks-and-release",
+        "webm-real-demux-hashes-clocks-and-release",
+        "matroska-real-demux-hashes-clocks-and-release",
+        "mpegts-real-demux-hashes-clocks-and-release",
+        "m4a-real-demux-hashes-clocks-and-release",
+        "adts-real-demux-hashes-clocks-and-release",
+        "mp3-real-demux-hashes-clocks-and-release",
+        "ogg-real-demux-hashes-clocks-and-release",
+        "flac-real-demux-hashes-clocks-and-release",
+        "wav-real-demux-hashes-clocks-and-release",
+        "partial-header-waits-without-false-success",
+        "faststart-demux-before-complete",
+        "tail-moov-requests-confirmed-missing-range",
+        "published-range-update-retries-demux",
+        "cancellation-releases-in-under-two-seconds",
+        "reject-http-format",
+        "reject-hls-format",
+        "reject-concat-format",
+        "reject-lavfi-format",
+        "physical-tail-does-not-bypass-confirmed-ranges",
+        "sparse-hole-is-waiting-not-zero-packets",
+        "sha256-mismatch-never-reaches-success",
+        "corrupt-complete-input-is-not-ready"
+      ],
+      "realMedia": [
+        {
+          "format": "mp4",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 12800,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "mov",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 12800,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "webm",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "vp9",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "opus",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 19,
+              "extradataSha256": "21701d1a08824aed1bb94053e240c792bd0c3634bcdf21e5b9b405732fd6df8b"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "matroska",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 38,
+              "extradataSha256": "7c0c4536e196c9ca1f943dc8c61358ee7f39447fd271110a994deddcbe59202e"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 1000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "mpegts",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "video",
+              "codec": "h264",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 90000,
+              "sampleRate": 0,
+              "channels": 0,
+              "width": 320,
+              "height": 180,
+              "extradataBytes": 34,
+              "extradataSha256": "3c28afff22372c6112ec6a3aae3d18c960cc9f8ca2e060c07a8176f5bfab550d"
+            },
+            {
+              "index": 1,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 90000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "m4a",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 5,
+              "extradataSha256": "643b0e23faf2831be78dddd3de11c0f1b4aac4d4f762554c9bdaab7cc1e9e409"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "adts",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "aac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 28224000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "mp3",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "mp3",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 14112000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "ogg",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "vorbis",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 3251,
+              "extradataSha256": "76cffe17b8bb711142fde6073e4d18d0b95653a183c2dfd3d4e7cb33bfbae592"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "flac",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "flac",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 34,
+              "extradataSha256": "f8231dab2f09af7a2b5a9fe387c3983f079cdf51e0376ae6d31502fe8a7ee77c"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        },
+        {
+          "format": "wav",
+          "packets": 12,
+          "packetHashesAndClocksMatch": true,
+          "streams": [
+            {
+              "index": 0,
+              "kind": "audio",
+              "codec": "pcm_s16le",
+              "timebaseNumerator": 1,
+              "timebaseDenominator": 48000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "width": 0,
+              "height": 0,
+              "extradataBytes": 0,
+              "extradataSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "backend": {
+            "avformatVersion": 3936356,
+            "avcodecVersion": 3940198,
+            "avutilVersion": 3808612,
+            "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74"
+          }
+        }
+      ],
+      "analysisOnly": true,
+      "playbackTested": false,
+      "remuxTested": false,
+      "networkRequests": 0,
+      "cancelSeconds": 0.01613819100020919
+    }
+  },
+  "workerNormalExit": {
+    "result": "PASS",
+    "count": 5,
+    "checks": [
+      "runtime-info-normal-exit",
+      "real-demux-packets-and-normal-cleanup",
+      "missing-range-cleanup-without-packets",
+      "corrupt-media-normal-cleanup",
+      "unsupported-demuxer-exception-cleanup"
+    ],
+    "normalChildExitObserved": true,
+    "stderrSanitizerDiagnosticsChecked": true
+  },
+  "transport": {
+    "checksPerPlatform": 8,
+    "successfulSpawnCycles": 20,
+    "failedSpawnCycles": 20,
+    "cancelUnderSeconds": 2,
+    "deadlineSeconds": 4,
+    "handleCountStableAfterRuntimeWarmup": true
+  },
+  "sdkUnitTests": {
+    "linux": 16,
+    "windows": 16
+  },
+  "regression": {
+    "linuxQtOpusFmp4Profiles": 8,
+    "linuxQtQtTestPassed": 10,
+    "windowsQtOpusFmp4Profiles": [
+      "h264-opus",
+      "vp9-10-opus-mono-fractional"
+    ],
+    "windowsQtQtTestPassed": 4,
+    "classicAacFmp4Profiles": [
+      "main-bframes",
+      "hevc10-fractional",
+      "av1-10-fractional",
+      "vp9-10-fractional"
+    ],
+    "classicLegacyDirectoryProfiles": [
+      "fragmented",
+      "indexed"
+    ],
+    "newPlaybackTested": false
+  },
+  "testExitCodes": {
+    "backend-demux-linux-release-build": 0,
+    "backend-demux-linux-release-tests": 0,
+    "backend-demux-linux-final-tests": 0,
+    "backend-demux-winqt-release-build": 0,
+    "backend-demux-winqt-release-tests": 0,
+    "backend-demux-winqt-compat": 0,
+    "backend-demux-msvc-build-final": 0,
+    "backend-demux-msvc-tests": 0,
+    "backend-demux-msvc-process-final": 0,
+    "backend-demux-msvc-worker": 0,
+    "backend-demux-classic-final-build": 0,
+    "backend-demux-classic-finalize": 0,
+    "backend-demux-final-classic-finalize": 0,
+    "backend-demux-asan-worker-final-build": 0,
+    "backend-demux-asan-worker-final-tests": 0,
+    "backend-demux-asan-release-tests": 0,
+    "backend-demux-asan-process": 0,
+    "backend-demux-sdk-final": 0,
+    "backend-demux-sdk-windows": 0,
+    "backend-demux-linux-install": 0,
+    "backend-demux-install-check": 0
+  },
+  "binarySha256": {
+    "linuxQt": "b274810bff5ed689e3acc9b1fc1857cffe036430571c4449acebc6c7d75ba952",
+    "windowsQt": "202ce4864e8391a4496838ebaec7829cf51957b7fca40c0b42ba2d7195073070",
+    "classic": "2eaf31cd79dd9f2de830d6fbf72f859f86baa6d29b371cd453c4156470ded472",
+    "linuxWorker": "626c1f82f1ea68ade08516312597805c6b0572278aeab4a26d9dd32589cef383",
+    "windowsQtWorker": "bc4638027fa500a6ac0fe7a4a1aeeca30c1b22223d2450b5ebb6474e1aea8e60",
+    "windowsClassicWorker": "e587c2cdca39a7cc0f02ab0ac89af0687e1945a60c24cf964a7eeb903c21df1f"
+  },
+  "linuxInstallation": {
+    "version": "FoxicMPQt 0.2.0",
+    "installedSha256": "b274810bff5ed689e3acc9b1fc1857cffe036430571c4449acebc6c7d75ba952",
+    "previousInstalledSha256": "a1c5846be91bd8f564b968584ced137e24c8801c8decf4c0fee0913a3468e7df",
+    "installedWorkerSha256": "626c1f82f1ea68ade08516312597805c6b0572278aeab4a26d9dd32589cef383",
+    "previousWorkerSha256": null,
+    "backups": [
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.51-20261031T130552Z"
+    ],
+    "profileSha256Before": "703b669653acb3f84eb6a1a04119733368cd2a750b2c65a1bf4e4b4b8fccfd68",
+    "profileSha256After": "703b669653acb3f84eb6a1a04119733368cd2a750b2c65a1bf4e4b4b8fccfd68",
+    "profileUnchanged": true,
+    "protectedFilesVerified": 209,
+    "backend": {
+      "avformatVersion": 3936356,
+      "avcodecVersion": 3940198,
+      "avutilVersion": 3808612,
+      "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74",
+      "code": "data"
+    },
+    "runningInstalledProcessesBefore": 0,
+    "viewerInterrupted": false,
+    "backendDemuxProbe": {
+      "adjacentWorkerRequired": true,
+      "analysisOnly": true,
+      "availability": "checked-per-request",
+      "externalIoAllowed": false,
+      "formatHints": [
+        "mp4",
+        "m4a",
+        "mov",
+        "webm",
+        "matroska",
+        "mpegts",
+        "adts",
+        "mp3",
+        "ogg",
+        "flac",
+        "wav"
+      ],
+      "integrityRequired": true,
+      "maxPackets": 128,
+      "maxReadBytes": 16777216,
+      "maxStreams": 32,
+      "mode": "libavformat-avio-probe-v1",
+      "playbackSupported": false,
+      "readChunkBytes": 65536,
+      "sourcePathsSentToWorker": false,
+      "sourceUrlsSentToWorker": false,
+      "version": 1,
+      "workerDeadlineMilliseconds": 4000
+    }
+  },
+  "cleanInstall": {
+    "result": "PASS",
+    "helperAdjacent": true,
+    "integrationSdkCurrent": true,
+    "newContractInstalled": true,
+    "systemDesktopUntouched": true
+  },
+  "classicIsolation": {
+    "originalRun": {
+      "lastTaskResult": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "builtSha256": "2eaf31cd79dd9f2de830d6fbf72f859f86baa6d29b371cd453c4156470ded472",
+      "testedSha256": "2eaf31cd79dd9f2de830d6fbf72f859f86baa6d29b371cd453c4156470ded472",
+      "equal": true,
+      "testExitCode": 0
+    },
+    "finalWorkerRun": {
+      "lastTaskResult": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "builtSha256": "2eaf31cd79dd9f2de830d6fbf72f859f86baa6d29b371cd453c4156470ded472",
+      "testedSha256": "2eaf31cd79dd9f2de830d6fbf72f859f86baa6d29b371cd453c4156470ded472",
+      "equal": true,
+      "testExitCode": 0
+    },
+    "installedShellRegistrationUnchanged": true,
+    "installedExecutablesAndProfilesUpdated": false
+  },
+  "sourceFilesSha256": {
+    "shared/progressivebackendprobe.h": "23931d1519fc0b8ffe9e4d554e0748074d1b2d822fd17c9cb17d1737157b9602",
+    "shared/progressiveprocess.h": "d3d7abace105df990670f60b1144d663cf9113b917666abdf5a75c3a286a63c1",
+    "shared/progressiveresourceio.h": "70dfa80d8c4886538a55312a2d5096bf759ba34ac31769a096bd1ffff4b347c0",
+    "shared/progressiveresourceprobe.h": "13aa7c1c20d51b464e585613e8e2e4e4ccbd64ea51d33801f529fb00019d157d",
+    "tools/progressive_demux_worker.cpp": "9d5893c6fc706dc5dd4f7229b5aca9606e2c6472a021133120bc35b8d6aa2ff8",
+    "tools/demux/CMakeLists.txt": "f630302456a0ec098032ca3eb347b6230df161b950744c9d25941cbb6ea3eea8",
+    "tools/demux/deploy_runtime.ps1": "fc759b2c29e318223c50ab91e6978484bce9ba9ed26305f0a8940b4f4c442afd",
+    "tools/package_progressive_sdk.py": "7829ff14d857e45442d82a99868359371fd7ac2d62d16bad6ed2a60420912b71",
+    "qt/CMakeLists.txt": "8e507827063215a3433c9c9554c31e219dc5047bc0572a47dbd629a799357864",
+    "qt/packaging/windows/deploy.ps1": "b9e52f5424564da6b46728a177063d0f63b7b52abfe6e148c168369926b6a829",
+    "qt/src/progressiveapi.cpp": "fed2670624ee4cb5dfb46662d7d40f8daf68dafbab56f73257ecd43cb2dea6d7",
+    "qt/tests/progressiveapi_test.cpp": "230ce7643bdb7f967360d168aafe408a6f6d834342f9cbd325863a1597886ead",
+    "qt/tools/progressive_resources.py": "2b2e84d0536485d766e13c65477ac6927afc4d52afe90742230f5b1c520f7512",
+    "tests/progressive_resources_test.py": "7824df96693aab1616c46eb7d16707f8d9429410779e68fbe730fa13af03f6dd",
+    "tests/progressive_backend_demux_conformance.py": "27f9bf688be5169ef1e6767cc0ea2f691252d34bbe665e30ee7094a97c814207",
+    "tests/progressive_backend_worker_test.py": "fa630f1dc2e19d3baad3094f602b491d3ec94c86df15ea2a6e3e68d69da93e7f",
+    "tests/progressive_process_test.cpp": "ec343e45a0050189c81edd04538bb61b2fa92264057237a1c1e49182c4a52562",
+    "tests/windows/progressive_family_test.py": "5f64a9fd6018150b8d15fe75d5a3985e7f4e6e6f0477454b9d7552d0ba69e3f4",
+    "src/apps/mplayerc/ClassicProgressiveApi.cpp": "4231ed0f881ca65fc1b93fd7e55b72f171d1da4fc905ed795681224014fa760d"
+  },
+  "privateLogSha256": {
+    "backend-demux-linux-release-tests.log": "b51632c88ef79fd7049d68303997e183fbf00dc86477cbfb4d0c440452009f42",
+    "backend-demux-linux-final-tests.log": "946af54043755900ad050249eab5e915249467be958a216abdad03b7353fb0f4",
+    "backend-demux-winqt-release-tests.log": "d4f92fd17631419bc698e30f3e1c1fb684c33f18b708aebf30102414012d1c0c",
+    "backend-demux-winqt-compat.log": "96861d47a20cc06bf060fb4763b1d7020146f07492654a23b29f00740f7f49ab",
+    "backend-demux-msvc-tests.log": "b8ec00016f53c70833a781538b55dd84d0e74270d9ad06957b4df313329ade72",
+    "backend-demux-msvc-process-final.log": "4374e524ca99ad792236dfef525924b022f1e34883bd9f264fe5b8be5f64731d",
+    "backend-demux-msvc-worker.log": "e0c9a65cc165a10eeabb065020a4e62372bfa3ad7910c5ee74509438cbc4bd88",
+    "backend-demux-asan-worker-final-tests.log": "7957515f200d79700207b351cd47f26d6be44a22ac03c0c5e5219bf4d2589b53",
+    "backend-demux-asan-release-tests.log": "c5e1a90987c5e23ed753dd3e92ed123f5c518b0b08ca08fee7edcd92e1301b0c",
+    "backend-demux-asan-process.log": "a3b4f3383287b04b70566e27a9d78e4632312ba205b6860411ddafa6d353d2cf",
+    "backend-demux-sdk-final.log": "ad39657e9a93015fea4ac1851d18700cb486bc60497c740c21a23113b02c3119",
+    "backend-demux-sdk-windows.log": "22e8901931fbabc007177bf4bce2020db49c00f1d195a594c8a06ed153c3d828",
+    "backend-demux-final-classic/demux/result.json": "585a239ff171d1b2293b2dc1bfb293652e5bf3cdd146a8044c54dab6240c8be0",
+    "backend-demux-classic/compat/result.json": "c4dccaeeb5e2d1a36f3ea7d1790ef10add1c03dc7d797a8f63eeef2cf2b23244",
+    "backend-demux-classic/v1/result.json": "cfcfaf71f9f102095748221001a1cda56a4260759253770da905c994cde105f6"
+  },
+  "resolvedFailedAttempts": [
+    {
+      "exitCode": 1,
+      "scope": "SDK unit",
+      "reason": "Mixed media/segment validation order; rejected before capability negotiation now"
+    },
+    {
+      "exitCode": 1,
+      "scope": "Linux build",
+      "reason": "Overlapping Ninja regeneration; subsequent builds serialized and passed"
+    },
+    {
+      "exitCode": 2,
+      "scope": "Linux test harness",
+      "reason": "Private xvfb-run was outside PATH; used local test-tool directory"
+    },
+    {
+      "exitCode": 2,
+      "scope": "MSVC worker build",
+      "reason": "MinGW root headers shadowed MSVC CRT; supplied only FFmpeg header directories"
+    },
+    {
+      "exitCode": 8,
+      "scope": "Windows native/API tests",
+      "reason": "Synchronous pipe peek blocked behind child read; replaced parent writes with overlapped named pipe"
+    },
+    {
+      "exitCode": 1,
+      "scope": "Windows transport test",
+      "reason": "Cold CRT/AppCompat one-time handles; warm success/failure paths and then verify 20 cycles each"
+    },
+    {
+      "exitCode": 1,
+      "scope": "Worker LSan normal-exit test",
+      "reason": "Explicit DSO unload invalidated dependency global cleanup roots; library lifetime now equals one-job worker process"
+    }
+  ],
+  "limits": {
+    "checklistItem2": "started, diagnostic substep only",
+    "playbackClassificationPending": true,
+    "localRemuxPending": true,
+    "ordinaryMp4PlaybackPending": true,
+    "sourceUrlsPassed": false,
+    "additionalIoDeniedByCallback": true,
+    "networkTrafficInstrumented": false,
+    "osSandbox": false,
+    "cancellableParentDiskIo": false,
+    "waylandTested": false,
+    "hardwareTested": false,
+    "harvesterChanged": false
+  }
+}

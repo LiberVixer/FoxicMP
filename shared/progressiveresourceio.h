@@ -389,6 +389,7 @@ public:
             changed.wait_until(lock,(std::min)(deadline,std::chrono::steady_clock::now()+std::chrono::milliseconds(25)));
         }
     }
+    Resource describe(const std::string& id) const {std::lock_guard<std::mutex> lock(mutex);const auto found=snapshot.resources.find(id);Require(found!=snapshot.resources.end(),"resourceId","Unknown resource","unknown-resource");return found->second;}
     std::vector<std::string> readerIds() const {std::lock_guard<std::mutex> lock(mutex);std::vector<std::string> ids;for(const auto& pin:pins)ids.push_back(pin.second->lease->id());ids.insert(ids.end(),closingReaders.begin(),closingReaders.end());return ids;}
     BoundResource binding(const std::string& id) const {
         std::lock_guard<std::mutex> lock(mutex);const auto found=pins.find(id);

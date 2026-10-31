@@ -367,3 +367,9 @@ SDK 1.50: [Opus mono/stereo с H.264/HEVC/AV1/VP9 в общем растущем
 Ограниченная матрица shared fMP4 AAC/Opus закрыта; далее [пункт 2 чеклиста](ProgressiveCompletionChecklist.md) —
 общий backend demux и локальная подготовка. Полное ТЗ и реальная длительная A/V-приёмка остаются открытыми.
 Harvester не меняется.
+
+SDK 1.51: [ограниченная FFmpeg AVIO диагностика ресурсов](ProgressiveBackendDemux.md)
+в Classic и обеих Qt-редакциях. Только подтверждённые ranges с SHA-256, отдельный
+worker, bounded packets/timestamps и прежние leases/update/cancel. Это первый этап
+пункта 2 чеклиста; новый playback/remux и итоговая классификация ещё не реализованы.
+Harvester не меняется.

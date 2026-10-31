@@ -14,6 +14,8 @@ class ResourceProbe:
         self.client=client;self.probe_id=None;self.identity=None;self.request_id=None;self.acknowledged=False
         caps=client.request(dict(version=1,action='capabilities'))
         self.segment_supported=caps.get('segmentProbeVersion')==1
+        backend=caps.get('backendDemuxProbe',{})
+        self.demux_supported=isinstance(backend,dict) and type(backend.get('version')) is int and backend.get('version')==1 and backend.get('mode')=='libavformat-avio-probe-v1' and backend.get('analysisOnly') is True and backend.get('playbackSupported') is False
         required={'resourceProbe','resourceProbeUpdate','resourceProbeStatus','resourceProbeCancel','resourceProbeForget'}
         if caps.get('resourceIoProbeVersion')!=1 or caps.get('resourceIoPlaybackSupported') is not False or not required<=set(caps.get('actions',[])):
             raise RuntimeError('Player lacks the resource-I/O diagnostic contract')
@@ -26,17 +28,26 @@ class ResourceProbe:
             raise RuntimeError('Invalid resource probe identifier')
         if reply.get('requestId')!=self.request_id or (reply.get('sessionId'),reply.get('generation'))!=self.identity or (self.probe_id is not None and identifier!=self.probe_id):
             raise RuntimeError('Resource probe belongs to another request; retain files')
+        media=reply.get('media',{})
+        if not isinstance(media,dict):raise RuntimeError('Invalid demux diagnostic reply')
+        if media.get('code')=='data' and (media.get('analysisOnly') is not True or media.get('playbackSupported') is not False):raise RuntimeError('Demux diagnostic must not claim playback support')
         self.probe_id=identifier
         return reply
 
-    def start(self, snapshot: dict, directory: str, reads: list[dict], *, wait_milliseconds: int=0, segment: dict | None=None):
+    def start(self, snapshot: dict, directory: str, reads: list[dict], *, wait_milliseconds: int=0, segment: dict | None=None, media: dict | None=None):
         if self.identity is not None and not self.acknowledged:
             raise RuntimeError('Acknowledge the previous resource probe first')
         if type(wait_milliseconds) is not int or not 0<=wait_milliseconds<=10000:
             raise ValueError('Resource probe wait must be 0..10000 milliseconds')
+        if segment is not None and media is not None:raise ValueError('Media probe cannot contain a segment query')
         if segment is not None:
             if not self.segment_supported:raise RuntimeError('Player lacks the segment staging/indexing diagnostic contract')
             if reads:raise ValueError('Segment probe cannot contain raw read queries')
+        if media is not None:
+            if not self.demux_supported:raise RuntimeError('Player lacks the bounded backend demux diagnostic contract')
+            if segment is not None or reads:raise ValueError('Media probe requires no segment or raw read queries')
+            if media.get('formatHint') not in {'mp4','m4a','mov','webm','matroska','mpegts','adts','mp3','ogg','flac','wav'}:raise ValueError('Unsupported local demux format hint')
+            if type(media.get('packetLimit',32)) is not int or not 1<=media.get('packetLimit',32)<=128:raise ValueError('Packet limit must be 1..128')
         self.probe_id=None;self.acknowledged=False;self.identity=(snapshot['sessionId'],snapshot['generation'])
         self.request_id=uuid.uuid4().hex
         # Save identity BEFORE sending: a lost start reply is recovered through
@@ -44,12 +55,17 @@ class ResourceProbe:
         request=dict(version=1,action='resourceProbe',session=copy.deepcopy(snapshot),
             sessionDirectory=str(Path(directory).resolve()),reads=copy.deepcopy(reads),waitMilliseconds=wait_milliseconds,requestId=self.request_id)
         if segment is not None:request['segment']=copy.deepcopy(segment)
+        if media is not None:request['media']=copy.deepcopy(media)
         return self._check(self.client.request(request))
 
     def start_segment(self,snapshot: dict,directory: str,track_id: str,index: int,*,demux: bool=True,wait_milliseconds: int=0):
         if type(index) is not int or not 0<=index<=127 or type(demux) is not bool:
             raise ValueError('Segment index must be 0..127 and demux must be boolean')
         return self.start(snapshot,directory,[],segment=dict(trackId=track_id,index=str(index),demux=demux),wait_milliseconds=wait_milliseconds)
+
+    def start_media(self,snapshot: dict,directory: str,resource_id: str,format_hint: str,*,packet_limit: int=32,wait_milliseconds: int=0):
+        if not isinstance(resource_id,str) or not resource_id:raise ValueError('Resource identifier must be nonempty')
+        return self.start(snapshot,directory,[],media=dict(resourceId=resource_id,formatHint=format_hint,packetLimit=packet_limit),wait_milliseconds=wait_milliseconds)
 
     def status(self, timeout: float=5):
         if self.identity is None:raise RuntimeError('No resource probe was requested')
