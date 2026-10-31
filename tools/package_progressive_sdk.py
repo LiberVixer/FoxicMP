@@ -13,6 +13,7 @@ FILES = {
     **{name: 'qt/tools/' + name for name in (
         'progressive_client.py', 'progressive_windows.py', 'progressive_sdk.py', 'progressive_writer.py',
         'progressive_schema.py', 'progressive_resources.py', 'progressive_v2.py', 'progressive_integrity.py')},
+    **{name:'docs/'+name for name in ('ProgressiveRemuxStage.md','ProgressiveRemuxStageValidation-2026-10-31.md','ProgressiveRemuxStageValidation-2026-10-31.json')},
     **{name:'docs/'+name for name in ('ProgressiveBackendDemux.md','ProgressiveBackendDemuxValidation-2026-10-31.md','ProgressiveBackendDemuxValidation-2026-10-31.json')},
     'progressive-v2-vod.json': 'tests/fixtures/progressive-v2/vod.json',
     'progressive-v2-growing-ts-vod.json': 'tests/fixtures/progressive-v2/growing-ts-vod.json',
@@ -102,10 +103,11 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.51', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.52', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(),
+        backendRemuxProbe=json.loads(re.search(r'BackendRemuxCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/progressivebackendprobe.h').read_text(),re.S).group(1)),
         backendDemuxProbe=json.loads(re.search(r'BackendDemuxCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/progressivebackendprobe.h').read_text(),re.S).group(1)),
         qtMultiAudioSeek=dict(maxTargetSecondsWhileIncomplete=922337203686,completeSourceByteSeek=True,confirmedRangesOnly=True,mode='confirmed-byte-seek'),
         mediaPreparation=dict(offUi=['probe','start','update','complete'],maxConcurrent=1,responseDeadlineMilliseconds=5000,updatesOffUi=True,cancellableDiskIo=False),

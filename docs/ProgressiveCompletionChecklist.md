@@ -2,7 +2,7 @@
 
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
-Текущий проверенный срез — SDK 1.51, приложение 0.2.0. Этот документ — перечень
+Текущий проверенный срез — SDK 1.52, приложение 0.2.0. Этот документ — перечень
 работ и критериев; пустой checkbox не означает отсутствие функции у обычного
 воспроизведения завершённых файлов. Проверяется именно progressive-сценарий.
 
@@ -35,7 +35,11 @@
   11 format hints, отдельный процесс, ranges/SHA/wait/update/cancel/release,
   одинаковый API трёх редакций — [SDK 1.51](ProgressiveBackendDemux.md),
   [проверки](ProgressiveBackendDemuxValidation-2026-10-31.md).
-  Это не playback/remux: нижеследующие пункты остаются открытыми.
+  SDK 1.51 — только диагностика; нижеследующие общие пункты остаются открытыми.
+- [x] SDK 1.52: [copy-remux ограниченного MP4-фрагмента в памяти](ProgressiveRemuxStage.md),
+  H.264/AAC-LC, ranges/SHA, ожидание/update/cancel/forget и точный audio trim.
+  [Проверки](ProgressiveRemuxStageValidation-2026-10-31.md). Это локальная подготовка,
+  без подключения нового playback и без непрерывной подготовки всего ролика.
 
 - [ ] Проверенные backend demuxers через управляемый local I/O; платформенные адаптеры Qt/Classic.
 - [ ] Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей.

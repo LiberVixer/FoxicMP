@@ -3,19 +3,26 @@ import argparse, hashlib, json, subprocess, tempfile, threading
 from pathlib import Path
 
 
-def serve(worker, raw, *, complete=True, prefix=None, hint='mp4'):
+def serve(worker, raw, *, complete=True, prefix=None, hint='mp4', remux=False, output=None, limit=12):
     prefix=len(raw) if prefix is None else prefix
     p=subprocess.Popen([worker],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf-8')
     frames=[];errors=[]
     def dialog():
         try:
-            p.stdin.write(json.dumps(dict(formatHint=hint,length=str(len(raw)),complete=complete,packetLimit=12))+'\n');p.stdin.flush()
+            request=dict(formatHint=hint,length=str(len(raw)),complete=complete,packetLimit=limit)
+            if remux:request['remux']='mp4-clip'
+            p.stdin.write(json.dumps(request)+'\n');p.stdin.flush()
             while True:
                 line=p.stdout.readline(140001)
                 if not line:break
                 assert len(line)<=140000,'oversize worker frame'
                 message=json.loads(line)
                 if 'result' in message:frames.append(message['result']);break
+                if message.get('io')=='write':
+                    assert remux and isinstance(message.get('hex'),str) and 0<len(message['hex'])<=131072
+                    if output is not None:
+                        output.extend(bytes.fromhex(message['hex']));assert len(output)<=16777216
+                    p.stdin.write('{"code":"data"}\n');p.stdin.flush();continue
                 assert message['io']=='read' and type(message['length']) is int and 0<message['length']<=65536,message
                 at=int(message['offset']);assert 0<=at<=len(raw),message
                 if at<prefix:reply=dict(code='data',hex=raw[at:min(prefix,at+message['length'])].hex())

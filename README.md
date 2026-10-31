@@ -268,3 +268,9 @@ SDK 1.51: [backend demux через подтверждённые ranges](docs/Pr
 Classic и обе Qt-редакции; [проверки](docs/ProgressiveBackendDemuxValidation-2026-10-31.md).
 Первый этап общей локальной подготовки: анализ дорожек/пакетов, без нового playback/remux.
 SDK ZIP содержит клиент и документацию; установщики 0.2.0 этот этап не включают.
+
+SDK 1.52: [copy-remux ограниченного MP4-фрагмента](docs/ProgressiveRemuxStage.md),
+общая локальная подготовка H.264/AAC-LC в памяти трёх редакций;
+[проверки](docs/ProgressiveRemuxStageValidation-2026-10-31.md).
+Без перекодирования и изменения оригиналов; новый playback adapter ещё не подключён.
+SDK ZIP содержит клиент/документы; установщики 0.2.0 этот этап не включают.

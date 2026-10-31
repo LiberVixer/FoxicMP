@@ -414,3 +414,9 @@ SDK 1.51: [backend demux диагностика через FFmpeg AVIO](Progress
 `ResourceProbe.start_media` и capability `backendDemuxProbe`. Поддержка проверяется
 на каждый запрос; требуются новый плеер, adjacent worker и совпадающий FFmpeg runtime.
 Диагностика не запускает воспроизведение/remux, не скачивает данные и не меняет Harvester.
+
+SDK 1.52: [bounded copy-remux MP4-фрагмента в памяти](ProgressiveRemuxStage.md),
+`backendRemuxProbe` и `ResourceProbe.start_remux`, общий код трёх редакций.
+Точный AAC trim сохраняется обычным MP4; фрагмент может быть подготовлен до complete
+при поддержанном профиле. Это preparation-only, без нового playback/непрерывного remux.
+Оставшаяся часть пункта 2 чеклиста открыта. Harvester не меняется.

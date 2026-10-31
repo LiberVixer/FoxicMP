@@ -24,6 +24,11 @@ int main(int argc,char** argv) {
         try {
             rapidjson::Document d;d.Parse(line.c_str());p::Require(!d.HasParseError() && d.IsObject(),"$","Invalid command");
             const auto action=p::Text(d["action"],"action");
+            if(action=="dumpRemux") {
+                auto bytes=probes.stagedRemux(p::Text(d["probeId"],"probeId"));
+                if(bytes){std::ofstream file(std::filesystem::u8path(p::Text(d["path"],"path",8192)),std::ios::binary);file.write(bytes->data(),std::streamsize(bytes->size()));file.close();p::Require(file.good(),"test","Cannot dump stage");}
+                std::cout<<"{\"ok\":true,\"retained\":"<<(bytes?"true":"false")<<"}"<<std::endl;continue;
+            }
             if(action=="handles") {
                 unsigned count=0;
 #ifdef _WIN32

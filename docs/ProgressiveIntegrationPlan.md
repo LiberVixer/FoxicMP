@@ -164,3 +164,9 @@ SDK 1.51: [ограниченная FFmpeg AVIO диагностика ресу�
 worker, bounded packets/timestamps и прежние leases/update/cancel. Это первый этап
 пункта 2 чеклиста; новый playback/remux и итоговая классификация ещё не реализованы.
 Harvester не меняется.
+
+SDK 1.52: [bounded copy-remux MP4-фрагмента в памяти](ProgressiveRemuxStage.md),
+`backendRemuxProbe` и `ResourceProbe.start_remux`, общий код трёх редакций.
+Точный AAC trim сохраняется обычным MP4; фрагмент может быть подготовлен до complete
+при поддержанном профиле. Это preparation-only, без нового playback/непрерывного remux.
+Оставшаяся часть пункта 2 чеклиста открыта. Harvester не меняется.

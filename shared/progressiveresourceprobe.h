@@ -17,6 +17,7 @@ class ResourceProbeManager {
         std::vector<Query> queries;std::vector<Result> results;std::vector<std::string> readers;
         std::deque<std::string> updates;
         uint64_t appliedRevision=0;unsigned waitMs=0;
+        std::shared_ptr<const std::vector<char>> remuxArtifact;
         bool mediaMode=false;BackendProbeQuery mediaQuery;std::string mediaResult;
         bool segmentMode=false,segmentDemux=true;std::string segmentTrack,segmentCode,segmentReason,segmentInit,segmentResource,segmentSha;
         size_t segmentIndex=0,segmentBytes=0,segmentPackets=0;
@@ -30,7 +31,7 @@ class ResourceProbeManager {
         ~Job(){stop.store(true);requestCancel();if(worker.joinable())worker.join();}
         void requestCancel() {
             cancel.store(true);
-            std::shared_ptr<ResourceSource> active;{std::lock_guard<std::mutex> lock(mutex);active=source.lock();}
+            std::shared_ptr<ResourceSource> active;{std::lock_guard<std::mutex> lock(mutex);active=source.lock();if(finished && remuxArtifact){remuxArtifact.reset();mediaResult=BackendResult("cancelled",mediaQuery,0);if(phase=="finished")phase="cancelled";}}
             if(active)active->cancel();changed.notify_all();
         }
         void apply(ResourceSource& active,SegmentStager* stager=nullptr) {
@@ -65,9 +66,10 @@ class ResourceProbeManager {
                 }
                 if(mediaMode) {
                     for(;;) {
-                        apply(*active);auto result=ProbeBackend(*active,mediaQuery,cancel);
+                        apply(*active);std::vector<char> staged;auto result=ProbeBackend(*active,mediaQuery,cancel,&staged);
+                        if(cancel.load() || stop.load()){result=BackendResult("cancelled",mediaQuery,0);staged.clear();}
                         rapidjson::Document value;value.Parse(result.c_str());const std::string code=value["code"].GetString();
-                        {std::lock_guard<std::mutex> lock(mutex);mediaResult=std::move(result);}
+                        {std::lock_guard<std::mutex> lock(mutex);mediaResult=std::move(result);remuxArtifact=staged.empty()?nullptr:std::make_shared<const std::vector<char>>(std::move(staged));}
                         if(code=="cancelled"){terminal="cancelled";break;}
                         if(!BackendWaiting(code)){if(code!="data"){terminal="error";failure=code;}break;}
                         if(std::chrono::steady_clock::now()>=deadline)break;
@@ -115,7 +117,7 @@ class ResourceProbeManager {
                         resource_detail::Check(reply.IsObject() && reply.HasMember("ok") && reply["ok"].IsBool() && reply["ok"].GetBool(),"receipt-cleanup-failed","Cannot acknowledge a closed resource receipt");
                         forgotten.insert(reader);
                     }
-                    std::lock_guard<std::mutex> lock(mutex);phase="forgotten";error.clear();done.store(true);break;
+                    std::lock_guard<std::mutex> lock(mutex);remuxArtifact.reset();phase="forgotten";error.clear();done.store(true);break;
                 }catch(const Error& e){std::lock_guard<std::mutex> lock(mutex);phase="error";error=e.code;}
                 catch(const std::exception&){std::lock_guard<std::mutex> lock(mutex);phase="error";error="receipt-cleanup-failed";}
             }
@@ -147,7 +149,7 @@ class ResourceProbeManager {
                 segment.AddMember("sha256",Value(segmentSha.c_str(),a),a);out.AddMember("segment",segment,a);
                 allReadable=finished && segmentCode=="data" && error.empty();
             }
-            if(mediaMode){rapidjson::Document value;value.Parse(mediaResult.empty()?"{}":mediaResult.c_str());if(!value.HasMember("code"))value.AddMember("code",Value((error.empty()?phase:error).c_str(),value.GetAllocator()),value.GetAllocator());allReadable=finished && value["code"].IsString() && std::string(value["code"].GetString())=="data" && error.empty();out.AddMember("media",Value(value,a),a);}
+            if(mediaMode){rapidjson::Document value;value.Parse(mediaResult.empty()?"{}":mediaResult.c_str());if(!value.HasMember("code"))value.AddMember("code",Value((error.empty()?phase:error).c_str(),value.GetAllocator()),value.GetAllocator());allReadable=finished && value["code"].IsString() && std::string(value["code"].GetString())=="data" && error.empty() && (!mediaQuery.remux || bool(remuxArtifact));if(value.HasMember("remux") && value["remux"].IsObject())value["remux"].AddMember("retained",bool(remuxArtifact),value.GetAllocator());out.AddMember("media",Value(value,a),a);}
             out.AddMember("reads",reads,a);out.AddMember("allReadable",allReadable,a);return lease_detail::Encode(out);
         }
     };
@@ -156,6 +158,11 @@ class ResourceProbeManager {
 public:
     ResourceProbeManager()=default;
     ~ResourceProbeManager()=default;
+    // Internal immutable stage for platform adapters/tests; never media bytes over IPC.
+    std::shared_ptr<const std::vector<char>> stagedRemux(const std::string& id) {
+        std::lock_guard<std::mutex> serialized(dispatch);if(!job || job->id!=id)return nullptr;
+        std::lock_guard<std::mutex> lock(job->mutex);return job->finished && job->phase=="finished"?job->remuxArtifact:nullptr;
+    }
     std::string request(const std::filesystem::path& registry,const std::string& json) {
         std::lock_guard<std::mutex> serialized(dispatch);
         try {

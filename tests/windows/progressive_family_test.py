@@ -599,6 +599,9 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.backend_remux_only:
+            from progressive_backend_remux_conformance import run as exercise_backend_remux
+            return [dict(contract='backend-remux-preparation-only',result=exercise_backend_remux(client=client))]
         if args.backend_demux_only:
             from progressive_backend_demux_conformance import run as exercise_backend_demux
             return [dict(contract='backend-demux-diagnostic-only',result=exercise_backend_demux(client=client))]
@@ -793,6 +796,7 @@ if __name__ == '__main__':
     parser.add_argument('--optional-audio-only',action='store_true')
     parser.add_argument('--subtitle-only',action='store_true')
     parser.add_argument('--metadata-only',action='store_true')
+    parser.add_argument('--backend-remux-only',action='store_true')
     parser.add_argument('--backend-demux-only',action='store_true')
     parser.add_argument('--directory-only',action='store_true')
     parser.add_argument('--segment-only',action='store_true')

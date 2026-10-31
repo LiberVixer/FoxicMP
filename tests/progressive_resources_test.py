@@ -27,6 +27,33 @@ class ResourceSdkTest(unittest.TestCase):
             if message['action']=='capabilities':out['backendDemuxProbe']=dict(version=1,mode='libavformat-avio-probe-v1',analysisOnly=True,playbackSupported=False)
             return out
         client.request=request;return client
+    def remux_client(self):
+        client=self.demux_client();old=client.request
+        def request(message,timeout=5):
+            out=old(message,timeout)
+            if message['action']=='capabilities':out['backendRemuxProbe']=dict(version=1,mode='libavformat-avio-mp4-stage-v1',preparationOnly=True,playbackSupported=False,gaplessEditsSealed=True)
+            return out
+        client.request=request;return client
+    def test_remux_requires_separate_capability_before_identity_or_start(self):
+        client=self.demux_client();probe=ResourceProbe(client);before=len(client.calls)
+        with self.assertRaises(RuntimeError):probe.start_remux({},'/unused','clip','mp4')
+        self.assertIsNone(probe.identity);self.assertEqual(len(client.calls),before)
+    def test_remux_refuses_other_containers_and_output_modes(self):
+        probe=ResourceProbe(self.remux_client())
+        with self.assertRaises(ValueError):probe.start_remux({},'/unused','clip','webm')
+        with self.assertRaises(ValueError):probe.start({},'/unused',[],media=dict(resourceId='clip',formatHint='mp4',remux='anything'))
+        self.assertIsNone(probe.identity)
+    def test_remux_lost_reply_recovery_remembers_preparation_mode(self):
+        client=self.remux_client();client.lose_start=True;probe=ResourceProbe(client)
+        with self.assertRaises(TimeoutError):probe.start_remux(dict(sessionId='a'*32,generation='1'),'/unused','clip','mp4')
+        self.assertTrue(probe.remux_mode);self.assertEqual(client.calls[-1][0]['media']['remux'],'mp4-clip');probe.status()
+    def test_remux_result_cannot_be_playback_or_demux_only(self):
+        probe=ResourceProbe(self.remux_client());out=probe.start_remux(dict(sessionId='a'*32,generation='1'),'/unused','clip','mp4')
+        media=dict(code='data',analysisOnly=False,preparationOnly=True,playbackSupported=False,remux=dict(gaplessEditsSealed=True))
+        out['media']=media;probe._check(out)
+        for field,value in [('analysisOnly',True),('preparationOnly',False),('playbackSupported',True),('remux',None)]:
+            wrong=copy.deepcopy(out);wrong['media'][field]=value
+            with self.assertRaises(RuntimeError):probe._check(wrong)
     def test_malformed_optional_demux_capability_preserves_raw_resource_sdk(self):
         for value in (None,False,[],dict(version=True)):
             client=Client();old=client.request

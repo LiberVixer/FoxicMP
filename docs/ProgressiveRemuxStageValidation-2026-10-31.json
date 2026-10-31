@@ -1,0 +1,2178 @@
+{
+  "date": "2026-10-31",
+  "sdkVersion": "1.52",
+  "playerVersion": "0.2.0",
+  "feature": "libavformat-avio-mp4-stage-v1",
+  "result": "PASS",
+  "preparationOnly": true,
+  "transcoding": false,
+  "newPlaybackAdapter": false,
+  "continuousRemux": false,
+  "players": {
+    "linuxQt": {
+      "checks": [
+        "av-copy-remux-and-forget",
+        "bframes-copy-remux-and-forget",
+        "video-copy-remux-and-forget",
+        "audio-copy-remux-and-forget",
+        "audio44100-copy-remux-and-forget",
+        "fractional-copy-remux-and-forget",
+        "mov-copy-remux-and-forget",
+        "partial-copy-remux-and-forget",
+        "missing-header-has-no-artifact",
+        "missing-payload-discards-partial-mux-output",
+        "physical-tail-without-publication-is-not-remuxed",
+        "sparse-hole-is-not-remuxed-as-zeros",
+        "publication-retries-remux",
+        "cancel-after-success-drops-private-stage",
+        "incomplete-bframe-gop-is-not-staged-False",
+        "incomplete-bframe-gop-is-not-staged-True",
+        "nonzero-start-is-not-silently-rebased",
+        "encrypted-packets-are-not-declared-ready",
+        "unsupported-codec-is-not-transcoded",
+        "integrity-error-discards-stage",
+        "cancel-discards-pending-stage",
+        "reject-webm-remux-before-worker",
+        "reject-mpegts-remux-before-worker",
+        "reject-http-remux-before-worker"
+      ],
+      "count": 24,
+      "originalsUnchanged": true,
+      "playbackTested": false,
+      "preparationOnly": true,
+      "remuxTested": true,
+      "reports": [
+        {
+          "output": {
+            "bytes": "54664",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 1
+              },
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 2
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 73,
+            "retained": true,
+            "sha256": "ba561a019b887f91343ba82f9e9e03e22e0abfcec4c1a6a185aaa62383bce960",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "av"
+        },
+        {
+          "output": {
+            "bytes": "43491",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 1
+              },
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 2
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 73,
+            "retained": true,
+            "sha256": "a30359490953309df39505c30bb3005b9bcb85e097c8eef547796ae12238a438",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "bframes"
+        },
+        {
+          "output": {
+            "bytes": "37343",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "12800",
+                "movieTimescale": 12800,
+                "trackId": 1
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 25,
+            "retained": true,
+            "sha256": "309f86fa52fa34b99b3f7dd3f2607262fe88f03a79e5704dedffcc219d06d59c",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "video"
+        },
+        {
+          "output": {
+            "bytes": "10008",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "48000",
+                "movieTimescale": 48000,
+                "trackId": 1
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 48,
+            "retained": true,
+            "sha256": "b1c9d6f41d215734ab62019dfb0f46c81476dfd1672c4e348bfc4f0e503fd3e0",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "audio"
+        },
+        {
+          "output": {
+            "bytes": "17360",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "44100",
+                "movieTimescale": 44100,
+                "trackId": 1
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 45,
+            "retained": true,
+            "sha256": "596d72e90f0a8e40945bb0a54c31bb4d849cceb2d6981e9170b4fe9c0df2a678",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "audio44100"
+        },
+        {
+          "output": {
+            "bytes": "57801",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "240240",
+                "movieTimescale": 240000,
+                "trackId": 1
+              },
+              {
+                "duration": "240000",
+                "movieTimescale": 240000,
+                "trackId": 2
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 78,
+            "retained": true,
+            "sha256": "e0d86d859c50989a69459b13050326d8dab270fda639b59a5cf66be6a0ab6507",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "fractional"
+        },
+        {
+          "output": {
+            "bytes": "47373",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 1
+              },
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 2
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 73,
+            "retained": true,
+            "sha256": "12c02dd5caddf874ce3cd242dcfb06f52635ac41bae852098dab86ce4e10a898",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "mov"
+        },
+        {
+          "output": {
+            "bytes": "41969",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "168960",
+                "movieTimescale": 192000,
+                "trackId": 1
+              },
+              {
+                "duration": "167936",
+                "movieTimescale": 192000,
+                "trackId": 2
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": true,
+            "packets": 64,
+            "retained": true,
+            "sha256": "3cf4d6fd5688f6076fe167a886fa5e52af21f9aaa87eb1318414335d08153037",
+            "sourceEof": false,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "partial"
+        }
+      ],
+      "result": "PASS"
+    },
+    "windowsQt": {
+      "checks": [
+        "av-copy-remux-and-forget",
+        "bframes-copy-remux-and-forget",
+        "video-copy-remux-and-forget",
+        "audio-copy-remux-and-forget",
+        "audio44100-copy-remux-and-forget",
+        "fractional-copy-remux-and-forget",
+        "mov-copy-remux-and-forget",
+        "partial-copy-remux-and-forget",
+        "missing-header-has-no-artifact",
+        "missing-payload-discards-partial-mux-output",
+        "physical-tail-without-publication-is-not-remuxed",
+        "sparse-hole-is-not-remuxed-as-zeros",
+        "publication-retries-remux",
+        "cancel-after-success-drops-private-stage",
+        "incomplete-bframe-gop-is-not-staged-False",
+        "incomplete-bframe-gop-is-not-staged-True",
+        "nonzero-start-is-not-silently-rebased",
+        "encrypted-packets-are-not-declared-ready",
+        "unsupported-codec-is-not-transcoded",
+        "integrity-error-discards-stage",
+        "cancel-discards-pending-stage",
+        "reject-webm-remux-before-worker",
+        "reject-mpegts-remux-before-worker",
+        "reject-http-remux-before-worker"
+      ],
+      "count": 24,
+      "originalsUnchanged": true,
+      "playbackTested": false,
+      "preparationOnly": true,
+      "remuxTested": true,
+      "reports": [
+        {
+          "output": {
+            "bytes": "54689",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 1
+              },
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 2
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 73,
+            "retained": true,
+            "sha256": "19716d75506157708726d43ba4d138e59adfacb7a02bd02f0ba3243231c25139",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "av"
+        },
+        {
+          "output": {
+            "bytes": "43502",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 1
+              },
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 2
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 73,
+            "retained": true,
+            "sha256": "f6a95b8994effa0b4b10e91908c924c0a6ff78c01cdfef864cc27a95d9097e1b",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "bframes"
+        },
+        {
+          "output": {
+            "bytes": "37343",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "12800",
+                "movieTimescale": 12800,
+                "trackId": 1
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 25,
+            "retained": true,
+            "sha256": "92341f47d0c0c5a1d248fab35b1f375c19a12d094ba87acba6d87dd3d2a38261",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "video"
+        },
+        {
+          "output": {
+            "bytes": "10018",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "48000",
+                "movieTimescale": 48000,
+                "trackId": 1
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 48,
+            "retained": true,
+            "sha256": "41c6602840b26eec387cb44e03c89f3ba65f2bdf5eb3fa822197263141c5cbef",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "audio"
+        },
+        {
+          "output": {
+            "bytes": "17353",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "44100",
+                "movieTimescale": 44100,
+                "trackId": 1
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 45,
+            "retained": true,
+            "sha256": "eaa59bea5e8e692c24866a7a75c9dee6bc714f61cd2dd74427ef51f56b5274b0",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "audio44100"
+        },
+        {
+          "output": {
+            "bytes": "57812",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "240240",
+                "movieTimescale": 240000,
+                "trackId": 1
+              },
+              {
+                "duration": "240000",
+                "movieTimescale": 240000,
+                "trackId": 2
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 78,
+            "retained": true,
+            "sha256": "1f79881531cb92d4573c8fa222950476ff85f05520aa7bc3bafda2b3808b1838",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "fractional"
+        },
+        {
+          "output": {
+            "bytes": "47384",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 1
+              },
+              {
+                "duration": "192000",
+                "movieTimescale": 192000,
+                "trackId": 2
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": false,
+            "packets": 73,
+            "retained": true,
+            "sha256": "a5d066b3602de2174c2de5ece931fe677931cce3ad72ba4985a8446f6ee79a6e",
+            "sourceEof": true,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "mov"
+        },
+        {
+          "output": {
+            "bytes": "42016",
+            "container": "mp4",
+            "edits": [
+              {
+                "duration": "168960",
+                "movieTimescale": 192000,
+                "trackId": 1
+              },
+              {
+                "duration": "167936",
+                "movieTimescale": 192000,
+                "trackId": 2
+              }
+            ],
+            "gaplessEditsSealed": true,
+            "packetLimited": true,
+            "packets": 64,
+            "retained": true,
+            "sha256": "62b59a213ba52371e962e694e0b32603c0ac9acc681db7756ffab5edfd81d70d",
+            "sourceEof": false,
+            "storage": "bounded-private-memory",
+            "transcoded": false
+          },
+          "profile": "partial"
+        }
+      ],
+      "result": "PASS"
+    },
+    "classic": {
+      "result": "PASS",
+      "count": 24,
+      "checks": [
+        "av-copy-remux-and-forget",
+        "bframes-copy-remux-and-forget",
+        "video-copy-remux-and-forget",
+        "audio-copy-remux-and-forget",
+        "audio44100-copy-remux-and-forget",
+        "fractional-copy-remux-and-forget",
+        "mov-copy-remux-and-forget",
+        "partial-copy-remux-and-forget",
+        "missing-header-has-no-artifact",
+        "missing-payload-discards-partial-mux-output",
+        "physical-tail-without-publication-is-not-remuxed",
+        "sparse-hole-is-not-remuxed-as-zeros",
+        "publication-retries-remux",
+        "cancel-after-success-drops-private-stage",
+        "incomplete-bframe-gop-is-not-staged-False",
+        "incomplete-bframe-gop-is-not-staged-True",
+        "nonzero-start-is-not-silently-rebased",
+        "encrypted-packets-are-not-declared-ready",
+        "unsupported-codec-is-not-transcoded",
+        "integrity-error-discards-stage",
+        "cancel-discards-pending-stage",
+        "reject-webm-remux-before-worker",
+        "reject-mpegts-remux-before-worker",
+        "reject-http-remux-before-worker"
+      ],
+      "reports": [
+        {
+          "profile": "av",
+          "output": {
+            "container": "mp4",
+            "bytes": "54689",
+            "sha256": "19716d75506157708726d43ba4d138e59adfacb7a02bd02f0ba3243231c25139",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          }
+        },
+        {
+          "profile": "bframes",
+          "output": {
+            "container": "mp4",
+            "bytes": "43502",
+            "sha256": "f6a95b8994effa0b4b10e91908c924c0a6ff78c01cdfef864cc27a95d9097e1b",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          }
+        },
+        {
+          "profile": "video",
+          "output": {
+            "container": "mp4",
+            "bytes": "37343",
+            "sha256": "92341f47d0c0c5a1d248fab35b1f375c19a12d094ba87acba6d87dd3d2a38261",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 25,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 12800,
+                "duration": "12800"
+              }
+            ],
+            "retained": true
+          }
+        },
+        {
+          "profile": "audio",
+          "output": {
+            "container": "mp4",
+            "bytes": "10018",
+            "sha256": "41c6602840b26eec387cb44e03c89f3ba65f2bdf5eb3fa822197263141c5cbef",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 48,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 48000,
+                "duration": "48000"
+              }
+            ],
+            "retained": true
+          }
+        },
+        {
+          "profile": "audio44100",
+          "output": {
+            "container": "mp4",
+            "bytes": "17353",
+            "sha256": "eaa59bea5e8e692c24866a7a75c9dee6bc714f61cd2dd74427ef51f56b5274b0",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 45,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 44100,
+                "duration": "44100"
+              }
+            ],
+            "retained": true
+          }
+        },
+        {
+          "profile": "fractional",
+          "output": {
+            "container": "mp4",
+            "bytes": "57812",
+            "sha256": "1f79881531cb92d4573c8fa222950476ff85f05520aa7bc3bafda2b3808b1838",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 78,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 240000,
+                "duration": "240240"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 240000,
+                "duration": "240000"
+              }
+            ],
+            "retained": true
+          }
+        },
+        {
+          "profile": "mov",
+          "output": {
+            "container": "mp4",
+            "bytes": "47384",
+            "sha256": "a5d066b3602de2174c2de5ece931fe677931cce3ad72ba4985a8446f6ee79a6e",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          }
+        },
+        {
+          "profile": "partial",
+          "output": {
+            "container": "mp4",
+            "bytes": "42016",
+            "sha256": "62b59a213ba52371e962e694e0b32603c0ac9acc681db7756ffab5edfd81d70d",
+            "gaplessEditsSealed": true,
+            "sourceEof": false,
+            "packetLimited": true,
+            "packets": 64,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "168960"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "167936"
+              }
+            ],
+            "retained": true
+          }
+        }
+      ],
+      "preparationOnly": true,
+      "playbackTested": false,
+      "remuxTested": true,
+      "originalsUnchanged": true
+    }
+  },
+  "native": {
+    "linux": {
+      "result": "PASS",
+      "count": 24,
+      "checks": [
+        "av-copy-remux-and-forget",
+        "bframes-copy-remux-and-forget",
+        "video-copy-remux-and-forget",
+        "audio-copy-remux-and-forget",
+        "audio44100-copy-remux-and-forget",
+        "fractional-copy-remux-and-forget",
+        "mov-copy-remux-and-forget",
+        "partial-copy-remux-and-forget",
+        "missing-header-has-no-artifact",
+        "missing-payload-discards-partial-mux-output",
+        "physical-tail-without-publication-is-not-remuxed",
+        "sparse-hole-is-not-remuxed-as-zeros",
+        "publication-retries-remux",
+        "cancel-after-success-drops-private-stage",
+        "incomplete-bframe-gop-is-not-staged-False",
+        "incomplete-bframe-gop-is-not-staged-True",
+        "nonzero-start-is-not-silently-rebased",
+        "encrypted-packets-are-not-declared-ready",
+        "unsupported-codec-is-not-transcoded",
+        "integrity-error-discards-stage",
+        "cancel-discards-pending-stage",
+        "reject-webm-remux-before-worker",
+        "reject-mpegts-remux-before-worker",
+        "reject-http-remux-before-worker"
+      ],
+      "reports": [
+        {
+          "profile": "av",
+          "output": {
+            "container": "mp4",
+            "bytes": "54664",
+            "sha256": "ba561a019b887f91343ba82f9e9e03e22e0abfcec4c1a6a185aaa62383bce960",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "bframes",
+          "output": {
+            "container": "mp4",
+            "bytes": "43491",
+            "sha256": "a30359490953309df39505c30bb3005b9bcb85e097c8eef547796ae12238a438",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "video",
+          "output": {
+            "container": "mp4",
+            "bytes": "37343",
+            "sha256": "309f86fa52fa34b99b3f7dd3f2607262fe88f03a79e5704dedffcc219d06d59c",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 25,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 12800,
+                "duration": "12800"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 25,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio",
+          "output": {
+            "container": "mp4",
+            "bytes": "10008",
+            "sha256": "b1c9d6f41d215734ab62019dfb0f46c81476dfd1672c4e348bfc4f0e503fd3e0",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 48,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 48000,
+                "duration": "48000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 48,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio44100",
+          "output": {
+            "container": "mp4",
+            "bytes": "17360",
+            "sha256": "596d72e90f0a8e40945bb0a54c31bb4d849cceb2d6981e9170b4fe9c0df2a678",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 45,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 44100,
+                "duration": "44100"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 45,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "fractional",
+          "output": {
+            "container": "mp4",
+            "bytes": "57801",
+            "sha256": "e0d86d859c50989a69459b13050326d8dab270fda639b59a5cf66be6a0ab6507",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 78,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 240000,
+                "duration": "240240"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 240000,
+                "duration": "240000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 78,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "mov",
+          "output": {
+            "container": "mp4",
+            "bytes": "47373",
+            "sha256": "12c02dd5caddf874ce3cd242dcfb06f52635ac41bae852098dab86ce4e10a898",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "partial",
+          "output": {
+            "container": "mp4",
+            "bytes": "41969",
+            "sha256": "3cf4d6fd5688f6076fe167a886fa5e52af21f9aaa87eb1318414335d08153037",
+            "gaplessEditsSealed": true,
+            "sourceEof": false,
+            "packetLimited": true,
+            "packets": 64,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "168960"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "167936"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 64,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": false
+        }
+      ],
+      "preparationOnly": true,
+      "playbackTested": false,
+      "remuxTested": true,
+      "originalsUnchanged": true
+    },
+    "windowsMinGW": {
+      "result": "PASS",
+      "count": 24,
+      "checks": [
+        "av-copy-remux-and-forget",
+        "bframes-copy-remux-and-forget",
+        "video-copy-remux-and-forget",
+        "audio-copy-remux-and-forget",
+        "audio44100-copy-remux-and-forget",
+        "fractional-copy-remux-and-forget",
+        "mov-copy-remux-and-forget",
+        "partial-copy-remux-and-forget",
+        "missing-header-has-no-artifact",
+        "missing-payload-discards-partial-mux-output",
+        "physical-tail-without-publication-is-not-remuxed",
+        "sparse-hole-is-not-remuxed-as-zeros",
+        "publication-retries-remux",
+        "cancel-after-success-drops-private-stage",
+        "incomplete-bframe-gop-is-not-staged-False",
+        "incomplete-bframe-gop-is-not-staged-True",
+        "nonzero-start-is-not-silently-rebased",
+        "encrypted-packets-are-not-declared-ready",
+        "unsupported-codec-is-not-transcoded",
+        "integrity-error-discards-stage",
+        "cancel-discards-pending-stage",
+        "reject-webm-remux-before-worker",
+        "reject-mpegts-remux-before-worker",
+        "reject-http-remux-before-worker"
+      ],
+      "reports": [
+        {
+          "profile": "av",
+          "output": {
+            "container": "mp4",
+            "bytes": "54689",
+            "sha256": "19716d75506157708726d43ba4d138e59adfacb7a02bd02f0ba3243231c25139",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "bframes",
+          "output": {
+            "container": "mp4",
+            "bytes": "43502",
+            "sha256": "f6a95b8994effa0b4b10e91908c924c0a6ff78c01cdfef864cc27a95d9097e1b",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "video",
+          "output": {
+            "container": "mp4",
+            "bytes": "37343",
+            "sha256": "92341f47d0c0c5a1d248fab35b1f375c19a12d094ba87acba6d87dd3d2a38261",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 25,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 12800,
+                "duration": "12800"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 25,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio",
+          "output": {
+            "container": "mp4",
+            "bytes": "10018",
+            "sha256": "41c6602840b26eec387cb44e03c89f3ba65f2bdf5eb3fa822197263141c5cbef",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 48,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 48000,
+                "duration": "48000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 48,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio44100",
+          "output": {
+            "container": "mp4",
+            "bytes": "17353",
+            "sha256": "eaa59bea5e8e692c24866a7a75c9dee6bc714f61cd2dd74427ef51f56b5274b0",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 45,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 44100,
+                "duration": "44100"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 45,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "fractional",
+          "output": {
+            "container": "mp4",
+            "bytes": "57812",
+            "sha256": "1f79881531cb92d4573c8fa222950476ff85f05520aa7bc3bafda2b3808b1838",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 78,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 240000,
+                "duration": "240240"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 240000,
+                "duration": "240000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 78,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "mov",
+          "output": {
+            "container": "mp4",
+            "bytes": "47384",
+            "sha256": "a5d066b3602de2174c2de5ece931fe677931cce3ad72ba4985a8446f6ee79a6e",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "partial",
+          "output": {
+            "container": "mp4",
+            "bytes": "42016",
+            "sha256": "62b59a213ba52371e962e694e0b32603c0ac9acc681db7756ffab5edfd81d70d",
+            "gaplessEditsSealed": true,
+            "sourceEof": false,
+            "packetLimited": true,
+            "packets": 64,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "168960"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "167936"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 64,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": false
+        }
+      ],
+      "preparationOnly": true,
+      "playbackTested": false,
+      "remuxTested": true,
+      "originalsUnchanged": true
+    },
+    "windowsMSVC": {
+      "result": "PASS",
+      "count": 24,
+      "checks": [
+        "av-copy-remux-and-forget",
+        "bframes-copy-remux-and-forget",
+        "video-copy-remux-and-forget",
+        "audio-copy-remux-and-forget",
+        "audio44100-copy-remux-and-forget",
+        "fractional-copy-remux-and-forget",
+        "mov-copy-remux-and-forget",
+        "partial-copy-remux-and-forget",
+        "missing-header-has-no-artifact",
+        "missing-payload-discards-partial-mux-output",
+        "physical-tail-without-publication-is-not-remuxed",
+        "sparse-hole-is-not-remuxed-as-zeros",
+        "publication-retries-remux",
+        "cancel-after-success-drops-private-stage",
+        "incomplete-bframe-gop-is-not-staged-False",
+        "incomplete-bframe-gop-is-not-staged-True",
+        "nonzero-start-is-not-silently-rebased",
+        "encrypted-packets-are-not-declared-ready",
+        "unsupported-codec-is-not-transcoded",
+        "integrity-error-discards-stage",
+        "cancel-discards-pending-stage",
+        "reject-webm-remux-before-worker",
+        "reject-mpegts-remux-before-worker",
+        "reject-http-remux-before-worker"
+      ],
+      "reports": [
+        {
+          "profile": "av",
+          "output": {
+            "container": "mp4",
+            "bytes": "54689",
+            "sha256": "19716d75506157708726d43ba4d138e59adfacb7a02bd02f0ba3243231c25139",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "bframes",
+          "output": {
+            "container": "mp4",
+            "bytes": "43502",
+            "sha256": "f6a95b8994effa0b4b10e91908c924c0a6ff78c01cdfef864cc27a95d9097e1b",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "video",
+          "output": {
+            "container": "mp4",
+            "bytes": "37343",
+            "sha256": "92341f47d0c0c5a1d248fab35b1f375c19a12d094ba87acba6d87dd3d2a38261",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 25,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 12800,
+                "duration": "12800"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 25,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio",
+          "output": {
+            "container": "mp4",
+            "bytes": "10018",
+            "sha256": "41c6602840b26eec387cb44e03c89f3ba65f2bdf5eb3fa822197263141c5cbef",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 48,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 48000,
+                "duration": "48000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 48,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio44100",
+          "output": {
+            "container": "mp4",
+            "bytes": "17353",
+            "sha256": "eaa59bea5e8e692c24866a7a75c9dee6bc714f61cd2dd74427ef51f56b5274b0",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 45,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 44100,
+                "duration": "44100"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 45,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "fractional",
+          "output": {
+            "container": "mp4",
+            "bytes": "57812",
+            "sha256": "1f79881531cb92d4573c8fa222950476ff85f05520aa7bc3bafda2b3808b1838",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 78,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 240000,
+                "duration": "240240"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 240000,
+                "duration": "240000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 78,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "mov",
+          "output": {
+            "container": "mp4",
+            "bytes": "47384",
+            "sha256": "a5d066b3602de2174c2de5ece931fe677931cce3ad72ba4985a8446f6ee79a6e",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "partial",
+          "output": {
+            "container": "mp4",
+            "bytes": "42016",
+            "sha256": "62b59a213ba52371e962e694e0b32603c0ac9acc681db7756ffab5edfd81d70d",
+            "gaplessEditsSealed": true,
+            "sourceEof": false,
+            "packetLimited": true,
+            "packets": 64,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "168960"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "167936"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 64,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": false
+        }
+      ],
+      "preparationOnly": true,
+      "playbackTested": false,
+      "remuxTested": true,
+      "originalsUnchanged": true
+    },
+    "linuxSanitized": {
+      "result": "PASS",
+      "count": 24,
+      "checks": [
+        "av-copy-remux-and-forget",
+        "bframes-copy-remux-and-forget",
+        "video-copy-remux-and-forget",
+        "audio-copy-remux-and-forget",
+        "audio44100-copy-remux-and-forget",
+        "fractional-copy-remux-and-forget",
+        "mov-copy-remux-and-forget",
+        "partial-copy-remux-and-forget",
+        "missing-header-has-no-artifact",
+        "missing-payload-discards-partial-mux-output",
+        "physical-tail-without-publication-is-not-remuxed",
+        "sparse-hole-is-not-remuxed-as-zeros",
+        "publication-retries-remux",
+        "cancel-after-success-drops-private-stage",
+        "incomplete-bframe-gop-is-not-staged-False",
+        "incomplete-bframe-gop-is-not-staged-True",
+        "nonzero-start-is-not-silently-rebased",
+        "encrypted-packets-are-not-declared-ready",
+        "unsupported-codec-is-not-transcoded",
+        "integrity-error-discards-stage",
+        "cancel-discards-pending-stage",
+        "reject-webm-remux-before-worker",
+        "reject-mpegts-remux-before-worker",
+        "reject-http-remux-before-worker"
+      ],
+      "reports": [
+        {
+          "profile": "av",
+          "output": {
+            "container": "mp4",
+            "bytes": "54664",
+            "sha256": "ba561a019b887f91343ba82f9e9e03e22e0abfcec4c1a6a185aaa62383bce960",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "bframes",
+          "output": {
+            "container": "mp4",
+            "bytes": "43491",
+            "sha256": "a30359490953309df39505c30bb3005b9bcb85e097c8eef547796ae12238a438",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "video",
+          "output": {
+            "container": "mp4",
+            "bytes": "37343",
+            "sha256": "309f86fa52fa34b99b3f7dd3f2607262fe88f03a79e5704dedffcc219d06d59c",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 25,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 12800,
+                "duration": "12800"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 25,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio",
+          "output": {
+            "container": "mp4",
+            "bytes": "10008",
+            "sha256": "b1c9d6f41d215734ab62019dfb0f46c81476dfd1672c4e348bfc4f0e503fd3e0",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 48,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 48000,
+                "duration": "48000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 48,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio44100",
+          "output": {
+            "container": "mp4",
+            "bytes": "17360",
+            "sha256": "596d72e90f0a8e40945bb0a54c31bb4d849cceb2d6981e9170b4fe9c0df2a678",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 45,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 44100,
+                "duration": "44100"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 45,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "fractional",
+          "output": {
+            "container": "mp4",
+            "bytes": "57801",
+            "sha256": "e0d86d859c50989a69459b13050326d8dab270fda639b59a5cf66be6a0ab6507",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 78,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 240000,
+                "duration": "240240"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 240000,
+                "duration": "240000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 78,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "mov",
+          "output": {
+            "container": "mp4",
+            "bytes": "47373",
+            "sha256": "12c02dd5caddf874ce3cd242dcfb06f52635ac41bae852098dab86ce4e10a898",
+            "gaplessEditsSealed": true,
+            "sourceEof": true,
+            "packetLimited": false,
+            "packets": 73,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "192000"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "partial",
+          "output": {
+            "container": "mp4",
+            "bytes": "41969",
+            "sha256": "3cf4d6fd5688f6076fe167a886fa5e52af21f9aaa87eb1318414335d08153037",
+            "gaplessEditsSealed": true,
+            "sourceEof": false,
+            "packetLimited": true,
+            "packets": 64,
+            "transcoded": false,
+            "storage": "bounded-private-memory",
+            "edits": [
+              {
+                "trackId": 1,
+                "movieTimescale": 192000,
+                "duration": "168960"
+              },
+              {
+                "trackId": 2,
+                "movieTimescale": 192000,
+                "duration": "167936"
+              }
+            ],
+            "retained": true
+          },
+          "packets": 64,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": false
+        }
+      ],
+      "preparationOnly": true,
+      "playbackTested": false,
+      "remuxTested": true,
+      "originalsUnchanged": true
+    }
+  },
+  "worker": {
+    "linuxSanitized": {
+      "result": "PASS",
+      "count": 10,
+      "reports": [
+        {
+          "profile": "av",
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "bframes",
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "video",
+          "packets": 25,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio",
+          "packets": 48,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio44100",
+          "packets": 45,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "fractional",
+          "packets": 78,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "mov",
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "partial",
+          "packets": 64,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": false
+        },
+        {
+          "profile": "missing",
+          "normalExitOrTypedError": true
+        },
+        {
+          "profile": "unsupported",
+          "normalExitOrTypedError": true
+        }
+      ],
+      "normalChildExitObserved": true,
+      "stderrSanitizerDiagnosticsChecked": true
+    },
+    "windowsMSVC": {
+      "result": "PASS",
+      "count": 10,
+      "reports": [
+        {
+          "profile": "av",
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "bframes",
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "video",
+          "packets": 25,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio",
+          "packets": 48,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "audio44100",
+          "packets": 45,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "fractional",
+          "packets": 78,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "mov",
+          "packets": 73,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "partial",
+          "packets": 64,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": false
+        },
+        {
+          "profile": "missing",
+          "normalExitOrTypedError": true
+        },
+        {
+          "profile": "unsupported",
+          "normalExitOrTypedError": true
+        }
+      ],
+      "normalChildExitObserved": true,
+      "stderrSanitizerDiagnosticsChecked": true
+    }
+  },
+  "testExitCodes": {
+    "remux-linux-final-build": 0,
+    "remux-linux-final-tests": 0,
+    "remux-winqt-final-build": 0,
+    "remux-winqt-final-tests": 0,
+    "remux-msvc-final-build": 0,
+    "remux-msvc-final-tests": 0,
+    "remux-msvc-final-process": 0,
+    "remux-msvc-final-worker": 0,
+    "remux-classic-final-build": 0,
+    "remux-classic-finalize": 0,
+    "remux-asan-final-worker-build": 0,
+    "remux-asan-final-parent-build": 0,
+    "remux-asan-final-tests": 0,
+    "remux-asan-final-worker-tests": 0,
+    "remux-asan-final-process": 0,
+    "remux-sdk-final": 0,
+    "remux-sdk-windows": 0,
+    "remux-source-preservation-linux": 0,
+    "remux-source-preservation-windows": 0,
+    "remux-linux-install": 0,
+    "remux-runtime-msvc": 0,
+    "remux-install-check": 0
+  },
+  "sdkUnitTests": {
+    "linux": 20,
+    "windows": 20
+  },
+  "qtCtest": {
+    "linux": {
+      "passed": 10,
+      "exitCode": 0
+    },
+    "windows": {
+      "passed": 10,
+      "exitCode": 0
+    }
+  },
+  "regression": {
+    "qtProfiles": [
+      "h264-opus",
+      "vp9-10-opus-mono-fractional"
+    ],
+    "classicProfiles": [
+      "main-bframes",
+      "hevc10-fractional",
+      "av1-10-fractional",
+      "vp9-10-fractional"
+    ],
+    "classicLegacy": [
+      "fragmented",
+      "indexed"
+    ],
+    "newRemuxPlaybackTested": false
+  },
+  "binarySha256": {
+    "linuxQt": "d76621c795797ce1d3e0266d6d973e07946f0fc3fb218fc2a61e83da0a51ae9d",
+    "windowsQt": "d396442d49396af8d1fb24c5d45e3792677d37ce6d4f15a2bdb2694ccd2018fd",
+    "classic": "270f6027de221a5dbfad000d2d17d146f0abe0d97802cae2a3d473c00d8a12b2",
+    "linuxWorker": "e95993579ae84ba8e053a565170893f6c3ee2a8009cbca184cc0ee7c6bcc8209",
+    "windowsQtWorker": "301a1b8414653a5741cdd1c52e6a0d571f730d0e63891e1caa7880fd5024e4ac",
+    "windowsClassicWorker": "7b33bfbeb1131cac39ff293371b363d3d54ae0bd4504972e551647723dcc8017"
+  },
+  "linuxInstallation": {
+    "version": "FoxicMPQt 0.2.0",
+    "installedSha256": "d76621c795797ce1d3e0266d6d973e07946f0fc3fb218fc2a61e83da0a51ae9d",
+    "previousInstalledSha256": "b274810bff5ed689e3acc9b1fc1857cffe036430571c4449acebc6c7d75ba952",
+    "installedWorkerSha256": "e95993579ae84ba8e053a565170893f6c3ee2a8009cbca184cc0ee7c6bcc8209",
+    "previousWorkerSha256": "626c1f82f1ea68ade08516312597805c6b0572278aeab4a26d9dd32589cef383",
+    "backups": [
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.52-20261031T152453Z",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-demux-worker.before-sdk-1.52-20261031T152453Z"
+    ],
+    "profileSha256Before": "703b669653acb3f84eb6a1a04119733368cd2a750b2c65a1bf4e4b4b8fccfd68",
+    "profileSha256After": "703b669653acb3f84eb6a1a04119733368cd2a750b2c65a1bf4e4b4b8fccfd68",
+    "profileUnchanged": true,
+    "protectedFilesVerified": 210,
+    "backend": {
+      "avformatVersion": 3936356,
+      "avcodecVersion": 3940198,
+      "avutilVersion": 3808612,
+      "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74",
+      "code": "data"
+    },
+    "runningInstalledProcessesBefore": 0,
+    "viewerInterrupted": false,
+    "backendRemuxProbe": {
+      "aacChannels": [
+        1,
+        2
+      ],
+      "aacProfiles": [
+        "LC"
+      ],
+      "aacRates": [
+        44100,
+        48000
+      ],
+      "availability": "checked-per-request",
+      "boundedClip": true,
+      "codecs": [
+        "h264",
+        "aac"
+      ],
+      "formatHints": [
+        "mp4",
+        "m4a",
+        "mov"
+      ],
+      "gaplessEditsSealed": true,
+      "integrityRequired": true,
+      "maxAudioStreams": 1,
+      "maxOutputBytes": 16777216,
+      "maxPackets": 128,
+      "maxVideoStreams": 1,
+      "mode": "libavformat-avio-mp4-stage-v1",
+      "originalsModified": false,
+      "output": "mp4-clip",
+      "playbackSupported": false,
+      "preparationOnly": true,
+      "presentationStart": 0,
+      "reorderedVideoRequiresSourceEof": true,
+      "storage": "bounded-private-memory",
+      "transcoding": false,
+      "version": 1,
+      "wholeSourcePlayback": false
+    }
+  },
+  "classicIsolation": {
+    "finalized": {
+      "lastTaskResult": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "builtSha256": "270f6027de221a5dbfad000d2d17d146f0abe0d97802cae2a3d473c00d8a12b2",
+      "testedSha256": "270f6027de221a5dbfad000d2d17d146f0abe0d97802cae2a3d473c00d8a12b2",
+      "equal": true,
+      "testExitCode": 0
+    },
+    "installedShellRegistrationUnchanged": true,
+    "windowsInstalledProfilesChanged": false
+  },
+  "backends": {
+    "linux": {
+      "avformatVersion": 3936356,
+      "avcodecVersion": 3940198,
+      "avutilVersion": 3808612,
+      "configurationSha256": "a0760a0fc74d8d88f76e740f0f8a18f39bb3192a825eb705b9f42a51f1a41a74",
+      "code": "data"
+    },
+    "windowsMSVC": {
+      "avformatVersion": 4129126,
+      "avcodecVersion": 4129126,
+      "avutilVersion": 3998054,
+      "configurationSha256": "4829b581f76844b0c24a04d122cb5f7de108639d339642aac5849e2dbc132c02",
+      "code": "data"
+    }
+  },
+  "sourceFilesSha256": {
+    "shared/progressivebackendprobe.h": "8d52983ab50b00ddb4db3e8e832c974edd2d7db5aca96321c304d719115083ae",
+    "shared/progressiveresourceprobe.h": "6c73ef1cf91ab8ac185466dd63731992c4c1ce94bf200e38bed5639ec4b0ba40",
+    "tools/progressive_demux_worker.cpp": "12de0352f92334cffed75da4b384cdb10b40d59a2b7fa6299030cabf7247c55b",
+    "tools/package_progressive_sdk.py": "4972e09df57f91e7317c4113f221479c4ac6d0394b6c9effb65d44b92d4812e5",
+    "qt/CMakeLists.txt": "8d9836921240405aa59fd435c066847c210f8675534fcc8aff42cadd02bace6d",
+    "qt/src/progressiveapi.cpp": "60cc0c5806f3d84bf47e5a410a7a76f6cbc7974e2e6d04902891789fdf250ca1",
+    "qt/tests/progressiveapi_test.cpp": "a8086b595388900d51bdf4c754971ed783be941b69d7fae80294e9ef60a66f52",
+    "qt/tools/progressive_resources.py": "5aa305b367c76b31743930b6eb22dc94874fbe74094b36c1b65f02bc3c00db60",
+    "src/apps/mplayerc/ClassicProgressiveApi.cpp": "5c9067c4f5f8e93230f7e74862a3a387ada86ed2e51bd6a5e45e9f6186ec91a7",
+    "tests/progressive_resources_test.py": "cd45188b1266ace140991c2cc77b8f83cc8897d9e97975e90ee27c04a43d4966",
+    "tests/progressive_resource_cli.cpp": "e7479a26b8252ae2b5d577a1ed796965fd36b53da6500940a3ec6667002ef623",
+    "tests/progressive_backend_worker_test.py": "4626478160df605b251927e93d37b25f600d22803410ca08195f22ed78dbbfb9",
+    "tests/progressive_backend_remux_conformance.py": "49df71544c6e124b6201ad7b0f33b667ccf23bbbd03514d3947066b9f05a8577",
+    "tests/progressive_backend_remux_worker_test.py": "468d32a058f9eaee0478e1fc76c1a0b03d060f23934ceeb4cd2d2ac728e3079e",
+    "tests/windows/progressive_family_test.py": "e01adcfd90c3607b981add74c05208ee881985afd7d5de1a97a3a853d53a1308"
+  },
+  "privateLogSha256": {
+    "remux-linux-final-tests.log": "8bea84b2693965477e4e9d5712c760d469de9c568fb5eb51793b5f10ad43bc7a",
+    "remux-winqt-final-tests.log": "f9e803a0ae7c96473560199c1bc9fccd5d3298f6bb5b33a2f605f6e41f550af5",
+    "remux-source-preservation-linux.log": "f82d9be83dec30a87ed37dca79dfd5da3e1ee46d115824ef4da75f54504a3d94",
+    "remux-source-preservation-windows.log": "da971d154ab0699c244f4c9898e7cebdf994ee5b6a1f74ed7ecb9a870ec30654",
+    "remux-msvc-final-worker.log": "3bcf41551e76c365f65d2ce45d3490f01206bf9ec0a9e1baf89f39cfbd7c79bb",
+    "remux-asan-final-tests.log": "f82d9be83dec30a87ed37dca79dfd5da3e1ee46d115824ef4da75f54504a3d94",
+    "remux-asan-final-worker-tests.log": "83ed6e9455aa7cd6f03fe2e86c1d0a4dd1f7fb25b90597d156da83d2357cddf3",
+    "remux-sdk-final.log": "93a2f135ece9fb410e80da036e9155fd095a090dcde213e64868a6550efa79cc",
+    "remux-sdk-windows.log": "fa936502c9709d926817eed0821f54dfc7fdac1f9c44a2e9b75d9571e7b03222",
+    "remux-stage-classic/segments/result.json": "aaed952c2e32e21538841e8f991dcb2b567cf08dcb866d90fe084b0adb599c11",
+    "remux-stage-classic/compat/result.json": "985e03ae6d1ed503e6aed31a7b8fc4923b32334690a7faeff6cd8d40e7552732",
+    "remux-stage-classic/v1/result.json": "9499e8c921498779d53ca758d328cb4665513491cd6b485ca39422e445868ff1"
+  },
+  "resolvedFailedAttempts": [
+    {
+      "exitCode": 1,
+      "scope": "fragmented MP4 candidate",
+      "reason": "Decoded Windows AAC lost end padding; replaced with standard finalized MP4 through seekable RAM AVIO, decoded comparison remains exact"
+    },
+    {
+      "exitCode": 2,
+      "scope": "MSVC worker build",
+      "reason": "Used legacy FF_PROFILE_AAC_LOW removed by newer headers; switched to common AV_PROFILE_AAC_LOW"
+    },
+    {
+      "exitCode": 8,
+      "scope": "intermediate Qt tests",
+      "reason": "Candidate output and intermediate rejection expectations failed; final suites pass independently"
+    },
+    {
+      "exitCode": 1,
+      "scope": "first Classic one-shot setup",
+      "reason": "Wrong build-gate filename; failed before creating or starting a test player; corrected and rerun"
+    }
+  ],
+  "limits": {
+    "maxPackets": 128,
+    "maxOutputBytes": 16777216,
+    "presentationStart": 0,
+    "reorderedVideoRequiresSourceEof": true,
+    "sourceUrlsPassed": false,
+    "additionalIoAllowed": false,
+    "networkTrafficInstrumented": false,
+    "parentDiskIoCancellable": false,
+    "publicMediaBytesOrPath": false,
+    "harvesterChanged": false,
+    "fullTechnicalSpecComplete": false
+  },
+  "cleanInstall": {
+    "result": "PASS",
+    "helperAdjacent": true,
+    "integrationSdkCurrent": true,
+    "newContractInstalled": true,
+    "systemDesktopUntouched": true
+  }
+}
