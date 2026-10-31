@@ -3,6 +3,7 @@
 #include "mpvlifetime.h"
 #include "progressivesource.h"
 #include "stdinstream.h"
+#include "preparedstreams.h"
 #include "../../shared/progressivereaderlease.h"
 #include "windowsruntime.h"
 #include <QtWidgets>
@@ -13,11 +14,26 @@ class PlayerRetirementTest:public QObject {
   Q_OBJECT
 private slots:
   void init(){QTRY_COMPARE_WITH_TIMEOUT(EngineRetirement::occupied(),size_t(0),10000);}
+  void coreAndSoftwareRendererOutliveDeletedWidget_data() {
+    QTest::addColumn<bool>("prepared");
+    QTest::newRow("ordinary-file") << false;
+    QTest::newRow("prepared-memory-clip") << true;
+  }
   void coreAndSoftwareRendererOutliveDeletedWidget() {
+    QFETCH(bool,prepared);
     auto player=std::make_unique<Player>(nullptr,"software",QMap<QString,QString>{{"ao","null"},{"hwdec","no"}});
     player->show();QTRY_VERIFY(player->ready());
     const auto media=QDir(qEnvironmentVariable("FOXICMP_TEST_MEDIA")).filePath("Русский H264.mp4");
-    QVERIFY(player->loadSource(media,{}));QTRY_VERIFY_WITH_TIMEOUT(player->get("time-pos").toDouble()>.1,10000);
+    std::shared_ptr<foxicmp::progressive::PreparedClip> clip;
+    std::weak_ptr<foxicmp::progressive::PreparedClip> weakClip;
+    QString uri=media;
+    if(prepared) {
+      QFile input(media);QVERIFY(input.open(QIODevice::ReadOnly));const auto bytes=input.readAll();
+      clip=foxicmp::progressive::PreparedClips::create(std::make_shared<const std::vector<char>>(bytes.begin(),bytes.end()));
+      weakClip=clip;uri=QString::fromStdString(clip->uri());player->attachPrepared(clip);
+    }
+    QVERIFY(player->loadSource(uri,{}));QTRY_VERIFY_WITH_TIMEOUT(player->get("time-pos").toDouble()>.1,10000);
+    if(prepared)QVERIFY(clip->readers.load()>0);
     auto* native=player->lifetime.get();auto closed=native->closed;std::weak_ptr<MpvLifetime> lifetime=player->lifetime;
     auto entered=std::make_shared<std::promise<void>>();auto ready=entered->get_future();auto release=std::make_shared<std::promise<void>>();auto gate=release->get_future().share();
     native->retirementHook=[entered,gate]{entered->set_value();gate.wait();};
@@ -28,9 +44,12 @@ private slots:
     QVERIFY(lifetime.expired());QVERIFY(!closed->load());QVERIFY(native->handle);QVERIFY(native->softwareRenderer);QVERIFY(native->streams);QVERIFY(native->stdinStream);QVERIFY(!native->owner);
     // Callbacks are still registered during the deliberately blocked native
     // close. They must not dereference the destroyed QWidget.
+    QVERIFY(native->preparedStreams);
+    if(prepared){QVERIFY(clip->cancelled.load());clip.reset();}
     Player::wakeup(native);Player::redraw(native);
     int ticks=0;QTimer tick;connect(&tick,&QTimer::timeout,&tick,[&]{++ticks;});tick.start(5);QTRY_VERIFY_WITH_TIMEOUT(ticks>=4,1000);
     release->set_value();QTRY_COMPARE_WITH_TIMEOUT(EngineRetirement::occupied(),size_t(0),10000);QVERIFY(closed->load());
+    if(prepared)QVERIFY(weakClip.expired());
   }
   void secondaryDecoderOutlivesDeletedAudioMirror() {
     Player primary(nullptr,"software",{{"ao","null"},{"hwdec","no"}});primary.show();QTRY_VERIFY(primary.ready());

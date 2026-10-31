@@ -1,3 +1,4 @@
+#include "../../shared/preparedclip.h"
 #include "progressiveapi.h"
 #include "progressivesource.h"
 #include "../../shared/progressiveretirement.h"
@@ -1041,6 +1042,28 @@ private slots:
     QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,85000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QVERIFY(writer.exitCode()==0);sample.stop();
     QVERIFY(forward);QVERIFY(backward);QVERIFY(pausedSeek);QVERIFY(resumed);QVERIFY(seekFromBuffering);QVERIFY2(subtitleTextAtTarget,qPrintable(observedSubtitleText));QVERIFY(speedPreserved);QVERIFY(unconfirmedRejected);QVERIFY(completeSeek);QVERIFY(completeObserved);QVERIFY(changingFrames);QVERIFY(audioClockAtTarget);QVERIFY(forwardLatency>=0 && forwardLatency<10000);
     auto result=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));result["audioClockAtTarget"]=audioClockAtTarget;result["softwareAvSyncSamples"]=syncSamples;result["maxSoftwareAvSyncSeconds"]=maxSoftwareAvSync;result["forwardSeekMilliseconds"]=forwardLatency;result["decodedVideoChangesAtTarget"]=changingFrames;result["audioSubtitleSelectionPreserved"]=forward && backward && pausedSeek && completeObserved;result["pausePreserved"]=pausedSeek;result["seekFromBuffering"]=seekFromBuffering;result["subtitleTextAtTarget"]=subtitleTextAtTarget;result["speedPreserved"]=speedPreserved;result["unconfirmedSeekRejected"]=unconfirmedRejected;qInfo().noquote()<<"Far-seek report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
+  }
+  void preparedRemuxPreviewPlayback() {
+    const auto dir=temporary.filePath("prepared-preview-profile");
+    const auto cleanup=qScopeGuard([&]{QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
+    Profile profile(dir);prepare(profile);Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    int ticks=0;QHash<QString,QSet<QByteArray>> images;QSet<QString> audioClocks;QTimer sample;sample.setInterval(20);
+    connect(&sample,&QTimer::timeout,&w,[&]{++ticks;if(!api.preview)return;auto id=QString::fromStdString(api.preview->id);
+      if(!w.player->get("video-codec").toString().isEmpty()){auto frame=w.player->grabFramebuffer();if(!frame.isNull())images[id].insert(QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256));}
+      if(w.player->get("audio-pts").toDouble()>0)audioClocks.insert(id);
+    });sample.start();
+    QProcess client;client.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{
+      QFileInfo(FOXICMP_RESOURCE_CONFORMANCE_SCRIPT).dir().filePath("progressive_preview_conformance.py"),"--player",playerExecutable(),"--profile",profile.directory});
+    QVERIFY(client.waitForStarted());const auto guard=qScopeGuard([&]{if(client.state()!=QProcess::NotRunning){client.kill();client.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(client.state()==QProcess::NotRunning,120000);
+    QVERIFY2(client.exitCode()==0,client.readAllStandardError().constData());sample.stop();
+    auto result=QJsonDocument::fromJson(client.readAllStandardOutput()).object();QCOMPARE(result["result"].toString(),QString("PASS"));QVERIFY(ticks>20);
+    for(const auto& entry:result["profiles"].toArray()) {auto row=entry.toObject();auto kind=row["profile"].toString();auto id=row["playing"].toObject()["previewId"].toString();
+      if(kind!="audio")QVERIFY2(images[id].size()>1,qPrintable(kind+": no changing decoded frames"));
+      if(kind!="video")QVERIFY2(audioClocks.contains(id),qPrintable(kind+": no decoded audio clock"));
+    }
+    QVERIFY(!profile.settings.value("history/files").toStringList().join("\n").contains("foxicmp-remux://"));
+    result["changingDecodedFrames"]=true;result["decodedAudioClock"]=true;qInfo().noquote()<<"Prepared preview report:"<<QJsonDocument(result).toJson(QJsonDocument::Compact);
   }
   void backendRemuxKeepsPlaybackAndUiResponsive() {
     const auto dir=temporary.filePath("backend-remux-profile");

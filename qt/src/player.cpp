@@ -1,4 +1,5 @@
 #include "player.h"
+#include "preparedstreams.h"
 #include "mpvlifetime.h"
 #include "stdinstream.h"
 #include "glsurface.h"
@@ -90,6 +91,7 @@ Player::Player(QWidget *parent, const QString &output,
   lifetime->initialized=true;
   progressive = std::make_unique<ProgressiveStreams>(handle);
   stdinStream = std::make_unique<StdinStream>(handle);
+  preparedStreams = std::make_unique<PreparedStreams>(handle);
   mpv_request_log_messages(handle,
       qEnvironmentVariableIsSet("FOXICMP_MPV_LOG") ? "debug" : "warn");
   for (const auto *name :
@@ -213,10 +215,11 @@ void Player::retire() {
   // Never hold this mutex while calling libmpv (a wakeup can be reentrant).
   {std::lock_guard<std::mutex> lock(lifetime->callbackMutex);lifetime->owner=nullptr;}
   if(stdinStream)stdinStream->clear();
+  if(preparedStreams)preparedStreams->clear();
   if(progressive){lifetime->retainedSource=progressive->current();progressive->clear();}
   lifetime->requestStop();
   if(surface){delete surface;surface=nullptr;} // GL context must stay current on its owner thread.
-  lifetime->streams=std::move(progressive);lifetime->stdinStream=std::move(stdinStream);
+  lifetime->streams=std::move(progressive);lifetime->stdinStream=std::move(stdinStream);lifetime->preparedStreams=std::move(preparedStreams);
   renderer=nullptr;handle=nullptr;
   lifetime.reset(); // Bounded queue; no native renderer/core wait on UI for software output.
 }
@@ -432,9 +435,10 @@ bool Player::command(const QStringList &arguments, quint64 requestId) {
     pendingLoad.clear();
     pendingOptions.clear();
     stdinStream->clear();
+    preparedStreams->clear();
   }
   if (!arguments.isEmpty() && arguments.first() == "loadfile" && arguments.size() > 1)
-    stdinStream->replacing(arguments[1]);
+    {stdinStream->replacing(arguments[1]);preparedStreams->replacing(arguments[1].toStdString());}
   if (!renderer && !arguments.isEmpty() && arguments.first() == "loadfile") {
     pendingLoad = arguments;
     pendingOptions.clear();
@@ -496,6 +500,7 @@ void Player::cancelExternalTracks() {
   if (externalRequest) mpv_abort_async_command(handle, externalRequest);
   externalRequest = 0;
 }
+void Player::attachPrepared(const std::shared_ptr<foxicmp::progressive::PreparedClip>& source){preparedStreams->attach(source);}
 QString Player::attachStdin(int fd, QString *error) { return stdinStream->attach(fd, error); }
 void Player::progressiveSource(
     const std::shared_ptr<ProgressiveSource> &source) {
@@ -505,6 +510,7 @@ bool Player::loadSource(const QString &url,
                         const QMap<QString, QString> &options) {
   cancelExternalTracks();
   stdinStream->replacing(url);
+  preparedStreams->replacing(url.toStdString());
   if (!renderer) {
     pendingLoad = {"loadfile", url};
     pendingOptions = options;

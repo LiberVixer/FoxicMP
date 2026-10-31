@@ -356,7 +356,8 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
       updatePlaylistChapters();
       return;
     }
-    if (stdinPlayback) {
+    if (stdinPlayback || preparedPlayback) {
+      if(preparedPlayback){completionArmed=false;preparedDuration=player->get("duration").toDouble();}
       player->set("pause", holdAfterLoad);
       holdAfterLoad = false;
       setSpeed(1);
@@ -452,6 +453,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
       handlePlaylistFailure();
   });
   connect(player, &Player::ended, this, [this](bool natural) {
+    if(preparedPlayback){completionArmed=false;preparedFinished=natural;stopped=true;return;}
     clearAbLoop();
     pausedByMinimize = false;
     if (progressive) {
@@ -1684,6 +1686,7 @@ void Window::playIndex(int index, double start, bool resetOrder,
     filePlays = 0;
   stopped = true;
   stdinPlayback = false;
+  preparedPlayback=preparedFinished=false;
   releaseProgressive();
   currentIndex = index;
   currentItem = playlist->item(index);
@@ -1864,7 +1867,7 @@ bool Window::advanceDirectory(bool forward) {
   return true;
 }
 void Window::navigateSkip(int direction) {
-  if (stopped || stdinPlayback || DeviceSource::isLive(current))
+  if (stopped || stdinPlayback || preparedPlayback || DeviceSource::isLive(current))
     return;
   // Match Classic: toolbar buttons first move between chapters, then files.
   if (!timeline->chapters.isEmpty() && changeChapter(direction, 3.))
@@ -1878,7 +1881,7 @@ void Window::movePlaylistSelection(int delta) {
   queuePanel->moveSelected(delta);
 }
 void Window::savePosition() {
-  if (progressive || stdinPlayback)
+  if (progressive || stdinPlayback || preparedPlayback)
     return;
   if (!stopped) {
     // A seek may finish before its queued property notification reaches Qt.

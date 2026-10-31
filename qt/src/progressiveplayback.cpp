@@ -4,6 +4,7 @@
 #include "i18n.h"
 #include "player.h"
 #include "progressivesource.h"
+#include "../../shared/preparedclip.h"
 #include "timeline.h"
 #include "window.h"
 #include <QtWidgets>
@@ -61,7 +62,7 @@ bool Window::openProgressiveSource(const std::shared_ptr<ProgressiveSource> &nex
   ++playbackGeneration;
   pendingLaunchOptions = {};
   savePosition();
-  stdinPlayback = false;
+  stdinPlayback = false;preparedPlayback=preparedFinished=false;
   subtitleUserSelection = false;
   watchedSubtitle.clear();
   clearAbLoop();
@@ -435,4 +436,29 @@ void Window::updateProgressive() {
   actions["frameNext"]->setEnabled(!progressiveBuffering);
   actions["frameBack"]->setEnabled(!progressiveBuffering);
   updateClock();
+}
+
+bool Window::hasPlayback()const{return !stopped || bool(progressive) || stdinPlayback || (preparedPlayback && !preparedFinished);}
+bool Window::openPreparedClip(const std::shared_ptr<foxicmp::progressive::PreparedClip>& source,const QString& title){
+  if(!source || source->cancelled.load())return false;
+  emit playbackIntentChanged();savePosition();closePlaybackFile();
+  preparedPlayback=true;preparedFinished=false;preparedDuration=0;holdAfterLoad=false;lastError.clear();
+  current=QString::fromStdString(source->uri());expectedPlaybackSource=current;pendingLaunchOptions={};pendingTrackSelections.clear();
+  audioUserSelection=subtitleUserSelection=false;pendingResume=-1;pos=duration=0;timeline->position=timeline->duration=0;timeline->available=-1;timeline->chapters.clear();
+  applyAudioSourceOptions();player->attachPrepared(source);state->setText(uiTr("Подготовка фрагмента…"));
+  return player->loadSource(current,{{"pause","no"},{"aid","auto"},{"vid","auto"},{"sub-auto","no"},{"audio-file-auto","no"},{"force-media-title",title},{"cache","no"}});
+}
+QJsonObject Window::preparedClipStatus(const QString& uri)const{
+  const bool owned=preparedPlayback && current==uri;
+  const auto state=!owned?QString("closed"):!lastError.isEmpty()?QString("error"):preparedFinished?QString("finished"):(player->get("path").toString()!=uri || player->get("duration").toDouble()<=0)?QString("buffering"):player->get("pause").toBool()?QString("paused"):QString("playing");
+  return {{"state",state},{"active",owned && state!="finished" && state!="error"},{"positionSeconds",owned?(preparedFinished?preparedDuration:player->get("time-pos").toDouble()):0},{"durationSeconds",owned?preparedDuration:0},{"error",owned?lastError:QString()},{"videoCodec",owned?player->get("video-codec").toString():QString()},{"audioCodec",owned?player->get("audio-codec-name").toString():QString()}};
+}
+bool Window::preparedClipControl(const QString& uri,const QString& command,double seconds){
+  if(!preparedPlayback || current!=uri)return false;
+  if(command=="cancel"){closeCurrent();return true;}
+  if(player->get("path").toString()!=uri || player->get("duration").toDouble()<=0 || preparedFinished)return false;
+  if(command=="pause")return player->set("pause",true);
+  if(command=="play")return player->set("pause",false);
+  if(command=="seek")return seekTo(seconds);
+  return false;
 }

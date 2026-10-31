@@ -16,6 +16,8 @@ class GlSurface;
 struct MpvLifetime;
 class ProgressiveSource;
 class StdinStream;
+class PreparedStreams;
+namespace foxicmp {namespace progressive {struct PreparedClip;}}
 class ProgressiveStreams;
 class Player : public QWidget {
   Q_OBJECT
@@ -45,6 +47,7 @@ public:
   int requestedSwapInterval() const { return swapInterval; }
   void setRenderInterval(int milliseconds);
   bool loadSource(const QString &url, const QMap<QString, QString> &options);
+  void attachPrepared(const std::shared_ptr<foxicmp::progressive::PreparedClip>&);
   QString attachStdin(int descriptor, QString *error = nullptr);
   void progressiveSource(const std::shared_ptr<ProgressiveSource> &source);
 signals:
@@ -99,4 +102,5 @@ private:
   mpv_render_context *renderer = nullptr;
   std::unique_ptr<ProgressiveStreams> progressive;
   std::unique_ptr<StdinStream> stdinStream;
+  std::unique_ptr<PreparedStreams> preparedStreams;
 };

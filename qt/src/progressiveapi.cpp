@@ -1,3 +1,4 @@
+#include "../../shared/preparedclip.h"
 #include "progressiveapi.h"
 #include "mpvlifetime.h"
 #include "instancebroker.h"
@@ -45,7 +46,7 @@ struct ProgressiveApi::Preparation {
   std::shared_ptr<ProgressiveSource> candidate;
 };
 ProgressiveApi::ProgressiveApi(Window *w, QObject *parent) : QObject(parent), window(w) {
-  connect(window,&Window::playbackIntentChanged,this,[this]{if(preparation)preparation->abandoned.store(true);});
+  connect(window,&Window::playbackIntentChanged,this,[this]{if(preparation)preparation->abandoned.store(true);if(preview)preview->cancelled=true;});
   server.setSocketOptions(QLocalServer::UserAccessOption);
   server.setMaxPendingConnections(16);
   connect(&server, &QLocalServer::newConnection, this, &ProgressiveApi::acceptClients);
@@ -81,7 +82,8 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
 #endif
           }, {"profile", QDir(directory).absolutePath()},
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
-          {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers", "resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget"}},
+          {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers", "resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget", "previewRemux", "previewStatus", "previewCancel", "previewControl"}},
+          {"preparedRemuxPreview",QJsonDocument::fromJson(foxicmp::progressive::PreparedPreviewCapabilities()).object()},
           {"backendRemuxProbe",QJsonDocument::fromJson(foxicmp::progressive::BackendRemuxCapabilities()).object()},
           {"backendDemuxProbe",QJsonDocument::fromJson(foxicmp::progressive::BackendDemuxCapabilities()).object()},
           {"resourceIoProbeVersion", 1}, {"resourceIoSchemaVersions", QJsonArray{2}}, {"resourceIoPlaybackSupported", false}, {"segmentProbeVersion", 1},
@@ -131,6 +133,28 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
   if (input.value("version") != QJsonValue(1) || !input.value("action").isString())
     return failure("invalid_request", "Expected version 1 and an action");
   const auto action = input.value("action").toString();
+  if(action=="previewRemux" || action=="previewStatus" || action=="previewCancel" || action=="previewControl") {
+    try{const auto command=foxicmp::progressive::ParsePreviewCommand(QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString());
+      if(command.action=="previewRemux"){
+        if(preview && previewRequest==QString::fromStdString(command.requestId)){if(previewFingerprint!=QString::fromStdString(command.fingerprint))return failure("preview_conflict","Preview request token was reused");return previewStatus();}
+        if(window->hasPlayback() && !command.replace)return failure("session_busy","Playback replacement must be explicit");
+        auto bytes=resourceProbes?resourceProbes->stagedRemux(command.id):nullptr;if(!bytes)return failure("prepared_clip_not_ready","A retained prepared clip is required");
+        auto metadata=QJsonDocument::fromJson(QByteArray::fromStdString(resourceProbes->request(std::filesystem::u8path(readerRegistry.toUtf8().toStdString()),"{\"version\":1,\"action\":\"resourceProbeStatus\",\"probeId\":\""+command.id+"\"}"))).object();
+        if(metadata["state"]!="finished")return failure("prepared_clip_not_ready","Prepared clip is closing");
+        auto next=foxicmp::progressive::PreparedClips::create(bytes);
+        if(!window->openPreparedClip(next,QString::fromStdString(command.title)))return failure("preview_start_failed","Cannot start prepared clip");
+        preview=next;previewRequest=QString::fromStdString(command.requestId);previewFingerprint=QString::fromStdString(command.fingerprint);previewProbe=QString::fromStdString(command.id);previewSession=metadata["sessionId"].toString();previewSourceEof=metadata["media"].toObject()["remux"].toObject()["sourceEof"].toBool();
+        if(command.activate)window->restoreFromTray();return previewStatus();
+      }
+      if(!preview || (command.byRequest?previewRequest!=QString::fromStdString(command.id):preview->id!=command.id))return failure("unknown_preview","Preview identifier does not match");
+      if(command.action=="previewCancel"){if(!preview->cancelled.load())window->preparedClipControl(QString::fromStdString(preview->uri()),"cancel");preview->cancelled=true;}
+      if(command.action=="previewControl"){
+        if(preview->cancelled.load())return failure("preview_closed","Preview was stopped or replaced");
+        if(command.command=="seek" && command.seconds>window->preparedClipStatus(QString::fromStdString(preview->uri()))["durationSeconds"].toDouble())return failure("invalid_request","Seek exceeds prepared clip");
+        if(!window->preparedClipControl(QString::fromStdString(preview->uri()),QString::fromStdString(command.command),command.seconds))return failure("preview_closed","Preview no longer owns playback");
+      }return previewStatus();
+    }catch(const foxicmp::progressive::Error& e){return failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));}
+  }
   if (QStringList{"resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget"}.contains(action)) {
     if (!resourceProbes) resourceProbes = std::make_unique<foxicmp::progressive::ResourceProbeManager>();
     return QJsonDocument::fromJson(QByteArray::fromStdString(resourceProbes->request(
@@ -394,4 +418,10 @@ void ProgressiveApi::acceptClients() {
       socket->disconnectFromServer();
     });
   }
+}
+
+QJsonObject ProgressiveApi::previewStatus()const{
+  if(!preview)return failure("unknown_preview","No prepared preview");
+  auto result=window->preparedClipStatus(QString::fromStdString(preview->uri()));if(preview->cancelled.load()){result["state"]="closed";result["active"]=false;}
+  result["version"]=1;result["ok"]=true;result["mode"]="prepared-remux-clip";result["previewId"]=QString::fromStdString(preview->id);result["requestId"]=previewRequest;result["probeId"]=previewProbe;result["sourceSessionId"]=previewSession;result["sourceComplete"]=previewSourceEof;result["boundedClip"]=true;result["continuousPlayback"]=false;result["decoderBytesRead"]=QString::number(preview->bytesRead.load());result["readerCount"]=int(preview->readers.load());result["released"]=preview->readers.load()==0 && (preview->cancelled.load() || result["state"]=="finished" || result["state"]=="error");return result;
 }

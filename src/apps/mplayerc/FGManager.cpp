@@ -22,6 +22,7 @@
 #include "stdafx.h"
 #include <mpconfig.h>
 #include "FGManager.h"
+#include "PreparedClipReader.h"
 #include "filters/AllFilters.h"
 #include "filters/DeinterlacerFilter.h"
 #include "DSUtil/SysVersion.h"
@@ -1263,6 +1264,17 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
 	return ConnectFilter(pBF, nullptr);
 	*/
 
+    const std::wstring preparedUri=lpcwstrFileName?lpcwstrFileName:L"";
+    if(preparedUri.compare(0,16,L"foxicmp-remux://")==0) {
+        if(std::any_of(preparedUri.begin(),preparedUri.end(),[](wchar_t c){return c>127;}))return E_INVALIDARG;
+        auto clip=foxicmp::progressive::PreparedClips::find(std::string(preparedUri.begin(),preparedUri.end()));
+        if(!clip || m_bOpeningAborted)return E_ABORT;
+        auto* source=DNew CMP4SourceFilter(nullptr,&hr);CComPtr<IBaseFilter> filter=source;
+        auto* reader=DNew CPreparedClipReader(clip,hr);CComPtr<IAsyncReader> async=reader;
+        if(FAILED(hr) || FAILED(hr=source->LoadReader(lpcwstrFileName,async)))return hr;
+        if(FAILED(hr=AddFilter(filter,L"FoxicMP prepared MP4")))return hr;
+        hr=ConnectFilter(filter,nullptr);if(FAILED(hr))RemoveFilter(filter);return hr;
+    }
 	if (m_harvester) {
 		int kind=-1;for(size_t i=0;i<m_harvester->TrackCount();++i)if(lpcwstrFileName==m_harvester->Path(int(i))){kind=int(i);break;}
 		if (kind < 0 || m_bOpeningAborted) return E_ABORT;

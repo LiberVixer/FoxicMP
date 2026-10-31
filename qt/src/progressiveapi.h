@@ -7,7 +7,7 @@
 #include <functional>
 class Window;
 class ProgressiveSource;
-namespace foxicmp { namespace progressive {class ResourceProbeManager;} }
+namespace foxicmp { namespace progressive {class ResourceProbeManager;struct PreparedClip;} }
 
 class ProgressiveApi : public QObject {
 public:
@@ -22,6 +22,9 @@ public:
 
 private:
   struct Preparation;
+  std::shared_ptr<foxicmp::progressive::PreparedClip> preview;
+  QString previewProbe,previewSession,previewRequest,previewFingerprint;bool previewSourceEof=false;
+  QJsonObject previewStatus()const;
   QJsonObject execute(const QJsonObject &, Preparation *);
   void dispatch(const QJsonObject &, class QLocalSocket *, class QTimer *);
   std::shared_ptr<Preparation> preparation, registryPreparation;

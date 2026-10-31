@@ -379,3 +379,11 @@ SDK 1.52: [bounded copy-remux MP4-фрагмента в памяти](Progressiv
 Точный AAC trim сохраняется обычным MP4; фрагмент может быть подготовлен до complete
 при поддержанном профиле. Это preparation-only, без нового playback/непрерывного remux.
 Оставшаяся часть пункта 2 чеклиста открыта. Harvester не меняется.
+
+
+SDK 1.53: [явное воспроизведение подготовленного RAM MP4-фрагмента](ProgressivePreparedPreview.md)
+в трёх редакциях, capability `preparedRemuxPreview`, helper `RemuxPreview`.
+Прежняя preparation-only capability не меняется. Проверены pause/seek/clip EOF,
+восстановление запроса и освобождение читателей. Далее по пункту 2 чеклиста —
+непрерывная ограниченная подготовка с ожиданием/продолжением и расширенная
+container/codec matrix. Полное ТЗ остаётся открытым. Harvester не меняется.

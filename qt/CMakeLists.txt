@@ -96,7 +96,7 @@ install(FILES resources/icon.png DESTINATION . RENAME foxiqmp-qt.png)
 if(WIN32)
  install(FILES resources/foxicmp.ico DESTINATION . RENAME FoxiqMP.ico)
 endif()
-install(FILES tools/progressive_client.py tools/progressive_windows.py tools/progressive_sdk.py tools/progressive_writer.py tools/progressive_schema.py tools/progressive_resources.py tools/progressive_v2.py DESTINATION integration)
+install(FILES tools/progressive_client.py tools/progressive_windows.py tools/progressive_sdk.py tools/progressive_writer.py tools/progressive_schema.py tools/progressive_resources.py tools/progressive_v2.py tools/progressive_preview.py DESTINATION integration)
 install(FILES ../docs/LinuxProgressiveApi.md DESTINATION integration)
 install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveTechnicalSpec-2026-10-25.ru.md ../docs/ProgressiveV1Validation-2026-10-25.md
@@ -126,6 +126,8 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveMultiTrack.md ../docs/ProgressiveMultiTrackValidation-2026-10-28.md ../docs/ProgressiveMultiTrackValidation-2026-10-28.json
  ../docs/ProgressiveSeek.md ../docs/ProgressiveSeekValidation-2026-10-28.md ../docs/ProgressiveSeekValidation-2026-10-28.json
  ../docs/ProgressiveOptionalSrt.md ../docs/ProgressiveOptionalSrtValidation-2026-10-29.md ../docs/ProgressiveOptionalSrtValidation-2026-10-29.json DESTINATION integration)
+install(FILES ../docs/ProgressivePreparedPreview.md ../docs/ProgressivePreparedPreviewValidation-2026-10-31.md
+ ../docs/ProgressivePreparedPreviewValidation-2026-10-31.json DESTINATION integration)
 install(FILES ../docs/ProgressiveRemuxStage.md ../docs/ProgressiveRemuxStageValidation-2026-10-31.md
  ../docs/ProgressiveRemuxStageValidation-2026-10-31.json DESTINATION integration)
 install(FILES ../docs/ProgressiveBackendDemux.md ../docs/ProgressiveBackendDemuxValidation-2026-10-31.md
@@ -295,6 +297,13 @@ if(BUILD_TESTING)
  target_link_libraries(foxicmp-audio-mirror-tests PRIVATE foxicmp-ui Qt6::Test)
  add_test(NAME audio-mirror COMMAND foxicmp-audio-mirror-tests)
  set_tests_properties(audio-mirror PROPERTIES TIMEOUT 60)
+ add_executable(foxicmp-prepared-clip-tests ../tests/prepared_clip_test.cpp)
+ target_include_directories(foxicmp-prepared-clip-tests PRIVATE ../src)
+ if(WIN32)
+  target_link_libraries(foxicmp-prepared-clip-tests PRIVATE advapi32)
+ endif()
+ add_test(NAME progressive-prepared-clip-native COMMAND foxicmp-prepared-clip-tests)
+ add_test(NAME progressive-prepared-preview-sdk COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_preview_test.py")
  add_executable(foxicmp-progressive-api-tests tests/progressiveapi_test.cpp)
  add_test(NAME progressive-segment-playback COMMAND foxicmp-progressive-api-tests segmentedFmp4Playback)
  set_tests_properties(progressive-segment-playback PROPERTIES TIMEOUT 1500 ENVIRONMENT "QTEST_FUNCTION_TIMEOUT=1200000")
@@ -325,6 +334,8 @@ if(BUILD_TESTING)
  if(TARGET foxicmp-demux-worker)
   add_test(NAME progressive-backend-demux-api COMMAND foxicmp-progressive-api-tests backendDemuxKeepsPlaybackAndUiResponsive)
   set_tests_properties(progressive-backend-demux-api PROPERTIES TIMEOUT 210)
+  add_test(NAME progressive-prepared-preview COMMAND foxicmp-progressive-api-tests preparedRemuxPreviewPlayback)
+  set_tests_properties(progressive-prepared-preview PROPERTIES TIMEOUT 150)
   add_test(NAME progressive-backend-remux-api COMMAND foxicmp-progressive-api-tests backendRemuxKeepsPlaybackAndUiResponsive)
   set_tests_properties(progressive-backend-remux-api PROPERTIES TIMEOUT 210)
   add_test(NAME progressive-backend-remux-regression COMMAND foxicmp-progressive-api-tests "muxedOpusMp4Playback:h264-opus" "muxedOpusMp4Playback:vp9-10-opus-mono-fractional")

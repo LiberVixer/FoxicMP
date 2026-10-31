@@ -39,6 +39,8 @@ FILES = {
     **{name:'docs/'+name for name in ('ProgressiveWebmSegments.md','ProgressiveWebmSegmentsValidation-2026-10-30.md','ProgressiveWebmSegmentsValidation-2026-10-30.json')},
     **{name:'docs/'+name for name in ('ProgressiveTsPlayback.md','ProgressiveTsPlaybackValidation-2026-10-30.md','ProgressiveTsPlaybackValidation-2026-10-30.json','ProgressiveTsTransport.md','ProgressiveTsAccessIndex.md','ProgressiveTsResourceStream.md','ProgressiveTsTransportValidation-2026-10-30.md','ProgressiveTsTransportValidation-2026-10-30.json','ProgressiveTsAccessIndexValidation-2026-10-30.md','ProgressiveTsAccessIndexValidation-2026-10-30.json','ProgressiveTsResourceStreamValidation-2026-10-30.md','ProgressiveTsResourceStreamValidation-2026-10-30.json')},
     **{name:'docs/'+name for name in ('ProgressiveMuxedTsPlayback.md','ProgressiveMuxedTsValidation-2026-10-31.md','ProgressiveMuxedTsValidation-2026-10-31.json')},
+    'progressive_preview.py': 'qt/tools/progressive_preview.py',
+    **{name:'docs/'+name for name in ('ProgressivePreparedPreview.md','ProgressivePreparedPreviewValidation-2026-10-31.md','ProgressivePreparedPreviewValidation-2026-10-31.json')},
     'README.ru.md': 'docs/ProgressiveSdk.md',
     'ProgressiveSdk.md': 'docs/ProgressiveSdk.md',
     'LinuxProgressiveApi.md': 'docs/LinuxProgressiveApi.md',
@@ -103,10 +105,11 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.52', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.53', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(),
+        preparedRemuxPreview=json.loads(re.search(r'PreparedPreviewCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/preparedclip.h').read_text(),re.S).group(1)),
         backendRemuxProbe=json.loads(re.search(r'BackendRemuxCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/progressivebackendprobe.h').read_text(),re.S).group(1)),
         backendDemuxProbe=json.loads(re.search(r'BackendDemuxCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/progressivebackendprobe.h').read_text(),re.S).group(1)),
         qtMultiAudioSeek=dict(maxTargetSecondsWhileIncomplete=922337203686,completeSourceByteSeek=True,confirmedRangesOnly=True,mode='confirmed-byte-seek'),

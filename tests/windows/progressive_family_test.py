@@ -599,6 +599,15 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.prepared_preview_only:
+            from progressive_preview_conformance import exercise as exercise_preview
+            preview_result=exercise_preview(client)
+            history=player.parent/'history.mpc_lst'
+            if history.exists():
+                data=history.read_bytes()
+                assert b'foxicmp-remux://' not in data and 'foxicmp-remux://'.encode('utf-16-le') not in data,'Internal RAM URI persisted in Classic history'
+            preview_result['internalUrisExcludedFromHistory']=True
+            return [dict(contract='prepared-remux-clip-playback',result=preview_result)]
         if args.backend_remux_only:
             from progressive_backend_remux_conformance import run as exercise_backend_remux
             return [dict(contract='backend-remux-preparation-only',result=exercise_backend_remux(client=client))]
@@ -796,6 +805,7 @@ if __name__ == '__main__':
     parser.add_argument('--optional-audio-only',action='store_true')
     parser.add_argument('--subtitle-only',action='store_true')
     parser.add_argument('--metadata-only',action='store_true')
+    parser.add_argument('--prepared-preview-only',action='store_true')
     parser.add_argument('--backend-remux-only',action='store_true')
     parser.add_argument('--backend-demux-only',action='store_true')
     parser.add_argument('--directory-only',action='store_true')

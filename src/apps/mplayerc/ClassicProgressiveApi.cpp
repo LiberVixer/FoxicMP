@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ClassicProgressiveApi.h"
+#include "../../../shared/preparedclip.h"
 #include "MainFrm.h"
 #include "mplayerc.h"
 #include "ExtLib/rapidjson/include/rapidjson/writer.h"
@@ -69,7 +70,8 @@ std::string ClassicProgressiveApi::Information() {
     Value legacy(rapidjson::kObjectType);legacy.AddMember("offUi",true,a);legacy.AddMember("maxConcurrent",1,a);legacy.AddMember("responseDeadlineMilliseconds",5000,a);legacy.AddMember("cancellableDiskIo",false,a);legacy.AddMember("previousPlaybackUntilCommit",true,a);d.AddMember("legacyPreparation",legacy,a);
     d.AddMember("readerRegistryOffUi",true,a);Value retirement(rapidjson::kObjectType);retirement.AddMember("maxSources",uint32_t(foxicmp::progressive::SourceRetirement::Capacity),a);retirement.AddMember("workerLimit",uint32_t(foxicmp::progressive::SourceRetirement::WorkerLimit),a);retirement.AddMember("processOwned",true,a);retirement.AddMember("filesClosedBeforeRelease",true,a);d.AddMember("sourceRetirement",retirement,a);
     d.AddMember("readerLeaseProtocol",1,a);d.AddMember("readerLeaseOptIn",true,a);d.AddMember("maxReaderReceipts",128,a);
-    for(const auto* action:{"readerStatus","readerRelease","readerForget","readers","resourceProbe","resourceProbeUpdate","resourceProbeStatus","resourceProbeCancel","resourceProbeForget"})d["actions"].PushBack(Value(action,a),a);
+    for(const auto* action:{"readerStatus","readerRelease","readerForget","readers","resourceProbe","resourceProbeUpdate","resourceProbeStatus","resourceProbeCancel","resourceProbeForget","previewRemux","previewStatus","previewCancel","previewControl"})d["actions"].PushBack(Value(action,a),a);
+    Document preview;preview.Parse(foxicmp::progressive::PreparedPreviewCapabilities());d.AddMember("preparedRemuxPreview",Value(preview,a),a);
     Document remux;remux.Parse(foxicmp::progressive::BackendRemuxCapabilities());d.AddMember("backendRemuxProbe",Value(remux,a),a);
     Document demux;demux.Parse(foxicmp::progressive::BackendDemuxCapabilities());d.AddMember("backendDemuxProbe",Value(demux,a),a);
     d.AddMember("resourceIoProbeVersion",1,a);Value schemas(rapidjson::kArrayType);schemas.PushBack(2,a);
@@ -276,6 +278,30 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
         harvester::UniqueKeys(d);
         if(harvester::Number(d,"version")!=1)return Failure("invalid_request","Expected version 1");
         const auto action=harvester::String(d,"action");
+        if(action=="previewRemux" || action=="previewStatus" || action=="previewCancel" || action=="previewControl") {
+            try { const auto command=foxicmp::progressive::ParsePreviewCommand(raw);
+            if(command.action=="previewRemux") {
+                if(preview && previewRequest==command.requestId){if(previewFingerprint!=command.fingerprint)return Failure("preview_conflict","Preview request token was reused");return PreviewStatus();}
+                if(frame.GetLoadState()!=MLS_CLOSED && !command.replace)return Failure("session_busy","Playback replacement must be explicit");
+                auto bytes=resourceProbes?resourceProbes->stagedRemux(command.id):nullptr;if(!bytes)return Failure("prepared_clip_not_ready","A retained prepared clip is required");
+                Document metadata;metadata.Parse(resourceProbes->request(std::filesystem::path(ReaderRegistry()),"{\"version\":1,\"action\":\"resourceProbeStatus\",\"probeId\":\""+command.id+"\"}").c_str());
+                if(std::string(metadata["state"].GetString())!="finished")return Failure("prepared_clip_not_ready","Prepared clip is closing");
+                auto next=foxicmp::progressive::PreparedClips::create(bytes);auto data=std::make_unique<OpenFileData>();data->fi=Wide(next->uri());data->fi.SetTitle(Wide(command.title));data->title=Wide(command.title).GetString();data->bAddRecent=FALSE;
+                frame.OpenMedia(std::move(data));preview=next;previewRequest=command.requestId;previewFingerprint=command.fingerprint;previewProbe=command.id;previewSession=metadata["sessionId"].GetString();previewSourceEof=metadata["media"]["remux"]["sourceEof"].GetBool();
+                if(command.activate){frame.ShowWindow(SW_RESTORE);frame.SetForegroundWindow();}return PreviewStatus();
+            }
+            if(!preview || (command.byRequest?previewRequest!=command.id:preview->id!=command.id))return Failure("unknown_preview","Preview identifier does not match");
+            const std::wstring uri=Wide(preview->uri()).GetString();
+            const bool owned=!preview->cancelled.load() && (frame.GetLoadState()==MLS_LOADING || std::wstring(frame.GetCurFileName().GetString())==uri);
+            if(command.action=="previewCancel"){if(owned)frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);preview->cancelled=true;}
+            if(command.action=="previewControl"){
+                if(!owned || frame.GetLoadState()!=MLS_LOADED)return Failure("preview_closed","Preview no longer owns loaded playback");
+                if(command.command=="pause" && frame.GetMediaState()!=State_Paused)frame.SendMessageW(WM_COMMAND,ID_PLAY_PAUSE);
+                if(command.command=="play" && frame.GetMediaState()!=State_Running)frame.SendMessageW(WM_COMMAND,ID_PLAY_PLAY);
+                if(command.command=="seek"){if(command.seconds>double(frame.GetDur())/10000000.)return Failure("invalid_request","Seek exceeds prepared clip");frame.SeekTo(REFERENCE_TIME(command.seconds*10000000.),false);}
+            }return PreviewStatus();
+            } catch(const foxicmp::progressive::Error& e) { return Failure(e.code.c_str(),e.what()); }
+        }
         if(action=="resourceProbe" || action=="resourceProbeUpdate" || action=="resourceProbeStatus" || action=="resourceProbeCancel" || action=="resourceProbeForget") {
             if(!resourceProbes)resourceProbes=std::make_unique<foxicmp::progressive::ResourceProbeManager>();
             return resourceProbes->request(std::filesystem::path(ReaderRegistry()),raw);
@@ -413,4 +439,18 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
         }
         return Status();
     }catch(const std::exception& e){return Failure("invalid_request",e.what());}
+}
+
+void ClassicProgressiveApi::PlaybackIntentChanged(const CStringW& incoming){++intentEpoch;if(preparation)preparation->abandoned.store(true);if(legacyOpening)legacyOpening->abandoned.store(true);if(preview && incoming!=Wide(preview->uri()))preview->cancelled=true;}
+std::string ClassicProgressiveApi::PreviewStatus(){
+    if(!preview)return Failure("unknown_preview","No prepared preview");
+    const bool loaded=frame.GetLoadState()==MLS_LOADED;
+    const bool owned=!preview->cancelled.load() && (!loaded || std::wstring(frame.GetCurFileName().GetString())==std::wstring(Wide(preview->uri()).GetString()));
+    const char* state=!owned?"closed":!loaded?"buffering":frame.m_bGraphEventComplete?"finished":frame.GetMediaState()==State_Paused?"paused":"playing";
+    Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("version",1,a);d.AddMember("ok",true,a);d.AddMember("mode","prepared-remux-clip",a);d.AddMember("previewId",Value(preview->id.c_str(),a),a);d.AddMember("requestId",Value(previewRequest.c_str(),a),a);d.AddMember("probeId",Value(previewProbe.c_str(),a),a);d.AddMember("sourceSessionId",Value(previewSession.c_str(),a),a);d.AddMember("sourceComplete",previewSourceEof,a);d.AddMember("boundedClip",true,a);d.AddMember("continuousPlayback",false,a);d.AddMember("state",Value(state,a),a);d.AddMember("active",owned && std::string(state)!="finished",a);d.AddMember("positionSeconds",loaded && owned?double(frame.GetPos())/10000000.:0.,a);d.AddMember("durationSeconds",loaded && owned?double(frame.GetDur())/10000000.:0.,a);d.AddMember("decoderBytesRead",Value(std::to_string(preview->bytesRead.load()).c_str(),a),a);d.AddMember("readerCount",preview->readers.load(),a);d.AddMember("released",preview->readers.load()==0 && (preview->cancelled.load() || std::string(state)=="finished"),a);return Encode(d);
+}
+
+bool ClassicProgressiveApi::PreparedCompleted(){
+    if(!preview || preview->cancelled.load() || std::wstring(frame.GetCurFileName().GetString())!=std::wstring(Wide(preview->uri()).GetString()))return false;
+    frame.m_bGraphEventComplete=true;return true;
 }

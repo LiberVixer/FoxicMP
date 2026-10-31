@@ -7,7 +7,7 @@
 #include <cstdint>
 class CMainFrame;
 class CHarvesterSession;
-namespace foxicmp { namespace progressive {class ResourceProbeManager;} }
+namespace foxicmp { namespace progressive {class ResourceProbeManager;struct PreparedClip;} }
 constexpr UINT WM_CLASSIC_PROGRESSIVE_REQUEST = WM_APP + 188;
 constexpr UINT_PTR TIMER_CLASSIC_PROGRESSIVE_OPEN = 0xF188;
 constexpr UINT_PTR TIMER_CLASSIC_GRAPH_CLOSE = 0xF189;
@@ -32,7 +32,8 @@ public:
     static std::wstring ReaderRegistry();
     static std::string Information();
     std::string Handle(const std::string&, Request* = nullptr);
-    void PlaybackIntentChanged(){++intentEpoch;if(preparation)preparation->abandoned.store(true);if(legacyOpening)legacyOpening->abandoned.store(true);}
+    void PlaybackIntentChanged(const CStringW& incoming = CStringW());
+    bool PreparedCompleted();
     bool BeginLegacy(const std::wstring&);
     void PollLegacy();
     bool IsPreparing() const{return (preparation && !preparation->abandoned.load()) || (legacyOpening && !legacyOpening->abandoned.load());}
@@ -45,6 +46,9 @@ private:
     uint64_t intentEpoch=0;
     void Serve();
     std::string Status();
+    std::string PreviewStatus();
+    std::shared_ptr<foxicmp::progressive::PreparedClip> preview;
+    std::string previewProbe,previewSession,previewRequest,previewFingerprint;bool previewSourceEof=false;
     CMainFrame& frame;
     HANDLE stop = nullptr;
     std::thread worker;

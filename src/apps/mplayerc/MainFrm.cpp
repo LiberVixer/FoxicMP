@@ -3272,6 +3272,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
 				m_bBuffering = ((HRESULT)evParam1 != S_OK);
 				break;
 			case EC_COMPLETE:
+                if(m_progressiveApi && m_progressiveApi->PreparedCompleted())break;
 				if (!GraphEventComplete()) {
 					return hr;
 				}
@@ -13055,7 +13056,7 @@ CString CMainFrame::OpenFile(OpenFileData* pOFD, const CStringW& youtubeUrl)
 				EndEnumFilters;
 			}
 
-            if(m_harvester && !pOFD->fi.GetTitle().IsEmpty())m_SessionInfo.Title=pOFD->fi.GetTitle();
+            if((m_harvester || StartsWith(fn,L"foxicmp-remux://")) && !pOFD->fi.GetTitle().IsEmpty())m_SessionInfo.Title=pOFD->fi.GetTitle();
 			if (m_SessionInfo.Title.IsEmpty()) {
 				CPlaylistItem pli;
 				if (m_wndPlaylistBar.GetCur(pli)) {
@@ -13063,7 +13064,7 @@ CString CMainFrame::OpenFile(OpenFileData* pOFD, const CStringW& youtubeUrl)
 				}
 			}
 
-			if (s.bKeepHistory) {
+			if (s.bKeepHistory && !StartsWith(fn, L"foxicmp-remux://")) {
 				// read file position from history
 				auto& historyFile = AfxGetMyApp()->m_HistoryFile;
 				bool found = historyFile.OpenSessionInfo(m_SessionInfo, s.bRememberFilePos);
@@ -18227,7 +18228,8 @@ void CMainFrame::OpenMedia(std::unique_ptr<OpenMediaData> pOMD)
 {
     if(m_closeAfterGraph || m_bClosingState)return;
     const auto openingEpoch=++m_graphOpenEpoch;
-    if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged();
+    const auto incomingFile=dynamic_cast<const OpenFileData*>(pOMD.get());
+    if(m_progressiveApi)m_progressiveApi->PlaybackIntentChanged(incomingFile?incomingFile->fi.GetPath():CStringW());
     m_afterGraphCommand.reset();
 	auto pFileData   = dynamic_cast<OpenFileData*>(pOMD.get());
 	auto pDeviceData = dynamic_cast<const OpenDeviceData*>(pOMD.get());
@@ -20919,6 +20921,7 @@ BOOL CMainFrame::OpenIso(const CString& pathName, REFERENCE_TIME rtStart/* = INV
 
 void CMainFrame::AddRecent(const CString& pathName)
 {
+    if (StartsWith(pathName, L"foxicmp-remux://")) return;
 	auto& s = AfxGetAppSettings();
 	if (s.bKeepHistory) {
 		m_SessionInfo.NewPath(pathName);
@@ -21617,6 +21620,7 @@ void CMainFrame::OnUpdateRepeatForever(CCmdUI* pCmdUI)
 
 void CMainFrame::SaveHistory()
 {
+    if (StartsWith(m_SessionInfo.Path, L"foxicmp-remux://")) return;
 	auto& s = AfxGetAppSettings();
 	if (!s.bKeepHistory) {
 		return;

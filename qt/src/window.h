@@ -34,6 +34,7 @@ class QProcess;
 class QProgressDialog;
 class QSystemTrayIcon;
 class ProgressiveSource;
+namespace foxicmp {namespace progressive {struct PreparedClip;}}
 class Window : public QMainWindow {
   Q_OBJECT
 public:
@@ -64,6 +65,10 @@ public:
   // Returns admission; the result arrives through progressiveOpeningFinished.
   bool openProgressiveSession(const QString &manifest);
   bool progressiveOpening() const { return bool(legacyOpening); }
+  bool openPreparedClip(const std::shared_ptr<foxicmp::progressive::PreparedClip>&,const QString& title);
+  QJsonObject preparedClipStatus(const QString& uri)const;
+  bool preparedClipControl(const QString& uri,const QString& command,double seconds=0);
+  bool hasPlayback()const;
   bool openProgressiveSource(const std::shared_ptr<ProgressiveSource> &);
   std::shared_ptr<ProgressiveSource> progressiveSession() const { return progressive; }
   QJsonObject progressivePlaybackStatus() const;
@@ -379,7 +384,8 @@ private:
   bool restorePlaylist = false;
   bool advancingAfterError = false;
   QSet<QString> failedEntries;
-  bool stdinPlayback = false;
+  bool stdinPlayback = false,preparedPlayback=false,preparedFinished=false;
+  double preparedDuration=0;
   quint64 playbackGeneration = 0;
   QVariantMap pendingTrackSelections;
   QJsonObject openingLaunchOptions, pendingLaunchOptions;
