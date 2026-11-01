@@ -3,6 +3,7 @@
 #pragma once
 #include "progressivesegmentstager.h"
 #include "progressivebackendprobe.h"
+#include "progressivemp4indexprobe.h"
 #include <deque>
 #include <thread>
 
@@ -18,6 +19,7 @@ class ResourceProbeManager {
         std::deque<std::string> updates;
         uint64_t appliedRevision=0;unsigned waitMs=0;
         std::shared_ptr<const std::vector<char>> remuxArtifact;
+        bool indexMode=false;std::string indexResource,indexResult;
         bool mediaMode=false;BackendProbeQuery mediaQuery;std::string mediaResult;
         bool segmentMode=false,segmentDemux=true;std::string segmentTrack,segmentCode,segmentReason,segmentInit,segmentResource,segmentSha;
         size_t segmentIndex=0,segmentBytes=0,segmentPackets=0;
@@ -63,6 +65,15 @@ class ResourceProbeManager {
                     {std::lock_guard<std::mutex> lock(mutex);segmentCode=result.code;segmentReason=result.reason;segmentBytes=result.bytes.size();segmentPackets=result.samples.size();segmentInit=result.initializationResource;segmentResource=result.resource;segmentSha=std::move(digest);}
                     if(result.code=="cancelled")terminal="cancelled";
                     else if(!result.ready() && result.code!="waiting-range" && result.code!="waiting-resource" && result.code!="waiting-segment" && result.code!="waiting-initialization" && result.code!="resource-retired") {terminal="error";failure=result.code;}
+                }
+                if(indexMode) {
+                    for(;;){apply(*active);auto text=ProbeMp4Index(*active,indexResource);rapidjson::Document value;value.Parse(text.c_str());const std::string code=value["code"].GetString();
+                        {std::lock_guard<std::mutex> lock(mutex);indexResult=std::move(text);}
+                        if(cancel.load() || stop.load()){terminal="cancelled";break;}
+                        if(code!="waiting-index" && code!="waiting-resource"){if(code!="data"){terminal="error";failure=code;}break;}
+                        if(std::chrono::steady_clock::now()>=deadline)break;
+                        std::unique_lock<std::mutex> lock(mutex);changed.wait_until(lock,(std::min)(deadline,std::chrono::steady_clock::now()+std::chrono::milliseconds(25)),[&]{return cancel.load() || stop.load() || !updates.empty();});if(cancel.load() || stop.load()){terminal="cancelled";break;}
+                    }
                 }
                 if(mediaMode) {
                     for(;;) {
@@ -149,6 +160,7 @@ class ResourceProbeManager {
                 segment.AddMember("sha256",Value(segmentSha.c_str(),a),a);out.AddMember("segment",segment,a);
                 allReadable=finished && segmentCode=="data" && error.empty();
             }
+            if(indexMode){rapidjson::Document value;value.Parse(indexResult.empty()?"{}":indexResult.c_str());if(cancel.load()){value.SetObject();auto& ia=value.GetAllocator();value.AddMember("code","cancelled",ia);value.AddMember("priorityRanges",Value(rapidjson::kArrayType),ia);}if(!value.HasMember("code"))value.AddMember("code",Value((error.empty()?phase:error).c_str(),value.GetAllocator()),value.GetAllocator());allReadable=finished && value["code"].IsString() && std::string(value["code"].GetString())=="data" && error.empty() && phase!="cancelled";out.AddMember("index",Value(value,a),a);}
             if(mediaMode){rapidjson::Document value;value.Parse(mediaResult.empty()?"{}":mediaResult.c_str());if(!value.HasMember("code"))value.AddMember("code",Value((error.empty()?phase:error).c_str(),value.GetAllocator()),value.GetAllocator());allReadable=finished && value["code"].IsString() && std::string(value["code"].GetString())=="data" && error.empty() && (!mediaQuery.remux || bool(remuxArtifact));if(value.HasMember("remux") && value["remux"].IsObject())value["remux"].AddMember("retained",bool(remuxArtifact),value.GetAllocator());out.AddMember("media",Value(value,a),a);}
             out.AddMember("reads",reads,a);out.AddMember("allReadable",allReadable,a);return lease_detail::Encode(out);
         }
@@ -172,7 +184,7 @@ public:
             resource_detail::Check(d.HasMember("version") && d["version"].IsUint() && d["version"].GetUint()==1 && d.HasMember("action"),"invalid_request","Expected API version 1");
             const auto action=Text(d["action"],"action",32);
             if(action=="resourceProbe") {
-                Keys(d,"request",{"version","action","session","sessionDirectory","reads"},{"waitMilliseconds","requestId","segment","media"});
+                Keys(d,"request",{"version","action","session","sessionDirectory","reads"},{"waitMilliseconds","requestId","segment","media","index"});
                 const auto requestId=d.HasMember("requestId")?Id(d["requestId"],"requestId",true):lease_detail::RandomId();
                 rapidjson::StringBuffer canonical;rapidjson::Writer<rapidjson::StringBuffer> writer(canonical);Canonical(d,writer);
                 const std::string fingerprint(canonical.GetString(),canonical.GetSize());
@@ -184,6 +196,7 @@ public:
                 next->directory=std::filesystem::u8path(Text(d["sessionDirectory"],"sessionDirectory",8192));
                 next->initial=lease_detail::Encode(d["session"]);next->accepted=Parse(next->initial);
                 if(d.HasMember("waitMilliseconds")){resource_detail::Check(d["waitMilliseconds"].IsUint() && d["waitMilliseconds"].GetUint()<=10000,"invalid_request","Probe wait limit is 10000 ms");next->waitMs=d["waitMilliseconds"].GetUint();}
+                if(d.HasMember("index")){resource_detail::Check(!d.HasMember("segment") && !d.HasMember("media") && d["reads"].IsArray() && d["reads"].Empty(),"invalid_request","Index probe requires no media, segment or raw reads");Keys(d["index"],"index",{"resourceId"});next->indexMode=true;next->indexResource=Id(d["index"]["resourceId"],"index.resourceId");resource_detail::Check(next->accepted.resources.count(next->indexResource)!=0,"invalid_request","Unknown index resource");}
                 if(d.HasMember("media")){resource_detail::Check(!d.HasMember("segment") && d["reads"].IsArray() && d["reads"].Empty(),"invalid_request","Demux probe requires empty reads and no segment");next->mediaMode=true;next->mediaQuery=BackendQuery(d["media"],next->accepted);}
                 if(d.HasMember("segment")) {
                     const auto& segment=d["segment"];Keys(segment,"segment",{"trackId","index"},{"demux"});
@@ -192,7 +205,7 @@ public:
                     resource_detail::Check(next->accepted.tracks.count(next->segmentTrack)!=0,"invalid_request","Unknown segment track");
                     resource_detail::Check(d["reads"].IsArray() && d["reads"].Empty(),"invalid_request","Segment probe requires an empty reads array");
                 }
-                resource_detail::Check(d["reads"].IsArray() && d["reads"].Size()<=16 && (next->mediaMode || next->segmentMode || d["reads"].Size()>0),"invalid_request","Expected 1..16 read queries or a segment query");
+                resource_detail::Check(d["reads"].IsArray() && d["reads"].Size()<=16 && (next->indexMode || next->mediaMode || next->segmentMode || d["reads"].Size()>0),"invalid_request","Expected 1..16 read queries or a segment query");
                 for(const auto& item:d["reads"].GetArray()) {
                     Keys(item,"reads[]",{"resourceId","offset","length"});Query query;
                     query.resource=Id(item["resourceId"],"resourceId");query.offset=Unsigned(item["offset"],"offset",MaxByte);query.count=size_t(Unsigned(item["length"],"length",65536));

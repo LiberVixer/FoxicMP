@@ -38,6 +38,10 @@ class V2PreviewSession:
         self.muxed_vp9_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('vp9',{}).get('mode')=='growing-muxed-fmp4-vp9-aac-lc'
         self.muxed_av1_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('av1',{}).get('mode')=='growing-muxed-fmp4-av1-aac-lc'
         self.muxed_hevc_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('hevc',{}).get('mode')=='growing-muxed-fmp4-hevc-aac-lc'
+        tail_mp4=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('mp4',{}).get('tailIndex',{})
+        self.tail_mp4_supported=(isinstance(tail_mp4,dict) and type(tail_mp4.get('version')) is int and tail_mp4.get('version')==1
+            and tail_mp4.get('mode')=='tail-moov-mp4-v1' and tail_mp4.get('containerHint')=='mp4-tail'
+            and tail_mp4.get('playbackMode')=='growing-tail-mp4-h264-aac-lc')
         self.indexed_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('mp4',{}).get('mode')=='growing-muxed-mp4-h264-aac-lc'
         self.muxed_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('mode')=='growing-muxed-fmp4-h264-aac-lc'
         self.muxed_webm_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('webm',{}).get('mode')=='growing-muxed-webm-vp9-opus'
@@ -63,16 +67,17 @@ class V2PreviewSession:
             growing_ts=any(t.get('containerHint')=='mpegts-growing' for t in current.get('tracks',[]))
             muxed_mp4=any(t.get('containerHint')=='fmp4-muxed' for t in current.get('tracks',[]))
             muxed_webm=any(t.get('containerHint')=='webm-muxed' for t in current.get('tracks',[]))
+            tail_mp4=any(t.get('containerHint')=='mp4-tail' for t in current.get('tracks',[]))
             indexed_mp4=any(t.get('containerHint')=='mp4-muxed' for t in current.get('tracks',[]))
-            if indexed_mp4:
+            if indexed_mp4 or tail_mp4:
                 tracks=current.get('tracks',[]);resources=current.get('resources',[])
-                if not self.indexed_mp4_supported:
-                    raise RuntimeError('Player lacks ordinary fast-start MP4 playback; update the player')
+                if not (self.tail_mp4_supported if tail_mp4 else self.indexed_mp4_supported):
+                    raise RuntimeError('Player lacks '+('tail-index MP4' if tail_mp4 else 'ordinary fast-start MP4')+' playback; update the player')
                 if len(tracks)!=2 or {t.get('kind') for t in tracks}!={'video','audio'} or len(resources)!=1 or 'segmentCatalog' in current:
                     raise RuntimeError('Ordinary MP4 requires two logical views and one scalar resource')
                 if resources[0].get('length') is None:
                     raise RuntimeError('Ordinary MP4 requires a known source length')
-                if any(t.get('containerHint')!='mp4-muxed' or not t.get('required') or 'initializationResourceId' in t or t.get('source')!={'resourceId':resources[0].get('id')} or t.get('codecHint') not in (None,'','h264' if t.get('kind')=='video' else 'aac-lc') for t in tracks):
+                if any(t.get('containerHint')!=('mp4-tail' if tail_mp4 else 'mp4-muxed') or not t.get('required') or 'initializationResourceId' in t or t.get('source')!={'resourceId':resources[0].get('id')} or t.get('codecHint') not in (None,'','h264' if t.get('kind')=='video' else 'aac-lc') for t in tracks):
                     raise RuntimeError('Ordinary MP4 requires shared scalar AVC/AAC views without external initialization')
                 if resources[0].get('integrity',{}).get('algorithm')!='sha256':
                     raise RuntimeError('Ordinary MP4 playback requires SHA-256')

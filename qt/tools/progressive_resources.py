@@ -11,13 +11,20 @@ from progressive_client import ProgressiveClient, read_snapshot
 
 class ResourceProbe:
     def __init__(self, client: ProgressiveClient):
-        self.client=client;self.probe_id=None;self.identity=None;self.request_id=None;self.acknowledged=False;self.remux_mode=False
+        self.client=client;self.probe_id=None;self.identity=None;self.request_id=None;self.acknowledged=False;self.remux_mode=False;self.index_resource=None;self.index_length=None
         caps=client.request(dict(version=1,action='capabilities'))
         self.segment_supported=caps.get('segmentProbeVersion')==1
         backend=caps.get('backendDemuxProbe',{})
         self.demux_supported=isinstance(backend,dict) and type(backend.get('version')) is int and backend.get('version')==1 and backend.get('mode')=='libavformat-avio-probe-v1' and backend.get('analysisOnly') is True and backend.get('playbackSupported') is False
         remux=caps.get('backendRemuxProbe',{})
         self.remux_supported=isinstance(remux,dict) and type(remux.get('version')) is int and remux.get('version')==1 and remux.get('mode')=='libavformat-avio-mp4-stage-v1' and remux.get('preparationOnly') is True and remux.get('playbackSupported') is False and remux.get('gaplessEditsSealed') is True
+        index=caps
+        for key in ('schema2Playback','muxedPlayback','mp4','tailIndex','indexProbe'):
+            index=index.get(key,{}) if isinstance(index,dict) else {}
+        self.index_supported=(isinstance(index,dict) and type(index.get('version')) is int and index.get('version')==1
+            and index.get('mode')=='mp4-index-locator' and index.get('analysisOnly') is True
+            and index.get('playbackSupported') is False and index.get('advisoryRanges') is True
+            and index.get('downloadsPerformed') is False)
         required={'resourceProbe','resourceProbeUpdate','resourceProbeStatus','resourceProbeCancel','resourceProbeForget'}
         if caps.get('resourceIoProbeVersion')!=1 or caps.get('resourceIoPlaybackSupported') is not False or not required<=set(caps.get('actions',[])):
             raise RuntimeError('Player lacks the resource-I/O diagnostic contract')
@@ -35,14 +42,39 @@ class ResourceProbe:
         if media.get('code')=='data':
             if media.get('playbackSupported') is not False or media.get('analysisOnly') is not (not self.remux_mode):raise RuntimeError('Unexpected demux/preparation mode')
             if self.remux_mode and (media.get('preparationOnly') is not True or not isinstance(media.get('remux'),dict) or media['remux'].get('gaplessEditsSealed') is not True):raise RuntimeError('Invalid remux preparation result')
+        if self.index_resource is not None:
+            index=reply.get('index')
+            if not isinstance(index,dict):raise RuntimeError('Missing MP4 index reply')
+            if index.get('code') in {'data','waiting-index'}:
+                if (index.get('mode')!='mp4-index-locator' or index.get('analysisOnly') is not True
+                    or index.get('playbackSupported') is not False or index.get('resourceId')!=self.index_resource):
+                    raise RuntimeError('Unexpected MP4 index result identity or mode')
+            ranges=index.get('priorityRanges',[])
+            if not isinstance(ranges,list) or len(ranges)>1:raise RuntimeError('Invalid MP4 priority ranges')
+            if ranges and index.get('code')!='waiting-index':raise RuntimeError('Inactive index query has priority ranges')
+            for item in ranges:
+                if (not isinstance(item,dict) or set(item)!={'resourceId','offset','length','reason','advisory'}
+                    or item['resourceId']!=self.index_resource or item['advisory'] is not True
+                    or item['reason'] not in {'mp4-atom-header','mp4-index'}):
+                    raise RuntimeError('Invalid MP4 priority range scope')
+                for field in ('offset','length'):
+                    value=item[field]
+                    if not isinstance(value,str) or not value.isascii() or not value.isdecimal() or str(int(value))!=value:
+                        raise RuntimeError('Invalid MP4 priority range boundary')
+                at,count=int(item['offset']),int(item['length'])
+                if not 1<=count<=1048576 or at>self.index_length or count>self.index_length-at:
+                    raise RuntimeError('MP4 priority range exceeds resource bounds')
         self.probe_id=identifier
         return reply
 
-    def start(self, snapshot: dict, directory: str, reads: list[dict], *, wait_milliseconds: int=0, segment: dict | None=None, media: dict | None=None):
+    def start(self, snapshot: dict, directory: str, reads: list[dict], *, wait_milliseconds: int=0, segment: dict | None=None, media: dict | None=None, index: dict | None=None):
         if self.identity is not None and not self.acknowledged:
             raise RuntimeError('Acknowledge the previous resource probe first')
         if type(wait_milliseconds) is not int or not 0<=wait_milliseconds<=10000:
             raise ValueError('Resource probe wait must be 0..10000 milliseconds')
+        if index is not None:
+            if not self.index_supported:raise RuntimeError('Player lacks MP4 index range hints')
+            if segment is not None or media is not None or reads:raise ValueError('Index query requires no other reads')
         if segment is not None and media is not None:raise ValueError('Media probe cannot contain a segment query')
         if segment is not None:
             if not self.segment_supported:raise RuntimeError('Player lacks the segment staging/indexing diagnostic contract')
@@ -55,6 +87,13 @@ class ResourceProbe:
                 if not self.remux_supported:raise RuntimeError('Player lacks the bounded remux preparation contract')
                 if media['remux']!='mp4-clip' or media.get('formatHint') not in {'mp4','m4a','mov'}:raise ValueError('Unsupported remux input/output')
             if type(media.get('packetLimit',32)) is not int or not 1<=media.get('packetLimit',32)<=128:raise ValueError('Packet limit must be 1..128')
+        self.index_resource=None;self.index_length=None
+        if index is not None:
+            if not isinstance(index,dict) or set(index)!={'resourceId'}:raise ValueError('Invalid index query')
+            resource=next((r for r in snapshot['resources'] if r['id']==index['resourceId']),None)
+            if resource is None or not isinstance(resource.get('length'),str) or not resource['length'].isascii() or not resource['length'].isdecimal() or not 0<int(resource['length'])<=2**63-1:
+                raise ValueError('Index query requires a known resource length')
+            self.index_resource=index['resourceId'];self.index_length=int(resource['length'])
         self.remux_mode=media is not None and 'remux' in media
         self.probe_id=None;self.acknowledged=False;self.identity=(snapshot['sessionId'],snapshot['generation'])
         self.request_id=uuid.uuid4().hex
@@ -64,7 +103,12 @@ class ResourceProbe:
             sessionDirectory=str(Path(directory).resolve()),reads=copy.deepcopy(reads),waitMilliseconds=wait_milliseconds,requestId=self.request_id)
         if segment is not None:request['segment']=copy.deepcopy(segment)
         if media is not None:request['media']=copy.deepcopy(media)
+        if index is not None:request['index']=copy.deepcopy(index)
         return self._check(self.client.request(request))
+
+    def start_index(self,snapshot: dict,directory: str,resource_id: str,*,wait_milliseconds: int=0):
+        if not isinstance(resource_id,str) or not resource_id:raise ValueError('Resource identifier must be nonempty')
+        return self.start(snapshot,directory,[],index=dict(resourceId=resource_id),wait_milliseconds=wait_milliseconds)
 
     def start_segment(self,snapshot: dict,directory: str,track_id: str,index: int,*,demux: bool=True,wait_milliseconds: int=0):
         if type(index) is not int or not 0<=index<=127 or type(demux) is not bool:

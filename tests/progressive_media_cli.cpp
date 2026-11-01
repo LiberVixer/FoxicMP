@@ -1,21 +1,26 @@
 // Native media-profile fixture: no Qt, DirectShow or decoder dependencies.
-#ifdef FOXICMP_INDEXED_MP4_ONLY
+#if defined(FOXICMP_INDEXED_MP4_ONLY) || defined(FOXICMP_TAIL_MP4_ONLY)
 #include "../shared/progressiveindexedmp4.h"
 #else
 #include "../shared/progressivefmp4bridge.h"
 #endif
 #include <iostream>
 namespace p=foxicmp::progressive;
-#ifdef FOXICMP_INDEXED_MP4_ONLY
+#if defined(FOXICMP_INDEXED_MP4_ONLY) || defined(FOXICMP_TAIL_MP4_ONLY)
+#ifdef FOXICMP_TAIL_MP4_ONLY
+using FocusBridge=p::TailMp4Bridge;
+#else
+using FocusBridge=p::IndexedMp4Bridge;
+#endif
 // Focus sanitizers on the new projection and its real resource/lease backend.
 // Regular tests still exercise the production Fmp4V2Bridge and codec validator.
-class TestedBridge:public p::IndexedMp4Bridge {
+class TestedBridge:public FocusBridge {
 public:
     TestedBridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json)
-        :p::IndexedMp4Bridge(root,receipts,json,[](unsigned,harvester::BoxData){}){}
-    int64_t readDecoderPayload(int track,uint64_t offset,void* buffer,size_t count){return p::IndexedMp4Bridge::readPayload(unsigned(track),offset,buffer,count,true);}
+        :FocusBridge(root,receipts,json,[](unsigned,harvester::BoxData){}){}
+    int64_t readDecoderPayload(int track,uint64_t offset,void* buffer,size_t count){return FocusBridge::readPayload(unsigned(track),offset,buffer,count,true);}
     bool isWebm(int)const{return false;}
-    std::string audioCodec(int)const{return p::IndexedMp4Bridge::audioCodec();}
+    std::string audioCodec(int)const{return FocusBridge::audioCodec();}
 };
 #else
 using TestedBridge=p::Fmp4V2Bridge;

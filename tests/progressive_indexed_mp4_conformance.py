@@ -5,7 +5,8 @@ from pathlib import Path
 from progressive_indexed_mp4_fixture import fixture,publish,prefix_at,boxes
 from progressive_mux_ts_conformance import Rpc
 
-def run(runner):
+def run(runner,*,fixture_provider=fixture,publisher=publish,tail_mode=False):
+    fixture,publish=fixture_provider,publisher
     checks=[];reports=[]
     for profile,seconds in [('main-bframes',4),('fractional',4),('no-bframes',4),('vfr',4),('main-bframes',80)]:
         with tempfile.TemporaryDirectory(prefix='foxicmp-indexed-mp4-') as temp:
@@ -44,7 +45,7 @@ def run(runner):
                     assert rpc('read',decoder=True,track=k,offset=str(len(view)),length='1')['bytesRead']==0
                     for at in range(len(view)-1,-1,-65521):
                         start=max(0,at-1000);assert rpc('read',decoder=True,track=k,offset=str(start),length=str(at-start+1))['hex']==view[start:at+1].hex()
-                status=rpc('status');assert status['mediaMode']=='growing-muxed-mp4-h264-aac-lc' and status['physicalResources']==1 and status['videoContainer']=='mp4' and status['decoderContainer']=='fmp4',status
+                status=rpc('status');assert status['mediaMode']==('growing-tail-mp4-h264-aac-lc' if tail_mode else 'growing-muxed-mp4-h264-aac-lc') and status['physicalResources']==1 and status['videoContainer']=='mp4' and status['decoderContainer']=='fmp4',status
                 readers=lambda:rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers']
                 assert len(readers())==1;rpc('retain');rpc('release');assert readers();rpc('dropRetained');assert not readers()
                 assert (data/'mux.part').read_bytes()==raw and sorted(p.name for p in data.iterdir())==['mux.part']
@@ -72,7 +73,8 @@ def run(runner):
         at=raw.index(b'elst');bad('non-unit-edit-rate',patch(at+20,b'\0'*4))
         at=raw.index(b'mvhd');bad('zero-movie-timescale',patch(at+16,b'\0'*4))
         first=raw.index(b'stco');second=raw.index(b'stco',first+4);bad('overlapping-track-chunks',patch(second+12,raw[first+12:first+16]))
-        atoms=list(boxes(raw));moov=next((a,n) for a,n,k,h in atoms if k==b'moov');a,n=moov;tail=raw[:a]+raw[a+n:]+raw[a:a+n];bad('tail-moov-requires-another-profile',tail)
+        atoms=list(boxes(raw));moov=next((a,n) for a,n,k,h in atoms if k==b'moov');a,n=moov;tail=raw[:a]+raw[a+n:]+raw[a:a+n]
+        if not tail_mode:bad('tail-moov-requires-another-profile',tail)
         bad('noncontiguous-confirmed-ranges',raw,lambda v:v['resources'][0].update(ranges=[dict(offset='1',length=str(len(raw)-1))]))
 
         for name,action in [('sha-rewrite','rewrite'),('source-truncated','truncate'),('cancel','cancel')]:
@@ -90,7 +92,7 @@ def run(runner):
         for stop in (17,raw.index(b'moov')+20):
             data=root/str(stop);data.mkdir();rpc=Rpc([runner,'--registry',str(root/(str(stop)+'-readers'))])
             try:
-                value=publish(model,raw,data,stop);answer=rpc('open',directory=str(data),session=value);assert not answer['ok'] and answer['code']=='waiting_initialization',answer
+                value=publish(model,raw,data,stop,**(dict(tail_bytes=0) if tail_mode else {}));answer=rpc('open',directory=str(data),session=value);assert not answer['ok'] and answer['code']==('waiting-index' if tail_mode else 'waiting_initialization'),answer
                 assert not rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers'];checks.append('incomplete-head-index-waits-'+str(stop))
             finally:rpc.close()
     return dict(result='PASS',count=len(checks),checks=checks,realMedia=reports,wholeSourceProjectionTested=True,playerDecoderTested=False,transcoding=False,originalsUnchanged=True,physicalAvSyncMeasured=False)

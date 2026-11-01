@@ -20,6 +20,40 @@ class Client:
 
 
 class ResourceSdkTest(unittest.TestCase):
+    def index_client(self):
+        client=Client();old=client.request
+        def request(message,timeout=5):
+            out=old(message,timeout)
+            if message['action']=='capabilities':
+                out['schema2Playback']=dict(muxedPlayback=dict(mp4=dict(tailIndex=dict(indexProbe=dict(version=1,mode='mp4-index-locator',analysisOnly=True,playbackSupported=False,advisoryRanges=True,downloadsPerformed=False)))))
+            else:out['index']=dict(code='queued')
+            return out
+        client.request=request;return client
+    def start_index(self):
+        client=self.index_client();probe=ResourceProbe(client)
+        out=probe.start_index(dict(sessionId='a'*32,generation='1',resources=[dict(id='clip',length='10000')]),'/unused','clip')
+        out['index']=dict(code='waiting-index',mode='mp4-index-locator',analysisOnly=True,playbackSupported=False,resourceId='clip',priorityRanges=[dict(resourceId='clip',offset='9000',length='1000',reason='mp4-index',advisory=True)])
+        return probe,out
+    def test_index_hints_are_advisory_and_request_scoped(self):
+        probe,out=self.start_index();probe._check(out)
+        for field,value in [('resourceId','foreign'),('analysisOnly',False),('playbackSupported',True),('mode','http')]:
+            wrong=copy.deepcopy(out);wrong['index'][field]=value
+            with self.assertRaises(RuntimeError):probe._check(wrong)
+    def test_index_hints_cannot_authorize_other_resources_or_unbounded_downloads(self):
+        probe,out=self.start_index()
+        for field,value in [('resourceId','foreign'),('offset','-1'),('offset','09000'),('offset','10001'),('length','0'),('length','1048577'),('length','1001'),('reason','url'),('advisory',False),('url','https://example.com')]:
+            wrong=copy.deepcopy(out);wrong['index']['priorityRanges'][0][field]=value
+            with self.assertRaises(RuntimeError):probe._check(wrong)
+        wrong=copy.deepcopy(out);wrong['index']['code']='cancelled'
+        with self.assertRaises(RuntimeError):probe._check(wrong)
+    def test_index_requires_explicit_capability_and_known_length(self):
+        client=Client();probe=ResourceProbe(client);before=len(client.calls)
+        with self.assertRaises(RuntimeError):probe.start_index({},'/unused','clip')
+        self.assertEqual(len(client.calls),before);self.assertIsNone(probe.identity)
+        probe=ResourceProbe(self.index_client())
+        for length in (None,'0','-1',True,str(2**63)):
+            with self.assertRaises(ValueError):probe.start_index(dict(resources=[dict(id='clip',length=length)]),'/unused','clip')
+            self.assertIsNone(probe.identity)
     def demux_client(self):
         client=Client();old=client.request
         def request(message,timeout=5):

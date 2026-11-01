@@ -10,6 +10,8 @@ struct MuxedMp4Profile {
     static void Configure(Layout&,const Resource&){}
     static uint64_t Total(const Layout& l,unsigned k,bool complete){return complete?l.tracks[k].bytes:0;}
     static bool DecoderRead(const Layout& l,const harvester::FragmentIndex::Read& r,unsigned k,uint64_t at,void* p,size_t n){return l.ReadAt(r,k,at,p,n);}
+    static uint64_t Prefix(const Resource& r){uint64_t end=0;for(const auto& range:r.ranges){Require(range.offset==end,"ranges","Shared media requires a contiguous confirmed prefix","unsupported_media");end+=range.length;}return end;}
+    static void Update(Layout& l,const harvester::FragmentIndex::Read& r,uint64_t prefix,bool complete,Layout::Validate validate){l.Update(r,prefix,complete,validate);}
     static const char* Tag(){return "muxedMp4";}
     static const char* Hint(){return "fmp4-muxed";}
     static const char* Mode(const std::string& video,const std::string& audio){

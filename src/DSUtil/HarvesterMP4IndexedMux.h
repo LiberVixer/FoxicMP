@@ -2,6 +2,7 @@
 // GPL-3.0-or-later. Metadata projection only; payloads stay in the original file.
 #pragma once
 #include "HarvesterMP4Muxed.h"
+#include "HarvesterMP4IndexLocator.h"
 namespace harvester { namespace indexedmux {
 using namespace muxmp4;
 constexpr size_t MaxSamples=250000;
@@ -14,7 +15,8 @@ private:
     struct Packet {uint64_t offset=0,decode=0;uint32_t size=0,duration=0;int64_t composition=0;bool sync=false;};
     std::array<std::shared_ptr<const std::vector<Packet>>,2> packets;
     std::array<size_t,2> emitted{};
-    bool audioRoll=false;
+    bool audioRoll=false,tailAllowed=false;
+    std::vector<std::pair<uint64_t,uint64_t>> confirmed;
     Bytes audioDecoderInit;uint64_t audioTotal=0;
     uint64_t total=0,scanned=0,payloadStart=0,payloadEnd=0;
     size_t fragments=0;bool initialized=false;
@@ -127,17 +129,14 @@ private:
         view.spans.clear();view.bytes=0;Memory(view,std::move(index));
     }
     bool Initialize(const Read& read,uint64_t prefix,const Validate& validate) {
-        uint64_t pos=0;Bytes ftyp,movie;
-        while(pos<prefix){uint8_t raw[16]{};if(!RangeReady(pos,8,prefix))return false;Check(read(pos,raw,8),"Indexed MP4 header read failed");BoxData header{raw,16};uint64_t size=header.U32(0);const auto type=header.U32(4);size_t width=8;
-            if(size==1){if(!RangeReady(pos,16,prefix))return false;Check(read(pos+8,raw+8,8),"Indexed extended MP4 header read failed");size=header.U64(8);width=16;}
-            Check(size>=width && pos<=total && size<=total-pos,"Invalid bounded indexed MP4 atom");
-            if(type==FourCC("mdat")){Check(!ftyp.empty() && !movie.empty() && pos+size==total,"Expected one sized mdat after head moov without trailer");payloadStart=pos+width;payloadEnd=pos+size;break;}
-            Check(type==FourCC("ftyp") || type==FourCC("moov") || type==FourCC("free"),"Unsupported indexed MP4 top-level atom");Check(size<=MaxInit && pos+size<=MaxInit,"Indexed MP4 initialization exceeds 1 MiB");if(!RangeReady(pos,size,prefix))return false;
-            Bytes bytes(size_t(size-width));Check(read(pos+width,bytes.data(),bytes.size()),"Indexed metadata read failed");
-            if(type==FourCC("ftyp")){Check(pos==0 && ftyp.empty() && size>=16,"Invalid indexed MP4 ftyp");ftyp=Box(type,{bytes.data(),bytes.size()});}
-            if(type==FourCC("moov")){Check(!ftyp.empty() && movie.empty(),"Repeated/misplaced indexed moov");movie=std::move(bytes);}pos+=size;
-        }
-        if(!payloadEnd)return false;
+        const auto available=[&](uint64_t at,size_t n){if(!tailAllowed)return RangeReady(at,n,prefix);
+            if(at>total || n>total-at)return false;uint64_t cursor=at,end=at+n;
+            for(const auto& r:confirmed){if(r.first>cursor)break;if(r.first+r.second>cursor)cursor=(std::min)(end,r.first+r.second);if(cursor==end)return true;}return n==0;};
+        harvester::mp4index::Located found;
+        try{found=harvester::mp4index::Locate(read,available,total,tailAllowed);}
+        catch(const harvester::mp4index::NeedRange&){if(tailAllowed)throw;return false;}
+        const auto& ftyp=found.ftyp;const auto& movie=found.movie;payloadStart=found.payloadStart;payloadEnd=found.payloadEnd;
+        ValidateRanges(prefix);
         const BoxData moov{movie.data(),movie.size()};Check(!moov.One("mvex",true).data && !moov.One("pssh",true).data,"Fragmented/encrypted MP4 declared as ordinary indexed MP4");
         const auto mvhd=moov.One("mvhd");Check((mvhd.U32(0)>>24)<=1,"Invalid indexed movie clock");const auto movieScale=mvhd.U32(mvhd.data[0]?20:12);Check(movieScale,"Zero indexed movie scale");std::array<BoxData,2> selected{};size_t count=0;
         for(const auto& child:moov.Children())if(child.first==FourCC("trak")){Check(++count<=2,"Indexed MP4 needs exactly two tracks");const auto type=child.second.One("mdia").One("hdlr").U32(8);Check(type==FourCC("vide") || type==FourCC("soun"),"Unsupported indexed MP4 track kind");const unsigned k=type==FourCC("vide")?0:1;Check(!selected[k].data,"Repeated indexed MP4 track kind");selected[k]=child.second;}
@@ -167,6 +166,8 @@ private:
         }
     }
 public:
+    void SetTailRanges(const std::vector<std::pair<uint64_t,uint64_t>>& ranges){tailAllowed=true;confirmed=ranges;}
+    void ValidateRanges(uint64_t prefix)const{if(tailAllowed && payloadEnd)for(const auto& r:confirmed)if(r.first>prefix)Check(r.first>=payloadEnd,"Only metadata beyond mdat may be published separately");}
     void SetLength(uint64_t value){Check(value && value<=uint64_t(INT64_MAX) && (!total || value==total),"Indexed MP4 requires an immutable known source length");total=value;}
     bool Initialized() const{return initialized;}
     size_t Fragments() const{return fragments;}
@@ -188,7 +189,7 @@ public:
             if(left<right)std::memcpy(bytes+size_t(left-at),"free"+size_t(left-i->offset-4),size_t(right-left));
         }return true;
     }
-    void Update(const Read& read,uint64_t prefix,bool complete,const Validate& validate){Check(total && prefix>=scanned && prefix<=total && prefix-scanned<=16777216,"Indexed MP4 prefix/append exceeds bounds");scanned=prefix;
+    void Update(const Read& read,uint64_t prefix,bool complete,const Validate& validate){Check(total && prefix>=scanned && prefix<=total && prefix-scanned<=16777216,"Indexed MP4 prefix/append exceeds bounds");scanned=prefix;ValidateRanges(prefix);
         if(!initialized && !Initialize(read,prefix,validate)){Check(!complete,"Completed indexed MP4 lacks initialization");return;}
         for(unsigned k=0;k<2;++k)Append(k,read,prefix);
         if(complete)Check(prefix==total && emitted[0]==packets[0]->size() && emitted[1]==packets[1]->size(),"Completed indexed MP4 has unavailable samples");

@@ -830,15 +830,18 @@ private slots:
   }
   void indexedMp4Playback() {QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,false,false,false,false,false,false,false,true);}
 
+  void tailMp4Playback_data() {indexedMp4Playback_data();}
+  void tailMp4Playback() {QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,false,false,false,false,false,false,false,true,true);}
+
 private:
-  void checkSegmentPlayback(const QString& mediaProfile,bool catalogMode,bool webm=false,bool ts=false,bool muxed=false,bool growing=false,bool muxedMp4=false,bool muxedWebm=false,bool indexedMp4=false) {
+  void checkSegmentPlayback(const QString& mediaProfile,bool catalogMode,bool webm=false,bool ts=false,bool muxed=false,bool growing=false,bool muxedMp4=false,bool muxedWebm=false,bool indexedMp4=false,bool tailMp4=false) {
     const QString expectedCodec=indexedMp4 || ts || (muxedMp4 && !mediaProfile.startsWith("hevc") && !mediaProfile.startsWith("av1-") && !mediaProfile.startsWith("vp9-"))?"h264":mediaProfile.startsWith("vp8")?"vp8":mediaProfile.startsWith("av1-")?"av1":mediaProfile.startsWith("vp9-")?"vp9":mediaProfile.startsWith("h264")?"h264":"hevc";
     const QString expectedAudio=mediaProfile.contains("vorbis")?"vorbis":webm || mediaProfile.contains("-opus")?"opus":"aac";
-    const QString expectedMode=QString(indexedMp4?"growing-muxed-mp4-":muxedWebm?"growing-muxed-webm-":muxedMp4?"growing-muxed-fmp4-":growing?"growing-muxed-mpegts-":muxed?"segmented-muxed-mpegts-":ts?"segmented-mpegts-":webm?"segmented-webm-":"segmented-fmp4-")+expectedCodec+"-"+(expectedAudio=="aac"?QString("aac-lc"):expectedAudio);
+    const QString expectedMode=QString(tailMp4?"growing-tail-mp4-":indexedMp4?"growing-muxed-mp4-":muxedWebm?"growing-muxed-webm-":muxedMp4?"growing-muxed-fmp4-":growing?"growing-muxed-mpegts-":muxed?"segmented-muxed-mpegts-":ts?"segmented-mpegts-":webm?"segmented-webm-":"segmented-fmp4-")+expectedCodec+"-"+(expectedAudio=="aac"?QString("aac-lc"):expectedAudio);
     const int expectedChannels=muxedMp4 && expectedAudio=="opus" && mediaProfile.contains("-mono")?1:muxedWebm && mediaProfile.endsWith("-fractional")?1:ts || muxedMp4 || indexedMp4?2:expectedAudio=="aac" || mediaProfile.endsWith("-mono")?1:2;
     const int expectedRate=indexedMp4 && mediaProfile=="fractional"?44100:(ts || muxedMp4) && (mediaProfile=="high-fractional" || mediaProfile=="hevc10-fractional" || mediaProfile=="av1-10-fractional" || mediaProfile=="vp9-10-fractional")?44100:48000;
     const auto prefix=QString(catalogMode?"catalog-":"segment-")+
-        (indexedMp4?"indexed-mp4-":muxedWebm?"mux-webm-":muxedMp4?"mux-mp4-":growing?"growing-ts-":muxed?"mux-ts-":ts?"ts-":webm?"webm-":"fmp4-");
+        (tailMp4?"tail-mp4-":indexedMp4?"indexed-mp4-":muxedWebm?"mux-webm-":muxedMp4?"mux-mp4-":growing?"growing-ts-":muxed?"mux-ts-":ts?"ts-":webm?"webm-":"fmp4-");
     Profile profile(temporary.filePath(prefix+"playback-profile-"+mediaProfile));prepare(profile);
     Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
     auto* player=w.findChild<Player*>();QVERIFY(player);
@@ -872,7 +875,7 @@ private:
         }
       }
     });sample.start();
-    QStringList writerArgs{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath(indexedMp4?"progressive_indexed_mp4_playback.py":muxedWebm?"progressive_mux_webm_playback.py":muxedMp4?"progressive_mux_mp4_playback.py":growing?"progressive_growing_ts_playback.py":muxed?"progressive_mux_ts_playback.py":ts?"progressive_ts_playback.py":webm?"progressive_webm_segment_playback.py":catalogMode?"progressive_catalog_playback.py":"progressive_segment_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work,"--media-profile",mediaProfile};
+    QStringList writerArgs{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath(tailMp4?"progressive_tail_mp4_playback.py":indexedMp4?"progressive_indexed_mp4_playback.py":muxedWebm?"progressive_mux_webm_playback.py":muxedMp4?"progressive_mux_mp4_playback.py":growing?"progressive_growing_ts_playback.py":muxed?"progressive_mux_ts_playback.py":ts?"progressive_ts_playback.py":webm?"progressive_webm_segment_playback.py":catalogMode?"progressive_catalog_playback.py":"progressive_segment_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work,"--media-profile",mediaProfile};
     if((webm || ts) && catalogMode)writerArgs<<"--catalog";
     QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),writerArgs);
     QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});

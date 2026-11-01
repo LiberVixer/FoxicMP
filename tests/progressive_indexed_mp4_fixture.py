@@ -5,7 +5,7 @@ from pathlib import Path
 from progressive_growing_ts_fixture import publish
 from progressive_mux_mp4_fixture import boxes
 
-def fixture(root,profile='main-bframes',seconds=20):
+def fixture(root,profile='main-bframes',seconds=20,*,faststart=True):
     root=Path(root);root.mkdir(parents=True,exist_ok=True)
     rate='30000/1001' if profile=='fractional' else '25';sample_rate=44100 if profile=='fractional' else 48000
     original=root/'ordinary.mp4'
@@ -13,7 +13,7 @@ def fixture(root,profile='main-bframes',seconds=20):
              '-f','lavfi','-i',f'sine=frequency=880:sample_rate={sample_rate}:duration={seconds}',
              '-c:v','libx264','-threads','2','-preset','veryfast','-pix_fmt','yuv420p','-profile:v','high' if profile=='fractional' else 'main',
              '-x264-params','keyint=25:min-keyint=25:scenecut=0:open-gop=0:bframes='+('0' if profile=='no-bframes' else '2'),
-             '-c:a','aac','-ac','2','-b:a','96k','-movflags','+faststart',str(original)]
+             '-c:a','aac','-ac','2','-b:a','96k','-movflags','+faststart' if faststart else '0',str(original)]
     if profile=='vfr':command[-1:-1]=['-vf',"select='not(eq(mod(n,5),1))'",'-fps_mode:v','vfr']
     subprocess.run(command,check=True,capture_output=True)
     raw=original.read_bytes();probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_packets','-show_streams','-show_format','-show_data_hash','sha256','-of','json',str(original)]))

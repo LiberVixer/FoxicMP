@@ -9,24 +9,41 @@ from progressive_v2 import V2PreviewSession
 from progressive_v2_playback_conformance import forget_closed_readers
 
 
-def exercise(client, fixtures, work, pause, seek, profile='main-bframes'):
+def exercise(client, fixtures, work, pause, seek, profile='main-bframes',*,tail_mode=False):
     root = Path(work).resolve()
     root.mkdir(parents=True, exist_ok=True)
-    plan, raw, _, groups, scales = fixture(root, profile)
+    make,publish_bytes=fixture,publish
+    if tail_mode:
+        from progressive_tail_mp4_fixture import fixture as make,publish as publish_bytes
+        from progressive_resources import ResourceProbe
+    plan, raw, _, groups, scales = make(root, profile)
     plan['metadata']['chapters'].append(dict(id='tail', time='170000000', title='Tail'))
     caps = client.request(dict(version=1, action='capabilities'))['schema2Playback']['muxedPlayback']['mp4']
-    mode = 'growing-muxed-mp4-h264-aac-lc'
-    assert caps['mode']==mode and caps['wholeSourcePlayback'] and caps['continuousPlayback'],caps
+    mode = 'growing-tail-mp4-h264-aac-lc' if tail_mode else 'growing-muxed-mp4-h264-aac-lc'
+    assert (caps['tailIndex']['playbackMode'] if tail_mode else caps['mode'])==mode and caps['wholeSourcePlayback'] and caps['continuousPlayback'],caps
     assert caps['integrityRequired'] and caps['decoderContainer']=='fmp4',caps
     def cut(seconds):
         return int(next(p['pos'] for p in groups[0] if (int(p['pts'])-int(groups[0][0]['pts']))*scales[0]>=seconds))-97
-    value = publish(plan, raw, root, 17)
+    value = publish_bytes(plan, raw, root, 17,**(dict(tail_bytes=0) if tail_mode else {}))
     preview = V2PreviewSession(client, str(root), title='Ordinary MP4 '+profile)
     report = dict(profile=profile, phases=[], networkRequests=0, physicalResources=1)
     try:
         answer = preview.publish(value)
-        assert not preview.started and answer['state']=='waiting-initialization', answer
-        value = publish(plan, raw, root, cut(4), previous=value)
+        assert not preview.started and answer['state']==('waiting-index' if tail_mode else 'waiting-initialization'), answer
+        if tail_mode:
+            value=publish_bytes(plan,raw,root,cut(4),previous=value,tail_bytes=0)
+            answer=preview.publish(value)
+            assert not preview.started and answer['state']=='waiting-index',answer
+            diagnostic=ResourceProbe(client);diagnostic.start_index(value,str(root),'mux')
+            hint=diagnostic.wait()['index']['priorityRanges'][0];diagnostic.forget()
+            assert hint['reason']=='mp4-atom-header' and int(hint['offset'])>cut(4),hint
+            value=publish_bytes(plan,raw,root,cut(4),previous=value,tail_bytes=16)
+            answer=preview.publish(value);assert answer['state']=='waiting-index' and not preview.started,answer
+            diagnostic.start_index(value,str(root),'mux')
+            hint=diagnostic.wait()['index']['priorityRanges'][0];diagnostic.forget()
+            assert hint['reason']=='mp4-index',hint
+            report['metadataHintsVerified']=True
+        value = publish_bytes(plan, raw, root, cut(4), previous=value)
         probe = client.probe(value, root)
         assert probe['supported'] and not probe['complete'], probe
         forget_closed_readers(client, value)
@@ -46,7 +63,7 @@ def exercise(client, fixtures, work, pause, seek, profile='main-bframes'):
             raise AssertionError(('Ordinary MP4 playback timeout', label, state))
         def advance(seconds=None):
             nonlocal value
-            value = publish(plan, raw, root, len(raw) if seconds is None else cut(seconds), previous=value, complete=seconds is None)
+            value = publish_bytes(plan, raw, root, len(raw) if seconds is None else cut(seconds), previous=value, complete=seconds is None)
             return preview.publish(value)
         wait(lambda s:s['state']=='buffering' and s['availableSeconds']<6, 'partial-prefix-buffers')
         advance(12)
@@ -65,7 +82,8 @@ def exercise(client, fixtures, work, pause, seek, profile='main-bframes'):
         wait(lambda s:s['state']=='buffering' and s['positionSeconds']>=10
              and 0<=s['availableSeconds']-s['positionSeconds']<=1.2
              and not s['complete'], 'partial-indexed-sample-tail-waits-not-eof')
-        assert (root/'mux.part').stat().st_size<len(raw)
+        assert int(value['resources'][0]['ranges'][0]['length'])<len(raw)
+        assert (root/'mux.part').stat().st_size==(len(raw) if tail_mode else int(value['resources'][0]['ranges'][0]['length']))
         advance()
         seek(17)
         wait(lambda s:s['state'] in ('playing','finished') and s['positionSeconds']>=16.7, 'forward-seek-to-published-tail')

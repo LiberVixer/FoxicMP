@@ -433,3 +433,13 @@ SDK 1.54: [непрерывное воспроизведение всего об
 `V2PreviewSession`. H.264/AAC-LC, подтверждённые prefix/SHA, штатные sample tables,
 виртуальные fMP4 views без перекодирования и промежуточного медиафайла.
 Общий FFmpeg remux других контейнеров остаётся открытым; RAM preview 1.53 сохранён.
+
+
+SDK 1.55: [обычный MP4 H.264/AAC-LC с индексом в конце](ProgressiveTailMp4.md),
+`mp4-tail` и отдельная capability `muxedPlayback.mp4.tailIndex`. Metadata-only
+`ResourceProbe.start_index` возвращает advisory ranges без скачивания/старта.
+Один подтверждённый media prefix + один metadata range вне mdat; hole payload
+не читается. Прежние head MP4, RAM preview и остальные профили сохранены.
+[Проверки трёх редакций](ProgressiveTailMp4Validation-2026-11-01.md).
+Общий FFmpeg remux, произвольные sparse media, другие контейнеры/кодеки, live
+и длительная реальная A/V-приёмка остаются в чеклисте. Harvester не меняется.

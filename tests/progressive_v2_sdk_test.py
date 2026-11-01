@@ -23,6 +23,22 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_tail_mp4_requires_own_capability_and_waiting_index_is_recoverable(self):
+        client=Client();value=snapshot();value['resources']=[dict(id='mux',length='1000',integrity=dict(algorithm='sha256'))]
+        for track in value['tracks']:track.update(containerHint='mp4-tail',source=dict(resourceId='mux'),codecHint='h264' if track['kind']=='video' else 'aac-lc')
+        cap=dict(mode='growing-muxed-mp4-h264-aac-lc')
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),muxedPlayback=dict(mp4=cap)))
+        preview=V2PreviewSession(client,'/unused')
+        with self.assertRaisesRegex(RuntimeError,'tail-index MP4'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last)
+        cap['tailIndex']=dict(version=1,mode='tail-moov-mp4-v1',containerHint='mp4-tail',playbackMode='growing-tail-mp4-h264-aac-lc')
+        preview=V2PreviewSession(client,'/unused');start=client.start
+        def wait(*args,**kwargs):raise ApiError(dict(ok=False,code='waiting-index',error='Index not confirmed'))
+        client.start=wait
+        self.assertEqual(preview.publish(value)['state'],'waiting-index')
+        self.assertFalse(preview.started);self.assertFalse(preview.uncertain);self.assertTrue(preview.status()['released'])
+        client.start=start;preview.publish(value);self.assertTrue(preview.started)
+
     def test_ordinary_mp4_has_independent_capability_and_strict_resource_contract(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',length='1000',integrity=dict(algorithm='sha256'))]
         for track in value['tracks']:track.update(containerHint='mp4-muxed',source=dict(resourceId='mux'),codecHint='h264' if track['kind']=='video' else 'aac-lc')

@@ -104,8 +104,13 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-Предварительный [SDK 1.46](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.46)
+Предварительный [SDK 1.55](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.55)
 предназначен для интеграционных проверок с новыми сборками плеера.
+SDK 1.54–1.55 добавляют обычный растущий MP4 H.264/AAC-LC с индексом в начале
+или в конце файла: [контракт tail-index и advisory ranges](docs/ProgressiveTailMp4.md),
+[проверки трёх редакций](docs/ProgressiveTailMp4Validation-2026-11-01.md).
+ZIP содержит SDK без EXE/установщиков. Общий remux, произвольные sparse media
+и оставшаяся приёмка перечислены в [чеклисте](docs/ProgressiveCompletionChecklist.md).
 SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](docs/ProgressiveWebmSegments.md), включая постраничный каталог, в трёх редакциях. Требуются новые EXE; SDK содержит клиент и документацию.
 SDK 1.39 добавляет [сегментный MPEG-TS H.264/AAC](docs/ProgressiveTsPlayback.md): отдельные подтверждённые дорожки, SHA-256, inline или постраничный каталог, общий виртуальный MP4 без перекодирования. Harvester не изменяется.
 SDK 1.40 добавляет [совместные TS-сегменты H.264/AAC](docs/ProgressiveMuxedTsPlayback.md): один физический ресурс с обеими дорожками и две логические проекции для декодеров, включая отдельный постраничный каталог. SDK 1.41 добавляет [один растущий TS AVC/AAC файл](docs/ProgressiveGrowingTs.md): частичные пакеты/PES и закрытые GOP ждут новые байты, обе дорожки читаются из одного SHA-защищённого ресурса через виртуальный MP4. [Проверки трёх редакций](docs/ProgressiveGrowingTsValidation-2026-10-31.md).

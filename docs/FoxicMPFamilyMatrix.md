@@ -242,3 +242,6 @@ Classic восстановлен после экспериментальной �
 исправленный или подтверждённый только программным тестом.
 
 SDK 1.33 добавляет [ограниченное воспроизведение цепочки fMP4 H.264/AAC-LC](ProgressiveSegmentPlayback.md) через общий I/O трёх редакций. TS, live, смена codec/init и произвольный HLS/DASH остаются за границей этого профиля; Harvester не менялся.
+
+
+SDK 1.55: Linux Qt, Windows Qt и Classic имеют общий ограниченный [tail-moov MP4 H.264/AAC-LC](ProgressiveTailMp4.md), ожидание индекса и metadata-only advisory ranges. [Проверки](ProgressiveTailMp4Validation-2026-11-01.md) отдельно подтверждают каждую редакцию; произвольные sparse media и общий backend remux не заявляются.

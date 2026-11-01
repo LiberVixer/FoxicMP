@@ -25,7 +25,7 @@ template<class Profile> class SharedMuxedBridge {
         supported(out->audio==Profile::Audio() || !v.codec.empty(),"A non-default audio profile requires an explicit video codec hint");
         supported(v.initializationReady==a.initializationReady && v.state==a.state,"Muxed views require equal readiness/state");const auto& r=m.resources.at(out->resource);
         Profile::CheckResource(r);supported(!r.retired,"Retired muxed resource");Require(r.state!="failed" && r.state!="cancelled",Profile::Tag(),"Resource writer failed","resource-failed");Require(r.integrity,Profile::Tag(),"Shared media requires SHA-256","integrity-required");
-        for(const auto& range:r.ranges){supported(range.offset==out->prefix,"Shared media requires a contiguous confirmed prefix");out->prefix=range.offset+range.length;}
+        out->prefix=Profile::Prefix(r);
         out->complete=m.state=="complete" && v.state=="complete" && r.state=="complete" && r.known && out->prefix==r.length;return out;
     }
     void check() const {Require(!cancelled.load(),Profile::Tag(),"Reader cancelled","cancelled");Require(!failed.load(),Profile::Tag(),"Muxed reader failed; close and reopen","session_closed");}
@@ -37,7 +37,7 @@ template<class Profile> class SharedMuxedBridge {
         if(old)next.layout=old->layout;
         Profile::Configure(next.layout,next.model.resources.at(next.resource));
         if(next.model.tracks.at(next.ids[0]).initializationReady) {
-            next.layout.Update([&](uint64_t at,void* p,size_t n){return exact(next.resource,at,p,n);},next.prefix,next.complete,Profile::Validation(validate,next.video,next.audio));
+            Profile::Update(next.layout,[&](uint64_t at,void* p,size_t n){return exact(next.resource,at,p,n);},next.prefix,next.complete,Profile::Validation(validate,next.video,next.audio));
         }
         auto& s=next.legacy;s.sessionId=next.model.id;s.generation=next.model.generation;s.revision=next.model.revision;s.duration=next.model.duration;s.timestampOffset=0;s.state=state(next.model.state);s.tracks.resize(2);
         for(unsigned k=0;k<2;++k) {
