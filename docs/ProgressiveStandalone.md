@@ -79,3 +79,6 @@ SDK 1.59 добавляет [самостоятельное WebM Opus/Vorbis-а�
 
 SDK 1.60 добавляет [самостоятельное видео WebM VP8/VP9/AV1](ProgressiveStandaloneWebmVideo.md)
 через отдельный `schema2Playback.standalone.webmVideo`, сохраняя fMP4/audio capability.
+
+SDK 1.61 добавляет [самостоятельное HEVC/AV1/VP9-видео fMP4](ProgressiveStandaloneFmp4Video.md)
+через точные profiles в существующем standalone-fmp4-v1.

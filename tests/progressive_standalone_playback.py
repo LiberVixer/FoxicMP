@@ -13,6 +13,9 @@ def exercise(client,fixtures,work,pause,seek,profile):
     if profile.startswith('video-webm-'):
         from progressive_standalone_webm_video_fixture import prefix_at_seconds
         prefix=lambda seconds:prefix_at_seconds(raw,probe,seconds)
+    elif profile.startswith('video-fmp4-'):
+        from progressive_standalone_fmp4_video_fixture import prefix_at_seconds
+        prefix=lambda seconds:prefix_at_seconds(raw,probe,seconds)
     else:prefix=lambda count:fragment_prefix(raw,count)
     value=publish(model,raw,root,17);preview=V2PreviewSession(client,str(root),title='One stream '+profile);report=dict(profile=profile,kind=model['tracks'][0]['kind'],initialLengthKnown=model['resources'][0]['length'] is not None,phases=[])
     try:

@@ -82,7 +82,7 @@ class V2PreviewSession:
                 resources=current.get('resources',[])
                 if (len(resources)!=1 or 'segmentCatalog' in current or kind not in ('video','audio') or not track.get('required')
                     or (webm and codec not in (('vp8','vp9','av1') if kind=='video' else ('opus','vorbis')))
-                    or (not webm and codec not in (('aac-lc','opus') if kind=='audio' else ('h264',)))
+                    or (not webm and codec not in (('aac-lc','opus') if kind=='audio' else ('h264','hevc','av1','vp9')))
                     or track.get('containerHint')!=container or 'initializationResourceId' in track
                     or track.get('source')!={'resourceId':resources[0].get('id')} or resources[0].get('integrity',{}).get('algorithm')!='sha256'):
                     raise RuntimeError('Standalone playback requires one supported required scalar track with SHA-256')

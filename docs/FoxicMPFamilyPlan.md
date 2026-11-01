@@ -442,3 +442,10 @@ SDK 1.60: [самостоятельное WebM-видео VP8/VP9/AV1](Progressi
 один настоящий video track/resource без audio. [Проверки](ProgressiveStandaloneWebmVideoValidation-2026-11-01.md).
 Standalone WebM audio/fMP4 сохранены. Далее — прочие standalone codec/container profiles
 и пункты общего чеклиста. Harvester не изменён.
+
+SDK 1.61: [самостоятельное HEVC/AV1/VP9-видео в растущем fMP4](ProgressiveStandaloneFmp4Video.md),
+точные standalone profiles, шесть 8/10-bit и fractional runtime rows каждой редакции.
+Штатные hvcC/av1C/vpcC validators и один настоящий video track/resource без аудио;
+[проверки](ProgressiveStandaloneFmp4VideoValidation-2026-11-01.md).
+WebM и прежние fMP4 profiles сохранены. Далее — оставшаяся codec/container matrix
+и пункты общего чеклиста. Harvester не изменён.

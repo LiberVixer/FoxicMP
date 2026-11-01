@@ -1,12 +1,12 @@
 """One-track admission, byte identity, role-aware indexes and reader lifecycle."""
 import argparse,copy,json,tempfile
 from pathlib import Path
-from progressive_standalone_fixture import fixture,publish,fragment_prefix,BASE_PROFILES,OPUS_PROFILES,WEBM_PROFILES,WEBM_VIDEO_PROFILES
+from progressive_standalone_fixture import fixture,publish,fragment_prefix,BASE_PROFILES,OPUS_PROFILES,WEBM_PROFILES,WEBM_VIDEO_PROFILES,FMP4_VIDEO_PROFILES
 from progressive_mux_ts_conformance import Rpc
 
-def run(runner,opus_only=False,webm_only=False,webm_video_only=False):
+def run(runner,opus_only=False,webm_only=False,webm_video_only=False,fmp4_video_only=False):
     checks=[]
-    for profile in (WEBM_VIDEO_PROFILES if webm_video_only else WEBM_PROFILES if webm_only else OPUS_PROFILES if opus_only else BASE_PROFILES):
+    for profile in (FMP4_VIDEO_PROFILES if fmp4_video_only else WEBM_VIDEO_PROFILES if webm_video_only else WEBM_PROFILES if webm_only else OPUS_PROFILES if opus_only else BASE_PROFILES):
         with tempfile.TemporaryDirectory(prefix='foxicmp-standalone-native-') as temp:
             root=Path(temp);model,raw,original,probe=fixture(root,profile,4);rpc=Rpc([runner,'--registry',str(root/'readers')]);data=root/'data';data.mkdir()
             try:
@@ -17,6 +17,14 @@ def run(runner,opus_only=False,webm_only=False,webm_video_only=False):
                 assert rpc('read',decoder=True,track=0,offset=str(int(value['resources'][0]['ranges'][0]['length'])),length='1')['bytesRead']==-1
                 value=publish(model,raw,data,len(raw),previous=value,complete=True);assert rpc('publish',session=value)['ok']
                 assert rpc('index')['tracks'][0]['samples']==len(probe['packets'])
+                if fmp4_video_only:
+                    from fractions import Fraction
+                    times=rpc('index',sampleTimes=True)['tracks'][0]['firstSamples'];clock=Fraction(probe['streams'][0]['time_base'])
+                    for sample,packet in zip(times,probe['packets']):
+                        start=int(int(packet['pts'])*clock*10000000);end=int((int(packet['pts'])+int(packet['duration']))*clock*10000000)
+                        assert int(sample['start'])==start and int(sample['end'])==end,(profile,sample,packet)
+                    assert len(times)==8;checks.append(profile+'-packet-clocks-and-presentation-order')
+
                 if webm_video_only:
                     from fractions import Fraction
                     from progressive_webm_fixtures import locate
@@ -45,6 +53,9 @@ def run(runner,opus_only=False,webm_only=False,webm_video_only=False):
                 answer=rpc('open',directory=str(data),session=value);assert not answer['ok'],(name,answer)
                 assert not rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers'];checks.append(name+'-rejected-without-leak')
             finally:rpc.close()
+    if fmp4_video_only:
+        from progressive_standalone_fmp4_video_conformance import malformed
+        checks+=malformed(runner)
     if webm_video_only:
         from progressive_standalone_webm_video_conformance import malformed
         checks+=malformed(runner)
@@ -56,4 +67,4 @@ def run(runner,opus_only=False,webm_only=False,webm_video_only=False):
         checks+=malformed(runner)
     return dict(result='PASS',count=len(checks),checks=checks,physicalTrackCount=1,syntheticTracks=False,decoderBytesExact=True)
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--runner',required=True);p.add_argument('--opus-only',action='store_true');p.add_argument('--webm-only',action='store_true');p.add_argument('--webm-video-only',action='store_true');a=p.parse_args();print(json.dumps(run(a.runner,a.opus_only,a.webm_only,a.webm_video_only)))
+    p=argparse.ArgumentParser();p.add_argument('--runner',required=True);p.add_argument('--opus-only',action='store_true');p.add_argument('--webm-only',action='store_true');p.add_argument('--webm-video-only',action='store_true');p.add_argument('--fmp4-video-only',action='store_true');a=p.parse_args();print(json.dumps(run(a.runner,a.opus_only,a.webm_only,a.webm_video_only,a.fmp4_video_only)))

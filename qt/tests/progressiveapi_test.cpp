@@ -828,6 +828,16 @@ private slots:
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"audio-mono","audio-stereo-44100","video-main","video-vfr"})QTest::newRow(qPrintable(n))<<n;
   }
+  void standaloneFmp4VideoPlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"video-fmp4-hevc-8-hvc1","video-fmp4-hevc-10-hev1-fractional","video-fmp4-av1-8","video-fmp4-av1-10-fractional"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneFmp4VideoPlayback() {standalonePlayback();}
+  void standaloneFmp4Vp9Playback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"video-fmp4-vp9-8","video-fmp4-vp9-10-fractional"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneFmp4Vp9Playback() {standalonePlayback();}
   void standaloneWebmVideoPlayback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"video-webm-vp8","video-webm-vp8-fractional","video-webm-vp9-8","video-webm-vp9-10-fractional"})QTest::newRow(qPrintable(n))<<n;
@@ -859,8 +869,9 @@ private slots:
       const auto tracks=player->get("track-list").toList();int audios=0,videos=0;for(const auto& t:tracks){const auto kind=t.toMap().value("type");audios+=kind=="audio";videos+=kind=="video";}
       if(audio){decoded|=audios==1 && videos==0 && player->get("audio-codec-name")== (mediaProfile.contains("-vorbis-")?"vorbis":mediaProfile.contains("-opus-")?"opus":"aac") && player->get("audio-params/samplerate").toInt()==(mediaProfile.contains("44100")?44100:48000) && player->get("audio-params/channel-count").toInt()==(mediaProfile.contains("stereo")?2:1);}
       else {
-        observedCodec=player->get("video-format").toString();observedPixels=player->get("video-dec-params/pixelformat").toString();
-        if(videos==1 && audios==0 && observedCodec==(mediaProfile.startsWith("video-webm-")?mediaProfile.section('-',2,2):"h264") && observedPixels.startsWith("yuv420p") && (mediaProfile.contains("-10")?observedPixels.contains("10"):observedPixels=="yuv420p")){
+        const auto codec=player->get("video-format").toString(),pixels=player->get("video-dec-params/pixelformat").toString();
+        if(videos==1 && audios==0 && codec==((mediaProfile.startsWith("video-webm-") || mediaProfile.startsWith("video-fmp4-"))?mediaProfile.section('-',2,2):"h264") && pixels.startsWith("yuv420p") && (mediaProfile.contains("-10")?pixels.contains("10"):pixels=="yuv420p")){
+        observedCodec=codec;observedPixels=pixels;
         decoded=true;const auto frame=player->grabFramebuffer();if(!frame.isNull()){auto hash=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);if(first.isEmpty())first=hash;else changing|=hash!=first;}
       }
       }
