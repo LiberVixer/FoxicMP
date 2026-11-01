@@ -44,6 +44,11 @@ def exercise(client,fixtures,work,pause,seek,profile):
                 assert s.get('ok') and not s.get('error') and s['state']!='error',s
                 assert s['readerId']==reader and s['mediaMode']==mode,s
                 assert len(s['mediaTracks'])==1 and s['mediaTracks'][0]['kind']==model['tracks'][0]['kind'],s
+                if container=='mp3-indexed':
+                    index=s['mp3Index'];valid=probe['_index']['tagCrcValid']
+                    assert index['encoderTagCrcVerified']==valid and index['encoderTag']['crcVerified']==valid,s
+                    assert index['encoderTag']['state']==('valid' if valid else 'absent' if '-vbri-' in profile else 'crc-mismatch') and not index['encoderTag']['musicCrcVerified'],s
+                    assert index['trimPlan']['analysisOnly'] and index['trimPlan']['ready']==valid and not index['gaplessTrimApplied'],s
                 if predicate(s):report['phases'].append(dict(phase=label,status=s));return s
                 time.sleep(.08)
             raise AssertionError((profile,label,s))

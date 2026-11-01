@@ -6,6 +6,11 @@
 Harvester не изменён. Для функции нужны сборки из source commit SDK;
 Python ZIP не заменяет EXE/установщики.
 
+Последующее [расширение SDK 1.67](ProgressiveMp3Tag.md) добавляет фактическую
+проверку encoder tag CRC и analysis-only trim plan. Описанный ниже status
+`encoderTagCrcVerified=false` относится к исходному SDK 1.66; encoded timeline
+и отсутствие gapless trim сохраняются и в 1.67.
+
 Проверить `schema2Playback.standalone.mp3Indexed`: `version=1`,
 `mode=standalone-mp3-indexed-v1`, `standalone-mp3-indexed` в `profiles`,
 `timeline=encoded-samples`, `gaplessTrimApplied=false`. Использовать

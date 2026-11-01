@@ -16,6 +16,8 @@ def fixture(root,profile,seconds=20):
         h=bytearray(n);h[:4]=body[:4];h[36:40]=b'VBRI';h[40:42]=(1).to_bytes(2,'big');h[46:50]=len(body).to_bytes(4,'big');h[50:54]=count.to_bytes(4,'big');h[54:56]=(1).to_bytes(2,'big');h[56:58]=(1).to_bytes(2,'big');h[58:60]=(4).to_bytes(2,'big');h[60:62]=count.to_bytes(2,'big');h[62:66]=len(body).to_bytes(4,'big');body=bytes(h)+audio;fields.update(type='VBRI',encoder='',delay=0,padding=0)
     tag=b'\x00'*32;out.write_bytes(b'ID3'+bytes([3 if channels==1 else 4,0,0,0,0,0,len(tag)])+tag+body+b'TAG'+b'\x00'*125)
     raw=out.read_bytes();probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_packets','-show_streams','-show_data_hash','sha256','-of','json',str(out)]));assert len(probe['packets'])==count
+    from progressive_mp3_tag_fixture import crc,metadata
+    index_frame,cursor=metadata(raw);fields['tagCrcValid']=cursor is not None and crc(index_frame[:cursor+34])==int.from_bytes(index_frame[cursor+34:cursor+36],'big')
     for p in probe['packets']:p['_payload_sha256']=hashlib.sha256(raw[int(p['pos']):int(p['pos'])+int(p['size'])]).hexdigest()
     pcm=subprocess.check_output(['ffmpeg','-v','error','-f','mp3','-i','pipe:0','-c:a','pcm_s16le','-f','s16le','-'],input=audio);assert len(pcm)==count*1152*channels*2
     probe.update(_pcm_sha256=hashlib.sha256(pcm).hexdigest(),_pcm_bytes=len(pcm),_index=fields)

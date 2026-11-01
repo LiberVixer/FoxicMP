@@ -26,7 +26,19 @@ inline Bytes Init(const Info& i){
 }
 struct IndexHeader {
     std::string kind,encoder;uint32_t frames=0,bytes=0;unsigned encoderDelay=0,encoderPadding=0;bool hasEncoderDelay=false;
+    unsigned tagRevision=0,tagCrc=0,calculatedTagCrc=0;size_t tagCoveredBytes=0;
+    bool tagComplete=false,tagCrcChecked=false,tagCrcVerified=false;
+    // Reflected CRC-16/IBM, init 0, no final xor. Includes the MPEG header,
+    // side info and Xing/LAME fields up to (but not including) the tag CRC.
+    static uint16_t TagCrc(const uint8_t* data,size_t count){
+        uint16_t crc=0;for(size_t i=0;i<count;++i){crc^=data[i];for(unsigned bit=0;bit<8;++bit)crc=uint16_t((crc>>1)^((crc&1)?0xa001:0));}return crc;
+    }
+    const char* TagState()const {
+        return !hasEncoderDelay?(encoder.empty()?(kind=="VBRI"?"absent":"unsupported-encoder"):"absent"):
+            !tagComplete?"truncated":tagRevision?"unsupported-revision":tagCrcVerified?"valid":"crc-mismatch";
+    }
     void parse(const Bytes& b,const Info& info){
+        *this=IndexHeader{};
         const auto word=[&](size_t at){Check(at<=b.size() && b.size()-at>=4,"Truncated MP3 index header");return BoxData{b.data(),b.size()}.U32(at);};
         Check(b.size()==info.length,"MP3 index frame length mismatch");for(size_t k=4;k<4+info.side;++k)Check(b[k]==0,"MP3 index frame contains nonzero side information");
         const size_t at=4+info.side;
@@ -37,7 +49,10 @@ struct IndexHeader {
             if(flags&8){word(cursor);cursor+=4;}
             if(cursor<=b.size() && b.size()-cursor>=9){
                 const bool known=!std::memcmp(b.data()+cursor,"LAME",4) || !std::memcmp(b.data()+cursor,"Lavc",4) || !std::memcmp(b.data()+cursor,"Lavf",4);
-                if(known){Check(b.size()-cursor>=24,"Truncated encoder delay metadata");for(size_t k=0;k<9;++k)Check(b[cursor+k]>=32 && b[cursor+k]<127,"Invalid encoder identifier");encoder.assign(reinterpret_cast<const char*>(b.data()+cursor),9);const auto p=b.data()+cursor+21;encoderDelay=(unsigned(p[0])<<4)|(p[1]>>4);encoderPadding=((unsigned(p[1])&15)<<8)|p[2];hasEncoderDelay=true;}
+                if(known){Check(b.size()-cursor>=24,"Truncated encoder delay metadata");for(size_t k=0;k<9;++k)Check(b[cursor+k]>=32 && b[cursor+k]<127,"Invalid encoder identifier");encoder.assign(reinterpret_cast<const char*>(b.data()+cursor),9);const auto p=b.data()+cursor+21;encoderDelay=(unsigned(p[0])<<4)|(p[1]>>4);encoderPadding=((unsigned(p[1])&15)<<8)|p[2];hasEncoderDelay=true;
+                    tagRevision=b[cursor+9]>>4;tagComplete=b.size()-cursor>=36;
+                    if(tagComplete && !tagRevision){tagCoveredBytes=cursor+34;tagCrc=(unsigned(b[cursor+34])<<8)|b[cursor+35];calculatedTagCrc=TagCrc(b.data(),tagCoveredBytes);tagCrcChecked=true;tagCrcVerified=tagCrc==calculatedTagCrc;}
+                }
             }
         }else{
             Check(word(36)==FourCC("VBRI"),"Indexed MP3 requires Xing/Info/VBRI");kind="VBRI";
@@ -49,6 +64,21 @@ struct IndexHeader {
         Check(frames>0 && frames<=MaxFrames && bytes>info.length && uint64_t(bytes)<=uint64_t(frames+1)*MaxFrame,"MP3 index counters outside bounds");
         Check(!hasEncoderDelay || uint64_t(encoderDelay)+encoderPadding<uint64_t(frames)*1152,"Invalid encoder delay/padding total");
     }
+};
+struct TrimPlan {
+    bool ready=false;uint64_t codedSamples=0,begin=0,end=0,audibleSamples=0;
+    unsigned rate=0,decoderDelay=0;const char* reason="unvalidated-encoder-tag";
+    static TrimPlan Analyze(const IndexHeader& tag,unsigned sampleRate,unsigned decoderDelay){
+        TrimPlan p;p.rate=sampleRate;p.decoderDelay=decoderDelay;p.codedSamples=uint64_t(tag.frames)*1152;
+        if(!tag.hasEncoderDelay){p.reason="encoder-delay-unavailable";return p;}
+        if(!tag.tagCrcVerified){p.reason=tag.TagState();return p;}
+        if(sampleRate!=44100 && sampleRate!=48000){p.reason="unsupported-sample-rate";return p;}
+        if(decoderDelay!=529){p.reason="unproven-decoder-delay";return p;}
+        if(tag.encoderPadding<decoderDelay || uint64_t(tag.encoderDelay)+tag.encoderPadding>=p.codedSamples){p.reason="unproven-trim-window";return p;}
+        p.begin=uint64_t(tag.encoderDelay)+decoderDelay;p.end=p.codedSamples-tag.encoderPadding+decoderDelay;
+        p.audibleSamples=p.end-p.begin;p.ready=true;p.reason="validated-metadata";return p;
+    }
+    static uint64_t Ticks(uint64_t samples,unsigned rate){Check(rate>0,"Zero sample clock");return samples/rate*10000000+(samples%rate)*10000000/rate;}
 };
 template<bool Indexed> class BasicLayout:public audiomp4::Projection {
     uint64_t physical=0,frames=0,samples=0,reservoir=0,streamStart=0,mediaEnd=0;bool initialized=false,trailer=false;

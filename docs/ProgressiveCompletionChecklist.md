@@ -2,7 +2,7 @@
 
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
-Текущий проверенный срез — SDK 1.66, приложение 0.2.0. Этот документ — перечень
+Текущий проверенный срез — SDK 1.67, приложение 0.2.0. Этот документ — перечень
 работ и критериев; пустой checkbox не означает отсутствие функции у обычного
 воспроизведения завершённых файлов. Проверяется именно progressive-сценарий.
 
@@ -74,6 +74,7 @@
 - [x] SDK 1.66: [Xing/Info/VBRI standalone MP3](ProgressiveMp3Indexed.md), отдельный encoded-sample профиль с counters и сохранением raw delay/padding; 12 runtime profiles на редакцию. VBRI fixtures независимо собраны; реальный VBRI корпус и gapless trim остаются открытыми.
 - Начат gapless output adapter: [PCM-эталон](ProgressiveMp3GaplessReference.md), по 128 offline checks Linux/Windows, включая libmpv PCM output и sample-accurate `atrim`/seek. Подключение к progressive Qt/Classic, LAME tag CRC и growing приёмка открыты; API/SDK 1.66 не меняются.
 - Реализован [внутренний Qt PCM adapter](ProgressiveQtPcmWindow.md): по 72 проверки настоящего `Player` на ОС, точный trim/seek, пользовательская цепочка, stop и replacement. Progressive controller и Classic output ещё не подключены; публичный gapless capability не объявлен.
+- [x] SDK 1.67: [LAME Info Tag CRC и анализ границ PCM](ProgressiveMp3Tag.md), общее ядро Qt/Classic, 72 новые native checks и диагностика при growing playback. Это проверка метаданных без применения trim; gapless controller/Classic output остаются открытыми.
 - [ ] Отсутствие аудиоустройства не делает валидный video-only источник ошибочным.
 - [ ] MPEG-2/MPEG-4 Part 2 для предусмотренных ТЗ загрузок/локальных входов.
 

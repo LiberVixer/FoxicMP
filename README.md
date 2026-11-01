@@ -104,7 +104,7 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-Предварительный [SDK 1.66](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.66)
+Предварительный [SDK 1.67](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.67)
 предназначен для интеграционных проверок с новыми сборками плеера.
 SDK 1.54–1.55 добавляют обычный растущий MP4 H.264/AAC-LC с индексом в начале
 или в конце файла: [контракт tail-index и advisory ranges](docs/ProgressiveTailMp4.md),
@@ -121,6 +121,7 @@ SDK 1.63 добавляет [отдельный растущий `.flac`](docs/P
 SDK 1.64 добавляет [растущий ADTS AAC-LC](docs/ProgressiveAdts.md): mono/stereo, 44,1/48 кГц, подтверждённые кадры и виртуальный MP4 без перекодирования.
 SDK 1.65 добавляет [растущий MPEG-1 Layer III MP3](docs/ProgressiveMp3.md): CBR/VBR, mono/stereo, 44,1/48 кГц, ID3 и preroll для перемотки.
 SDK 1.66 добавляет [MP3 с Xing/Info/VBRI](docs/ProgressiveMp3Indexed.md) отдельным профилем: проверенные counters, сохранённые delay/padding metadata, encoded-sample timeline; gapless trim пока не применяется.
+SDK 1.67 добавляет [проверку LAME Info Tag CRC и расчёт границ PCM](docs/ProgressiveMp3Tag.md): повреждённые метаданные не дают разрешения на trim; существующее воспроизведение остаётся по encoded timeline.
 ZIP содержит SDK без EXE/установщиков. Общий remux, произвольные sparse media
 и оставшаяся приёмка перечислены в [чеклисте](docs/ProgressiveCompletionChecklist.md).
 SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](docs/ProgressiveWebmSegments.md), включая постраничный каталог, в трёх редакциях. Требуются новые EXE; SDK содержит клиент и документацию.

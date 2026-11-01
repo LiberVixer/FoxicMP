@@ -280,3 +280,11 @@ delay/padding сохраняется, `gaplessTrimApplied=false` объявле�
 [Проверки трёх редакций](ProgressiveMp3IndexedValidation-2026-11-01.md).
 Прежний MP3-профиль сохранён. Gapless decoder/output adapters, реальный
 VBRI corpus и прочие пункты чеклиста открыты; Harvester не изменён.
+
+SDK 1.67: [LAME Info Tag CRC / PCM trim plan](ProgressiveMp3Tag.md),
+единое ядро трёх редакций. CRC проверяет header/metadata, не звук целиком;
+недостоверная metadata не даёт trim plan и не ломает прежний encoded playback.
+[Native/runtime проверки](ProgressiveMp3TagValidation-2026-11-01.md),
+включая настоящий libmp3lame encoder, corrupt tags и ASan/UBSan.
+Публичного gapless playback ещё нет: controller и Classic PCM adapter открыты.
+Harvester не изменён.
