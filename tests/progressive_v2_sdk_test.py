@@ -70,6 +70,24 @@ class V2SdkTest(unittest.TestCase):
             with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(bad)
             self.assertFalse(client.calls)
 
+    def test_standalone_webm_video_requires_own_profiles_and_media_kind(self):
+        client=Client();cap=dict(version=1,mode='standalone-fmp4-v1',profiles=['standalone-fmp4-h264'],webm=dict(version=1,mode='standalone-webm-audio-v1',profiles=['standalone-webm-opus']))
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=cap))
+        value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='video',codecHint='vp8',containerHint='webm',source=dict(resourceId='media'));value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]
+        for version in (None,True,2):
+            cap['webmVideo']=dict(version=version,mode='standalone-webm-video-v1',profiles=['standalone-webm-vp8','standalone-webm-vp9','standalone-webm-av1'])
+            preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(value)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last)
+        cap['webmVideo']['version']=1
+        for codec in ('vp8','vp9','av1'):
+            value['tracks'][0]['codecHint']=codec;V2PreviewSession(client,'/unused').publish(value)
+        self.assertEqual(len(client.calls),3);client.calls.clear()
+        for change in (lambda v:v['tracks'][0].update(kind='audio'),lambda v:v['tracks'][0].update(codecHint='h264'),lambda v:v['tracks'][0].update(required=False)):
+            bad=copy.deepcopy(value);change(bad)
+            with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(bad)
+            self.assertFalse(client.calls)
+
     def test_tail_mp4_requires_own_capability_and_waiting_index_is_recoverable(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',length='1000',integrity=dict(algorithm='sha256'))]
         for track in value['tracks']:track.update(containerHint='mp4-tail',source=dict(resourceId='mux'),codecHint='h264' if track['kind']=='video' else 'aac-lc')

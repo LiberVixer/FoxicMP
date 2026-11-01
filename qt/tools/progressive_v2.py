@@ -41,6 +41,7 @@ class V2PreviewSession:
         tail_mp4=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('mp4',{}).get('tailIndex',{})
         self.standalone=caps.get('schema2Playback',{}).get('standalone',{})
         self.standalone_webm=self.standalone.get('webm',{}) if isinstance(self.standalone,dict) else {}
+        self.standalone_webm_video=self.standalone.get('webmVideo',{}) if isinstance(self.standalone,dict) else {}
         self.tail_mp4_supported=(isinstance(tail_mp4,dict) and type(tail_mp4.get('version')) is int and tail_mp4.get('version')==1
             and tail_mp4.get('mode')=='tail-moov-mp4-v1' and tail_mp4.get('containerHint')=='mp4-tail'
             and tail_mp4.get('playbackMode')=='growing-tail-mp4-h264-aac-lc')
@@ -74,13 +75,13 @@ class V2PreviewSession:
             standalone=len(current.get('tracks',[]))==1
             if standalone:
                 track=current['tracks'][0];kind=track.get('kind');codec=track.get('codecHint');webm=track.get('containerHint')=='webm'
-                cap=self.standalone_webm if webm else self.standalone
-                container='webm' if webm else 'fmp4';mode='standalone-webm-audio-v1' if webm else 'standalone-fmp4-v1'
+                cap=(self.standalone_webm_video if kind=='video' else self.standalone_webm) if webm else self.standalone
+                container='webm' if webm else 'fmp4';mode=('standalone-webm-video-v1' if kind=='video' else 'standalone-webm-audio-v1') if webm else 'standalone-fmp4-v1'
                 if not isinstance(cap,dict) or type(cap.get('version')) is not int or cap.get('version')!=1 or cap.get('mode')!=mode or 'standalone-'+container+'-'+str(codec) not in cap.get('profiles',[]):
                     raise RuntimeError('Player lacks the standalone '+container+' playback profile')
                 resources=current.get('resources',[])
                 if (len(resources)!=1 or 'segmentCatalog' in current or kind not in ('video','audio') or not track.get('required')
-                    or (webm and (kind!='audio' or codec not in ('opus','vorbis')))
+                    or (webm and codec not in (('vp8','vp9','av1') if kind=='video' else ('opus','vorbis')))
                     or (not webm and codec not in (('aac-lc','opus') if kind=='audio' else ('h264',)))
                     or track.get('containerHint')!=container or 'initializationResourceId' in track
                     or track.get('source')!={'resourceId':resources[0].get('id')} or resources[0].get('integrity',{}).get('algorithm')!='sha256'):

@@ -15,6 +15,8 @@ FILES = {
         'progressive_schema.py', 'progressive_resources.py', 'progressive_v2.py', 'progressive_integrity.py')},
     **{name:'docs/'+name for name in ('ProgressiveRemuxStage.md','ProgressiveRemuxStageValidation-2026-10-31.md','ProgressiveRemuxStageValidation-2026-10-31.json')},
     **{name:'docs/'+name for name in ('ProgressiveBackendDemux.md','ProgressiveBackendDemuxValidation-2026-10-31.md','ProgressiveBackendDemuxValidation-2026-10-31.json')},
+    **{name:'docs/'+name for name in ('ProgressiveStandaloneWebmVideo.md','ProgressiveStandaloneWebmVideoValidation-2026-11-01.md','ProgressiveStandaloneWebmVideoValidation-2026-11-01.json')},
+    **{'progressive-v2-standalone-webm-'+codec+'.json':'tests/fixtures/progressive-v2/standalone-webm-'+codec+'.json' for codec in ('vp8','vp9','av1')},
     **{name:'docs/'+name for name in ('ProgressiveStandaloneWebm.md','ProgressiveStandaloneWebmValidation-2026-11-01.md','ProgressiveStandaloneWebmValidation-2026-11-01.json')},
     **{'progressive-v2-standalone-webm-'+codec+'.json':'tests/fixtures/progressive-v2/standalone-webm-'+codec+'.json' for codec in ('opus','vorbis')},
     **{name:'docs/'+name for name in ('ProgressiveStandaloneOpus.md','ProgressiveStandaloneOpusValidation-2026-11-01.md','ProgressiveStandaloneOpusValidation-2026-11-01.json')},
@@ -105,9 +107,13 @@ def schema2_playback():
     # Keep the standalone manifest equal to the capability compiled into all
     # three editions, including nested codec/catalog limits.
     source=(ROOT/'shared/progressivefmp4bridge.h').read_text(encoding='utf-8')
-    match=re.search(r'inline const char\* Fmp4V2Capabilities\(\).*?return R"\((.*?)\)";',source,re.S)
+    match=re.search(r'inline const char\* Fmp4V2Capabilities\(\).*?return (.*?);',source,re.S)
     if not match:raise ValueError('Cannot locate the shared playback capability')
-    return json.loads(match.group(1))
+    expression=match.group(1)
+    parts=re.findall(r'R"\((.*?)\)"',expression,re.S)
+    if not parts or re.sub(r'R"\((.*?)\)"','',expression,flags=re.S).strip():
+        raise ValueError('Expected only adjacent raw capability literals')
+    return json.loads(''.join(parts))
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -116,7 +122,7 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.59', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.60', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(),

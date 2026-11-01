@@ -9,11 +9,15 @@ from progressive_v2_playback_conformance import forget_closed_readers
 
 def exercise(client,fixtures,work,pause,seek,profile):
     root=Path(work).resolve();model,raw,_,probe=fixture(root,profile);audio=model['tracks'][0]['kind']=='audio';container=model['tracks'][0]['containerHint'];mode='standalone-'+container+'-'+model['tracks'][0]['codecHint']
-    caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['standalone'];caps=caps['webm'] if container=='webm' else caps;assert caps['mode']==('standalone-webm-audio-v1' if container=='webm' else 'standalone-fmp4-v1') and mode in caps['profiles'],caps
+    caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['standalone'];caps=caps['webm' if audio else 'webmVideo'] if container=='webm' else caps;assert caps['mode']==(('standalone-webm-audio-v1' if audio else 'standalone-webm-video-v1') if container=='webm' else 'standalone-fmp4-v1') and mode in caps['profiles'],caps
+    if profile.startswith('video-webm-'):
+        from progressive_standalone_webm_video_fixture import prefix_at_seconds
+        prefix=lambda seconds:prefix_at_seconds(raw,probe,seconds)
+    else:prefix=lambda count:fragment_prefix(raw,count)
     value=publish(model,raw,root,17);preview=V2PreviewSession(client,str(root),title='One stream '+profile);report=dict(profile=profile,kind=model['tracks'][0]['kind'],initialLengthKnown=model['resources'][0]['length'] is not None,phases=[])
     try:
         answer=preview.publish(value);assert not preview.started and answer['state']=='waiting-initialization',answer
-        value=publish(model,raw,root,fragment_prefix(raw,4),previous=value);preview.publish(value);reader=preview.reader_id;assert reader
+        value=publish(model,raw,root,prefix(4),previous=value);preview.publish(value);reader=preview.reader_id;assert reader
         def wait(predicate,label):
             deadline=time.monotonic()+35
             while time.monotonic()<deadline:
@@ -24,7 +28,7 @@ def exercise(client,fixtures,work,pause,seek,profile):
                 time.sleep(.08)
             raise AssertionError((profile,label,s))
         wait(lambda s:s['state']=='buffering','four-seconds-buffers')
-        value=publish(model,raw,root,fragment_prefix(raw,12),previous=value);preview.publish(value)
+        value=publish(model,raw,root,prefix(12),previous=value);preview.publish(value)
         wait(lambda s:s['state']=='playing' and s['positionSeconds']>=3,'plays-without-second-track')
         pause();wait(lambda s:s['state']=='paused','pause')
         seek(2);wait(lambda s:s['state']=='paused' and 1.8<=s['positionSeconds']<3,'seek-while-paused')

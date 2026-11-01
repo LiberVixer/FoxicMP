@@ -76,3 +76,6 @@ native byte/index/lifecycle checks и ASan/UBSan — в [отчёте](Progressi
 
 SDK 1.59 добавляет [самостоятельное WebM Opus/Vorbis-аудио](ProgressiveStandaloneWebm.md)
 через отдельный `schema2Playback.standalone.webm`; поля fMP4 capability выше сохраняются.
+
+SDK 1.60 добавляет [самостоятельное видео WebM VP8/VP9/AV1](ProgressiveStandaloneWebmVideo.md)
+через отдельный `schema2Playback.standalone.webmVideo`, сохраняя fMP4/audio capability.

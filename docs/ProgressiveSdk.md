@@ -473,3 +473,10 @@ SDK 1.59: [самостоятельные Opus/Vorbis mono/stereo в расту�
 тип slot 0 и аудиоперемотка Classic исправлены без изменения парных потоков.
 [Результаты трёх редакций](ProgressiveStandaloneWebmValidation-2026-11-01.md).
 Далее — standalone WebM video, остальные codec/container profiles и пункты чеклиста; Harvester не изменён.
+
+SDK 1.60: [самостоятельное WebM-видео VP8/VP9/AV1](ProgressiveStandaloneWebmVideo.md),
+отдельная capability `schema2Playback.standalone.webmVideo` и точные profiles.
+Шесть runtime profiles каждой редакции: VP8, VP9/AV1 8/10-bit, 25 и 30000/1001 fps;
+один настоящий video track/resource без audio. [Проверки](ProgressiveStandaloneWebmVideoValidation-2026-11-01.md).
+Standalone WebM audio/fMP4 сохранены. Далее — прочие standalone codec/container profiles
+и пункты общего чеклиста. Harvester не изменён.

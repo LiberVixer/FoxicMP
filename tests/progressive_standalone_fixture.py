@@ -9,10 +9,14 @@ from progressive_webm_fixtures import webm_prefix
 BASE_PROFILES=('audio-mono','audio-stereo-44100','video-main','video-vfr')
 OPUS_PROFILES=('audio-opus-mono','audio-opus-stereo')
 WEBM_PROFILES=tuple('audio-webm-'+codec+'-'+channels for codec in ('opus','vorbis') for channels in ('mono','stereo'))
-PROFILES=BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES
+WEBM_VIDEO_PROFILES=('video-webm-vp8','video-webm-vp8-fractional','video-webm-vp9-8','video-webm-vp9-10-fractional','video-webm-av1-8','video-webm-av1-10-fractional')
+PROFILES=BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES+WEBM_VIDEO_PROFILES
 def fragment_prefix(raw,count):
     return webm_prefix(raw,count) if raw[:4]==bytes.fromhex('1a45dfa3') else mp4_prefix(raw,count)
 def fixture(root,profile='audio-mono',seconds=20):
+    if profile in WEBM_VIDEO_PROFILES:
+        from progressive_standalone_webm_video_fixture import fixture as video_fixture
+        return video_fixture(root,profile,seconds)
     if profile in WEBM_PROFILES:
         from progressive_standalone_webm_fixture import fixture as webm_fixture
         return webm_fixture(root,profile,seconds)
