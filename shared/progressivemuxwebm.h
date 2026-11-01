@@ -6,9 +6,14 @@ namespace foxicmp { namespace progressive {
 struct MuxedWebmProfile {
     using Layout=harvester::muxwebm::Layout;
     static constexpr uint64_t MaxAppend=16777216,Tolerance=10000;
+    static void CheckResource(const Resource&){}
+    static void Configure(Layout&,const Resource&){}
+    static uint64_t Total(const Layout& l,unsigned k,bool complete){return complete?l.tracks[k].bytes:0;}
+    static bool DecoderRead(const Layout& l,const harvester::FragmentIndex::Read& r,unsigned k,uint64_t at,void* p,size_t n){return l.ReadAt(r,k,at,p,n);}
     static const char* Tag(){return "muxedWebm";}
     static const char* Hint(){return "webm-muxed";}
     static const char* Mode(const std::string& video,const std::string& audio){if(audio=="vorbis")return video=="vp8"?"growing-muxed-webm-vp8-vorbis":video=="av1"?"growing-muxed-webm-av1-vorbis":"growing-muxed-webm-vp9-vorbis";return video=="vp8"?"growing-muxed-webm-vp8-opus":video=="av1"?"growing-muxed-webm-av1-opus":"growing-muxed-webm-vp9-opus";}
+    static const char* DecoderName(){return "webm";}
     static const char* Name(){return "webm";}
     static const char* Video(){return "vp9";}
     static bool AcceptsVideo(const std::string& codec){return codec=="vp8" || codec=="vp9" || codec=="av1";}

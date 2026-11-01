@@ -69,7 +69,7 @@ int64_t ProgressiveSource::read(int track, uint64_t offset, char *buffer,
         const uint64_t length =
             std::min<uint64_t>({count, item.available - offset, 1024 * 1024});
         lock.unlock();
-        const auto result = v2Bridge ? v2Bridge->readPayload(track,offset,buffer,size_t(length))
+        const auto result = v2Bridge ? v2Bridge->readDecoderPayload(track,offset,buffer,size_t(length))
                                     : ProgressiveFile::read(files[track], offset, buffer, size_t(length));
         lock.lock();
         if(stopping.load() || (interrupted && interrupted->load()) || !currentStatus.error.isEmpty())return -1;

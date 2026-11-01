@@ -23,6 +23,20 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_ordinary_mp4_has_independent_capability_and_strict_resource_contract(self):
+        client=Client();value=snapshot();value['resources']=[dict(id='mux',length='1000',integrity=dict(algorithm='sha256'))]
+        for track in value['tracks']:track.update(containerHint='mp4-muxed',source=dict(resourceId='mux'),codecHint='h264' if track['kind']=='video' else 'aac-lc')
+        cap={}
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),muxedPlayback=dict(fmp4=dict(mode='growing-muxed-fmp4-h264-aac-lc'),mp4=cap)))
+        preview=V2PreviewSession(client,'/unused')
+        with self.assertRaisesRegex(RuntimeError,'ordinary fast-start MP4'):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last)
+        cap['mode']='growing-muxed-mp4-h264-aac-lc';V2PreviewSession(client,'/unused').publish(value);client.calls.clear()
+        for change in [lambda v:v['resources'][0].update(length=None),lambda v:v['resources'][0].pop('integrity'),lambda v:v['tracks'][1].update(containerHint='fmp4-muxed'),lambda v:v['tracks'][0].update(codecHint='hevc'),lambda v:v['tracks'][1].update(codecHint='opus'),lambda v:v.update(segmentCatalog=[]),lambda v:v['tracks'][0].update(initializationResourceId='mux'),lambda v:v['tracks'][1].update(source=dict(resourceId='other'))]:
+            bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(bad)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last)
+
     def test_muxed_webm_does_not_inherit_other_shared_container_capabilities(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',integrity=dict(algorithm='sha256'))]
         for t in value['tracks']:t.update(containerHint='webm-muxed',source=dict(resourceId='mux'),codecHint='vp9' if t['kind']=='video' else 'opus')

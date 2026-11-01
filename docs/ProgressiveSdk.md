@@ -426,3 +426,10 @@ SDK 1.53: [явное воспроизведение готового RAM MP4-ф
 helper `progressive_preview.RemuxPreview`, независимая capability `preparedRemuxPreview`.
 Конец bounded clip отличается от EOF исходника. Старые preparation/diagnostic capabilities
 сохранены. Непрерывный remux всего ролика и интеграция реального Harvester ещё открыты.
+
+
+SDK 1.54: [непрерывное воспроизведение всего обычного fast-start MP4](ProgressiveIndexedMp4.md),
+`mp4-muxed`, отдельная capability `schema2Playback.muxedPlayback.mp4` и прежний
+`V2PreviewSession`. H.264/AAC-LC, подтверждённые prefix/SHA, штатные sample tables,
+виртуальные fMP4 views без перекодирования и промежуточного медиафайла.
+Общий FFmpeg remux других контейнеров остаётся открытым; RAM preview 1.53 сохранён.
