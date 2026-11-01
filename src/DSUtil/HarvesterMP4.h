@@ -39,7 +39,7 @@ inline size_t AudioSeekSample(const std::vector<Sample>& samples,int64_t positio
 class FragmentIndex {
     uint64_t position=0;uint32_t id=0,scale=0,defaultDuration=0,defaultSize=0,defaultFlags=0;
     int64_t edit=0,lastDecode=INT64_MIN, origin=0;
-    bool initialized=false,first=true,hevcEnabled=false,av1Enabled=false,vp9Enabled=false,opusEnabled=false;
+    bool initialized=false,first=true,hevcEnabled=false,av1Enabled=false,vp9Enabled=false,opusEnabled=false,flacEnabled=false;
     int kind=0;
     uint64_t scannedPrefix=0;
     std::vector<Sample> samples;
@@ -49,10 +49,10 @@ public:
     uint64_t Position() const {return webmIndex?webmIndex->Position():position;}
     const std::vector<Sample>& Samples() const {return webmIndex?webmIndex->Samples():samples;}
     bool Initialized() const {return webmIndex?webmIndex->Initialized():initialized;}
-    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false,bool allowWebm=false) {
+    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false,bool allowWebm=false,bool allowFlac=false) {
         if(allowWebm){auto next=webmIndex?std::make_shared<WebMIndex>(*webmIndex):std::make_shared<WebMIndex>();next->Update(read,prefix,trackKind,complete,timestampOffset);webmIndex=std::move(next);return;}
         if(webmIndex)throw std::runtime_error("Progressive container changed");
-        hevcEnabled=allowHevc;av1Enabled=allowAv1;vp9Enabled=allowVp9;opusEnabled=allowOpus;
+        hevcEnabled=allowHevc;av1Enabled=allowAv1;vp9Enabled=allowVp9;opusEnabled=allowOpus;flacEnabled=allowFlac;
         if(prefix<scannedPrefix)throw std::runtime_error("Fragment prefix regressed");
         scannedPrefix=prefix;kind=trackKind;origin=timestampOffset;
         auto header=[&](uint64_t at,uint64_t& n,uint32_t& type,size_t& h) {
@@ -100,7 +100,7 @@ private:
         const auto entries=stsd.Slice(8,stsd.size-8).Children();
         if(entries.size()!=1)throw std::runtime_error("Expected one fragment sample entry");
         const auto entry=entries.front().first;
-        if(kind?(entry!=FourCC("mp4a") && !(opusEnabled && entry==FourCC("Opus"))):
+        if(kind?(entry!=FourCC("mp4a") && !(opusEnabled && entry==FourCC("Opus")) && !(flacEnabled && entry==FourCC("fLaC"))):
                 (entry!=FourCC("avc1") && !(hevcEnabled && (entry==FourCC("hvc1") || entry==FourCC("hev1")))
                  && !(av1Enabled && entry==FourCC("av01")) && !(vp9Enabled && entry==FourCC("vp09"))))
             throw std::runtime_error("Unsupported fragment sample entry");

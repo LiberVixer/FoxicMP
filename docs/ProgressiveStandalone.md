@@ -82,3 +82,6 @@ SDK 1.60 добавляет [самостоятельное видео WebM VP8/
 
 SDK 1.61 добавляет [самостоятельное HEVC/AV1/VP9-видео fMP4](ProgressiveStandaloneFmp4Video.md)
 через точные profiles в существующем standalone-fmp4-v1.
+
+SDK 1.62 добавляет [FLAC-аудио fMP4](ProgressiveStandaloneFlac.md)
+через standalone-fmp4-flac; отдельный FLAC container этим не включён.

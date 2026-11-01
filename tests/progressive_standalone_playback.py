@@ -13,7 +13,7 @@ def exercise(client,fixtures,work,pause,seek,profile):
     if profile.startswith('video-webm-'):
         from progressive_standalone_webm_video_fixture import prefix_at_seconds
         prefix=lambda seconds:prefix_at_seconds(raw,probe,seconds)
-    elif profile.startswith('video-fmp4-'):
+    elif profile.startswith('video-fmp4-') or profile.startswith('audio-flac-'):
         from progressive_standalone_fmp4_video_fixture import prefix_at_seconds
         prefix=lambda seconds:prefix_at_seconds(raw,probe,seconds)
     else:prefix=lambda count:fragment_prefix(raw,count)
@@ -24,7 +24,12 @@ def exercise(client,fixtures,work,pause,seek,profile):
         def wait(predicate,label):
             deadline=time.monotonic()+35
             while time.monotonic()<deadline:
-                s=preview.heartbeat();assert s.get('ok') and not s.get('error') and s['state']!='error',s
+                try:s=preview.heartbeat()
+                except Exception as error:
+                    try:last=preview.status()
+                    except Exception as status_error:last=dict(statusError=str(status_error))
+                    raise AssertionError((profile,label,str(error),last)) from error
+                assert s.get('ok') and not s.get('error') and s['state']!='error',s
                 assert s['readerId']==reader and s['mediaMode']==mode,s
                 assert len(s['mediaTracks'])==1 and s['mediaTracks'][0]['kind']==model['tracks'][0]['kind'],s
                 if predicate(s):report['phases'].append(dict(phase=label,status=s));return s

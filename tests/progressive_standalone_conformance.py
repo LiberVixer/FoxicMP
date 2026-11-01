@@ -1,12 +1,12 @@
 """One-track admission, byte identity, role-aware indexes and reader lifecycle."""
 import argparse,copy,json,tempfile
 from pathlib import Path
-from progressive_standalone_fixture import fixture,publish,fragment_prefix,BASE_PROFILES,OPUS_PROFILES,WEBM_PROFILES,WEBM_VIDEO_PROFILES,FMP4_VIDEO_PROFILES
+from progressive_standalone_fixture import fixture,publish,fragment_prefix,BASE_PROFILES,OPUS_PROFILES,WEBM_PROFILES,WEBM_VIDEO_PROFILES,FMP4_VIDEO_PROFILES,FLAC_PROFILES
 from progressive_mux_ts_conformance import Rpc
 
-def run(runner,opus_only=False,webm_only=False,webm_video_only=False,fmp4_video_only=False):
+def run(runner,opus_only=False,webm_only=False,webm_video_only=False,fmp4_video_only=False,flac_only=False):
     checks=[]
-    for profile in (FMP4_VIDEO_PROFILES if fmp4_video_only else WEBM_VIDEO_PROFILES if webm_video_only else WEBM_PROFILES if webm_only else OPUS_PROFILES if opus_only else BASE_PROFILES):
+    for profile in (FLAC_PROFILES if flac_only else FMP4_VIDEO_PROFILES if fmp4_video_only else WEBM_VIDEO_PROFILES if webm_video_only else WEBM_PROFILES if webm_only else OPUS_PROFILES if opus_only else BASE_PROFILES):
         with tempfile.TemporaryDirectory(prefix='foxicmp-standalone-native-') as temp:
             root=Path(temp);model,raw,original,probe=fixture(root,profile,4);rpc=Rpc([runner,'--registry',str(root/'readers')]);data=root/'data';data.mkdir()
             try:
@@ -39,6 +39,12 @@ def run(runner,opus_only=False,webm_only=False,webm_video_only=False,fmp4_video_
                 for at in range(0,len(raw),65536):
                     answer=rpc('read',decoder=True,track=0,offset=str(at),length=str(min(65536,len(raw)-at)));assert answer['bytesRead']>0,answer;chunks.append(bytes.fromhex(answer['hex']))
                 assert b''.join(chunks)==raw
+                if flac_only:
+                    import subprocess,hashlib
+                    pcm=subprocess.check_output(['ffmpeg','-v','error','-i','pipe:0','-map','0:a:0','-c:a','pcm_'+probe['_pcm_format'],'-f',probe['_pcm_format'],'-'],input=b''.join(chunks))
+                    assert len(pcm)==probe['_pcm_bytes'] and hashlib.sha256(pcm).hexdigest()==probe['_pcm_sha256']
+                    checks.append(profile+'-decoded-pcm-bit-exact-to-input')
+
                 assert rpc('read',decoder=True,track=0,offset=str(len(raw)),length='1')['bytesRead']==0
                 readers=lambda:rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers']
                 assert len(readers())==1;rpc('retain');rpc('release');assert readers();rpc('dropRetained');assert not readers()
@@ -53,6 +59,9 @@ def run(runner,opus_only=False,webm_only=False,webm_video_only=False,fmp4_video_
                 answer=rpc('open',directory=str(data),session=value);assert not answer['ok'],(name,answer)
                 assert not rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers'];checks.append(name+'-rejected-without-leak')
             finally:rpc.close()
+    if flac_only:
+        from progressive_standalone_flac_conformance import malformed
+        checks+=malformed(runner)
     if fmp4_video_only:
         from progressive_standalone_fmp4_video_conformance import malformed
         checks+=malformed(runner)
@@ -67,4 +76,4 @@ def run(runner,opus_only=False,webm_only=False,webm_video_only=False,fmp4_video_
         checks+=malformed(runner)
     return dict(result='PASS',count=len(checks),checks=checks,physicalTrackCount=1,syntheticTracks=False,decoderBytesExact=True)
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--runner',required=True);p.add_argument('--opus-only',action='store_true');p.add_argument('--webm-only',action='store_true');p.add_argument('--webm-video-only',action='store_true');p.add_argument('--fmp4-video-only',action='store_true');a=p.parse_args();print(json.dumps(run(a.runner,a.opus_only,a.webm_only,a.webm_video_only,a.fmp4_video_only)))
+    p=argparse.ArgumentParser();p.add_argument('--runner',required=True);p.add_argument('--opus-only',action='store_true');p.add_argument('--webm-only',action='store_true');p.add_argument('--webm-video-only',action='store_true');p.add_argument('--fmp4-video-only',action='store_true');p.add_argument('--flac-only',action='store_true');a=p.parse_args();print(json.dumps(run(a.runner,a.opus_only,a.webm_only,a.webm_video_only,a.fmp4_video_only,a.flac_only)))

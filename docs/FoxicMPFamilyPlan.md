@@ -449,3 +449,10 @@ SDK 1.61: [самостоятельное HEVC/AV1/VP9-видео в расту�
 [проверки](ProgressiveStandaloneFmp4VideoValidation-2026-11-01.md).
 WebM и прежние fMP4 profiles сохранены. Далее — оставшаяся codec/container matrix
 и пункты общего чеклиста. Harvester не изменён.
+
+SDK 1.62: [самостоятельное FLAC-аудио в растущем fMP4](ProgressiveStandaloneFlac.md),
+восемь mono/stereo × 16/24-bit × 44.1/48-kHz runtime profiles на редакцию,
+строгая dfLa/STREAMINFO и PCM oracle после чтения через bridge;
+[проверки](ProgressiveStandaloneFlacValidation-2026-11-01.md).
+Прежние AAC/Opus/video сохранены. Raw `.flac`, другие audio containers,
+многоканальные layout/rates и остальные пункты чеклиста остаются открытыми. Harvester не изменён.

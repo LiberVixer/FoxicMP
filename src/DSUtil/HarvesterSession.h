@@ -56,6 +56,7 @@ public:
     bool AllowsAv1Fragments() const;
     bool AllowsVp9Fragments() const;
     bool AllowsOpusFragments(int track=1) const;
+    bool AllowsFlacFragments(int track=1) const;
     size_t TrackCount() const {return Snapshot().tracks.size();}
     bool IsAudio(int track) const {return track>0 || Snapshot().tracks.at(track).audio;}
     struct SubtitleFile {std::wstring path,label;std::string language;bool selected=false;};
