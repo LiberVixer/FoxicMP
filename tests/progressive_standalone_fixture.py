@@ -12,10 +12,14 @@ WEBM_PROFILES=tuple('audio-webm-'+codec+'-'+channels for codec in ('opus','vorbi
 WEBM_VIDEO_PROFILES=('video-webm-vp8','video-webm-vp8-fractional','video-webm-vp9-8','video-webm-vp9-10-fractional','video-webm-av1-8','video-webm-av1-10-fractional')
 FMP4_VIDEO_PROFILES=('video-fmp4-hevc-8-hvc1','video-fmp4-hevc-10-hev1-fractional','video-fmp4-av1-8','video-fmp4-av1-10-fractional','video-fmp4-vp9-8','video-fmp4-vp9-10-fractional')
 FLAC_PROFILES=tuple('audio-flac-'+channels+'-'+str(bits)+'-'+str(rate) for rate in (44100,48000) for channels in ('mono','stereo') for bits in (16,24))
-PROFILES=BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES+WEBM_VIDEO_PROFILES+FMP4_VIDEO_PROFILES+FLAC_PROFILES
+RAW_FLAC_PROFILES=tuple('audio-raw-flac-'+c+'-'+str(b)+'-'+str(r) for r in (44100,48000) for c in ('mono','stereo') for b in (16,24))
+PROFILES=BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES+WEBM_VIDEO_PROFILES+FMP4_VIDEO_PROFILES+FLAC_PROFILES+RAW_FLAC_PROFILES
 def fragment_prefix(raw,count):
     return webm_prefix(raw,count) if raw[:4]==bytes.fromhex('1a45dfa3') else mp4_prefix(raw,count)
 def fixture(root,profile='audio-mono',seconds=20):
+    if profile in RAW_FLAC_PROFILES:
+        from progressive_raw_flac_fixture import fixture as raw_fixture
+        return raw_fixture(root,profile,seconds)
     if profile in FLAC_PROFILES:
         from progressive_standalone_flac_fixture import fixture as flac_fixture
         return flac_fixture(root,profile,seconds)

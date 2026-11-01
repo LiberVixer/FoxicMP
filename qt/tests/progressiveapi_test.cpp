@@ -853,6 +853,16 @@ private slots:
     for(const auto& n:QStringList{"audio-webm-opus-mono","audio-webm-opus-stereo","audio-webm-vorbis-mono","audio-webm-vorbis-stereo"})QTest::newRow(qPrintable(n))<<n;
   }
   void standaloneWebmPlayback() {standalonePlayback();}
+  void standaloneRawFlacPlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-raw-flac-mono-16-44100","audio-raw-flac-mono-24-44100","audio-raw-flac-stereo-16-44100","audio-raw-flac-stereo-24-44100"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneRawFlacPlayback() {standalonePlayback();}
+  void standaloneRawFlac48Playback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-raw-flac-mono-16-48000","audio-raw-flac-mono-24-48000","audio-raw-flac-stereo-16-48000","audio-raw-flac-stereo-24-48000"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneRawFlac48Playback() {standalonePlayback();}
   void standaloneFlacPlayback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"audio-flac-mono-16-44100","audio-flac-mono-24-44100","audio-flac-stereo-16-44100","audio-flac-stereo-24-44100"})QTest::newRow(qPrintable(n))<<n;

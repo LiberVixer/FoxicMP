@@ -494,3 +494,11 @@ SDK 1.62: [самостоятельное FLAC-аудио в растущем fM
 [проверки](ProgressiveStandaloneFlacValidation-2026-11-01.md).
 Прежние AAC/Opus/video сохранены. Raw `.flac`, другие audio containers,
 многоканальные layout/rates и остальные пункты чеклиста остаются открытыми. Harvester не изменён.
+
+SDK 1.63: [самостоятельный растущий native FLAC](ProgressiveRawFlac.md),
+один настоящий audio track/resource; fixed-block mono/stereo, 16/24-bit,
+44.1/48 kHz. Границы кадров, CRC-8/CRC-16 и SHA-256 проверяются до публикации
+в виртуальный fMP4; исходные compressed frames сохраняются без перекодирования.
+[Проверки трёх редакций](ProgressiveRawFlacValidation-2026-11-01.md).
+Остальные audio containers, layouts/rates/depths, variable blocks, live и
+реальная интеграция Harvester остаются в общем чеклисте. Harvester не изменён.
