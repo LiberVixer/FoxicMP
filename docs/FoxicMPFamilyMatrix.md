@@ -321,3 +321,11 @@ CBR/VBR mono/stereo, 44.1/48 kHz без CRC. Bounded ID3v2.3/v2.4/ID3v1,
 Полные compressed frames сохраняются в виртуальном MP4 без перекодирования.
 Xing/gapless, прочие MPEG audio profiles и общий чеклист остаются открытыми.
 Harvester не изменён.
+
+SDK 1.66: [MP3 с Xing/Info/VBRI](ProgressiveMp3Indexed.md), отдельный
+`standalone-mp3-indexed-v1` с encoded-sample timeline. Счётчики проверяются
+на growing/complete, non-audio index frame пропускается; raw encoder
+delay/padding сохраняется, `gaplessTrimApplied=false` объявлен явно.
+[Проверки трёх редакций](ProgressiveMp3IndexedValidation-2026-11-01.md).
+Прежний MP3-профиль сохранён. Gapless decoder/output adapters, реальный
+VBRI corpus и прочие пункты чеклиста открыты; Harvester не изменён.

@@ -8,9 +8,12 @@ from progressive_v2_playback_conformance import forget_closed_readers
 
 
 def exercise(client,fixtures,work,pause,seek,profile):
-    root=Path(work).resolve();model,raw,_,probe=fixture(root,profile);audio=model['tracks'][0]['kind']=='audio';container=model['tracks'][0]['containerHint'];mode='standalone-mp3' if container=='mp3' else 'standalone-flac' if container=='flac' else 'standalone-'+container+'-'+model['tracks'][0]['codecHint']
-    caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['standalone'];caps=caps['mp3'] if container=='mp3' else caps['adts'] if container=='adts' else caps['rawFlac'] if container=='flac' else caps['webm' if audio else 'webmVideo'] if container=='webm' else caps;assert caps['mode']==('standalone-mp3-v1' if container=='mp3' else 'standalone-adts-aac-lc-v1' if container=='adts' else 'standalone-raw-flac-v1' if container=='flac' else ('standalone-webm-audio-v1' if audio else 'standalone-webm-video-v1') if container=='webm' else 'standalone-fmp4-v1') and mode in caps['profiles'],caps
-    if profile.startswith('audio-mp3-'):
+    root=Path(work).resolve();model,raw,_,probe=fixture(root,profile);audio=model['tracks'][0]['kind']=='audio';container=model['tracks'][0]['containerHint'];mode='standalone-mp3-indexed' if container=='mp3-indexed' else 'standalone-mp3' if container=='mp3' else 'standalone-flac' if container=='flac' else 'standalone-'+container+'-'+model['tracks'][0]['codecHint']
+    caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['standalone'];caps=caps['mp3Indexed'] if container=='mp3-indexed' else caps['mp3'] if container=='mp3' else caps['adts'] if container=='adts' else caps['rawFlac'] if container=='flac' else caps['webm' if audio else 'webmVideo'] if container=='webm' else caps;assert caps['mode']==('standalone-mp3-indexed-v1' if container=='mp3-indexed' else 'standalone-mp3-v1' if container=='mp3' else 'standalone-adts-aac-lc-v1' if container=='adts' else 'standalone-raw-flac-v1' if container=='flac' else ('standalone-webm-audio-v1' if audio else 'standalone-webm-video-v1') if container=='webm' else 'standalone-fmp4-v1') and mode in caps['profiles'],caps
+    if profile.startswith('audio-mp3-indexed-'):
+        from progressive_mp3_indexed_fixture import prefix_at_seconds
+        prefix=lambda seconds:prefix_at_seconds(raw,probe,seconds)
+    elif profile.startswith('audio-mp3-'):
         from progressive_mp3_fixture import prefix_at_seconds
         prefix=lambda seconds:prefix_at_seconds(raw,probe,seconds)
     elif profile.startswith('audio-adts-'):

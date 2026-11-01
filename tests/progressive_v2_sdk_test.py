@@ -159,6 +159,26 @@ class V2SdkTest(unittest.TestCase):
             with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(bad)
             self.assertFalse(client.calls)
 
+    def test_indexed_mp3_requires_encoded_timeline_capability(self):
+        client=Client();cap=dict(version=1,mode='standalone-fmp4-v1',profiles=['standalone-fmp4-flac'])
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=cap))
+        value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='mp3',containerHint='mp3-indexed',source=dict(resourceId='media'));value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]
+        for version in (None,True,2):
+            cap['mp3Indexed']=dict(version=version,mode='standalone-mp3-indexed-v1',profiles=['standalone-mp3-indexed'],timeline='encoded-samples',gaplessTrimApplied=False)
+            with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+            self.assertFalse(client.calls)
+        cap['mp3Indexed']['version']=1;V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1);client.calls.clear()
+        cap['mp3Indexed']['gaplessTrimApplied']=True
+        with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls);cap['mp3Indexed']['gaplessTrimApplied']=False
+        cap['mp3Indexed']['timeline']='audible-samples'
+        with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls);cap['mp3Indexed']['timeline']='encoded-samples'
+        for change in (lambda v:v['tracks'][0].update(kind='video'),lambda v:v['tracks'][0].update(codecHint='opus'),lambda v:v['tracks'][0].update(required=False),lambda v:v['tracks'][0].update(initializationResourceId='init')):
+            bad=copy.deepcopy(value);change(bad)
+            with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(bad)
+            self.assertFalse(client.calls)
+
     def test_tail_mp4_requires_own_capability_and_waiting_index_is_recoverable(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',length='1000',integrity=dict(algorithm='sha256'))]
         for track in value['tracks']:track.update(containerHint='mp4-tail',source=dict(resourceId='mux'),codecHint='h264' if track['kind']=='video' else 'aac-lc')

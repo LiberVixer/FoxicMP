@@ -853,6 +853,21 @@ private slots:
     for(const auto& n:QStringList{"audio-webm-opus-mono","audio-webm-opus-stereo","audio-webm-vorbis-mono","audio-webm-vorbis-stereo"})QTest::newRow(qPrintable(n))<<n;
   }
   void standaloneWebmPlayback() {standalonePlayback();}
+  void standaloneMp3XingPlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-mp3-indexed-mono-xing-44100","audio-mp3-indexed-stereo-xing-44100","audio-mp3-indexed-mono-xing-48000","audio-mp3-indexed-stereo-xing-48000"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneMp3XingPlayback() {standalonePlayback();}
+  void standaloneMp3InfoPlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-mp3-indexed-mono-info-44100","audio-mp3-indexed-stereo-info-44100","audio-mp3-indexed-mono-info-48000","audio-mp3-indexed-stereo-info-48000"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneMp3InfoPlayback() {standalonePlayback();}
+  void standaloneMp3VbriPlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-mp3-indexed-mono-vbri-44100","audio-mp3-indexed-stereo-vbri-44100","audio-mp3-indexed-mono-vbri-48000","audio-mp3-indexed-stereo-vbri-48000"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneMp3VbriPlayback() {standalonePlayback();}
   void standaloneMp3Playback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"audio-mp3-mono-cbr-44100","audio-mp3-mono-vbr-44100","audio-mp3-stereo-cbr-44100","audio-mp3-stereo-vbr-44100"})QTest::newRow(qPrintable(n))<<n;

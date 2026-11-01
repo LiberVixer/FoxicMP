@@ -24,11 +24,37 @@ inline Bytes Init(const Info& i){
     Bytes entry=Z(28);entry[7]=1;P(entry,16,(i.channels<<16)|16);P(entry,24,i.rate<<16);J(entry,B("esds",esds));
     return audiomp4::Init(i.rate,B("mp4a",entry));
 }
-class Layout:public audiomp4::Projection {
-    uint64_t physical=0,frames=0,samples=0,reservoir=0;bool initialized=false,trailer=false;
+struct IndexHeader {
+    std::string kind,encoder;uint32_t frames=0,bytes=0;unsigned encoderDelay=0,encoderPadding=0;bool hasEncoderDelay=false;
+    void parse(const Bytes& b,const Info& info){
+        const auto word=[&](size_t at){Check(at<=b.size() && b.size()-at>=4,"Truncated MP3 index header");return BoxData{b.data(),b.size()}.U32(at);};
+        Check(b.size()==info.length,"MP3 index frame length mismatch");for(size_t k=4;k<4+info.side;++k)Check(b[k]==0,"MP3 index frame contains nonzero side information");
+        const size_t at=4+info.side;
+        if(word(at)==FourCC("Xing") || word(at)==FourCC("Info")){
+            kind=word(at)==FourCC("Xing")?"Xing":"Info";const auto flags=word(at+4);Check((flags&3)==3 && !(flags&~15),"MP3 Xing needs bounded frame/byte counters");
+            frames=word(at+8);bytes=word(at+12);size_t cursor=at+16;
+            if(flags&4){Check(cursor<=b.size() && b.size()-cursor>=100,"Truncated Xing TOC");for(size_t k=1;k<100;++k)Check(b[cursor+k]>=b[cursor+k-1],"Nonmonotonic Xing TOC");cursor+=100;}
+            if(flags&8){word(cursor);cursor+=4;}
+            if(cursor<=b.size() && b.size()-cursor>=9){
+                const bool known=!std::memcmp(b.data()+cursor,"LAME",4) || !std::memcmp(b.data()+cursor,"Lavc",4) || !std::memcmp(b.data()+cursor,"Lavf",4);
+                if(known){Check(b.size()-cursor>=24,"Truncated encoder delay metadata");for(size_t k=0;k<9;++k)Check(b[cursor+k]>=32 && b[cursor+k]<127,"Invalid encoder identifier");encoder.assign(reinterpret_cast<const char*>(b.data()+cursor),9);const auto p=b.data()+cursor+21;encoderDelay=(unsigned(p[0])<<4)|(p[1]>>4);encoderPadding=((unsigned(p[1])&15)<<8)|p[2];hasEncoderDelay=true;}
+            }
+        }else{
+            Check(word(36)==FourCC("VBRI"),"Indexed MP3 requires Xing/Info/VBRI");kind="VBRI";
+            Check(b.size()>=62 && b[40]==0 && b[41]==1,"VBRI version/length unsupported");bytes=word(46);frames=word(50);
+            const auto u16=[&](size_t n){return (unsigned(b[n])<<8)|b[n+1];};const auto count=u16(54),scale=u16(56),width=u16(58),step=u16(60);
+            Check(count>0 && count<=1000 && scale>0 && width>=1 && width<=4 && step>0 && uint64_t(count)*width<=b.size()-62 && uint64_t(count)*step>=frames && uint64_t(count-1)*step<frames,"Invalid/bounded VBRI TOC");
+            uint64_t sum=0;for(unsigned k=0;k<count;++k){uint64_t n=0;for(unsigned j=0;j<width;++j)n=(n<<8)|b[62+k*width+j];Check(n>0,"Zero VBRI TOC entry");sum+=n*scale;Check(sum<=bytes,"VBRI TOC exceeds byte count");}Check(sum==bytes,"VBRI TOC does not cover declared bytes");
+        }
+        Check(frames>0 && frames<=MaxFrames && bytes>info.length && uint64_t(bytes)<=uint64_t(frames+1)*MaxFrame,"MP3 index counters outside bounds");
+        Check(!hasEncoderDelay || uint64_t(encoderDelay)+encoderPadding<uint64_t(frames)*1152,"Invalid encoder delay/padding total");
+    }
+};
+template<bool Indexed> class BasicLayout:public audiomp4::Projection {
+    uint64_t physical=0,frames=0,samples=0,reservoir=0,streamStart=0,mediaEnd=0;bool initialized=false,trailer=false;
     void need(bool ready,bool complete,const char* why){if(!ready){Check(!complete,why);throw Waiting{};}}
 public:
-    Info info;
+    Info info;IndexHeader indexHeader;
     bool Initialized()const{return initialized;}uint64_t Frames()const{return frames;}uint64_t Samples()const{return samples;}
     void Update(const FragmentIndex::Read& read,uint64_t prefix,bool complete){
         Check(prefix>=physical,"MP3 prefix regressed");
@@ -43,9 +69,11 @@ public:
                 physical=end;
             }
             need(RangeReady(physical,4,prefix),complete,"Truncated first MP3 header");Check(read(physical,h,4),"MP3 header read failed");info.parse(h);
-            need(RangeReady(physical,info.length,prefix),complete,"Truncated initial MP3 frame");memory(Init(info));initialized=true;
+            need(RangeReady(physical,info.length,prefix),complete,"Truncated initial MP3 frame");
+            if constexpr(Indexed){Bytes frame(info.length);Check(read(physical,frame.data(),frame.size()),"MP3 index read failed");indexHeader.parse(frame,info);info.total=uint64_t(indexHeader.frames)*1152;streamStart=physical;physical+=info.length;mediaEnd=physical;}
+            memory(Init(info));initialized=true;
         }
-        if(trailer){Check(prefix==physical,"Data follows ID3v1 trailer");return;}
+        if(trailer){Check(prefix==physical,"Data follows ID3v1 trailer");if constexpr(Indexed)if(complete)Check(frames==indexHeader.frames && mediaEnd-streamStart==indexHeader.bytes,"Complete MP3 disagrees with index counters");return;}
         while(RangeReady(physical,4,prefix)){
             uint8_t h[4];Check(read(physical,h,4),"MP3 header read failed");
             if(!std::memcmp(h,"TAG",3)){
@@ -56,10 +84,13 @@ public:
             if(!RangeReady(physical,next.length,prefix))break;
             Check(frames<MaxFrames,"MP3 frame count exceeds limit");uint8_t data[40]={};Check(read(physical+4,data,36),"MP3 side information read failed");
             const unsigned back=(unsigned(data[0])<<1)|(data[1]>>7);Check(back<=reservoir,"MP3 bit reservoir points before confirmed audio");
-            if(!frames){Check(std::memcmp(data+next.side,"Xing",4) && std::memcmp(data+next.side,"Info",4) && std::memcmp(data+32,"VBRI",4),"Xing/Info/VBRI gapless/index frame requires another profile");}
-            append(frames+1,samples,1152,physical,next.length);reservoir=(std::min)(uint64_t(511),reservoir+next.length-4-next.side);physical+=next.length;samples+=1152;++frames;
+            if(!frames && !Indexed){Check(std::memcmp(data+next.side,"Xing",4) && std::memcmp(data+next.side,"Info",4) && std::memcmp(data+32,"VBRI",4),"Xing/Info/VBRI gapless/index frame requires another profile");}
+            append(frames+1,samples,1152,physical,next.length);reservoir=(std::min)(uint64_t(511),reservoir+next.length-4-next.side);physical+=next.length;mediaEnd=physical;samples+=1152;++frames;
+            if constexpr(Indexed)Check(frames<=indexHeader.frames && mediaEnd-streamStart<=indexHeader.bytes,"MP3 index counters exceeded by confirmed audio");
         }
-        if(complete)Check(frames>0 && physical==prefix,"Truncated MP3 frame or trailing data");
+        if(complete){Check(frames>0 && physical==prefix,"Truncated MP3 frame or trailing data");if constexpr(Indexed)Check(frames==indexHeader.frames && mediaEnd-streamStart==indexHeader.bytes,"Complete MP3 disagrees with index counters");}
     }
 };
+using Layout=BasicLayout<false>;
+using IndexedLayout=BasicLayout<true>;
 }}
