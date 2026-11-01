@@ -1,0 +1,1774 @@
+{
+  "date": "2026-11-01",
+  "baseSourceCommit": "41a5e863ba7b59aee232474b27aad9e59c46bb2a",
+  "sdkVersionUnchanged": "1.66",
+  "playerVersionUnchanged": "0.2.0",
+  "result": "PASS",
+  "exitCodes": {
+    "mp3-gapless-probe-linux-build": 0,
+    "mp3-gapless-reference-linux-ctest": 0,
+    "mp3-gapless-probe-windows-build": 0,
+    "mp3-gapless-reference-windows": 0
+  },
+  "platforms": {
+    "linux": {
+      "result": "PASS",
+      "count": 128,
+      "checks": [
+        "audio-mp3-indexed-mono-xing-44100-native-sample-window-exact",
+        "audio-mp3-indexed-mono-xing-44100-one-sample-partition-invariant",
+        "audio-mp3-indexed-mono-xing-44100-frame-partition-invariant",
+        "audio-mp3-indexed-mono-xing-44100-irregular-update-partition-invariant",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-1151-exact",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-88201-exact",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-176399-exact",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-176400-exact",
+        "audio-mp3-indexed-mono-xing-44100-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-44100-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-44100-libmpv-atrim-seek-88201-exact",
+        "audio-mp3-indexed-mono-xing-44100-libmpv-atrim-seek-176399-exact",
+        "audio-mp3-indexed-mono-xing-44100-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-stereo-xing-44100-native-sample-window-exact",
+        "audio-mp3-indexed-stereo-xing-44100-one-sample-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-44100-frame-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-44100-irregular-update-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-1151-exact",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-88201-exact",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-176399-exact",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-176400-exact",
+        "audio-mp3-indexed-stereo-xing-44100-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-44100-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-44100-libmpv-atrim-seek-88201-exact",
+        "audio-mp3-indexed-stereo-xing-44100-libmpv-atrim-seek-176399-exact",
+        "audio-mp3-indexed-stereo-xing-44100-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-mono-xing-48000-native-sample-window-exact",
+        "audio-mp3-indexed-mono-xing-48000-one-sample-partition-invariant",
+        "audio-mp3-indexed-mono-xing-48000-frame-partition-invariant",
+        "audio-mp3-indexed-mono-xing-48000-irregular-update-partition-invariant",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-1151-exact",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-96001-exact",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-191999-exact",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-192000-exact",
+        "audio-mp3-indexed-mono-xing-48000-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-48000-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-48000-libmpv-atrim-seek-96001-exact",
+        "audio-mp3-indexed-mono-xing-48000-libmpv-atrim-seek-191999-exact",
+        "audio-mp3-indexed-mono-xing-48000-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-stereo-xing-48000-native-sample-window-exact",
+        "audio-mp3-indexed-stereo-xing-48000-one-sample-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-48000-frame-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-48000-irregular-update-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-1151-exact",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-96001-exact",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-191999-exact",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-192000-exact",
+        "audio-mp3-indexed-stereo-xing-48000-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-48000-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-48000-libmpv-atrim-seek-96001-exact",
+        "audio-mp3-indexed-stereo-xing-48000-libmpv-atrim-seek-191999-exact",
+        "audio-mp3-indexed-stereo-xing-48000-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-mono-info-44100-native-sample-window-exact",
+        "audio-mp3-indexed-mono-info-44100-one-sample-partition-invariant",
+        "audio-mp3-indexed-mono-info-44100-frame-partition-invariant",
+        "audio-mp3-indexed-mono-info-44100-irregular-update-partition-invariant",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-0-exact",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-1-exact",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-1151-exact",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-88201-exact",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-176399-exact",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-176400-exact",
+        "audio-mp3-indexed-mono-info-44100-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-mono-info-44100-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-mono-info-44100-libmpv-atrim-seek-88201-exact",
+        "audio-mp3-indexed-mono-info-44100-libmpv-atrim-seek-176399-exact",
+        "audio-mp3-indexed-mono-info-44100-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-stereo-info-44100-native-sample-window-exact",
+        "audio-mp3-indexed-stereo-info-44100-one-sample-partition-invariant",
+        "audio-mp3-indexed-stereo-info-44100-frame-partition-invariant",
+        "audio-mp3-indexed-stereo-info-44100-irregular-update-partition-invariant",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-1151-exact",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-88201-exact",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-176399-exact",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-176400-exact",
+        "audio-mp3-indexed-stereo-info-44100-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-44100-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-44100-libmpv-atrim-seek-88201-exact",
+        "audio-mp3-indexed-stereo-info-44100-libmpv-atrim-seek-176399-exact",
+        "audio-mp3-indexed-stereo-info-44100-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-mono-info-48000-native-sample-window-exact",
+        "audio-mp3-indexed-mono-info-48000-one-sample-partition-invariant",
+        "audio-mp3-indexed-mono-info-48000-frame-partition-invariant",
+        "audio-mp3-indexed-mono-info-48000-irregular-update-partition-invariant",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-0-exact",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-1-exact",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-1151-exact",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-96001-exact",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-191999-exact",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-192000-exact",
+        "audio-mp3-indexed-mono-info-48000-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-mono-info-48000-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-mono-info-48000-libmpv-atrim-seek-96001-exact",
+        "audio-mp3-indexed-mono-info-48000-libmpv-atrim-seek-191999-exact",
+        "audio-mp3-indexed-mono-info-48000-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-stereo-info-48000-native-sample-window-exact",
+        "audio-mp3-indexed-stereo-info-48000-one-sample-partition-invariant",
+        "audio-mp3-indexed-stereo-info-48000-frame-partition-invariant",
+        "audio-mp3-indexed-stereo-info-48000-irregular-update-partition-invariant",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-1151-exact",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-96001-exact",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-191999-exact",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-192000-exact",
+        "audio-mp3-indexed-stereo-info-48000-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-48000-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-48000-libmpv-atrim-seek-96001-exact",
+        "audio-mp3-indexed-stereo-info-48000-libmpv-atrim-seek-191999-exact",
+        "audio-mp3-indexed-stereo-info-48000-libmpv-pcm-output-window-exact",
+        "unproven-window-rejected-0-0-0-529",
+        "unproven-window-rejected-1152-576-576-529",
+        "unproven-window-rejected-4608-576-528-529",
+        "unproven-window-rejected-4608--1-1200-529",
+        "unproven-window-rejected-4608-576-4096-529",
+        "unproven-window-rejected-4608-4096-576-529",
+        "unproven-window-rejected-4608-576-1200--1",
+        "unproven-window-rejected-4608-True-1200-529"
+      ],
+      "profiles": [
+        {
+          "profile": "audio-mp3-indexed-mono-xing-44100",
+          "sampleRate": 44100,
+          "channels": 1,
+          "fixtureSha256": "4dfcb262b33d93b3c76b0b11231bf5f5ccad283c355540aec7fec57f911753d2",
+          "codedSamples": 178560,
+          "encoderDelay": 576,
+          "encoderPadding": 1584,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 177505,
+          "audibleSamples": 176400,
+          "nativePcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28",
+          "projectionPcmSha256": "f923d30827446721e48b6bac620bdf12999a71c67b5760c76f2fb871f1ba6945",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 176400,
+              "pcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 176399,
+              "pcmSha256": "168850ae990026f1d10c73d45d8ed30a8d58f680a45d22bb33235098d2e0a4a0"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 175249,
+              "pcmSha256": "ca4a62d9646014830ca584c07655a9854db894f5de58f12eab791b7a0f4a8a46"
+            },
+            {
+              "targetSample": 88201,
+              "decodeStartFrame": 67,
+              "outputSamples": 88199,
+              "pcmSha256": "ed1eaeb055965f90d770519e1228b904a9b7f26df89f46b0ab3aba4650ab6b5a"
+            },
+            {
+              "targetSample": 176399,
+              "decodeStartFrame": 144,
+              "outputSamples": 1,
+              "pcmSha256": "47770da867e2b9a59666d59040d97089c93ce0a3a0e0238a22ca7b498b29aede"
+            },
+            {
+              "targetSample": 176400,
+              "decodeStartFrame": 144,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 176400,
+            "codedSamples": 178560,
+            "nativePcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv 0.37.0",
+              "ffmpeg-version=6.1.1-3ubuntu5"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 176400,
+                "pcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 176399,
+                "pcmSha256": "168850ae990026f1d10c73d45d8ed30a8d58f680a45d22bb33235098d2e0a4a0"
+              },
+              {
+                "targetSample": 88201,
+                "outputSamples": 88199,
+                "pcmSha256": "ed1eaeb055965f90d770519e1228b904a9b7f26df89f46b0ab3aba4650ab6b5a"
+              },
+              {
+                "targetSample": 176399,
+                "outputSamples": 1,
+                "pcmSha256": "47770da867e2b9a59666d59040d97089c93ce0a3a0e0238a22ca7b498b29aede"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-44100",
+          "sampleRate": 44100,
+          "channels": 2,
+          "fixtureSha256": "32de504667ddeacbb927aa6a1a4095499b6c99d3c31ecb810a140e742f3a8255",
+          "codedSamples": 178560,
+          "encoderDelay": 576,
+          "encoderPadding": 1584,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 177505,
+          "audibleSamples": 176400,
+          "nativePcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10",
+          "projectionPcmSha256": "1a474fb2f67cae82ec29cbbb1ded366b584114f5e3b63f82384c9063ac240ff5",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 176400,
+              "pcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 176399,
+              "pcmSha256": "f11a5b5004ba7f00e063532958049a68cdac2c34997fcbe41b595c748011e01c"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 175249,
+              "pcmSha256": "716ff032898ded2dacf8e3089ca61e8614ee4394b7dbba3759fcb303acb2ae3d"
+            },
+            {
+              "targetSample": 88201,
+              "decodeStartFrame": 67,
+              "outputSamples": 88199,
+              "pcmSha256": "b2bb7963fe32843bd4b7c9e6dfb2cfabfadfba1193b9948c9967f57d21260f5d"
+            },
+            {
+              "targetSample": 176399,
+              "decodeStartFrame": 144,
+              "outputSamples": 1,
+              "pcmSha256": "f0a6b0943a9bd435633aeada915c2b136cfc8554c76af4ff463acabbf01a0743"
+            },
+            {
+              "targetSample": 176400,
+              "decodeStartFrame": 144,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 176400,
+            "codedSamples": 178560,
+            "nativePcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv 0.37.0",
+              "ffmpeg-version=6.1.1-3ubuntu5"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 176400,
+                "pcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 176399,
+                "pcmSha256": "f11a5b5004ba7f00e063532958049a68cdac2c34997fcbe41b595c748011e01c"
+              },
+              {
+                "targetSample": 88201,
+                "outputSamples": 88199,
+                "pcmSha256": "b2bb7963fe32843bd4b7c9e6dfb2cfabfadfba1193b9948c9967f57d21260f5d"
+              },
+              {
+                "targetSample": 176399,
+                "outputSamples": 1,
+                "pcmSha256": "f0a6b0943a9bd435633aeada915c2b136cfc8554c76af4ff463acabbf01a0743"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-xing-48000",
+          "sampleRate": 48000,
+          "channels": 1,
+          "fixtureSha256": "a1f827005613639b357a8d77e0289481c9ea73750b2c5b7b7c72b2bff84e5fb9",
+          "codedSamples": 193536,
+          "encoderDelay": 576,
+          "encoderPadding": 960,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 193105,
+          "audibleSamples": 192000,
+          "nativePcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88",
+          "projectionPcmSha256": "5c80b121f00cf33ff6f7e760e3ce631957d1e25714ec17b58f8ba4238fdd658f",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 192000,
+              "pcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 191999,
+              "pcmSha256": "ca181a6d73e53c8b9257ffea61ccb646efd78ca70ff10b78f7886d416065e3e8"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 190849,
+              "pcmSha256": "aa0b00fe566a64728604e54729e51ce517c69fca46a133b1c9613b594a6ec4c5"
+            },
+            {
+              "targetSample": 96001,
+              "decodeStartFrame": 73,
+              "outputSamples": 95999,
+              "pcmSha256": "6ff7af0475aff2a6f429651b367c78b0121f4167f3a5cd26a7746f90e4d13fe7"
+            },
+            {
+              "targetSample": 191999,
+              "decodeStartFrame": 157,
+              "outputSamples": 1,
+              "pcmSha256": "887e57be05642a114ceb4a68cba6ad427712fffadba77c06f07a384036c53d22"
+            },
+            {
+              "targetSample": 192000,
+              "decodeStartFrame": 157,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 192000,
+            "codedSamples": 193536,
+            "nativePcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv 0.37.0",
+              "ffmpeg-version=6.1.1-3ubuntu5"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 192000,
+                "pcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 191999,
+                "pcmSha256": "ca181a6d73e53c8b9257ffea61ccb646efd78ca70ff10b78f7886d416065e3e8"
+              },
+              {
+                "targetSample": 96001,
+                "outputSamples": 95999,
+                "pcmSha256": "6ff7af0475aff2a6f429651b367c78b0121f4167f3a5cd26a7746f90e4d13fe7"
+              },
+              {
+                "targetSample": 191999,
+                "outputSamples": 1,
+                "pcmSha256": "887e57be05642a114ceb4a68cba6ad427712fffadba77c06f07a384036c53d22"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-48000",
+          "sampleRate": 48000,
+          "channels": 2,
+          "fixtureSha256": "43e50873a451701bd6edd100da970857bc930c52908a5634130acd1ad4de8a3d",
+          "codedSamples": 193536,
+          "encoderDelay": 576,
+          "encoderPadding": 960,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 193105,
+          "audibleSamples": 192000,
+          "nativePcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f",
+          "projectionPcmSha256": "dd5dfde0cca799f144b8243bf254140f5860f03a6543775dbbc6c5989c06fb06",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 192000,
+              "pcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 191999,
+              "pcmSha256": "edfb064d1107fa285711446dfeef76cf5141b12b2e2c25330c74e66a2d9bf3d7"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 190849,
+              "pcmSha256": "de8b6faeea44472d03c77028e11532c6dfcc2af8fbd595070e797579dd720078"
+            },
+            {
+              "targetSample": 96001,
+              "decodeStartFrame": 73,
+              "outputSamples": 95999,
+              "pcmSha256": "187ebb6afff0d81f0742779e0e589937a2c003f79a0f02b04165ecf1b511788a"
+            },
+            {
+              "targetSample": 191999,
+              "decodeStartFrame": 157,
+              "outputSamples": 1,
+              "pcmSha256": "38d0774227e4047d238fa6a981a5f83eccc2c5740a4ca7f0fa9dd7f17769a8e7"
+            },
+            {
+              "targetSample": 192000,
+              "decodeStartFrame": 157,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 192000,
+            "codedSamples": 193536,
+            "nativePcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv 0.37.0",
+              "ffmpeg-version=6.1.1-3ubuntu5"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 192000,
+                "pcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 191999,
+                "pcmSha256": "edfb064d1107fa285711446dfeef76cf5141b12b2e2c25330c74e66a2d9bf3d7"
+              },
+              {
+                "targetSample": 96001,
+                "outputSamples": 95999,
+                "pcmSha256": "187ebb6afff0d81f0742779e0e589937a2c003f79a0f02b04165ecf1b511788a"
+              },
+              {
+                "targetSample": 191999,
+                "outputSamples": 1,
+                "pcmSha256": "38d0774227e4047d238fa6a981a5f83eccc2c5740a4ca7f0fa9dd7f17769a8e7"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-info-44100",
+          "sampleRate": 44100,
+          "channels": 1,
+          "fixtureSha256": "bfd543d77f4b05cebac71e1a4728c8abbdf652c88b5f294edab60295fa604a0d",
+          "codedSamples": 178560,
+          "encoderDelay": 576,
+          "encoderPadding": 1584,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 177505,
+          "audibleSamples": 176400,
+          "nativePcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b",
+          "projectionPcmSha256": "eecc6bcaae9c4c4a11b94bff044f4e75d81bddd877624a3e106dde258bb0d33b",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 176400,
+              "pcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 176399,
+              "pcmSha256": "751047048f41f8013c7f69e219b78fbcb5652a1351f67c07312db167e09662db"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 175249,
+              "pcmSha256": "e48fed83de517d4bc673dcc98336e044f92888d66a35148dfa554a6e31f6103c"
+            },
+            {
+              "targetSample": 88201,
+              "decodeStartFrame": 67,
+              "outputSamples": 88199,
+              "pcmSha256": "47218407e1286dfeb335497318b0e2bf48e982aaa44b7949e364c88920f04094"
+            },
+            {
+              "targetSample": 176399,
+              "decodeStartFrame": 144,
+              "outputSamples": 1,
+              "pcmSha256": "3b0aae5acf0e46bf04f08c692efdb8b313286b4311c982da91a0b7c854c18d43"
+            },
+            {
+              "targetSample": 176400,
+              "decodeStartFrame": 144,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 176400,
+            "codedSamples": 178560,
+            "nativePcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv 0.37.0",
+              "ffmpeg-version=6.1.1-3ubuntu5"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 176400,
+                "pcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 176399,
+                "pcmSha256": "751047048f41f8013c7f69e219b78fbcb5652a1351f67c07312db167e09662db"
+              },
+              {
+                "targetSample": 88201,
+                "outputSamples": 88199,
+                "pcmSha256": "47218407e1286dfeb335497318b0e2bf48e982aaa44b7949e364c88920f04094"
+              },
+              {
+                "targetSample": 176399,
+                "outputSamples": 1,
+                "pcmSha256": "3b0aae5acf0e46bf04f08c692efdb8b313286b4311c982da91a0b7c854c18d43"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-info-44100",
+          "sampleRate": 44100,
+          "channels": 2,
+          "fixtureSha256": "c0aa36883b00b4e1a6edd59ec091f8d879fb320954fd2b2a364aa84558fa3664",
+          "codedSamples": 178560,
+          "encoderDelay": 576,
+          "encoderPadding": 1584,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 177505,
+          "audibleSamples": 176400,
+          "nativePcmSha256": "5f46c84714dc266d55fe7f1765b536adfb3ecb35e06e9556ebd530e9a24c76a3",
+          "projectionPcmSha256": "d890e93b0ea2a9c28e46c2f05c523fc3cc3c9b4792e2f747d094bffebe88ae1a",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 176400,
+              "pcmSha256": "5f46c84714dc266d55fe7f1765b536adfb3ecb35e06e9556ebd530e9a24c76a3"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 176399,
+              "pcmSha256": "bacc9fbf40d4b4093d433174b81f75da90b9e1413c1e178e39a23a60490d9cb7"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 175249,
+              "pcmSha256": "edbf6519678a7274c3be266f7d0e60c9f70589d9ad47bbe44a32fa42327be93d"
+            },
+            {
+              "targetSample": 88201,
+              "decodeStartFrame": 67,
+              "outputSamples": 88199,
+              "pcmSha256": "801f07c8df273926972f4562d6dba00b666fb9344d18e800ba7fd96e6bb2a56c"
+            },
+            {
+              "targetSample": 176399,
+              "decodeStartFrame": 144,
+              "outputSamples": 1,
+              "pcmSha256": "305d2feb787611e58d57d1073cd0002ee626550e92dc077a680f26c94a2f57bf"
+            },
+            {
+              "targetSample": 176400,
+              "decodeStartFrame": 144,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 176400,
+            "codedSamples": 178560,
+            "nativePcmSha256": "5f46c84714dc266d55fe7f1765b536adfb3ecb35e06e9556ebd530e9a24c76a3",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv 0.37.0",
+              "ffmpeg-version=6.1.1-3ubuntu5"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 176400,
+                "pcmSha256": "5f46c84714dc266d55fe7f1765b536adfb3ecb35e06e9556ebd530e9a24c76a3"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 176399,
+                "pcmSha256": "bacc9fbf40d4b4093d433174b81f75da90b9e1413c1e178e39a23a60490d9cb7"
+              },
+              {
+                "targetSample": 88201,
+                "outputSamples": 88199,
+                "pcmSha256": "801f07c8df273926972f4562d6dba00b666fb9344d18e800ba7fd96e6bb2a56c"
+              },
+              {
+                "targetSample": 176399,
+                "outputSamples": 1,
+                "pcmSha256": "305d2feb787611e58d57d1073cd0002ee626550e92dc077a680f26c94a2f57bf"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-info-48000",
+          "sampleRate": 48000,
+          "channels": 1,
+          "fixtureSha256": "d4019743fe0e74ac4592b6b27a2a505608eb9b1088918855dc2defe9773ecb0e",
+          "codedSamples": 193536,
+          "encoderDelay": 576,
+          "encoderPadding": 960,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 193105,
+          "audibleSamples": 192000,
+          "nativePcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714",
+          "projectionPcmSha256": "2dff13d7ef05a22ae796f367a1043f028c38e6cac0b212f88f024224d421dcc7",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 192000,
+              "pcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 191999,
+              "pcmSha256": "a2f60fc3a9b2d2b7cc2cf5cf0269ca58361f153a41670380ebe5e93f9d9bf074"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 190849,
+              "pcmSha256": "637be6e423425c049c5b7a252fde15ec2deaf4428008eb7c7222a38a076855ce"
+            },
+            {
+              "targetSample": 96001,
+              "decodeStartFrame": 73,
+              "outputSamples": 95999,
+              "pcmSha256": "81e10b5365e59c4139bfb5b868685d897f22fcbe8a66586f9a9e9720330cc6c3"
+            },
+            {
+              "targetSample": 191999,
+              "decodeStartFrame": 157,
+              "outputSamples": 1,
+              "pcmSha256": "45eba9700b583d6682a74893b8a4aeda8d03f717395e5dc6151fb025e56a09fd"
+            },
+            {
+              "targetSample": 192000,
+              "decodeStartFrame": 157,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 192000,
+            "codedSamples": 193536,
+            "nativePcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv 0.37.0",
+              "ffmpeg-version=6.1.1-3ubuntu5"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 192000,
+                "pcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 191999,
+                "pcmSha256": "a2f60fc3a9b2d2b7cc2cf5cf0269ca58361f153a41670380ebe5e93f9d9bf074"
+              },
+              {
+                "targetSample": 96001,
+                "outputSamples": 95999,
+                "pcmSha256": "81e10b5365e59c4139bfb5b868685d897f22fcbe8a66586f9a9e9720330cc6c3"
+              },
+              {
+                "targetSample": 191999,
+                "outputSamples": 1,
+                "pcmSha256": "45eba9700b583d6682a74893b8a4aeda8d03f717395e5dc6151fb025e56a09fd"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-info-48000",
+          "sampleRate": 48000,
+          "channels": 2,
+          "fixtureSha256": "dd9980d4a6f8107f1e3f960904ea8c542da339dacffd64daa0c39bac04872144",
+          "codedSamples": 193536,
+          "encoderDelay": 576,
+          "encoderPadding": 960,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 193105,
+          "audibleSamples": 192000,
+          "nativePcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20",
+          "projectionPcmSha256": "2a7aae1ce3537d5745091b13971540fb5ad208973947513c75a9f09dd8bbb562",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 192000,
+              "pcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 191999,
+              "pcmSha256": "ff2d69ce577e5ae5e1c7f5a08525722e47904fe9d5d8eb9b88ae586c011c4f8f"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 190849,
+              "pcmSha256": "5d611229e1a1862eafd210ef67187e006735f9dd31038243440ad1e6d0cfb516"
+            },
+            {
+              "targetSample": 96001,
+              "decodeStartFrame": 73,
+              "outputSamples": 95999,
+              "pcmSha256": "e33d4f76cef61d8d9684994aea9f6b051b1ebc77b0ab7579b6a978922e17f682"
+            },
+            {
+              "targetSample": 191999,
+              "decodeStartFrame": 157,
+              "outputSamples": 1,
+              "pcmSha256": "87d70d526a023c7cee99ad6bd97ab3e6b6b861e799a441cd637beb14d0d64e61"
+            },
+            {
+              "targetSample": 192000,
+              "decodeStartFrame": 157,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 192000,
+            "codedSamples": 193536,
+            "nativePcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv 0.37.0",
+              "ffmpeg-version=6.1.1-3ubuntu5"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 192000,
+                "pcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 191999,
+                "pcmSha256": "ff2d69ce577e5ae5e1c7f5a08525722e47904fe9d5d8eb9b88ae586c011c4f8f"
+              },
+              {
+                "targetSample": 96001,
+                "outputSamples": 95999,
+                "pcmSha256": "e33d4f76cef61d8d9684994aea9f6b051b1ebc77b0ab7579b6a978922e17f682"
+              },
+              {
+                "targetSample": 191999,
+                "outputSamples": 1,
+                "pcmSha256": "87d70d526a023c7cee99ad6bd97ab3e6b6b861e799a441cd637beb14d0d64e61"
+              }
+            ]
+          }
+        }
+      ],
+      "scope": "offline PCM oracle and candidate sample-window model; not player output",
+      "playerGaplessImplemented": false,
+      "originalFilesModified": false,
+      "platform": "Linux",
+      "ffmpegVersion": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers"
+    },
+    "windows": {
+      "result": "PASS",
+      "count": 128,
+      "checks": [
+        "audio-mp3-indexed-mono-xing-44100-native-sample-window-exact",
+        "audio-mp3-indexed-mono-xing-44100-one-sample-partition-invariant",
+        "audio-mp3-indexed-mono-xing-44100-frame-partition-invariant",
+        "audio-mp3-indexed-mono-xing-44100-irregular-update-partition-invariant",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-1151-exact",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-88201-exact",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-176399-exact",
+        "audio-mp3-indexed-mono-xing-44100-preroll-seek-176400-exact",
+        "audio-mp3-indexed-mono-xing-44100-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-44100-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-44100-libmpv-atrim-seek-88201-exact",
+        "audio-mp3-indexed-mono-xing-44100-libmpv-atrim-seek-176399-exact",
+        "audio-mp3-indexed-mono-xing-44100-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-stereo-xing-44100-native-sample-window-exact",
+        "audio-mp3-indexed-stereo-xing-44100-one-sample-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-44100-frame-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-44100-irregular-update-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-1151-exact",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-88201-exact",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-176399-exact",
+        "audio-mp3-indexed-stereo-xing-44100-preroll-seek-176400-exact",
+        "audio-mp3-indexed-stereo-xing-44100-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-44100-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-44100-libmpv-atrim-seek-88201-exact",
+        "audio-mp3-indexed-stereo-xing-44100-libmpv-atrim-seek-176399-exact",
+        "audio-mp3-indexed-stereo-xing-44100-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-mono-xing-48000-native-sample-window-exact",
+        "audio-mp3-indexed-mono-xing-48000-one-sample-partition-invariant",
+        "audio-mp3-indexed-mono-xing-48000-frame-partition-invariant",
+        "audio-mp3-indexed-mono-xing-48000-irregular-update-partition-invariant",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-1151-exact",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-96001-exact",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-191999-exact",
+        "audio-mp3-indexed-mono-xing-48000-preroll-seek-192000-exact",
+        "audio-mp3-indexed-mono-xing-48000-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-48000-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-48000-libmpv-atrim-seek-96001-exact",
+        "audio-mp3-indexed-mono-xing-48000-libmpv-atrim-seek-191999-exact",
+        "audio-mp3-indexed-mono-xing-48000-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-stereo-xing-48000-native-sample-window-exact",
+        "audio-mp3-indexed-stereo-xing-48000-one-sample-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-48000-frame-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-48000-irregular-update-partition-invariant",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-1151-exact",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-96001-exact",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-191999-exact",
+        "audio-mp3-indexed-stereo-xing-48000-preroll-seek-192000-exact",
+        "audio-mp3-indexed-stereo-xing-48000-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-48000-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-48000-libmpv-atrim-seek-96001-exact",
+        "audio-mp3-indexed-stereo-xing-48000-libmpv-atrim-seek-191999-exact",
+        "audio-mp3-indexed-stereo-xing-48000-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-mono-info-44100-native-sample-window-exact",
+        "audio-mp3-indexed-mono-info-44100-one-sample-partition-invariant",
+        "audio-mp3-indexed-mono-info-44100-frame-partition-invariant",
+        "audio-mp3-indexed-mono-info-44100-irregular-update-partition-invariant",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-0-exact",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-1-exact",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-1151-exact",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-88201-exact",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-176399-exact",
+        "audio-mp3-indexed-mono-info-44100-preroll-seek-176400-exact",
+        "audio-mp3-indexed-mono-info-44100-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-mono-info-44100-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-mono-info-44100-libmpv-atrim-seek-88201-exact",
+        "audio-mp3-indexed-mono-info-44100-libmpv-atrim-seek-176399-exact",
+        "audio-mp3-indexed-mono-info-44100-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-stereo-info-44100-native-sample-window-exact",
+        "audio-mp3-indexed-stereo-info-44100-one-sample-partition-invariant",
+        "audio-mp3-indexed-stereo-info-44100-frame-partition-invariant",
+        "audio-mp3-indexed-stereo-info-44100-irregular-update-partition-invariant",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-1151-exact",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-88201-exact",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-176399-exact",
+        "audio-mp3-indexed-stereo-info-44100-preroll-seek-176400-exact",
+        "audio-mp3-indexed-stereo-info-44100-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-44100-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-44100-libmpv-atrim-seek-88201-exact",
+        "audio-mp3-indexed-stereo-info-44100-libmpv-atrim-seek-176399-exact",
+        "audio-mp3-indexed-stereo-info-44100-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-mono-info-48000-native-sample-window-exact",
+        "audio-mp3-indexed-mono-info-48000-one-sample-partition-invariant",
+        "audio-mp3-indexed-mono-info-48000-frame-partition-invariant",
+        "audio-mp3-indexed-mono-info-48000-irregular-update-partition-invariant",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-0-exact",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-1-exact",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-1151-exact",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-96001-exact",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-191999-exact",
+        "audio-mp3-indexed-mono-info-48000-preroll-seek-192000-exact",
+        "audio-mp3-indexed-mono-info-48000-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-mono-info-48000-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-mono-info-48000-libmpv-atrim-seek-96001-exact",
+        "audio-mp3-indexed-mono-info-48000-libmpv-atrim-seek-191999-exact",
+        "audio-mp3-indexed-mono-info-48000-libmpv-pcm-output-window-exact",
+        "audio-mp3-indexed-stereo-info-48000-native-sample-window-exact",
+        "audio-mp3-indexed-stereo-info-48000-one-sample-partition-invariant",
+        "audio-mp3-indexed-stereo-info-48000-frame-partition-invariant",
+        "audio-mp3-indexed-stereo-info-48000-irregular-update-partition-invariant",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-1151-exact",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-96001-exact",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-191999-exact",
+        "audio-mp3-indexed-stereo-info-48000-preroll-seek-192000-exact",
+        "audio-mp3-indexed-stereo-info-48000-libmpv-atrim-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-48000-libmpv-atrim-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-48000-libmpv-atrim-seek-96001-exact",
+        "audio-mp3-indexed-stereo-info-48000-libmpv-atrim-seek-191999-exact",
+        "audio-mp3-indexed-stereo-info-48000-libmpv-pcm-output-window-exact",
+        "unproven-window-rejected-0-0-0-529",
+        "unproven-window-rejected-1152-576-576-529",
+        "unproven-window-rejected-4608-576-528-529",
+        "unproven-window-rejected-4608--1-1200-529",
+        "unproven-window-rejected-4608-576-4096-529",
+        "unproven-window-rejected-4608-4096-576-529",
+        "unproven-window-rejected-4608-576-1200--1",
+        "unproven-window-rejected-4608-True-1200-529"
+      ],
+      "profiles": [
+        {
+          "profile": "audio-mp3-indexed-mono-xing-44100",
+          "sampleRate": 44100,
+          "channels": 1,
+          "fixtureSha256": "572c0703729f4a50c740c362ea7b274780e9f4055217f7cec79e7153cfbac650",
+          "codedSamples": 178560,
+          "encoderDelay": 576,
+          "encoderPadding": 1584,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 177505,
+          "audibleSamples": 176400,
+          "nativePcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28",
+          "projectionPcmSha256": "f923d30827446721e48b6bac620bdf12999a71c67b5760c76f2fb871f1ba6945",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 176400,
+              "pcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 176399,
+              "pcmSha256": "168850ae990026f1d10c73d45d8ed30a8d58f680a45d22bb33235098d2e0a4a0"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 175249,
+              "pcmSha256": "ca4a62d9646014830ca584c07655a9854db894f5de58f12eab791b7a0f4a8a46"
+            },
+            {
+              "targetSample": 88201,
+              "decodeStartFrame": 67,
+              "outputSamples": 88199,
+              "pcmSha256": "ed1eaeb055965f90d770519e1228b904a9b7f26df89f46b0ab3aba4650ab6b5a"
+            },
+            {
+              "targetSample": 176399,
+              "decodeStartFrame": 144,
+              "outputSamples": 1,
+              "pcmSha256": "47770da867e2b9a59666d59040d97089c93ce0a3a0e0238a22ca7b498b29aede"
+            },
+            {
+              "targetSample": 176400,
+              "decodeStartFrame": 144,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 176400,
+            "codedSamples": 178560,
+            "nativePcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv v0.41.0",
+              "ffmpeg-version=9.0.2"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 176400,
+                "pcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 176399,
+                "pcmSha256": "168850ae990026f1d10c73d45d8ed30a8d58f680a45d22bb33235098d2e0a4a0"
+              },
+              {
+                "targetSample": 88201,
+                "outputSamples": 88199,
+                "pcmSha256": "ed1eaeb055965f90d770519e1228b904a9b7f26df89f46b0ab3aba4650ab6b5a"
+              },
+              {
+                "targetSample": 176399,
+                "outputSamples": 1,
+                "pcmSha256": "47770da867e2b9a59666d59040d97089c93ce0a3a0e0238a22ca7b498b29aede"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-44100",
+          "sampleRate": 44100,
+          "channels": 2,
+          "fixtureSha256": "9c9922c874187e112cbe5828ae34dbd2527bead877d0bca1d93afa8e363776b2",
+          "codedSamples": 178560,
+          "encoderDelay": 576,
+          "encoderPadding": 1584,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 177505,
+          "audibleSamples": 176400,
+          "nativePcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10",
+          "projectionPcmSha256": "1a474fb2f67cae82ec29cbbb1ded366b584114f5e3b63f82384c9063ac240ff5",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 176400,
+              "pcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 176399,
+              "pcmSha256": "f11a5b5004ba7f00e063532958049a68cdac2c34997fcbe41b595c748011e01c"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 175249,
+              "pcmSha256": "716ff032898ded2dacf8e3089ca61e8614ee4394b7dbba3759fcb303acb2ae3d"
+            },
+            {
+              "targetSample": 88201,
+              "decodeStartFrame": 67,
+              "outputSamples": 88199,
+              "pcmSha256": "b2bb7963fe32843bd4b7c9e6dfb2cfabfadfba1193b9948c9967f57d21260f5d"
+            },
+            {
+              "targetSample": 176399,
+              "decodeStartFrame": 144,
+              "outputSamples": 1,
+              "pcmSha256": "f0a6b0943a9bd435633aeada915c2b136cfc8554c76af4ff463acabbf01a0743"
+            },
+            {
+              "targetSample": 176400,
+              "decodeStartFrame": 144,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 176400,
+            "codedSamples": 178560,
+            "nativePcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv v0.41.0",
+              "ffmpeg-version=9.0.2"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 176400,
+                "pcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 176399,
+                "pcmSha256": "f11a5b5004ba7f00e063532958049a68cdac2c34997fcbe41b595c748011e01c"
+              },
+              {
+                "targetSample": 88201,
+                "outputSamples": 88199,
+                "pcmSha256": "b2bb7963fe32843bd4b7c9e6dfb2cfabfadfba1193b9948c9967f57d21260f5d"
+              },
+              {
+                "targetSample": 176399,
+                "outputSamples": 1,
+                "pcmSha256": "f0a6b0943a9bd435633aeada915c2b136cfc8554c76af4ff463acabbf01a0743"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-xing-48000",
+          "sampleRate": 48000,
+          "channels": 1,
+          "fixtureSha256": "1a84e6ec42cac312b2822421d9b8ac3984f2f4dbf92b2862f5b7e2edccbf3d22",
+          "codedSamples": 193536,
+          "encoderDelay": 576,
+          "encoderPadding": 960,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 193105,
+          "audibleSamples": 192000,
+          "nativePcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88",
+          "projectionPcmSha256": "5c80b121f00cf33ff6f7e760e3ce631957d1e25714ec17b58f8ba4238fdd658f",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 192000,
+              "pcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 191999,
+              "pcmSha256": "ca181a6d73e53c8b9257ffea61ccb646efd78ca70ff10b78f7886d416065e3e8"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 190849,
+              "pcmSha256": "aa0b00fe566a64728604e54729e51ce517c69fca46a133b1c9613b594a6ec4c5"
+            },
+            {
+              "targetSample": 96001,
+              "decodeStartFrame": 73,
+              "outputSamples": 95999,
+              "pcmSha256": "6ff7af0475aff2a6f429651b367c78b0121f4167f3a5cd26a7746f90e4d13fe7"
+            },
+            {
+              "targetSample": 191999,
+              "decodeStartFrame": 157,
+              "outputSamples": 1,
+              "pcmSha256": "887e57be05642a114ceb4a68cba6ad427712fffadba77c06f07a384036c53d22"
+            },
+            {
+              "targetSample": 192000,
+              "decodeStartFrame": 157,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 192000,
+            "codedSamples": 193536,
+            "nativePcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv v0.41.0",
+              "ffmpeg-version=9.0.2"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 192000,
+                "pcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 191999,
+                "pcmSha256": "ca181a6d73e53c8b9257ffea61ccb646efd78ca70ff10b78f7886d416065e3e8"
+              },
+              {
+                "targetSample": 96001,
+                "outputSamples": 95999,
+                "pcmSha256": "6ff7af0475aff2a6f429651b367c78b0121f4167f3a5cd26a7746f90e4d13fe7"
+              },
+              {
+                "targetSample": 191999,
+                "outputSamples": 1,
+                "pcmSha256": "887e57be05642a114ceb4a68cba6ad427712fffadba77c06f07a384036c53d22"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-48000",
+          "sampleRate": 48000,
+          "channels": 2,
+          "fixtureSha256": "aac635f07f0b3c0ff96c4239d324db1b5f86995a881971ec74351942440633ae",
+          "codedSamples": 193536,
+          "encoderDelay": 576,
+          "encoderPadding": 960,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 193105,
+          "audibleSamples": 192000,
+          "nativePcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f",
+          "projectionPcmSha256": "dd5dfde0cca799f144b8243bf254140f5860f03a6543775dbbc6c5989c06fb06",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 192000,
+              "pcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 191999,
+              "pcmSha256": "edfb064d1107fa285711446dfeef76cf5141b12b2e2c25330c74e66a2d9bf3d7"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 190849,
+              "pcmSha256": "de8b6faeea44472d03c77028e11532c6dfcc2af8fbd595070e797579dd720078"
+            },
+            {
+              "targetSample": 96001,
+              "decodeStartFrame": 73,
+              "outputSamples": 95999,
+              "pcmSha256": "187ebb6afff0d81f0742779e0e589937a2c003f79a0f02b04165ecf1b511788a"
+            },
+            {
+              "targetSample": 191999,
+              "decodeStartFrame": 157,
+              "outputSamples": 1,
+              "pcmSha256": "38d0774227e4047d238fa6a981a5f83eccc2c5740a4ca7f0fa9dd7f17769a8e7"
+            },
+            {
+              "targetSample": 192000,
+              "decodeStartFrame": 157,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 192000,
+            "codedSamples": 193536,
+            "nativePcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv v0.41.0",
+              "ffmpeg-version=9.0.2"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 192000,
+                "pcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 191999,
+                "pcmSha256": "edfb064d1107fa285711446dfeef76cf5141b12b2e2c25330c74e66a2d9bf3d7"
+              },
+              {
+                "targetSample": 96001,
+                "outputSamples": 95999,
+                "pcmSha256": "187ebb6afff0d81f0742779e0e589937a2c003f79a0f02b04165ecf1b511788a"
+              },
+              {
+                "targetSample": 191999,
+                "outputSamples": 1,
+                "pcmSha256": "38d0774227e4047d238fa6a981a5f83eccc2c5740a4ca7f0fa9dd7f17769a8e7"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-info-44100",
+          "sampleRate": 44100,
+          "channels": 1,
+          "fixtureSha256": "17da7c6e4954dcfa9ff2286967fe3e52e61edf2f73d81a76973504eef5277ed9",
+          "codedSamples": 178560,
+          "encoderDelay": 576,
+          "encoderPadding": 1584,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 177505,
+          "audibleSamples": 176400,
+          "nativePcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b",
+          "projectionPcmSha256": "eecc6bcaae9c4c4a11b94bff044f4e75d81bddd877624a3e106dde258bb0d33b",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 176400,
+              "pcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 176399,
+              "pcmSha256": "751047048f41f8013c7f69e219b78fbcb5652a1351f67c07312db167e09662db"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 175249,
+              "pcmSha256": "e48fed83de517d4bc673dcc98336e044f92888d66a35148dfa554a6e31f6103c"
+            },
+            {
+              "targetSample": 88201,
+              "decodeStartFrame": 67,
+              "outputSamples": 88199,
+              "pcmSha256": "47218407e1286dfeb335497318b0e2bf48e982aaa44b7949e364c88920f04094"
+            },
+            {
+              "targetSample": 176399,
+              "decodeStartFrame": 144,
+              "outputSamples": 1,
+              "pcmSha256": "3b0aae5acf0e46bf04f08c692efdb8b313286b4311c982da91a0b7c854c18d43"
+            },
+            {
+              "targetSample": 176400,
+              "decodeStartFrame": 144,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 176400,
+            "codedSamples": 178560,
+            "nativePcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv v0.41.0",
+              "ffmpeg-version=9.0.2"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 176400,
+                "pcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 176399,
+                "pcmSha256": "751047048f41f8013c7f69e219b78fbcb5652a1351f67c07312db167e09662db"
+              },
+              {
+                "targetSample": 88201,
+                "outputSamples": 88199,
+                "pcmSha256": "47218407e1286dfeb335497318b0e2bf48e982aaa44b7949e364c88920f04094"
+              },
+              {
+                "targetSample": 176399,
+                "outputSamples": 1,
+                "pcmSha256": "3b0aae5acf0e46bf04f08c692efdb8b313286b4311c982da91a0b7c854c18d43"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-info-44100",
+          "sampleRate": 44100,
+          "channels": 2,
+          "fixtureSha256": "15fc1cf9bc9317b14f78c47d48e8e365f2b011833fe2aadccb1fa52135208b2f",
+          "codedSamples": 178560,
+          "encoderDelay": 576,
+          "encoderPadding": 1584,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 177505,
+          "audibleSamples": 176400,
+          "nativePcmSha256": "53cba149dff5c23081b170340054ace0bb6c631683fcfc0d66991c637ec9668c",
+          "projectionPcmSha256": "184065e97e3071039a61af581232491ca5ce6e9934cd453f0dcaed96cbc75ba8",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 176400,
+              "pcmSha256": "53cba149dff5c23081b170340054ace0bb6c631683fcfc0d66991c637ec9668c"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 176399,
+              "pcmSha256": "913973d8ba753769feaff4837ec0ff3d75b7c92a17a940ccdf45049de143e5ca"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 175249,
+              "pcmSha256": "d0678f9386403e09694b3e34d2469a2e676923b609cd35a33a1c7f5e90c6bed8"
+            },
+            {
+              "targetSample": 88201,
+              "decodeStartFrame": 67,
+              "outputSamples": 88199,
+              "pcmSha256": "7ae575cf89b3179960253440fe88c5d896c331aeffaf715cced2714c597e2453"
+            },
+            {
+              "targetSample": 176399,
+              "decodeStartFrame": 144,
+              "outputSamples": 1,
+              "pcmSha256": "305d2feb787611e58d57d1073cd0002ee626550e92dc077a680f26c94a2f57bf"
+            },
+            {
+              "targetSample": 176400,
+              "decodeStartFrame": 144,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 176400,
+            "codedSamples": 178560,
+            "nativePcmSha256": "53cba149dff5c23081b170340054ace0bb6c631683fcfc0d66991c637ec9668c",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv v0.41.0",
+              "ffmpeg-version=9.0.2"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 176400,
+                "pcmSha256": "53cba149dff5c23081b170340054ace0bb6c631683fcfc0d66991c637ec9668c"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 176399,
+                "pcmSha256": "913973d8ba753769feaff4837ec0ff3d75b7c92a17a940ccdf45049de143e5ca"
+              },
+              {
+                "targetSample": 88201,
+                "outputSamples": 88199,
+                "pcmSha256": "7ae575cf89b3179960253440fe88c5d896c331aeffaf715cced2714c597e2453"
+              },
+              {
+                "targetSample": 176399,
+                "outputSamples": 1,
+                "pcmSha256": "305d2feb787611e58d57d1073cd0002ee626550e92dc077a680f26c94a2f57bf"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-info-48000",
+          "sampleRate": 48000,
+          "channels": 1,
+          "fixtureSha256": "3d8612a33deabfd84f2816bcf2e97561c811e032b2947774db7b7e2eefbc9260",
+          "codedSamples": 193536,
+          "encoderDelay": 576,
+          "encoderPadding": 960,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 193105,
+          "audibleSamples": 192000,
+          "nativePcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714",
+          "projectionPcmSha256": "2dff13d7ef05a22ae796f367a1043f028c38e6cac0b212f88f024224d421dcc7",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 192000,
+              "pcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 191999,
+              "pcmSha256": "a2f60fc3a9b2d2b7cc2cf5cf0269ca58361f153a41670380ebe5e93f9d9bf074"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 190849,
+              "pcmSha256": "637be6e423425c049c5b7a252fde15ec2deaf4428008eb7c7222a38a076855ce"
+            },
+            {
+              "targetSample": 96001,
+              "decodeStartFrame": 73,
+              "outputSamples": 95999,
+              "pcmSha256": "81e10b5365e59c4139bfb5b868685d897f22fcbe8a66586f9a9e9720330cc6c3"
+            },
+            {
+              "targetSample": 191999,
+              "decodeStartFrame": 157,
+              "outputSamples": 1,
+              "pcmSha256": "45eba9700b583d6682a74893b8a4aeda8d03f717395e5dc6151fb025e56a09fd"
+            },
+            {
+              "targetSample": 192000,
+              "decodeStartFrame": 157,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 192000,
+            "codedSamples": 193536,
+            "nativePcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv v0.41.0",
+              "ffmpeg-version=9.0.2"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 192000,
+                "pcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 191999,
+                "pcmSha256": "a2f60fc3a9b2d2b7cc2cf5cf0269ca58361f153a41670380ebe5e93f9d9bf074"
+              },
+              {
+                "targetSample": 96001,
+                "outputSamples": 95999,
+                "pcmSha256": "81e10b5365e59c4139bfb5b868685d897f22fcbe8a66586f9a9e9720330cc6c3"
+              },
+              {
+                "targetSample": 191999,
+                "outputSamples": 1,
+                "pcmSha256": "45eba9700b583d6682a74893b8a4aeda8d03f717395e5dc6151fb025e56a09fd"
+              }
+            ]
+          }
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-info-48000",
+          "sampleRate": 48000,
+          "channels": 2,
+          "fixtureSha256": "a5c755750b71df40389dd78b479b187ef3dc7c0a446b41873f0884830947f5af",
+          "codedSamples": 193536,
+          "encoderDelay": 576,
+          "encoderPadding": 960,
+          "decoderDelay": 529,
+          "audibleStartSample": 1105,
+          "audibleEndSample": 193105,
+          "audibleSamples": 192000,
+          "nativePcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20",
+          "projectionPcmSha256": "2a7aae1ce3537d5745091b13971540fb5ad208973947513c75a9f09dd8bbb562",
+          "seeks": [
+            {
+              "targetSample": 0,
+              "decodeStartFrame": 0,
+              "outputSamples": 192000,
+              "pcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20"
+            },
+            {
+              "targetSample": 1,
+              "decodeStartFrame": 0,
+              "outputSamples": 191999,
+              "pcmSha256": "ff2d69ce577e5ae5e1c7f5a08525722e47904fe9d5d8eb9b88ae586c011c4f8f"
+            },
+            {
+              "targetSample": 1151,
+              "decodeStartFrame": 0,
+              "outputSamples": 190849,
+              "pcmSha256": "5d611229e1a1862eafd210ef67187e006735f9dd31038243440ad1e6d0cfb516"
+            },
+            {
+              "targetSample": 96001,
+              "decodeStartFrame": 73,
+              "outputSamples": 95999,
+              "pcmSha256": "e33d4f76cef61d8d9684994aea9f6b051b1ebc77b0ab7579b6a978922e17f682"
+            },
+            {
+              "targetSample": 191999,
+              "decodeStartFrame": 157,
+              "outputSamples": 1,
+              "pcmSha256": "87d70d526a023c7cee99ad6bd97ab3e6b6b861e799a441cd637beb14d0d64e61"
+            },
+            {
+              "targetSample": 192000,
+              "decodeStartFrame": 157,
+              "outputSamples": 0,
+              "pcmSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "libmpv": {
+            "nativeSamples": 192000,
+            "codedSamples": 193536,
+            "nativePcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20",
+            "windowExact": true,
+            "audioDeviceOpened": false,
+            "scope": "libmpv PCM file output, not FoxiqMP UI/controller",
+            "engineIdentity": [
+              "mpv-version=mpv v0.41.0",
+              "ffmpeg-version=9.0.2"
+            ],
+            "filter": "lavfi atrim with absolute start_pts/end_pts",
+            "filteredSeeks": [
+              {
+                "targetSample": 0,
+                "outputSamples": 192000,
+                "pcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20"
+              },
+              {
+                "targetSample": 1,
+                "outputSamples": 191999,
+                "pcmSha256": "ff2d69ce577e5ae5e1c7f5a08525722e47904fe9d5d8eb9b88ae586c011c4f8f"
+              },
+              {
+                "targetSample": 96001,
+                "outputSamples": 95999,
+                "pcmSha256": "e33d4f76cef61d8d9684994aea9f6b051b1ebc77b0ab7579b6a978922e17f682"
+              },
+              {
+                "targetSample": 191999,
+                "outputSamples": 1,
+                "pcmSha256": "87d70d526a023c7cee99ad6bd97ab3e6b6b861e799a441cd637beb14d0d64e61"
+              }
+            ]
+          }
+        }
+      ],
+      "scope": "offline PCM oracle and candidate sample-window model; not player output",
+      "playerGaplessImplemented": false,
+      "originalFilesModified": false,
+      "platform": "Windows",
+      "ffmpegVersion": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers"
+    }
+  },
+  "crossPlatformComparison": [
+    {
+      "profile": "audio-mp3-indexed-mono-xing-44100",
+      "fixturesIdentical": false,
+      "crossPlatformPcmCompared": false,
+      "eachPlatformNativePcmExact": true
+    },
+    {
+      "profile": "audio-mp3-indexed-stereo-xing-44100",
+      "fixturesIdentical": false,
+      "crossPlatformPcmCompared": false,
+      "eachPlatformNativePcmExact": true
+    },
+    {
+      "profile": "audio-mp3-indexed-mono-xing-48000",
+      "fixturesIdentical": false,
+      "crossPlatformPcmCompared": false,
+      "eachPlatformNativePcmExact": true
+    },
+    {
+      "profile": "audio-mp3-indexed-stereo-xing-48000",
+      "fixturesIdentical": false,
+      "crossPlatformPcmCompared": false,
+      "eachPlatformNativePcmExact": true
+    },
+    {
+      "profile": "audio-mp3-indexed-mono-info-44100",
+      "fixturesIdentical": false,
+      "crossPlatformPcmCompared": false,
+      "eachPlatformNativePcmExact": true
+    },
+    {
+      "profile": "audio-mp3-indexed-stereo-info-44100",
+      "fixturesIdentical": false,
+      "crossPlatformPcmCompared": false,
+      "eachPlatformNativePcmExact": true
+    },
+    {
+      "profile": "audio-mp3-indexed-mono-info-48000",
+      "fixturesIdentical": false,
+      "crossPlatformPcmCompared": false,
+      "eachPlatformNativePcmExact": true
+    },
+    {
+      "profile": "audio-mp3-indexed-stereo-info-48000",
+      "fixturesIdentical": false,
+      "crossPlatformPcmCompared": false,
+      "eachPlatformNativePcmExact": true
+    }
+  ],
+  "sourceFilesSha256": {
+    "tests/progressive_mp3_gapless_reference.py": "172b4c36c9e1e95ccda3e538ad6776cb16616a92bbb6a228190744e4ce4c6060",
+    "tests/mpv_pcm_probe.cpp": "a59825b08a7779051e1f06ad6bfa78c5f6bb833d1a97f7c1be2be2818d4c462a",
+    "qt/CMakeLists.txt": "14541b3db261205d3bc693e729a19e0ab9c29f8b4df1dfb109bca7ad72f104e8"
+  },
+  "productionPlaybackModified": false,
+  "harvesterModified": false,
+  "installedLinuxExeUnchanged": true,
+  "installedLinuxSha256": "ec10003eaea23b329d1fec710c0500481814146b698ee41a3ccd6c040c5a0b86",
+  "installedWindowsFilesUnchanged": true,
+  "classicOutputMeasured": false,
+  "limits": [
+    "Offline complete-source projection and PCM output; no progressive UI/controller gapless adapter yet",
+    "Chunk boundaries are a model over decoded PCM; no writer pause/update test of a gapless player path",
+    "FFmpeg decoder-delay 529 is explicit to the tested implementations, not a universal MP3 constant",
+    "Raw encoder delay/padding has no LAME tag CRC validation yet",
+    "Classic DirectShow output needs an independently verified adapter; it is not covered by this libmpv test",
+    "VBRI is excluded because it has no proven LAME encoder delay/padding contract"
+  ]
+}

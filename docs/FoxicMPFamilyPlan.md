@@ -489,3 +489,8 @@ delay/padding сохраняется, `gaplessTrimApplied=false` объявле�
 [Проверки трёх редакций](ProgressiveMp3IndexedValidation-2026-11-01.md).
 Прежний MP3-профиль сохранён. Gapless decoder/output adapters, реальный
 VBRI corpus и прочие пункты чеклиста открыты; Harvester не изменён.
+
+Следующий gapless-этап начат: [PCM-эталон и порядок адаптеров](ProgressiveMp3GaplessReference.md).
+По 128 проверок Linux/Windows, включая цифровой libmpv output и точный
+`atrim`/seek. Это тестовый стенд, без изменения API/воспроизведения SDK 1.66;
+подключение к Qt progressive controller и Classic PCM adapter открыто.
