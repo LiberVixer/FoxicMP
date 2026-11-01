@@ -853,6 +853,11 @@ private slots:
     for(const auto& n:QStringList{"audio-webm-opus-mono","audio-webm-opus-stereo","audio-webm-vorbis-mono","audio-webm-vorbis-stereo"})QTest::newRow(qPrintable(n))<<n;
   }
   void standaloneWebmPlayback() {standalonePlayback();}
+  void standaloneAdtsPlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-adts-mono-44100","audio-adts-stereo-44100","audio-adts-mono-48000","audio-adts-stereo-48000"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneAdtsPlayback() {standalonePlayback();}
   void standaloneRawFlacPlayback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"audio-raw-flac-mono-16-44100","audio-raw-flac-mono-24-44100","audio-raw-flac-stereo-16-44100","audio-raw-flac-stereo-24-44100"})QTest::newRow(qPrintable(n))<<n;

@@ -304,3 +304,12 @@ SDK 1.63: [самостоятельный растущий native FLAC](Progress
 [Проверки трёх редакций](ProgressiveRawFlacValidation-2026-11-01.md).
 Остальные audio containers, layouts/rates/depths, variable blocks, live и
 реальная интеграция Harvester остаются в общем чеклисте. Harvester не изменён.
+
+SDK 1.64: [самостоятельный растущий MPEG-4 ADTS AAC-LC](ProgressiveAdts.md),
+mono/stereo, 44.1/48 kHz, без CRC, один raw data block/frame. AAC payload
+передаётся через виртуальный MP4 без перекодирования, со строгими frame bounds,
+неизменной configuration и ожиданием неполного header/payload.
+[Проверки трёх редакций](ProgressiveAdtsValidation-2026-11-01.md).
+FLAC использует общий scalar audio bridge и MP4 projection с сохранением
+своего контракта и отдельными regression checks. Harvester не изменён;
+остальные ADTS/audio formats и общая приёмка остаются в чеклисте.

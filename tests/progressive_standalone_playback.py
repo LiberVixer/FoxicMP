@@ -9,8 +9,11 @@ from progressive_v2_playback_conformance import forget_closed_readers
 
 def exercise(client,fixtures,work,pause,seek,profile):
     root=Path(work).resolve();model,raw,_,probe=fixture(root,profile);audio=model['tracks'][0]['kind']=='audio';container=model['tracks'][0]['containerHint'];mode='standalone-flac' if container=='flac' else 'standalone-'+container+'-'+model['tracks'][0]['codecHint']
-    caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['standalone'];caps=caps['rawFlac'] if container=='flac' else caps['webm' if audio else 'webmVideo'] if container=='webm' else caps;assert caps['mode']==('standalone-raw-flac-v1' if container=='flac' else ('standalone-webm-audio-v1' if audio else 'standalone-webm-video-v1') if container=='webm' else 'standalone-fmp4-v1') and mode in caps['profiles'],caps
-    if profile.startswith('audio-raw-flac-'):
+    caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['standalone'];caps=caps['adts'] if container=='adts' else caps['rawFlac'] if container=='flac' else caps['webm' if audio else 'webmVideo'] if container=='webm' else caps;assert caps['mode']==('standalone-adts-aac-lc-v1' if container=='adts' else 'standalone-raw-flac-v1' if container=='flac' else ('standalone-webm-audio-v1' if audio else 'standalone-webm-video-v1') if container=='webm' else 'standalone-fmp4-v1') and mode in caps['profiles'],caps
+    if profile.startswith('audio-adts-'):
+        from progressive_adts_fixture import prefix_at_seconds
+        prefix=lambda seconds:prefix_at_seconds(raw,probe,seconds)
+    elif profile.startswith('audio-raw-flac-'):
         from progressive_raw_flac_fixture import prefix_at_seconds
         prefix=lambda seconds:prefix_at_seconds(raw,probe,seconds)
     elif profile.startswith('video-webm-'):

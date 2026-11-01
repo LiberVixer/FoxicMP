@@ -131,6 +131,20 @@ class V2SdkTest(unittest.TestCase):
             with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(bad)
             self.assertFalse(client.calls)
 
+    def test_adts_requires_its_own_capability(self):
+        client=Client();cap=dict(version=1,mode='standalone-fmp4-v1',profiles=['standalone-fmp4-flac'])
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=cap))
+        value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='aac-lc',containerHint='adts',source=dict(resourceId='media'));value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]
+        for version in (None,True,2):
+            cap['adts']=dict(version=version,mode='standalone-adts-aac-lc-v1',profiles=['standalone-adts-aac-lc'])
+            with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+            self.assertFalse(client.calls)
+        cap['adts']['version']=1;V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1);client.calls.clear()
+        for change in (lambda v:v['tracks'][0].update(kind='video'),lambda v:v['tracks'][0].update(codecHint='opus'),lambda v:v['tracks'][0].update(required=False),lambda v:v['tracks'][0].update(initializationResourceId='init')):
+            bad=copy.deepcopy(value);change(bad)
+            with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(bad)
+            self.assertFalse(client.calls)
+
     def test_tail_mp4_requires_own_capability_and_waiting_index_is_recoverable(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',length='1000',integrity=dict(algorithm='sha256'))]
         for track in value['tracks']:track.update(containerHint='mp4-tail',source=dict(resourceId='mux'),codecHint='h264' if track['kind']=='video' else 'aac-lc')
