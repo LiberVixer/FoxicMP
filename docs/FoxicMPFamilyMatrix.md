@@ -245,3 +245,12 @@ SDK 1.33 добавляет [ограниченное воспроизведен
 
 
 SDK 1.55: Linux Qt, Windows Qt и Classic имеют общий ограниченный [tail-moov MP4 H.264/AAC-LC](ProgressiveTailMp4.md), ожидание индекса и metadata-only advisory ranges. [Проверки](ProgressiveTailMp4Validation-2026-11-01.md) отдельно подтверждают каждую редакцию; произвольные sparse media и общий backend remux не заявляются.
+
+
+SDK 1.56: [перемотка активной сессии после complete](ProgressiveCompletedSeek.md),
+capability `completedSourceSeek`. Qt переоткрывает декодер на том же pinned source,
+когда прежний потоковый decoder cache ограничивал дальний seek; Classic сохраняет
+штатное позиционирование. Reader, ручная пауза, скорость, громкость/mute и основная
+аудиодорожка сохранены; status дополнен `controls`. [Проверки трёх редакций](ProgressiveCompletedSeekValidation-2026-11-01.md).
+Это ограниченный H.264/AAC-LC профиль; общий remux, прочие форматы и длительная
+реальная приёмка остаются в чеклисте. Harvester не меняется.

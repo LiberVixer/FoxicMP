@@ -824,6 +824,45 @@ private slots:
   }
   void muxedVorbisWebmPlayback() {QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,false,true,false,false,false,false,true);}
 
+  void completedSourceSeek_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& name:QStringList{"v1-indexed","v1-fragmented","v2-separate","v2-head","v2-tail"})QTest::newRow(qPrintable(name))<<name;
+  }
+  void completedSourceSeek() {
+    QFETCH(QString,mediaProfile);Profile profile(temporary.filePath("complete-seek-profile-"+mediaProfile));prepare(profile);
+    Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));auto* player=w.findChild<Player*>();QVERIFY(player);
+    const auto work=temporary.filePath("complete-seek-bytes-"+mediaProfile);int sequence=0;bool outsideCache=false,changingVideo=false,decodedAudio=false;QByteArray firstFrame;
+    QTimer sample;sample.setInterval(30);connect(&sample,&QTimer::timeout,this,[&]{
+      QFile file(work+"/control.json");if(file.open(QIODevice::ReadOnly)) {
+        const auto c=QJsonDocument::fromJson(file.readAll()).object();file.close();
+        if(c["sequence"].toInt()>sequence){sequence=c["sequence"].toInt();const auto action=c["action"].toString();bool accepted=true;
+          if(action=="tune"){
+            w.setSpeed(1.25);player->set("volume",37);player->set("mute",true);
+            // Make the first long seek exceed the old decoder cache regardless
+            // of CPU speed or how quickly the complete publication is applied.
+            QVERIFY(player->set("demuxer-max-bytes",65536));
+            QVERIFY(player->set("demuxer-max-back-bytes",65536));
+            QVERIFY(player->set("demuxer-readahead-secs",0.));
+          }
+          else if(action=="pause")w.actions["play"]->trigger();
+          else if(action=="seek"){
+            const double target=c["value"].toDouble();if(target==65){bool cached=false;for(const auto& r:player->get("demuxer-cache-state").toMap().value("seekable-ranges").toList()){const auto range=r.toMap();cached|=range.value("start").toDouble()<=target && range.value("end").toDouble()>=target;}outsideCache=!cached;}
+            accepted=w.seekTo(target);
+          }
+          QSaveFile ack(work+"/ack.json");QVERIFY(ack.open(QIODevice::WriteOnly));ack.write(QJsonDocument(QJsonObject{{"sequence",sequence},{"accepted",accepted}}).toJson(QJsonDocument::Compact));QVERIFY(ack.commit());
+        }
+      }
+      if(w.progressiveSession() && !player->get("pause").toBool() && player->get("time-pos").toDouble()>=45){
+        decodedAudio|=player->get("audio-codec-name")=="aac";
+        const auto frame=player->grabFramebuffer();if(!frame.isNull()){auto hash=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);if(firstFrame.isEmpty())firstFrame=hash;else changingVideo|=hash!=firstFrame;}
+      }
+    });sample.start();
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_complete_seek.py"),"--player",playerExecutable(),"--profile",profile.directory,"--fixtures",qEnvironmentVariable("FOXICMP_TEST_MEDIA"),"--work",work,"--media-profile",mediaProfile});
+    QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
+    QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,120000);if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QCOMPARE(writer.exitCode(),0);sample.stop();
+    if(mediaProfile=="v2-separate")QVERIFY(outsideCache);QVERIFY(changingVideo);QVERIFY(decodedAudio);qInfo().noquote()<<"Complete-seek report:"<<writer.readAllStandardOutput();
+  }
+
   void indexedMp4Playback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& name:QStringList{"main-bframes","fractional","vfr"})QTest::newRow(qPrintable(name))<<name;

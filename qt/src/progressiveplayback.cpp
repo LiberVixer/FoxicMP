@@ -121,6 +121,7 @@ QJsonObject Window::progressivePlaybackStatus() const {
   }
   result["appliedMetadata"]=QJsonObject{{"revision",property("foxicmpAppliedMetadata").toMap().value("revision").toString()},
     {"title",mediaStatusTitle()},{"chapters",appliedChapters}};
+  result["controls"]=QJsonObject{{"speed",player->get("speed").toDouble()},{"volumePercent",player->get("volume").toDouble()},{"muted",player->get("mute").toBool()}};
   result["seeking"] = progressiveSeekTarget >= 0;
   if (progressiveSeekTarget >= 0) result["seekTargetSeconds"] = progressiveSeekTarget;
   QJsonArray subtitles;

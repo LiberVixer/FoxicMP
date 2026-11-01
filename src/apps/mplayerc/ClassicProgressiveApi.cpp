@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ClassicProgressiveApi.h"
 #include "../../../shared/preparedclip.h"
+#include "../../../shared/progressivecompletedseek.h"
 #include "MainFrm.h"
 #include "mplayerc.h"
 #include "ExtLib/rapidjson/include/rapidjson/writer.h"
@@ -71,6 +72,7 @@ std::string ClassicProgressiveApi::Information() {
     d.AddMember("readerRegistryOffUi",true,a);Value retirement(rapidjson::kObjectType);retirement.AddMember("maxSources",uint32_t(foxicmp::progressive::SourceRetirement::Capacity),a);retirement.AddMember("workerLimit",uint32_t(foxicmp::progressive::SourceRetirement::WorkerLimit),a);retirement.AddMember("processOwned",true,a);retirement.AddMember("filesClosedBeforeRelease",true,a);d.AddMember("sourceRetirement",retirement,a);
     d.AddMember("readerLeaseProtocol",1,a);d.AddMember("readerLeaseOptIn",true,a);d.AddMember("maxReaderReceipts",128,a);
     for(const auto* action:{"readerStatus","readerRelease","readerForget","readers","resourceProbe","resourceProbeUpdate","resourceProbeStatus","resourceProbeCancel","resourceProbeForget","previewRemux","previewStatus","previewCancel","previewControl"})d["actions"].PushBack(Value(action,a),a);
+    Document seek;seek.Parse(foxicmp::progressive::CompletedSeekCapabilities());d.AddMember("completedSourceSeek",Value(seek,a),a);
     Document preview;preview.Parse(foxicmp::progressive::PreparedPreviewCapabilities());d.AddMember("preparedRemuxPreview",Value(preview,a),a);
     Document remux;remux.Parse(foxicmp::progressive::BackendRemuxCapabilities());d.AddMember("backendRemuxProbe",Value(remux,a),a);
     Document demux;demux.Parse(foxicmp::progressive::BackendDemuxCapabilities());d.AddMember("backendDemuxProbe",Value(demux,a),a);
@@ -264,6 +266,14 @@ std::string ClassicProgressiveApi::Status() {
             chapter.AddMember("title",Value(Utf8(title.m_str?title.m_str:L"").c_str(),a),a);chapters.PushBack(chapter,a);
         }
         applied.AddMember("chapters",chapters,a);d.AddMember("appliedMetadata",applied,a);
+    }
+    if(!pending && frame.m_eMediaLoadState==MLS_LOADED && frame.m_pMS) {
+        double rate=0;if(SUCCEEDED(frame.m_pMS->GetRate(&rate))) {
+            Value controls(rapidjson::kObjectType);controls.AddMember("speed",rate,a);
+            controls.AddMember("volumePercent",AfxGetAppSettings().nVolume,a);controls.AddMember("muted",bool(AfxGetAppSettings().fMute),a);
+            long nativeVolume=0;if(frame.m_pBA && SUCCEEDED(frame.m_pBA->get_Volume(&nativeVolume)))controls.AddMember("nativeVolumeDbHundredths",int(nativeVolume),a);
+            d.AddMember("controls",controls,a);
+        }
     }
     d.AddMember("positionSeconds",pending?0.:double(frame.GetPos())/10000000.,a);d.AddMember("availableSeconds",double(session->ReadyEnd())/10000000.,a);
     d.AddMember("durationSeconds",double(snapshot.duration)/10000000.,a);return Encode(d);

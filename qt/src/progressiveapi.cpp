@@ -1,4 +1,5 @@
 #include "../../shared/preparedclip.h"
+#include "../../shared/progressivecompletedseek.h"
 #include "progressiveapi.h"
 #include "mpvlifetime.h"
 #include "instancebroker.h"
@@ -83,6 +84,7 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
           }, {"profile", QDir(directory).absolutePath()},
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
           {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers", "resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget", "previewRemux", "previewStatus", "previewCancel", "previewControl"}},
+          {"completedSourceSeek",QJsonDocument::fromJson(foxicmp::progressive::CompletedSeekCapabilities()).object()},
           {"preparedRemuxPreview",QJsonDocument::fromJson(foxicmp::progressive::PreparedPreviewCapabilities()).object()},
           {"backendRemuxProbe",QJsonDocument::fromJson(foxicmp::progressive::BackendRemuxCapabilities()).object()},
           {"backendDemuxProbe",QJsonDocument::fromJson(foxicmp::progressive::BackendDemuxCapabilities()).object()},

@@ -44,7 +44,11 @@ int64_t ProgressiveSource::size(int track) const {
   return track >= 0 && size_t(track) < snapshot.tracks.size() ? int64_t(snapshot.tracks[track].total) : -1;
 }
 bool ProgressiveSource::confirmedByteSeek() const {
-  std::lock_guard<std::mutex> lock(mutex);return bool(v2Bridge) && (snapshot.tracks.size()>2 || v2Bridge->isSegmented() || v2Bridge->isGrowing());
+  std::lock_guard<std::mutex> lock(mutex);
+  // A decoder opened while downloading may still have an unseekable stream.
+  // Once every required track is complete, reload against the same pinned
+  // source instead of limiting ordinary seeks to that decoder's packet cache.
+  return currentStatus.complete || (v2Bridge && (snapshot.tracks.size()>2 || v2Bridge->isSegmented() || v2Bridge->isGrowing()));
 }
 bool ProgressiveSource::seekable(int track, uint64_t offset) const {
   std::lock_guard<std::mutex> lock(mutex);

@@ -622,6 +622,14 @@ def run(args):
         if args.mux_webm_playback_only or args.mux_webm_smoke_only:
             from progressive_mux_webm_playback import exercise as exercise_mux_webm
             return [dict(contract='actual-muxed-webm-playback',result=exercise_mux_webm(client,args.fixtures,Path(args.report)/('mux-webm-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401 if seconds==2 else 4402),profile=profile)) for profile in (('vp8','vp9-10','av1-10') if args.mux_webm_smoke_only else ('vp9-8','vp9-10','vp9-fractional','av1-8','av1-10','av1-fractional','vp8','vp8-fractional'))]
+        if args.complete_seek_only:
+            from progressive_complete_seek import exercise as exercise_complete_seek
+            def complete_control(action,value):
+                if action=='pause':post_command(process.pid,889)
+                elif action=='tune':post_command(process.pid,895);post_command(process.pid,908)
+                elif action=='seek':post_command(process.pid,{2:4401,45:4402,65:4403,88:4404}[value])
+                return True
+            return [dict(contract='completed-source-seek',result=exercise_complete_seek(client,args.fixtures,Path(args.report)/('complete-seek-'+profile),complete_control,profile)) for profile in ('v2-separate','v2-head','v2-tail')]
         if args.tail_mp4_only:
             from progressive_tail_mp4_playback import exercise as exercise_tail_mp4
             return [dict(contract='actual-tail-mp4-playback',result=exercise_tail_mp4(client,args.fixtures,Path(args.report)/('tail-mp4-'+profile),pause=lambda:post_command(process.pid,889),seek=lambda seconds:post_command(process.pid,4401 if seconds==2 else 4402),profile=profile)) for profile in ('main-bframes','fractional','vfr')]
@@ -821,6 +829,7 @@ if __name__ == '__main__':
     parser.add_argument('--ts-playback-only',action='store_true')
     parser.add_argument('--mux-ts-playback-only',action='store_true')
     parser.add_argument('--growing-ts-playback-only',action='store_true')
+    parser.add_argument('--complete-seek-only',action='store_true')
     parser.add_argument('--tail-mp4-only',action='store_true')
     parser.add_argument('--indexed-mp4-only',action='store_true')
     parser.add_argument('--mux-mp4-compat-only',action='store_true')

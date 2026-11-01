@@ -2,7 +2,7 @@
 
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
-Текущий проверенный срез — SDK 1.55, приложение 0.2.0. Этот документ — перечень
+Текущий проверенный срез — SDK 1.56, приложение 0.2.0. Этот документ — перечень
 работ и критериев; пустой checkbox не означает отсутствие функции у обычного
 воспроизведения завершённых файлов. Проверяется именно progressive-сценарий.
 
@@ -56,7 +56,7 @@
 - [x] SDK 1.54: ограниченный [fast-start MP4 с обычными sample tables](ProgressiveIndexedMp4.md), H.264/AAC-LC, один ресурс/две дорожки; [проверки](ProgressiveIndexedMp4Validation-2026-11-01.md).
 - [x] SDK 1.55: [ограниченный tail-moov MP4 H.264/AAC-LC](ProgressiveTailMp4.md), ожидание индекса и advisory ranges через metadata-only API; [проверки трёх редакций](ProgressiveTailMp4Validation-2026-11-01.md). Произвольные sparse media остаются в пункте 5.
 - [x] В указанном профиле SDK 1.54: старт до complete, ожидание неполного sample, resume с тем же readerId; отсутствие готового head index не становится успешным fallback. Прочие MP4 layouts остаются открытыми.
-- [ ] Корректный обычный seek после complete, при необходимости контролируемое reopen с сохранением состояния.
+- [x] SDK 1.56: [перемотка после complete](ProgressiveCompletedSeek.md) в активной сессии H.264/AAC-LC: отдельные fMP4 и обычный head/tail MP4; тот же reader, pause/speed/volume/mute/основная audio сохранены. [Проверки трёх редакций](ProgressiveCompletedSeekValidation-2026-11-01.md). Остальные layouts/codecs и повторный просмотр после освобождённого EOF этим пунктом не закрываются.
 
 ## 4. Аудио и самостоятельные потоки
 
