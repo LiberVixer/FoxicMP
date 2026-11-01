@@ -344,6 +344,8 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
     updateClock();
     actions["play"]->setIcon(controlIcon("pause"));
     if (progressive) {
+      if(progressive->playbackDetails().value("mediaMode").toString()=="standalone-mp3")
+        player->set("file-local-options/hr-seek-demuxer-offset",0.25);
       progressiveTracksReady=true;
       completionArmed = false;
       setSpeed((progressivePendingSeek >= 0 || profile.settings.value("playback/keepSpeed", false).toBool())

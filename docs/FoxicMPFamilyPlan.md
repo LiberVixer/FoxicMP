@@ -473,3 +473,11 @@ mono/stereo, 44.1/48 kHz, без CRC, один raw data block/frame. AAC payload
 FLAC использует общий scalar audio bridge и MP4 projection с сохранением
 своего контракта и отдельными regression checks. Harvester не изменён;
 остальные ADTS/audio formats и общая приёмка остаются в чеклисте.
+
+SDK 1.65: [самостоятельный растущий MP3 MPEG-1 Layer III](ProgressiveMp3.md),
+CBR/VBR mono/stereo, 44.1/48 kHz без CRC. Bounded ID3v2.3/v2.4/ID3v1,
+проверка frame bounds и reservoir references; 250 ms seek preroll в Qt/Classic.
+[Проверки трёх редакций](ProgressiveMp3Validation-2026-11-01.md).
+Полные compressed frames сохраняются в виртуальном MP4 без перекодирования.
+Xing/gapless, прочие MPEG audio profiles и общий чеклист остаются открытыми.
+Harvester не изменён.

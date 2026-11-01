@@ -42,6 +42,7 @@ class V2PreviewSession:
         self.standalone=caps.get('schema2Playback',{}).get('standalone',{})
         self.standalone_webm=self.standalone.get('webm',{}) if isinstance(self.standalone,dict) else {}
         self.standalone_webm_video=self.standalone.get('webmVideo',{}) if isinstance(self.standalone,dict) else {}
+        self.standalone_mp3=self.standalone.get('mp3',{}) if isinstance(self.standalone,dict) else {}
         self.standalone_adts=self.standalone.get('adts',{}) if isinstance(self.standalone,dict) else {}
         self.standalone_raw_flac=self.standalone.get('rawFlac',{}) if isinstance(self.standalone,dict) else {}
         self.tail_mp4_supported=(isinstance(tail_mp4,dict) and type(tail_mp4.get('version')) is int and tail_mp4.get('version')==1
@@ -76,17 +77,18 @@ class V2PreviewSession:
             indexed_mp4=any(t.get('containerHint')=='mp4-muxed' for t in current.get('tracks',[]))
             standalone=len(current.get('tracks',[]))==1
             if standalone:
-                track=current['tracks'][0];kind=track.get('kind');codec=track.get('codecHint');webm=track.get('containerHint')=='webm';raw_flac=track.get('containerHint')=='flac';adts=track.get('containerHint')=='adts'
-                cap=self.standalone_adts if adts else self.standalone_raw_flac if raw_flac else (self.standalone_webm_video if kind=='video' else self.standalone_webm) if webm else self.standalone
-                container='adts' if adts else 'flac' if raw_flac else 'webm' if webm else 'fmp4';mode='standalone-adts-aac-lc-v1' if adts else 'standalone-raw-flac-v1' if raw_flac else ('standalone-webm-video-v1' if kind=='video' else 'standalone-webm-audio-v1') if webm else 'standalone-fmp4-v1'
-                if not isinstance(cap,dict) or type(cap.get('version')) is not int or cap.get('version')!=1 or cap.get('mode')!=mode or ('standalone-flac' if raw_flac else 'standalone-'+container+'-'+str(codec)) not in cap.get('profiles',[]):
+                track=current['tracks'][0];kind=track.get('kind');codec=track.get('codecHint');webm=track.get('containerHint')=='webm';raw_flac=track.get('containerHint')=='flac';adts=track.get('containerHint')=='adts';mp3=track.get('containerHint')=='mp3'
+                cap=self.standalone_mp3 if mp3 else self.standalone_adts if adts else self.standalone_raw_flac if raw_flac else (self.standalone_webm_video if kind=='video' else self.standalone_webm) if webm else self.standalone
+                container='mp3' if mp3 else 'adts' if adts else 'flac' if raw_flac else 'webm' if webm else 'fmp4';mode='standalone-mp3-v1' if mp3 else 'standalone-adts-aac-lc-v1' if adts else 'standalone-raw-flac-v1' if raw_flac else ('standalone-webm-video-v1' if kind=='video' else 'standalone-webm-audio-v1') if webm else 'standalone-fmp4-v1'
+                if not isinstance(cap,dict) or type(cap.get('version')) is not int or cap.get('version')!=1 or cap.get('mode')!=mode or ('standalone-mp3' if mp3 else 'standalone-flac' if raw_flac else 'standalone-'+container+'-'+str(codec)) not in cap.get('profiles',[]):
                     raise RuntimeError('Player lacks the standalone '+container+' playback profile')
                 resources=current.get('resources',[])
                 if (len(resources)!=1 or 'segmentCatalog' in current or kind not in ('video','audio') or not track.get('required')
                     or (webm and codec not in (('vp8','vp9','av1') if kind=='video' else ('opus','vorbis')))
                     or (raw_flac and (kind!='audio' or codec!='flac'))
                     or (adts and (kind!='audio' or codec!='aac-lc'))
-                    or (not webm and not raw_flac and not adts and codec not in (('aac-lc','opus','flac') if kind=='audio' else ('h264','hevc','av1','vp9')))
+                    or (mp3 and (kind!='audio' or codec!='mp3'))
+                    or (not webm and not raw_flac and not adts and not mp3 and codec not in (('aac-lc','opus','flac') if kind=='audio' else ('h264','hevc','av1','vp9')))
                     or track.get('containerHint')!=container or 'initializationResourceId' in track
                     or track.get('source')!={'resourceId':resources[0].get('id')} or resources[0].get('integrity',{}).get('algorithm')!='sha256'):
                     raise RuntimeError('Standalone playback requires one supported required scalar track with SHA-256')

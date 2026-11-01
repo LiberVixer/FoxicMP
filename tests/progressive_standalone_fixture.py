@@ -14,10 +14,14 @@ FMP4_VIDEO_PROFILES=('video-fmp4-hevc-8-hvc1','video-fmp4-hevc-10-hev1-fractiona
 FLAC_PROFILES=tuple('audio-flac-'+channels+'-'+str(bits)+'-'+str(rate) for rate in (44100,48000) for channels in ('mono','stereo') for bits in (16,24))
 RAW_FLAC_PROFILES=tuple('audio-raw-flac-'+c+'-'+str(b)+'-'+str(r) for r in (44100,48000) for c in ('mono','stereo') for b in (16,24))
 ADTS_PROFILES=tuple('audio-adts-'+c+'-'+str(r) for r in (44100,48000) for c in ('mono','stereo'))
-PROFILES=ADTS_PROFILES+BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES+WEBM_VIDEO_PROFILES+FMP4_VIDEO_PROFILES+FLAC_PROFILES+RAW_FLAC_PROFILES
+MP3_PROFILES=tuple('audio-mp3-'+c+'-'+m+'-'+str(r) for r in (44100,48000) for c in ('mono','stereo') for m in ('cbr','vbr'))
+PROFILES=MP3_PROFILES+ADTS_PROFILES+BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES+WEBM_VIDEO_PROFILES+FMP4_VIDEO_PROFILES+FLAC_PROFILES+RAW_FLAC_PROFILES
 def fragment_prefix(raw,count):
     return webm_prefix(raw,count) if raw[:4]==bytes.fromhex('1a45dfa3') else mp4_prefix(raw,count)
 def fixture(root,profile='audio-mono',seconds=20):
+    if profile in MP3_PROFILES:
+        from progressive_mp3_fixture import fixture as mp3_fixture
+        return mp3_fixture(root,profile,seconds)
     if profile in ADTS_PROFILES:
         from progressive_adts_fixture import fixture as adts_fixture
         return adts_fixture(root,profile,seconds)

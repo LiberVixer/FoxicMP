@@ -853,6 +853,16 @@ private slots:
     for(const auto& n:QStringList{"audio-webm-opus-mono","audio-webm-opus-stereo","audio-webm-vorbis-mono","audio-webm-vorbis-stereo"})QTest::newRow(qPrintable(n))<<n;
   }
   void standaloneWebmPlayback() {standalonePlayback();}
+  void standaloneMp3Playback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-mp3-mono-cbr-44100","audio-mp3-mono-vbr-44100","audio-mp3-stereo-cbr-44100","audio-mp3-stereo-vbr-44100"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneMp3Playback() {standalonePlayback();}
+  void standaloneMp348Playback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-mp3-mono-cbr-48000","audio-mp3-mono-vbr-48000","audio-mp3-stereo-cbr-48000","audio-mp3-stereo-vbr-48000"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneMp348Playback() {standalonePlayback();}
   void standaloneAdtsPlayback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"audio-adts-mono-44100","audio-adts-stereo-44100","audio-adts-mono-48000","audio-adts-stereo-48000"})QTest::newRow(qPrintable(n))<<n;
@@ -887,12 +897,12 @@ private slots:
     QFETCH(QString,mediaProfile);const bool audio=mediaProfile.startsWith("audio");Profile profile(temporary.filePath("solo-profile-"+mediaProfile));prepare(profile);
     Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));auto* player=w.findChild<Player*>();QVERIFY(player);
     if(!audio)QVERIFY(player->set("audio-device","pulse/foxicmp-absent-test-device"));
-    const auto work=temporary.filePath("solo-bytes-"+mediaProfile);int sequence=0;bool decoded=false,changing=false;QByteArray first;QString observedCodec,observedPixels;
+    const auto work=temporary.filePath("solo-bytes-"+mediaProfile);int sequence=0;bool decoded=false,changing=false,mp3Preroll=false;QByteArray first;QString observedCodec,observedPixels;
     QTimer sample;sample.setInterval(40);connect(&sample,&QTimer::timeout,this,[&]{
       QFile file(work+"/control.json");if(file.open(QIODevice::ReadOnly)){const auto c=QJsonDocument::fromJson(file.readAll()).object();file.close();if(c["sequence"].toInt()>sequence){sequence=c["sequence"].toInt();if(c["action"]=="pause")w.actions["play"]->trigger();else if(c["action"]=="seek")QVERIFY(w.seekTo(c["value"].toDouble()));}}
       if(!w.progressiveSession() || w.progressivePlaybackStatus()["state"]!="playing")return;
       const auto tracks=player->get("track-list").toList();int audios=0,videos=0;for(const auto& t:tracks){const auto kind=t.toMap().value("type");audios+=kind=="audio";videos+=kind=="video";}
-      if(audio){decoded|=audios==1 && videos==0 && player->get("audio-codec-name")== (mediaProfile.contains("-flac-")?"flac":mediaProfile.contains("-vorbis-")?"vorbis":mediaProfile.contains("-opus-")?"opus":"aac") && player->get("audio-params/samplerate").toInt()==(mediaProfile.contains("44100")?44100:48000) && player->get("audio-params/channel-count").toInt()==(mediaProfile.contains("stereo")?2:1);}
+      if(audio){if(mediaProfile.startsWith("audio-mp3-"))mp3Preroll|=qAbs(player->get("options/hr-seek-demuxer-offset").toDouble()-.25)<.001;decoded|=audios==1 && videos==0 && player->get("audio-codec-name")== (mediaProfile.contains("-mp3-")?"mp3":mediaProfile.contains("-flac-")?"flac":mediaProfile.contains("-vorbis-")?"vorbis":mediaProfile.contains("-opus-")?"opus":"aac") && player->get("audio-params/samplerate").toInt()==(mediaProfile.contains("44100")?44100:48000) && player->get("audio-params/channel-count").toInt()==(mediaProfile.contains("stereo")?2:1);}
       else {
         const auto codec=player->get("video-format").toString(),pixels=player->get("video-dec-params/pixelformat").toString();
         if(videos==1 && audios==0 && codec==((mediaProfile.startsWith("video-webm-") || mediaProfile.startsWith("video-fmp4-"))?mediaProfile.section('-',2,2):"h264") && pixels.startsWith("yuv420p") && (mediaProfile.contains("-10")?pixels.contains("10"):pixels=="yuv420p")){
@@ -903,7 +913,7 @@ private slots:
     });sample.start();
     QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_standalone_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--work",work,"--media-profile",mediaProfile});
     QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,110000);
-    if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QCOMPARE(writer.exitCode(),0);sample.stop();if(!audio)qInfo().noquote()<<"Standalone decoded video:"<<mediaProfile<<observedCodec<<observedPixels;QVERIFY2(decoded,qPrintable(observedCodec+" / "+observedPixels));if(!audio)QVERIFY(changing);
+    if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QCOMPARE(writer.exitCode(),0);sample.stop();if(!audio)qInfo().noquote()<<"Standalone decoded video:"<<mediaProfile<<observedCodec<<observedPixels;QVERIFY2(decoded,qPrintable(observedCodec+" / "+observedPixels));if(!audio)QVERIFY(changing);if(mediaProfile.startsWith("audio-mp3-"))QVERIFY(mp3Preroll);
     qInfo().noquote()<<"Standalone report:"<<writer.readAllStandardOutput();
   }
 

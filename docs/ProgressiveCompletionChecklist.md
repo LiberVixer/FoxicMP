@@ -2,7 +2,7 @@
 
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
-Текущий проверенный срез — SDK 1.64, приложение 0.2.0. Этот документ — перечень
+Текущий проверенный срез — SDK 1.65, приложение 0.2.0. Этот документ — перечень
 работ и критериев; пустой checkbox не означает отсутствие функции у обычного
 воспроизведения завершённых файлов. Проверяется именно progressive-сценарий.
 
@@ -70,6 +70,7 @@
 - [x] SDK 1.62: [standalone FLAC fMP4](ProgressiveStandaloneFlac.md), восемь mono/stereo, 16/24-bit, 44.1/48-kHz profiles; PCM bit-exact после bridge. Raw FLAC и остальные audio containers/matrix остаются открытыми.
 - [x] SDK 1.63: [native standalone FLAC](ProgressiveRawFlac.md), fixed blocks, mono/stereo, 16/24-bit, 44.1/48-kHz; CRC/SHA, точные packet clocks и PCM, восемь runtime profiles каждой редакции. Остальные audio containers и layouts остаются открытыми.
 - [x] SDK 1.64: [standalone ADTS AAC-LC](ProgressiveAdts.md), MPEG-4 без CRC, один raw block/frame, mono/stereo, 44.1/48 kHz; pause/seek/tail/update/EOF/release на трёх редакциях. Payload/clocks и декодированный PCM сохранены; остальные ADTS variants и полная audio matrix открыты.
+- [x] SDK 1.65: [standalone MPEG-1 Layer III MP3](ProgressiveMp3.md), CBR/VBR mono/stereo 44.1/48 kHz без CRC, bounded ID3, reservoir/preroll; восемь runtime profiles трёх редакций. Xing/gapless и другие MPEG audio variants открыты.
 - [ ] Отсутствие аудиоустройства не делает валидный video-only источник ошибочным.
 - [ ] MPEG-2/MPEG-4 Part 2 для предусмотренных ТЗ загрузок/локальных входов.
 
