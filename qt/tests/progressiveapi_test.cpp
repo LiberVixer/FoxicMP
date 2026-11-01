@@ -824,6 +824,30 @@ private slots:
   }
   void muxedVorbisWebmPlayback() {QFETCH(QString,mediaProfile);checkSegmentPlayback(mediaProfile,false,true,false,false,false,false,true);}
 
+  void standalonePlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-mono","audio-stereo-44100","video-main","video-vfr"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standalonePlayback() {
+    QFETCH(QString,mediaProfile);const bool audio=mediaProfile.startsWith("audio");Profile profile(temporary.filePath("solo-profile-"+mediaProfile));prepare(profile);
+    Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));auto* player=w.findChild<Player*>();QVERIFY(player);
+    if(!audio)QVERIFY(player->set("audio-device","pulse/foxicmp-absent-test-device"));
+    const auto work=temporary.filePath("solo-bytes-"+mediaProfile);int sequence=0;bool decoded=false,changing=false;QByteArray first;
+    QTimer sample;sample.setInterval(40);connect(&sample,&QTimer::timeout,this,[&]{
+      QFile file(work+"/control.json");if(file.open(QIODevice::ReadOnly)){const auto c=QJsonDocument::fromJson(file.readAll()).object();file.close();if(c["sequence"].toInt()>sequence){sequence=c["sequence"].toInt();if(c["action"]=="pause")w.actions["play"]->trigger();else if(c["action"]=="seek")QVERIFY(w.seekTo(c["value"].toDouble()));}}
+      if(!w.progressiveSession() || w.progressivePlaybackStatus()["state"]!="playing")return;
+      const auto tracks=player->get("track-list").toList();int audios=0,videos=0;for(const auto& t:tracks){const auto kind=t.toMap().value("type");audios+=kind=="audio";videos+=kind=="video";}
+      if(audio){decoded|=audios==1 && videos==0 && player->get("audio-codec-name")=="aac" && player->get("audio-params/samplerate").toInt()==(mediaProfile.contains("44100")?44100:48000) && player->get("audio-params/channel-count").toInt()==(mediaProfile.contains("stereo")?2:1);}
+      else if(videos==1 && audios==0 && player->get("video-format")=="h264"){
+        decoded=true;const auto frame=player->grabFramebuffer();if(!frame.isNull()){auto hash=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);if(first.isEmpty())first=hash;else changing|=hash!=first;}
+      }
+    });sample.start();
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_standalone_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--work",work,"--media-profile",mediaProfile});
+    QVERIFY(writer.waitForStarted());const auto guard=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,110000);
+    if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QCOMPARE(writer.exitCode(),0);sample.stop();QVERIFY(decoded);if(!audio)QVERIFY(changing);
+    qInfo().noquote()<<"Standalone report:"<<writer.readAllStandardOutput();
+  }
+
   void completedSourceSeek_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& name:QStringList{"v1-indexed","v1-fragmented","v2-separate","v2-head","v2-tail"})QTest::newRow(qPrintable(name))<<name;

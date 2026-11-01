@@ -55,6 +55,8 @@ struct Track {
     std::string path, container;
     uint64_t available=0, total=0;
     bool initializationReady=false, fragmented=false, required=true;
+    // Slot zero is normally video; a standalone audio source marks its role.
+    bool audio=false;
     State state=State::Downloading;
 };
 struct Snapshot {

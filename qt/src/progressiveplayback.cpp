@@ -141,7 +141,7 @@ QJsonObject Window::progressivePlaybackStatus() const {
     auto track=value.toObject();const int index=track.value("index").toInt();bool loaded=false,selected=false;
     const auto suffix=index==0?QStringLiteral("/video"):index==1?QStringLiteral("/audio"):"/track/"+QString::number(index);
     for(const auto& actual:player->get("track-list").toList()) {
-      const auto item=actual.toMap();if(index>0 && item.value("type")=="audio" && item.value("external-filename").toString().endsWith(suffix)){loaded=true;selected=item.value("selected").toBool();}
+      const auto item=actual.toMap();if((index>0 || (index==0 && track.value("kind")=="audio")) && item.value("type")=="audio" && (index==0 || item.value("external-filename").toString().endsWith(suffix))){loaded=true;selected=item.value("selected").toBool();}
     }
     track["loaded"]=index==0?progressiveTracksReady:loaded;track["selected"]=selected;
     const auto error=progressiveAudioLoadErrors.value(track.value("id").toString());if(!error.isEmpty()){track["backendErrorCode"]="decoder_error";track["backendError"]=error;}
@@ -202,7 +202,7 @@ bool Window::seekTo(double seconds) {
     }
     QString audio="no";
     for(const auto& value:player->get("track-list").toList()) {
-      const auto track=value.toMap();if(track.value("type")=="audio" && track.value("selected").toBool())audio=track.value("external-filename").toString();
+      const auto track=value.toMap();if(track.value("type")=="audio" && track.value("selected").toBool()){audio=track.value("external-filename").toString();if(audio.isEmpty())audio="primary";}
     }
     reloadProgressive(seconds,audio);
     return true;
@@ -264,7 +264,11 @@ void Window::updateProgressive() {
     const QString demuxer=mixed?QString():details.value("videoContainer").toString()=="webm"?"matroska":"mov";
     QStringList audioFiles;
     if(media.size()>2)for(int i=1;i<media.size();++i){const auto track=media[i].toObject();if(!track.value("ready").toBool() || progressiveAudioLoadErrors.contains(track.value("id").toString()))continue;audioFiles.append(url+(i==1?"/audio":"/track/"+QString::number(i)));progressiveAttachedAudio.insert(track.value("id").toString());}
-    QMap<QString,QString> options{{"audio-files-append",url+"/audio"}};
+    const bool single=media.size()==1;
+    const bool audioOnly=single && media[0].toObject().value("kind")=="audio";
+    QMap<QString,QString> options;
+    if(!single)options["audio-files-append"]=url+"/audio";
+    else {options["aid"]=audioOnly?QStringLiteral("auto"):QStringLiteral("no");options["vid"]=audioOnly?QStringLiteral("no"):QStringLiteral("auto");}
     if(!audioFiles.isEmpty()){
       // mpv path lists use ':' on Unix and ';' on Windows; escape URL colons
       // through the option parser, without constructing a command string.
@@ -302,7 +306,7 @@ void Window::updateProgressive() {
       options["cache"] = "no";
       options["demuxer-readahead-secs"] = "0";
     }
-    if(!player->loadSource(url+"/video",options))return;
+    if(!player->loadSource(url+(single?"/track/0":"/video"),options))return;
     if (!progressive)
       return;
   }
@@ -385,7 +389,7 @@ void Window::updateProgressive() {
     const bool subtitleReady=!wantSubtitle || desiredSubtitle!="no";
     QString desiredAudio="no";
     for(const auto& value:player->get("track-list").toList()) {
-      const auto track=value.toMap();if(track.value("type")=="audio" && track.value("external-filename").toString()==progressiveRestoreAudio)desiredAudio=track.value("id").toString();
+      const auto track=value.toMap();if(track.value("type")=="audio" && (track.value("external-filename").toString()==progressiveRestoreAudio || progressiveRestoreAudio=="primary" && track.value("external-filename").toString().isEmpty()))desiredAudio=track.value("id").toString();
     }
     const auto audio=player->get("aid").toInt();
     const bool audioReady=desiredAudio=="no"?audio<=0:audio==desiredAudio.toInt();

@@ -126,6 +126,10 @@ install(FILES ../docs/ProgressiveSdk.md ../docs/ProgressiveIntegrationPlan.md
  ../docs/ProgressiveMultiTrack.md ../docs/ProgressiveMultiTrackValidation-2026-10-28.md ../docs/ProgressiveMultiTrackValidation-2026-10-28.json
  ../docs/ProgressiveSeek.md ../docs/ProgressiveSeekValidation-2026-10-28.md ../docs/ProgressiveSeekValidation-2026-10-28.json
  ../docs/ProgressiveOptionalSrt.md ../docs/ProgressiveOptionalSrtValidation-2026-10-29.md ../docs/ProgressiveOptionalSrtValidation-2026-10-29.json DESTINATION integration)
+install(FILES ../docs/ProgressiveStandalone.md ../docs/ProgressiveStandaloneValidation-2026-11-01.md
+ ../docs/ProgressiveStandaloneValidation-2026-11-01.json DESTINATION integration)
+install(FILES ../tests/fixtures/progressive-v2/standalone-audio.json DESTINATION integration RENAME progressive-v2-standalone-audio.json)
+install(FILES ../tests/fixtures/progressive-v2/standalone-video.json DESTINATION integration RENAME progressive-v2-standalone-video.json)
 install(FILES ../docs/ProgressiveCompletedSeek.md ../docs/ProgressiveCompletedSeekValidation-2026-11-01.md
  ../docs/ProgressiveCompletedSeekValidation-2026-11-01.json DESTINATION integration)
 install(FILES ../docs/ProgressiveTailMp4.md ../docs/ProgressiveTailMp4Validation-2026-11-01.md
@@ -589,6 +593,12 @@ if(BUILD_TESTING AND TARGET foxicmp-progressive-media-tests)
  set_tests_properties(progressive-mux-ts-transport-resource PROPERTIES TIMEOUT 180)
  add_test(NAME progressive-growing-ts-native COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_growing_ts_conformance.py" --stream-runner "$<TARGET_FILE:foxicmp-progressive-ts-stream-tests>" --media-runner "$<TARGET_FILE:foxicmp-progressive-media-tests>")
  set_tests_properties(progressive-growing-ts-native PROPERTIES TIMEOUT 240)
+ add_test(NAME progressive-standalone-multitrack-regression COMMAND foxicmp-progressive-api-tests "partialOptionalAudio:opus-fmp4")
+ set_tests_properties(progressive-standalone-multitrack-regression PROPERTIES TIMEOUT 120)
+ add_test(NAME progressive-standalone-native COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_standalone_conformance.py" --runner "$<TARGET_FILE:foxicmp-progressive-media-tests>")
+ set_tests_properties(progressive-standalone-native PROPERTIES TIMEOUT 180)
+ add_test(NAME progressive-standalone-playback COMMAND foxicmp-progressive-api-tests standalonePlayback)
+ set_tests_properties(progressive-standalone-playback PROPERTIES TIMEOUT 480)
  add_test(NAME progressive-complete-seek COMMAND foxicmp-progressive-api-tests completedSourceSeek)
  set_tests_properties(progressive-complete-seek PROPERTIES TIMEOUT 600)
  add_test(NAME progressive-tail-mp4-native COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_tail_mp4_conformance.py" --runner "$<TARGET_FILE:foxicmp-progressive-media-tests>" --resource-runner "$<TARGET_FILE:foxicmp-progressive-resource-tests>")

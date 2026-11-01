@@ -48,7 +48,7 @@ bool ProgressiveSource::confirmedByteSeek() const {
   // A decoder opened while downloading may still have an unseekable stream.
   // Once every required track is complete, reload against the same pinned
   // source instead of limiting ordinary seeks to that decoder's packet cache.
-  return currentStatus.complete || (v2Bridge && (snapshot.tracks.size()>2 || v2Bridge->isSegmented() || v2Bridge->isGrowing()));
+  return currentStatus.complete || (v2Bridge && (snapshot.tracks.size()>2 || v2Bridge->isSegmented() || v2Bridge->isGrowing() || v2Bridge->isStandalone()));
 }
 bool ProgressiveSource::seekable(int track, uint64_t offset) const {
   std::lock_guard<std::mutex> lock(mutex);
@@ -116,7 +116,7 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
             return v2Bridge ? v2Bridge->readIndex(i,offset,buffer,count)
                             : ProgressiveFile::read(files[i], offset, buffer, count) == int64_t(count);
           },
-          track.available, i?1:0, harvester::EndReady(track),
+          track.available, i || track.audio?1:0, harvester::EndReady(track),
           value.timestampOffset, v2Bridge && v2Bridge->videoCodec()=="hevc",
           v2Bridge && v2Bridge->videoCodec()=="av1",v2Bridge && v2Bridge->videoCodec()=="vp9",v2Bridge && v2Bridge->audioCodec(i?i:1)=="opus",v2Bridge && v2Bridge->isWebm(i));
     } catch(const std::exception& error) {

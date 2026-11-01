@@ -252,7 +252,7 @@ std::string ClassicProgressiveApi::Status() {
         if(d.HasMember("mediaTracks"))for(auto& track:d["mediaTracks"].GetArray()) {
             const int mediaIndex=track["index"].GetInt();const auto stream=frame.m_harvesterAudioStreams.find(mediaIndex);
             track.AddMember("loaded",mediaIndex==0 || stream!=frame.m_harvesterAudioStreams.end(),a);
-            track.AddMember("selected",stream!=frame.m_harvesterAudioStreams.end() && int(stream->second)==index,a);
+            track.AddMember("selected",(stream!=frame.m_harvesterAudioStreams.end() && int(stream->second)==index) || (session->TrackCount()==1 && session->IsAudio(0) && index>=0),a);
             const auto error=frame.m_harvesterAudioErrors.find(mediaIndex);if(error!=frame.m_harvesterAudioErrors.end()){track.AddMember("backendErrorCode","decoder_error",a);track.AddMember("backendError",Value(error->second.c_str(),a),a);}
         }
     }

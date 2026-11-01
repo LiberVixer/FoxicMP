@@ -254,3 +254,11 @@ capability `completedSourceSeek`. Qt переоткрывает декодер �
 аудиодорожка сохранены; status дополнен `controls`. [Проверки трёх редакций](ProgressiveCompletedSeekValidation-2026-11-01.md).
 Это ограниченный H.264/AAC-LC профиль; общий remux, прочие форматы и длительная
 реальная приёмка остаются в чеклисте. Harvester не меняется.
+
+
+SDK 1.57: [самостоятельные AAC-LC audio-only и H.264 video-only в fMP4](ProgressiveStandalone.md),
+один реальный required track/resource, отдельная capability `schema2Playback.standalone`.
+Тип дорожки отделён от native slot; буферизация не ждёт отсутствующий поток.
+Проверены mono/stereo, VFR/B-frames, неизвестная длина, pause/seek/update/complete,
+release и [совместимость трёх редакций](ProgressiveStandaloneValidation-2026-11-01.md).
+Общая codec/container matrix и оставшееся ТЗ открыты. Harvester не меняется.

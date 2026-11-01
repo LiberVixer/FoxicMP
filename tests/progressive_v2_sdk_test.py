@@ -23,6 +23,25 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_standalone_requires_independent_versioned_capability(self):
+        client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='aac-lc',containerHint='fmp4',source=dict(resourceId='media'))
+        value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))];cap={}
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=cap))
+        for version in (None,True,2):
+            cap.update(version=version,mode='standalone-fmp4-v1',profiles=['standalone-fmp4-aac-lc'])
+            preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(value)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last)
+        cap['version']=1;V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
+    def test_standalone_refuses_extra_resources_and_unsupported_shapes_before_start(self):
+        client=Client();cap=dict(version=1,mode='standalone-fmp4-v1',profiles=['standalone-fmp4-h264','standalone-fmp4-aac-lc'])
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=cap))
+        value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='video',codecHint='h264',containerHint='fmp4',source=dict(resourceId='media'));value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]
+        for change in (lambda v:v['tracks'][0].update(required=False),lambda v:v['tracks'][0].update(codecHint='hevc'),lambda v:v['tracks'][0].update(containerHint='webm'),lambda v:v['tracks'][0].update(initializationResourceId='init'),lambda v:v['resources'][0].pop('integrity'),lambda v:v['resources'].append(dict(id='extra')),lambda v:v.update(segmentCatalog=[])):
+            bad=copy.deepcopy(value);change(bad);preview=V2PreviewSession(client,'/unused')
+            with self.assertRaises(RuntimeError):preview.publish(bad)
+            self.assertFalse(client.calls);self.assertIsNone(preview.last)
+
     def test_tail_mp4_requires_own_capability_and_waiting_index_is_recoverable(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',length='1000',integrity=dict(algorithm='sha256'))]
         for track in value['tracks']:track.update(containerHint='mp4-tail',source=dict(resourceId='mux'),codecHint='h264' if track['kind']=='video' else 'aac-lc')

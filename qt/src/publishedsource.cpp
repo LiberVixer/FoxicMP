@@ -70,7 +70,7 @@ ProgressiveSource::openPublished(const QJsonObject &input, const QString &reader
   if (!readerRegistry.isEmpty())
   {
     std::vector<foxicmp::progressive::BoundResource> identities;
-    for(size_t i=0;i<source->snapshot.tracks.size();++i)if(source->snapshot.tracks[i].initializationReady)identities.push_back({i?(i==1?"audio":"audio-"+std::to_string(i)):"video",source->devices[i],source->inodes[i]});
+    for(size_t i=0;i<source->snapshot.tracks.size();++i)if(source->snapshot.tracks[i].initializationReady)identities.push_back({i?(i==1?"audio":"audio-"+std::to_string(i)):source->snapshot.tracks[i].audio?"audio":"video",source->devices[i],source->inodes[i]});
     source->readerLease = foxicmp::progressive::ReaderLease::Create(
         std::filesystem::u8path(readerRegistry.toUtf8().toStdString()), source->snapshot.sessionId,
         source->snapshot.generation, identities);

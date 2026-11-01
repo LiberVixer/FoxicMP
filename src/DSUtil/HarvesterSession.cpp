@@ -432,7 +432,7 @@ HRESULT CHarvesterSession::WaitRange(int track,uint64_t offset,uint64_t size,HAN
 }
 bool CHarvesterSession::SetIndex(int track,std::vector<harvester::Sample> samples,int64_t duration) {
     std::lock_guard<std::mutex> lock(m_mutex);
-    if(samples.empty() || samples.size()>2000000 || duration<=0 || (track==0 && !samples[0].sync))return false;
+    if(samples.empty() || samples.size()>2000000 || duration<=0 || (track==0 && !m_state.tracks[track].audio && !samples[0].sync))return false;
     for(const auto& s:samples)if(!harvester::RangeReady(s.offset,s.size,m_state.tracks[track].total))return false;
     m_samples[track]=std::move(samples);m_duration[track]=duration;m_indexPosition[track]=0;m_indexEnd[track]=0;return true;
 }
@@ -479,7 +479,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
         };
         if(OptionalAudioFailed(track))continue;
         try {
-        next->Update(diskRead,state.available,track?1:0,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track));
+        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track));
         } catch(const std::exception& error) {if(!m_v2Bridge || state.required)throw;m_v2Bridge->rejectOptionalIndex(track,error.what());continue;}
         result[track]=std::move(next);
     }

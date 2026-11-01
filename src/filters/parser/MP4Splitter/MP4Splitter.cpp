@@ -2304,14 +2304,15 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		auto movie = m_pFile->GetMovie();
 		if (!movie || m_trackpos.size() != 1 || movie->HasFragments()!=progressive->GetSession()->Snapshot().tracks[progressive->GetTrack()].fragmented) return VFW_E_INVALID_FILE_FORMAT;
 		auto track = movie->GetTrack(m_trackpos.begin()->first);
-		const int kind = progressive->GetTrack();
+		const int sourceTrack = progressive->GetTrack();
+		const int kind = progressive->GetSession()->IsAudio(sourceTrack)?1:0;
 		if (track->GetType() != (kind ? AP4_Track::TYPE_AUDIO : AP4_Track::TYPE_VIDEO) || track->GetSampleCount() > 2000000) return VFW_E_UNSUPPORTED_STREAM;
 		auto stsd = dynamic_cast<AP4_StsdAtom*>(track->GetTrakAtom()->FindChild("mdia/minf/stbl/stsd"));
 		auto entry = stsd ? stsd->GetSampleEntry(0) : nullptr;
         if(!entry)return VFW_E_UNSUPPORTED_STREAM;
         const auto type=entry->GetType();
         const auto session=progressive->GetSession();
-        const bool validatedOpus=kind && movie->HasFragments() && session->AllowsOpusFragments(kind) && type==AP4_ATOM_TYPE_Opus;
+        const bool validatedOpus=kind && movie->HasFragments() && session->AllowsOpusFragments(sourceTrack) && type==AP4_ATOM_TYPE_Opus;
         const bool validatedFragments=validatedOpus || (!kind && movie->HasFragments()
             && ((session->AllowsHevcFragments() && (type==AP4_ATOM_TYPE_HVC1 || type==AP4_ATOM_TYPE_HEV1))
                 || (session->AllowsAv1Fragments() && type==AP4_ATOM_TYPE_av01)
@@ -2358,7 +2359,7 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 		// Keep edit-list-adjusted timestamps on the shared movie timeline.
 		for (auto& point:m_sps) point.rt += m_rtMovieOffset;
 		m_rtMovieOffset=0;
-		if (!progressive->GetSession()->SetIndex(kind,std::move(samples),m_rtDuration)) return VFW_E_INVALID_FILE_FORMAT;
+		if (!progressive->GetSession()->SetIndex(sourceTrack,std::move(samples),m_rtDuration)) return VFW_E_INVALID_FILE_FORMAT;
 	}
 	SetID3TagProperties(this, m_pFile->m_pID3Tag);
 
