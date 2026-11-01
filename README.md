@@ -104,7 +104,7 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-Предварительный [SDK 1.57](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.57)
+Предварительный [SDK 1.58](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.58)
 предназначен для интеграционных проверок с новыми сборками плеера.
 SDK 1.54–1.55 добавляют обычный растущий MP4 H.264/AAC-LC с индексом в начале
 или в конце файла: [контракт tail-index и advisory ranges](docs/ProgressiveTailMp4.md),
@@ -112,6 +112,7 @@ SDK 1.54–1.55 добавляют обычный растущий MP4 H.264/AAC
 SDK 1.56 добавляет [перемотку после complete с сохранением состояния](docs/ProgressiveCompletedSeek.md)
 и диагностику скорости/громкости/mute.
 SDK 1.57 добавляет [самостоятельное AAC-LC аудио или H.264 видео в fMP4](docs/ProgressiveStandalone.md), без фиктивной второй дорожки.
+SDK 1.58 расширяет его [отдельным Opus mono/stereo в fMP4](docs/ProgressiveStandaloneOpus.md); Harvester не изменён.
 ZIP содержит SDK без EXE/установщиков. Общий remux, произвольные sparse media
 и оставшаяся приёмка перечислены в [чеклисте](docs/ProgressiveCompletionChecklist.md).
 SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](docs/ProgressiveWebmSegments.md), включая постраничный каталог, в трёх редакциях. Требуются новые EXE; SDK содержит клиент и документацию.

@@ -262,3 +262,9 @@ SDK 1.57: [самостоятельные AAC-LC audio-only и H.264 video-only 
 Проверены mono/stereo, VFR/B-frames, неизвестная длина, pause/seek/update/complete,
 release и [совместимость трёх редакций](ProgressiveStandaloneValidation-2026-11-01.md).
 Общая codec/container matrix и оставшееся ТЗ открыты. Harvester не меняется.
+
+SDK 1.58: [самостоятельное Opus mono/stereo в растущем fMP4](ProgressiveStandaloneOpus.md),
+профиль `standalone-fmp4-opus` внутри `schema2Playback.standalone`.
+Один настоящий audio track/resource, 48 kHz, mapping family 0, проверка dOps/pre-skip/edit list;
+старые AAC/H.264 и парные Opus профили сохранены. [Проверки каждой редакции](ProgressiveStandaloneOpusValidation-2026-11-01.md).
+Следом — самостоятельные WebM/Opus/Vorbis и дальнейшая матрица из чеклиста. Harvester не изменён.

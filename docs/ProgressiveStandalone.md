@@ -8,6 +8,7 @@
 `mode=standalone-fmp4-v1` и нужный профиль из `profiles`:
 
 - `standalone-fmp4-aac-lc`: одна AAC-LC/mp4a аудиодорожка;
+- `standalone-fmp4-opus`: [Opus mono/stereo 48 kHz](ProgressiveStandaloneOpus.md), добавлен SDK 1.58;
 - `standalone-fmp4-h264`: одна H.264/avc1 видеодорожка.
 
 Это ограниченный scalar fMP4 путь с head moov и внутренними fragments.

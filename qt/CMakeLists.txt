@@ -130,6 +130,7 @@ install(FILES ../docs/ProgressiveStandalone.md ../docs/ProgressiveStandaloneVali
  ../docs/ProgressiveStandaloneValidation-2026-11-01.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/standalone-audio.json DESTINATION integration RENAME progressive-v2-standalone-audio.json)
 install(FILES ../tests/fixtures/progressive-v2/standalone-video.json DESTINATION integration RENAME progressive-v2-standalone-video.json)
+install(FILES ../tests/fixtures/progressive-v2/standalone-opus.json DESTINATION integration RENAME progressive-v2-standalone-opus.json)
 install(FILES ../docs/ProgressiveCompletedSeek.md ../docs/ProgressiveCompletedSeekValidation-2026-11-01.md
  ../docs/ProgressiveCompletedSeekValidation-2026-11-01.json DESTINATION integration)
 install(FILES ../docs/ProgressiveTailMp4.md ../docs/ProgressiveTailMp4Validation-2026-11-01.md
@@ -595,6 +596,10 @@ if(BUILD_TESTING AND TARGET foxicmp-progressive-media-tests)
  set_tests_properties(progressive-growing-ts-native PROPERTIES TIMEOUT 240)
  add_test(NAME progressive-standalone-multitrack-regression COMMAND foxicmp-progressive-api-tests "partialOptionalAudio:opus-fmp4")
  set_tests_properties(progressive-standalone-multitrack-regression PROPERTIES TIMEOUT 120)
+ add_test(NAME progressive-standalone-opus-native COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_standalone_conformance.py" --runner "$<TARGET_FILE:foxicmp-progressive-media-tests>" --opus-only)
+ set_tests_properties(progressive-standalone-opus-native PROPERTIES TIMEOUT 180)
+ add_test(NAME progressive-standalone-opus-playback COMMAND foxicmp-progressive-api-tests standaloneOpusPlayback)
+ set_tests_properties(progressive-standalone-opus-playback PROPERTIES TIMEOUT 240)
  add_test(NAME progressive-standalone-native COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_standalone_conformance.py" --runner "$<TARGET_FILE:foxicmp-progressive-media-tests>")
  set_tests_properties(progressive-standalone-native PROPERTIES TIMEOUT 180)
  add_test(NAME progressive-standalone-playback COMMAND foxicmp-progressive-api-tests standalonePlayback)

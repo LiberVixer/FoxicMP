@@ -72,14 +72,15 @@ class V2PreviewSession:
             indexed_mp4=any(t.get('containerHint')=='mp4-muxed' for t in current.get('tracks',[]))
             standalone=len(current.get('tracks',[]))==1
             if standalone:
-                track=current['tracks'][0];kind=track.get('kind');codec='aac-lc' if kind=='audio' else 'h264'
-                if not isinstance(self.standalone,dict) or type(self.standalone.get('version')) is not int or self.standalone.get('version')!=1 or self.standalone.get('mode')!='standalone-fmp4-v1' or 'standalone-fmp4-'+codec not in self.standalone.get('profiles',[]):
+                track=current['tracks'][0];kind=track.get('kind');codec=track.get('codecHint')
+                if not isinstance(self.standalone,dict) or type(self.standalone.get('version')) is not int or self.standalone.get('version')!=1 or self.standalone.get('mode')!='standalone-fmp4-v1' or 'standalone-fmp4-'+str(codec) not in self.standalone.get('profiles',[]):
                     raise RuntimeError('Player lacks the standalone fMP4 playback profile')
                 resources=current.get('resources',[])
                 if (len(resources)!=1 or 'segmentCatalog' in current or kind not in ('video','audio') or not track.get('required')
+                    or codec not in (('aac-lc','opus') if kind=='audio' else ('h264',))
                     or track.get('containerHint')!='fmp4' or track.get('codecHint')!=codec or 'initializationResourceId' in track
                     or track.get('source')!={'resourceId':resources[0].get('id')} or resources[0].get('integrity',{}).get('algorithm')!='sha256'):
-                    raise RuntimeError('Standalone fMP4 requires one required scalar AVC or AAC-LC track with SHA-256')
+                    raise RuntimeError('Standalone fMP4 requires one required scalar AVC, AAC-LC or Opus track with SHA-256')
             elif indexed_mp4 or tail_mp4:
                 tracks=current.get('tracks',[]);resources=current.get('resources',[])
                 if not (self.tail_mp4_supported if tail_mp4 else self.indexed_mp4_supported):

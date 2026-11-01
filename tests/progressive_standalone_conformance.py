@@ -1,12 +1,12 @@
 """One-track admission, byte identity, role-aware indexes and reader lifecycle."""
 import argparse,copy,json,tempfile
 from pathlib import Path
-from progressive_standalone_fixture import fixture,publish,fragment_prefix,PROFILES
+from progressive_standalone_fixture import fixture,publish,fragment_prefix,BASE_PROFILES,OPUS_PROFILES
 from progressive_mux_ts_conformance import Rpc
 
-def run(runner):
+def run(runner,opus_only=False):
     checks=[]
-    for profile in PROFILES:
+    for profile in (OPUS_PROFILES if opus_only else BASE_PROFILES):
         with tempfile.TemporaryDirectory(prefix='foxicmp-standalone-native-') as temp:
             root=Path(temp);model,raw,original,probe=fixture(root,profile,4);rpc=Rpc([runner,'--registry',str(root/'readers')]);data=root/'data';data.mkdir()
             try:
@@ -28,13 +28,16 @@ def run(runner):
             finally:rpc.close()
     with tempfile.TemporaryDirectory(prefix='foxicmp-standalone-errors-') as temp:
         root=Path(temp);model,raw,_,_=fixture(root,seconds=4)
-        changes=[('optional',lambda v:v['tracks'][0].update(required=False)),('wrong-codec',lambda v:v['tracks'][0].update(codecHint='opus')),('wrong-kind',lambda v:v['tracks'][0].update(kind='video',codecHint='h264')),('missing-integrity',lambda v:v['resources'][0].pop('integrity')),('noncontiguous',lambda v:v['resources'][0].update(ranges=[dict(offset='1',length=str(len(raw)-1))])),('nonzero-offset',lambda v:v['timeline'].update(timestampOffset='1')),('webm-not-admitted',lambda v:v['tracks'][0].update(containerHint='webm'))]
+        changes=[('optional',lambda v:v['tracks'][0].update(required=False)),('wrong-codec',lambda v:v['tracks'][0].update(codecHint='flac')),('wrong-kind',lambda v:v['tracks'][0].update(kind='video',codecHint='h264')),('missing-integrity',lambda v:v['resources'][0].pop('integrity')),('noncontiguous',lambda v:v['resources'][0].update(ranges=[dict(offset='1',length=str(len(raw)-1))])),('nonzero-offset',lambda v:v['timeline'].update(timestampOffset='1')),('webm-not-admitted',lambda v:v['tracks'][0].update(containerHint='webm'))]
         for name,change in changes:
             data=root/name;data.mkdir();value=publish(model,raw,data,len(raw),complete=True);change(value);rpc=Rpc([runner,'--registry',str(root/(name+'-readers'))])
             try:
                 answer=rpc('open',directory=str(data),session=value);assert not answer['ok'],(name,answer)
                 assert not rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers'];checks.append(name+'-rejected-without-leak')
             finally:rpc.close()
+    if opus_only:
+        from progressive_standalone_opus_conformance import malformed
+        checks+=malformed(runner)
     return dict(result='PASS',count=len(checks),checks=checks,physicalTrackCount=1,syntheticTracks=False,decoderBytesExact=True)
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--runner',required=True);a=p.parse_args();print(json.dumps(run(a.runner)))
+    p=argparse.ArgumentParser();p.add_argument('--runner',required=True);p.add_argument('--opus-only',action='store_true');a=p.parse_args();print(json.dumps(run(a.runner,a.opus_only)))

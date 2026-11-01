@@ -42,6 +42,16 @@ class V2SdkTest(unittest.TestCase):
             with self.assertRaises(RuntimeError):preview.publish(bad)
             self.assertFalse(client.calls);self.assertIsNone(preview.last)
 
+    def test_standalone_opus_requires_its_own_profile(self):
+        client=Client();cap=dict(version=1,mode='standalone-fmp4-v1',profiles=['standalone-fmp4-aac-lc'])
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=cap))
+        value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='opus',containerHint='fmp4',source=dict(resourceId='media'));value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]
+        preview=V2PreviewSession(client,'/unused')
+        with self.assertRaises(RuntimeError):preview.publish(value)
+        self.assertFalse(client.calls);self.assertIsNone(preview.last)
+        cap['profiles'].append('standalone-fmp4-opus');V2PreviewSession(client,'/unused').publish(value)
+        self.assertEqual(client.calls[0][1]['tracks'][0]['codecHint'],'opus')
+
     def test_tail_mp4_requires_own_capability_and_waiting_index_is_recoverable(self):
         client=Client();value=snapshot();value['resources']=[dict(id='mux',length='1000',integrity=dict(algorithm='sha256'))]
         for track in value['tracks']:track.update(containerHint='mp4-tail',source=dict(resourceId='mux'),codecHint='h264' if track['kind']=='video' else 'aac-lc')
