@@ -73,3 +73,6 @@ native byte/index/lifecycle checks и ASan/UBSan — в [отчёте](Progressi
 Недоступный audio-device у video-only проверен в Qt; физический стенд Classic
 не аттестуется. Полная audio codec matrix, прочие контейнеры/самостоятельные
 потоки, live и длительная физическая A/V-приёмка остаются в чеклисте.
+
+SDK 1.59 добавляет [самостоятельное WebM Opus/Vorbis-аудио](ProgressiveStandaloneWebm.md)
+через отдельный `schema2Playback.standalone.webm`; поля fMP4 capability выше сохраняются.

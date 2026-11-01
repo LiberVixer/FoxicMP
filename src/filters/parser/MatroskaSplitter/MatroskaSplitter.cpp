@@ -1711,11 +1711,11 @@ HRESULT CMatroskaSplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
 	}
 
     if(CComQIPtr<IHarvesterReader> reader=pAsyncReader) {
-        const auto session=reader->GetSession();const auto kind=reader->GetTrack();
+        const auto session=reader->GetSession();const auto sourceTrack=reader->GetTrack();const bool kind=session->IsAudio(sourceTrack);
         if(!session->IsWebM(reader->GetTrack()) || m_pTrackEntryMap.size()!=1)return VFW_E_UNSUPPORTED_STREAM;
         const auto entry=m_pTrackEntryMap.begin()->second;
         if(entry->TrackType!=(kind?TrackEntry::TypeAudio:TrackEntry::TypeVideo)
-            || entry->CodecID.ToString()!=(kind?(session->WebMCodec(kind)=="vorbis"?"A_VORBIS":"A_OPUS"):session->WebMCodec(kind)=="vp8"?"V_VP8":session->AllowsAv1Fragments()?"V_AV1":"V_VP9"))return VFW_E_UNSUPPORTED_STREAM;
+            || entry->CodecID.ToString()!=(kind?(session->WebMCodec(sourceTrack)=="vorbis"?"A_VORBIS":"A_OPUS"):session->WebMCodec(sourceTrack)=="vp8"?"V_VP8":session->AllowsAv1Fragments()?"V_AV1":"V_VP9"))return VFW_E_UNSUPPORTED_STREAM;
         m_sps.clear();m_rtNewStop=m_rtStop=m_rtDuration=session->Snapshot().duration;return m_pOutputs.empty()?E_FAIL:S_OK;
     }
 	Info& info = m_pFile->m_segment.SegmentInfo;

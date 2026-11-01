@@ -1,18 +1,18 @@
 """One-track admission, byte identity, role-aware indexes and reader lifecycle."""
 import argparse,copy,json,tempfile
 from pathlib import Path
-from progressive_standalone_fixture import fixture,publish,fragment_prefix,BASE_PROFILES,OPUS_PROFILES
+from progressive_standalone_fixture import fixture,publish,fragment_prefix,BASE_PROFILES,OPUS_PROFILES,WEBM_PROFILES
 from progressive_mux_ts_conformance import Rpc
 
-def run(runner,opus_only=False):
+def run(runner,opus_only=False,webm_only=False):
     checks=[]
-    for profile in (OPUS_PROFILES if opus_only else BASE_PROFILES):
+    for profile in (WEBM_PROFILES if webm_only else OPUS_PROFILES if opus_only else BASE_PROFILES):
         with tempfile.TemporaryDirectory(prefix='foxicmp-standalone-native-') as temp:
             root=Path(temp);model,raw,original,probe=fixture(root,profile,4);rpc=Rpc([runner,'--registry',str(root/'readers')]);data=root/'data';data.mkdir()
             try:
                 value=publish(model,raw,data,fragment_prefix(raw,2));r=rpc('open',session=value,directory=str(data));assert r['ok'],r
                 assert len(rpc('layout')['tracks'])==1;index=rpc('index');assert index['tracks'][0]['samples']>0,index
-                status=rpc('status');kind=model['tracks'][0]['kind'];assert status['mediaMode']=='standalone-fmp4-'+model['tracks'][0]['codecHint'] and len(status['mediaTracks'])==1,status
+                status=rpc('status');kind=model['tracks'][0]['kind'];assert status['mediaMode']=='standalone-'+model['tracks'][0]['containerHint']+'-'+model['tracks'][0]['codecHint'] and len(status['mediaTracks'])==1,status
                 assert status['mediaTracks'][0]['kind']==kind and status['physicalResources']==1
                 assert rpc('read',decoder=True,track=0,offset=str(int(value['resources'][0]['ranges'][0]['length'])),length='1')['bytesRead']==-1
                 value=publish(model,raw,data,len(raw),previous=value,complete=True);assert rpc('publish',session=value)['ok']
@@ -35,9 +35,12 @@ def run(runner,opus_only=False):
                 answer=rpc('open',directory=str(data),session=value);assert not answer['ok'],(name,answer)
                 assert not rpc('readers',version=1,sessionId=model['sessionId'],generation='1')['readers'];checks.append(name+'-rejected-without-leak')
             finally:rpc.close()
+    if webm_only:
+        from progressive_standalone_webm_conformance import malformed
+        checks+=malformed(runner)
     if opus_only:
         from progressive_standalone_opus_conformance import malformed
         checks+=malformed(runner)
     return dict(result='PASS',count=len(checks),checks=checks,physicalTrackCount=1,syntheticTracks=False,decoderBytesExact=True)
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--runner',required=True);p.add_argument('--opus-only',action='store_true');a=p.parse_args();print(json.dumps(run(a.runner,a.opus_only)))
+    p=argparse.ArgumentParser();p.add_argument('--runner',required=True);p.add_argument('--opus-only',action='store_true');p.add_argument('--webm-only',action='store_true');a=p.parse_args();print(json.dumps(run(a.runner,a.opus_only,a.webm_only)))

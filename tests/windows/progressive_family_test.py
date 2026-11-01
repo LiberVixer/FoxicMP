@@ -832,7 +832,7 @@ if __name__ == '__main__':
     parser.add_argument('--ts-playback-only',action='store_true')
     parser.add_argument('--mux-ts-playback-only',action='store_true')
     parser.add_argument('--growing-ts-playback-only',action='store_true')
-    parser.add_argument('--standalone-profile',choices=['audio-mono','audio-stereo-44100','video-main','video-vfr','audio-opus-mono','audio-opus-stereo'])
+    parser.add_argument('--standalone-profile',choices=['audio-mono','audio-stereo-44100','video-main','video-vfr','audio-opus-mono','audio-opus-stereo','audio-webm-opus-mono','audio-webm-opus-stereo','audio-webm-vorbis-mono','audio-webm-vorbis-stereo'])
     parser.add_argument('--standalone-only',action='store_true')
     parser.add_argument('--complete-seek-only',action='store_true')
     parser.add_argument('--tail-mp4-only',action='store_true')

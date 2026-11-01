@@ -189,7 +189,7 @@ void RequireOwned(HANDLE file) {
 bool CHarvesterSession::AllowsAv1Fragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="av1";}
 bool CHarvesterSession::AllowsVp9Fragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="vp9";}
 bool CHarvesterSession::AllowsOpusFragments(int track) const {return m_v2Bridge && m_v2Bridge->audioCodec(track)=="opus";}
-std::string CHarvesterSession::WebMCodec(int track) const {return !m_v2Bridge?std::string():track?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
+std::string CHarvesterSession::WebMCodec(int track) const {return !m_v2Bridge?std::string():(track || m_v2Bridge->isStandaloneAudio())?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
 bool CHarvesterSession::IsWebM(int track) const {return m_v2Bridge && m_v2Bridge->isWebm(track);}
 bool CHarvesterSession::AllowsHevcFragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="hevc";}
 std::string CHarvesterSession::RegisteredReaderId() const {return m_readerLease?m_readerLease->id():std::string();}
@@ -513,7 +513,7 @@ int CHarvesterSession::SampleAt(int track,size_t index,harvester::Sample& sample
 }
 size_t CHarvesterSession::SeekSample(int track,int64_t position) const {
     std::lock_guard<std::mutex> lock(m_mutex);const auto& samples=Samples(track);size_t found=0;
-    if(track==0){for(size_t i=0;i<samples.size();++i)if(samples[i].sync && samples[i].start<=position)found=i;}
+    if(track==0 && !m_state.tracks[track].audio){for(size_t i=0;i<samples.size();++i)if(samples[i].sync && samples[i].start<=position)found=i;}
     else {found=harvester::AudioSeekSample(samples,position,WebMCodec(track)=="vorbis"?2000000:AllowsOpusFragments(track)?800000:0);}
     return found;
 }

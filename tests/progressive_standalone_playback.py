@@ -8,8 +8,8 @@ from progressive_v2_playback_conformance import forget_closed_readers
 
 
 def exercise(client,fixtures,work,pause,seek,profile):
-    root=Path(work).resolve();model,raw,_,probe=fixture(root,profile);audio=model['tracks'][0]['kind']=='audio';mode='standalone-fmp4-'+model['tracks'][0]['codecHint']
-    caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['standalone'];assert caps['mode']=='standalone-fmp4-v1' and mode in caps['profiles'],caps
+    root=Path(work).resolve();model,raw,_,probe=fixture(root,profile);audio=model['tracks'][0]['kind']=='audio';container=model['tracks'][0]['containerHint'];mode='standalone-'+container+'-'+model['tracks'][0]['codecHint']
+    caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['standalone'];caps=caps['webm'] if container=='webm' else caps;assert caps['mode']==('standalone-webm-audio-v1' if container=='webm' else 'standalone-fmp4-v1') and mode in caps['profiles'],caps
     value=publish(model,raw,root,17);preview=V2PreviewSession(client,str(root),title='One stream '+profile);report=dict(profile=profile,kind=model['tracks'][0]['kind'],initialLengthKnown=model['resources'][0]['length'] is not None,phases=[])
     try:
         answer=preview.publish(value);assert not preview.started and answer['state']=='waiting-initialization',answer

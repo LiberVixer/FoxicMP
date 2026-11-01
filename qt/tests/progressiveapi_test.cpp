@@ -828,6 +828,11 @@ private slots:
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"audio-mono","audio-stereo-44100","video-main","video-vfr"})QTest::newRow(qPrintable(n))<<n;
   }
+  void standaloneWebmPlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-webm-opus-mono","audio-webm-opus-stereo","audio-webm-vorbis-mono","audio-webm-vorbis-stereo"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneWebmPlayback() {standalonePlayback();}
   void standaloneOpusPlayback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"audio-opus-mono","audio-opus-stereo"})QTest::newRow(qPrintable(n))<<n;
@@ -842,7 +847,7 @@ private slots:
       QFile file(work+"/control.json");if(file.open(QIODevice::ReadOnly)){const auto c=QJsonDocument::fromJson(file.readAll()).object();file.close();if(c["sequence"].toInt()>sequence){sequence=c["sequence"].toInt();if(c["action"]=="pause")w.actions["play"]->trigger();else if(c["action"]=="seek")QVERIFY(w.seekTo(c["value"].toDouble()));}}
       if(!w.progressiveSession() || w.progressivePlaybackStatus()["state"]!="playing")return;
       const auto tracks=player->get("track-list").toList();int audios=0,videos=0;for(const auto& t:tracks){const auto kind=t.toMap().value("type");audios+=kind=="audio";videos+=kind=="video";}
-      if(audio){decoded|=audios==1 && videos==0 && player->get("audio-codec-name")== (mediaProfile.contains("-opus-")?"opus":"aac") && player->get("audio-params/samplerate").toInt()==(mediaProfile.contains("44100")?44100:48000) && player->get("audio-params/channel-count").toInt()==(mediaProfile.contains("stereo")?2:1);}
+      if(audio){decoded|=audios==1 && videos==0 && player->get("audio-codec-name")== (mediaProfile.contains("-vorbis-")?"vorbis":mediaProfile.contains("-opus-")?"opus":"aac") && player->get("audio-params/samplerate").toInt()==(mediaProfile.contains("44100")?44100:48000) && player->get("audio-params/channel-count").toInt()==(mediaProfile.contains("stereo")?2:1);}
       else if(videos==1 && audios==0 && player->get("video-format")=="h264"){
         decoded=true;const auto frame=player->grabFramebuffer();if(!frame.isNull()){auto hash=QCryptographicHash::hash(QByteArray(reinterpret_cast<const char*>(frame.constBits()),frame.sizeInBytes()),QCryptographicHash::Sha256);if(first.isEmpty())first=hash;else changing|=hash!=first;}
       }

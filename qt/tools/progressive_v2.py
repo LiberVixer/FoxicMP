@@ -40,6 +40,7 @@ class V2PreviewSession:
         self.muxed_hevc_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('hevc',{}).get('mode')=='growing-muxed-fmp4-hevc-aac-lc'
         tail_mp4=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('mp4',{}).get('tailIndex',{})
         self.standalone=caps.get('schema2Playback',{}).get('standalone',{})
+        self.standalone_webm=self.standalone.get('webm',{}) if isinstance(self.standalone,dict) else {}
         self.tail_mp4_supported=(isinstance(tail_mp4,dict) and type(tail_mp4.get('version')) is int and tail_mp4.get('version')==1
             and tail_mp4.get('mode')=='tail-moov-mp4-v1' and tail_mp4.get('containerHint')=='mp4-tail'
             and tail_mp4.get('playbackMode')=='growing-tail-mp4-h264-aac-lc')
@@ -72,15 +73,18 @@ class V2PreviewSession:
             indexed_mp4=any(t.get('containerHint')=='mp4-muxed' for t in current.get('tracks',[]))
             standalone=len(current.get('tracks',[]))==1
             if standalone:
-                track=current['tracks'][0];kind=track.get('kind');codec=track.get('codecHint')
-                if not isinstance(self.standalone,dict) or type(self.standalone.get('version')) is not int or self.standalone.get('version')!=1 or self.standalone.get('mode')!='standalone-fmp4-v1' or 'standalone-fmp4-'+str(codec) not in self.standalone.get('profiles',[]):
-                    raise RuntimeError('Player lacks the standalone fMP4 playback profile')
+                track=current['tracks'][0];kind=track.get('kind');codec=track.get('codecHint');webm=track.get('containerHint')=='webm'
+                cap=self.standalone_webm if webm else self.standalone
+                container='webm' if webm else 'fmp4';mode='standalone-webm-audio-v1' if webm else 'standalone-fmp4-v1'
+                if not isinstance(cap,dict) or type(cap.get('version')) is not int or cap.get('version')!=1 or cap.get('mode')!=mode or 'standalone-'+container+'-'+str(codec) not in cap.get('profiles',[]):
+                    raise RuntimeError('Player lacks the standalone '+container+' playback profile')
                 resources=current.get('resources',[])
                 if (len(resources)!=1 or 'segmentCatalog' in current or kind not in ('video','audio') or not track.get('required')
-                    or codec not in (('aac-lc','opus') if kind=='audio' else ('h264',))
-                    or track.get('containerHint')!='fmp4' or track.get('codecHint')!=codec or 'initializationResourceId' in track
+                    or (webm and (kind!='audio' or codec not in ('opus','vorbis')))
+                    or (not webm and codec not in (('aac-lc','opus') if kind=='audio' else ('h264',)))
+                    or track.get('containerHint')!=container or 'initializationResourceId' in track
                     or track.get('source')!={'resourceId':resources[0].get('id')} or resources[0].get('integrity',{}).get('algorithm')!='sha256'):
-                    raise RuntimeError('Standalone fMP4 requires one required scalar AVC, AAC-LC or Opus track with SHA-256')
+                    raise RuntimeError('Standalone playback requires one supported required scalar track with SHA-256')
             elif indexed_mp4 or tail_mp4:
                 tracks=current.get('tracks',[]);resources=current.get('resources',[])
                 if not (self.tail_mp4_supported if tail_mp4 else self.indexed_mp4_supported):

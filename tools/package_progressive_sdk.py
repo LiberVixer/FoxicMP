@@ -15,6 +15,8 @@ FILES = {
         'progressive_schema.py', 'progressive_resources.py', 'progressive_v2.py', 'progressive_integrity.py')},
     **{name:'docs/'+name for name in ('ProgressiveRemuxStage.md','ProgressiveRemuxStageValidation-2026-10-31.md','ProgressiveRemuxStageValidation-2026-10-31.json')},
     **{name:'docs/'+name for name in ('ProgressiveBackendDemux.md','ProgressiveBackendDemuxValidation-2026-10-31.md','ProgressiveBackendDemuxValidation-2026-10-31.json')},
+    **{name:'docs/'+name for name in ('ProgressiveStandaloneWebm.md','ProgressiveStandaloneWebmValidation-2026-11-01.md','ProgressiveStandaloneWebmValidation-2026-11-01.json')},
+    **{'progressive-v2-standalone-webm-'+codec+'.json':'tests/fixtures/progressive-v2/standalone-webm-'+codec+'.json' for codec in ('opus','vorbis')},
     **{name:'docs/'+name for name in ('ProgressiveStandaloneOpus.md','ProgressiveStandaloneOpusValidation-2026-11-01.md','ProgressiveStandaloneOpusValidation-2026-11-01.json')},
     'progressive-v2-standalone-opus.json':'tests/fixtures/progressive-v2/standalone-opus.json',
     **{name:'docs/'+name for name in ('ProgressiveStandalone.md','ProgressiveStandaloneValidation-2026-11-01.md','ProgressiveStandaloneValidation-2026-11-01.json')},
@@ -114,7 +116,7 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.58', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.59', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(),

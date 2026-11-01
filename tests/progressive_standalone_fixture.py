@@ -3,12 +3,19 @@ import json,subprocess,uuid
 from fractions import Fraction
 from pathlib import Path
 from progressive_growing_ts_fixture import publish
-from progressive_v1_conformance import fragment_prefix
+from progressive_v1_conformance import fragment_prefix as mp4_prefix
+from progressive_webm_fixtures import webm_prefix
 
 BASE_PROFILES=('audio-mono','audio-stereo-44100','video-main','video-vfr')
 OPUS_PROFILES=('audio-opus-mono','audio-opus-stereo')
-PROFILES=BASE_PROFILES+OPUS_PROFILES
+WEBM_PROFILES=tuple('audio-webm-'+codec+'-'+channels for codec in ('opus','vorbis') for channels in ('mono','stereo'))
+PROFILES=BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES
+def fragment_prefix(raw,count):
+    return webm_prefix(raw,count) if raw[:4]==bytes.fromhex('1a45dfa3') else mp4_prefix(raw,count)
 def fixture(root,profile='audio-mono',seconds=20):
+    if profile in WEBM_PROFILES:
+        from progressive_standalone_webm_fixture import fixture as webm_fixture
+        return webm_fixture(root,profile,seconds)
     root=Path(root);root.mkdir(parents=True,exist_ok=True);audio=profile.startswith('audio');opus='-opus-' in profile;original=root/'original.mp4'
     if audio:
         rate=44100 if '44100' in profile else 48000

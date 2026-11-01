@@ -428,3 +428,10 @@ SDK 1.58: [самостоятельное Opus mono/stereo в растущем f
 Один настоящий audio track/resource, 48 kHz, mapping family 0, проверка dOps/pre-skip/edit list;
 старые AAC/H.264 и парные Opus профили сохранены. [Проверки каждой редакции](ProgressiveStandaloneOpusValidation-2026-11-01.md).
 Следом — самостоятельные WebM/Opus/Vorbis и дальнейшая матрица из чеклиста. Harvester не изменён.
+
+SDK 1.59: [самостоятельные Opus/Vorbis mono/stereo в растущем WebM](ProgressiveStandaloneWebm.md),
+отдельная capability `schema2Playback.standalone.webm` и профили
+`standalone-webm-opus` / `standalone-webm-vorbis`. Один настоящий audio track/resource;
+тип slot 0 и аудиоперемотка Classic исправлены без изменения парных потоков.
+[Результаты трёх редакций](ProgressiveStandaloneWebmValidation-2026-11-01.md).
+Далее — standalone WebM video, остальные codec/container profiles и пункты чеклиста; Harvester не изменён.
