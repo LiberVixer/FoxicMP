@@ -19,6 +19,17 @@ class StdinStream;
 class PreparedStreams;
 namespace foxicmp {namespace progressive {struct PreparedClip;}}
 class ProgressiveStreams;
+// Absolute decoder-sample bounds. The caller must supply validated codec
+// metadata; this does not infer MP3 delay or change the playback API timeline.
+struct AudioPcmWindow {
+  quint64 begin = 0, end = 0;
+  int sampleRate = 0;
+  bool enabled() const { return sampleRate != 0; }
+  bool valid() const {
+    return sampleRate >= 8000 && sampleRate <= 384000 && begin < end &&
+           end <= 9007199254740991ULL;
+  }
+};
 class Player : public QWidget {
   Q_OBJECT
 public:
@@ -47,6 +58,11 @@ public:
   int requestedSwapInterval() const { return swapInterval; }
   void setRenderInterval(int milliseconds);
   bool loadSource(const QString &url, const QMap<QString, QString> &options);
+  // Internal decoder adapter; no progressive capability is advertised until
+  // the controller and the other platform adapters are independently checked.
+  bool loadPcmWindowSource(const QString &url,
+                           const QMap<QString, QString> &options,
+                           const AudioPcmWindow &window);
   void attachPrepared(const std::shared_ptr<foxicmp::progressive::PreparedClip>&);
   QString attachStdin(int descriptor, QString *error = nullptr);
   void progressiveSource(const std::shared_ptr<ProgressiveSource> &source);
@@ -75,6 +91,9 @@ private:
   QQueue<ExternalTrack> externalTracks;
   quint64 externalRequest = 0, externalSequence = 0;
   void pumpExternalTracks();
+  bool loadSourceImpl(const QString &, const QMap<QString, QString> &,
+                      const AudioPcmWindow &);
+  QString audioFilterOptions(const AudioPcmWindow &) const;
   void cancelExternalTracks();
   friend class PlayerRetirementTest;
   friend class GlSurface;
@@ -86,6 +105,10 @@ private:
   GlSurface *surface = nullptr;
   QStringList pendingLoad;
   QMap<QString, QString> pendingOptions;
+  AudioPcmWindow pendingPcmWindow, activePcmWindow;
+  bool managedAudioConfigured = false, pcmWindowUsed = false;
+  QString managedAudioGraph, managedAudioFormat;
+  int managedAudioRate = 0;
   std::shared_ptr<MpvLifetime> lifetime;
   void scheduleFrame();
   void drainEvents();

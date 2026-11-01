@@ -73,6 +73,7 @@
 - [x] SDK 1.65: [standalone MPEG-1 Layer III MP3](ProgressiveMp3.md), CBR/VBR mono/stereo 44.1/48 kHz без CRC, bounded ID3, reservoir/preroll; восемь runtime profiles трёх редакций. Xing/gapless и другие MPEG audio variants открыты.
 - [x] SDK 1.66: [Xing/Info/VBRI standalone MP3](ProgressiveMp3Indexed.md), отдельный encoded-sample профиль с counters и сохранением raw delay/padding; 12 runtime profiles на редакцию. VBRI fixtures независимо собраны; реальный VBRI корпус и gapless trim остаются открытыми.
 - Начат gapless output adapter: [PCM-эталон](ProgressiveMp3GaplessReference.md), по 128 offline checks Linux/Windows, включая libmpv PCM output и sample-accurate `atrim`/seek. Подключение к progressive Qt/Classic, LAME tag CRC и growing приёмка открыты; API/SDK 1.66 не меняются.
+- Реализован [внутренний Qt PCM adapter](ProgressiveQtPcmWindow.md): по 72 проверки настоящего `Player` на ОС, точный trim/seek, пользовательская цепочка, stop и replacement. Progressive controller и Classic output ещё не подключены; публичный gapless capability не объявлен.
 - [ ] Отсутствие аудиоустройства не делает валидный video-only источник ошибочным.
 - [ ] MPEG-2/MPEG-4 Part 2 для предусмотренных ТЗ загрузок/локальных входов.
 

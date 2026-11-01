@@ -1,0 +1,4973 @@
+{
+  "date": "2026-11-01",
+  "baseSourceCommit": "857052aafb966713c6ef4d13ea599059df04d46b",
+  "result": "PASS",
+  "sdkVersionUnchanged": "1.66",
+  "playerVersion": "0.2.0",
+  "players": {
+    "linux": {
+      "result": "PASS",
+      "count": 72,
+      "checks": [
+        "audio-mp3-indexed-mono-xing-44100-real-player-native-pcm-exact",
+        "audio-mp3-indexed-mono-xing-44100-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-44100-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-44100-real-player-window-seek-88201-exact",
+        "audio-mp3-indexed-mono-xing-44100-real-player-window-seek-176399-exact",
+        "audio-mp3-indexed-mono-xing-44100-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-mono-xing-44100-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-mono-xing-44100-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-mono-xing-44100-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-stereo-xing-44100-real-player-native-pcm-exact",
+        "audio-mp3-indexed-stereo-xing-44100-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-44100-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-44100-real-player-window-seek-88201-exact",
+        "audio-mp3-indexed-stereo-xing-44100-real-player-window-seek-176399-exact",
+        "audio-mp3-indexed-stereo-xing-44100-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-stereo-xing-44100-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-stereo-xing-44100-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-stereo-xing-44100-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-mono-xing-48000-real-player-native-pcm-exact",
+        "audio-mp3-indexed-mono-xing-48000-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-48000-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-48000-real-player-window-seek-96001-exact",
+        "audio-mp3-indexed-mono-xing-48000-real-player-window-seek-191999-exact",
+        "audio-mp3-indexed-mono-xing-48000-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-mono-xing-48000-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-mono-xing-48000-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-mono-xing-48000-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-stereo-xing-48000-real-player-native-pcm-exact",
+        "audio-mp3-indexed-stereo-xing-48000-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-48000-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-48000-real-player-window-seek-96001-exact",
+        "audio-mp3-indexed-stereo-xing-48000-real-player-window-seek-191999-exact",
+        "audio-mp3-indexed-stereo-xing-48000-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-stereo-xing-48000-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-stereo-xing-48000-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-stereo-xing-48000-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-mono-info-44100-real-player-native-pcm-exact",
+        "audio-mp3-indexed-mono-info-44100-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-mono-info-44100-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-mono-info-44100-real-player-window-seek-88201-exact",
+        "audio-mp3-indexed-mono-info-44100-real-player-window-seek-176399-exact",
+        "audio-mp3-indexed-mono-info-44100-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-mono-info-44100-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-mono-info-44100-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-mono-info-44100-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-stereo-info-44100-real-player-native-pcm-exact",
+        "audio-mp3-indexed-stereo-info-44100-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-44100-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-44100-real-player-window-seek-88201-exact",
+        "audio-mp3-indexed-stereo-info-44100-real-player-window-seek-176399-exact",
+        "audio-mp3-indexed-stereo-info-44100-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-stereo-info-44100-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-stereo-info-44100-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-stereo-info-44100-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-mono-info-48000-real-player-native-pcm-exact",
+        "audio-mp3-indexed-mono-info-48000-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-mono-info-48000-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-mono-info-48000-real-player-window-seek-96001-exact",
+        "audio-mp3-indexed-mono-info-48000-real-player-window-seek-191999-exact",
+        "audio-mp3-indexed-mono-info-48000-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-mono-info-48000-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-mono-info-48000-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-mono-info-48000-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-stereo-info-48000-real-player-native-pcm-exact",
+        "audio-mp3-indexed-stereo-info-48000-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-48000-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-48000-real-player-window-seek-96001-exact",
+        "audio-mp3-indexed-stereo-info-48000-real-player-window-seek-191999-exact",
+        "audio-mp3-indexed-stereo-info-48000-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-stereo-info-48000-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-stereo-info-48000-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-stereo-info-48000-changed-user-graph-survives-two-replacements"
+      ],
+      "profiles": [
+        {
+          "profile": "audio-mp3-indexed-mono-xing-44100",
+          "fixtureSha256": "4dfcb262b33d93b3c76b0b11231bf5f5ccad283c355540aec7fec57f911753d2",
+          "sampleRate": 44100,
+          "channels": 1,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 176400,
+              "pcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 176400,
+              "pcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 176399,
+              "pcmSha256": "168850ae990026f1d10c73d45d8ed30a8d58f680a45d22bb33235098d2e0a4a0",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-88201",
+              "samples": 88199,
+              "pcmSha256": "ed1eaeb055965f90d770519e1228b904a9b7f26df89f46b0ab3aba4650ab6b5a",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-176399",
+              "samples": 1,
+              "pcmSha256": "47770da867e2b9a59666d59040d97089c93ce0a3a0e0238a22ca7b498b29aede",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 176400,
+              "pcmSha256": "ba5886c3fbdc62dec807d9b24b24b0ad08ec210e76464afc569634adf6322bd9",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 176400,
+              "pcmSha256": "ba5886c3fbdc62dec807d9b24b24b0ad08ec210e76464afc569634adf6322bd9",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 178560,
+              "pcmSha256": "f923d30827446721e48b6bac620bdf12999a71c67b5760c76f2fb871f1ba6945",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 178560,
+              "pcmSha256": "f923d30827446721e48b6bac620bdf12999a71c67b5760c76f2fb871f1ba6945",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 178560,
+              "pcmSha256": "cbe1b6e7b43cfec443f67acb332bc5592a9e8a171c544c7fcdb43077b0702a99",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 178560,
+              "pcmSha256": "cbe1b6e7b43cfec443f67acb332bc5592a9e8a171c544c7fcdb43077b0702a99",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-44100",
+          "fixtureSha256": "32de504667ddeacbb927aa6a1a4095499b6c99d3c31ecb810a140e742f3a8255",
+          "sampleRate": 44100,
+          "channels": 2,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 176400,
+              "pcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 176400,
+              "pcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 176399,
+              "pcmSha256": "f11a5b5004ba7f00e063532958049a68cdac2c34997fcbe41b595c748011e01c",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-88201",
+              "samples": 88199,
+              "pcmSha256": "b2bb7963fe32843bd4b7c9e6dfb2cfabfadfba1193b9948c9967f57d21260f5d",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-176399",
+              "samples": 1,
+              "pcmSha256": "f0a6b0943a9bd435633aeada915c2b136cfc8554c76af4ff463acabbf01a0743",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 176400,
+              "pcmSha256": "a9f0a43a23ee35661e22ba5cdccf5f005c71f4e5960850e63995c81f16db142b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 176400,
+              "pcmSha256": "a9f0a43a23ee35661e22ba5cdccf5f005c71f4e5960850e63995c81f16db142b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 178560,
+              "pcmSha256": "1a474fb2f67cae82ec29cbbb1ded366b584114f5e3b63f82384c9063ac240ff5",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 178560,
+              "pcmSha256": "1a474fb2f67cae82ec29cbbb1ded366b584114f5e3b63f82384c9063ac240ff5",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 178560,
+              "pcmSha256": "62168e10aee9de11c3af6a3569799b1076b8027e4ca9b7aaadb72e960916fed9",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 178560,
+              "pcmSha256": "62168e10aee9de11c3af6a3569799b1076b8027e4ca9b7aaadb72e960916fed9",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-xing-48000",
+          "fixtureSha256": "a1f827005613639b357a8d77e0289481c9ea73750b2c5b7b7c72b2bff84e5fb9",
+          "sampleRate": 48000,
+          "channels": 1,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 192000,
+              "pcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 192000,
+              "pcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 191999,
+              "pcmSha256": "ca181a6d73e53c8b9257ffea61ccb646efd78ca70ff10b78f7886d416065e3e8",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-96001",
+              "samples": 95999,
+              "pcmSha256": "6ff7af0475aff2a6f429651b367c78b0121f4167f3a5cd26a7746f90e4d13fe7",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-191999",
+              "samples": 1,
+              "pcmSha256": "887e57be05642a114ceb4a68cba6ad427712fffadba77c06f07a384036c53d22",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 192000,
+              "pcmSha256": "635231ad704bc743663b7fa9761b4165f0f213567861f9d8a9f5821f4463f132",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 192000,
+              "pcmSha256": "635231ad704bc743663b7fa9761b4165f0f213567861f9d8a9f5821f4463f132",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 193536,
+              "pcmSha256": "5c80b121f00cf33ff6f7e760e3ce631957d1e25714ec17b58f8ba4238fdd658f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 193536,
+              "pcmSha256": "5c80b121f00cf33ff6f7e760e3ce631957d1e25714ec17b58f8ba4238fdd658f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 193536,
+              "pcmSha256": "22a1c01e89420dc85012c7dc704bba09650146f72e473c59d56b6cd915b23bb5",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 193536,
+              "pcmSha256": "22a1c01e89420dc85012c7dc704bba09650146f72e473c59d56b6cd915b23bb5",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-48000",
+          "fixtureSha256": "43e50873a451701bd6edd100da970857bc930c52908a5634130acd1ad4de8a3d",
+          "sampleRate": 48000,
+          "channels": 2,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 192000,
+              "pcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 192000,
+              "pcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 191999,
+              "pcmSha256": "edfb064d1107fa285711446dfeef76cf5141b12b2e2c25330c74e66a2d9bf3d7",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-96001",
+              "samples": 95999,
+              "pcmSha256": "187ebb6afff0d81f0742779e0e589937a2c003f79a0f02b04165ecf1b511788a",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-191999",
+              "samples": 1,
+              "pcmSha256": "38d0774227e4047d238fa6a981a5f83eccc2c5740a4ca7f0fa9dd7f17769a8e7",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 192000,
+              "pcmSha256": "25aebaf8f16a003fcddb2b66bd472e554d753e73557dce9241a370aa3436a822",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 192000,
+              "pcmSha256": "25aebaf8f16a003fcddb2b66bd472e554d753e73557dce9241a370aa3436a822",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 193536,
+              "pcmSha256": "dd5dfde0cca799f144b8243bf254140f5860f03a6543775dbbc6c5989c06fb06",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 193536,
+              "pcmSha256": "dd5dfde0cca799f144b8243bf254140f5860f03a6543775dbbc6c5989c06fb06",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 193536,
+              "pcmSha256": "e8ce8aec7453ae8abf0e2a710958c55e6ea63c843ab3783b77249fd5d87eaa1f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 193536,
+              "pcmSha256": "e8ce8aec7453ae8abf0e2a710958c55e6ea63c843ab3783b77249fd5d87eaa1f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-info-44100",
+          "fixtureSha256": "bfd543d77f4b05cebac71e1a4728c8abbdf652c88b5f294edab60295fa604a0d",
+          "sampleRate": 44100,
+          "channels": 1,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 176400,
+              "pcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 176400,
+              "pcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 176399,
+              "pcmSha256": "751047048f41f8013c7f69e219b78fbcb5652a1351f67c07312db167e09662db",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-88201",
+              "samples": 88199,
+              "pcmSha256": "47218407e1286dfeb335497318b0e2bf48e982aaa44b7949e364c88920f04094",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-176399",
+              "samples": 1,
+              "pcmSha256": "3b0aae5acf0e46bf04f08c692efdb8b313286b4311c982da91a0b7c854c18d43",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 176400,
+              "pcmSha256": "27e8176973a72353ee5ca7ed7491309405b2d3c8896ffd0ea92e0273fb19d9be",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 176400,
+              "pcmSha256": "27e8176973a72353ee5ca7ed7491309405b2d3c8896ffd0ea92e0273fb19d9be",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 178560,
+              "pcmSha256": "eecc6bcaae9c4c4a11b94bff044f4e75d81bddd877624a3e106dde258bb0d33b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 178560,
+              "pcmSha256": "eecc6bcaae9c4c4a11b94bff044f4e75d81bddd877624a3e106dde258bb0d33b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 178560,
+              "pcmSha256": "be258be4c6f8a82ddc9f08849511b826572cbf3a608cad37b46259b5e1380f18",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 178560,
+              "pcmSha256": "be258be4c6f8a82ddc9f08849511b826572cbf3a608cad37b46259b5e1380f18",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-info-44100",
+          "fixtureSha256": "c0aa36883b00b4e1a6edd59ec091f8d879fb320954fd2b2a364aa84558fa3664",
+          "sampleRate": 44100,
+          "channels": 2,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 176400,
+              "pcmSha256": "5f46c84714dc266d55fe7f1765b536adfb3ecb35e06e9556ebd530e9a24c76a3",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 176400,
+              "pcmSha256": "5f46c84714dc266d55fe7f1765b536adfb3ecb35e06e9556ebd530e9a24c76a3",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 176399,
+              "pcmSha256": "bacc9fbf40d4b4093d433174b81f75da90b9e1413c1e178e39a23a60490d9cb7",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-88201",
+              "samples": 88199,
+              "pcmSha256": "801f07c8df273926972f4562d6dba00b666fb9344d18e800ba7fd96e6bb2a56c",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-176399",
+              "samples": 1,
+              "pcmSha256": "305d2feb787611e58d57d1073cd0002ee626550e92dc077a680f26c94a2f57bf",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 176400,
+              "pcmSha256": "901eac5391adf66179c1728041eb5ed4d3d70a9f2338dc7fc6a2285019efd174",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 176400,
+              "pcmSha256": "901eac5391adf66179c1728041eb5ed4d3d70a9f2338dc7fc6a2285019efd174",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 178560,
+              "pcmSha256": "d890e93b0ea2a9c28e46c2f05c523fc3cc3c9b4792e2f747d094bffebe88ae1a",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 178560,
+              "pcmSha256": "d890e93b0ea2a9c28e46c2f05c523fc3cc3c9b4792e2f747d094bffebe88ae1a",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 178560,
+              "pcmSha256": "4eae611304a1db771f9f1ff92b750e2dc7e4d879a2d1c5ac4b1c85ae8649d74b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 178560,
+              "pcmSha256": "4eae611304a1db771f9f1ff92b750e2dc7e4d879a2d1c5ac4b1c85ae8649d74b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-info-48000",
+          "fixtureSha256": "d4019743fe0e74ac4592b6b27a2a505608eb9b1088918855dc2defe9773ecb0e",
+          "sampleRate": 48000,
+          "channels": 1,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 192000,
+              "pcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 192000,
+              "pcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 191999,
+              "pcmSha256": "a2f60fc3a9b2d2b7cc2cf5cf0269ca58361f153a41670380ebe5e93f9d9bf074",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-96001",
+              "samples": 95999,
+              "pcmSha256": "81e10b5365e59c4139bfb5b868685d897f22fcbe8a66586f9a9e9720330cc6c3",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-191999",
+              "samples": 1,
+              "pcmSha256": "45eba9700b583d6682a74893b8a4aeda8d03f717395e5dc6151fb025e56a09fd",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 192000,
+              "pcmSha256": "72a26f5bf9b496d50084c7e9838492a5f3ad6017160228924a58da3b672f261a",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 192000,
+              "pcmSha256": "72a26f5bf9b496d50084c7e9838492a5f3ad6017160228924a58da3b672f261a",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 193536,
+              "pcmSha256": "2dff13d7ef05a22ae796f367a1043f028c38e6cac0b212f88f024224d421dcc7",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 193536,
+              "pcmSha256": "2dff13d7ef05a22ae796f367a1043f028c38e6cac0b212f88f024224d421dcc7",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 193536,
+              "pcmSha256": "911ad50f641dd01976876cdf8e47f34ae06cb57623f96f85e08c96ab0e68c518",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 193536,
+              "pcmSha256": "911ad50f641dd01976876cdf8e47f34ae06cb57623f96f85e08c96ab0e68c518",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-info-48000",
+          "fixtureSha256": "dd9980d4a6f8107f1e3f960904ea8c542da339dacffd64daa0c39bac04872144",
+          "sampleRate": 48000,
+          "channels": 2,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 192000,
+              "pcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 192000,
+              "pcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 191999,
+              "pcmSha256": "ff2d69ce577e5ae5e1c7f5a08525722e47904fe9d5d8eb9b88ae586c011c4f8f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-96001",
+              "samples": 95999,
+              "pcmSha256": "e33d4f76cef61d8d9684994aea9f6b051b1ebc77b0ab7579b6a978922e17f682",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-191999",
+              "samples": 1,
+              "pcmSha256": "87d70d526a023c7cee99ad6bd97ab3e6b6b861e799a441cd637beb14d0d64e61",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 192000,
+              "pcmSha256": "fac70ad08c4538673a4569b4ced107841f636c772a525ca001781e40017c2317",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 192000,
+              "pcmSha256": "fac70ad08c4538673a4569b4ced107841f636c772a525ca001781e40017c2317",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 193536,
+              "pcmSha256": "2a7aae1ce3537d5745091b13971540fb5ad208973947513c75a9f09dd8bbb562",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 193536,
+              "pcmSha256": "2a7aae1ce3537d5745091b13971540fb5ad208973947513c75a9f09dd8bbb562",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 193536,
+              "pcmSha256": "e3c72ff1176922dda10d5fa84e2180b69689049a54232c97c6acdd7f61644b8d",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 193536,
+              "pcmSha256": "e3c72ff1176922dda10d5fa84e2180b69689049a54232c97c6acdd7f61644b8d",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        }
+      ],
+      "platform": "Linux",
+      "realPlayerAdapter": true,
+      "progressiveControllerIntegrated": false,
+      "classicAdapterImplemented": false,
+      "gaplessCapabilityAdvertised": false,
+      "originalFilesModified": false,
+      "scope": "Qt Player PCM adapter only; complete confirmed source, no gapless API/controller"
+    },
+    "windows": {
+      "result": "PASS",
+      "count": 72,
+      "checks": [
+        "audio-mp3-indexed-mono-xing-44100-real-player-native-pcm-exact",
+        "audio-mp3-indexed-mono-xing-44100-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-44100-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-44100-real-player-window-seek-88201-exact",
+        "audio-mp3-indexed-mono-xing-44100-real-player-window-seek-176399-exact",
+        "audio-mp3-indexed-mono-xing-44100-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-mono-xing-44100-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-mono-xing-44100-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-mono-xing-44100-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-stereo-xing-44100-real-player-native-pcm-exact",
+        "audio-mp3-indexed-stereo-xing-44100-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-44100-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-44100-real-player-window-seek-88201-exact",
+        "audio-mp3-indexed-stereo-xing-44100-real-player-window-seek-176399-exact",
+        "audio-mp3-indexed-stereo-xing-44100-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-stereo-xing-44100-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-stereo-xing-44100-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-stereo-xing-44100-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-mono-xing-48000-real-player-native-pcm-exact",
+        "audio-mp3-indexed-mono-xing-48000-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-mono-xing-48000-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-mono-xing-48000-real-player-window-seek-96001-exact",
+        "audio-mp3-indexed-mono-xing-48000-real-player-window-seek-191999-exact",
+        "audio-mp3-indexed-mono-xing-48000-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-mono-xing-48000-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-mono-xing-48000-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-mono-xing-48000-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-stereo-xing-48000-real-player-native-pcm-exact",
+        "audio-mp3-indexed-stereo-xing-48000-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-stereo-xing-48000-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-stereo-xing-48000-real-player-window-seek-96001-exact",
+        "audio-mp3-indexed-stereo-xing-48000-real-player-window-seek-191999-exact",
+        "audio-mp3-indexed-stereo-xing-48000-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-stereo-xing-48000-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-stereo-xing-48000-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-stereo-xing-48000-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-mono-info-44100-real-player-native-pcm-exact",
+        "audio-mp3-indexed-mono-info-44100-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-mono-info-44100-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-mono-info-44100-real-player-window-seek-88201-exact",
+        "audio-mp3-indexed-mono-info-44100-real-player-window-seek-176399-exact",
+        "audio-mp3-indexed-mono-info-44100-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-mono-info-44100-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-mono-info-44100-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-mono-info-44100-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-stereo-info-44100-real-player-native-pcm-exact",
+        "audio-mp3-indexed-stereo-info-44100-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-44100-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-44100-real-player-window-seek-88201-exact",
+        "audio-mp3-indexed-stereo-info-44100-real-player-window-seek-176399-exact",
+        "audio-mp3-indexed-stereo-info-44100-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-stereo-info-44100-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-stereo-info-44100-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-stereo-info-44100-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-mono-info-48000-real-player-native-pcm-exact",
+        "audio-mp3-indexed-mono-info-48000-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-mono-info-48000-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-mono-info-48000-real-player-window-seek-96001-exact",
+        "audio-mp3-indexed-mono-info-48000-real-player-window-seek-191999-exact",
+        "audio-mp3-indexed-mono-info-48000-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-mono-info-48000-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-mono-info-48000-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-mono-info-48000-changed-user-graph-survives-two-replacements",
+        "audio-mp3-indexed-stereo-info-48000-real-player-native-pcm-exact",
+        "audio-mp3-indexed-stereo-info-48000-real-player-window-seek-0-exact",
+        "audio-mp3-indexed-stereo-info-48000-real-player-window-seek-1-exact",
+        "audio-mp3-indexed-stereo-info-48000-real-player-window-seek-96001-exact",
+        "audio-mp3-indexed-stereo-info-48000-real-player-window-seek-191999-exact",
+        "audio-mp3-indexed-stereo-info-48000-user-volume-filter-preserved-before-output-format",
+        "audio-mp3-indexed-stereo-info-48000-two-replacements-clear-trim-and-preserve-managed-filters",
+        "audio-mp3-indexed-stereo-info-48000-stop-and-raw-loadfile-clear-trim",
+        "audio-mp3-indexed-stereo-info-48000-changed-user-graph-survives-two-replacements"
+      ],
+      "profiles": [
+        {
+          "profile": "audio-mp3-indexed-mono-xing-44100",
+          "fixtureSha256": "572c0703729f4a50c740c362ea7b274780e9f4055217f7cec79e7153cfbac650",
+          "sampleRate": 44100,
+          "channels": 1,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 176400,
+              "pcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 176400,
+              "pcmSha256": "35c99fb902bf87505dd492b309ec06567205a23bdad59dfcc658bdb1c166ec28",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 176399,
+              "pcmSha256": "168850ae990026f1d10c73d45d8ed30a8d58f680a45d22bb33235098d2e0a4a0",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-88201",
+              "samples": 88199,
+              "pcmSha256": "ed1eaeb055965f90d770519e1228b904a9b7f26df89f46b0ab3aba4650ab6b5a",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-176399",
+              "samples": 1,
+              "pcmSha256": "47770da867e2b9a59666d59040d97089c93ce0a3a0e0238a22ca7b498b29aede",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 176400,
+              "pcmSha256": "ba5886c3fbdc62dec807d9b24b24b0ad08ec210e76464afc569634adf6322bd9",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 176400,
+              "pcmSha256": "ba5886c3fbdc62dec807d9b24b24b0ad08ec210e76464afc569634adf6322bd9",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 178560,
+              "pcmSha256": "f923d30827446721e48b6bac620bdf12999a71c67b5760c76f2fb871f1ba6945",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 178560,
+              "pcmSha256": "f923d30827446721e48b6bac620bdf12999a71c67b5760c76f2fb871f1ba6945",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 178560,
+              "pcmSha256": "cbe1b6e7b43cfec443f67acb332bc5592a9e8a171c544c7fcdb43077b0702a99",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 178560,
+              "pcmSha256": "cbe1b6e7b43cfec443f67acb332bc5592a9e8a171c544c7fcdb43077b0702a99",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-44100",
+          "fixtureSha256": "9c9922c874187e112cbe5828ae34dbd2527bead877d0bca1d93afa8e363776b2",
+          "sampleRate": 44100,
+          "channels": 2,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 176400,
+              "pcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 176400,
+              "pcmSha256": "e693700a945514c464efbf0be00036d47693cef7e4646ebe0373460165356a10",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 176399,
+              "pcmSha256": "f11a5b5004ba7f00e063532958049a68cdac2c34997fcbe41b595c748011e01c",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-88201",
+              "samples": 88199,
+              "pcmSha256": "b2bb7963fe32843bd4b7c9e6dfb2cfabfadfba1193b9948c9967f57d21260f5d",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-176399",
+              "samples": 1,
+              "pcmSha256": "f0a6b0943a9bd435633aeada915c2b136cfc8554c76af4ff463acabbf01a0743",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 176400,
+              "pcmSha256": "a9f0a43a23ee35661e22ba5cdccf5f005c71f4e5960850e63995c81f16db142b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 176400,
+              "pcmSha256": "a9f0a43a23ee35661e22ba5cdccf5f005c71f4e5960850e63995c81f16db142b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 178560,
+              "pcmSha256": "1a474fb2f67cae82ec29cbbb1ded366b584114f5e3b63f82384c9063ac240ff5",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 178560,
+              "pcmSha256": "1a474fb2f67cae82ec29cbbb1ded366b584114f5e3b63f82384c9063ac240ff5",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 178560,
+              "pcmSha256": "62168e10aee9de11c3af6a3569799b1076b8027e4ca9b7aaadb72e960916fed9",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 178560,
+              "pcmSha256": "62168e10aee9de11c3af6a3569799b1076b8027e4ca9b7aaadb72e960916fed9",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-xing-48000",
+          "fixtureSha256": "1a84e6ec42cac312b2822421d9b8ac3984f2f4dbf92b2862f5b7e2edccbf3d22",
+          "sampleRate": 48000,
+          "channels": 1,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 192000,
+              "pcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 192000,
+              "pcmSha256": "06bcb708ab4880dd5f2be3a6ceb0bda3f9fad1fc077590572b16795fa8d88e88",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 191999,
+              "pcmSha256": "ca181a6d73e53c8b9257ffea61ccb646efd78ca70ff10b78f7886d416065e3e8",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-96001",
+              "samples": 95999,
+              "pcmSha256": "6ff7af0475aff2a6f429651b367c78b0121f4167f3a5cd26a7746f90e4d13fe7",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-191999",
+              "samples": 1,
+              "pcmSha256": "887e57be05642a114ceb4a68cba6ad427712fffadba77c06f07a384036c53d22",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 192000,
+              "pcmSha256": "635231ad704bc743663b7fa9761b4165f0f213567861f9d8a9f5821f4463f132",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 192000,
+              "pcmSha256": "635231ad704bc743663b7fa9761b4165f0f213567861f9d8a9f5821f4463f132",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 193536,
+              "pcmSha256": "5c80b121f00cf33ff6f7e760e3ce631957d1e25714ec17b58f8ba4238fdd658f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 193536,
+              "pcmSha256": "5c80b121f00cf33ff6f7e760e3ce631957d1e25714ec17b58f8ba4238fdd658f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 193536,
+              "pcmSha256": "22a1c01e89420dc85012c7dc704bba09650146f72e473c59d56b6cd915b23bb5",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 193536,
+              "pcmSha256": "22a1c01e89420dc85012c7dc704bba09650146f72e473c59d56b6cd915b23bb5",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-48000",
+          "fixtureSha256": "aac635f07f0b3c0ff96c4239d324db1b5f86995a881971ec74351942440633ae",
+          "sampleRate": 48000,
+          "channels": 2,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 192000,
+              "pcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 192000,
+              "pcmSha256": "78354e4bb9731a292a8661698824e011d08199d7031b4d3bf5252274f859f66f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 191999,
+              "pcmSha256": "edfb064d1107fa285711446dfeef76cf5141b12b2e2c25330c74e66a2d9bf3d7",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-96001",
+              "samples": 95999,
+              "pcmSha256": "187ebb6afff0d81f0742779e0e589937a2c003f79a0f02b04165ecf1b511788a",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-191999",
+              "samples": 1,
+              "pcmSha256": "38d0774227e4047d238fa6a981a5f83eccc2c5740a4ca7f0fa9dd7f17769a8e7",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 192000,
+              "pcmSha256": "25aebaf8f16a003fcddb2b66bd472e554d753e73557dce9241a370aa3436a822",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 192000,
+              "pcmSha256": "25aebaf8f16a003fcddb2b66bd472e554d753e73557dce9241a370aa3436a822",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 193536,
+              "pcmSha256": "dd5dfde0cca799f144b8243bf254140f5860f03a6543775dbbc6c5989c06fb06",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 193536,
+              "pcmSha256": "dd5dfde0cca799f144b8243bf254140f5860f03a6543775dbbc6c5989c06fb06",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 193536,
+              "pcmSha256": "e8ce8aec7453ae8abf0e2a710958c55e6ea63c843ab3783b77249fd5d87eaa1f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 193536,
+              "pcmSha256": "e8ce8aec7453ae8abf0e2a710958c55e6ea63c843ab3783b77249fd5d87eaa1f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-info-44100",
+          "fixtureSha256": "17da7c6e4954dcfa9ff2286967fe3e52e61edf2f73d81a76973504eef5277ed9",
+          "sampleRate": 44100,
+          "channels": 1,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 176400,
+              "pcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 176400,
+              "pcmSha256": "cf776355be15c8335461fca74c43661eb758ec633ea58bfc357be4ef30f6fc8b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 176399,
+              "pcmSha256": "751047048f41f8013c7f69e219b78fbcb5652a1351f67c07312db167e09662db",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-88201",
+              "samples": 88199,
+              "pcmSha256": "47218407e1286dfeb335497318b0e2bf48e982aaa44b7949e364c88920f04094",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-176399",
+              "samples": 1,
+              "pcmSha256": "3b0aae5acf0e46bf04f08c692efdb8b313286b4311c982da91a0b7c854c18d43",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 176400,
+              "pcmSha256": "27e8176973a72353ee5ca7ed7491309405b2d3c8896ffd0ea92e0273fb19d9be",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 176400,
+              "pcmSha256": "27e8176973a72353ee5ca7ed7491309405b2d3c8896ffd0ea92e0273fb19d9be",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 178560,
+              "pcmSha256": "eecc6bcaae9c4c4a11b94bff044f4e75d81bddd877624a3e106dde258bb0d33b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 178560,
+              "pcmSha256": "eecc6bcaae9c4c4a11b94bff044f4e75d81bddd877624a3e106dde258bb0d33b",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 178560,
+              "pcmSha256": "be258be4c6f8a82ddc9f08849511b826572cbf3a608cad37b46259b5e1380f18",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 178560,
+              "pcmSha256": "be258be4c6f8a82ddc9f08849511b826572cbf3a608cad37b46259b5e1380f18",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-info-44100",
+          "fixtureSha256": "15fc1cf9bc9317b14f78c47d48e8e365f2b011833fe2aadccb1fa52135208b2f",
+          "sampleRate": 44100,
+          "channels": 2,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 176400,
+              "pcmSha256": "53cba149dff5c23081b170340054ace0bb6c631683fcfc0d66991c637ec9668c",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 176400,
+              "pcmSha256": "53cba149dff5c23081b170340054ace0bb6c631683fcfc0d66991c637ec9668c",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 176399,
+              "pcmSha256": "913973d8ba753769feaff4837ec0ff3d75b7c92a17a940ccdf45049de143e5ca",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-88201",
+              "samples": 88199,
+              "pcmSha256": "7ae575cf89b3179960253440fe88c5d896c331aeffaf715cced2714c597e2453",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-176399",
+              "samples": 1,
+              "pcmSha256": "305d2feb787611e58d57d1073cd0002ee626550e92dc077a680f26c94a2f57bf",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 176400,
+              "pcmSha256": "36c4859d508bede3d20c5edcf4a57f027eac7965a7a0d14cc225c4ff757c8652",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 176400,
+              "pcmSha256": "36c4859d508bede3d20c5edcf4a57f027eac7965a7a0d14cc225c4ff757c8652",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 178560,
+              "pcmSha256": "184065e97e3071039a61af581232491ca5ce6e9934cd453f0dcaed96cbc75ba8",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 178560,
+              "pcmSha256": "184065e97e3071039a61af581232491ca5ce6e9934cd453f0dcaed96cbc75ba8",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 178560,
+              "pcmSha256": "2ffde2b25c675a76e63dd41bc2f8dc34a84321dae68dacc5ed76dd2d57978dea",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 178560,
+              "pcmSha256": "2ffde2b25c675a76e63dd41bc2f8dc34a84321dae68dacc5ed76dd2d57978dea",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-info-48000",
+          "fixtureSha256": "3d8612a33deabfd84f2816bcf2e97561c811e032b2947774db7b7e2eefbc9260",
+          "sampleRate": 48000,
+          "channels": 1,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 192000,
+              "pcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 192000,
+              "pcmSha256": "0665658f0eff09b52335114c7aae8f6e5dbaa8522915890b46208245c4415714",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 191999,
+              "pcmSha256": "a2f60fc3a9b2d2b7cc2cf5cf0269ca58361f153a41670380ebe5e93f9d9bf074",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-96001",
+              "samples": 95999,
+              "pcmSha256": "81e10b5365e59c4139bfb5b868685d897f22fcbe8a66586f9a9e9720330cc6c3",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-191999",
+              "samples": 1,
+              "pcmSha256": "45eba9700b583d6682a74893b8a4aeda8d03f717395e5dc6151fb025e56a09fd",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 192000,
+              "pcmSha256": "72a26f5bf9b496d50084c7e9838492a5f3ad6017160228924a58da3b672f261a",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 192000,
+              "pcmSha256": "72a26f5bf9b496d50084c7e9838492a5f3ad6017160228924a58da3b672f261a",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 193536,
+              "pcmSha256": "2dff13d7ef05a22ae796f367a1043f028c38e6cac0b212f88f024224d421dcc7",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 193536,
+              "pcmSha256": "2dff13d7ef05a22ae796f367a1043f028c38e6cac0b212f88f024224d421dcc7",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 193536,
+              "pcmSha256": "911ad50f641dd01976876cdf8e47f34ae06cb57623f96f85e08c96ab0e68c518",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 193536,
+              "pcmSha256": "911ad50f641dd01976876cdf8e47f34ae06cb57623f96f85e08c96ab0e68c518",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-info-48000",
+          "fixtureSha256": "a5c755750b71df40389dd78b479b187ef3dc7c0a446b41873f0884830947f5af",
+          "sampleRate": 48000,
+          "channels": 2,
+          "captures": [
+            {
+              "scenario": "native",
+              "samples": 192000,
+              "pcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-0",
+              "samples": 192000,
+              "pcmSha256": "2e808b1ea2c8ae8171408e2a3aa9352744a605eb13eb585179b412539e5dfb20",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-1",
+              "samples": 191999,
+              "pcmSha256": "ff2d69ce577e5ae5e1c7f5a08525722e47904fe9d5d8eb9b88ae586c011c4f8f",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-96001",
+              "samples": 95999,
+              "pcmSha256": "e33d4f76cef61d8d9684994aea9f6b051b1ebc77b0ab7579b6a978922e17f682",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "window-191999",
+              "samples": 1,
+              "pcmSha256": "87d70d526a023c7cee99ad6bd97ab3e6b6b861e799a441cd637beb14d0d64e61",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "native-gain",
+              "samples": 192000,
+              "pcmSha256": "fac70ad08c4538673a4569b4ced107841f636c772a525ca001781e40017c2317",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "trimmed-gain",
+              "samples": 192000,
+              "pcmSha256": "fac70ad08c4538673a4569b4ced107841f636c772a525ca001781e40017c2317",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replacement",
+              "samples": 193536,
+              "pcmSha256": "2a7aae1ce3537d5745091b13971540fb5ad208973947513c75a9f09dd8bbb562",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "stop-replace",
+              "samples": 193536,
+              "pcmSha256": "2a7aae1ce3537d5745091b13971540fb5ad208973947513c75a9f09dd8bbb562",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "coded-gain",
+              "samples": 193536,
+              "pcmSha256": "e3c72ff1176922dda10d5fa84e2180b69689049a54232c97c6acdd7f61644b8d",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            },
+            {
+              "scenario": "replace-gain",
+              "samples": 193536,
+              "pcmSha256": "e3c72ff1176922dda10d5fa84e2180b69689049a54232c97c6acdd7f61644b8d",
+              "player": {
+                "audioDeviceOpened": false,
+                "captures": [
+                  {
+                    "filterLabels": [
+                      "foxicmp-pcm-window",
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 0,
+                    "trimmed": true
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 1,
+                    "trimmed": false
+                  },
+                  {
+                    "filterLabels": [
+                      "foxicmp-audio",
+                      "foxicmp-audio-format"
+                    ],
+                    "pass": 2,
+                    "trimmed": false
+                  }
+                ],
+                "result": "PASS"
+              }
+            }
+          ]
+        }
+      ],
+      "platform": "Windows",
+      "realPlayerAdapter": true,
+      "progressiveControllerIntegrated": false,
+      "classicAdapterImplemented": false,
+      "gaplessCapabilityAdvertised": false,
+      "originalFilesModified": false,
+      "scope": "Qt Player PCM adapter only; complete confirmed source, no gapless API/controller"
+    }
+  },
+  "nativeSubprocessExitCodes": {
+    "pcm-adapter-linux-build": 0,
+    "pcm-adapter-linux-final-build": 0,
+    "pcm-adapter-linux-tests": 0,
+    "pcm-adapter-linux-final-tests": 0,
+    "pcm-adapter-linux-isolated-transport": 0,
+    "pcm-adapter-windows-build": 0,
+    "pcm-adapter-windows-tests": 0,
+    "pcm-adapter-linux-install": 0
+  },
+  "regression": {
+    "progressiveRuntime": {
+      "linux": [
+        {
+          "profile": "audio-mp3-indexed-mono-xing-44100",
+          "kind": "audio",
+          "initialLengthKnown": false,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 1,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-44100",
+          "kind": "audio",
+          "initialLengthKnown": true,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 2,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-xing-48000",
+          "kind": "audio",
+          "initialLengthKnown": false,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 1,
+          "audioRate": 48000,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-48000",
+          "kind": "audio",
+          "initialLengthKnown": true,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 2,
+          "audioRate": 48000,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-mono-cbr-44100",
+          "kind": "audio",
+          "initialLengthKnown": false,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 1,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-mono-vbr-44100",
+          "kind": "audio",
+          "initialLengthKnown": false,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 1,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-stereo-cbr-44100",
+          "kind": "audio",
+          "initialLengthKnown": true,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 2,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-stereo-vbr-44100",
+          "kind": "audio",
+          "initialLengthKnown": true,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 2,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        }
+      ],
+      "windows": [
+        {
+          "profile": "audio-mp3-indexed-mono-xing-44100",
+          "kind": "audio",
+          "initialLengthKnown": false,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 1,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-44100",
+          "kind": "audio",
+          "initialLengthKnown": true,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 2,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-mono-xing-48000",
+          "kind": "audio",
+          "initialLengthKnown": false,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 1,
+          "audioRate": 48000,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-indexed-stereo-xing-48000",
+          "kind": "audio",
+          "initialLengthKnown": true,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 2,
+          "audioRate": 48000,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-mono-cbr-44100",
+          "kind": "audio",
+          "initialLengthKnown": false,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 1,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-mono-vbr-44100",
+          "kind": "audio",
+          "initialLengthKnown": false,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 1,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-stereo-cbr-44100",
+          "kind": "audio",
+          "initialLengthKnown": true,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 2,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        },
+        {
+          "profile": "audio-mp3-stereo-vbr-44100",
+          "kind": "audio",
+          "initialLengthKnown": true,
+          "result": "PASS",
+          "readerIdentityPreserved": true,
+          "originalUnchanged": true,
+          "singleTrack": true,
+          "audioChannels": 2,
+          "audioRate": 44100,
+          "phases": [
+            "four-seconds-buffers",
+            "plays-without-second-track",
+            "pause",
+            "seek-while-paused",
+            "resume",
+            "tail-waits-not-eof",
+            "seek-published-tail",
+            "natural-eof-and-release"
+          ]
+        }
+      ]
+    },
+    "linuxAudioProcessingQtTestRows": 11
+  },
+  "transport": {
+    "linuxToolSessionFinalExitCodes": [
+      143,
+      143
+    ],
+    "capturedLinuxWrapperReturnCodes": [
+      0,
+      0
+    ],
+    "windowsSshFinalExitCode": 0,
+    "note": "Both Linux test wrappers returned 0 and persisted successful CTest results before the orchestration tool reported session exit 143. Kept separately; 143 is not represented as zero. The isolated-session repeat passed the same 72 adapter checks. The final full three-group Linux run returned 0 both from the native wrapper and the orchestration session.",
+    "isolatedRepeatBeforeFinalQueueFix": true,
+    "finalLinuxFullRunToolSessionExitCode": 0,
+    "finalLinuxFullRunSubprocessExitCode": 0
+  },
+  "linuxInstallation": {
+    "version": "FoxicMPQt 0.2.0",
+    "installedSha256": "54b02f06c5216933207bb4bb40ac5cc2d71be4d55841040a4a4734c4fb747b5f",
+    "previousInstalledSha256": "daf8fa221992fe72e769633ca0bd42ae02abc995ac3f5ff8d37e06a18e87b5c0",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-pcm-adapter-20261101T173830Z",
+    "profileSha256Before": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+    "profileSha256After": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+    "profileUnchanged": true,
+    "protectedFilesVerified": 229,
+    "workerUnchanged": true,
+    "integrationFilesPreserved": true,
+    "viewerInterrupted": false,
+    "runningInstalledProcessesBefore": 0,
+    "capabilitiesUnchanged": true,
+    "excludedProfileSpecificCapabilityFields": [
+      "profile",
+      "endpoint"
+    ],
+    "windowsInstalledFilesUnchanged": true
+  },
+  "windowsInstalledFilesUnchanged": true,
+  "classicSourceChanged": false,
+  "classicOutputMeasured": false,
+  "harvesterModified": false,
+  "publicGaplessCapabilityAdvertised": false,
+  "progressiveGaplessControllerIntegrated": false,
+  "sourceFilesSha256": {
+    "qt/src/player.h": "9a03bf1ab7cf4b147419417830ad9dd3a0c90f26c343308e8fdaef4ac613d3b1",
+    "qt/src/player.cpp": "bf86d36ee159b936ab3f2c52bb4a38560dfe9ad040db28817c149b6146538e8e",
+    "qt/CMakeLists.txt": "7499f55beb2ce87feab121f0b098b1cc6933419796eaf86d8aef7b65a23fba97",
+    "qt/tests/player_pcm_probe.cpp": "d47dadea226dc6d6d70c1ae545e6a491b93aeb76d218eb6b6f47286e05dfdba9",
+    "tests/progressive_mp3_qt_pcm_adapter.py": "a4af35d65e2b856228d2069fd4b9751b47f7ee99477192b51438e8ea1eba0487"
+  },
+  "binarySha256": {
+    "linuxPlayer": "54b02f06c5216933207bb4bb40ac5cc2d71be4d55841040a4a4734c4fb747b5f",
+    "windowsPlayer": "63305d7576a570618f99179cb84911d1ae687a7db90d311d35ac217e22b21fa5",
+    "linuxPcmProbe": "0ad99b7fd096cf145c633fe0d8d96e0f2574219bcfdae977d1674e54db76a735",
+    "windowsPcmProbe": "fb9514fa8460b33e088483ec1930e66db0c70484f1337e876e7654d6fa650373"
+  },
+  "privateLogSha256": {
+    "pcm-adapter-linux-final-tests": "c508b0bb9bb96cce4fff3ceb1dd25fcf5f2d9ab2d08687184492487594da73bc",
+    "pcm-adapter-windows-tests": "beb41bb9c79c200ee6c6875ddcb4cf4011015aaddb79a21c8a1a15b8d098847e",
+    "pcm-adapter-linux-isolated-transport": "74150e8b0cc0896e17e57546020edf72d8bfbe154e990ad67439305943985dc2"
+  },
+  "limits": [
+    "Internal Qt Player PCM adapter on complete confirmed projections; no public gapless progressive contract/controller yet",
+    "Caller supplies validated absolute sample bounds; no LAME tag CRC check or inferred MP3 delay in this adapter",
+    "Actual Qt PCM file output tested at source rate with anull/volume=0.5; expanded resampler/complex-graph matrix remains open",
+    "Classic DirectShow PCM output adapter and independent output capture remain open",
+    "No physical audio/hardware or Wayland acceptance; Harvester unchanged"
+  ],
+  "finalQueueFixIncluded": true
+}

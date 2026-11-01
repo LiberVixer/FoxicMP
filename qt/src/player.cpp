@@ -14,6 +14,12 @@
 #include <cmath>
 #include <stdexcept>
 
+static QString pcmWindowGraph(const AudioPcmWindow &window) {
+  return "asettb=1/" + QString::number(window.sampleRate) +
+         ",atrim=start_pts=" + QString::number(window.begin) +
+         ":end_pts=" + QString::number(window.end);
+}
+
 static QVariant nodeValue(const mpv_node &n) {
   switch (n.format) {
   case MPV_FORMAT_STRING:
@@ -137,12 +143,14 @@ void Player::rendererReady() {
   if (!pendingLoad.isEmpty()) {
     auto args = pendingLoad;
     auto options = pendingOptions;
+    const auto window = pendingPcmWindow;
     pendingLoad.clear();
     pendingOptions.clear();
-    if (options.isEmpty())
+    pendingPcmWindow = {};
+    if (options.isEmpty() && !window.enabled() && !pcmWindowUsed)
       command(args);
     else
-      loadSource(args[1], options);
+      loadSourceImpl(args[1], options, window);
   }
 }
 QString Player::outputName() const { return surface ? "OpenGL" : "Software"; }
@@ -428,12 +436,21 @@ void Player::drainEvents() {
   }
 }
 bool Player::command(const QStringList &arguments, quint64 requestId) {
+  if (pcmWindowUsed && !arguments.isEmpty() && arguments.first() == "loadfile") {
+    if (requestId || arguments.size() < 2 || arguments.size() > 3 ||
+        (arguments.size() == 3 && arguments[2] != "replace")) {
+      emit error(QStringLiteral("PCM window replacement requires loadSource"));
+      return false;
+    }
+    return loadSource(arguments[1], {});
+  }
   if (!arguments.isEmpty() &&
       (arguments.first() == "stop" || arguments.first() == "loadfile"))
     cancelExternalTracks();
   if (!arguments.isEmpty() && arguments.first() == "stop") {
     pendingLoad.clear();
     pendingOptions.clear();
+    pendingPcmWindow = activePcmWindow = {};
     stdinStream->clear();
     preparedStreams->clear();
   }
@@ -508,12 +525,52 @@ void Player::progressiveSource(
 }
 bool Player::loadSource(const QString &url,
                         const QMap<QString, QString> &options) {
+  return loadSourceImpl(url, options, {});
+}
+bool Player::loadPcmWindowSource(const QString &url,
+                                const QMap<QString, QString> &options,
+                                const AudioPcmWindow &window) {
+  if (!window.valid() || !managedAudioConfigured) return false;
+  for (auto it = options.cbegin(); it != options.cend(); ++it)
+    if (it.key() == "af" || it.key().startsWith("af-")) return false;
+  return loadSourceImpl(url, options, window);
+}
+QString Player::audioFilterOptions(const AudioPcmWindow &window) const {
+  const auto quoted = [](const QString &text) {
+    return "%" + QString::number(text.toUtf8().size()) + "%" + text;
+  };
+  QStringList filters;
+  if (window.enabled())
+    filters << "@foxicmp-pcm-window:lavfi=graph=" + quoted(pcmWindowGraph(window));
+  if (!managedAudioGraph.isEmpty())
+    filters << "@foxicmp-audio:lavfi=graph=" + quoted(managedAudioGraph);
+  QStringList format;
+  if (!managedAudioFormat.isEmpty()) format << "format=" + quoted(managedAudioFormat);
+  if (managedAudioRate > 0) format << "srate=" + QString::number(managedAudioRate);
+  if (!format.isEmpty()) filters << "@foxicmp-audio-format:format=" + format.join(':');
+  return filters.join(',');
+}
+bool Player::loadSourceImpl(const QString &url,
+                            const QMap<QString, QString> &requestedOptions,
+                            const AudioPcmWindow &window) {
+  auto options = requestedOptions;
+  const auto previousWindow = activePcmWindow;
+  const bool previousWindowUsed = pcmWindowUsed;
+  // loadfile's per-file option is restored by mpv on replacement. Rebuild
+  // from the latest managed user graph, including changes made during a clip,
+  // rather than inheriting an earlier per-file backup or a previous trim.
+  if (window.enabled() || pcmWindowUsed) {
+    if (!options.contains("af")) options["af"] = audioFilterOptions(window);
+    pcmWindowUsed = true;
+  }
+  activePcmWindow = window;
   cancelExternalTracks();
   stdinStream->replacing(url);
   preparedStreams->replacing(url.toStdString());
   if (!renderer) {
     pendingLoad = {"loadfile", url};
-    pendingOptions = options;
+    pendingOptions = requestedOptions;
+    pendingPcmWindow = window;
     return true;
   }
   // Named arguments avoid loadfile's positional-argument change in mpv 0.38.
@@ -550,8 +607,11 @@ bool Player::loadSource(const QString &url,
   root.format = MPV_FORMAT_NODE_MAP;
   root.u.list = &arguments;
   const int result = mpv_command_node_async(handle, 0, &root);
-  if (result < 0)
+  if (result < 0) {
+    activePcmWindow = previousWindow;
+    pcmWindowUsed = previousWindowUsed;
     emit error(QString::fromUtf8(mpv_error_string(result)));
+  }
   return result >= 0;
 }
 bool Player::set(const char *name, const QVariant &value) {
@@ -626,8 +686,22 @@ bool Player::setAudioGraph(const QString &graph, const QString &format,
   mpv_node formatNode{};
   formatNode.format = MPV_FORMAT_NODE_MAP;
   formatNode.u.list = &formatFilter;
-  mpv_node filters[2]{};
+  auto windowBytes = pcmWindowGraph(activePcmWindow).toUtf8();
+  char windowLabel[] = "foxicmp-pcm-window";
+  mpv_node windowText{};
+  windowText.format = MPV_FORMAT_STRING;
+  windowText.u.string = windowBytes.data();
+  mpv_node_list windowParams{1, &windowText, paramKeys};
+  mpv_node windowFields[3]{fields[0], fields[1], fields[2]};
+  windowFields[1].u.string = windowLabel;
+  windowFields[2].u.list = &windowParams;
+  mpv_node_list windowFilter{3, windowFields, keys};
+  mpv_node windowNode{};
+  windowNode.format = MPV_FORMAT_NODE_MAP;
+  windowNode.u.list = &windowFilter;
+  mpv_node filters[3]{};
   int count = 0;
+  if (activePcmWindow.enabled()) filters[count++] = windowNode;
   if (!graph.isEmpty())
     filters[count++] = item;
   if (formatParams.num)
@@ -639,6 +713,12 @@ bool Player::setAudioGraph(const QString &graph, const QString &format,
   const auto result = mpv_set_property(handle, "af", MPV_FORMAT_NODE, &root);
   if (result < 0)
     emit error(QString("af: %1").arg(mpv_error_string(result)));
+  else {
+    managedAudioConfigured = true;
+    managedAudioGraph = graph;
+    managedAudioFormat = format;
+    managedAudioRate = sampleRate;
+  }
   return result >= 0;
 }
 bool Player::setList(const char *name, const QStringList &values) {

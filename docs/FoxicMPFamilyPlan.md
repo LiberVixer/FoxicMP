@@ -494,3 +494,9 @@ VBRI corpus и прочие пункты чеклиста открыты; Harves
 По 128 проверок Linux/Windows, включая цифровой libmpv output и точный
 `atrim`/seek. Это тестовый стенд, без изменения API/воспроизведения SDK 1.66;
 подключение к Qt progressive controller и Classic PCM adapter открыто.
+
+Реализован [внутренний Qt PCM adapter](ProgressiveQtPcmWindow.md): по 72
+проверки настоящего `Player` Linux/Windows, пользовательская обработка,
+точный trim/seek и очистка на stop/replacement. Следуют привязка audible
+времени в progressive controller и независимый Classic PCM/output adapter.
+Публичный gapless пока не объявляется, API/SDK 1.66 сохраняется.

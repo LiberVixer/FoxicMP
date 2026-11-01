@@ -334,3 +334,8 @@ Gapless PCM reference: [стенд](ProgressiveMp3GaplessReference.md), по 128
 offline checks Linux/Windows. libmpv PCM output с `atrim`/seek проверен;
 фактические progressive Qt adapters и Classic DirectShow output ещё открыты.
 Production playback/API/SDK 1.66 этим тестовым этапом не меняются.
+
+[Внутренний Qt PCM adapter](ProgressiveQtPcmWindow.md) реализован в общем
+`Player` Windows/Linux: по 72 проверки exact PCM, user filters, stop/reload.
+Progressive controller и Classic PCM/output adapter остаются открытыми;
+полная gapless-функция не объявлена в capabilities SDK 1.66.
