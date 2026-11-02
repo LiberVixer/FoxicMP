@@ -191,6 +191,7 @@ bool CHarvesterSession::AllowsVp9Fragments() const {return m_v2Bridge && m_v2Bri
 bool CHarvesterSession::AllowsOpusFragments(int track) const {return m_v2Bridge && m_v2Bridge->audioCodec(track)=="opus";}
 bool CHarvesterSession::AllowsEac3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="eac3";}
 bool CHarvesterSession::AllowsAc3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="ac3";}
+bool CHarvesterSession::AllowsPcm24Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="pcm-s24le";}
 bool CHarvesterSession::AllowsPcmFragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="pcm-s16le";}
 bool CHarvesterSession::AllowsFlacFragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="flac";}
 bool CHarvesterSession::AllowsMp3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="mp3";}
@@ -495,7 +496,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
         };
         if(OptionalAudioFailed(track))continue;
         try {
-        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track),AllowsPcmFragments(track),AllowsAc3Fragments(track),AllowsEac3Fragments(track));
+        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track),AllowsPcmFragments(track),AllowsAc3Fragments(track),AllowsEac3Fragments(track),AllowsPcm24Fragments(track));
         } catch(const std::exception& error) {if(!m_v2Bridge || state.required)throw;m_v2Bridge->rejectOptionalIndex(track,error.what());continue;}
         result[track]=std::move(next);
     }

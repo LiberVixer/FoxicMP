@@ -64,6 +64,7 @@ public:
     bool AllowsVp9Fragments() const;
     bool AllowsOpusFragments(int track=1) const;
     bool AllowsFlacFragments(int track=1) const;
+    bool AllowsPcm24Fragments(int track=1) const;
     bool AllowsPcmFragments(int track=1) const;
     bool AllowsAc3Fragments(int track=1) const;
     bool AllowsEac3Fragments(int track=1) const;

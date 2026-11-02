@@ -87,6 +87,19 @@ class V2SdkTest(unittest.TestCase):
         cap['mode']='unverified';client.calls.clear()
         with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
         self.assertFalse(client.calls)
+    def test_wav24_requires_explicit_capability_and_pcm24_track(self):
+        client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='pcm-s24le',containerHint='wav-pcm24',source=dict(resourceId='media'))
+        value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]
+        cap=dict(version=1,mode='standalone-wav-pcm24-v1',profiles=['standalone-wav-pcm24'])
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=dict(wavPcm24=cap)))
+        V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
+        for field,bad in [('codecHint','pcm-s16le'),('kind','video')]:
+            other=copy.deepcopy(value);other['tracks'][0][field]=bad;client.calls.clear()
+            with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(other)
+            self.assertFalse(client.calls)
+        cap['mode']='unverified';client.calls.clear()
+        with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls)
     def test_wav_requires_explicit_capability_and_pcm16_track(self):
         client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='pcm-s16le',containerHint='wav',source=dict(resourceId='media'))
         value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]

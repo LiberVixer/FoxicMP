@@ -39,7 +39,7 @@ inline size_t AudioSeekSample(const std::vector<Sample>& samples,int64_t positio
 class FragmentIndex {
     uint64_t position=0;uint32_t id=0,scale=0,defaultDuration=0,defaultSize=0,defaultFlags=0;
     int64_t edit=0,lastDecode=INT64_MIN, origin=0;
-    bool initialized=false,first=true,hevcEnabled=false,av1Enabled=false,vp9Enabled=false,opusEnabled=false,flacEnabled=false,pcmEnabled=false,ac3Enabled=false,eac3Enabled=false;
+    bool initialized=false,first=true,hevcEnabled=false,av1Enabled=false,vp9Enabled=false,opusEnabled=false,flacEnabled=false,pcmEnabled=false,ac3Enabled=false,eac3Enabled=false,pcm24Enabled=false;
     int kind=0;
     uint64_t scannedPrefix=0;
     std::vector<Sample> samples;
@@ -49,10 +49,10 @@ public:
     uint64_t Position() const {return webmIndex?webmIndex->Position():position;}
     const std::vector<Sample>& Samples() const {return webmIndex?webmIndex->Samples():samples;}
     bool Initialized() const {return webmIndex?webmIndex->Initialized():initialized;}
-    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false,bool allowWebm=false,bool allowFlac=false,bool allowPcm=false,bool allowAc3=false,bool allowEac3=false) {
+    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false,bool allowWebm=false,bool allowFlac=false,bool allowPcm=false,bool allowAc3=false,bool allowEac3=false,bool allowPcm24=false) {
         if(allowWebm){auto next=webmIndex?std::make_shared<WebMIndex>(*webmIndex):std::make_shared<WebMIndex>();next->Update(read,prefix,trackKind,complete,timestampOffset);webmIndex=std::move(next);return;}
         if(webmIndex)throw std::runtime_error("Progressive container changed");
-        hevcEnabled=allowHevc;av1Enabled=allowAv1;vp9Enabled=allowVp9;opusEnabled=allowOpus;flacEnabled=allowFlac;pcmEnabled=allowPcm;ac3Enabled=allowAc3;eac3Enabled=allowEac3;
+        hevcEnabled=allowHevc;av1Enabled=allowAv1;vp9Enabled=allowVp9;opusEnabled=allowOpus;flacEnabled=allowFlac;pcmEnabled=allowPcm;ac3Enabled=allowAc3;eac3Enabled=allowEac3;pcm24Enabled=allowPcm24;
         if(prefix<scannedPrefix)throw std::runtime_error("Fragment prefix regressed");
         scannedPrefix=prefix;kind=trackKind;origin=timestampOffset;
         auto header=[&](uint64_t at,uint64_t& n,uint32_t& type,size_t& h) {
@@ -100,7 +100,7 @@ private:
         const auto entries=stsd.Slice(8,stsd.size-8).Children();
         if(entries.size()!=1)throw std::runtime_error("Expected one fragment sample entry");
         const auto entry=entries.front().first;
-        if(kind?(entry!=FourCC("mp4a") && !(opusEnabled && entry==FourCC("Opus")) && !(flacEnabled && entry==FourCC("fLaC")) && !(pcmEnabled && entry==FourCC("sowt")) && !(ac3Enabled && entry==FourCC("ac-3")) && !(eac3Enabled && entry==FourCC("ec-3"))):
+        if(kind?(entry!=FourCC("mp4a") && !(opusEnabled && entry==FourCC("Opus")) && !(flacEnabled && entry==FourCC("fLaC")) && !(pcmEnabled && entry==FourCC("sowt")) && !(pcm24Enabled && entry==FourCC("in24")) && !(ac3Enabled && entry==FourCC("ac-3")) && !(eac3Enabled && entry==FourCC("ec-3"))):
                 (entry!=FourCC("avc1") && !(hevcEnabled && (entry==FourCC("hvc1") || entry==FourCC("hev1")))
                  && !(av1Enabled && entry==FourCC("av01")) && !(vp9Enabled && entry==FourCC("vp09"))))
             throw std::runtime_error("Unsupported fragment sample entry");
@@ -116,6 +116,13 @@ private:
             const auto bits=(uint32_t(cfg.data[0])<<16)|(uint32_t(cfg.data[1])<<8)|cfg.data[2];
             const auto mode=(bits>>11)&7;
             if(bits>>22 || ((bits>>17)&31)!=8 || (mode!=1 && mode!=2) || bits&0x41f || ((bits>>5)&31)>18 || (audio.U32(16)>>16)!=(mode==1?1u:2u))throw std::runtime_error("Invalid progressive AC-3 configuration");
+        }
+        if(entry==FourCC("in24")) {
+            const auto pcm=entries.front().second;
+            if(pcm.size!=62 || pcm.U32(4)!=1 || pcm.U32(8)!=0x10000 || pcm.U32(12)!=0 || (pcm.U32(16)!=0x00010010 && pcm.U32(16)!=0x00020010) || pcm.U32(20)!=0 || (scale!=44100 && scale!=48000) || pcm.U32(24)!=(scale<<16) || pcm.U32(28)!=1 || pcm.U32(32)!=3 || pcm.U32(36)!=(pcm.U32(16)>>16)*3 || pcm.U32(40)!=3)
+                throw std::runtime_error("Invalid progressive PCM24 sample entry");
+            const auto wave=pcm.Slice(44,18).One("wave");const auto endian=wave.One("enda");
+            if(wave.size!=10 || endian.size!=2 || endian.data[0]!=0 || endian.data[1]!=1)throw std::runtime_error("Invalid progressive PCM24 endian declaration");
         }
         if(entry==FourCC("sowt")) {
             const auto pcm=entries.front().second;

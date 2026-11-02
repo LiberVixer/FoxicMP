@@ -118,7 +118,7 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
           },
           track.available, i || track.audio?1:0, harvester::EndReady(track),
           value.timestampOffset, v2Bridge && v2Bridge->videoCodec()=="hevc",
-          v2Bridge && v2Bridge->videoCodec()=="av1",v2Bridge && v2Bridge->videoCodec()=="vp9",v2Bridge && v2Bridge->audioCodec(i?i:1)=="opus",v2Bridge && v2Bridge->isWebm(i),v2Bridge && v2Bridge->isStandaloneAudio() && v2Bridge->audioCodec(i?i:1)=="flac",v2Bridge && v2Bridge->isStandaloneAudio() && v2Bridge->audioCodec(i?i:1)=="pcm-s16le",v2Bridge && v2Bridge->isStandaloneAudio() && v2Bridge->audioCodec(i?i:1)=="ac3",v2Bridge && v2Bridge->isStandaloneAudio() && v2Bridge->audioCodec(i?i:1)=="eac3");
+          v2Bridge && v2Bridge->videoCodec()=="av1",v2Bridge && v2Bridge->videoCodec()=="vp9",v2Bridge && v2Bridge->audioCodec(i?i:1)=="opus",v2Bridge && v2Bridge->isWebm(i),v2Bridge && v2Bridge->isStandaloneAudio() && v2Bridge->audioCodec(i?i:1)=="flac",v2Bridge && v2Bridge->isStandaloneAudio() && v2Bridge->audioCodec(i?i:1)=="pcm-s16le",v2Bridge && v2Bridge->isStandaloneAudio() && v2Bridge->audioCodec(i?i:1)=="ac3",v2Bridge && v2Bridge->isStandaloneAudio() && v2Bridge->audioCodec(i?i:1)=="eac3",v2Bridge && v2Bridge->isStandaloneAudio() && v2Bridge->audioCodec(i?i:1)=="pcm-s24le");
     } catch(const std::exception& error) {
       if(!v2Bridge || track.required)throw;
       v2Bridge->rejectOptionalIndex(i,error.what());continue;
