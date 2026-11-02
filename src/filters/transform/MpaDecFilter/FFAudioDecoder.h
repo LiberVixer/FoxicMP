@@ -23,6 +23,7 @@
 #include "PaddedBuffer.h"
 #include "AudioTools/SampleFormat.h"
 #include "AudioTools/Mixer.h"
+#include "DSUtil/HarvesterPcmWindow.h"
 
 struct AVCodec;
 struct AVCodecContext;
@@ -68,6 +69,8 @@ private:
 	CMixer m_Mixer;
 
 	CMpaDecFilter* m_pFilter;
+	harvester::pcm::Window m_pcmWindow;
+	bool m_pcmWindowFailed = false;
 
 public:
 	CFFAudioDecoder(CMpaDecFilter* pFilter);
@@ -81,6 +84,14 @@ public:
 	HRESULT ReceiveData(std::vector<BYTE>& BuffOut, size_t& outputSize, SampleFormat& samplefmt, REFERENCE_TIME& rtStart);
 	void    FlushBuffers();
 	void    StreamFinish();
+	// Internal adapter only. The progressive controller must verify metadata,
+	// pin this decoder and re-arm after every flush/seek before using it.
+	bool SetPcmWindow(uint64_t begin, uint64_t end, uint32_t rate, uint64_t decodeFirst);
+	bool PcmWindowFailed() const { return m_pcmWindowFailed; }
+	bool FinishPcmWindow() {
+		if (m_pcmWindow.Active() && !m_pcmWindow.Complete()) m_pcmWindowFailed=true;
+		return !m_pcmWindowFailed;
+	}
 
 	// info
 	enum AVCodecID GetCodecId(); // safe

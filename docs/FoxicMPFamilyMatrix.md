@@ -356,3 +356,10 @@ checks, четырём growing profiles и 16 controller PCM windows на Qt О�
 Classic явно отказывает новому профилю без reader, сохраняя прежнее воспроизведение;
 его output adapter остаётся открытым. Общие capabilities прежние, Qt-дополнение
 описано отдельно. Linux обновлён с backup и сохранением INI. Harvester не изменён.
+
+Внутренний [PCM-адаптер Classic](ProgressiveClassicPcmWindow.md) проверен
+через настоящий CFFAudioDecoder: 40 checks, 16 точных окон, flush/replacement
+и отказ при усечённом PCM. Scalar: 1737 checks MSVC/Linux, ASan/UBSan Linux.
+Публичный gapless Classic пока отключён: подключение graph/controller,
+точное re-arm на seek и capture после DirectShow graph остаются открытыми.
+Qt/SDK 1.68, пользовательские профили и установки не меняются.

@@ -1,0 +1,477 @@
+{
+  "date": "2026-11-02",
+  "result": "PASS",
+  "feature": "internal-classic-decoder-pcm-window",
+  "playerVersion": "0.2.0",
+  "sdkVersion": "1.68",
+  "publicClassicGaplessCapability": false,
+  "harvesterModified": false,
+  "decoder": {
+    "result": "PASS",
+    "count": 40,
+    "checks": [
+      "audio-mp3-gapless-mono-44100-actual-untrimmed-decoder",
+      "audio-mp3-gapless-mono-44100-decoder-delay529-independent-native-float-reference",
+      "audio-mp3-gapless-mono-44100-exact-pcm-window-0",
+      "audio-mp3-gapless-mono-44100-exact-pcm-window-1",
+      "audio-mp3-gapless-mono-44100-exact-pcm-window-88201",
+      "audio-mp3-gapless-mono-44100-exact-pcm-window-176399",
+      "audio-mp3-gapless-mono-44100-flush-clears-window",
+      "audio-mp3-gapless-mono-44100-replace-clears-window",
+      "audio-mp3-gapless-mono-44100-truncated-pcm-cannot-report-successful-eof",
+      "audio-mp3-gapless-mono-44100-original-unchanged",
+      "audio-mp3-gapless-stereo-44100-actual-untrimmed-decoder",
+      "audio-mp3-gapless-stereo-44100-decoder-delay529-independent-native-float-reference",
+      "audio-mp3-gapless-stereo-44100-exact-pcm-window-0",
+      "audio-mp3-gapless-stereo-44100-exact-pcm-window-1",
+      "audio-mp3-gapless-stereo-44100-exact-pcm-window-88201",
+      "audio-mp3-gapless-stereo-44100-exact-pcm-window-176399",
+      "audio-mp3-gapless-stereo-44100-flush-clears-window",
+      "audio-mp3-gapless-stereo-44100-replace-clears-window",
+      "audio-mp3-gapless-stereo-44100-truncated-pcm-cannot-report-successful-eof",
+      "audio-mp3-gapless-stereo-44100-original-unchanged",
+      "audio-mp3-gapless-mono-48000-actual-untrimmed-decoder",
+      "audio-mp3-gapless-mono-48000-decoder-delay529-independent-native-float-reference",
+      "audio-mp3-gapless-mono-48000-exact-pcm-window-0",
+      "audio-mp3-gapless-mono-48000-exact-pcm-window-1",
+      "audio-mp3-gapless-mono-48000-exact-pcm-window-96001",
+      "audio-mp3-gapless-mono-48000-exact-pcm-window-191999",
+      "audio-mp3-gapless-mono-48000-flush-clears-window",
+      "audio-mp3-gapless-mono-48000-replace-clears-window",
+      "audio-mp3-gapless-mono-48000-truncated-pcm-cannot-report-successful-eof",
+      "audio-mp3-gapless-mono-48000-original-unchanged",
+      "audio-mp3-gapless-stereo-48000-actual-untrimmed-decoder",
+      "audio-mp3-gapless-stereo-48000-decoder-delay529-independent-native-float-reference",
+      "audio-mp3-gapless-stereo-48000-exact-pcm-window-0",
+      "audio-mp3-gapless-stereo-48000-exact-pcm-window-1",
+      "audio-mp3-gapless-stereo-48000-exact-pcm-window-96001",
+      "audio-mp3-gapless-stereo-48000-exact-pcm-window-191999",
+      "audio-mp3-gapless-stereo-48000-flush-clears-window",
+      "audio-mp3-gapless-stereo-48000-replace-clears-window",
+      "audio-mp3-gapless-stereo-48000-truncated-pcm-cannot-report-successful-eof",
+      "audio-mp3-gapless-stereo-48000-original-unchanged"
+    ],
+    "profiles": [
+      {
+        "profile": "audio-mp3-gapless-mono-44100",
+        "decoder": {
+          "result": "PASS",
+          "decoder": "mp3",
+          "samples": 178560,
+          "mode": "plain"
+        },
+        "windows": [
+          {
+            "targetSample": 0,
+            "decodeFirst": 0,
+            "bytes": 705600,
+            "sha256": "b68f81158db104d68b03c34fd4fb701713b8b64b81cba271a342a2dc0a74978d",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 176400,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 1,
+            "decodeFirst": 0,
+            "bytes": 705596,
+            "sha256": "d0cd3ad146fcd400a456b96e948863ad508e81487e89b964a502a109e6264f8d",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 176399,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 88201,
+            "decodeFirst": 77184,
+            "bytes": 352796,
+            "sha256": "ed0e2548a382e456fdf5d3e02eb591e0ec7bf174a9e610d9264ce83beff30764",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 88199,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 176399,
+            "decodeFirst": 165888,
+            "bytes": 4,
+            "sha256": "3c04ec0af816a122c0160c732898e019edcf653e36cbc20aff7d2385f7f3c2dc",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 1,
+              "mode": "trim"
+            }
+          }
+        ],
+        "nativeReferenceMaxAbsoluteFloatError": 4.470348358154297e-08
+      },
+      {
+        "profile": "audio-mp3-gapless-stereo-44100",
+        "decoder": {
+          "result": "PASS",
+          "decoder": "mp3",
+          "samples": 178560,
+          "mode": "plain"
+        },
+        "windows": [
+          {
+            "targetSample": 0,
+            "decodeFirst": 0,
+            "bytes": 1411200,
+            "sha256": "2eebff9c3eef45b388eef308016219c70c414a9a96b8dbc282accd0eabfd08ce",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 176400,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 1,
+            "decodeFirst": 0,
+            "bytes": 1411192,
+            "sha256": "7c38e153d7abd68394c3a297906270416ebaaf74ed88fa2588eb59648519e681",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 176399,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 88201,
+            "decodeFirst": 77184,
+            "bytes": 705592,
+            "sha256": "3411a72781453b33219ba0cc6d65affea219a6a996e81b5003a6522dd974c829",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 88199,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 176399,
+            "decodeFirst": 165888,
+            "bytes": 8,
+            "sha256": "01e3fac271b3b5f1ce002286dcb8b24aebba6dd93f73d5f9d9b0a63cec756dce",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 1,
+              "mode": "trim"
+            }
+          }
+        ],
+        "nativeReferenceMaxAbsoluteFloatError": 4.470348358154297e-08
+      },
+      {
+        "profile": "audio-mp3-gapless-mono-48000",
+        "decoder": {
+          "result": "PASS",
+          "decoder": "mp3",
+          "samples": 193536,
+          "mode": "plain"
+        },
+        "windows": [
+          {
+            "targetSample": 0,
+            "decodeFirst": 0,
+            "bytes": 768000,
+            "sha256": "604df8881d00ad54aaf30a33d004fbc7f4c3a531483d48e55f414cc036145e97",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 192000,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 1,
+            "decodeFirst": 0,
+            "bytes": 767996,
+            "sha256": "4101d9f09cf461396e8d2648519125a6a56746ab0ade85e9331397da4015d045",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 191999,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 96001,
+            "decodeFirst": 84096,
+            "bytes": 383996,
+            "sha256": "a614512f3cf3f6bbf44ae2e97c550f299c52c0c21f0d88d2be7d1e0c9d657acc",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 95999,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 191999,
+            "decodeFirst": 180864,
+            "bytes": 4,
+            "sha256": "70da4c29af9198a8cacd024944a77071901c690235d5dd906a64e0c84e15804c",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 1,
+              "mode": "trim"
+            }
+          }
+        ],
+        "nativeReferenceMaxAbsoluteFloatError": 4.470348358154297e-08
+      },
+      {
+        "profile": "audio-mp3-gapless-stereo-48000",
+        "decoder": {
+          "result": "PASS",
+          "decoder": "mp3",
+          "samples": 193536,
+          "mode": "plain"
+        },
+        "windows": [
+          {
+            "targetSample": 0,
+            "decodeFirst": 0,
+            "bytes": 1536000,
+            "sha256": "f6cb2906a61029d65841c4fdf1a1ba1ff37c7f48a448ac47c1caf69f6715ca64",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 192000,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 1,
+            "decodeFirst": 0,
+            "bytes": 1535992,
+            "sha256": "ec0918d61847fff7081e0dda85796e1abbcdf2076f669d32682a2b4d29108945",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 191999,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 96001,
+            "decodeFirst": 84096,
+            "bytes": 767992,
+            "sha256": "84fd0f9bb7a60dc3793e7a9c36b4acbe34591ec558cfcaf7c5978171b546b83a",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 95999,
+              "mode": "trim"
+            }
+          },
+          {
+            "targetSample": 191999,
+            "decodeFirst": 180864,
+            "bytes": 8,
+            "sha256": "80b4a92c42c39dc6ccf243b325d8be7a73a31507f3234a4cf3f9c581dc9274c9",
+            "decoder": {
+              "result": "PASS",
+              "decoder": "mp3",
+              "samples": 1,
+              "mode": "trim"
+            }
+          }
+        ],
+        "nativeReferenceMaxAbsoluteFloatError": 4.470348358154297e-08
+      }
+    ],
+    "scope": "actual internal Classic decoder before PCM output conversion; no DirectShow graph/controller",
+    "publicCapability": false
+  },
+  "scalar": {
+    "windowsMsvc": {
+      "result": "PASS",
+      "checks": 1737,
+      "windows": 8
+    },
+    "linux": {
+      "result": "PASS",
+      "checks": 1737,
+      "windows": 8
+    },
+    "linuxAsanUbsan": {
+      "result": "PASS",
+      "checks": 1737,
+      "windows": 8
+    }
+  },
+  "classicRegression": [
+    {
+      "profile": "audio-mp3-indexed-stereo-info-44100",
+      "result": "PASS",
+      "phases": [
+        "four-seconds-buffers",
+        "plays-without-second-track",
+        "pause",
+        "seek-while-paused",
+        "resume",
+        "tail-waits-not-eof",
+        "seek-published-tail",
+        "natural-eof-and-release"
+      ],
+      "readerIdentityPreserved": true,
+      "originalUnchanged": true
+    },
+    {
+      "profile": "audio-mp3-mono-cbr-44100",
+      "result": "PASS",
+      "phases": [
+        "four-seconds-buffers",
+        "plays-without-second-track",
+        "pause",
+        "seek-while-paused",
+        "resume",
+        "tail-waits-not-eof",
+        "seek-published-tail",
+        "natural-eof-and-release"
+      ],
+      "readerIdentityPreserved": true,
+      "originalUnchanged": true
+    },
+    {
+      "profile": "audio-adts-mono-44100",
+      "result": "PASS",
+      "phases": [
+        "four-seconds-buffers",
+        "plays-without-second-track",
+        "pause",
+        "seek-while-paused",
+        "resume",
+        "tail-waits-not-eof",
+        "seek-published-tail",
+        "natural-eof-and-release"
+      ],
+      "readerIdentityPreserved": true,
+      "originalUnchanged": true
+    },
+    {
+      "profile": "audio-raw-flac-mono-16-44100",
+      "result": "PASS",
+      "phases": [
+        "four-seconds-buffers",
+        "plays-without-second-track",
+        "pause",
+        "seek-while-paused",
+        "resume",
+        "tail-waits-not-eof",
+        "seek-published-tail",
+        "natural-eof-and-release"
+      ],
+      "readerIdentityPreserved": true,
+      "originalUnchanged": true
+    }
+  ],
+  "classicGaplessRejection": [
+    {
+      "contract": "classic-gapless-explicit-rejection",
+      "result": "PASS",
+      "checks": [
+        "probe-unsupported-media",
+        "start-unsupported-media"
+      ],
+      "readerCreated": false
+    }
+  ],
+  "classicCleanup": {
+    "lastTaskResult": 0,
+    "taskRemoved": true,
+    "stageRemoved": true,
+    "builtSha256": "1d53f0d97347431433059e2bac7a779e9de3e957f0146493414404e23916bcde",
+    "testedSha256": "1d53f0d97347431433059e2bac7a779e9de3e957f0146493414404e23916bcde",
+    "equal": true,
+    "testExitCode": 0
+  },
+  "exitCodes": {
+    "classic-pcm-probe-build": 0,
+    "classic-pcm-adapter-tests": 0,
+    "classic-pcm-classic-build": 0,
+    "classic-pcm-classic-finalize": 0,
+    "classic-pcm-window-msvc-build": 0,
+    "classic-pcm-window-msvc-tests": 0,
+    "classic-pcm-window-linux-build": 0,
+    "classic-pcm-window-linux-tests": 0,
+    "classic-pcm-asan-build": 0,
+    "classic-pcm-asan-tests": 0
+  },
+  "sourceFilesSha256": {
+    "qt/CMakeLists.txt": "28ed3d317b9ff7358ae9f6eef808ef59be59d9f7b68368c9d37308c46ddbc6fd",
+    "src/DSUtil/HarvesterPcmWindow.h": "c3248e53d3157329d72b74e68cdc805a4b9b25d0b05a06f1dfad28deda1af8cc",
+    "src/filters/transform/MpaDecFilter/FFAudioDecoder.cpp": "1462c092c669f24f4f2090a39dd2964e6839fd26c313de2bb65403fc2e124f4b",
+    "src/filters/transform/MpaDecFilter/FFAudioDecoder.h": "f33bc0d55048942ead71a9f7ab3810cd23e96f3638c0ef36975fb53c02fc58ae",
+    "src/filters/transform/MpaDecFilter/MpaDecFilter.cpp": "d0d323481be086d3bedb529ac3f39bdaaf2a46ddf55d0cf72685e78522d1c9d4",
+    "tests/progressive_classic_pcm_adapter.py": "49aca16325c748c8b7b53ddee7453130fbe1928b8d50086624cd76a694aa967d",
+    "tests/progressive_pcm_window_test.cpp": "02981a534ded0ec1adc09ae365713341b81676bc98f1a7b8b33becadf12e92f5",
+    "tests/windows/build_classic_pcm_probe.cmd": "42719bcc2794f4ac50490aed43282ac93716fbadf6bb3e25a74b4a782073712d",
+    "tests/windows/classic_mp3_pcm_probe.cpp": "db41ab9893cdcbd30a2f37bc684d5387a9fbe0f04425649a130a9dd396ce8532",
+    "tools/package_progressive_sdk.py": "c2e0eafc779fa18fc38361ac66263bc27b3507284bd404b7e461b803228088da"
+  },
+  "binarySha256": {
+    "classic": "1d53f0d97347431433059e2bac7a779e9de3e957f0146493414404e23916bcde",
+    "decoderLibrary": "895f5d256caf3f5ba4e609e205532f57844f7d246c382006ae1682e26d991bbe",
+    "probe": "10e63937c9f7f4a305c4e7653dfc2dfd3637d8e0341d7a147f0af1223a3fa703",
+    "linuxInstalled": "0f9a2572c22b962c749d1800c9ab9ec57cfa0c9ba5007215897d93cf73c87187"
+  },
+  "preservation": {
+    "windowsInstalledExeIniUnchanged": true,
+    "windowsSha256": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931"
+    },
+    "classicShellUnchanged": true,
+    "classicShellEntries": 158,
+    "linuxExecutableUnchanged": true,
+    "linuxIniSha256": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+    "linuxReinstallationRequired": false
+  },
+  "privateLogSha256": {
+    "classic-pcm-adapter-tests": "ed866c0432bcf568f1cd1bdb20d2dac90d2ce71e3088ab9da472f9be23da7c27",
+    "classic-pcm-probe-build": "8afc61df606dca86fa551bdd1ae0bf26d071bdb44d480f45f5315c50d7ad648d",
+    "classic-pcm-classic-build": "6ee92ae9149ea211a88c5ad12611eb59eefaf58991f6e99222c9e449a99f9e88",
+    "classic-pcm-window-msvc-tests": "33aa6745f06fdaae33fe4aac3a5e670d35a160d866ad734d88db52b42f2f0192",
+    "classic-pcm-asan-tests": "f5c9f9f8964738eea62239a63b5e454d9f46e921ea5e5d917d7f1ebc197dfc1f"
+  },
+  "resolvedHarnessFailures": [
+    {
+      "exitCode": 2,
+      "scope": "MSVC scalar probe",
+      "reason": "std::to_string required an explicit string header; no dependence on transitive GCC includes"
+    },
+    {
+      "exitCode": 2,
+      "scope": "initial decoder probe build",
+      "reason": "Missing mmreg header and static codec/GUID dependencies; fixed standalone link inputs and CRT library order"
+    },
+    {
+      "exitCode": 1,
+      "scope": "negative non-MP3 fixture",
+      "reason": "This FFmpeg build excludes PCM_S16LE decoder; used its compiled MP2 decoder to verify MP3-only admission"
+    }
+  ],
+  "limits": [
+    "Actual CFFAudioDecoder capture before output conversion; no complete DirectShow graph/controller or physical audio-output claim",
+    "Windows decoder sanitizer not run; ASan/UBSan covers portable window arithmetic on Linux",
+    "Graph decoder selection, per-seek arming, NewSegment/timebase integration, output processing and growing graph acceptance remain open",
+    "Classic still rejects the public gapless profile; Qt retains SDK 1.68 behaviour",
+    "Harvester, installed Windows applications, hardware and Wayland unchanged"
+  ]
+}

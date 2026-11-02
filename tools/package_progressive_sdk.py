@@ -10,6 +10,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    **{name:'docs/'+name for name in ('ProgressiveClassicPcmWindow.md','ProgressiveClassicPcmWindowValidation-2026-11-02.json')},
     **{name:'docs/'+name for name in ('ProgressiveMp3Gapless.md','ProgressiveMp3GaplessValidation-2026-11-02.md','ProgressiveMp3GaplessValidation-2026-11-02.json')},
     'progressive-v2-mp3-gapless.json':'tests/fixtures/progressive-v2/mp3-gapless.json',
     **{name: 'qt/tools/' + name for name in (

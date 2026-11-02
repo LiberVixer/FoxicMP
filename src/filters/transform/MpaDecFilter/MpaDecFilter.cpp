@@ -411,6 +411,7 @@ HRESULT CMpaDecFilter::EndOfStream()
 		HRESULT hr = S_OK;
 		if (!ProcessBitstream(nCodecId, hr, TRUE)) {
 			ProcessFFmpeg(nCodecId, TRUE);
+			if (m_FFAudioDec.PcmWindowFailed()) return E_INVALIDARG;
 		}
 	}
 
@@ -800,6 +801,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId, BOOL bEOF/* = FALS
 
 	if (bEOF) {
 		hr = m_FFAudioDec.SendData(nullptr, 0);
+		if (m_FFAudioDec.PcmWindowFailed()) return E_INVALIDARG;
 		if (hr == S_OK) {
 			SampleFormat samplefmt = SAMPLE_FMT_NONE;
 
@@ -811,9 +813,10 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId, BOOL bEOF/* = FALS
 								 m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
 				}
 			}
+			if (m_FFAudioDec.PcmWindowFailed()) return E_INVALIDARG;
 		}
 
-		return S_OK;
+		return m_FFAudioDec.FinishPcmWindow() ? S_OK : E_INVALIDARG;
 	}
 
 	BYTE* const base = m_buff.Data();
@@ -845,6 +848,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId, BOOL bEOF/* = FALS
 		int out_size = 0;
 
 		hr = m_FFAudioDec.SendData(p, int(end - p), &out_size);
+		if (m_FFAudioDec.PcmWindowFailed()) return E_INVALIDARG;
 		if (S_OK == hr) {
 			SampleFormat samplefmt = SAMPLE_FMT_NONE;
 
@@ -856,6 +860,7 @@ HRESULT CMpaDecFilter::ProcessFFmpeg(enum AVCodecID nCodecId, BOOL bEOF/* = FALS
 								 m_FFAudioDec.GetSampleRate(), m_FFAudioDec.GetChannels(), m_FFAudioDec.GetChannelMask());
 				}
 			}
+			if (m_FFAudioDec.PcmWindowFailed()) return E_INVALIDARG;
 		} else {
 			m_bResync = TRUE;
 			if (!out_size && hr == E_FAIL) {

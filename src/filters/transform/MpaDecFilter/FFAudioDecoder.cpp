@@ -521,6 +521,7 @@ HRESULT CFFAudioDecoder::SendData(BYTE* p, int size, int* out_size)
 	if (GetCodecId() == AV_CODEC_ID_NONE) {
 		return hr;
 	}
+	if (m_pcmWindowFailed) return E_INVALIDARG;
 
 	int ret = 0;
 	if (m_pParser) {
@@ -571,23 +572,41 @@ HRESULT CFFAudioDecoder::SendData(BYTE* p, int size, int* out_size)
 	}
 
 	if (hr == E_FAIL) {
+		if (m_pcmWindow.Active()) { m_pcmWindowFailed=true;return hr; }
 		Init(GetCodecId(), nullptr);
 	}
 
 	return hr;
 }
 
+bool CFFAudioDecoder::SetPcmWindow(uint64_t begin, uint64_t end, uint32_t rate, uint64_t decodeFirst)
+{
+	if (!m_pAVCtx || GetCodecId()!=AV_CODEC_ID_MP3 || m_bNeedMix ||
+		m_pAVCtx->sample_rate!=rate || m_pAVCtx->ch_layout.nb_channels<1 || m_pAVCtx->ch_layout.nb_channels>2) return false;
+	if (!m_pcmWindow.Configure(begin,end,rate,decodeFirst)) return false;
+	m_pcmWindowFailed=false;return true;
+}
+
 HRESULT CFFAudioDecoder::ReceiveData(std::vector<BYTE>& BuffOut, size_t& outputSize, SampleFormat& samplefmt, REFERENCE_TIME& rtStart)
 {
 	HRESULT hr = E_FAIL;
+	if (m_pcmWindowFailed) return E_INVALIDARG;
 	const int ret = avcodec_receive_frame(m_pAVCtx, m_pFrame);
+	if (m_pcmWindow.Active() && ret<0 && ret!=AVERROR(EAGAIN) && ret!=AVERROR_EOF) m_pcmWindowFailed=true;
 	if (ret >= 0) {
 		rtStart = m_pFrame->pkt_dts;
 		m_pFilter->ClearCacheTimeStamp();
 
 		outputSize = 0;
 
-		const size_t nSamples = m_pFrame->nb_samples;
+		size_t nSamples = m_pFrame->nb_samples, skipSamples = 0;
+		if (m_pcmWindow.Active()) {
+			harvester::pcm::Slice slice;
+			if (GetCodecId()!=AV_CODEC_ID_MP3 || m_bNeedMix || !m_pcmWindow.Take(nSamples,m_pFrame->sample_rate,slice)) {
+				m_pcmWindowFailed=true;av_frame_unref(m_pFrame);return E_INVALIDARG;
+			}
+			nSamples=size_t(slice.count);skipSamples=size_t(slice.skip);rtStart=slice.start;
+		}
 		if (nSamples) {
 			if (m_bNeedMix) {
 				samplefmt = SAMPLE_FMT_FLT;
@@ -618,11 +637,11 @@ HRESULT CFFAudioDecoder::ReceiveData(std::vector<BYTE>& BuffOut, size_t& outputS
 				if (av_sample_fmt_is_planar(m_pAVCtx->sample_fmt)) {
 					BYTE* pOut = BuffOut.data();
 					for (int ch = 0; ch < nChannels; ++ch) {
-						memcpy(pOut, m_pFrame->extended_data[ch], monosize);
+						memcpy(pOut, m_pFrame->extended_data[ch]+skipSamples*av_get_bytes_per_sample(m_pAVCtx->sample_fmt), monosize);
 						pOut += monosize;
 					}
 				} else {
-					memcpy(BuffOut.data(), m_pFrame->data[0], outputSize);
+					memcpy(BuffOut.data(), m_pFrame->data[0]+skipSamples*nChannels*av_get_bytes_per_sample(m_pAVCtx->sample_fmt), outputSize);
 				}
 			}
 		}
@@ -636,6 +655,8 @@ HRESULT CFFAudioDecoder::ReceiveData(std::vector<BYTE>& BuffOut, size_t& outputS
 
 void CFFAudioDecoder::FlushBuffers()
 {
+	m_pcmWindow.Clear();
+	m_pcmWindowFailed=false;
 	if (m_pParser) {
 		av_parser_close(m_pParser);
 		m_pParser = av_parser_init(GetCodecId());
@@ -649,6 +670,8 @@ void CFFAudioDecoder::FlushBuffers()
 
 void CFFAudioDecoder::StreamFinish()
 {
+	m_pcmWindow.Clear();
+	m_pcmWindowFailed=false;
 	m_pAVCodec = nullptr;
 
 	av_parser_close(m_pParser);

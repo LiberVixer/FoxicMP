@@ -76,6 +76,7 @@
 - Реализован [внутренний Qt PCM adapter](ProgressiveQtPcmWindow.md): по 72 проверки настоящего `Player` на ОС, точный trim/seek, пользовательская цепочка, stop и replacement. Progressive controller и Classic output ещё не подключены; публичный gapless capability не объявлен.
 - [x] SDK 1.67: [LAME Info Tag CRC и анализ границ PCM](ProgressiveMp3Tag.md), общее ядро Qt/Classic, 72 новые native checks и диагностика при growing playback. Это проверка метаданных без применения trim; gapless controller/Classic output остаются открытыми.
 - [x] SDK 1.68: [gapless MP3 в Qt](ProgressiveMp3Gapless.md), audible timeline, проверенный CRC, PCM trim/seek и ожидание writer complete. По 31 new native checks, четыре growing profiles и 16 controller PCM windows на Qt ОС; Classic явно отказывает и сохраняет прежний playback. [Проверки](ProgressiveMp3GaplessValidation-2026-11-02.md). Classic output adapter и остальная MPEG matrix открыты.
+- Реализован [внутренний PCM-адаптер Classic](ProgressiveClassicPcmWindow.md): 40 checks настоящего decoder и 1737 scalar checks на Windows/Linux. Это компонент без подключения progressive graph/controller; capability Classic остаётся выключенной.
 - [ ] Отсутствие аудиоустройства не делает валидный video-only источник ошибочным.
 - [ ] MPEG-2/MPEG-4 Part 2 для предусмотренных ТЗ загрузок/локальных входов.
 
