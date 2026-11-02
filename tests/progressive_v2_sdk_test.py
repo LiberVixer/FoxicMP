@@ -35,6 +35,19 @@ class V2SdkTest(unittest.TestCase):
             with self.subTest(key=key,value=wrong),self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
             self.assertFalse(client.calls)
         cap['mp3Gapless']=expected;V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
+    def test_ac3_requires_explicit_capability_and_ac3_track(self):
+        client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='ac3',containerHint='ac3',source=dict(resourceId='media'))
+        value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]
+        cap=dict(version=1,mode='standalone-ac3-v1',profiles=['standalone-ac3'])
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=dict(ac3=cap)))
+        V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
+        for field,bad in [('codecHint','eac3'),('kind','video')]:
+            other=copy.deepcopy(value);other['tracks'][0][field]=bad;client.calls.clear()
+            with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(other)
+            self.assertFalse(client.calls)
+        cap['mode']='unverified';client.calls.clear()
+        with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls)
     def test_ogg_vorbis_requires_explicit_capability_and_vorbis_track(self):
         client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='vorbis',containerHint='ogg-vorbis',source=dict(resourceId='media'))
         value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]

@@ -568,3 +568,12 @@ mono/stereo 48 kHz с существующим bounded setup/floor-1 validator.
 profiles каждой редакции; SDK — по 71 tests на ОС. Ogg Opus и WAV повторно
 проверены. Начальная обрезка/nonzero origin, chaining/multiplexing/live и
 остальная audio matrix остаются открытыми. Harvester не менялся.
+
+SDK 1.73: [растущий AC-3](ProgressiveAc3.md), bsid 8, mono/stereo
+48 kHz, шесть блоков/1536 samples, обе CRC и неизменная конфигурация.
+Виртуальный fMP4/ac-3 сохраняет исходные syncframes и цифровой PCM.
+По 96 native checks Windows/Linux и ASan/UBSan, 20 PCM corpora со всеми
+объявленными битрейтами; по четыре growing profiles трёх редакций.
+Повторены Ogg Vorbis/WAV native и Classic playback, SDK — по 72 tests на ОС.
+E-AC-3, многоканальные layouts, другие rates/bsid, bitstream hardware и
+полная audio matrix остаются открытыми. Harvester не менялся.

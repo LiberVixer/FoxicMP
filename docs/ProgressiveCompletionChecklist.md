@@ -2,7 +2,7 @@
 
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
-Текущий проверенный срез — SDK 1.72, приложение 0.2.0. Этот документ — перечень
+Текущий проверенный срез — SDK 1.73, приложение 0.2.0. Этот документ — перечень
 работ и критериев; пустой checkbox не означает отсутствие функции у обычного
 воспроизведения завершённых файлов. Проверяется именно progressive-сценарий.
 
@@ -82,6 +82,7 @@
 - [x] SDK 1.70: [растущий WAV PCM16](ProgressiveWav.md), RIFF, mono/stereo 44.1/48 kHz, известные RIFF/data sizes, побайтное сохранение PCM, partial packets и четыре runtime profiles трёх редакций. RF64/float/24-bit и остальная audio matrix открыты.
 - [x] SDK 1.71: [растущий Ogg Opus](ProgressiveOggOpus.md), один logical stream mono/stereo 48 kHz, page CRC/continuations, pre-skip/gain и end trim, четыре growing profiles трёх редакций. Ogg Vorbis, chaining/multiplexing, live и остальная audio matrix открыты.
 - [x] SDK 1.72: [растущий Ogg Vorbis](ProgressiveOggVorbis.md), Vorbis I mono/stereo 48 kHz, granule origin 0 без initial trim, page CRC/continuations и EOS trim, четыре growing profiles трёх редакций. Initial trim/nonzero origin, chaining/multiplexing/live и остальная audio matrix открыты.
+- [x] SDK 1.73: [растущий AC-3](ProgressiveAc3.md), bsid 8, mono/stereo 48 kHz, CRC1/CRC2, неизменная конфигурация, 96 native checks и четыре growing profiles трёх редакций. E-AC-3, остальные layouts/rates/bsid и общая audio matrix открыты.
 - [ ] Отсутствие аудиоустройства не делает валидный video-only источник ошибочным.
 - [ ] MPEG-2/MPEG-4 Part 2 для предусмотренных ТЗ загрузок/локальных входов.
 
