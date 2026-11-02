@@ -32,6 +32,7 @@
 #include "FFAudioDecoder.h"
 #include "AC3Encoder.h"
 #include "FloatingAverage.h"
+#include "DSUtil/ProgressivePcmControl.h"
 
 #include "PackerMAT.h"
 
@@ -55,7 +56,9 @@ class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
 	, public IMpaDecFilter
 	, public CExFilterConfigImpl
 	, public ISpecifyPropertyPages2
+	, public IProgressivePcmControl
 {
+	struct { uint64_t begin=0,end=0,first=0;UINT rate=0;bool pending=false,applied=false,failed=false,received=false; } m_pcmSegment;
 	GUID            m_Subtype = GUID_NULL;
 	AVCodecID       m_CodecId;
 	SampleFormat    m_InternalSampleFormat = SAMPLE_FMT_NONE;
@@ -207,6 +210,9 @@ public:
 	HRESULT BeginFlush();
 	HRESULT EndFlush();
 	HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
+	HRESULT StopStreaming() override;
+	STDMETHODIMP ArmPcmWindow(UINT version, ULONGLONG begin, ULONGLONG end, UINT rate, ULONGLONG decodeFirst) override;
+	STDMETHODIMP PcmWindowState(DWORD* flags) override;
 	HRESULT Receive(IMediaSample* pIn);
 	HRESULT CompleteConnect(PIN_DIRECTION direction, IPin *pReceivePin);
 

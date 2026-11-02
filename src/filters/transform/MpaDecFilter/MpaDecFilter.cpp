@@ -396,6 +396,7 @@ STDMETHODIMP CMpaDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 	return
 		QI(IMpaDecFilter)
+		QI(IProgressivePcmControl)
 		QI(IExFilterConfig)
 		QI(ISpecifyPropertyPages)
 		QI(ISpecifyPropertyPages2)
@@ -427,6 +428,7 @@ HRESULT CMpaDecFilter::BeginFlush()
 HRESULT CMpaDecFilter::EndFlush()
 {
 	CAutoLock cAutoLock(&m_csReceive);
+	m_pcmSegment={};
 	m_buff.Clear();
 	m_FFAudioDec.FlushBuffers();
 	m_Mixer.FlushBuffers();
@@ -440,6 +442,8 @@ HRESULT CMpaDecFilter::EndFlush()
 HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
 	CAutoLock cAutoLock(&m_csReceive);
+	if(m_pcmSegment.pending || m_pcmSegment.applied || m_pcmSegment.failed)m_FFAudioDec.FlushBuffers();
+	m_pcmSegment={};
 	m_ps2_state.sync = false;
 	m_hdmi_bitstream.Clear();
 
@@ -460,6 +464,26 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 	return __super::NewSegment(tStart, tStop, dRate);
 }
 
+HRESULT CMpaDecFilter::StopStreaming()
+{
+	CAutoLock lock(&m_csReceive);
+	if(m_pcmSegment.pending || m_pcmSegment.applied || m_pcmSegment.failed)m_FFAudioDec.FlushBuffers();
+	m_pcmSegment={};
+	return __super::StopStreaming();
+}
+STDMETHODIMP CMpaDecFilter::ArmPcmWindow(UINT version, ULONGLONG begin, ULONGLONG end, UINT rate, ULONGLONG decodeFirst)
+{
+	CAutoLock lock(&m_csReceive);harvester::pcm::Window check;
+	if(version!=1 || m_pcmSegment.received || m_pcmSegment.pending || m_pcmSegment.applied ||
+		m_CodecId!=AV_CODEC_ID_MP3 || !check.Configure(begin,end,rate,decodeFirst)) return E_INVALIDARG;
+	m_pcmSegment={begin,end,decodeFirst,rate,true,false,false,false};return S_OK;
+}
+STDMETHODIMP CMpaDecFilter::PcmWindowState(DWORD* flags)
+{
+	if(!flags)return E_POINTER;CAutoLock lock(&m_csReceive);
+	*flags=(m_pcmSegment.pending || m_pcmSegment.applied?1:0) | (m_pcmSegment.applied?2:0) |
+		(m_pcmSegment.failed || m_FFAudioDec.PcmWindowFailed()?4:0);return S_OK;
+}
 HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 {
 	CAutoLock cAutoLock(&m_csReceive);
@@ -571,6 +595,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 	if (pIn->IsDiscontinuity() == S_OK
 			|| (m_bNeedSyncPoint && S_OK == pIn->IsSyncPoint())) {
+		if(m_pcmSegment.applied){m_pcmSegment.failed=true;return E_INVALIDARG;}
 		DLog(L"CMpaDecFilter::Receive() : Discontinuity, flushing decoder");
 		m_buff.Clear();
 		m_FFAudioDec.FlushBuffers();
@@ -588,6 +613,14 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 		}
 	}
 
+	if(m_pcmSegment.failed)return E_INVALIDARG;
+	if(m_pcmSegment.pending) {
+		if(!m_FFAudioDec.SetPcmWindow(m_pcmSegment.begin,m_pcmSegment.end,m_pcmSegment.rate,m_pcmSegment.first)) {
+			m_pcmSegment.failed=true;return E_INVALIDARG;
+		}
+		m_pcmSegment.pending=false;m_pcmSegment.applied=true;
+	}
+	m_pcmSegment.received=true;
 	if (m_bResync && SUCCEEDED(hr)) {
 		DLog(L"CMpaDecFilter::Receive() : Resync Request - [%I64d -> %I64d], buffer : %Iu", m_rtStart, rtStart, m_buff.Size());
 
@@ -2298,6 +2331,7 @@ HRESULT CMpaDecFilter::GetMediaType(int iPosition, CMediaType* pmt)
 HRESULT CMpaDecFilter::SetMediaType(PIN_DIRECTION dir, const CMediaType *pmt)
 {
 	if (dir == PINDIR_INPUT) {
+		if(m_pcmSegment.applied){m_pcmSegment.failed=true;return E_INVALIDARG;}
 		if (m_FFAudioDec.GetCodecId() != AV_CODEC_ID_NONE) {
 			m_FFAudioDec.StreamFinish();
 		}
@@ -2339,6 +2373,7 @@ HRESULT CMpaDecFilter::BreakConnect(PIN_DIRECTION dir)
 
 	if (dir == PINDIR_INPUT) {
 		m_FFAudioDec.StreamFinish();
+		m_pcmSegment={};
 		m_bNeedBitstreamCheck = TRUE;
 	}
 

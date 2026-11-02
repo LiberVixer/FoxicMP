@@ -100,7 +100,10 @@ public:
 
 class CMP4SplitterOutputPin : public CBaseSplitterOutputPin, protected CCritSec
 {
+	CComPtr<IHarvesterReader> m_pcmReader;
+	struct {uint64_t begin=0,end=0,first=0;uint32_t rate=0;bool pending=false;} m_pcmWindow;
 public:
+	void SetPcmWindow(IHarvesterReader* reader,uint64_t begin,uint64_t end,uint32_t rate,uint64_t first);
 	CMP4SplitterOutputPin(std::vector<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 	virtual ~CMP4SplitterOutputPin();
 

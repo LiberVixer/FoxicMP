@@ -1,0 +1,483 @@
+{
+  "date": "2026-11-02",
+  "result": "PASS",
+  "playerVersion": "0.2.0",
+  "sdkVersion": "1.68",
+  "feature": "private-classic-directshow-pcm-window",
+  "publicClassicGaplessCapability": false,
+  "graph": {
+    "result": "PASS",
+    "count": 24,
+    "checks": [
+      "audio-mp3-gapless-mono-44100-graph-pcm-0",
+      "audio-mp3-gapless-mono-44100-graph-pcm-1",
+      "audio-mp3-gapless-mono-44100-graph-pcm-88201",
+      "audio-mp3-gapless-mono-44100-graph-pcm-176399",
+      "audio-mp3-gapless-mono-44100-unsupported-decoder-rejected-without-output",
+      "audio-mp3-gapless-mono-44100-original-unchanged",
+      "audio-mp3-gapless-stereo-44100-graph-pcm-0",
+      "audio-mp3-gapless-stereo-44100-graph-pcm-1",
+      "audio-mp3-gapless-stereo-44100-graph-pcm-88201",
+      "audio-mp3-gapless-stereo-44100-graph-pcm-176399",
+      "audio-mp3-gapless-stereo-44100-unsupported-decoder-rejected-without-output",
+      "audio-mp3-gapless-stereo-44100-original-unchanged",
+      "audio-mp3-gapless-mono-48000-graph-pcm-0",
+      "audio-mp3-gapless-mono-48000-graph-pcm-1",
+      "audio-mp3-gapless-mono-48000-graph-pcm-96001",
+      "audio-mp3-gapless-mono-48000-graph-pcm-191999",
+      "audio-mp3-gapless-mono-48000-unsupported-decoder-rejected-without-output",
+      "audio-mp3-gapless-mono-48000-original-unchanged",
+      "audio-mp3-gapless-stereo-48000-graph-pcm-0",
+      "audio-mp3-gapless-stereo-48000-graph-pcm-1",
+      "audio-mp3-gapless-stereo-48000-graph-pcm-96001",
+      "audio-mp3-gapless-stereo-48000-graph-pcm-191999",
+      "audio-mp3-gapless-stereo-48000-unsupported-decoder-rejected-without-output",
+      "audio-mp3-gapless-stereo-48000-original-unchanged"
+    ],
+    "profiles": [
+      {
+        "profile": "audio-mp3-gapless-mono-44100",
+        "windows": [
+          {
+            "targetSample": 0,
+            "sha256": "b68f81158db104d68b03c34fd4fb701713b8b64b81cba271a342a2dc0a74978d",
+            "pcmBytes": 705600,
+            "graph": {
+              "result": "PASS",
+              "samples": 176400,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 1,
+            "sha256": "d0cd3ad146fcd400a456b96e948863ad508e81487e89b964a502a109e6264f8d",
+            "pcmBytes": 705596,
+            "graph": {
+              "result": "PASS",
+              "samples": 176399,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 88201,
+            "sha256": "ed0e2548a382e456fdf5d3e02eb591e0ec7bf174a9e610d9264ce83beff30764",
+            "pcmBytes": 352796,
+            "graph": {
+              "result": "PASS",
+              "samples": 88199,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 176399,
+            "sha256": "3c04ec0af816a122c0160c732898e019edcf653e36cbc20aff7d2385f7f3c2dc",
+            "pcmBytes": 4,
+            "graph": {
+              "result": "PASS",
+              "samples": 1,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          }
+        ],
+        "unsupportedDecoder": {
+          "result": "PASS",
+          "unsupportedDecoderRejected": true,
+          "samples": 0,
+          "released": true
+        }
+      },
+      {
+        "profile": "audio-mp3-gapless-stereo-44100",
+        "windows": [
+          {
+            "targetSample": 0,
+            "sha256": "2eebff9c3eef45b388eef308016219c70c414a9a96b8dbc282accd0eabfd08ce",
+            "pcmBytes": 1411200,
+            "graph": {
+              "result": "PASS",
+              "samples": 176400,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 1,
+            "sha256": "7c38e153d7abd68394c3a297906270416ebaaf74ed88fa2588eb59648519e681",
+            "pcmBytes": 1411192,
+            "graph": {
+              "result": "PASS",
+              "samples": 176399,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 88201,
+            "sha256": "3411a72781453b33219ba0cc6d65affea219a6a996e81b5003a6522dd974c829",
+            "pcmBytes": 705592,
+            "graph": {
+              "result": "PASS",
+              "samples": 88199,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 176399,
+            "sha256": "01e3fac271b3b5f1ce002286dcb8b24aebba6dd93f73d5f9d9b0a63cec756dce",
+            "pcmBytes": 8,
+            "graph": {
+              "result": "PASS",
+              "samples": 1,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          }
+        ],
+        "unsupportedDecoder": {
+          "result": "PASS",
+          "unsupportedDecoderRejected": true,
+          "samples": 0,
+          "released": true
+        }
+      },
+      {
+        "profile": "audio-mp3-gapless-mono-48000",
+        "windows": [
+          {
+            "targetSample": 0,
+            "sha256": "604df8881d00ad54aaf30a33d004fbc7f4c3a531483d48e55f414cc036145e97",
+            "pcmBytes": 768000,
+            "graph": {
+              "result": "PASS",
+              "samples": 192000,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 1,
+            "sha256": "4101d9f09cf461396e8d2648519125a6a56746ab0ade85e9331397da4015d045",
+            "pcmBytes": 767996,
+            "graph": {
+              "result": "PASS",
+              "samples": 191999,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 96001,
+            "sha256": "a614512f3cf3f6bbf44ae2e97c550f299c52c0c21f0d88d2be7d1e0c9d657acc",
+            "pcmBytes": 383996,
+            "graph": {
+              "result": "PASS",
+              "samples": 95999,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 191999,
+            "sha256": "70da4c29af9198a8cacd024944a77071901c690235d5dd906a64e0c84e15804c",
+            "pcmBytes": 4,
+            "graph": {
+              "result": "PASS",
+              "samples": 1,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          }
+        ],
+        "unsupportedDecoder": {
+          "result": "PASS",
+          "unsupportedDecoderRejected": true,
+          "samples": 0,
+          "released": true
+        }
+      },
+      {
+        "profile": "audio-mp3-gapless-stereo-48000",
+        "windows": [
+          {
+            "targetSample": 0,
+            "sha256": "f6cb2906a61029d65841c4fdf1a1ba1ff37c7f48a448ac47c1caf69f6715ca64",
+            "pcmBytes": 1536000,
+            "graph": {
+              "result": "PASS",
+              "samples": 192000,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 1,
+            "sha256": "ec0918d61847fff7081e0dda85796e1abbcdf2076f669d32682a2b4d29108945",
+            "pcmBytes": 1535992,
+            "graph": {
+              "result": "PASS",
+              "samples": 191999,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 96001,
+            "sha256": "84fd0f9bb7a60dc3793e7a9c36b4acbe34591ec558cfcaf7c5978171b546b83a",
+            "pcmBytes": 767992,
+            "graph": {
+              "result": "PASS",
+              "samples": 95999,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          },
+          {
+            "targetSample": 191999,
+            "sha256": "80b4a92c42c39dc6ccf243b325d8be7a73a31507f3234a4cf3f9c581dc9274c9",
+            "pcmBytes": 8,
+            "graph": {
+              "result": "PASS",
+              "samples": 1,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            }
+          }
+        ],
+        "unsupportedDecoder": {
+          "result": "PASS",
+          "unsupportedDecoderRejected": true,
+          "samples": 0,
+          "released": true
+        }
+      }
+    ],
+    "publicClassicGaplessCapability": false,
+    "scope": "production private MP4 source/reader + actual internal decoder + DirectShow PCM capture, no hardware/user processing"
+  },
+  "sameGraphSeeks": 12,
+  "incompleteSeeks": 4,
+  "growingRuns": 8,
+  "timestampTolerance100ns": 3,
+  "classicLegacyRegression": [
+    {
+      "profile": "audio-mp3-indexed-stereo-info-44100",
+      "result": "PASS",
+      "phases": [
+        "four-seconds-buffers",
+        "plays-without-second-track",
+        "pause",
+        "seek-while-paused",
+        "resume",
+        "tail-waits-not-eof",
+        "seek-published-tail",
+        "natural-eof-and-release"
+      ],
+      "originalUnchanged": true,
+      "readerIdentityPreserved": true
+    },
+    {
+      "profile": "audio-mp3-mono-cbr-44100",
+      "result": "PASS",
+      "phases": [
+        "four-seconds-buffers",
+        "plays-without-second-track",
+        "pause",
+        "seek-while-paused",
+        "resume",
+        "tail-waits-not-eof",
+        "seek-published-tail",
+        "natural-eof-and-release"
+      ],
+      "originalUnchanged": true,
+      "readerIdentityPreserved": true
+    },
+    {
+      "profile": "audio-adts-mono-44100",
+      "result": "PASS",
+      "phases": [
+        "four-seconds-buffers",
+        "plays-without-second-track",
+        "pause",
+        "seek-while-paused",
+        "resume",
+        "tail-waits-not-eof",
+        "seek-published-tail",
+        "natural-eof-and-release"
+      ],
+      "originalUnchanged": true,
+      "readerIdentityPreserved": true
+    },
+    {
+      "profile": "audio-raw-flac-mono-16-44100",
+      "result": "PASS",
+      "phases": [
+        "four-seconds-buffers",
+        "plays-without-second-track",
+        "pause",
+        "seek-while-paused",
+        "resume",
+        "tail-waits-not-eof",
+        "seek-published-tail",
+        "natural-eof-and-release"
+      ],
+      "originalUnchanged": true,
+      "readerIdentityPreserved": true
+    }
+  ],
+  "publicApiRejection": [
+    {
+      "contract": "classic-gapless-explicit-rejection",
+      "result": "PASS",
+      "checks": [
+        "probe-unsupported-media",
+        "start-unsupported-media"
+      ],
+      "readerCreated": false
+    }
+  ],
+  "classicCleanup": {
+    "lastTaskResult": 0,
+    "taskRemoved": true,
+    "stageRemoved": true,
+    "builtSha256": "595e421e2e91e48acc1cbcaddc5450f923763ec77db6edac91fadd989947553c",
+    "testedSha256": "595e421e2e91e48acc1cbcaddc5450f923763ec77db6edac91fadd989947553c",
+    "equal": true,
+    "testExitCode": 0
+  },
+  "exitCodes": {
+    "classic-pcm-graph-build": 0,
+    "classic-pcm-graph-probe-build": 0,
+    "classic-pcm-graph-tests": 0,
+    "classic-graph-final-classic-finalize": 0
+  },
+  "sourceFilesSha256": {
+    "src/DSUtil/HarvesterSession.cpp": "29a7cc7339e5e92ba04f982fdbf1b876c9b8a23253d0793c52d23abce737ef4f",
+    "src/DSUtil/HarvesterSession.h": "90df458d8295059bf99d828e6bc2709058b0d0c4cd078f3f62b9911c84f5a171",
+    "src/DSUtil/ProgressivePcmControl.h": "d6bb1e353a7fedb61f8163182636661f845439345e7bc7c86fe3c7d82494a3a9",
+    "src/filters/parser/MP4Splitter/MP4Splitter.cpp": "1329ea06dd4f5db9161a0d8f4eeccb740d14b51ae635d6c00715c42eb91866d7",
+    "src/filters/parser/MP4Splitter/MP4Splitter.h": "5482da092c1e5529d19de3d78882be957c60d9a54a15755c4de961dabc3e7049",
+    "src/filters/transform/MpaDecFilter/MpaDecFilter.cpp": "2ef9d762b7942c4c82831b65aa5f1e7e3081e74136b80cb473c2fcd2a70b23c3",
+    "src/filters/transform/MpaDecFilter/MpaDecFilter.h": "de11521ba8fee8facc1ab2d9f848b7da01cb3965fa31048d2aac07f183045dad",
+    "tests/progressive_classic_pcm_graph.py": "66a37270017d72088e05a2b2ae2b478d7a2d33f63ca4f1da05f0f4982c805d7a",
+    "tests/windows/build_classic_pcm_graph_probe.cmd": "27f60556016f1f5191cb3deca2e1126f2af2e662b6ad6f02dfa2c256ebf02e90",
+    "tests/windows/classic_mp3_graph_probe.cpp": "bab030e5cd6784feb9a0adf1f574bcf61f40e1ae636aedb79e738ba9e508e384",
+    "tools/package_progressive_sdk.py": "2f3e2eef00f5fd50071f6fbe6bd220dc2fc14f7251e0e28512b2bc4db9731a1c"
+  },
+  "binarySha256": {
+    "classic": "595e421e2e91e48acc1cbcaddc5450f923763ec77db6edac91fadd989947553c",
+    "graphProbe": "2a15ff6c2ae788a76faa92008a569567c4e46fa1e76a27d2c044932eac4b9a1a",
+    "referenceDecoder": "10e63937c9f7f4a305c4e7653dfc2dfd3637d8e0341d7a147f0af1223a3fa703",
+    "decoderLibrary": "7526102a23a9d16628ff4b6fc5bf86321cb04ca24ef0fefc2fb0fb395c936bc3",
+    "mp4SplitterLibrary": "41d4dd96c069bc5591084f27711eefc2ef677d60a2560161cb41e19b0e31c8b4",
+    "sourceLibrary": "fd86f4dc76b2bcd2cbeb1709d98a3702bd5f52de08eeff0547ead3f3b3d9332c",
+    "linuxInstalled": "0f9a2572c22b962c749d1800c9ab9ec57cfa0c9ba5007215897d93cf73c87187"
+  },
+  "preservation": {
+    "windowsInstalledExeIniUnchanged": true,
+    "windowsSha256": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931"
+    },
+    "classicShellUnchanged": true,
+    "classicShellEntries": 158,
+    "linuxExecutableUnchanged": true,
+    "linuxIniSha256": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+    "linuxReinstallationRequired": false,
+    "harvesterModified": false
+  },
+  "privateLogSha256": {
+    "classic-pcm-graph-tests": "1a8bfee4fb6747da3b993ebbe2b7f49c502dd462c58b346565ba3936f62ba0bf",
+    "classic-pcm-graph-probe-build": "f4f092d2e2d90f877ca960fa6a3b625081bc61a78d61ae12d2eecf289b2eccd9",
+    "classic-pcm-graph-build": "0ed3196c360c6ac845bb57f0696d9d668bf6a031a8006c35b2a6a2f3339b6410"
+  },
+  "resolvedFailures": [
+    {
+      "exitCode": 2,
+      "scope": "probe compile",
+      "reason": "ATL wide-string conversion required an explicit std::wstring for registry path"
+    },
+    {
+      "exitCode": 1,
+      "scope": "initial real graph",
+      "reason": "Arming from demux thread raced output-thread startup flush; flags were cleared and capture received no valid windowed PCM. Moved plan delivery into MP4 output pin, after startup flush and before first packet"
+    }
+  ],
+  "limits": [
+    "Private opt-in factory only; Classic API/capability still rejects mp3-gapless by default",
+    "Tested Windows production source, internal decoder and float PCM capture renderer; no physical device or user AudioSwitcher chain",
+    "Graph proof uses null reference clock and speed 1; frontend decoder forcing, status/UI, further output processing and speeds remain open",
+    "Actual PCM compared byte-for-byte to coded-output slice of the same Classic engine; independent decoder-delay reference is in previous component report",
+    "No long stress, physical A/V drift, other MPEG profiles, hardware, Wayland or real Harvester integration claim"
+  ]
+}

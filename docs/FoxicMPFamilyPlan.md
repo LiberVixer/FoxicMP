@@ -524,3 +524,10 @@ Classic явно отказывает новому профилю без reader,
 Публичный gapless Classic пока отключён: подключение graph/controller,
 точное re-arm на seek и capture после DirectShow graph остаются открытыми.
 Qt/SDK 1.68, пользовательские профили и установки не меняются.
+
+[PCM-окно Classic подключено к внутреннему DirectShow-графу](ProgressiveClassicPcmGraph.md):
+точный frame/sample preroll, передача плана после startup flush, применение
+после discontinuity и повторное вооружение на seek. По 16 PCM capture windows,
+четырём growing-профилям и проверке несовместимого downstream без вывода звука.
+Публичная capability Classic остаётся выключенной до выбора decoder/status/UI
+и проверки пользовательской обработки; Qt и SDK 1.68 не меняются.

@@ -27,6 +27,7 @@
 #include "DSUtil/AudioParser.h"
 #include "DSUtil/MP4AudioDecoderConfig.h"
 #include "DSUtil/BitsWriter.h"
+#include "DSUtil/ProgressivePcmControl.h"
 #include "MP4Splitter.h"
 
 #include <ExtLib/Bento4/Core/Ap4.h>
@@ -2730,18 +2731,37 @@ CMP4SplitterOutputPin::~CMP4SplitterOutputPin()
 HRESULT CMP4SplitterOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
 	CAutoLock cAutoLock(this);
+	m_pcmReader.Release();m_pcmWindow={};
 	return __super::DeliverNewSegment(tStart, tStop, dRate);
 }
 
 HRESULT CMP4SplitterOutputPin::DeliverEndFlush()
 {
 	CAutoLock cAutoLock(this);
+	m_pcmReader.Release();m_pcmWindow={};
 	return __super::DeliverEndFlush();
+}
+
+void CMP4SplitterOutputPin::SetPcmWindow(IHarvesterReader* reader,uint64_t begin,uint64_t end,uint32_t rate,uint64_t first)
+{
+	CAutoLock lock(this);m_pcmReader=reader;m_pcmWindow={begin,end,first,rate,true};
 }
 
 HRESULT CMP4SplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> p)
 {
 	CAutoLock cAutoLock(this);
+	if(m_pcmWindow.pending) {
+		// Run on the output delivery thread, after its startup flush and before
+		// the first packet. Source-thread arming races that mandatory flush.
+		CComPtr<IPin> downstream;PIN_INFO info={};CComPtr<IBaseFilter> owner;
+		if(ConnectedTo(&downstream)==S_OK && downstream->QueryPinInfo(&info)==S_OK)owner.Attach(info.pFilter);
+		CComQIPtr<IProgressivePcmControl> control=owner;
+		if(!control || FAILED(control->ArmPcmWindow(1,m_pcmWindow.begin,m_pcmWindow.end,m_pcmWindow.rate,m_pcmWindow.first))) {
+			m_pcmReader->GetSession()->Fail("Decoder has no compatible PCM window or invalid preroll");
+			m_pSplitter->NotifyEvent(EC_ERRORABORT,VFW_E_UNSUPPORTED_AUDIO,0);return VFW_E_UNSUPPORTED_AUDIO;
+		}
+		m_pcmWindow.pending=false;
+	}
 
 	if (p && m_mt.subtype == MEDIASUBTYPE_VP90) {
 		REFERENCE_TIME rtStartTmp = p->rtStart;
@@ -2801,7 +2821,11 @@ HRESULT CMP4SplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> p)
 		}
 	}
 
-	return __super::DeliverPacket(std::move(p));
+	const auto result=__super::DeliverPacket(std::move(p));
+	if(m_pcmReader && result==E_INVALIDARG) {
+		m_pcmReader->GetSession()->Fail("PCM window delivery failed");m_pSplitter->NotifyEvent(EC_ERRORABORT,result,0);
+	}
+	return result;
 }
 
 // Only the explicitly validated single-track progressive source uses this path.
@@ -2809,6 +2833,13 @@ HRESULT CMP4SplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> p)
 bool CMP4SplitterFilter::FragmentDemuxLoop(IHarvesterReader* reader) {
     if(m_trackpos.size()!=1)return false;
     const auto id=m_trackpos.begin()->first;auto pin=GetOutputPin(id);
+    uint64_t begin=0,end=0;uint32_t rate=0;
+    if(reader->GetSession()->Mp3PcmPlan(begin,end,rate)) {
+        const auto time=uint64_t((std::max)(REFERENCE_TIME(0),m_rtStart));
+        const auto target=(std::min)(end-begin-1,time/10000000*rate+((time%10000000)*rate+5000000)/10000000);
+        if(!pin)return false;
+        static_cast<CMP4SplitterOutputPin*>(pin)->SetPcmWindow(reader,begin+target,end,rate,uint64_t(m_fragmentSample)*1152);
+    }
     CComQIPtr<IAsyncReader> bytes=reader;
     while(!CheckRequest(nullptr)) {
         harvester::Sample sample;

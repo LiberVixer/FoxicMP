@@ -16,6 +16,8 @@ class CHarvesterSession {
     std::shared_ptr<std::atomic<bool>> m_released = std::make_shared<std::atomic<bool>>(false);
     std::unique_ptr<foxicmp::progressive::ReaderLease> m_readerLease;
     std::shared_ptr<foxicmp::progressive::Fmp4V2Bridge> m_v2Bridge;
+    uint64_t m_pcmBegin=0,m_pcmEnd=0;
+    uint32_t m_pcmRate=0;
     harvester::Snapshot m_state;
     mutable std::mutex m_mutex;
     std::mutex m_publishMutex;
@@ -48,7 +50,10 @@ public:
     CHarvesterSession();
     ~CHarvesterSession();
     static std::shared_ptr<CHarvesterSession> Open(const std::wstring& path, CStringW& error);
-    static std::shared_ptr<CHarvesterSession> OpenPublished(const std::string& json, CStringW& error, const std::wstring& readerRegistry = {}, std::string* reasonCode=nullptr, bool trackGroup=true);
+    static std::shared_ptr<CHarvesterSession> OpenPublished(const std::string& json, CStringW& error, const std::wstring& readerRegistry = {}, std::string* reasonCode=nullptr, bool trackGroup=true, bool allowMp3PcmWindow=false);
+    bool Mp3PcmPlan(uint64_t& begin,uint64_t& end,uint32_t& rate)const {
+        begin=m_pcmBegin;end=m_pcmEnd;rate=m_pcmRate;return rate!=0;
+    }
     std::string RegisteredReaderId() const;
     std::string PlaybackDetails() const;
     bool HasV2Bridge() const {return bool(m_v2Bridge);}

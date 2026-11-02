@@ -221,7 +221,7 @@ std::wstring CHarvesterSession::TrackLabel(int index) const {
     if(!m_v2Bridge)return index?L"Harvester audio":L"Harvester video";rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());
     const auto& t=d["mediaTracks"][index];const std::string label=t["label"].GetString(),language=t["language"].GetString();return Wide((label.empty()?std::string(t["id"].GetString()):label)+(language.empty()?std::string():" ["+language+"]"));
 }
-std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::string& json,CStringW& error,const std::wstring& readerRegistry,std::string* reasonCode,bool trackGroup) {
+std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::string& json,CStringW& error,const std::wstring& readerRegistry,std::string* reasonCode,bool trackGroup,bool allowMp3PcmWindow) {
     std::shared_ptr<CHarvesterSession> context;
     try {
         context=trackGroup?foxicmp::progressive::SourceRetirement::create<CHarvesterSession>([]{return new CHarvesterSession;}):std::make_shared<CHarvesterSession>();
@@ -230,7 +230,12 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
         if(descriptor.IsObject() && descriptor.HasMember("schemaVersion") && descriptor["schemaVersion"].IsUint() && descriptor["schemaVersion"].GetUint()==2) {
             context->m_publishedRoot=PublishedDirectory(descriptor);descriptor.RemoveMember("sessionDirectory");
             rapidjson::StringBuffer b;rapidjson::Writer<rapidjson::StringBuffer>w(b);descriptor.Accept(w);
-            context->m_v2Bridge=std::make_shared<foxicmp::progressive::Fmp4V2Bridge>(std::filesystem::path(context->m_publishedRoot),std::filesystem::path(readerRegistry),std::string(b.GetString(),b.GetSize()));
+            context->m_v2Bridge=std::make_shared<foxicmp::progressive::Fmp4V2Bridge>(std::filesystem::path(context->m_publishedRoot),std::filesystem::path(readerRegistry),std::string(b.GetString(),b.GetSize()),allowMp3PcmWindow);
+            rapidjson::Document details;details.Parse(context->m_v2Bridge->details().c_str());
+            if(details.HasMember("mediaMode") && std::string(details["mediaMode"].GetString())=="standalone-mp3-gapless") {
+                const auto& p=details["mp3Index"]["trimPlan"];
+                context->m_pcmBegin=std::stoull(p["beginSample"].GetString());context->m_pcmEnd=std::stoull(p["endSample"].GetString());context->m_pcmRate=p["sampleRate"].GetUint();
+            }
             context->m_state=context->m_v2Bridge->snapshot();
             for(int i=0;size_t(i)<context->m_state.tracks.size();++i)context->m_publishedPaths[i]=context->m_publishedRoot+L"\\"+Wide(context->m_state.tracks[i].path);
         }else context->m_state=PublishedSnapshot(json,context->m_publishedPaths,context->m_publishedRoot);
