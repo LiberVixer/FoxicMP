@@ -22,4 +22,16 @@ struct WavExt24Profile:Wav24Profile {
     static const char* Mode(){return "standalone-wav-extensible-pcm24";}static const char* Path(){return "audio.wav-extensible-pcm24.fmp4";}
 };
 using WavExt24Bridge=RawAudioBridge<WavExt24Profile>;
+struct Rf64Pcm16Profile:WavProfile {
+    using Layout=harvester::wav::LayoutRf16;
+    static const char* Tag(){return "rf64Pcm16";}static const char* Hint(){return "rf64-pcm16";}
+    static const char* Mode(){return "standalone-rf64-pcm16";}static const char* Path(){return "audio.rf64-pcm16.fmp4";}
+};
+struct Rf64Pcm24Profile:WavExt24Profile {
+    using Layout=harvester::wav::LayoutRf24;
+    static const char* Tag(){return "rf64Pcm24";}static const char* Hint(){return "rf64-pcm24";}
+    static const char* Mode(){return "standalone-rf64-pcm24";}static const char* Path(){return "audio.rf64-pcm24.fmp4";}
+};
+using Rf64Pcm16Bridge=RawAudioBridge<Rf64Pcm16Profile>;
+using Rf64Pcm24Bridge=RawAudioBridge<Rf64Pcm24Profile>;
 }}

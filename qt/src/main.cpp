@@ -202,7 +202,8 @@ int main(int argc, char **argv) {
     for (const auto &option : parser.optionNames())
       if (!QStringList{"progressive-api-info", "profile", "portable"}.contains(option)) parser.showHelp(1);
     if (!positional.isEmpty()) parser.showHelp(1);
-    const auto json = QJsonDocument(ProgressiveApi::information(directory)).toJson();
+    // Discovery shares the client's 64 KiB response bound with wire replies.
+    const auto json = QJsonDocument(ProgressiveApi::information(directory)).toJson(QJsonDocument::Compact);
     std::fwrite(json.constData(), 1, json.size(), stdout);
     return 0;
   }

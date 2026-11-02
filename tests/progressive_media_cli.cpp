@@ -5,6 +5,9 @@
 #include "../shared/progressivefmp4bridge.h"
 #endif
 #include <iostream>
+#if !defined(FOXICMP_INDEXED_MP4_ONLY) && !defined(FOXICMP_TAIL_MP4_ONLY)
+#include "progressive_rf64_geometry.h"
+#endif
 namespace p=foxicmp::progressive;
 #if defined(FOXICMP_INDEXED_MP4_ONLY) || defined(FOXICMP_TAIL_MP4_ONLY)
 #ifdef FOXICMP_TAIL_MP4_ONLY
@@ -27,6 +30,9 @@ using TestedBridge=p::Fmp4V2Bridge;
 #endif
 
 int main(int argc,char** argv) {
+#if !defined(FOXICMP_INDEXED_MP4_ONLY) && !defined(FOXICMP_TAIL_MP4_ONLY)
+    if(argc==2 && std::string(argv[1])=="--rf64-geometry")return rf64_geometry::run();
+#endif
     if((argc!=3 && argc!=4) || std::string(argv[1])!="--registry" || (argc==4 && std::string(argv[3])!="--mp3-gapless"))return 2;
     const bool allowGapless=argc==4;
     auto registry=std::filesystem::u8path(argv[2]);p::lease_detail::Directory directory(registry,true);

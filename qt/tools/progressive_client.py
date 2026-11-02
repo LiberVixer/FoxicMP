@@ -290,10 +290,12 @@ def main() -> int:
             fields = {"message": args.message} if args.action == "error" else {}
             if args.reader_id is not None: fields["readerId"] = args.reader_id
             reply = client.command(args.action, args.session_id, **fields)
-        print(json.dumps(reply, ensure_ascii=False))
+        # CLI pipes may use a Windows code page; ASCII JSON escapes preserve
+        # every Unicode value without depending on the console encoding.
+        print(json.dumps(reply, ensure_ascii=True))
         return 0
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
-        print(json.dumps({"ok": False, "error": str(error)}, ensure_ascii=False), file=sys.stderr)
+        print(json.dumps({"ok": False, "error": str(error)}, ensure_ascii=True), file=sys.stderr)
         return 1
 
 
