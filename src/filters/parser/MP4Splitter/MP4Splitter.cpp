@@ -2314,16 +2314,17 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         const auto type=entry->GetType();
         const auto session=progressive->GetSession();
         const bool validatedOpus=kind && movie->HasFragments() && session->AllowsOpusFragments(sourceTrack) && type==AP4_ATOM_TYPE_Opus;
+        const bool validatedPcm=kind && movie->HasFragments() && session->AllowsPcmFragments(sourceTrack) && type==AP4_ATOM_TYPE_SOWT;
         const bool validatedFlac=kind && movie->HasFragments() && session->AllowsFlacFragments(sourceTrack) && type==AP4_ATOM_TYPE_FLAC;
         const auto mp3Desc=dynamic_cast<AP4_MpegAudioSampleDescription*>(track->GetSampleDescription(0));
         const bool validatedMp3=kind && movie->HasFragments() && session->AllowsMp3Fragments(sourceTrack) && type==AP4_ATOM_TYPE('m','p','4','a') && mp3Desc && mp3Desc->GetObjectTypeId()==AP4_MPEG1_AUDIO_OTI;
-        const bool validatedFragments=validatedMp3 || validatedOpus || validatedFlac || (!kind && movie->HasFragments()
+        const bool validatedFragments=validatedMp3 || validatedOpus || validatedFlac || validatedPcm || (!kind && movie->HasFragments()
             && ((session->AllowsHevcFragments() && (type==AP4_ATOM_TYPE_HVC1 || type==AP4_ATOM_TYPE_HEV1))
                 || (session->AllowsAv1Fragments() && type==AP4_ATOM_TYPE_av01)
                 || (session->AllowsVp9Fragments() && type==AP4_ATOM_TYPE_vp09)));
         if(type!=(kind?AP4_ATOM_TYPE('m','p','4','a'):AP4_ATOM_TYPE('a','v','c','1')) && !validatedFragments)
             return VFW_E_UNSUPPORTED_STREAM;
-		if (kind && !validatedMp3 && !validatedOpus && !validatedFlac) {
+		if (kind && !validatedMp3 && !validatedOpus && !validatedFlac && !validatedPcm) {
 			auto desc = dynamic_cast<AP4_MpegAudioSampleDescription*>(track->GetSampleDescription(0));
 			if (!desc || desc->GetObjectTypeId() != AP4_MPEG4_AUDIO_OTI || desc->GetMpeg4AudioObjectType() != AOT_AAC_LC) return VFW_E_UNSUPPORTED_STREAM;
 		}

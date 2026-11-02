@@ -104,7 +104,7 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-Предварительный [SDK 1.69](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.69)
+Предварительный [SDK 1.70](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.70)
 предназначен для интеграционных проверок с новыми сборками плеера.
 SDK 1.54–1.55 добавляют обычный растущий MP4 H.264/AAC-LC с индексом в начале
 или в конце файла: [контракт tail-index и advisory ranges](docs/ProgressiveTailMp4.md),
@@ -124,6 +124,7 @@ SDK 1.66 добавляет [MP3 с Xing/Info/VBRI](docs/ProgressiveMp3Indexed.m
 SDK 1.67 добавляет [проверку LAME Info Tag CRC и расчёт границ PCM](docs/ProgressiveMp3Tag.md): повреждённые метаданные не дают разрешения на trim; существующее воспроизведение остаётся по encoded timeline.
 SDK 1.68 добавляет [gapless MP3 в Qt](docs/ProgressiveMp3Gapless.md): полезную звуковую шкалу, точный trim/seek и проверку растущего хвоста. Classic сохраняет прежние MP3-профили; его gapless output adapter остаётся открытым. [Проверки](docs/ProgressiveMp3GaplessValidation-2026-11-02.md).
 SDK 1.69 добавляет [тот же gapless-профиль в Classic](docs/ProgressiveClassicMp3Gapless.md): проверенный внутренний декодер, фактический статус PCM trim и сохранение reader при управлении воспроизведением. Клиент согласует поддержку каждой редакции по capabilities EXE.
+SDK 1.70 добавляет [растущий WAV/PCM16](docs/ProgressiveWav.md) для всех трёх редакций: mono/stereo 44.1/48 kHz, без перекодирования, с ожиданием неполных блоков и подтверждённого конца файла.
 ZIP содержит SDK без EXE/установщиков. Общий remux, произвольные sparse media
 и оставшаяся приёмка перечислены в [чеклисте](docs/ProgressiveCompletionChecklist.md).
 SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](docs/ProgressiveWebmSegments.md), включая постраничный каталог, в трёх редакциях. Требуются новые EXE; SDK содержит клиент и документацию.

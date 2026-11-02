@@ -189,6 +189,7 @@ void RequireOwned(HANDLE file) {
 bool CHarvesterSession::AllowsAv1Fragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="av1";}
 bool CHarvesterSession::AllowsVp9Fragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="vp9";}
 bool CHarvesterSession::AllowsOpusFragments(int track) const {return m_v2Bridge && m_v2Bridge->audioCodec(track)=="opus";}
+bool CHarvesterSession::AllowsPcmFragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="pcm-s16le";}
 bool CHarvesterSession::AllowsFlacFragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="flac";}
 bool CHarvesterSession::AllowsMp3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="mp3";}
 std::string CHarvesterSession::WebMCodec(int track) const {return !m_v2Bridge?std::string():(track || m_v2Bridge->isStandaloneAudio())?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
@@ -492,7 +493,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
         };
         if(OptionalAudioFailed(track))continue;
         try {
-        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track));
+        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track),AllowsPcmFragments(track));
         } catch(const std::exception& error) {if(!m_v2Bridge || state.required)throw;m_v2Bridge->rejectOptionalIndex(track,error.what());continue;}
         result[track]=std::move(next);
     }

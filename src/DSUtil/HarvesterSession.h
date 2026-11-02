@@ -64,6 +64,7 @@ public:
     bool AllowsVp9Fragments() const;
     bool AllowsOpusFragments(int track=1) const;
     bool AllowsFlacFragments(int track=1) const;
+    bool AllowsPcmFragments(int track=1) const;
     bool AllowsMp3Fragments(int track=1) const;
     size_t TrackCount() const {return Snapshot().tracks.size();}
     bool IsAudio(int track) const {return track>0 || Snapshot().tracks.at(track).audio;}

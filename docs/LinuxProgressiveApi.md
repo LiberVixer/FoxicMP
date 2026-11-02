@@ -346,3 +346,12 @@ SDK 1.69: [gapless MP3 через обычный API Classic](ProgressiveClassic
 и 16 controller PCM windows на каждой ОС; SDK — по 68 tests Linux/Windows.
 Общий manifest сохранён, Classic/Qt additions описаны отдельно. Полная audio
 matrix, длительная A/V-приёмка и реальная Harvester-интеграция остаются открытыми.
+
+SDK 1.70: [растущий RIFF/WAVE PCM16](ProgressiveWav.md), mono/stereo
+44.1/48 kHz, отдельный профиль с известными RIFF/data sizes. Проекция без
+перекодирования сохраняет PCM bytes; неполные packets ждут update.
+По 55 native checks Windows/Linux и 55 ASan/UBSan checks, четыре growing
+profiles каждой редакции; повторены MP3 gapless/ADTS native и Classic playback.
+SDK — по 69 tests на ОС. Linux обновлён атомарно с backup и сохранением INI;
+Harvester и установленные Windows-плееры не менялись. RF64/float/24-bit,
+прочие audio profiles и полная приёмка остаются открытыми.
