@@ -13,6 +13,7 @@
 #include "../../../shared/progressiveretirement.h"
 #include "../../../shared/progressiveresourceprobe.h"
 #include "../../../shared/progressivefmp4bridge.h"
+#include "../../../shared/progressiveclassicplayback.h"
 
 namespace {
 using rapidjson::Document;
@@ -78,7 +79,7 @@ std::string ClassicProgressiveApi::Information() {
     Document demux;demux.Parse(foxicmp::progressive::BackendDemuxCapabilities());d.AddMember("backendDemuxProbe",Value(demux,a),a);
     d.AddMember("resourceIoProbeVersion",1,a);Value schemas(rapidjson::kArrayType);schemas.PushBack(2,a);
     d.AddMember("resourceIoSchemaVersions",schemas,a);d.AddMember("resourceIoPlaybackSupported",false,a);d.AddMember("segmentProbeVersion",1,a);
-    d["playbackSchemaVersions"].PushBack(2,a);Document profile;profile.Parse(foxicmp::progressive::Fmp4V2Capabilities());d.AddMember("schema2Playback",Value(profile,a),a);
+    d["playbackSchemaVersions"].PushBack(2,a);Document profile;profile.Parse(foxicmp::progressive::ClassicPlaybackCapabilities().c_str());d.AddMember("schema2Playback",Value(profile,a),a);
     Document preparation;preparation.Parse(R"({"offUi":["probe","start","update","complete"],"maxConcurrent":1,"responseDeadlineMilliseconds":5000,"updatesOffUi":true,"cancellableDiskIo":false})");d.AddMember("mediaPreparation",Value(preparation,a),a);
     return Encode(d);
 }
@@ -129,7 +130,7 @@ void ClassicProgressiveApi::Prepare(const std::shared_ptr<Request>& job) {
             const bool v2=descriptor.HasMember("schemaVersion") && descriptor["schemaVersion"].IsUint() && descriptor["schemaVersion"].GetUint()==2;
             CStringW error;std::string reason;
             if(job->publication){if(!job->candidate->Publish(job->descriptor,error,&reason))job->preparedReply=Failure(reason.empty()?"invalid_update":reason.c_str(),Utf8(error.GetString()));}
-            else job->candidate=CHarvesterSession::OpenPublished(job->descriptor,error,job->registry,&reason,!job->probe);
+            else job->candidate=CHarvesterSession::OpenPublished(job->descriptor,error,job->registry,&reason,!job->probe,true);
             if(job->publication){} // The existing source remains owned by its graph.
             else if(job->probe) {
                 Document result;result.SetObject();auto& a=result.GetAllocator();const auto candidate=job->candidate;
@@ -350,7 +351,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
         }
         const bool v2=d.HasMember("session") && d["session"].IsObject() && d["session"].HasMember("schemaVersion") && d["session"]["schemaVersion"].IsUint() && d["session"]["schemaVersion"].GetUint()==2;
         if((action=="start" || action=="probe") && v2) {
-            try {foxicmp::progressive::Fmp4V2Bridge::CheckProfile(Encode(d["session"]));}
+            try {foxicmp::progressive::Fmp4V2Bridge::CheckProfile(Encode(d["session"]),true);}
             catch(const foxicmp::progressive::Error& e) {
                 if(action=="start")return Failure(e.code.c_str(),e.what());
                 Document result;result.SetObject();auto& a=result.GetAllocator();result.AddMember("version",1,a);result.AddMember("ok",true,a);result.AddMember("supported",false,a);result.AddMember("mode","unsupported",a);result.AddMember("reasonCode",Value(e.code.c_str(),a),a);result.AddMember("reason",Value(e.what(),a),a);return Encode(result);
@@ -366,7 +367,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
                 preparation=prepared->shared_from_this();
                 prepared->requested=true;prepared->probe=true;prepared->descriptor=Encode(descriptor);prepared->registry=v2?ReaderRegistry():std::wstring();prepared->epoch=intentEpoch;return {};
             }
-            CStringW probeError;std::string reason;auto candidate=CHarvesterSession::OpenPublished(Encode(descriptor),probeError,v2?ReaderRegistry():std::wstring(),&reason,false);
+            CStringW probeError;std::string reason;auto candidate=CHarvesterSession::OpenPublished(Encode(descriptor),probeError,v2?ReaderRegistry():std::wstring(),&reason,false,true);
             Document result;result.SetObject();auto& a=result.GetAllocator();result.AddMember("version",1,a);result.AddMember("ok",true,a);result.AddMember("action","probe",a);
             result.AddMember("supported",candidate!=nullptr,a);
             result.AddMember("mode",Value(candidate?"native-progressive":v2?"unsupported":"post-download",a),a);
@@ -411,7 +412,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             if(prepared && !prepared->preparedReply.empty())return prepared->preparedReply;
             if(!prepared)PlaybackIntentChanged();
             CStringW error;std::string reason;auto next=prepared?prepared->candidate:CHarvesterSession::OpenPublished(Encode(descriptor),error,
-                v2 || (d.HasMember("trackReader") && d["trackReader"].GetBool())?ReaderRegistry():std::wstring(),&reason);
+                v2 || (d.HasMember("trackReader") && d["trackReader"].GetBool())?ReaderRegistry():std::wstring(),&reason,true,true);
             if(!next)return Failure(v2?reason.c_str():"source_not_ready",Utf8(error.GetString()));
             auto data=std::make_unique<OpenFileData>();data->harvesterManifest=L"published-api";data->fi=CStringW(next->Path(0).c_str());for(size_t i=1;i<next->TrackCount();++i)if(next->Snapshot().tracks[i].initializationReady)data->auds.emplace_back(next->Path(int(i)).c_str());data->bAddRecent=FALSE;
             if(!title.empty())data->fi.SetTitle(title.c_str());

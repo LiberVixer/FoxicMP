@@ -50,7 +50,14 @@ def exercise(client,fixtures,work,pause,seek,profile):
                 if container=='mp3-gapless':
                     index=s['mp3Index'];assert index['encoderTagCrcVerified'] and index['timeline']=='audible-samples' and not index['trimPlan']['analysisOnly'] and index['trimPlan']['ready'],s
                     assert s.get('durationSeconds',20)==20,s
-                    if s['state'] in ('playing','paused'):assert index['gaplessTrimApplied'],s
+                    if index.get('pcmWindowAdapter')=='classic-directshow-mp3-window-v1':
+                        # A paused seek flushes the old decoder window; the new
+                        # window is applied only when the next packet arrives.
+                        assert index['pcmWindowState'] in ('idle','pending','applied'),s
+                        assert index['gaplessTrimApplied']==(index['pcmWindowState']=='applied'),s
+                        if s['state'] in ('playing','paused') and label!='seek-while-paused' and not index['gaplessTrimApplied']:
+                            time.sleep(.08);continue
+                    elif s['state'] in ('playing','paused'):assert index['gaplessTrimApplied'],s
                 if container=='mp3-indexed':
                     index=s['mp3Index'];valid=probe['_index']['tagCrcValid']
                     assert index['encoderTagCrcVerified']==valid and index['encoderTag']['crcVerified']==valid,s

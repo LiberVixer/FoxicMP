@@ -18,6 +18,7 @@ class CHarvesterSession {
     std::shared_ptr<foxicmp::progressive::Fmp4V2Bridge> m_v2Bridge;
     uint64_t m_pcmBegin=0,m_pcmEnd=0;
     uint32_t m_pcmRate=0;
+    std::atomic<DWORD> m_pcmState{0};
     harvester::Snapshot m_state;
     mutable std::mutex m_mutex;
     std::mutex m_publishMutex;
@@ -54,6 +55,7 @@ public:
     bool Mp3PcmPlan(uint64_t& begin,uint64_t& end,uint32_t& rate)const {
         begin=m_pcmBegin;end=m_pcmEnd;rate=m_pcmRate;return rate!=0;
     }
+    void ReportPcmState(DWORD state){m_pcmState.store(state);}
     std::string RegisteredReaderId() const;
     std::string PlaybackDetails() const;
     bool HasV2Bridge() const {return bool(m_v2Bridge);}

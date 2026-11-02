@@ -35,6 +35,15 @@ class V2SdkTest(unittest.TestCase):
             with self.subTest(key=key,value=wrong),self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
             self.assertFalse(client.calls)
         cap['mp3Gapless']=expected;V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
+    def test_classic_gapless_requires_verified_backend(self):
+        client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='mp3',containerHint='mp3-gapless',source=dict(resourceId='media'))
+        value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]
+        cap=dict(version=1,mode='standalone-mp3-gapless-v1',profiles=['standalone-mp3-gapless'],timeline='audible-samples',gaplessTrim=True,encoderTagCrcRequired=True,pcmWindowAdapter='classic-directshow-mp3-window-v1')
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=dict(mp3Gapless=cap)))
+        V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
+        client.calls.clear();cap['pcmWindowAdapter']='classic-unverified'
+        with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls)
     def test_standalone_requires_independent_versioned_capability(self):
         client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='aac-lc',containerHint='fmp4',source=dict(resourceId='media'))
         value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))];cap={}

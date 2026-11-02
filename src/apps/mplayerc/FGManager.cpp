@@ -1285,6 +1285,17 @@ STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlay
 		if (FAILED(hr) || FAILED(hr = source->LoadReader(lpcwstrFileName, async))) return hr;
 		reader->StartStreaming();
 		if (FAILED(hr = AddFilter(filter, m_harvester->TrackLabel(kind).c_str()))) return hr;
+		uint64_t pcmBegin=0,pcmEnd=0;uint32_t pcmRate=0;
+		if(m_harvester->Mp3PcmPlan(pcmBegin,pcmEnd,pcmRate)) {
+			// The verified PCM policy belongs to this internal decoder. Bypass
+			// codec merits/overrides for this explicit profile only.
+			auto* decoder=DNew CMpaDecFilter(nullptr,&hr);CComPtr<IBaseFilter> decoded=decoder;
+			if(SUCCEEDED(hr))hr=AddFilter(decoded,L"FoxicMP gapless MP3 decoder");
+			if(SUCCEEDED(hr))hr=ConnectDirect(GetFirstPin(filter,PINDIR_OUTPUT),GetFirstPin(decoded,PINDIR_INPUT),nullptr);
+			if(SUCCEEDED(hr))hr=ConnectFilter(decoded,nullptr);
+			if(FAILED(hr)){RemoveFilter(decoded);RemoveFilter(filter);}
+			return hr;
+		}
 		hr = ConnectFilter(filter, nullptr);
 		if (FAILED(hr)) RemoveFilter(filter);
 		return hr;

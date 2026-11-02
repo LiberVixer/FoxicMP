@@ -28,11 +28,21 @@ def run(runner,decoder_runner):
     assert status['seekWhileIncomplete']==incomplete,status
     actual=output.read_bytes();expected=coded[(begin+target)*channels*4:end*channels*4];assert actual==expected,(profile,target,len(actual),len(expected))
     outputs.append(dict(targetSample=target,sha256=hashlib.sha256(actual).hexdigest(),pcmBytes=len(actual),graph=status));checks.append(profile+'-graph-pcm-'+str(target))
+   gainWindows=[]
+   for target in (0,rate*2+1):
+    output=root/('gain-'+str(target)+'.f32')
+    args=[runner,str(root/'initial.json'),str(root/'full.json'),str(root/'complete.json'),str(output),str(rate),str(channels),str(target),'0',str(root/('gain-registry-'+str(target))),'--audio-switcher']
+    p=subprocess.run(args,capture_output=True,text=True,timeout=60);assert p.returncode==0,(profile,target,p.returncode,p.stdout,p.stderr)
+    status=json.loads(p.stdout.strip().splitlines()[-1]);assert status['samples']==rate*4-target and status['windowApplied'] and status['stopCleared'],status
+    from array import array
+    actual=array('f');actual.frombytes(output.read_bytes());expected=array('f');expected.frombytes(coded[(begin+target)*channels*4:end*channels*4]);assert len(actual)==len(expected)
+    gain=10**(-3/20);maximum=max(abs(a-b*gain) for a,b in zip(actual,expected));assert maximum<=2e-8,(profile,target,maximum)
+    gainWindows.append(dict(targetSample=target,pcmBytes=len(actual)*4,maxAbsoluteError=maximum,gainDb=-3,gain=gain,graph=status));checks.append(profile+'-audio-switcher-gain-'+str(target))
    negative=[runner,str(root/'initial.json'),str(root/'full.json'),str(root/'complete.json'),str(root/'rejected.f32'),str(rate),str(channels),'0','0',str(root/'negative-registry'),'--unsupported-decoder']
    p=subprocess.run(negative,capture_output=True,text=True,timeout=30);assert p.returncode==0,(profile,p.stdout,p.stderr)
    rejected=json.loads(p.stdout.strip().splitlines()[-1]);assert rejected['unsupportedDecoderRejected'] and rejected['samples']==0 and rejected['released'],rejected
    checks.append(profile+'-unsupported-decoder-rejected-without-output')
-   assert original.read_bytes()==raw;checks.append(profile+'-original-unchanged');rows.append(dict(profile=profile,windows=outputs,unsupportedDecoder=rejected))
- return dict(result='PASS',count=len(checks),checks=checks,profiles=rows,publicClassicGaplessCapability=False,scope='production private MP4 source/reader + actual internal decoder + DirectShow PCM capture, no hardware/user processing')
+   assert original.read_bytes()==raw;checks.append(profile+'-original-unchanged');rows.append(dict(profile=profile,windows=outputs,audioSwitcherGain=gainWindows,unsupportedDecoder=rejected))
+ return dict(result='PASS',count=len(checks),checks=checks,profiles=rows,scope='production private MP4 source/reader + actual internal decoder + AudioSwitcher gain + DirectShow PCM capture; no hardware')
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--runner',required=True);p.add_argument('--decoder-runner',required=True);a=p.parse_args();print(json.dumps(run(a.runner,a.decoder_runner)))

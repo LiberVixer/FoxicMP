@@ -337,3 +337,12 @@ checks, четырём growing profiles и 16 controller PCM windows на Qt О�
 Classic явно отказывает новому профилю без reader, сохраняя прежнее воспроизведение;
 его output adapter остаётся открытым. Общие capabilities прежние, Qt-дополнение
 описано отдельно. Linux обновлён с backup и сохранением INI. Harvester не изменён.
+
+SDK 1.69: [gapless MP3 через обычный API Classic](ProgressiveClassicMp3Gapless.md).
+Проверенный внутренний decoder подключается независимо от codec merits;
+статус отражает применение PCM-окна, в том числе после paused seek/Stop/cancel.
+Четыре growing profiles Classic и 12 запусков Stop/cancel/reopen с отключённым
+обычным приоритетом internal MP3 прошли проверку. Повторены четыре Qt profiles
+и 16 controller PCM windows на каждой ОС; SDK — по 68 tests Linux/Windows.
+Общий manifest сохранён, Classic/Qt additions описаны отдельно. Полная audio
+matrix, длительная A/V-приёмка и реальная Harvester-интеграция остаются открытыми.

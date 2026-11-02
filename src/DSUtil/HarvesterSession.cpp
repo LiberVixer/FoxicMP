@@ -199,6 +199,12 @@ std::string CHarvesterSession::PlaybackDetails() const {
     if(!m_v2Bridge)return "{\"schemaVersion\":1}";
     std::lock_guard<std::mutex> lock(m_mutex);rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());
     auto& a=d.GetAllocator();d["revision"].SetString(std::to_string(m_state.revision).c_str(),a);
+    if(m_pcmRate) {
+        const auto state=WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0?0:m_pcmState.load();
+        d["mp3Index"]["gaplessTrimApplied"].SetBool((state&6)==2);
+        d["mp3Index"].AddMember("pcmWindowAdapter","classic-directshow-mp3-window-v1",a);
+        d["mp3Index"].AddMember("pcmWindowState",rapidjson::Value(state&4?"error":state&2?"applied":state&1?"pending":"idle",a),a);
+    }
     for(auto& track:d["subtitleTracks"].GetArray()) {
         if(!track["path"].GetStringLength())continue;
         const auto found=m_subtitleLoadErrors.find(Wide(track["path"].GetString()));
@@ -345,7 +351,7 @@ std::wstring CHarvesterSession::Path(int track) const { std::lock_guard<std::mut
 harvester::Snapshot CHarvesterSession::Snapshot() const {std::lock_guard<std::mutex> lock(m_mutex);return m_state;}
 std::string CHarvesterSession::Error() const {std::lock_guard<std::mutex> lock(m_mutex);return m_error;}
 void CHarvesterSession::Fail(const char* reason) { {std::lock_guard<std::mutex> lock(m_mutex); if(m_error.empty())m_error=reason; m_status="error";} Cancel(); }
-void CHarvesterSession::Cancel() {SetEvent(m_cancel);if(m_v2Bridge)m_v2Bridge->cancel();}
+void CHarvesterSession::Cancel() {m_pcmState.store(0);SetEvent(m_cancel);if(m_v2Bridge)m_v2Bridge->cancel();}
 void CHarvesterSession::Notify(const char* status) {std::lock_guard<std::mutex> lock(m_mutex);m_status=status;}
 bool CHarvesterSession::ConnectPipe() {
     auto s=Snapshot(); auto name=L"\\\\.\\pipe\\FoxicMP.Harvester."+Wide(s.sessionId);

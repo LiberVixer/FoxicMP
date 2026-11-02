@@ -2,7 +2,7 @@
 
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
-Текущий проверенный срез — SDK 1.68, приложение 0.2.0. Этот документ — перечень
+Текущий проверенный срез — SDK 1.69, приложение 0.2.0. Этот документ — перечень
 работ и критериев; пустой checkbox не означает отсутствие функции у обычного
 воспроизведения завершённых файлов. Проверяется именно progressive-сценарий.
 
@@ -78,6 +78,7 @@
 - [x] SDK 1.68: [gapless MP3 в Qt](ProgressiveMp3Gapless.md), audible timeline, проверенный CRC, PCM trim/seek и ожидание writer complete. По 31 new native checks, четыре growing profiles и 16 controller PCM windows на Qt ОС; Classic явно отказывает и сохраняет прежний playback. [Проверки](ProgressiveMp3GaplessValidation-2026-11-02.md). Classic output adapter и остальная MPEG matrix открыты.
 - Реализован [внутренний PCM-адаптер Classic](ProgressiveClassicPcmWindow.md): 40 checks настоящего decoder и 1737 scalar checks на Windows/Linux. Это компонент без подключения progressive graph/controller; capability Classic остаётся выключенной.
 - Проверен [внутренний DirectShow graph с PCM-окном](ProgressiveClassicPcmGraph.md): 16 точных окон, growing/full-prefix wait, same-graph seek, Stop/release и отказ несовместимому downstream. Публичный Classic профиль, выбор decoder/status/UI и AudioSwitcher приёмка открыты.
+- [x] SDK 1.69: [обычный API Classic для gapless MP3](ProgressiveClassicMp3Gapless.md), принудительный проверенный decoder, фактический PCM status, четыре growing profiles и Stop/cancel/reopen. Повторная Qt-проверка на обеих ОС; остальные MPEG/audio profiles и общая приёмка остаются открытыми.
 - [ ] Отсутствие аудиоустройства не делает валидный video-only источник ошибочным.
 - [ ] MPEG-2/MPEG-4 Part 2 для предусмотренных ТЗ загрузок/локальных входов.
 

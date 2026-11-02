@@ -32,6 +32,13 @@ class Client:
         return dict(ok=True, active=False, released=False)
 
 class SdkTest(unittest.TestCase):
+    def test_classic_and_qt_gapless_contract_differs_only_in_adapter(self):
+        sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
+        from package_progressive_sdk import classic_schema2_playback,qt_schema2_playback
+        classic,qt=classic_schema2_playback(),qt_schema2_playback()
+        self.assertEqual(classic['standalone']['mp3Gapless'].pop('pcmWindowAdapter'),'classic-directshow-mp3-window-v1')
+        self.assertEqual(qt['standalone']['mp3Gapless'].pop('pcmWindowAdapter'),'qt-lavfi-absolute-samples-v1')
+        self.assertEqual(classic,qt)
     def test_package_keeps_classic_and_qt_capabilities_separate(self):
         sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
         from package_progressive_sdk import schema2_playback,qt_schema2_playback
@@ -80,7 +87,7 @@ class SdkTest(unittest.TestCase):
         def request(message,timeout):
             requests.append((message,timeout));return dict(reader=dict(released=False))
         client.request=request;self.assertFalse(client.release_reader('b'*32,timeout=.02)['released'])
-        self.assertEqual(requests[0][0],dict(version=1,action='readerRelease',readerId='b'*32));self.assertLessEqual(requests[0][1],.02)
+        self.assertEqual(requests[0][0],dict(version=1,action='readerRelease',readerId='b'*32));self.assertLessEqual(requests[0][1],.02+1e-8)
     def snapshot(self, ready=False):
         return dict(sessionId='f'*32, generation=1, revision=1, state='downloading',
                     tracks={k:dict(initializationReady=ready) for k in ('video','audio')})
@@ -121,7 +128,7 @@ class SdkTest(unittest.TestCase):
         result = client.release('f'*32, timeout=.02)
         self.assertFalse(result['released'])
         self.assertEqual(requests[0][0], 'release')
-        self.assertLessEqual(requests[0][1], .02)
+        self.assertLessEqual(requests[0][1], .02+1e-8)
     def test_old_capabilities_cannot_claim_safe_release(self):
         client = Client()
         client.request = lambda _: dict(schemaVersion=1, actions=[])

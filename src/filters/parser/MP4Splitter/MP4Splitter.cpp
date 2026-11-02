@@ -2731,14 +2731,16 @@ CMP4SplitterOutputPin::~CMP4SplitterOutputPin()
 HRESULT CMP4SplitterOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
 	CAutoLock cAutoLock(this);
-	m_pcmReader.Release();m_pcmWindow={};
+	if(m_pcmReader)m_pcmReader->GetSession()->ReportPcmState(0);
+	m_pcmControl.Release();m_pcmReader.Release();m_pcmWindow={};
 	return __super::DeliverNewSegment(tStart, tStop, dRate);
 }
 
 HRESULT CMP4SplitterOutputPin::DeliverEndFlush()
 {
 	CAutoLock cAutoLock(this);
-	m_pcmReader.Release();m_pcmWindow={};
+	if(m_pcmReader)m_pcmReader->GetSession()->ReportPcmState(0);
+	m_pcmControl.Release();m_pcmReader.Release();m_pcmWindow={};
 	return __super::DeliverEndFlush();
 }
 
@@ -2761,6 +2763,7 @@ HRESULT CMP4SplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> p)
 			m_pSplitter->NotifyEvent(EC_ERRORABORT,VFW_E_UNSUPPORTED_AUDIO,0);return VFW_E_UNSUPPORTED_AUDIO;
 		}
 		m_pcmWindow.pending=false;
+		m_pcmControl=control;m_pcmReader->GetSession()->ReportPcmState(1);
 	}
 
 	if (p && m_mt.subtype == MEDIASUBTYPE_VP90) {
@@ -2822,6 +2825,7 @@ HRESULT CMP4SplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> p)
 	}
 
 	const auto result=__super::DeliverPacket(std::move(p));
+	if(m_pcmReader && m_pcmControl) {DWORD state=0;if(m_pcmControl->PcmWindowState(&state)==S_OK)m_pcmReader->GetSession()->ReportPcmState(state);}
 	if(m_pcmReader && result==E_INVALIDARG) {
 		m_pcmReader->GetSession()->Fail("PCM window delivery failed");m_pSplitter->NotifyEvent(EC_ERRORABORT,result,0);
 	}
