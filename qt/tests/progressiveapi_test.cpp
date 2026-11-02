@@ -923,6 +923,11 @@ private slots:
     for(const auto& n:QStringList{"audio-mp3-mono-cbr-48000","audio-mp3-mono-vbr-48000","audio-mp3-stereo-cbr-48000","audio-mp3-stereo-vbr-48000"})QTest::newRow(qPrintable(n))<<n;
   }
   void standaloneMp348Playback() {standalonePlayback();}
+  void standaloneWavExt24Playback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-wav-ext24-mono-44100","audio-wav-ext24-stereo-44100","audio-wav-ext24-mono-48000","audio-wav-ext24-stereo-48000"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneWavExt24Playback() {standalonePlayback();}
   void standaloneWav24Playback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"audio-wav24-mono-44100","audio-wav24-stereo-44100","audio-wav24-mono-48000","audio-wav24-stereo-48000"})QTest::newRow(qPrintable(n))<<n;
@@ -992,7 +997,7 @@ private slots:
       QFile file(work+"/control.json");if(file.open(QIODevice::ReadOnly)){const auto c=QJsonDocument::fromJson(file.readAll()).object();file.close();if(c["sequence"].toInt()>sequence){sequence=c["sequence"].toInt();if(c["action"]=="pause")w.actions["play"]->trigger();else if(c["action"]=="seek")QVERIFY(w.seekTo(c["value"].toDouble()));}}
       if(!w.progressiveSession() || w.progressivePlaybackStatus()["state"]!="playing")return;
       const auto tracks=player->get("track-list").toList();int audios=0,videos=0;for(const auto& t:tracks){const auto kind=t.toMap().value("type");audios+=kind=="audio";videos+=kind=="video";}
-      if(audio){if(mediaProfile.startsWith("audio-mp3-"))mp3Preroll|=qAbs(player->get("options/hr-seek-demuxer-offset").toDouble()-.25)<.001;decoded|=audios==1 && videos==0 && player->get("audio-codec-name")== (mediaProfile.contains("-eac3-")?"eac3":mediaProfile.contains("-ac3-")?"ac3":mediaProfile.contains("-wav24-")?"pcm_s24le":mediaProfile.contains("-wav-")?"pcm_s16le":mediaProfile.contains("-mp3-")?"mp3":mediaProfile.contains("-flac-")?"flac":mediaProfile.contains("-vorbis-")?"vorbis":mediaProfile.contains("-opus-")?"opus":"aac") && player->get("audio-params/samplerate").toInt()==(mediaProfile.contains("44100")?44100:48000) && player->get("audio-params/channel-count").toInt()==(mediaProfile.contains("stereo")?2:1);}
+      if(audio){if(mediaProfile.startsWith("audio-mp3-"))mp3Preroll|=qAbs(player->get("options/hr-seek-demuxer-offset").toDouble()-.25)<.001;decoded|=audios==1 && videos==0 && player->get("audio-codec-name")== (mediaProfile.contains("-eac3-")?"eac3":mediaProfile.contains("-ac3-")?"ac3":(mediaProfile.contains("-wav24-") || mediaProfile.contains("-wav-ext24-"))?"pcm_s24le":mediaProfile.contains("-wav-")?"pcm_s16le":mediaProfile.contains("-mp3-")?"mp3":mediaProfile.contains("-flac-")?"flac":mediaProfile.contains("-vorbis-")?"vorbis":mediaProfile.contains("-opus-")?"opus":"aac") && player->get("audio-params/samplerate").toInt()==(mediaProfile.contains("44100")?44100:48000) && player->get("audio-params/channel-count").toInt()==(mediaProfile.contains("stereo")?2:1);}
       else {
         const auto codec=player->get("video-format").toString(),pixels=player->get("video-dec-params/pixelformat").toString();
         if(videos==1 && audios==0 && codec==((mediaProfile.startsWith("video-webm-") || mediaProfile.startsWith("video-fmp4-"))?mediaProfile.section('-',2,2):"h264") && pixels.startsWith("yuv420p") && (mediaProfile.contains("-10")?pixels.contains("10"):pixels=="yuv420p")){
