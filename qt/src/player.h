@@ -63,6 +63,7 @@ public:
   bool loadPcmWindowSource(const QString &url,
                            const QMap<QString, QString> &options,
                            const AudioPcmWindow &window);
+  bool pcmWindowActive() const;
   void attachPrepared(const std::shared_ptr<foxicmp::progressive::PreparedClip>&);
   QString attachStdin(int descriptor, QString *error = nullptr);
   void progressiveSource(const std::shared_ptr<ProgressiveSource> &source);

@@ -19,6 +19,7 @@
 #include "../../shared/progressiveretirement.h"
 #include "../../shared/progressiveresourceprobe.h"
 #include "../../shared/progressivefmp4bridge.h"
+#include "../../shared/progressiveqtplayback.h"
 #ifndef Q_OS_WIN
 #include <sys/socket.h>
 #include <unistd.h>
@@ -95,7 +96,7 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
           {"readerRegistryOffUi",true},{"sourceRetirement",QJsonObject{{"maxSources",int(foxicmp::progressive::SourceRetirement::Capacity)},{"workerLimit",int(foxicmp::progressive::SourceRetirement::WorkerLimit)},{"processOwned",true},{"filesClosedBeforeRelease",true}}},
           {"readerLeaseProtocol", 1}, {"readerLeaseOptIn", true}, {"maxReaderReceipts", 128},
           {"playbackSchemaVersions", QJsonArray{1,2}}, {"validationSchemaVersions", QJsonArray{2}},
-          {"schema2Playback",QJsonDocument::fromJson(foxicmp::progressive::Fmp4V2Capabilities()).object()},
+          {"schema2Playback",QJsonDocument::fromJson(QByteArray::fromStdString(foxicmp::progressive::QtPlaybackCapabilities())).object()},
           {"qtMultiAudioSeek",QJsonObject{{"maxTargetSecondsWhileIncomplete",maxVodSeconds},{"completeSourceByteSeek",true},{"confirmedRangesOnly",true},{"mode","confirmed-byte-seek"}}},
           {"releaseAcknowledgement", true},
           {"mediaPreparation",QJsonObject{{"offUi",QJsonArray{"probe","start","update","complete"}},{"maxConcurrent",1},{"responseDeadlineMilliseconds",5000},{"updatesOffUi",true},{"cancellableDiskIo",false}}},
@@ -203,7 +204,7 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
   }
   if ((action == "start" || action == "probe") && input.value("session").isObject() &&
       input["session"].toObject().value("schemaVersion") == QJsonValue(2)) {
-    try {foxicmp::progressive::Fmp4V2Bridge::CheckProfile(QJsonDocument(input["session"].toObject()).toJson(QJsonDocument::Compact).toStdString());}
+    try {foxicmp::progressive::Fmp4V2Bridge::CheckProfile(QJsonDocument(input["session"].toObject()).toJson(QJsonDocument::Compact).toStdString(),true);}
     catch(const foxicmp::progressive::Error& e) {
       if(action=="probe")return {{"version",1},{"ok",true},{"action","probe"},{"supported",false},{"mode","unsupported"},{"reasonCode",QString::fromStdString(e.code)},{"reason",QString::fromUtf8(e.what())}};
       return failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));

@@ -4,7 +4,13 @@
 #include "progressiveresourceio.h"
 
 namespace foxicmp { namespace progressive {
-template<class Profile> class RawAudioBridge {
+struct RawAudioClock {
+    template<class Layout> static uint64_t Total(const Layout& l){return l.info.total;}
+    template<class Layout> static uint64_t Samples(const Layout& l){return l.Samples();}
+    template<class Layout> static int64_t Offset(const Layout&){return 0;}
+    template<class Layout> static uint64_t Bytes(const Layout& l,bool){return l.view.bytes;}
+};
+template<class Profile,class Clock=RawAudioClock> class RawAudioBridge {
     using Waiting=typename Profile::Waiting;
     struct Published {Snapshot model;std::string resource,track;uint64_t prefix=0;bool complete=false;typename Profile::Layout layout;harvester::Snapshot legacy;};
     std::shared_ptr<ResourceSource> source;std::filesystem::path registry;std::shared_ptr<const Published> current;std::mutex publication;
@@ -22,8 +28,8 @@ template<class Profile> class RawAudioBridge {
     void materialize(Published& p,const Published* old){if(old)p.layout=old->layout;Require(p.model.tracks.at(p.track).initializationReady,Profile::Tag(),Profile::Message("Wait for raw FLAC initialization").c_str(),"waiting_initialization");
         p.layout.Update([&](uint64_t at,void* data,size_t n){return exact(p.resource,at,data,n);},p.prefix,p.complete);
         const auto& info=p.layout.info;const auto ticks=[&](uint64_t n){return int64_t(n/info.rate*10000000+(n%info.rate)*10000000/info.rate);};
-        supported(!info.total || std::abs(ticks(info.total)-p.model.duration)<=1,Profile::Message("Raw FLAC STREAMINFO duration disagrees with session").c_str());supported(ticks(p.layout.Samples())<=p.model.duration,Profile::Message("Raw FLAC frames exceed session duration").c_str());if(p.complete)supported(std::abs(ticks(p.layout.Samples())-p.model.duration)<=1,Profile::Message("Raw FLAC complete duration mismatch").c_str());
-        auto& out=p.legacy;out.sessionId=p.model.id;out.generation=p.model.generation;out.revision=p.model.revision;out.duration=p.model.duration;out.state=p.complete?harvester::State::Complete:p.model.state=="paused"?harvester::State::Paused:harvester::State::Downloading;out.tracks.resize(1);auto& t=out.tracks[0];t.path=Profile::Path();t.container="m4a";t.audio=true;t.required=true;t.fragmented=true;t.initializationReady=p.layout.Initialized();t.available=p.layout.view.bytes;t.total=p.complete?t.available:0;t.state=p.complete?harvester::State::Complete:out.state;}
+        supported(!Clock::Total(p.layout) || std::abs(ticks(Clock::Total(p.layout))-p.model.duration)<=1,Profile::Message("Raw FLAC STREAMINFO duration disagrees with session").c_str());supported(ticks(Clock::Samples(p.layout))<=p.model.duration,Profile::Message("Raw FLAC frames exceed session duration").c_str());if(p.complete)supported(std::abs(ticks(Clock::Samples(p.layout))-p.model.duration)<=1,Profile::Message("Raw FLAC complete duration mismatch").c_str());
+        auto& out=p.legacy;out.sessionId=p.model.id;out.generation=p.model.generation;out.revision=p.model.revision;out.duration=p.model.duration;out.timestampOffset=Clock::Offset(p.layout);out.state=p.complete?harvester::State::Complete:p.model.state=="paused"?harvester::State::Paused:harvester::State::Downloading;out.tracks.resize(1);auto& t=out.tracks[0];t.path=Profile::Path();t.container="m4a";t.audio=true;t.required=true;t.fragmented=true;t.initializationReady=p.layout.Initialized();t.available=Clock::Bytes(p.layout,p.complete);t.total=p.complete?t.available:0;t.state=p.complete?harvester::State::Complete:out.state;}
     void cleanup()noexcept{if(!source)return;try{auto ids=source->readerIds();source.reset();for(const auto& id:ids)ReaderRequest(registry,"{\"version\":1,\"action\":\"readerForget\",\"readerId\":\""+id+"\"}");}catch(...){source.reset();}}
 public:
     static bool Declared(const std::string& json){rapidjson::Document d;d.Parse(json.c_str());if(!d.IsObject() || !d.HasMember("tracks") || !d["tracks"].IsArray())return false;for(const auto& t:d["tracks"].GetArray())if(t.IsObject() && t.HasMember("containerHint") && t["containerHint"].IsString() && std::string(t["containerHint"].GetString())==Profile::Hint())return true;return false;}
@@ -33,7 +39,7 @@ public:
     harvester::Snapshot snapshot()const{return std::atomic_load(&current)->legacy;}
     std::vector<BoundResource> bindings()const{auto p=std::atomic_load(&current);return {source->binding(p->resource)};}
     bool readIndex(unsigned k,uint64_t at,void* data,size_t count){try{check();supported(k==0,Profile::Message("Raw FLAC has one track").c_str());auto p=std::atomic_load(&current);return p->layout.ReadAt([&](uint64_t off,void* out,size_t n){return exact(p->resource,off,out,n);},at,data,count);}catch(...){failed.store(true);return false;}}
-    int64_t readPayload(unsigned k,uint64_t at,void* data,size_t count){try{check();supported(k==0 && count<=65536 && (data || !count),Profile::Message("Invalid raw FLAC view read").c_str());auto p=std::atomic_load(&current);const auto size=p->layout.view.bytes;if(!count)return 0;if(at>=size)return p->complete && at==size?0:-1;const auto n=size_t((std::min)(uint64_t(count),size-at));std::vector<uint8_t> bytes(n);supported(readIndex(k,at,bytes.data(),n),Profile::Message("Raw FLAC virtual read failed").c_str());std::memcpy(data,bytes.data(),n);decoderBytes.fetch_add(n);return int64_t(n);}catch(...){failed.store(true);return -1;}}
+    int64_t readPayload(unsigned k,uint64_t at,void* data,size_t count){try{check();supported(k==0 && count<=65536 && (data || !count),Profile::Message("Invalid raw FLAC view read").c_str());auto p=std::atomic_load(&current);const auto size=Clock::Bytes(p->layout,p->complete);if(!count)return 0;if(at>=size)return p->complete && at==size?0:-1;const auto n=size_t((std::min)(uint64_t(count),size-at));std::vector<uint8_t> bytes(n);supported(readIndex(k,at,bytes.data(),n),Profile::Message("Raw FLAC virtual read failed").c_str());std::memcpy(data,bytes.data(),n);decoderBytes.fetch_add(n);return int64_t(n);}catch(...){failed.store(true);return -1;}}
     void publish(const std::string& json){std::lock_guard<std::mutex> lock(publication);check();auto old=std::atomic_load(&current);auto p=plan(json);Advance(old->model,p->model);supported(p->prefix-old->prefix<=16777216,Profile::Message("Append at most 16 MiB of raw FLAC").c_str());try{source->publish(json);materialize(*p,old.get());std::shared_ptr<const Published> accepted=std::move(p);std::atomic_store(&current,std::move(accepted));}catch(const Error&){failed.store(true);throw;}catch(const std::exception& e){failed.store(true);throw Error("unsupported_media",Profile::Tag(),e.what());}}
     void verify(){check();try{source->verifyPinned();}catch(...){failed.store(true);throw;}}
     void cancel(){cancelled.store(true);if(source)source->cancel();}

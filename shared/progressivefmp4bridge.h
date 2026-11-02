@@ -40,6 +40,7 @@ class Fmp4V2Bridge {
     std::unique_ptr<AdtsBridge> adts;
     std::unique_ptr<Mp3Bridge> mp3;
     std::unique_ptr<Mp3IndexedBridge> mp3Indexed;
+    std::unique_ptr<Mp3GaplessBridge> mp3Gapless;
     std::filesystem::path registry;
     std::array<std::string,harvester::MaxMediaTracks> resourceIds,trackIds,trackCodecs;
     std::array<std::vector<char>,harvester::MaxMediaTracks> initialization;
@@ -62,7 +63,7 @@ class Fmp4V2Bridge {
         return catalog_detail::Json(json,harvester::MaxManifestBytes,"$").HasMember("segmentCatalog");
     }
     static std::unique_ptr<LocalSegmentCatalog> openCatalog(const std::filesystem::path& root,const std::string& json) {
-        if(Mp3IndexedBridge::Declared(json) || Mp3Bridge::Declared(json) || AdtsBridge::Declared(json) || RawFlacBridge::Declared(json) || TsPlaybackInput::Declared(json) || TailMp4Bridge::Declared(json) || IndexedMp4Bridge::Declared(json) || MuxedMp4Bridge::Declared(json) || MuxedWebmBridge::Declared(json))return {};
+        if(Mp3GaplessBridge::Declared(json) || Mp3IndexedBridge::Declared(json) || Mp3Bridge::Declared(json) || AdtsBridge::Declared(json) || RawFlacBridge::Declared(json) || TsPlaybackInput::Declared(json) || TailMp4Bridge::Declared(json) || IndexedMp4Bridge::Declared(json) || MuxedMp4Bridge::Declared(json) || MuxedWebmBridge::Declared(json))return {};
         if(!catalogDeclared(json))return {};
         auto value=std::make_unique<LocalSegmentCatalog>(root);value->publish(json);return value;
     }
@@ -433,10 +434,11 @@ public:
     bool isStandaloneAudio() const {return isStandalone() && legacy.tracks[0].audio;}
     bool isWebm(int track=0) const {return muxedWebm || webmMode.at(track);}
     bool isSegmented() const {return segmented;}
-    bool isGrowing() const {return mp3Indexed || mp3 || adts || rawFlac || muxedWebm || tailMp4 || indexedMp4 || muxedMp4 || (tsBridge && tsBridge->isGrowing());}
+    bool isGrowing() const {return mp3Gapless || mp3Indexed || mp3 || adts || rawFlac || muxedWebm || tailMp4 || indexedMp4 || muxedMp4 || (tsBridge && tsBridge->isGrowing());}
     bool isMuxed() const {return muxedWebm || tailMp4 || indexedMp4 || muxedMp4 || (tsBridge && tsBridge->isMuxed());}
     bool usesCatalog() const {return tsBridge?tsBridge->usesCatalog():bool(catalog);}
-    static void CheckProfile(const std::string& json) {
+    static void CheckProfile(const std::string& json,bool allowMp3Gapless=false) {
+        if(Mp3GaplessBridge::Declared(json)){Require(allowMp3Gapless,"mp3Gapless","This backend has no verified PCM output adapter","unsupported_media");Mp3GaplessBridge::CheckProfile(json);return;}
         if(Mp3IndexedBridge::Declared(json)){Mp3IndexedBridge::CheckProfile(json);return;}
         if(Mp3Bridge::Declared(json)){Mp3Bridge::CheckProfile(json);return;}
         if(AdtsBridge::Declared(json)){AdtsBridge::CheckProfile(json);return;}
@@ -456,7 +458,8 @@ public:
             map(value.snapshot); // Empty catalog has no external pages to defer.
         }catch(const PagesDeferred&){}
     }
-    Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json):catalog(openCatalog(root,json)),model(catalog?catalog->catalog().snapshot:TsPlaybackInput::Declared(json)?TsResourceStream::RootModel(json):Parse(json)),identityGeneration(model.generation),identityWriter(model.writer),detailsRevision(model.revision),registry(receipts) {
+    Fmp4V2Bridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json,bool allowMp3Gapless=false):catalog(openCatalog(root,json)),model(catalog?catalog->catalog().snapshot:TsPlaybackInput::Declared(json)?TsResourceStream::RootModel(json):Parse(json)),identityGeneration(model.generation),identityWriter(model.writer),detailsRevision(model.revision),registry(receipts) {
+        if(Mp3GaplessBridge::Declared(json)){Require(allowMp3Gapless,"mp3Gapless","This backend has no verified PCM output adapter","unsupported_media");mp3Gapless=std::make_unique<Mp3GaplessBridge>(root,receipts,json);legacy=mp3Gapless->snapshot();audioCodecName="mp3";trackCodecs[0]="mp3";return;}
         if(Mp3IndexedBridge::Declared(json)){mp3Indexed=std::make_unique<Mp3IndexedBridge>(root,receipts,json);legacy=mp3Indexed->snapshot();audioCodecName="mp3";trackCodecs[0]="mp3";return;}
         if(Mp3Bridge::Declared(json)){mp3=std::make_unique<Mp3Bridge>(root,receipts,json);legacy=mp3->snapshot();audioCodecName="mp3";trackCodecs[0]="mp3";return;}
         if(AdtsBridge::Declared(json)){adts=std::make_unique<AdtsBridge>(root,receipts,json);legacy=adts->snapshot();audioCodecName="aac-lc";trackCodecs[0]="aac-lc";return;}
@@ -497,8 +500,8 @@ public:
             for(const auto& id:ids)ReaderRequest(registry,"{\"version\":1,\"action\":\"readerForget\",\"readerId\":\""+id+"\"}");
         }catch(...){source.reset();} // Failed acknowledgement retains a conservative receipt.
     }
-    harvester::Snapshot snapshot() const {if(mp3Indexed)return mp3Indexed->snapshot();if(mp3)return mp3->snapshot();if(adts)return adts->snapshot();if(rawFlac)return rawFlac->snapshot();if(muxedWebm)return muxedWebm->snapshot();if(tailMp4)return tailMp4->snapshot();if(indexedMp4)return indexedMp4->snapshot();if(muxedMp4)return muxedMp4->snapshot();if(tsBridge)return tsBridge->snapshot();std::lock_guard<std::mutex> lock(mutex);return legacy;}
-    std::vector<BoundResource> bindings() const {if(mp3Indexed)return mp3Indexed->bindings();if(mp3)return mp3->bindings();if(adts)return adts->bindings();if(rawFlac)return rawFlac->bindings();if(muxedWebm)return muxedWebm->bindings();if(tailMp4)return tailMp4->bindings();if(indexedMp4)return indexedMp4->bindings();if(muxedMp4)return muxedMp4->bindings();if(tsBridge)return tsBridge->bindings();std::lock_guard<std::mutex> lock(mutex);std::vector<BoundResource> out;for(size_t i=0;i<legacy.tracks.size();++i)if(legacy.tracks[i].initializationReady)out.push_back(source->binding(resourceIds[i]));return out;}
+    harvester::Snapshot snapshot() const {if(mp3Gapless)return mp3Gapless->snapshot();if(mp3Indexed)return mp3Indexed->snapshot();if(mp3)return mp3->snapshot();if(adts)return adts->snapshot();if(rawFlac)return rawFlac->snapshot();if(muxedWebm)return muxedWebm->snapshot();if(tailMp4)return tailMp4->snapshot();if(indexedMp4)return indexedMp4->snapshot();if(muxedMp4)return muxedMp4->snapshot();if(tsBridge)return tsBridge->snapshot();std::lock_guard<std::mutex> lock(mutex);return legacy;}
+    std::vector<BoundResource> bindings() const {if(mp3Gapless)return mp3Gapless->bindings();if(mp3Indexed)return mp3Indexed->bindings();if(mp3)return mp3->bindings();if(adts)return adts->bindings();if(rawFlac)return rawFlac->bindings();if(muxedWebm)return muxedWebm->bindings();if(tailMp4)return tailMp4->bindings();if(indexedMp4)return indexedMp4->bindings();if(muxedMp4)return muxedMp4->bindings();if(tsBridge)return tsBridge->bindings();std::lock_guard<std::mutex> lock(mutex);std::vector<BoundResource> out;for(size_t i=0;i<legacy.tracks.size();++i)if(legacy.tracks[i].initializationReady)out.push_back(source->binding(resourceIds[i]));return out;}
     bool optionalTrackFailed(int track) const {std::lock_guard<std::mutex> lock(mutex);return track>=0 && size_t(track)<legacy.tracks.size() && optionalFailed[track];}
     void rejectOptionalIndex(int track,const std::string& reason) {
         std::lock_guard<std::mutex> lock(mutex);
@@ -506,7 +509,7 @@ public:
         audioFailure(size_t(track),"invalid-media-index",reason);
     }
     bool readIndex(int track,uint64_t offset,void* buffer,size_t count) {
-        if(mp3Indexed)return mp3Indexed->readIndex(unsigned(track),offset,buffer,count);if(mp3)return mp3->readIndex(unsigned(track),offset,buffer,count);if(adts)return adts->readIndex(unsigned(track),offset,buffer,count);if(rawFlac)return rawFlac->readIndex(unsigned(track),offset,buffer,count);
+        if(mp3Gapless)return mp3Gapless->readIndex(unsigned(track),offset,buffer,count);if(mp3Indexed)return mp3Indexed->readIndex(unsigned(track),offset,buffer,count);if(mp3)return mp3->readIndex(unsigned(track),offset,buffer,count);if(adts)return adts->readIndex(unsigned(track),offset,buffer,count);if(rawFlac)return rawFlac->readIndex(unsigned(track),offset,buffer,count);
         if(muxedWebm)return muxedWebm->readIndex(unsigned(track),offset,buffer,count);
         if(tailMp4)return tailMp4->readIndex(unsigned(track),offset,buffer,count);if(indexedMp4)return indexedMp4->readIndex(unsigned(track),offset,buffer,count);
         if(muxedMp4)return muxedMp4->readIndex(unsigned(track),offset,buffer,count);
@@ -516,7 +519,7 @@ public:
         const bool result=exact(track,offset,buffer,count);markOptionalFailures();return result;
     }
     int64_t readPayload(int track,uint64_t offset,void* buffer,size_t count) {
-        if(mp3Indexed)return mp3Indexed->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(mp3)return mp3->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(adts)return adts->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(rawFlac)return rawFlac->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));
+        if(mp3Gapless)return mp3Gapless->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(mp3Indexed)return mp3Indexed->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(mp3)return mp3->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(adts)return adts->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(rawFlac)return rawFlac->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));
         if(muxedWebm)return muxedWebm->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));
         if(tailMp4)return tailMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(indexedMp4)return indexedMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));
         if(muxedMp4)return muxedMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));
@@ -534,7 +537,7 @@ public:
         return readPayload(track,offset,buffer,count);
     }
     void publish(const std::string& json) {
-        if(mp3Indexed){mp3Indexed->publish(json);return;}
+        if(mp3Gapless){mp3Gapless->publish(json);return;}if(mp3Indexed){mp3Indexed->publish(json);return;}
         if(mp3){mp3->publish(json);return;}
         if(adts){adts->publish(json);return;}
         if(rawFlac){rawFlac->publish(json);return;}
@@ -561,10 +564,10 @@ public:
             if(catalog)catalog->commit(std::move(prepared));}catch(const Error& error){failure=error.code;throw;}
         detailsRevision.store(next.revision);
     }
-    void verify(){if(mp3Indexed){mp3Indexed->verify();return;}if(mp3){mp3->verify();return;}if(adts){adts->verify();return;}if(rawFlac){rawFlac->verify();return;}if(muxedWebm){muxedWebm->verify();return;}if(tailMp4){tailMp4->verify();return;}if(indexedMp4){indexedMp4->verify();return;}if(muxedMp4){muxedMp4->verify();return;}if(tsBridge){tsBridge->verify();return;}std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();markOptionalFailures();subtitleResourceErrors();}
-    void cancel(){if(mp3Indexed)mp3Indexed->cancel();if(mp3)mp3->cancel();if(adts)adts->cancel();if(rawFlac)rawFlac->cancel();if(muxedWebm)muxedWebm->cancel();if(tailMp4)tailMp4->cancel();if(indexedMp4)indexedMp4->cancel();if(muxedMp4)muxedMp4->cancel();if(tsBridge)tsBridge->cancel();if(catalog)catalog->cancel();if(source)source->cancel();}
+    void verify(){if(mp3Gapless){mp3Gapless->verify();return;}if(mp3Indexed){mp3Indexed->verify();return;}if(mp3){mp3->verify();return;}if(adts){adts->verify();return;}if(rawFlac){rawFlac->verify();return;}if(muxedWebm){muxedWebm->verify();return;}if(tailMp4){tailMp4->verify();return;}if(indexedMp4){indexedMp4->verify();return;}if(muxedMp4){muxedMp4->verify();return;}if(tsBridge){tsBridge->verify();return;}std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();markOptionalFailures();subtitleResourceErrors();}
+    void cancel(){if(mp3Gapless)mp3Gapless->cancel();if(mp3Indexed)mp3Indexed->cancel();if(mp3)mp3->cancel();if(adts)adts->cancel();if(rawFlac)rawFlac->cancel();if(muxedWebm)muxedWebm->cancel();if(tailMp4)tailMp4->cancel();if(indexedMp4)indexedMp4->cancel();if(muxedMp4)muxedMp4->cancel();if(tsBridge)tsBridge->cancel();if(catalog)catalog->cancel();if(source)source->cancel();}
     std::string details() const {
-        if(mp3Indexed)return mp3Indexed->details();if(mp3)return mp3->details();if(adts)return adts->details();if(rawFlac)return rawFlac->details();
+        if(mp3Gapless)return mp3Gapless->details();if(mp3Indexed)return mp3Indexed->details();if(mp3)return mp3->details();if(adts)return adts->details();if(rawFlac)return rawFlac->details();
         if(muxedWebm)return muxedWebm->details();
         if(tailMp4)return tailMp4->details();if(indexedMp4)return indexedMp4->details();
         if(muxedMp4)return muxedMp4->details();

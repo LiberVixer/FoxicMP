@@ -16,10 +16,14 @@ RAW_FLAC_PROFILES=tuple('audio-raw-flac-'+c+'-'+str(b)+'-'+str(r) for r in (4410
 ADTS_PROFILES=tuple('audio-adts-'+c+'-'+str(r) for r in (44100,48000) for c in ('mono','stereo'))
 MP3_PROFILES=tuple('audio-mp3-'+c+'-'+m+'-'+str(r) for r in (44100,48000) for c in ('mono','stereo') for m in ('cbr','vbr'))
 MP3_INDEXED_PROFILES=tuple('audio-mp3-indexed-'+c+'-'+k+'-'+str(r) for k in ('xing','info','vbri') for r in (44100,48000) for c in ('mono','stereo'))
-PROFILES=MP3_INDEXED_PROFILES+MP3_PROFILES+ADTS_PROFILES+BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES+WEBM_VIDEO_PROFILES+FMP4_VIDEO_PROFILES+FLAC_PROFILES+RAW_FLAC_PROFILES
+GAPLESS_MP3_PROFILES=tuple('audio-mp3-gapless-'+c+'-'+str(r) for r in (44100,48000) for c in ('mono','stereo'))
+PROFILES=GAPLESS_MP3_PROFILES+MP3_INDEXED_PROFILES+MP3_PROFILES+ADTS_PROFILES+BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES+WEBM_VIDEO_PROFILES+FMP4_VIDEO_PROFILES+FLAC_PROFILES+RAW_FLAC_PROFILES
 def fragment_prefix(raw,count):
     return webm_prefix(raw,count) if raw[:4]==bytes.fromhex('1a45dfa3') else mp4_prefix(raw,count)
 def fixture(root,profile='audio-mono',seconds=20):
+    if profile in GAPLESS_MP3_PROFILES:
+        from progressive_mp3_gapless_fixture import fixture as gapless_fixture
+        return gapless_fixture(root,profile,seconds)
     if profile in MP3_INDEXED_PROFILES:
         from progressive_mp3_indexed_fixture import fixture as indexed_fixture
         return indexed_fixture(root,profile,seconds)

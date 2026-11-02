@@ -535,6 +535,11 @@ bool Player::loadPcmWindowSource(const QString &url,
     if (it.key() == "af" || it.key().startsWith("af-")) return false;
   return loadSourceImpl(url, options, window);
 }
+bool Player::pcmWindowActive() const {
+  if (!activePcmWindow.valid() || get("idle-active").toBool()) return false;
+  const auto filters = get("af").toList();
+  return !filters.isEmpty() && filters.first().toMap().value("label") == "foxicmp-pcm-window";
+}
 QString Player::audioFilterOptions(const AudioPcmWindow &window) const {
   const auto quoted = [](const QString &text) {
     return "%" + QString::number(text.toUtf8().size()) + "%" + text;

@@ -23,6 +23,18 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_gapless_mp3_requires_explicit_backend_and_audible_contract(self):
+        client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='mp3',containerHint='mp3-gapless',source=dict(resourceId='media'))
+        value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))];cap={}
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=cap))
+        with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls)
+        expected=dict(version=1,mode='standalone-mp3-gapless-v1',profiles=['standalone-mp3-gapless'],timeline='audible-samples',gaplessTrim=True,encoderTagCrcRequired=True,pcmWindowAdapter='qt-lavfi-absolute-samples-v1')
+        for key,wrong in [('version',True),('version',2),('timeline','encoded-samples'),('gaplessTrim',False),('encoderTagCrcRequired',False),('pcmWindowAdapter','unknown')]:
+            cap['mp3Gapless']=dict(expected);cap['mp3Gapless'][key]=wrong
+            with self.subTest(key=key,value=wrong),self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+            self.assertFalse(client.calls)
+        cap['mp3Gapless']=expected;V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
     def test_standalone_requires_independent_versioned_capability(self):
         client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='aac-lc',containerHint='fmp4',source=dict(resourceId='media'))
         value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))];cap={}

@@ -599,6 +599,25 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.gapless_rejection_only:
+            from progressive_mp3_gapless_fixture import fixture, PROFILES
+            from progressive_standalone_fixture import publish
+            assert 'mp3Gapless' not in caps['schema2Playback']['standalone']
+            assert 'standalone-mp3-gapless' not in caps['schema2Playback']['profiles']
+            root=Path(args.report)/('gapless-rejection-'+uuid.uuid4().hex)
+            model,raw,_,_=fixture(root,PROFILES[0],4)
+            value=publish(model,raw,root,len(raw),complete=True)
+            checks=[]
+            for action in ('probe','start'):
+                try:
+                    reply=client.request(dict(version=1,action=action,session=value))
+                    assert action=='probe' and reply.get('supported') is False and reply.get('reasonCode')=='unsupported_media',reply
+                except ApiError as error:
+                    assert action=='start' and error.code=='unsupported_media',error.reply
+                checks.append(action+'-unsupported-media')
+            readers=client.request(dict(version=1,action='readers',sessionId=value['sessionId'],generation=value['generation']))
+            assert not readers['readers'],readers
+            return [dict(contract='classic-gapless-explicit-rejection',result='PASS',checks=checks,readerCreated=False)]
         if args.prepared_preview_only:
             from progressive_preview_conformance import exercise as exercise_preview
             preview_result=exercise_preview(client)
@@ -834,6 +853,7 @@ if __name__ == '__main__':
     parser.add_argument('--growing-ts-playback-only',action='store_true')
     parser.add_argument('--standalone-profile',choices=['audio-mp3-indexed-mono-xing-44100','audio-mp3-indexed-stereo-xing-44100','audio-mp3-indexed-mono-xing-48000','audio-mp3-indexed-stereo-xing-48000','audio-mp3-indexed-mono-info-44100','audio-mp3-indexed-stereo-info-44100','audio-mp3-indexed-mono-info-48000','audio-mp3-indexed-stereo-info-48000','audio-mp3-indexed-mono-vbri-44100','audio-mp3-indexed-stereo-vbri-44100','audio-mp3-indexed-mono-vbri-48000','audio-mp3-indexed-stereo-vbri-48000','audio-mp3-mono-cbr-44100','audio-mp3-mono-vbr-44100','audio-mp3-stereo-cbr-44100','audio-mp3-stereo-vbr-44100','audio-mp3-mono-cbr-48000','audio-mp3-mono-vbr-48000','audio-mp3-stereo-cbr-48000','audio-mp3-stereo-vbr-48000','audio-adts-mono-44100','audio-adts-stereo-44100','audio-adts-mono-48000','audio-adts-stereo-48000','audio-mono','audio-stereo-44100','video-main','video-vfr','audio-opus-mono','audio-opus-stereo','audio-webm-opus-mono','audio-webm-opus-stereo','audio-webm-vorbis-mono','audio-webm-vorbis-stereo','video-webm-vp8','video-webm-vp8-fractional','video-webm-vp9-8','video-webm-vp9-10-fractional','video-webm-av1-8','video-webm-av1-10-fractional','video-fmp4-hevc-8-hvc1','video-fmp4-hevc-10-hev1-fractional','video-fmp4-av1-8','video-fmp4-av1-10-fractional','video-fmp4-vp9-8','video-fmp4-vp9-10-fractional','audio-flac-mono-16-44100','audio-flac-mono-24-44100','audio-flac-stereo-16-44100','audio-flac-stereo-24-44100','audio-flac-mono-16-48000','audio-flac-mono-24-48000','audio-flac-stereo-16-48000','audio-flac-stereo-24-48000','audio-raw-flac-mono-16-44100','audio-raw-flac-mono-24-44100','audio-raw-flac-stereo-16-44100','audio-raw-flac-stereo-24-44100','audio-raw-flac-mono-16-48000','audio-raw-flac-mono-24-48000','audio-raw-flac-stereo-16-48000','audio-raw-flac-stereo-24-48000'])
     parser.add_argument('--standalone-only',action='store_true')
+    parser.add_argument('--gapless-rejection-only',action='store_true')
     parser.add_argument('--complete-seek-only',action='store_true')
     parser.add_argument('--tail-mp4-only',action='store_true')
     parser.add_argument('--indexed-mp4-only',action='store_true')

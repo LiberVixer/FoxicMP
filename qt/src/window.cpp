@@ -344,7 +344,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
     updateClock();
     actions["play"]->setIcon(controlIcon("pause"));
     if (progressive) {
-      if((progressive->playbackDetails().value("mediaMode").toString()=="standalone-mp3" || progressive->playbackDetails().value("mediaMode").toString()=="standalone-mp3-indexed"))
+      if((progressive->playbackDetails().value("mediaMode").toString()=="standalone-mp3" || progressive->playbackDetails().value("mediaMode").toString()=="standalone-mp3-indexed" || progressive->playbackDetails().value("mediaMode").toString()=="standalone-mp3-gapless"))
         player->set("file-local-options/hr-seek-demuxer-offset",0.25);
       progressiveTracksReady=true;
       completionArmed = false;

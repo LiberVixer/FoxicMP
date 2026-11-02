@@ -113,6 +113,11 @@ QJsonObject Window::progressivePlaybackStatus() const {
           {"durationSeconds", status.duration}, {"availableSeconds", status.available},
           {"positionSeconds", pos}, {"error", status.error}};
   const auto details=progressive->playbackDetails();for(auto it=details.begin();it!=details.end();++it)result[it.key()]=it.value();
+  if (details.value("mediaMode") == "standalone-mp3-gapless") {
+    auto index = result.value("mp3Index").toObject();
+    index["gaplessTrimApplied"] = progressiveTracksReady && player->pcmWindowActive();
+    result["mp3Index"] = index;
+  }
   QJsonArray appliedChapters;
   for(const auto& value:timeline->chapters) {
     const auto chapter=value.toMap();appliedChapters.append(QJsonObject{
@@ -224,6 +229,20 @@ void Window::reloadProgressive(double seconds,const QString &audioPath) {
   progressiveAttachedSubtitles.clear();progressiveSubtitleRequests.clear();
   updateProgressive();
 }
+AudioPcmWindow Window::progressivePcmWindow(double seconds) const {
+  if (!progressive || !std::isfinite(seconds) || seconds < 0) return {};
+  const auto details = progressive->playbackDetails();
+  if (details.value("mediaMode") != "standalone-mp3-gapless") return {};
+  const auto plan = details.value("mp3Index").toObject().value("trimPlan").toObject();
+  bool firstOk = false, endOk = false;
+  const auto begin = plan.value("beginSample").toString().toULongLong(&firstOk);
+  const auto end = plan.value("endSample").toString().toULongLong(&endOk);
+  const int rate = plan.value("sampleRate").toInt();
+  if (!plan.value("ready").toBool() || !firstOk || !endOk || end <= begin ||
+      (rate != 44100 && rate != 48000)) return {};
+  const auto target = quint64(std::min(double(end-begin-1), std::round(seconds * rate)));
+  return {begin + target, end, rate};
+}
 void Window::updateProgressive() {
   if (!progressive)
     return;
@@ -306,7 +325,22 @@ void Window::updateProgressive() {
       options["cache"] = "no";
       options["demuxer-readahead-secs"] = "0";
     }
-    if(!player->loadSource(url+(single?"/track/0":"/video"),options))return;
+    const auto sourceUrl = url+(single?"/track/0":"/video");
+    if (details.value("mediaMode") == "standalone-mp3-gapless") {
+      const auto window = progressivePcmWindow(progressivePendingSeek < 0 ? 0 : progressivePendingSeek);
+      if (!window.valid()) {
+        progressive->publishedError(uiTr("Недоступны проверенные границы PCM"));
+        return;
+      }
+      const auto decodeSample = window.begin > quint64(window.sampleRate/4)
+          ? (window.begin-window.sampleRate/4)/1152*1152 : 0;
+      options["start"] = QString::number(double(decodeSample)/window.sampleRate, 'f', 9);
+      options["hr-seek"] = "yes";
+      options["hr-seek-demuxer-offset"] = "0.25";
+      if (!player->loadPcmWindowSource(sourceUrl, options, window)) {
+        progressive->publishedError(uiTr("Не удалось применить границы PCM"));return;
+      }
+    } else if(!player->loadSource(sourceUrl,options))return;
     if (!progressive)
       return;
   }
@@ -409,7 +443,8 @@ void Window::updateProgressive() {
     if(!status.complete && progressivePendingSeek>=status.available-.2) {
       progressiveBuffering=true;player->set("pause",true);return;
     }
-    if (!player->command({"seek", QString::number(status.timestampOffset + progressivePendingSeek, 'f', 3), "absolute+exact"}))
+    if (mediaDetails.value("mediaMode") != "standalone-mp3-gapless" &&
+        !player->command({"seek", QString::number(status.timestampOffset + progressivePendingSeek, 'f', 9), "absolute+exact"}))
       return;
     progressivePendingSeek = -1;
     progressiveRestoreAudio.clear();

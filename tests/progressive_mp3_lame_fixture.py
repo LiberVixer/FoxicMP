@@ -6,7 +6,7 @@ from pathlib import Path
 import subprocess
 
 
-def encode(root, rate, channels):
+def encode(root, rate, channels, seconds=4):
     root=Path(root);root.mkdir(parents=True,exist_ok=True)
     library=ctypes.util.find_library('mp3lame')
     cookie=None
@@ -31,7 +31,7 @@ def encode(root, rate, channels):
     tag=function('lame_get_lametag_frame',[ptr,byte,ctypes.c_size_t],ctypes.c_size_t)
     version=function('get_lame_version',[],ctypes.c_char_p)().decode('ascii')
     pcm=subprocess.check_output(['ffmpeg','-v','error','-f','lavfi','-i',
-        'aevalsrc=0.2*sin(2*PI*(431+17*t)*t):s='+str(rate)+':d=4',
+        'aevalsrc=0.2*sin(2*PI*(431+17*t)*t):s='+str(rate)+':d='+str(seconds),
         '-ac',str(channels),'-c:a','pcm_s16le','-f','s16le','-'])
     samples=(ctypes.c_short*(len(pcm)//2)).from_buffer_copy(pcm)
     count=len(pcm)//(channels*2);capacity=count*5//4+7200;buffer=(ctypes.c_ubyte*capacity)()

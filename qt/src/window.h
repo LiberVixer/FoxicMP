@@ -23,6 +23,7 @@ class QFrame;
 class QAction;
 class QTimer;
 class Player;
+struct AudioPcmWindow;
 class Timeline;
 class QLabel;
 class QSlider;
@@ -75,6 +76,7 @@ public:
   bool openDeviceSource(const QString &source);
   bool seekTo(double seconds);
   void reloadProgressive(double seconds,const QString &audioPath);
+  AudioPcmWindow progressivePcmWindow(double seconds) const;
   bool setAbLoop(double a, double b, int plays = 0);
   void clearAbLoop();
   bool loadPlaylist(const QString &path);

@@ -288,3 +288,12 @@ SDK 1.67: [LAME Info Tag CRC / PCM trim plan](ProgressiveMp3Tag.md),
 включая настоящий libmp3lame encoder, corrupt tags и ASan/UBSan.
 Публичного gapless playback ещё нет: controller и Classic PCM adapter открыты.
 Harvester не изменён.
+
+SDK 1.68: [gapless MP3 в Windows/Linux Qt](ProgressiveMp3Gapless.md),
+отдельный `standalone-mp3-gapless-v1` с полезной звуковой шкалой,
+проверенным tag CRC, точным PCM trim/seek и ожиданием writer complete.
+[Результаты](ProgressiveMp3GaplessValidation-2026-11-02.md): по 31 новым native
+checks, четырём growing profiles и 16 controller PCM windows на Qt ОС.
+Classic явно отказывает новому профилю без reader, сохраняя прежнее воспроизведение;
+его output adapter остаётся открытым. Общие capabilities прежние, Qt-дополнение
+описано отдельно. Linux обновлён с backup и сохранением INI. Harvester не изменён.

@@ -10,6 +10,8 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    **{name:'docs/'+name for name in ('ProgressiveMp3Gapless.md','ProgressiveMp3GaplessValidation-2026-11-02.md','ProgressiveMp3GaplessValidation-2026-11-02.json')},
+    'progressive-v2-mp3-gapless.json':'tests/fixtures/progressive-v2/mp3-gapless.json',
     **{name: 'qt/tools/' + name for name in (
         'progressive_client.py', 'progressive_windows.py', 'progressive_sdk.py', 'progressive_writer.py',
         'progressive_schema.py', 'progressive_resources.py', 'progressive_v2.py', 'progressive_integrity.py')},
@@ -128,6 +130,16 @@ def schema2_playback():
         raise ValueError('Expected only adjacent raw capability literals')
     return json.loads(''.join(parts))
 
+def qt_schema2_playback():
+    result=schema2_playback()
+    source=(ROOT/'shared/progressiveqtplayback.h').read_text(encoding='utf-8')
+    match=re.search(r'QtMp3GaplessCapability\(\).*?return R"\((.*?)\)";',source,re.S)
+    if not match:raise ValueError('Cannot locate the Qt gapless capability')
+    result['standalone']['mp3Gapless']=json.loads(match.group(1))
+    result['profiles'].append('standalone-mp3-gapless')
+    result['containers'].append('mp3-gapless')
+    return result
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
@@ -135,10 +147,10 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.67', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.68', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
-        schema2Playback=schema2_playback(),
+        schema2Playback=schema2_playback(), qtSchema2Playback=qt_schema2_playback(),
         completedSourceSeek=json.loads(re.search(r'CompletedSeekCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/progressivecompletedseek.h').read_text(),re.S).group(1)),
         preparedRemuxPreview=json.loads(re.search(r'PreparedPreviewCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/preparedclip.h').read_text(),re.S).group(1)),
         backendRemuxProbe=json.loads(re.search(r'BackendRemuxCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/progressivebackendprobe.h').read_text(),re.S).group(1)),

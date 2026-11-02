@@ -32,6 +32,17 @@ class Client:
         return dict(ok=True, active=False, released=False)
 
 class SdkTest(unittest.TestCase):
+    def test_package_keeps_classic_and_qt_capabilities_separate(self):
+        sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
+        from package_progressive_sdk import schema2_playback,qt_schema2_playback
+        classic,qt=schema2_playback(),qt_schema2_playback()
+        self.assertNotIn('mp3Gapless',classic['standalone'])
+        self.assertNotIn('standalone-mp3-gapless',classic['profiles'])
+        cap=qt['standalone'].pop('mp3Gapless')
+        self.assertTrue(cap['gaplessTrim'])
+        self.assertEqual(cap['pcmWindowAdapter'],'qt-lavfi-absolute-samples-v1')
+        qt['profiles'].remove('standalone-mp3-gapless');qt['containers'].remove('mp3-gapless')
+        self.assertEqual(qt,classic)
     def tracked_client(self):
         client=Client();original=client.request
         client.request=lambda message:dict(original(message),readerLeaseProtocol=1,
@@ -146,7 +157,8 @@ class SdkTest(unittest.TestCase):
         def once(message,timeout):calls.append(timeout);raise ApiError(dict(code='reader_registry_busy'))
         client._request_once=once
         with self.assertRaises(ApiError):client.request(dict(version=1,action='readerStatus',readerId='c'*32),timeout=.015)
-        self.assertTrue(calls);self.assertLessEqual(max(calls),.015)
+        # Subtracting two monotonic timestamps can round upward by an ULP.
+        self.assertTrue(calls);self.assertLessEqual(max(calls),.015+1e-8)
     def test_snapshot_files_are_bounded_unambiguous_json(self):
         with tempfile.TemporaryDirectory() as folder:
             path=Path(folder)/'snapshot.json'

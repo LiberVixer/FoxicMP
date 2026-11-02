@@ -3,6 +3,7 @@
 #include "progressivesource.h"
 #include "../../shared/progressiveretirement.h"
 #include "player.h"
+#include "mpvlifetime.h"
 #include "profile.h"
 #include "window.h"
 #include "timeline.h"
@@ -853,6 +854,50 @@ private slots:
     for(const auto& n:QStringList{"audio-webm-opus-mono","audio-webm-opus-stereo","audio-webm-vorbis-mono","audio-webm-vorbis-stereo"})QTest::newRow(qPrintable(n))<<n;
   }
   void standaloneWebmPlayback() {standalonePlayback();}
+  void standaloneMp3GaplessPlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-mp3-gapless-mono-44100","audio-mp3-gapless-stereo-44100","audio-mp3-gapless-mono-48000","audio-mp3-gapless-stereo-48000"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneMp3GaplessPlayback() {standalonePlayback();}
+  void gaplessControllerPcm_data() {standaloneMp3GaplessPlayback_data();}
+  void gaplessControllerPcm() {
+    QFETCH(QString,mediaProfile);
+    const int rate=mediaProfile.endsWith("44100")?44100:48000,channels=mediaProfile.contains("stereo")?2:1;
+    const auto directory=temporary.filePath("pcm-gapless-"+mediaProfile);QProcess generator;
+    generator.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_mp3_gapless_fixture.py"),"--root",directory,"--profile",mediaProfile});
+    QVERIFY(generator.waitForFinished(20000));QVERIFY2(generator.exitCode()==0,generator.readAllStandardError().constData());
+    const auto read=[&](const QString& name){QFile f(directory+"/"+name);if(!f.open(QIODevice::ReadOnly))return QByteArray();return f.readAll();};
+    const auto initial=QJsonDocument::fromJson(read("initial.json")).object(),complete=QJsonDocument::fromJson(read("complete.json")).object();
+    const auto native=read("native.pcm");QCOMPARE(native.size(),rate*4*channels*2);
+    for(const int target:{0,1,rate*2+1,rate*4-1}) {
+      const auto output=directory+"/output-"+QString::number(target)+".pcm";
+      {
+        Profile profile(temporary.filePath("pcm-controller-profile-"+mediaProfile+"-"+QString::number(target)));prepare(profile);
+        profile.settings.setValue("audio/volume",100);profile.settings.setValue("audio/mute",false);profile.settings.setValue("audio/pcmFormat","s16");profile.settings.setValue("audio/sampleRate",rate);
+        Window w(profile);w.show();auto* player=w.findChild<Player*>();QVERIFY(player);
+        QVERIFY(player->set("ao","pcm"));QVERIFY(player->set("ao-pcm-file",output));QVERIFY(player->set("ao-pcm-waveheader",false));QVERIFY(player->set("audio-format","s16"));
+        auto source=ProgressiveSource::openPublished(initial,directory+"/registry-"+QString::number(target));
+        QVERIFY(w.openProgressiveSource(source));QVERIFY(!w.progressiveStarted);
+        const auto status=w.progressivePlaybackStatus();QCOMPARE(status["durationSeconds"].toDouble(),4.);QVERIFY(status["availableSeconds"].toDouble()<2.1);
+        w.reloadProgressive(double(target)/rate,"primary");
+        QString error;
+        if(target==0) {
+          QVERIFY2(source->publish(QJsonDocument::fromJson(read("full.json")).object(),&error),qPrintable(error));
+          QTRY_VERIFY_WITH_TIMEOUT(player->pcmWindowActive(),5000);
+          QTest::qWait(300);
+          QVERIFY(w.progressiveSession());QVERIFY(w.lastError.isEmpty());
+          QVERIFY(!w.progressivePlaybackStatus()["complete"].toBool());
+        }
+        QVERIFY2(source->publish(complete,&error),qPrintable(error));
+        QTRY_VERIFY_WITH_TIMEOUT(!w.progressiveSession(),15000);
+        QVERIFY2(w.lastError.isEmpty(),qPrintable(w.lastError));
+      }
+      QTRY_COMPARE_WITH_TIMEOUT(EngineRetirement::occupied(),size_t(0),10000);
+      QFile file(output);QVERIFY(file.open(QIODevice::ReadOnly));const auto actual=file.readAll(),expected=native.mid(target*channels*2);
+      QCOMPARE(actual.size(),expected.size());QCOMPARE(QCryptographicHash::hash(actual,QCryptographicHash::Sha256),QCryptographicHash::hash(expected,QCryptographicHash::Sha256));
+      qInfo().noquote()<<"Gapless controller PCM:"<<mediaProfile<<target<<actual.size()<<QCryptographicHash::hash(actual,QCryptographicHash::Sha256).toHex();
+    }
+  }
   void standaloneMp3XingPlayback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"audio-mp3-indexed-mono-xing-44100","audio-mp3-indexed-stereo-xing-44100","audio-mp3-indexed-mono-xing-48000","audio-mp3-indexed-stereo-xing-48000"})QTest::newRow(qPrintable(n))<<n;

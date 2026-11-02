@@ -107,11 +107,11 @@ ProgressiveSource::ProgressiveSource(const QJsonObject &input, const QString &re
   publishedRoot = sessionDirectory(input);
   if (input.value("schemaVersion") == QJsonValue(2)) {
     auto manifest = input; manifest.remove("sessionDirectory");
-    foxicmp::progressive::Fmp4V2Bridge::CheckProfile(QJsonDocument(manifest).toJson(QJsonDocument::Compact).toStdString());
+    foxicmp::progressive::Fmp4V2Bridge::CheckProfile(QJsonDocument(manifest).toJson(QJsonDocument::Compact).toStdString(),true);
     if (readerRegistry.isEmpty()) throw std::runtime_error("Schema 2 requires a reader registry");
     v2Bridge = std::make_shared<foxicmp::progressive::Fmp4V2Bridge>(
         std::filesystem::u8path(publishedRoot.toUtf8().toStdString()), std::filesystem::u8path(readerRegistry.toUtf8().toStdString()),
-        QJsonDocument(manifest).toJson(QJsonDocument::Compact).toStdString());
+        QJsonDocument(manifest).toJson(QJsonDocument::Compact).toStdString(),true);
     snapshot = v2Bridge->snapshot();const auto bindings = v2Bridge->bindings();
     size_t bound=0;
     for (int i=0;size_t(i)<snapshot.tracks.size();++i) {
