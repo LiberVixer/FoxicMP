@@ -10,6 +10,8 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    **{name:'docs/'+name for name in ('ProgressiveOggOpus.md','ProgressiveOggOpusValidation-2026-11-02.json')},
+    'progressive-v2-ogg-opus.json':'tests/fixtures/progressive-v2/ogg-opus.json',
     **{name:'docs/'+name for name in ('ProgressiveWav.md','ProgressiveWavValidation-2026-11-02.json')},
     'progressive-v2-wav-pcm16.json':'tests/fixtures/progressive-v2/wav-pcm16.json',
     **{name:'docs/'+name for name in ('ProgressiveClassicMp3Gapless.md','ProgressiveClassicMp3GaplessValidation-2026-11-02.json')},
@@ -161,7 +163,7 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.70', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.71', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(), qtSchema2Playback=qt_schema2_playback(), classicSchema2Playback=classic_schema2_playback(),

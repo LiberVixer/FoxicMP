@@ -35,6 +35,19 @@ class V2SdkTest(unittest.TestCase):
             with self.subTest(key=key,value=wrong),self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
             self.assertFalse(client.calls)
         cap['mp3Gapless']=expected;V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
+    def test_ogg_opus_requires_explicit_capability_and_opus_track(self):
+        client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='opus',containerHint='ogg-opus',source=dict(resourceId='media'))
+        value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]
+        cap=dict(version=1,mode='standalone-ogg-opus-v1',profiles=['standalone-ogg-opus'])
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=dict(oggOpus=cap)))
+        V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
+        for field,bad in [('codecHint','vorbis'),('kind','video')]:
+            other=copy.deepcopy(value);other['tracks'][0][field]=bad;client.calls.clear()
+            with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(other)
+            self.assertFalse(client.calls)
+        cap['mode']='unverified';client.calls.clear()
+        with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls)
     def test_wav_requires_explicit_capability_and_pcm16_track(self):
         client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='pcm-s16le',containerHint='wav',source=dict(resourceId='media'))
         value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))]

@@ -549,3 +549,12 @@ profiles каждой редакции; повторены MP3 gapless/ADTS nati
 SDK — по 69 tests на ОС. Linux обновлён атомарно с backup и сохранением INI;
 Harvester и установленные Windows-плееры не менялись. RF64/float/24-bit,
 прочие audio profiles и полная приёмка остаются открытыми.
+
+SDK 1.71: [растущий Ogg Opus](ProgressiveOggOpus.md), mono/stereo 48 kHz,
+CRC страниц, continued packets, pre-skip/gain и EOS end trim. Виртуальный
+WebM сохраняет исходные Opus payload; EOS без writer complete не даёт EOF.
+По 87 native checks Windows/Linux, включая packet durations 2.5/5/10/20/40/60 ms,
+continued tags/audio и односэмпловую конечную обрезку; те же 87 ASan/UBSan checks.
+По четыре growing profiles трёх редакций, SDK — по 70 tests на ОС.
+Ogg Vorbis, chaining/multiplexing/live, прочие audio profiles и общая приёмка
+остаются открытыми. Harvester и установленные Windows-плееры не менялись.
