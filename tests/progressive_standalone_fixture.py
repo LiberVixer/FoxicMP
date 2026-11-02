@@ -19,10 +19,14 @@ MP3_INDEXED_PROFILES=tuple('audio-mp3-indexed-'+c+'-'+k+'-'+str(r) for k in ('xi
 GAPLESS_MP3_PROFILES=tuple('audio-mp3-gapless-'+c+'-'+str(r) for r in (44100,48000) for c in ('mono','stereo'))
 WAV_PROFILES=tuple('audio-wav-'+c+'-'+str(r) for r in (44100,48000) for c in ('mono','stereo'))
 OGG_OPUS_PROFILES=tuple('audio-ogg-opus-'+c+'-'+str(ms) for ms in (10,20) for c in ('mono','stereo'))
-PROFILES=OGG_OPUS_PROFILES+WAV_PROFILES+GAPLESS_MP3_PROFILES+MP3_INDEXED_PROFILES+MP3_PROFILES+ADTS_PROFILES+BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES+WEBM_VIDEO_PROFILES+FMP4_VIDEO_PROFILES+FLAC_PROFILES+RAW_FLAC_PROFILES
+OGG_VORBIS_PROFILES=tuple('audio-ogg-vorbis-'+c+'-'+str(q) for q in (2,5) for c in ('mono','stereo'))
+PROFILES=OGG_VORBIS_PROFILES+OGG_OPUS_PROFILES+WAV_PROFILES+GAPLESS_MP3_PROFILES+MP3_INDEXED_PROFILES+MP3_PROFILES+ADTS_PROFILES+BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES+WEBM_VIDEO_PROFILES+FMP4_VIDEO_PROFILES+FLAC_PROFILES+RAW_FLAC_PROFILES
 def fragment_prefix(raw,count):
     return webm_prefix(raw,count) if raw[:4]==bytes.fromhex('1a45dfa3') else mp4_prefix(raw,count)
 def fixture(root,profile='audio-mono',seconds=20):
+    if profile in OGG_VORBIS_PROFILES:
+        from progressive_ogg_vorbis_fixture import fixture as vorbis_fixture
+        return vorbis_fixture(root,profile,seconds)
     if profile in OGG_OPUS_PROFILES:
         from progressive_ogg_opus_fixture import fixture as ogg_fixture
         return ogg_fixture(root,profile,seconds)

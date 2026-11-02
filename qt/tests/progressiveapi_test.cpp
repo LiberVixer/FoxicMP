@@ -923,6 +923,11 @@ private slots:
     for(const auto& n:QStringList{"audio-mp3-mono-cbr-48000","audio-mp3-mono-vbr-48000","audio-mp3-stereo-cbr-48000","audio-mp3-stereo-vbr-48000"})QTest::newRow(qPrintable(n))<<n;
   }
   void standaloneMp348Playback() {standalonePlayback();}
+  void standaloneOggVorbisPlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-ogg-vorbis-mono-2","audio-ogg-vorbis-stereo-2","audio-ogg-vorbis-mono-5","audio-ogg-vorbis-stereo-5"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void standaloneOggVorbisPlayback() {standalonePlayback();}
   void standaloneOggOpusPlayback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"audio-ogg-opus-mono-10","audio-ogg-opus-stereo-10","audio-ogg-opus-mono-20","audio-ogg-opus-stereo-20"})QTest::newRow(qPrintable(n))<<n;

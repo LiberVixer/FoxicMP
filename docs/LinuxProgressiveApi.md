@@ -364,3 +364,13 @@ continued tags/audio и односэмпловую конечную обрезк
 По четыре growing profiles трёх редакций, SDK — по 70 tests на ОС.
 Ogg Vorbis, chaining/multiplexing/live, прочие audio profiles и общая приёмка
 остаются открытыми. Harvester и установленные Windows-плееры не менялись.
+
+SDK 1.72: [растущий Ogg Vorbis](ProgressiveOggVorbis.md), Vorbis I
+mono/stereo 48 kHz с существующим bounded setup/floor-1 validator.
+Первый packet подготавливает окно, дальнейшие granules считаются по
+перекрытию блоков; EOS trim передаётся без повторной обрезки.
+По 69 native checks Windows/Linux и ASan/UBSan, включая continued packets,
+большие comments, шумовой сигнал и односэмпловый end trim. По четыре growing
+profiles каждой редакции; SDK — по 71 tests на ОС. Ogg Opus и WAV повторно
+проверены. Начальная обрезка/nonzero origin, chaining/multiplexing/live и
+остальная audio matrix остаются открытыми. Harvester не менялся.
