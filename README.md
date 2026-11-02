@@ -104,7 +104,7 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-Предварительный [SDK 1.73](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.73)
+Предварительный [SDK 1.74](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.74)
 предназначен для интеграционных проверок с новыми сборками плеера.
 SDK 1.54–1.55 добавляют обычный растущий MP4 H.264/AAC-LC с индексом в начале
 или в конце файла: [контракт tail-index и advisory ranges](docs/ProgressiveTailMp4.md),
@@ -127,7 +127,7 @@ SDK 1.69 добавляет [тот же gapless-профиль в Classic](docs
 SDK 1.70 добавляет [растущий WAV/PCM16](docs/ProgressiveWav.md) для всех трёх редакций: mono/stereo 44.1/48 kHz, без перекодирования, с ожиданием неполных блоков и подтверждённого конца файла.
 SDK 1.71 добавляет [растущий Ogg Opus](docs/ProgressiveOggOpus.md) для трёх редакций: CRC страниц, продолжения пакетов, сохранение pre-skip/gain и конечной обрезки без перекодирования. Ogg Vorbis остаётся отдельным этапом.
 SDK 1.72 добавляет [растущий Ogg Vorbis](docs/ProgressiveOggVorbis.md) для трёх редакций: mono/stereo 48 kHz, расчёт перекрывающихся окон, CRC/continued packets и конечная обрезка без перекодирования.
-SDK 1.73 добавляет [растущий AC-3](docs/ProgressiveAc3.md) для трёх редакций: mono/stereo 48 kHz, обе CRC и сохранение исходных кадров без перекодирования. E-AC-3 остаётся следующим отдельным этапом.
+SDK 1.73 добавляет [растущий AC-3](docs/ProgressiveAc3.md) для трёх редакций: mono/stereo 48 kHz, обе CRC и сохранение исходных кадров без перекодирования. SDK 1.74 добавляет отдельный [растущий E-AC-3](docs/ProgressiveEac3.md): независимый mono/stereo substream, шесть проверенных битрейтов и CRC. Дополнительные layouts, dependent substreams и JOC остаются вне профиля.
 ZIP содержит SDK без EXE/установщиков. Общий remux, произвольные sparse media
 и оставшаяся приёмка перечислены в [чеклисте](docs/ProgressiveCompletionChecklist.md).
 SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](docs/ProgressiveWebmSegments.md), включая постраничный каталог, в трёх редакциях. Требуются новые EXE; SDK содержит клиент и документацию.

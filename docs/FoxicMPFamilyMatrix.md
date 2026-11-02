@@ -416,3 +416,5 @@ SDK 1.73: [растущий AC-3](ProgressiveAc3.md), bsid 8, mono/stereo
 Повторены Ogg Vorbis/WAV native и Classic playback, SDK — по 72 tests на ОС.
 E-AC-3, многоканальные layouts, другие rates/bsid, bitstream hardware и
 полная audio matrix остаются открытыми. Harvester не менялся.
+
+SDK 1.74: [растущий E-AC-3](ProgressiveEac3.md), независимый substream 0, bsid 16, mono/stereo 48 kHz, шесть блоков и CRC. Проверяются шесть битрейтов, 80 native checks и четыре growing profiles каждой редакции; dependent substreams/JOC, другие rates/layouts и общая audio matrix остаются открытыми.

@@ -21,10 +21,14 @@ WAV_PROFILES=tuple('audio-wav-'+c+'-'+str(r) for r in (44100,48000) for c in ('m
 OGG_OPUS_PROFILES=tuple('audio-ogg-opus-'+c+'-'+str(ms) for ms in (10,20) for c in ('mono','stereo'))
 OGG_VORBIS_PROFILES=tuple('audio-ogg-vorbis-'+c+'-'+str(q) for q in (2,5) for c in ('mono','stereo'))
 AC3_PROFILES=('audio-ac3-mono-64','audio-ac3-mono-192','audio-ac3-stereo-192','audio-ac3-stereo-384')
-PROFILES=AC3_PROFILES+OGG_VORBIS_PROFILES+OGG_OPUS_PROFILES+WAV_PROFILES+GAPLESS_MP3_PROFILES+MP3_INDEXED_PROFILES+MP3_PROFILES+ADTS_PROFILES+BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES+WEBM_VIDEO_PROFILES+FMP4_VIDEO_PROFILES+FLAC_PROFILES+RAW_FLAC_PROFILES
+EAC3_PROFILES=('audio-eac3-mono-64','audio-eac3-mono-192','audio-eac3-stereo-192','audio-eac3-stereo-384')
+PROFILES=EAC3_PROFILES+AC3_PROFILES+OGG_VORBIS_PROFILES+OGG_OPUS_PROFILES+WAV_PROFILES+GAPLESS_MP3_PROFILES+MP3_INDEXED_PROFILES+MP3_PROFILES+ADTS_PROFILES+BASE_PROFILES+OPUS_PROFILES+WEBM_PROFILES+WEBM_VIDEO_PROFILES+FMP4_VIDEO_PROFILES+FLAC_PROFILES+RAW_FLAC_PROFILES
 def fragment_prefix(raw,count):
     return webm_prefix(raw,count) if raw[:4]==bytes.fromhex('1a45dfa3') else mp4_prefix(raw,count)
 def fixture(root,profile='audio-mono',seconds=20):
+    if profile in EAC3_PROFILES:
+        from progressive_eac3_fixture import fixture as eac3_fixture
+        return eac3_fixture(root,profile,seconds)
     if profile in AC3_PROFILES:
         from progressive_ac3_fixture import fixture as ac3_fixture
         return ac3_fixture(root,profile,seconds)
