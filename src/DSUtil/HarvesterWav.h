@@ -18,6 +18,7 @@ template<unsigned BitsPerSample,bool Extensible=false,bool Rf64=false> class Pcm
 public:
     static constexpr unsigned PacketSamples=Rf64?16384:1024;
     Info info;
+    uint64_t FileBytes()const{return fileEnd;}
     bool Initialized()const{return initialized;}uint64_t Frames()const{return frames;}uint64_t Samples()const{return samples;}
     void Update(const FragmentIndex::Read& read,uint64_t prefix,bool complete){
         const auto wait=[&]{Check(!complete,"Truncated complete WAV header/data");throw Waiting{};};

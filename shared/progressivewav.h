@@ -32,6 +32,6 @@ struct Rf64Pcm24Profile:WavExt24Profile {
     static const char* Tag(){return "rf64Pcm24";}static const char* Hint(){return "rf64-pcm24";}
     static const char* Mode(){return "standalone-rf64-pcm24";}static const char* Path(){return "audio.rf64-pcm24.fmp4";}
 };
-using Rf64Pcm16Bridge=RawAudioBridge<Rf64Pcm16Profile>;
-using Rf64Pcm24Bridge=RawAudioBridge<Rf64Pcm24Profile>;
+using Rf64Pcm16Bridge=RawAudioBridge<Rf64Pcm16Profile,RawAudioClock,true>;
+using Rf64Pcm24Bridge=RawAudioBridge<Rf64Pcm24Profile,RawAudioClock,true>;
 }}

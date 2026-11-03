@@ -54,8 +54,12 @@ bool ProgressiveSource::confirmedByteSeek() const {
   return currentStatus.complete || (v2Bridge && (snapshot.tracks.size()>2 || v2Bridge->isSegmented() || v2Bridge->isGrowing() || v2Bridge->isStandalone()));
 }
 ProgressiveSource::DecoderWindow ProgressiveSource::decoderWindow(double seconds) const {
+  if (!std::isfinite(seconds) || seconds <= 0) return {};
+  // Samples() belongs to the publication worker. Protect it against vector
+  // growth, and wait before taking the UI-visible metadata mutex.
+  std::lock_guard<std::mutex> indexLock(indexMutex);
   std::lock_guard<std::mutex> lock(mutex);
-  if (!v2Bridge || !std::isfinite(seconds) || seconds <= 0 ||
+  if (!v2Bridge ||
       seconds >= currentStatus.available || snapshot.tracks.size()!=1 ||
       stopping.load() || !currentStatus.error.isEmpty()) return {};
   const auto details=QJsonDocument::fromJson(QByteArray::fromStdString(v2Bridge->details())).object();
@@ -129,6 +133,7 @@ int64_t ProgressiveSource::read(int track, uint64_t offset, char *buffer,
   }
 }
 ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapshot &value) {
+  std::lock_guard<std::mutex> indexLock(indexMutex);
   Status result;
   const int64_t duration =
       value.duration > 0 ? value.duration : indexed[0].duration();

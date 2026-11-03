@@ -73,6 +73,7 @@ private:
   std::array<uint64_t, harvester::MaxMediaTracks> devices{}, inodes{};
   std::array<harvester::FragmentIndex, harvester::MaxMediaTracks> indexes;
   std::array<IndexedMp4, harvester::MaxMediaTracks> indexed;
+  mutable std::mutex indexMutex;
   mutable std::mutex mutex;
   std::mutex publicationMutex;
   friend class ProgressiveApiTest;

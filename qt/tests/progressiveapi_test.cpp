@@ -947,6 +947,30 @@ private slots:
     }
   }
   void standaloneRf64Playback() {standalonePlayback();}
+  void rf64RangesPlayback_data() {
+    QTest::addColumn<QString>("mediaProfile");
+    for(const auto& n:QStringList{"audio-rf64-16-mono-44100","audio-rf64-16-stereo-48000","audio-rf64-24-mono-44100","audio-rf64-24-stereo-48000"})QTest::newRow(qPrintable(n))<<n;
+  }
+  void rf64RangesPlayback() {
+    QFETCH(QString,mediaProfile);Profile profile(temporary.filePath("ranges-profile-"+mediaProfile));prepare(profile);
+    Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));auto* player=w.findChild<Player*>();QVERIFY(player);
+    const auto work=temporary.filePath("ranges-data-"+mediaProfile);int sequence=0;bool rejected=false,decoded=false,indexChecked=false;
+    QTimer sample;sample.setInterval(40);connect(&sample,&QTimer::timeout,this,[&]{
+      if(!indexChecked && w.progressive && w.progressive->status().available>1) {
+        indexChecked=true;const auto source=w.progressive;std::unique_lock<std::mutex> busyIndex(source->indexMutex);
+        std::promise<void> entered;auto enteredFuture=entered.get_future();
+        auto reader=std::async(std::launch::async,[&]{entered.set_value();return source->decoderWindow(.5);});
+        enteredFuture.wait();const bool waiting=reader.wait_for(std::chrono::milliseconds(30))==std::future_status::timeout;
+        bool metadataFree=false;for(int i=0;i<30 && !metadataFree;++i){if(source->mutex.try_lock()){metadataFree=true;source->mutex.unlock();}else std::this_thread::sleep_for(std::chrono::milliseconds(1));}
+        busyIndex.unlock();const auto window=reader.get();QVERIFY(waiting);QVERIFY(metadataFree);QVERIFY(window.initialization>0);
+      }
+      QFile file(work+"/control.json");if(file.open(QIODevice::ReadOnly)){const auto c=QJsonDocument::fromJson(file.readAll()).object();file.close();if(c["sequence"].toInt()>sequence){sequence=c["sequence"].toInt();const auto action=c["action"].toString();if(action=="pause")w.actions["play"]->trigger();else if(action=="reject-seek"){QVERIFY(!w.seekTo(c["value"].toDouble()));rejected=true;}else if(action=="seek")QVERIFY(w.seekTo(c["value"].toDouble()));}}
+      decoded|=player->get("time-pos").toDouble()>13 && player->get("audio-codec-name")==QString(mediaProfile.contains("-24-")?"pcm_s24le":"pcm_s16le") && player->get("audio-params/samplerate").toInt()==(mediaProfile.contains("44100")?44100:48000) && player->get("audio-params/channel-count").toInt()==(mediaProfile.contains("stereo")?2:1) && w.progressivePlaybackStatus()["state"]=="playing";
+    });sample.start();
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_rf64_ranges_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--work",work,"--media-profile",mediaProfile});
+    QVERIFY(writer.waitForStarted());const auto cleanup=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,180000);
+    if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QCOMPARE(writer.exitCode(),0);QVERIFY(rejected);QVERIFY(decoded);QVERIFY(indexChecked);sample.stop();qInfo().noquote()<<"RF64 ranges report:"<<writer.readAllStandardOutput();
+  }
   void standaloneWavExt24Playback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(const auto& n:QStringList{"audio-wav-ext24-mono-44100","audio-wav-ext24-stereo-44100","audio-wav-ext24-mono-48000","audio-wav-ext24-stereo-48000"})QTest::newRow(qPrintable(n))<<n;

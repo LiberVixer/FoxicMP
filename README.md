@@ -104,7 +104,7 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-Предварительный [SDK 1.78](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.78)
+Предварительный [SDK 1.79](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.79)
 предназначен для интеграционных проверок с новыми сборками плеера.
 SDK 1.54–1.55 добавляют обычный растущий MP4 H.264/AAC-LC с индексом в начале
 или в конце файла: [контракт tail-index и advisory ranges](docs/ProgressiveTailMp4.md),
@@ -132,6 +132,7 @@ SDK 1.75 добавляет [растущий WAV PCM24](docs/ProgressiveWav24.m
 SDK 1.76 добавляет [растущий WAVEFORMATEXTENSIBLE PCM24](docs/ProgressiveWavExtensible24.md): mono/stereo 44.1/48 kHz, проверенные PCM GUID, valid bits и маски каналов. Legacy PCM16/24 сохраняют свои профили; RF64/float и остальные layouts открыты.
 SDK 1.77 добавляет [растущий RF64 PCM16/PCM24](docs/ProgressiveRf64.md): ds64, 64-битные размеры, mono/stereo 44.1/48 kHz и восемь growing profiles трёх редакций. Адресация за 4 GiB проверена синтетически; playback физических больших RF64 остаётся в приёмке. Справка API Qt выдаётся компактным JSON в прежнем лимите клиента.
 SDK 1.78 добавляет [внешние SHA-256 индексы](docs/ProgressiveExternalIntegrity.md) для RF64 и исправляет дальнюю перемотку Qt. [Физические файлы больше 4 GiB](docs/ProgressiveLargeRf64.md), PCM16/PCM24 stereo 48 kHz, проверены в трёх редакциях; лимит команд 64 KiB сохранён. [Отчёт](docs/ProgressiveLargeRf64Validation-2026-11-03.json).
+SDK 1.79 добавляет [публикацию RF64 ranges вне порядка](docs/ProgressiveRf64Ranges.md): плеер ждёт дыры и продолжает тот же reader после их заполнения. Воспроизводится только непрерывный префикс, seek в отдельные островки остаётся отдельным этапом. [Проверки трёх редакций](docs/ProgressiveRf64RangesValidation-2026-11-03.json).
 ZIP содержит SDK без EXE/установщиков. Общий remux, произвольные sparse media
 и оставшаяся приёмка перечислены в [чеклисте](docs/ProgressiveCompletionChecklist.md).
 SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](docs/ProgressiveWebmSegments.md), включая постраничный каталог, в трёх редакциях. Требуются новые EXE; SDK содержит клиент и документацию.

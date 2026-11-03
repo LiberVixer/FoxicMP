@@ -23,6 +23,20 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_rf64_islands_require_explicit_prefix_gated_capability(self):
+        client=Client();value=snapshot();value['tracks']=[dict(kind='audio',required=True,initializationReady=True,codecHint='pcm-s16le',containerHint='rf64-pcm16',source=dict(resourceId='media'))]
+        value['resources']=[dict(id='media',ranges=[dict(offset='0',length='100'),dict(offset='200',length='100')],integrity=dict(algorithm='sha256'))]
+        cap=dict(version=1,mode='standalone-rf64-pcm16-v1',profiles=['standalone-rf64-pcm16'])
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=dict(rf64Pcm16=cap)))
+        with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls)
+        cap['outOfOrder']=dict(version=1,mode='prefix-gated-v1',playback='confirmed-contiguous-prefix',islandSeek=False)
+        V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
+        client.calls.clear();cap['outOfOrder']['version']=True
+        with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls)
+        cap.pop('outOfOrder');value['resources'][0]['ranges']=[dict(offset='0',length='100'),dict(offset='100',length='100')]
+        V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
     def test_external_integrity_requires_matching_negotiated_rf64_capability(self):
         client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='pcm-s16le',containerHint='rf64-pcm16',source=dict(resourceId='media'))
         value['resources']=[dict(id='media',integrity=dict(algorithm='sha256',index=dict(format='sha256-blocks-le-v1',name='index.idx',bytes='44',sha256='a'*64)))];index={}

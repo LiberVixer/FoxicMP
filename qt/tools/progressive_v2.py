@@ -104,6 +104,20 @@ class V2PreviewSession:
                 if indexed_mp3 and (cap.get('timeline')!='encoded-samples' or cap.get('gaplessTrimApplied') is not False):
                     raise RuntimeError('Indexed MP3 requires the explicit encoded-sample timeline without gapless trim')
                 resources=current.get('resources',[])
+                if rf16 or rf24:
+                    islands=False
+                    for resource in resources:
+                        end=0
+                        for span in resource.get('ranges',[]):
+                            at,length=int(span['offset']),int(span['length'])
+                            if unsigned64(at,byte_offset=True)!=span['offset'] or unsigned64(length,byte_offset=True,positive=True)!=span['length']:
+                                raise ValueError('Expected canonical confirmed byte ranges')
+                            islands |= at!=end
+                            end=at+length
+                    if islands:
+                        ranges=cap.get('outOfOrder',{})
+                        if not isinstance(ranges,dict) or type(ranges.get('version')) is not int or ranges.get('version')!=1 or ranges.get('mode')!='prefix-gated-v1' or ranges.get('playback')!='confirmed-contiguous-prefix' or ranges.get('islandSeek') is not False:
+                            raise RuntimeError('Player lacks verified out-of-order RF64 publication')
                 if (len(resources)!=1 or 'segmentCatalog' in current or kind not in ('video','audio') or not track.get('required')
                     or (webm and codec not in (('vp8','vp9','av1') if kind=='video' else ('opus','vorbis')))
                     or (raw_flac and (kind!='audio' or codec!='flac'))
