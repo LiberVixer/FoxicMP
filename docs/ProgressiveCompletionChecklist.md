@@ -155,6 +155,7 @@
 
 - [ ] Оставшиеся UI-blocking пути probe/index/remux/read/teardown, Qt GL cleanup и обычные Classic graphs.
 - [ ] Управляемая отмена ожиданий, bounded остановка внешнего процесса, фактические release/filesClosed receipts.
+- [x] Ограниченный player-crash срез: [четыре RF64-профиля каждой редакции](ProgressivePlayerCrashRecovery.md), два самостоятельных процесса, принудительное завершение при playing/buffering, подтверждение выхода ОС для старых readers, сохранение второго воспроизведения, append writer и перезапуск того же профиля с новым readerId. [Отчёт](ProgressivePlayerCrashRecoveryValidation-2026-11-03.json). Writer crash, восстановление прежней позиции/паузы, прочие форматы и общая аварийная приёмка этим не закрыты.
 - [ ] Writer/player crash, resume по идентичности bytes, несколько readers, rename и переход на итоговый файл.
 - [ ] Ошибка preview не отменяет download; merge/writer errors не становятся успешным EOF.
 - [ ] Long paths, включая снятие нынешнего 240-символьного прикладного ограничения Classic.

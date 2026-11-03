@@ -1,0 +1,3891 @@
+{
+  "result": "PASS",
+  "date": "2026-11-03",
+  "playerVersion": "0.2.0",
+  "sdkContractVersion": "1.81",
+  "feature": "actual-player-process-crash-and-persisted-reader-recovery",
+  "profilesPerEdition": 4,
+  "totalActiveProcessCrashes": 12,
+  "totalOsRecoveredReceipts": 36,
+  "separateActualPlayerProcessesOnAllPlatforms": true,
+  "editions": {
+    "linuxQt": {
+      "result": {
+        "result": "PASS",
+        "profiles": 4,
+        "intentionalActiveCrashes": 4,
+        "separateProcesses": true,
+        "crashModes": [
+          "playing",
+          "buffering"
+        ],
+        "persistedDeadReceipts": 12,
+        "sourceIdentityPreserved": true,
+        "actualReopenedPlayback": true,
+        "elapsedSeconds": 15.929460541010485,
+        "rows": [
+          {
+            "bits": 16,
+            "sparse": false,
+            "crashPhase": "playing",
+            "result": "PASS",
+            "killed": {
+              "pid": 774060,
+              "exitCode": -9,
+              "terminationSeconds": 0.03248254398931749
+            },
+            "initialState": "playing",
+            "initialPosition": 0.2955118333333334,
+            "survivorBefore": 0.43225533333333344,
+            "survivorAfter": 0.9157851666666665,
+            "restartedPosition": 0.2921973333333334,
+            "restartedDecoderIoBytes": "327680",
+            "oldReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442492",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774060,
+                "readerId": "2304b4824796d442f9d1e73f7836f0ec",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590028",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442492",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774060,
+                "readerId": "349f2ccbd8977b99436ab1d54d19a48a",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590028",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442492",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774060,
+                "readerId": "92572f84fda4656d723f6966c6cd8b2a",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590028",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                "version": 1
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "2304b4824796d442f9d1e73f7836f0ec",
+                "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                "generation": "1",
+                "pid": 774060,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442492",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "audio",
+                    "device": "2051",
+                    "fileId": "1590028"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "349f2ccbd8977b99436ab1d54d19a48a",
+                "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                "generation": "1",
+                "pid": 774060,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442492",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "2051",
+                    "fileId": "1590028"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "92572f84fda4656d723f6966c6cd8b2a",
+                "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                "generation": "1",
+                "pid": 774060,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442492",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "2051",
+                    "fileId": "1590028"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442492",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774060,
+                "readerId": "2304b4824796d442f9d1e73f7836f0ec",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590028",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442492",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774060,
+                "readerId": "349f2ccbd8977b99436ab1d54d19a48a",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590028",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442492",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774060,
+                "readerId": "92572f84fda4656d723f6966c6cd8b2a",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590028",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                "version": 1
+              }
+            ],
+            "newReceipt": {
+              "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+              "filesClosed": false,
+              "generation": "1",
+              "pid": 774247,
+              "readerId": "cee2681b8da0a839447f58b14addc2a5",
+              "reason": "lease-held",
+              "released": false,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "1590028",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+              "version": 1
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "2304b4824796d442f9d1e73f7836f0ec",
+              "released": true,
+              "reader": {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442492",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774060,
+                "readerId": "2304b4824796d442f9d1e73f7836f0ec",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590028",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                "version": 1
+              }
+            },
+            "oldProbeId": "ebe43a4ba2f9ba801b96275ce749a234",
+            "newReaderId": "cee2681b8da0a839447f58b14addc2a5",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+            "sourceAfterAppendSha256": "7a0141b336f3d82e01796e562bb8ed91927613b2079f803645cbf3835c9bd94e",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.07185019900498446,
+                "receipt": {
+                  "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 774247,
+                  "readerId": "cee2681b8da0a839447f58b14addc2a5",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "2051",
+                      "fileId": "1590028",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                  "version": 1
+                }
+              },
+              {
+                "seconds": 0.03905284000211395,
+                "receipt": {
+                  "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442582",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 774160,
+                  "readerId": "a4268deaf4d01214f345bac1dd9ee3f1",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "2051",
+                      "fileId": "1590028",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "c6020e70f04e45a4b334f6ec73729fd8",
+                  "version": 1
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          },
+          {
+            "bits": 24,
+            "sparse": false,
+            "crashPhase": "playing",
+            "result": "PASS",
+            "killed": {
+              "pid": 774247,
+              "exitCode": -9,
+              "terminationSeconds": 0.018502456005080603
+            },
+            "initialState": "playing",
+            "initialPosition": 0.492498,
+            "survivorBefore": 0.29217100000000007,
+            "survivorAfter": 0.9386294999999999,
+            "restartedPosition": 0.2832191666666666,
+            "restartedDecoderIoBytes": "458752",
+            "oldReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774247,
+                "readerId": "1074e976db3b28e57d97d884616a3a09",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774247,
+                "readerId": "662c50cdb16616ba3b434f0ade4ea1e5",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774247,
+                "readerId": "66c7cff299f6d4b36c7f0e88623d5c62",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                "version": 1
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "1074e976db3b28e57d97d884616a3a09",
+                "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                "generation": "1",
+                "pid": 774247,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "2051",
+                    "fileId": "1590024"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "662c50cdb16616ba3b434f0ade4ea1e5",
+                "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                "generation": "1",
+                "pid": 774247,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "audio",
+                    "device": "2051",
+                    "fileId": "1590024"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "66c7cff299f6d4b36c7f0e88623d5c62",
+                "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                "generation": "1",
+                "pid": 774247,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "2051",
+                    "fileId": "1590024"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774247,
+                "readerId": "1074e976db3b28e57d97d884616a3a09",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774247,
+                "readerId": "662c50cdb16616ba3b434f0ade4ea1e5",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774247,
+                "readerId": "66c7cff299f6d4b36c7f0e88623d5c62",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                "version": 1
+              }
+            ],
+            "newReceipt": {
+              "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+              "filesClosed": false,
+              "generation": "1",
+              "pid": 774368,
+              "readerId": "149bca762846a985b4fd4481f35bade9",
+              "reason": "lease-held",
+              "released": false,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "1590024",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "b07ccd3546dd4152a72e52354001441c",
+              "version": 1
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "662c50cdb16616ba3b434f0ade4ea1e5",
+              "released": true,
+              "reader": {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442954",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774247,
+                "readerId": "662c50cdb16616ba3b434f0ade4ea1e5",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                "version": 1
+              }
+            },
+            "oldProbeId": "17f5d36b3789b10f78ff5bcf33abdb96",
+            "newReaderId": "149bca762846a985b4fd4481f35bade9",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+            "sourceAfterAppendSha256": "41f4a628aa6f7da541431cef36c127def23715cb83a7e2971033eb1c0d249330",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.036473022992140613,
+                "receipt": {
+                  "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 774368,
+                  "readerId": "149bca762846a985b4fd4481f35bade9",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "2051",
+                      "fileId": "1590024",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                  "version": 1
+                }
+              },
+              {
+                "seconds": 0.03521130500303116,
+                "receipt": {
+                  "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442582",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 774160,
+                  "readerId": "59f2c25f3418992f8cec3937f0078ada",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "2051",
+                      "fileId": "1590024",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "b07ccd3546dd4152a72e52354001441c",
+                  "version": 1
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          },
+          {
+            "bits": 16,
+            "sparse": true,
+            "crashPhase": "buffering",
+            "result": "PASS",
+            "killed": {
+              "pid": 774368,
+              "exitCode": -9,
+              "terminationSeconds": 0.034395730996038765
+            },
+            "initialState": "buffering",
+            "initialPosition": 0,
+            "survivorBefore": 0.43457216666666665,
+            "survivorAfter": 0.5992783333333332,
+            "restartedPosition": 0.2835263333333333,
+            "restartedDecoderIoBytes": "327680",
+            "oldReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774368,
+                "readerId": "9f0af6030f1d3a5538b9f7b7b9573948",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774368,
+                "readerId": "d44f9a3bd0c14a21507bcf2a6c04cb3a",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774368,
+                "readerId": "ebc815b0cd132e19ae040e744b5fb0f9",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                "version": 1
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "9f0af6030f1d3a5538b9f7b7b9573948",
+                "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                "generation": "1",
+                "pid": 774368,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "2051",
+                    "fileId": "1590024"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "d44f9a3bd0c14a21507bcf2a6c04cb3a",
+                "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                "generation": "1",
+                "pid": 774368,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "2051",
+                    "fileId": "1590024"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "ebc815b0cd132e19ae040e744b5fb0f9",
+                "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                "generation": "1",
+                "pid": 774368,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "audio",
+                    "device": "2051",
+                    "fileId": "1590024"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774368,
+                "readerId": "9f0af6030f1d3a5538b9f7b7b9573948",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774368,
+                "readerId": "d44f9a3bd0c14a21507bcf2a6c04cb3a",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774368,
+                "readerId": "ebc815b0cd132e19ae040e744b5fb0f9",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                "version": 1
+              }
+            ],
+            "newReceipt": {
+              "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+              "filesClosed": false,
+              "generation": "1",
+              "pid": 774507,
+              "readerId": "993d8c599248a0df02bbbbb84bc864ec",
+              "reason": "lease-held",
+              "released": false,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "1590024",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+              "version": 1
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "ebc815b0cd132e19ae040e744b5fb0f9",
+              "released": true,
+              "reader": {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443369",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774368,
+                "readerId": "ebc815b0cd132e19ae040e744b5fb0f9",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                "version": 1
+              }
+            },
+            "oldProbeId": "0bc2dc0744b533c5121b188797bf09d9",
+            "newReaderId": "993d8c599248a0df02bbbbb84bc864ec",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+            "sourceAfterAppendSha256": "7a0141b336f3d82e01796e562bb8ed91927613b2079f803645cbf3835c9bd94e",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.03540052899916191,
+                "receipt": {
+                  "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 774507,
+                  "readerId": "993d8c599248a0df02bbbbb84bc864ec",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "2051",
+                      "fileId": "1590024",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                  "version": 1
+                }
+              },
+              {
+                "seconds": 0.039969277000636794,
+                "receipt": {
+                  "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442582",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 774160,
+                  "readerId": "e7b4f3e526b1f40602085856942acdbc",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "2051",
+                      "fileId": "1590024",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "21afde26ecc84f49ad1fa1eec8be776f",
+                  "version": 1
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          },
+          {
+            "bits": 24,
+            "sparse": true,
+            "crashPhase": "buffering",
+            "result": "PASS",
+            "killed": {
+              "pid": 774507,
+              "exitCode": -9,
+              "terminationSeconds": 0.016754219002905302
+            },
+            "initialState": "buffering",
+            "initialPosition": 0,
+            "survivorBefore": 0.43688683333333334,
+            "survivorAfter": 0.5973418333333333,
+            "restartedPosition": 0.28529783333333336,
+            "restartedDecoderIoBytes": "458752",
+            "oldReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774507,
+                "readerId": "a1dbfbc3f861308bf4a6781510747a47",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "77ff14f32d664513987346d7ee16c548",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774507,
+                "readerId": "b549ef74b2300a76a9d73e58a821af2a",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "77ff14f32d664513987346d7ee16c548",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774507,
+                "readerId": "eefa393354f5aada2a015722999479a3",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "77ff14f32d664513987346d7ee16c548",
+                "version": 1
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "a1dbfbc3f861308bf4a6781510747a47",
+                "sessionId": "77ff14f32d664513987346d7ee16c548",
+                "generation": "1",
+                "pid": 774507,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "2051",
+                    "fileId": "1590024"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "b549ef74b2300a76a9d73e58a821af2a",
+                "sessionId": "77ff14f32d664513987346d7ee16c548",
+                "generation": "1",
+                "pid": 774507,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "audio",
+                    "device": "2051",
+                    "fileId": "1590024"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "eefa393354f5aada2a015722999479a3",
+                "sessionId": "77ff14f32d664513987346d7ee16c548",
+                "generation": "1",
+                "pid": 774507,
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "2051",
+                    "fileId": "1590024"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774507,
+                "readerId": "a1dbfbc3f861308bf4a6781510747a47",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "77ff14f32d664513987346d7ee16c548",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774507,
+                "readerId": "b549ef74b2300a76a9d73e58a821af2a",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "77ff14f32d664513987346d7ee16c548",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774507,
+                "readerId": "eefa393354f5aada2a015722999479a3",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "77ff14f32d664513987346d7ee16c548",
+                "version": 1
+              }
+            ],
+            "newReceipt": {
+              "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9444105",
+              "filesClosed": false,
+              "generation": "1",
+              "pid": 774649,
+              "readerId": "0c20fb348e639d78b71bbe9da9752084",
+              "reason": "lease-held",
+              "released": false,
+              "resources": [
+                {
+                  "device": "2051",
+                  "fileId": "1590024",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "77ff14f32d664513987346d7ee16c548",
+              "version": 1
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "b549ef74b2300a76a9d73e58a821af2a",
+              "released": true,
+              "reader": {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9443737",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 774507,
+                "readerId": "b549ef74b2300a76a9d73e58a821af2a",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590024",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "77ff14f32d664513987346d7ee16c548",
+                "version": 1
+              }
+            },
+            "oldProbeId": "ac381ba64c70f26e3ffd9d3b4db79438",
+            "newReaderId": "0c20fb348e639d78b71bbe9da9752084",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+            "sourceAfterAppendSha256": "41f4a628aa6f7da541431cef36c127def23715cb83a7e2971033eb1c0d249330",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.03733052698953543,
+                "receipt": {
+                  "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9444105",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 774649,
+                  "readerId": "0c20fb348e639d78b71bbe9da9752084",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "2051",
+                      "fileId": "1590024",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "77ff14f32d664513987346d7ee16c548",
+                  "version": 1
+                }
+              },
+              {
+                "seconds": 0.03702272799273487,
+                "receipt": {
+                  "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9442582",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 774160,
+                  "readerId": "2fada72534923394fc11c94c747c3dae",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "2051",
+                      "fileId": "1590024",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "77ff14f32d664513987346d7ee16c548",
+                  "version": 1
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          }
+        ],
+        "processHistory": [
+          [
+            {
+              "pid": 774060,
+              "reason": "intentional-active-crash",
+              "exitCode": -9,
+              "terminationSeconds": 0.03248254398931749
+            },
+            {
+              "pid": 774247,
+              "reason": "intentional-active-crash",
+              "exitCode": -9,
+              "terminationSeconds": 0.018502456005080603
+            },
+            {
+              "pid": 774368,
+              "reason": "intentional-active-crash",
+              "exitCode": -9,
+              "terminationSeconds": 0.034395730996038765
+            },
+            {
+              "pid": 774507,
+              "reason": "intentional-active-crash",
+              "exitCode": -9,
+              "terminationSeconds": 0.016754219002905302
+            },
+            {
+              "pid": 774649,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": -9,
+              "terminationSeconds": 0.01785000901145395
+            }
+          ],
+          [
+            {
+              "pid": 774160,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": -9,
+              "terminationSeconds": 0.033352775004459545
+            }
+          ]
+        ],
+        "edition": "qt",
+        "temporaryWorkRemoved": true,
+        "playerSha256": [
+          "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b",
+          "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b"
+        ],
+        "readerRunnerSha256": "644b92db481809822256437657900e3498e06337a644dc2f63ee4a63f4b0eb17"
+      },
+      "cleanup": {
+        "runtimePathsRemoved": [
+          "/run/user/1000/FoxicMPQt-1000-aa928472cd55a1bf426ca9b03ed7839b.sock.progressive.readers",
+          "/run/user/1000/FoxicMPQt-1000-aa928472cd55a1bf426ca9b03ed7839b.sock.progressive",
+          "/run/user/1000/FoxicMPQt-1000-aa928472cd55a1bf426ca9b03ed7839b.sock.progressive.lock",
+          "/run/user/1000/FoxicMPQt-1000-aa928472cd55a1bf426ca9b03ed7839b.sock",
+          "/run/user/1000/FoxicMPQt-1000-aa928472cd55a1bf426ca9b03ed7839b.sock.lock",
+          "/run/user/1000/FoxicMPQt-1000-4e4a30a538bd02c56259d1d9179e0a6f.sock.progressive.readers",
+          "/run/user/1000/FoxicMPQt-1000-4e4a30a538bd02c56259d1d9179e0a6f.sock.progressive",
+          "/run/user/1000/FoxicMPQt-1000-4e4a30a538bd02c56259d1d9179e0a6f.sock.progressive.lock",
+          "/run/user/1000/FoxicMPQt-1000-4e4a30a538bd02c56259d1d9179e0a6f.sock",
+          "/run/user/1000/FoxicMPQt-1000-4e4a30a538bd02c56259d1d9179e0a6f.sock.lock"
+        ],
+        "processHistory": [
+          [
+            {
+              "pid": 774060,
+              "reason": "intentional-active-crash",
+              "exitCode": -9,
+              "terminationSeconds": 0.03248254398931749
+            },
+            {
+              "pid": 774247,
+              "reason": "intentional-active-crash",
+              "exitCode": -9,
+              "terminationSeconds": 0.018502456005080603
+            },
+            {
+              "pid": 774368,
+              "reason": "intentional-active-crash",
+              "exitCode": -9,
+              "terminationSeconds": 0.034395730996038765
+            },
+            {
+              "pid": 774507,
+              "reason": "intentional-active-crash",
+              "exitCode": -9,
+              "terminationSeconds": 0.016754219002905302
+            },
+            {
+              "pid": 774649,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": -9,
+              "terminationSeconds": 0.01785000901145395
+            }
+          ],
+          [
+            {
+              "pid": 774160,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": -9,
+              "terminationSeconds": 0.033352775004459545
+            }
+          ]
+        ],
+        "allOwnedProcessesExited": true
+      },
+      "resultSha256": "44f2483be765696fc8542052e72b3c6fd60859bd9e54d841de2ce6acbce565a7",
+      "eventsSha256": "a929d20f04752070c1f9cb974d137859483e4752931ce1a8405c9a86d640d48f",
+      "driverExitCode": 0,
+      "nativeQueryExitCode": 0,
+      "ctestLogSha256": "35ea89090266eb36c3b67174b2d7332719748e85e2127df57df705af1babde8f"
+    },
+    "windowsQt": {
+      "result": {
+        "result": "PASS",
+        "profiles": 4,
+        "intentionalActiveCrashes": 4,
+        "separateProcesses": true,
+        "crashModes": [
+          "playing",
+          "buffering"
+        ],
+        "persistedDeadReceipts": 12,
+        "sourceIdentityPreserved": true,
+        "actualReopenedPlayback": true,
+        "elapsedSeconds": 7.655091100008576,
+        "rows": [
+          {
+            "bits": 16,
+            "sparse": false,
+            "crashPhase": "playing",
+            "result": "PASS",
+            "killed": {
+              "pid": 7820,
+              "exitCode": 1,
+              "terminationSeconds": 0.017361799997161143
+            },
+            "initialState": "playing",
+            "initialPosition": 0.25190091229705214,
+            "survivorBefore": 0.3044316932494331,
+            "survivorAfter": 0.8834775122970524,
+            "restartedPosition": 0.3055626802494331,
+            "restartedDecoderIoBytes": "262144",
+            "oldReceipts": [
+              {
+                "birth": "134381835215749570",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 7820,
+                "readerId": "26a0627545d9822b3e39b6798e7a3f5f",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "16044073673509596",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                "version": 1
+              },
+              {
+                "birth": "134381835215749570",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 7820,
+                "readerId": "5e4f4d3b1855428f9939c55146c8e07f",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "16044073673509596",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                "version": 1
+              },
+              {
+                "birth": "134381835215749570",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 7820,
+                "readerId": "98f2623011d8645d2b74d5b28a305f0d",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "16044073673509596",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                "version": 1
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "26a0627545d9822b3e39b6798e7a3f5f",
+                "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                "generation": "1",
+                "pid": 7820,
+                "birth": "134381835215749570",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "16044073673509596"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "5e4f4d3b1855428f9939c55146c8e07f",
+                "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                "generation": "1",
+                "pid": 7820,
+                "birth": "134381835215749570",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "16044073673509596"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "98f2623011d8645d2b74d5b28a305f0d",
+                "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                "generation": "1",
+                "pid": 7820,
+                "birth": "134381835215749570",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "audio",
+                    "device": "656024512",
+                    "fileId": "16044073673509596"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "birth": "134381835215749570",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 7820,
+                "readerId": "26a0627545d9822b3e39b6798e7a3f5f",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "16044073673509596",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                "version": 1
+              },
+              {
+                "birth": "134381835215749570",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 7820,
+                "readerId": "5e4f4d3b1855428f9939c55146c8e07f",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "16044073673509596",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                "version": 1
+              },
+              {
+                "birth": "134381835215749570",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 7820,
+                "readerId": "98f2623011d8645d2b74d5b28a305f0d",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "16044073673509596",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                "version": 1
+              }
+            ],
+            "newReceipt": {
+              "birth": "134381835232440720",
+              "filesClosed": false,
+              "generation": "1",
+              "pid": 13960,
+              "readerId": "d4d5c0b50c4bcadcc4fcfa91685b8260",
+              "reason": "lease-held",
+              "released": false,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "16044073673509596",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+              "version": 1
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "98f2623011d8645d2b74d5b28a305f0d",
+              "released": true,
+              "reader": {
+                "birth": "134381835215749570",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 7820,
+                "readerId": "98f2623011d8645d2b74d5b28a305f0d",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "16044073673509596",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                "version": 1
+              }
+            },
+            "oldProbeId": "7de9d72383f5990ead0c92e41460dfca",
+            "newReaderId": "d4d5c0b50c4bcadcc4fcfa91685b8260",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+            "sourceAfterAppendSha256": "7a0141b336f3d82e01796e562bb8ed91927613b2079f803645cbf3835c9bd94e",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.06330629999865778,
+                "receipt": {
+                  "birth": "134381835232440720",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 13960,
+                  "readerId": "d4d5c0b50c4bcadcc4fcfa91685b8260",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "656024512",
+                      "fileId": "16044073673509596",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                  "version": 1
+                }
+              },
+              {
+                "seconds": 0.066141700008302,
+                "receipt": {
+                  "birth": "134381835219292729",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 6752,
+                  "readerId": "99079297320793e508c3933806a51502",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "656024512",
+                      "fileId": "16044073673509596",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "3fa79e54d69140e6befd87b8e1cd72ea",
+                  "version": 1
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          },
+          {
+            "bits": 24,
+            "sparse": false,
+            "crashPhase": "playing",
+            "result": "PASS",
+            "killed": {
+              "pid": 13960,
+              "exitCode": 1,
+              "terminationSeconds": 0.019641299993963912
+            },
+            "initialState": "playing",
+            "initialPosition": 0.25337823929705217,
+            "survivorBefore": 0.25327123629705217,
+            "survivorAfter": 0.8260346063446714,
+            "restartedPosition": 0.3044882202494331,
+            "restartedDecoderIoBytes": "327680",
+            "oldReceipts": [
+              {
+                "birth": "134381835232440720",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 13960,
+                "readerId": "7a089e31406064dbaff14e1b3eed8114",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21673573207722397",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                "version": 1
+              },
+              {
+                "birth": "134381835232440720",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 13960,
+                "readerId": "88785040b77a1d6955d4e54d8ce098e4",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21673573207722397",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                "version": 1
+              },
+              {
+                "birth": "134381835232440720",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 13960,
+                "readerId": "d1ffadaf04cf7c9d9f7d3b52771834ba",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21673573207722397",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                "version": 1
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "7a089e31406064dbaff14e1b3eed8114",
+                "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                "generation": "1",
+                "pid": 13960,
+                "birth": "134381835232440720",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "21673573207722397"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "88785040b77a1d6955d4e54d8ce098e4",
+                "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                "generation": "1",
+                "pid": 13960,
+                "birth": "134381835232440720",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "audio",
+                    "device": "656024512",
+                    "fileId": "21673573207722397"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "d1ffadaf04cf7c9d9f7d3b52771834ba",
+                "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                "generation": "1",
+                "pid": 13960,
+                "birth": "134381835232440720",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "21673573207722397"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "birth": "134381835232440720",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 13960,
+                "readerId": "7a089e31406064dbaff14e1b3eed8114",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21673573207722397",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                "version": 1
+              },
+              {
+                "birth": "134381835232440720",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 13960,
+                "readerId": "88785040b77a1d6955d4e54d8ce098e4",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21673573207722397",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                "version": 1
+              },
+              {
+                "birth": "134381835232440720",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 13960,
+                "readerId": "d1ffadaf04cf7c9d9f7d3b52771834ba",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21673573207722397",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                "version": 1
+              }
+            ],
+            "newReceipt": {
+              "birth": "134381835252465342",
+              "filesClosed": false,
+              "generation": "1",
+              "pid": 12268,
+              "readerId": "a7b018a4c4188ccc3647a0c779446718",
+              "reason": "lease-held",
+              "released": false,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "21673573207722397",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+              "version": 1
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "88785040b77a1d6955d4e54d8ce098e4",
+              "released": true,
+              "reader": {
+                "birth": "134381835232440720",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 13960,
+                "readerId": "88785040b77a1d6955d4e54d8ce098e4",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21673573207722397",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                "version": 1
+              }
+            },
+            "oldProbeId": "7d4cb0088840fec9e3bfe68a30cb545b",
+            "newReaderId": "a7b018a4c4188ccc3647a0c779446718",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+            "sourceAfterAppendSha256": "41f4a628aa6f7da541431cef36c127def23715cb83a7e2971033eb1c0d249330",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.06602299999212846,
+                "receipt": {
+                  "birth": "134381835252465342",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 12268,
+                  "readerId": "a7b018a4c4188ccc3647a0c779446718",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "656024512",
+                      "fileId": "21673573207722397",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                  "version": 1
+                }
+              },
+              {
+                "seconds": 0.06776489999901969,
+                "receipt": {
+                  "birth": "134381835219292729",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 6752,
+                  "readerId": "5c124dd5dcbb8a3c728013de977c61d3",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "656024512",
+                      "fileId": "21673573207722397",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "23d7e0da8e074210bb70c77b304ef11f",
+                  "version": 1
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          },
+          {
+            "bits": 16,
+            "sparse": true,
+            "crashPhase": "buffering",
+            "result": "PASS",
+            "killed": {
+              "pid": 12268,
+              "exitCode": 1,
+              "terminationSeconds": 0.024847099994076416
+            },
+            "initialState": "buffering",
+            "initialPosition": 0,
+            "survivorBefore": 0.25328756329705215,
+            "survivorAfter": 0.4544599784716553,
+            "restartedPosition": 0.2523239502970521,
+            "restartedDecoderIoBytes": "262144",
+            "oldReceipts": [
+              {
+                "birth": "134381835252465342",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 12268,
+                "readerId": "2047951ddf9e4187653e26d93fd8260f",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21955048184433053",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "903759250cf64396aac22eebb5d47c93",
+                "version": 1
+              },
+              {
+                "birth": "134381835252465342",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 12268,
+                "readerId": "576e2f95938abb082333535e4ad29fb9",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21955048184433053",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "903759250cf64396aac22eebb5d47c93",
+                "version": 1
+              },
+              {
+                "birth": "134381835252465342",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 12268,
+                "readerId": "a7af36713a53b7758a54d916eae0d5af",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21955048184433053",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "903759250cf64396aac22eebb5d47c93",
+                "version": 1
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "2047951ddf9e4187653e26d93fd8260f",
+                "sessionId": "903759250cf64396aac22eebb5d47c93",
+                "generation": "1",
+                "pid": 12268,
+                "birth": "134381835252465342",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "21955048184433053"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "576e2f95938abb082333535e4ad29fb9",
+                "sessionId": "903759250cf64396aac22eebb5d47c93",
+                "generation": "1",
+                "pid": 12268,
+                "birth": "134381835252465342",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "21955048184433053"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "a7af36713a53b7758a54d916eae0d5af",
+                "sessionId": "903759250cf64396aac22eebb5d47c93",
+                "generation": "1",
+                "pid": 12268,
+                "birth": "134381835252465342",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "audio",
+                    "device": "656024512",
+                    "fileId": "21955048184433053"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "birth": "134381835252465342",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 12268,
+                "readerId": "2047951ddf9e4187653e26d93fd8260f",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21955048184433053",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "903759250cf64396aac22eebb5d47c93",
+                "version": 1
+              },
+              {
+                "birth": "134381835252465342",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 12268,
+                "readerId": "576e2f95938abb082333535e4ad29fb9",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21955048184433053",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "903759250cf64396aac22eebb5d47c93",
+                "version": 1
+              },
+              {
+                "birth": "134381835252465342",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 12268,
+                "readerId": "a7af36713a53b7758a54d916eae0d5af",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21955048184433053",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "903759250cf64396aac22eebb5d47c93",
+                "version": 1
+              }
+            ],
+            "newReceipt": {
+              "birth": "134381835269843121",
+              "filesClosed": false,
+              "generation": "1",
+              "pid": 5348,
+              "readerId": "0bc2751b749ff170bfa6492e18c74ded",
+              "reason": "lease-held",
+              "released": false,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "21955048184433053",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "903759250cf64396aac22eebb5d47c93",
+              "version": 1
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "a7af36713a53b7758a54d916eae0d5af",
+              "released": true,
+              "reader": {
+                "birth": "134381835252465342",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 12268,
+                "readerId": "a7af36713a53b7758a54d916eae0d5af",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "21955048184433053",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "903759250cf64396aac22eebb5d47c93",
+                "version": 1
+              }
+            },
+            "oldProbeId": "641a9794d4ca4fc5349288f5c36a7a9e",
+            "newReaderId": "0bc2751b749ff170bfa6492e18c74ded",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+            "sourceAfterAppendSha256": "7a0141b336f3d82e01796e562bb8ed91927613b2079f803645cbf3835c9bd94e",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.06687710000551306,
+                "receipt": {
+                  "birth": "134381835269843121",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 5348,
+                  "readerId": "0bc2751b749ff170bfa6492e18c74ded",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "656024512",
+                      "fileId": "21955048184433053",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "903759250cf64396aac22eebb5d47c93",
+                  "version": 1
+                }
+              },
+              {
+                "seconds": 0.06743180000921711,
+                "receipt": {
+                  "birth": "134381835219292729",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 6752,
+                  "readerId": "850fe2c26964e9f773290c1b134197a8",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "656024512",
+                      "fileId": "21955048184433053",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "903759250cf64396aac22eebb5d47c93",
+                  "version": 1
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          },
+          {
+            "bits": 24,
+            "sparse": true,
+            "crashPhase": "buffering",
+            "result": "PASS",
+            "killed": {
+              "pid": 5348,
+              "exitCode": 1,
+              "terminationSeconds": 0.020465599998715334
+            },
+            "initialState": "buffering",
+            "initialPosition": 0,
+            "survivorBefore": 0.2533663502970521,
+            "survivorAfter": 0.45661580847165534,
+            "restartedPosition": 0.2838046969319728,
+            "restartedDecoderIoBytes": "327680",
+            "oldReceipts": [
+              {
+                "birth": "134381835269843121",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 5348,
+                "readerId": "21e4090d39b59b653b75e90a1a3da584",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "22236523161143709",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                "version": 1
+              },
+              {
+                "birth": "134381835269843121",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 5348,
+                "readerId": "6720a48e15a47a7da650a9e46f8dd89c",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "22236523161143709",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                "version": 1
+              },
+              {
+                "birth": "134381835269843121",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 5348,
+                "readerId": "ef5878d669626ca917b183c7ac6110de",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "22236523161143709",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                "version": 1
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "21e4090d39b59b653b75e90a1a3da584",
+                "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                "generation": "1",
+                "pid": 5348,
+                "birth": "134381835269843121",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "audio",
+                    "device": "656024512",
+                    "fileId": "22236523161143709"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "6720a48e15a47a7da650a9e46f8dd89c",
+                "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                "generation": "1",
+                "pid": 5348,
+                "birth": "134381835269843121",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "22236523161143709"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "ef5878d669626ca917b183c7ac6110de",
+                "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                "generation": "1",
+                "pid": 5348,
+                "birth": "134381835269843121",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "22236523161143709"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "birth": "134381835269843121",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 5348,
+                "readerId": "21e4090d39b59b653b75e90a1a3da584",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "22236523161143709",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                "version": 1
+              },
+              {
+                "birth": "134381835269843121",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 5348,
+                "readerId": "6720a48e15a47a7da650a9e46f8dd89c",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "22236523161143709",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                "version": 1
+              },
+              {
+                "birth": "134381835269843121",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 5348,
+                "readerId": "ef5878d669626ca917b183c7ac6110de",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "22236523161143709",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                "version": 1
+              }
+            ],
+            "newReceipt": {
+              "birth": "134381835287383282",
+              "filesClosed": false,
+              "generation": "1",
+              "pid": 10684,
+              "readerId": "b83605d2a8252bb15a5bba13c88e2553",
+              "reason": "lease-held",
+              "released": false,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "22236523161143709",
+                  "id": "audio"
+                }
+              ],
+              "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+              "version": 1
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "21e4090d39b59b653b75e90a1a3da584",
+              "released": true,
+              "reader": {
+                "birth": "134381835269843121",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 5348,
+                "readerId": "21e4090d39b59b653b75e90a1a3da584",
+                "reason": "process-exited",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "22236523161143709",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                "version": 1
+              }
+            },
+            "oldProbeId": "5ce0c39e0cd338e534d8e1a63a5b1bc0",
+            "newReaderId": "b83605d2a8252bb15a5bba13c88e2553",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+            "sourceAfterAppendSha256": "41f4a628aa6f7da541431cef36c127def23715cb83a7e2971033eb1c0d249330",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.06850499998836312,
+                "receipt": {
+                  "birth": "134381835287383282",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 10684,
+                  "readerId": "b83605d2a8252bb15a5bba13c88e2553",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "656024512",
+                      "fileId": "22236523161143709",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                  "version": 1
+                }
+              },
+              {
+                "seconds": 0.06622419999621343,
+                "receipt": {
+                  "birth": "134381835219292729",
+                  "filesClosed": true,
+                  "generation": "1",
+                  "pid": 6752,
+                  "readerId": "7f4252792de3267821e1c8f8e583109f",
+                  "reason": "files-closed",
+                  "released": true,
+                  "resources": [
+                    {
+                      "device": "656024512",
+                      "fileId": "22236523161143709",
+                      "id": "audio"
+                    }
+                  ],
+                  "sessionId": "a0d95e0dded3469bb587dc3f1bfa04b3",
+                  "version": 1
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          }
+        ],
+        "processHistory": [
+          [
+            {
+              "pid": 7820,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.017361799997161143
+            },
+            {
+              "pid": 13960,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.019641299993963912
+            },
+            {
+              "pid": 12268,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.024847099994076416
+            },
+            {
+              "pid": 5348,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.020465599998715334
+            },
+            {
+              "pid": 10684,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.015894600001047365
+            }
+          ],
+          [
+            {
+              "pid": 6752,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.026043999998364598
+            }
+          ]
+        ],
+        "edition": "qt",
+        "temporaryWorkRemoved": true,
+        "playerSha256": [
+          "c2ba28aa1eb37012b957462cb6921c95cb8709f7409c05a3900e17864d429c23",
+          "c2ba28aa1eb37012b957462cb6921c95cb8709f7409c05a3900e17864d429c23"
+        ],
+        "readerRunnerSha256": "716abc655a000b1c94390c01a0a3461b23499df9f078229517fda0caa0c572cc"
+      },
+      "cleanup": {
+        "runtimePathsRemoved": [
+          "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPq\\FoxicMPq-3ea68dbd9e949909-b6d978a59c69511df40e3d9fc299824e.progressive.readers",
+          "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPq\\FoxicMPq-3ea68dbd9e949909-b6d978a59c69511df40e3d9fc299824e.progressive.lock",
+          "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPq\\FoxicMPq-3ea68dbd9e949909-b6d978a59c69511df40e3d9fc299824e.lock",
+          "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPq\\FoxicMPq-3ea68dbd9e949909-eb9745180177b78396fd512a76ad1572.progressive.readers",
+          "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPq\\FoxicMPq-3ea68dbd9e949909-eb9745180177b78396fd512a76ad1572.progressive.lock",
+          "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPq\\FoxicMPq-3ea68dbd9e949909-eb9745180177b78396fd512a76ad1572.lock"
+        ],
+        "processHistory": [
+          [
+            {
+              "pid": 7820,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.017361799997161143
+            },
+            {
+              "pid": 13960,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.019641299993963912
+            },
+            {
+              "pid": 12268,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.024847099994076416
+            },
+            {
+              "pid": 5348,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.020465599998715334
+            },
+            {
+              "pid": 10684,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.015894600001047365
+            }
+          ],
+          [
+            {
+              "pid": 6752,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.026043999998364598
+            }
+          ]
+        ],
+        "allOwnedProcessesExited": true
+      },
+      "resultSha256": "a03564c834084a2d022b51900094f1aa13f2d6f4f5ce77941af076d45aed76d8",
+      "eventsSha256": "e2fc4135a66878eed8706793a9f97069a70f1cc824857e6adc113ec5604f17ac",
+      "driverExitCode": 0,
+      "nativeQueryExitCode": 0,
+      "ctestLogSha256": "67b459c39e5b8be0715b9fb33252c8b31e28d92404a5f57e148c97151dea88a6"
+    },
+    "classic": {
+      "result": {
+        "result": "PASS",
+        "profiles": 4,
+        "intentionalActiveCrashes": 4,
+        "separateProcesses": true,
+        "crashModes": [
+          "playing",
+          "buffering"
+        ],
+        "persistedDeadReceipts": 12,
+        "sourceIdentityPreserved": true,
+        "actualReopenedPlayback": true,
+        "elapsedSeconds": 8.577999999994063,
+        "rows": [
+          {
+            "bits": 16,
+            "sparse": false,
+            "crashPhase": "playing",
+            "result": "PASS",
+            "killed": {
+              "pid": 9508,
+              "exitCode": 1,
+              "terminationSeconds": 0.015999999988707714
+            },
+            "initialState": "playing",
+            "initialPosition": 0.2828822,
+            "survivorBefore": 0.2539259,
+            "survivorAfter": 0.7217025,
+            "restartedPosition": 0.2687336,
+            "restartedDecoderIoBytes": "852510",
+            "oldReceipts": [
+              {
+                "version": 1,
+                "readerId": "2333744566f5e9d67ba94694ca3f3402",
+                "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                "generation": "1",
+                "pid": 9508,
+                "birth": "134381836105317295",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "5348024558505047"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              },
+              {
+                "version": 1,
+                "readerId": "48d4f774737236e02dc0184b7321be00",
+                "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                "generation": "1",
+                "pid": 9508,
+                "birth": "134381836105317295",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "5348024558505047"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              },
+              {
+                "version": 1,
+                "readerId": "f3d0a728156997d3827a1e931dfef431",
+                "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                "generation": "1",
+                "pid": 9508,
+                "birth": "134381836105317295",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "5348024558505047"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "2333744566f5e9d67ba94694ca3f3402",
+                "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                "generation": "1",
+                "pid": 9508,
+                "birth": "134381836105317295",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "5348024558505047"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "48d4f774737236e02dc0184b7321be00",
+                "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                "generation": "1",
+                "pid": 9508,
+                "birth": "134381836105317295",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "5348024558505047"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "f3d0a728156997d3827a1e931dfef431",
+                "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                "generation": "1",
+                "pid": 9508,
+                "birth": "134381836105317295",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "5348024558505047"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "2333744566f5e9d67ba94694ca3f3402",
+                "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                "generation": "1",
+                "pid": 9508,
+                "birth": "134381836105317295",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "5348024558505047"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "48d4f774737236e02dc0184b7321be00",
+                "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                "generation": "1",
+                "pid": 9508,
+                "birth": "134381836105317295",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "5348024558505047"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "f3d0a728156997d3827a1e931dfef431",
+                "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                "generation": "1",
+                "pid": 9508,
+                "birth": "134381836105317295",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "5348024558505047"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "newReceipt": {
+              "version": 1,
+              "readerId": "99f012751c5f3a5dd3c7fd784d85409b",
+              "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+              "generation": "1",
+              "pid": 3020,
+              "birth": "134381836127579893",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "5348024558505047"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "f3d0a728156997d3827a1e931dfef431",
+              "released": true,
+              "reader": {
+                "version": 1,
+                "readerId": "f3d0a728156997d3827a1e931dfef431",
+                "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                "generation": "1",
+                "pid": 9508,
+                "birth": "134381836105317295",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "5348024558505047"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            },
+            "oldProbeId": "8c7866374725d0eeeff7af65fd40216c",
+            "newReaderId": "99f012751c5f3a5dd3c7fd784d85409b",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+            "sourceAfterAppendSha256": "7a0141b336f3d82e01796e562bb8ed91927613b2079f803645cbf3835c9bd94e",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.062000000005355105,
+                "receipt": {
+                  "version": 1,
+                  "readerId": "99f012751c5f3a5dd3c7fd784d85409b",
+                  "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                  "generation": "1",
+                  "pid": 3020,
+                  "birth": "134381836127579893",
+                  "filesClosed": true,
+                  "resources": [
+                    {
+                      "id": "media",
+                      "device": "656024512",
+                      "fileId": "5348024558505047"
+                    }
+                  ],
+                  "released": true,
+                  "reason": "files-closed"
+                }
+              },
+              {
+                "seconds": 0.030999999988125637,
+                "receipt": {
+                  "version": 1,
+                  "readerId": "f4618932591642f78f93d3c06cd994ed",
+                  "sessionId": "d82e469a41524ec6811e54d1f2f0aa64",
+                  "generation": "1",
+                  "pid": 8308,
+                  "birth": "134381836112807953",
+                  "filesClosed": true,
+                  "resources": [
+                    {
+                      "id": "media",
+                      "device": "656024512",
+                      "fileId": "5348024558505047"
+                    }
+                  ],
+                  "released": true,
+                  "reason": "files-closed"
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          },
+          {
+            "bits": 24,
+            "sparse": false,
+            "crashPhase": "playing",
+            "result": "PASS",
+            "killed": {
+              "pid": 3020,
+              "exitCode": 1,
+              "terminationSeconds": 0.01600000000325963
+            },
+            "initialState": "playing",
+            "initialPosition": 0.2777347,
+            "survivorBefore": 0.254152,
+            "survivorAfter": 0.7266919,
+            "restartedPosition": 0.2629945,
+            "restartedDecoderIoBytes": "1278528",
+            "oldReceipts": [
+              {
+                "version": 1,
+                "readerId": "034d265b41a90226330cfdafb8f0de5e",
+                "sessionId": "9d16b1b666e141de869f0066a2758531",
+                "generation": "1",
+                "pid": 3020,
+                "birth": "134381836127579893",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6473924465347674"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              },
+              {
+                "version": 1,
+                "readerId": "38225ea7f92731d5e4e88e23b4c152b8",
+                "sessionId": "9d16b1b666e141de869f0066a2758531",
+                "generation": "1",
+                "pid": 3020,
+                "birth": "134381836127579893",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6473924465347674"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              },
+              {
+                "version": 1,
+                "readerId": "cb19d28fe184ad58aa14034bd048551a",
+                "sessionId": "9d16b1b666e141de869f0066a2758531",
+                "generation": "1",
+                "pid": 3020,
+                "birth": "134381836127579893",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6473924465347674"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "034d265b41a90226330cfdafb8f0de5e",
+                "sessionId": "9d16b1b666e141de869f0066a2758531",
+                "generation": "1",
+                "pid": 3020,
+                "birth": "134381836127579893",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6473924465347674"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "38225ea7f92731d5e4e88e23b4c152b8",
+                "sessionId": "9d16b1b666e141de869f0066a2758531",
+                "generation": "1",
+                "pid": 3020,
+                "birth": "134381836127579893",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6473924465347674"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "cb19d28fe184ad58aa14034bd048551a",
+                "sessionId": "9d16b1b666e141de869f0066a2758531",
+                "generation": "1",
+                "pid": 3020,
+                "birth": "134381836127579893",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6473924465347674"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "034d265b41a90226330cfdafb8f0de5e",
+                "sessionId": "9d16b1b666e141de869f0066a2758531",
+                "generation": "1",
+                "pid": 3020,
+                "birth": "134381836127579893",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6473924465347674"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "38225ea7f92731d5e4e88e23b4c152b8",
+                "sessionId": "9d16b1b666e141de869f0066a2758531",
+                "generation": "1",
+                "pid": 3020,
+                "birth": "134381836127579893",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6473924465347674"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "cb19d28fe184ad58aa14034bd048551a",
+                "sessionId": "9d16b1b666e141de869f0066a2758531",
+                "generation": "1",
+                "pid": 3020,
+                "birth": "134381836127579893",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6473924465347674"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "newReceipt": {
+              "version": 1,
+              "readerId": "4d76dc553ce1a7cd40b456353e7a638f",
+              "sessionId": "9d16b1b666e141de869f0066a2758531",
+              "generation": "1",
+              "pid": 788,
+              "birth": "134381836150689840",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "6473924465347674"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "cb19d28fe184ad58aa14034bd048551a",
+              "released": true,
+              "reader": {
+                "version": 1,
+                "readerId": "cb19d28fe184ad58aa14034bd048551a",
+                "sessionId": "9d16b1b666e141de869f0066a2758531",
+                "generation": "1",
+                "pid": 3020,
+                "birth": "134381836127579893",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6473924465347674"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            },
+            "oldProbeId": "90e719328b2e09b449f588683ab36a1b",
+            "newReaderId": "4d76dc553ce1a7cd40b456353e7a638f",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+            "sourceAfterAppendSha256": "41f4a628aa6f7da541431cef36c127def23715cb83a7e2971033eb1c0d249330",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.062000000005355105,
+                "receipt": {
+                  "version": 1,
+                  "readerId": "4d76dc553ce1a7cd40b456353e7a638f",
+                  "sessionId": "9d16b1b666e141de869f0066a2758531",
+                  "generation": "1",
+                  "pid": 788,
+                  "birth": "134381836150689840",
+                  "filesClosed": true,
+                  "resources": [
+                    {
+                      "id": "media",
+                      "device": "656024512",
+                      "fileId": "6473924465347674"
+                    }
+                  ],
+                  "released": true,
+                  "reason": "files-closed"
+                }
+              },
+              {
+                "seconds": 0.07799999999406282,
+                "receipt": {
+                  "version": 1,
+                  "readerId": "6cacc28b1192debfcfaeb93e441c31ec",
+                  "sessionId": "9d16b1b666e141de869f0066a2758531",
+                  "generation": "1",
+                  "pid": 8308,
+                  "birth": "134381836112807953",
+                  "filesClosed": true,
+                  "resources": [
+                    {
+                      "id": "media",
+                      "device": "656024512",
+                      "fileId": "6473924465347674"
+                    }
+                  ],
+                  "released": true,
+                  "reason": "files-closed"
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          },
+          {
+            "bits": 16,
+            "sparse": true,
+            "crashPhase": "buffering",
+            "result": "PASS",
+            "killed": {
+              "pid": 788,
+              "exitCode": 1,
+              "terminationSeconds": 0.015999999988707714
+            },
+            "initialState": "buffering",
+            "initialPosition": 0.0,
+            "survivorBefore": 0.26066,
+            "survivorAfter": 0.4481643,
+            "restartedPosition": 0.2509535,
+            "restartedDecoderIoBytes": "852510",
+            "oldReceipts": [
+              {
+                "version": 1,
+                "readerId": "4094af215fbcb9eb0e99cfe82a6f114c",
+                "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                "generation": "1",
+                "pid": 788,
+                "birth": "134381836150689840",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6755399442058330"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              },
+              {
+                "version": 1,
+                "readerId": "cfae639aa9e105054bd166b362af803c",
+                "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                "generation": "1",
+                "pid": 788,
+                "birth": "134381836150689840",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6755399442058330"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              },
+              {
+                "version": 1,
+                "readerId": "e0b56d366d8f51e5432abf1081c9f6dc",
+                "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                "generation": "1",
+                "pid": 788,
+                "birth": "134381836150689840",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6755399442058330"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "4094af215fbcb9eb0e99cfe82a6f114c",
+                "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                "generation": "1",
+                "pid": 788,
+                "birth": "134381836150689840",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6755399442058330"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "cfae639aa9e105054bd166b362af803c",
+                "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                "generation": "1",
+                "pid": 788,
+                "birth": "134381836150689840",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6755399442058330"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "e0b56d366d8f51e5432abf1081c9f6dc",
+                "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                "generation": "1",
+                "pid": 788,
+                "birth": "134381836150689840",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6755399442058330"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "4094af215fbcb9eb0e99cfe82a6f114c",
+                "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                "generation": "1",
+                "pid": 788,
+                "birth": "134381836150689840",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6755399442058330"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "cfae639aa9e105054bd166b362af803c",
+                "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                "generation": "1",
+                "pid": 788,
+                "birth": "134381836150689840",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6755399442058330"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "e0b56d366d8f51e5432abf1081c9f6dc",
+                "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                "generation": "1",
+                "pid": 788,
+                "birth": "134381836150689840",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6755399442058330"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "newReceipt": {
+              "version": 1,
+              "readerId": "5dc4259ecb43b4b8ad9ccf3d8d0e3b9f",
+              "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+              "generation": "1",
+              "pid": 8552,
+              "birth": "134381836169095692",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "6755399442058330"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "cfae639aa9e105054bd166b362af803c",
+              "released": true,
+              "reader": {
+                "version": 1,
+                "readerId": "cfae639aa9e105054bd166b362af803c",
+                "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                "generation": "1",
+                "pid": 788,
+                "birth": "134381836150689840",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "6755399442058330"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            },
+            "oldProbeId": "ce861651777db60c081afce97f5f6fda",
+            "newReaderId": "5dc4259ecb43b4b8ad9ccf3d8d0e3b9f",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+            "sourceAfterAppendSha256": "7a0141b336f3d82e01796e562bb8ed91927613b2079f803645cbf3835c9bd94e",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.031000000002677552,
+                "receipt": {
+                  "version": 1,
+                  "readerId": "5dc4259ecb43b4b8ad9ccf3d8d0e3b9f",
+                  "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                  "generation": "1",
+                  "pid": 8552,
+                  "birth": "134381836169095692",
+                  "filesClosed": true,
+                  "resources": [
+                    {
+                      "id": "media",
+                      "device": "656024512",
+                      "fileId": "6755399442058330"
+                    }
+                  ],
+                  "released": true,
+                  "reason": "files-closed"
+                }
+              },
+              {
+                "seconds": 0.046999999991385266,
+                "receipt": {
+                  "version": 1,
+                  "readerId": "635e3ceebb7164f69b1c36b93df5b71f",
+                  "sessionId": "06ef06f8c3d842efbec016960db2ca85",
+                  "generation": "1",
+                  "pid": 8308,
+                  "birth": "134381836112807953",
+                  "filesClosed": true,
+                  "resources": [
+                    {
+                      "id": "media",
+                      "device": "656024512",
+                      "fileId": "6755399442058330"
+                    }
+                  ],
+                  "released": true,
+                  "reason": "files-closed"
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          },
+          {
+            "bits": 24,
+            "sparse": true,
+            "crashPhase": "buffering",
+            "result": "PASS",
+            "killed": {
+              "pid": 8552,
+              "exitCode": 1,
+              "terminationSeconds": 0.01600000000325963
+            },
+            "initialState": "buffering",
+            "initialPosition": 0.0,
+            "survivorBefore": 0.2658966,
+            "survivorAfter": 0.4594568,
+            "restartedPosition": 0.2541283,
+            "restartedDecoderIoBytes": "1278528",
+            "oldReceipts": [
+              {
+                "version": 1,
+                "readerId": "1c725b4e09281e9cff995a60218f4226",
+                "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                "generation": "1",
+                "pid": 8552,
+                "birth": "134381836169095692",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "7036874418768986"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              },
+              {
+                "version": 1,
+                "readerId": "44c36ade11f26b5f2e5e9c814c6cfb2b",
+                "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                "generation": "1",
+                "pid": 8552,
+                "birth": "134381836169095692",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "7036874418768986"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              },
+              {
+                "version": 1,
+                "readerId": "6e28b155c378d2bd968b3dcbd2ef4656",
+                "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                "generation": "1",
+                "pid": 8552,
+                "birth": "134381836169095692",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "7036874418768986"
+                  }
+                ],
+                "released": false,
+                "reason": "lease-held"
+              }
+            ],
+            "osRecoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "1c725b4e09281e9cff995a60218f4226",
+                "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                "generation": "1",
+                "pid": 8552,
+                "birth": "134381836169095692",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "7036874418768986"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "44c36ade11f26b5f2e5e9c814c6cfb2b",
+                "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                "generation": "1",
+                "pid": 8552,
+                "birth": "134381836169095692",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "7036874418768986"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "6e28b155c378d2bd968b3dcbd2ef4656",
+                "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                "generation": "1",
+                "pid": 8552,
+                "birth": "134381836169095692",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "7036874418768986"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "rediscoveredReceipts": [
+              {
+                "version": 1,
+                "readerId": "1c725b4e09281e9cff995a60218f4226",
+                "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                "generation": "1",
+                "pid": 8552,
+                "birth": "134381836169095692",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "7036874418768986"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "44c36ade11f26b5f2e5e9c814c6cfb2b",
+                "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                "generation": "1",
+                "pid": 8552,
+                "birth": "134381836169095692",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "7036874418768986"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              },
+              {
+                "version": 1,
+                "readerId": "6e28b155c378d2bd968b3dcbd2ef4656",
+                "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                "generation": "1",
+                "pid": 8552,
+                "birth": "134381836169095692",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "7036874418768986"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ],
+            "newReceipt": {
+              "version": 1,
+              "readerId": "f5caf8c30374e4f29c01c642c0854f1c",
+              "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+              "generation": "1",
+              "pid": 13268,
+              "birth": "134381836187780555",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "7036874418768986"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            "oldGroupRelease": {
+              "version": 1,
+              "ok": true,
+              "readerId": "1c725b4e09281e9cff995a60218f4226",
+              "released": true,
+              "reader": {
+                "version": 1,
+                "readerId": "1c725b4e09281e9cff995a60218f4226",
+                "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                "generation": "1",
+                "pid": 8552,
+                "birth": "134381836169095692",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "media",
+                    "device": "656024512",
+                    "fileId": "7036874418768986"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            },
+            "oldProbeId": "c86d6f076291c212a67d2f8605f25e12",
+            "newReaderId": "f5caf8c30374e4f29c01c642c0854f1c",
+            "ipcFailureObserved": true,
+            "sourceIdentityPreserved": true,
+            "sourceBeforeAppendSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+            "sourceAfterAppendSha256": "41f4a628aa6f7da541431cef36c127def23715cb83a7e2971033eb1c0d249330",
+            "writerAppendedWhileEndpointDown": true,
+            "release": [
+              {
+                "seconds": 0.0629999999946449,
+                "receipt": {
+                  "version": 1,
+                  "readerId": "f5caf8c30374e4f29c01c642c0854f1c",
+                  "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                  "generation": "1",
+                  "pid": 13268,
+                  "birth": "134381836187780555",
+                  "filesClosed": true,
+                  "resources": [
+                    {
+                      "id": "media",
+                      "device": "656024512",
+                      "fileId": "7036874418768986"
+                    }
+                  ],
+                  "released": true,
+                  "reason": "files-closed"
+                }
+              },
+              {
+                "seconds": 0.031000000002677552,
+                "receipt": {
+                  "version": 1,
+                  "readerId": "6b3a2a592626bb109005437b8f71981d",
+                  "sessionId": "d8a2210918604014b47fd1b064dc39e7",
+                  "generation": "1",
+                  "pid": 8308,
+                  "birth": "134381836112807953",
+                  "filesClosed": true,
+                  "resources": [
+                    {
+                      "id": "media",
+                      "device": "656024512",
+                      "fileId": "7036874418768986"
+                    }
+                  ],
+                  "released": true,
+                  "reason": "files-closed"
+                }
+              }
+            ],
+            "sourceRemovedAfterAllReleased": true
+          }
+        ],
+        "processHistory": [
+          [
+            {
+              "pid": 9508,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.015999999988707714
+            },
+            {
+              "pid": 3020,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.01600000000325963
+            },
+            {
+              "pid": 788,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.015999999988707714
+            },
+            {
+              "pid": 8552,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.01600000000325963
+            },
+            {
+              "pid": 13268,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.031000000002677552
+            }
+          ],
+          [
+            {
+              "pid": 8308,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.01600000000325963
+            }
+          ]
+        ],
+        "edition": "classic",
+        "temporaryWorkRemoved": true,
+        "playerSha256": [
+          "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8",
+          "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8"
+        ],
+        "readerRunnerSha256": "716abc655a000b1c94390c01a0a3461b23499df9f078229517fda0caa0c572cc"
+      },
+      "cleanup": {
+        "runtimePathsRemoved": [
+          "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-dc5fe48dc5a4c653.progressive.readers",
+          "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-840a03e0e1a0958c.progressive.readers"
+        ],
+        "processHistory": [
+          [
+            {
+              "pid": 9508,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.015999999988707714
+            },
+            {
+              "pid": 3020,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.01600000000325963
+            },
+            {
+              "pid": 788,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.015999999988707714
+            },
+            {
+              "pid": 8552,
+              "reason": "intentional-active-crash",
+              "exitCode": 1,
+              "terminationSeconds": 0.01600000000325963
+            },
+            {
+              "pid": 13268,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.031000000002677552
+            }
+          ],
+          [
+            {
+              "pid": 8308,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.01600000000325963
+            }
+          ]
+        ],
+        "allOwnedProcessesExited": true
+      },
+      "resultSha256": "9275ae1c6979a5153f31acbd87ac3cd1b291743bacc2e968c3896e5117ba6ca1",
+      "eventsSha256": "7bc5098910bfb4b641721672e06c5ede1a2cb4783995df98d8e61eaf6059bb4f",
+      "driverExitCode": 0,
+      "nativeQueryExitCode": 0
+    }
+  },
+  "finalExitCodes": {
+    "crash-recovery-linux-build": 0,
+    "crash-recovery-linux-tests": 0,
+    "crash-recovery-windows-build": 0,
+    "crash-recovery-windows-tests": 0,
+    "crash-recovery-windows-ssh": 0,
+    "crash-recovery-shell-before-ssh": 0,
+    "finalize-crash-recovery-classic-ssh": 0,
+    "crash-recovery-final-check-ssh": 0,
+    "classicDriver": 0
+  },
+  "classicTaskCleanup": {
+    "lastTaskResult": 0,
+    "taskRemoved": true,
+    "stageRemoved": true,
+    "builtSha256": "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8",
+    "testedSha256": {
+      "value": [
+        "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8",
+        "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8"
+      ],
+      "Count": 2
+    },
+    "equal": true,
+    "testExitCode": 0
+  },
+  "preservation": {
+    "before": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "c2ba28aa1eb37012b957462cb6921c95cb8709f7409c05a3900e17864d429c23",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "after": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "c2ba28aa1eb37012b957462cb6921c95cb8709f7409c05a3900e17864d429c23",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "allRecordedBinariesAndProfilesUnchanged": true,
+    "classicShellEntries": 158,
+    "classicShellUnchanged": true,
+    "harvesterModified": false,
+    "linuxInstalledAlreadyMatchesTestedExecutable": true,
+    "linuxReplacementNeeded": false,
+    "reason": "Only test source/CMake registration/docs changed; all production executable hashes unchanged",
+    "windowsCleanup": {
+      "testTasksRemaining": 0,
+      "testPlayersRemaining": 0,
+      "stageRemoved": "C:\\FoxBroxer\\Build\\FoxicMPq\\crash-recovery-a3b0c466",
+      "shellSnapshotWritten": true
+    }
+  },
+  "binarySha256": {
+    "linuxQt": "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b",
+    "windowsQt": "c2ba28aa1eb37012b957462cb6921c95cb8709f7409c05a3900e17864d429c23",
+    "classic": "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8",
+    "linuxReaderRunner": "644b92db481809822256437657900e3498e06337a644dc2f63ee4a63f4b0eb17",
+    "windowsReaderRunner": "716abc655a000b1c94390c01a0a3461b23499df9f078229517fda0caa0c572cc"
+  },
+  "sourceFilesSha256": {
+    "qt/CMakeLists.txt": "b1d4b615d9d08fc382b87b10f3ad0e88e8223c09baec6ea76da331d263caea1d",
+    "qt/packaging/windows/build.ps1": "afa75292a6a0f2240762b0120435350109b9ce6adbe945186c335f339794e215",
+    "qt/packaging/windows/build_winpthread.py": "527a868a77e3f9509b86eb65ec1dbedeb99af94bcbd7aa4b546f3db01c69b132",
+    "qt/packaging/windows/deploy.ps1": "8f55637498dea977e46b0589ff06bfcdcf0c5f0665998428ae9d4a5d596dfc3f",
+    "qt/packaging/windows/winpthreads-detached-spin.patch": "a5aaab0253c3f82219bd038ee1786643ec213e0ad131eef2a5ca3367fe4535df",
+    "qt/src/instancebroker.cpp": "e660e17ee0e72bb5c8b769c5e2c92c245903a5489a2696bac2045d363ccb3c64",
+    "qt/src/main.cpp": "a2e9e1d9d8f8a637a055c28095250722860dbbf06002f1e385c7d08e10c14599",
+    "qt/src/playbackcontrol.cpp": "bf4a97ce0382b72ccc3db6af38762ba36d3bf2c9c67e4967d209c96a50b558b8",
+    "qt/src/profilereset.h": "3743d17b07f98524a6363f83592a8488a7859903eab2d9fe45619eaa80e0f8d2",
+    "qt/src/progressiveplayback.cpp": "2976a01ca7b26c96d5dc9a3f2a7eb93f2cd4064ce7d907131c2130aac64ab396",
+    "qt/src/progressivesource.h": "8be6436be6e87cb7aab54c88af92711929a68bf21c004a8176d0d13463d566aa",
+    "qt/src/progressivesource_common.cpp": "95086231259ee69cd30a3750cd2f28643c7f33649836b2d5bc82ede24343dd04",
+    "qt/tests/progressiveapi_test.cpp": "4a6a637a7075e2e61afc38c0b9e2923157090147733be98c829795402d6cc1b9",
+    "qt/tools/progressive_client.py": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+    "qt/tools/progressive_integrity.py": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+    "qt/tools/progressive_v2.py": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+    "shared/progressivefmp4bridge.h": "a10be10be51845423f8b377d462a46c3f26364aafd4501c6c68581ce34709935",
+    "shared/progressiverawaudio.h": "f55400e2216bcaf3c4d88cbbd9129a101250740d0b0402d5b11797b859e803bc",
+    "shared/progressivereaderlease.h": "5c53f6c0ff9ceb224ba63414058b58b7bfbbd71e1809811ad9d465463cfabe9f",
+    "shared/progressiveresourceio.h": "7886034fc023b68cc7bcfe2473ce4b5d867eaebcd48ed8dde0b3c5b1d5668bcb",
+    "shared/progressiveresourceprobe.h": "d65b0b1c728863bed5579f5f3e4e73d9b74a8c7b14383916e30cea04cbe986c8",
+    "shared/progressiverf64rangemap.h": "18c3fc5fbbbd9c83991fc05cb6bdbe0e5766948d80c2a7594b36b7197049faa3",
+    "shared/progressivesession.h": "2f9780115f01c8622509b6b3bce95a62bbbb2afcbac13e531a9d12757e11216d",
+    "shared/progressivewav.h": "a3d5113d768b34049c5afc59b4df0668466dbd3bc71a2b1bf1ac9942de269e75",
+    "src/DSUtil/HarvesterAudioProjection.h": "dc0e412caeef7060113bcd72b084ab3756f70ba67697046a144c519409c6cbb4",
+    "src/DSUtil/HarvesterMP4.h": "14d47a4d436f68a712af6a9f7f32fe7b36e0221722d7a67c031e0375913c078f",
+    "src/DSUtil/HarvesterSession.cpp": "8101a07c607b778245a99e6ab481f61fa3098d185342e082e60376684b11e0ab",
+    "src/DSUtil/HarvesterSession.h": "32572876f28dd20e9295d328f1060eacc674ac34cccd9a0a2d873fbd090ccebe",
+    "src/DSUtil/HarvesterWav.h": "e1ecd8d6a71f10e901dcc961c3e792b66ac0710ecafec34bc19d791c825b4efd",
+    "src/apps/mplayerc/MainFrm.cpp": "32cece895f0b555beeb1d0c6811101492c4ab5433e3377ff75971b625855bc5e",
+    "src/filters/parser/BaseSplitter/BaseSplitter.cpp": "6db4735b71bf5e026fc29464756e8db84fff62f77c59a0fa7bb6ae196ad79395",
+    "src/filters/parser/BaseSplitter/BaseSplitterOutputPin.cpp": "dd1b3cefb93a00c726fd2f5543413664465c767b8b056fa7c379b985373fb8b3",
+    "src/filters/parser/BaseSplitter/BaseSplitterThread.h": "130ca22698c91de7465348254203becaae690b6a2b4550b578af60d0ea5f5b0c",
+    "tests/fixtures/progressive-v2/integrity-empty.idx": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/fixtures/progressive-v2/rf64-external-index.json": "be6966d3c2fe8274b1e11c3c13d3125244938e0e9769fda34774b40718c4af03",
+    "tests/fixtures/progressive-v2/rf64-sparse-pcm16.json": "780c65509bc27a1a1dc1fe7f6cfa7ffe4df5875d0f918925aa6fbf23bbab9a8c",
+    "tests/fixtures/progressive-v2/rf64-sparse-pcm24.json": "8e59dd5fe7b9f36ff23660b7924fdb82460a6858474ad3b7091371d775fb7c62",
+    "tests/progressive_external_integrity_conformance.py": "b298bafa5d84b7a769fe353d8d479a640afd50118d7fb9576e1f2ab807ce05d1",
+    "tests/progressive_media_cli.cpp": "0fb37ba2754bef61175b5107852e7d06b9a38bae42f37ba4cefeb1e402a4f544",
+    "tests/progressive_multi_reader_playback.py": "a4ee31d2cebe7e3aa8d6348fb767d8d5c962b14452c3482a4944e8b00d650b87",
+    "tests/progressive_player_crash_recovery.py": "6c72ca3719dc553cffbba7fdd8d7fa89f914f67ae9f99240ef764a095d03756e",
+    "tests/progressive_player_lifecycle.py": "a07c524ca9303ec1d533b2ee636315bd1167bf51ed09975d1d400c1d2f98a8f8",
+    "tests/progressive_process_metrics.py": "00b64fb976d5bdc623c7aa2f5f100d39c0f7712b37b4a68115c305f83cd0f08a",
+    "tests/progressive_reader_cli.cpp": "1bbf651e89a11dae269be959077122545d9ce00adbee938f4df7004508a2bf2e",
+    "tests/progressive_registry_lock.py": "4871c6c8756818b4ddc358a045d9957cf1f84251da9c001ec43ad3a765ebf5cc",
+    "tests/progressive_rf64_conformance.py": "076721a25adc8727761490bce1fcb361be84fbc7e3e3c6f6a57e986e14ab3d5c",
+    "tests/progressive_rf64_fixture.py": "d75de02dafaf2fac3d18a05f4e409db38816174acb40e71e940e12f4e6159e94",
+    "tests/progressive_rf64_geometry.h": "3f8d86288a25ab8dd562a77d369401b0f5a35dddc2afc139432d1cd3d050212e",
+    "tests/progressive_rf64_large_playback.py": "e57fb5e0136597cb78873f226b075787867da06a00e58f531b10ed8b0faaccd2",
+    "tests/progressive_rf64_limits_conformance.py": "7e378fdc661afb7d299c299840a76c20f1f01d9b6ffeb222c789f110f1e6f05f",
+    "tests/progressive_rf64_limits_fixture.py": "f60f49cadb5d4929ad1d7636b1c1ae5100246af7778c9c8a1e4a9d9996120406",
+    "tests/progressive_rf64_limits_playback.py": "bf20e1f09ba654473b5e9cffedb1c77c4157d6cc1fababbb060d7b261fd957c8",
+    "tests/progressive_rf64_map_conformance.py": "4004a915445b22cb75ca66cb196172ecc55ab4d30b1a91b2a106f8611e6eddae",
+    "tests/progressive_rf64_map_geometry.cpp": "ae75f7ef8b908e968d98a816583fe54e33e53821f91f609f7b08d9551e4847d8",
+    "tests/progressive_rf64_paused_eof_probe.py": "4d310479273d7874c7cc1fa6688a7c53a08279ebf0fe0788eaaf8332745231ae",
+    "tests/progressive_rf64_ranges_conformance.py": "58ac35b2eea2aa4fe8dac6c9074179f78849cacdb9437232cd6724c87a9feebf",
+    "tests/progressive_rf64_ranges_playback.py": "f6304c7ed7a2dfa77d6bb350ac9abf650165528a71a7af9f7bdd7e1bbc1746b8",
+    "tests/progressive_rf64_sparse_conformance.py": "9791eeceef4bc6ed8cfb9b169391cb0c9824385ca22594dced5fa2d9e8fbcb82",
+    "tests/progressive_rf64_sparse_large_playback.py": "9ea95f818b989612cef94ea49580fa8c28f812502859888352b854c12b3f2a91",
+    "tests/progressive_rf64_sparse_playback.py": "1de45938489aa9bd48c3318b9b7dac478a5484d990637a353a6ca3857f1059aa",
+    "tests/progressive_sdk_test.py": "30ad8e259cade8f1a91b6d04c610fb51e760359276a77e401f4f9663d8f09168",
+    "tests/progressive_standalone_fixture.py": "46c76e224a50379d3b221daf42736d042ec6f461856504d26c321af0d004cbfd",
+    "tests/progressive_standalone_playback.py": "77dc2b58cdc4f501cc70a8db013bc557e13f37f895691209992ae12c62fac1fd",
+    "tests/progressive_v2_sdk_test.py": "ddac18169167bf273ccb5e2c482ddefb17966d1fd2471307ea0d238e3d85e9cc",
+    "tests/progressive_windows_handle_trace.py": "181f819e1aa7caaa8fab06f44df0ac4c90cd8bc6201827521d3f3f2e08e8c710",
+    "tests/windows/classic_normal_lifecycle.py": "72bb8e0bb30788b0d14775bf7aaec6fc57fc812a1f2f4d19ed274a020e8cee99",
+    "tests/windows/progressive_family_test.py": "e73a125b79162012ebdf3c1bebf29f0e0232caf197e4da19acb63cb412c8ff3a",
+    "tests/windows/progressive_multi_reader_playback.py": "7a6e709649ab55f03acaf45716388f2a7ce2a2d8150c47429f20a1cb28b4b2d2",
+    "tests/windows/pthread_detached_lifecycle.c": "5325f59f5ccb3816002677f1077fe167ab0d8b2feb0da3858898ce6f716a1d34",
+    "tools/package_progressive_sdk.py": "a1b0650f22f45eed8bea5a7a0764d49ce70523dde5e2716178b87fb1dd05c1fb"
+  },
+  "limits": [
+    "Four RF64 PCM16/24 stereo48kHz profiles per edition; two crashes while actually playing, two while buffering; no full codec/container matrix",
+    "Real separate player processes on LinuxQt/WindowsQt/Classic; same-edition pairs, no mixed-edition pair",
+    "Fault injection is SIGKILL onLinux (exit -9) and TerminateProcess onWindows (exit1); not reproduction of a specific application exception or OS failure",
+    "Two additional owned idle test processes per edition are force-terminated during cleanup only after positive reader release; exact codes retained separately from driver exit0",
+    "Dead process receipts intentionally retain filesClosed=false; released=true requires authenticated OS exit/birth observation; missing IPC alone is not counted as release",
+    "All actual dead observations were recorded; PID reuse is accepted by existing protocol but not deliberately induced",
+    "Writer remains alive and appends confirmed12->16sec while endpoint is down; same physical file/session/generation/writer resumes with newreader; automatic position/pause persistence not tested",
+    "No writer crash, interrupted append recovery, disk-full, restart after OS reboot, complete/EOF, rename/final-file transition, long-duration stress or physical A/V drift acceptance",
+    "Linux private X11/D-Bus/PulseAudio; only owned private player processes killed; Windows installed profiles/shell and Harvester unchanged",
+    "Production binaries and published immutable SDK1.81 ZIP/assets unchanged; no rebuild/install/release bump required for tests/documentation alone"
+  ]
+}
