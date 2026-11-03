@@ -202,6 +202,13 @@ bool Window::seekTo(double seconds) {
   }
   if (progressive && progressive->confirmedByteSeek()) {
     if (progressivePendingSeek >= 0) {
+      if (progressive->playbackDetails().value("mediaMode").toString().startsWith("standalone-rf64-pcm")) {
+        // Each reader owns an immutable indexed window. A superseding seek,
+        // especially backwards, must open its own window rather than seek in
+        // the suffix selected by the previous still-pending request.
+        reloadProgressive(seconds,progressiveRestoreAudio);
+        return true;
+      }
       progressivePendingSeek = progressiveSeekTarget = seconds;
       return true;
     }
@@ -325,7 +332,13 @@ void Window::updateProgressive() {
       options["cache"] = "no";
       options["demuxer-readahead-secs"] = "0";
     }
-    const auto sourceUrl = url+(single?"/track/0":"/video");
+    auto sourceUrl = url+(single?"/track/0":"/video");
+    if (single && progressivePendingSeek>0 &&
+        (details.value("mediaMode")=="standalone-rf64-pcm16" ||
+         details.value("mediaMode")=="standalone-rf64-pcm24")) {
+      sourceUrl+="?start="+QString::number(progressivePendingSeek,'f',9);
+      options["start"]=QString::number(progressivePendingSeek,'f',9);
+    }
     if (details.value("mediaMode") == "standalone-mp3-gapless") {
       const auto window = progressivePcmWindow(progressivePendingSeek < 0 ? 0 : progressivePendingSeek);
       if (!window.valid()) {

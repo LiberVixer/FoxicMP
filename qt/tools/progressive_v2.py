@@ -66,6 +66,7 @@ class V2PreviewSession:
         self.muxed_webm_vp8_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('webm',{}).get('vp8',{}).get('mode')=='growing-muxed-webm-vp8-opus'
         vorbis=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('webm',{}).get('vorbis',{})
         self.muxed_vorbis_modes=set(vorbis.get('profiles',[])) if vorbis.get('mode')=='growing-muxed-webm-vorbis' else set()
+        self.integrity_index=caps.get('schema2Playback',{}).get('integrity',{}).get('externalIndex',{})
         self.integrity_supported=caps.get('schema2Playback',{}).get('integrity',{}).get('algorithm')=='sha256'
         if 2 not in caps.get('playbackSchemaVersions',[]) or caps.get('schema2Playback',{}).get('mode')!='separate-fmp4-h264-aac-lc' or caps.get('readerLeaseProtocol')!=1:
             raise RuntimeError('Player lacks the bounded schema-2 media profile; update the player')
@@ -77,6 +78,11 @@ class V2PreviewSession:
         with self.lock:
             if self.closed:raise RuntimeError('Preview was detached; create a new V2PreviewSession')
             current=copy.deepcopy(snapshot);counter(current['generation']);revision=counter(current['revision'])
+            indexed=[r for r in current.get('resources',[]) if 'index' in r.get('integrity',{})]
+            if indexed:
+                cap=self.integrity_index
+                if not isinstance(cap,dict) or type(cap.get('version')) is not int or cap.get('version')!=1 or cap.get('format')!='sha256-blocks-le-v1' or any(t.get('containerHint') not in cap.get('playbackContainers',[]) for t in current.get('tracks',[])):
+                    raise RuntimeError('Player lacks the verified external integrity index profile')
             segment_tracks=[t for t in current.get('tracks',[]) if 'segments' in t.get('source',{})]
             webm_segments=any(t.get('containerHint')=='webm' for t in segment_tracks)
             ts_segments=any(t.get('containerHint')=='mpegts' for t in segment_tracks)

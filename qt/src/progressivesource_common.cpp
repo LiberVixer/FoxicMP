@@ -3,6 +3,9 @@
 #include "i18n.h"
 #include "../../shared/progressivefmp4bridge.h"
 #include <QUrl>
+#include <QUrlQuery>
+#include <QJsonDocument>
+#include <cmath>
 void ProgressiveSource::legacyIoCheckpoint(uint64_t revision) {
   const auto hook=std::atomic_load(&legacyIoHook);if(hook)(*hook)(revision);
 }
@@ -49,6 +52,36 @@ bool ProgressiveSource::confirmedByteSeek() const {
   // Once every required track is complete, reload against the same pinned
   // source instead of limiting ordinary seeks to that decoder's packet cache.
   return currentStatus.complete || (v2Bridge && (snapshot.tracks.size()>2 || v2Bridge->isSegmented() || v2Bridge->isGrowing() || v2Bridge->isStandalone()));
+}
+ProgressiveSource::DecoderWindow ProgressiveSource::decoderWindow(double seconds) const {
+  std::lock_guard<std::mutex> lock(mutex);
+  if (!v2Bridge || !std::isfinite(seconds) || seconds <= 0 ||
+      seconds >= currentStatus.available || snapshot.tracks.size()!=1 ||
+      stopping.load() || !currentStatus.error.isEmpty()) return {};
+  const auto details=QJsonDocument::fromJson(QByteArray::fromStdString(v2Bridge->details())).object();
+  const auto mode=details.value("mediaMode").toString();
+  if (mode!="standalone-rf64-pcm16" && mode!="standalone-rf64-pcm24") return {};
+  const auto& samples=indexes[0].Samples();
+  const auto target=harvester::AudioSeekSample(samples,int64_t(seconds*10000000));
+  if (samples.empty() || target>=samples.size()) return {};
+  // The validated RF64 bridge emits one PCM packet per moof/mdat pair.
+  // Derive framing from the first fragment, rather than duplicating its size.
+  uint64_t init=0,moof=0;
+  while(init<samples.front().offset) {
+    uint8_t bytes[8];
+    if(!v2Bridge->readIndex(0,init,bytes,sizeof bytes))return {};
+    harvester::BoxData box{bytes,sizeof bytes};const auto n=box.U32(0);
+    if(n<8 || n>samples.front().offset-init)return {};
+    if(box.U32(4)==harvester::FourCC("moof")){moof=n;break;}
+    init+=n;
+  }
+  if(!moof || samples.front().offset-init!=moof+8)return {};
+  const auto fragment=samples[target].offset-(moof+8);
+  uint8_t bytes[8];
+  if(!v2Bridge->readIndex(0,fragment,bytes,sizeof bytes))return {};
+  harvester::BoxData box{bytes,sizeof bytes};
+  if(box.U32(0)!=moof || box.U32(4)!=harvester::FourCC("moof"))return {};
+  return {init,fragment};
 }
 bool ProgressiveSource::seekable(int track, uint64_t offset) const {
   std::lock_guard<std::mutex> lock(mutex);
@@ -153,6 +186,10 @@ struct StreamReader {
   int track;
   uint64_t position = 0;
   std::atomic<bool> cancelled{false};
+  ProgressiveSource::DecoderWindow window;
+  uint64_t mapped(uint64_t at) const {
+    return at<window.initialization ? at : at+window.fragment-window.initialization;
+  }
 };
 } // namespace
 ProgressiveStreams::ProgressiveStreams(mpv_handle *handle, bool ownsSession) : ownsSession(ownsSession) {
@@ -183,14 +220,17 @@ int ProgressiveStreams::open(void *self, char *uri, mpv_stream_cb_info *info) {
   if (!source || track < 0 || url.host() != source->streamId())
     return MPV_ERROR_LOADING_FAILED;
   auto *reader = new StreamReader{source, track};
+  if(track==0)reader->window=source->decoderWindow(QUrlQuery(url).queryItemValue("start").toDouble());
   *info = {};
   info->cookie = reader;
   info->read_fn = [](void *cookie, char *buffer, uint64_t count) -> int64_t {
     auto *reader = static_cast<StreamReader *>(cookie);
     if (reader->cancelled.load())
       return -1;
+    if(reader->position<reader->window.initialization)
+      count=std::min(count,reader->window.initialization-reader->position);
     const auto result =
-        reader->source->read(reader->track, reader->position, buffer, count, &reader->cancelled);
+        reader->source->read(reader->track, reader->mapped(reader->position), buffer, count, &reader->cancelled);
     if (result > 0)
       reader->position += uint64_t(result);
     return result;
@@ -198,7 +238,8 @@ int ProgressiveStreams::open(void *self, char *uri, mpv_stream_cb_info *info) {
   info->seek_fn = [](void *cookie, int64_t position) -> int64_t {
     auto *reader = static_cast<StreamReader *>(cookie);
     if (reader->cancelled.load() || position < 0 ||
-        !reader->source->seekable(reader->track, uint64_t(position)))
+        uint64_t(position)>uint64_t(INT64_MAX)-(reader->window.fragment-reader->window.initialization) ||
+        !reader->source->seekable(reader->track, reader->mapped(uint64_t(position))))
       return MPV_ERROR_UNSUPPORTED;
     reader->position = uint64_t(position);
     return position;
@@ -212,7 +253,7 @@ int ProgressiveStreams::open(void *self, char *uri, mpv_stream_cb_info *info) {
   info->size_fn = [](void *cookie) -> int64_t {
     auto *reader = static_cast<StreamReader *>(cookie);
     const auto size = reader->source->size(reader->track);
-    return size > 0 ? size : int64_t(MPV_ERROR_UNSUPPORTED);
+    return size > 0 ? size-int64_t(reader->window.fragment-reader->window.initialization) : int64_t(MPV_ERROR_UNSUPPORTED);
   };
   info->close_fn = [](void *cookie) {
     delete static_cast<StreamReader *>(cookie);

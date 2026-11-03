@@ -225,7 +225,7 @@ class ResourceSource {
     std::map<std::pair<uint64_t,uint64_t>,std::string> identities;
     std::set<std::string> closingReaders;
     mutable std::mutex mutex;std::condition_variable changed;
-    std::atomic<bool> cancelled{false};
+    std::atomic<bool> cancelled{false};std::atomic<uint64_t> maxReadEnd{0};
     std::string failure;
     ResourceFailurePolicy failurePolicy;
     static void checkCatalog(const Snapshot& value) {
@@ -283,6 +283,20 @@ class ResourceSource {
         else failure=error.code;
         changed.notify_all();
     }
+    void loadIntegrityIndexes(Snapshot& value){
+        for(auto& item:value.resources){auto& resource=item.second;if(resource.integrityIndexName.empty())continue;
+            auto file=directory->open(resource.integrityIndexName);const auto info=resource_detail::Inspect(file);
+            resource_detail::Check(info.size==resource.integrityIndexBytes,"integrity-mismatch","Integrity index length disagrees with reference");
+            std::vector<unsigned char> bytes(size_t(info.size));Sha256 hash;
+            for(size_t at=0;at<bytes.size();){const auto n=(std::min)(size_t(65536),bytes.size()-at);
+                resource_detail::Check(resource_detail::ReadAt(file,at,bytes.data()+at,n,cancelled)==n,"integrity-mismatch","Integrity index read was truncated");hash.update(bytes.data()+at,n);at+=n;}
+            resource_detail::Check(hash.hex()==resource.integrityIndexSha256,"integrity-mismatch","Integrity index SHA-256 mismatch");
+            auto integer=[&](size_t at,unsigned n){uint64_t v=0;for(unsigned k=0;k<n;++k)v|=uint64_t(bytes.at(at+k))<<(8*k);return v;};
+            resource.blocks.clear();const char* digits="0123456789abcdef";
+            for(size_t at=0;at<bytes.size();at+=44){IntegrityBlock b;b.offset=integer(at,8);b.length=integer(at+8,4);for(size_t k=12;k<44;++k){b.sha256+=digits[bytes[at+k]>>4];b.sha256+=digits[bytes[at+k]&15];}resource.blocks.push_back(std::move(b));}
+            ValidateIntegrityBlocks(resource,"$.resources.integrity.index");
+        }
+    }
     void verifyPins(const Snapshot& next) {
         for(const auto& item:pins) {
             if(resourceFailures.count(item.first))continue;
@@ -339,16 +353,19 @@ public:
     ResourceSource(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json,ResourceFailurePolicy policy=ResourceFailurePolicy::Strict,ResourceMode sourceMode=ResourceMode::Inline):registry(receipts),snapshot(Parse(json,sourceMode==ResourceMode::BoundedCatalog?SnapshotScope::ExpandedCatalog:SnapshotScope::Inline)),mode(sourceMode),failurePolicy(policy) {
         if(mode==ResourceMode::BoundedCatalog)checkCatalog(snapshot);
         directory=std::make_unique<Directory>(root);
+        loadIntegrityIndexes(snapshot);
         resource_detail::Check(snapshot.state!="failed" && snapshot.state!="cancelled","writer-failed","Cannot attach a failed/cancelled writer");
     }
     ~ResourceSource(){cancel();pins.clear();directory.reset();released->store(true);}
     ResourceSource(const ResourceSource&)=delete;ResourceSource& operator=(const ResourceSource&)=delete;
+    uint64_t maximumReadEnd()const{return maxReadEnd.load();}
     void cancel(){cancelled.store(true);changed.notify_all();}
     void publish(const std::string& json) {
-        const auto next=Parse(json,mode==ResourceMode::BoundedCatalog?SnapshotScope::ExpandedCatalog:SnapshotScope::Inline);
+        auto next=Parse(json,mode==ResourceMode::BoundedCatalog?SnapshotScope::ExpandedCatalog:SnapshotScope::Inline);
         if(mode==ResourceMode::BoundedCatalog)checkCatalog(next);
         std::lock_guard<std::mutex> lock(mutex);
         resource_detail::Check(!cancelled.load() && failure.empty(),"session-closed","Resource source was closed");
+        loadIntegrityIndexes(next);
         Advance(snapshot,next); // Invalid metadata never changes the active snapshot.
         verifyPins(next);
         snapshot=next;changed.notify_all();
@@ -376,6 +393,7 @@ public:
                     const auto size=size_t(std::min<uint64_t>(ready,count));std::vector<char> data(size);
                     if(resource.integrity)opened.readProtected(resource,offset,data,cancelled);
                     else Check(ReadAt(opened.file,offset,data.data(),size,cancelled)==size,"source-truncated","Confirmed read returned short physical data");
+                    maxReadEnd.store((std::max)(maxReadEnd.load(),offset+size));
                     std::memcpy(buffer,data.data(),size);opened.lastOffset=offset;opened.lastRead=std::move(data);
                     return {"data","Confirmed bytes",size};
                 }

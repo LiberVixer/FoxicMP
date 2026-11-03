@@ -32,6 +32,22 @@ class Client:
         return dict(ok=True, active=False, released=False)
 
 class SdkTest(unittest.TestCase):
+    def test_external_integrity_binary_roundtrip_and_immutable_collision(self):
+        import hashlib,struct
+        from progressive_integrity import externalize_integrity
+        with tempfile.TemporaryDirectory() as d:
+            digest=hashlib.sha256(b'abc').hexdigest();value=dict(resources=[dict(id='media',integrity=dict(algorithm='sha256',blocks=[dict(offset='0',length='3',sha256=digest)]))])
+            out=externalize_integrity(value,d);ref=out['resources'][0]['integrity']['index'];path=Path(d)/ref['name'];raw=path.read_bytes()
+            self.assertEqual(raw,struct.pack('<QI',0,3)+bytes.fromhex(digest));self.assertEqual(ref['sha256'],hashlib.sha256(raw).hexdigest());self.assertIn('blocks',value['resources'][0]['integrity'])
+            self.assertEqual(externalize_integrity(value,d),out);path.write_bytes(b'bad')
+            with self.assertRaises(ValueError):externalize_integrity(value,d)
+            self.assertEqual(path.read_bytes(),b'bad')
+    def test_external_integrity_rejects_noncanonical_blocks(self):
+        from progressive_integrity import externalize_integrity
+        with tempfile.TemporaryDirectory() as d:
+            for field,bad in [('offset','01'),('length','0'),('length','4194305'),('sha256','A'*64)]:
+                block=dict(offset='0',length='1',sha256='a'*64);block[field]=bad
+                with self.assertRaises(ValueError):externalize_integrity(dict(resources=[dict(integrity=dict(algorithm='sha256',blocks=[block]))]),d)
     def test_classic_and_qt_gapless_contract_differs_only_in_adapter(self):
         sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
         from package_progressive_sdk import classic_schema2_playback,qt_schema2_playback

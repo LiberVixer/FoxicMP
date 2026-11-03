@@ -23,6 +23,17 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_external_integrity_requires_matching_negotiated_rf64_capability(self):
+        client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='pcm-s16le',containerHint='rf64-pcm16',source=dict(resourceId='media'))
+        value['resources']=[dict(id='media',integrity=dict(algorithm='sha256',index=dict(format='sha256-blocks-le-v1',name='index.idx',bytes='44',sha256='a'*64)))];index={}
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256',externalIndex=index),standalone=dict(rf64Pcm16=dict(version=1,mode='standalone-rf64-pcm16-v1',profiles=['standalone-rf64-pcm16']))))
+        with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls)
+        index.update(version=1,format='sha256-blocks-le-v1',playbackContainers=['rf64-pcm16','rf64-pcm24'])
+        V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1)
+        index['version']=True;client.calls.clear()
+        with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+        self.assertFalse(client.calls)
     def test_gapless_mp3_requires_explicit_backend_and_audible_contract(self):
         client=Client();value=snapshot();value['tracks']=value['tracks'][:1];value['tracks'][0].update(kind='audio',codecHint='mp3',containerHint='mp3-gapless',source=dict(resourceId='media'))
         value['resources']=[dict(id='media',integrity=dict(algorithm='sha256'))];cap={}

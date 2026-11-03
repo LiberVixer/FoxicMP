@@ -1,0 +1,2911 @@
+{
+  "result": "PASS",
+  "date": "2026-11-03",
+  "sdkVersion": "1.78",
+  "playerVersion": "0.2.0",
+  "feature": "physical-large-rf64-and-external-sha256-index",
+  "harvesterModified": false,
+  "qt": {
+    "linux": {
+      "physicalLargePlayback": [
+        {
+          "result": "PASS",
+          "bits": 16,
+          "profile": "audio-rf64-16-stereo-48000",
+          "fileBytes": 4303355984,
+          "allBytesWritten": 4303355984,
+          "physicalSparsePlaceholder": false,
+          "sha256": "49fae7893fd4ceeba547083e1da2558a28358191f3e7c077a3bbac4394767a48",
+          "farSeconds": 22376,
+          "farPhysicalByte": 4296192080,
+          "physicalReadMaxEndBytes": 4303355984,
+          "farPcmSha256": "65fd9ad04fd8b390e6cc7eb21f68f43f5abcb450259b4d019fa415853297e303",
+          "integrityRecords": 1028,
+          "publications": 260,
+          "maxApiRequestBytes": 1324,
+          "readerIdentityPreserved": true,
+          "profileIsolated": true,
+          "phases": [
+            "initial-buffer",
+            "playing-before-complete",
+            "physical-large-file-published-still-downloading",
+            "playing-after-physical-4GiB",
+            "complete-eof-and-release",
+            "independent-far-pcm-and-full-file-hash"
+          ],
+          "secondsElapsed": 81.501,
+          "largeFileRemovedAfterRelease": true
+        },
+        {
+          "result": "PASS",
+          "bits": 24,
+          "profile": "audio-rf64-24-stereo-48000",
+          "fileBytes": 4303356008,
+          "allBytesWritten": 4303356008,
+          "physicalSparsePlaceholder": false,
+          "sha256": "65b83393d561a93dea8693cd26db480239053eba4a4fcfe85186f3a3098a285f",
+          "farSeconds": 14917,
+          "farPhysicalByte": 4296096104,
+          "physicalReadMaxEndBytes": 4303356008,
+          "farPcmSha256": "82ddb90e88999ae9394bb8d05d3e6bbed72e3502e8970a443183e2aab2deec8e",
+          "integrityRecords": 1028,
+          "publications": 260,
+          "maxApiRequestBytes": 1325,
+          "readerIdentityPreserved": true,
+          "profileIsolated": true,
+          "phases": [
+            "initial-buffer",
+            "playing-before-complete",
+            "physical-large-file-published-still-downloading",
+            "playing-after-physical-4GiB",
+            "complete-eof-and-release",
+            "independent-far-pcm-and-full-file-hash"
+          ],
+          "secondsElapsed": 76.668,
+          "largeFileRemovedAfterRelease": true
+        }
+      ],
+      "supersedingSeekBeforePreviousOpenCompletes": true,
+      "qtTotals": [
+        {
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0
+        },
+        {
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0
+        },
+        {
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0
+        },
+        {
+          "passed": 6,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0
+        }
+      ],
+      "logSha256": "9a49defe4ddc967e339e55c526262f817424687609c38d4cdcbb6b1179442875"
+    },
+    "windows": {
+      "physicalLargePlayback": [
+        {
+          "result": "PASS",
+          "bits": 16,
+          "profile": "audio-rf64-16-stereo-48000",
+          "fileBytes": 4303355984,
+          "allBytesWritten": 4303355984,
+          "physicalSparsePlaceholder": false,
+          "sha256": "49fae7893fd4ceeba547083e1da2558a28358191f3e7c077a3bbac4394767a48",
+          "farSeconds": 22376,
+          "farPhysicalByte": 4296192080,
+          "physicalReadMaxEndBytes": 4303355984,
+          "farPcmSha256": "65fd9ad04fd8b390e6cc7eb21f68f43f5abcb450259b4d019fa415853297e303",
+          "integrityRecords": 1028,
+          "publications": 260,
+          "maxApiRequestBytes": 1359,
+          "readerIdentityPreserved": true,
+          "profileIsolated": true,
+          "phases": [
+            "initial-buffer",
+            "playing-before-complete",
+            "physical-large-file-published-still-downloading",
+            "playing-after-physical-4GiB",
+            "complete-eof-and-release",
+            "independent-far-pcm-and-full-file-hash"
+          ],
+          "secondsElapsed": 64.941,
+          "largeFileRemovedAfterRelease": true
+        },
+        {
+          "result": "PASS",
+          "bits": 24,
+          "profile": "audio-rf64-24-stereo-48000",
+          "fileBytes": 4303356008,
+          "allBytesWritten": 4303356008,
+          "physicalSparsePlaceholder": false,
+          "sha256": "65b83393d561a93dea8693cd26db480239053eba4a4fcfe85186f3a3098a285f",
+          "farSeconds": 14917,
+          "farPhysicalByte": 4296096104,
+          "physicalReadMaxEndBytes": 4303356008,
+          "farPcmSha256": "82ddb90e88999ae9394bb8d05d3e6bbed72e3502e8970a443183e2aab2deec8e",
+          "integrityRecords": 1028,
+          "publications": 260,
+          "maxApiRequestBytes": 1360,
+          "readerIdentityPreserved": true,
+          "profileIsolated": true,
+          "phases": [
+            "initial-buffer",
+            "playing-before-complete",
+            "physical-large-file-published-still-downloading",
+            "playing-after-physical-4GiB",
+            "complete-eof-and-release",
+            "independent-far-pcm-and-full-file-hash"
+          ],
+          "secondsElapsed": 63.983,
+          "largeFileRemovedAfterRelease": true
+        }
+      ],
+      "supersedingSeekBeforePreviousOpenCompletes": true,
+      "qtTotals": [
+        {
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0
+        },
+        {
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0
+        }
+      ],
+      "logSha256": "f002a40d18f9d80852c76e114ee0449de4fb0fcaca3add7e0c5d02486665807a",
+      "additionalRegression": {
+        "logSha256": "461e2ee0cb85709238c1cf8d662a7b2989236ca55d75b2fe8f97d69ac364063a",
+        "exitCode": 0,
+        "profilesPassed": 12,
+        "qtTotals": [
+          {
+            "passed": 10,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0
+          },
+          {
+            "passed": 6,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0
+          }
+        ]
+      }
+    }
+  },
+  "classic": {
+    "physicalLargePlayback": {
+      "16": {
+        "result": "PASS",
+        "bits": 16,
+        "profile": "audio-rf64-16-stereo-48000",
+        "fileBytes": 4303355984,
+        "allBytesWritten": 4303355984,
+        "physicalSparsePlaceholder": false,
+        "sha256": "49fae7893fd4ceeba547083e1da2558a28358191f3e7c077a3bbac4394767a48",
+        "farSeconds": 22376,
+        "farPhysicalByte": 4296192080,
+        "physicalReadMaxEndBytes": 4303355984,
+        "farPcmSha256": "65fd9ad04fd8b390e6cc7eb21f68f43f5abcb450259b4d019fa415853297e303",
+        "integrityRecords": 1028,
+        "publications": 260,
+        "maxApiRequestBytes": 1342,
+        "readerIdentityPreserved": true,
+        "profileIsolated": true,
+        "phases": [
+          "initial-buffer",
+          "playing-before-complete",
+          "physical-large-file-published-still-downloading",
+          "playing-after-physical-4GiB",
+          "complete-eof-and-release",
+          "independent-far-pcm-and-full-file-hash"
+        ],
+        "secondsElapsed": 59.578,
+        "largeFileRemovedAfterRelease": true
+      },
+      "24": {
+        "result": "PASS",
+        "bits": 24,
+        "profile": "audio-rf64-24-stereo-48000",
+        "fileBytes": 4303356008,
+        "allBytesWritten": 4303356008,
+        "physicalSparsePlaceholder": false,
+        "sha256": "65b83393d561a93dea8693cd26db480239053eba4a4fcfe85186f3a3098a285f",
+        "farSeconds": 14917,
+        "farPhysicalByte": 4296096104,
+        "physicalReadMaxEndBytes": 4303356008,
+        "farPcmSha256": "82ddb90e88999ae9394bb8d05d3e6bbed72e3502e8970a443183e2aab2deec8e",
+        "integrityRecords": 1028,
+        "publications": 260,
+        "maxApiRequestBytes": 1343,
+        "readerIdentityPreserved": true,
+        "profileIsolated": true,
+        "phases": [
+          "initial-buffer",
+          "playing-before-complete",
+          "physical-large-file-published-still-downloading",
+          "playing-after-physical-4GiB",
+          "complete-eof-and-release",
+          "independent-far-pcm-and-full-file-hash"
+        ],
+        "secondsElapsed": 58.844,
+        "largeFileRemovedAfterRelease": true
+      }
+    },
+    "regression": {
+      "audio-rf64-16-mono-44100": [
+        {
+          "contract": "standalone-playback",
+          "result": {
+            "profile": "audio-rf64-16-mono-44100",
+            "kind": "audio",
+            "initialLengthKnown": false,
+            "phases": [
+              {
+                "phase": "four-seconds-buffers",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "549ba4511457464cb9c793dc133ef90d",
+                  "state": "buffering",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "91abf39d91e42b851316659f380d2933",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "2",
+                  "writerInstanceId": "29b092f0c9564a8cb0027b2b63d2e2a9",
+                  "mediaMode": "standalone-rf64-pcm16",
+                  "physicalReadMaxEndBytes": "80",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "rf64-pcm16",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s16le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "0"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s16le",
+                      "container": "rf64-pcm16",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "0"
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 10,
+                  "positionSeconds": 0.0,
+                  "availableSeconds": 3.7151927,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "plays-without-second-track",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "549ba4511457464cb9c793dc133ef90d",
+                  "state": "playing",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "91abf39d91e42b851316659f380d2933",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "3",
+                  "writerInstanceId": "29b092f0c9564a8cb0027b2b63d2e2a9",
+                  "mediaMode": "standalone-rf64-pcm16",
+                  "physicalReadMaxEndBytes": "688208",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "rf64-pcm16",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s16le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "688670"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s16le",
+                      "container": "rf64-pcm16",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "688670",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 32,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 3.0830584,
+                  "availableSeconds": 11.8886167,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "pause",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "549ba4511457464cb9c793dc133ef90d",
+                  "state": "paused",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "91abf39d91e42b851316659f380d2933",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "3",
+                  "writerInstanceId": "29b092f0c9564a8cb0027b2b63d2e2a9",
+                  "mediaMode": "standalone-rf64-pcm16",
+                  "physicalReadMaxEndBytes": "688208",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "rf64-pcm16",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s16le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "688670"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s16le",
+                      "container": "rf64-pcm16",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "688670",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 32,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 3.0830584,
+                  "availableSeconds": 11.8886167,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "seek-while-paused",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "549ba4511457464cb9c793dc133ef90d",
+                  "state": "paused",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "91abf39d91e42b851316659f380d2933",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "3",
+                  "writerInstanceId": "29b092f0c9564a8cb0027b2b63d2e2a9",
+                  "mediaMode": "standalone-rf64-pcm16",
+                  "physicalReadMaxEndBytes": "688208",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "rf64-pcm16",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s16le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "688670"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s16le",
+                      "container": "rf64-pcm16",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "688670",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 32,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 2.0,
+                  "availableSeconds": 11.8886167,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "resume",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "549ba4511457464cb9c793dc133ef90d",
+                  "state": "playing",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "91abf39d91e42b851316659f380d2933",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "3",
+                  "writerInstanceId": "29b092f0c9564a8cb0027b2b63d2e2a9",
+                  "mediaMode": "standalone-rf64-pcm16",
+                  "physicalReadMaxEndBytes": "753744",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "rf64-pcm16",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s16le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "1278494"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s16le",
+                      "container": "rf64-pcm16",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "1278494",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 32,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 4.004038,
+                  "availableSeconds": 11.8886167,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "tail-waits-not-eof",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "549ba4511457464cb9c793dc133ef90d",
+                  "state": "buffering",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "91abf39d91e42b851316659f380d2933",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "3",
+                  "writerInstanceId": "29b092f0c9564a8cb0027b2b63d2e2a9",
+                  "mediaMode": "standalone-rf64-pcm16",
+                  "physicalReadMaxEndBytes": "1048656",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "rf64-pcm16",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s16le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "1573406"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s16le",
+                      "container": "rf64-pcm16",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "1573406",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 32,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 10.8935379,
+                  "availableSeconds": 11.8886167,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "seek-published-tail",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "549ba4511457464cb9c793dc133ef90d",
+                  "state": "playing",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": true,
+                  "readerId": "91abf39d91e42b851316659f380d2933",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "4",
+                  "writerInstanceId": "29b092f0c9564a8cb0027b2b63d2e2a9",
+                  "mediaMode": "standalone-rf64-pcm16",
+                  "physicalReadMaxEndBytes": "1048656",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "rf64-pcm16",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s16le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "1573406"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s16le",
+                      "container": "rf64-pcm16",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "1573406",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 54,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 17.0,
+                  "availableSeconds": 20.0,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "natural-eof-and-release",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": false,
+                  "sessionId": "549ba4511457464cb9c793dc133ef90d",
+                  "state": "finished",
+                  "error": "",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "4",
+                  "writerInstanceId": "29b092f0c9564a8cb0027b2b63d2e2a9",
+                  "mediaMode": "standalone-rf64-pcm16",
+                  "physicalReadMaxEndBytes": "1764080",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "rf64-pcm16",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s16le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "1862846"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "RF64 audio-rf64-16-mono-44100"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s16le",
+                      "container": "rf64-pcm16",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "1862846"
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 54,
+                  "released": true,
+                  "readerId": "91abf39d91e42b851316659f380d2933"
+                }
+              }
+            ],
+            "result": "PASS",
+            "readerIdentityPreserved": true,
+            "originalUnchanged": true,
+            "singleTrack": true,
+            "audioChannels": 1,
+            "audioRate": 44100
+          }
+        }
+      ],
+      "audio-wav-ext24-stereo-48000": [
+        {
+          "contract": "standalone-playback",
+          "result": {
+            "profile": "audio-wav-ext24-stereo-48000",
+            "kind": "audio",
+            "initialLengthKnown": true,
+            "phases": [
+              {
+                "phase": "four-seconds-buffers",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "778c5a613c78425292a3aa3f7d3bbc0a",
+                  "state": "buffering",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "998a5c13e21a62ab002807c4204f7158",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "2",
+                  "writerInstanceId": "180c416aaaf84aa58464fd482e828e55",
+                  "mediaMode": "standalone-wav-extensible-pcm24",
+                  "physicalReadMaxEndBytes": "68",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "wav-extensible-pcm24",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s24le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "0"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s24le",
+                      "container": "wav-extensible-pcm24",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "0"
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 187,
+                  "positionSeconds": 0.0,
+                  "availableSeconds": 3.9893333,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "plays-without-second-track",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "778c5a613c78425292a3aa3f7d3bbc0a",
+                  "state": "playing",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "998a5c13e21a62ab002807c4204f7158",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "3",
+                  "writerInstanceId": "180c416aaaf84aa58464fd482e828e55",
+                  "mediaMode": "standalone-wav-extensible-pcm24",
+                  "physicalReadMaxEndBytes": "1837124",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "wav-extensible-pcm24",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s24le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "1837632"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s24le",
+                      "container": "wav-extensible-pcm24",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "1837632",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 562,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 3.0761371,
+                  "availableSeconds": 11.9893333,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "pause",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "778c5a613c78425292a3aa3f7d3bbc0a",
+                  "state": "paused",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "998a5c13e21a62ab002807c4204f7158",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "3",
+                  "writerInstanceId": "180c416aaaf84aa58464fd482e828e55",
+                  "mediaMode": "standalone-wav-extensible-pcm24",
+                  "physicalReadMaxEndBytes": "1837124",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "wav-extensible-pcm24",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s24le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "1837632"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s24le",
+                      "container": "wav-extensible-pcm24",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "1837632",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 562,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 3.0761371,
+                  "availableSeconds": 11.9893333,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "seek-while-paused",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "778c5a613c78425292a3aa3f7d3bbc0a",
+                  "state": "paused",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "998a5c13e21a62ab002807c4204f7158",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "3",
+                  "writerInstanceId": "180c416aaaf84aa58464fd482e828e55",
+                  "mediaMode": "standalone-wav-extensible-pcm24",
+                  "physicalReadMaxEndBytes": "1837124",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "wav-extensible-pcm24",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s24le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "1837632"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s24le",
+                      "container": "wav-extensible-pcm24",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "1837632",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 562,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 2.0,
+                  "availableSeconds": 11.9893333,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "resume",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "778c5a613c78425292a3aa3f7d3bbc0a",
+                  "state": "playing",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "998a5c13e21a62ab002807c4204f7158",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "3",
+                  "writerInstanceId": "180c416aaaf84aa58464fd482e828e55",
+                  "mediaMode": "standalone-wav-extensible-pcm24",
+                  "physicalReadMaxEndBytes": "2101316",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "wav-extensible-pcm24",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s24le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "3367488"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s24le",
+                      "container": "wav-extensible-pcm24",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "3367488",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 562,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 4.0085956,
+                  "availableSeconds": 11.9893333,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "tail-waits-not-eof",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "778c5a613c78425292a3aa3f7d3bbc0a",
+                  "state": "buffering",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": false,
+                  "readerId": "998a5c13e21a62ab002807c4204f7158",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "3",
+                  "writerInstanceId": "180c416aaaf84aa58464fd482e828e55",
+                  "mediaMode": "standalone-wav-extensible-pcm24",
+                  "physicalReadMaxEndBytes": "3452996",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "wav-extensible-pcm24",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s24le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "4719168"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s24le",
+                      "container": "wav-extensible-pcm24",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "4719168",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 562,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 10.9898544,
+                  "availableSeconds": 11.9893333,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "seek-published-tail",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": true,
+                  "sessionId": "778c5a613c78425292a3aa3f7d3bbc0a",
+                  "state": "playing",
+                  "error": "",
+                  "released": false,
+                  "connected": true,
+                  "complete": true,
+                  "readerId": "998a5c13e21a62ab002807c4204f7158",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "4",
+                  "writerInstanceId": "180c416aaaf84aa58464fd482e828e55",
+                  "mediaMode": "standalone-wav-extensible-pcm24",
+                  "physicalReadMaxEndBytes": "3452996",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "wav-extensible-pcm24",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s24le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "4719168"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s24le",
+                      "container": "wav-extensible-pcm24",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "4719168",
+                      "loaded": true,
+                      "selected": true
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 938,
+                  "audioSelection": {
+                    "count": 1,
+                    "index": 0
+                  },
+                  "loadedSubtitleCount": 0,
+                  "appliedMetadata": {
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000",
+                    "chapters": [
+                      {
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ]
+                  },
+                  "controls": {
+                    "speed": 1.0,
+                    "volumePercent": 100,
+                    "muted": true,
+                    "nativeVolumeDbHundredths": -10000
+                  },
+                  "positionSeconds": 17.0,
+                  "availableSeconds": 20.0,
+                  "durationSeconds": 20.0
+                }
+              },
+              {
+                "phase": "natural-eof-and-release",
+                "status": {
+                  "version": 1,
+                  "ok": true,
+                  "active": false,
+                  "sessionId": "778c5a613c78425292a3aa3f7d3bbc0a",
+                  "state": "finished",
+                  "error": "",
+                  "schemaVersion": 2,
+                  "generation": "1",
+                  "revision": "4",
+                  "writerInstanceId": "180c416aaaf84aa58464fd482e828e55",
+                  "mediaMode": "standalone-wav-extensible-pcm24",
+                  "physicalReadMaxEndBytes": "5760068",
+                  "singleTrack": true,
+                  "segments": false,
+                  "physicalResources": 1,
+                  "videoContainer": "",
+                  "audioContainer": "wav-extensible-pcm24",
+                  "decoderContainer": "fmp4",
+                  "videoCodec": "",
+                  "audioCodec": "pcm-s24le",
+                  "decoderIoBytes": {
+                    "video": "0",
+                    "audio": "5588544"
+                  },
+                  "metadata": {
+                    "chapters": [
+                      {
+                        "id": "c0",
+                        "time": "0",
+                        "title": "0"
+                      },
+                      {
+                        "id": "c2",
+                        "time": "20000000",
+                        "title": "2"
+                      },
+                      {
+                        "id": "c17",
+                        "time": "170000000",
+                        "title": "17"
+                      }
+                    ],
+                    "revision": "1",
+                    "title": "WAVEFORMATEXTENSIBLE audio-wav-ext24-stereo-48000"
+                  },
+                  "mediaTracks": [
+                    {
+                      "index": 0,
+                      "id": "main",
+                      "kind": "audio",
+                      "codec": "pcm-s24le",
+                      "container": "wav-extensible-pcm24",
+                      "required": true,
+                      "default": true,
+                      "ready": true,
+                      "state": "ready",
+                      "error": "",
+                      "errorCode": "",
+                      "label": "",
+                      "language": "",
+                      "decoderIoBytes": "5588544"
+                    }
+                  ],
+                  "subtitleTracks": [],
+                  "wavPackets": 938,
+                  "released": true,
+                  "readerId": "998a5c13e21a62ab002807c4204f7158"
+                }
+              }
+            ],
+            "result": "PASS",
+            "readerIdentityPreserved": true,
+            "originalUnchanged": true,
+            "singleTrack": true,
+            "audioChannels": 2,
+            "audioRate": 48000
+          }
+        }
+      ]
+    },
+    "cleanup": {
+      "lastTaskResult": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "builtSha256": "5b1bfee0019bb1281717ebc00408e9c0ccd451a170bc8d3566a929e5f4af2bcf",
+      "testedSha256": "5b1bfee0019bb1281717ebc00408e9c0ccd451a170bc8d3566a929e5f4af2bcf",
+      "equal": true,
+      "testExitCode": 0
+    }
+  },
+  "native": {
+    "linux": [
+      {
+        "result": "PASS",
+        "count": 52,
+        "checks": [
+          "16-large-table-small-wire",
+          "16-decoded-pcm-exact",
+          "16-physical-read-telemetry",
+          "16-reader-released",
+          "16-original-unchanged",
+          "16-format-rejected-without-reader",
+          "16-path-rejected-without-reader",
+          "16-alias-rejected-without-reader",
+          "16-size-rejected-without-reader",
+          "16-record-size-rejected-without-reader",
+          "16-digest-rejected-without-reader",
+          "16-missing-rejected-without-reader",
+          "16-double-table-rejected-without-reader",
+          "16-wrong-profile-rejected-without-reader",
+          "16-truncated-rejected-without-reader",
+          "16-tamper-rejected-without-reader",
+          "16-offset-overflow-rejected-without-reader",
+          "16-zero-block-rejected-without-reader",
+          "16-block-oversized-rejected-without-reader",
+          "16-withdrawn-rejected-without-reader",
+          "16-duplicate-block-rejected-without-reader",
+          "16-empty-coverage-rejected-without-reader",
+          "16-hardlinked-index-rejected-without-reader",
+          "16-immutable-verified-table",
+          "16-append-reference-with-stable-blocks",
+          "16-changed-published-digest-rejected-and-released",
+          "24-large-table-small-wire",
+          "24-decoded-pcm-exact",
+          "24-physical-read-telemetry",
+          "24-reader-released",
+          "24-original-unchanged",
+          "24-format-rejected-without-reader",
+          "24-path-rejected-without-reader",
+          "24-alias-rejected-without-reader",
+          "24-size-rejected-without-reader",
+          "24-record-size-rejected-without-reader",
+          "24-digest-rejected-without-reader",
+          "24-missing-rejected-without-reader",
+          "24-double-table-rejected-without-reader",
+          "24-wrong-profile-rejected-without-reader",
+          "24-truncated-rejected-without-reader",
+          "24-tamper-rejected-without-reader",
+          "24-offset-overflow-rejected-without-reader",
+          "24-zero-block-rejected-without-reader",
+          "24-block-oversized-rejected-without-reader",
+          "24-withdrawn-rejected-without-reader",
+          "24-duplicate-block-rejected-without-reader",
+          "24-empty-coverage-rejected-without-reader",
+          "24-hardlinked-index-rejected-without-reader",
+          "24-immutable-verified-table",
+          "24-append-reference-with-stable-blocks",
+          "24-changed-published-digest-rejected-and-released"
+        ]
+      },
+      {
+        "result": "PASS",
+        "count": 161,
+        "checks": [
+          "audio-rf64-16-mono-44100-growing-single-audio",
+          "audio-rf64-16-mono-44100-partial-block-waits",
+          "audio-rf64-16-mono-44100-full-prefix-waits-for-complete",
+          "audio-rf64-16-mono-44100-packet-bytes-and-clocks",
+          "audio-rf64-16-mono-44100-decoded-pcm-bit-exact",
+          "audio-rf64-16-mono-44100-last-owner-release",
+          "audio-rf64-16-mono-44100-original-unchanged",
+          "audio-rf64-16-stereo-44100-growing-single-audio",
+          "audio-rf64-16-stereo-44100-partial-block-waits",
+          "audio-rf64-16-stereo-44100-full-prefix-waits-for-complete",
+          "audio-rf64-16-stereo-44100-packet-bytes-and-clocks",
+          "audio-rf64-16-stereo-44100-decoded-pcm-bit-exact",
+          "audio-rf64-16-stereo-44100-last-owner-release",
+          "audio-rf64-16-stereo-44100-original-unchanged",
+          "audio-rf64-16-mono-48000-growing-single-audio",
+          "audio-rf64-16-mono-48000-partial-block-waits",
+          "audio-rf64-16-mono-48000-full-prefix-waits-for-complete",
+          "audio-rf64-16-mono-48000-packet-bytes-and-clocks",
+          "audio-rf64-16-mono-48000-decoded-pcm-bit-exact",
+          "audio-rf64-16-mono-48000-last-owner-release",
+          "audio-rf64-16-mono-48000-original-unchanged",
+          "audio-rf64-16-stereo-48000-growing-single-audio",
+          "audio-rf64-16-stereo-48000-partial-block-waits",
+          "audio-rf64-16-stereo-48000-full-prefix-waits-for-complete",
+          "audio-rf64-16-stereo-48000-packet-bytes-and-clocks",
+          "audio-rf64-16-stereo-48000-decoded-pcm-bit-exact",
+          "audio-rf64-16-stereo-48000-last-owner-release",
+          "audio-rf64-16-stereo-48000-original-unchanged",
+          "audio-rf64-24-mono-44100-growing-single-audio",
+          "audio-rf64-24-mono-44100-partial-block-waits",
+          "audio-rf64-24-mono-44100-full-prefix-waits-for-complete",
+          "audio-rf64-24-mono-44100-packet-bytes-and-clocks",
+          "audio-rf64-24-mono-44100-decoded-pcm-bit-exact",
+          "audio-rf64-24-mono-44100-last-owner-release",
+          "audio-rf64-24-mono-44100-original-unchanged",
+          "audio-rf64-24-stereo-44100-growing-single-audio",
+          "audio-rf64-24-stereo-44100-partial-block-waits",
+          "audio-rf64-24-stereo-44100-full-prefix-waits-for-complete",
+          "audio-rf64-24-stereo-44100-packet-bytes-and-clocks",
+          "audio-rf64-24-stereo-44100-decoded-pcm-bit-exact",
+          "audio-rf64-24-stereo-44100-last-owner-release",
+          "audio-rf64-24-stereo-44100-original-unchanged",
+          "audio-rf64-24-mono-48000-growing-single-audio",
+          "audio-rf64-24-mono-48000-partial-block-waits",
+          "audio-rf64-24-mono-48000-full-prefix-waits-for-complete",
+          "audio-rf64-24-mono-48000-packet-bytes-and-clocks",
+          "audio-rf64-24-mono-48000-decoded-pcm-bit-exact",
+          "audio-rf64-24-mono-48000-last-owner-release",
+          "audio-rf64-24-mono-48000-original-unchanged",
+          "audio-rf64-24-stereo-48000-growing-single-audio",
+          "audio-rf64-24-stereo-48000-partial-block-waits",
+          "audio-rf64-24-stereo-48000-full-prefix-waits-for-complete",
+          "audio-rf64-24-stereo-48000-packet-bytes-and-clocks",
+          "audio-rf64-24-stereo-48000-decoded-pcm-bit-exact",
+          "audio-rf64-24-stereo-48000-last-owner-release",
+          "audio-rf64-24-stereo-48000-original-unchanged",
+          "16-optional-rejected-without-leak",
+          "16-video-rejected-without-leak",
+          "16-codec-rejected-without-leak",
+          "16-legacy-hint-rejected-without-leak",
+          "16-no-sha-rejected-without-leak",
+          "16-offset-rejected-without-leak",
+          "16-duration-rejected-without-leak",
+          "16-riff-rejected-without-leak",
+          "16-bw64-rejected-without-leak",
+          "16-riff-sentinel-rejected-without-leak",
+          "16-wave-rejected-without-leak",
+          "16-ds64-missing-rejected-without-leak",
+          "16-ds64-size-rejected-without-leak",
+          "16-riff-overflow-rejected-without-leak",
+          "16-riff-oversized-rejected-without-leak",
+          "16-riff-truncated-rejected-without-leak",
+          "16-data-zero-rejected-without-leak",
+          "16-data-high-bits-rejected-without-leak",
+          "16-samples-zero-rejected-without-leak",
+          "16-samples-wrong-rejected-without-leak",
+          "16-samples-high-bits-rejected-without-leak",
+          "16-ds64-table-rejected-without-leak",
+          "16-format-rejected-without-leak",
+          "16-bits-rejected-without-leak",
+          "16-channels-rejected-without-leak",
+          "16-rate-rejected-without-leak",
+          "16-byte-rate-rejected-without-leak",
+          "16-align-rejected-without-leak",
+          "16-no-fmt-rejected-without-leak",
+          "16-data-sentinel-rejected-without-leak",
+          "16-no-data-rejected-without-leak",
+          "16-truncated-rejected-without-leak",
+          "16-trailing-rejected-without-leak",
+          "16-partial-7-waits-without-leak",
+          "16-partial-11-waits-without-leak",
+          "16-partial-19-waits-without-leak",
+          "16-partial-27-waits-without-leak",
+          "16-partial-35-waits-without-leak",
+          "16-partial-43-waits-without-leak",
+          "16-partial-47-waits-without-leak",
+          "16-partial-79-waits-without-leak",
+          "16-partial-81-waits-without-leak",
+          "16-JUNK-pad-excluded-from-pcm",
+          "16-LIST-pad-excluded-from-pcm",
+          "16-bext-pad-excluded-from-pcm",
+          "audio-rf64-16-mono-48000-manual-writer-pcm-bit-exact",
+          "audio-rf64-16-stereo-48000-manual-writer-pcm-bit-exact",
+          "16-bad-append-fails-closed-and-releases",
+          "16-pinned-byte-tamper-fails-closed-and-releases",
+          "24-optional-rejected-without-leak",
+          "24-video-rejected-without-leak",
+          "24-codec-rejected-without-leak",
+          "24-legacy-hint-rejected-without-leak",
+          "24-no-sha-rejected-without-leak",
+          "24-offset-rejected-without-leak",
+          "24-duration-rejected-without-leak",
+          "24-riff-rejected-without-leak",
+          "24-bw64-rejected-without-leak",
+          "24-riff-sentinel-rejected-without-leak",
+          "24-wave-rejected-without-leak",
+          "24-ds64-missing-rejected-without-leak",
+          "24-ds64-size-rejected-without-leak",
+          "24-riff-overflow-rejected-without-leak",
+          "24-riff-oversized-rejected-without-leak",
+          "24-riff-truncated-rejected-without-leak",
+          "24-data-zero-rejected-without-leak",
+          "24-data-high-bits-rejected-without-leak",
+          "24-samples-zero-rejected-without-leak",
+          "24-samples-wrong-rejected-without-leak",
+          "24-samples-high-bits-rejected-without-leak",
+          "24-ds64-table-rejected-without-leak",
+          "24-format-rejected-without-leak",
+          "24-bits-rejected-without-leak",
+          "24-channels-rejected-without-leak",
+          "24-rate-rejected-without-leak",
+          "24-byte-rate-rejected-without-leak",
+          "24-align-rejected-without-leak",
+          "24-no-fmt-rejected-without-leak",
+          "24-data-sentinel-rejected-without-leak",
+          "24-no-data-rejected-without-leak",
+          "24-cb-rejected-without-leak",
+          "24-valid20-rejected-without-leak",
+          "24-mask-rejected-without-leak",
+          "24-float-guid-rejected-without-leak",
+          "24-guid-tail-rejected-without-leak",
+          "24-truncated-rejected-without-leak",
+          "24-trailing-rejected-without-leak",
+          "24-partial-7-waits-without-leak",
+          "24-partial-11-waits-without-leak",
+          "24-partial-19-waits-without-leak",
+          "24-partial-27-waits-without-leak",
+          "24-partial-35-waits-without-leak",
+          "24-partial-43-waits-without-leak",
+          "24-partial-47-waits-without-leak",
+          "24-partial-103-waits-without-leak",
+          "24-partial-105-waits-without-leak",
+          "24-JUNK-pad-excluded-from-pcm",
+          "24-LIST-pad-excluded-from-pcm",
+          "24-bext-pad-excluded-from-pcm",
+          "audio-rf64-24-mono-48000-manual-writer-pcm-bit-exact",
+          "audio-rf64-24-stereo-48000-manual-writer-pcm-bit-exact",
+          "24-bad-append-fails-closed-and-releases",
+          "24-pinned-byte-tamper-fails-closed-and-releases",
+          "24-odd-data-pad-excluded-from-pcm",
+          "64-bit-layout-index-and-seek-eight-synthetic-cases"
+        ],
+        "profiles": [
+          {
+            "profile": "audio-rf64-16-mono-44100",
+            "pcmBytes": 352800,
+            "pcmSha256": "7125a0e0e8f3c25906da996a6e2ab19b8bfc52ddb5c32a068c19ff8bfe7580df",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-16-stereo-44100",
+            "pcmBytes": 705600,
+            "pcmSha256": "ddc200ed91acded087190ccb28cf7ab32e2f33bd40efb7b1647c844c6061b120",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-16-mono-48000",
+            "pcmBytes": 384000,
+            "pcmSha256": "855aa8e3eba5cd10238672bf9a216b18fb4cd2eab39239835333963d7d705aee",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-16-stereo-48000",
+            "pcmBytes": 768000,
+            "pcmSha256": "fe033f80ecfbfe0a20a593e3edd615038934b0505b5a24096cd381e04cc02dcd",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-24-mono-44100",
+            "pcmBytes": 529200,
+            "pcmSha256": "23b317ee32d7e61870322bec7e919ac5d1c8e37960f7116cdb69d0f4b2d62b29",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-24-stereo-44100",
+            "pcmBytes": 1058400,
+            "pcmSha256": "a9281127a8f7f7e5a2abc718e8357c887307e932840017611e53d8097374ae4a",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-24-mono-48000",
+            "pcmBytes": 576000,
+            "pcmSha256": "41dd990e228bf8cf3eac96b4084704fe694866147922f98188cfc75865951e60",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-24-stereo-48000",
+            "pcmBytes": 1152000,
+            "pcmSha256": "554b716ad01e5ff8ea77153f8e8fabca5ab951efb3dcfdbca5afc86acc888c4c",
+            "growing": true
+          }
+        ],
+        "largeGeometry": {
+          "result": "PASS",
+          "cases": 8,
+          "scope": "production layout and FragmentIndex with synthetic addresses above 4 GiB",
+          "physicalLargeFileCreated": false
+        }
+      },
+      {
+        "result": "PASS",
+        "count": 83,
+        "checks": [
+          "audio-wav-ext24-mono-44100-growing-single-audio",
+          "audio-wav-ext24-mono-44100-partial-block-waits",
+          "audio-wav-ext24-mono-44100-full-prefix-waits-for-complete",
+          "audio-wav-ext24-mono-44100-packet-bytes-and-clocks",
+          "audio-wav-ext24-mono-44100-decoded-pcm-bit-exact",
+          "audio-wav-ext24-mono-44100-last-owner-release",
+          "audio-wav-ext24-mono-44100-original-unchanged",
+          "audio-wav-ext24-stereo-44100-growing-single-audio",
+          "audio-wav-ext24-stereo-44100-partial-block-waits",
+          "audio-wav-ext24-stereo-44100-full-prefix-waits-for-complete",
+          "audio-wav-ext24-stereo-44100-packet-bytes-and-clocks",
+          "audio-wav-ext24-stereo-44100-decoded-pcm-bit-exact",
+          "audio-wav-ext24-stereo-44100-last-owner-release",
+          "audio-wav-ext24-stereo-44100-original-unchanged",
+          "audio-wav-ext24-mono-48000-growing-single-audio",
+          "audio-wav-ext24-mono-48000-partial-block-waits",
+          "audio-wav-ext24-mono-48000-full-prefix-waits-for-complete",
+          "audio-wav-ext24-mono-48000-packet-bytes-and-clocks",
+          "audio-wav-ext24-mono-48000-decoded-pcm-bit-exact",
+          "audio-wav-ext24-mono-48000-last-owner-release",
+          "audio-wav-ext24-mono-48000-original-unchanged",
+          "audio-wav-ext24-stereo-48000-growing-single-audio",
+          "audio-wav-ext24-stereo-48000-partial-block-waits",
+          "audio-wav-ext24-stereo-48000-full-prefix-waits-for-complete",
+          "audio-wav-ext24-stereo-48000-packet-bytes-and-clocks",
+          "audio-wav-ext24-stereo-48000-decoded-pcm-bit-exact",
+          "audio-wav-ext24-stereo-48000-last-owner-release",
+          "audio-wav-ext24-stereo-48000-original-unchanged",
+          "optional-rejected-without-leak",
+          "video-rejected-without-leak",
+          "codec-rejected-without-leak",
+          "legacy-hint-rejected-without-leak",
+          "pcm16-hint-rejected-without-leak",
+          "no-sha-rejected-without-leak",
+          "offset-rejected-without-leak",
+          "duration-rejected-without-leak",
+          "riff-rejected-without-leak",
+          "wave-rejected-without-leak",
+          "unknown-riff-size-rejected-without-leak",
+          "fmt-size-rejected-without-leak",
+          "format-rejected-without-leak",
+          "float-format-rejected-without-leak",
+          "bits16-rejected-without-leak",
+          "bits32-rejected-without-leak",
+          "channels-rejected-without-leak",
+          "rate-rejected-without-leak",
+          "byte-rate-rejected-without-leak",
+          "align-rejected-without-leak",
+          "cb-small-rejected-without-leak",
+          "cb-large-rejected-without-leak",
+          "valid-zero-rejected-without-leak",
+          "valid20-rejected-without-leak",
+          "valid32-rejected-without-leak",
+          "mask-zero-rejected-without-leak",
+          "mask-mono-rejected-without-leak",
+          "mask-reserved-rejected-without-leak",
+          "float-guid-rejected-without-leak",
+          "guid-tail-rejected-without-leak",
+          "no-fmt-rejected-without-leak",
+          "no-data-rejected-without-leak",
+          "odd-data-rejected-without-leak",
+          "unknown-data-size-rejected-without-leak",
+          "truncated-rejected-without-leak",
+          "trailing-rejected-without-leak",
+          "legacy-header-rejected-without-leak",
+          "partial-7-waits-without-leak",
+          "partial-39-waits-without-leak",
+          "partial-43-waits-without-leak",
+          "partial-59-waits-without-leak",
+          "partial-67-waits-without-leak",
+          "partial-69-waits-without-leak",
+          "JUNK-metadata-pad-excluded-from-pcm",
+          "LIST-metadata-pad-excluded-from-pcm",
+          "bext-metadata-pad-excluded-from-pcm",
+          "audio-wav-ext24-mono-44100-manual-writer-pcm-bit-exact",
+          "audio-wav-ext24-stereo-44100-manual-writer-pcm-bit-exact",
+          "audio-wav-ext24-mono-48000-manual-writer-pcm-bit-exact",
+          "audio-wav-ext24-stereo-48000-manual-writer-pcm-bit-exact",
+          "odd-data-waits-for-writer",
+          "odd-data-pad-excluded-from-pcm",
+          "odd-data-complete-eof",
+          "bad-append-fails-closed-and-releases",
+          "pinned-byte-tamper-fails-closed-and-releases"
+        ],
+        "profiles": [
+          {
+            "profile": "audio-wav-ext24-mono-44100",
+            "pcmBytes": 529200,
+            "pcmSha256": "23b317ee32d7e61870322bec7e919ac5d1c8e37960f7116cdb69d0f4b2d62b29",
+            "growing": true
+          },
+          {
+            "profile": "audio-wav-ext24-stereo-44100",
+            "pcmBytes": 1058400,
+            "pcmSha256": "a9281127a8f7f7e5a2abc718e8357c887307e932840017611e53d8097374ae4a",
+            "growing": true
+          },
+          {
+            "profile": "audio-wav-ext24-mono-48000",
+            "pcmBytes": 576000,
+            "pcmSha256": "41dd990e228bf8cf3eac96b4084704fe694866147922f98188cfc75865951e60",
+            "growing": true
+          },
+          {
+            "profile": "audio-wav-ext24-stereo-48000",
+            "pcmBytes": 1152000,
+            "pcmSha256": "554b716ad01e5ff8ea77153f8e8fabca5ab951efb3dcfdbca5afc86acc888c4c",
+            "growing": true
+          }
+        ]
+      }
+    ],
+    "windows": [
+      {
+        "result": "PASS",
+        "count": 52,
+        "checks": [
+          "16-large-table-small-wire",
+          "16-decoded-pcm-exact",
+          "16-physical-read-telemetry",
+          "16-reader-released",
+          "16-original-unchanged",
+          "16-format-rejected-without-reader",
+          "16-path-rejected-without-reader",
+          "16-alias-rejected-without-reader",
+          "16-size-rejected-without-reader",
+          "16-record-size-rejected-without-reader",
+          "16-digest-rejected-without-reader",
+          "16-missing-rejected-without-reader",
+          "16-double-table-rejected-without-reader",
+          "16-wrong-profile-rejected-without-reader",
+          "16-truncated-rejected-without-reader",
+          "16-tamper-rejected-without-reader",
+          "16-offset-overflow-rejected-without-reader",
+          "16-zero-block-rejected-without-reader",
+          "16-block-oversized-rejected-without-reader",
+          "16-withdrawn-rejected-without-reader",
+          "16-duplicate-block-rejected-without-reader",
+          "16-empty-coverage-rejected-without-reader",
+          "16-hardlinked-index-rejected-without-reader",
+          "16-immutable-verified-table",
+          "16-append-reference-with-stable-blocks",
+          "16-changed-published-digest-rejected-and-released",
+          "24-large-table-small-wire",
+          "24-decoded-pcm-exact",
+          "24-physical-read-telemetry",
+          "24-reader-released",
+          "24-original-unchanged",
+          "24-format-rejected-without-reader",
+          "24-path-rejected-without-reader",
+          "24-alias-rejected-without-reader",
+          "24-size-rejected-without-reader",
+          "24-record-size-rejected-without-reader",
+          "24-digest-rejected-without-reader",
+          "24-missing-rejected-without-reader",
+          "24-double-table-rejected-without-reader",
+          "24-wrong-profile-rejected-without-reader",
+          "24-truncated-rejected-without-reader",
+          "24-tamper-rejected-without-reader",
+          "24-offset-overflow-rejected-without-reader",
+          "24-zero-block-rejected-without-reader",
+          "24-block-oversized-rejected-without-reader",
+          "24-withdrawn-rejected-without-reader",
+          "24-duplicate-block-rejected-without-reader",
+          "24-empty-coverage-rejected-without-reader",
+          "24-hardlinked-index-rejected-without-reader",
+          "24-immutable-verified-table",
+          "24-append-reference-with-stable-blocks",
+          "24-changed-published-digest-rejected-and-released"
+        ]
+      },
+      {
+        "result": "PASS",
+        "count": 161,
+        "checks": [
+          "audio-rf64-16-mono-44100-growing-single-audio",
+          "audio-rf64-16-mono-44100-partial-block-waits",
+          "audio-rf64-16-mono-44100-full-prefix-waits-for-complete",
+          "audio-rf64-16-mono-44100-packet-bytes-and-clocks",
+          "audio-rf64-16-mono-44100-decoded-pcm-bit-exact",
+          "audio-rf64-16-mono-44100-last-owner-release",
+          "audio-rf64-16-mono-44100-original-unchanged",
+          "audio-rf64-16-stereo-44100-growing-single-audio",
+          "audio-rf64-16-stereo-44100-partial-block-waits",
+          "audio-rf64-16-stereo-44100-full-prefix-waits-for-complete",
+          "audio-rf64-16-stereo-44100-packet-bytes-and-clocks",
+          "audio-rf64-16-stereo-44100-decoded-pcm-bit-exact",
+          "audio-rf64-16-stereo-44100-last-owner-release",
+          "audio-rf64-16-stereo-44100-original-unchanged",
+          "audio-rf64-16-mono-48000-growing-single-audio",
+          "audio-rf64-16-mono-48000-partial-block-waits",
+          "audio-rf64-16-mono-48000-full-prefix-waits-for-complete",
+          "audio-rf64-16-mono-48000-packet-bytes-and-clocks",
+          "audio-rf64-16-mono-48000-decoded-pcm-bit-exact",
+          "audio-rf64-16-mono-48000-last-owner-release",
+          "audio-rf64-16-mono-48000-original-unchanged",
+          "audio-rf64-16-stereo-48000-growing-single-audio",
+          "audio-rf64-16-stereo-48000-partial-block-waits",
+          "audio-rf64-16-stereo-48000-full-prefix-waits-for-complete",
+          "audio-rf64-16-stereo-48000-packet-bytes-and-clocks",
+          "audio-rf64-16-stereo-48000-decoded-pcm-bit-exact",
+          "audio-rf64-16-stereo-48000-last-owner-release",
+          "audio-rf64-16-stereo-48000-original-unchanged",
+          "audio-rf64-24-mono-44100-growing-single-audio",
+          "audio-rf64-24-mono-44100-partial-block-waits",
+          "audio-rf64-24-mono-44100-full-prefix-waits-for-complete",
+          "audio-rf64-24-mono-44100-packet-bytes-and-clocks",
+          "audio-rf64-24-mono-44100-decoded-pcm-bit-exact",
+          "audio-rf64-24-mono-44100-last-owner-release",
+          "audio-rf64-24-mono-44100-original-unchanged",
+          "audio-rf64-24-stereo-44100-growing-single-audio",
+          "audio-rf64-24-stereo-44100-partial-block-waits",
+          "audio-rf64-24-stereo-44100-full-prefix-waits-for-complete",
+          "audio-rf64-24-stereo-44100-packet-bytes-and-clocks",
+          "audio-rf64-24-stereo-44100-decoded-pcm-bit-exact",
+          "audio-rf64-24-stereo-44100-last-owner-release",
+          "audio-rf64-24-stereo-44100-original-unchanged",
+          "audio-rf64-24-mono-48000-growing-single-audio",
+          "audio-rf64-24-mono-48000-partial-block-waits",
+          "audio-rf64-24-mono-48000-full-prefix-waits-for-complete",
+          "audio-rf64-24-mono-48000-packet-bytes-and-clocks",
+          "audio-rf64-24-mono-48000-decoded-pcm-bit-exact",
+          "audio-rf64-24-mono-48000-last-owner-release",
+          "audio-rf64-24-mono-48000-original-unchanged",
+          "audio-rf64-24-stereo-48000-growing-single-audio",
+          "audio-rf64-24-stereo-48000-partial-block-waits",
+          "audio-rf64-24-stereo-48000-full-prefix-waits-for-complete",
+          "audio-rf64-24-stereo-48000-packet-bytes-and-clocks",
+          "audio-rf64-24-stereo-48000-decoded-pcm-bit-exact",
+          "audio-rf64-24-stereo-48000-last-owner-release",
+          "audio-rf64-24-stereo-48000-original-unchanged",
+          "16-optional-rejected-without-leak",
+          "16-video-rejected-without-leak",
+          "16-codec-rejected-without-leak",
+          "16-legacy-hint-rejected-without-leak",
+          "16-no-sha-rejected-without-leak",
+          "16-offset-rejected-without-leak",
+          "16-duration-rejected-without-leak",
+          "16-riff-rejected-without-leak",
+          "16-bw64-rejected-without-leak",
+          "16-riff-sentinel-rejected-without-leak",
+          "16-wave-rejected-without-leak",
+          "16-ds64-missing-rejected-without-leak",
+          "16-ds64-size-rejected-without-leak",
+          "16-riff-overflow-rejected-without-leak",
+          "16-riff-oversized-rejected-without-leak",
+          "16-riff-truncated-rejected-without-leak",
+          "16-data-zero-rejected-without-leak",
+          "16-data-high-bits-rejected-without-leak",
+          "16-samples-zero-rejected-without-leak",
+          "16-samples-wrong-rejected-without-leak",
+          "16-samples-high-bits-rejected-without-leak",
+          "16-ds64-table-rejected-without-leak",
+          "16-format-rejected-without-leak",
+          "16-bits-rejected-without-leak",
+          "16-channels-rejected-without-leak",
+          "16-rate-rejected-without-leak",
+          "16-byte-rate-rejected-without-leak",
+          "16-align-rejected-without-leak",
+          "16-no-fmt-rejected-without-leak",
+          "16-data-sentinel-rejected-without-leak",
+          "16-no-data-rejected-without-leak",
+          "16-truncated-rejected-without-leak",
+          "16-trailing-rejected-without-leak",
+          "16-partial-7-waits-without-leak",
+          "16-partial-11-waits-without-leak",
+          "16-partial-19-waits-without-leak",
+          "16-partial-27-waits-without-leak",
+          "16-partial-35-waits-without-leak",
+          "16-partial-43-waits-without-leak",
+          "16-partial-47-waits-without-leak",
+          "16-partial-79-waits-without-leak",
+          "16-partial-81-waits-without-leak",
+          "16-JUNK-pad-excluded-from-pcm",
+          "16-LIST-pad-excluded-from-pcm",
+          "16-bext-pad-excluded-from-pcm",
+          "audio-rf64-16-mono-48000-manual-writer-pcm-bit-exact",
+          "audio-rf64-16-stereo-48000-manual-writer-pcm-bit-exact",
+          "16-bad-append-fails-closed-and-releases",
+          "16-pinned-byte-tamper-fails-closed-and-releases",
+          "24-optional-rejected-without-leak",
+          "24-video-rejected-without-leak",
+          "24-codec-rejected-without-leak",
+          "24-legacy-hint-rejected-without-leak",
+          "24-no-sha-rejected-without-leak",
+          "24-offset-rejected-without-leak",
+          "24-duration-rejected-without-leak",
+          "24-riff-rejected-without-leak",
+          "24-bw64-rejected-without-leak",
+          "24-riff-sentinel-rejected-without-leak",
+          "24-wave-rejected-without-leak",
+          "24-ds64-missing-rejected-without-leak",
+          "24-ds64-size-rejected-without-leak",
+          "24-riff-overflow-rejected-without-leak",
+          "24-riff-oversized-rejected-without-leak",
+          "24-riff-truncated-rejected-without-leak",
+          "24-data-zero-rejected-without-leak",
+          "24-data-high-bits-rejected-without-leak",
+          "24-samples-zero-rejected-without-leak",
+          "24-samples-wrong-rejected-without-leak",
+          "24-samples-high-bits-rejected-without-leak",
+          "24-ds64-table-rejected-without-leak",
+          "24-format-rejected-without-leak",
+          "24-bits-rejected-without-leak",
+          "24-channels-rejected-without-leak",
+          "24-rate-rejected-without-leak",
+          "24-byte-rate-rejected-without-leak",
+          "24-align-rejected-without-leak",
+          "24-no-fmt-rejected-without-leak",
+          "24-data-sentinel-rejected-without-leak",
+          "24-no-data-rejected-without-leak",
+          "24-cb-rejected-without-leak",
+          "24-valid20-rejected-without-leak",
+          "24-mask-rejected-without-leak",
+          "24-float-guid-rejected-without-leak",
+          "24-guid-tail-rejected-without-leak",
+          "24-truncated-rejected-without-leak",
+          "24-trailing-rejected-without-leak",
+          "24-partial-7-waits-without-leak",
+          "24-partial-11-waits-without-leak",
+          "24-partial-19-waits-without-leak",
+          "24-partial-27-waits-without-leak",
+          "24-partial-35-waits-without-leak",
+          "24-partial-43-waits-without-leak",
+          "24-partial-47-waits-without-leak",
+          "24-partial-103-waits-without-leak",
+          "24-partial-105-waits-without-leak",
+          "24-JUNK-pad-excluded-from-pcm",
+          "24-LIST-pad-excluded-from-pcm",
+          "24-bext-pad-excluded-from-pcm",
+          "audio-rf64-24-mono-48000-manual-writer-pcm-bit-exact",
+          "audio-rf64-24-stereo-48000-manual-writer-pcm-bit-exact",
+          "24-bad-append-fails-closed-and-releases",
+          "24-pinned-byte-tamper-fails-closed-and-releases",
+          "24-odd-data-pad-excluded-from-pcm",
+          "64-bit-layout-index-and-seek-eight-synthetic-cases"
+        ],
+        "profiles": [
+          {
+            "profile": "audio-rf64-16-mono-44100",
+            "pcmBytes": 352800,
+            "pcmSha256": "7125a0e0e8f3c25906da996a6e2ab19b8bfc52ddb5c32a068c19ff8bfe7580df",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-16-stereo-44100",
+            "pcmBytes": 705600,
+            "pcmSha256": "ddc200ed91acded087190ccb28cf7ab32e2f33bd40efb7b1647c844c6061b120",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-16-mono-48000",
+            "pcmBytes": 384000,
+            "pcmSha256": "855aa8e3eba5cd10238672bf9a216b18fb4cd2eab39239835333963d7d705aee",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-16-stereo-48000",
+            "pcmBytes": 768000,
+            "pcmSha256": "fe033f80ecfbfe0a20a593e3edd615038934b0505b5a24096cd381e04cc02dcd",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-24-mono-44100",
+            "pcmBytes": 529200,
+            "pcmSha256": "23b317ee32d7e61870322bec7e919ac5d1c8e37960f7116cdb69d0f4b2d62b29",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-24-stereo-44100",
+            "pcmBytes": 1058400,
+            "pcmSha256": "a9281127a8f7f7e5a2abc718e8357c887307e932840017611e53d8097374ae4a",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-24-mono-48000",
+            "pcmBytes": 576000,
+            "pcmSha256": "41dd990e228bf8cf3eac96b4084704fe694866147922f98188cfc75865951e60",
+            "growing": true
+          },
+          {
+            "profile": "audio-rf64-24-stereo-48000",
+            "pcmBytes": 1152000,
+            "pcmSha256": "554b716ad01e5ff8ea77153f8e8fabca5ab951efb3dcfdbca5afc86acc888c4c",
+            "growing": true
+          }
+        ],
+        "largeGeometry": {
+          "result": "PASS",
+          "cases": 8,
+          "scope": "production layout and FragmentIndex with synthetic addresses above 4 GiB",
+          "physicalLargeFileCreated": false
+        }
+      },
+      {
+        "result": "PASS",
+        "count": 83,
+        "checks": [
+          "audio-wav-ext24-mono-44100-growing-single-audio",
+          "audio-wav-ext24-mono-44100-partial-block-waits",
+          "audio-wav-ext24-mono-44100-full-prefix-waits-for-complete",
+          "audio-wav-ext24-mono-44100-packet-bytes-and-clocks",
+          "audio-wav-ext24-mono-44100-decoded-pcm-bit-exact",
+          "audio-wav-ext24-mono-44100-last-owner-release",
+          "audio-wav-ext24-mono-44100-original-unchanged",
+          "audio-wav-ext24-stereo-44100-growing-single-audio",
+          "audio-wav-ext24-stereo-44100-partial-block-waits",
+          "audio-wav-ext24-stereo-44100-full-prefix-waits-for-complete",
+          "audio-wav-ext24-stereo-44100-packet-bytes-and-clocks",
+          "audio-wav-ext24-stereo-44100-decoded-pcm-bit-exact",
+          "audio-wav-ext24-stereo-44100-last-owner-release",
+          "audio-wav-ext24-stereo-44100-original-unchanged",
+          "audio-wav-ext24-mono-48000-growing-single-audio",
+          "audio-wav-ext24-mono-48000-partial-block-waits",
+          "audio-wav-ext24-mono-48000-full-prefix-waits-for-complete",
+          "audio-wav-ext24-mono-48000-packet-bytes-and-clocks",
+          "audio-wav-ext24-mono-48000-decoded-pcm-bit-exact",
+          "audio-wav-ext24-mono-48000-last-owner-release",
+          "audio-wav-ext24-mono-48000-original-unchanged",
+          "audio-wav-ext24-stereo-48000-growing-single-audio",
+          "audio-wav-ext24-stereo-48000-partial-block-waits",
+          "audio-wav-ext24-stereo-48000-full-prefix-waits-for-complete",
+          "audio-wav-ext24-stereo-48000-packet-bytes-and-clocks",
+          "audio-wav-ext24-stereo-48000-decoded-pcm-bit-exact",
+          "audio-wav-ext24-stereo-48000-last-owner-release",
+          "audio-wav-ext24-stereo-48000-original-unchanged",
+          "optional-rejected-without-leak",
+          "video-rejected-without-leak",
+          "codec-rejected-without-leak",
+          "legacy-hint-rejected-without-leak",
+          "pcm16-hint-rejected-without-leak",
+          "no-sha-rejected-without-leak",
+          "offset-rejected-without-leak",
+          "duration-rejected-without-leak",
+          "riff-rejected-without-leak",
+          "wave-rejected-without-leak",
+          "unknown-riff-size-rejected-without-leak",
+          "fmt-size-rejected-without-leak",
+          "format-rejected-without-leak",
+          "float-format-rejected-without-leak",
+          "bits16-rejected-without-leak",
+          "bits32-rejected-without-leak",
+          "channels-rejected-without-leak",
+          "rate-rejected-without-leak",
+          "byte-rate-rejected-without-leak",
+          "align-rejected-without-leak",
+          "cb-small-rejected-without-leak",
+          "cb-large-rejected-without-leak",
+          "valid-zero-rejected-without-leak",
+          "valid20-rejected-without-leak",
+          "valid32-rejected-without-leak",
+          "mask-zero-rejected-without-leak",
+          "mask-mono-rejected-without-leak",
+          "mask-reserved-rejected-without-leak",
+          "float-guid-rejected-without-leak",
+          "guid-tail-rejected-without-leak",
+          "no-fmt-rejected-without-leak",
+          "no-data-rejected-without-leak",
+          "odd-data-rejected-without-leak",
+          "unknown-data-size-rejected-without-leak",
+          "truncated-rejected-without-leak",
+          "trailing-rejected-without-leak",
+          "legacy-header-rejected-without-leak",
+          "partial-7-waits-without-leak",
+          "partial-39-waits-without-leak",
+          "partial-43-waits-without-leak",
+          "partial-59-waits-without-leak",
+          "partial-67-waits-without-leak",
+          "partial-69-waits-without-leak",
+          "JUNK-metadata-pad-excluded-from-pcm",
+          "LIST-metadata-pad-excluded-from-pcm",
+          "bext-metadata-pad-excluded-from-pcm",
+          "audio-wav-ext24-mono-44100-manual-writer-pcm-bit-exact",
+          "audio-wav-ext24-stereo-44100-manual-writer-pcm-bit-exact",
+          "audio-wav-ext24-mono-48000-manual-writer-pcm-bit-exact",
+          "audio-wav-ext24-stereo-48000-manual-writer-pcm-bit-exact",
+          "odd-data-waits-for-writer",
+          "odd-data-pad-excluded-from-pcm",
+          "odd-data-complete-eof",
+          "bad-append-fails-closed-and-releases",
+          "pinned-byte-tamper-fails-closed-and-releases"
+        ],
+        "profiles": [
+          {
+            "profile": "audio-wav-ext24-mono-44100",
+            "pcmBytes": 529200,
+            "pcmSha256": "23b317ee32d7e61870322bec7e919ac5d1c8e37960f7116cdb69d0f4b2d62b29",
+            "growing": true
+          },
+          {
+            "profile": "audio-wav-ext24-stereo-44100",
+            "pcmBytes": 1058400,
+            "pcmSha256": "a9281127a8f7f7e5a2abc718e8357c887307e932840017611e53d8097374ae4a",
+            "growing": true
+          },
+          {
+            "profile": "audio-wav-ext24-mono-48000",
+            "pcmBytes": 576000,
+            "pcmSha256": "41dd990e228bf8cf3eac96b4084704fe694866147922f98188cfc75865951e60",
+            "growing": true
+          },
+          {
+            "profile": "audio-wav-ext24-stereo-48000",
+            "pcmBytes": 1152000,
+            "pcmSha256": "554b716ad01e5ff8ea77153f8e8fabca5ab951efb3dcfdbca5afc86acc888c4c",
+            "growing": true
+          }
+        ]
+      }
+    ]
+  },
+  "newNativeChecksPerOs": 52,
+  "sanitizer": {
+    "result": "PASS",
+    "count": 52,
+    "checks": [
+      "16-large-table-small-wire",
+      "16-decoded-pcm-exact",
+      "16-physical-read-telemetry",
+      "16-reader-released",
+      "16-original-unchanged",
+      "16-format-rejected-without-reader",
+      "16-path-rejected-without-reader",
+      "16-alias-rejected-without-reader",
+      "16-size-rejected-without-reader",
+      "16-record-size-rejected-without-reader",
+      "16-digest-rejected-without-reader",
+      "16-missing-rejected-without-reader",
+      "16-double-table-rejected-without-reader",
+      "16-wrong-profile-rejected-without-reader",
+      "16-truncated-rejected-without-reader",
+      "16-tamper-rejected-without-reader",
+      "16-offset-overflow-rejected-without-reader",
+      "16-zero-block-rejected-without-reader",
+      "16-block-oversized-rejected-without-reader",
+      "16-withdrawn-rejected-without-reader",
+      "16-duplicate-block-rejected-without-reader",
+      "16-empty-coverage-rejected-without-reader",
+      "16-hardlinked-index-rejected-without-reader",
+      "16-immutable-verified-table",
+      "16-append-reference-with-stable-blocks",
+      "16-changed-published-digest-rejected-and-released",
+      "24-large-table-small-wire",
+      "24-decoded-pcm-exact",
+      "24-physical-read-telemetry",
+      "24-reader-released",
+      "24-original-unchanged",
+      "24-format-rejected-without-reader",
+      "24-path-rejected-without-reader",
+      "24-alias-rejected-without-reader",
+      "24-size-rejected-without-reader",
+      "24-record-size-rejected-without-reader",
+      "24-digest-rejected-without-reader",
+      "24-missing-rejected-without-reader",
+      "24-double-table-rejected-without-reader",
+      "24-wrong-profile-rejected-without-reader",
+      "24-truncated-rejected-without-reader",
+      "24-tamper-rejected-without-reader",
+      "24-offset-overflow-rejected-without-reader",
+      "24-zero-block-rejected-without-reader",
+      "24-block-oversized-rejected-without-reader",
+      "24-withdrawn-rejected-without-reader",
+      "24-duplicate-block-rejected-without-reader",
+      "24-empty-coverage-rejected-without-reader",
+      "24-hardlinked-index-rejected-without-reader",
+      "24-immutable-verified-table",
+      "24-append-reference-with-stable-blocks",
+      "24-changed-published-digest-rejected-and-released"
+    ]
+  },
+  "sdkTestsPerOs": 80,
+  "exitCodes": {
+    "rf64-large-linux-build": 0,
+    "rf64-large-windows-build": 0,
+    "rf64-large-classic-build": 0,
+    "rf64-large-native-build": 0,
+    "rf64-large-asan-build": 0,
+    "rf64-large-asan-tests": 0,
+    "rf64-large-linux-tests": 0,
+    "rf64-large-windows-tests": 0,
+    "rf64-large-sdk-linux": 0,
+    "rf64-large-sdk-windows": 0,
+    "rf64-large-windows-regression": 0,
+    "rf64-large-shell-before-transport": 0,
+    "rf64-large-shell-after-transport": 0,
+    "finalize-rf64-large-classic-transport": 0,
+    "classicInteractiveTest": 0
+  },
+  "linuxInstallation": {
+    "result": "PASS",
+    "sdkVersion": "1.78",
+    "playerVersion": "FoxicMPQt 0.2.0",
+    "changes": [
+      {
+        "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt",
+        "beforeSha256": "9fc705839debc67278ebb9e7c178e53e1c5117ebec003f5da0f90bd98089c4ae",
+        "afterSha256": "4f6e66819d8981c7f08b0bb801a36c29c94a22fc6b4f5d5666eb69dcddc7a06f",
+        "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-sdk-1.78-20261103T025538Z",
+        "added": false
+      },
+      {
+        "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_v2.py",
+        "beforeSha256": "30853540be6aa9e09a1bdd7bcef05b865c1b61f9583528c37976ff00481de719",
+        "afterSha256": "8313b2f7a74ac48820ac5bf285ec218323305b5fcb2a22688512cdf573f275d6",
+        "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_v2.py.before-sdk-1.78-20261103T025538Z",
+        "added": false
+      },
+      {
+        "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_integrity.py",
+        "beforeSha256": null,
+        "afterSha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+        "backup": null,
+        "added": true
+      }
+    ],
+    "profileUnchanged": true,
+    "profileSha256Before": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+    "profileSha256After": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+    "protectedFilesVerified": 250,
+    "previousCapabilitiesUnchanged": true,
+    "addedCapability": {
+      "format": "sha256-blocks-le-v1",
+      "maxBytes": 180224,
+      "maxRecords": 4096,
+      "metadataOnlyValidation": true,
+      "playbackContainers": [
+        "rf64-pcm16",
+        "rf64-pcm24"
+      ],
+      "recordBytes": 44,
+      "version": 1
+    },
+    "viewerInterrupted": false,
+    "initialAttempt": {
+      "exitCode": 1,
+      "cause": "Installed integrity helper did not previously exist; EXE and V2 client had already been atomically replaced with verified backups. Added the new helper and verified preserved profile/capabilities/files."
+    },
+    "scope": "Atomic replacement with verified backup of EXE and V2 client; addition of integrity helper; all other files preserved"
+  },
+  "preservation": {
+    "windowsInstalledBefore": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931"
+    },
+    "windowsInstalledAfter": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931"
+    },
+    "windowsInstalledUnchanged": true,
+    "classicShellEntries": 158,
+    "classicShellUnchanged": true,
+    "shellSha256Before": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "shellSha256After": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6"
+  },
+  "sourceFilesSha256": {
+    "qt/CMakeLists.txt": "95053befc4bff2c6b1da46c309300a8951e1261d5589b1b0bdf01a09cec174f6",
+    "qt/src/main.cpp": "a2e9e1d9d8f8a637a055c28095250722860dbbf06002f1e385c7d08e10c14599",
+    "qt/src/progressiveplayback.cpp": "9336ed2d9cf311ba32370f9cd6c29098b86b486392736aad5edf36116442fb4b",
+    "qt/src/progressivesource.h": "7c16598598b5e2c192bb7a74ddb2b2e29cbac3d424c5199dc257141c839ada4c",
+    "qt/src/progressivesource_common.cpp": "a98aceb0ea583fd504f96b30f82468a27df4d74802821f00fe08a9ba2a8014fa",
+    "qt/tests/progressiveapi_test.cpp": "f093d2aa936f15514da2ca4462efa1fe356ed85571cc76ef43e62af9b5abdd95",
+    "qt/tools/progressive_client.py": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+    "qt/tools/progressive_integrity.py": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+    "qt/tools/progressive_v2.py": "8313b2f7a74ac48820ac5bf285ec218323305b5fcb2a22688512cdf573f275d6",
+    "shared/progressivefmp4bridge.h": "9944f7705d39a99ca5352650505ea29ace6e8aad0e36b878aa299461826f4931",
+    "shared/progressiverawaudio.h": "4a9b2128b65c410fee9db749ede7b772e65fd69151486057e5618e4f504a2f50",
+    "shared/progressiveresourceio.h": "7886034fc023b68cc7bcfe2473ce4b5d867eaebcd48ed8dde0b3c5b1d5668bcb",
+    "shared/progressivesession.h": "2f9780115f01c8622509b6b3bce95a62bbbb2afcbac13e531a9d12757e11216d",
+    "shared/progressivewav.h": "e179aab5e1bc01b5f37331433fdbeed25b894ad910388a87d90c6fcfe9f11268",
+    "src/DSUtil/HarvesterAudioProjection.h": "dc0e412caeef7060113bcd72b084ab3756f70ba67697046a144c519409c6cbb4",
+    "src/DSUtil/HarvesterMP4.h": "14d47a4d436f68a712af6a9f7f32fe7b36e0221722d7a67c031e0375913c078f",
+    "src/DSUtil/HarvesterWav.h": "91a9bc6bf25f9cff56789016ad08ec0bfbd25911b2735d6d83d70c79bc2bc149",
+    "tests/fixtures/progressive-v2/integrity-empty.idx": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/fixtures/progressive-v2/rf64-external-index.json": "be6966d3c2fe8274b1e11c3c13d3125244938e0e9769fda34774b40718c4af03",
+    "tests/progressive_external_integrity_conformance.py": "b298bafa5d84b7a769fe353d8d479a640afd50118d7fb9576e1f2ab807ce05d1",
+    "tests/progressive_media_cli.cpp": "90d0ce28c7c2ab0d6b36d8a8fefb2dbeebbe4dc2cfc947eaea451e2f89b31b8e",
+    "tests/progressive_rf64_conformance.py": "076721a25adc8727761490bce1fcb361be84fbc7e3e3c6f6a57e986e14ab3d5c",
+    "tests/progressive_rf64_fixture.py": "d75de02dafaf2fac3d18a05f4e409db38816174acb40e71e940e12f4e6159e94",
+    "tests/progressive_rf64_geometry.h": "3f8d86288a25ab8dd562a77d369401b0f5a35dddc2afc139432d1cd3d050212e",
+    "tests/progressive_rf64_large_playback.py": "e57fb5e0136597cb78873f226b075787867da06a00e58f531b10ed8b0faaccd2",
+    "tests/progressive_sdk_test.py": "30ad8e259cade8f1a91b6d04c610fb51e760359276a77e401f4f9663d8f09168",
+    "tests/progressive_standalone_fixture.py": "46c76e224a50379d3b221daf42736d042ec6f461856504d26c321af0d004cbfd",
+    "tests/progressive_standalone_playback.py": "77dc2b58cdc4f501cc70a8db013bc557e13f37f895691209992ae12c62fac1fd",
+    "tests/progressive_v2_sdk_test.py": "aa6f977475b3b899ad5747c812137fb729a0d796c1888fc49de6ae2b5087fa3b",
+    "tests/windows/progressive_family_test.py": "ece1cf2d43b196cba5759e0e0869f04efafd51192eaebf02e41736149d853577",
+    "tools/package_progressive_sdk.py": "6c0bb89df6f6f37a3057a46c3a0c4d07faea7eea98ed2c6007e52f8ca9b719a4"
+  },
+  "binarySha256": {
+    "linuxQt": "4f6e66819d8981c7f08b0bb801a36c29c94a22fc6b4f5d5666eb69dcddc7a06f",
+    "windowsQt": "906af1dddc315e0390397b87a4688858c6287a7b8b9528b5a63b68f6480353c3",
+    "classic": "5b1bfee0019bb1281717ebc00408e9c0ccd451a170bc8d3566a929e5f4af2bcf",
+    "linuxApiTest": "4bed715d7072a285c590d4108898669bbcb32b074da0b428afc15ce691c3264c",
+    "windowsApiTest": "f037afb7658d04d84ce6f902a8f08b9a2abaaf164825b36ec601c8b189c29619",
+    "linuxNative": "e4fa95af8406156cc49e405679c80b2812c409cd1baff53a4076d6e6baedd29d",
+    "asanNative": "c7ca0d29b3e113c1a41fed93b0a85d264d8b7e771fd0f703282636408dd9309f"
+  },
+  "initialRuns": [
+    {
+      "scope": "Initial external integrity conformance fixture",
+      "exitCode": 1,
+      "cause": "Append fixture rechunked already published 4096-byte blocks into 256-byte blocks; the production guard correctly rejected it. Corrected the fixture to retain the original inline snapshot when hashing appends, before platform test runs."
+    },
+    {
+      "scope": "linux actual RF64 >4GiB initial Qt run",
+      "exitCode": 8,
+      "log": "_bin/rf64-large-linux-tests.log.initial-linear-seek",
+      "result": "FAIL",
+      "reason": "MOV sequential scanning on far seek; native decoder window fix required"
+    },
+    {
+      "scope": "windows actual RF64 >4GiB initial Qt run",
+      "exitCode": 8,
+      "log": "_bin/rf64-large-windows-tests.log.initial-linear-seek",
+      "result": "FAIL",
+      "reason": "MOV sequential scanning on far seek; native decoder window fix required"
+    }
+  ],
+  "limits": [
+    "External digest indexes are negotiated only for RF64 PCM16/PCM24 playback; old inline mode and 64 KiB command limits unchanged",
+    "Physical >4 GiB tested stereo 48 kHz PCM16 and PCM24 in each edition, not every RF64 rate/layout combination",
+    "RF64 engine profiles, 16 GiB and 250000 packet bounds remain as in SDK 1.77",
+    "No sparse/live/segments, float/BW64 or unknown ds64 sizes; other audio matrix remains open",
+    "Decoded clock/codec plus actual >4 GiB media I/O; independent FFmpeg PCM and full physical file SHA, not a bit-exact physical device output claim",
+    "YouTubeHarvester, installed Windows players/settings and system desktop/audio session unchanged",
+    "SDK release has no EXE/MSI/installers; use builds from its source commit"
+  ]
+}

@@ -599,6 +599,14 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.rf64_large_bits is not None:
+            from progressive_rf64_large_playback import exercise as large_rf64
+            chapter=[0]
+            def control(action,value):
+                if action=='pause':post_command(process.pid,889)
+                elif action=='seek':
+                    chapter[0]+=1;post_command(process.pid,4402 if chapter[0]==1 else 4403)
+            return [dict(contract='large-rf64-public-api-playback',result=large_rf64(client,Path(args.report)/'large-data',control,args.rf64_large_bits))]
         if args.gapless_controls_only:
             assert settings.get('InternalFilters','adec_mpa')=='0','Test must disable the ordinary internal MP3 priority'
             from progressive_classic_gapless_controls import exercise
@@ -857,6 +865,7 @@ if __name__ == '__main__':
     parser.add_argument('--ts-playback-only',action='store_true')
     parser.add_argument('--mux-ts-playback-only',action='store_true')
     parser.add_argument('--growing-ts-playback-only',action='store_true')
+    parser.add_argument('--rf64-large-bits',type=int,choices=(16,24))
     parser.add_argument('--standalone-profile',choices=['audio-rf64-16-mono-44100','audio-rf64-16-stereo-44100','audio-rf64-16-mono-48000','audio-rf64-16-stereo-48000','audio-rf64-24-mono-44100','audio-rf64-24-stereo-44100','audio-rf64-24-mono-48000','audio-rf64-24-stereo-48000','audio-wav-ext24-mono-44100','audio-wav-ext24-stereo-44100','audio-wav-ext24-mono-48000','audio-wav-ext24-stereo-48000','audio-wav24-mono-44100','audio-wav24-stereo-44100','audio-wav24-mono-48000','audio-wav24-stereo-48000','audio-eac3-mono-64','audio-eac3-mono-192','audio-eac3-stereo-192','audio-eac3-stereo-384','audio-ac3-mono-64','audio-ac3-mono-192','audio-ac3-stereo-192','audio-ac3-stereo-384','audio-ogg-vorbis-mono-2','audio-ogg-vorbis-stereo-2','audio-ogg-vorbis-mono-5','audio-ogg-vorbis-stereo-5','audio-ogg-opus-mono-10','audio-ogg-opus-stereo-10','audio-ogg-opus-mono-20','audio-ogg-opus-stereo-20','audio-wav-mono-44100','audio-wav-stereo-44100','audio-wav-mono-48000','audio-wav-stereo-48000','audio-mp3-gapless-mono-44100','audio-mp3-gapless-stereo-44100','audio-mp3-gapless-mono-48000','audio-mp3-gapless-stereo-48000','audio-mp3-indexed-mono-xing-44100','audio-mp3-indexed-stereo-xing-44100','audio-mp3-indexed-mono-xing-48000','audio-mp3-indexed-stereo-xing-48000','audio-mp3-indexed-mono-info-44100','audio-mp3-indexed-stereo-info-44100','audio-mp3-indexed-mono-info-48000','audio-mp3-indexed-stereo-info-48000','audio-mp3-indexed-mono-vbri-44100','audio-mp3-indexed-stereo-vbri-44100','audio-mp3-indexed-mono-vbri-48000','audio-mp3-indexed-stereo-vbri-48000','audio-mp3-mono-cbr-44100','audio-mp3-mono-vbr-44100','audio-mp3-stereo-cbr-44100','audio-mp3-stereo-vbr-44100','audio-mp3-mono-cbr-48000','audio-mp3-mono-vbr-48000','audio-mp3-stereo-cbr-48000','audio-mp3-stereo-vbr-48000','audio-adts-mono-44100','audio-adts-stereo-44100','audio-adts-mono-48000','audio-adts-stereo-48000','audio-mono','audio-stereo-44100','video-main','video-vfr','audio-opus-mono','audio-opus-stereo','audio-webm-opus-mono','audio-webm-opus-stereo','audio-webm-vorbis-mono','audio-webm-vorbis-stereo','video-webm-vp8','video-webm-vp8-fractional','video-webm-vp9-8','video-webm-vp9-10-fractional','video-webm-av1-8','video-webm-av1-10-fractional','video-fmp4-hevc-8-hvc1','video-fmp4-hevc-10-hev1-fractional','video-fmp4-av1-8','video-fmp4-av1-10-fractional','video-fmp4-vp9-8','video-fmp4-vp9-10-fractional','audio-flac-mono-16-44100','audio-flac-mono-24-44100','audio-flac-stereo-16-44100','audio-flac-stereo-24-44100','audio-flac-mono-16-48000','audio-flac-mono-24-48000','audio-flac-stereo-16-48000','audio-flac-stereo-24-48000','audio-raw-flac-mono-16-44100','audio-raw-flac-mono-24-44100','audio-raw-flac-stereo-16-44100','audio-raw-flac-stereo-24-44100','audio-raw-flac-mono-16-48000','audio-raw-flac-mono-24-48000','audio-raw-flac-stereo-16-48000','audio-raw-flac-stereo-24-48000'])
     parser.add_argument('--standalone-only',action='store_true')
     parser.add_argument('--gapless-rejection-only',action='store_true')

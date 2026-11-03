@@ -87,6 +87,7 @@ struct Resource {
     std::string id,name,state;bool known=false,retired=false;uint64_t length=0;
     std::vector<Range> ranges;
     bool integrity=false;std::vector<IntegrityBlock> blocks;
+    std::string integrityIndexName,integrityIndexSha256;uint64_t integrityIndexBytes=0;
     bool covers(uint64_t offset,uint64_t count) const {
         if(offset>MaxByte || count>MaxByte-offset || (known && (offset>length || count>length-offset)))return false;
         if(!count)return true;
@@ -100,6 +101,18 @@ struct Resource {
         return false;
     }
 };
+// Shared by inline JSON blocks and the authenticated binary sidecar loader.
+inline void ValidateIntegrityBlocks(const Resource& r,const std::string& path) {
+    Require(r.blocks.size()<=MaxIntegrityBlocks,path,"Too many integrity blocks");
+    uint64_t previous=0,total=0,confirmed=0;for(const auto& range:r.ranges)confirmed+=range.length;
+    for(const auto& b:r.blocks){
+        Require(b.length>0 && b.length<=MaxIntegrityBlockBytes && b.offset<=MaxByte && b.length<=MaxByte-b.offset,path,"Invalid integrity block bounds");
+        Require(b.sha256.size()==64 && b.sha256.find_first_not_of("0123456789abcdef")==std::string::npos,path,"Expected a lowercase SHA-256 digest");
+        Require(b.offset>=previous && r.covers(b.offset,b.length),path,"Integrity blocks overlap or include unconfirmed bytes");
+        previous=b.offset+b.length;total+=b.length;
+    }
+    Require(total==confirmed,path,"Integrity blocks must cover every confirmed byte");
+}
 struct Segment {
     std::string resource,initialization,configuration;uint64_t sequence=0;int64_t start=0,duration=0,offset=0;bool discontinuity=false;
     int64_t presentationStart=0;
@@ -177,24 +190,34 @@ inline Snapshot Parse(const std::string& json,SnapshotScope scope=SnapshotScope:
         }
         if(v.HasMember("integrity")) {
             r.integrity=true;const auto q=p+".integrity";const auto& integrity=v["integrity"];
-            Keys(integrity,q,{"algorithm","blocks"});
+            const bool indexed=integrity.IsObject() && integrity.HasMember("index");
+            Keys(integrity,q,{"algorithm",indexed?"index":"blocks"});
             Require(Text(integrity["algorithm"],q+".algorithm")=="sha256",q,"Unsupported integrity algorithm");
-            const auto& blocks=integrity["blocks"];
-            Require(blocks.IsArray() && blocks.Size()<=MaxIntegrityBlocks,q,"Too many integrity blocks");
-            uint64_t previous=0,total=0,confirmed=0;for(const auto& range:r.ranges)confirmed+=range.length;
-            for(const auto& block:blocks.GetArray()) {
-                Keys(block,q+".blocks[]",{"offset","length","sha256"});IntegrityBlock b;
-                b.offset=Unsigned(block["offset"],q+".blocks[].offset",MaxByte);
-                b.length=Unsigned(block["length"],q+".blocks[].length",MaxIntegrityBlockBytes,true);
-                b.sha256=Text(block["sha256"],q+".blocks[].sha256",64);
-                Require(b.sha256.size()==64 && b.sha256.find_first_not_of("0123456789abcdef")==std::string::npos,q,"Expected a lowercase SHA-256 digest");
-                Require(b.offset>=previous && r.covers(b.offset,b.length),q,"Integrity blocks overlap or include unconfirmed bytes");
-                previous=b.offset+b.length;total+=b.length;r.blocks.push_back(std::move(b));
+            if(indexed){
+                const auto& index=integrity["index"];Keys(index,q+".index",{"format","name","bytes","sha256"});
+                Require(Text(index["format"],q+".index.format")=="sha256-blocks-le-v1",q,"Unsupported integrity index format");
+                r.integrityIndexName=Text(index["name"],q+".index.name");PlainName(r.integrityIndexName,q+".index.name");
+                r.integrityIndexBytes=Unsigned(index["bytes"],q+".index.bytes",MaxIntegrityBlocks*44);
+                Require(r.integrityIndexBytes%44==0,q,"Invalid integrity index record length");
+                r.integrityIndexSha256=Text(index["sha256"],q+".index.sha256",64);
+                Require(r.integrityIndexSha256.size()==64 && r.integrityIndexSha256.find_first_not_of("0123456789abcdef")==std::string::npos,q,"Expected a lowercase index SHA-256");
+            }else{
+                const auto& blocks=integrity["blocks"];Require(blocks.IsArray() && blocks.Size()<=MaxIntegrityBlocks,q,"Too many integrity blocks");
+                for(const auto& block:blocks.GetArray()) {
+                    Keys(block,q+".blocks[]",{"offset","length","sha256"});IntegrityBlock b;
+                    b.offset=Unsigned(block["offset"],q+".blocks[].offset",MaxByte);
+                    b.length=Unsigned(block["length"],q+".blocks[].length",MaxIntegrityBlockBytes,true);
+                    b.sha256=Text(block["sha256"],q+".blocks[].sha256",64);r.blocks.push_back(std::move(b));
+                }
+                ValidateIntegrityBlocks(r,q);
             }
-            Require(total==confirmed,q,"Integrity blocks must cover every confirmed byte");
         }
         Require(r.state!="complete" || (r.known && r.covers(0,r.length)),p,"Complete resource has gaps or unknown length","incomplete_resource");
         Require(s.resources.emplace(r.id,std::move(r)).second,p+".id","Duplicate resource ID");
+    }
+    for(const auto& item:s.resources)if(!item.second.integrityIndexName.empty()){
+        auto name=item.second.integrityIndexName;for(auto& c:name)if(c>='A' && c<='Z')c+=32;
+        Require(!names.count(name),"$.resources.integrity.index.name","Integrity index cannot alias a media resource");
     }
     const auto& tracks=d["tracks"];Require(tracks.IsArray() && tracks.Size()>0 && tracks.Size()<=MaxTracks,"$.tracks","Expected 1..32 tracks");bool media=false;
     for(rapidjson::SizeType i=0;i<tracks.Size();++i) {
@@ -262,7 +285,7 @@ inline void Advance(const Snapshot& old,const Snapshot& next) {
     for(const auto& item:old.resources) {
         auto found=next.resources.find(item.first);Require(found!=next.resources.end(),"$.resources","Resource removal needs a runtime reader registry","readers_required");const auto& a=item.second;const auto& b=found->second;
         Require(a.name==b.name && (!a.known || (b.known && a.length==b.length)) && (!a.retired || b.retired),"$.resources","Resource identity changed");
-        Require(a.integrity==b.integrity,"$.resources.integrity","Integrity mode changed; reopen the resource");
+        Require(a.integrity==b.integrity && a.integrityIndexName.empty()==b.integrityIndexName.empty(),"$.resources.integrity","Integrity mode changed; reopen the resource");
         size_t blockIndex=0;
         for(const auto& block:a.blocks) {
             while(blockIndex<b.blocks.size() && b.blocks[blockIndex].offset<block.offset)++blockIndex;

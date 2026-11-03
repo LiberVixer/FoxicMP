@@ -35,6 +35,8 @@ def protect_snapshot(snapshot: dict, directory, *, previous: dict | None=None,
         prior=old.get(resource['id'])
         if prior is not None and (prior['name']!=resource['name'] or 'integrity' not in prior):
             raise ValueError('Cannot enable integrity or change resource identity mid-session')
+        if prior is not None and set(prior['integrity'])!={'algorithm','blocks'}:
+            raise ValueError('Retain the inline snapshot when hashing appends; externalize only the wire copy')
         kept=copy.deepcopy(prior['integrity']['blocks']) if prior is not None else []
         if prior is not None and prior['integrity']['algorithm']!='sha256':raise ValueError('Unsupported integrity algorithm')
         name=resource['name']
@@ -78,4 +80,41 @@ def protect_snapshot(snapshot: dict, directory, *, previous: dict | None=None,
             resource['integrity']=dict(algorithm='sha256',blocks=blocks)
         finally:
             if stream is not None:stream.close()
+    return result
+
+
+def externalize_integrity(snapshot: dict, directory) -> dict:
+    """Export immutable authenticated LE block tables; keep inline state for hashing appends.
+
+    Retain these sidecars until the reader's filesClosed receipt. No downloader
+    or network operations are performed; existing files are never overwritten.
+    """
+    import struct
+    result=copy.deepcopy(snapshot);root=Path(directory).resolve(strict=True)
+    for resource in result['resources']:
+        integrity=resource.get('integrity',{})
+        if integrity.get('algorithm')!='sha256' or set(integrity)!={'algorithm','blocks'}:
+            raise ValueError('Externalize an inline SHA-256 snapshot')
+        blocks=integrity['blocks']
+        if not isinstance(blocks,list) or len(blocks)>MAX_BLOCKS:raise ValueError('Too many integrity records')
+        payload=bytearray()
+        for block in blocks:
+            at=int(unsigned64(int(block['offset']),byte_offset=True));length=int(unsigned64(int(block['length']),byte_offset=True,positive=True))
+            if str(at)!=block['offset'] or str(length)!=block['length'] or length>MAX_BLOCK_BYTES:raise ValueError('Invalid integrity block bounds')
+            digest=block['sha256']
+            if not isinstance(digest,str) or len(digest)!=64 or any(c not in '0123456789abcdef' for c in digest):raise ValueError('Invalid SHA-256')
+            payload+=struct.pack('<QI',at,length)+bytes.fromhex(digest)
+        digest=hashlib.sha256(payload).hexdigest();name='integrity-'+digest+'.idx';path=root/name
+        flags=os.O_WRONLY|os.O_CREAT|os.O_EXCL|getattr(os,'O_BINARY',0)|getattr(os,'O_NOFOLLOW',0)
+        try:fd=os.open(path,flags,0o600)
+        except FileExistsError:
+            st=path.lstat()
+            if not stat.S_ISREG(st.st_mode) or st.st_nlink!=1 or getattr(st,'st_file_attributes',0)&0x400 or path.read_bytes()!=payload:
+                raise ValueError('Existing immutable integrity index differs or is unsafe')
+        else:
+            try:
+                with os.fdopen(fd,'wb') as out:out.write(payload);out.flush();os.fsync(out.fileno())
+            except BaseException:
+                path.unlink(missing_ok=True);raise
+        resource['integrity']=dict(algorithm='sha256',index=dict(format='sha256-blocks-le-v1',name=name,bytes=str(len(payload)),sha256=digest))
     return result

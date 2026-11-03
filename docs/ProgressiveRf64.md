@@ -90,3 +90,6 @@ SHA, RIFF padding, EOF и release.
 Полная audio matrix, большие реальные RF64, sparse/live/segments,
 длительный stress и реальная интеграция Harvester остаются в
 [общем чеклисте](ProgressiveCompletionChecklist.md).
+
+
+SDK 1.78 отдельно добавляет [внешние SHA-индексы](ProgressiveExternalIntegrity.md) и [физические проверки больше 4 GiB](ProgressiveLargeRf64.md). Исторический отчёт SDK 1.77 выше сохраняет исходные синтетические границы; новые результаты находятся в [отчёте от 3 ноября](ProgressiveLargeRf64Validation-2026-11-03.json).
