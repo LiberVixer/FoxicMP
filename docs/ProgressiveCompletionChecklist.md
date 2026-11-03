@@ -92,6 +92,7 @@
 
 ## 5. Непоследовательная запись и большие ресурсы
 
+- [x] Дополнительная проверка SDK 1.81: [предельные RF64](ProgressiveRf64Limits.md): восемь native profiles на ОС на эффективной границе 250000 packets  / 16 GiB, отказ при превышении, по два фактических предельных playback profiles каждой редакции, обратный/repeat seek и cancel. [Отчёт](ProgressiveRf64LimitsValidation-2026-11-03.json). Full-file complete/EOF на 16 GiB, остальные предельные playback profiles и длительный stress остаются открытыми.
 - [x] Дополнительная проверка SDK 1.81: [физические sparse RF64 >4 GiB](ProgressiveLargeSparseRf64.md), PCM16/PCM24 stereo 48 kHz во всех трёх редакциях. Настоящие незаписанные дыры, дальний индексный seek без сканирования 4 GiB, обратный переход, отказ ложного complete, заполнение дыр, полный SHA и EOF/release — [отчёт](ProgressiveLargeSparseRf64Validation-2026-11-03.json). Те же production EXE; maximum-size/stress и остальные большие rates/layouts остаются открытыми.
 - [x] SDK 1.81: [отдельный sparse RF64 audio playback](ProgressiveRf64Sparse.md), стабильные offsets, фактический seek в островок и обратно, ожидание/заполнение дыр, pause/EOF/release и cancel-at-hole. По 272 native checks на ОС и четыре runtime profiles каждой редакции — [отчёт](ProgressiveRf64SparseValidation-2026-11-03.json). Только явные новые hints, known-length/head-initialized PCM16/24; прочие контейнеры/video/live остаются открытыми.
 - [x] SDK 1.80: [геометрическая RF64 packet map](ProgressiveRf64RangeMap.md), точные интервалы готовых пакетов в том числе за дырой; по 242 native checks, 1608 synthetic geometry cases и actual status трёх редакций — [проверки](ProgressiveRf64RangeMapValidation-2026-11-03.json). Это диагностика без payload I/O; island seek остаётся запрещён.
@@ -172,6 +173,7 @@
 - [ ] Общая positive/negative matrix трёх редакций, минимум 10 секунд просмотра до complete.
 - [ ] Неравномерная запись, writer pauses 10/30/60 s, partial structures, holes, ошибки, disk full, cancel/crash.
 - [ ] Реальные разрешённые YT/VK/Rutube direct/HLS/DASH сценарии с protocol/format IDs и offline fixtures без секретных URL.
+- [x] Ограниченный срез: [100 native core open/cancel/release cycles на каждой ОС](ProgressiveRf64Limits.md) с предельными RF64, реальными sparse resources и RSS/private/handle measurements. Это не 100 полных GUI/decoder cycles; следующий общий пункт остаётся открытым.
 - [ ] Длительные загрузки, минимум 100 start/cancel циклов, несколько readers, RAM/cache/temp/CPU/handles/threads без нарастающих утечек.
 - [ ] Обычные завершённые файлы, пользовательские профили и shell registration не регрессировали.
 

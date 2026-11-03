@@ -5,6 +5,9 @@
 #include "../shared/progressivefmp4bridge.h"
 #endif
 #include <iostream>
+#ifndef _WIN32
+#include <malloc.h>
+#endif
 #if !defined(FOXICMP_INDEXED_MP4_ONLY) && !defined(FOXICMP_TAIL_MP4_ONLY)
 #include "progressive_rf64_geometry.h"
 #endif
@@ -40,6 +43,19 @@ int main(int argc,char** argv) {
     while(std::getline(std::cin,line))try {
         rapidjson::Document d;d.Parse(line.c_str());p::Require(!d.HasParseError() && d.IsObject(),"$","Invalid command");
         const auto action=p::Text(d["action"],"action");
+        if(action=="heapMetrics") {
+            uint64_t busy=0,free=0,blocks=0;
+#ifdef _WIN32
+            const auto count=GetProcessHeaps(0,nullptr);p::Require(count && count<=256,"test","Cannot enumerate test process heaps");std::vector<HANDLE> heaps(count);
+            p::Require(GetProcessHeaps(count,heaps.data())==count,"test","Test heap list changed");
+            for(const auto heap:heaps){p::Require(HeapLock(heap)!=FALSE,"test","Cannot lock test heap");PROCESS_HEAP_ENTRY entry{};
+                while(HeapWalk(heap,&entry)){if(entry.wFlags&PROCESS_HEAP_ENTRY_BUSY){busy+=entry.cbData;++blocks;}else if(!(entry.wFlags&(PROCESS_HEAP_REGION|PROCESS_HEAP_UNCOMMITTED_RANGE)))free+=entry.cbData;}
+                const auto error=GetLastError();HeapUnlock(heap);p::Require(error==ERROR_NO_MORE_ITEMS,"test","Cannot walk test heap");}
+#else
+            const auto heap=mallinfo2();busy=uint64_t(heap.uordblks)+uint64_t(heap.hblkhd);free=uint64_t(heap.fordblks);
+#endif
+            std::cout<<"{\"ok\":true,\"busyBytes\":"<<busy<<",\"freeBytes\":"<<free<<",\"busyBlocks\":"<<blocks<<"}"<<std::endl;continue;
+        }
         if(action=="preflight"){
 #if defined(FOXICMP_INDEXED_MP4_ONLY) || defined(FOXICMP_TAIL_MP4_ONLY)
             TestedBridge::CheckProfile(p::lease_detail::Encode(d["session"]));
@@ -66,7 +82,7 @@ int main(int argc,char** argv) {
             else if(action=="sparseReady") {const auto at=p::Unsigned(d["ticks"],"ticks",p::MaxByte);std::cout<<"{\"sparse\":"<<(bridge->sparseRf64()?"true":"false")<<",\"endTicks\":\""<<bridge->sparseReadyEnd(int64_t(at))<<"\"}"<<std::endl;continue;}
 #endif
             else if(action=="layout") {const auto s=bridge->snapshot();rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();p::Value tracks(rapidjson::kArrayType);for(const auto& t:s.tracks){p::Value v(rapidjson::kObjectType);v.AddMember("available",p::Value(std::to_string(t.available).c_str(),a),a);v.AddMember("total",p::Value(std::to_string(t.total).c_str(),a),a);v.AddMember("initialized",t.initializationReady,a);tracks.PushBack(v,a);}out.AddMember("tracks",tracks,a);out.AddMember("duration100ns",p::Value(std::to_string(s.duration).c_str(),a),a);out.AddMember("timestampOffset100ns",p::Value(std::to_string(s.timestampOffset).c_str(),a),a);std::cout<<p::lease_detail::Encode(out)<<std::endl;continue;}
-            else if(action=="index") {const auto s=bridge->snapshot();rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();p::Value tracks(rapidjson::kArrayType);for(size_t i=0;i<s.tracks.size();++i){harvester::FragmentIndex index;index.Update([&](uint64_t at,void* bytes,size_t count){return bridge->readIndex(int(i),at,bytes,count);},s.tracks[i].available,i || s.tracks[i].audio?1:0,harvester::EndReady(s.tracks[i]),s.timestampOffset,bridge->videoCodec()=="hevc",bridge->videoCodec()=="av1",bridge->videoCodec()=="vp9",bridge->audioCodec(int(i?i:1))=="opus",bridge->isWebm(int(i)),bridge->isStandaloneAudio() && bridge->audioCodec(int(i?i:1))=="flac",bridge->isStandaloneAudio() && bridge->audioCodec(int(i?i:1))=="pcm-s16le",bridge->isStandaloneAudio() && bridge->audioCodec(int(i?i:1))=="ac3",bridge->isStandaloneAudio() && bridge->audioCodec(int(i?i:1))=="eac3",bridge->isStandaloneAudio() && bridge->audioCodec(int(i?i:1))=="pcm-s24le");p::Value v(rapidjson::kObjectType);v.AddMember("samples",uint32_t(index.Samples().size()),a);v.AddMember("position",p::Value(std::to_string(index.Position()).c_str(),a),a);v.AddMember("ready",p::Value(std::to_string(harvester::ReadyEnd(index.Samples(),s.tracks[i].available,s.duration)).c_str(),a),a);if(d.HasMember("sampleTimes") && d["sampleTimes"].IsBool() && d["sampleTimes"].GetBool()){p::Value times(rapidjson::kArrayType);size_t count=0;for(const auto& sample:index.Samples()){if(count++==8)break;p::Value time(rapidjson::kObjectType);time.AddMember("start",p::Value(std::to_string(sample.start).c_str(),a),a);time.AddMember("end",p::Value(std::to_string(sample.end).c_str(),a),a);times.PushBack(time,a);}v.AddMember("firstSamples",times,a);}tracks.PushBack(v,a);}out.AddMember("tracks",tracks,a);std::cout<<p::lease_detail::Encode(out)<<std::endl;continue;}
+            else if(action=="index") {const auto s=bridge->snapshot();rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();p::Value tracks(rapidjson::kArrayType);for(size_t i=0;i<s.tracks.size();++i){harvester::FragmentIndex index;index.Update([&](uint64_t at,void* bytes,size_t count){return bridge->readIndex(int(i),at,bytes,count);},s.tracks[i].available,i || s.tracks[i].audio?1:0,harvester::EndReady(s.tracks[i]),s.timestampOffset,bridge->videoCodec()=="hevc",bridge->videoCodec()=="av1",bridge->videoCodec()=="vp9",bridge->audioCodec(int(i?i:1))=="opus",bridge->isWebm(int(i)),bridge->isStandaloneAudio() && bridge->audioCodec(int(i?i:1))=="flac",bridge->isStandaloneAudio() && bridge->audioCodec(int(i?i:1))=="pcm-s16le",bridge->isStandaloneAudio() && bridge->audioCodec(int(i?i:1))=="ac3",bridge->isStandaloneAudio() && bridge->audioCodec(int(i?i:1))=="eac3",bridge->isStandaloneAudio() && bridge->audioCodec(int(i?i:1))=="pcm-s24le");p::Value v(rapidjson::kObjectType);v.AddMember("samples",uint32_t(index.Samples().size()),a);if(!index.Samples().empty()){const auto& last=index.Samples().back();p::Value sample(rapidjson::kObjectType);sample.AddMember("offset",p::Value(std::to_string(last.offset).c_str(),a),a);sample.AddMember("size",p::Value(std::to_string(last.size).c_str(),a),a);sample.AddMember("start",p::Value(std::to_string(last.start).c_str(),a),a);sample.AddMember("end",p::Value(std::to_string(last.end).c_str(),a),a);v.AddMember("lastSample",sample,a);}v.AddMember("position",p::Value(std::to_string(index.Position()).c_str(),a),a);v.AddMember("ready",p::Value(std::to_string(harvester::ReadyEnd(index.Samples(),s.tracks[i].available,s.duration)).c_str(),a),a);if(d.HasMember("sampleTimes") && d["sampleTimes"].IsBool() && d["sampleTimes"].GetBool()){p::Value times(rapidjson::kArrayType);size_t count=0;for(const auto& sample:index.Samples()){if(count++==8)break;p::Value time(rapidjson::kObjectType);time.AddMember("start",p::Value(std::to_string(sample.start).c_str(),a),a);time.AddMember("end",p::Value(std::to_string(sample.end).c_str(),a),a);times.PushBack(time,a);}v.AddMember("firstSamples",times,a);}tracks.PushBack(v,a);}out.AddMember("tracks",tracks,a);std::cout<<p::lease_detail::Encode(out)<<std::endl;continue;}
             else if(action=="read") {
                 const auto track=d["track"].GetInt();p::Require(track>=0 && size_t(track)<bridge->snapshot().tracks.size(),"track","Bad track");
                 const auto offset=p::Unsigned(d["offset"],"offset",p::MaxByte);const auto count=size_t(p::Unsigned(d["length"],"length",65536));

@@ -62,3 +62,5 @@ SetFilePointerEx/SetEndOfFile. Проверка выделенных облас�
 Справка Microsoft по [FSCTL_QUERY_ALLOCATED_RANGES](https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ni-winioctl-fsctl_query_allocated_ranges):
 проверка выделенных областей отражает физическое размещение, а не готовность
 media с точки зрения writer. Последняя отдельно определяется ranges и SHA.
+
+Предельные geometry и ограниченный runtime-срез проверены позднее на тех же EXE: [250000 packets  / 16 GiB и 100 core cycles](ProgressiveRf64Limits.md). Этот отдельный тест не заявляет полного заполнения/EOF на максимальном размере.

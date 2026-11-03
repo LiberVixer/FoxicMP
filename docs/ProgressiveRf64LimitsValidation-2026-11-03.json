@@ -1,0 +1,4923 @@
+{
+  "result": "PASS",
+  "date": "2026-11-03",
+  "sdkVersion": "1.81",
+  "playerVersion": "0.2.0",
+  "feature": "rf64-effective-upper-bounds-and-native-core-100-cycles",
+  "productionCodeChanged": false,
+  "productionBinariesUnchanged": true,
+  "native": {
+    "linux": {
+      "result": {
+        "result": "PASS",
+        "count": 54,
+        "checks": [
+          "16-1-44100-maximum-geometry",
+          "16-1-44100-no-hole-io",
+          "16-1-44100-last-sample-index",
+          "16-1-44100-last-pcm-exact",
+          "16-1-44100-cancel-release",
+          "16-1-44100-one-frame-over-effective-limit-rejected",
+          "16-1-48000-maximum-geometry",
+          "16-1-48000-no-hole-io",
+          "16-1-48000-last-sample-index",
+          "16-1-48000-last-pcm-exact",
+          "16-1-48000-cancel-release",
+          "16-1-48000-one-frame-over-effective-limit-rejected",
+          "16-2-44100-maximum-geometry",
+          "16-2-44100-no-hole-io",
+          "16-2-44100-last-sample-index",
+          "16-2-44100-last-pcm-exact",
+          "16-2-44100-cancel-release",
+          "16-2-44100-one-frame-over-effective-limit-rejected",
+          "16-2-48000-maximum-geometry",
+          "16-2-48000-no-hole-io",
+          "16-2-48000-last-sample-index",
+          "16-2-48000-last-pcm-exact",
+          "16-2-48000-cancel-release",
+          "16-2-48000-one-frame-over-effective-limit-rejected",
+          "24-1-44100-maximum-geometry",
+          "24-1-44100-no-hole-io",
+          "24-1-44100-last-sample-index",
+          "24-1-44100-last-pcm-exact",
+          "24-1-44100-cancel-release",
+          "24-1-44100-one-frame-over-effective-limit-rejected",
+          "24-1-48000-maximum-geometry",
+          "24-1-48000-no-hole-io",
+          "24-1-48000-last-sample-index",
+          "24-1-48000-last-pcm-exact",
+          "24-1-48000-cancel-release",
+          "24-1-48000-one-frame-over-effective-limit-rejected",
+          "24-2-44100-maximum-geometry",
+          "24-2-44100-no-hole-io",
+          "24-2-44100-last-sample-index",
+          "24-2-44100-last-pcm-exact",
+          "24-2-44100-cancel-release",
+          "24-2-44100-one-frame-over-effective-limit-rejected",
+          "24-2-48000-maximum-geometry",
+          "24-2-48000-no-hole-io",
+          "24-2-48000-last-sample-index",
+          "24-2-48000-last-pcm-exact",
+          "24-2-48000-cancel-release",
+          "24-2-48000-one-frame-over-effective-limit-rejected",
+          "100-core-open-cancel-release-cycles",
+          "no-residual-readers",
+          "bounded-fd-handles",
+          "bounded-resident-private-and-live-heap",
+          "cancel-release-under-2s",
+          "maximum-packet-and-byte-boundaries-exercised"
+        ],
+        "maximumProfiles": [
+          {
+            "bits": 16,
+            "channels": 1,
+            "rate": 44100,
+            "align": 2,
+            "offset": 80,
+            "frames": 4096000000,
+            "fileBytes": 8192000080,
+            "packets": 250000,
+            "duration": 928798185941,
+            "lastSample": {
+              "offset": "8217967773",
+              "size": "32768",
+              "start": "928794470748",
+              "end": "928798185941"
+            },
+            "indexSeconds": 0.729982,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 16,
+            "channels": 1,
+            "rate": 48000,
+            "align": 2,
+            "offset": 80,
+            "frames": 4096000000,
+            "fileBytes": 8192000080,
+            "packets": 250000,
+            "duration": 853333333333,
+            "lastSample": {
+              "offset": "8217967773",
+              "size": "32768",
+              "start": "853329920000",
+              "end": "853333333333"
+            },
+            "indexSeconds": 0.729726,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 16,
+            "channels": 2,
+            "rate": 44100,
+            "align": 4,
+            "offset": 80,
+            "frames": 4096000000,
+            "fileBytes": 16384000080,
+            "packets": 250000,
+            "duration": 928798185941,
+            "lastSample": {
+              "offset": "16409935005",
+              "size": "65536",
+              "start": "928794470748",
+              "end": "928798185941"
+            },
+            "indexSeconds": 0.674993,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 16,
+            "channels": 2,
+            "rate": 48000,
+            "align": 4,
+            "offset": 80,
+            "frames": 4096000000,
+            "fileBytes": 16384000080,
+            "packets": 250000,
+            "duration": 853333333333,
+            "lastSample": {
+              "offset": "16409935005",
+              "size": "65536",
+              "start": "853329920000",
+              "end": "853333333333"
+            },
+            "indexSeconds": 0.711493,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 24,
+            "channels": 1,
+            "rate": 44100,
+            "align": 3,
+            "offset": 104,
+            "frames": 4096000000,
+            "fileBytes": 12288000104,
+            "packets": 250000,
+            "duration": 928798185941,
+            "lastSample": {
+              "offset": "12313951423",
+              "size": "49152",
+              "start": "928794470748",
+              "end": "928798185941"
+            },
+            "indexSeconds": 0.844646,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 24,
+            "channels": 1,
+            "rate": 48000,
+            "align": 3,
+            "offset": 104,
+            "frames": 4096000000,
+            "fileBytes": 12288000104,
+            "packets": 250000,
+            "duration": 853333333333,
+            "lastSample": {
+              "offset": "12313951423",
+              "size": "49152",
+              "start": "853329920000",
+              "end": "853333333333"
+            },
+            "indexSeconds": 0.871388,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 24,
+            "channels": 2,
+            "rate": 44100,
+            "align": 6,
+            "offset": 112,
+            "frames": 2863311512,
+            "fileBytes": 17179869184,
+            "packets": 174763,
+            "duration": 649276986848,
+            "lastSample": {
+              "offset": "17197979575",
+              "size": "65424",
+              "start": "649274514285",
+              "end": "649276986848"
+            },
+            "indexSeconds": 0.502199,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 24,
+            "channels": 2,
+            "rate": 48000,
+            "align": 6,
+            "offset": 112,
+            "frames": 2863311512,
+            "fileBytes": 17179869184,
+            "packets": 174763,
+            "duration": 596523231666,
+            "lastSample": {
+              "offset": "17197979575",
+              "size": "65424",
+              "start": "596520960000",
+              "end": "596523231666"
+            },
+            "indexSeconds": 0.493989,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          }
+        ],
+        "rejections": [
+          {
+            "profile": "16-1-44100",
+            "frames": 4096000001,
+            "fileBytes": 8192000082,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "16-1-48000",
+            "frames": 4096000001,
+            "fileBytes": 8192000082,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "16-2-44100",
+            "frames": 4096000001,
+            "fileBytes": 16384000084,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "16-2-48000",
+            "frames": 4096000001,
+            "fileBytes": 16384000084,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "24-1-44100",
+            "frames": 4096000001,
+            "fileBytes": 12288000108,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "24-1-48000",
+            "frames": 4096000001,
+            "fileBytes": 12288000108,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "24-2-44100",
+            "frames": 2863311513,
+            "fileBytes": 17179869190,
+            "packets": 174763,
+            "code": "unsupported_media",
+            "reason": "Invalid or oversized RF64 ds64 sizes/count",
+            "readerReleased": true
+          },
+          {
+            "profile": "24-2-48000",
+            "frames": 2863311513,
+            "fileBytes": 17179869190,
+            "packets": 174763,
+            "code": "unsupported_media",
+            "reason": "Invalid or oversized RF64 ds64 sizes/count",
+            "readerReleased": true
+          }
+        ],
+        "coreCycles": 100,
+        "warmupCycles": 4,
+        "processMeasurements": [
+          {
+            "cycle": 1,
+            "rssBytes": 90853376,
+            "privateBytes": 86306816,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 210912,
+              "freeBytes": 86624288,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 2,
+            "rssBytes": 90853376,
+            "privateBytes": 86306816,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 211088,
+              "freeBytes": 86624112,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 3,
+            "rssBytes": 90853376,
+            "privateBytes": 86306816,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 211840,
+              "freeBytes": 86623360,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 4,
+            "rssBytes": 90853376,
+            "privateBytes": 86306816,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 211840,
+              "freeBytes": 86623360,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 5,
+            "rssBytes": 90853376,
+            "privateBytes": 86306816,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 212592,
+              "freeBytes": 86622608,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 6,
+            "rssBytes": 90853376,
+            "privateBytes": 86306816,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 212592,
+              "freeBytes": 86622608,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 7,
+            "rssBytes": 90861568,
+            "privateBytes": 86315008,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213408,
+              "freeBytes": 86621792,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 8,
+            "rssBytes": 90861568,
+            "privateBytes": 86315008,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213408,
+              "freeBytes": 86621792,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 9,
+            "rssBytes": 90861568,
+            "privateBytes": 86315008,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213408,
+              "freeBytes": 86621792,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 10,
+            "rssBytes": 90861568,
+            "privateBytes": 86315008,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213408,
+              "freeBytes": 86621792,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 11,
+            "rssBytes": 90861568,
+            "privateBytes": 86315008,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213408,
+              "freeBytes": 86621792,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 12,
+            "rssBytes": 90861568,
+            "privateBytes": 86315008,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 13,
+            "rssBytes": 90861568,
+            "privateBytes": 86315008,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 14,
+            "rssBytes": 90861568,
+            "privateBytes": 86315008,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 15,
+            "rssBytes": 90861568,
+            "privateBytes": 86315008,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 16,
+            "rssBytes": 90861568,
+            "privateBytes": 86315008,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 17,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 18,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 19,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 20,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 21,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 22,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 23,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 24,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 25,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 26,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 27,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 28,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 29,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 30,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 213776,
+              "freeBytes": 86621424,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 31,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 214000,
+              "freeBytes": 86621200,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 32,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 214496,
+              "freeBytes": 86620704,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 33,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 214496,
+              "freeBytes": 86620704,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 34,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 214496,
+              "freeBytes": 86620704,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 35,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215104,
+              "freeBytes": 86620096,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 36,
+            "rssBytes": 90865664,
+            "privateBytes": 86319104,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215104,
+              "freeBytes": 86620096,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 37,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215104,
+              "freeBytes": 86620096,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 38,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215104,
+              "freeBytes": 86620096,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 39,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215104,
+              "freeBytes": 86620096,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 40,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215104,
+              "freeBytes": 86620096,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 41,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215104,
+              "freeBytes": 86620096,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 42,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215104,
+              "freeBytes": 86620096,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 43,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215472,
+              "freeBytes": 86619728,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 44,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215472,
+              "freeBytes": 86619728,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 45,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215472,
+              "freeBytes": 86619728,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 46,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215472,
+              "freeBytes": 86619728,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 47,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215472,
+              "freeBytes": 86619728,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 48,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215472,
+              "freeBytes": 86619728,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 49,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215472,
+              "freeBytes": 86619728,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 50,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215472,
+              "freeBytes": 86619728,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 51,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 215888,
+              "freeBytes": 86619312,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 52,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 216304,
+              "freeBytes": 86618896,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 53,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 216528,
+              "freeBytes": 86618672,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 54,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 216528,
+              "freeBytes": 86618672,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 55,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 216528,
+              "freeBytes": 86618672,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 56,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 217136,
+              "freeBytes": 86618064,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 57,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 217136,
+              "freeBytes": 86618064,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 58,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 217504,
+              "freeBytes": 86617696,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 59,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 217504,
+              "freeBytes": 86617696,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 60,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 217728,
+              "freeBytes": 86617472,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 61,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 217728,
+              "freeBytes": 86617472,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 62,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 217728,
+              "freeBytes": 86617472,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 63,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 217728,
+              "freeBytes": 86617472,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 64,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 217728,
+              "freeBytes": 86617472,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 65,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 217728,
+              "freeBytes": 86617472,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 66,
+            "rssBytes": 90869760,
+            "privateBytes": 86323200,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 217728,
+              "freeBytes": 86617472,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 67,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 68,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 69,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 70,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 71,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 72,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 73,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 74,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 75,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 76,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 77,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 78,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 79,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 80,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 81,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 82,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 83,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 84,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 85,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 86,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 87,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 88,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 89,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 90,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218208,
+              "freeBytes": 86616992,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 91,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218432,
+              "freeBytes": 86616768,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 92,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218608,
+              "freeBytes": 86616592,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 93,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218608,
+              "freeBytes": 86616592,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 94,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218608,
+              "freeBytes": 86616592,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 95,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218608,
+              "freeBytes": 86616592,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 96,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218608,
+              "freeBytes": 86616592,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 97,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218608,
+              "freeBytes": 86616592,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 98,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218608,
+              "freeBytes": 86616592,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 99,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218608,
+              "freeBytes": 86616592,
+              "busyBlocks": 0
+            }
+          },
+          {
+            "cycle": 100,
+            "rssBytes": 90873856,
+            "privateBytes": 86327296,
+            "handles": 4,
+            "threads": 1,
+            "memorySource": "proc-status-VmRSS-RssAnon",
+            "heap": {
+              "ok": true,
+              "busyBytes": 218608,
+              "freeBytes": 86616592,
+              "busyBlocks": 0
+            }
+          }
+        ],
+        "peakObservedLiveRssBytes": 120877056,
+        "medianOpenSeconds": 0.35380171400902327,
+        "maxOpenSeconds": 0.40756187500664964,
+        "maxCancelReleaseSeconds": 0.0427343560004374,
+        "memoryBudget": {
+          "lastVsFirstMedianRssGrowthBytes": 20480.0,
+          "steadyVsFinalMedianRssGrowthBytes": 8192.0,
+          "initialToleranceBytes": 67108864,
+          "liveHeapToleranceBytes": 1048576,
+          "peakObservedLiveBudgetBytes": 268435456
+        },
+        "physicalFilesWereSparse": true,
+        "fullPlayerLifecycleTested": false,
+        "longDurationStressTested": false
+      },
+      "exitCode": 0,
+      "logSha256": "2854f69632342d9c928e3bb2fa7ba5265d146236260c98ef8e853018544fffe5",
+      "initialHeapBusyBytes": 210912,
+      "finalHeapBusyBytes": 218608,
+      "finalHeapFreeBytes": 86616592
+    },
+    "windows": {
+      "result": {
+        "result": "PASS",
+        "count": 54,
+        "checks": [
+          "16-1-44100-maximum-geometry",
+          "16-1-44100-no-hole-io",
+          "16-1-44100-last-sample-index",
+          "16-1-44100-last-pcm-exact",
+          "16-1-44100-cancel-release",
+          "16-1-44100-one-frame-over-effective-limit-rejected",
+          "16-1-48000-maximum-geometry",
+          "16-1-48000-no-hole-io",
+          "16-1-48000-last-sample-index",
+          "16-1-48000-last-pcm-exact",
+          "16-1-48000-cancel-release",
+          "16-1-48000-one-frame-over-effective-limit-rejected",
+          "16-2-44100-maximum-geometry",
+          "16-2-44100-no-hole-io",
+          "16-2-44100-last-sample-index",
+          "16-2-44100-last-pcm-exact",
+          "16-2-44100-cancel-release",
+          "16-2-44100-one-frame-over-effective-limit-rejected",
+          "16-2-48000-maximum-geometry",
+          "16-2-48000-no-hole-io",
+          "16-2-48000-last-sample-index",
+          "16-2-48000-last-pcm-exact",
+          "16-2-48000-cancel-release",
+          "16-2-48000-one-frame-over-effective-limit-rejected",
+          "24-1-44100-maximum-geometry",
+          "24-1-44100-no-hole-io",
+          "24-1-44100-last-sample-index",
+          "24-1-44100-last-pcm-exact",
+          "24-1-44100-cancel-release",
+          "24-1-44100-one-frame-over-effective-limit-rejected",
+          "24-1-48000-maximum-geometry",
+          "24-1-48000-no-hole-io",
+          "24-1-48000-last-sample-index",
+          "24-1-48000-last-pcm-exact",
+          "24-1-48000-cancel-release",
+          "24-1-48000-one-frame-over-effective-limit-rejected",
+          "24-2-44100-maximum-geometry",
+          "24-2-44100-no-hole-io",
+          "24-2-44100-last-sample-index",
+          "24-2-44100-last-pcm-exact",
+          "24-2-44100-cancel-release",
+          "24-2-44100-one-frame-over-effective-limit-rejected",
+          "24-2-48000-maximum-geometry",
+          "24-2-48000-no-hole-io",
+          "24-2-48000-last-sample-index",
+          "24-2-48000-last-pcm-exact",
+          "24-2-48000-cancel-release",
+          "24-2-48000-one-frame-over-effective-limit-rejected",
+          "100-core-open-cancel-release-cycles",
+          "no-residual-readers",
+          "bounded-fd-handles",
+          "bounded-resident-private-and-live-heap",
+          "cancel-release-under-2s",
+          "maximum-packet-and-byte-boundaries-exercised"
+        ],
+        "maximumProfiles": [
+          {
+            "bits": 16,
+            "channels": 1,
+            "rate": 44100,
+            "align": 2,
+            "offset": 80,
+            "frames": 4096000000,
+            "fileBytes": 8192000080,
+            "packets": 250000,
+            "duration": 928798185941,
+            "lastSample": {
+              "offset": "8217967773",
+              "size": "32768",
+              "start": "928794470748",
+              "end": "928798185941"
+            },
+            "indexSeconds": 1.070734,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 16,
+            "channels": 1,
+            "rate": 48000,
+            "align": 2,
+            "offset": 80,
+            "frames": 4096000000,
+            "fileBytes": 8192000080,
+            "packets": 250000,
+            "duration": 853333333333,
+            "lastSample": {
+              "offset": "8217967773",
+              "size": "32768",
+              "start": "853329920000",
+              "end": "853333333333"
+            },
+            "indexSeconds": 1.065322,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 16,
+            "channels": 2,
+            "rate": 44100,
+            "align": 4,
+            "offset": 80,
+            "frames": 4096000000,
+            "fileBytes": 16384000080,
+            "packets": 250000,
+            "duration": 928798185941,
+            "lastSample": {
+              "offset": "16409935005",
+              "size": "65536",
+              "start": "928794470748",
+              "end": "928798185941"
+            },
+            "indexSeconds": 1.095821,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 16,
+            "channels": 2,
+            "rate": 48000,
+            "align": 4,
+            "offset": 80,
+            "frames": 4096000000,
+            "fileBytes": 16384000080,
+            "packets": 250000,
+            "duration": 853333333333,
+            "lastSample": {
+              "offset": "16409935005",
+              "size": "65536",
+              "start": "853329920000",
+              "end": "853333333333"
+            },
+            "indexSeconds": 1.08647,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 24,
+            "channels": 1,
+            "rate": 44100,
+            "align": 3,
+            "offset": 104,
+            "frames": 4096000000,
+            "fileBytes": 12288000104,
+            "packets": 250000,
+            "duration": 928798185941,
+            "lastSample": {
+              "offset": "12313951423",
+              "size": "49152",
+              "start": "928794470748",
+              "end": "928798185941"
+            },
+            "indexSeconds": 1.094787,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 24,
+            "channels": 1,
+            "rate": 48000,
+            "align": 3,
+            "offset": 104,
+            "frames": 4096000000,
+            "fileBytes": 12288000104,
+            "packets": 250000,
+            "duration": 853333333333,
+            "lastSample": {
+              "offset": "12313951423",
+              "size": "49152",
+              "start": "853329920000",
+              "end": "853333333333"
+            },
+            "indexSeconds": 1.075171,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 24,
+            "channels": 2,
+            "rate": 44100,
+            "align": 6,
+            "offset": 112,
+            "frames": 2863311512,
+            "fileBytes": 17179869184,
+            "packets": 174763,
+            "duration": 649276986848,
+            "lastSample": {
+              "offset": "17197979575",
+              "size": "65424",
+              "start": "649274514285",
+              "end": "649276986848"
+            },
+            "indexSeconds": 0.759987,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          },
+          {
+            "bits": 24,
+            "channels": 2,
+            "rate": 48000,
+            "align": 6,
+            "offset": 112,
+            "frames": 2863311512,
+            "fileBytes": 17179869184,
+            "packets": 174763,
+            "duration": 596523231666,
+            "lastSample": {
+              "offset": "17197979575",
+              "size": "65424",
+              "start": "596520960000",
+              "end": "596523231666"
+            },
+            "indexSeconds": 0.764331,
+            "payloadTailExact": true,
+            "headOnlyInitialIo": true,
+            "readerReleased": true
+          }
+        ],
+        "rejections": [
+          {
+            "profile": "16-1-44100",
+            "frames": 4096000001,
+            "fileBytes": 8192000082,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "16-1-48000",
+            "frames": 4096000001,
+            "fileBytes": 8192000082,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "16-2-44100",
+            "frames": 4096000001,
+            "fileBytes": 16384000084,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "16-2-48000",
+            "frames": 4096000001,
+            "fileBytes": 16384000084,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "24-1-44100",
+            "frames": 4096000001,
+            "fileBytes": 12288000108,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "24-1-48000",
+            "frames": 4096000001,
+            "fileBytes": 12288000108,
+            "packets": 250001,
+            "code": "unsupported_media",
+            "reason": "WAV packet count exceeds limit",
+            "readerReleased": true
+          },
+          {
+            "profile": "24-2-44100",
+            "frames": 2863311513,
+            "fileBytes": 17179869190,
+            "packets": 174763,
+            "code": "unsupported_media",
+            "reason": "Invalid or oversized RF64 ds64 sizes/count",
+            "readerReleased": true
+          },
+          {
+            "profile": "24-2-48000",
+            "frames": 2863311513,
+            "fileBytes": 17179869190,
+            "packets": 174763,
+            "code": "unsupported_media",
+            "reason": "Invalid or oversized RF64 ds64 sizes/count",
+            "readerReleased": true
+          }
+        ],
+        "coreCycles": 100,
+        "warmupCycles": 4,
+        "processMeasurements": [
+          {
+            "cycle": 1,
+            "rssBytes": 8646656,
+            "privateBytes": 2347008,
+            "handles": 98,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 279728,
+              "freeBytes": 20156592,
+              "busyBlocks": 454
+            }
+          },
+          {
+            "cycle": 2,
+            "rssBytes": 8544256,
+            "privateBytes": 2236416,
+            "handles": 98,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 279728,
+              "freeBytes": 18960768,
+              "busyBlocks": 454
+            }
+          },
+          {
+            "cycle": 3,
+            "rssBytes": 8519680,
+            "privateBytes": 2220032,
+            "handles": 98,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 279728,
+              "freeBytes": 21099056,
+              "busyBlocks": 454
+            }
+          },
+          {
+            "cycle": 4,
+            "rssBytes": 8499200,
+            "privateBytes": 2191360,
+            "handles": 98,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 279728,
+              "freeBytes": 18518688,
+              "busyBlocks": 454
+            }
+          },
+          {
+            "cycle": 5,
+            "rssBytes": 8695808,
+            "privateBytes": 2392064,
+            "handles": 98,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 279728,
+              "freeBytes": 18879472,
+              "busyBlocks": 454
+            }
+          },
+          {
+            "cycle": 6,
+            "rssBytes": 8634368,
+            "privateBytes": 2326528,
+            "handles": 98,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 279728,
+              "freeBytes": 18757440,
+              "busyBlocks": 454
+            }
+          },
+          {
+            "cycle": 7,
+            "rssBytes": 8749056,
+            "privateBytes": 2625536,
+            "handles": 98,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 279728,
+              "freeBytes": 19332880,
+              "busyBlocks": 454
+            }
+          },
+          {
+            "cycle": 8,
+            "rssBytes": 8675328,
+            "privateBytes": 2347008,
+            "handles": 98,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280032,
+              "freeBytes": 18666544,
+              "busyBlocks": 455
+            }
+          },
+          {
+            "cycle": 9,
+            "rssBytes": 8826880,
+            "privateBytes": 3244032,
+            "handles": 98,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280032,
+              "freeBytes": 20769296,
+              "busyBlocks": 455
+            }
+          },
+          {
+            "cycle": 10,
+            "rssBytes": 8900608,
+            "privateBytes": 2764800,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280208,
+              "freeBytes": 22491456,
+              "busyBlocks": 465
+            }
+          },
+          {
+            "cycle": 11,
+            "rssBytes": 8802304,
+            "privateBytes": 2494464,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280512,
+              "freeBytes": 26723936,
+              "busyBlocks": 466
+            }
+          },
+          {
+            "cycle": 12,
+            "rssBytes": 8908800,
+            "privateBytes": 2592768,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280512,
+              "freeBytes": 26819776,
+              "busyBlocks": 466
+            }
+          },
+          {
+            "cycle": 13,
+            "rssBytes": 8847360,
+            "privateBytes": 2539520,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280816,
+              "freeBytes": 29120112,
+              "busyBlocks": 467
+            }
+          },
+          {
+            "cycle": 14,
+            "rssBytes": 9015296,
+            "privateBytes": 3047424,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280816,
+              "freeBytes": 27548272,
+              "busyBlocks": 467
+            }
+          },
+          {
+            "cycle": 15,
+            "rssBytes": 8835072,
+            "privateBytes": 2588672,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280816,
+              "freeBytes": 27174832,
+              "busyBlocks": 467
+            }
+          },
+          {
+            "cycle": 16,
+            "rssBytes": 8871936,
+            "privateBytes": 2564096,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280816,
+              "freeBytes": 26229104,
+              "busyBlocks": 467
+            }
+          },
+          {
+            "cycle": 17,
+            "rssBytes": 8818688,
+            "privateBytes": 2568192,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280816,
+              "freeBytes": 27038960,
+              "busyBlocks": 467
+            }
+          },
+          {
+            "cycle": 18,
+            "rssBytes": 8896512,
+            "privateBytes": 2592768,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280816,
+              "freeBytes": 27225072,
+              "busyBlocks": 467
+            }
+          },
+          {
+            "cycle": 19,
+            "rssBytes": 8884224,
+            "privateBytes": 2629632,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280816,
+              "freeBytes": 29132240,
+              "busyBlocks": 467
+            }
+          },
+          {
+            "cycle": 20,
+            "rssBytes": 8953856,
+            "privateBytes": 2695168,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 280816,
+              "freeBytes": 27309808,
+              "busyBlocks": 467
+            }
+          },
+          {
+            "cycle": 21,
+            "rssBytes": 8880128,
+            "privateBytes": 2560000,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 28085808,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 22,
+            "rssBytes": 9007104,
+            "privateBytes": 3186688,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 28288352,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 23,
+            "rssBytes": 8888320,
+            "privateBytes": 2641920,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 28303632,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 24,
+            "rssBytes": 8970240,
+            "privateBytes": 2842624,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 27136704,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 25,
+            "rssBytes": 8876032,
+            "privateBytes": 2617344,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 27766464,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 26,
+            "rssBytes": 8921088,
+            "privateBytes": 2654208,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 25761392,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 27,
+            "rssBytes": 8871936,
+            "privateBytes": 2625536,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 27574736,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 28,
+            "rssBytes": 8994816,
+            "privateBytes": 3141632,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 27550496,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 29,
+            "rssBytes": 8957952,
+            "privateBytes": 2838528,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 30629216,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 30,
+            "rssBytes": 8888320,
+            "privateBytes": 2596864,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 30811552,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 31,
+            "rssBytes": 8998912,
+            "privateBytes": 3682304,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 28162784,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 32,
+            "rssBytes": 8830976,
+            "privateBytes": 2506752,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 26535232,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 33,
+            "rssBytes": 9027584,
+            "privateBytes": 3313664,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 29705952,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 34,
+            "rssBytes": 8876032,
+            "privateBytes": 2572288,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 30738080,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 35,
+            "rssBytes": 9007104,
+            "privateBytes": 3301376,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 29227216,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 36,
+            "rssBytes": 33325056,
+            "privateBytes": 29085696,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 29311680,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 37,
+            "rssBytes": 9003008,
+            "privateBytes": 2883584,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 27809264,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 38,
+            "rssBytes": 8896512,
+            "privateBytes": 2646016,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 27649600,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 39,
+            "rssBytes": 33841152,
+            "privateBytes": 29642752,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 27736176,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 40,
+            "rssBytes": 33685504,
+            "privateBytes": 29306880,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 27453888,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 41,
+            "rssBytes": 9064448,
+            "privateBytes": 3473408,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 29595392,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 42,
+            "rssBytes": 8916992,
+            "privateBytes": 2654208,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 28440048,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 43,
+            "rssBytes": 9031680,
+            "privateBytes": 2904064,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 30066432,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 44,
+            "rssBytes": 32407552,
+            "privateBytes": 28098560,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 28296160,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 45,
+            "rssBytes": 36499456,
+            "privateBytes": 32407552,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 30506816,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 46,
+            "rssBytes": 34734080,
+            "privateBytes": 30384128,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 30668448,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 47,
+            "rssBytes": 39174144,
+            "privateBytes": 34934784,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 33060960,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 48,
+            "rssBytes": 38432768,
+            "privateBytes": 34312192,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 32451536,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 49,
+            "rssBytes": 9068544,
+            "privateBytes": 2928640,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 31031376,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 50,
+            "rssBytes": 36392960,
+            "privateBytes": 32243712,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 31424832,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 51,
+            "rssBytes": 37072896,
+            "privateBytes": 33153024,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 31242192,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 52,
+            "rssBytes": 38723584,
+            "privateBytes": 34619392,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 32759440,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 53,
+            "rssBytes": 38260736,
+            "privateBytes": 34017280,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 32086016,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 54,
+            "rssBytes": 8933376,
+            "privateBytes": 2637824,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 32485952,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 55,
+            "rssBytes": 36921344,
+            "privateBytes": 32862208,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 31013344,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 56,
+            "rssBytes": 39182336,
+            "privateBytes": 35102720,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 33193424,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 57,
+            "rssBytes": 41410560,
+            "privateBytes": 37220352,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 35405152,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 58,
+            "rssBytes": 40173568,
+            "privateBytes": 36020224,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 34115920,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 59,
+            "rssBytes": 42049536,
+            "privateBytes": 38039552,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 36219872,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 60,
+            "rssBytes": 42295296,
+            "privateBytes": 38187008,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 36277664,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 61,
+            "rssBytes": 41979904,
+            "privateBytes": 37941248,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 36121712,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 62,
+            "rssBytes": 41635840,
+            "privateBytes": 37523456,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 35619024,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 63,
+            "rssBytes": 42774528,
+            "privateBytes": 38727680,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 36916224,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 64,
+            "rssBytes": 41353216,
+            "privateBytes": 37220352,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 35314768,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 65,
+            "rssBytes": 9003008,
+            "privateBytes": 2756608,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 34098048,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 66,
+            "rssBytes": 39714816,
+            "privateBytes": 35774464,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 33874064,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 67,
+            "rssBytes": 41914368,
+            "privateBytes": 37847040,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 35970368,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 68,
+            "rssBytes": 41046016,
+            "privateBytes": 36958208,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 37166560,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 69,
+            "rssBytes": 45662208,
+            "privateBytes": 42233856,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 40310512,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 70,
+            "rssBytes": 44990464,
+            "privateBytes": 41205760,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 39337840,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 71,
+            "rssBytes": 44019712,
+            "privateBytes": 40136704,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 38213472,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 72,
+            "rssBytes": 45023232,
+            "privateBytes": 41189376,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 39316496,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 73,
+            "rssBytes": 46600192,
+            "privateBytes": 42844160,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 40912208,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 74,
+            "rssBytes": 45920256,
+            "privateBytes": 41988096,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 40107328,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 75,
+            "rssBytes": 43773952,
+            "privateBytes": 39731200,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 37820000,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 76,
+            "rssBytes": 8990720,
+            "privateBytes": 2740224,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 38174096,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 77,
+            "rssBytes": 44384256,
+            "privateBytes": 40693760,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 38778560,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 78,
+            "rssBytes": 42967040,
+            "privateBytes": 39059456,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 37194880,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 79,
+            "rssBytes": 44711936,
+            "privateBytes": 40820736,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 38892960,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 80,
+            "rssBytes": 44445696,
+            "privateBytes": 40480768,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 38607888,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 81,
+            "rssBytes": 46424064,
+            "privateBytes": 42717184,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 40785376,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 82,
+            "rssBytes": 42872832,
+            "privateBytes": 38834176,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 40062544,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 83,
+            "rssBytes": 45965312,
+            "privateBytes": 42561536,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 40638080,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 84,
+            "rssBytes": 47058944,
+            "privateBytes": 43413504,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 41544512,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 85,
+            "rssBytes": 46481408,
+            "privateBytes": 42725376,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 40875584,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 86,
+            "rssBytes": 42901504,
+            "privateBytes": 38891520,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 36994608,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 87,
+            "rssBytes": 9072640,
+            "privateBytes": 2949120,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 37321856,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 88,
+            "rssBytes": 31473664,
+            "privateBytes": 26943488,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 38329648,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 89,
+            "rssBytes": 43139072,
+            "privateBytes": 39501824,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 37574624,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 90,
+            "rssBytes": 43900928,
+            "privateBytes": 40087552,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 38215632,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 91,
+            "rssBytes": 43483136,
+            "privateBytes": 39563264,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 37636032,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 92,
+            "rssBytes": 8929280,
+            "privateBytes": 2818048,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 38202560,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 93,
+            "rssBytes": 43909120,
+            "privateBytes": 40341504,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 38529056,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 94,
+            "rssBytes": 41463808,
+            "privateBytes": 37445632,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 37831152,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 95,
+            "rssBytes": 43261952,
+            "privateBytes": 39534592,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 37694768,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 96,
+            "rssBytes": 42897408,
+            "privateBytes": 38936576,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 37043776,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 97,
+            "rssBytes": 43749376,
+            "privateBytes": 39641088,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 37829792,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 98,
+            "rssBytes": 42393600,
+            "privateBytes": 38248448,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 36348256,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 99,
+            "rssBytes": 43884544,
+            "privateBytes": 39874560,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 38075808,
+              "busyBlocks": 468
+            }
+          },
+          {
+            "cycle": 100,
+            "rssBytes": 43495424,
+            "privateBytes": 39436288,
+            "handles": 99,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+            "heap": {
+              "ok": true,
+              "busyBytes": 281120,
+              "freeBytes": 37551488,
+              "busyBlocks": 468
+            }
+          }
+        ],
+        "peakObservedLiveRssBytes": 96804864,
+        "medianOpenSeconds": 0.8667799499962712,
+        "maxOpenSeconds": 1.0842726999981096,
+        "maxCancelReleaseSeconds": 0.07403299999714363,
+        "memoryBudget": {
+          "lastVsFirstMedianRssGrowthBytes": 34711552.0,
+          "steadyVsFinalMedianRssGrowthBytes": 34367488.0,
+          "initialToleranceBytes": 67108864,
+          "liveHeapToleranceBytes": 1048576,
+          "peakObservedLiveBudgetBytes": 268435456
+        },
+        "physicalFilesWereSparse": true,
+        "fullPlayerLifecycleTested": false,
+        "longDurationStressTested": false
+      },
+      "exitCode": 0,
+      "logSha256": "7120f6edc52135005c0d23feae89bea3b57aa9728abcbbda09f5c5c1658910a7",
+      "initialHeapBusyBytes": 279728,
+      "finalHeapBusyBytes": 281120,
+      "finalHeapFreeBytes": 37551488
+    }
+  },
+  "qt": {
+    "linux": {
+      "runtime": [
+        {
+          "result": "PASS",
+          "bits": 16,
+          "channels": 2,
+          "rate": 48000,
+          "align": 4,
+          "offset": 80,
+          "frames": 4096000000,
+          "fileBytes": 16384000080,
+          "packets": 250000,
+          "duration": 853333333333,
+          "farSeconds": 85323,
+          "farPhysicalByte": 16382016080,
+          "farPcmSha256": "240075b59bd1641072752b7253df261da32298ab92fdfc3d5cf42d7f41c786d5",
+          "phases": [
+            {
+              "phase": "head-buffers",
+              "state": "buffering",
+              "positionSeconds": 0,
+              "physicalReadMaxEndBytes": "80",
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "head-plays",
+              "state": "playing",
+              "positionSeconds": 2.1871980000000004,
+              "physicalReadMaxEndBytes": "653859",
+              "decoderIoBytes": {
+                "audio": "655360",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "manual-pause",
+              "state": "paused",
+              "positionSeconds": 2.240648166666667,
+              "physicalReadMaxEndBytes": "719291",
+              "decoderIoBytes": {
+                "audio": "720896",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "maximum-tail-paused",
+              "state": "paused",
+              "positionSeconds": 85322.88426299999,
+              "physicalReadMaxEndBytes": "16382229651",
+              "decoderIoBytes": {
+                "audio": "983040",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "maximum-tail-plays",
+              "state": "playing",
+              "positionSeconds": 85325.04309516663,
+              "physicalReadMaxEndBytes": "16382687675",
+              "decoderIoBytes": {
+                "audio": "1441792",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "pause-far",
+              "state": "paused",
+              "positionSeconds": 85325.19868366663,
+              "physicalReadMaxEndBytes": "16382687675",
+              "decoderIoBytes": {
+                "audio": "1441792",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "back-to-head",
+              "state": "paused",
+              "positionSeconds": 3.866767,
+              "physicalReadMaxEndBytes": "16382687675",
+              "decoderIoBytes": {
+                "audio": "1703936",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "repeat-maximum-seek",
+              "state": "paused",
+              "positionSeconds": 85322.86676699998,
+              "physicalReadMaxEndBytes": "16382687675",
+              "decoderIoBytes": {
+                "audio": "1966080",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "unconfirmed-eof-waits",
+              "state": "buffering",
+              "positionSeconds": 85332.44305016656,
+              "physicalReadMaxEndBytes": "16384000080",
+              "decoderIoBytes": {
+                "audio": "3739317",
+                "video": "0"
+              }
+            }
+          ],
+          "cancelReleaseSeconds": 0.12577474900172092,
+          "readerIdentityPreserved": true,
+          "largeFileRemovedAfterRelease": true,
+          "unallocatedGapsPreserved": true,
+          "fullFileCompleted": false
+        },
+        {
+          "result": "PASS",
+          "bits": 24,
+          "channels": 2,
+          "rate": 48000,
+          "align": 6,
+          "offset": 112,
+          "frames": 2863311512,
+          "fileBytes": 17179869184,
+          "packets": 174763,
+          "duration": 596523231666,
+          "farSeconds": 59642,
+          "farPhysicalByte": 17176896112,
+          "farPcmSha256": "cbb46f0b051f5f850638b048ac80199e7ae3afd8258ef648e1154fb55b5d1891",
+          "phases": [
+            {
+              "phase": "head-buffers",
+              "state": "buffering",
+              "positionSeconds": 0,
+              "physicalReadMaxEndBytes": "112",
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "head-plays",
+              "state": "playing",
+              "positionSeconds": 2.1838743333333337,
+              "physicalReadMaxEndBytes": "916001",
+              "decoderIoBytes": {
+                "audio": "917504",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "manual-pause",
+              "state": "paused",
+              "positionSeconds": 2.236980333333334,
+              "physicalReadMaxEndBytes": "1046969",
+              "decoderIoBytes": {
+                "audio": "1048576",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "maximum-tail-paused",
+              "state": "paused",
+              "positionSeconds": 59641.853730999996,
+              "physicalReadMaxEndBytes": "17177181329",
+              "decoderIoBytes": {
+                "audio": "1376256",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "maximum-tail-plays",
+              "state": "playing",
+              "positionSeconds": 59644.00004016664,
+              "physicalReadMaxEndBytes": "17177770529",
+              "decoderIoBytes": {
+                "audio": "1966080",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "pause-far",
+              "state": "paused",
+              "positionSeconds": 59644.11216116664,
+              "physicalReadMaxEndBytes": "17177901497",
+              "decoderIoBytes": {
+                "audio": "2097152",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "back-to-head",
+              "state": "paused",
+              "positionSeconds": 3.8838049999999997,
+              "physicalReadMaxEndBytes": "17177901497",
+              "decoderIoBytes": {
+                "audio": "2424832",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "repeat-maximum-seek",
+              "state": "paused",
+              "positionSeconds": 59641.88380499999,
+              "physicalReadMaxEndBytes": "17177901497",
+              "decoderIoBytes": {
+                "audio": "2752512",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "unconfirmed-eof-waits",
+              "state": "buffering",
+              "positionSeconds": 59651.57066216657,
+              "physicalReadMaxEndBytes": "17179869184",
+              "decoderIoBytes": {
+                "audio": "5443175",
+                "video": "0"
+              }
+            }
+          ],
+          "cancelReleaseSeconds": 0.141675478007528,
+          "readerIdentityPreserved": true,
+          "largeFileRemovedAfterRelease": true,
+          "unallocatedGapsPreserved": true,
+          "fullFileCompleted": false
+        }
+      ],
+      "qtTotals": "4 passed, 0 failed, 0 skipped, 0 blacklisted",
+      "logSha256": "d2e8ba12d701b77ba3cf808e40fd50b52aae8448ef6dc423693afbd46342f0d0",
+      "containerCtestExitCode": 8,
+      "scope": "Both Qt runtime profiles passed inside an initial CTest exit8 caused by the native metrics checks; final corrected native-only CTest is recorded separately"
+    },
+    "windows": {
+      "runtime": [
+        {
+          "result": "PASS",
+          "bits": 16,
+          "channels": 2,
+          "rate": 48000,
+          "align": 4,
+          "offset": 80,
+          "frames": 4096000000,
+          "fileBytes": 16384000080,
+          "packets": 250000,
+          "duration": 853333333333,
+          "farSeconds": 85323,
+          "farPhysicalByte": 16382016080,
+          "farPcmSha256": "240075b59bd1641072752b7253df261da32298ab92fdfc3d5cf42d7f41c786d5",
+          "phases": [
+            {
+              "phase": "head-buffers",
+              "state": "buffering",
+              "positionSeconds": 0,
+              "physicalReadMaxEndBytes": "80",
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "head-plays",
+              "state": "playing",
+              "positionSeconds": 2.0109766539161,
+              "physicalReadMaxEndBytes": "588427",
+              "decoderIoBytes": {
+                "audio": "589824",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "manual-pause",
+              "state": "paused",
+              "positionSeconds": 2.0609720225510206,
+              "physicalReadMaxEndBytes": "588427",
+              "decoderIoBytes": {
+                "audio": "589824",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "maximum-tail-paused",
+              "state": "paused",
+              "positionSeconds": 85322.99998185938,
+              "physicalReadMaxEndBytes": "16382229651",
+              "decoderIoBytes": {
+                "audio": "851968",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "maximum-tail-plays",
+              "state": "playing",
+              "positionSeconds": 85325.04268042075,
+              "physicalReadMaxEndBytes": "16382622243",
+              "decoderIoBytes": {
+                "audio": "1245184",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "pause-far",
+              "state": "paused",
+              "positionSeconds": 85325.15366811333,
+              "physicalReadMaxEndBytes": "16382622243",
+              "decoderIoBytes": {
+                "audio": "1245184",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "back-to-head",
+              "state": "paused",
+              "positionSeconds": 3.9999954648526073,
+              "physicalReadMaxEndBytes": "16382622243",
+              "decoderIoBytes": {
+                "audio": "1507328",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "repeat-maximum-seek",
+              "state": "paused",
+              "positionSeconds": 85322.99998185938,
+              "physicalReadMaxEndBytes": "16382622243",
+              "decoderIoBytes": {
+                "audio": "1769472",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "unconfirmed-eof-waits",
+              "state": "buffering",
+              "positionSeconds": 85332.40591438662,
+              "physicalReadMaxEndBytes": "16384000080",
+              "decoderIoBytes": {
+                "audio": "3542709",
+                "video": "0"
+              }
+            }
+          ],
+          "cancelReleaseSeconds": 0.1887267999991309,
+          "readerIdentityPreserved": true,
+          "largeFileRemovedAfterRelease": true,
+          "unallocatedGapsPreserved": true,
+          "fullFileCompleted": false
+        },
+        {
+          "result": "PASS",
+          "bits": 24,
+          "channels": 2,
+          "rate": 48000,
+          "align": 6,
+          "offset": 112,
+          "frames": 2863311512,
+          "fileBytes": 17179869184,
+          "packets": 174763,
+          "duration": 596523231666,
+          "farSeconds": 59642,
+          "farPhysicalByte": 17176896112,
+          "farPcmSha256": "cbb46f0b051f5f850638b048ac80199e7ae3afd8258ef648e1154fb55b5d1891",
+          "phases": [
+            {
+              "phase": "head-buffers",
+              "state": "buffering",
+              "positionSeconds": 0,
+              "physicalReadMaxEndBytes": "112",
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "head-plays",
+              "state": "playing",
+              "positionSeconds": 2.0413916772335603,
+              "physicalReadMaxEndBytes": "850569",
+              "decoderIoBytes": {
+                "audio": "851968",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "manual-pause",
+              "state": "paused",
+              "positionSeconds": 2.0926069821859414,
+              "physicalReadMaxEndBytes": "850569",
+              "decoderIoBytes": {
+                "audio": "851968",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "maximum-tail-paused",
+              "state": "paused",
+              "positionSeconds": 59641.9999909297,
+              "physicalReadMaxEndBytes": "17177181329",
+              "decoderIoBytes": {
+                "audio": "1179648",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "maximum-tail-plays",
+              "state": "playing",
+              "positionSeconds": 59644.00119992828,
+              "physicalReadMaxEndBytes": "17177770529",
+              "decoderIoBytes": {
+                "audio": "1769472",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "pause-far",
+              "state": "paused",
+              "positionSeconds": 59644.133701760344,
+              "physicalReadMaxEndBytes": "17177770529",
+              "decoderIoBytes": {
+                "audio": "1769472",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "back-to-head",
+              "state": "paused",
+              "positionSeconds": 3.9999954648526073,
+              "physicalReadMaxEndBytes": "17177770529",
+              "decoderIoBytes": {
+                "audio": "2097152",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "repeat-maximum-seek",
+              "state": "paused",
+              "positionSeconds": 59641.9999909297,
+              "physicalReadMaxEndBytes": "17177770529",
+              "decoderIoBytes": {
+                "audio": "2424832",
+                "video": "0"
+              }
+            },
+            {
+              "phase": "unconfirmed-eof-waits",
+              "state": "buffering",
+              "positionSeconds": 59651.40588542693,
+              "physicalReadMaxEndBytes": "17179865497",
+              "decoderIoBytes": {
+                "audio": "5111808",
+                "video": "0"
+              }
+            }
+          ],
+          "cancelReleaseSeconds": 0.1781121000094572,
+          "readerIdentityPreserved": true,
+          "largeFileRemovedAfterRelease": true,
+          "unallocatedGapsPreserved": true,
+          "fullFileCompleted": false
+        }
+      ],
+      "qtTotals": "4 passed, 0 failed, 0 skipped, 0 blacklisted",
+      "logSha256": "dcee7914860499653bcaa9b6187d2259cb430900a93672c180a5aa4386f7e80b",
+      "containerCtestExitCode": 8,
+      "scope": "Both Qt runtime profiles passed inside an initial CTest exit8 caused by the native metrics checks; final corrected native-only CTest is recorded separately"
+    }
+  },
+  "classic": {
+    "runtime": [
+      {
+        "result": "PASS",
+        "bits": 16,
+        "channels": 2,
+        "rate": 48000,
+        "align": 4,
+        "offset": 80,
+        "frames": 4096000000,
+        "fileBytes": 16384000080,
+        "packets": 250000,
+        "duration": 853333333333,
+        "farSeconds": 85323,
+        "farPhysicalByte": 16382016080,
+        "farPcmSha256": "240075b59bd1641072752b7253df261da32298ab92fdfc3d5cf42d7f41c786d5",
+        "phases": [
+          {
+            "phase": "head-buffers",
+            "state": "buffering",
+            "positionSeconds": 0.0,
+            "physicalReadMaxEndBytes": "80",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "head-plays",
+            "state": "playing",
+            "positionSeconds": 2.0371451,
+            "physicalReadMaxEndBytes": "1179728",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1180190"
+            }
+          },
+          {
+            "phase": "manual-pause",
+            "state": "paused",
+            "positionSeconds": 2.0371451,
+            "physicalReadMaxEndBytes": "1179728",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1180190"
+            }
+          },
+          {
+            "phase": "maximum-tail-paused",
+            "state": "paused",
+            "positionSeconds": 85323.0,
+            "physicalReadMaxEndBytes": "1245264",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1245726"
+            }
+          },
+          {
+            "phase": "maximum-tail-plays",
+            "state": "playing",
+            "positionSeconds": 85325.0456935,
+            "physicalReadMaxEndBytes": "16383213648",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "2490910"
+            }
+          },
+          {
+            "phase": "pause-far",
+            "state": "paused",
+            "positionSeconds": 85325.1370318,
+            "physicalReadMaxEndBytes": "16383213648",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "2490910"
+            }
+          },
+          {
+            "phase": "back-to-head",
+            "state": "paused",
+            "positionSeconds": 4.0,
+            "physicalReadMaxEndBytes": "16383213648",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "2490910"
+            }
+          },
+          {
+            "phase": "repeat-maximum-seek",
+            "state": "paused",
+            "positionSeconds": 85323.0,
+            "physicalReadMaxEndBytes": "16383213648",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "2687518"
+            }
+          },
+          {
+            "phase": "unconfirmed-eof-waits",
+            "state": "buffering",
+            "positionSeconds": 85332.3707275,
+            "physicalReadMaxEndBytes": "16384000080",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "4719134"
+            }
+          }
+        ],
+        "cancelReleaseSeconds": 0.11000000000058208,
+        "readerIdentityPreserved": true,
+        "largeFileRemovedAfterRelease": true,
+        "unallocatedGapsPreserved": true,
+        "fullFileCompleted": false
+      },
+      {
+        "result": "PASS",
+        "bits": 24,
+        "channels": 2,
+        "rate": 48000,
+        "align": 6,
+        "offset": 112,
+        "frames": 2863311512,
+        "fileBytes": 17179869184,
+        "packets": 174763,
+        "duration": 596523231666,
+        "farSeconds": 59642,
+        "farPhysicalByte": 17176896112,
+        "farPcmSha256": "cbb46f0b051f5f850638b048ac80199e7ae3afd8258ef648e1154fb55b5d1891",
+        "phases": [
+          {
+            "phase": "head-buffers",
+            "state": "buffering",
+            "positionSeconds": 0.0,
+            "physicalReadMaxEndBytes": "112",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            }
+          },
+          {
+            "phase": "head-plays",
+            "state": "playing",
+            "positionSeconds": 2.035808,
+            "physicalReadMaxEndBytes": "1769584",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1770048"
+            }
+          },
+          {
+            "phase": "manual-pause",
+            "state": "paused",
+            "positionSeconds": 2.035808,
+            "physicalReadMaxEndBytes": "1769584",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1770048"
+            }
+          },
+          {
+            "phase": "maximum-tail-paused",
+            "state": "paused",
+            "positionSeconds": 59642.0,
+            "physicalReadMaxEndBytes": "1867888",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1868352"
+            }
+          },
+          {
+            "phase": "maximum-tail-plays",
+            "state": "playing",
+            "positionSeconds": 59644.0010922,
+            "physicalReadMaxEndBytes": "17178624112",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "3637824"
+            }
+          },
+          {
+            "phase": "pause-far",
+            "state": "paused",
+            "positionSeconds": 59644.0930199,
+            "physicalReadMaxEndBytes": "17178722416",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "3736128"
+            }
+          },
+          {
+            "phase": "back-to-head",
+            "state": "paused",
+            "positionSeconds": 4.0,
+            "physicalReadMaxEndBytes": "17178787952",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "3801664"
+            }
+          },
+          {
+            "phase": "repeat-maximum-seek",
+            "state": "paused",
+            "positionSeconds": 59642.0,
+            "physicalReadMaxEndBytes": "17178787952",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "3998272"
+            }
+          },
+          {
+            "phase": "unconfirmed-eof-waits",
+            "state": "buffering",
+            "positionSeconds": 59651.3724305,
+            "physicalReadMaxEndBytes": "17179869184",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "7012816"
+            }
+          }
+        ],
+        "cancelReleaseSeconds": 0.11000000000058208,
+        "readerIdentityPreserved": true,
+        "largeFileRemovedAfterRelease": true,
+        "unallocatedGapsPreserved": true,
+        "fullFileCompleted": false
+      }
+    ],
+    "exitCode": 0,
+    "cleanup": {
+      "lastTaskResult": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "builtSha256": "e9a04f76fd6631890c14ed21b5ae616cf978f0530027622c7d5a85582f7ed34c",
+      "testedSha256": "e9a04f76fd6631890c14ed21b5ae616cf978f0530027622c7d5a85582f7ed34c",
+      "equal": true,
+      "testExitCode": 0
+    }
+  },
+  "finalExitCodes": {
+    "rf64-limits-linux-build": 0,
+    "rf64-limits-windows-build": 0,
+    "rf64-limits-final-linux-build": 0,
+    "rf64-limits-final-linux-tests": 0,
+    "rf64-limits-final-windows-build": 0,
+    "rf64-limits-final-windows-tests": 0,
+    "rf64-limits-shell-before-ssh": 0,
+    "rf64-limits-shell-after-ssh": 0,
+    "finalize-rf64-limits-classic-ssh": 0,
+    "classicInteractiveTests": 0
+  },
+  "initialWindows": {
+    "ctestExitCode": 8,
+    "firstLogSha256": "dcee7914860499653bcaa9b6187d2259cb430900a93672c180a5aa4386f7e80b",
+    "diagnosticExitCode": 8,
+    "diagnosticLogSha256": "9bc16379f01bddf022497811b09baabb457caae4af0aa752cf74e0fa9ae42d15",
+    "diagnosticMeasurements": [
+      {
+        "cycle": 1,
+        "rssBytes": 8617984,
+        "privateBytes": 2342912,
+        "handles": 98,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 2,
+        "rssBytes": 8540160,
+        "privateBytes": 2240512,
+        "handles": 98,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 3,
+        "rssBytes": 8667136,
+        "privateBytes": 2400256,
+        "handles": 98,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 4,
+        "rssBytes": 8593408,
+        "privateBytes": 2314240,
+        "handles": 98,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 5,
+        "rssBytes": 8687616,
+        "privateBytes": 2412544,
+        "handles": 98,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 6,
+        "rssBytes": 8720384,
+        "privateBytes": 2441216,
+        "handles": 98,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 7,
+        "rssBytes": 8744960,
+        "privateBytes": 2469888,
+        "handles": 98,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 8,
+        "rssBytes": 8687616,
+        "privateBytes": 2408448,
+        "handles": 98,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 9,
+        "rssBytes": 8761344,
+        "privateBytes": 2555904,
+        "handles": 98,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 10,
+        "rssBytes": 8867840,
+        "privateBytes": 2646016,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 11,
+        "rssBytes": 8781824,
+        "privateBytes": 2510848,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 12,
+        "rssBytes": 8851456,
+        "privateBytes": 2646016,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 13,
+        "rssBytes": 8810496,
+        "privateBytes": 2600960,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 14,
+        "rssBytes": 8585216,
+        "privateBytes": 2281472,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 15,
+        "rssBytes": 8794112,
+        "privateBytes": 2576384,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 16,
+        "rssBytes": 8814592,
+        "privateBytes": 2703360,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 17,
+        "rssBytes": 8835072,
+        "privateBytes": 2621440,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 18,
+        "rssBytes": 8937472,
+        "privateBytes": 2646016,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 19,
+        "rssBytes": 8871936,
+        "privateBytes": 2646016,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 20,
+        "rssBytes": 8986624,
+        "privateBytes": 3268608,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 21,
+        "rssBytes": 8941568,
+        "privateBytes": 2719744,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 22,
+        "rssBytes": 8982528,
+        "privateBytes": 2695168,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 23,
+        "rssBytes": 8908800,
+        "privateBytes": 2686976,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 24,
+        "rssBytes": 9048064,
+        "privateBytes": 3592192,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 25,
+        "rssBytes": 8957952,
+        "privateBytes": 2682880,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 26,
+        "rssBytes": 8974336,
+        "privateBytes": 3690496,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 27,
+        "rssBytes": 8933376,
+        "privateBytes": 2723840,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 28,
+        "rssBytes": 8765440,
+        "privateBytes": 2478080,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 29,
+        "rssBytes": 8908800,
+        "privateBytes": 2621440,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 30,
+        "rssBytes": 8880128,
+        "privateBytes": 2785280,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 31,
+        "rssBytes": 9052160,
+        "privateBytes": 2969600,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 32,
+        "rssBytes": 8941568,
+        "privateBytes": 2723840,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 33,
+        "rssBytes": 9031680,
+        "privateBytes": 2752512,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 34,
+        "rssBytes": 8843264,
+        "privateBytes": 2555904,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 35,
+        "rssBytes": 9023488,
+        "privateBytes": 2818048,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 36,
+        "rssBytes": 9101312,
+        "privateBytes": 2883584,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 37,
+        "rssBytes": 9056256,
+        "privateBytes": 2830336,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 38,
+        "rssBytes": 44621824,
+        "privateBytes": 41279488,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 39,
+        "rssBytes": 9056256,
+        "privateBytes": 2838528,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 40,
+        "rssBytes": 43622400,
+        "privateBytes": 40259584,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 41,
+        "rssBytes": 9080832,
+        "privateBytes": 2875392,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 42,
+        "rssBytes": 43667456,
+        "privateBytes": 40128512,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 43,
+        "rssBytes": 43114496,
+        "privateBytes": 39432192,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 44,
+        "rssBytes": 46768128,
+        "privateBytes": 43388928,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 45,
+        "rssBytes": 44998656,
+        "privateBytes": 41373696,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 46,
+        "rssBytes": 9068544,
+        "privateBytes": 2797568,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 47,
+        "rssBytes": 43409408,
+        "privateBytes": 39702528,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 48,
+        "rssBytes": 39555072,
+        "privateBytes": 35770368,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 49,
+        "rssBytes": 42856448,
+        "privateBytes": 39301120,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 50,
+        "rssBytes": 42627072,
+        "privateBytes": 38916096,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 51,
+        "rssBytes": 42844160,
+        "privateBytes": 39075840,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 52,
+        "rssBytes": 42979328,
+        "privateBytes": 39124992,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 53,
+        "rssBytes": 44662784,
+        "privateBytes": 40923136,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 54,
+        "rssBytes": 45199360,
+        "privateBytes": 41398272,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 55,
+        "rssBytes": 43479040,
+        "privateBytes": 39555072,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 56,
+        "rssBytes": 8937472,
+        "privateBytes": 2641920,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 57,
+        "rssBytes": 43864064,
+        "privateBytes": 40214528,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 58,
+        "rssBytes": 42881024,
+        "privateBytes": 39211008,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 59,
+        "rssBytes": 42151936,
+        "privateBytes": 38342656,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 60,
+        "rssBytes": 43671552,
+        "privateBytes": 39858176,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 61,
+        "rssBytes": 42848256,
+        "privateBytes": 38993920,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 62,
+        "rssBytes": 41943040,
+        "privateBytes": 37994496,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 63,
+        "rssBytes": 41943040,
+        "privateBytes": 37994496,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 64,
+        "rssBytes": 42053632,
+        "privateBytes": 37974016,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 65,
+        "rssBytes": 41504768,
+        "privateBytes": 37494784,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 66,
+        "rssBytes": 9043968,
+        "privateBytes": 3354624,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 67,
+        "rssBytes": 43442176,
+        "privateBytes": 39682048,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 68,
+        "rssBytes": 41963520,
+        "privateBytes": 38002688,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 69,
+        "rssBytes": 41037824,
+        "privateBytes": 37167104,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 70,
+        "rssBytes": 42610688,
+        "privateBytes": 38920192,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 71,
+        "rssBytes": 45064192,
+        "privateBytes": 41406464,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 72,
+        "rssBytes": 44412928,
+        "privateBytes": 40656896,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 73,
+        "rssBytes": 41943040,
+        "privateBytes": 37998592,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 74,
+        "rssBytes": 41361408,
+        "privateBytes": 37363712,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 75,
+        "rssBytes": 41463808,
+        "privateBytes": 37527552,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 76,
+        "rssBytes": 41070592,
+        "privateBytes": 37105664,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 77,
+        "rssBytes": 8986624,
+        "privateBytes": 2768896,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 78,
+        "rssBytes": 43483136,
+        "privateBytes": 39858176,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 79,
+        "rssBytes": 41037824,
+        "privateBytes": 37539840,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 80,
+        "rssBytes": 41684992,
+        "privateBytes": 37994496,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 81,
+        "rssBytes": 43085824,
+        "privateBytes": 39497728,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 82,
+        "rssBytes": 41758720,
+        "privateBytes": 37904384,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 83,
+        "rssBytes": 44449792,
+        "privateBytes": 40804352,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 84,
+        "rssBytes": 43986944,
+        "privateBytes": 40144896,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 85,
+        "rssBytes": 44548096,
+        "privateBytes": 40812544,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 86,
+        "rssBytes": 44552192,
+        "privateBytes": 40742912,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 87,
+        "rssBytes": 43945984,
+        "privateBytes": 39870464,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 88,
+        "rssBytes": 9048064,
+        "privateBytes": 2781184,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 89,
+        "rssBytes": 44855296,
+        "privateBytes": 41684992,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 90,
+        "rssBytes": 45740032,
+        "privateBytes": 42332160,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 91,
+        "rssBytes": 44158976,
+        "privateBytes": 40632320,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 92,
+        "rssBytes": 45027328,
+        "privateBytes": 41459712,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 93,
+        "rssBytes": 46878720,
+        "privateBytes": 43458560,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 94,
+        "rssBytes": 46977024,
+        "privateBytes": 43331584,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 95,
+        "rssBytes": 45219840,
+        "privateBytes": 41553920,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 96,
+        "rssBytes": 45174784,
+        "privateBytes": 41394176,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 97,
+        "rssBytes": 44646400,
+        "privateBytes": 40636416,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 98,
+        "rssBytes": 44138496,
+        "privateBytes": 40263680,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 99,
+        "rssBytes": 44355584,
+        "privateBytes": 40538112,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      },
+      {
+        "cycle": 100,
+        "rssBytes": 44171264,
+        "privateBytes": 40280064,
+        "handles": 99,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      }
+    ],
+    "rssTrendOnlyExitCode": 8,
+    "rssTrendOnlyLogSha256": "d2b852def294c73009038ff2491bb63152444bc038621190070d03df2ac15bdd",
+    "cause": "Initial +2 handle threshold and 32MiB early-vs-late RSS threshold failed; diagnostic series showed handles98->99 then stable99 and allocator RSS9->43MiB plateau. No production code changed. Final guard preserves initial measurements, caps early growth64MiB and liveRSS256MiB, and limits live allocated heap growth1MiB plus steady handle growth2. The later RSS-only series also failed; its logs remain separate."
+  },
+  "initialLinux": {
+    "ctestExitCode": 8,
+    "cause": "Test metrics helper indexed empty /proc status values; fixed by selecting only VmRSS/RssAnon/Threads. Both playback profiles passed in that run. Corrected native-only run separately passed.",
+    "coreLoopDebugLogging": "Additional progress prints are nonfunctional and do not change scenarios or assertions."
+  },
+  "preservation": {
+    "before": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "dbbbd7b17d23590c5b055928b0c60e6bfdaf229e81fa8b413883ebd55692565d",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "e9a04f76fd6631890c14ed21b5ae616cf978f0530027622c7d5a85582f7ed34c"
+    },
+    "after": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "dbbbd7b17d23590c5b055928b0c60e6bfdaf229e81fa8b413883ebd55692565d",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "e9a04f76fd6631890c14ed21b5ae616cf978f0530027622c7d5a85582f7ed34c"
+    },
+    "allMeasuredFilesUnchanged": true,
+    "classicShellEntries": 158,
+    "classicShellUnchanged": true,
+    "harvesterModified": false,
+    "linuxReplacementNeeded": false
+  },
+  "binarySha256": {
+    "linuxQt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+    "windowsQt": "dbbbd7b17d23590c5b055928b0c60e6bfdaf229e81fa8b413883ebd55692565d",
+    "classic": "e9a04f76fd6631890c14ed21b5ae616cf978f0530027622c7d5a85582f7ed34c",
+    "linuxApiTest": "1534c3698798f1fa064820effe103a637025a189ae4bf6b1b428225fcb52f50e",
+    "windowsApiTest": "3fc4e1450357cef1ca47787ff6437bebc5b3eb0606251fa3322abd731161d75f",
+    "linuxNative": "51290011dae35e6e40a292cefcf5089d7bce4c7dd271d2d43306e4c4c543b506",
+    "windowsNative": "560193f30d7efd1f518806632b8d71875131f2b1c1434d410e2684da004c2bfe"
+  },
+  "productionSourcesUnchanged": {
+    "qt/src/main.cpp": "a2e9e1d9d8f8a637a055c28095250722860dbbf06002f1e385c7d08e10c14599",
+    "qt/src/playbackcontrol.cpp": "bf4a97ce0382b72ccc3db6af38762ba36d3bf2c9c67e4967d209c96a50b558b8",
+    "qt/src/progressiveplayback.cpp": "2976a01ca7b26c96d5dc9a3f2a7eb93f2cd4064ce7d907131c2130aac64ab396",
+    "qt/src/progressivesource.h": "8be6436be6e87cb7aab54c88af92711929a68bf21c004a8176d0d13463d566aa",
+    "qt/src/progressivesource_common.cpp": "95086231259ee69cd30a3750cd2f28643c7f33649836b2d5bc82ede24343dd04",
+    "qt/tools/progressive_client.py": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+    "qt/tools/progressive_integrity.py": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+    "qt/tools/progressive_v2.py": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+    "shared/progressivefmp4bridge.h": "a10be10be51845423f8b377d462a46c3f26364aafd4501c6c68581ce34709935",
+    "shared/progressiverawaudio.h": "f55400e2216bcaf3c4d88cbbd9129a101250740d0b0402d5b11797b859e803bc",
+    "shared/progressiveresourceio.h": "7886034fc023b68cc7bcfe2473ce4b5d867eaebcd48ed8dde0b3c5b1d5668bcb",
+    "shared/progressiverf64rangemap.h": "18c3fc5fbbbd9c83991fc05cb6bdbe0e5766948d80c2a7594b36b7197049faa3",
+    "shared/progressivesession.h": "2f9780115f01c8622509b6b3bce95a62bbbb2afcbac13e531a9d12757e11216d",
+    "shared/progressivewav.h": "a3d5113d768b34049c5afc59b4df0668466dbd3bc71a2b1bf1ac9942de269e75",
+    "src/DSUtil/HarvesterAudioProjection.h": "dc0e412caeef7060113bcd72b084ab3756f70ba67697046a144c519409c6cbb4",
+    "src/DSUtil/HarvesterMP4.h": "14d47a4d436f68a712af6a9f7f32fe7b36e0221722d7a67c031e0375913c078f",
+    "src/DSUtil/HarvesterSession.cpp": "8101a07c607b778245a99e6ab481f61fa3098d185342e082e60376684b11e0ab",
+    "src/DSUtil/HarvesterSession.h": "32572876f28dd20e9295d328f1060eacc674ac34cccd9a0a2d873fbd090ccebe",
+    "src/DSUtil/HarvesterWav.h": "e1ecd8d6a71f10e901dcc961c3e792b66ac0710ecafec34bc19d791c825b4efd",
+    "src/apps/mplayerc/MainFrm.cpp": "32cece895f0b555beeb1d0c6811101492c4ab5433e3377ff75971b625855bc5e",
+    "tools/package_progressive_sdk.py": "a1b0650f22f45eed8bea5a7a0764d49ce70523dde5e2716178b87fb1dd05c1fb"
+  },
+  "sourceFilesSha256": {
+    "qt/CMakeLists.txt": "e9792536a271778cbcef06f1bc743088e48794d130469e51a330bacd0d210d59",
+    "qt/src/main.cpp": "a2e9e1d9d8f8a637a055c28095250722860dbbf06002f1e385c7d08e10c14599",
+    "qt/src/playbackcontrol.cpp": "bf4a97ce0382b72ccc3db6af38762ba36d3bf2c9c67e4967d209c96a50b558b8",
+    "qt/src/progressiveplayback.cpp": "2976a01ca7b26c96d5dc9a3f2a7eb93f2cd4064ce7d907131c2130aac64ab396",
+    "qt/src/progressivesource.h": "8be6436be6e87cb7aab54c88af92711929a68bf21c004a8176d0d13463d566aa",
+    "qt/src/progressivesource_common.cpp": "95086231259ee69cd30a3750cd2f28643c7f33649836b2d5bc82ede24343dd04",
+    "qt/tests/progressiveapi_test.cpp": "31ba44ecc1a2aa897e4c3a722ab5d7025908d052f00df5b666df4c6e6606d9d5",
+    "qt/tools/progressive_client.py": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+    "qt/tools/progressive_integrity.py": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+    "qt/tools/progressive_v2.py": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+    "shared/progressivefmp4bridge.h": "a10be10be51845423f8b377d462a46c3f26364aafd4501c6c68581ce34709935",
+    "shared/progressiverawaudio.h": "f55400e2216bcaf3c4d88cbbd9129a101250740d0b0402d5b11797b859e803bc",
+    "shared/progressiveresourceio.h": "7886034fc023b68cc7bcfe2473ce4b5d867eaebcd48ed8dde0b3c5b1d5668bcb",
+    "shared/progressiverf64rangemap.h": "18c3fc5fbbbd9c83991fc05cb6bdbe0e5766948d80c2a7594b36b7197049faa3",
+    "shared/progressivesession.h": "2f9780115f01c8622509b6b3bce95a62bbbb2afcbac13e531a9d12757e11216d",
+    "shared/progressivewav.h": "a3d5113d768b34049c5afc59b4df0668466dbd3bc71a2b1bf1ac9942de269e75",
+    "src/DSUtil/HarvesterAudioProjection.h": "dc0e412caeef7060113bcd72b084ab3756f70ba67697046a144c519409c6cbb4",
+    "src/DSUtil/HarvesterMP4.h": "14d47a4d436f68a712af6a9f7f32fe7b36e0221722d7a67c031e0375913c078f",
+    "src/DSUtil/HarvesterSession.cpp": "8101a07c607b778245a99e6ab481f61fa3098d185342e082e60376684b11e0ab",
+    "src/DSUtil/HarvesterSession.h": "32572876f28dd20e9295d328f1060eacc674ac34cccd9a0a2d873fbd090ccebe",
+    "src/DSUtil/HarvesterWav.h": "e1ecd8d6a71f10e901dcc961c3e792b66ac0710ecafec34bc19d791c825b4efd",
+    "src/apps/mplayerc/MainFrm.cpp": "32cece895f0b555beeb1d0c6811101492c4ab5433e3377ff75971b625855bc5e",
+    "tests/fixtures/progressive-v2/integrity-empty.idx": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/fixtures/progressive-v2/rf64-external-index.json": "be6966d3c2fe8274b1e11c3c13d3125244938e0e9769fda34774b40718c4af03",
+    "tests/fixtures/progressive-v2/rf64-sparse-pcm16.json": "780c65509bc27a1a1dc1fe7f6cfa7ffe4df5875d0f918925aa6fbf23bbab9a8c",
+    "tests/fixtures/progressive-v2/rf64-sparse-pcm24.json": "8e59dd5fe7b9f36ff23660b7924fdb82460a6858474ad3b7091371d775fb7c62",
+    "tests/progressive_external_integrity_conformance.py": "b298bafa5d84b7a769fe353d8d479a640afd50118d7fb9576e1f2ab807ce05d1",
+    "tests/progressive_media_cli.cpp": "0fb37ba2754bef61175b5107852e7d06b9a38bae42f37ba4cefeb1e402a4f544",
+    "tests/progressive_process_metrics.py": "394bdae96ea9c5d4930da17400739058e5796867f9cbf63008a3eae0cb5a0620",
+    "tests/progressive_rf64_conformance.py": "076721a25adc8727761490bce1fcb361be84fbc7e3e3c6f6a57e986e14ab3d5c",
+    "tests/progressive_rf64_fixture.py": "d75de02dafaf2fac3d18a05f4e409db38816174acb40e71e940e12f4e6159e94",
+    "tests/progressive_rf64_geometry.h": "3f8d86288a25ab8dd562a77d369401b0f5a35dddc2afc139432d1cd3d050212e",
+    "tests/progressive_rf64_large_playback.py": "e57fb5e0136597cb78873f226b075787867da06a00e58f531b10ed8b0faaccd2",
+    "tests/progressive_rf64_limits_conformance.py": "7e378fdc661afb7d299c299840a76c20f1f01d9b6ffeb222c789f110f1e6f05f",
+    "tests/progressive_rf64_limits_fixture.py": "f60f49cadb5d4929ad1d7636b1c1ae5100246af7778c9c8a1e4a9d9996120406",
+    "tests/progressive_rf64_limits_playback.py": "bf20e1f09ba654473b5e9cffedb1c77c4157d6cc1fababbb060d7b261fd957c8",
+    "tests/progressive_rf64_map_conformance.py": "4004a915445b22cb75ca66cb196172ecc55ab4d30b1a91b2a106f8611e6eddae",
+    "tests/progressive_rf64_map_geometry.cpp": "ae75f7ef8b908e968d98a816583fe54e33e53821f91f609f7b08d9551e4847d8",
+    "tests/progressive_rf64_paused_eof_probe.py": "4d310479273d7874c7cc1fa6688a7c53a08279ebf0fe0788eaaf8332745231ae",
+    "tests/progressive_rf64_ranges_conformance.py": "58ac35b2eea2aa4fe8dac6c9074179f78849cacdb9437232cd6724c87a9feebf",
+    "tests/progressive_rf64_ranges_playback.py": "f6304c7ed7a2dfa77d6bb350ac9abf650165528a71a7af9f7bdd7e1bbc1746b8",
+    "tests/progressive_rf64_sparse_conformance.py": "9791eeceef4bc6ed8cfb9b169391cb0c9824385ca22594dced5fa2d9e8fbcb82",
+    "tests/progressive_rf64_sparse_large_playback.py": "9ea95f818b989612cef94ea49580fa8c28f812502859888352b854c12b3f2a91",
+    "tests/progressive_rf64_sparse_playback.py": "1de45938489aa9bd48c3318b9b7dac478a5484d990637a353a6ca3857f1059aa",
+    "tests/progressive_sdk_test.py": "30ad8e259cade8f1a91b6d04c610fb51e760359276a77e401f4f9663d8f09168",
+    "tests/progressive_standalone_fixture.py": "46c76e224a50379d3b221daf42736d042ec6f461856504d26c321af0d004cbfd",
+    "tests/progressive_standalone_playback.py": "77dc2b58cdc4f501cc70a8db013bc557e13f37f895691209992ae12c62fac1fd",
+    "tests/progressive_v2_sdk_test.py": "ddac18169167bf273ccb5e2c482ddefb17966d1fd2471307ea0d238e3d85e9cc",
+    "tests/windows/progressive_family_test.py": "2e61791e8de597b184e84979005086ce0bf917602b6471999ff63b9442792e78",
+    "tools/package_progressive_sdk.py": "a1b0650f22f45eed8bea5a7a0764d49ce70523dde5e2716178b87fb1dd05c1fb"
+  },
+  "limits": [
+    "Native8 profiles at effective packet/byte limit +8 one-frame-over rejections, with real sparse sources and production projection/index; native100cycles per OS after4warmups",
+    "100cycles applies to native core open/cancel/release, not100 full application/decoder lifecycles",
+    "Runtime2 maximum-size stereo48kHz profiles per edition; these files remain incomplete and are cancelled at tail, not complete/EOF-tested at maximum extent",
+    "Read-only RSS/private/handle + busy/free heap measurements (Windows HeapWalk, Linux mallinfo2); Linux thread counts only; total growth64MiB, liveRSS256MiB, final live-heap growth1MiB, steady handle growth2 are regression guards, not a general absence-of-leaks proof",
+    "No30min playback, CPU/cache/temp high-water, concurrent readers, crash or global matrix acceptance claimed",
+    "Same SDK1.81 production source/EXE, test harness rebuilt; published SDK ZIP/assets unchanged",
+    "Installed profiles/Windows EXE/HKCU preserved; Linux private X11/D-Bus/PulseAudio; Classic task/staging removed; Harvester untouched"
+  ]
+}
