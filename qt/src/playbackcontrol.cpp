@@ -18,6 +18,8 @@ bool Window::seekAvailable(double start, double end) const {
            (length <= 0 || end <= length + .001);
   }
   const auto status = progressive->status();
+  if(progressive->sparseRf64())return status.connected &&
+      end < progressive->availableEnd(start)-(status.complete?0.:.2);
   const double boundary =
       status.complete ? status.duration : std::max(0., status.available - .2);
   if (!status.connected || end > boundary)

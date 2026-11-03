@@ -17416,7 +17416,7 @@ REFERENCE_TIME const CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget)
 
 void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD/* = true*/)
 {
-	if (m_harvester && !m_harvester->Complete() && rtPos >= m_harvester->ReadyEnd()) {
+	if (m_harvester && !m_harvester->CanSeek(std::max<REFERENCE_TIME>(0,rtPos))) {
 		SetStatusMessage(L"Перемотка за пределы загруженного участка недоступна");
 		return;
 	}

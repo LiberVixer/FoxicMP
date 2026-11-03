@@ -104,7 +104,7 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-Предварительный [SDK 1.80](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.80)
+Предварительный [SDK 1.81](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.81)
 предназначен для интеграционных проверок с новыми сборками плеера.
 SDK 1.54–1.55 добавляют обычный растущий MP4 H.264/AAC-LC с индексом в начале
 или в конце файла: [контракт tail-index и advisory ranges](docs/ProgressiveTailMp4.md),
@@ -134,6 +134,7 @@ SDK 1.77 добавляет [растущий RF64 PCM16/PCM24](docs/Progressive
 SDK 1.78 добавляет [внешние SHA-256 индексы](docs/ProgressiveExternalIntegrity.md) для RF64 и исправляет дальнюю перемотку Qt. [Физические файлы больше 4 GiB](docs/ProgressiveLargeRf64.md), PCM16/PCM24 stereo 48 kHz, проверены в трёх редакциях; лимит команд 64 KiB сохранён. [Отчёт](docs/ProgressiveLargeRf64Validation-2026-11-03.json).
 SDK 1.79 добавляет [публикацию RF64 ranges вне порядка](docs/ProgressiveRf64Ranges.md): плеер ждёт дыры и продолжает тот же reader после их заполнения. Воспроизводится только непрерывный префикс, seek в отдельные островки остаётся отдельным этапом. [Проверки трёх редакций](docs/ProgressiveRf64RangesValidation-2026-11-03.json).
 SDK 1.80 добавляет [диагностическую карту RF64 PCM-пакетов](docs/ProgressiveRf64RangeMap.md): точные границы подтверждённых интервалов без чтения payload, с явным усечением длинного списка. Это подготовка к island seek, который пока остаётся запрещён. [Проверки](docs/ProgressiveRf64RangeMapValidation-2026-11-03.json).
+SDK 1.81 добавляет [явный sparse RF64 PCM16/24 playback](docs/ProgressiveRf64Sparse.md): переход в подтверждённый островок через незаписанную дыру и обратно, ожидание на его границе и продолжение после публикации новых данных. Старые RF64 hints сохраняют prefix-gated поведение. [Проверки трёх редакций](docs/ProgressiveRf64SparseValidation-2026-11-03.json).
 ZIP содержит SDK без EXE/установщиков. Общий remux, произвольные sparse media
 и оставшаяся приёмка перечислены в [чеклисте](docs/ProgressiveCompletionChecklist.md).
 SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](docs/ProgressiveWebmSegments.md), включая постраничный каталог, в трёх редакциях. Требуются новые EXE; SDK содержит клиент и документацию.

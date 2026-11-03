@@ -23,6 +23,19 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_sparse_rf64_requires_explicit_island_capability_and_known_length(self):
+        for bits in (16,24):
+            client=Client();value=snapshot();value['tracks']=[dict(kind='audio',required=True,initializationReady=True,codecHint='pcm-s'+str(bits)+'le',containerHint='rf64-sparse-pcm'+str(bits),source=dict(resourceId='media'))]
+            value['resources']=[dict(id='media',length='4000',ranges=[dict(offset='0',length='100'),dict(offset='2000',length='1000')],integrity=dict(algorithm='sha256'))]
+            base={};key='rf64Pcm'+str(bits)
+            client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone={key:base}))
+            with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+            self.assertFalse(client.calls)
+            base['sparsePlayback']=dict(version=1,mode='standalone-rf64-sparse-pcm'+str(bits)+'-v1',profiles=['standalone-rf64-sparse-pcm'+str(bits)],islandSeek=True,knownLengthRequired=True)
+            V2PreviewSession(client,'/unused').publish(value);self.assertEqual(len(client.calls),1);client.calls.clear()
+            value['resources'][0]['length']=None
+            with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+            self.assertFalse(client.calls)
     def test_rf64_islands_require_explicit_prefix_gated_capability(self):
         client=Client();value=snapshot();value['tracks']=[dict(kind='audio',required=True,initializationReady=True,codecHint='pcm-s16le',containerHint='rf64-pcm16',source=dict(resourceId='media'))]
         value['resources']=[dict(id='media',ranges=[dict(offset='0',length='100'),dict(offset='200',length='100')],integrity=dict(algorithm='sha256'))]

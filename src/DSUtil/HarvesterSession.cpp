@@ -441,7 +441,7 @@ HRESULT CHarvesterSession::WaitRange(int track,uint64_t offset,uint64_t size,HAN
         if(OptionalAudioFailed(track))return E_ABORT;
         auto s=Snapshot(); const auto& t=s.tracks[track];
         if(t.total && !harvester::RangeReady(offset,size,t.total))return E_FAIL;
-        if(completion ? harvester::EndReady(t) : harvester::RangeReady(offset,size,t.available))return S_OK;
+        if(completion ? harvester::EndReady(t) : harvester::RangeReady(offset,size,t.available) && (!m_v2Bridge || m_v2Bridge->payloadReady(track,offset,size)))return S_OK;
         if(t.state==harvester::State::Complete)return S_FALSE;
         HANDLE events[3]={m_cancel,flush,breaker}; DWORD n=1;if(flush)events[n++]=flush;if(breaker)events[n++]=breaker;
         if(WaitForMultipleObjects(n,events,FALSE,100)!=WAIT_TIMEOUT)return E_ABORT;
@@ -453,7 +453,13 @@ bool CHarvesterSession::SetIndex(int track,std::vector<harvester::Sample> sample
     for(const auto& s:samples)if(!harvester::RangeReady(s.offset,s.size,m_state.tracks[track].total))return false;
     m_samples[track]=std::move(samples);m_duration[track]=duration;m_indexPosition[track]=0;m_indexEnd[track]=0;return true;
 }
+bool CHarvesterSession::CanSeek(int64_t position) const {
+    if(position<0)return false;
+    if(m_v2Bridge && m_v2Bridge->sparseRf64())return position<m_v2Bridge->sparseReadyEnd(position)-(Complete()?0:2000000);
+    return Complete() || position<ReadyEnd();
+}
 int64_t CHarvesterSession::ReadyEnd() const {
+    if(m_v2Bridge && m_v2Bridge->sparseRf64())return m_v2Bridge->sparseReadyEnd(m_position.load());
     std::lock_guard<std::mutex> lock(m_mutex);
     int64_t ready[harvester::MaxMediaTracks] = {};
     for(int track=0;size_t(track)<m_state.tracks.size();++track) {

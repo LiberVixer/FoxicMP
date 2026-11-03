@@ -45,6 +45,8 @@ public:
   int64_t size(int track) const;
   bool seekable(int track, uint64_t offset) const;
   bool confirmedByteSeek() const;
+  bool sparseRf64() const;
+  double availableEnd(double seconds) const;
   // RF64 decoder window: unchanged initialization followed by indexed fragments.
   // Offsets belong to this stream reader, never to the shared/pinned source.
   struct DecoderWindow { uint64_t initialization=0, fragment=0; };

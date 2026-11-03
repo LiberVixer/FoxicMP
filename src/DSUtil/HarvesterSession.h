@@ -98,6 +98,7 @@ public:
     size_t SeekSample(int track,int64_t position) const;
     void SelectAudioTrack(int track);
     int64_t ReadyEnd() const;
+    bool CanSeek(int64_t position) const;
     bool Complete() const;
     void Notify(const char* status);
     void ReportPosition(int64_t position) {m_position=position;}

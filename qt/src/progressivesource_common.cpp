@@ -60,11 +60,11 @@ ProgressiveSource::DecoderWindow ProgressiveSource::decoderWindow(double seconds
   std::lock_guard<std::mutex> indexLock(indexMutex);
   std::lock_guard<std::mutex> lock(mutex);
   if (!v2Bridge ||
-      seconds >= currentStatus.available || snapshot.tracks.size()!=1 ||
+      seconds >= (v2Bridge->sparseRf64()?double(v2Bridge->sparseReadyEnd(int64_t(seconds*10000000)))/10000000.:currentStatus.available) || snapshot.tracks.size()!=1 ||
       stopping.load() || !currentStatus.error.isEmpty()) return {};
   const auto details=QJsonDocument::fromJson(QByteArray::fromStdString(v2Bridge->details())).object();
   const auto mode=details.value("mediaMode").toString();
-  if (mode!="standalone-rf64-pcm16" && mode!="standalone-rf64-pcm24") return {};
+  if (!mode.startsWith("standalone-rf64-")) return {};
   const auto& samples=indexes[0].Samples();
   const auto target=harvester::AudioSeekSample(samples,int64_t(seconds*10000000));
   if (samples.empty() || target>=samples.size()) return {};
@@ -93,6 +93,12 @@ bool ProgressiveSource::seekable(int track, uint64_t offset) const {
          currentStatus.error.isEmpty() &&
          offset <= snapshot.tracks[track].available;
 }
+bool ProgressiveSource::sparseRf64() const { return v2Bridge && v2Bridge->sparseRf64(); }
+double ProgressiveSource::availableEnd(double seconds) const {
+  if(sparseRf64() && std::isfinite(seconds) && seconds>=0 && seconds<=status().duration)
+    return double(v2Bridge->sparseReadyEnd(int64_t(seconds*10000000)))/10000000.;
+  return status().available;
+}
 int64_t ProgressiveSource::read(int track, uint64_t offset, char *buffer,
                                 uint64_t count, const std::atomic<bool> *interrupted) {
   if (track < 0 || !buffer || count == 0 ||
@@ -109,6 +115,9 @@ int64_t ProgressiveSource::read(int track, uint64_t offset, char *buffer,
       if (offset < item.available) {
         const uint64_t length =
             std::min<uint64_t>({count, item.available - offset, 1024 * 1024});
+        if(v2Bridge && !v2Bridge->payloadReady(track,offset,std::min<uint64_t>(length,65536))) {
+          changed.wait_for(lock,std::chrono::milliseconds(50));continue;
+        }
         lock.unlock();
         const auto result = v2Bridge ? v2Bridge->readDecoderPayload(track,offset,buffer,size_t(length))
                                     : ProgressiveFile::read(files[track], offset, buffer, size_t(length));
@@ -170,6 +179,7 @@ ProgressiveSource::Status ProgressiveSource::indexStatus(const harvester::Snapsh
   result.duration = double(duration) / 10000000.;
   result.timestampOffset = double(value.timestampOffset) / 10000000.;
   result.available = end;
+  if(v2Bridge && v2Bridge->sparseRf64())result.available=result.mediaAvailable[0]=double(v2Bridge->sparseReadyEnd(0))/10000000.;
   result.complete = complete;
   return result;
 }

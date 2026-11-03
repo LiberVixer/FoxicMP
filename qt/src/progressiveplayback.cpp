@@ -102,15 +102,17 @@ bool Window::openProgressiveSource(const std::shared_ptr<ProgressiveSource> &nex
 QJsonObject Window::progressivePlaybackStatus() const {
   if (!progressive) return {{"active", false}, {"state", "stopped"}};
   const auto status = progressive->status();
+  const bool heldSparseEnd=progressive->sparseRf64() &&
+      (progressiveUserPause || pausedByMinimize || progressivePendingSeek>=0);
   const QString playback = !status.error.isEmpty() ? "error"
       : status.cancelled ? "cancelled"
-      : status.complete && player->get("eof-reached").toBool() ? "finished"
+      : status.complete && !heldSparseEnd && player->get("eof-reached").toBool() ? "finished"
       : !status.connected ? "waiting-downloader"
       : !progressiveStarted || stopped || progressiveBuffering ? "buffering"
       : progressiveUserPause || pausedByMinimize ? "paused" : "playing";
   QJsonObject result{{"active", true}, {"sessionId", progressive->id()}, {"state", playback},
           {"connected", status.connected}, {"complete", status.complete},
-          {"durationSeconds", status.duration}, {"availableSeconds", status.available},
+          {"durationSeconds", status.duration}, {"availableSeconds", progressive->availableEnd(pos)},
           {"positionSeconds", pos}, {"error", status.error}};
   const auto details=progressive->playbackDetails();for(auto it=details.begin();it!=details.end();++it)result[it.key()]=it.value();
   if (details.value("mediaMode") == "standalone-mp3-gapless") {
@@ -202,7 +204,7 @@ bool Window::seekTo(double seconds) {
   }
   if (progressive && progressive->confirmedByteSeek()) {
     if (progressivePendingSeek >= 0) {
-      if (progressive->playbackDetails().value("mediaMode").toString().startsWith("standalone-rf64-pcm")) {
+      if (progressive->playbackDetails().value("mediaMode").toString().startsWith("standalone-rf64-")) {
         // Each reader owns an immutable indexed window. A superseding seek,
         // especially backwards, must open its own window rather than seek in
         // the suffix selected by the previous still-pending request.
@@ -309,6 +311,10 @@ void Window::updateProgressive() {
       options["demuxer-lavf-o"]="fflags=+ignidx";
       options["demuxer-seekable-cache"]="no";
     }
+    // Audio-only libmpv can reach EOF during a paused seek very close to the
+    // end. Retain this explicit sparse source until the user's pause ends;
+    // updateProgressive acknowledges a confirmed, unpaused backend EOF below.
+    if(progressive->sparseRf64())options["keep-open"]="yes";
     options.insert(QMap<QString,QString>{
              {"rebase-start-time", "no"},
              {"start", QString::number(status.timestampOffset, 'f', 6)},
@@ -333,9 +339,7 @@ void Window::updateProgressive() {
       options["demuxer-readahead-secs"] = "0";
     }
     auto sourceUrl = url+(single?"/track/0":"/video");
-    if (single && progressivePendingSeek>0 &&
-        (details.value("mediaMode")=="standalone-rf64-pcm16" ||
-         details.value("mediaMode")=="standalone-rf64-pcm24")) {
+    if (single && progressivePendingSeek>0 && details.value("mediaMode").toString().startsWith("standalone-rf64-")) {
       sourceUrl+="?start="+QString::number(progressivePendingSeek,'f',9);
       options["start"]=QString::number(progressivePendingSeek,'f',9);
     }
@@ -453,10 +457,12 @@ void Window::updateProgressive() {
     if (player->get("seeking").toBool()) return;
     // A newly selected optional track can lag behind the video clock. Keep
     // that target pending until its published packets cover it, without EOF.
-    if(!status.complete && progressivePendingSeek>=status.available-.2) {
+    if(!status.complete && progressivePendingSeek>=progressive->availableEnd(progressivePendingSeek)-.2) {
       progressiveBuffering=true;player->set("pause",true);return;
     }
+    // Sparse RF64 windows were already loaded with the exact start option.
     if (mediaDetails.value("mediaMode") != "standalone-mp3-gapless" &&
+        !progressive->sparseRf64() &&
         !player->command({"seek", QString::number(status.timestampOffset + progressivePendingSeek, 'f', 9), "absolute+exact"}))
       return;
     progressivePendingSeek = -1;
@@ -467,13 +473,19 @@ void Window::updateProgressive() {
   // can remain near zero after reopening. Buffer against the requested target,
   // not that stale clock, so a tail wait stays visible and another seek can
   // retire the blocked readers. positionSeconds remains the real decoder clock.
-  const double ahead = status.available - (progressiveSeekTarget >= 0 ? progressiveSeekTarget : pos);
+  const double ahead = progressive->availableEnd(progressiveSeekTarget >= 0 ? progressiveSeekTarget : pos) - (progressiveSeekTarget >= 0 ? progressiveSeekTarget : pos);
   if (!status.connected || (!status.complete && ahead < 1))
     progressiveBuffering = true;
   else if (status.complete || ahead >= 5)
     progressiveBuffering = false;
   const bool pause =
       progressiveBuffering || progressiveUserPause || pausedByMinimize;
+  if(progressive->sparseRf64() && status.complete && !pause &&
+      progressivePendingSeek<0 && progressiveTracksReady && player->get("eof-reached").toBool()) {
+    player->command({"stop"});
+    emit player->ended(true);
+    return;
+  }
   if (player->get("pause").toBool() != pause)
     player->set("pause", pause);
   const QString message =
