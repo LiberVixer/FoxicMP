@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include "BaseSplitterThread.h"
 #include <moreuuids.h>
 #include "DSUtil/std_helper.h"
 #include "Version.h"
@@ -236,7 +237,7 @@ DWORD CBaseSplitterFilter::ThreadProc()
 		for (;;) {
 			DWORD cmd = GetRequest();
 			if (cmd == CMD_EXIT) {
-				CAMThread::m_hThread = nullptr;
+				CloseSplitterWorkerHandleOnExit(m_hThread);
 			}
 			Reply(S_OK);
 			if (cmd == CMD_EXIT) {
@@ -250,7 +251,7 @@ DWORD CBaseSplitterFilter::ThreadProc()
 
 	for (DWORD cmd = (DWORD)-1; ; cmd = GetRequest()) {
 		if (cmd == CMD_EXIT) {
-			m_hThread = nullptr;
+			CloseSplitterWorkerHandleOnExit(m_hThread);
 			Reply(S_OK);
 			return 0;
 		}
@@ -301,7 +302,7 @@ DWORD CBaseSplitterFilter::ThreadProc()
 
 	ASSERT(0); // we should only exit via CMD_EXIT
 
-	m_hThread = nullptr;
+	CloseSplitterWorkerHandleOnExit(m_hThread);
 	return 0;
 }
 

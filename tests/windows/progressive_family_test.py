@@ -599,6 +599,16 @@ def run(args):
                 if process.poll() is not None: raise RuntimeError(('Player exited', process.returncode))
                 if time.monotonic() >= deadline: raise
                 time.sleep(.1)
+        if args.player_lifecycle_cycles is not None:
+            from progressive_player_lifecycle import exercise as lifecycle
+            def control(action,value):
+                if action=='pause':post_command(process.pid,889)
+                elif action=='stop':post_command(process.pid,890)
+                elif action=='seek':post_command(process.pid,4401)
+                elif action=='settle':
+                    reply=client.request(dict(version=1,action='capabilities'));assert reply['pid']==process.pid;time.sleep(.15)
+                else:raise AssertionError(action)
+            return [dict(contract='actual-player-decoder-lifecycle',result=lifecycle(client,Path(args.report)/'lifecycle-data',control,cycles=args.player_lifecycle_cycles))]
         if args.rf64_limits_bits is not None:
             from progressive_rf64_limits_playback import exercise as limits_rf64
             def control(action,value):
@@ -897,6 +907,7 @@ if __name__ == '__main__':
     parser.add_argument('--growing-ts-playback-only',action='store_true')
     parser.add_argument('--rf64-large-bits',type=int,choices=(16,24))
     parser.add_argument('--rf64-ranges-profile')
+    parser.add_argument('--player-lifecycle-cycles',type=int)
     parser.add_argument('--rf64-limits-bits',type=int,choices=(16,24))
     parser.add_argument('--rf64-sparse-large-bits',type=int,choices=(16,24))
     parser.add_argument('--rf64-sparse-profile')

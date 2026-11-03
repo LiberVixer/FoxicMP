@@ -94,3 +94,25 @@ CMake install, windeployqt и рекурсивного анализа импор
 Проверяются профили, архивы, ярлыки, IPC, CLI, TLS, шесть кодеков, перемотка,
 субтитры, настройки и stdin. Используются временные профили с выключенным
 звуком. Системные ассоциации и действия выключения компьютера тест не меняет.
+
+## Частная winpthreads DLL
+
+`build.ps1` дополнительно запускает `build_winpthread.py` (нужны UCRT Python, GCC,
+windres и objdump). Он скачивает архив mingw-w64 commit
+`63ebe6cdb3ec4d5c586b7f0f0c03dd502e44c296`, проверяет SHA-256
+`94469ea48f974f9a4f7d8b7050cb7eceaa92c1f941ed3b6b8137591ba19491de`
+и применяет точный `winpthreads-detached-spin.patch`. Исправляется освобождение
+TSD spinlock при выходе detached thread; прежние exports сверяются со штатной DLL.
+Источник: https://github.com/mingw-w64/mingw-w64/tree/63ebe6cdb3ec4d5c586b7f0f0c03dd502e44c296/mingw-w64-libraries/winpthreads .
+
+Библиотека и `winpthread-build.json` создаются только в build directory.
+Toolchain/MSYS2 и установленные плееры не изменяются. Повторная сборка может
+использовать проверенный архив через `build_winpthread.py --archive PATH`.
+`deploy.ps1` требует metadata с совпадающим DLL SHA-256 и включает исправленную
+DLL после автоматического поиска зависимостей. Лицензии upstream сохраняются
+в `licenses`, patch и build script — в `licenses/winpthreads-fix`.
+Без metadata упаковка прерывается, чтобы не вернуть утечку штатной DLL.
+
+Проверки MinGW CTest: `progressive-pthread-detached`,
+`progressive-pthread-joined`, `progressive-player-lifecycle`.
+Методика и границы: [100 циклов плеера](../../../docs/ProgressivePlayerLifecycle.md).

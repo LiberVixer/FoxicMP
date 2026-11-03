@@ -137,6 +137,7 @@ SDK 1.80 добавляет [диагностическую карту RF64 PCM-
 SDK 1.81 добавляет [явный sparse RF64 PCM16/24 playback](docs/ProgressiveRf64Sparse.md): переход в подтверждённый островок через незаписанную дыру и обратно, ожидание на его границе и продолжение после публикации новых данных. Старые RF64 hints сохраняют prefix-gated поведение. [Проверки трёх редакций](docs/ProgressiveRf64SparseValidation-2026-11-03.json).
 [Дополнительная проверка тех же EXE](docs/ProgressiveLargeSparseRf64.md) подтверждает физические sparse RF64 PCM16/24 stereo 48 kHz больше 4 GiB во всех трёх редакциях. Новый fixture находится в исходниках; опубликованный ZIP SDK 1.81 сохранён.
 [Проверки пределов RF64](docs/ProgressiveRf64Limits.md): 250000 packets  / 16 GiB, восемь native profiles на ОС, 100 циклов ядра и воспроизведение двух предельных профилей в каждой редакции.
+В текущих исходниках проверены [100 циклов настоящего плеера в каждой редакции](docs/ProgressivePlayerLifecycle.md) и исправлены две Windows handle leaks. Это maintenance-изменения после SDK 1.81; опубликованные бинарные assets ими ещё не обновлены.
 ZIP содержит SDK без EXE/установщиков. Общий remux, произвольные sparse media
 и оставшаяся приёмка перечислены в [чеклисте](docs/ProgressiveCompletionChecklist.md).
 SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](docs/ProgressiveWebmSegments.md), включая постраничный каталог, в трёх редакциях. Требуются новые EXE; SDK содержит клиент и документацию.

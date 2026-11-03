@@ -956,6 +956,42 @@ private slots:
     if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QCOMPARE(writer.exitCode(),0);QVERIFY(decodedFar);QVERIFY(rejected);sample.stop();
     const auto output=writer.readAllStandardOutput();const auto report=QJsonDocument::fromJson(output).object();QVERIFY(report["fileBytes"].toInteger()>qint64(0x100000000ULL));QVERIFY(report["largeFileRemovedAfterRelease"].toBool());qInfo().noquote()<<"Large sparse RF64 report:"<<output;
   }
+  void rf64PlayerLifecycle() {
+    Profile profile(temporary.filePath("lifecycle-profile"));prepare(profile);Window w(profile);w.show();
+    ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));
+    const auto work=temporary.filePath("lifecycle-data");QDir().mkpath(work);
+    const auto baselineEngines=EngineRetirement::occupied();int sequence=0,pendingSettle=0,decoded=0;QSet<QString> seen;
+    qint64 maxUiGap=0,maxActionMs=0;QElapsedTimer uiClock;uiClock.start();
+    auto save=[&](const QString& name,const QJsonObject& value){QSaveFile file(work+"/"+name);QVERIFY(file.open(QIODevice::WriteOnly));file.write(QJsonDocument(value).toJson(QJsonDocument::Compact));QVERIFY(file.commit());};
+    QTimer sample;sample.setInterval(20);connect(&sample,&QTimer::timeout,this,[&]{
+      maxUiGap=qMax(maxUiGap,uiClock.restart());
+      QFile file(work+"/control.json");if(file.open(QIODevice::ReadOnly)){
+        const auto c=QJsonDocument::fromJson(file.readAll()).object();file.close();
+        if(c["sequence"].toInt()>sequence){sequence=c["sequence"].toInt();QElapsedTimer actionClock;actionClock.start();
+          const auto action=c["action"].toString();
+          if(action=="pause")w.actions["play"]->trigger();else if(action=="stop")w.actions["stop"]->trigger();
+          else if(action=="seek")QVERIFY(w.seekTo(c["value"].toDouble()));else if(action=="settle")pendingSettle=sequence;else QFAIL("Unknown lifecycle UI action");
+          maxActionMs=qMax(maxActionMs,actionClock.elapsed());if(action!="settle")save("control-ack-"+QString::number(sequence)+".json",{{"sequence",sequence}});
+        }
+      }
+      if(pendingSettle && !w.progressiveSession() && EngineRetirement::occupied()<=baselineEngines && foxicmp::progressive::SourceRetirement::occupied()==0){
+        save("control-ack-"+QString::number(pendingSettle)+".json",{{"sequence",pendingSettle},{"engineSlots",int(EngineRetirement::occupied())},{"sourceSlots",0}});pendingSettle=0;
+      }
+      auto* player=w.findChild<Player*>();if(!player || !w.progressiveSession())return;
+      const auto session=w.progressiveSession()->id();const auto seconds=player->get("time-pos").toDouble();
+      if(!seen.contains(session) && seconds>=.2 && w.progressivePlaybackStatus()["state"]=="playing"){
+        const auto codec=player->get("audio-codec-name").toString();if(codec!="pcm_s16le" && codec!="pcm_s24le")return;
+        save("decoder-"+session+".json",{{"sessionId",session},{"seconds",seconds},{"codec",codec},{"rate",player->get("audio-params/samplerate").toInt()},{"channels",player->get("audio-params/channel-count").toInt()}});seen.insert(session);++decoded;
+      }
+    });sample.start();
+    int cycles=qEnvironmentVariableIntValue("FOXICMP_LIFECYCLE_CYCLES");if(cycles<=0)cycles=100;
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_player_lifecycle.py"),"--player",playerExecutable(),"--profile",profile.directory,"--work",work,"--cycles",QString::number(cycles)});
+    QVERIFY(writer.waitForStarted());const auto cleanup=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});QEventLoop loop;QTimer timeout;timeout.setSingleShot(true);connect(&timeout,&QTimer::timeout,&loop,&QEventLoop::quit);connect(&writer,qOverload<int,QProcess::ExitStatus>(&QProcess::finished),&loop,&QEventLoop::quit);timeout.start(1800000);if(writer.state()!=QProcess::NotRunning)loop.exec();QVERIFY(writer.state()==QProcess::NotRunning);
+    if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QCOMPARE(writer.exitCode(),0);sample.stop();QCOMPARE(decoded,cycles+4);
+    auto report=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(report["cycles"].toInt(),cycles);report["qtObservedDecoderSessions"]=decoded;report["maxQtUiGapMs"]=maxUiGap;report["maxQtActionMs"]=maxActionMs;
+    QCOMPARE(foxicmp::progressive::SourceRetirement::occupied(),size_t(0));QVERIFY(EngineRetirement::occupied()<=baselineEngines);
+    qInfo().noquote()<<"Player lifecycle report:"<<QJsonDocument(report).toJson(QJsonDocument::Compact);
+  }
   void rf64LimitsPlayback_data() {
     QTest::addColumn<int>("bits");QTest::newRow("pcm16")<<16;QTest::newRow("pcm24")<<24;
   }

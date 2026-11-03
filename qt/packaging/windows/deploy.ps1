@@ -53,8 +53,22 @@ while ($queue.Count) {
     }
   }
 }
+# windeployqt/dependency walking may select the stock DLL. The tested private
+# override is mandatory; source pin, patch and metadata make it reviewable.
+$runtimeMetadataPath = Join-Path $BuildDirectory 'winpthread-build.json'
+if (!(Test-Path $runtimeMetadataPath)) { throw 'Run build.ps1 to build the corrected private winpthreads runtime' }
+$runtimeMetadata = Get-Content $runtimeMetadataPath -Raw | ConvertFrom-Json
+$runtimeLibrary = Join-Path $BuildDirectory 'libwinpthread-1.dll'
+if ((Get-FileHash $runtimeLibrary -Algorithm SHA256).Hash.ToLower() -ne $runtimeMetadata.librarySha256) { throw 'Private runtime SHA-256 mismatch' }
+Copy-Item $runtimeLibrary (Join-Path $Destination 'libwinpthread-1.dll') -Force
+Copy-Item $runtimeMetadataPath $Destination
 $licenses = Join-Path $ToolchainDirectory 'ucrt64\share\licenses'
 if (Test-Path $licenses) { Copy-Item $licenses (Join-Path $Destination 'licenses') -Recurse }
+$fixNotices = Join-Path $Destination 'licenses/winpthreads-fix'
+$null = New-Item -ItemType Directory -Force $fixNotices
+Copy-Item (Join-Path $PSScriptRoot 'winpthreads-detached-spin.patch') $fixNotices
+Copy-Item (Join-Path $PSScriptRoot 'build_winpthread.py') $fixNotices
+
 if ($YtDlpExecutable) {
   if (!$YtDlpLicense) { $YtDlpLicense = Join-Path (Split-Path $YtDlpExecutable) 'yt-dlp-licenses.txt' }
   if (!(Test-Path $YtDlpLicense)) { throw 'Supply YtDlpLicense with the bundled third-party licenses' }

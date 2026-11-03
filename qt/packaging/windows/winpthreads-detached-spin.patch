@@ -1,0 +1,10 @@
+--- a/src/thread.c
++++ b/src/thread.c
+@@ -1605,6 +1605,7 @@
+       tv->valid = DEAD_THREAD;
+       pthread_mutex_unlock (&tv->p_clock);
+       pthread_mutex_destroy (&tv->p_clock);
++      pthread_spin_destroy (&tv->spin_keys);
+       push_pthread_mem (tv);
+       tv = NULL;
+       TlsSetValue (_pthread_tls, tv);

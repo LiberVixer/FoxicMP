@@ -16,3 +16,10 @@ $source = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path.Replace('\', '/'
 if ($LASTEXITCODE) { throw 'CMake configure failed' }
 & "$bin/cmake.exe" --build $BuildDirectory -j $Jobs
 if ($LASTEXITCODE) { throw 'Build failed' }
+
+# Ship a private runtime with detached-thread TSD cleanup. Never replace MSYS2's DLL.
+$runtime = Join-Path $BuildDirectory 'winpthreads-runtime'
+& "$bin/python3.exe" (Join-Path $PSScriptRoot 'build_winpthread.py') --toolchain $toolchain --work $runtime
+if ($LASTEXITCODE) { throw 'Private winpthreads build failed' }
+Copy-Item (Join-Path $runtime 'libwinpthread-1.dll') $BuildDirectory -Force
+Copy-Item (Join-Path $runtime 'winpthread-build.json') $BuildDirectory -Force

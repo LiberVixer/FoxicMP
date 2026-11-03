@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include "BaseSplitterThread.h"
 #include <clsids.h>
 #include <moreuuids.h>
 #include "filters/switcher/AudioSwitcher/StreamSwitcher.h" // for IStreamSwitcherInputPin
@@ -302,7 +303,7 @@ DWORD CBaseSplitterOutputPin::ThreadProc()
 
 		DWORD cmd;
 		if (CheckRequest(&cmd)) {
-			m_hThread = nullptr;
+			CloseSplitterWorkerHandleOnExit(m_hThread);
 			cmd = GetRequest();
 			Reply(S_OK);
 			ASSERT(cmd == CMD_EXIT);
