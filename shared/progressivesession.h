@@ -150,13 +150,43 @@ inline void ExpandedCatalogKeys(const Value& value,unsigned depth=0) {
         }
     }else if(value.IsArray())for(const auto& item:value.GetArray())ExpandedCatalogKeys(item,depth+1);
 }
+// Inline SHA blocks have their own advertised bound. Keep legacy arrays at
+// 128; exempt only resources[i].integrity.blocks of an explicit schema-2
+// snapshot (bare or in an API session field), never arbitrary "blocks" keys.
+inline void InlineKeysVisit(const Value& value,const std::set<const Value*>& integrityArrays,unsigned depth=0) {
+    if(depth>32 || (value.IsObject() && value.MemberCount()>128) ||
+       (value.IsArray() && value.Size()>(integrityArrays.count(&value)?MaxIntegrityBlocks:128)))
+        throw std::runtime_error("Excessive JSON nesting or field count");
+    if(value.IsObject()) {
+        for(auto item=value.MemberBegin();item!=value.MemberEnd();++item) {
+            for(auto previous=value.MemberBegin();previous!=item;++previous)
+                if(previous->name==item->name)throw std::runtime_error("Duplicate JSON field");
+            InlineKeysVisit(item->value,integrityArrays,depth+1);
+        }
+    }else if(value.IsArray())for(const auto& item:value.GetArray())InlineKeysVisit(item,integrityArrays,depth+1);
+}
+inline void InlineKeys(const Value& value) {
+    std::set<const Value*> integrityArrays;
+    const Value* snapshot=&value;
+    if(value.IsObject() && value.HasMember("session"))snapshot=&value["session"];
+    if(snapshot->IsObject() && snapshot->HasMember("schemaVersion") && (*snapshot)["schemaVersion"].IsUint() &&
+       (*snapshot)["schemaVersion"].GetUint()==2 && snapshot->HasMember("resources") && (*snapshot)["resources"].IsArray() &&
+       (*snapshot)["resources"].Size()<=MaxResources) {
+        for(const auto& resource:(*snapshot)["resources"].GetArray()) {
+            if(!resource.IsObject() || !resource.HasMember("integrity") || !resource["integrity"].IsObject())continue;
+            const auto& integrity=resource["integrity"];
+            if(integrity.HasMember("blocks") && integrity["blocks"].IsArray())integrityArrays.insert(&integrity["blocks"]);
+        }
+    }
+    InlineKeysVisit(value,integrityArrays);
+}
 inline Snapshot Parse(const std::string& json,SnapshotScope scope=SnapshotScope::Inline) {
     const bool catalog=scope==SnapshotScope::ExpandedCatalog;
     Require(!json.empty() && json.size()<=(catalog?MaxCatalogSnapshotBytes:harvester::MaxManifestBytes),"$",catalog?"Expanded catalog exceeds its byte limit":"Snapshot exceeds 65536 bytes");
     rapidjson::Document d;d.Parse<rapidjson::kParseValidateEncodingFlag|rapidjson::kParseIterativeFlag>(json.data(),json.size());
     Require(!d.HasParseError() && d.IsObject(),"$","Invalid UTF-8 JSON object");
     if(catalog)ExpandedCatalogKeys(d);
-    else try {harvester::UniqueKeys(d);}catch(const std::exception& e){throw Error("invalid_snapshot","$",e.what());}
+    else try {InlineKeys(d);}catch(const std::exception& e){throw Error("invalid_snapshot","$",e.what());}
     Keys(d,"$",{"schemaVersion","sessionId","generation","revision","writer","timeline","resources","tracks"},{"metadata"});
     Require(d["schemaVersion"].IsUint() && d["schemaVersion"].GetUint()==2,"$.schemaVersion","Expected schema 2","unsupported_schema");
     Snapshot s;s.id=Id(d["sessionId"],"$.sessionId",true);s.generation=Unsigned(d["generation"],"$.generation",UINT64_MAX,true);s.revision=Unsigned(d["revision"],"$.revision",UINT64_MAX,true);

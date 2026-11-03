@@ -306,7 +306,8 @@ bool CHarvesterSession::Publish(const std::string& json,CStringW& error,std::str
         harvester::Snapshot next;
         rapidjson::Document input;input.Parse(json.data(),json.size());
         if(input.HasParseError() || !input.IsObject())throw std::runtime_error("Invalid snapshot JSON");
-        harvester::UniqueKeys(input);
+        if(m_v2Bridge)foxicmp::progressive::InlineKeys(input);
+        else harvester::UniqueKeys(input);
         if(m_v2Bridge) {
             PublishedDirectory(input,&m_publishedRoot);input.RemoveMember("sessionDirectory");
             m_v2Bridge->publish(foxicmp::progressive::lease_detail::Encode(input));next=m_v2Bridge->snapshot();

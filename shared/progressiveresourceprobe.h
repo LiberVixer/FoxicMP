@@ -183,7 +183,7 @@ public:
         try {
             resource_detail::Check(json.size()<=harvester::MaxManifestBytes,"invalid_request","Probe request exceeds limit");
             rapidjson::Document d;d.Parse<rapidjson::kParseValidateEncodingFlag|rapidjson::kParseIterativeFlag>(json.data(),json.size());
-            resource_detail::Check(!d.HasParseError() && d.IsObject(),"invalid_request","Invalid resource probe JSON");harvester::UniqueKeys(d);
+            resource_detail::Check(!d.HasParseError() && d.IsObject(),"invalid_request","Invalid resource probe JSON");InlineKeys(d);
             resource_detail::Check(d.HasMember("version") && d["version"].IsUint() && d["version"].GetUint()==1 && d.HasMember("action"),"invalid_request","Expected API version 1");
             const auto action=Text(d["action"],"action",32);
             if(action=="resourceProbe") {

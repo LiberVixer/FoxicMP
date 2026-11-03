@@ -16,7 +16,7 @@ def _render(report, destination):
     for row,(key,title) in enumerate((('linuxQt','Linux Qt'),('windowsQt','Windows Qt'),('classic','Windows Classic'))):
         result=data['editions'][key]['result'];samples=result['samples'];minutes=[s['seconds']/60 for s in samples]
         for peer,color in enumerate(colors):
-            label='PCM16 / prefix' if peer==0 else 'PCM24 / sparse hint'
+            label=data.get('streamLabels',['PCM16 / prefix','PCM24 / sparse hint'])[peer]
             axes[row,0].plot(minutes,[s['peers'][peer]['metrics']['privateBytes']/2**20 for s in samples],label=label,color=color,lw=1.5)
             axes[row,1].plot(minutes,[s['peers'][peer]['metrics']['handles'] for s in samples],label=label,color=color,lw=1.5)
         for ax in axes[row]:
@@ -27,7 +27,7 @@ def _render(report, destination):
         axes[row,0].set_ylabel('MiB');axes[row,1].set_title(title+' — '+('file descriptors' if key=='linuxQt' else 'handles'))
         axes[row,1].set_ylabel('Count')
     axes[0,1].legend(frameon=False,fontsize=8)
-    fig.suptitle('FoxicMP — 600 s growing RF64 soak\nShaded: writer pauses 10 / 30 / 60 s; different OS memory metrics are not directly comparable',fontsize=11)
+    fig.suptitle(data.get('plotTitle','FoxicMP — 600 s growing RF64 soak')+'\nShaded: writer pauses 10 / 30 / 60 s; different OS memory metrics are not directly comparable',fontsize=11)
     destination=Path(destination);destination.parent.mkdir(parents=True,exist_ok=True);fig.savefig(destination,dpi=150);plt.close(fig)
 
 def render(report,destination):

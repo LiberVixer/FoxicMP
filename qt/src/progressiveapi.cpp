@@ -412,7 +412,7 @@ void ProgressiveApi::acceptClients() {
         rapidjson::Document checked;
         checked.Parse<rapidjson::kParseValidateEncodingFlag | rapidjson::kParseIterativeFlag>(buffer->constData(), size_t(buffer->size() - 1));
         if (checked.HasParseError() || !checked.IsObject()) throw std::runtime_error("Invalid JSON request");
-        harvester::UniqueKeys(checked);
+        foxicmp::progressive::InlineKeys(checked);
         dispatch(QJsonDocument::fromJson(*buffer).object(),socket,deadline);
         return;
       } catch (const std::exception &e) { reply = failure("invalid_request", QString::fromUtf8(e.what())); }

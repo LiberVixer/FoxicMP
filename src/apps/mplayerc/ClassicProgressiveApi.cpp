@@ -286,7 +286,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
         if(prepared && (prepared->abandoned.load() || (prepared->ready && !prepared->readerQuery && prepared->epoch!=intentEpoch)))return Failure("preparation_cancelled","Playback intent changed while preparing the source");
         Document d;d.Parse<rapidjson::kParseValidateEncodingFlag|rapidjson::kParseIterativeFlag>(raw.data(),raw.size());
         if(d.HasParseError() || !d.IsObject())return Failure("invalid_request","Invalid JSON");
-        harvester::UniqueKeys(d);
+        foxicmp::progressive::InlineKeys(d);
         if(harvester::Number(d,"version")!=1)return Failure("invalid_request","Expected version 1");
         const auto action=harvester::String(d,"action");
         if(action=="previewRemux" || action=="previewStatus" || action=="previewCancel" || action=="previewControl") {
