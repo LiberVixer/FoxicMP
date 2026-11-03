@@ -1,0 +1,3003 @@
+{
+  "result": "PASS",
+  "date": "2026-11-03",
+  "playerVersion": "0.2.0",
+  "sdkContractVersion": "1.81",
+  "productionFix": "Raw ResourceProbe retries reader_registry_busy only within its existing wait budget, cancellation/deadline/zero-wait preserved",
+  "profilesPerEdition": 4,
+  "totalActualPlaybackGroups": 36,
+  "totalObservedResourceReceipts": 108,
+  "qt": {
+    "linux": {
+      "result": {
+        "actualPlaybackEveryPeer": true,
+        "auxiliaryProbeReaders": 12,
+        "elapsedSeconds": 22.660005771002034,
+        "endpointScopedRegistries": true,
+        "endpointsDistinct": true,
+        "maxQtActionMs": 0,
+        "maxQtUiGapMs": 47,
+        "maxStopReleaseSeconds": 0.06483114400180057,
+        "peakConcurrentReaders": 5,
+        "playbackReaderGroups": 12,
+        "playbackResourceReceipts": 24,
+        "processIds": [
+          754658,
+          754658
+        ],
+        "profiles": 4,
+        "qtObservedDecoderSessions": 8,
+        "result": "PASS",
+        "rows": [
+          {
+            "bits": 16,
+            "contentionBoundaries": [
+              {
+                "budgetMilliseconds": 0,
+                "elapsedSeconds": 0.05311191300279461,
+                "mode": "zero-wait",
+                "readerIds": [],
+                "state": "error"
+              },
+              {
+                "budgetMilliseconds": 80,
+                "elapsedSeconds": 0.1050420419924194,
+                "mode": "deadline",
+                "readerIds": [],
+                "state": "error"
+              },
+              {
+                "budgetMilliseconds": 10000,
+                "elapsedSeconds": 0.08295296500728,
+                "mode": "cancel",
+                "readerIds": [],
+                "state": "cancelled"
+              }
+            ],
+            "decoderIoBytes": [
+              "327680",
+              "327680"
+            ],
+            "initialReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "3192c3731bc3b4d93aee7dbbdd725afa",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1589970",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "03812f12a590434cb57b3d9d9d7845d1",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "8696c14f3918461e15d46eae646c714d",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1589970",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "03812f12a590434cb57b3d9d9d7845d1",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "1bca2c993ebb60aa8c04b552a071ea68",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1589970",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "03812f12a590434cb57b3d9d9d7845d1",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "268e999d61283bfacc751060bdc51c7a",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1589970",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "03812f12a590434cb57b3d9d9d7845d1",
+                "version": 1
+              }
+            ],
+            "peakConcurrentReaders": 5,
+            "playbackReaderIds": [
+              "3192c3731bc3b4d93aee7dbbdd725afa",
+              "1bca2c993ebb60aa8c04b552a071ea68"
+            ],
+            "playingPositions": [
+              0.4329246666666666,
+              0.43313500000000005
+            ],
+            "probeCancelSeconds": [
+              0.012628727999981493,
+              0.06735612401098479,
+              0.014368295000167564
+            ],
+            "probeReaderIds": [
+              "00fe6ba122b1f2bae7770b0e94d0caef",
+              "c6d2698ec5a548cae85413463b51d920",
+              "2fbfea3b90dcbaf241032fe1bf104f91"
+            ],
+            "processMetrics": [
+              {
+                "cpuSeconds": 1.62,
+                "handles": 39,
+                "memorySource": "proc-status-VmRSS-RssAnon",
+                "privateBytes": 71897088,
+                "rssBytes": 210964480,
+                "threads": 54
+              },
+              {
+                "cpuSeconds": 1.62,
+                "handles": 39,
+                "memorySource": "proc-status-VmRSS-RssAnon",
+                "privateBytes": 71897088,
+                "rssBytes": 210964480,
+                "threads": 54
+              }
+            ],
+            "registryContentionRecovered": true,
+            "removedOnlyAfterAllReleased": true,
+            "reopenedPosition": 0.4339748333333333,
+            "reopenedReaderId": "5122143da95bcc330e47810a87d6e225",
+            "result": "PASS",
+            "samePhysicalFile": true,
+            "sameProfileConcurrentReaders": 3,
+            "sameProfileReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "00fe6ba122b1f2bae7770b0e94d0caef",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1589970",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "03812f12a590434cb57b3d9d9d7845d1",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "3192c3731bc3b4d93aee7dbbdd725afa",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1589970",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "03812f12a590434cb57b3d9d9d7845d1",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "8696c14f3918461e15d46eae646c714d",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1589970",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "03812f12a590434cb57b3d9d9d7845d1",
+                "version": 1
+              }
+            ],
+            "sourceSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+            "sparse": false,
+            "stopReleaseSeconds": [
+              0.042863231006776914,
+              0.04398211700026877,
+              0.04617103199416306
+            ]
+          },
+          {
+            "bits": 24,
+            "contentionBoundaries": [],
+            "decoderIoBytes": [
+              "458752",
+              "458752"
+            ],
+            "initialReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "2a55ef552e7474d15c1572718204fdd9",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "4bd6e6cc18e0473f8a27d24ee6a74021",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "fae6a867ab31f7b63fa98063ccb32dcf",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "4bd6e6cc18e0473f8a27d24ee6a74021",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "02c95fededa1a71d4597e7ee187205e2",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "4bd6e6cc18e0473f8a27d24ee6a74021",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "1d27cbcc384c1c5ccca8795b2e8ae140",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "4bd6e6cc18e0473f8a27d24ee6a74021",
+                "version": 1
+              }
+            ],
+            "peakConcurrentReaders": 5,
+            "playbackReaderIds": [
+              "fae6a867ab31f7b63fa98063ccb32dcf",
+              "02c95fededa1a71d4597e7ee187205e2"
+            ],
+            "playingPositions": [
+              0.2923591666666666,
+              0.292613
+            ],
+            "probeCancelSeconds": [
+              0.013393055996857584,
+              0.012770195011398755,
+              0.013595978991361335
+            ],
+            "probeReaderIds": [
+              "4b9672857d35813622f89475a75677fa",
+              "fb49a8cf4f7c1684fc730a67ea0841e4",
+              "8d62d3bc7b801f2e167b2c2c6d3c914c"
+            ],
+            "processMetrics": [
+              {
+                "cpuSeconds": 2.46,
+                "handles": 40,
+                "memorySource": "proc-status-VmRSS-RssAnon",
+                "privateBytes": 94461952,
+                "rssBytes": 233615360,
+                "threads": 55
+              },
+              {
+                "cpuSeconds": 2.46,
+                "handles": 40,
+                "memorySource": "proc-status-VmRSS-RssAnon",
+                "privateBytes": 94461952,
+                "rssBytes": 233615360,
+                "threads": 55
+              }
+            ],
+            "registryContentionRecovered": true,
+            "removedOnlyAfterAllReleased": true,
+            "reopenedPosition": 0.29226300000000005,
+            "reopenedReaderId": "1a21ef192b28e67194953d89eba745f4",
+            "result": "PASS",
+            "samePhysicalFile": true,
+            "sameProfileConcurrentReaders": 3,
+            "sameProfileReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "2a55ef552e7474d15c1572718204fdd9",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "4bd6e6cc18e0473f8a27d24ee6a74021",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "4b9672857d35813622f89475a75677fa",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "4bd6e6cc18e0473f8a27d24ee6a74021",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "fae6a867ab31f7b63fa98063ccb32dcf",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "4bd6e6cc18e0473f8a27d24ee6a74021",
+                "version": 1
+              }
+            ],
+            "sourceSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+            "sparse": false,
+            "stopReleaseSeconds": [
+              0.053038722006022,
+              0.04320602701045573,
+              0.06483114400180057
+            ]
+          },
+          {
+            "bits": 16,
+            "contentionBoundaries": [],
+            "decoderIoBytes": [
+              "327680",
+              "327680"
+            ],
+            "initialReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "55f6017ad309b5b2878e5752a9fbd048",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "cb763a939d084417afdc6dc7c9308051",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "84320f0058f28832176926c4ac62705d",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "cb763a939d084417afdc6dc7c9308051",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "6faca8f33068704b4dd7452718399c46",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "cb763a939d084417afdc6dc7c9308051",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "d9c78e612f83a22c13e9c2938499d4bc",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "cb763a939d084417afdc6dc7c9308051",
+                "version": 1
+              }
+            ],
+            "peakConcurrentReaders": 5,
+            "playbackReaderIds": [
+              "84320f0058f28832176926c4ac62705d",
+              "6faca8f33068704b4dd7452718399c46"
+            ],
+            "playingPositions": [
+              0.4345038333333333,
+              0.43216716666666666
+            ],
+            "probeCancelSeconds": [
+              0.013535932012018748,
+              0.012584623007569462,
+              0.013981733995024115
+            ],
+            "probeReaderIds": [
+              "6cd5a5e73e61a88de0b8db22658f8352",
+              "e24eb2719b3f1a113613014a8e199a67",
+              "017045703a3e2781965567c62ad73b0e"
+            ],
+            "processMetrics": [
+              {
+                "cpuSeconds": 3.31,
+                "handles": 40,
+                "memorySource": "proc-status-VmRSS-RssAnon",
+                "privateBytes": 105275392,
+                "rssBytes": 244432896,
+                "threads": 55
+              },
+              {
+                "cpuSeconds": 3.31,
+                "handles": 40,
+                "memorySource": "proc-status-VmRSS-RssAnon",
+                "privateBytes": 105275392,
+                "rssBytes": 244432896,
+                "threads": 55
+              }
+            ],
+            "registryContentionRecovered": true,
+            "removedOnlyAfterAllReleased": true,
+            "reopenedPosition": 0.4355,
+            "reopenedReaderId": "3d2ffb7e2a79133b43afa251f83e7724",
+            "result": "PASS",
+            "samePhysicalFile": true,
+            "sameProfileConcurrentReaders": 3,
+            "sameProfileReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "55f6017ad309b5b2878e5752a9fbd048",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "cb763a939d084417afdc6dc7c9308051",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "6cd5a5e73e61a88de0b8db22658f8352",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "cb763a939d084417afdc6dc7c9308051",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "84320f0058f28832176926c4ac62705d",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "cb763a939d084417afdc6dc7c9308051",
+                "version": 1
+              }
+            ],
+            "sourceSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+            "sparse": true,
+            "stopReleaseSeconds": [
+              0.04487789698760025,
+              0.04391672200290486,
+              0.06318001900217496
+            ]
+          },
+          {
+            "bits": 24,
+            "contentionBoundaries": [],
+            "decoderIoBytes": [
+              "458752",
+              "458752"
+            ],
+            "initialReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "290af8c0c10dc9917d8c531d4507c244",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "f77a974286a94140b5d52769bcdda95f",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "33e09f417cd3a891a90bc0bee5169737",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "f77a974286a94140b5d52769bcdda95f",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "55817238fbb1ae4e8917460c3a38f203",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "f77a974286a94140b5d52769bcdda95f",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "da729a50539bc7a33deebec0dd5ca218",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "f77a974286a94140b5d52769bcdda95f",
+                "version": 1
+              }
+            ],
+            "peakConcurrentReaders": 5,
+            "playbackReaderIds": [
+              "290af8c0c10dc9917d8c531d4507c244",
+              "55817238fbb1ae4e8917460c3a38f203"
+            ],
+            "playingPositions": [
+              0.432882,
+              0.492868
+            ],
+            "probeCancelSeconds": [
+              0.013413665990810841,
+              0.01294525500270538,
+              0.012285842996789142
+            ],
+            "probeReaderIds": [
+              "8ab2fc032d23557c25e53fe2c70944af",
+              "f463f93f43296c655efefecc83d18f4f",
+              "4564a02f2775d85d238abd7334a0a96a"
+            ],
+            "processMetrics": [
+              {
+                "cpuSeconds": 4.15,
+                "handles": 40,
+                "memorySource": "proc-status-VmRSS-RssAnon",
+                "privateBytes": 116011008,
+                "rssBytes": 255172608,
+                "threads": 55
+              },
+              {
+                "cpuSeconds": 4.15,
+                "handles": 40,
+                "memorySource": "proc-status-VmRSS-RssAnon",
+                "privateBytes": 116011008,
+                "rssBytes": 255172608,
+                "threads": 55
+              }
+            ],
+            "registryContentionRecovered": true,
+            "removedOnlyAfterAllReleased": true,
+            "reopenedPosition": 0.29114700000000004,
+            "reopenedReaderId": "51242ae7d89d466fde04b2af8a7556c0",
+            "result": "PASS",
+            "samePhysicalFile": true,
+            "sameProfileConcurrentReaders": 3,
+            "sameProfileReceipts": [
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "290af8c0c10dc9917d8c531d4507c244",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "f77a974286a94140b5d52769bcdda95f",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "33e09f417cd3a891a90bc0bee5169737",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "f77a974286a94140b5d52769bcdda95f",
+                "version": 1
+              },
+              {
+                "birth": "b12085a9-5734-4732-9a3b-62e5439da9d2:9085147",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 754658,
+                "readerId": "8ab2fc032d23557c25e53fe2c70944af",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1590031",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "f77a974286a94140b5d52769bcdda95f",
+                "version": 1
+              }
+            ],
+            "sourceSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+            "sparse": true,
+            "stopReleaseSeconds": [
+              0.04327807300433051,
+              0.0441107170045143,
+              0.047793859004741535
+            ]
+          }
+        ],
+        "separateProcesses": false,
+        "sourceDirectoriesRemoved": true,
+        "toolbarStopFirst": true,
+        "uniqueReaderReceipts": 36
+      },
+      "logSha256": "81e9c375b64bb2a82de0382c5a1a06fbe74f3912175f42aa97128083915a0602",
+      "exitCode": 0,
+      "resourceApiChecks": 11,
+      "growingRegressions": [
+        "AAC stereo44100",
+        "H264 video"
+      ],
+      "retirementAssertionsPassed": true
+    },
+    "windows": {
+      "result": {
+        "actualPlaybackEveryPeer": true,
+        "auxiliaryProbeReaders": 12,
+        "elapsedSeconds": 10.030561299994588,
+        "endpointScopedRegistries": true,
+        "endpointsDistinct": true,
+        "maxQtActionMs": 0,
+        "maxQtUiGapMs": 58,
+        "maxStopReleaseSeconds": 0.06554729999334086,
+        "peakConcurrentReaders": 5,
+        "playbackReaderGroups": 12,
+        "playbackResourceReceipts": 24,
+        "processIds": [
+          11660,
+          11660
+        ],
+        "profiles": 4,
+        "qtObservedDecoderSessions": 8,
+        "result": "PASS",
+        "rows": [
+          {
+            "bits": 16,
+            "contentionBoundaries": [
+              {
+                "budgetMilliseconds": 0,
+                "elapsedSeconds": 0.05398550000973046,
+                "mode": "zero-wait",
+                "readerIds": [],
+                "state": "error"
+              },
+              {
+                "budgetMilliseconds": 80,
+                "elapsedSeconds": 0.10436589999881107,
+                "mode": "deadline",
+                "readerIds": [],
+                "state": "error"
+              },
+              {
+                "budgetMilliseconds": 10000,
+                "elapsedSeconds": 0.08574959999532439,
+                "mode": "cancel",
+                "readerIds": [],
+                "state": "cancelled"
+              }
+            ],
+            "decoderIoBytes": [
+              "262144",
+              "262144"
+            ],
+            "initialReceipts": [
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "14d6739d1322f531f5c207e35944ca15",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "34902897113122699",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "8c7e3c5fac264409a362271eebdd8ca9",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "488a826bce045b9dbb3295ac29679ac5",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "34902897113122699",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "8c7e3c5fac264409a362271eebdd8ca9",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "040ecaa4579da59395ca2e0be09158d1",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "34902897113122699",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "8c7e3c5fac264409a362271eebdd8ca9",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "41736588869203e67372eeb89b84db23",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "34902897113122699",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "8c7e3c5fac264409a362271eebdd8ca9",
+                "version": 1
+              }
+            ],
+            "peakConcurrentReaders": 5,
+            "playbackReaderIds": [
+              "488a826bce045b9dbb3295ac29679ac5",
+              "040ecaa4579da59395ca2e0be09158d1"
+            ],
+            "playingPositions": [
+              0.2532027152970522,
+              0.3044930682494331
+            ],
+            "probeCancelSeconds": [
+              0.11556549998931587,
+              0.1163821999944048,
+              0.11770860000979155
+            ],
+            "probeReaderIds": [
+              "949034c7ae68cef2bf9ce698ecd7a63e",
+              "692ed0ca41366e8bdd6366f5a664708e",
+              "1568af3a46d533c2d9be08e7cb139cda"
+            ],
+            "processMetrics": [
+              {
+                "cpuSeconds": 3.25,
+                "handles": 1728,
+                "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+                "privateBytes": 100282368,
+                "rssBytes": 102404096,
+                "threads": 40
+              },
+              {
+                "cpuSeconds": 3.25,
+                "handles": 1728,
+                "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+                "privateBytes": 100282368,
+                "rssBytes": 102404096,
+                "threads": 40
+              }
+            ],
+            "registryContentionRecovered": true,
+            "removedOnlyAfterAllReleased": true,
+            "reopenedPosition": 0.25097079029705216,
+            "reopenedReaderId": "848afaee2bf7c5cd239913958b9b3e91",
+            "result": "PASS",
+            "samePhysicalFile": true,
+            "sameProfileConcurrentReaders": 3,
+            "sameProfileReceipts": [
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "14d6739d1322f531f5c207e35944ca15",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "34902897113122699",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "8c7e3c5fac264409a362271eebdd8ca9",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "488a826bce045b9dbb3295ac29679ac5",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "34902897113122699",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "8c7e3c5fac264409a362271eebdd8ca9",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "949034c7ae68cef2bf9ce698ecd7a63e",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "34902897113122699",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "8c7e3c5fac264409a362271eebdd8ca9",
+                "version": 1
+              }
+            ],
+            "sourceSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+            "sparse": false,
+            "stopReleaseSeconds": [
+              0.04276189999654889,
+              0.0439234000077704,
+              0.0439397000009194
+            ]
+          },
+          {
+            "bits": 24,
+            "contentionBoundaries": [],
+            "decoderIoBytes": [
+              "327680",
+              "327680"
+            ],
+            "initialReceipts": [
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "27e51e3b9517c2e498dbd445762b0dca",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30117822509042337",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "ac1d20958a954819a0805df455b31e4c",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "faff38eaa4ccdbc01906e8aaad37d835",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30117822509042337",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "ac1d20958a954819a0805df455b31e4c",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "557c90acb7d3bdc4c5fb1f73a6b38fef",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30117822509042337",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "ac1d20958a954819a0805df455b31e4c",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "58585623febe49fbb2df0542da43e8a0",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30117822509042337",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "ac1d20958a954819a0805df455b31e4c",
+                "version": 1
+              }
+            ],
+            "peakConcurrentReaders": 5,
+            "playbackReaderIds": [
+              "faff38eaa4ccdbc01906e8aaad37d835",
+              "557c90acb7d3bdc4c5fb1f73a6b38fef"
+            ],
+            "playingPositions": [
+              0.25329799929705216,
+              0.25331031529705217
+            ],
+            "probeCancelSeconds": [
+              0.11692610000318382,
+              0.06648019999556709,
+              0.06520300000556745
+            ],
+            "probeReaderIds": [
+              "4161b64d7041b5b7d796c13bc0c5addc",
+              "fb06d13c81e58b27db3ad03162896252",
+              "b74aec2451d45b3f6dafbb048597592e"
+            ],
+            "processMetrics": [
+              {
+                "cpuSeconds": 4.015625,
+                "handles": 1728,
+                "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+                "privateBytes": 101277696,
+                "rssBytes": 103313408,
+                "threads": 40
+              },
+              {
+                "cpuSeconds": 4.015625,
+                "handles": 1728,
+                "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+                "privateBytes": 101277696,
+                "rssBytes": 103313408,
+                "threads": 40
+              }
+            ],
+            "registryContentionRecovered": true,
+            "removedOnlyAfterAllReleased": true,
+            "reopenedPosition": 0.2530817632970522,
+            "reopenedReaderId": "006b3628f66a3e7aea32d4c111a127df",
+            "result": "PASS",
+            "samePhysicalFile": true,
+            "sameProfileConcurrentReaders": 3,
+            "sameProfileReceipts": [
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "27e51e3b9517c2e498dbd445762b0dca",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30117822509042337",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "ac1d20958a954819a0805df455b31e4c",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "4161b64d7041b5b7d796c13bc0c5addc",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30117822509042337",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "ac1d20958a954819a0805df455b31e4c",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "faff38eaa4ccdbc01906e8aaad37d835",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30117822509042337",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "ac1d20958a954819a0805df455b31e4c",
+                "version": 1
+              }
+            ],
+            "sourceSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+            "sparse": false,
+            "stopReleaseSeconds": [
+              0.04499159999249969,
+              0.04798010000376962,
+              0.044395400007488206
+            ]
+          },
+          {
+            "bits": 16,
+            "contentionBoundaries": [],
+            "decoderIoBytes": [
+              "262144",
+              "262144"
+            ],
+            "initialReceipts": [
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "814ed13dedc0fc9a0f201aa1303b56fd",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30399297485752993",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "10ff572b81b741a39d666b74924e0796",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "f52a9297298548daaa1c6912abc1f5c4",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30399297485752993",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "10ff572b81b741a39d666b74924e0796",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "145922eba35c7db07abfa9d5fab1b898",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30399297485752993",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "10ff572b81b741a39d666b74924e0796",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "aabf87058dbaebda692698e1df68438b",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30399297485752993",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "10ff572b81b741a39d666b74924e0796",
+                "version": 1
+              }
+            ],
+            "peakConcurrentReaders": 5,
+            "playbackReaderIds": [
+              "814ed13dedc0fc9a0f201aa1303b56fd",
+              "aabf87058dbaebda692698e1df68438b"
+            ],
+            "playingPositions": [
+              0.25331886329705217,
+              0.25328887429705216
+            ],
+            "probeCancelSeconds": [
+              0.1178551999910269,
+              0.11632729999837466,
+              0.11993119999533519
+            ],
+            "probeReaderIds": [
+              "b35512138d9fbd009bcfb2123bf82a8b",
+              "6f338c3337ff8012785f77094c2b9466",
+              "bd26354c3243209a7719c9b82c88e282"
+            ],
+            "processMetrics": [
+              {
+                "cpuSeconds": 4.90625,
+                "handles": 1728,
+                "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+                "privateBytes": 100532224,
+                "rssBytes": 103202816,
+                "threads": 40
+              },
+              {
+                "cpuSeconds": 4.90625,
+                "handles": 1728,
+                "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+                "privateBytes": 100532224,
+                "rssBytes": 103202816,
+                "threads": 40
+              }
+            ],
+            "registryContentionRecovered": true,
+            "removedOnlyAfterAllReleased": true,
+            "reopenedPosition": 0.25327471529705214,
+            "reopenedReaderId": "b9d7366f8d29128432ef85acaa37bad3",
+            "result": "PASS",
+            "samePhysicalFile": true,
+            "sameProfileConcurrentReaders": 3,
+            "sameProfileReceipts": [
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "814ed13dedc0fc9a0f201aa1303b56fd",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30399297485752993",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "10ff572b81b741a39d666b74924e0796",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "b35512138d9fbd009bcfb2123bf82a8b",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30399297485752993",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "10ff572b81b741a39d666b74924e0796",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "f52a9297298548daaa1c6912abc1f5c4",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30399297485752993",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "10ff572b81b741a39d666b74924e0796",
+                "version": 1
+              }
+            ],
+            "sourceSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+            "sparse": true,
+            "stopReleaseSeconds": [
+              0.047648599997046404,
+              0.04398040000523906,
+              0.0443539999978384
+            ]
+          },
+          {
+            "bits": 24,
+            "contentionBoundaries": [],
+            "decoderIoBytes": [
+              "327680",
+              "327680"
+            ],
+            "initialReceipts": [
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "51d94e7a3e31e5990a63cf7252bf5344",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30680772462463649",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "8e6d0a70486948779d032684e9b8d5f5",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "5c70fb53caa1933722c333a55750c2d7",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30680772462463649",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "8e6d0a70486948779d032684e9b8d5f5",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "7a65a6b2b57f1567593e54b470c0d568",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30680772462463649",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "8e6d0a70486948779d032684e9b8d5f5",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "ad95f1df37f3e6e1db3e0ffb01044b12",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30680772462463649",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "8e6d0a70486948779d032684e9b8d5f5",
+                "version": 1
+              }
+            ],
+            "peakConcurrentReaders": 5,
+            "playbackReaderIds": [
+              "51d94e7a3e31e5990a63cf7252bf5344",
+              "7a65a6b2b57f1567593e54b470c0d568"
+            ],
+            "playingPositions": [
+              0.25330036629705216,
+              0.25329143929705217
+            ],
+            "probeCancelSeconds": [
+              0.11754849999852013,
+              0.11813130001246464,
+              0.11720199999399483
+            ],
+            "probeReaderIds": [
+              "d1ad86caa6a7e33b7725f085ca89e09d",
+              "58406b113bb57b0516bc49cad301ae84",
+              "08d0a92b1638946ad8e458749ad21622"
+            ],
+            "processMetrics": [
+              {
+                "cpuSeconds": 5.671875,
+                "handles": 1728,
+                "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+                "privateBytes": 101486592,
+                "rssBytes": 103878656,
+                "threads": 40
+              },
+              {
+                "cpuSeconds": 5.671875,
+                "handles": 1728,
+                "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage",
+                "privateBytes": 101486592,
+                "rssBytes": 103878656,
+                "threads": 40
+              }
+            ],
+            "registryContentionRecovered": true,
+            "removedOnlyAfterAllReleased": true,
+            "reopenedPosition": 0.25325289029705217,
+            "reopenedReaderId": "9c06ea85970cbc7c0e7de03046802594",
+            "result": "PASS",
+            "samePhysicalFile": true,
+            "sameProfileConcurrentReaders": 3,
+            "sameProfileReceipts": [
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "51d94e7a3e31e5990a63cf7252bf5344",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30680772462463649",
+                    "id": "audio"
+                  }
+                ],
+                "sessionId": "8e6d0a70486948779d032684e9b8d5f5",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "5c70fb53caa1933722c333a55750c2d7",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30680772462463649",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "8e6d0a70486948779d032684e9b8d5f5",
+                "version": 1
+              },
+              {
+                "birth": "134381799498460289",
+                "filesClosed": false,
+                "generation": "1",
+                "pid": 11660,
+                "readerId": "d1ad86caa6a7e33b7725f085ca89e09d",
+                "reason": "lease-held",
+                "released": false,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "30680772462463649",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "8e6d0a70486948779d032684e9b8d5f5",
+                "version": 1
+              }
+            ],
+            "sourceSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+            "sparse": true,
+            "stopReleaseSeconds": [
+              0.06554729999334086,
+              0.04567969999334309,
+              0.06538200000068173
+            ]
+          }
+        ],
+        "separateProcesses": false,
+        "sourceDirectoriesRemoved": true,
+        "toolbarStopFirst": true,
+        "uniqueReaderReceipts": 36
+      },
+      "logSha256": "d55dbedb65554d1c997259b74f697db7d47a63cb8d7ad3f7fefb2fdd47a478df",
+      "exitCode": 0,
+      "resourceApiChecks": 11,
+      "growingRegressions": [
+        "AAC stereo44100",
+        "H264 video"
+      ],
+      "retirementAssertionsPassed": true
+    }
+  },
+  "classic": {
+    "result": {
+      "result": "PASS",
+      "profiles": 4,
+      "playbackReaderGroups": 12,
+      "playbackResourceReceipts": 24,
+      "auxiliaryProbeReaders": 12,
+      "uniqueReaderReceipts": 36,
+      "peakConcurrentReaders": 5,
+      "endpointScopedRegistries": true,
+      "endpointsDistinct": true,
+      "processIds": [
+        13416,
+        1300
+      ],
+      "separateProcesses": true,
+      "maxStopReleaseSeconds": 0.09399999999732245,
+      "elapsedSeconds": 9.5,
+      "rows": [
+        {
+          "bits": 16,
+          "sparse": false,
+          "result": "PASS",
+          "playbackReaderIds": [
+            "9b57b23fea593b2bff092de6abb1811c",
+            "88daa7c798595b57927fb1851ce0ceb8"
+          ],
+          "reopenedReaderId": "7303fed9ef02c7cfa17dbdab67c4ba07",
+          "probeReaderIds": [
+            "d99502d1a604b81485967d194bc15069",
+            "b98aeec38b8d63c4ad6115905540cde3",
+            "082be71b58a37630a02e0c968743a936"
+          ],
+          "samePhysicalFile": true,
+          "sameProfileConcurrentReaders": 3,
+          "peakConcurrentReaders": 5,
+          "registryContentionRecovered": true,
+          "contentionBoundaries": [
+            {
+              "mode": "zero-wait",
+              "budgetMilliseconds": 0,
+              "elapsedSeconds": 0.062000000005355105,
+              "state": "error",
+              "readerIds": []
+            },
+            {
+              "mode": "deadline",
+              "budgetMilliseconds": 80,
+              "elapsedSeconds": 0.11000000000058208,
+              "state": "error",
+              "readerIds": []
+            },
+            {
+              "mode": "cancel",
+              "budgetMilliseconds": 10000,
+              "elapsedSeconds": 0.09299999999348074,
+              "state": "cancelled",
+              "readerIds": []
+            }
+          ],
+          "initialReceipts": [
+            {
+              "version": 1,
+              "readerId": "9b57b23fea593b2bff092de6abb1811c",
+              "sessionId": "544f9eca890f46d9a17e16ca25891685",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4222124651662423"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "c07f5edb2e0eb02843e120933e81bdce",
+              "sessionId": "544f9eca890f46d9a17e16ca25891685",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4222124651662423"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "88daa7c798595b57927fb1851ce0ceb8",
+              "sessionId": "544f9eca890f46d9a17e16ca25891685",
+              "generation": "1",
+              "pid": 1300,
+              "birth": "134381797376252738",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4222124651662423"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "e62ad3be0bf08d5320b741545049078e",
+              "sessionId": "544f9eca890f46d9a17e16ca25891685",
+              "generation": "1",
+              "pid": 1300,
+              "birth": "134381797376252738",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4222124651662423"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            }
+          ],
+          "sameProfileReceipts": [
+            {
+              "version": 1,
+              "readerId": "9b57b23fea593b2bff092de6abb1811c",
+              "sessionId": "544f9eca890f46d9a17e16ca25891685",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4222124651662423"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "c07f5edb2e0eb02843e120933e81bdce",
+              "sessionId": "544f9eca890f46d9a17e16ca25891685",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4222124651662423"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "d99502d1a604b81485967d194bc15069",
+              "sessionId": "544f9eca890f46d9a17e16ca25891685",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4222124651662423"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            }
+          ],
+          "playingPositions": [
+            0.2680513,
+            0.252133
+          ],
+          "decoderIoBytes": [
+            "852510",
+            "852510"
+          ],
+          "reopenedPosition": 0.2515899,
+          "stopReleaseSeconds": [
+            0.03199999999196734,
+            0.03200000000651926,
+            0.07800000000861473
+          ],
+          "probeCancelSeconds": [
+            0.0629999999946449,
+            0.046000000002095476,
+            0.0629999999946449
+          ],
+          "sourceSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+          "removedOnlyAfterAllReleased": true,
+          "processMetrics": [
+            {
+              "cpuSeconds": 0.890625,
+              "threads": 16,
+              "rssBytes": 42074112,
+              "privateBytes": 18083840,
+              "handles": 507,
+              "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+            },
+            {
+              "cpuSeconds": 0.75,
+              "threads": 15,
+              "rssBytes": 40312832,
+              "privateBytes": 16556032,
+              "handles": 505,
+              "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+            }
+          ]
+        },
+        {
+          "bits": 24,
+          "sparse": false,
+          "result": "PASS",
+          "playbackReaderIds": [
+            "ded0456343bab94f9d17a6e3955f3422",
+            "ea9b446e082e9823c672c56ab738a40d"
+          ],
+          "reopenedReaderId": "40c0de03989738e51576e967af8b01cb",
+          "probeReaderIds": [
+            "525eb41bd156a7b57319e720fabdc1f1",
+            "f7650fe5f05926f495d81c09466cecf4",
+            "e3f5d5891413c0df3f1373058872c9af"
+          ],
+          "samePhysicalFile": true,
+          "sameProfileConcurrentReaders": 3,
+          "peakConcurrentReaders": 5,
+          "registryContentionRecovered": true,
+          "contentionBoundaries": [],
+          "initialReceipts": [
+            {
+              "version": 1,
+              "readerId": "cb86015fda72830e88e911bf35d7affe",
+              "sessionId": "f77a6c54d2c54e6388fff3cf8e743ff5",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4503599628373080"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "ded0456343bab94f9d17a6e3955f3422",
+              "sessionId": "f77a6c54d2c54e6388fff3cf8e743ff5",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4503599628373080"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "318071396ad55d7200afe2f2e2de8434",
+              "sessionId": "f77a6c54d2c54e6388fff3cf8e743ff5",
+              "generation": "1",
+              "pid": 1300,
+              "birth": "134381797376252738",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4503599628373080"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "ea9b446e082e9823c672c56ab738a40d",
+              "sessionId": "f77a6c54d2c54e6388fff3cf8e743ff5",
+              "generation": "1",
+              "pid": 1300,
+              "birth": "134381797376252738",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4503599628373080"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            }
+          ],
+          "sameProfileReceipts": [
+            {
+              "version": 1,
+              "readerId": "525eb41bd156a7b57319e720fabdc1f1",
+              "sessionId": "f77a6c54d2c54e6388fff3cf8e743ff5",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4503599628373080"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "cb86015fda72830e88e911bf35d7affe",
+              "sessionId": "f77a6c54d2c54e6388fff3cf8e743ff5",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4503599628373080"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "ded0456343bab94f9d17a6e3955f3422",
+              "sessionId": "f77a6c54d2c54e6388fff3cf8e743ff5",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4503599628373080"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            }
+          ],
+          "playingPositions": [
+            0.2976668,
+            0.2577574
+          ],
+          "decoderIoBytes": [
+            "1278528",
+            "1278528"
+          ],
+          "reopenedPosition": 0.258755,
+          "stopReleaseSeconds": [
+            0.031000000002677552,
+            0.09399999999732245,
+            0.062000000005355105
+          ],
+          "probeCancelSeconds": [
+            0.10899999999674037,
+            0.10899999999674037,
+            0.0629999999946449
+          ],
+          "sourceSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+          "removedOnlyAfterAllReleased": true,
+          "processMetrics": [
+            {
+              "cpuSeconds": 1.421875,
+              "threads": 16,
+              "rssBytes": 40325120,
+              "privateBytes": 16261120,
+              "handles": 507,
+              "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+            },
+            {
+              "cpuSeconds": 1.03125,
+              "threads": 15,
+              "rssBytes": 40435712,
+              "privateBytes": 16769024,
+              "handles": 505,
+              "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+            }
+          ]
+        },
+        {
+          "bits": 16,
+          "sparse": true,
+          "result": "PASS",
+          "playbackReaderIds": [
+            "e553eb2262a32ceba9714ab78ea54736",
+            "2048eb2b0671ca6157f6054d50b31007"
+          ],
+          "reopenedReaderId": "a8a45c3b5e174f80ff765ddcf57b5b46",
+          "probeReaderIds": [
+            "edfcc047ca3c2a1d13f50ad7012ce270",
+            "a649b5961368a159ee991eabeb7d1464",
+            "7dddc99397634e587a7cd03916227e6e"
+          ],
+          "samePhysicalFile": true,
+          "sameProfileConcurrentReaders": 3,
+          "peakConcurrentReaders": 5,
+          "registryContentionRecovered": true,
+          "contentionBoundaries": [],
+          "initialReceipts": [
+            {
+              "version": 1,
+              "readerId": "8080891c1d42d04edbfa75394f4f847b",
+              "sessionId": "302aaa06ced44eeda35bd1dc539842f6",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4785074605083736"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "e553eb2262a32ceba9714ab78ea54736",
+              "sessionId": "302aaa06ced44eeda35bd1dc539842f6",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4785074605083736"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "2048eb2b0671ca6157f6054d50b31007",
+              "sessionId": "302aaa06ced44eeda35bd1dc539842f6",
+              "generation": "1",
+              "pid": 1300,
+              "birth": "134381797376252738",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4785074605083736"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "69e49a00eb40852e6bbcbf663427a06d",
+              "sessionId": "302aaa06ced44eeda35bd1dc539842f6",
+              "generation": "1",
+              "pid": 1300,
+              "birth": "134381797376252738",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4785074605083736"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            }
+          ],
+          "sameProfileReceipts": [
+            {
+              "version": 1,
+              "readerId": "8080891c1d42d04edbfa75394f4f847b",
+              "sessionId": "302aaa06ced44eeda35bd1dc539842f6",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4785074605083736"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "e553eb2262a32ceba9714ab78ea54736",
+              "sessionId": "302aaa06ced44eeda35bd1dc539842f6",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4785074605083736"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "edfcc047ca3c2a1d13f50ad7012ce270",
+              "sessionId": "302aaa06ced44eeda35bd1dc539842f6",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "4785074605083736"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            }
+          ],
+          "playingPositions": [
+            0.2612487,
+            0.2738116
+          ],
+          "decoderIoBytes": [
+            "852510",
+            "852510"
+          ],
+          "reopenedPosition": 0.2602739,
+          "stopReleaseSeconds": [
+            0.03200000000651926,
+            0.031000000002677552,
+            0.062000000005355105
+          ],
+          "probeCancelSeconds": [
+            0.10899999999674037,
+            0.0629999999946449,
+            0.10899999999674037
+          ],
+          "sourceSha256": "e0cd536a10ebd701b3bcfd53f91ddf6400217a96e1467e0efdfb8c9d732ed8b5",
+          "removedOnlyAfterAllReleased": true,
+          "processMetrics": [
+            {
+              "cpuSeconds": 1.875,
+              "threads": 16,
+              "rssBytes": 40407040,
+              "privateBytes": 16449536,
+              "handles": 507,
+              "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+            },
+            {
+              "cpuSeconds": 1.359375,
+              "threads": 15,
+              "rssBytes": 40230912,
+              "privateBytes": 16240640,
+              "handles": 505,
+              "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+            }
+          ]
+        },
+        {
+          "bits": 24,
+          "sparse": true,
+          "result": "PASS",
+          "playbackReaderIds": [
+            "aea6981d5002f26fdb900e2fe91e8d35",
+            "253475e839aa0ab070ce1da88c2fec87"
+          ],
+          "reopenedReaderId": "6533e017d07f01071fe2c0a861273a46",
+          "probeReaderIds": [
+            "f785fa04ddb078e0e3596af8aa4f450f",
+            "29ddb682a5c6bba67e08ce59b1f82f46",
+            "7e0e82d7b6e3f9b6856081ba57cd1b84"
+          ],
+          "samePhysicalFile": true,
+          "sameProfileConcurrentReaders": 3,
+          "peakConcurrentReaders": 5,
+          "registryContentionRecovered": true,
+          "contentionBoundaries": [],
+          "initialReceipts": [
+            {
+              "version": 1,
+              "readerId": "2a117d650d2c6bba5b093bca7a92d700",
+              "sessionId": "1e6be43077454ee69dda87fcf522ba13",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "5066549581794392"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "aea6981d5002f26fdb900e2fe91e8d35",
+              "sessionId": "1e6be43077454ee69dda87fcf522ba13",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "5066549581794392"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "253475e839aa0ab070ce1da88c2fec87",
+              "sessionId": "1e6be43077454ee69dda87fcf522ba13",
+              "generation": "1",
+              "pid": 1300,
+              "birth": "134381797376252738",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "5066549581794392"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "6ab93702443a853a32e1684c97028ac7",
+              "sessionId": "1e6be43077454ee69dda87fcf522ba13",
+              "generation": "1",
+              "pid": 1300,
+              "birth": "134381797376252738",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "5066549581794392"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            }
+          ],
+          "sameProfileReceipts": [
+            {
+              "version": 1,
+              "readerId": "2a117d650d2c6bba5b093bca7a92d700",
+              "sessionId": "1e6be43077454ee69dda87fcf522ba13",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "5066549581794392"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "aea6981d5002f26fdb900e2fe91e8d35",
+              "sessionId": "1e6be43077454ee69dda87fcf522ba13",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "5066549581794392"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            {
+              "version": 1,
+              "readerId": "f785fa04ddb078e0e3596af8aa4f450f",
+              "sessionId": "1e6be43077454ee69dda87fcf522ba13",
+              "generation": "1",
+              "pid": 13416,
+              "birth": "134381797371683126",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "media",
+                  "device": "656024512",
+                  "fileId": "5066549581794392"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            }
+          ],
+          "playingPositions": [
+            0.2646278,
+            0.2562822
+          ],
+          "decoderIoBytes": [
+            "1278528",
+            "1278528"
+          ],
+          "reopenedPosition": 0.25685,
+          "stopReleaseSeconds": [
+            0.06300000000919681,
+            0.031000000002677552,
+            0.062000000005355105
+          ],
+          "probeCancelSeconds": [
+            0.09399999999732245,
+            0.10899999999674037,
+            0.10900000001129229
+          ],
+          "sourceSha256": "3455364ce2a12992369323d3fa0f2cea77951dd2fabcb1e2a2a76efea3b1b7a7",
+          "removedOnlyAfterAllReleased": true,
+          "processMetrics": [
+            {
+              "cpuSeconds": 2.421875,
+              "threads": 16,
+              "rssBytes": 42246144,
+              "privateBytes": 18280448,
+              "handles": 507,
+              "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+            },
+            {
+              "cpuSeconds": 1.640625,
+              "threads": 15,
+              "rssBytes": 40316928,
+              "privateBytes": 16420864,
+              "handles": 505,
+              "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+            }
+          ]
+        }
+      ],
+      "actualPlaybackEveryPeer": true,
+      "toolbarStopFirst": true,
+      "sourceDirectoriesRemoved": true,
+      "resourceIoRegression": {
+        "passed": 11,
+        "checks": [
+          "asynchronous-start-without-playback",
+          "idempotent-request-token-prevents-conflicting-replay",
+          "active-job-cannot-be-replaced-or-forgotten",
+          "control-api-responsive-during-wait",
+          "stale-writer-cannot-rebind-source",
+          "publication-wakes-real-range-read-and-releases-leases",
+          "cancellation-closes-waiting-source",
+          "timeout-is-not-eof-or-ready",
+          "short-read-does-not-claim-full-availability",
+          "explicit-complete-is-the-only-eof",
+          "media-never-modified"
+        ],
+        "playbackSupported": false
+      },
+      "processExitCodes": [
+        0,
+        0
+      ],
+      "shellEntriesUnchanged": 163,
+      "privateRegistriesRemoved": [
+        "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-2eba62265b7114b5.progressive.readers",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-41683d0788476636.progressive.readers"
+      ]
+    },
+    "cleanup": {
+      "lastTaskResult": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "builtSha256": "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8",
+      "testedSha256": {
+        "value": [
+          "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8",
+          "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8"
+        ],
+        "Count": 2
+      },
+      "equal": true,
+      "testExitCode": 0
+    },
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "finalExitCodes": {
+    "multi-reader-linux-build": 0,
+    "multi-reader-linux-tests": 0,
+    "multi-reader-windows-build": 0,
+    "multi-reader-windows-tests": 0,
+    "multi-reader-windows-ssh": 0,
+    "multi-reader-classic-build": 0,
+    "multi-reader-classic-build-ssh": 0,
+    "multi-reader-shell-before-ssh": 0,
+    "finalize-multi-reader-classic-ssh": 0,
+    "multi-reader-final-check-ssh": 0,
+    "multi-reader-linux-install": 0,
+    "cleanup-multi-reader-failed-classic-ssh": 0,
+    "cleanup-multi-reader-probe-failed-classic-ssh": 0,
+    "classicTest": 0
+  },
+  "initialRuns": {
+    "qt": {
+      "before-scope-counts": {
+        "linux": {
+          "exitCode": 8,
+          "logSha256": "38c1a61fb15c9e20cfab7bc4dc36fe8d25066da83e0e7d1ba22503d2e1c1bc11"
+        },
+        "windows": {
+          "exitCode": 8,
+          "logSha256": "a2ef45c5b28c895afeb9b40090896b879e0c6fa835c59fea91e02030ee611e1d"
+        }
+      },
+      "before-probe-release": {
+        "linux": {
+          "exitCode": 8,
+          "logSha256": "23f1dcbec8f1b1be7a1902d1cb378f2141463b2aedc1bd71462b58eda9e7c711"
+        },
+        "windows": {
+          "exitCode": 8,
+          "logSha256": "434fc4f3054f9ba4a05db6f87409090c831c8d88c2d48f5e529f81af7757c86c"
+        }
+      },
+      "before-core-fix": {
+        "linux": {
+          "exitCode": 8,
+          "logSha256": "131e24587050d2400a46078c3a4bfa839e7640ce11c0ab351f5f01a466087647"
+        },
+        "windows": {
+          "exitCode": 8,
+          "logSha256": "919de3785e181d214bda956afd2603fb91c63e182ffebdb5e7a8b68cabec8caa"
+        }
+      },
+      "before-live-slot-fix": {
+        "linux": {
+          "exitCode": 8,
+          "logSha256": "d6f66841fdcd23e97d53583d6ddad1b9657bb8acc85b8710d3e2f78ab49af0d6"
+        },
+        "windows": {
+          "exitCode": 8,
+          "logSha256": "3e33d30b32a8d29f3d57aec3d32ddc5901f6464c95eaca06a4139d76a5f51e5b"
+        }
+      }
+    },
+    "classic": {
+      "scope-counts": {
+        "exitCode": 1,
+        "errorLogSha256": "7a871feafb2cf5f8a874b125849d648bc0ba869b75b9fdd4d5c0f90db6558651",
+        "cleanup": {
+          "taskRemoved": true,
+          "stageRemoved": true,
+          "registriesRemoved": [
+            "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-fa598cf2fc33f02f.progressive.readers",
+            "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-96c5c49087e2dc28.progressive.readers"
+          ],
+          "lastTaskResult": 1
+        }
+      },
+      "probe-release": {
+        "exitCode": 1,
+        "errorLogSha256": "d3fa9225b1e046b0df0e66143aa76f56743ced8625a1f3f395e8c9be3a53fec2",
+        "cleanup": {
+          "taskRemoved": true,
+          "stageRemoved": true,
+          "registriesRemoved": [
+            "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-335ec6b5b653bcc7.progressive.readers",
+            "C:\\Users\\User\\AppData\\Local\\Temp\\FoxicMPClassic-600378f0ffe12440.progressive.readers"
+          ],
+          "lastTaskResult": 1
+        }
+      }
+    },
+    "confirmedPreFixBusyFailure": {
+      "acceptedRevision": "2",
+      "allReadable": false,
+      "appliedRevision": "2",
+      "errorCode": "reader_registry_busy",
+      "generation": "1",
+      "mode": "resource-io-only",
+      "ok": true,
+      "playbackSupported": false,
+      "probeId": "8654c4c350ac6d9d5ee14217c97009ca",
+      "readerIds": [],
+      "reads": [
+        {
+          "bytesRead": 0,
+          "code": "reader_registry_busy",
+          "length": "16",
+          "offset": "0",
+          "reason": "Reader registry is busy",
+          "resourceId": "media"
+        }
+      ],
+      "released": true,
+      "requestId": "90cbdd52456e4dae82761c7c79d308b9",
+      "sessionId": "b48f0ff4c57c401391dc7b36172840c7",
+      "state": "error",
+      "version": 1
+    },
+    "fixtureCorrections": [
+      "Account for both group and internal file receipts per RF64 playback",
+      "Use a single readerRelease command to inspect a live probe, not a150ms SDK release polling deadline",
+      "Require positive group filesClosed; internal bridge receipts may auto-forget after close",
+      "Qt retirement slots include other still-active source; settle compares with liveSources, then final assertions require zero"
+    ]
+  },
+  "preservation": {
+    "before": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "dbbbd7b17d23590c5b055928b0c60e6bfdaf229e81fa8b413883ebd55692565d",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "f27a705d29a3960c5a79917c45b71519832dc423d3c2a43ca2e1977830561e34",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "after": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "c2ba28aa1eb37012b957462cb6921c95cb8709f7409c05a3900e17864d429c23",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "windowsInstallationsUnchanged": true,
+    "classicShellEntries": 158,
+    "classicShellUnchanged": true,
+    "harvesterModified": false,
+    "temporaryTasksAndStages": {
+      "testTasksRemaining": 0,
+      "stagesRemoved": [
+        "C:\\FoxBroxer\\Build\\FoxicMPq\\multi-reader-e5eaec58",
+        "C:\\FoxBroxer\\Build\\FoxicMPq\\multi-reader-9d3a54eb",
+        "C:\\FoxBroxer\\Build\\FoxicMPq\\multi-reader-fe8ba9df"
+      ],
+      "shellSnapshotWritten": true
+    }
+  },
+  "linuxInstallation": {
+    "result": "PASS",
+    "atomicReplace": true,
+    "previousExecutableBackup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-multi-reader-20261103-8aea000541cc",
+    "previousSha256": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+    "installedSha256": "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b",
+    "sourceSha256": "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b",
+    "version": "FoxicMPQt 0.2.0",
+    "versionExitCode": 0,
+    "existingNonLogFilesSha256": {
+      "appearance-settings.png": "b4695d464885af5b5046c5b6d7406a070039353972c86eb4032c54b2a7831a7b",
+      "associations-settings.png": "afa91966e9d26215fdccaf183c75933b606d6324ee7dd705d706f903c8b2650f",
+      "audio-encoding.png": "aedb01bc1a90c861f2a841180d9f8d7b802ff2b2093d3a6551821e1a202b61be",
+      "audio-filters.png": "5e953f21ffbda9131f70621dd6df0bb3abdd99f1a76734a61953e63b1ed09073",
+      "audio-mixer.png": "f6bfb17cb9896b64909aca7542601467b3224499caf84c5460eed08ef79555df",
+      "audio-normalization.png": "3fe44d7572f3f603d447757989ed78f875f24c3baf9ffc5a9c4c2b173403385d",
+      "audio-processing.png": "7a67e4e504d3ed32bb99629390d3aefeccf50fdced342a67d2e8b037fd9ac342",
+      "audio-routing.png": "f866685562b12a4c1ea380586a33a072a41cc09ac00a01f2a9db16c640b54cdb",
+      "capture-settings.png": "67dc1eb22ff88f1f7c475fe914baeb104a705d6526b2e9cf6c82e248cdd0ccf7",
+      "context-menu.png": "dbb3308341632d3c25be7b7566a5d388840899fa61afb36e41ab139580987f0f",
+      "crop-settings.png": "aec1e16e16fc4a8498a7c1d21a183ab8139140a07e38e469d2bdff7f8195f952",
+      "desktop-settings.png": "5913c04d27f48073a2e0e91756c3873a0f0f873682a2cfc6d64f26ffa60ee313",
+      "english-settings.png": "4a96797be9de36c82f42c9e5cd431570d1f8d50156f914d03c6e37ae6b1ca573",
+      "favorites.png": "57f31a4a824f78805b795cfe2bd2cfd350c60bfc949e27b7c3e5d014d167aea5",
+      "foxicmp-demux-worker": "e95993579ae84ba8e053a565170893f6c3ee2a8009cbca184cc0ee7c6bcc8209",
+      "foxicmp-demux-worker.before-sdk-1.52-20261031T152453Z": "626c1f82f1ea68ade08516312597805c6b0572278aeab4a26d9dd32589cef383",
+      "foxicmp-qt.backup-20261025-082635": "274dd6740be7b84b292212de33d2ed7c1ba8401b6483f6ce317ef1bdb04ad00d",
+      "foxicmp-qt.backup-20261025-105028": "3f7eb6dffe29d742ad7cf02716b621089505704c1e5cf3c7ff6374edc260d820",
+      "foxicmp-qt.backup-20261025-113124": "3f7eb6dffe29d742ad7cf02716b621089505704c1e5cf3c7ff6374edc260d820",
+      "foxicmp-qt.backup-20261025-114425": "d04cdb63ed2d9230589f7da02b216f135b18ed9127047c340952ba2009925cb8",
+      "foxicmp-qt.backup-20261025-120118": "3f7eb6dffe29d742ad7cf02716b621089505704c1e5cf3c7ff6374edc260d820",
+      "foxicmp-qt.backup-20261025-131230": "2c49bfc3374b6d24931281dbff4898d8fd2c926b44f5b0cdc652e1a8072a5c18",
+      "foxicmp-qt.backup-20261025-144355": "2c49bfc3374b6d24931281dbff4898d8fd2c926b44f5b0cdc652e1a8072a5c18",
+      "foxicmp-qt.backup-20261025-161941": "ac774610e072c65a4ad02c5b312ad139acaba0db8f97fdaf5dec33ca3973b87b",
+      "foxicmp-qt.backup-20261025-162401": "54f5f8454efb9e3a0fc0f05ef0ce04b20632d98fdc3167149bb66f84d090f213",
+      "foxicmp-qt.backup-20261025-170254": "72c9af016fe797a284fa378e7b0b08cb40f64f23b24b2292b013c73c3c7727c4",
+      "foxicmp-qt.backup-20261025-174005": "3e7057435ab5824c23d29bc942610ee8054c7082e8f7602e45e7bfb61525a379",
+      "foxicmp-qt.before-pcm-adapter-20261101T173028Z": "ec10003eaea23b329d1fec710c0500481814146b698ee41a3ccd6c040c5a0b86",
+      "foxicmp-qt.before-pcm-adapter-20261101T173830Z": "daf8fa221992fe72e769633ca0bd42ae02abc995ac3f5ff8d37e06a18e87b5c0",
+      "foxicmp-qt.before-sdk-1.10-20261026T111543Z": "1e6888d7110cc2fcc7d55df331dbabf74e6db55d63406bed25070869b9b7ae0e",
+      "foxicmp-qt.before-sdk-1.11-20261026T115637Z": "49dcfbaa829644d0e902b3a916ec64b4fcc293dabf2168f67868a382413e55a4",
+      "foxicmp-qt.before-sdk-1.12-20261026T124902Z": "c66cf4b55fbe21b468ec4b2db450fe98ddb849c0bef1f5196e3ac4436ff77dc7",
+      "foxicmp-qt.before-sdk-1.12-final-20261026T130124Z": "ff7f1a1708af3e2552c26030753e90646152f0d5b45aeaa93d89fcf8b8121643",
+      "foxicmp-qt.before-sdk-1.14-20261026T173539Z": "08e727b5bb6fb8c0ae1a7eee1c43f03bfb33270ff51bf2e5eeec3ca3cc1e43a8",
+      "foxicmp-qt.before-sdk-1.15-20261026T175943Z": "8464f7bee2ee056f79d3965b1b79bb6a6c9da85594e75d65984e1fe9b09823c6",
+      "foxicmp-qt.before-sdk-1.16-20261027T094219Z": "2b18bdeaad2b071bf710e394a2e12557681bb36c047c4e0109db0351dca4ae06",
+      "foxicmp-qt.before-sdk-1.17-20261027T105548Z": "9e02955dea4c476c1c59a37821ac4279f8e779f89309a6d8cc978998fd64ba33",
+      "foxicmp-qt.before-sdk-1.18-20261028T035809Z": "2f6601b02bf6e5c018b12306626e56b93d8227d570c62bef778bee5744d79d56",
+      "foxicmp-qt.before-sdk-1.19-20261028T042453Z": "48f293761e9b0717cf824f0f936cdfb1847f966745ac4fc6389a09dcafb36e5b",
+      "foxicmp-qt.before-sdk-1.20-20261028T050544Z": "11b4dde976def75518e11c4defd748ea228cf5c72c5569c12dea89421aa46366",
+      "foxicmp-qt.before-sdk-1.21-20261028T133015Z": "18e8d284a4d47a606fa960c3b7802fe9a8f1b613ae525452d033a0962780731e",
+      "foxicmp-qt.before-sdk-1.22-20261028T153122Z": "976d04567800c703b7794a19b01f2dbad770f1d196465ec27ac96b7186b319c3",
+      "foxicmp-qt.before-sdk-1.22-20261028T161942Z": "63ddeca573b6483dd7683bbd6149c19ce851880d427e0123f30edadf39090297",
+      "foxicmp-qt.before-sdk-1.23-20261028T184152Z": "d21323451953029616d9251fad36826f280d28bcc28be1cb7aa24a7446d8693e",
+      "foxicmp-qt.before-sdk-1.24-20261029T022549Z": "3bddb94d0d6148f8e59fd78807156bd29f3bb52e4dc724d482a9c995721e9f79",
+      "foxicmp-qt.before-sdk-1.25-20261029T054940Z": "10c20d6d2238f42ce08c3424d0222c5c62805f6e3069ebae6f7127352ff13ab0",
+      "foxicmp-qt.before-sdk-1.25-20261029T064404Z": "2dba54f2003111b48731b34465821fe2b9ae5dde3b71f093d215bd21b83eca28",
+      "foxicmp-qt.before-sdk-1.27-20261029T114257Z": "c273cbf315bafc2adacb1c3bd238d6125f2e03b231feebada35559eb084be16c",
+      "foxicmp-qt.before-sdk-1.28-20261029T165233Z": "4264170a8d3e708329f13519800603095e5076b9e6b110626bf8a45ecae13e4d",
+      "foxicmp-qt.before-sdk-1.29-20261029T175437Z": "83a8b909cd33348e7a2d1275fdd43d928c23cbf7f5100668bad664a26464e0a1",
+      "foxicmp-qt.before-sdk-1.30-20261030T013717Z": "3f2fb2d7e60f71c1c16b307d308e0b91f4f6c9674ed75a330f046056c19b83ca",
+      "foxicmp-qt.before-sdk-1.31-20261030T025114Z": "b3cb971211a5d3a0bd00623b8e2c348f17383a1f265bdede946c44097e843a6e",
+      "foxicmp-qt.before-sdk-1.32-20261030T033627Z": "99a5a3a73f996059a870a50fe8adabeb725269a0e97139d0cf4a0ac5af1cd084",
+      "foxicmp-qt.before-sdk-1.33-20261030T042110Z": "14cdcde7ac454639f7b4295f8ad02e1a03f52fbb52687ac931412ed41393239e",
+      "foxicmp-qt.before-sdk-1.34-20261030T043814Z": "285386db4bafcca0d5ee828a01514fe870a27742d75053b7a6a82c16d36307b6",
+      "foxicmp-qt.before-sdk-1.35-20261030T050615Z": "732b640ddd4f0e6d3375ebfbc47f45bea71c49cb02af2a5e47d9e7b998608a88",
+      "foxicmp-qt.before-sdk-1.36-20261030T064049Z": "4eee103019489bcadca8ad06c66b410e3bf79cfb3cfb0823a3cb22df34b81f15",
+      "foxicmp-qt.before-sdk-1.37-20261030T150452Z": "6b4b24e39050fba46cb5659f086530afaf0ad319e97adc70ba09fefd0fdabdd7",
+      "foxicmp-qt.before-sdk-1.38-20261030T165641Z": "524c5b7b79ba9f946c5913ca7b4e4faf6cf8f22a58a4b9959a21accd8c9dfe2a",
+      "foxicmp-qt.before-sdk-1.39-20261030T190853Z": "298fa5a4eb9a8c1ce998c9b234e036fe8ee78795edb89f989162c0d30caa2a64",
+      "foxicmp-qt.before-sdk-1.40-20261031T025826Z": "e4e21df81dfdc138e206c482cc879bd50a30bc5d248e29db4cf2720f5bc45a08",
+      "foxicmp-qt.before-sdk-1.41-20261031T040226Z": "abb9768869a7b97ab4dd864925c60a8c48564c2afedb913c12bf75949cf03bc5",
+      "foxicmp-qt.before-sdk-1.42-20261031T043355Z": "b71174cc14ff8c871a18904c6b4afa6b153998efd422b1b72e2bc9bfb1f5a06d",
+      "foxicmp-qt.before-sdk-1.43-20261031T054106Z": "d67a3631ecb89a7568512e9ee74b13ef6ec1a27aa85c3c573f00d97858de2eee",
+      "foxicmp-qt.before-sdk-1.44-20261031T072025Z": "d357a957359e231e0725cfb039581a5a69cf9927d9e6b0c0f882b73c5ebc6320",
+      "foxicmp-qt.before-sdk-1.45-20261031T073932Z": "564492ef32cb3bbeb09de93f7bed82630a1a9b961c362866461e6705abccc5de",
+      "foxicmp-qt.before-sdk-1.46-20261031T082054Z": "85e72cc86433ec73938e4be2fa5be2f76bfcf0a0d4da1a7c5685a103d99fe8d7",
+      "foxicmp-qt.before-sdk-1.47-20261031T101636Z": "18b4f6dc08bd65d73af27da46004d9c9e45e1f32ab8d299437208ed71bc4a3d4",
+      "foxicmp-qt.before-sdk-1.48-20261031T103427Z": "064223f73e51dd0877ee44331ae9e2065c118e650b1441e7e6187f1357e94de1",
+      "foxicmp-qt.before-sdk-1.49-20261031T111332Z": "f48578eaf4cdad70129dbde71684895b6be32aa7bd68679688a4b5ebab7c30fc",
+      "foxicmp-qt.before-sdk-1.50-20261031T121319Z": "12d233459a304b0c6eec289f9e601aeb57a4ce1fc4ed984c6f37fcbcb9d15670",
+      "foxicmp-qt.before-sdk-1.51-20261031T130552Z": "a1c5846be91bd8f564b968584ced137e24c8801c8decf4c0fee0913a3468e7df",
+      "foxicmp-qt.before-sdk-1.52-20261031T152453Z": "b274810bff5ed689e3acc9b1fc1857cffe036430571c4449acebc6c7d75ba952",
+      "foxicmp-qt.before-sdk-1.53-20261031T162516Z": "d76621c795797ce1d3e0266d6d973e07946f0fc3fb218fc2a61e83da0a51ae9d",
+      "foxicmp-qt.before-sdk-1.54-20261101T015426Z": "d3a04e3d98c46b3a54aeff084d5677ba16df87e103dec4df9ca30991700f9bcf",
+      "foxicmp-qt.before-sdk-1.55-20261101T022145Z": "ac75186e3404dba66f510db0b18dabaecf8623670fc8bb24ea238f80b4376d73",
+      "foxicmp-qt.before-sdk-1.55-20261101T022945Z": "84d308df5ae6ae9ec081435f08dc9164e3d811e0525ddb9efe9e95921e538d39",
+      "foxicmp-qt.before-sdk-1.56-20261101T030413Z": "9ab3bfac3eeed7c2b4504b74cedb235eb52e7f68d471595b6d703145a4a505cb",
+      "foxicmp-qt.before-sdk-1.57-20261101T035917Z": "37921912de93bfa07287a23ec50e08e035977fac0dc33e80ddc214f76e8ff0be",
+      "foxicmp-qt.before-sdk-1.58-20261101T042202Z": "db8db6eeddf11aa339ee7de475b69585214cbf28e66d3d14b16ac2cd899268d0",
+      "foxicmp-qt.before-sdk-1.59-20261101T043314Z": "42dab9a438605ae6b609a8f3f22e87bd6529d5129b5b1bd26002d0f069582859",
+      "foxicmp-qt.before-sdk-1.6-20261026T032915Z": "78c9d092d04ab7ca5f38deebfc2b0079dff9d8109e973ef787c584cd73ed50ae",
+      "foxicmp-qt.before-sdk-1.60-20261101T050601Z": "4a16e7e00d1b75cd8f6d33d2c0fb1f28d2625896700e2022327a85a3eceed6c1",
+      "foxicmp-qt.before-sdk-1.61-20261101T061656Z": "a25e8db4893fdfc3fb75d18631fe814e685da68776ecfd396ad6ff4a85291652",
+      "foxicmp-qt.before-sdk-1.62-20261101T072206Z": "36fcfaf6bbd99326f3328babdb62ae5d226652680444396ad9c43b56a7ef9525",
+      "foxicmp-qt.before-sdk-1.63-20261101T083751Z": "4bae95f93ce0007f31c90b9016324692a0a1cbd264b6dc9ae15a979ad8609c8a",
+      "foxicmp-qt.before-sdk-1.64-20261101T131112Z": "142b2e07cbecd78ff655bae55ca93c13c44204b404029f775d7bd6ca8e3b5052",
+      "foxicmp-qt.before-sdk-1.65-20261101T134511Z": "8c6ea3f3d0c0865c054e74ed9addf10ae32218e511c509af7b0362574fccdf98",
+      "foxicmp-qt.before-sdk-1.66-20261101T145445Z": "43e3fc7a00ceca7effb5ffda960253531658a9bc6e22520571d93e337a7f5ea6",
+      "foxicmp-qt.before-sdk-1.67-20261101T182552Z": "54b02f06c5216933207bb4bb40ac5cc2d71be4d55841040a4a4734c4fb747b5f",
+      "foxicmp-qt.before-sdk-1.68-20261102T020043Z": "f3a2a3648fb9b6507759b0860b57275842a061c6b05e2cca6cb3851e9f642d6d",
+      "foxicmp-qt.before-sdk-1.69-20261102T075634Z": "0f9a2572c22b962c749d1800c9ab9ec57cfa0c9ba5007215897d93cf73c87187",
+      "foxicmp-qt.before-sdk-1.7-20261026T064448Z": "9dcbec9ddf7fd537fa1f2b8e51a67b46060de0d8b824435b83d4e5175ad225a1",
+      "foxicmp-qt.before-sdk-1.70-20261102T083412Z": "0f9a2572c22b962c749d1800c9ab9ec57cfa0c9ba5007215897d93cf73c87187",
+      "foxicmp-qt.before-sdk-1.71-20261102T102624Z": "fd29de0b7f34420a5deb137fe2b2e3bc7dbcfda395bcfa50bccffb813d88d769",
+      "foxicmp-qt.before-sdk-1.72-20261102T115942Z": "d0aa0658f5ed8edc87e4a6d0ca3fac6a8c0bca0f9539ba6c88a23e2cc177463b",
+      "foxicmp-qt.before-sdk-1.73-20261102T122832Z": "ce16e44cc3e5ced660aa24adc165854065c034472452a7dc9cf9039255f16b9c",
+      "foxicmp-qt.before-sdk-1.74-20261102T133708Z": "5c165f7983412fb33f973960536066649d9eec61cea84e8acf48d2ede1a422e2",
+      "foxicmp-qt.before-sdk-1.75-20261102T135308Z": "60e32a57559fa453f8394df596afa114bfcb3e844e693e721e6b423639920de4",
+      "foxicmp-qt.before-sdk-1.76-20261102T141017Z": "1213d77b10068176bcb026644c19b27414f2941fef46b16b8853f466b79bbb1a",
+      "foxicmp-qt.before-sdk-1.77-20261102T183351Z": "f9e7892a8595c9e6331785dccea20591c565a4a8e5106f329350d772c9e5c358",
+      "foxicmp-qt.before-sdk-1.78-20261103T025538Z": "9fc705839debc67278ebb9e7c178e53e1c5117ebec003f5da0f90bd98089c4ae",
+      "foxicmp-qt.before-sdk-1.79-20261103T043221Z": "4f6e66819d8981c7f08b0bb801a36c29c94a22fc6b4f5d5666eb69dcddc7a06f",
+      "foxicmp-qt.before-sdk-1.8-20261026T090052Z": "3ec096941cdc062a3f488e2708d60cf08a1ee34bdba71d6e0c8c0aa6911d4459",
+      "foxicmp-qt.before-sdk-1.80-20261103T045657Z": "778b0e943be5e7fff8cdae571a6b8de12605984be640f07888b0d669bbfa78fa",
+      "foxicmp-qt.before-sdk-1.81-20261103T054727Z": "37e1f818389acdfc6f7e730bfcb8b30deb79c9adae37581b59cf8a61718ffa2f",
+      "foxicmp-qt.before-sdk-1.9-20261026T104103Z": "22948a3c1df459ad1a65c2ec5e3081e274b4b0c54482d52aa04f0d52a0d90500",
+      "foxicmp-qt.png": "1d16a9983f39e6e99a7b8a88f0e52309bd35b756d78ec31fe93129a6dc258742",
+      "foxicmp-shader-check": "f4280e907cda74a2a97c025e537ce1c83ab770d05a5723bce5d7af44f49abb42",
+      "FoxicMPQt.ini": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+      "foxiqmp-qt.png": "1d16a9983f39e6e99a7b8a88f0e52309bd35b756d78ec31fe93129a6dc258742",
+      "fullscreen-settings.png": "0e39047bfa41d5bfa99f45cde56bdcba975d52e4964134ad8314a8e63257612c",
+      "history.png": "4a71fc8bc0f7c37e14f8a90ca1c044379edf10417526f54fb357fcc06d910097",
+      "input-settings.png": "5b1e1158eac4b1b806849e646feb0fd1cb503a115fc544cdbf56ad76d9df99ec",
+      "interface.png": "26102f8bac5e073c4658d6609b2031143de179bd40532b5b517ca37e704183de",
+      "LICENSE.txt": "6b2a3cc4ed19d5df0504750ece5b49647554e61261397a5f274836e6cfef875c",
+      "maintenance.png": "1e97e9504f27453bbc6a9396e50bcafe7ba08aadb195758f43a9aa8864e1ba8e",
+      "media-properties.png": "b524271557cefc5e2f23f16c3f57c4bb902d49e3627973659a9586846edf3d31",
+      "mouse-settings.png": "93e174f6e3ff411e4f4267507eae7c279a8271907b5e70983f00d2deee9b528f",
+      "osd-settings.png": "a39e8fd6bd3fbc2a64d077875021bb83aa1782504b0006fdee89fd1c72391e3d",
+      "playlist-settings.png": "5ea44b9024235c836f9aa30672217f3008fbd8b00ce5ad1a29b4f027d5339ce7",
+      "profile-launch.png": "dca29063553669a16f3bd1de15638630a6cb148a81f2011dc303c7a8e531bb3d",
+      "profile-reset.png": "4405be31115b1b98d8fde48d635eb00f3794ed865f07843a4739bb4adf79b2c5",
+      "README.md": "bafda19f5e5e621775a8b884d75cb270e3d60b9559b3d55ceda20fd74e6f12a3",
+      "stereo-settings.png": "d477919305af45b861e3eade5f12c3c84510e2374b418b06f1476e6a9d4d7e97",
+      "subtitle-ass-copy.png": "c3a15b26c4f3dd10d8a697fb2e0c75470eb4d7667159e5116ff1c776c6cda897",
+      "subtitle-colors.png": "369d31c20e8924a8bb37d599237725427184f11fca849c4a468653ebe48084ce",
+      "subtitle-compatibility.png": "35b5cf98b95613b619b83cb0624eed4ade0596df57433d2d8e4898f22278e9d1",
+      "subtitle-editor.png": "ae982399f6bf5fc31421b9158f1b3633748dfda9a32a51834744c9b8f8b9e0e0",
+      "subtitle-files.png": "8c422f06f09d04b500515ed4697b6f74bf63f05c378eaef7db78550f216d7501",
+      "subtitle-geometry.png": "40a6956216af8f6868165327257b2003f28831b9a77a74c3394e8c7d7a8e9cc8",
+      "subtitle-layout.png": "208bfa433625d8ec282e00f2aa38d2877f4f9c7cacbdf50fdcaf79eaf4d81955",
+      "subtitle-render.png": "aa34636e42d4fcc74e22e74d1cc32673a2e9362fc8e19012b06378a09e5122dc",
+      "thumbnail-sheet.png": "1074456f25448da6123e499c42903b6fa7836b4d09ed6c94d065ae61f6dbd19b",
+      "transform-presets.png": "e38cf94be36b2fc7a14a97ec03c0fa7ff9a8ee7ba9284f818848e35399fec18d",
+      "transform-settings.png": "11e6e03fe6bc2b21ec184132d4c32940d6ab0188c36ea32bb3da41518dc571cd",
+      "tray-menu.png": "d58516e94b77a34aa74886386dbe05f1322bb86306f2804a7eb41857fcabac1d",
+      "video-color.png": "c94219a06db56b16c98023beaad19c4c842759f587b8473d5a38741ad525a26a",
+      "video-decoding.png": "a760ddc4588caae755f164e44a0fd78689770150c59aafde06a67507e574be36",
+      "video-icc.png": "f082dfbc645d126ffafd2b502332330185d89bd28c73f8c3dae265fb1b951fd2",
+      "video-render-statistics.png": "3f4804cd36b8e62c97739cbece8d2f233890f0a362d457f4e3af1635bb17f51a",
+      "video-scaling.png": "31dd0f0774af1beaab4c0b8a0a2400b000e64c6fe80ec230f05902924655a2af",
+      "video-shaders.png": "7a3c91d96db45dfb7f9333c9d72680d14e549d893b03cdcda459166f407b43e9",
+      "video-sync.png": "e31c422f1eac8e5621402a1a7ff64fa3f2abc25cfcbc34b3a9c4c0492fe0cb07",
+      "video-system-icc.png": "9c4e7ec540c064e9304429cd8f900ec54d46975c7993d3a8933a67d2eaa39a9f",
+      "video-tearing-pattern.png": "e21992c258795b49f81bcd66db8902f5c5f78797f5706eaa6b366ab3c17bdb8d",
+      "web-browser.png": "0f688a0977fc153cd5916111e8e411eccd9d4fa31d130d0de064e7b5f392182b",
+      "web-control.png": "b30b8bc5aee4680f3e11e5abbdc1e343ca2ecef78c0a60aca9c4754b78c24f48",
+      "window-settings.png": "231b0c148243e881a978818b7b62fb485931bf9d3fe688bbb1f255820d694c88",
+      "window-title.png": "a4d9d758018ef064995b3966590df0e3a1c33ac43d94d1c74a51c67864bf9d7f",
+      "harvester-preview/README.md": "355816ce53bb2f6e4fddb6b585c0c1d419477dde91e52aac7c5ce9cf0ae15c54",
+      "helpers/audio_output.py": "b1b3d866b38b9ab79cca556c82a7055832b282b97ac24ab02a4a7a64c2f60002",
+      "integration/LICENSE.txt": "6b2a3cc4ed19d5df0504750ece5b49647554e61261397a5f274836e6cfef875c",
+      "integration/LinuxProgressiveApi.md": "54ee249e891e4d7b902c97081be66cf556c6f486a2b10ddb9f206051f2c3e17b",
+      "integration/progressive-v2-vod.json": "f476d54aa566b730a936136a239118c6e4069b8e4c30e90aeebc5337a4181b38",
+      "integration/ProgressiveAv1.md": "94ed16d1d5a3ee82debaa49b880ed6d8ebc4336726d9707decd90f2081d57cef",
+      "integration/ProgressiveAv1Validation-2026-10-26.json": "0b372c892fe944798134119cb54e548910b38075fa7a377827dbf5f1565f7bab",
+      "integration/ProgressiveAv1Validation-2026-10-26.md": "bff386216d8352fa24052b81e9f0680a2ffc3e1b9b137c4b9c02d76d30bd1dba",
+      "integration/ProgressiveClassicClose.md": "d3e30a321520916a7d4ccbef202c0d4ab5a5d659c023816c216313afc1e64d1e",
+      "integration/ProgressiveClassicCloseValidation-2026-10-26.json": "13a25da35f293a4eb90e384a526dbe92a8cdf750598a5f07c7d04af76a7a7006",
+      "integration/ProgressiveClassicCloseValidation-2026-10-26.md": "9cd2074f3346ec5191087ec2036df7dfc9310fdb395237a8bec001f261302849",
+      "integration/ProgressiveEngineShutdown.md": "af13c049699d09a3cdba49db28649eac044de21efd722b06020f068b488db560",
+      "integration/ProgressiveEngineShutdownValidation-2026-10-26.json": "7857de9f0bb89447b6368ef50c95f70c8378dc97a568902ce3040fe4c38537b8",
+      "integration/ProgressiveEngineShutdownValidation-2026-10-26.md": "e2d2ae81cf30c460290f686a07ccdb1b91a004301e14d500398cc0029d3d98aa",
+      "integration/ProgressiveHevc.md": "05b3c792cc5b8714ed5d296e59cc8016be6606c6d7f6d270e31cac0b31fe6ae1",
+      "integration/ProgressiveHevcValidation-2026-10-26.json": "2f58a1429f341869f1ae51aae93f0eed8bd8e9281df2405f86b3850f985f2937",
+      "integration/ProgressiveHevcValidation-2026-10-26.md": "ddd3fa1d2c7e76998873ddb0e02badcf85453830cb8492762d82d32f59e32e5c",
+      "integration/ProgressiveIntegrationPlan.md": "82fd5988378cf5b350f8897f5818651b15f1d729722c8940ab5cbdac7e4fa0ae",
+      "integration/ProgressiveLegacyMaintenance.md": "2ae42cd5277d4c59d802fb0d46963f21afd251a16bea8ac182de7868b54881b5",
+      "integration/ProgressiveLegacyMaintenanceValidation-2026-10-26.json": "e99273afbda5b6e4149b43b82d862dba2f916148bbed65c914193c5f87ead447",
+      "integration/ProgressiveLegacyMaintenanceValidation-2026-10-26.md": "df3a42d5c0331b1c494cabc8aaf3b11765aa7ba9baa7797bbec4236ce66813b0",
+      "integration/ProgressiveLegacyOpening.md": "b9e9c2d5dc777fac9f7e753b8b4b7453f4becbeecffc9fefbd18dcd2fa1f6bd7",
+      "integration/ProgressiveLegacyOpeningValidation-2026-10-26.json": "df819eda784b21ecae2682ce5eec0396021398300e8d1131208e10f80f5272c9",
+      "integration/ProgressiveLegacyOpeningValidation-2026-10-26.md": "b8aed86a187e7f4302e90c7acd3f8553b98df0a39d31e5fdb34f60afdd9a941f",
+      "integration/ProgressiveManifestV2.md": "bb75eeaeb26658572ebe6c52dbf39ba04e0a2065c65be13ace28dc4ceb3e626f",
+      "integration/ProgressiveMediaV2.md": "a133d150a27ecb33d9e06f4e07f92ea90a358f840ef6e82e3fe927f2eec0a973",
+      "integration/ProgressiveMediaValidation-2026-10-26.json": "c6233a729bfec4590917cfedfc80ee137de69bad641ee4d1e093394621de55d8",
+      "integration/ProgressiveMediaValidation-2026-10-26.md": "7ca2d2ca5b288f6babc5845c53218d7aa48a9cd10447ace1429dc768a585a43f",
+      "integration/ProgressiveMixedContainers.md": "4de944b35425a354becdd5c6f15099bd9e18a76c35f562dafdf82fd5a79cab6d",
+      "integration/ProgressiveMixedValidation-2026-10-28.json": "73d78d8d96d0c45db8ee7271803911c56eb9aaac601fda8abc649b9bb0305c41",
+      "integration/ProgressiveMixedValidation-2026-10-28.md": "eacbc0cb774ddae7c8d9dab53e8eb4ba94464eeb0e0ae86310eb73f100d87519",
+      "integration/ProgressiveModelValidation-2026-10-25.json": "24fb17e9d7df8ebfc6ccad242ac9001b52de4f67fd7dab75ef02f97bcabc814b",
+      "integration/ProgressiveModelValidation-2026-10-25.md": "8cec730c6dd860b68923fd678395767a289308151eafb7597cd609f49c7a6e08",
+      "integration/ProgressiveMultiTrack.md": "5faf6f458458c9d5d6fa246381bdc321955f080a93cf27ef88c328494aaae4de",
+      "integration/ProgressiveMultiTrackValidation-2026-10-28.json": "d651a0a7d472032bbee76899a0efbc89332667b263dde6444fe1199751f26136",
+      "integration/ProgressiveMultiTrackValidation-2026-10-28.md": "739a26e3e81aaabfbbfc3b980448128c5fc68e52a09372665b55ccece0f2cb75",
+      "integration/ProgressiveOptionalSrt.md": "a1f632416234f4b91982a82b6e11254626ab38e642231a34bfdfe4c9bf25c4b1",
+      "integration/ProgressiveOptionalSrtValidation-2026-10-29.json": "9f4e929178c698193d50ddf3e751f92fda395ee759298700e3642c5cde30f142",
+      "integration/ProgressiveOptionalSrtValidation-2026-10-29.md": "151410f24544a11989dbecd3cce4de574f16eb653d75cbe985720de5d6064550",
+      "integration/ProgressiveOpus.md": "35cf6677ec1bded5bf38838ed2aa701dd2be92933c80377202537945f41694fc",
+      "integration/ProgressiveOpusValidation-2026-10-27.json": "3cc306b93a0ed4cec3abb01b639ba42aeb283bd5a7202e97b875a478e70f475b",
+      "integration/ProgressiveOpusValidation-2026-10-27.md": "e196f8c581de06e13d5bc0d7a020921b467138e288829e2562bf43d1b64aad1c",
+      "integration/ProgressivePreparation.md": "c6f4df42fcca94bf4d9e923714e1b9b0eebef282b86bc264c04ce43d9d007d08",
+      "integration/ProgressivePreparationValidation-2026-10-26.json": "d9632e3d7a1c8e6faa13584ebdb35033ecf146bc108d902785ed88425bdc4419",
+      "integration/ProgressivePreparationValidation-2026-10-26.md": "26ea299f1b6473efcff1b1527c23558a070d6b468d2e2c524ecabb808fe1caa2",
+      "integration/ProgressivePublication.md": "de3c6dd0a1f24c5ee9cbc56b61392c0a24b774501c7e44bc372686874940b7fc",
+      "integration/ProgressivePublicationValidation-2026-10-26.json": "ee59ef6b3c68a682bfa0af3c43d1f00ad3761795da7a5cd33c3090f24d121e9d",
+      "integration/ProgressivePublicationValidation-2026-10-26.md": "a40201f63bc673b40f1b7a158faaa844b1cd3303b9c6d6b3a077169fb7eaa684",
+      "integration/ProgressiveReaderLeases.md": "a5dcc45d9834175e289bf96b3d2a9bd0e7fd4a1ba4c6bb4709db7ef225fcfe8d",
+      "integration/ProgressiveReaderValidation-2026-10-25.json": "969598d61e99a2e65c0f84ae1527090f277697c8a6a6795f66bb7119821e2752",
+      "integration/ProgressiveReaderValidation-2026-10-25.md": "d5fd74086bdd8512207dba05ca0d19ed3cf17568b02143c78882744f382955a1",
+      "integration/ProgressiveResourceIo.md": "3f553e55d732b9a194282849ccd15fc086bfa7e313eef83fd0fd51e5b9bd593b",
+      "integration/ProgressiveResourceValidation-2026-10-26.json": "0159383ce97c122382f60ea0aa509a888d18c6239bdd4e8106606356bd46a6f6",
+      "integration/ProgressiveResourceValidation-2026-10-26.md": "6b668c1b5c0b74a20b74a1d6514b1a5d947fe1b48b5febc9d97c0a8611c1a2bb",
+      "integration/ProgressiveRetirement.md": "46cbb212863a628da9b8bf7be1b40598312094787e2b6998fe2f417720d9586d",
+      "integration/ProgressiveRetirementValidation-2026-10-26.json": "560b5bde316a5fcb98a5dd8c73b62811683a8c67313e3738d8d467bddf0c7bb0",
+      "integration/ProgressiveRetirementValidation-2026-10-26.md": "1e921fe2078827de2a9d352f1c7974305761c810447fe394e0eec5f54f91c7a3",
+      "integration/ProgressiveSdk.md": "fe26af5dcf0be2929756c6ca2b5c62891b8dbd4eb011afc8b7c8bc30b93571d2",
+      "integration/ProgressiveSdkValidation-2026-10-25.json": "02405d0f82f94bade0f1ef4a87aa874bef5db394b78a98e19a536b339aba795e",
+      "integration/ProgressiveSdkValidation-2026-10-25.md": "9143f796f96166780c9360b2a3eb56749356e8171ee14d3e42e5d066ac4fb942",
+      "integration/ProgressiveSeek.md": "64467294ae87f171194433d9bbdfc3e78bed880c83027126e537121d2f97afd4",
+      "integration/ProgressiveSeekValidation-2026-10-28.json": "b14d44ee7d09d8483fe50c7b849fdb71ed6fda0938bb52d295843c256088658f",
+      "integration/ProgressiveSeekValidation-2026-10-28.md": "d5414afb3a804ccc35b2b1c8d4e40065e3af66be5e8d82a2df343756ce8e53fb",
+      "integration/ProgressiveTechnicalSpec-2026-10-25.ru.md": "0aeba12a9f20a893e2c3f25db0d94926a78b907b3e28ee1d205258f91339168a",
+      "integration/ProgressiveV1Validation-2026-10-25.json": "d48d687c414e2337ee197670256bfd1cc368bc4703def0fefbec81d48dc7af88",
+      "integration/ProgressiveV1Validation-2026-10-25.md": "59e4caa7d638b49d40b15ea7f7bf0656d217e0a308feb5563f49afdc50d1a53d",
+      "integration/ProgressiveVp8Vorbis.md": "fd370243c20bd230055852fed627a170c0551cdc054447ddb5435ada8dd661d7",
+      "integration/ProgressiveVp8VorbisValidation-2026-10-28.json": "4ce55401949589db0913418c8918e0462963c07c2fbe3a43368ba85ce87b6cb4",
+      "integration/ProgressiveVp8VorbisValidation-2026-10-28.md": "c4c574f25935b7c0df1d20afe99438a5d796bf3c7932638e4a962b1ffa8d1229",
+      "integration/ProgressiveVp9.md": "8ba30185f4e9ed6ab12a1a6d9c80f6d35a8b80ca1a94f1ad60d81ce36686065b",
+      "integration/ProgressiveVp9Validation-2026-10-27.json": "0cce8055446c170b7b90de2f889065230af6914402dbe5a3ecc57bcb0400c136",
+      "integration/ProgressiveVp9Validation-2026-10-27.md": "5a9e9e7046f64cd780b43829668781964941f1514bc7b21e5941f615cb5ea2bb",
+      "integration/ProgressiveWebM.md": "16cfbb9897303485b5a52ce518366bb404e989d78b1f906ac8da7b019a63fdad",
+      "integration/ProgressiveWebMAv1.md": "bc37ebd06ff9b2a563a1da8c9a09ac2953184d6ee7304ef091e098f943f7b897",
+      "integration/ProgressiveWebMAv1Validation-2026-10-28.json": "1f80ac06c0881350d43f258462160c7ff94c74539796b98ae77cc5aa691d72e5",
+      "integration/ProgressiveWebMAv1Validation-2026-10-28.md": "cd5afd22ab35e244706397a80b2206e747537a6c87cfb76693ed73e7eaa6adeb",
+      "integration/ProgressiveWebMValidation-2026-10-28.json": "455f3d01c0ca694b8d1ea17e6225fb264a0b7591d131f93f0a398f36c8fe8c30",
+      "integration/ProgressiveWebMValidation-2026-10-28.md": "b1cbe6bdc246751ae447967780a6836c4d33c060440ade2f21f108cba1b4a640",
+      "integration/progressive_client.py": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+      "integration/progressive_client.py.before-sdk-1.77-20261102T183351Z": "596184b47f092cb2ef46c1dc5400b315c720fcae73cd967d01dfa4da53068e10",
+      "integration/progressive_integrity.py": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+      "integration/progressive_resources.py": "23f073e4c48be11b05d178faddfecf8b3ce3f8eceb3c3e32fc23a36b4f2e1d0d",
+      "integration/progressive_schema.py": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778",
+      "integration/progressive_sdk.py": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2",
+      "integration/progressive_v2.py": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+      "integration/progressive_v2.py.before-sdk-1.69-20261102T075634Z": "fb13b5597df630972b9c4c9f4117b4c6aa23a0e4dbb46314b76e437a6e506a9f",
+      "integration/progressive_v2.py.before-sdk-1.70-20261102T083412Z": "3f81b9840e9a177eb46abda2b6e5586efea532ae6e84eb229545737150d10194",
+      "integration/progressive_v2.py.before-sdk-1.71-20261102T102624Z": "134c713dea4d46e73705d889c8a43536ba12ef7b8fd5301d44c771bf324bf29b",
+      "integration/progressive_v2.py.before-sdk-1.72-20261102T115942Z": "ab8cfd7db6f22e2e5ea4a21b2bf6cac89e8fea6f7ef77c1e7ce3c4e913503747",
+      "integration/progressive_v2.py.before-sdk-1.73-20261102T122832Z": "a5237c0c59619209d3c811d78fe450efd32c8fc57bce23ca2b4e094aae3f581e",
+      "integration/progressive_v2.py.before-sdk-1.74-20261102T133708Z": "fbac416a0ac9fa5ea0c6e4ba7d112ac4f19ccfef1efbc6857fbe526a2bb004c6",
+      "integration/progressive_v2.py.before-sdk-1.75-20261102T135308Z": "1f848977e47c3ef10c4dfe430d99cf702b2ea9c052e9c8fa159f8f8c2a6b3a67",
+      "integration/progressive_v2.py.before-sdk-1.76-20261102T141017Z": "db393f9e5f9f6fdb9cdcd75e4b733aaae97facdf60ba2e6735e949fb0adcde32",
+      "integration/progressive_v2.py.before-sdk-1.77-20261102T183351Z": "81a4a508e8d25276fa2db3c9b0adc9d8823bf6a7295495572f0603de4e0a711c",
+      "integration/progressive_v2.py.before-sdk-1.78-20261103T025538Z": "30853540be6aa9e09a1bdd7bcef05b865c1b61f9583528c37976ff00481de719",
+      "integration/progressive_v2.py.before-sdk-1.79-20261103T043221Z": "8313b2f7a74ac48820ac5bf285ec218323305b5fcb2a22688512cdf573f275d6",
+      "integration/progressive_v2.py.before-sdk-1.81-20261103T054727Z": "44191d83a08e08327d1cee9edb7edd093adc1de1f046ff808522a342103e641b",
+      "integration/progressive_windows.py": "fa48010d85e771dd40d05d58df6858def65bef72ead8027ef30f7033e768cde2",
+      "integration/progressive_writer.py": "245f6781df624d7482f32c1db825946b7a2b7c96a1073e8d1eaaaf42fdf64b19",
+      "integration/README.ru.md": "fe26af5dcf0be2929756c6ca2b5c62891b8dbd4eb011afc8b7c8bc30b93571d2",
+      "integration/sdk-manifest.json": "e080d34d2de8222b9c6f0a2e922d135d099efc87a063883e91eb3b205adae780",
+      "translations/en.json": "911167955d9689fdbd4bc2f917d3e6e84f0cecce9f84b7e189971efeb2f65772",
+      "harvester-preview/scripts/progressive_download.py": "57730d350434482e72f76a4c4e1afb66d0946ab6ef39fe93447ed67b0f97ef73",
+      "harvester-preview/scripts/progressive_hls.py": "5e6c89605d2d3e4eeed347c9a9277028e3e5fb8e4cb9d30d322bea8f3c920400",
+      "harvester-preview/scripts/progressive_pipe.py": "148c8c8f0e55509574b7dfd63935b67f46ae27fd112eb2c9010bb87f943d5087",
+      "harvester-preview/scripts/progressive_session.py": "6500093e990f171d413475c9d959e3b3c9a03cfc0b804f62bd5e8a5e846b1715",
+      "harvester-preview/scripts/progressive_unix.py": "068e85514c1fd28eafe50bf35e08c13d2af74cd0216fa28ca71b5a597795d7e4",
+      "harvester-preview/scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "existingFilesUnchanged": true,
+    "profileSha256": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+    "noViewingProcessStopped": true
+  },
+  "binarySha256": {
+    "linuxQt": "b3b87bb2715bb7825f27a5642ef121186aca181744d0b9f7745926cf8086b53b",
+    "windowsQt": "c2ba28aa1eb37012b957462cb6921c95cb8709f7409c05a3900e17864d429c23",
+    "classic": "7efbd7ddc7647c292264c48a167f6d96a6d62ff9c72473c7caabb3b1c918c0a8",
+    "linuxApiTest": "69a79a616ea681ff4f67188100397434b7b7f1936411a62c93c310a178d457be",
+    "windowsApiTest": "a10b2b7c91b4740a1348df36185cce34752a7c2c64d2b40f343c146850740555",
+    "windowsPrivatePthreadRuntime": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+  },
+  "sourceFilesSha256": {
+    "qt/CMakeLists.txt": "a0075d16a99f1dad24ce25258be0988b60991ecdf132933cb0101a8d081d3f7f",
+    "qt/packaging/windows/build.ps1": "afa75292a6a0f2240762b0120435350109b9ce6adbe945186c335f339794e215",
+    "qt/packaging/windows/build_winpthread.py": "527a868a77e3f9509b86eb65ec1dbedeb99af94bcbd7aa4b546f3db01c69b132",
+    "qt/packaging/windows/deploy.ps1": "8f55637498dea977e46b0589ff06bfcdcf0c5f0665998428ae9d4a5d596dfc3f",
+    "qt/packaging/windows/winpthreads-detached-spin.patch": "a5aaab0253c3f82219bd038ee1786643ec213e0ad131eef2a5ca3367fe4535df",
+    "qt/src/main.cpp": "a2e9e1d9d8f8a637a055c28095250722860dbbf06002f1e385c7d08e10c14599",
+    "qt/src/playbackcontrol.cpp": "bf4a97ce0382b72ccc3db6af38762ba36d3bf2c9c67e4967d209c96a50b558b8",
+    "qt/src/progressiveplayback.cpp": "2976a01ca7b26c96d5dc9a3f2a7eb93f2cd4064ce7d907131c2130aac64ab396",
+    "qt/src/progressivesource.h": "8be6436be6e87cb7aab54c88af92711929a68bf21c004a8176d0d13463d566aa",
+    "qt/src/progressivesource_common.cpp": "95086231259ee69cd30a3750cd2f28643c7f33649836b2d5bc82ede24343dd04",
+    "qt/tests/progressiveapi_test.cpp": "4a6a637a7075e2e61afc38c0b9e2923157090147733be98c829795402d6cc1b9",
+    "qt/tools/progressive_client.py": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+    "qt/tools/progressive_integrity.py": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+    "qt/tools/progressive_v2.py": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+    "shared/progressivefmp4bridge.h": "a10be10be51845423f8b377d462a46c3f26364aafd4501c6c68581ce34709935",
+    "shared/progressiverawaudio.h": "f55400e2216bcaf3c4d88cbbd9129a101250740d0b0402d5b11797b859e803bc",
+    "shared/progressiveresourceio.h": "7886034fc023b68cc7bcfe2473ce4b5d867eaebcd48ed8dde0b3c5b1d5668bcb",
+    "shared/progressiveresourceprobe.h": "d65b0b1c728863bed5579f5f3e4e73d9b74a8c7b14383916e30cea04cbe986c8",
+    "shared/progressiverf64rangemap.h": "18c3fc5fbbbd9c83991fc05cb6bdbe0e5766948d80c2a7594b36b7197049faa3",
+    "shared/progressivesession.h": "2f9780115f01c8622509b6b3bce95a62bbbb2afcbac13e531a9d12757e11216d",
+    "shared/progressivewav.h": "a3d5113d768b34049c5afc59b4df0668466dbd3bc71a2b1bf1ac9942de269e75",
+    "src/DSUtil/HarvesterAudioProjection.h": "dc0e412caeef7060113bcd72b084ab3756f70ba67697046a144c519409c6cbb4",
+    "src/DSUtil/HarvesterMP4.h": "14d47a4d436f68a712af6a9f7f32fe7b36e0221722d7a67c031e0375913c078f",
+    "src/DSUtil/HarvesterSession.cpp": "8101a07c607b778245a99e6ab481f61fa3098d185342e082e60376684b11e0ab",
+    "src/DSUtil/HarvesterSession.h": "32572876f28dd20e9295d328f1060eacc674ac34cccd9a0a2d873fbd090ccebe",
+    "src/DSUtil/HarvesterWav.h": "e1ecd8d6a71f10e901dcc961c3e792b66ac0710ecafec34bc19d791c825b4efd",
+    "src/apps/mplayerc/MainFrm.cpp": "32cece895f0b555beeb1d0c6811101492c4ab5433e3377ff75971b625855bc5e",
+    "src/filters/parser/BaseSplitter/BaseSplitter.cpp": "6db4735b71bf5e026fc29464756e8db84fff62f77c59a0fa7bb6ae196ad79395",
+    "src/filters/parser/BaseSplitter/BaseSplitterOutputPin.cpp": "dd1b3cefb93a00c726fd2f5543413664465c767b8b056fa7c379b985373fb8b3",
+    "src/filters/parser/BaseSplitter/BaseSplitterThread.h": "130ca22698c91de7465348254203becaae690b6a2b4550b578af60d0ea5f5b0c",
+    "tests/fixtures/progressive-v2/integrity-empty.idx": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/fixtures/progressive-v2/rf64-external-index.json": "be6966d3c2fe8274b1e11c3c13d3125244938e0e9769fda34774b40718c4af03",
+    "tests/fixtures/progressive-v2/rf64-sparse-pcm16.json": "780c65509bc27a1a1dc1fe7f6cfa7ffe4df5875d0f918925aa6fbf23bbab9a8c",
+    "tests/fixtures/progressive-v2/rf64-sparse-pcm24.json": "8e59dd5fe7b9f36ff23660b7924fdb82460a6858474ad3b7091371d775fb7c62",
+    "tests/progressive_external_integrity_conformance.py": "b298bafa5d84b7a769fe353d8d479a640afd50118d7fb9576e1f2ab807ce05d1",
+    "tests/progressive_media_cli.cpp": "0fb37ba2754bef61175b5107852e7d06b9a38bae42f37ba4cefeb1e402a4f544",
+    "tests/progressive_multi_reader_playback.py": "a4ee31d2cebe7e3aa8d6348fb767d8d5c962b14452c3482a4944e8b00d650b87",
+    "tests/progressive_player_lifecycle.py": "a07c524ca9303ec1d533b2ee636315bd1167bf51ed09975d1d400c1d2f98a8f8",
+    "tests/progressive_process_metrics.py": "00b64fb976d5bdc623c7aa2f5f100d39c0f7712b37b4a68115c305f83cd0f08a",
+    "tests/progressive_registry_lock.py": "4871c6c8756818b4ddc358a045d9957cf1f84251da9c001ec43ad3a765ebf5cc",
+    "tests/progressive_rf64_conformance.py": "076721a25adc8727761490bce1fcb361be84fbc7e3e3c6f6a57e986e14ab3d5c",
+    "tests/progressive_rf64_fixture.py": "d75de02dafaf2fac3d18a05f4e409db38816174acb40e71e940e12f4e6159e94",
+    "tests/progressive_rf64_geometry.h": "3f8d86288a25ab8dd562a77d369401b0f5a35dddc2afc139432d1cd3d050212e",
+    "tests/progressive_rf64_large_playback.py": "e57fb5e0136597cb78873f226b075787867da06a00e58f531b10ed8b0faaccd2",
+    "tests/progressive_rf64_limits_conformance.py": "7e378fdc661afb7d299c299840a76c20f1f01d9b6ffeb222c789f110f1e6f05f",
+    "tests/progressive_rf64_limits_fixture.py": "f60f49cadb5d4929ad1d7636b1c1ae5100246af7778c9c8a1e4a9d9996120406",
+    "tests/progressive_rf64_limits_playback.py": "bf20e1f09ba654473b5e9cffedb1c77c4157d6cc1fababbb060d7b261fd957c8",
+    "tests/progressive_rf64_map_conformance.py": "4004a915445b22cb75ca66cb196172ecc55ab4d30b1a91b2a106f8611e6eddae",
+    "tests/progressive_rf64_map_geometry.cpp": "ae75f7ef8b908e968d98a816583fe54e33e53821f91f609f7b08d9551e4847d8",
+    "tests/progressive_rf64_paused_eof_probe.py": "4d310479273d7874c7cc1fa6688a7c53a08279ebf0fe0788eaaf8332745231ae",
+    "tests/progressive_rf64_ranges_conformance.py": "58ac35b2eea2aa4fe8dac6c9074179f78849cacdb9437232cd6724c87a9feebf",
+    "tests/progressive_rf64_ranges_playback.py": "f6304c7ed7a2dfa77d6bb350ac9abf650165528a71a7af9f7bdd7e1bbc1746b8",
+    "tests/progressive_rf64_sparse_conformance.py": "9791eeceef4bc6ed8cfb9b169391cb0c9824385ca22594dced5fa2d9e8fbcb82",
+    "tests/progressive_rf64_sparse_large_playback.py": "9ea95f818b989612cef94ea49580fa8c28f812502859888352b854c12b3f2a91",
+    "tests/progressive_rf64_sparse_playback.py": "1de45938489aa9bd48c3318b9b7dac478a5484d990637a353a6ca3857f1059aa",
+    "tests/progressive_sdk_test.py": "30ad8e259cade8f1a91b6d04c610fb51e760359276a77e401f4f9663d8f09168",
+    "tests/progressive_standalone_fixture.py": "46c76e224a50379d3b221daf42736d042ec6f461856504d26c321af0d004cbfd",
+    "tests/progressive_standalone_playback.py": "77dc2b58cdc4f501cc70a8db013bc557e13f37f895691209992ae12c62fac1fd",
+    "tests/progressive_v2_sdk_test.py": "ddac18169167bf273ccb5e2c482ddefb17966d1fd2471307ea0d238e3d85e9cc",
+    "tests/progressive_windows_handle_trace.py": "181f819e1aa7caaa8fab06f44df0ac4c90cd8bc6201827521d3f3f2e08e8c710",
+    "tests/windows/classic_normal_lifecycle.py": "72bb8e0bb30788b0d14775bf7aaec6fc57fc812a1f2f4d19ed274a020e8cee99",
+    "tests/windows/progressive_family_test.py": "e73a125b79162012ebdf3c1bebf29f0e0232caf197e4da19acb63cb412c8ff3a",
+    "tests/windows/progressive_multi_reader_playback.py": "7a6e709649ab55f03acaf45716388f2a7ce2a2d8150c47429f20a1cb28b4b2d2",
+    "tests/windows/pthread_detached_lifecycle.c": "5325f59f5ccb3816002677f1077fe167ab0d8b2feb0da3858898ce6f716a1d34",
+    "tools/package_progressive_sdk.py": "a1b0650f22f45eed8bea5a7a0764d49ce70523dde5e2716178b87fb1dd05c1fb"
+  },
+  "limits": [
+    "Qt two real Window/Player instances in one process, distinct profiles/endpoints; Classic two separate processes; no mixed-edition pair tested",
+    "Four short RF64 PCM16/24 stereo48kHz profiles: normal/sparse hints, physical4->12sec prefix of20sec, not large sparse-island or complete/EOF acceptance",
+    "Maximum5 active receipts over one physical file,3 in one registry;12 actual playback groups and12 auxiliary resource readers per edition;3 boundary jobs create no receipts",
+    "Positive group filesClosed plus no active group member; absence of an internal auto-forgotten receipt is not itself evidence of closure",
+    "Registries are endpoint-scoped; writer must aggregate all attached endpoints and cannot treat unknown_reader/timeouts as release",
+    "No physical A/V capture, long-duration memory/CPU/cache stress,100 concurrent cycles, crash/disk-full/live or full codec/container matrix acceptance claimed",
+    "Windows installed EXE/INI untouched; Linux atomic executable update with backup and unchanged existing non-log files; current viewing not stopped",
+    "Published immutable SDK1.81 ZIP/installers untouched; maintenance source changes and tests only, final distribution remains open"
+  ]
+}

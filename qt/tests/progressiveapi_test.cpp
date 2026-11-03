@@ -956,6 +956,46 @@ private slots:
     if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QCOMPARE(writer.exitCode(),0);QVERIFY(decodedFar);QVERIFY(rejected);sample.stop();
     const auto output=writer.readAllStandardOutput();const auto report=QJsonDocument::fromJson(output).object();QVERIFY(report["fileBytes"].toInteger()>qint64(0x100000000ULL));QVERIFY(report["largeFileRemovedAfterRelease"].toBool());qInfo().noquote()<<"Large sparse RF64 report:"<<output;
   }
+  void rf64MultiReaderPlayback() {
+    const auto firstDir=temporary.filePath("multi-reader-0"),secondDir=temporary.filePath("multi-reader-1");
+    const auto cleanupRegistries=qScopeGuard([&]{for(const auto& dir:{firstDir,secondDir})QDir(ProgressiveApi::readerRegistryFor(dir)).removeRecursively();});
+    Profile first(firstDir),second(secondDir);prepare(first);prepare(second);
+    Window firstWindow(first),secondWindow(second);firstWindow.show();secondWindow.show();
+    Window* windows[]{&firstWindow,&secondWindow};ProgressiveApi firstApi(&firstWindow),secondApi(&secondWindow);
+    QVERIFY(firstApi.listen(first.directory));QVERIFY(secondApi.listen(second.directory));
+    const auto work=temporary.filePath("multi-reader-data");QDir().mkpath(work);
+    const auto baseline=EngineRetirement::occupied();int sequence=0,pending[2]{0,0},decoded=0;QSet<QString> seen;
+    qint64 maxUiGap=0,maxActionMs=0;QElapsedTimer uiClock;uiClock.start();
+    auto save=[&](const QString& name,const QJsonObject& value){QSaveFile file(work+"/"+name);QVERIFY(file.open(QIODevice::WriteOnly));const auto bytes=QJsonDocument(value).toJson(QJsonDocument::Compact);QCOMPARE(file.write(bytes),qint64(bytes.size()));QVERIFY(file.commit());};
+    QTimer sample;sample.setInterval(20);connect(&sample,&QTimer::timeout,this,[&]{
+      maxUiGap=qMax(maxUiGap,uiClock.restart());QFile command(work+"/control.json");
+      if(command.open(QIODevice::ReadOnly)){
+        const auto c=QJsonDocument::fromJson(command.readAll()).object();command.close();
+        if(c["sequence"].toInt()>sequence){sequence=c["sequence"].toInt();const auto peer=c["peer"].toInt(-1);QVERIFY(peer==0 || peer==1);QElapsedTimer action;action.start();
+          if(c["action"]=="stop")windows[peer]->actions["stop"]->trigger();
+          else if(c["action"]=="settle")pending[peer]=sequence;else QFAIL("Unknown multi-reader action");
+          maxActionMs=qMax(maxActionMs,action.elapsed());if(c["action"]!="settle")save("ack-"+QString::number(sequence)+".json",{{"sequence",sequence}});
+        }
+      }
+      const size_t liveSources=size_t(bool(firstWindow.progressiveSession()))+size_t(bool(secondWindow.progressiveSession()));
+      for(int peer=0;peer<2;++peer){auto* w=windows[peer];
+        if(pending[peer] && !w->progressiveSession() && EngineRetirement::occupied()<=baseline && foxicmp::progressive::SourceRetirement::occupied()==liveSources){save("ack-"+QString::number(pending[peer])+".json",{{"sequence",pending[peer]}});pending[peer]=0;}
+        auto* player=w->findChild<Player*>();if(!player || !w->progressiveSession())continue;
+        const auto id=w->progressiveSession()->id(),key=QString::number(peer)+id;const auto seconds=player->get("time-pos").toDouble();
+        if(!seen.contains(key) && seconds>=.2 && w->progressivePlaybackStatus()["state"]=="playing"){
+          const auto codec=player->get("audio-codec-name").toString();if(codec!="pcm_s16le" && codec!="pcm_s24le")continue;
+          save("decoder-"+QString::number(peer)+"-"+id+".json",{{"sessionId",id},{"seconds",seconds},{"codec",codec},{"rate",player->get("audio-params/samplerate").toInt()},{"channels",player->get("audio-params/channel-count").toInt()}});seen.insert(key);++decoded;
+        }
+      }
+    });sample.start();
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_multi_reader_playback.py"),"--player",playerExecutable(),"--profile",first.directory,"--profile",second.directory,"--work",work,"--registry",ProgressiveApi::readerRegistryFor(firstDir),"--registry",ProgressiveApi::readerRegistryFor(secondDir)});
+    QVERIFY(writer.waitForStarted());const auto cleanup=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});
+    QEventLoop loop;QTimer timeout;timeout.setSingleShot(true);connect(&timeout,&QTimer::timeout,&loop,&QEventLoop::quit);connect(&writer,qOverload<int,QProcess::ExitStatus>(&QProcess::finished),&loop,&QEventLoop::quit);timeout.start(240000);if(writer.state()!=QProcess::NotRunning)loop.exec();QVERIFY(writer.state()==QProcess::NotRunning);
+    if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QCOMPARE(writer.exitCode(),0);sample.stop();QCOMPARE(decoded,8);
+    auto report=QJsonDocument::fromJson(writer.readAllStandardOutput()).object();QCOMPARE(report["profiles"].toInt(),4);report["qtObservedDecoderSessions"]=decoded;report["maxQtUiGapMs"]=maxUiGap;report["maxQtActionMs"]=maxActionMs;
+    QCOMPARE(foxicmp::progressive::SourceRetirement::occupied(),size_t(0));QVERIFY(EngineRetirement::occupied()<=baseline);
+    qInfo().noquote()<<"Multi-reader playback report:"<<QJsonDocument(report).toJson(QJsonDocument::Compact);
+  }
   void rf64PlayerLifecycle() {
     Profile profile(temporary.filePath("lifecycle-profile"));prepare(profile);Window w(profile);w.show();
     ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));

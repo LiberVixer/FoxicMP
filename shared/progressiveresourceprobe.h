@@ -95,7 +95,10 @@ class ResourceProbeManager {
                         if(cancel.load() || stop.load())active->cancel();
                         apply(*active);
                         read=active->read(query.resource,query.offset,data.data(),query.count);
-                        if((read.code!="waiting-range" && read.code!="waiting-resource") || std::chrono::steady_clock::now()>=deadline)break;
+                        // A concurrent reader-status request may briefly own .guard.
+                        // Retry only within the existing wait budget; cancellation
+                        // still wakes the condition variable and zero-wait stays immediate.
+                        if((read.code!="waiting-range" && read.code!="waiting-resource" && read.code!="reader_registry_busy") || std::chrono::steady_clock::now()>=deadline)break;
                         std::unique_lock<std::mutex> lock(mutex);
                         changed.wait_until(lock,(std::min)(deadline,std::chrono::steady_clock::now()+std::chrono::milliseconds(25)),[&]{return cancel.load() || stop.load() || !updates.empty();});
                     }
