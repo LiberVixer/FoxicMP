@@ -2,6 +2,7 @@
 // GPL-3.0-or-later. All physical reads go through ResourceSource/SHA-256.
 #pragma once
 #include "progressiveresourceio.h"
+#include "progressiverf64rangemap.h"
 
 namespace foxicmp { namespace progressive {
 struct RawAudioClock {
@@ -54,6 +55,20 @@ public:
     void cancel(){cancelled.store(true);if(source)source->cancel();}
     template<class Extra> std::string detailsWith(Extra extra)const{auto p=std::atomic_load(&current);rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);d.AddMember("generation",Value(std::to_string(p->model.generation).c_str(),a),a);d.AddMember("revision",Value(std::to_string(p->model.revision).c_str(),a),a);d.AddMember("writerInstanceId",Value(p->model.writer.c_str(),a),a);d.AddMember("mediaMode",Value(Profile::Mode(),a),a);d.AddMember("physicalReadMaxEndBytes",Value(std::to_string(source->maximumReadEnd()).c_str(),a),a);d.AddMember("singleTrack",true,a);d.AddMember("segments",false,a);d.AddMember("physicalResources",1,a);d.AddMember("videoContainer","",a);d.AddMember("audioContainer",Value(Profile::Hint(),a),a);d.AddMember("decoderContainer","fmp4",a);d.AddMember("videoCodec","",a);d.AddMember("audioCodec",Value(Profile::Codec(),a),a);Value bytes(rapidjson::kObjectType);bytes.AddMember("video","0",a);bytes.AddMember("audio",Value(std::to_string(decoderBytes.load()).c_str(),a),a);d.AddMember("decoderIoBytes",bytes,a);
         if constexpr(OutOfOrder){d.AddMember("confirmedPrefixBytes",Value(std::to_string(p->prefix).c_str(),a),a);d.AddMember("confirmedPhysicalBytes",Value(std::to_string(p->confirmed).c_str(),a),a);d.AddMember("pendingOutOfOrderBytes",Value(std::to_string(p->confirmed-p->prefix).c_str(),a),a);d.AddMember("confirmedRangeCount",uint32_t(p->model.resources.at(p->resource).ranges.size()),a);}
+        if constexpr(OutOfOrder){
+            const auto ranges=Rf64PacketRanges(p->layout,p->model.resources.at(p->resource).ranges,p->prefix);
+            Value map(rapidjson::kObjectType),items(rapidjson::kArrayType);
+            map.AddMember("version",1,a);map.AddMember("geometryOnly",true,a);map.AddMember("islandSeek",false,a);
+            map.AddMember("payloadVerified",false,a);map.AddMember("sampleRate",p->layout.info.rate,a);
+            map.AddMember("packetFrames",Profile::Layout::PacketSamples,a);map.AddMember("intervalCount",uint32_t(ranges.size()),a);
+            map.AddMember("truncated",ranges.size()>32,a);
+            for(size_t i=0;i<ranges.size() && i<32;++i){const auto& r=ranges[i];Value v(rapidjson::kObjectType);
+                auto number=[&](const char* key,uint64_t n){v.AddMember(Value(key,a),Value(std::to_string(n).c_str(),a),a);};
+                number("firstFrame",r.first);number("endFrame",r.end);number("offset",r.offset);number("length",r.bytes);
+                number("startTicks",uint64_t(r.startTicks));number("endTicks",uint64_t(r.endTicks));v.AddMember("prefix",r.prefix,a);items.PushBack(v,a);
+            }
+            map.AddMember("intervals",items,a);d.AddMember("rf64RangeMap",map,a);
+        }
         if(!p->model.metadata.empty()){rapidjson::Document m;m.Parse(p->model.metadata.c_str());d.AddMember("metadata",Value(m,a),a);}const auto& track=p->model.tracks.at(p->track);Value tracks(rapidjson::kArrayType),t(rapidjson::kObjectType);t.AddMember("index",0,a);t.AddMember("id",Value(track.id.c_str(),a),a);t.AddMember("kind","audio",a);t.AddMember("codec",Value(Profile::Codec(),a),a);t.AddMember("container",Value(Profile::Hint(),a),a);t.AddMember("required",true,a);t.AddMember("default",true,a);t.AddMember("ready",true,a);t.AddMember("state","ready",a);t.AddMember("error","",a);t.AddMember("errorCode","",a);t.AddMember("label",Value(track.label.c_str(),a),a);t.AddMember("language",Value(track.language.c_str(),a),a);t.AddMember("decoderIoBytes",Value(std::to_string(decoderBytes.load()).c_str(),a),a);tracks.PushBack(t,a);d.AddMember("mediaTracks",tracks,a);d.AddMember("subtitleTracks",Value(rapidjson::kArrayType),a);Value frameKey(Profile::FramesKey(),a);d.AddMember(frameKey,uint32_t(p->layout.Frames()),a);extra(p->layout,d,a);return lease_detail::Encode(d);}
     std::string details()const{return detailsWith([](const auto&,auto&,auto&){});}
 };

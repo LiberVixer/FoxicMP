@@ -2,7 +2,7 @@
 
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
-Текущий проверенный срез — SDK 1.79, приложение 0.2.0. Этот документ — перечень
+Текущий проверенный срез — SDK 1.80, приложение 0.2.0. Этот документ — перечень
 работ и критериев; пустой checkbox не означает отсутствие функции у обычного
 воспроизведения завершённых файлов. Проверяется именно progressive-сценарий.
 
@@ -92,6 +92,7 @@
 
 ## 5. Непоследовательная запись и большие ресурсы
 
+- [x] SDK 1.80: [геометрическая RF64 packet map](ProgressiveRf64RangeMap.md), точные интервалы готовых пакетов в том числе за дырой; по 242 native checks, 1608 synthetic geometry cases и actual status трёх редакций — [проверки](ProgressiveRf64RangeMapValidation-2026-11-03.json). Это диагностика без payload I/O; island seek остаётся запрещён.
 - [x] SDK 1.79: [RF64 publication вне порядка](ProgressiveRf64Ranges.md), непрерывный head prefix, ожидание дыр и same-reader resume с сохранением ручной паузы. По 229 native checks на ОС и четыре runtime profiles каждой редакции; [отчёт](ProgressiveRf64RangesValidation-2026-11-03.json). Seek в островки и общая sparse-матрица остаются открытыми.
 - [x] SDK 1.78: внешний digest index для RF64 и физические PCM16/PCM24 stereo 48 kHz больше 4 GiB во всех трёх редакциях — [контракт](ProgressiveExternalIntegrity.md), [сценарий](ProgressiveLargeRf64.md), [проверки](ProgressiveLargeRf64Validation-2026-11-03.json). Это ограниченный результат; следующие общие пункты остаются открытыми.
 - [ ] Карта ranges в оставшихся playback-режимах: sparse holes, out-of-order запись и доступные островки данных.

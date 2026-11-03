@@ -14,11 +14,12 @@ inline Bytes Init(const Info& i){using namespace audiomp4;Bytes entry=Z(i.bits==
     if(i.bits==24){P(entry,8,1u<<16);P(entry,28,1);P(entry,32,3);P(entry,36,i.align);P(entry,40,3);J(entry,B("wave",B("enda",Bytes{0,1})));}
     return audiomp4::Init(i.rate,B(i.bits==24?"in24":"sowt",entry));}
 template<unsigned BitsPerSample,bool Extensible=false,bool Rf64=false> class PcmLayout:public audiomp4::Projection {
-    uint64_t physical=0,frames=0,samples=0,dataEnd=0,fileEnd=0;bool initialized=false;
+    uint64_t physical=0,dataStart=0,frames=0,samples=0,dataEnd=0,fileEnd=0;bool initialized=false;
 public:
     static constexpr unsigned PacketSamples=Rf64?16384:1024;
     Info info;
     uint64_t FileBytes()const{return fileEnd;}
+    uint64_t DataOffset()const{return dataStart;}
     bool Initialized()const{return initialized;}uint64_t Frames()const{return frames;}uint64_t Samples()const{return samples;}
     void Update(const FragmentIndex::Read& read,uint64_t prefix,bool complete){
         const auto wait=[&]{Check(!complete,"Truncated complete WAV header/data");throw Waiting{};};
@@ -43,7 +44,7 @@ public:
                 const auto next=at+8+size+(size&1);Check(next<=fileEnd,"WAV chunk exceeds RIFF");
                 if(!std::memcmp(h,"data",4)){
                     Check(format && size && size%info.align==0 && next==fileEnd,"WAV requires one final aligned data chunk after fmt");
-                    physical=at+8;dataEnd=physical+size;info.total=size/info.align;
+                    dataStart=physical=at+8;dataEnd=physical+size;info.total=size/info.align;
                     Check(!Rf64 || info.total==rfSamples,"RF64 sample count disagrees with PCM data");
                     Check((info.total+PacketSamples-1)/PacketSamples<=250000,"WAV packet count exceeds limit");found=true;break;
                 }

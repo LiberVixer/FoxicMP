@@ -7,12 +7,14 @@ from progressive_client import ProgressiveClient
 from progressive_v2 import V2PreviewSession
 from progressive_integrity import protect_snapshot,externalize_integrity
 from progressive_rf64_fixture import fixture,prefix_at_seconds
+from progressive_rf64_map_conformance import expected_map
 from progressive_v2_playback_conformance import forget_closed_readers
 PROFILES=('audio-rf64-16-mono-44100','audio-rf64-16-stereo-48000','audio-rf64-24-mono-44100','audio-rf64-24-stereo-48000')
 
 def exercise(client,work,control,profile):
  root=Path(work).resolve();model,raw,original,probe=fixture(root/'source',profile,20,writer='manual');root.mkdir(exist_ok=True);model['metadata']['chapters'][-1].update(id='c14',time='140000000',title='14');external='-stereo-' in profile;path=root/'mux.part';initial=prefix_at_seconds(raw,probe,4);twelve=prefix_at_seconds(raw,probe,12);fourteen=prefix_at_seconds(raw,probe,14);sixteen=prefix_at_seconds(raw,probe,16);inline=None;revision=0;phases=[]
- cap=client.request(dict(version=1,action='capabilities'))['schema2Playback']['standalone']['rf64Pcm'+str(probe['_bits'])]['outOfOrder'];assert cap['mode']=='prefix-gated-v1' and cap['islandSeek'] is False
+ caps=client.request(dict(version=1,action='capabilities'))['schema2Playback']['standalone']['rf64Pcm'+str(probe['_bits'])];cap=caps['outOfOrder'];assert cap['mode']=='prefix-gated-v1' and cap['islandSeek'] is False
+ assert caps['rangeMap']['geometryOnly'] and caps['rangeMap']['islandSeek'] is False
  with path.open('wb') as f:f.truncate(len(raw))
  def write(a,z):
   with path.open('r+b') as f:f.seek(a);f.write(raw[a:z]);f.flush()
@@ -26,8 +28,14 @@ def exercise(client,work,control,profile):
   end=time.monotonic()+timeout;s={}
   while time.monotonic()<end:
    s=preview.heartbeat();assert s.get('ok') and not s.get('error'),s;assert s['readerId']==reader
+   if 'rf64RangeMap' in s:
+    ranges=[(int(v['offset']),int(v['offset'])+int(v['length'])) for v in inline['resources'][0]['ranges']]
+    # Updates are asynchronous: compare only after the new revision commits.
+    if str(s['revision'])==str(revision):
+     expected=expected_map(ranges,probe['_data_offset'],int(probe['streams'][0]['sample_rate'])*20,probe['_block_align'],int(probe['streams'][0]['sample_rate']),int(s['confirmedPrefixBytes']))
+     assert s['rf64RangeMap']==expected,(profile,s['rf64RangeMap'],expected)
    if predicate(s):
-    phases.append(dict(phase=label,state=s['state'],positionSeconds=s.get('positionSeconds'),availableSeconds=s.get('availableSeconds'),confirmedPrefixBytes=s.get('confirmedPrefixBytes'),pendingOutOfOrderBytes=s.get('pendingOutOfOrderBytes'),physicalReadMaxEndBytes=s.get('physicalReadMaxEndBytes')));return s
+    phases.append(dict(phase=label,state=s['state'],positionSeconds=s.get('positionSeconds'),availableSeconds=s.get('availableSeconds'),confirmedPrefixBytes=s.get('confirmedPrefixBytes'),pendingOutOfOrderBytes=s.get('pendingOutOfOrderBytes'),physicalReadMaxEndBytes=s.get('physicalReadMaxEndBytes'),rf64RangeMap=s.get('rf64RangeMap')));return s
    time.sleep(.05)
   raise AssertionError((profile,label,s))
  try:
