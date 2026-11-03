@@ -140,6 +140,7 @@ SDK 1.81 добавляет [явный sparse RF64 PCM16/24 playback](docs/Prog
 В текущих исходниках проверены [100 циклов настоящего плеера в каждой редакции](docs/ProgressivePlayerLifecycle.md) и исправлены две Windows handle leaks. Это maintenance-изменения после SDK 1.81; опубликованные бинарные assets ими ещё не обновлены.
 [Проверка нескольких readers](docs/ProgressiveMultiReaderPlayback.md): два playback endpoints одного файла, изолированные Stop/cancel/reopen и исправление временной конкуренции I/O-проверки с запросами readers.
 [Проверка crash/restart](docs/ProgressivePlayerCrashRecovery.md): сохранённые readers восстанавливаются по подтверждённому выходу процесса ОС; второй плеер продолжает работать, старые команды изолированы от нового reader. Проверены самостоятельные процессы всех трёх редакций.
+[Отказы writer](docs/ProgressiveWriterFailures.md): неполный неопубликованный кадр, исчезновение heartbeat и инъекция ENOSPC проверены отдельно во всех трёх редакциях; настоящий disk-full остаётся открытым.
 ZIP содержит SDK без EXE/установщиков. Общий remux, произвольные sparse media
 и оставшаяся приёмка перечислены в [чеклисте](docs/ProgressiveCompletionChecklist.md).
 SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](docs/ProgressiveWebmSegments.md), включая постраничный каталог, в трёх редакциях. Требуются новые EXE; SDK содержит клиент и документацию.
