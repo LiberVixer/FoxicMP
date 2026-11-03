@@ -61,7 +61,9 @@ capability нового EXE; SDK отказывает старому плеер�
 live, startup без head prefix, codec/configuration changes и общая sparse
 матрица остаются отдельными этапами. Большая синтетическая геометрия и
 обычный физический >4 GiB prefix playback не заменяют отдельный физический
-тест sparse island >4 GiB.
+тест sparse island >4 GiB. Такой [дополнительный тест](ProgressiveLargeSparseRf64.md)
+тех же SDK 1.81 EXE теперь проверяет PCM16/24 stereo 48 kHz во всех трёх редакциях;
+другие большие rates/layouts и maximum-size/stress остаются открытыми.
 
 
 Проверенный срез SDK 1.81: [результаты от 3 ноября](ProgressiveRf64SparseValidation-2026-11-03.json). Нативная матрица8 profiles × inline/external SHA, 272 checks на ОС; runtime 4 profiles каждой редакции, в том числе complete paused seek в последние 50 ms и отдельный cancel-at-gap. Предварительные18-групповые Qt-прогоны и окончательные8-групповые прогоны пересобранных бинарных файлов имеют отдельные hashes. Все итоговые exit codes 0.

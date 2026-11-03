@@ -940,6 +940,22 @@ private slots:
     if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QCOMPARE(writer.exitCode(),0);QVERIFY(decodedFar);sample.stop();
     const auto output=writer.readAllStandardOutput();const auto report=QJsonDocument::fromJson(output).object();QVERIFY(report["fileBytes"].toInteger()>qint64(0x100000000ULL));QVERIFY(report["largeFileRemovedAfterRelease"].toBool());qInfo().noquote()<<"Large RF64 report:"<<output;
   }
+  void largeSparseRf64Playback_data() {
+    QTest::addColumn<int>("bits");QTest::newRow("pcm16")<<16;QTest::newRow("pcm24")<<24;
+  }
+  void largeSparseRf64Playback() {
+    QFETCH(int,bits);Profile profile(temporary.filePath("large-sparse-rf64-profile-"+QString::number(bits)));prepare(profile);
+    Window w(profile);w.show();ProgressiveApi api(&w);QVERIFY(api.listen(profile.directory));auto* player=w.findChild<Player*>();QVERIFY(player);
+    const auto work=temporary.filePath("large-sparse-rf64-bytes-"+QString::number(bits));int sequence=0;bool decodedFar=false,rejected=false;
+    QTimer sample;sample.setInterval(40);connect(&sample,&QTimer::timeout,this,[&]{
+      QFile file(work+"/control.json");if(file.open(QIODevice::ReadOnly)){const auto c=QJsonDocument::fromJson(file.readAll()).object();file.close();if(c["sequence"].toInt()>sequence){sequence=c["sequence"].toInt();if(c["action"]=="reject-seek"){QVERIFY(!w.seekTo(c["value"].toDouble()));rejected=true;}else if(c["action"]=="pause")w.actions["play"]->trigger();else if(c["action"]=="seek"){const auto target=c["value"].toDouble();QVERIFY(w.seekTo(target));}}}
+      decodedFar|=player->get("time-pos").toDouble()>10000 && player->get("audio-codec-name")==QString("pcm_s%1le").arg(bits) && player->get("audio-params/samplerate").toInt()==48000 && player->get("audio-params/channel-count").toInt()==2 && w.progressivePlaybackStatus()["state"]=="playing";
+    });sample.start();
+    QProcess writer;writer.start(QStringLiteral(FOXICMP_PYTHON_EXECUTABLE),{QFileInfo(FOXICMP_V2_PLAYBACK_SCRIPT).dir().filePath("progressive_rf64_sparse_large_playback.py"),"--player",playerExecutable(),"--profile",profile.directory,"--work",work,"--bits",QString::number(bits)});
+    QVERIFY(writer.waitForStarted());const auto cleanup=qScopeGuard([&]{if(writer.state()!=QProcess::NotRunning){writer.kill();writer.waitForFinished();}});QTRY_VERIFY_WITH_TIMEOUT(writer.state()==QProcess::NotRunning,900000);
+    if(writer.exitCode()!=0)qWarning().noquote()<<writer.readAllStandardError();QCOMPARE(writer.exitCode(),0);QVERIFY(decodedFar);QVERIFY(rejected);sample.stop();
+    const auto output=writer.readAllStandardOutput();const auto report=QJsonDocument::fromJson(output).object();QVERIFY(report["fileBytes"].toInteger()>qint64(0x100000000ULL));QVERIFY(report["largeFileRemovedAfterRelease"].toBool());qInfo().noquote()<<"Large sparse RF64 report:"<<output;
+  }
   void standaloneRf64Playback_data() {
     QTest::addColumn<QString>("mediaProfile");
     for(auto bits:{16,24})for(auto rate:{44100,48000})for(const auto& channels:QStringList{"mono","stereo"}) {

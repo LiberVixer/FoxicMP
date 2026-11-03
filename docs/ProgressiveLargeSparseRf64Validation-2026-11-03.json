@@ -1,0 +1,1488 @@
+{
+  "result": "PASS",
+  "date": "2026-11-03",
+  "sdkVersion": "1.81",
+  "playerVersion": "0.2.0",
+  "feature": "physical-sparse-rf64-island-playback-after-4GiB",
+  "scope": "Validation of unchanged SDK1.81 production code/binaries; new test fixtures only",
+  "qt": {
+    "linux": {
+      "runtime": [
+        {
+          "result": "PASS",
+          "bits": 16,
+          "fileBytes": 4311744592,
+          "allBytesWritten": 4311744592,
+          "sha256": "b065c4b2bc75a73cbed46f77e5379397cf5a28dcc8424d4ffe665a1b22516913",
+          "initialSparseFile": {
+            "fileBytes": 4311744592,
+            "writtenBytes": 5760080,
+            "holes": [
+              {
+                "offset": 33554432,
+                "length": 65536,
+                "unallocated": true
+              },
+              {
+                "offset": 4286578688,
+                "length": 65536,
+                "unallocated": true
+              }
+            ],
+            "filesystemProbe": "SEEK_DATA",
+            "allocatedBytes": 5771264
+          },
+          "unallocatedGapsPreservedWhileIslandPlayed": true,
+          "farSeconds": 22378,
+          "farPhysicalByte": 4296576080,
+          "physicalReadMaxEndBytes": 4311744592,
+          "farPcmSha256": "4c55b8fef4c3ec734e463ce4a14229e52cd51ae3f42416ab4352446bc7ca2f23",
+          "gappedCompleteRejected": true,
+          "readerIdentityPreserved": true,
+          "publications": 261,
+          "integrityRecords": 1032,
+          "maxApiRequestBytes": 1488,
+          "phases": [
+            {
+              "phase": "head-buffers",
+              "state": "buffering",
+              "positionSeconds": 0,
+              "availableSeconds": 3.7546666,
+              "physicalReadMaxEndBytes": "80",
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "head-plays",
+              "state": "playing",
+              "positionSeconds": 2.187082666666667,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "653859",
+              "decoderIoBytes": {
+                "audio": "655360",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "manual-pause",
+              "state": "paused",
+              "positionSeconds": 2.238523666666667,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "719291",
+              "decoderIoBytes": {
+                "audio": "720896",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "hole-seek-rejected",
+              "state": "paused",
+              "positionSeconds": 2.262679666666667,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "719291",
+              "decoderIoBytes": {
+                "audio": "720896",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "far-island-paused",
+              "state": "paused",
+              "positionSeconds": 22377.864638,
+              "availableSeconds": 22391.808,
+              "physicalReadMaxEndBytes": "4296801427",
+              "decoderIoBytes": {
+                "audio": "983040",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "physical-island-after-4GiB",
+              "state": "playing",
+              "positionSeconds": 22380.002532333336,
+              "availableSeconds": 22391.808,
+              "physicalReadMaxEndBytes": "4297194019",
+              "decoderIoBytes": {
+                "audio": "1376256",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "gapped-complete-rejected",
+              "state": "playing",
+              "positionSeconds": 22380.053391333335,
+              "availableSeconds": 22391.808,
+              "physicalReadMaxEndBytes": "4297259451",
+              "decoderIoBytes": {
+                "audio": "1441792",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "island-end-waits",
+              "state": "buffering",
+              "positionSeconds": 22390.93520866668,
+              "availableSeconds": 22391.808,
+              "physicalReadMaxEndBytes": "4299222411",
+              "decoderIoBytes": {
+                "audio": "3407872",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "extended-island-resumes",
+              "state": "playing",
+              "positionSeconds": 22394.091990166686,
+              "availableSeconds": 22400,
+              "physicalReadMaxEndBytes": "4299942163",
+              "decoderIoBytes": {
+                "audio": "4128768",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "pause-for-backwards",
+              "state": "paused",
+              "positionSeconds": 22394.091990166686,
+              "availableSeconds": 22400,
+              "physicalReadMaxEndBytes": "4299942163",
+              "decoderIoBytes": {
+                "audio": "4128768",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "backwards-over-4GiB-gap",
+              "state": "paused",
+              "positionSeconds": 3.885509,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "4299942163",
+              "decoderIoBytes": {
+                "audio": "4390912",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "full-fill-preserves-pause",
+              "state": "paused",
+              "positionSeconds": 3.885509,
+              "availableSeconds": 22457.0026666,
+              "physicalReadMaxEndBytes": "4299942163",
+              "decoderIoBytes": {
+                "audio": "4390912",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "writer-complete",
+              "state": "buffering",
+              "positionSeconds": 3.885509,
+              "availableSeconds": 22457.0026666,
+              "physicalReadMaxEndBytes": "4299942163",
+              "decoderIoBytes": {
+                "audio": "4390912",
+                "video": "0"
+              },
+              "complete": true
+            },
+            {
+              "phase": "complete-tail-paused",
+              "state": "paused",
+              "positionSeconds": 22453.888154833334,
+              "availableSeconds": 22457.0026666,
+              "physicalReadMaxEndBytes": "4311350523",
+              "decoderIoBytes": {
+                "audio": "4587520",
+                "video": "0"
+              },
+              "complete": true
+            },
+            {
+              "phase": "natural-eof-release",
+              "state": "finished",
+              "positionSeconds": null,
+              "availableSeconds": null,
+              "physicalReadMaxEndBytes": "4311744592",
+              "decoderIoBytes": {
+                "audio": "4982213",
+                "video": "0"
+              },
+              "complete": null
+            }
+          ],
+          "secondsElapsed": 96.583,
+          "largeFileRemovedAfterRelease": true
+        },
+        {
+          "result": "PASS",
+          "bits": 24,
+          "fileBytes": 4311744620,
+          "allBytesWritten": 4311744620,
+          "sha256": "930e77bf531afa8f6f048c983f75a909601beead470dd948ce3c658b694af6de",
+          "initialSparseFile": {
+            "fileBytes": 4311744620,
+            "writtenBytes": 8640104,
+            "holes": [
+              {
+                "offset": 33554432,
+                "length": 65536,
+                "unallocated": true
+              },
+              {
+                "offset": 4286578688,
+                "length": 65536,
+                "unallocated": true
+              }
+            ],
+            "filesystemProbe": "SEEK_DATA",
+            "allocatedBytes": 8654848
+          },
+          "unallocatedGapsPreservedWhileIslandPlayed": true,
+          "farSeconds": 14919,
+          "farPhysicalByte": 4296672104,
+          "physicalReadMaxEndBytes": 4311744620,
+          "farPcmSha256": "666e9e611e6578fd0e5fd5c5707098eda938d2e947388ab538bfdd48acfec95c",
+          "gappedCompleteRejected": true,
+          "readerIdentityPreserved": true,
+          "publications": 261,
+          "integrityRecords": 1032,
+          "maxApiRequestBytes": 1489,
+          "phases": [
+            {
+              "phase": "head-buffers",
+              "state": "buffering",
+              "positionSeconds": 0,
+              "availableSeconds": 3.7546666,
+              "physicalReadMaxEndBytes": "104",
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "head-plays",
+              "state": "playing",
+              "positionSeconds": 2.1798893333333336,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "915993",
+              "decoderIoBytes": {
+                "audio": "917504",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "manual-pause",
+              "state": "paused",
+              "positionSeconds": 2.1798893333333336,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "915993",
+              "decoderIoBytes": {
+                "audio": "917504",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "hole-seek-rejected",
+              "state": "paused",
+              "positionSeconds": 2.1798893333333336,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "915993",
+              "decoderIoBytes": {
+                "audio": "917504",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "far-island-paused",
+              "state": "paused",
+              "positionSeconds": 14918.873841999999,
+              "availableSeconds": 14932.992,
+              "physicalReadMaxEndBytes": "4296932593",
+              "decoderIoBytes": {
+                "audio": "1179648",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "physical-island-after-4GiB",
+              "state": "playing",
+              "positionSeconds": 14921.18028216667,
+              "availableSeconds": 14932.992,
+              "physicalReadMaxEndBytes": "4297587225",
+              "decoderIoBytes": {
+                "audio": "1835008",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "gapped-complete-rejected",
+              "state": "playing",
+              "positionSeconds": 14921.233321333337,
+              "availableSeconds": 14932.992,
+              "physicalReadMaxEndBytes": "4297718193",
+              "decoderIoBytes": {
+                "audio": "1966080",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "island-end-waits",
+              "state": "buffering",
+              "positionSeconds": 14932.163276000016,
+              "availableSeconds": 14932.992,
+              "physicalReadMaxEndBytes": "4300664193",
+              "decoderIoBytes": {
+                "audio": "4915200",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "extended-island-resumes",
+              "state": "playing",
+              "positionSeconds": 14935.14188400002,
+              "availableSeconds": 14940.8426666,
+              "physicalReadMaxEndBytes": "4301646193",
+              "decoderIoBytes": {
+                "audio": "5898240",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "pause-for-backwards",
+              "state": "paused",
+              "positionSeconds": 14935.21550750002,
+              "availableSeconds": 14940.8426666,
+              "physicalReadMaxEndBytes": "4301646193",
+              "decoderIoBytes": {
+                "audio": "5898240",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "backwards-over-4GiB-gap",
+              "state": "paused",
+              "positionSeconds": 4,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "4301646193",
+              "decoderIoBytes": {
+                "audio": "6225920",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "full-fill-preserves-pause",
+              "state": "paused",
+              "positionSeconds": 3.86257,
+              "availableSeconds": 14971.335125,
+              "physicalReadMaxEndBytes": "4301646193",
+              "decoderIoBytes": {
+                "audio": "6225920",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "writer-complete",
+              "state": "buffering",
+              "positionSeconds": 3.86257,
+              "availableSeconds": 14971.335125,
+              "physicalReadMaxEndBytes": "4301646193",
+              "decoderIoBytes": {
+                "audio": "6225920",
+                "video": "0"
+              },
+              "complete": true
+            },
+            {
+              "phase": "complete-tail-paused",
+              "state": "paused",
+              "positionSeconds": 14968.335125,
+              "availableSeconds": 14971.335125,
+              "physicalReadMaxEndBytes": "4311153801",
+              "decoderIoBytes": {
+                "audio": "6553600",
+                "video": "0"
+              },
+              "complete": true
+            },
+            {
+              "phase": "natural-eof-release",
+              "state": "finished",
+              "positionSeconds": null,
+              "availableSeconds": null,
+              "physicalReadMaxEndBytes": "4311744620",
+              "decoderIoBytes": {
+                "audio": "7145043",
+                "video": "0"
+              },
+              "complete": null
+            }
+          ],
+          "secondsElapsed": 92.415,
+          "largeFileRemovedAfterRelease": true
+        }
+      ],
+      "ctestExitCode": 0,
+      "qtTotals": [
+        "4 passed, 0 failed, 0 skipped, 0 blacklisted, 191614ms"
+      ],
+      "logSha256": "77971639f48480cc1c0290ca09b0d11af973e5cb10de3bd75b6266d540fd03e2"
+    },
+    "windows": {
+      "runtime": [
+        {
+          "result": "PASS",
+          "bits": 16,
+          "fileBytes": 4311744592,
+          "allBytesWritten": 4311744592,
+          "sha256": "b065c4b2bc75a73cbed46f77e5379397cf5a28dcc8424d4ffe665a1b22516913",
+          "initialSparseFile": {
+            "fileBytes": 4311744592,
+            "writtenBytes": 5760080,
+            "holes": [
+              {
+                "offset": 33554432,
+                "length": 65536,
+                "unallocated": true
+              },
+              {
+                "offset": 4286578688,
+                "length": 65536,
+                "unallocated": true
+              }
+            ],
+            "filesystemProbe": "FSCTL_QUERY_ALLOCATED_RANGES",
+            "allocatedBytes": null
+          },
+          "unallocatedGapsPreservedWhileIslandPlayed": true,
+          "farSeconds": 22378,
+          "farPhysicalByte": 4296576080,
+          "physicalReadMaxEndBytes": 4311744592,
+          "farPcmSha256": "4c55b8fef4c3ec734e463ce4a14229e52cd51ae3f42416ab4352446bc7ca2f23",
+          "gappedCompleteRejected": true,
+          "readerIdentityPreserved": true,
+          "publications": 261,
+          "integrityRecords": 1032,
+          "maxApiRequestBytes": 1523,
+          "phases": [
+            {
+              "phase": "head-buffers",
+              "state": "buffering",
+              "positionSeconds": 0,
+              "availableSeconds": 3.7546666,
+              "physicalReadMaxEndBytes": "80",
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "head-plays",
+              "state": "playing",
+              "positionSeconds": 2.0415065592335604,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "588427",
+              "decoderIoBytes": {
+                "audio": "589824",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "manual-pause",
+              "state": "paused",
+              "positionSeconds": 2.0927526371859413,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "588427",
+              "decoderIoBytes": {
+                "audio": "589824",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "hole-seek-rejected",
+              "state": "paused",
+              "positionSeconds": 2.0927526371859413,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "588427",
+              "decoderIoBytes": {
+                "audio": "589824",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "far-island-paused",
+              "state": "paused",
+              "positionSeconds": 22378,
+              "availableSeconds": 22391.808,
+              "physicalReadMaxEndBytes": "4296801427",
+              "decoderIoBytes": {
+                "audio": "851968",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "physical-island-after-4GiB",
+              "state": "playing",
+              "positionSeconds": 22380.062263046973,
+              "availableSeconds": 22391.808,
+              "physicalReadMaxEndBytes": "4297194019",
+              "decoderIoBytes": {
+                "audio": "1245184",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "gapped-complete-rejected",
+              "state": "playing",
+              "positionSeconds": 22380.062263046973,
+              "availableSeconds": 22391.808,
+              "physicalReadMaxEndBytes": "4297194019",
+              "decoderIoBytes": {
+                "audio": "1245184",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "island-end-waits",
+              "state": "buffering",
+              "positionSeconds": 22390.921554983513,
+              "availableSeconds": 22391.808,
+              "physicalReadMaxEndBytes": "4299222411",
+              "decoderIoBytes": {
+                "audio": "3276800",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "extended-island-resumes",
+              "state": "playing",
+              "positionSeconds": 22394.061057132723,
+              "availableSeconds": 22400,
+              "physicalReadMaxEndBytes": "4299876731",
+              "decoderIoBytes": {
+                "audio": "3932160",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "pause-for-backwards",
+              "state": "paused",
+              "positionSeconds": 22394.061057132723,
+              "availableSeconds": 22400,
+              "physicalReadMaxEndBytes": "4299876731",
+              "decoderIoBytes": {
+                "audio": "3932160",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "backwards-over-4GiB-gap",
+              "state": "paused",
+              "positionSeconds": 3.9999954648526073,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "4299876731",
+              "decoderIoBytes": {
+                "audio": "4194304",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "full-fill-preserves-pause",
+              "state": "paused",
+              "positionSeconds": 3.9999954648526073,
+              "availableSeconds": 22457.0026666,
+              "physicalReadMaxEndBytes": "4299876731",
+              "decoderIoBytes": {
+                "audio": "4194304",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "writer-complete",
+              "state": "paused",
+              "positionSeconds": 3.9999954648526073,
+              "availableSeconds": 22457.0026666,
+              "physicalReadMaxEndBytes": "4299876731",
+              "decoderIoBytes": {
+                "audio": "4194304",
+                "video": "0"
+              },
+              "complete": true
+            },
+            {
+              "phase": "complete-tail-paused",
+              "state": "paused",
+              "positionSeconds": 22454.0026666,
+              "availableSeconds": 22457.0026666,
+              "physicalReadMaxEndBytes": "4311350523",
+              "decoderIoBytes": {
+                "audio": "4390912",
+                "video": "0"
+              },
+              "complete": true
+            },
+            {
+              "phase": "natural-eof-release",
+              "state": "finished",
+              "positionSeconds": null,
+              "availableSeconds": null,
+              "physicalReadMaxEndBytes": "4311744592",
+              "decoderIoBytes": {
+                "audio": "4785605",
+                "video": "0"
+              },
+              "complete": null
+            }
+          ],
+          "secondsElapsed": 84.037,
+          "largeFileRemovedAfterRelease": true
+        },
+        {
+          "result": "PASS",
+          "bits": 24,
+          "fileBytes": 4311744620,
+          "allBytesWritten": 4311744620,
+          "sha256": "930e77bf531afa8f6f048c983f75a909601beead470dd948ce3c658b694af6de",
+          "initialSparseFile": {
+            "fileBytes": 4311744620,
+            "writtenBytes": 8640104,
+            "holes": [
+              {
+                "offset": 33554432,
+                "length": 65536,
+                "unallocated": true
+              },
+              {
+                "offset": 4286578688,
+                "length": 65536,
+                "unallocated": true
+              }
+            ],
+            "filesystemProbe": "FSCTL_QUERY_ALLOCATED_RANGES",
+            "allocatedBytes": null
+          },
+          "unallocatedGapsPreservedWhileIslandPlayed": true,
+          "farSeconds": 14919,
+          "farPhysicalByte": 4296672104,
+          "physicalReadMaxEndBytes": 4311744620,
+          "farPcmSha256": "666e9e611e6578fd0e5fd5c5707098eda938d2e947388ab538bfdd48acfec95c",
+          "gappedCompleteRejected": true,
+          "readerIdentityPreserved": true,
+          "publications": 261,
+          "integrityRecords": 1032,
+          "maxApiRequestBytes": 1524,
+          "phases": [
+            {
+              "phase": "head-buffers",
+              "state": "buffering",
+              "positionSeconds": 0,
+              "availableSeconds": 3.7546666,
+              "physicalReadMaxEndBytes": "104",
+              "decoderIoBytes": {
+                "audio": "0",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "head-plays",
+              "state": "playing",
+              "positionSeconds": 2.0404414832335602,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "850561",
+              "decoderIoBytes": {
+                "audio": "851968",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "manual-pause",
+              "state": "paused",
+              "positionSeconds": 2.0404414832335602,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "850561",
+              "decoderIoBytes": {
+                "audio": "851968",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "hole-seek-rejected",
+              "state": "paused",
+              "positionSeconds": 2.0404414832335602,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "850561",
+              "decoderIoBytes": {
+                "audio": "851968",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "far-island-paused",
+              "state": "paused",
+              "positionSeconds": 14918.999986394563,
+              "availableSeconds": 14932.992,
+              "physicalReadMaxEndBytes": "4296932593",
+              "decoderIoBytes": {
+                "audio": "1114112",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "physical-island-after-4GiB",
+              "state": "playing",
+              "positionSeconds": 14921.040482114799,
+              "availableSeconds": 14932.992,
+              "physicalReadMaxEndBytes": "4297521793",
+              "decoderIoBytes": {
+                "audio": "1703936",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "gapped-complete-rejected",
+              "state": "playing",
+              "positionSeconds": 14921.040482114799,
+              "availableSeconds": 14932.992,
+              "physicalReadMaxEndBytes": "4297521793",
+              "decoderIoBytes": {
+                "audio": "1703936",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "island-end-waits",
+              "state": "buffering",
+              "positionSeconds": 14932.053195398037,
+              "availableSeconds": 14932.992,
+              "physicalReadMaxEndBytes": "4300664193",
+              "decoderIoBytes": {
+                "audio": "4849664",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "extended-island-resumes",
+              "state": "playing",
+              "positionSeconds": 14935.029878094387,
+              "availableSeconds": 14940.8426666,
+              "physicalReadMaxEndBytes": "4301515225",
+              "decoderIoBytes": {
+                "audio": "5701632",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "pause-for-backwards",
+              "state": "paused",
+              "positionSeconds": 14935.029878094387,
+              "availableSeconds": 14940.8426666,
+              "physicalReadMaxEndBytes": "4301515225",
+              "decoderIoBytes": {
+                "audio": "5701632",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "backwards-over-4GiB-gap",
+              "state": "paused",
+              "positionSeconds": 4,
+              "availableSeconds": 11.9466666,
+              "physicalReadMaxEndBytes": "4301515225",
+              "decoderIoBytes": {
+                "audio": "6029312",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "full-fill-preserves-pause",
+              "state": "paused",
+              "positionSeconds": 3.9999954648526073,
+              "availableSeconds": 14971.335125,
+              "physicalReadMaxEndBytes": "4301515225",
+              "decoderIoBytes": {
+                "audio": "6029312",
+                "video": "0"
+              },
+              "complete": false
+            },
+            {
+              "phase": "writer-complete",
+              "state": "buffering",
+              "positionSeconds": 3.9999954648526073,
+              "availableSeconds": 14971.335125,
+              "physicalReadMaxEndBytes": "4301515225",
+              "decoderIoBytes": {
+                "audio": "6029312",
+                "video": "0"
+              },
+              "complete": true
+            },
+            {
+              "phase": "complete-tail-paused",
+              "state": "paused",
+              "positionSeconds": 14968.33511564626,
+              "availableSeconds": 14971.335125,
+              "physicalReadMaxEndBytes": "4311153801",
+              "decoderIoBytes": {
+                "audio": "6356992",
+                "video": "0"
+              },
+              "complete": true
+            },
+            {
+              "phase": "natural-eof-release",
+              "state": "finished",
+              "positionSeconds": null,
+              "availableSeconds": null,
+              "physicalReadMaxEndBytes": "4311744620",
+              "decoderIoBytes": {
+                "audio": "6948435",
+                "video": "0"
+              },
+              "complete": null
+            }
+          ],
+          "secondsElapsed": 82.125,
+          "largeFileRemovedAfterRelease": true
+        }
+      ],
+      "ctestExitCode": 0,
+      "qtTotals": [
+        "4 passed, 0 failed, 0 skipped, 0 blacklisted, 169486ms\r"
+      ],
+      "logSha256": "ee762d7645bda7012c50eb059d5176331a0b872531fd83e0e9331e7f2322c816"
+    }
+  },
+  "classic": {
+    "runtime": [
+      {
+        "result": "PASS",
+        "bits": 16,
+        "fileBytes": 4311744592,
+        "allBytesWritten": 4311744592,
+        "sha256": "b065c4b2bc75a73cbed46f77e5379397cf5a28dcc8424d4ffe665a1b22516913",
+        "initialSparseFile": {
+          "fileBytes": 4311744592,
+          "writtenBytes": 5760080,
+          "holes": [
+            {
+              "offset": 33554432,
+              "length": 65536,
+              "unallocated": true
+            },
+            {
+              "offset": 4286578688,
+              "length": 65536,
+              "unallocated": true
+            }
+          ],
+          "filesystemProbe": "FSCTL_QUERY_ALLOCATED_RANGES",
+          "allocatedBytes": null
+        },
+        "unallocatedGapsPreservedWhileIslandPlayed": true,
+        "farSeconds": 22378,
+        "farPhysicalByte": 4296576080,
+        "physicalReadMaxEndBytes": 4311744592,
+        "farPcmSha256": "4c55b8fef4c3ec734e463ce4a14229e52cd51ae3f42416ab4352446bc7ca2f23",
+        "gappedCompleteRejected": true,
+        "readerIdentityPreserved": true,
+        "publications": 261,
+        "integrityRecords": 1032,
+        "maxApiRequestBytes": 1506,
+        "phases": [
+          {
+            "phase": "head-buffers",
+            "state": "buffering",
+            "positionSeconds": 0.0,
+            "availableSeconds": 3.7546666,
+            "physicalReadMaxEndBytes": "80",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            },
+            "complete": false
+          },
+          {
+            "phase": "head-plays",
+            "state": "playing",
+            "positionSeconds": 2.0068038,
+            "availableSeconds": 11.9466666,
+            "physicalReadMaxEndBytes": "1179728",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1180190"
+            },
+            "complete": false
+          },
+          {
+            "phase": "manual-pause",
+            "state": "paused",
+            "positionSeconds": 2.0535615,
+            "availableSeconds": 11.9466666,
+            "physicalReadMaxEndBytes": "1179728",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1180190"
+            },
+            "complete": false
+          },
+          {
+            "phase": "hole-seek-rejected",
+            "state": "paused",
+            "positionSeconds": 2.0662608,
+            "availableSeconds": 11.9466666,
+            "physicalReadMaxEndBytes": "1245264",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1245726"
+            },
+            "complete": false
+          },
+          {
+            "phase": "far-island-paused",
+            "state": "paused",
+            "positionSeconds": 22378.0,
+            "availableSeconds": 22391.808,
+            "physicalReadMaxEndBytes": "1245264",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1245726"
+            },
+            "complete": false
+          },
+          {
+            "phase": "physical-island-after-4GiB",
+            "state": "playing",
+            "positionSeconds": 22380.0150131,
+            "availableSeconds": 22391.808,
+            "physicalReadMaxEndBytes": "4297785424",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "2490910"
+            },
+            "complete": false
+          },
+          {
+            "phase": "gapped-complete-rejected",
+            "state": "playing",
+            "positionSeconds": 22380.0150131,
+            "availableSeconds": 22391.808,
+            "physicalReadMaxEndBytes": "4297785424",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "2490910"
+            },
+            "complete": false
+          },
+          {
+            "phase": "island-end-waits",
+            "state": "buffering",
+            "positionSeconds": 22390.8442425,
+            "availableSeconds": 22391.808,
+            "physicalReadMaxEndBytes": "4299227216",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "3932702"
+            },
+            "complete": false
+          },
+          {
+            "phase": "extended-island-resumes",
+            "state": "playing",
+            "positionSeconds": 22394.0363917,
+            "availableSeconds": 22400.0,
+            "physicalReadMaxEndBytes": "4300472400",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "5177886"
+            },
+            "complete": false
+          },
+          {
+            "phase": "pause-for-backwards",
+            "state": "paused",
+            "positionSeconds": 22394.0363917,
+            "availableSeconds": 22400.0,
+            "physicalReadMaxEndBytes": "4300537936",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "5243422"
+            },
+            "complete": false
+          },
+          {
+            "phase": "backwards-over-4GiB-gap",
+            "state": "paused",
+            "positionSeconds": 4.0,
+            "availableSeconds": 11.9466666,
+            "physicalReadMaxEndBytes": "4300537936",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "5243422"
+            },
+            "complete": false
+          },
+          {
+            "phase": "full-fill-preserves-pause",
+            "state": "paused",
+            "positionSeconds": 4.0,
+            "availableSeconds": 22457.0026666,
+            "physicalReadMaxEndBytes": "4300537936",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "6095390"
+            },
+            "complete": false
+          },
+          {
+            "phase": "writer-complete",
+            "state": "buffering",
+            "positionSeconds": 4.0,
+            "availableSeconds": 22457.0026666,
+            "physicalReadMaxEndBytes": "4300537936",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "6095390"
+            },
+            "complete": true
+          },
+          {
+            "phase": "complete-tail-paused",
+            "state": "paused",
+            "positionSeconds": 22454.0026666,
+            "availableSeconds": 22457.0026666,
+            "physicalReadMaxEndBytes": "4300537936",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "6095390"
+            },
+            "complete": true
+          },
+          {
+            "phase": "natural-eof-release",
+            "state": "finished",
+            "positionSeconds": null,
+            "availableSeconds": null,
+            "physicalReadMaxEndBytes": "4311744592",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "6685214"
+            },
+            "complete": null
+          }
+        ],
+        "secondsElapsed": 81.532,
+        "largeFileRemovedAfterRelease": true
+      },
+      {
+        "result": "PASS",
+        "bits": 24,
+        "fileBytes": 4311744620,
+        "allBytesWritten": 4311744620,
+        "sha256": "930e77bf531afa8f6f048c983f75a909601beead470dd948ce3c658b694af6de",
+        "initialSparseFile": {
+          "fileBytes": 4311744620,
+          "writtenBytes": 8640104,
+          "holes": [
+            {
+              "offset": 33554432,
+              "length": 65536,
+              "unallocated": true
+            },
+            {
+              "offset": 4286578688,
+              "length": 65536,
+              "unallocated": true
+            }
+          ],
+          "filesystemProbe": "FSCTL_QUERY_ALLOCATED_RANGES",
+          "allocatedBytes": null
+        },
+        "unallocatedGapsPreservedWhileIslandPlayed": true,
+        "farSeconds": 14919,
+        "farPhysicalByte": 4296672104,
+        "physicalReadMaxEndBytes": 4311744620,
+        "farPcmSha256": "666e9e611e6578fd0e5fd5c5707098eda938d2e947388ab538bfdd48acfec95c",
+        "gappedCompleteRejected": true,
+        "readerIdentityPreserved": true,
+        "publications": 261,
+        "integrityRecords": 1032,
+        "maxApiRequestBytes": 1507,
+        "phases": [
+          {
+            "phase": "head-buffers",
+            "state": "buffering",
+            "positionSeconds": 0.0,
+            "availableSeconds": 3.7546666,
+            "physicalReadMaxEndBytes": "104",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "0"
+            },
+            "complete": false
+          },
+          {
+            "phase": "head-plays",
+            "state": "playing",
+            "positionSeconds": 2.0370097,
+            "availableSeconds": 11.9466666,
+            "physicalReadMaxEndBytes": "1769576",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1770048"
+            },
+            "complete": false
+          },
+          {
+            "phase": "manual-pause",
+            "state": "paused",
+            "positionSeconds": 2.0370097,
+            "availableSeconds": 11.9466666,
+            "physicalReadMaxEndBytes": "1769576",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1770048"
+            },
+            "complete": false
+          },
+          {
+            "phase": "hole-seek-rejected",
+            "state": "paused",
+            "positionSeconds": 2.0560554,
+            "availableSeconds": 11.9466666,
+            "physicalReadMaxEndBytes": "1867880",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1868352"
+            },
+            "complete": false
+          },
+          {
+            "phase": "far-island-paused",
+            "state": "paused",
+            "positionSeconds": 14919.0,
+            "availableSeconds": 14932.992,
+            "physicalReadMaxEndBytes": "1867880",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "1868352"
+            },
+            "complete": false
+          },
+          {
+            "phase": "physical-island-after-4GiB",
+            "state": "playing",
+            "positionSeconds": 14921.0414295,
+            "availableSeconds": 14932.992,
+            "physicalReadMaxEndBytes": "4298440808",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "3637824"
+            },
+            "complete": false
+          },
+          {
+            "phase": "gapped-complete-rejected",
+            "state": "playing",
+            "positionSeconds": 14921.0414295,
+            "availableSeconds": 14932.992,
+            "physicalReadMaxEndBytes": "4298440808",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "3637824"
+            },
+            "complete": false
+          },
+          {
+            "phase": "island-end-waits",
+            "state": "buffering",
+            "positionSeconds": 14932.0142876,
+            "availableSeconds": 14932.992,
+            "physicalReadMaxEndBytes": "4300701800",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "5898816"
+            },
+            "complete": false
+          },
+          {
+            "phase": "extended-island-resumes",
+            "state": "playing",
+            "positionSeconds": 14935.0193931,
+            "availableSeconds": 14940.8426666,
+            "physicalReadMaxEndBytes": "4302471272",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "7668288"
+            },
+            "complete": false
+          },
+          {
+            "phase": "pause-for-backwards",
+            "state": "paused",
+            "positionSeconds": 14935.0193931,
+            "availableSeconds": 14940.8426666,
+            "physicalReadMaxEndBytes": "4302471272",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "7668288"
+            },
+            "complete": false
+          },
+          {
+            "phase": "backwards-over-4GiB-gap",
+            "state": "paused",
+            "positionSeconds": 4.0,
+            "availableSeconds": 11.9466666,
+            "physicalReadMaxEndBytes": "4302536808",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "7733824"
+            },
+            "complete": false
+          },
+          {
+            "phase": "full-fill-preserves-pause",
+            "state": "paused",
+            "positionSeconds": 4.0,
+            "availableSeconds": 14971.335125,
+            "physicalReadMaxEndBytes": "4302536808",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "9011776"
+            },
+            "complete": false
+          },
+          {
+            "phase": "writer-complete",
+            "state": "buffering",
+            "positionSeconds": 4.0,
+            "availableSeconds": 14971.335125,
+            "physicalReadMaxEndBytes": "4302536808",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "9011776"
+            },
+            "complete": true
+          },
+          {
+            "phase": "complete-tail-paused",
+            "state": "paused",
+            "positionSeconds": 14968.335125,
+            "availableSeconds": 14971.335125,
+            "physicalReadMaxEndBytes": "4302536808",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "9011776"
+            },
+            "complete": true
+          },
+          {
+            "phase": "natural-eof-release",
+            "state": "finished",
+            "positionSeconds": null,
+            "availableSeconds": null,
+            "physicalReadMaxEndBytes": "4311744620",
+            "decoderIoBytes": {
+              "video": "0",
+              "audio": "9929284"
+            },
+            "complete": null
+          }
+        ],
+        "secondsElapsed": 79.906,
+        "largeFileRemovedAfterRelease": true
+      }
+    ],
+    "exitCode": 0,
+    "cleanup": {
+      "lastTaskResult": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "builtSha256": "e9a04f76fd6631890c14ed21b5ae616cf978f0530027622c7d5a85582f7ed34c",
+      "testedSha256": "e9a04f76fd6631890c14ed21b5ae616cf978f0530027622c7d5a85582f7ed34c",
+      "equal": true,
+      "testExitCode": 0
+    }
+  },
+  "finalExitCodes": {
+    "sparse-large-linux-build": 0,
+    "sparse-large-windows-build": 0,
+    "sparse-large-linux-tests": 0,
+    "sparse-large-windows-tests": 0,
+    "sparse-large-shell-before-ssh": 0,
+    "sparse-large-shell-after-ssh": 0,
+    "finalize-sparse-large-classic-ssh": 0,
+    "classicInteractiveTests": 0
+  },
+  "binarySha256": {
+    "linuxQt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+    "windowsQt": "dbbbd7b17d23590c5b055928b0c60e6bfdaf229e81fa8b413883ebd55692565d",
+    "classic": "e9a04f76fd6631890c14ed21b5ae616cf978f0530027622c7d5a85582f7ed34c",
+    "linuxApiTest": "d6989d23411f4c8e88b88768f8485d1901503779c2d16543d70fe902160015d6",
+    "windowsApiTest": "5fc5ad63c7f8d39ab34a166e26e6c84978e87580736f273229ac4759dd7a4812"
+  },
+  "fixtureCorrectionScope": "Only the Windows sparse-file creation branch changed after the Linux run started; the POSIX branch and runtime scenario were unchanged. Windows Qt and Classic ran the corrected branch.",
+  "productionBinaryUnchangedFromSdk181": true,
+  "sdkArtifactSha256": "98ac99f203405550ae24feaf41262c25df59df2c818339e1159fa342e6db8ace",
+  "productionSourcesUnchanged": {
+    "qt/src/main.cpp": "a2e9e1d9d8f8a637a055c28095250722860dbbf06002f1e385c7d08e10c14599",
+    "qt/src/playbackcontrol.cpp": "bf4a97ce0382b72ccc3db6af38762ba36d3bf2c9c67e4967d209c96a50b558b8",
+    "qt/src/progressiveplayback.cpp": "2976a01ca7b26c96d5dc9a3f2a7eb93f2cd4064ce7d907131c2130aac64ab396",
+    "qt/src/progressivesource.h": "8be6436be6e87cb7aab54c88af92711929a68bf21c004a8176d0d13463d566aa",
+    "qt/src/progressivesource_common.cpp": "95086231259ee69cd30a3750cd2f28643c7f33649836b2d5bc82ede24343dd04",
+    "qt/tools/progressive_client.py": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+    "qt/tools/progressive_integrity.py": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+    "qt/tools/progressive_v2.py": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+    "shared/progressivefmp4bridge.h": "a10be10be51845423f8b377d462a46c3f26364aafd4501c6c68581ce34709935",
+    "shared/progressiverawaudio.h": "f55400e2216bcaf3c4d88cbbd9129a101250740d0b0402d5b11797b859e803bc",
+    "shared/progressiveresourceio.h": "7886034fc023b68cc7bcfe2473ce4b5d867eaebcd48ed8dde0b3c5b1d5668bcb",
+    "shared/progressiverf64rangemap.h": "18c3fc5fbbbd9c83991fc05cb6bdbe0e5766948d80c2a7594b36b7197049faa3",
+    "shared/progressivesession.h": "2f9780115f01c8622509b6b3bce95a62bbbb2afcbac13e531a9d12757e11216d",
+    "shared/progressivewav.h": "a3d5113d768b34049c5afc59b4df0668466dbd3bc71a2b1bf1ac9942de269e75",
+    "src/DSUtil/HarvesterAudioProjection.h": "dc0e412caeef7060113bcd72b084ab3756f70ba67697046a144c519409c6cbb4",
+    "src/DSUtil/HarvesterMP4.h": "14d47a4d436f68a712af6a9f7f32fe7b36e0221722d7a67c031e0375913c078f",
+    "src/DSUtil/HarvesterSession.cpp": "8101a07c607b778245a99e6ab481f61fa3098d185342e082e60376684b11e0ab",
+    "src/DSUtil/HarvesterSession.h": "32572876f28dd20e9295d328f1060eacc674ac34cccd9a0a2d873fbd090ccebe",
+    "src/DSUtil/HarvesterWav.h": "e1ecd8d6a71f10e901dcc961c3e792b66ac0710ecafec34bc19d791c825b4efd",
+    "src/apps/mplayerc/MainFrm.cpp": "32cece895f0b555beeb1d0c6811101492c4ab5433e3377ff75971b625855bc5e",
+    "tools/package_progressive_sdk.py": "a1b0650f22f45eed8bea5a7a0764d49ce70523dde5e2716178b87fb1dd05c1fb"
+  },
+  "sourceFilesSha256": {
+    "qt/CMakeLists.txt": "1cdd8608c3ebaf72e0bb9fc591a189eb04df8b30da87b06f82d3488dfc370a6a",
+    "qt/src/main.cpp": "a2e9e1d9d8f8a637a055c28095250722860dbbf06002f1e385c7d08e10c14599",
+    "qt/src/playbackcontrol.cpp": "bf4a97ce0382b72ccc3db6af38762ba36d3bf2c9c67e4967d209c96a50b558b8",
+    "qt/src/progressiveplayback.cpp": "2976a01ca7b26c96d5dc9a3f2a7eb93f2cd4064ce7d907131c2130aac64ab396",
+    "qt/src/progressivesource.h": "8be6436be6e87cb7aab54c88af92711929a68bf21c004a8176d0d13463d566aa",
+    "qt/src/progressivesource_common.cpp": "95086231259ee69cd30a3750cd2f28643c7f33649836b2d5bc82ede24343dd04",
+    "qt/tests/progressiveapi_test.cpp": "202b7aba66322f2bae9a46969c26964aa6ba9beae6459e68e221df0839682b7b",
+    "qt/tools/progressive_client.py": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+    "qt/tools/progressive_integrity.py": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+    "qt/tools/progressive_v2.py": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+    "shared/progressivefmp4bridge.h": "a10be10be51845423f8b377d462a46c3f26364aafd4501c6c68581ce34709935",
+    "shared/progressiverawaudio.h": "f55400e2216bcaf3c4d88cbbd9129a101250740d0b0402d5b11797b859e803bc",
+    "shared/progressiveresourceio.h": "7886034fc023b68cc7bcfe2473ce4b5d867eaebcd48ed8dde0b3c5b1d5668bcb",
+    "shared/progressiverf64rangemap.h": "18c3fc5fbbbd9c83991fc05cb6bdbe0e5766948d80c2a7594b36b7197049faa3",
+    "shared/progressivesession.h": "2f9780115f01c8622509b6b3bce95a62bbbb2afcbac13e531a9d12757e11216d",
+    "shared/progressivewav.h": "a3d5113d768b34049c5afc59b4df0668466dbd3bc71a2b1bf1ac9942de269e75",
+    "src/DSUtil/HarvesterAudioProjection.h": "dc0e412caeef7060113bcd72b084ab3756f70ba67697046a144c519409c6cbb4",
+    "src/DSUtil/HarvesterMP4.h": "14d47a4d436f68a712af6a9f7f32fe7b36e0221722d7a67c031e0375913c078f",
+    "src/DSUtil/HarvesterSession.cpp": "8101a07c607b778245a99e6ab481f61fa3098d185342e082e60376684b11e0ab",
+    "src/DSUtil/HarvesterSession.h": "32572876f28dd20e9295d328f1060eacc674ac34cccd9a0a2d873fbd090ccebe",
+    "src/DSUtil/HarvesterWav.h": "e1ecd8d6a71f10e901dcc961c3e792b66ac0710ecafec34bc19d791c825b4efd",
+    "src/apps/mplayerc/MainFrm.cpp": "32cece895f0b555beeb1d0c6811101492c4ab5433e3377ff75971b625855bc5e",
+    "tests/fixtures/progressive-v2/integrity-empty.idx": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/fixtures/progressive-v2/rf64-external-index.json": "be6966d3c2fe8274b1e11c3c13d3125244938e0e9769fda34774b40718c4af03",
+    "tests/fixtures/progressive-v2/rf64-sparse-pcm16.json": "780c65509bc27a1a1dc1fe7f6cfa7ffe4df5875d0f918925aa6fbf23bbab9a8c",
+    "tests/fixtures/progressive-v2/rf64-sparse-pcm24.json": "8e59dd5fe7b9f36ff23660b7924fdb82460a6858474ad3b7091371d775fb7c62",
+    "tests/progressive_external_integrity_conformance.py": "b298bafa5d84b7a769fe353d8d479a640afd50118d7fb9576e1f2ab807ce05d1",
+    "tests/progressive_media_cli.cpp": "1d80527e16e2379ee1f210a1ffa73f0653514df876d93ce18da176685b1da1ca",
+    "tests/progressive_rf64_conformance.py": "076721a25adc8727761490bce1fcb361be84fbc7e3e3c6f6a57e986e14ab3d5c",
+    "tests/progressive_rf64_fixture.py": "d75de02dafaf2fac3d18a05f4e409db38816174acb40e71e940e12f4e6159e94",
+    "tests/progressive_rf64_geometry.h": "3f8d86288a25ab8dd562a77d369401b0f5a35dddc2afc139432d1cd3d050212e",
+    "tests/progressive_rf64_large_playback.py": "e57fb5e0136597cb78873f226b075787867da06a00e58f531b10ed8b0faaccd2",
+    "tests/progressive_rf64_map_conformance.py": "4004a915445b22cb75ca66cb196172ecc55ab4d30b1a91b2a106f8611e6eddae",
+    "tests/progressive_rf64_map_geometry.cpp": "ae75f7ef8b908e968d98a816583fe54e33e53821f91f609f7b08d9551e4847d8",
+    "tests/progressive_rf64_paused_eof_probe.py": "4d310479273d7874c7cc1fa6688a7c53a08279ebf0fe0788eaaf8332745231ae",
+    "tests/progressive_rf64_ranges_conformance.py": "58ac35b2eea2aa4fe8dac6c9074179f78849cacdb9437232cd6724c87a9feebf",
+    "tests/progressive_rf64_ranges_playback.py": "f6304c7ed7a2dfa77d6bb350ac9abf650165528a71a7af9f7bdd7e1bbc1746b8",
+    "tests/progressive_rf64_sparse_conformance.py": "9791eeceef4bc6ed8cfb9b169391cb0c9824385ca22594dced5fa2d9e8fbcb82",
+    "tests/progressive_rf64_sparse_large_playback.py": "9ea95f818b989612cef94ea49580fa8c28f812502859888352b854c12b3f2a91",
+    "tests/progressive_rf64_sparse_playback.py": "1de45938489aa9bd48c3318b9b7dac478a5484d990637a353a6ca3857f1059aa",
+    "tests/progressive_sdk_test.py": "30ad8e259cade8f1a91b6d04c610fb51e760359276a77e401f4f9663d8f09168",
+    "tests/progressive_standalone_fixture.py": "46c76e224a50379d3b221daf42736d042ec6f461856504d26c321af0d004cbfd",
+    "tests/progressive_standalone_playback.py": "77dc2b58cdc4f501cc70a8db013bc557e13f37f895691209992ae12c62fac1fd",
+    "tests/progressive_v2_sdk_test.py": "ddac18169167bf273ccb5e2c482ddefb17966d1fd2471307ea0d238e3d85e9cc",
+    "tests/windows/progressive_family_test.py": "96b22bb34683c26dd5267017509bb7f3032cab61016ed44788ce94f93ff3abcf",
+    "tools/package_progressive_sdk.py": "a1b0650f22f45eed8bea5a7a0764d49ce70523dde5e2716178b87fb1dd05c1fb"
+  },
+  "preservation": {
+    "before": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "dbbbd7b17d23590c5b055928b0c60e6bfdaf229e81fa8b413883ebd55692565d",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "e9a04f76fd6631890c14ed21b5ae616cf978f0530027622c7d5a85582f7ed34c"
+    },
+    "after": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "c83ebccf4ac499c5d1142dd442283ffd08865fa2b1d0dcb3fbece58ea5d7af82",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "8aea000541cc0551959a76e2139c6ddc75c653ffff1986de756df2f2a0d843e3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "dbbbd7b17d23590c5b055928b0c60e6bfdaf229e81fa8b413883ebd55692565d",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "e9a04f76fd6631890c14ed21b5ae616cf978f0530027622c7d5a85582f7ed34c"
+    },
+    "allMeasuredFilesUnchanged": true,
+    "classicShellEntries": 158,
+    "classicShellUnchanged": true,
+    "linuxReplacementNeeded": false,
+    "harvesterModified": false
+  },
+  "initialRuns": {
+    "windowsCtestExitCode": 8,
+    "windowsLogSha256": "4ad1a0b238143a9e9d62af51059beaeeb6832c3941724b9a73121e83da0a407f",
+    "cause": "Test fixture CRT truncate allocated holes before player startup; fixed Windows-only sparse file EOF extension with SetFilePointerEx/SetEndOfFile"
+  },
+  "limits": [
+    "Two physical sparse profiles per edition: PCM16/24 stereo48kHz, known ds64/resource length and initial head",
+    "Other rates/layouts, maximum16GiB/250000packets and long-run memory/latency stress not exercised here",
+    "Other containers/video/live/headless startup/configuration changes and full technical specification acceptance remain open",
+    "New validation sources are in the current Git branch; immutable SDK1.81 ZIP/tag/assets are not repackaged",
+    "Linux private X11/D-Bus/PulseAudio only; Classic private INI, isolated staging/task cleaned; installed Windows applications unchanged"
+  ]
+}
