@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cstdint>
 #include <filesystem>
 #include <string>
 #include <stdexcept>
@@ -30,9 +31,13 @@ inline std::filesystem::path ExecutableDirectory(){
  std::vector<char> b(65536);const auto n=readlink("/proc/self/exe",b.data(),b.size());if(n<=0 || size_t(n)>=b.size())throw std::runtime_error("backend-worker-path-error");return std::filesystem::path(std::string(b.data(),n)).parent_path();
 #endif
 }
+struct Limits {
+ std::chrono::milliseconds lifetime{4000},operation{4000};
+};
 class Process {
  using Clock=std::chrono::steady_clock;
- std::atomic<bool>& cancelled;Clock::time_point deadline=Clock::now()+std::chrono::seconds(4);std::string pending;
+ std::atomic<bool>& cancelled;Limits limits;Clock::time_point deadline,operationDeadline;std::string pending;
+ bool exited=false;int exitCode=0;
 #ifdef _WIN32
  HANDLE process=nullptr,job=nullptr,input=nullptr,output=nullptr;
  static void close(HANDLE& h){if(h && h!=INVALID_HANDLE_VALUE)CloseHandle(h);h=nullptr;}
@@ -40,12 +45,13 @@ class Process {
  pid_t pid=-1;int input=-1,output=-1;
  static void close(int& fd){if(fd>=0)::close(fd);fd=-1;}
 #endif
- void check(){if(cancelled.load())throw std::runtime_error("cancelled");if(Clock::now()>=deadline)throw std::runtime_error("backend-time-limit");}
+ void check(){if(cancelled.load())throw std::runtime_error("cancelled");if(Clock::now()>=deadline)throw std::runtime_error("backend-time-limit");if(Clock::now()>=operationDeadline)throw std::runtime_error("backend-operation-time-limit");}
  bool running(){
 #ifdef _WIN32
-  return WaitForSingleObject(process,0)==WAIT_TIMEOUT;
+  if(exited)return false;if(WaitForSingleObject(process,0)==WAIT_TIMEOUT)return true;
+  DWORD code=0;if(!GetExitCodeProcess(process,&code))throw std::runtime_error("backend-pipe-error");exitCode=int(code);exited=true;return false;
 #else
-  int status=0;const auto result=waitpid(pid,&status,WNOHANG);if(result==pid){pid=-1;return false;}return result==0;
+  if(exited)return false;int status=0;const auto result=waitpid(pid,&status,WNOHANG);if(result==pid){pid=-1;exited=true;exitCode=WIFEXITED(status)?WEXITSTATUS(status):WIFSIGNALED(status)?-WTERMSIG(status):-1;return false;}if(result<0 && errno!=EINTR)throw std::runtime_error("backend-pipe-error");return true;
 #endif
  }
  void stop() noexcept {
@@ -57,7 +63,9 @@ class Process {
 #endif
  }
 public:
- Process(const std::filesystem::path& executable,std::atomic<bool>& cancel):cancelled(cancel){
+ Process(const std::filesystem::path& executable,std::atomic<bool>& cancel,Limits policy={}):cancelled(cancel),limits(policy){
+  if(limits.lifetime.count()<=0 || limits.lifetime>std::chrono::hours(1) || limits.operation.count()<=0 || limits.operation>limits.lifetime)throw std::runtime_error("backend-invalid-limits");
+  deadline=Clock::now()+limits.lifetime;operationDeadline=deadline;
 #ifdef _WIN32
   HANDLE childInput=nullptr,childOutput=nullptr,nullError=INVALID_HANDLE_VALUE,thread=nullptr;
   LPPROC_THREAD_ATTRIBUTE_LIST attrs=nullptr;bool attrsReady=false;std::vector<unsigned char> storage;
@@ -106,7 +114,16 @@ public:
  }
  ~Process(){stop();}
  Process(const Process&)=delete;Process& operator=(const Process&)=delete;
- void send(const std::string& line){if(line.size()>140000)throw std::runtime_error("backend-frame-limit");const auto bytes=line+"\n";size_t at=0;
+ uint64_t id()const{
+#ifdef _WIN32
+  return GetProcessId(process);
+#else
+  return pid>0?uint64_t(pid):0;
+#endif
+ }
+ bool alive(){return running();}
+ int finish(){operationDeadline=Clock::now()+limits.operation;while(running()){check();std::this_thread::sleep_for(std::chrono::milliseconds(5));}return exitCode;}
+ void send(const std::string& line){operationDeadline=Clock::now()+limits.operation;if(line.size()>140000)throw std::runtime_error("backend-frame-limit");const auto bytes=line+"\n";size_t at=0;
 #ifndef _WIN32
   // Block SIGPIPE in this worker thread only; EPIPE is an ordinary child failure.
   sigset_t set,old;sigemptyset(&set);sigaddset(&set,SIGPIPE);pthread_sigmask(SIG_BLOCK,&set,&old);
@@ -129,7 +146,7 @@ public:
 #endif
   }
  }
- std::string receive(){for(;;){check();const auto end=pending.find('\n');if(end!=std::string::npos){if(end>140000)throw std::runtime_error("backend-frame-limit");auto line=pending.substr(0,end);pending.erase(0,end+1);return line;}if(pending.size()>140000)throw std::runtime_error("backend-frame-limit");char bytes[4096];
+ std::string receive(){operationDeadline=Clock::now()+limits.operation;for(;;){check();const auto end=pending.find('\n');if(end!=std::string::npos){if(end>140000)throw std::runtime_error("backend-frame-limit");auto line=pending.substr(0,end);pending.erase(0,end+1);return line;}if(pending.size()>140000)throw std::runtime_error("backend-frame-limit");char bytes[4096];
 #ifdef _WIN32
    DWORD available=0;if(!PeekNamedPipe(output,nullptr,0,nullptr,&available,nullptr)){if(!running())throw std::runtime_error("backend-worker-exited");throw std::runtime_error("backend-pipe-error");}if(available){DWORD n=0;if(!ReadFile(output,bytes,(std::min)(DWORD(sizeof(bytes)),available),&n,nullptr) || !n)throw std::runtime_error("backend-pipe-error");pending.append(bytes,n);continue;}if(!running())throw std::runtime_error("backend-worker-exited");std::this_thread::sleep_for(std::chrono::milliseconds(5));
 #else

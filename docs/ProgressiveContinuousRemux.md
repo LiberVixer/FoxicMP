@@ -1,6 +1,6 @@
-# Непрерывный remux: внутренний потоковый движок
+# Непрерывный remux: внутренний движок и управляющий слой
 
-Первый компонент общего progressive-remux. Приложение остаётся 0.2.0, публичный
+Внутренние компоненты общего progressive-remux. Приложение остаётся 0.2.0, публичный
 контракт SDK — 1.81. **Обычный API трёх плееров ещё не подключён к этому движку.**
 Новая capability не объявляется; компонент не устанавливается в пользовательские
 папки и не включён в опубликованные установщики/SDK ZIP. Harvester не меняется.
@@ -42,8 +42,9 @@ duration сверяются отдельно; новое независимое 
 - Clock deadline worker — один час, проверяемый на I/O/packet границах. Чтение stdin
   само по себе блокирующее: принудительная остановка — обязанность родителя.
 - Linux: child-local CPU limit 30 s, address space 1 GiB, 64 file descriptors;
-  ASan отдельно освобождён от address-space cap. Windows Job Object/память и
-  управляемый spawn будущего штатного родителя ещё предстоит подключить.
+  ASan отдельно освобождён от address-space cap. Управляемый родитель теперь
+  запускает Windows worker в Job Object: память 1 GiB и kill-on-close, только
+  три разрешённых стандартных handle. Native test проверяет реальные Job flags.
 
 Пределы — верхние границы, а не гарантия всех сочетаний размеров и времени.
 Для AAC нельзя просто перенести этот режим: сначала требуется сохранить
@@ -77,8 +78,8 @@ complete. Только после него дописывается trailer и �
 выходом; будущий родитель должен управлять их состоянием и очисткой.
 
 Это **частный протокол дочернего компонента**, не IPC FoxicMP и не инструкция
-интеграции Harvester. Здесь нет самостоятельной проверки владельца исходника,
-ranges/SHA и reader leases: будущий родитель должен использовать ResourceSource.
+интеграции Harvester. Сам worker не проверяет владельца, ranges/SHA и reader
+leases; этим занимается описанный ниже управляющий слой через ResourceSource.
 
 ## Проверки и наблюдаемость
 
@@ -112,18 +113,78 @@ Windows DLL FFmpeg транзитивно загружает GIO. Трассир
 порогов или длительный stress; первоначальная неудачная попытка idle-измерения
 и trace остаются отдельными свидетельствами.
 
+## Управляющий слой — 4 ноября 2026
+
+`shared/progressivestreamremux.h`: общий `StreamRemuxSession` с отдельным потоком.
+Он владеет ResourceSource и дочерним Process; UI/API к нему пока не подключены.
+На входе допускается один video-only MP4 track, H.264/пустой codec hint,
+SHA-protected local resource с известной неизменной длиной до 128 MiB.
+Unknown length, отсутствие integrity и дополнительные audio tracks отклоняются
+до spawn. Actual codec/audio/B-frames дополнительно проверяет сам FFmpeg worker.
+
+Публикации проходят Parse/Advance и ResourceSource::publish. Session/generation,
+writer, resource identity, clock и ранее опубликованные SHA blocks не меняются;
+revision растёт. Ошибочная публикация не заменяет рабочую. По подтверждённым
+ranges читаются только SHA-проверенные bytes; физический неопубликованный хвост
+не доступен. Для нехватки диапазона родитель удерживает заблокированный AVIO
+worker, без перезапусков и пустых resume. Complete исходника подтверждается
+отдельно, включая случай, когда все bytes уже доступны до writer complete.
+
+Heartbeat относится к уже привязанному writer/session; его вызывает будущий
+аутентифицированный API adapter. Сейчас это внутренний вызов владельца, новый
+публичный heartbeat endpoint не создан. Успешная публикация также обновляет
+heartbeat. Default — 30 s, общий lifetime — до 1 h, один pipe exchange — 10 s.
+Старый snapshot transport сохраняет 4 s. Лимиты раздельны: пять секунд source
+wait не становятся зависшим pipe exchange. Перенос в long-running режим
+выполняется только явным параметром; старые demux/remux вызовы его не получают.
+
+Во время ожидания проверяются cancellation, writer/resource failures, heartbeat,
+lifetime, ResourceSource и жив ли child. Найден и исправлен дефект первой версии
+родителя: после kill worker источник продолжал ждать публикацию. Сохранённый
+failed-before-fix log и последующие измерения входят в
+[отчёт управляющего слоя](ProgressiveContinuousRemuxParentValidation-2026-11-04.json).
+
+Write frames имеют последовательные offsets, chunk ≤64 KiB, output ≤64 MiB.
+Родитель сверяет итоговые bytesRead/bytesWritten и собственный SHA-256 с result,
+проверяет source complete, pinned source и реальный exit 0. Ошибка sink не даёт
+успешного result. Дочерний процесс уничтожается/дожидается раньше закрытия
+источника; `done` публикуется после закрытия media handles. Квитанции остаются
+консервативными при ошибке записи registry; native tests отдельно подтверждают
+`readerStatus.released` с `reason=files-closed` перед readerForget.
+
+**Граница этапа:** выход передаётся в ограниченный внутренний sink, собственного
+cache/decoder store здесь ещё нет. В тестах sink — частный файл внутри временной
+папки. Код sink вызывается синхронно; pipe deadline не прерывает произвольный
+заблокированный callback или зависший filesystem/registry. До подключения
+штатного store этот контракт нельзя выдавать за готовую публичную операцию.
+`filesClosed` относится к оригиналу; decoder-output readers ещё отсутствуют.
+Пятисекундное ожидание и короткие fault tests не заменяют stress/latency приёмку.
+
+По 17 сценариев: Linux GCC, Windows MinGW, Windows MSVC и Linux ASan/UBSan.
+Один PID/context, heartbeat через несколько публикаций, полный fragment до
+complete, immutable packet/frame hashes и PTS/DTS, physical rename с отравленным
+старым именем, недоступность хвоста, invalid generation/revision, writer error,
+heartbeat loss, lifetime, rewrite/SHA/truncation, worker kill, sink failure после
+частичного выхода, operation stall/partial frame/bad offset и cancel в receive.
+Три source admission negatives проверяются до spawn. Все временные fixtures
+удаляются; для намеренных fault code `data` запрещён, result пуст.
+
+Повторены прежние transport, ResourceSource, demux/remux native проверки. После
+изменения общего transport пересобраны все три плеера; прежний bounded remux
+проверен через их обычные API: 24 preparation checks и 20 preview checks на
+редакцию. Это проверка совместимости, **не непрерывное воспроизведение**.
+Linux установлен атомарно с backup, личные INI/файлы сохранены. Windows
+установленные EXE/INI, HKCU registration и Harvester не меняются.
+
 ## Следующий обязательный этап
 
-1. Штатный асинхронный родитель: ResourceSource, immutable session identity,
-   ranges/SHA, heartbeat/writer failures, bounded spawn/cancel и lifetime worker.
-2. Собственный ограниченный cache/output store, group reader receipts для
-   оригиналов и выходных readers; очистка только после фактического filesClosed.
-3. Подключение выходного fMP4 к существующим Qt/Classic bridges и общему status,
+1. Собственный ограниченный cache/output store, parsing полных fragments,
+   original + decoder reader receipts; очистка после фактического filesClosed.
+2. Подключение выходного fMP4 к существующим Qt/Classic bridges и общему status,
    без restart playback при каждом append. Отдельная подготовка, waiting и EOF.
-4. Публичное согласование capability/SDK и проверки через обычный API всех трёх
+3. Публичное согласование capability/SDK и проверки через обычный API всех трёх
    редакций. Затем AAC trim, B-frames и остальные обязательные профили.
 
-Ни один из этих пунктов не объявляется выполненным наличием native worker.
-Установленные приложения и личные профили не меняются; их EXE уже совпадают
-с предыдущей проверенной версией. Новый компонент не является новой поставкой
-Linux-плеера. Дисковые меню, оборудование и Wayland не возобновляются.
+Ни один из этих пунктов не объявляется выполненным наличием внутренних
+компонентов. Новая capability и новый SDK release не объявлены; экспериментальный
+stream worker не установлен. Дисковые меню, оборудование и Wayland не возобновляются.

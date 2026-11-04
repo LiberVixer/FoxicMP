@@ -48,6 +48,8 @@
 
 - [x] Первый внутренний компонент непрерывного remux: [один persistent FFmpeg worker H.264 video-only → fMP4](ProgressiveContinuousRemux.md), две 24 s фикстуры по 600/720 packets, incremental output до source complete, ожидания с тем же demux context, exact packet/frame hashes, clocks и cancel/error guards. По 9 native сценариев Windows/Linux и 9 ASan/UBSan; [результаты](ProgressiveContinuousRemuxValidation-2026-11-03.json). Это engine-only: ResourceSource/leases/cache и обычный API Qt/Classic ещё не подключены, новая capability не объявлена; audio/B-frames и общий remux остаются открытыми.
 
+- [x] Внутренний управляемый continuous-remux parent: отдельный поток, ResourceSource/SHA/ranges, writer/session identity, heartbeat/errors, Windows Job, раздельные lifetime/pipe deadlines и source leases. По 17 native сценариев GCC/MinGW/MSVC/ASan-UBSan; исправлен worker-death wait, повторена совместимость обычного remux API всех трёх редакций, Linux обновлён с backup. [Отчёт](ProgressiveContinuousRemuxParentValidation-2026-11-04.json). Output cache, decoder reader group, playback bridges и публичный API этим не закрыты.
+
 - [ ] Проверенные backend demuxers через управляемый local I/O; платформенные адаптеры Qt/Classic.
 - [ ] Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей.
 - [ ] Явные native-progressive, progressive-remux, waiting, post-download и unsupported результаты.

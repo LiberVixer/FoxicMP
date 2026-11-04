@@ -33,6 +33,12 @@ int main(int argc,char** argv){
  if(const auto* mode=std::getenv("FOXICMP_TRANSPORT_TEST_CHILD")){
   const std::string m=mode;
   if(m=="exit")return 0;
+  if(m=="nonzero")return 17;
+#ifdef _WIN32
+  if(m=="job"){JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};const auto flags=JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE|JOB_OBJECT_LIMIT_PROCESS_MEMORY;
+   if(!QueryInformationJobObject(nullptr,JobObjectExtendedLimitInformation,&limits,sizeof(limits),nullptr) || (limits.BasicLimitInformation.LimitFlags&flags)!=flags || limits.ProcessMemoryLimit!=SIZE_T(1024)*1024*1024)return 18;
+   std::cout<<"job-limited"<<std::endl;return 0;}
+#endif
   if(m=="flood"){std::cout<<std::string(150000,'x')<<std::endl;return 0;}
   if(m=="reply"){std::string line;std::getline(std::cin,line);std::cout<<"ok:"<<line<<std::endl;return 0;}
   std::this_thread::sleep_for(std::chrono::seconds(30));return 0;
@@ -59,6 +65,17 @@ int main(int argc,char** argv){
    else require(error=="backend-worker-exited" || error=="backend-pipe-error","child exit not propagated");
    std::cout<<mode<<": "<<error<<" "<<elapsed<<" seconds, handles="<<handles()<<" baseline="<<before<<std::endl;++checks;
   }
+  {std::atomic<bool> cancel{false};environment("nonzero");Process p(executable,cancel);environment(nullptr);require(p.finish()==17,"child exit code was lost");++checks;}
+  {std::atomic<bool> cancel{false};environment("stall");std::string error;const auto began=Clock::now();
+   {Process p(executable,cancel,{std::chrono::seconds(10),std::chrono::milliseconds(100)});environment(nullptr);try{p.receive();}catch(const std::exception& e){error=e.what();}}
+   require(error=="backend-operation-time-limit" && std::chrono::duration<double>(Clock::now()-began).count()<2,"operation deadline failed");++checks;}
+  {std::atomic<bool> cancel{false};environment("reply");Process p(executable,cancel,{std::chrono::seconds(10),std::chrono::seconds(1)});environment(nullptr);
+   std::this_thread::sleep_for(std::chrono::milliseconds(4200));p.send("after snapshot deadline");require(p.receive()=="ok:after snapshot deadline" && p.finish()==0,"stream lifetime used snapshot deadline");++checks;}
+  {std::atomic<bool> cancel{false};std::string error;try{Process p(executable,cancel,{std::chrono::hours(2),std::chrono::seconds(1)});}catch(const std::exception& e){error=e.what();}
+   require(error=="backend-invalid-limits","unbounded worker lifetime accepted");++checks;}
+#ifdef _WIN32
+  {std::atomic<bool> cancel{false};environment("job");Process p(executable,cancel);environment(nullptr);require(p.receive()=="job-limited" && p.finish()==0,"worker Job limits missing");++checks;}
+#endif
   for(int i=0;i<20;++i){std::atomic<bool> cancel{false};try{Process p(executable.parent_path()/"missing-test-worker",cancel);require(false,"missing worker accepted");}catch(const std::exception& e){require(std::string(e.what())=="backend-worker-unavailable","wrong missing worker error");}}++checks;
   std::cout<<"After 20 failed spawns: handles="<<handles()<<" baseline="<<before<<std::endl;
   require(handles()==before,"child transport leaked handles");++checks;
