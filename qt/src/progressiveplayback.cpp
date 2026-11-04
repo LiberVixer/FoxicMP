@@ -529,8 +529,15 @@ QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive:
 }
 QJsonObject Window::preparedClipStatus(const QString& uri)const{
   const bool owned=preparedPlayback && current==uri;
-  const auto state=!owned?QString("closed"):!lastError.isEmpty()?QString("error"):preparedFinished?QString("finished"):(player->get("path").toString()!=uri || player->get("duration").toDouble()<=0)?QString("buffering"):player->get("pause").toBool()?QString("paused"):QString("playing");
-  return {{"state",state},{"active",owned && state!="finished" && state!="error"},{"positionSeconds",owned?(preparedFinished?preparedDuration:player->get("time-pos").toDouble()):0},{"durationSeconds",owned?preparedDuration:0},{"error",owned?lastError:QString()},{"videoCodec",owned?player->get("video-codec").toString():QString()},{"audioCodec",owned?player->get("audio-codec-name").toString():QString()}};
+  const bool continuous=owned && uri.startsWith("foxicmp-continuous://");
+  const bool loaded=owned && player->get("path").toString()==uri && player->get("duration").toDouble()>0;
+  // pause is the user's intent; paused-for-cache is mpv's decoder starvation.
+  // In particular, an accepted publication or a blocked read-ahead cursor
+  // alone must not turn a loaded, progressing decoder into "buffering".
+  const auto state=!owned?QString("closed"):!lastError.isEmpty()?QString("error"):preparedFinished?QString("finished"):!loaded?QString("buffering"):player->get("pause").toBool()?QString("paused"):continuous && player->get("paused-for-cache").toBool()?QString("buffering"):QString("playing");
+  QJsonObject result{{"state",state},{"active",owned && state!="finished" && state!="error"},{"positionSeconds",owned?(preparedFinished?preparedDuration:player->get("time-pos").toDouble()):0},{"durationSeconds",owned?preparedDuration:0},{"error",owned?lastError:QString()},{"videoCodec",owned?player->get("video-codec").toString():QString()},{"audioCodec",owned?player->get("audio-codec-name").toString():QString()}};
+  if(continuous)result["reasonCode"]=state=="buffering"?(loaded?"waiting-range":"decoder-opening"):state=="paused"?"paused":state=="finished"?"source-complete":state=="error"?"decoder-error":"";
+  return result;
 }
 bool Window::preparedClipControl(const QString& uri,const QString& command,double seconds){
   if(!preparedPlayback || current!=uri)return false;

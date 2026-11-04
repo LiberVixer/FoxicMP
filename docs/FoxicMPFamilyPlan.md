@@ -762,3 +762,21 @@ Production EXE, INI и 158 shell entries сохранены; три однора
 Classic — `buffering`. Qt state/reasonCodes/индикация остаются открытыми и идут
 следующими, затем heartbeat expiry, shutdown/crash и длительная stress matrix.
 Полная waiting/stress приёмка, audio/B-frames и остальное ТЗ не закрыты.
+
+
+4 ноября 2026, Qt continuous buffering status/UI исправлен в общем Qt-коде.
+API учитывает настоящий paused-for-cache; ручная пауза имеет приоритет в API,
+строке состояния и шаблоне заголовка. Optional reasonCode различает waiting-range,
+decoder-opening/decoder-buffering, paused, source-complete, playback-closed и ошибки.
+[Методика](ProgressiveContinuousBuffering.md),
+[новый отчёт](ProgressiveContinuousBufferingValidation-2026-11-04.json).
+Baseline Linux EXE воспроизвёл ошибку с CTest exit 8; обе исправленные Qt ОС
+прошли по 11 CTest групп, по 5 SDK waiting сценариев 10/30/60 s и по 17 raw playback
+сценариев с отдельной проверкой writer-failed. Новый Window/API сценарий проверяет
+настоящий label, API и ручную паузу при complete; resume 0,20–0,26 s.
+Linux обновлён атомарно с backup, сохранены INI и 278 других существующих файлов.
+Установленные Windows EXE/INI, Classic, 158 shell entries, опубликованные SDK ZIP
+и Harvester не менялись. Новых периодических или одноразовых задач не создавалось.
+Classic ранее уже подтверждал buffering; новый optional Qt reasonCode не объявлен
+обязательным полем Classic/SDK. Следом идут heartbeat expiry, shutdown/crash и
+длительная stress matrix. Полное ТЗ и общая межформатная reasonCodes приёмка открыты.

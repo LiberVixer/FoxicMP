@@ -9,6 +9,13 @@
 #include "classicstatus.h"
 #include "progressivesource.h"
 
+namespace {
+bool cacheBuffering(Player* player,bool continuous) {
+  return player->get("paused-for-cache").toBool() &&
+      !(continuous && player->get("pause").toBool());
+}
+}
+
 QString Window::mediaStatusTitle() const {
   QString title = progressive && !property("foxicmpProgressiveTitle").toString().isEmpty()
       ? property("foxicmpProgressiveTitle").toString() : titleMetadata.trimmed();
@@ -58,7 +65,7 @@ void Window::updatePlayerStatus() {
   else if (!lastError.isEmpty())
     message = uiTr("Ошибка: ") + lastError;
   else if ((progressive && progressiveBuffering) ||
-           player->get("paused-for-cache").toBool())
+           cacheBuffering(player,preparedPlayback && current.startsWith("foxicmp-continuous://")))
     message = progressive && !progressive->status().connected
         ? uiTr("Ожидание загрузчика…") : uiTr("Буферизация…");
   else {
@@ -90,7 +97,7 @@ void Window::updateWindowTitle() {
           : progressive ? mediaStatusTitle() : titleMetadata,
       !lastError.isEmpty() ? uiTr("Ошибка")
       : (progressive && progressiveBuffering) ||
-            (player && player->get("paused-for-cache").toBool())
+            (player && cacheBuffering(player,preparedPlayback && current.startsWith("foxicmp-continuous://")))
           ? uiTr("Буферизация…")
       : paused ? uiTr("Пауза") : uiTr("Воспроизведение"),
       clockText(pos), duration > 0 ? clockText(duration) : QString("—"), !stopped};

@@ -707,9 +707,11 @@ complete seek/EOF, stop, освобождение и отказ audio/B-frames. 
    прошёл по пять сценариев на редакцию: реальные паузы writer 10/30/60 s,
    те же worker/readers, ручная пауза, complete reverse seek/EOF и terminal replay.
    [Отчёт](ProgressiveContinuousWaitingValidation-2026-11-04.json) сохраняет
-   точные exit codes и исходные ошибки тестового стенда. Qt всё ещё сообщает
-   `playing` при фактическом ожидании хвоста; исправление buffering state/reasons
-   идёт перед heartbeat expiry, shutdown/crash и длительными stress проверками.
+   точные exit codes и исходные ошибки тестового стенда. Найденное Qt `playing`
+   при фактическом ожидании хвоста затем [исправлено и проверено](ProgressiveContinuousBuffering.md)
+   на обеих Qt ОС: API/строка состояния, manual pause, optional reasonCode,
+   writer-failed и 10/30/60 s waits. Далее — heartbeat expiry, shutdown/crash
+   и длительные stress проверки.
 2. Затем AAC trim, B-frames, остальные профили и общая cache/performance matrix.
 
 Полная интеграционная приёмка не объявляется выполненной этими ограниченными

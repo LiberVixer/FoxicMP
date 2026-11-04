@@ -213,6 +213,7 @@ def exercise(peers, root):
         terminal=until(lambda:(lambda s:s if s['state']=='error' and s['decoderReaders']==0 else None)(status()),'failed writer closes decoder')
         state=until(lambda:(lambda s:s if s['released'] else None)(preparation()),'failure releases source/cache')
         assert state['errorCode']=='writer-failed' and not state['outputComplete'],state
+        if peer.edition=='qt':assert terminal['reasonCode']=='writer-failed',terminal
         return dict(actualPlayback=running,error=terminal,preparation=state)
     case('required-track-failure-during-playback',failed)
 

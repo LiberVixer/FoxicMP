@@ -512,6 +512,9 @@ QJsonObject ProgressiveApi::continuousStatus()const{
   const auto out=p.output();
   const auto producerError=p.producerError();
   if(!p.closed && (!p.error.empty() || !producerError.empty() || !out.failure.empty() || p.source->stopped())){result["state"]="error";result["active"]=false;result["error"]=QString::fromStdString(!p.error.empty()?p.error:!producerError.empty()?producerError:out.failure.empty()?"cancelled":out.failure);}
+  if(result["state"]=="closed")result["reasonCode"]="playback-closed";
+  else if(result["state"]=="error")result["reasonCode"]=QString::fromStdString(!p.error.empty()?p.error:!producerError.empty()?producerError:!out.failure.empty()?out.failure:"decoder-error");
+  else if(result["reasonCode"]=="waiting-range" && out.complete)result["reasonCode"]="decoder-buffering";
   result["version"]=1;result["ok"]=true;result["mode"]="continuous-h264-video-v1";
   result["playbackId"]=QString::fromStdString(p.id);result["requestId"]=QString::fromStdString(p.command.requestId);result["jobId"]=QString::fromStdString(p.command.jobId);
   result["sessionId"]=QString::fromStdString(p.command.sessionId);result["generation"]=QString::number(p.command.generation);result["writerInstanceId"]=QString::fromStdString(p.command.writer);

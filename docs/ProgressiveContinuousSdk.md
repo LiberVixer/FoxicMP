@@ -79,6 +79,13 @@ requestId. При потере ответа play — `playback_status()`. Пов
 конца writer и корректного завершения remux. Общая полнота buffering/reasonCodes
 и прочая матрица ожиданий остаются задачей приёмки.
 
+В исправленных Qt-сборках `buffering` учитывает реальный `paused-for-cache`
+декодера; ручная пауза сохраняет `paused`. Дополнительное необязательное поле
+`reasonCode` различает `waiting-range`, `decoder-opening`, `paused` и терминальные
+исходы — [описание и проверки](ProgressiveContinuousBuffering.md). Старые сборки
+SDK 1.82 и Classic могут не иметь этого поля; наличие SDK helper не доказывает,
+что EXE уже содержит исправление.
+
 stop/close терминальны для объекта. close отменяет только этот preview, не download.
 Обычный readerRelease output reader также закрывает принадлежащий ему просмотр;
 первый ответ консервативен, фактический proof получают через readerStatus.

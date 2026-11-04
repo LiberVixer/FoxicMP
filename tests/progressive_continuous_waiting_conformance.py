@@ -33,6 +33,31 @@ class MeasuredClient:
 
 
 def exercise(peers, root, report):
+    owned = []
+    try:
+        return exercise_owned(peers, root, report, owned)
+    except Exception:
+        (report/'scenario-error.txt').write_text(traceback.format_exc(), encoding='utf-8')
+        raise
+    finally:
+        # A failed assertion must also release the jobs before the driver kills
+        # its idle players. Keep the original failure separate from cleanup.
+        errors = []
+        for sdk in reversed(owned):
+            if sdk.forgotten:
+                continue
+            try:
+                proof = sdk.close(timeout=5)
+                assert proof['released'] and proof['sourceFilesClosed'], proof
+                sdk.forget(timeout=5)
+            except Exception:
+                errors.append(traceback.format_exc())
+        if errors:
+            (report/'job-cleanup-errors.txt').write_text('\n'.join(errors), encoding='utf-8')
+            raise AssertionError('Test job cleanup failed; see job-cleanup-errors.txt')
+
+
+def exercise_owned(peers, root, report, owned):
     source = fixture(root, 'reference')
     raw = source.read_bytes()
     packets = probe(source)['packets']
@@ -56,6 +81,7 @@ def exercise(peers, root, report):
         model['timeline']['duration'] = '240000000'
         path.write_bytes(raw)
         sdk = ContinuousRemux(transport, str(directory))
+        owned.append(sdk)
         sdk.prepare(model, 'clip')
         return directory, path, model, sdk
 
@@ -122,6 +148,7 @@ def exercise(peers, root, report):
     other_model = snapshot(other_path, raw, complete=False, prefix=4)
     other_model['timeline']['duration'] = '240000000'
     other = ContinuousRemux(peers[1].client, str(other_dir))
+    owned.append(other)
     other.prepare(other_model, 'clip')
 
     for seconds in (10, 30, 60):
@@ -145,6 +172,9 @@ def exercise(peers, root, report):
             assert not producer['outputComplete'] and producer['producerCode']=='waiting', producer
             assert producer['workerId']==identities['workerId'] and int(producer['maximumReadEnd'])<=cuts[12], producer
             assert state['readerIds']==identities['readerIds'] and state['playbackId']==identities['playbackId'], state
+            assert state['state']=='buffering', state
+            if peers[0].edition=='qt':
+                assert state['reasonCode']=='waiting-range', state
             positions.append(state['positionSeconds'])
             states.add(state['state'])
             assert abs(state['positionSeconds']-blocked['positionSeconds']) < .15, state
@@ -158,6 +188,8 @@ def exercise(peers, root, report):
         if seconds == 30:
             sdk.control('pause')
             pause = wait(lambda: (lambda s: s if s['state']=='paused' else None)(sdk.playback_status()), 'manual pause at waiting tail')
+            if peers[0].edition=='qt':
+                assert pause['reasonCode']=='paused', pause
         published = time.monotonic()
         model = publish(sdk, model, directory, cuts[20])
         if pause:
@@ -169,6 +201,8 @@ def exercise(peers, root, report):
             published = time.monotonic()
             sdk.control('play')
         resumed = playing(sdk, blocked['positionSeconds']+.2)
+        if peers[0].edition=='qt':
+            assert resumed['reasonCode']=='', resumed
         resume_seconds = time.monotonic()-published
         assert resume_seconds < 2, (resume_seconds, resumed)
         assert sdk.playback_id==identities['playbackId'] and resumed['readerIds']==identities['readerIds'], resumed
@@ -208,6 +242,8 @@ def exercise(peers, root, report):
         else:
             sdk.close(timeout=2)
         closed = wait(lambda: (lambda s: s if s['state']=='closed' and s['decoderReaders']==0 else None)(sdk.playback_status()), 'terminal wait closes output')
+        if peers[0].edition=='qt':
+            assert closed['reasonCode']=='playback-closed', closed
         for _ in range(3):
             replay = transport.request(dict(version=1, action='continuousRemuxPlay', **fields))
             assert replay['state']=='closed' and replay['playbackId']==sdk.playback_id and replay['decoderReaders']==0, replay

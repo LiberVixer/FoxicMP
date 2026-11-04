@@ -4,6 +4,7 @@
 #include "windowsruntime.h"
 #include "window.h"
 #include "profile.h"
+#include "i18n.h"
 #include "progressiveapi.h"
 #include "../../shared/progressivestreamcontroller.h"
 #include "../../shared/progressivestreamplayback.h"
@@ -71,7 +72,7 @@ private slots:
   }
   void windowClose_data(){
     QTest::addColumn<QString>("mode");
-    for(const auto* mode:{"close-window","destroy-api-before-window","reader-release","reader-release-held-reader","delayed-reader-release","delayed-reader-release-replace"})QTest::newRow(mode)<<QString(mode);
+    for(const auto* mode:{"close-window","destroy-api-before-window","reader-release","reader-release-held-reader","delayed-reader-release","delayed-reader-release-replace","waiting-status"})QTest::newRow(mode)<<QString(mode);
   }
   void windowClose(){
     QFETCH(QString,mode);QTemporaryDir dir;QVERIFY(dir.isValid());const auto profilePath=dir.filePath("profile");
@@ -88,6 +89,39 @@ private slots:
     auto playing=api->request({{"version",1},{"action","continuousRemuxPlay"},{"requestId",QString::fromStdString(p::lease_detail::RandomId())},{"jobId",job["jobId"]},{"sessionId",sid},{"generation","1"},{"writerInstanceId",writer}});QVERIFY(playing["ok"].toBool());
     QTRY_VERIFY_WITH_TIMEOUT(player->get("time-pos").toDouble()>.1,10000);const auto nativeClosed=player->lifetime->closed;
     const QJsonObject playbackQuery{{"version",1},{"action","continuousPlaybackStatus"},{"playbackId",playing["playbackId"]}};
+    if(mode=="waiting-status"){
+      auto* label=window->findChild<QLabel*>("playbackStatus");QVERIFY(label);
+      QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString(),QString("playing"),5000);
+      QVERIFY(player->set("speed",4));
+      QTRY_VERIFY_WITH_TIMEOUT(player->get("paused-for-cache").toBool(),8000);
+      QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString(),QString("buffering"),3000);
+      QCOMPARE(api->request(playbackQuery)["reasonCode"].toString(),QString("waiting-range"));
+      QTRY_COMPARE_WITH_TIMEOUT(label->text(),uiTr("Буферизация…"),3000);
+      const auto control=[&](const QString& name){return api->request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",playing["playbackId"]},{"command",name}});};
+      QVERIFY(control("pause")["ok"].toBool());
+      QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString(),QString("paused"),3000);
+      QCOMPARE(api->request(playbackQuery)["reasonCode"].toString(),QString("paused"));
+      QTRY_VERIFY_WITH_TIMEOUT(label->text().startsWith(QString::fromUtf8("⏸")),3000);
+      const auto held=player->get("time-pos").toDouble();
+      auto completed=model;completed["revision"]="2";
+      auto writerValue=completed["writer"].toObject();writerValue["state"]="complete";completed["writer"]=writerValue;
+      auto resources=completed["resources"].toArray();auto resource=resources[0].toObject();resource["state"]="complete";
+      resource["ranges"]=QJsonArray{QJsonObject{{"offset","0"},{"length",QString::number(bytes.size())}}};
+      resource["integrity"]=QJsonObject{{"algorithm","sha256"},{"blocks",QJsonArray{block(bytes,0,prefix),block(bytes,prefix,bytes.size()-prefix)}}};
+      resources[0]=resource;completed["resources"]=resources;
+      auto tracks=completed["tracks"].toArray();auto track=tracks[0].toObject();track["state"]="complete";tracks[0]=track;completed["tracks"]=tracks;
+      QVERIFY(api->request({{"version",1},{"action","continuousRemuxUpdate"},{"jobId",job["jobId"]},{"session",completed}})["ok"].toBool());
+      QTRY_VERIFY_WITH_TIMEOUT(api->request(query)["outputComplete"].toBool(),5000);
+      QTest::qWait(200);QCOMPARE(api->request(playbackQuery)["state"].toString(),QString("paused"));
+      QVERIFY(std::abs(player->get("time-pos").toDouble()-held)<.15);
+      QVERIFY(label->text().startsWith(QString::fromUtf8("⏸")));
+      QVERIFY(control("play")["ok"].toBool());
+      QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString(),QString("playing"),3000);
+      QCOMPARE(api->request(playbackQuery)["reasonCode"].toString(),QString());
+      QTRY_VERIFY_WITH_TIMEOUT(label->text().startsWith(QString::fromUtf8("▶")),3000);
+      QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString(),QString("finished"),6000);
+      QCOMPARE(api->request(playbackQuery)["reasonCode"].toString(),QString("source-complete"));
+    }
     if(mode=="close-window"){QVERIFY(window->close());QVERIFY(!window->isVisible());QCOMPARE(api->request(playbackQuery)["state"].toString(),QString("closed"));}
     if(mode.contains("reader-release")){
       QTRY_VERIFY_WITH_TIMEOUT(!api->request(playbackQuery)["readerIds"].toArray().isEmpty(),3000);
