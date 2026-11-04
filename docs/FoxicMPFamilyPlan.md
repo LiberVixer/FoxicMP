@@ -745,3 +745,20 @@ playback regression; 19 v1 и 63 v2 SDK unit checks. Windows Qt clean portable �
 Linux обновляется с backup и сохранением профиля; Windows-установки/HKCU, SDK 1.81
 ZIP и Harvester сохраняются. Только MP4/H.264 video-only без B-frames. Полная
 waiting/replay/crash/stress matrix, audio/AAC trim/B-frames и остальное ТЗ открыты.
+
+
+4 ноября 2026, публичный continuous SDK waiting/replay срез: по пять сценариев
+Linux Qt, Windows Qt и Classic на опубликованных EXE/worker SDK 1.82. Реальные
+паузы writer 10/30/60 s не дают EOF и не заменяют worker/output readers;
+возобновление 0,20–0,41 s, API <0,23 s, manual pause/append, complete reverse
+seek/EOF, Stop/Cancel у хвоста и terminal replay проверены. Начальный префикс
+12 s одинаков для редакций и сохраняет штатный Classic startup buffer 10 s.
+[Методика](ProgressiveContinuousWaiting.md),
+[точные exit codes и исходные ошибки стенда](ProgressiveContinuousWaitingValidation-2026-11-04.json).
+Production EXE, INI и 158 shell entries сохранены; три одноразовые Windows-задачи
+и тестовые копии удалены. Новая сборка/переустановка для тестов и документации
+не требуется. Harvester и опубликованные SDK/релизы не менялись.
+Обнаружено: при реальной остановке decoder у хвоста Qt сообщает `playing`,
+Classic — `buffering`. Qt state/reasonCodes/индикация остаются открытыми и идут
+следующими, затем heartbeat expiry, shutdown/crash и длительная stress matrix.
+Полная waiting/stress приёмка, audio/B-frames и остальное ТЗ не закрыты.
