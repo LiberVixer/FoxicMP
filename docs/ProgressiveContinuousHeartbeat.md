@@ -101,3 +101,40 @@ shutdown/crash и длительная stress matrix. В тест добавле
 reader diagnostics только при отказе, без ослабления порогов. Windows/Classic
 проверены предыдущим вариантом того же теста: разница только в этом блоке
 диагностики исключения; SHA каждого реально выполненного варианта сохранён.
+
+## Повторная локализация release latency
+
+Добавлен `tests/progressive_continuous_release_latency.py`: шесть последовательных
+настоящих 30 s timeout на ручной паузе в двух одних и тех же приватных Qt-процессах.
+На обеих ОС серия прошла с exit 0. На Linux наблюдаемое освобождение после первого
+ответа `writer-heartbeat-timeout` заняло 0,0034–0,3033 s. На Windows Qt release был
+подтверждён уже первым контрольным опросом (записанные таймером значения 0,0 s
+не означают физическую мгновенность закрытия). Это время **после наблюдения ошибки
+клиентом**, не точная внутренняя задержка от истечения срока producer.
+[Отдельный отчёт повторов](ProgressiveContinuousReleaseLatencyValidation-2026-11-04.json)
+сохраняет каждый результат и status trace, не заменяя первоначальный отчёт отказа.
+Полный набор пяти heartbeat-сценариев Linux после изменения тестового helper
+также повторён с exit 0, включая завершённый источник без heartbeat.
+
+Сначала сохраняются последовательные ответы только `continuousRemuxStatus`:
+`sourceFilesClosed`, `released`, `producerCode`, `cleanupCode`. На отказе trace
+записывается **до** дополнительных playback/readers запросов и cleanup. До release
+не добавляются playbackStatus/Stop/readerRelease, а порог остаётся 2 s. В части
+Linux-повторов оригинал уже закрыт, но кэш ещё показывает `cache-in-use`; позднее
+release подтверждается. Это различает стадии очистки, но не устанавливает причину
+прежней задержки >2 s. Пункт строгой приёмки остаётся открытым.
+
+Ручной запуск целевого теста внутри приватного окружения `qt/tests/run_tests.sh`
+(через отдельный CTest driver):
+
+```text
+python3 tests/progressive_continuous_release_latency.py --edition qt \
+  --player /absolute/build/foxicmp-qt \
+  --reader-runner /absolute/build/foxicmp-progressive-reader-tests \
+  --report-directory /absolute/new-report-directory --repeat 6
+```
+
+Windows использует `.exe` и отдельные тестовые профили. Этот диагностический этап
+меняет только тесты/документацию: production EXE, установленный Linux-профиль,
+Windows-установки и Harvester сохранены. Classic здесь не перезапускался; его пять
+предыдущих heartbeat-сценариев не выдаются за новые проверки Qt latency.

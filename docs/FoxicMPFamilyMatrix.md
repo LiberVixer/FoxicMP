@@ -635,3 +635,14 @@ Windows Qt: 12 групп exit 0. Первый исправленный Linux fu
 с backup без изменения профиля; Windows-установки, 158 shell entries и Harvester
 сохранены. Одноразовая тестовая задача удалена; периодические не создавались.
 Полная reconnect/resume и общая приёмка ТЗ не объявляются завершёнными.
+
+
+Дополнительная локализация Qt release latency: по шесть настоящих 30 s paused
+heartbeat timeout Linux/Windows Qt в тех же приватных процессах, exit 0; добавлен
+status-only trace до любых дополнительных диагностических запросов на отказе.
+Linux: 0,0034–0,3033 s от первого ответа об ошибке до подтверждения release;
+Windows: release уже подтверждён первым контрольным опросом. Эти повторы не
+закрывают причину прежнего >2 s Linux отказа. [Отдельные измерения](ProgressiveContinuousReleaseLatencyValidation-2026-11-04.json).
+Production EXE/установки/профили не менялись, Classic повторно не запускался,
+Harvester сохранён. Следом — продолжение диагностики при повторении и отдельная
+continuous shutdown/crash matrix; строгая latency приёмка остаётся открытой.

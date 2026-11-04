@@ -71,10 +71,10 @@ class WorkerExit:
             self.fd = None
 
 
-def exercise(peers, root, report):
+def exercise(peers, root, report, profiles=('preparation', 'playing', 'paused', 'renewals'), completed=True):
     owned, watches = [], []
     try:
-        return exercise_owned(peers, root, report, owned, watches)
+        return exercise_owned(peers, root, report, owned, watches, profiles, completed)
     except Exception:
         (report/'scenario-error.txt').write_text(traceback.format_exc(), encoding='utf-8')
         raise
@@ -96,7 +96,7 @@ def exercise(peers, root, report):
             raise AssertionError('Test cleanup failed; see job-cleanup-errors.txt')
 
 
-def exercise_owned(peers, root, report, owned, watches):
+def exercise_owned(peers, root, report, owned, watches, profiles, completed):
     raw_path = fixture(root, 'reference')
     raw = raw_path.read_bytes()
     packets = probe(raw_path)['packets']
@@ -163,7 +163,7 @@ def exercise_owned(peers, root, report, owned, watches):
         assert sha(path)==original
         return dict(proof=proof, forgotten=forgotten, closeSeconds=elapsed, originalUnchanged=True)
 
-    for mode in ('preparation', 'playing', 'paused', 'renewals'):
+    for mode in profiles:
         event('begin', profile=mode)
         directory, path, model = model_for(mode, 4 if mode=='preparation' else cuts[12])
         original = sha(path)
@@ -236,14 +236,25 @@ def exercise_owned(peers, root, report, owned, watches):
         expired_after = time.monotonic()-refreshed
         assert terminal and terminal['errorCode']=='writer-heartbeat-timeout', terminal
         assert timeout-.1 <= expired_after < timeout+2, expired_after
+        release_began = time.monotonic()
+        release_trace = []
+        def release_view():
+            current = sdk.status()
+            release_trace.append(dict(secondsAfterError=time.monotonic()-release_began, producer=current))
+            return current if current['released'] and current['sourceFilesClosed'] else None
         try:
-            released = until(lambda: (lambda s: s if s['released'] and s['sourceFilesClosed'] else None)(sdk.status()), 'heartbeat timeout closes source/cache', 2)
+            released = until(release_view, 'heartbeat timeout closes source/cache', 2)
         except Exception:
+            # Persist the unmodified status-only release path before additional
+            # diagnostic requests or cleanup can affect the observed state.
+            (report/('release-trace-'+mode+'.json')).write_text(json.dumps(release_trace,indent=2)+'\n',encoding='utf-8')
             diagnostic = dict(profile=mode, producer=sdk.status(),
                 playback=sdk.playback_status() if sdk.play_request_id else None,
                 readers=peers[0].client.readers(model['sessionId'], 1))
             (report/'release-failure.json').write_text(json.dumps(diagnostic,indent=2)+'\n',encoding='utf-8')
             raise
+        (report/('release-trace-'+mode+'.json')).write_text(json.dumps(release_trace,indent=2)+'\n',encoding='utf-8')
+        release_seconds = time.monotonic()-release_began
         if sdk.play_request_id:
             stopped = until(lambda: (lambda s: s if s['state']=='error' and s['decoderReaders']==0 else None)(sdk.playback_status()), 'heartbeat timeout closes decoder', 2)
             assert stopped['error']=='writer-heartbeat-timeout', stopped
@@ -271,35 +282,36 @@ def exercise_owned(peers, root, report, owned, watches):
             running = playing(replacement)
             assert running['playbackId']!=actual['playbackId'] and not set(running['readerIds']) & set(actual['readerIds']), running
             reopened = dict(actual=running, explicitNewAttempt=True, sameOriginalBytes=True, **finish(replacement,path,original))
-        rows.append(dict(profile=mode, result='PASS', deadlineSeconds=timeout, expiredAfterLastRefreshSeconds=expired_after, initialPlayback=actual, refreshes=updates, observations=samples, terminal=terminal, released=released, playbackTerminal=stopped, workerExit=watcher.proof(), readerReceipts=receipts, lateEventsRejected=True, reopened=reopened, **final))
+        rows.append(dict(profile=mode, result='PASS', deadlineSeconds=timeout, expiredAfterLastRefreshSeconds=expired_after, initialPlayback=actual, refreshes=updates, observations=samples, terminal=terminal, released=released, playbackTerminal=stopped, workerExit=watcher.proof(), readerReceipts=receipts, lateEventsRejected=True, reopened=reopened, automaticReleaseSeconds=release_seconds, **final))
         event('expired', profile=mode, secondsSinceLastRefresh=expired_after)
         (report/'progress.json').write_text(json.dumps(dict(completed=len(rows),rows=rows),indent=2)+'\n',encoding='utf-8')
 
-    directory, path, model = model_for('completed-paused', len(raw), True)
-    original = sha(path)
-    sdk = create(transport, directory, model)
-    ready(sdk)
-    until(lambda: sdk.status()['outputComplete'], 'complete output before heartbeat-free playback')
-    sdk.play(title='Completed source without writer heartbeat')
-    playing(sdk)
-    sdk.control('pause')
-    until(lambda: sdk.playback_status()['state']=='paused', 'completed-source manual pause')
-    started = time.monotonic()
-    initial = sdk.playback_status()
-    event('begin', profile='completed-paused-without-heartbeat')
-    while time.monotonic()-started < timeout+2:
-        keep_other()
-        producer, value = sdk.status(), sdk.playback_status()
-        assert producer['outputComplete'] and not producer['errorCode'] and not producer['released'], producer
-        assert value['state']=='paused' and abs(value['positionSeconds']-initial['positionSeconds'])<.15, value
-        assert producer['acceptedHeartbeat']=='0', producer
-        time.sleep(.2)
-    elapsed = time.monotonic()-started
-    sdk.control('seek', seconds=22)
-    sdk.control('play')
-    ended = until(lambda: (lambda s: s if s['state']=='finished' else None)(sdk.playback_status()), 'completed EOF without writer heartbeat', 10)
-    assert ended['outputComplete'] and not ended['active'], ended
-    rows.append(dict(profile='completed-paused-without-heartbeat', result='PASS', noHeartbeatSeconds=elapsed, acceptedHeartbeat='0', before=initial, after=value, confirmedEof=ended, **finish(sdk,path,original)))
+    if completed:
+        directory, path, model = model_for('completed-paused', len(raw), True)
+        original = sha(path)
+        sdk = create(transport, directory, model)
+        ready(sdk)
+        until(lambda: sdk.status()['outputComplete'], 'complete output before heartbeat-free playback')
+        sdk.play(title='Completed source without writer heartbeat')
+        playing(sdk)
+        sdk.control('pause')
+        until(lambda: sdk.playback_status()['state']=='paused', 'completed-source manual pause')
+        started = time.monotonic()
+        initial = sdk.playback_status()
+        event('begin', profile='completed-paused-without-heartbeat')
+        while time.monotonic()-started < timeout+2:
+            keep_other()
+            producer, value = sdk.status(), sdk.playback_status()
+            assert producer['outputComplete'] and not producer['errorCode'] and not producer['released'], producer
+            assert value['state']=='paused' and abs(value['positionSeconds']-initial['positionSeconds'])<.15, value
+            assert producer['acceptedHeartbeat']=='0', producer
+            time.sleep(.2)
+        elapsed = time.monotonic()-started
+        sdk.control('seek', seconds=22)
+        sdk.control('play')
+        ended = until(lambda: (lambda s: s if s['state']=='finished' else None)(sdk.playback_status()), 'completed EOF without writer heartbeat', 10)
+        assert ended['outputComplete'] and not ended['active'], ended
+        rows.append(dict(profile='completed-paused-without-heartbeat', result='PASS', noHeartbeatSeconds=elapsed, acceptedHeartbeat='0', before=initial, after=value, confirmedEof=ended, **finish(sdk,path,original)))
     assert other.close(timeout=2)['released'] and other.forget(timeout=2)['forgotten']
     assert not list(Path(str(peers[0].registry)+'.continuous-cache').glob('remux-*'))
     assert max(c['seconds'] for c in transport.calls)<2, transport.calls
