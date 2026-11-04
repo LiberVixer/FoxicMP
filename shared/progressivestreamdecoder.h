@@ -30,7 +30,8 @@ class StreamDecoderCursor {
     uint64_t position=0;
     std::string failure;
     bool closed=false;
-    std::atomic<bool> interrupted{false},waiting{false};
+    std::shared_ptr<std::atomic<bool>> interrupted=std::make_shared<std::atomic<bool>>(false);
+    std::atomic<bool> waiting{false};
     std::atomic<uint64_t> total{0},eofs{0};
     void fail(const std::string& code){std::lock_guard<std::mutex> lock(errorMutex);if(failure.empty())failure=code;}
 public:
@@ -40,7 +41,8 @@ public:
     ~StreamDecoderCursor(){close();}
     StreamDecoderCursor(const StreamDecoderCursor&)=delete;
     StreamDecoderCursor& operator=(const StreamDecoderCursor&)=delete;
-    void interrupt() noexcept {interrupted.store(true);}
+    void interrupt() noexcept {interrupted->store(true);}
+    std::weak_ptr<std::atomic<bool>> interruptToken()const noexcept{return interrupted;}
     bool isWaiting()const noexcept{return waiting.load();}
     uint64_t bytes()const noexcept{return total.load();}
     uint64_t eofCount()const noexcept{return eofs.load();}
@@ -50,15 +52,15 @@ public:
     int64_t read(char* out,uint64_t count) noexcept {
         std::lock_guard<std::mutex> lock(mutex);
         try {
-            if(closed || interrupted.load() || source->stopped()){waiting=false;return -1;}
+            if(closed || interrupted->load() || source->stopped()){waiting=false;return -1;}
             if(!error().empty())return -1;
             // libmpv's zero-length probe must not become a recorded media EOF.
             if(!count)return 0;
             if(!out){fail("invalid-read");return -1;}
             for(;;){
-                if(interrupted.load() || source->stopped()){waiting=false;return -1;}
+                if(interrupted->load() || source->stopped()){waiting=false;return -1;}
                 const auto result=reader->read(position,out,size_t((std::min)(count,uint64_t(65536))),std::chrono::milliseconds(50));
-                if(interrupted.load() || source->stopped()){waiting=false;return -1;}
+                if(interrupted->load() || source->stopped()){waiting=false;return -1;}
                 if(result.code=="waiting-range"){waiting=true;continue;}
                 waiting=false;
                 if(result.data()){position+=result.bytes;total.fetch_add(result.bytes);return int64_t(result.bytes);}
@@ -71,12 +73,12 @@ public:
     int64_t seek(int64_t offset) noexcept {
         std::lock_guard<std::mutex> lock(mutex);
         try{const auto state=source->status();
-            if(closed || interrupted.load() || source->stopped() || !error().empty() || !state.failure.empty() || offset<0 || uint64_t(offset)>state.visible)return -1;
+            if(closed || interrupted->load() || source->stopped() || !error().empty() || !state.failure.empty() || offset<0 || uint64_t(offset)>state.visible)return -1;
             position=uint64_t(offset);return offset;
         }catch(...){return -1;}
     }
     int64_t size()const noexcept {
-        try{const auto state=source->status();return !interrupted.load() && !source->stopped() && state.complete && state.failure.empty()?int64_t(state.visible):-1;}catch(...){return -1;}
+        try{const auto state=source->status();return !interrupted->load() && !source->stopped() && state.complete && state.failure.empty()?int64_t(state.visible):-1;}catch(...){return -1;}
     }
     void close() noexcept {
         interrupt();std::lock_guard<std::mutex> lock(mutex);if(closed)return;

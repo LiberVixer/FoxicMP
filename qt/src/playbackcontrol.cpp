@@ -9,6 +9,9 @@
 #include <cmath>
 
 bool Window::seekAvailable(double start, double end) const {
+  if(preparedPlayback && current.startsWith("foxicmp-continuous://"))
+    return continuousSeekReady && continuousSeekReady() && player->get("seekable").toBool() &&
+        std::isfinite(start) && std::isfinite(end) && start>=0 && end>=start && end<preparedDuration;
   if (stdinPlayback) return false;
   if (!std::isfinite(start) || !std::isfinite(end) || start < 0 || end < start)
     return false;

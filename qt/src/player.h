@@ -69,6 +69,7 @@ public:
   // Internal growing-cache entry, intentionally separate from bounded preview.
   bool loadContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,
                             const QMap<QString,QString>& options = {});
+  QString continuousSourceUri()const;
   QString attachStdin(int descriptor, QString *error = nullptr);
   void progressiveSource(const std::shared_ptr<ProgressiveSource> &source);
 signals:

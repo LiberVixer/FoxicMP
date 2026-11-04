@@ -7,7 +7,7 @@
 #include <cstdint>
 class CMainFrame;
 class CHarvesterSession;
-namespace foxicmp { namespace progressive {class ResourceProbeManager;class ContinuousRemuxController;struct PreparedClip;} }
+namespace foxicmp { namespace progressive {class ResourceProbeManager;class ContinuousRemuxController;struct ContinuousPlayback;struct PreparedClip;} }
 constexpr UINT WM_CLASSIC_PROGRESSIVE_REQUEST = WM_APP + 188;
 constexpr UINT_PTR TIMER_CLASSIC_PROGRESSIVE_OPEN = 0xF188;
 constexpr UINT_PTR TIMER_CLASSIC_GRAPH_CLOSE = 0xF189;
@@ -32,11 +32,11 @@ public:
     static std::wstring ReaderRegistry();
     static std::string Information();
     std::string Handle(const std::string&, Request* = nullptr);
-    void PlaybackIntentChanged(const CStringW& incoming = CStringW());
+    void PlaybackIntentChanged(const CStringW& incoming = CStringW(),bool retainCurrentPlayback=false);
     bool PreparedCompleted();
     bool BeginLegacy(const std::wstring&);
     void PollLegacy();
-    bool IsPreparing() const{return (preparation && !preparation->abandoned.load()) || (legacyOpening && !legacyOpening->abandoned.load());}
+    bool IsPreparing() const{return (preparation && !preparation->abandoned.load()) || (legacyOpening && !legacyOpening->abandoned.load()) || (continuousOpening && !continuousOpening->abandoned.load());}
     void Ended(const std::shared_ptr<CHarvesterSession>&, bool natural);
 private:
     static void Prepare(const std::shared_ptr<Request>&);
@@ -59,4 +59,11 @@ private:
     std::shared_ptr<std::atomic<bool>> releaseReceipt;
     std::unique_ptr<foxicmp::progressive::ResourceProbeManager> resourceProbes;
     std::unique_ptr<foxicmp::progressive::ContinuousRemuxController> continuousRemux;
+    std::shared_ptr<foxicmp::progressive::ContinuousPlayback> continuousPlayback;
+    std::shared_ptr<foxicmp::progressive::SourceOpening<CHarvesterSession>> continuousOpening;
+    std::weak_ptr<CHarvesterSession> continuousNative;
+    uint64_t continuousEpoch=0;
+    bool continuousFinished=false;
+    void PollContinuous();
+    std::string ContinuousStatus();
 };

@@ -697,3 +697,20 @@ GCC/MinGW/MSVC/ASan-UBSan, включая 12 completion cycles —
 менялись; одноразовые задачи/копии Classic удалены. Worker остаётся тестовым.
 Следующий шаг — playback commit/control/status, intent fencing и проверки
 обычного API всех трёх редакций, затем capability/SDK и поставка worker.
+
+
+4 ноября 2026, внутренний continuous-remux playback API: Play/Status/Control в
+Qt обеих ОС и Classic, уникальная попытка просмотра, replay/fences, pause/append,
+complete-only seek, EOF и освобождение при Stop/замене/закрытии. По 14 IPC
+сценариев каждой Qt ОС и 15 Classic; две Qt Window/API lifecycle проверки на ОС,
+11 native decoder ASan/UBSan. Исправлены Qt seek по короткому prefix duration и
+отмена текущего просмотра до готовности замены; сохранены before-fix failures —
+[отчёт](ProgressiveContinuousRemuxPlaybackApiValidation-2026-11-04.json).
+Classic normal close дал exit 0 и files-closed receipts, кэш был очищен до
+повторного запуска профиля. Прежние 6 preparation/24 bounded preparation/20
+playback и 18 controller/retirement проверки прошли. Все main EXE пересобраны,
+Linux обновлён атомарно с backup без изменения INI/265 других файлов;
+Windows-установки, 158 shell entries, SDK ZIP и Harvester сохранены. Четыре
+одноразовые задачи/копии Classic удалены. Публичные capability/SDK, поставка
+worker, continuous readerRelease adapter и полная waiting/replay/crash/stress
+matrix остаются открытыми; audio/B-frames этим не добавлены.

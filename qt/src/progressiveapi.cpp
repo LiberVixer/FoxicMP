@@ -20,7 +20,7 @@
 #include "../../shared/progressiveresourceprobe.h"
 #include "../../shared/progressivefmp4bridge.h"
 #include "../../shared/progressiveqtplayback.h"
-#include "../../shared/progressivestreamcontroller.h"
+#include "../../shared/progressivestreamplayback.h"
 #ifndef Q_OS_WIN
 #include <sys/socket.h>
 #include <unistd.h>
@@ -49,7 +49,12 @@ struct ProgressiveApi::Preparation {
   std::shared_ptr<ProgressiveSource> candidate;
 };
 ProgressiveApi::ProgressiveApi(Window *w, QObject *parent) : QObject(parent), window(w) {
-  connect(window,&Window::playbackIntentChanged,this,[this]{if(preparation)preparation->abandoned.store(true);if(preview)preview->cancelled=true;});
+  const auto invalidate=[this](bool retainCurrent){
+    if(preparation)preparation->abandoned.store(true);if(preview)preview->cancelled=true;
+    if(continuousPlayback && !continuousPlayback->committing && !(retainCurrent && window->ownsPreparedClip(QString::fromStdString(continuousPlayback->uri)))){continuousPlayback->closed=true;if(continuousRemux)continuousRemux->cancelPlaybackJob(continuousPlayback->command.jobId);}
+  };
+  connect(window,&Window::playbackIntentChanged,this,[invalidate]{invalidate(false);});
+  connect(window,&Window::playbackPreparationStarted,this,[invalidate]{invalidate(true);});
   server.setSocketOptions(QLocalServer::UserAccessOption);
   server.setMaxPendingConnections(16);
   connect(&server, &QLocalServer::newConnection, this, &ProgressiveApi::acceptClients);
@@ -154,8 +159,48 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
           std::filesystem::u8path((readerRegistry+".continuous-cache").toUtf8().toStdString()),
           std::filesystem::u8path(child.toUtf8().toStdString()));
     }
-    return QJsonDocument::fromJson(QByteArray::fromStdString(continuousRemux->request(
+    auto reply=QJsonDocument::fromJson(QByteArray::fromStdString(continuousRemux->request(
         QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString()))).object();
+    if(reply["ok"].toBool() && (action=="continuousRemuxCancel" || action=="continuousRemuxForget") && continuousPlayback && reply["jobId"].toString().toStdString()==continuousPlayback->command.jobId){
+      continuousPlayback->closed=true;
+      if(!continuousPlayback->uri.empty() && window->preparedClipStatus(QString::fromStdString(continuousPlayback->uri))["state"]!="closed")window->closeCurrent();
+    }
+    return reply;
+  }
+  if(foxicmp::progressive::ContinuousPlaybackAction(action.toStdString())) {
+    try {
+      const auto c=foxicmp::progressive::ParseContinuousPlayback(QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString());
+      if(c.action=="continuousRemuxPlay"){
+        if(continuousPlayback && continuousPlayback->command.requestId==c.requestId){
+          if(continuousPlayback->command.fingerprint!=c.fingerprint)return failure("continuous-playback-conflict","Playback request identity conflict");return continuousStatus();
+        }
+        if(continuousPlayback && continuousPlayback->command.jobId==c.jobId)return failure("continuous-playback-conflict","This job already has a playback attempt");
+        if(!continuousRemux)return failure("unknown-continuous-job","Unknown remux job");
+        auto next=std::make_shared<foxicmp::progressive::ContinuousPlayback>();next->command=c;
+        next->source=continuousRemux->playbackSource(c.jobId,c.sessionId,c.generation,c.writer,next->duration);
+        next->output=continuousRemux->outputObserver(c.jobId);
+        next->producerError=continuousRemux->errorObserver(c.jobId);
+        if(window->hasPlayback() && !c.replace)return failure("session_busy","Playback replacement must be explicit");
+        next->committing=true;
+        next->uri=window->openContinuousSource(next->source,double(next->duration)/10000000.,QString::fromStdString(c.title),[observe=next->output]{return observe().complete;}).toStdString();
+        next->committing=false;continuousPlayback=next;
+        if(next->uri.empty()){next->error="continuous-start-failed";next->closed=true;continuousRemux->cancelPlaybackJob(c.jobId);}
+        if(c.activate)window->restoreFromTray();return continuousStatus();
+      }
+      if(!continuousPlayback || !continuousPlayback->matches(c))return failure("unknown-continuous-playback","Unknown playback identity");
+      if(c.action=="continuousPlaybackControl"){
+        const auto uri=QString::fromStdString(continuousPlayback->uri);
+        const auto state=continuousStatus()["state"].toString();
+        if(c.command=="stop"){
+          continuousPlayback->closed=true;continuousRemux->cancelPlaybackJob(continuousPlayback->command.jobId);
+          if(!uri.isEmpty() && window->preparedClipStatus(uri)["state"]!="closed")window->closeCurrent();
+        }else{
+          if(continuousPlayback->closed || state=="error" || state=="closed" || state=="finished")return failure("continuous-playback-closed","Playback was stopped or replaced");
+          if(c.command=="seek")continuousPlayback->checkSeek(c.seconds);
+          if(!window->preparedClipControl(uri,QString::fromStdString(c.command),c.seconds))return failure("continuous-playback-not-ready","Wait for loaded playback");
+        }
+      }return continuousStatus();
+    }catch(const foxicmp::progressive::Error& e){return failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));}
   }
   if(action=="previewRemux" || action=="previewStatus" || action=="previewCancel" || action=="previewControl") {
     try{const auto command=foxicmp::progressive::ParsePreviewCommand(QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString());
@@ -268,11 +313,11 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
       if (!readerId.isEmpty()) result["readerId"] = readerId;
       return result;
     }
-    if (window->progressiveSession() && !input.value("replace").toBool())
+    if ((window->progressiveSession() || (continuousPlayback && !continuousPlayback->closed && window->ownsPreparedClip(QString::fromStdString(continuousPlayback->uri)))) && !input.value("replace").toBool())
       return failure("session_busy", "Another progressive session is active; replacement must be explicit");
     try {
       const auto registry=input.value("trackReader").toBool() || descriptor["schemaVersion"]==QJsonValue(2) ? readerRegistry : QString();
-      if(!prepared || !prepared->ready)emit window->playbackIntentChanged();
+      if(!prepared || !prepared->ready)emit window->playbackPreparationStarted();
       if(prepared && !prepared->ready){prepared->requested=true;prepared->descriptor=descriptor;prepared->registry=registry;return {};}
       if(prepared && !prepared->reply.isEmpty())return prepared->reply;
       auto next = prepared ? prepared->candidate : ProgressiveSource::openPublished(descriptor, registry);
@@ -448,4 +493,17 @@ QJsonObject ProgressiveApi::previewStatus()const{
   if(!preview)return failure("unknown_preview","No prepared preview");
   auto result=window->preparedClipStatus(QString::fromStdString(preview->uri()));if(preview->cancelled.load()){result["state"]="closed";result["active"]=false;}
   result["version"]=1;result["ok"]=true;result["mode"]="prepared-remux-clip";result["previewId"]=QString::fromStdString(preview->id);result["requestId"]=previewRequest;result["probeId"]=previewProbe;result["sourceSessionId"]=previewSession;result["sourceComplete"]=previewSourceEof;result["boundedClip"]=true;result["continuousPlayback"]=false;result["decoderBytesRead"]=QString::number(preview->bytesRead.load());result["readerCount"]=int(preview->readers.load());result["released"]=preview->readers.load()==0 && (preview->cancelled.load() || result["state"]=="finished" || result["state"]=="error");return result;
+}
+QJsonObject ProgressiveApi::continuousStatus()const{
+  if(!continuousPlayback)return failure("unknown-continuous-playback","No continuous playback");
+  const auto& p=*continuousPlayback;auto result=window->preparedClipStatus(QString::fromStdString(p.uri));
+  if(p.closed){result["state"]="closed";result["active"]=false;}
+  const auto out=p.output();
+  const auto producerError=p.producerError();
+  if(!p.closed && (!p.error.empty() || !producerError.empty() || !out.failure.empty() || p.source->stopped())){result["state"]="error";result["active"]=false;result["error"]=QString::fromStdString(!p.error.empty()?p.error:!producerError.empty()?producerError:out.failure.empty()?"cancelled":out.failure);}
+  result["version"]=1;result["ok"]=true;result["mode"]="continuous-h264-video-v1";
+  result["playbackId"]=QString::fromStdString(p.id);result["requestId"]=QString::fromStdString(p.command.requestId);result["jobId"]=QString::fromStdString(p.command.jobId);
+  result["sessionId"]=QString::fromStdString(p.command.sessionId);result["generation"]=QString::number(p.command.generation);result["writerInstanceId"]=QString::fromStdString(p.command.writer);
+  result["durationSeconds"]=double(p.duration)/10000000.;result["outputComplete"]=out.complete;result["decoderReaders"]=int(out.activeReaders);
+  QJsonArray ids;for(const auto& id:out.readerIds)ids.append(QString::fromStdString(id));result["readerIds"]=ids;return result;
 }

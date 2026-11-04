@@ -181,7 +181,7 @@ def exercise(peers, root):
                     pass
 
 
-def run(args):
+def run(args, exercise_case=None, source_file=None):
     report = Path(args.report_directory).resolve()
     report.mkdir(parents=True, exist_ok=True)
     registration = None
@@ -202,7 +202,7 @@ def run(args):
                 peer = Peer(args.edition, player, Path(player).parent if args.edition == 'classic' else root/('profile-%d' % i), logs, args.reader_runner)
                 peers.append(peer)
                 peer.launch()
-            result = exercise(peers, root)
+            result = (exercise_case or exercise)(peers, root)
         finally:
             for peer in peers:
                 if peer.process is not None and peer.process.poll() is None:
@@ -216,7 +216,7 @@ def run(args):
             if registration is not None:
                 assert registration_snapshot() == registration, 'Installed Classic registration changed'
     worker = 'foxicmp-remux-stream-worker'+('.exe' if os.name == 'nt' else '')
-    result.update(edition=args.edition, temporaryWorkRemoved=not root.exists(), processHistory=[p.history for p in peers], playerSha256=[sha(p.player) for p in peers], workerSha256=[sha(Path(p.player).parent/worker) for p in peers], testSourceSha256=sha(__file__), readerRunnerSha256=sha(args.reader_runner))
+    result.update(edition=args.edition, temporaryWorkRemoved=not root.exists(), processHistory=[p.history for p in peers], playerSha256=[sha(p.player) for p in peers], workerSha256=[sha(Path(p.player).parent/worker) for p in peers], testSourceSha256=sha(source_file or __file__), readerRunnerSha256=sha(args.reader_runner))
     (report/'result.json').write_text(json.dumps(result, indent=2)+'\n', encoding='utf-8')
     return result
 

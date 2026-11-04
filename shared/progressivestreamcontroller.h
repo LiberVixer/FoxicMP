@@ -156,6 +156,22 @@ public:
     ContinuousRemuxController(std::filesystem::path receipts,std::filesystem::path output,std::filesystem::path executable,StreamRemuxLimits policy={},ContinuousControllerHooks fixture={})
         :registry(std::move(receipts)),cache(std::move(output)),child(std::move(executable)),limits(policy),hooks(std::move(fixture)){}
     ~ContinuousRemuxController(){if(job){job->stop.store(true);job->requestCancel();}}
+    void cancelPlaybackJob(const std::string& id){std::lock_guard<std::mutex> lock(dispatch);if(job && job->id==id)job->requestCancel();}
+    std::function<StreamCacheStatus()> outputObserver(const std::string& id){
+        std::lock_guard<std::mutex> lock(dispatch);Require(job && job->id==id,"continuousPlayback","Unknown remux job","unknown-continuous-job");
+        return [retained=job]{return retained->view()->native.output;};
+    }
+    std::function<std::string()> errorObserver(const std::string& id){
+        std::lock_guard<std::mutex> lock(dispatch);Require(job && job->id==id,"continuousPlayback","Unknown remux job","unknown-continuous-job");
+        return [retained=job]{return retained->view()->error;};
+    }
+    std::shared_ptr<StreamDecoderSource> playbackSource(const std::string& id,const std::string& session,uint64_t generation,const std::string& writer,int64_t& duration){
+        std::lock_guard<std::mutex> lock(dispatch);
+        Require(job && job->id==id,"continuousPlayback","Unknown remux job","unknown-continuous-job");
+        Require(job->accepted.id==session && job->accepted.generation==generation && job->accepted.writer==writer,"continuousPlayback","Session/writer changed","generation_changed");
+        auto v=job->view();Require(!job->cancel.load() && !job->forget.load() && v->error.empty(),"continuousPlayback","Remux job is closed","continuous-closed");
+        Require(bool(v->decoder),"continuousPlayback","Wait for initialization and media","continuous-not-ready");duration=job->accepted.duration;return v->decoder;
+    }
     std::shared_ptr<StreamDecoderSource> decoder(const std::string& id){
         std::lock_guard<std::mutex> lock(dispatch);if(!job || job->id!=id || job->cancel.load() || job->forget.load())return {};return job->view()->decoder;
     }

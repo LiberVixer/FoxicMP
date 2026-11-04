@@ -550,6 +550,7 @@ bool Player::loadContinuousSource(const std::shared_ptr<foxicmp::progressive::St
   continuousStreams->clear();return false;
 }
 QString Player::attachStdin(int fd, QString *error) { return stdinStream->attach(fd, error); }
+QString Player::continuousSourceUri()const{return QString::fromStdString(continuousStreams->uri());}
 void Player::progressiveSource(
     const std::shared_ptr<ProgressiveSource> &source) {
   progressive->activate(source);

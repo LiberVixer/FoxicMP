@@ -2,10 +2,10 @@
 
 Внутренние компоненты общего progressive-remux. Приложение остаётся 0.2.0, публичный
 контракт SDK — 1.81. **Через IPC трёх плееров подключены внутренние команды
-подготовки; запуск непрерывного просмотра через API ещё не подключён.**
+подготовки и просмотра узкого H.264 video-only профиля.**
 Новая capability не объявляется; experimental worker не устанавливается в
 пользовательские папки и не включён в опубликованные установщики/SDK ZIP.
-Внутренние decoder adapters встроены в main EXE; команды подготовки не объявлены
+Внутренние decoder adapters встроены в main EXE; новые команды не объявлены
 в публичных capabilities/actions. Для их проверки worker размещается рядом с
 тестовым EXE. Harvester не меняется.
 
@@ -532,7 +532,7 @@ registry и cache — относительно приватного runtime endp
 открывает файлы, а подготовка и публикация остаются на его background thread.
 Слот обычного media opening не занимается этими командами.
 
-Это пока **подготовка без playback commit**: Start/Update/ready не открывают
+Шесть команд этого этапа выполняют **подготовку без playback commit**: Start/Update/ready не открывают
 окно, не создают decoder reader и не заменяют текущий просмотр. Команды не
 добавлены в advertised `actions`; capability непрерывного воспроизведения и
 SDK не расширены. Экспериментальный worker остаётся в частных тестовых копиях,
@@ -564,15 +564,85 @@ status после `continuous-closed`, сохраняя все проверки 
 Три одноразовые задачи тестов Classic и частные копии удалены. Этот результат
 не закрывает запуск из Harvester, UI commit/intent fencing и общую приёмку ТЗ.
 
+## Внутренний запуск и управление просмотром через IPC — 4 ноября 2026
+
+К шести командам подготовки добавлены три внутренних команды. Они используют
+тот же приватный transport Qt/Classic; публичные capabilities/actions, SDK ZIP
+1.81 и опубликованные установщики этим этапом не расширяются.
+
+| Команда | Поля и действие |
+| --- | --- |
+| `continuousRemuxPlay` | `jobId`, отдельный `requestId` просмотра, `sessionId/generation/writerInstanceId`; optional `title`, `replace`, `activate`. Требует `playbackReady` и создаёт `playbackId` |
+| `continuousPlaybackStatus` | Ровно один `playbackId` или `requestId` просмотра; возвращает состояние GUI, позицию, полный duration, `outputComplete`, `decoderReaders` и output `readerIds` |
+| `continuousPlaybackControl` | `playbackId`, `command=play/pause/stop/seek`; только `seek` принимает числовой `seconds` |
+
+Play не ждёт публикации недостающего init/media: возвращает
+`continuous-not-ready` без скрытого отложенного запуска. После готовности клиент
+может явно послать Play. Принятый запрос с тем же canonical input возвращает тот
+же просмотр, включая его terminal state; другой input с тем же requestId или
+другая попытка для того же job даёт `continuous-playback-conflict`. Удерживается
+последняя попытка, не бессрочный журнал всех requestId. Новый просмотр другого
+job допускается после Forget прежнего producer. RequestId подготовки и просмотра
+имеют разные области поиска.
+
+`replace=false` по умолчанию требует свободного просмотра, `activate=false` не
+переводит окно на передний план. Start/Update подготовки сами не открывают GUI.
+Classic готовит `CHarvesterSession` вне UI и выполняет commit через существующий
+цикл opening; Qt подключает проверенный cache к настоящему `Window/Player`.
+Статусы `opening/buffering/playing/paused/finished/closed/error` относятся к GUI,
+а прежний `continuousRemuxStatus` — к producer/cache. Ready не означает playing.
+
+Пауза сохраняется при append/complete, producer не перезапускается из-за append.
+API seek разрешён только при подтверждённом complete output, в диапазоне
+`0 <= seconds < duration`; управление требует загруженного не завершённого
+просмотра. Stop идемпотентен и допускается после terminal state. Повтор Play
+после Stop/замены не возобновляет прежний просмотр. Старые controls не закрывают
+видео, открытое позже другим путём. Cancel/Forget producer закрывают только
+относящийся к нему GUI reader. EOF подтверждается успешным output complete;
+последний кадр/reader могут удерживаться после EOF до Stop/Forget. Число decoder
+readers не подменяет `sourceFilesClosed` и полное освобождение кэша.
+
+При подготовке обычной замены текущий continuous-просмотр сохраняется до commit
+нового источника. Ранее его producer отменялся на admission; позднее закрытие
+старого графа могло отменить и новую подготовку. Этот воспроизведённый отказ
+Classic исправлен разделением preparation/commit intent в обеих реализациях.
+Реальные Stop/принятое закрытие окна отменяют pending preparation; скрытие в tray
+сохраняет штатное поведение. Qt после complete проверяет seek относительно полного
+объявленного duration, а не ещё короткого native duration прочитанного префикса.
+
+Status использует опубликованные immutable snapshots producer/cache. Они могут
+отставать от физического close; успех release требует прежних proofs. Output
+reader регистрируется вне mutex stream adapter. GUI detach удерживает только
+отдельный atomic interrupt token, чтобы уничтожение последней ссылки cursor с
+файловым close не оказалось на UI. Observer последней GUI-попытки может удерживать
+retained job; он учитывается в прежнем общем лимите восьми job objects.
+
+[Проверки](ProgressiveContinuousRemuxPlaybackApiValidation-2026-11-04.json): по 14
+IPC сценариев каждой Qt ОС и 15 Classic, включая шесть Stop-during-opening циклов,
+failed replacement с продолжением прежнего видео, pause/append, complete seek
+к 22 s, настоящий EOF, error/cancel/forget и изоляцию двух endpoints. Classic
+штатно закрылся с exit 0, обе квитанции получили `files-closed`, кэш был пуст уже
+до повторного запуска того же профиля. Это не новая проверка аварийного recovery.
+Qt с software renderer отдельно проверяет настоящее закрытие Window и уничтожение API перед Window:
+native retirement, фактические receipts и admission деструкторов <200 ms. На ОС
+прошли шесть CTest групп, прежние 6 preparation, 24 bounded preparation/20 playback,
+18 native controller и retirement проверки. Native decoder — 11 ASan/UBSan
+сценариев; весь GUI под sanitizer этим не проверялся. Исходные Qt CTest exit 8
+и Classic driver exit 1 сохранены с SHA старых EXE/logs.
+
+Все три main EXE пересобраны; Linux атомарно обновлён с backup, INI и 265 других
+файлов сохранены. Windows-установки, 158 shell entries, Harvester и SDK ZIP
+сохранены. Четыре одноразовые задачи и частные Classic-копии удалены; периодические
+задачи не создавались. Worker по-прежнему только в тестовых поставках.
+
 ## Следующий обязательный этап
 
-1. Добавить playback commit/control/status адаптеры Qt/Classic и intent fencing,
-   чтобы Stop/замена источника отменяли ожидающий запуск в окне.
-2. Связать его с проверенными playback entry points, пользовательским управлением,
-   waiting/source EOF и освобождением при Stop/замене, без перезапуска на append.
-3. Согласование capability/SDK и проверки через обычный API всех трёх редакций.
-   Затем AAC trim, B-frames, остальные профили и общая cache/crash/performance matrix.
+1. Дополнить обычный readerRelease adapter для continuous output groups и
+   согласовать публичный capability/SDK-контракт и поставку worker.
+2. Проверить полную waiting/resume/seek/replay и shutdown/crash/stress matrix
+   через обычный API трёх редакций, не подменяя её успешными короткими сценариями.
+3. Затем AAC trim, B-frames, остальные профили и общая cache/performance matrix.
 
-Ни один из этих общих пунктов не объявляется выполненным наличием внутренних
-компонентов и native decoder fixture. Новая capability и новый SDK release
+Полная интеграционная приёмка не объявляется выполненной наличием этих внутренних
+компонентов и ограниченных IPC-проверок. Новая capability и новый SDK release
 не объявлены; экспериментальный stream worker не установлен. Дисковые меню, оборудование и Wayland не возобновляются.

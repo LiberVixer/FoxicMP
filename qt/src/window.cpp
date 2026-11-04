@@ -75,6 +75,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
   static const bool resourcesReady = [] { Q_INIT_RESOURCE(resources); return true; }();
   Q_UNUSED(resourcesReady);
   connect(this, &Window::playbackIntentChanged, this, &Window::cancelProgressiveOpening);
+  connect(this, &Window::playbackPreparationStarted, this, &Window::cancelProgressiveOpening);
   videoTransform = VideoTransform::load(profile.settings);
   const bool languageLoaded = I18n::load(profile.settings, profile.directory);
   Appearance::apply(*qApp, profile.settings);
@@ -359,7 +360,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
       return;
     }
     if (stdinPlayback || preparedPlayback) {
-      if(preparedPlayback){completionArmed=false;preparedDuration=player->get("duration").toDouble();}
+      if(preparedPlayback){completionArmed=false;if(!current.startsWith("foxicmp-continuous://"))preparedDuration=player->get("duration").toDouble();}
       player->set("pause", holdAfterLoad);
       holdAfterLoad = false;
       setSpeed(1);
@@ -491,7 +492,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
           timeline->update();
         } else if (name == "duration") {
           duration =
-              progressive ? progressive->status().duration : v.toDouble();
+              progressive ? progressive->status().duration : preparedPlayback && current.startsWith("foxicmp-continuous://")?preparedDuration:v.toDouble();
           timeline->duration = duration;
           timeline->update();
         } else if (name == "pause") {
@@ -2521,6 +2522,7 @@ void Window::closeEvent(QCloseEvent *e) {
   if (!forceExit && !qApp->isSavingSession() && profile.settings.value("desktop/closeToTray", false).toBool() && hideToTray()) {
     e->ignore(); return;
   }
+  emit playbackIntentChanged();
   cancelProgressiveOpening();
   cancelMouseHold();
   ++playbackGeneration;

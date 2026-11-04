@@ -2,9 +2,14 @@
 #include "mpvlifetime.h"
 #include "continuousstreams.h"
 #include "windowsruntime.h"
+#include "window.h"
+#include "profile.h"
+#include "progressiveapi.h"
+#include "../../shared/progressivestreamcontroller.h"
 #include "../../shared/progressivecachedremux.h"
 #include <QtWidgets>
 #include <QtTest>
+#include <qscopeguard.h>
 namespace p=foxicmp::progressive;
 class ContinuousPlayerTest:public QObject {
   Q_OBJECT
@@ -61,12 +66,36 @@ private slots:
     std::vector<std::string> ids=final.source.readerIds;ids.insert(ids.end(),final.output.readerIds.begin(),final.output.readerIds.end());
     for(const auto& id:ids){rapidjson::Document d;d.Parse(p::ReaderRequest(registry,"{\"version\":1,\"action\":\"readerStatus\",\"readerId\":\""+id+"\"}").c_str());QVERIFY(d["reader"]["released"].GetBool());QCOMPARE(std::string(d["reader"]["reason"].GetString()),std::string("files-closed"));}
   }
+  void windowClose_data(){QTest::addColumn<bool>("closeFirst");QTest::newRow("close-window")<<true;QTest::newRow("destroy-api-before-window")<<false;}
+  void windowClose(){
+    QFETCH(bool,closeFirst);QTemporaryDir dir;QVERIFY(dir.isValid());const auto profilePath=dir.filePath("profile");
+    Profile profile(profilePath);profile.settings.setValue("input/mpris",false);profile.settings.setValue("video/output","software");profile.settings.setValue("audio/mute",true);profile.settings.setValue("ui/osd",false);profile.settings.setValue("desktop/closeToTray",false);profile.settings.setValue("integration/prompted",true);
+    auto window=std::make_unique<Window>(profile);window->show();auto api=std::make_unique<ProgressiveApi>(window.get());QVERIFY(api->listen(profilePath));
+    auto* player=window->findChild<Player*>();QVERIFY(player);QTRY_VERIFY(player->ready());
+    const auto registry=ProgressiveApi::readerRegistryFor(profilePath);const auto cleanup=qScopeGuard([&]{if(p::ContinuousRetirement::occupied()==0 && EngineRetirement::occupied()==0){QDir(registry).removeRecursively();QDir(registry+".continuous-cache").removeRecursively();}});
+    QFile file(dir.filePath("input.part"));QVERIFY(file.open(QIODevice::WriteOnly));QCOMPARE(file.write(bytes),qint64(bytes.size()));file.close();
+    const auto sid=QString::fromStdString(p::lease_detail::RandomId()),writer=QString::fromStdString(p::lease_detail::RandomId());const int prefix=bytes.size()*2/3;
+    const auto model=QJsonObject{{"schemaVersion",2},{"sessionId",sid},{"generation","1"},{"revision","1"},{"writer",QJsonObject{{"instanceId",writer},{"state","downloading"}}},{"timeline",QJsonObject{{"timebase",QJsonObject{{"numerator",1},{"denominator",10000000}}},{"live",false},{"duration","120000000"},{"timestampOffset","0"}}},{"resources",QJsonArray{QJsonObject{{"id","clip"},{"name","input.part"},{"length",QString::number(bytes.size())},{"state","downloading"},{"ranges",QJsonArray{QJsonObject{{"offset","0"},{"length",QString::number(prefix)}}}},{"integrity",QJsonObject{{"algorithm","sha256"},{"blocks",QJsonArray{block(bytes,0,prefix)}}}}}}},{"tracks",QJsonArray{QJsonObject{{"id","video"},{"kind","video"},{"required",true},{"codecHint","h264"},{"containerHint","mp4"},{"state","downloading"},{"initializationReady",false},{"source",QJsonObject{{"resourceId","clip"}}}}}}};
+    auto job=api->request({{"version",1},{"action","continuousRemuxStart"},{"requestId",QString::fromStdString(p::lease_detail::RandomId())},{"sessionDirectory",dir.path()},{"resourceId","clip"},{"session",model}});QVERIFY(job["ok"].toBool());
+    const auto query=QJsonObject{{"version",1},{"action","continuousRemuxStatus"},{"jobId",job["jobId"]}};
+    QTRY_VERIFY_WITH_TIMEOUT(api->request(query)["playbackReady"].toBool(),15000);
+    auto playing=api->request({{"version",1},{"action","continuousRemuxPlay"},{"requestId",QString::fromStdString(p::lease_detail::RandomId())},{"jobId",job["jobId"]},{"sessionId",sid},{"generation","1"},{"writerInstanceId",writer}});QVERIFY(playing["ok"].toBool());
+    QTRY_VERIFY_WITH_TIMEOUT(player->get("time-pos").toDouble()>.1,10000);const auto nativeClosed=player->lifetime->closed;
+    if(closeFirst){QVERIFY(window->close());QVERIFY(!window->isVisible());auto result=api->request({{"version",1},{"action","continuousPlaybackStatus"},{"playbackId",playing["playbackId"]}});QCOMPARE(result["state"].toString(),QString("closed"));}
+    QElapsedTimer elapsed;elapsed.start();api.reset();QVERIFY(elapsed.elapsed()<200);elapsed.restart();window.reset();QVERIFY(elapsed.elapsed()<200);
+    QTRY_VERIFY_WITH_TIMEOUT(nativeClosed->load(),10000);QTRY_COMPARE_WITH_TIMEOUT(p::ContinuousRetirement::occupied(),size_t(0),10000);
+    QTRY_COMPARE_WITH_TIMEOUT(EngineRetirement::occupied(),size_t(0),10000);
+    const auto receipts=QJsonDocument::fromJson(QByteArray::fromStdString(p::ReaderRequest(std::filesystem::u8path(registry.toStdString()),"{\"version\":1,\"action\":\"readers\",\"sessionId\":\""+sid.toStdString()+"\",\"generation\":\"1\"}"))).object();
+    QVERIFY(receipts["ok"].toBool());QVERIFY(receipts["readers"].toArray().size()>=2);
+    for(const auto& entry:receipts["readers"].toArray()){const auto receipt=entry.toObject();QVERIFY(receipt["released"].toBool());QVERIFY(receipt["filesClosed"].toBool());QCOMPARE(receipt["reason"].toString(),QString("files-closed"));}
+    QVERIFY(QDir(registry+".continuous-cache").entryList({"remux-*"},QDir::Dirs|QDir::NoDotAndDotDot).isEmpty());
+  }
   void cleanupTestCase(){QTRY_COMPARE_WITH_TIMEOUT(EngineRetirement::occupied(),size_t(0),10000);}
 };
 int main(int argc,char** argv){
 #ifdef Q_OS_WIN
  WindowsRuntime runtime;if(!runtime.valid())return 1;
 #endif
- QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);QApplication app(argc,argv);ContinuousPlayerTest test;return QTest::qExec(&test,argc,argv);
+ QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);QApplication app(argc,argv);app.setQuitOnLastWindowClosed(false);ContinuousPlayerTest test;return QTest::qExec(&test,argc,argv);
 }
 #include "continuousplayer_test.moc"

@@ -14,7 +14,7 @@
 #include "../../../shared/progressiveresourceprobe.h"
 #include "../../../shared/progressivefmp4bridge.h"
 #include "../../../shared/progressiveclassicplayback.h"
-#include "../../../shared/progressivestreamcontroller.h"
+#include "../../../shared/progressivestreamplayback.h"
 
 namespace {
 using rapidjson::Document;
@@ -96,11 +96,11 @@ ClassicProgressiveApi::ClassicProgressiveApi(CMainFrame& frame):frame(frame) {
 ClassicProgressiveApi::Request::~Request() {
     if(done)CloseHandle(done);
 }
-ClassicProgressiveApi::~ClassicProgressiveApi() {frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);if(legacyOpening)legacyOpening->abandoned.store(true);if(preparation)preparation->abandoned.store(true);if(registryPreparation)registryPreparation->abandoned.store(true);if(stop){SetEvent(stop);if(worker.joinable())worker.join();CloseHandle(stop);}}
+ClassicProgressiveApi::~ClassicProgressiveApi() {frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);if(legacyOpening)legacyOpening->abandoned.store(true);if(continuousOpening)continuousOpening->abandoned.store(true);if(preparation)preparation->abandoned.store(true);if(registryPreparation)registryPreparation->abandoned.store(true);if(stop){SetEvent(stop);if(worker.joinable())worker.join();CloseHandle(stop);}}
 bool ClassicProgressiveApi::BeginLegacy(const std::wstring& manifest) {
     if(legacyOpening && legacyOpening->abandoned.load() && legacyOpening->finished.load(std::memory_order_acquire))legacyOpening.reset();
     if(manifest.empty() || legacyOpening)return false;
-    PlaybackIntentChanged();legacyManifest=manifest;
+    PlaybackIntentChanged(CStringW(),true);legacyManifest=manifest;
     try {
         legacyOpening=foxicmp::progressive::SourceOpening<CHarvesterSession>::launch([manifest]{
             CStringW error;auto candidate=CHarvesterSession::Open(manifest,error);
@@ -111,11 +111,12 @@ bool ClassicProgressiveApi::BeginLegacy(const std::wstring& manifest) {
     frame.SendStatusMessage(L"Harvester: подготовка источника…",5000);return true;
 }
 void ClassicProgressiveApi::PollLegacy() {
+    PollContinuous();
     auto job=legacyOpening;
-    if(!job){frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);return;}
+    if(!job){if(!continuousOpening)frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);return;}
     if(job->expired() && !job->abandoned.exchange(true))frame.SendStatusMessage(L"Harvester: истекло время подготовки источника",5000);
     if(!job->finished.load(std::memory_order_acquire))return;
-    frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);legacyOpening.reset();
+    if(!continuousOpening)frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);legacyOpening.reset();
     if(job->abandoned.load())return;
     if(!job->candidate){frame.SendStatusMessage(L"Harvester: "+Wide(job->error),5000);return;}
     auto data=std::make_unique<OpenFileData>();data->harvesterManifest=legacyManifest.c_str();
@@ -298,7 +299,52 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
                     std::filesystem::path(registry),std::filesystem::path(registry+L".continuous-cache"),
                     std::filesystem::path(ProfileDirectory())/L"foxicmp-remux-stream-worker.exe");
             }
-            return continuousRemux->request(raw);
+            auto reply=continuousRemux->request(raw);Document answer;answer.Parse(reply.c_str());
+            if(answer["ok"].GetBool() && (action=="continuousRemuxCancel" || action=="continuousRemuxForget") && continuousPlayback && harvester::String(answer,"jobId")==continuousPlayback->command.jobId){
+                continuousPlayback->closed=true;if(continuousOpening)continuousOpening->abandoned.store(true);
+                if(frame.OwnsHarvester(continuousNative.lock()))frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
+            }
+            return reply;
+        }
+        if(foxicmp::progressive::ContinuousPlaybackAction(action)) {
+            try {
+                const auto c=foxicmp::progressive::ParseContinuousPlayback(raw);
+                if(c.action=="continuousRemuxPlay"){
+                    if(continuousPlayback && continuousPlayback->command.requestId==c.requestId){
+                        if(continuousPlayback->command.fingerprint!=c.fingerprint)return Failure("continuous-playback-conflict","Playback request identity conflict");return ContinuousStatus();
+                    }
+                    if(continuousPlayback && continuousPlayback->command.jobId==c.jobId)return Failure("continuous-playback-conflict","This job already has a playback attempt");
+                    if(continuousOpening || (continuousPlayback && continuousPlayback->committing))return Failure("continuous-playback-busy","Previous playback is still preparing/closing");
+                    if(!continuousRemux)return Failure("unknown-continuous-job","Unknown remux job");
+                    auto next=std::make_shared<foxicmp::progressive::ContinuousPlayback>();next->command=c;
+                    next->source=continuousRemux->playbackSource(c.jobId,c.sessionId,c.generation,c.writer,next->duration);
+                    next->output=continuousRemux->outputObserver(c.jobId);
+                    next->producerError=continuousRemux->errorObserver(c.jobId);
+                    if((frame.GetLoadState()!=MLS_CLOSED || frame.HasHarvesterPlayback()) && !c.replace)return Failure("session_busy","Playback replacement must be explicit");
+                    PlaybackIntentChanged();continuousEpoch=intentEpoch;continuousPlayback=next;continuousFinished=false;continuousNative.reset();
+                    continuousOpening=foxicmp::progressive::SourceOpening<CHarvesterSession>::launch([next]{
+                        CStringW error;auto source=CHarvesterSession::OpenContinuous(next->source,next->duration,error);
+                        if(!source)throw std::runtime_error(Utf8(error.GetString()));return source;
+                    });
+                    if(!frame.SetTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN,20,nullptr)){continuousOpening->abandoned.store(true);next->closed=true;next->error="continuous-start-failed";continuousRemux->cancelPlaybackJob(c.jobId);}
+                    return ContinuousStatus();
+                }
+                if(!continuousPlayback || !continuousPlayback->matches(c))return Failure("unknown-continuous-playback","Unknown playback identity");
+                if(c.action=="continuousPlaybackControl"){
+                    const auto native=continuousNative.lock();
+                    if(c.command=="stop"){
+                        continuousPlayback->closed=true;if(continuousOpening)continuousOpening->abandoned.store(true);
+                        continuousRemux->cancelPlaybackJob(continuousPlayback->command.jobId);
+                        if(frame.OwnsHarvester(native))frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
+                    }else{
+                        if(continuousPlayback->closed || continuousFinished || !continuousPlayback->error.empty() || !continuousPlayback->output().failure.empty() || continuousPlayback->source->stopped())return Failure("continuous-playback-closed","Playback was stopped or replaced");
+                        if(!frame.OwnsHarvester(native) || frame.GetLoadState()!=MLS_LOADED)return Failure("continuous-playback-not-ready","Wait for loaded playback");
+                        if(c.command=="seek"){continuousPlayback->checkSeek(c.seconds);frame.SeekTo(REFERENCE_TIME(c.seconds*10000000.),false);}
+                        if(c.command=="pause")frame.SendMessageW(WM_COMMAND,ID_PLAY_PAUSE);
+                        if(c.command=="play")frame.SendMessageW(WM_COMMAND,ID_PLAY_PLAY);
+                    }
+                }return ContinuousStatus();
+            }catch(const foxicmp::progressive::Error& e){return Failure(e.code.c_str(),e.what());}
         }
         if(action=="previewRemux" || action=="previewStatus" || action=="previewCancel" || action=="previewControl") {
             try { const auto command=foxicmp::progressive::ParsePreviewCommand(raw);
@@ -416,12 +462,12 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             if(d.HasMember("sessionDirectory")) descriptor.AddMember("sessionDirectory",Value(d["sessionDirectory"],d.GetAllocator()),d.GetAllocator());
             if(prepared && !prepared->ready){
                 if(preparation && !preparation->finished.load(std::memory_order_acquire))return Failure("preparation_busy","Another media source is being prepared");
-                PlaybackIntentChanged();
+                PlaybackIntentChanged(CStringW(),true);
                 preparation=prepared->shared_from_this();
                 prepared->requested=true;prepared->descriptor=Encode(descriptor);prepared->registry=v2 || (d.HasMember("trackReader") && d["trackReader"].GetBool())?ReaderRegistry():std::wstring();prepared->epoch=intentEpoch;return {};
             }
             if(prepared && !prepared->preparedReply.empty())return prepared->preparedReply;
-            if(!prepared)PlaybackIntentChanged();
+            if(!prepared)PlaybackIntentChanged(CStringW(),true);
             CStringW error;std::string reason;auto next=prepared?prepared->candidate:CHarvesterSession::OpenPublished(Encode(descriptor),error,
                 v2 || (d.HasMember("trackReader") && d["trackReader"].GetBool())?ReaderRegistry():std::wstring(),&reason,true,true);
             if(!next)return Failure(v2?reason.c_str():"source_not_ready",Utf8(error.GetString()));
@@ -463,7 +509,15 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
     }catch(const std::exception& e){return Failure("invalid_request",e.what());}
 }
 
-void ClassicProgressiveApi::PlaybackIntentChanged(const CStringW& incoming){++intentEpoch;if(preparation)preparation->abandoned.store(true);if(legacyOpening)legacyOpening->abandoned.store(true);if(preview && incoming!=Wide(preview->uri()))preview->cancelled=true;}
+void ClassicProgressiveApi::PlaybackIntentChanged(const CStringW& incoming,bool retainCurrentPlayback){
+    ++intentEpoch;if(preparation)preparation->abandoned.store(true);if(legacyOpening)legacyOpening->abandoned.store(true);if(preview && incoming!=Wide(preview->uri()))preview->cancelled=true;
+    if(continuousPlayback && !continuousPlayback->committing && !(retainCurrentPlayback && !continuousOpening && frame.OwnsHarvester(continuousNative.lock()))){
+        continuousPlayback->closed=true;if(continuousOpening)continuousOpening->abandoned.store(true);
+        const auto failure=continuousPlayback->output().failure;if(!failure.empty() && failure!="cancelled")continuousPlayback->error=failure;
+        const auto producerError=continuousPlayback->producerError();if(!producerError.empty() && producerError!="cancelled")continuousPlayback->error=producerError;
+        if(continuousRemux)continuousRemux->cancelPlaybackJob(continuousPlayback->command.jobId);
+    }
+}
 std::string ClassicProgressiveApi::PreviewStatus(){
     if(!preview)return Failure("unknown_preview","No prepared preview");
     const bool loaded=frame.GetLoadState()==MLS_LOADED;
@@ -473,6 +527,43 @@ std::string ClassicProgressiveApi::PreviewStatus(){
 }
 
 bool ClassicProgressiveApi::PreparedCompleted(){
+    if(continuousPlayback && frame.OwnsHarvester(continuousNative.lock())){
+        if(continuousPlayback->output().complete){continuousFinished=true;frame.m_bGraphEventComplete=true;return true;}
+        continuousPlayback->error="continuous-unconfirmed-eof";continuousRemux->cancelPlaybackJob(continuousPlayback->command.jobId);return false;
+    }
     if(!preview || preview->cancelled.load() || std::wstring(frame.GetCurFileName().GetString())!=std::wstring(Wide(preview->uri()).GetString()))return false;
     frame.m_bGraphEventComplete=true;return true;
+}
+
+void ClassicProgressiveApi::PollContinuous(){
+    const auto job=continuousOpening;if(!job)return;
+    const auto ticket=continuousPlayback;
+    if(job->expired() && !job->abandoned.exchange(true)){ticket->error="continuous-preparation-timeout";ticket->closed=true;continuousRemux->cancelPlaybackJob(ticket->command.jobId);}
+    if(!job->finished.load(std::memory_order_acquire))return;
+    continuousOpening.reset();
+    if(job->abandoned.load() || ticket->closed || continuousEpoch!=intentEpoch)return;
+    if(!job->candidate){ticket->error=job->error.empty()?"continuous-start-failed":job->error;ticket->closed=true;continuousRemux->cancelPlaybackJob(ticket->command.jobId);return;}
+    // OpenMedia already fences nested Stop/Close with m_graphOpenEpoch. During
+    // this synchronous commit its own intent notifications must not cancel it.
+    // New play attempts remain rejected; explicit Stop still closes this ticket.
+    ticket->committing=true;continuousNative=job->candidate;
+    auto data=std::make_unique<OpenFileData>();data->harvesterManifest=L"continuous-api";data->fi=CStringW(job->candidate->Path(0).c_str());data->fi.SetTitle(Wide(ticket->command.title));data->title=Wide(ticket->command.title).GetString();data->bAddRecent=FALSE;data->preparedHarvester=job->candidate;
+    frame.OpenMedia(std::move(data));ticket->committing=false;
+    if(ticket->closed || !frame.OwnsHarvester(job->candidate)){
+        ticket->closed=true;continuousRemux->cancelPlaybackJob(ticket->command.jobId);
+        if(frame.OwnsHarvester(job->candidate))frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
+    }else if(ticket->command.activate){frame.ShowWindow(SW_RESTORE);frame.SetForegroundWindow();}
+}
+std::string ClassicProgressiveApi::ContinuousStatus(){
+    if(!continuousPlayback)return Failure("unknown-continuous-playback","No continuous playback");
+    const auto& p=*continuousPlayback;const auto native=continuousNative.lock();const bool owned=frame.OwnsHarvester(native),loaded=owned && frame.GetLoadState()==MLS_LOADED;const auto out=p.output();
+    const auto producerError=p.producerError();
+    const auto error=!p.error.empty()?p.error:!producerError.empty() && producerError!="cancelled"?producerError:!p.closed && !out.failure.empty()?out.failure:std::string();
+    const char* state=!error.empty()?"error":p.closed?"closed":continuousOpening || p.committing?"opening":!owned?"closed":!loaded?"buffering":continuousFinished?"finished":!frame.m_harvesterWantPlay?"paused":frame.m_harvesterBuffering?"buffering":frame.GetMediaState()==State_Paused?"paused":"playing";
+    Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("version",1,a);d.AddMember("ok",true,a);d.AddMember("mode","continuous-h264-video-v1",a);
+    auto text=[&](const char* key,const std::string& value){d.AddMember(Value(key,a),Value(value.c_str(),a),a);};
+    text("playbackId",p.id);text("requestId",p.command.requestId);text("jobId",p.command.jobId);text("sessionId",p.command.sessionId);text("generation",std::to_string(p.command.generation));text("writerInstanceId",p.command.writer);text("state",state);text("error",error);
+    d.AddMember("active",std::string(state)=="opening" || std::string(state)=="buffering" || std::string(state)=="playing" || std::string(state)=="paused",a);
+    d.AddMember("positionSeconds",loaded?double(frame.GetPos())/10000000.:0.,a);d.AddMember("durationSeconds",double(p.duration)/10000000.,a);d.AddMember("outputComplete",out.complete,a);d.AddMember("decoderReaders",uint64_t(out.activeReaders),a);
+    Value ids(rapidjson::kArrayType);for(const auto& id:out.readerIds)ids.PushBack(Value(id.c_str(),a),a);d.AddMember("readerIds",ids,a);return Encode(d);
 }

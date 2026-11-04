@@ -35,7 +35,7 @@ class QProcess;
 class QProgressDialog;
 class QSystemTrayIcon;
 class ProgressiveSource;
-namespace foxicmp {namespace progressive {struct PreparedClip;}}
+namespace foxicmp {namespace progressive {struct PreparedClip;class StreamDecoderSource;}}
 class Window : public QMainWindow {
   Q_OBJECT
 public:
@@ -67,8 +67,10 @@ public:
   bool openProgressiveSession(const QString &manifest);
   bool progressiveOpening() const { return bool(legacyOpening); }
   bool openPreparedClip(const std::shared_ptr<foxicmp::progressive::PreparedClip>&,const QString& title);
+  QString openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,double duration,const QString& title,std::function<bool()> seekReady);
   QJsonObject preparedClipStatus(const QString& uri)const;
   bool preparedClipControl(const QString& uri,const QString& command,double seconds=0);
+  bool ownsPreparedClip(const QString& uri)const{return preparedPlayback && current==uri;}
   bool hasPlayback()const;
   bool openProgressiveSource(const std::shared_ptr<ProgressiveSource> &);
   std::shared_ptr<ProgressiveSource> progressiveSession() const { return progressive; }
@@ -95,6 +97,7 @@ public:
 signals:
   void progressiveOpeningFinished(bool success, const QString &error);
   void playbackIntentChanged();
+  void playbackPreparationStarted();
   void webControlChanged();
   void frameSaved(const QString &path, bool success);
   void imageCaptured(bool success);
@@ -388,6 +391,7 @@ private:
   QSet<QString> failedEntries;
   bool stdinPlayback = false,preparedPlayback=false,preparedFinished=false;
   double preparedDuration=0;
+  std::function<bool()> continuousSeekReady;
   quint64 playbackGeneration = 0;
   QVariantMap pendingTrackSelections;
   QJsonObject openingLaunchOptions, pendingLaunchOptions;

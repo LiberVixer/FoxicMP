@@ -5,6 +5,7 @@
 #include "player.h"
 #include "progressivesource.h"
 #include "../../shared/preparedclip.h"
+#include "../../shared/progressivestreamdecoder.h"
 #include "timeline.h"
 #include "window.h"
 #include <QtWidgets>
@@ -28,7 +29,7 @@ void Window::cancelProgressiveOpening() {
 }
 bool Window::openProgressiveSession(const QString &manifest) {
   if(manifest.isEmpty() || legacyOpening)return false;
-  emit playbackIntentChanged();
+  emit playbackPreparationStarted();
   const auto hook=legacyOpeningHook;
   try {
     legacyOpening=foxicmp::progressive::SourceOpening<ProgressiveSource>::launch([manifest,hook]{
@@ -253,6 +254,9 @@ AudioPcmWindow Window::progressivePcmWindow(double seconds) const {
   return {begin + target, end, rate};
 }
 void Window::updateProgressive() {
+  if(preparedPlayback && current.startsWith("foxicmp-continuous://")){
+    const bool seek=continuousSeekReady && continuousSeekReady();timeline->setEnabled(seek);actions["frameBack"]->setEnabled(seek);return;
+  }
   if (!progressive)
     return;
   const auto status = progressive->status();
@@ -512,6 +516,16 @@ bool Window::openPreparedClip(const std::shared_ptr<foxicmp::progressive::Prepar
   audioUserSelection=subtitleUserSelection=false;pendingResume=-1;pos=duration=0;timeline->position=timeline->duration=0;timeline->available=-1;timeline->chapters.clear();
   applyAudioSourceOptions();player->attachPrepared(source);state->setText(uiTr("Подготовка фрагмента…"));
   return player->loadSource(current,{{"pause","no"},{"aid","auto"},{"vid","auto"},{"sub-auto","no"},{"audio-file-auto","no"},{"force-media-title",title},{"cache","no"}});
+}
+QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady){
+  if(!source || source->stopped())return {};
+  emit playbackIntentChanged();savePosition();closePlaybackFile();
+  preparedPlayback=true;preparedFinished=false;preparedDuration=total;continuousSeekReady=std::move(seekReady);holdAfterLoad=false;lastError.clear();
+  pendingLaunchOptions={};pendingTrackSelections.clear();audioUserSelection=subtitleUserSelection=false;pendingResume=-1;
+  pos=0;duration=total;timeline->position=0;timeline->duration=total;timeline->available=-1;timeline->chapters.clear();
+  applyAudioSourceOptions();state->setText(uiTr("Подготовка видео…"));
+  if(!player->loadContinuousSource(source,{{"pause","no"},{"force-media-title",title}})){preparedPlayback=false;return {};}
+  current=expectedPlaybackSource=player->continuousSourceUri();return current;
 }
 QJsonObject Window::preparedClipStatus(const QString& uri)const{
   const bool owned=preparedPlayback && current==uri;
