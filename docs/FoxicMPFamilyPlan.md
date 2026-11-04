@@ -683,3 +683,17 @@ jobs. По 17 native сценариев GCC/MinGW/MSVC/ASan-UBSan, cache/recover
 [отчёт](ProgressiveContinuousRemuxControllerValidation-2026-11-04.json).
 Это общий компонент для API adapters; ordinary endpoints и public capabilities
 ещё не подключены. Main EXE, установки, INI, Harvester и SDK 1.81 не менялись.
+
+
+4 ноября 2026, внутренние команды continuous-remux подключены к обычному IPC
+Qt обеих ОС и Classic: шесть команд подготовки, без playback commit и без
+изменения advertised capabilities/SDK. По шесть сценариев через настоящие
+endpoints каждой редакции и прежние 24 preparation/20 playback проверки.
+Исправлена гонка heartbeat с producer EOF; по 18 native сценариев
+GCC/MinGW/MSVC/ASan-UBSan, включая 12 completion cycles —
+[отчёт](ProgressiveContinuousRemuxApiValidation-2026-11-04.json).
+Все три main EXE пересобраны; Linux обновлён атомарно с backup, INI/264 других
+файла сохранены. Windows-установки, 158 shell entries, SDK ZIP и Harvester не
+менялись; одноразовые задачи/копии Classic удалены. Worker остаётся тестовым.
+Следующий шаг — playback commit/control/status, intent fencing и проверки
+обычного API всех трёх редакций, затем capability/SDK и поставка worker.

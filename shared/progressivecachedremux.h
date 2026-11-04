@@ -37,6 +37,7 @@ public:
     CachedRemuxSession(const CachedRemuxSession&)=delete;CachedRemuxSession& operator=(const CachedRemuxSession&)=delete;
     void publish(const std::string& json){producer->publish(json);}
     void heartbeat(){producer->heartbeat();}
+    bool heartbeatWhileRunning(){return producer->heartbeatWhileRunning();}
     void cancel(){producer->cancel();}
     std::shared_ptr<StreamOutputStore::Reader> reader(){return output->reader();}
     std::shared_ptr<StreamDecoderSource> decoderSource(){return std::make_shared<StreamDecoderSource>(output);}

@@ -115,6 +115,26 @@ def run(runner,worker,report):
                 c('reader',jobId=s['jobId'],name='r');assert c('read',name='r',offset='0')['bytes']>0;c('close',name='r');forget();count+=1
             return dict(cycles=count)
         case('completed-source-ready-and-repeated-service-reuse',completed_cycles)
+        def heartbeat_completion(folder,path,rpc,c,start,status,f,w,p,forget,g,wg):
+            cycles=[]
+            for _ in range(12):
+                value=snapshot(path,raw,complete=True);value['timeline']['duration']='240000000';start(value)
+                until=time.monotonic()+15;accepted=closed=0
+                while True:
+                    s=status()
+                    assert not s['errorCode'],s
+                    if s['outputComplete']:
+                        assert s['playbackReady'] and s['samples']==600 and s['sourceFilesClosed'],s
+                        break
+                    fields={key:s[key] for key in ['jobId','sessionId','generation','writerInstanceId']}
+                    reply=rpc('continuousRemuxHeartbeat',version=1,**fields)
+                    if reply['ok']:accepted+=1
+                    else:assert reply['code']=='continuous-closed',reply;closed+=1
+                    assert time.monotonic()<until,s
+                    time.sleep(.002)
+                cycles.append(dict(accepted=accepted,terminalRejections=closed,final=s));forget()
+            return dict(cycles=cycles)
+        case('late-heartbeat-at-producer-completion',heartbeat_completion)
         def fences(folder,path,rpc,c,start,status,f,w,p,forget,g,wg):
             req,s=start();value=req['session'];checks=[]
             for field in ['jobId','sessionId','generation','writerInstanceId']:

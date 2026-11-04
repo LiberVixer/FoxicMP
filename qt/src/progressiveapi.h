@@ -7,7 +7,7 @@
 #include <functional>
 class Window;
 class ProgressiveSource;
-namespace foxicmp { namespace progressive {class ResourceProbeManager;struct PreparedClip;} }
+namespace foxicmp { namespace progressive {class ResourceProbeManager;class ContinuousRemuxController;struct PreparedClip;} }
 
 class ProgressiveApi : public QObject {
 public:
@@ -41,4 +41,5 @@ private:
   std::shared_ptr<std::atomic<bool>> releaseReceipt;
   int clients = 0;
   std::unique_ptr<foxicmp::progressive::ResourceProbeManager> resourceProbes;
+  std::unique_ptr<foxicmp::progressive::ContinuousRemuxController> continuousRemux;
 };

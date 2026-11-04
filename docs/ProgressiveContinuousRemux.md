@@ -1,11 +1,13 @@
 # Непрерывный remux: внутренний движок и управляющий слой
 
 Внутренние компоненты общего progressive-remux. Приложение остаётся 0.2.0, публичный
-контракт SDK — 1.81. **Обычный API трёх плееров ещё не подключён к этому движку.**
+контракт SDK — 1.81. **Через IPC трёх плееров подключены внутренние команды
+подготовки; запуск непрерывного просмотра через API ещё не подключён.**
 Новая capability не объявляется; experimental worker не устанавливается в
 пользовательские папки и не включён в опубликованные установщики/SDK ZIP.
-Внутренние decoder adapters встроены в main EXE; публичный controller ещё не
-подключён. Harvester не меняется.
+Внутренние decoder adapters встроены в main EXE; команды подготовки не объявлены
+в публичных capabilities/actions. Для их проверки worker размещается рядом с
+тестовым EXE. Harvester не меняется.
 
 ## Что реализовано
 
@@ -457,9 +459,9 @@ Windows установки и их профили, Harvester, SDK 1.81 и GitHub
 ## Общий фоновый контроллер — 4 ноября 2026
 
 `shared/progressivestreamcontroller.h` добавляет общий `ContinuousRemuxController`
-для будущих Qt/Classic API adapters. Это **внутренний command controller**:
-обычный API приложений ещё не маршрутизирует к нему запросы, capabilities/SDK
-остаются 1.81. Harvester не меняется. Код принимает JSON через native fixture;
+для Qt/Classic API adapters. На первом этапе это **внутренний command controller**,
+проверенный через native fixture; подключение IPC описано следующим этапом ниже.
+Capabilities/SDK остаются 1.81. Harvester не меняется. Код принимает JSON;
 filesystem пути cache/registry и executable задаёт владелец сервиса, не запрос.
 
 | Внутренняя команда | Идентификация и действие |
@@ -520,10 +522,52 @@ failed/cancelled проверяются отдельно от состояния
 регрессии Windows/Linux. Main EXE/установки/INI/SDK ZIP
 этим этапом не менялись: отдельной новой пользовательской версии нет.
 
+## Внутренние команды подготовки через обычный IPC — 4 ноября 2026
+
+Qt `ProgressiveApi` обеих ОС и `ClassicProgressiveApi` маршрутизируют шесть
+команд из таблицы выше в общий controller через действующий приватный endpoint.
+Отдельный новый endpoint не создаётся. Worker задаётся относительно EXE;
+registry и cache — относительно приватного runtime endpoint/profile.
+Клиент не может подставить executable/cache/registry. Создание controller не
+открывает файлы, а подготовка и публикация остаются на его background thread.
+Слот обычного media opening не занимается этими командами.
+
+Это пока **подготовка без playback commit**: Start/Update/ready не открывают
+окно, не создают decoder reader и не заменяют текущий просмотр. Команды не
+добавлены в advertised `actions`; capability непрерывного воспроизведения и
+SDK не расширены. Экспериментальный worker остаётся в частных тестовых копиях,
+не установлен пользователю и не добавлен в опубликованные пакеты.
+
+Проверка через IPC обнаружила гонку: между чтением producer status и heartbeat
+producer мог завершиться, после чего controller превращал успешный output в
+`errorCode=session-closed` и снимал `playbackReady`. Новый
+`heartbeatWhileRunning` проверяет terminal state и обновляет deadline под одной
+блокировкой producer; поздний heartbeat становится no-op, не меняя terminal result.
+Строгий прежний `heartbeat()` сохранён. API по-прежнему отклоняет новые heartbeat
+после опубликованного terminal state; уже принятый heartbeat может быть обработан
+после EOF без ошибки. `appliedHeartbeat` в таком случае означает обработку
+последовательности, а не продление жизни завершённого producer.
+
+[Отчёт](ProgressiveContinuousRemuxApiValidation-2026-11-04.json): по шесть сценариев
+через настоящие endpoints каждой редакции, два самостоятельных плеера, reconnect,
+replay/conflict, изоляция job identity, последовательные публикации, 600 packets
+одним worker, cancel/forget/receipts, late resource и track/resource failure.
+Полный физический хвост не открывает неподтверждённые bytes. Прежний API проверен
+по 24 preparation и 20 playback сценариям каждой редакции. По 18 native сценариев
+GCC/MinGW/MSVC/ASan-UBSan включают по 12 циклов heartbeat на границе завершения.
+Сохранены исходный CTest exit 8, старый Linux EXE и лог фактического отказа;
+отдельно записана корректировка тестового poller, который теперь перечитывает
+status после `continuous-closed`, сохраняя все проверки конечного результата.
+
+Все три main EXE пересобраны. Linux EXE обновлён атомарно с backup, INI и 264
+других файла сохранены; Windows-установки и 158 shell entries не менялись.
+Три одноразовые задачи тестов Classic и частные копии удалены. Этот результат
+не закрывает запуск из Harvester, UI commit/intent fencing и общую приёмку ТЗ.
+
 ## Следующий обязательный этап
 
-1. Маршрутизировать команды общего controller через ordinary Qt/Classic API,
-   добавить async UI commit/intent fencing и status адаптеры.
+1. Добавить playback commit/control/status адаптеры Qt/Classic и intent fencing,
+   чтобы Stop/замена источника отменяли ожидающий запуск в окне.
 2. Связать его с проверенными playback entry points, пользовательским управлением,
    waiting/source EOF и освобождением при Stop/замене, без перезапуска на append.
 3. Согласование capability/SDK и проверки через обычный API всех трёх редакций.

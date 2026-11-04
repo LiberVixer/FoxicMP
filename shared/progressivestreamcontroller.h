@@ -1,4 +1,4 @@
-// Shared internal continuous-remux command controller. Not player IPC yet.
+// Shared internal continuous-remux preparation controller; no playback commit.
 // All filesystem/producer work is off the calling thread. GPL-3.0-or-later.
 #pragma once
 #include "progressivecachedremux.h"
@@ -6,6 +6,10 @@
 #include <deque>
 
 namespace foxicmp { namespace progressive {
+inline bool ContinuousRemuxAction(const std::string& action){
+    return action=="continuousRemuxStart" || action=="continuousRemuxStatus" || action=="continuousRemuxUpdate"
+        || action=="continuousRemuxHeartbeat" || action=="continuousRemuxCancel" || action=="continuousRemuxForget";
+}
 struct ContinuousRetirementPolicy {
     static constexpr size_t Capacity=8,WorkerLimit=2;
     struct Busy:std::runtime_error{Busy():std::runtime_error("Continuous remux jobs are still closing"){};};
@@ -83,7 +87,7 @@ class ContinuousRemuxController {
                     if(sequence!=v.appliedHeartbeat && !cancel.load() && !stop.load()){
                         // Complete may race a queued heartbeat; never turn that
                         // already confirmed completion into a heartbeat failure.
-                        const auto state=session->status();if(!state.done)session->heartbeat();v.appliedHeartbeat=sequence;
+                        session->heartbeatWhileRunning();v.appliedHeartbeat=sequence;
                     }
                 }
                 if(session){

@@ -176,6 +176,9 @@ public:
         source->publish(json);snapshot=next;heartbeatDeadline=Clock::now()+limits.heartbeat;observe();changed.notify_all();
     }
     void heartbeat(){std::lock_guard<std::mutex> lock(mutex);Require(!state.done,"streamRemux","Session already closed","session-closed");check();heartbeatDeadline=Clock::now()+limits.heartbeat;changed.notify_all();}
+    // A controller may have accepted a heartbeat just before producer EOF.
+    // Test-and-renew under the same lock; terminal results must stay terminal.
+    bool heartbeatWhileRunning(){std::lock_guard<std::mutex> lock(mutex);if(state.done)return false;check();heartbeatDeadline=Clock::now()+limits.heartbeat;changed.notify_all();return true;}
     void cancel(){cancelled.store(true);std::lock_guard<std::mutex> lock(mutex);if(source)source->cancel();changed.notify_all();}
     StreamRemuxStatus status()const{std::lock_guard<std::mutex> lock(mutex);return state;}
 };

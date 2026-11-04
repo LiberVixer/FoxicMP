@@ -14,6 +14,7 @@
 #include "../../../shared/progressiveresourceprobe.h"
 #include "../../../shared/progressivefmp4bridge.h"
 #include "../../../shared/progressiveclassicplayback.h"
+#include "../../../shared/progressivestreamcontroller.h"
 
 namespace {
 using rapidjson::Document;
@@ -289,6 +290,16 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
         foxicmp::progressive::InlineKeys(d);
         if(harvester::Number(d,"version")!=1)return Failure("invalid_request","Expected version 1");
         const auto action=harvester::String(d,"action");
+        if(foxicmp::progressive::ContinuousRemuxAction(action)) {
+            // Preparation only: no graph mutation and no media-opening slot.
+            if(!continuousRemux) {
+                const auto registry=ReaderRegistry();
+                continuousRemux=std::make_unique<foxicmp::progressive::ContinuousRemuxController>(
+                    std::filesystem::path(registry),std::filesystem::path(registry+L".continuous-cache"),
+                    std::filesystem::path(ProfileDirectory())/L"foxicmp-remux-stream-worker.exe");
+            }
+            return continuousRemux->request(raw);
+        }
         if(action=="previewRemux" || action=="previewStatus" || action=="previewCancel" || action=="previewControl") {
             try { const auto command=foxicmp::progressive::ParsePreviewCommand(raw);
             if(command.action=="previewRemux") {

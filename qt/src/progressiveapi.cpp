@@ -20,6 +20,7 @@
 #include "../../shared/progressiveresourceprobe.h"
 #include "../../shared/progressivefmp4bridge.h"
 #include "../../shared/progressiveqtplayback.h"
+#include "../../shared/progressivestreamcontroller.h"
 #ifndef Q_OS_WIN
 #include <sys/socket.h>
 #include <unistd.h>
@@ -136,6 +137,26 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
   if (input.value("version") != QJsonValue(1) || !input.value("action").isString())
     return failure("invalid_request", "Expected version 1 and an action");
   const auto action = input.value("action").toString();
+  if(foxicmp::progressive::ContinuousRemuxAction(action.toStdString())) {
+    // Internal preparation commands use the ordinary user-only transport.
+    // They never commit playback or borrow the media-opening worker slot.
+    if(readerRegistry.isEmpty())return failure("api_not_listening","Reader registry is not configured");
+    if(!continuousRemux) {
+      const auto registry=std::filesystem::u8path(readerRegistry.toUtf8().toStdString());
+      const auto child=QDir(QCoreApplication::applicationDirPath()).filePath(
+#ifdef Q_OS_WIN
+          "foxicmp-remux-stream-worker.exe"
+#else
+          "foxicmp-remux-stream-worker"
+#endif
+      );
+      continuousRemux=std::make_unique<foxicmp::progressive::ContinuousRemuxController>(registry,
+          std::filesystem::u8path((readerRegistry+".continuous-cache").toUtf8().toStdString()),
+          std::filesystem::u8path(child.toUtf8().toStdString()));
+    }
+    return QJsonDocument::fromJson(QByteArray::fromStdString(continuousRemux->request(
+        QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString()))).object();
+  }
   if(action=="previewRemux" || action=="previewStatus" || action=="previewCancel" || action=="previewControl") {
     try{const auto command=foxicmp::progressive::ParsePreviewCommand(QJsonDocument(input).toJson(QJsonDocument::Compact).toStdString());
       if(command.action=="previewRemux"){

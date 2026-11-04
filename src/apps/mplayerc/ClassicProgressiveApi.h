@@ -7,7 +7,7 @@
 #include <cstdint>
 class CMainFrame;
 class CHarvesterSession;
-namespace foxicmp { namespace progressive {class ResourceProbeManager;struct PreparedClip;} }
+namespace foxicmp { namespace progressive {class ResourceProbeManager;class ContinuousRemuxController;struct PreparedClip;} }
 constexpr UINT WM_CLASSIC_PROGRESSIVE_REQUEST = WM_APP + 188;
 constexpr UINT_PTR TIMER_CLASSIC_PROGRESSIVE_OPEN = 0xF188;
 constexpr UINT_PTR TIMER_CLASSIC_GRAPH_CLOSE = 0xF189;
@@ -58,4 +58,5 @@ private:
     int sessionSchema=1;
     std::shared_ptr<std::atomic<bool>> releaseReceipt;
     std::unique_ptr<foxicmp::progressive::ResourceProbeManager> resourceProbes;
+    std::unique_ptr<foxicmp::progressive::ContinuousRemuxController> continuousRemux;
 };
