@@ -2,8 +2,10 @@
 
 Внутренние компоненты общего progressive-remux. Приложение остаётся 0.2.0, публичный
 контракт SDK — 1.81. **Обычный API трёх плееров ещё не подключён к этому движку.**
-Новая capability не объявляется; компонент не устанавливается в пользовательские
-папки и не включён в опубликованные установщики/SDK ZIP. Harvester не меняется.
+Новая capability не объявляется; experimental worker не устанавливается в
+пользовательские папки и не включён в опубликованные установщики/SDK ZIP.
+Внутренние decoder adapters встроены в main EXE; публичный controller ещё не
+подключён. Harvester не меняется.
 
 ## Что реализовано
 
@@ -401,15 +403,65 @@ Windows и Linux PNG сверяются со своим completed-source referen
 одного `MPV_EVENT_END_FILE` недостаточно для признания успешного source EOF.
 SDK 1.81, main EXE и установки не менялись; это внутренний decoder-adapter этап.
 
+## Подключение к Player и графу Classic — 4 ноября 2026
+
+Qt `Player::loadContinuousSource` теперь открывает verified cache через обычный
+libmpv software-renderer и per-file options. `ContinuousStreams` зарегистрирован
+в каждом Player; factory передаётся в `MpvLifetime` и уничтожается только после
+native core. Stop/замена/закрытие виджета прерывают её курсоры, не отменяя
+независимых readers. Результат `ended(natural)` проверяет producer/store state;
+ошибка и незавершённый source не становятся успешным EOF. Эта проверка привязана
+к `playlist_entry_id`, чтобы старое end-file событие не приписывалось новой загрузке.
+
+Classic `CHarvesterSession::OpenContinuous` создаёт один H.264 video track из
+того же output store. Initialization и первый полный fragment обязательны до
+создания графа. `CHarvesterFileReader` читает virtual bytes через подтверждённый
+reader, без открытия diagnostic path; обычные v1/v2 readers остаются отдельными.
+Snapshot/index обновляются вместе, вне длительной блокировки UI metadata mutex.
+Публикации исходника принадлежат managed remux controller, а не этому decoder
+adapter. Close session не отменяет shared source; receipt освобождается после
+join watcher и закрытия native output handle.
+
+[Проверки](ProgressiveContinuousRemuxPlaybackValidation-2026-11-04.json):
+
+- Linux Qt и Windows Qt: по пять сценариев настоящего `Player` — completion,
+  Stop с независимым reader, замена обычным файлом, закрытие виджета и ошибка
+  producer. Есть framebuffer, playback до complete, сохранение ручной паузы,
+  speed/volume/mute и одного worker, реальный close и released receipts.
+  Повторены retirement tests и прежний bounded remux API: по 24 preparation и
+  20 playback проверок на ОС. В тесте замены новый файл удерживается на паузе,
+  а пути нормализуются: это устойчивое наблюдение результата, не обход проверки.
+- Windows Classic: отдельный MFC/DirectShow стенд использует production
+  `CHarvesterSession`, MP4 splitter и программный MPC H.264 decoder. Пять графов:
+  completed, growing с pause/resume, same-graph seek после complete, Stop и
+  producer failure. Все 600 NV12 кадров completed/growing совпали с независимым
+  FFmpeg-декодированием оригинала, clocks — в пределах 100 ns. Seek 10 s даёт
+  ровно 350 соответствующих кадров; worker/reader не меняются. Аудиоустройство,
+  системный display renderer и установленный Classic не запускаются.
+- Перед native Classic стендом создан private INI с выключенной регистрацией.
+  Все 158 значений команд/иконок установленного Classic в HKCU совпали до/после.
+  MSVC builder пересобирает DSUtil, BaseSplitter **и MP4Splitter**, чтобы исключить
+  старые inline offsets после изменения layout `CHarvesterSession`.
+
+Все три main EXE пересобраны. Linux обновлён атомарно с rollback EXE; профиль и
+263 остальных файла установки сохранены, публичные capabilities прежние.
+Windows установки и их профили, Harvester, SDK 1.81 и GitHub release assets не
+изменяются. Новый stream worker в пользовательскую папку пока не устанавливается.
+
+Это **внутренние playback entry points**, а не публичный запуск continuous-remux
+из Harvester: API controller, асинхронная подготовка/статус, управление producer
+и capability согласование ещё впереди. Classic проверен настоящим DirectShow
+графом, но не через UI/API установленного приложения. Звук, AAC trim, B-frames,
+остальные codec/layout profiles и полная performance/crash приёмка остаются открытыми.
+
 ## Следующий обязательный этап
 
-1. Подключение проверенного libmpv adapter к Player/MpvLifetime и настоящего
-   Classic fragment view к DirectShow graph; статус подготовки и reader groups.
-   Расширение общей cache/crash matrix за пределы проверенного journal recovery.
-2. Подключение выходного fMP4 к существующим Qt/Classic bridges и общему status,
-   без restart playback при каждом append. Отдельная подготовка, waiting и EOF.
-3. Публичное согласование capability/SDK и проверки через обычный API всех трёх
-   редакций. Затем AAC trim, B-frames и остальные обязательные профили.
+1. Общий continuous-remux API controller: асинхронная подготовка, статус,
+   writer heartbeat/update/complete, producer lifetime и безопасный retirement.
+2. Связать его с проверенными playback entry points Qt/Classic, пользовательским
+   управлением, waiting и source EOF, без перезапуска при каждом append.
+3. Согласование capability/SDK и проверки через обычный API всех трёх редакций.
+   Затем AAC trim, B-frames, остальные профили и общая cache/crash/performance matrix.
 
 Ни один из этих общих пунктов не объявляется выполненным наличием внутренних
 компонентов и native decoder fixture. Новая capability и новый SDK release

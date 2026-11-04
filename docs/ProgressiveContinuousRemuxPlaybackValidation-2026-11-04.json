@@ -1,0 +1,1483 @@
+{
+  "result": "PASS",
+  "date": "2026-11-04",
+  "applicationVersion": "0.2.0",
+  "publicSdkVersion": "1.81",
+  "scope": {
+    "qtPlayerIntegrated": true,
+    "classicSessionAndProductionGraphIntegrated": true,
+    "publicContinuousApiController": false,
+    "newPublicCapability": false,
+    "audioProfileExpanded": false,
+    "windowsInstalledPlayerChanged": false,
+    "linuxInstalledPlayerUpdated": true,
+    "harvesterModified": false
+  },
+  "sourceSha256": {
+    "qt/CMakeLists.txt": "9c54aed0dad8e891a000c57a271db9dddb69fae021393001b584f74ceecf6b8e",
+    "qt/src/continuousstreams.h": "6fc08b939b4e507f17eeaac172f4003e34291857844fb873f6b1d9d7216a12f0",
+    "qt/src/player.cpp": "2e69ea1119edc7ad2029c8b47cad71e5c9f909f8d348e70938b5945491748f6e",
+    "qt/src/player.h": "135ccbe3937a76516a414ce5e8e2ecfeacb88ab3425dfd2cbb3bad75af6209f6",
+    "qt/src/mpvlifetime.cpp": "c2b0cb5bfc7ad727d2c5e57ecce8f5378cf03f39fd7ef25c67c4a52ec92d2d9d",
+    "qt/src/mpvlifetime.h": "cfcfaebf44f46ed4359284abc40d2302d658a1289bb9fc9bf9d7685476aa9846",
+    "shared/progressivestreamcache.h": "302956e605ded6290d456b574125f2d82970a65e8548665b4d6a7008b4e1dab4",
+    "shared/progressivestreamdecoder.h": "71cba2618b6015a773dcc4ff4e691075b6cbb15a55acb95684adbdcfd3a9152e",
+    "src/DSUtil/HarvesterSession.cpp": "d35981335ab62a6b4d6d48f0c8fa8bcd3187e49f224aea8b8249573d2454f3be",
+    "src/DSUtil/HarvesterSession.h": "d84a57245425d64960814eeaa665798b403165a9eb166f31f44b466c8da16df8",
+    "src/filters/parser/BaseSplitter/AsyncReader.cpp": "3c20ce180b141515a86d21f57389cf965b4b15d3c38650786410a2f2add4f0fc",
+    "qt/tests/continuousplayer_test.cpp": "0049aecbc6d81c09b1c00dd878bb34691c587bbe3a5eae1218bfc517a3c38b14",
+    "tests/progressive_continuous_graph_test.py": "0d7066f11cef1649a5aa422e233a44adcb2b55de88ec6832f766778a199ff62d",
+    "tests/windows/continuous_graph_probe.cpp": "9fd153f240e4331024ee02b39357cce6ddad3b510c5bf0b1a1ef474d90c36953",
+    "tests/windows/build_continuous_graph_probe.cmd": "cd92ed32e8527dceed63345011b8160cbaa1bae205272e14cf6c4402f8582e68"
+  },
+  "exactExitCodes": {
+    "stream-playback-linux-build": 0,
+    "stream-playback-linux-tests": 0,
+    "stream-playback-qt-windows-build": 0,
+    "stream-playback-qt-windows-tests": 0,
+    "stream-playback-classic-build": 0,
+    "stream-playback-classic-tests": 0,
+    "stream-playback-classic-main-build": 0,
+    "stream-playback-linux-install": 0,
+    "stream-playback-qt-windows-ssh": 0,
+    "stream-playback-classic-build-ssh": 0,
+    "stream-playback-classic-tests-ssh": 0,
+    "stream-playback-classic-main-ssh": 0,
+    "stream-playback-shell-after-ssh": 0,
+    "stream-playback-final-state-ssh": 0
+  },
+  "qtPlayers": {
+    "linux": {
+      "result": "PASS",
+      "functionalCases": 5,
+      "qtTestTotals": {
+        "passed": 7,
+        "failed": 0
+      },
+      "retirementTotals": {
+        "passed": 8,
+        "failed": 0
+      },
+      "softwareFramebuffer": true,
+      "oldApiRegression": {
+        "result": "PASS",
+        "boundedRemuxOnly": true,
+        "continuousPlayback": false,
+        "preparation": {
+          "result": "PASS",
+          "count": 24,
+          "checks": [
+            "av-copy-remux-and-forget",
+            "bframes-copy-remux-and-forget",
+            "video-copy-remux-and-forget",
+            "audio-copy-remux-and-forget",
+            "audio44100-copy-remux-and-forget",
+            "fractional-copy-remux-and-forget",
+            "mov-copy-remux-and-forget",
+            "partial-copy-remux-and-forget",
+            "missing-header-has-no-artifact",
+            "missing-payload-discards-partial-mux-output",
+            "physical-tail-without-publication-is-not-remuxed",
+            "sparse-hole-is-not-remuxed-as-zeros",
+            "publication-retries-remux",
+            "cancel-after-success-drops-private-stage",
+            "incomplete-bframe-gop-is-not-staged-False",
+            "incomplete-bframe-gop-is-not-staged-True",
+            "nonzero-start-is-not-silently-rebased",
+            "encrypted-packets-are-not-declared-ready",
+            "unsupported-codec-is-not-transcoded",
+            "integrity-error-discards-stage",
+            "cancel-discards-pending-stage",
+            "reject-webm-remux-before-worker",
+            "reject-mpegts-remux-before-worker",
+            "reject-http-remux-before-worker"
+          ],
+          "reports": [
+            {
+              "profile": "av",
+              "output": {
+                "bytes": "54664",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 1
+                  },
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 2
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 73,
+                "retained": true,
+                "sha256": "ba561a019b887f91343ba82f9e9e03e22e0abfcec4c1a6a185aaa62383bce960",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "bframes",
+              "output": {
+                "bytes": "43491",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 1
+                  },
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 2
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 73,
+                "retained": true,
+                "sha256": "a30359490953309df39505c30bb3005b9bcb85e097c8eef547796ae12238a438",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "video",
+              "output": {
+                "bytes": "37343",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "12800",
+                    "movieTimescale": 12800,
+                    "trackId": 1
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 25,
+                "retained": true,
+                "sha256": "309f86fa52fa34b99b3f7dd3f2607262fe88f03a79e5704dedffcc219d06d59c",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "audio",
+              "output": {
+                "bytes": "10008",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "48000",
+                    "movieTimescale": 48000,
+                    "trackId": 1
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 48,
+                "retained": true,
+                "sha256": "b1c9d6f41d215734ab62019dfb0f46c81476dfd1672c4e348bfc4f0e503fd3e0",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "audio44100",
+              "output": {
+                "bytes": "17360",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "44100",
+                    "movieTimescale": 44100,
+                    "trackId": 1
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 45,
+                "retained": true,
+                "sha256": "596d72e90f0a8e40945bb0a54c31bb4d849cceb2d6981e9170b4fe9c0df2a678",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "fractional",
+              "output": {
+                "bytes": "57801",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "240240",
+                    "movieTimescale": 240000,
+                    "trackId": 1
+                  },
+                  {
+                    "duration": "240000",
+                    "movieTimescale": 240000,
+                    "trackId": 2
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 78,
+                "retained": true,
+                "sha256": "e0d86d859c50989a69459b13050326d8dab270fda639b59a5cf66be6a0ab6507",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "mov",
+              "output": {
+                "bytes": "47373",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 1
+                  },
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 2
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 73,
+                "retained": true,
+                "sha256": "12c02dd5caddf874ce3cd242dcfb06f52635ac41bae852098dab86ce4e10a898",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "partial",
+              "output": {
+                "bytes": "41969",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "168960",
+                    "movieTimescale": 192000,
+                    "trackId": 1
+                  },
+                  {
+                    "duration": "167936",
+                    "movieTimescale": 192000,
+                    "trackId": 2
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": true,
+                "packets": 64,
+                "retained": true,
+                "sha256": "3cf4d6fd5688f6076fe167a886fa5e52af21f9aaa87eb1318414335d08153037",
+                "sourceEof": false,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            }
+          ],
+          "preparationOnly": true,
+          "playbackTested": false,
+          "remuxTested": true,
+          "originalsUnchanged": true
+        },
+        "playback": {
+          "result": "PASS",
+          "count": 20,
+          "checks": [
+            "lost-start-read-only-discovery",
+            "idempotent-start",
+            "conflicting-token-rejected",
+            "implicit-replace-rejected",
+            "foreign-request-rejected",
+            "pause-video",
+            "seek-video",
+            "resume-video",
+            "real-playback-and-distinct-clip-eof-video",
+            "readers-close-and-original-survives-video",
+            "real-playback-and-distinct-clip-eof-av",
+            "readers-close-and-original-survives-av",
+            "real-playback-and-distinct-clip-eof-audio",
+            "readers-close-and-original-survives-audio",
+            "pause-partial",
+            "seek-partial",
+            "resume-partial",
+            "real-playback-and-distinct-clip-eof-partial",
+            "readers-close-and-original-survives-partial",
+            "eight-immediate-start-cancel-release-cycles"
+          ],
+          "profiles": [
+            {
+              "profile": "video",
+              "playing": {
+                "active": true,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "263463",
+                "durationSeconds": 5,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0.04,
+                "previewId": "9c2228ad4996e5ee6fc5bc7927a901da",
+                "probeId": "92d02ebd366ace079453e811ab4b51ee",
+                "readerCount": 1,
+                "released": false,
+                "requestId": "357417802390467793db61ffd2941ce8",
+                "sourceComplete": true,
+                "sourceSessionId": "875b75c48a80422cb815c4fffe66ca80",
+                "state": "playing",
+                "version": 1,
+                "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+              },
+              "finished": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "414769",
+                "durationSeconds": 5,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 5,
+                "previewId": "9c2228ad4996e5ee6fc5bc7927a901da",
+                "probeId": "92d02ebd366ace079453e811ab4b51ee",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "357417802390467793db61ffd2941ce8",
+                "sourceComplete": true,
+                "sourceSessionId": "875b75c48a80422cb815c4fffe66ca80",
+                "state": "finished",
+                "version": 1,
+                "videoCodec": ""
+              },
+              "released": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "414769",
+                "durationSeconds": 0,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "9c2228ad4996e5ee6fc5bc7927a901da",
+                "probeId": "92d02ebd366ace079453e811ab4b51ee",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "357417802390467793db61ffd2941ce8",
+                "sourceComplete": true,
+                "sourceSessionId": "875b75c48a80422cb815c4fffe66ca80",
+                "state": "closed",
+                "version": 1,
+                "videoCodec": ""
+              }
+            },
+            {
+              "profile": "av",
+              "playing": {
+                "active": true,
+                "audioCodec": "aac",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "87594",
+                "durationSeconds": 1.0213333333333332,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "8db80cc696113b69469ec95b0b64ebfc",
+                "probeId": "e91e269e807bf0465e1a56dac26133cd",
+                "readerCount": 1,
+                "released": false,
+                "requestId": "3d6c11628fbe47bc8896b24b27b6936d",
+                "sourceComplete": true,
+                "sourceSessionId": "0b4d5030194b4395949f05207c457427",
+                "state": "playing",
+                "version": 1,
+                "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+              },
+              "finished": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "87594",
+                "durationSeconds": 1.0213333333333332,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 1.0213333333333332,
+                "previewId": "8db80cc696113b69469ec95b0b64ebfc",
+                "probeId": "e91e269e807bf0465e1a56dac26133cd",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "3d6c11628fbe47bc8896b24b27b6936d",
+                "sourceComplete": true,
+                "sourceSessionId": "0b4d5030194b4395949f05207c457427",
+                "state": "finished",
+                "version": 1,
+                "videoCodec": ""
+              },
+              "released": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "87594",
+                "durationSeconds": 0,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "8db80cc696113b69469ec95b0b64ebfc",
+                "probeId": "e91e269e807bf0465e1a56dac26133cd",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "3d6c11628fbe47bc8896b24b27b6936d",
+                "sourceComplete": true,
+                "sourceSessionId": "0b4d5030194b4395949f05207c457427",
+                "state": "closed",
+                "version": 1,
+                "videoCodec": ""
+              }
+            },
+            {
+              "profile": "audio",
+              "playing": {
+                "active": true,
+                "audioCodec": "aac",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "10008",
+                "durationSeconds": 1.0213333333333332,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "308f0666c1e2d7259fd6a6edc5cb2006",
+                "probeId": "976bf84407f488c3101c0bfb8107af3e",
+                "readerCount": 1,
+                "released": false,
+                "requestId": "3b427218a8f54b1ab7abdf994f79c6e1",
+                "sourceComplete": true,
+                "sourceSessionId": "4c1f98b08cc84831862c2e12dcd71370",
+                "state": "playing",
+                "version": 1,
+                "videoCodec": ""
+              },
+              "finished": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "10008",
+                "durationSeconds": 1.0213333333333332,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 1.0213333333333332,
+                "previewId": "308f0666c1e2d7259fd6a6edc5cb2006",
+                "probeId": "976bf84407f488c3101c0bfb8107af3e",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "3b427218a8f54b1ab7abdf994f79c6e1",
+                "sourceComplete": true,
+                "sourceSessionId": "4c1f98b08cc84831862c2e12dcd71370",
+                "state": "finished",
+                "version": 1,
+                "videoCodec": ""
+              },
+              "released": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "10008",
+                "durationSeconds": 0,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "308f0666c1e2d7259fd6a6edc5cb2006",
+                "probeId": "976bf84407f488c3101c0bfb8107af3e",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "3b427218a8f54b1ab7abdf994f79c6e1",
+                "sourceComplete": true,
+                "sourceSessionId": "4c1f98b08cc84831862c2e12dcd71370",
+                "state": "closed",
+                "version": 1,
+                "videoCodec": ""
+              }
+            },
+            {
+              "profile": "partial",
+              "playing": {
+                "active": true,
+                "audioCodec": "aac",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "308596",
+                "durationSeconds": 1.792,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "11e1a031faccabbad977e7f44dc6f53d",
+                "probeId": "41f005bd96d55453f3b6c1761d428ed5",
+                "readerCount": 1,
+                "released": false,
+                "requestId": "c4ee977c484d4949a99b0f86d99ca948",
+                "sourceComplete": false,
+                "sourceSessionId": "404e0940c5c143f79130dae07cbe3af4",
+                "state": "playing",
+                "version": 1,
+                "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+              },
+              "finished": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "308596",
+                "durationSeconds": 1.792,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 1.792,
+                "previewId": "11e1a031faccabbad977e7f44dc6f53d",
+                "probeId": "41f005bd96d55453f3b6c1761d428ed5",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "c4ee977c484d4949a99b0f86d99ca948",
+                "sourceComplete": false,
+                "sourceSessionId": "404e0940c5c143f79130dae07cbe3af4",
+                "state": "finished",
+                "version": 1,
+                "videoCodec": ""
+              },
+              "released": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "308596",
+                "durationSeconds": 0,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "11e1a031faccabbad977e7f44dc6f53d",
+                "probeId": "41f005bd96d55453f3b6c1761d428ed5",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "c4ee977c484d4949a99b0f86d99ca948",
+                "sourceComplete": false,
+                "sourceSessionId": "404e0940c5c143f79130dae07cbe3af4",
+                "state": "closed",
+                "version": 1,
+                "videoCodec": ""
+              }
+            }
+          ],
+          "actualPlaybackTested": true,
+          "continuousPlayback": false,
+          "sourceEofDistinct": true
+        },
+        "beforeMetrics": [
+          {
+            "cpuSeconds": 0.49,
+            "rssBytes": 176218112,
+            "privateBytes": 46985216,
+            "handles": 32,
+            "threads": 45,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          },
+          {
+            "cpuSeconds": 0.45,
+            "rssBytes": 175357952,
+            "privateBytes": 46374912,
+            "handles": 31,
+            "threads": 45,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        ],
+        "afterMetrics": [
+          {
+            "cpuSeconds": 0.78,
+            "rssBytes": 177815552,
+            "privateBytes": 48037888,
+            "handles": 32,
+            "threads": 45,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          },
+          {
+            "cpuSeconds": 2.36,
+            "rssBytes": 258379776,
+            "privateBytes": 120004608,
+            "handles": 31,
+            "threads": 55,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        ],
+        "edition": "qt",
+        "processHistory": [
+          [
+            {
+              "pid": 34012,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": -9,
+              "terminationSeconds": 0.016013150000162568
+            }
+          ],
+          [
+            {
+              "pid": 34088,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": -9,
+              "terminationSeconds": 0.03263166600004297
+            }
+          ]
+        ],
+        "temporaryWorkRemoved": true,
+        "playerSha256": [
+          "e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9",
+          "e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9"
+        ],
+        "readerRunnerSha256": "644b92db481809822256437657900e3498e06337a644dc2f63ee4a63f4b0eb17"
+      },
+      "logSha256": "e7a579397f00283e392b4943dea2f7260b2a7a907df4c8ae2e8cd0b225e425f2",
+      "log": "FoxicMP Qt test environment: ready\nInternal ctest changing into directory: /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\nUpdateCTestConfiguration  from :/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nParse Config file:/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nParse Config file:/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nTest project /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 26\n    Start  26: continuous-player\n\n26: Test command: /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-continuous-player-tests\n26: Working Directory: /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\n26: Test timeout computed to be: 150\ndbus-daemon[33520]: [session uid=1000 pid=33520] Activating service name='org.gtk.vfs.Daemon' requested by ':1.1' (uid=1000 pid=33551 comm=\"/media/sf_Studio/Programs/MPMY-src/_bin/release-bu\" label=\"chatgpt (unconfined)\")\ndbus-daemon[33520]: [session uid=1000 pid=33520] Successfully activated service 'org.gtk.vfs.Daemon'\ndbus-daemon[33520]: [session uid=1000 pid=33520] Activating service name='org.a11y.Bus' requested by ':1.3' (uid=1000 pid=33551 comm=\"/media/sf_Studio/Programs/MPMY-src/_bin/release-bu\" label=\"chatgpt (unconfined)\")\nfusermount3: failed to access mountpoint /run/user/1000/gvfs: Permission denied\ndbus-daemon[33520]: [session uid=1000 pid=33520] Successfully activated service 'org.a11y.Bus'\n26: Gtk-Message: 08:08:06.466: Failed to load module \"colorreload-gtk-module\"\n26: Gtk-Message: 08:08:06.467: Failed to load module \"window-decorations-gtk-module\"\n26: ********* Start testing of ContinuousPlayerTest *********\n26: Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3\n26: PASS   : ContinuousPlayerTest::initTestCase()\ndbus-daemon[33574]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=33551 comm=\"/media/sf_Studio/Programs/MPMY-src/_bin/release-bu\" label=\"chatgpt (unconfined)\")\ndbus-daemon[33574]: Successfully activated service 'org.a11y.atspi.Registry'\nSpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry\n26: PASS   : ContinuousPlayerTest::playback(complete)\n26: PASS   : ContinuousPlayerTest::playback(stop)\n26: PASS   : ContinuousPlayerTest::playback(replace)\n26: PASS   : ContinuousPlayerTest::playback(delete)\n26: PASS   : ContinuousPlayerTest::playback(producer-error)\n26: PASS   : ContinuousPlayerTest::cleanupTestCase()\n26: Totals: 7 passed, 0 failed, 0 skipped, 0 blacklisted, 7245ms\n26: ********* Finished testing of ContinuousPlayerTest *********\n1/3 Test  #26: continuous-player .....................   Passed    7.67 sec\ntest 27\n    Start  27: player-retirement\n\n27: Test command: /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-player-retirement-tests\n27: Working Directory: /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\n27: Test timeout computed to be: 90\n27: Gtk-Message: 08:08:14.108: Failed to load module \"colorreload-gtk-module\"\n27: Gtk-Message: 08:08:14.109: Failed to load module \"window-decorations-gtk-module\"\n27: ********* Start testing of PlayerRetirementTest *********\n27: Config: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3\n27: PASS   : PlayerRetirementTest::initTestCase()\n27: PASS   : PlayerRetirementTest::coreAndSoftwareRendererOutliveDeletedWidget(ordinary-file)\n27: PASS   : PlayerRetirementTest::coreAndSoftwareRendererOutliveDeletedWidget(prepared-memory-clip)\n27: PASS   : PlayerRetirementTest::secondaryDecoderOutlivesDeletedAudioMirror()\n27: PASS   : PlayerRetirementTest::progressiveLeaseWaitsForNativeCoreAndActualSourceClose()\n27: PASS   : PlayerRetirementTest::capacityReservedBeforeCreatingNativeEngine()\n27: PASS   : PlayerRetirementTest::invalidOptionsRetireUninitializedNativeCore()\n27: PASS   : PlayerRetirementTest::cleanupTestCase()\n27: Totals: 8 passed, 0 failed, 0 skipped, 0 blacklisted, 2436ms\n27: ********* Finished testing of PlayerRetirementTest *********\n2/3 Test  #27: player-retirement .....................   Passed    2.84 sec\ntest 113\n    Start 113: progressive-remux-player-regression\n\n113: Test command: /usr/bin/python3 \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_remux_player_regression.py\" \"--edition\" \"qt\" \"--player\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt\" \"--reader-runner\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-progressive-reader-tests\" \"--report-directory\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/remux-player-test-report\"\n113: Working Directory: /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\n113: Test timeout computed to be: 300\n113: {\"result\": \"PASS\", \"boundedRemuxOnly\": true, \"continuousPlayback\": false, \"preparation\": {\"result\": \"PASS\", \"count\": 24, \"checks\": [\"av-copy-remux-and-forget\", \"bframes-copy-remux-and-forget\", \"video-copy-remux-and-forget\", \"audio-copy-remux-and-forget\", \"audio44100-copy-remux-and-forget\", \"fractional-copy-remux-and-forget\", \"mov-copy-remux-and-forget\", \"partial-copy-remux-and-forget\", \"missing-header-has-no-artifact\", \"missing-payload-discards-partial-mux-output\", \"physical-tail-without-publication-is-not-remuxed\", \"sparse-hole-is-not-remuxed-as-zeros\", \"publication-retries-remux\", \"cancel-after-success-drops-private-stage\", \"incomplete-bframe-gop-is-not-staged-False\", \"incomplete-bframe-gop-is-not-staged-True\", \"nonzero-start-is-not-silently-rebased\", \"encrypted-packets-are-not-declared-ready\", \"unsupported-codec-is-not-transcoded\", \"integrity-error-discards-stage\", \"cancel-discards-pending-stage\", \"reject-webm-remux-before-worker\", \"reject-mpegts-remux-before-worker\", \"reject-http-remux-before-worker\"], \"reports\": [{\"profile\": \"av\", \"output\": {\"bytes\": \"54664\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 1}, {\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 2}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 73, \"retained\": true, \"sha256\": \"ba561a019b887f91343ba82f9e9e03e22e0abfcec4c1a6a185aaa62383bce960\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"bframes\", \"output\": {\"bytes\": \"43491\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 1}, {\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 2}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 73, \"retained\": true, \"sha256\": \"a30359490953309df39505c30bb3005b9bcb85e097c8eef547796ae12238a438\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"video\", \"output\": {\"bytes\": \"37343\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"12800\", \"movieTimescale\": 12800, \"trackId\": 1}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 25, \"retained\": true, \"sha256\": \"309f86fa52fa34b99b3f7dd3f2607262fe88f03a79e5704dedffcc219d06d59c\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"audio\", \"output\": {\"bytes\": \"10008\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"48000\", \"movieTimescale\": 48000, \"trackId\": 1}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 48, \"retained\": true, \"sha256\": \"b1c9d6f41d215734ab62019dfb0f46c81476dfd1672c4e348bfc4f0e503fd3e0\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"audio44100\", \"output\": {\"bytes\": \"17360\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"44100\", \"movieTimescale\": 44100, \"trackId\": 1}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 45, \"retained\": true, \"sha256\": \"596d72e90f0a8e40945bb0a54c31bb4d849cceb2d6981e9170b4fe9c0df2a678\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"fractional\", \"output\": {\"bytes\": \"57801\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"240240\", \"movieTimescale\": 240000, \"trackId\": 1}, {\"duration\": \"240000\", \"movieTimescale\": 240000, \"trackId\": 2}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 78, \"retained\": true, \"sha256\": \"e0d86d859c50989a69459b13050326d8dab270fda639b59a5cf66be6a0ab6507\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"mov\", \"output\": {\"bytes\": \"47373\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 1}, {\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 2}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 73, \"retained\": true, \"sha256\": \"12c02dd5caddf874ce3cd242dcfb06f52635ac41bae852098dab86ce4e10a898\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"partial\", \"output\": {\"bytes\": \"41969\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"168960\", \"movieTimescale\": 192000, \"trackId\": 1}, {\"duration\": \"167936\", \"movieTimescale\": 192000, \"trackId\": 2}], \"gaplessEditsSealed\": true, \"packetLimited\": true, \"packets\": 64, \"retained\": true, \"sha256\": \"3cf4d6fd5688f6076fe167a886fa5e52af21f9aaa87eb1318414335d08153037\", \"sourceEof\": false, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}], \"preparationOnly\": true, \"playbackTested\": false, \"remuxTested\": true, \"originalsUnchanged\": true}, \"playback\": {\"result\": \"PASS\", \"count\": 20, \"checks\": [\"lost-start-read-only-discovery\", \"idempotent-start\", \"conflicting-token-rejected\", \"implicit-replace-rejected\", \"foreign-request-rejected\", \"pause-video\", \"seek-video\", \"resume-video\", \"real-playback-and-distinct-clip-eof-video\", \"readers-close-and-original-survives-video\", \"real-playback-and-distinct-clip-eof-av\", \"readers-close-and-original-survives-av\", \"real-playback-and-distinct-clip-eof-audio\", \"readers-close-and-original-survives-audio\", \"pause-partial\", \"seek-partial\", \"resume-partial\", \"real-playback-and-distinct-clip-eof-partial\", \"readers-close-and-original-survives-partial\", \"eight-immediate-start-cancel-release-cycles\"], \"profiles\": [{\"profile\": \"video\", \"playing\": {\"active\": true, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"263463\", \"durationSeconds\": 5, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0.04, \"previewId\": \"9c2228ad4996e5ee6fc5bc7927a901da\", \"probeId\": \"92d02ebd366ace079453e811ab4b51ee\", \"readerCount\": 1, \"released\": false, \"requestId\": \"357417802390467793db61ffd2941ce8\", \"sourceComplete\": true, \"sourceSessionId\": \"875b75c48a80422cb815c4fffe66ca80\", \"state\": \"playing\", \"version\": 1, \"videoCodec\": \"H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10\"}, \"finished\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"414769\", \"durationSeconds\": 5, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 5, \"previewId\": \"9c2228ad4996e5ee6fc5bc7927a901da\", \"probeId\": \"92d02ebd366ace079453e811ab4b51ee\", \"readerCount\": 0, \"released\": true, \"requestId\": \"357417802390467793db61ffd2941ce8\", \"sourceComplete\": true, \"sourceSessionId\": \"875b75c48a80422cb815c4fffe66ca80\", \"state\": \"finished\", \"version\": 1, \"videoCodec\": \"\"}, \"released\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"414769\", \"durationSeconds\": 0, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"9c2228ad4996e5ee6fc5bc7927a901da\", \"probeId\": \"92d02ebd366ace079453e811ab4b51ee\", \"readerCount\": 0, \"released\": true, \"requestId\": \"357417802390467793db61ffd2941ce8\", \"sourceComplete\": true, \"sourceSessionId\": \"875b75c48a80422cb815c4fffe66ca80\", \"state\": \"closed\", \"version\": 1, \"videoCodec\": \"\"}}, {\"profile\": \"av\", \"playing\": {\"active\": true, \"audioCodec\": \"aac\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"87594\", \"durationSeconds\": 1.0213333333333332, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"8db80cc696113b69469ec95b0b64ebfc\", \"probeId\": \"e91e269e807bf0465e1a56dac26133cd\", \"readerCount\": 1, \"released\": false, \"requestId\": \"3d6c11628fbe47bc8896b24b27b6936d\", \"sourceComplete\": true, \"sourceSessionId\": \"0b4d5030194b4395949f05207c457427\", \"state\": \"playing\", \"version\": 1, \"videoCodec\": \"H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10\"}, \"finished\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"87594\", \"durationSeconds\": 1.0213333333333332, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 1.0213333333333332, \"previewId\": \"8db80cc696113b69469ec95b0b64ebfc\", \"probeId\": \"e91e269e807bf0465e1a56dac26133cd\", \"readerCount\": 0, \"released\": true, \"requestId\": \"3d6c11628fbe47bc8896b24b27b6936d\", \"sourceComplete\": true, \"sourceSessionId\": \"0b4d5030194b4395949f05207c457427\", \"state\": \"finished\", \"version\": 1, \"videoCodec\": \"\"}, \"released\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"87594\", \"durationSeconds\": 0, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"8db80cc696113b69469ec95b0b64ebfc\", \"probeId\": \"e91e269e807bf0465e1a56dac26133cd\", \"readerCount\": 0, \"released\": true, \"requestId\": \"3d6c11628fbe47bc8896b24b27b6936d\", \"sourceComplete\": true, \"sourceSessionId\": \"0b4d5030194b4395949f05207c457427\", \"state\": \"closed\", \"version\": 1, \"videoCodec\": \"\"}}, {\"profile\": \"audio\", \"playing\": {\"active\": true, \"audioCodec\": \"aac\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"10008\", \"durationSeconds\": 1.0213333333333332, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"308f0666c1e2d7259fd6a6edc5cb2006\", \"probeId\": \"976bf84407f488c3101c0bfb8107af3e\", \"readerCount\": 1, \"released\": false, \"requestId\": \"3b427218a8f54b1ab7abdf994f79c6e1\", \"sourceComplete\": true, \"sourceSessionId\": \"4c1f98b08cc84831862c2e12dcd71370\", \"state\": \"playing\", \"version\": 1, \"videoCodec\": \"\"}, \"finished\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"10008\", \"durationSeconds\": 1.0213333333333332, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 1.0213333333333332, \"previewId\": \"308f0666c1e2d7259fd6a6edc5cb2006\", \"probeId\": \"976bf84407f488c3101c0bfb8107af3e\", \"readerCount\": 0, \"released\": true, \"requestId\": \"3b427218a8f54b1ab7abdf994f79c6e1\", \"sourceComplete\": true, \"sourceSessionId\": \"4c1f98b08cc84831862c2e12dcd71370\", \"state\": \"finished\", \"version\": 1, \"videoCodec\": \"\"}, \"released\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"10008\", \"durationSeconds\": 0, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"308f0666c1e2d7259fd6a6edc5cb2006\", \"probeId\": \"976bf84407f488c3101c0bfb8107af3e\", \"readerCount\": 0, \"released\": true, \"requestId\": \"3b427218a8f54b1ab7abdf994f79c6e1\", \"sourceComplete\": true, \"sourceSessionId\": \"4c1f98b08cc84831862c2e12dcd71370\", \"state\": \"closed\", \"version\": 1, \"videoCodec\": \"\"}}, {\"profile\": \"partial\", \"playing\": {\"active\": true, \"audioCodec\": \"aac\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"308596\", \"durationSeconds\": 1.792, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"11e1a031faccabbad977e7f44dc6f53d\", \"probeId\": \"41f005bd96d55453f3b6c1761d428ed5\", \"readerCount\": 1, \"released\": false, \"requestId\": \"c4ee977c484d4949a99b0f86d99ca948\", \"sourceComplete\": false, \"sourceSessionId\": \"404e0940c5c143f79130dae07cbe3af4\", \"state\": \"playing\", \"version\": 1, \"videoCodec\": \"H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10\"}, \"finished\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"308596\", \"durationSeconds\": 1.792, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 1.792, \"previewId\": \"11e1a031faccabbad977e7f44dc6f53d\", \"probeId\": \"41f005bd96d55453f3b6c1761d428ed5\", \"readerCount\": 0, \"released\": true, \"requestId\": \"c4ee977c484d4949a99b0f86d99ca948\", \"sourceComplete\": false, \"sourceSessionId\": \"404e0940c5c143f79130dae07cbe3af4\", \"state\": \"finished\", \"version\": 1, \"videoCodec\": \"\"}, \"released\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"308596\", \"durationSeconds\": 0, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"11e1a031faccabbad977e7f44dc6f53d\", \"probeId\": \"41f005bd96d55453f3b6c1761d428ed5\", \"readerCount\": 0, \"released\": true, \"requestId\": \"c4ee977c484d4949a99b0f86d99ca948\", \"sourceComplete\": false, \"sourceSessionId\": \"404e0940c5c143f79130dae07cbe3af4\", \"state\": \"closed\", \"version\": 1, \"videoCodec\": \"\"}}], \"actualPlaybackTested\": true, \"continuousPlayback\": false, \"sourceEofDistinct\": true}, \"beforeMetrics\": [{\"cpuSeconds\": 0.49, \"rssBytes\": 176218112, \"privateBytes\": 46985216, \"handles\": 32, \"threads\": 45, \"memorySource\": \"proc-status-VmRSS-RssAnon\"}, {\"cpuSeconds\": 0.45, \"rssBytes\": 175357952, \"privateBytes\": 46374912, \"handles\": 31, \"threads\": 45, \"memorySource\": \"proc-status-VmRSS-RssAnon\"}], \"afterMetrics\": [{\"cpuSeconds\": 0.78, \"rssBytes\": 177815552, \"privateBytes\": 48037888, \"handles\": 32, \"threads\": 45, \"memorySource\": \"proc-status-VmRSS-RssAnon\"}, {\"cpuSeconds\": 2.36, \"rssBytes\": 258379776, \"privateBytes\": 120004608, \"handles\": 31, \"threads\": 55, \"memorySource\": \"proc-status-VmRSS-RssAnon\"}], \"edition\": \"qt\", \"processHistory\": [[{\"pid\": 34012, \"reason\": \"cleanup-owned-idle-process\", \"exitCode\": -9, \"terminationSeconds\": 0.016013150000162568}], [{\"pid\": 34088, \"reason\": \"cleanup-owned-idle-process\", \"exitCode\": -9, \"terminationSeconds\": 0.03263166600004297}]], \"temporaryWorkRemoved\": true, \"playerSha256\": [\"e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9\", \"e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9\"], \"readerRunnerSha256\": \"644b92db481809822256437657900e3498e06337a644dc2f63ee4a63f4b0eb17\"}\n3/3 Test #113: progressive-remux-player-regression ...   Passed   19.71 sec\n\nThe following tests passed:\n\tcontinuous-player\n\tplayer-retirement\n\tprogressive-remux-player-regression\n\n100% tests passed, 0 tests failed out of 3\n\nTotal Test time (real) =  30.24 sec\nA connection to the bus can't be made\n",
+      "mainExeSha256": "e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9",
+      "fixtureExeSha256": "6ffd8f91487373fe7e11bb27aa7794c56750c59d3617f57ea1bc1d96b07e4e61"
+    },
+    "windows": {
+      "result": "PASS",
+      "functionalCases": 5,
+      "qtTestTotals": {
+        "passed": 7,
+        "failed": 0
+      },
+      "retirementTotals": {
+        "passed": 8,
+        "failed": 0
+      },
+      "softwareFramebuffer": true,
+      "oldApiRegression": {
+        "result": "PASS",
+        "boundedRemuxOnly": true,
+        "continuousPlayback": false,
+        "preparation": {
+          "result": "PASS",
+          "count": 24,
+          "checks": [
+            "av-copy-remux-and-forget",
+            "bframes-copy-remux-and-forget",
+            "video-copy-remux-and-forget",
+            "audio-copy-remux-and-forget",
+            "audio44100-copy-remux-and-forget",
+            "fractional-copy-remux-and-forget",
+            "mov-copy-remux-and-forget",
+            "partial-copy-remux-and-forget",
+            "missing-header-has-no-artifact",
+            "missing-payload-discards-partial-mux-output",
+            "physical-tail-without-publication-is-not-remuxed",
+            "sparse-hole-is-not-remuxed-as-zeros",
+            "publication-retries-remux",
+            "cancel-after-success-drops-private-stage",
+            "incomplete-bframe-gop-is-not-staged-False",
+            "incomplete-bframe-gop-is-not-staged-True",
+            "nonzero-start-is-not-silently-rebased",
+            "encrypted-packets-are-not-declared-ready",
+            "unsupported-codec-is-not-transcoded",
+            "integrity-error-discards-stage",
+            "cancel-discards-pending-stage",
+            "reject-webm-remux-before-worker",
+            "reject-mpegts-remux-before-worker",
+            "reject-http-remux-before-worker"
+          ],
+          "reports": [
+            {
+              "profile": "av",
+              "output": {
+                "bytes": "54689",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 1
+                  },
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 2
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 73,
+                "retained": true,
+                "sha256": "19716d75506157708726d43ba4d138e59adfacb7a02bd02f0ba3243231c25139",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "bframes",
+              "output": {
+                "bytes": "43502",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 1
+                  },
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 2
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 73,
+                "retained": true,
+                "sha256": "f6a95b8994effa0b4b10e91908c924c0a6ff78c01cdfef864cc27a95d9097e1b",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "video",
+              "output": {
+                "bytes": "37343",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "12800",
+                    "movieTimescale": 12800,
+                    "trackId": 1
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 25,
+                "retained": true,
+                "sha256": "92341f47d0c0c5a1d248fab35b1f375c19a12d094ba87acba6d87dd3d2a38261",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "audio",
+              "output": {
+                "bytes": "10018",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "48000",
+                    "movieTimescale": 48000,
+                    "trackId": 1
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 48,
+                "retained": true,
+                "sha256": "41c6602840b26eec387cb44e03c89f3ba65f2bdf5eb3fa822197263141c5cbef",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "audio44100",
+              "output": {
+                "bytes": "17353",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "44100",
+                    "movieTimescale": 44100,
+                    "trackId": 1
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 45,
+                "retained": true,
+                "sha256": "eaa59bea5e8e692c24866a7a75c9dee6bc714f61cd2dd74427ef51f56b5274b0",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "fractional",
+              "output": {
+                "bytes": "57812",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "240240",
+                    "movieTimescale": 240000,
+                    "trackId": 1
+                  },
+                  {
+                    "duration": "240000",
+                    "movieTimescale": 240000,
+                    "trackId": 2
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 78,
+                "retained": true,
+                "sha256": "1f79881531cb92d4573c8fa222950476ff85f05520aa7bc3bafda2b3808b1838",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "mov",
+              "output": {
+                "bytes": "47384",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 1
+                  },
+                  {
+                    "duration": "192000",
+                    "movieTimescale": 192000,
+                    "trackId": 2
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": false,
+                "packets": 73,
+                "retained": true,
+                "sha256": "a5d066b3602de2174c2de5ece931fe677931cce3ad72ba4985a8446f6ee79a6e",
+                "sourceEof": true,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            },
+            {
+              "profile": "partial",
+              "output": {
+                "bytes": "42016",
+                "container": "mp4",
+                "edits": [
+                  {
+                    "duration": "168960",
+                    "movieTimescale": 192000,
+                    "trackId": 1
+                  },
+                  {
+                    "duration": "167936",
+                    "movieTimescale": 192000,
+                    "trackId": 2
+                  }
+                ],
+                "gaplessEditsSealed": true,
+                "packetLimited": true,
+                "packets": 64,
+                "retained": true,
+                "sha256": "62b59a213ba52371e962e694e0b32603c0ac9acc681db7756ffab5edfd81d70d",
+                "sourceEof": false,
+                "storage": "bounded-private-memory",
+                "transcoded": false
+              }
+            }
+          ],
+          "preparationOnly": true,
+          "playbackTested": false,
+          "remuxTested": true,
+          "originalsUnchanged": true
+        },
+        "playback": {
+          "result": "PASS",
+          "count": 20,
+          "checks": [
+            "lost-start-read-only-discovery",
+            "idempotent-start",
+            "conflicting-token-rejected",
+            "implicit-replace-rejected",
+            "foreign-request-rejected",
+            "pause-video",
+            "seek-video",
+            "resume-video",
+            "real-playback-and-distinct-clip-eof-video",
+            "readers-close-and-original-survives-video",
+            "real-playback-and-distinct-clip-eof-av",
+            "readers-close-and-original-survives-av",
+            "real-playback-and-distinct-clip-eof-audio",
+            "readers-close-and-original-survives-audio",
+            "pause-partial",
+            "seek-partial",
+            "resume-partial",
+            "real-playback-and-distinct-clip-eof-partial",
+            "readers-close-and-original-survives-partial",
+            "eight-immediate-start-cancel-release-cycles"
+          ],
+          "profiles": [
+            {
+              "profile": "video",
+              "playing": {
+                "active": true,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "328998",
+                "durationSeconds": 5,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "981125693d24a77acdc750b518dde6b0",
+                "probeId": "1f291753613563666a08bf8ac5f1f4fc",
+                "readerCount": 1,
+                "released": false,
+                "requestId": "af8fbbadae4c4b14ae4eec5568f9a392",
+                "sourceComplete": true,
+                "sourceSessionId": "3ac14e018c6944298effa77a9dd4ff5c",
+                "state": "playing",
+                "version": 1,
+                "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+              },
+              "finished": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "611375",
+                "durationSeconds": 5,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 5,
+                "previewId": "981125693d24a77acdc750b518dde6b0",
+                "probeId": "1f291753613563666a08bf8ac5f1f4fc",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "af8fbbadae4c4b14ae4eec5568f9a392",
+                "sourceComplete": true,
+                "sourceSessionId": "3ac14e018c6944298effa77a9dd4ff5c",
+                "state": "finished",
+                "version": 1,
+                "videoCodec": ""
+              },
+              "released": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "611375",
+                "durationSeconds": 0,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "981125693d24a77acdc750b518dde6b0",
+                "probeId": "1f291753613563666a08bf8ac5f1f4fc",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "af8fbbadae4c4b14ae4eec5568f9a392",
+                "sourceComplete": true,
+                "sourceSessionId": "3ac14e018c6944298effa77a9dd4ff5c",
+                "state": "closed",
+                "version": 1,
+                "videoCodec": ""
+              }
+            },
+            {
+              "profile": "av",
+              "playing": {
+                "active": true,
+                "audioCodec": "aac",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "87605",
+                "durationSeconds": 1,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "518d8bee80b18f22bda248895967214d",
+                "probeId": "b2ea87a2382a33e148cf85cbbeca6fe5",
+                "readerCount": 1,
+                "released": false,
+                "requestId": "d7b076eeb44e49a388ff3d2b06883b10",
+                "sourceComplete": true,
+                "sourceSessionId": "5aaa60beab964b6681ce12ab77ca953d",
+                "state": "playing",
+                "version": 1,
+                "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+              },
+              "finished": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "87605",
+                "durationSeconds": 1,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 1,
+                "previewId": "518d8bee80b18f22bda248895967214d",
+                "probeId": "b2ea87a2382a33e148cf85cbbeca6fe5",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "d7b076eeb44e49a388ff3d2b06883b10",
+                "sourceComplete": true,
+                "sourceSessionId": "5aaa60beab964b6681ce12ab77ca953d",
+                "state": "finished",
+                "version": 1,
+                "videoCodec": ""
+              },
+              "released": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "87605",
+                "durationSeconds": 0,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "518d8bee80b18f22bda248895967214d",
+                "probeId": "b2ea87a2382a33e148cf85cbbeca6fe5",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "d7b076eeb44e49a388ff3d2b06883b10",
+                "sourceComplete": true,
+                "sourceSessionId": "5aaa60beab964b6681ce12ab77ca953d",
+                "state": "closed",
+                "version": 1,
+                "videoCodec": ""
+              }
+            },
+            {
+              "profile": "audio",
+              "playing": {
+                "active": true,
+                "audioCodec": "aac",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "10018",
+                "durationSeconds": 1,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0.025681733333333345,
+                "previewId": "6d8aa7c946cdee188ab1fe1b5e0dcf12",
+                "probeId": "ec4e46ddc61ced65d511b2ea05c6d205",
+                "readerCount": 1,
+                "released": false,
+                "requestId": "e967ae6dbd0f436d9a23fc61080018b9",
+                "sourceComplete": true,
+                "sourceSessionId": "600030d120734925ad19e4329a66f729",
+                "state": "playing",
+                "version": 1,
+                "videoCodec": ""
+              },
+              "finished": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "10018",
+                "durationSeconds": 1,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 1,
+                "previewId": "6d8aa7c946cdee188ab1fe1b5e0dcf12",
+                "probeId": "ec4e46ddc61ced65d511b2ea05c6d205",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "e967ae6dbd0f436d9a23fc61080018b9",
+                "sourceComplete": true,
+                "sourceSessionId": "600030d120734925ad19e4329a66f729",
+                "state": "finished",
+                "version": 1,
+                "videoCodec": ""
+              },
+              "released": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "10018",
+                "durationSeconds": 0,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "6d8aa7c946cdee188ab1fe1b5e0dcf12",
+                "probeId": "ec4e46ddc61ced65d511b2ea05c6d205",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "e967ae6dbd0f436d9a23fc61080018b9",
+                "sourceComplete": true,
+                "sourceSessionId": "600030d120734925ad19e4329a66f729",
+                "state": "closed",
+                "version": 1,
+                "videoCodec": ""
+              }
+            },
+            {
+              "profile": "partial",
+              "playing": {
+                "active": true,
+                "audioCodec": "aac",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "308648",
+                "durationSeconds": 1.7706666666666666,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "21c94782966a857ab223ceeafed95898",
+                "probeId": "2f5857b5a4dfad4dff30a23cb6cd2198",
+                "readerCount": 1,
+                "released": false,
+                "requestId": "4a86b25487c24fa99a77969342fbd64e",
+                "sourceComplete": false,
+                "sourceSessionId": "5d1119682016480b8eb9cdf944a739bc",
+                "state": "playing",
+                "version": 1,
+                "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"
+              },
+              "finished": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "308648",
+                "durationSeconds": 1.7706666666666666,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 1.7706666666666666,
+                "previewId": "21c94782966a857ab223ceeafed95898",
+                "probeId": "2f5857b5a4dfad4dff30a23cb6cd2198",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "4a86b25487c24fa99a77969342fbd64e",
+                "sourceComplete": false,
+                "sourceSessionId": "5d1119682016480b8eb9cdf944a739bc",
+                "state": "finished",
+                "version": 1,
+                "videoCodec": ""
+              },
+              "released": {
+                "active": false,
+                "audioCodec": "",
+                "boundedClip": true,
+                "continuousPlayback": false,
+                "decoderBytesRead": "308648",
+                "durationSeconds": 0,
+                "error": "",
+                "mode": "prepared-remux-clip",
+                "ok": true,
+                "positionSeconds": 0,
+                "previewId": "21c94782966a857ab223ceeafed95898",
+                "probeId": "2f5857b5a4dfad4dff30a23cb6cd2198",
+                "readerCount": 0,
+                "released": true,
+                "requestId": "4a86b25487c24fa99a77969342fbd64e",
+                "sourceComplete": false,
+                "sourceSessionId": "5d1119682016480b8eb9cdf944a739bc",
+                "state": "closed",
+                "version": 1,
+                "videoCodec": ""
+              }
+            }
+          ],
+          "actualPlaybackTested": true,
+          "continuousPlayback": false,
+          "sourceEofDistinct": true
+        },
+        "beforeMetrics": [
+          {
+            "cpuSeconds": 0.75,
+            "threads": 25,
+            "rssBytes": 66265088,
+            "privateBytes": 75780096,
+            "handles": 1058,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          },
+          {
+            "cpuSeconds": 0.421875,
+            "threads": 24,
+            "rssBytes": 65708032,
+            "privateBytes": 75431936,
+            "handles": 778,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        ],
+        "afterMetrics": [
+          {
+            "cpuSeconds": 2.59375,
+            "threads": 27,
+            "rssBytes": 81453056,
+            "privateBytes": 81969152,
+            "handles": 1629,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          },
+          {
+            "cpuSeconds": 4.0,
+            "threads": 38,
+            "rssBytes": 100683776,
+            "privateBytes": 98230272,
+            "handles": 1674,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        ],
+        "edition": "qt",
+        "processHistory": [
+          [
+            {
+              "pid": 12504,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.01811760000009599
+            }
+          ],
+          [
+            {
+              "pid": 1544,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.026194199999736156
+            }
+          ]
+        ],
+        "temporaryWorkRemoved": true,
+        "playerSha256": [
+          "f7d22c975d9376f87b41eb394199ab630c5781f4d181bfbab7afac048ed18b7d",
+          "f7d22c975d9376f87b41eb394199ab630c5781f4d181bfbab7afac048ed18b7d"
+        ],
+        "readerRunnerSha256": "31d2d1d737be24311bbc1e48ac12cdd8d7ea61d2948afb3116fc13e61b63f881"
+      },
+      "logSha256": "cc48fe6e858d3ae20cea5f97abd52e179ff939f55162506d564467ee8678fb0f",
+      "log": "UpdateCTestConfiguration  from :E:/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/DartConfiguration.tcl\nParse Config file:E:/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/DartConfiguration.tcl\nTest project E:/Programs/MPMY-src/_bin/qt-release-0.2.0-win4\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 28\n    Start 28: continuous-player\n\n28: Test command: E:\\Programs\\MPMY-src\\_bin\\qt-release-0.2.0-win4\\foxicmp-continuous-player-tests.exe\n28: Working Directory: E:/Programs/MPMY-src/_bin/qt-release-0.2.0-win4\n28: Test timeout computed to be: 150\n28: ********* Start testing of ContinuousPlayerTest *********\n28: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by GCC 16.2.0), windows 11\n28: PASS   : ContinuousPlayerTest::initTestCase()\n28: PASS   : ContinuousPlayerTest::playback(complete)\n28: PASS   : ContinuousPlayerTest::playback(stop)\n28: PASS   : ContinuousPlayerTest::playback(replace)\n28: PASS   : ContinuousPlayerTest::playback(delete)\n28: PASS   : ContinuousPlayerTest::playback(producer-error)\n28: PASS   : ContinuousPlayerTest::cleanupTestCase()\n28: Totals: 7 passed, 0 failed, 0 skipped, 0 blacklisted, 7068ms\n28: ********* Finished testing of ContinuousPlayerTest *********\n1/3 Test #28: continuous-player .....................   Passed    7.21 sec\ntest 29\n    Start 29: player-retirement\n\n29: Test command: E:\\Programs\\MPMY-src\\_bin\\qt-release-0.2.0-win4\\foxicmp-player-retirement-tests.exe\n29: Working Directory: E:/Programs/MPMY-src/_bin/qt-release-0.2.0-win4\n29: Test timeout computed to be: 90\n29: ********* Start testing of PlayerRetirementTest *********\n29: Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by GCC 16.2.0), windows 11\n29: PASS   : PlayerRetirementTest::initTestCase()\n29: PASS   : PlayerRetirementTest::coreAndSoftwareRendererOutliveDeletedWidget(ordinary-file)\n29: PASS   : PlayerRetirementTest::coreAndSoftwareRendererOutliveDeletedWidget(prepared-memory-clip)\n29: PASS   : PlayerRetirementTest::secondaryDecoderOutlivesDeletedAudioMirror()\n29: PASS   : PlayerRetirementTest::progressiveLeaseWaitsForNativeCoreAndActualSourceClose()\n29: PASS   : PlayerRetirementTest::capacityReservedBeforeCreatingNativeEngine()\n29: PASS   : PlayerRetirementTest::invalidOptionsRetireUninitializedNativeCore()\n29: PASS   : PlayerRetirementTest::cleanupTestCase()\n29: Totals: 8 passed, 0 failed, 0 skipped, 0 blacklisted, 2163ms\n29: ********* Finished testing of PlayerRetirementTest *********\n2/3 Test #29: player-retirement .....................   Passed    2.30 sec\ntest 80\n    Start 80: progressive-remux-player-regression\n\n80: Test command: C:\\FoxBroxer\\Build\\FoxicMPq\\msys64\\ucrt64\\bin\\python3.14.exe \"E:/Programs/MPMY-src/qt/../tests/progressive_remux_player_regression.py\" \"--edition\" \"qt\" \"--player\" \"E:/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe\" \"--reader-runner\" \"E:/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/foxicmp-progressive-reader-tests.exe\" \"--report-directory\" \"E:/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/remux-player-test-report\"\n80: Working Directory: E:/Programs/MPMY-src/_bin/qt-release-0.2.0-win4\n80: Test timeout computed to be: 300\n80: {\"result\": \"PASS\", \"boundedRemuxOnly\": true, \"continuousPlayback\": false, \"preparation\": {\"result\": \"PASS\", \"count\": 24, \"checks\": [\"av-copy-remux-and-forget\", \"bframes-copy-remux-and-forget\", \"video-copy-remux-and-forget\", \"audio-copy-remux-and-forget\", \"audio44100-copy-remux-and-forget\", \"fractional-copy-remux-and-forget\", \"mov-copy-remux-and-forget\", \"partial-copy-remux-and-forget\", \"missing-header-has-no-artifact\", \"missing-payload-discards-partial-mux-output\", \"physical-tail-without-publication-is-not-remuxed\", \"sparse-hole-is-not-remuxed-as-zeros\", \"publication-retries-remux\", \"cancel-after-success-drops-private-stage\", \"incomplete-bframe-gop-is-not-staged-False\", \"incomplete-bframe-gop-is-not-staged-True\", \"nonzero-start-is-not-silently-rebased\", \"encrypted-packets-are-not-declared-ready\", \"unsupported-codec-is-not-transcoded\", \"integrity-error-discards-stage\", \"cancel-discards-pending-stage\", \"reject-webm-remux-before-worker\", \"reject-mpegts-remux-before-worker\", \"reject-http-remux-before-worker\"], \"reports\": [{\"profile\": \"av\", \"output\": {\"bytes\": \"54689\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 1}, {\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 2}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 73, \"retained\": true, \"sha256\": \"19716d75506157708726d43ba4d138e59adfacb7a02bd02f0ba3243231c25139\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"bframes\", \"output\": {\"bytes\": \"43502\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 1}, {\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 2}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 73, \"retained\": true, \"sha256\": \"f6a95b8994effa0b4b10e91908c924c0a6ff78c01cdfef864cc27a95d9097e1b\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"video\", \"output\": {\"bytes\": \"37343\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"12800\", \"movieTimescale\": 12800, \"trackId\": 1}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 25, \"retained\": true, \"sha256\": \"92341f47d0c0c5a1d248fab35b1f375c19a12d094ba87acba6d87dd3d2a38261\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"audio\", \"output\": {\"bytes\": \"10018\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"48000\", \"movieTimescale\": 48000, \"trackId\": 1}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 48, \"retained\": true, \"sha256\": \"41c6602840b26eec387cb44e03c89f3ba65f2bdf5eb3fa822197263141c5cbef\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"audio44100\", \"output\": {\"bytes\": \"17353\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"44100\", \"movieTimescale\": 44100, \"trackId\": 1}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 45, \"retained\": true, \"sha256\": \"eaa59bea5e8e692c24866a7a75c9dee6bc714f61cd2dd74427ef51f56b5274b0\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"fractional\", \"output\": {\"bytes\": \"57812\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"240240\", \"movieTimescale\": 240000, \"trackId\": 1}, {\"duration\": \"240000\", \"movieTimescale\": 240000, \"trackId\": 2}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 78, \"retained\": true, \"sha256\": \"1f79881531cb92d4573c8fa222950476ff85f05520aa7bc3bafda2b3808b1838\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"mov\", \"output\": {\"bytes\": \"47384\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 1}, {\"duration\": \"192000\", \"movieTimescale\": 192000, \"trackId\": 2}], \"gaplessEditsSealed\": true, \"packetLimited\": false, \"packets\": 73, \"retained\": true, \"sha256\": \"a5d066b3602de2174c2de5ece931fe677931cce3ad72ba4985a8446f6ee79a6e\", \"sourceEof\": true, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}, {\"profile\": \"partial\", \"output\": {\"bytes\": \"42016\", \"container\": \"mp4\", \"edits\": [{\"duration\": \"168960\", \"movieTimescale\": 192000, \"trackId\": 1}, {\"duration\": \"167936\", \"movieTimescale\": 192000, \"trackId\": 2}], \"gaplessEditsSealed\": true, \"packetLimited\": true, \"packets\": 64, \"retained\": true, \"sha256\": \"62b59a213ba52371e962e694e0b32603c0ac9acc681db7756ffab5edfd81d70d\", \"sourceEof\": false, \"storage\": \"bounded-private-memory\", \"transcoded\": false}}], \"preparationOnly\": true, \"playbackTested\": false, \"remuxTested\": true, \"originalsUnchanged\": true}, \"playback\": {\"result\": \"PASS\", \"count\": 20, \"checks\": [\"lost-start-read-only-discovery\", \"idempotent-start\", \"conflicting-token-rejected\", \"implicit-replace-rejected\", \"foreign-request-rejected\", \"pause-video\", \"seek-video\", \"resume-video\", \"real-playback-and-distinct-clip-eof-video\", \"readers-close-and-original-survives-video\", \"real-playback-and-distinct-clip-eof-av\", \"readers-close-and-original-survives-av\", \"real-playback-and-distinct-clip-eof-audio\", \"readers-close-and-original-survives-audio\", \"pause-partial\", \"seek-partial\", \"resume-partial\", \"real-playback-and-distinct-clip-eof-partial\", \"readers-close-and-original-survives-partial\", \"eight-immediate-start-cancel-release-cycles\"], \"profiles\": [{\"profile\": \"video\", \"playing\": {\"active\": true, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"328998\", \"durationSeconds\": 5, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"981125693d24a77acdc750b518dde6b0\", \"probeId\": \"1f291753613563666a08bf8ac5f1f4fc\", \"readerCount\": 1, \"released\": false, \"requestId\": \"af8fbbadae4c4b14ae4eec5568f9a392\", \"sourceComplete\": true, \"sourceSessionId\": \"3ac14e018c6944298effa77a9dd4ff5c\", \"state\": \"playing\", \"version\": 1, \"videoCodec\": \"H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10\"}, \"finished\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"611375\", \"durationSeconds\": 5, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 5, \"previewId\": \"981125693d24a77acdc750b518dde6b0\", \"probeId\": \"1f291753613563666a08bf8ac5f1f4fc\", \"readerCount\": 0, \"released\": true, \"requestId\": \"af8fbbadae4c4b14ae4eec5568f9a392\", \"sourceComplete\": true, \"sourceSessionId\": \"3ac14e018c6944298effa77a9dd4ff5c\", \"state\": \"finished\", \"version\": 1, \"videoCodec\": \"\"}, \"released\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"611375\", \"durationSeconds\": 0, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"981125693d24a77acdc750b518dde6b0\", \"probeId\": \"1f291753613563666a08bf8ac5f1f4fc\", \"readerCount\": 0, \"released\": true, \"requestId\": \"af8fbbadae4c4b14ae4eec5568f9a392\", \"sourceComplete\": true, \"sourceSessionId\": \"3ac14e018c6944298effa77a9dd4ff5c\", \"state\": \"closed\", \"version\": 1, \"videoCodec\": \"\"}}, {\"profile\": \"av\", \"playing\": {\"active\": true, \"audioCodec\": \"aac\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"87605\", \"durationSeconds\": 1, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"518d8bee80b18f22bda248895967214d\", \"probeId\": \"b2ea87a2382a33e148cf85cbbeca6fe5\", \"readerCount\": 1, \"released\": false, \"requestId\": \"d7b076eeb44e49a388ff3d2b06883b10\", \"sourceComplete\": true, \"sourceSessionId\": \"5aaa60beab964b6681ce12ab77ca953d\", \"state\": \"playing\", \"version\": 1, \"videoCodec\": \"H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10\"}, \"finished\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"87605\", \"durationSeconds\": 1, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 1, \"previewId\": \"518d8bee80b18f22bda248895967214d\", \"probeId\": \"b2ea87a2382a33e148cf85cbbeca6fe5\", \"readerCount\": 0, \"released\": true, \"requestId\": \"d7b076eeb44e49a388ff3d2b06883b10\", \"sourceComplete\": true, \"sourceSessionId\": \"5aaa60beab964b6681ce12ab77ca953d\", \"state\": \"finished\", \"version\": 1, \"videoCodec\": \"\"}, \"released\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"87605\", \"durationSeconds\": 0, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"518d8bee80b18f22bda248895967214d\", \"probeId\": \"b2ea87a2382a33e148cf85cbbeca6fe5\", \"readerCount\": 0, \"released\": true, \"requestId\": \"d7b076eeb44e49a388ff3d2b06883b10\", \"sourceComplete\": true, \"sourceSessionId\": \"5aaa60beab964b6681ce12ab77ca953d\", \"state\": \"closed\", \"version\": 1, \"videoCodec\": \"\"}}, {\"profile\": \"audio\", \"playing\": {\"active\": true, \"audioCodec\": \"aac\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"10018\", \"durationSeconds\": 1, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0.025681733333333345, \"previewId\": \"6d8aa7c946cdee188ab1fe1b5e0dcf12\", \"probeId\": \"ec4e46ddc61ced65d511b2ea05c6d205\", \"readerCount\": 1, \"released\": false, \"requestId\": \"e967ae6dbd0f436d9a23fc61080018b9\", \"sourceComplete\": true, \"sourceSessionId\": \"600030d120734925ad19e4329a66f729\", \"state\": \"playing\", \"version\": 1, \"videoCodec\": \"\"}, \"finished\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"10018\", \"durationSeconds\": 1, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 1, \"previewId\": \"6d8aa7c946cdee188ab1fe1b5e0dcf12\", \"probeId\": \"ec4e46ddc61ced65d511b2ea05c6d205\", \"readerCount\": 0, \"released\": true, \"requestId\": \"e967ae6dbd0f436d9a23fc61080018b9\", \"sourceComplete\": true, \"sourceSessionId\": \"600030d120734925ad19e4329a66f729\", \"state\": \"finished\", \"version\": 1, \"videoCodec\": \"\"}, \"released\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"10018\", \"durationSeconds\": 0, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"6d8aa7c946cdee188ab1fe1b5e0dcf12\", \"probeId\": \"ec4e46ddc61ced65d511b2ea05c6d205\", \"readerCount\": 0, \"released\": true, \"requestId\": \"e967ae6dbd0f436d9a23fc61080018b9\", \"sourceComplete\": true, \"sourceSessionId\": \"600030d120734925ad19e4329a66f729\", \"state\": \"closed\", \"version\": 1, \"videoCodec\": \"\"}}, {\"profile\": \"partial\", \"playing\": {\"active\": true, \"audioCodec\": \"aac\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"308648\", \"durationSeconds\": 1.7706666666666666, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"21c94782966a857ab223ceeafed95898\", \"probeId\": \"2f5857b5a4dfad4dff30a23cb6cd2198\", \"readerCount\": 1, \"released\": false, \"requestId\": \"4a86b25487c24fa99a77969342fbd64e\", \"sourceComplete\": false, \"sourceSessionId\": \"5d1119682016480b8eb9cdf944a739bc\", \"state\": \"playing\", \"version\": 1, \"videoCodec\": \"H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10\"}, \"finished\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"308648\", \"durationSeconds\": 1.7706666666666666, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 1.7706666666666666, \"previewId\": \"21c94782966a857ab223ceeafed95898\", \"probeId\": \"2f5857b5a4dfad4dff30a23cb6cd2198\", \"readerCount\": 0, \"released\": true, \"requestId\": \"4a86b25487c24fa99a77969342fbd64e\", \"sourceComplete\": false, \"sourceSessionId\": \"5d1119682016480b8eb9cdf944a739bc\", \"state\": \"finished\", \"version\": 1, \"videoCodec\": \"\"}, \"released\": {\"active\": false, \"audioCodec\": \"\", \"boundedClip\": true, \"continuousPlayback\": false, \"decoderBytesRead\": \"308648\", \"durationSeconds\": 0, \"error\": \"\", \"mode\": \"prepared-remux-clip\", \"ok\": true, \"positionSeconds\": 0, \"previewId\": \"21c94782966a857ab223ceeafed95898\", \"probeId\": \"2f5857b5a4dfad4dff30a23cb6cd2198\", \"readerCount\": 0, \"released\": true, \"requestId\": \"4a86b25487c24fa99a77969342fbd64e\", \"sourceComplete\": false, \"sourceSessionId\": \"5d1119682016480b8eb9cdf944a739bc\", \"state\": \"closed\", \"version\": 1, \"videoCodec\": \"\"}}], \"actualPlaybackTested\": true, \"continuousPlayback\": false, \"sourceEofDistinct\": true}, \"beforeMetrics\": [{\"cpuSeconds\": 0.75, \"threads\": 25, \"rssBytes\": 66265088, \"privateBytes\": 75780096, \"handles\": 1058, \"memorySource\": \"GetProcessMemoryInfo-WorkingSetSize-PrivateUsage\"}, {\"cpuSeconds\": 0.421875, \"threads\": 24, \"rssBytes\": 65708032, \"privateBytes\": 75431936, \"handles\": 778, \"memorySource\": \"GetProcessMemoryInfo-WorkingSetSize-PrivateUsage\"}], \"afterMetrics\": [{\"cpuSeconds\": 2.59375, \"threads\": 27, \"rssBytes\": 81453056, \"privateBytes\": 81969152, \"handles\": 1629, \"memorySource\": \"GetProcessMemoryInfo-WorkingSetSize-PrivateUsage\"}, {\"cpuSeconds\": 4.0, \"threads\": 38, \"rssBytes\": 100683776, \"privateBytes\": 98230272, \"handles\": 1674, \"memorySource\": \"GetProcessMemoryInfo-WorkingSetSize-PrivateUsage\"}], \"edition\": \"qt\", \"processHistory\": [[{\"pid\": 12504, \"reason\": \"cleanup-owned-idle-process\", \"exitCode\": 1, \"terminationSeconds\": 0.01811760000009599}], [{\"pid\": 1544, \"reason\": \"cleanup-owned-idle-process\", \"exitCode\": 1, \"terminationSeconds\": 0.026194199999736156}]], \"temporaryWorkRemoved\": true, \"playerSha256\": [\"f7d22c975d9376f87b41eb394199ab630c5781f4d181bfbab7afac048ed18b7d\", \"f7d22c975d9376f87b41eb394199ab630c5781f4d181bfbab7afac048ed18b7d\"], \"readerRunnerSha256\": \"31d2d1d737be24311bbc1e48ac12cdd8d7ea61d2948afb3116fc13e61b63f881\"}\n3/3 Test #80: progressive-remux-player-regression ...   Passed   13.68 sec\n\nThe following tests passed:\n\tcontinuous-player\n\tplayer-retirement\n\tprogressive-remux-player-regression\n\n100% tests passed out of 3\n\nTotal Test time (real) =  23.20 sec\n",
+      "mainExeSha256": "f7d22c975d9376f87b41eb394199ab630c5781f4d181bfbab7afac048ed18b7d",
+      "fixtureExeSha256": "41fcdd50db271d5613d587cb1811bd7d5187a396c6bc3e25cd59f33739a29ef7"
+    }
+  },
+  "classicGraph": {
+    "result": "PASS",
+    "count": 5,
+    "rows": [
+      {
+        "profile": "complete",
+        "result": "PASS",
+        "exactExitCode": 0,
+        "status": {
+          "result": "PASS",
+          "frames": 600,
+          "framesBeforeWriterComplete": 0,
+          "workerId": 12348,
+          "stopSeconds": 0,
+          "released": true,
+          "sharedSourceNotCancelled": true
+        },
+        "frameCount": 600,
+        "decodedSequenceSha256": "b03f1ce37f22f894a0b4ec8bea5d55cdc4cebab1897e507b8e494788cffbfff1",
+        "stderr": ""
+      },
+      {
+        "profile": "growing",
+        "result": "PASS",
+        "exactExitCode": 0,
+        "status": {
+          "result": "PASS",
+          "frames": 600,
+          "framesBeforeWriterComplete": 64,
+          "workerId": 10256,
+          "stopSeconds": 0,
+          "released": true,
+          "sharedSourceNotCancelled": true
+        },
+        "frameCount": 600,
+        "decodedSequenceSha256": "b03f1ce37f22f894a0b4ec8bea5d55cdc4cebab1897e507b8e494788cffbfff1",
+        "stderr": ""
+      },
+      {
+        "profile": "seek",
+        "result": "PASS",
+        "exactExitCode": 0,
+        "status": {
+          "result": "PASS",
+          "frames": 350,
+          "framesBeforeWriterComplete": 0,
+          "workerId": 12920,
+          "stopSeconds": 0,
+          "released": true,
+          "sharedSourceNotCancelled": true
+        },
+        "frameCount": 350,
+        "decodedSequenceSha256": "a6ee6d865ea03f168ed5b8fec176d44c3855938cffb50e260e34177549f6990d",
+        "stderr": ""
+      },
+      {
+        "profile": "stop",
+        "result": "PASS",
+        "exactExitCode": 0,
+        "status": {
+          "result": "PASS",
+          "frames": 75,
+          "framesBeforeWriterComplete": 75,
+          "workerId": 12572,
+          "stopSeconds": 0,
+          "released": true,
+          "sharedSourceNotCancelled": true
+        },
+        "frameCount": 75,
+        "decodedSequenceSha256": "a6f90d9ced8b92eb838db35ede8fd7541cd10af2d34d50da94f4938a0b707479",
+        "stderr": ""
+      },
+      {
+        "profile": "failure",
+        "result": "PASS",
+        "exactExitCode": 0,
+        "status": {
+          "result": "PASS",
+          "frames": 99,
+          "framesBeforeWriterComplete": 74,
+          "workerId": 4676,
+          "stopSeconds": 0,
+          "released": true,
+          "sharedSourceNotCancelled": true
+        },
+        "frameCount": 99,
+        "decodedSequenceSha256": "00e1478ce7a8199852d808fdfc2236d9e8906e64fc602982cac4a9153af9e82f",
+        "stderr": ""
+      }
+    ],
+    "testSourceSha256": "0d7066f11cef1649a5aa422e233a44adcb2b55de88ec6832f766778a199ff62d",
+    "runnerSha256": "50add41c130cc09ae42216017fdeb7972519126d806c9e3260abadcb5a2d1ed6",
+    "workerSha256": "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+    "temporaryWorkRemoved": true,
+    "realDirectShowGraph": true,
+    "originalDecodedNv12Exact": true,
+    "originalDecodedSequenceSha256": "b03f1ce37f22f894a0b4ec8bea5d55cdc4cebab1897e507b8e494788cffbfff1",
+    "hardwareDecoder": false,
+    "installedClassicLaunched": false,
+    "publicPlayerApi": false
+  },
+  "classicMainBuild": {
+    "result": "PASS",
+    "mainExeSha256": "3b588469898fb9da4baa29abe78f0c56dc6a8595f4057b1085815f827f8200af",
+    "buildLogSha256": "a4d9523d6fc11f8a401781b5b17b78967a909e8fdb4ffacd204714c91375a82e",
+    "installedGuiApiTested": false
+  },
+  "preservation": {
+    "before": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "d320b6596717a0ee10ffa24ab9ad28f7659b6d866900c080e494058b427d23e9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "c67ed0ba387ea51d1db44332ae3da2752c84ec007524c7c0be0ba8d55e6aa3d3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "after": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "f7d22c975d9376f87b41eb394199ab630c5781f4d181bfbab7afac048ed18b7d",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "3b588469898fb9da4baa29abe78f0c56dc6a8595f4057b1085815f827f8200af",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "unchangedProtectedFiles": 6,
+    "intentionalBuildAndLinuxExeChanges": [
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt"
+    ],
+    "linuxInstallation": {
+      "result": "PASS",
+      "version": "FoxicMPQt 0.2.0",
+      "previousSha256": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+      "installedSha256": "e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9",
+      "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-continuous-player-20261104T051115Z",
+      "profileSha256Before": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "profileSha256After": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "profileUnchanged": true,
+      "otherFilesVerified": 263,
+      "publicCapabilitiesUnchanged": true,
+      "viewerInterrupted": false,
+      "runningViewerPids": [],
+      "experimentalWorkerInstalled": false
+    },
+    "shellValueCount": 158,
+    "shellUnchanged": true,
+    "shellBeforeSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "shellAfterSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "windowsFinalState": {
+      "ownedTestProcessesRemaining": 0,
+      "windowsInstalledApplicationsModified": false,
+      "scheduledTasksCreated": 0,
+      "classicInstalledGuiLaunched": false
+    },
+    "privateWinpthreadUnchanged": true,
+    "sdkAssetUnchanged": true,
+    "classicPrivateIniRegistrationDisabled": true
+  },
+  "boundaries": [
+    "Internal playback entry points; continuous public API/controller, capability/SDK and ordinary installed Classic UI/API route remain open.",
+    "Qt uses real software Player/framebuffer on both OSs. Classic uses its production splitter/decoder in a private MFC graph, no installed GUI.",
+    "Classic 600 decoded NV12 frames match independent original FFmpeg decode; same-graph 10s seek matches the remaining 350 frames.",
+    "Qt source fixture is H.264 video-only 12s/25fps; Classic is 24s/25fps. AAC trim/B-frames and remaining profiles are not added.",
+    "End-file is bound to the correct mpv playlist entry and does not by itself confirm successful source EOF.",
+    "Producer ownership/publication remains separate; closing a decoder does not cancel independent readers.",
+    "No new sanitizer, physical A/V, GPU/device, long-run stress/RSS or full crash acceptance claimed by this stage.",
+    "All three main EXEs rebuilt; installed Linux replaced atomically with backup. Windows installs/settings and all published release assets untouched."
+  ]
+}

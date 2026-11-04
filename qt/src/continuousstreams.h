@@ -1,5 +1,5 @@
 // Internal libmpv adapter; retained until mpv_terminate_destroy has returned.
-// Not registered by the ordinary Player/API yet. GPL-3.0-or-later.
+// Registered by Player; public API/controller integration is separate. GPL-3.0-or-later.
 #pragma once
 #include "../../shared/progressivestreamdecoder.h"
 #include <mpv/stream_cb.h>
@@ -10,9 +10,12 @@ class ContinuousStreams {
     std::mutex mutex;
     std::shared_ptr<Source> source;
     std::string token;
+    int64_t entry=-1;
+    std::shared_ptr<Source> entrySource;
+    bool entryInterrupted=false;
     using Cookie=std::shared_ptr<Cursor>;
     std::vector<std::weak_ptr<Cursor>> readers;
-    void detachLocked(){for(auto& weak:readers)if(auto reader=weak.lock())reader->interrupt();readers.clear();source.reset();token.clear();}
+    void detachLocked(){for(auto& weak:readers)if(auto reader=weak.lock())reader->interrupt();readers.clear();source.reset();token.clear();entryInterrupted=true;}
     static int open(void* opaque,char* uri,mpv_stream_cb_info* info) noexcept {
         auto* self=static_cast<ContinuousStreams*>(opaque);
         try{
@@ -40,5 +43,10 @@ public:
     }
     // Detaching one decoder must not cancel independent readers of the store.
     void clear(){std::lock_guard<std::mutex> lock(mutex);detachLocked();}
+    void replacing(const std::string& uri){std::lock_guard<std::mutex> lock(mutex);if(token!=uri)detachLocked();}
+    std::shared_ptr<Source> current(){std::lock_guard<std::mutex> lock(mutex);return source;}
+    void entryStarted(int64_t id,const std::string& uri){std::lock_guard<std::mutex> lock(mutex);if(source && uri==token){entry=id;entrySource=source;entryInterrupted=false;}}
+    struct End {std::shared_ptr<Source> source;bool interrupted=false;};
+    End entryEnded(int64_t id){std::lock_guard<std::mutex> lock(mutex);if(id!=entry)return {};entry=-1;return {std::exchange(entrySource,{}),entryInterrupted};}
     ~ContinuousStreams(){clear();}
 };

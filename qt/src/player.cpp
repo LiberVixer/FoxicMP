@@ -1,5 +1,6 @@
 #include "player.h"
 #include "preparedstreams.h"
+#include "continuousstreams.h"
 #include "mpvlifetime.h"
 #include "stdinstream.h"
 #include "glsurface.h"
@@ -98,6 +99,7 @@ Player::Player(QWidget *parent, const QString &output,
   progressive = std::make_unique<ProgressiveStreams>(handle);
   stdinStream = std::make_unique<StdinStream>(handle);
   preparedStreams = std::make_unique<PreparedStreams>(handle);
+  continuousStreams = std::make_unique<ContinuousStreams>(handle);
   mpv_request_log_messages(handle,
       qEnvironmentVariableIsSet("FOXICMP_MPV_LOG") ? "debug" : "warn");
   for (const auto *name :
@@ -224,10 +226,12 @@ void Player::retire() {
   {std::lock_guard<std::mutex> lock(lifetime->callbackMutex);lifetime->owner=nullptr;}
   if(stdinStream)stdinStream->clear();
   if(preparedStreams)preparedStreams->clear();
+  if(continuousStreams)continuousStreams->clear();
   if(progressive){lifetime->retainedSource=progressive->current();progressive->clear();}
   lifetime->requestStop();
   if(surface){delete surface;surface=nullptr;} // GL context must stay current on its owner thread.
   lifetime->streams=std::move(progressive);lifetime->stdinStream=std::move(stdinStream);lifetime->preparedStreams=std::move(preparedStreams);
+  lifetime->continuousStreams=std::move(continuousStreams);
   renderer=nullptr;handle=nullptr;
   lifetime.reset(); // Bounded queue; no native renderer/core wait on UI for software output.
 }
@@ -380,7 +384,12 @@ void Player::drainEvents() {
         qInfo().noquote() << message->prefix << message->text;
       continue;
     }
-    if (event->event_id == MPV_EVENT_PROPERTY_CHANGE) {
+    if(event->event_id==MPV_EVENT_START_FILE) {
+      const auto id=static_cast<mpv_event_start_file*>(event->data)->playlist_entry_id;
+      for(const auto& item:get("playlist").toList()) {
+        const auto row=item.toMap();if(row["id"].toLongLong()==id)continuousStreams->entryStarted(id,row["filename"].toString().toStdString());
+      }
+    } else if (event->event_id == MPV_EVENT_PROPERTY_CHANGE) {
       auto *p = static_cast<mpv_event_property *>(event->data);
       emit property(QString::fromUtf8(p->name),
                     p->format == MPV_FORMAT_NODE && p->data
@@ -401,7 +410,17 @@ void Player::drainEvents() {
       auto *e = static_cast<mpv_event_end_file *>(event->data);
       if (e->reason == MPV_END_FILE_REASON_ERROR)
         emit error(QString::fromUtf8(mpv_error_string(e->error)));
-      emit ended(e->reason == MPV_END_FILE_REASON_EOF);
+      bool natural=e->reason==MPV_END_FILE_REASON_EOF;
+      const auto continuous=continuousStreams->entryEnded(e->playlist_entry_id);
+      if(natural && continuous.source) {
+        const auto status=continuous.source->status();
+        if(continuous.interrupted)natural=false;
+        else if(!status.complete || !status.failure.empty() || continuous.source->stopped()) {
+          natural=false;
+          emit error(QString::fromStdString(status.failure.empty()?"continuous-ended-before-complete":status.failure));
+        }
+      }
+      emit ended(natural);
       if (e->reason == MPV_END_FILE_REASON_ERROR)
         emit fileFailed(get("path").toString());
     } else if (event->event_id == MPV_EVENT_COMMAND_REPLY) {
@@ -453,9 +472,10 @@ bool Player::command(const QStringList &arguments, quint64 requestId) {
     pendingPcmWindow = activePcmWindow = {};
     stdinStream->clear();
     preparedStreams->clear();
+    continuousStreams->clear();
   }
   if (!arguments.isEmpty() && arguments.first() == "loadfile" && arguments.size() > 1)
-    {stdinStream->replacing(arguments[1]);preparedStreams->replacing(arguments[1].toStdString());}
+    {stdinStream->replacing(arguments[1]);preparedStreams->replacing(arguments[1].toStdString());continuousStreams->replacing(arguments[1].toStdString());}
   if (!renderer && !arguments.isEmpty() && arguments.first() == "loadfile") {
     pendingLoad = arguments;
     pendingOptions.clear();
@@ -518,6 +538,17 @@ void Player::cancelExternalTracks() {
   externalRequest = 0;
 }
 void Player::attachPrepared(const std::shared_ptr<foxicmp::progressive::PreparedClip>& source){preparedStreams->attach(source);}
+bool Player::loadContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,const QMap<QString,QString>& requested){
+  if(!source || source->stopped())return false;
+  auto options=requested;
+  options["demuxer-lavf-o"]="fflags=+ignidx";
+  options["demuxer-lavf-analyzeduration"]="0.1";
+  options["demuxer-readahead-secs"]="0";
+  options["cache"]="no";options["aid"]="no";options["sub-auto"]="no";options["audio-file-auto"]="no";
+  const auto uri=continuousStreams->attach(source);
+  if(loadSource(QString::fromStdString(uri),options))return true;
+  continuousStreams->clear();return false;
+}
 QString Player::attachStdin(int fd, QString *error) { return stdinStream->attach(fd, error); }
 void Player::progressiveSource(
     const std::shared_ptr<ProgressiveSource> &source) {
@@ -572,6 +603,7 @@ bool Player::loadSourceImpl(const QString &url,
   cancelExternalTracks();
   stdinStream->replacing(url);
   preparedStreams->replacing(url.toStdString());
+  continuousStreams->replacing(url.toStdString());
   if (!renderer) {
     pendingLoad = {"loadfile", url};
     pendingOptions = requestedOptions;

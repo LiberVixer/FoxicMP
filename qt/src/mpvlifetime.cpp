@@ -2,6 +2,7 @@
 #include "progressivesource.h"
 #include "stdinstream.h"
 #include "preparedstreams.h"
+#include "continuousstreams.h"
 MpvLifetime::MpvLifetime() {
   handle=mpv_create();if(!handle)throw std::runtime_error("libmpv: mpv_create failed");
 }
@@ -15,7 +16,7 @@ MpvLifetime::~MpvLifetime() {
   if(handle)mpv_set_wakeup_callback(handle,nullptr,nullptr);
   if(handle){mpv_terminate_destroy(handle);handle=nullptr;}
   // mpv can no longer enter a registered stream factory or read callback.
-  preparedStreams.reset();stdinStream.reset();streams.reset();retainedSource.reset();
+  continuousStreams.reset();preparedStreams.reset();stdinStream.reset();streams.reset();retainedSource.reset();
   closed->store(true);
 }
 std::shared_ptr<MpvLifetime> MpvLifetime::create() {

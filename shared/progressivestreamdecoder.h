@@ -14,6 +14,8 @@ public:
     void cancel() noexcept {cancelled.store(true);}
     bool stopped()const noexcept{return cancelled.load();}
     StreamCacheStatus status()const{return store->status();}
+    std::string sessionId()const{return store->sessionId();}
+    uint64_t generation()const{return store->generation();}
     std::shared_ptr<StreamOutputStore::Reader> reader()const {
         Require(!stopped(),"remuxDecoder","Decoder source cancelled","cancelled");return store->reader();
     }

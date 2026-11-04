@@ -661,3 +661,15 @@ GCC/MinGW/MSVC/ASan-UBSan, повторены 31 cache regression Windows/Linux 
 Это не установка нового playback: обычные Player/API и реальный Classic
 DirectShow graph ещё не подключены, их приёмка остаётся открытой.
 Main EXE/профили/Harvester/SDK 1.81 и опубликованные assets не менялись.
+
+
+4 ноября 2026, внутренние playback entry points continuous-remux подключены к
+настоящему Qt Player/MpvLifetime и CHarvesterSession/DirectShow. По пять Qt
+сценариев Linux/Windows, пять Classic graph сценариев; 600 NV12 кадров Classic
+совпали с независимым FFmpeg original decode, complete seek дал 350 кадров.
+Qt сохраняет pause/speed/volume/mute, Stop/replacement/close освобождают readers;
+повторены retirement и прежние 24 preparation/20 playback проверки API на ОС —
+[отчёт](ProgressiveContinuousRemuxPlaybackValidation-2026-11-04.json).
+Все main EXE пересобраны; Linux обновлён атомарно с backup, INI/263 файла сохранены.
+HKCU Classic commands/icons неизменны. Публичный continuous controller/capability
+и запуск из Harvester ещё не подключены; Windows установки/SDK 1.81 не менялись.

@@ -4,6 +4,7 @@
 #include "../../shared/progressivereaderlease.h"
 #include "../../shared/progressiveretirement.h"
 #include "../../shared/progressivefmp4bridge.h"
+#include "../../shared/progressivestreamdecoder.h"
 #include <map>
 #include <aclapi.h>
 #include "ExtLib/rapidjson/include/rapidjson/writer.h"
@@ -95,6 +96,7 @@ CHarvesterSession::~CHarvesterSession() {
     Cancel(); SetEvent(m_stop); if(m_thread.joinable())m_thread.join();
     for(auto& file:m_files) { if(file!=INVALID_HANDLE_VALUE)CloseHandle(file); file=INVALID_HANDLE_VALUE; }
     m_v2Bridge.reset();
+    m_continuousReader.reset();m_continuousSource.reset();
     if(m_readerLease)m_readerLease->filesClosed();
     // Context survives until the last reader and graph have released their references.
     if(!m_published && m_pipe==INVALID_HANDLE_VALUE)ConnectPipe();
@@ -198,8 +200,9 @@ bool CHarvesterSession::AllowsMp3Fragments(int track) const {return m_v2Bridge &
 std::string CHarvesterSession::WebMCodec(int track) const {return !m_v2Bridge?std::string():(track || m_v2Bridge->isStandaloneAudio())?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
 bool CHarvesterSession::IsWebM(int track) const {return m_v2Bridge && m_v2Bridge->isWebm(track);}
 bool CHarvesterSession::AllowsHevcFragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="hevc";}
-std::string CHarvesterSession::RegisteredReaderId() const {return m_readerLease?m_readerLease->id():std::string();}
+std::string CHarvesterSession::RegisteredReaderId() const {return m_continuousReader?m_continuousReader->id():m_readerLease?m_readerLease->id():std::string();}
 std::string CHarvesterSession::PlaybackDetails() const {
+    if(m_continuousSource){const auto s=m_continuousSource->status();rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);d.AddMember("mediaMode","continuous-h264-video-v1",a);d.AddMember("internalAdapter",true,a);d.AddMember("complete",s.complete,a);d.AddMember("visible",s.visible,a);d.AddMember("failure",rapidjson::Value(s.failure.c_str(),a),a);return foxicmp::progressive::lease_detail::Encode(d);}
     if(!m_v2Bridge)return "{\"schemaVersion\":1}";
     std::lock_guard<std::mutex> lock(m_mutex);rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());
     auto& a=d.GetAllocator();d["revision"].SetString(std::to_string(m_state.revision).c_str(),a);
@@ -296,7 +299,36 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
     catch(const foxicmp::progressive::Error& e) {if(reasonCode)*reasonCode=e.code;error=Wide(e.what()).c_str();return nullptr;}
     catch(const std::exception& e) {if(reasonCode)*reasonCode="source_not_ready";error=Wide(e.what()).c_str();return nullptr;}
 }
+std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenContinuous(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,int64_t duration,CStringW& error) {
+    using namespace foxicmp::progressive;
+    try {
+        Require(source && !source->stopped() && duration>0 && duration<=36000000000LL,"remuxDecoder","Invalid continuous source","invalid_request");
+        const auto output=source->status();Require(output.initialized && output.fragments>0 && output.failure.empty(),"remuxDecoder","Wait for complete initialization and media","waiting_initialization");
+        auto context=SourceRetirement::create<CHarvesterSession>([]{return new CHarvesterSession;});
+        context->m_published=true;context->m_continuousSource=source;context->m_continuousReader=std::make_unique<StreamFragmentDecoder>(source);
+        auto& s=context->m_state;s.sessionId=source->sessionId();s.generation=source->generation();s.revision=0;s.duration=duration;s.tracks.resize(1);
+        auto& t=s.tracks[0];t.path="continuous-video.mp4";t.required=true;t.fragmented=true;t.container="fmp4";
+        context->m_publishedPaths[0]=L"continuous-video.mp4";
+        context->RefreshContinuous();
+        context->m_thread=std::thread([raw=context.get()]{
+            while(WaitForSingleObject(raw->m_stop,50)==WAIT_TIMEOUT && WaitForSingleObject(raw->m_cancel,0)==WAIT_TIMEOUT)
+                try{raw->RefreshContinuous();}catch(const std::exception& e){raw->Fail(e.what());return;}
+        });return context;
+    }catch(const std::exception& e){error=Wide(e.what()).c_str();return nullptr;}
+}
+void CHarvesterSession::RefreshContinuous(){
+    const auto output=m_continuousSource->status();
+    foxicmp::progressive::Require(!m_continuousSource->stopped() && output.failure.empty(),"remuxDecoder","Continuous output failed",output.failure.empty()?"cancelled":output.failure.c_str());
+    auto next=Snapshot();auto& track=next.tracks[0];
+    if(next.revision && track.available==output.visible && harvester::EndReady(track)==output.complete){PublishedHeartbeat();return;}
+    ++next.revision;track.available=output.visible;track.total=output.complete?output.visible:0;track.initializationReady=output.initialized;
+    next.state=track.state=output.complete?harvester::State::Complete:harvester::State::Downloading;
+    auto fragments=BuildFragments(next);Fragments retired;
+    {std::lock_guard<std::mutex> lock(m_mutex);m_state=std::move(next);retired=std::move(m_fragments);m_fragments=std::move(fragments);m_duration[0]=m_state.duration;}
+    PublishedHeartbeat();
+}
 bool CHarvesterSession::Publish(const std::string& json,CStringW& error,std::string* reasonCode) {
+    if(m_continuousSource){if(reasonCode)*reasonCode="invalid_request";error=L"Continuous source publications belong to the remux controller";return false;}
     std::lock_guard<std::mutex> publication(m_publishMutex);
     try {
         harvester::Snapshot previous;
@@ -492,6 +524,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
             if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0)return false;
             if(!size)return true;
             if(m_v2Bridge)return m_v2Bridge->readIndex(track,offset,data,size);
+            if(m_continuousReader){auto* out=static_cast<char*>(data);size_t copied=0;while(copied<size){const auto n=(std::min)(size-copied,size_t(65536));const auto r=m_continuousReader->read(offset+copied,out+copied,n);if(!r.data() || r.bytes!=n)return false;copied+=n;}return true;}
             OVERLAPPED ov{};ov.Offset=DWORD(offset);ov.OffsetHigh=DWORD(offset>>32);ov.hEvent=CreateEventW(nullptr,TRUE,FALSE,nullptr);
             DWORD n=0;BOOL ok=ReadFile(m_files[track],data,DWORD(size),&n,&ov);
             if(!ok && GetLastError()==ERROR_IO_PENDING) {
@@ -521,7 +554,7 @@ HRESULT CHarvesterSession::ReadV2(int track,uint64_t offset,size_t size,void* da
     auto* bytes=static_cast<char*>(data);
     while(size) {
         if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0))return E_ABORT;
-        const auto count=m_v2Bridge->readPayload(track,offset,bytes,size);
+        const auto count=m_continuousReader?[&]()->int64_t{const auto r=m_continuousReader->read(offset,bytes,(std::min)(size,size_t(65536)));return r.data()?int64_t(r.bytes):-1;}():m_v2Bridge->readPayload(track,offset,bytes,size);
         if(count<=0){if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || OptionalAudioFailed(track))return E_ABORT;Fail("Confirmed v2 resource I/O failed");return E_FAIL;}
         bytes+=count;offset+=uint64_t(count);size-=size_t(count);
     }

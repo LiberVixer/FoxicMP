@@ -223,6 +223,8 @@ public:
     }
     std::shared_ptr<Reader> reader(){return std::shared_ptr<Reader>(new Reader(core));}
     StreamCacheStatus status()const{std::lock_guard<std::mutex> lock(core->mutex);return core->state;}
+    std::string sessionId()const{return core->session;}
+    uint64_t generation()const{return core->generation;}
     bool retire(){std::lock_guard<std::mutex> lock(core->mutex);core->state.retiring=true;core->changed.notify_all();return core->cleanup();}
     // Private diagnostics for tests/owner only, never a decoder filesystem URL.
     std::filesystem::path privatePath()const{return core->path;}

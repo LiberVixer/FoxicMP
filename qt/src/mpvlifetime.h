@@ -11,6 +11,7 @@ class ProgressiveStreams;
 class ProgressiveSource;
 class StdinStream;
 class PreparedStreams;
+class ContinuousStreams;
 struct EngineRetirementBusy:std::runtime_error {
   EngineRetirementBusy():std::runtime_error("Player engines are still active or closing; retry after actual release"){}
 };
@@ -33,6 +34,7 @@ struct MpvLifetime {
   std::shared_ptr<ProgressiveSource> retainedSource;
   std::unique_ptr<StdinStream> stdinStream;
   std::unique_ptr<PreparedStreams> preparedStreams;
+  std::unique_ptr<ContinuousStreams> continuousStreams;
   std::mutex callbackMutex;
   Player* owner=nullptr;
   std::atomic<bool> redrawPending{false};

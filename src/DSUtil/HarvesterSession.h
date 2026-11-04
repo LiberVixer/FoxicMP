@@ -6,7 +6,7 @@
 #include <thread>
 #include <memory>
 #include <map>
-namespace foxicmp { namespace progressive {class ReaderLease;class Fmp4V2Bridge;} }
+namespace foxicmp { namespace progressive {class ReaderLease;class Fmp4V2Bridge;class StreamDecoderSource;class StreamFragmentDecoder;} }
 
 class CHarvesterSession {
     std::wstring m_manifest, m_root;
@@ -16,6 +16,9 @@ class CHarvesterSession {
     std::shared_ptr<std::atomic<bool>> m_released = std::make_shared<std::atomic<bool>>(false);
     std::unique_ptr<foxicmp::progressive::ReaderLease> m_readerLease;
     std::shared_ptr<foxicmp::progressive::Fmp4V2Bridge> m_v2Bridge;
+    std::shared_ptr<foxicmp::progressive::StreamDecoderSource> m_continuousSource;
+    std::unique_ptr<foxicmp::progressive::StreamFragmentDecoder> m_continuousReader;
+    void RefreshContinuous();
     uint64_t m_pcmBegin=0,m_pcmEnd=0;
     uint32_t m_pcmRate=0;
     std::atomic<DWORD> m_pcmState{0};
@@ -52,6 +55,8 @@ public:
     ~CHarvesterSession();
     static std::shared_ptr<CHarvesterSession> Open(const std::wstring& path, CStringW& error);
     static std::shared_ptr<CHarvesterSession> OpenPublished(const std::string& json, CStringW& error, const std::wstring& readerRegistry = {}, std::string* reasonCode=nullptr, bool trackGroup=true, bool allowMp3PcmWindow=false);
+    // Internal adapter: caller retains/cancels the managed remux producer.
+    static std::shared_ptr<CHarvesterSession> OpenContinuous(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,int64_t duration,CStringW& error);
     bool Mp3PcmPlan(uint64_t& begin,uint64_t& end,uint32_t& rate)const {
         begin=m_pcmBegin;end=m_pcmEnd;rate=m_pcmRate;return rate!=0;
     }
@@ -59,6 +64,7 @@ public:
     std::string RegisteredReaderId() const;
     std::string PlaybackDetails() const;
     bool HasV2Bridge() const {return bool(m_v2Bridge);}
+    bool HasVirtualReader() const {return bool(m_v2Bridge) || bool(m_continuousReader);}
     bool AllowsHevcFragments() const;
     bool AllowsAv1Fragments() const;
     bool AllowsVp9Fragments() const;

@@ -17,7 +17,8 @@ struct MpvLifetime;
 class ProgressiveSource;
 class StdinStream;
 class PreparedStreams;
-namespace foxicmp {namespace progressive {struct PreparedClip;}}
+class ContinuousStreams;
+namespace foxicmp {namespace progressive {struct PreparedClip;class StreamDecoderSource;}}
 class ProgressiveStreams;
 // Absolute decoder-sample bounds. The caller must supply validated codec
 // metadata; this does not infer MP3 delay or change the playback API timeline.
@@ -65,6 +66,9 @@ public:
                            const AudioPcmWindow &window);
   bool pcmWindowActive() const;
   void attachPrepared(const std::shared_ptr<foxicmp::progressive::PreparedClip>&);
+  // Internal growing-cache entry, intentionally separate from bounded preview.
+  bool loadContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,
+                            const QMap<QString,QString>& options = {});
   QString attachStdin(int descriptor, QString *error = nullptr);
   void progressiveSource(const std::shared_ptr<ProgressiveSource> &source);
 signals:
@@ -97,6 +101,7 @@ private:
   QString audioFilterOptions(const AudioPcmWindow &) const;
   void cancelExternalTracks();
   friend class PlayerRetirementTest;
+  friend class ContinuousPlayerTest;
   friend class GlSurface;
   friend class AudioMirror;
   void retire();
@@ -127,4 +132,5 @@ private:
   std::unique_ptr<ProgressiveStreams> progressive;
   std::unique_ptr<StdinStream> stdinStream;
   std::unique_ptr<PreparedStreams> preparedStreams;
+  std::unique_ptr<ContinuousStreams> continuousStreams;
 };
