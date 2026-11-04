@@ -6,10 +6,13 @@
 #include "profile.h"
 #include "progressiveapi.h"
 #include "../../shared/progressivestreamcontroller.h"
+#include "../../shared/progressivestreamplayback.h"
 #include "../../shared/progressivecachedremux.h"
 #include <QtWidgets>
 #include <QtTest>
 #include <qscopeguard.h>
+#include <future>
+#include <QLocalSocket>
 namespace p=foxicmp::progressive;
 class ContinuousPlayerTest:public QObject {
   Q_OBJECT
@@ -66,9 +69,12 @@ private slots:
     std::vector<std::string> ids=final.source.readerIds;ids.insert(ids.end(),final.output.readerIds.begin(),final.output.readerIds.end());
     for(const auto& id:ids){rapidjson::Document d;d.Parse(p::ReaderRequest(registry,"{\"version\":1,\"action\":\"readerStatus\",\"readerId\":\""+id+"\"}").c_str());QVERIFY(d["reader"]["released"].GetBool());QCOMPARE(std::string(d["reader"]["reason"].GetString()),std::string("files-closed"));}
   }
-  void windowClose_data(){QTest::addColumn<bool>("closeFirst");QTest::newRow("close-window")<<true;QTest::newRow("destroy-api-before-window")<<false;}
+  void windowClose_data(){
+    QTest::addColumn<QString>("mode");
+    for(const auto* mode:{"close-window","destroy-api-before-window","reader-release","reader-release-held-reader","delayed-reader-release","delayed-reader-release-replace"})QTest::newRow(mode)<<QString(mode);
+  }
   void windowClose(){
-    QFETCH(bool,closeFirst);QTemporaryDir dir;QVERIFY(dir.isValid());const auto profilePath=dir.filePath("profile");
+    QFETCH(QString,mode);QTemporaryDir dir;QVERIFY(dir.isValid());const auto profilePath=dir.filePath("profile");
     Profile profile(profilePath);profile.settings.setValue("input/mpris",false);profile.settings.setValue("video/output","software");profile.settings.setValue("audio/mute",true);profile.settings.setValue("ui/osd",false);profile.settings.setValue("desktop/closeToTray",false);profile.settings.setValue("integration/prompted",true);
     auto window=std::make_unique<Window>(profile);window->show();auto api=std::make_unique<ProgressiveApi>(window.get());QVERIFY(api->listen(profilePath));
     auto* player=window->findChild<Player*>();QVERIFY(player);QTRY_VERIFY(player->ready());
@@ -81,7 +87,61 @@ private slots:
     QTRY_VERIFY_WITH_TIMEOUT(api->request(query)["playbackReady"].toBool(),15000);
     auto playing=api->request({{"version",1},{"action","continuousRemuxPlay"},{"requestId",QString::fromStdString(p::lease_detail::RandomId())},{"jobId",job["jobId"]},{"sessionId",sid},{"generation","1"},{"writerInstanceId",writer}});QVERIFY(playing["ok"].toBool());
     QTRY_VERIFY_WITH_TIMEOUT(player->get("time-pos").toDouble()>.1,10000);const auto nativeClosed=player->lifetime->closed;
-    if(closeFirst){QVERIFY(window->close());QVERIFY(!window->isVisible());auto result=api->request({{"version",1},{"action","continuousPlaybackStatus"},{"playbackId",playing["playbackId"]}});QCOMPARE(result["state"].toString(),QString("closed"));}
+    const QJsonObject playbackQuery{{"version",1},{"action","continuousPlaybackStatus"},{"playbackId",playing["playbackId"]}};
+    if(mode=="close-window"){QVERIFY(window->close());QVERIFY(!window->isVisible());QCOMPARE(api->request(playbackQuery)["state"].toString(),QString("closed"));}
+    if(mode.contains("reader-release")){
+      QTRY_VERIFY_WITH_TIMEOUT(!api->request(playbackQuery)["readerIds"].toArray().isEmpty(),3000);
+      const auto id=api->request(playbackQuery)["readerIds"].toArray().first();
+      const QJsonObject releaseQuery{{"version",1},{"action","readerRelease"},{"readerId",id}};
+      if(mode.startsWith("reader-release")){
+        const auto actual=api->request({{"version",1},{"action","readerStatus"},{"readerId",id}});
+        const auto owns=[&](const QJsonObject& value){return api->continuousPlayback->holdsOutputReader(QJsonDocument(value).toJson(QJsonDocument::Compact).toStdString());};
+        QVERIFY(owns(actual));QVERIFY(!api->continuousPlayback->holdsOutputReader("[]"));
+        for(const auto* key:{"released","filesClosed","sessionId","generation","resources"}){
+          auto wrong=actual;auto receipt=wrong["reader"].toObject();
+          if(QString(key)=="released" || QString(key)=="filesClosed")receipt[key]=true;
+          else if(QString(key)=="sessionId")receipt[key]=QString(32,'0');
+          else if(QString(key)=="generation")receipt[key]="2";
+          else {auto resource=receipt["resources"].toArray().first().toObject();resource["fileId"]="0";receipt[key]=QJsonArray{resource};}
+          wrong["reader"]=receipt;QVERIFY(!owns(wrong));
+        }
+        std::shared_ptr<p::StreamOutputStore::Reader> independent;
+        if(mode.endsWith("held-reader"))independent=api->continuousPlayback->source->reader();
+        const auto reply=api->request(releaseQuery);QVERIFY2(reply["ok"].toBool(),QJsonDocument(reply).toJson().constData());
+        if(independent){
+          QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["decoderReaders"].toInt(),1,5000);
+          const QJsonObject heldQuery{{"version",1},{"action","readerRelease"},{"readerId",QString::fromStdString(independent->id())}};
+          const auto held=api->request(heldQuery)["reader"].toObject();QVERIFY(!held["released"].toBool());QVERIFY(!held["filesClosed"].toBool());
+          QVERIFY(!api->request(query)["released"].toBool());
+          QVERIFY(!QDir(registry+".continuous-cache").entryList({"remux-*"},QDir::Dirs|QDir::NoDotAndDotDot).isEmpty());
+          independent->close();
+        }
+      }
+      else {
+        auto entered=std::make_shared<std::promise<void>>();auto future=entered->get_future();
+        auto release=std::make_shared<std::promise<void>>();auto gate=release->get_future().share();
+        api->readerIoHook=[entered,gate]{entered->set_value();gate.wait();};
+        const auto unblock=qScopeGuard([release]{try{release->set_value();}catch(const std::future_error&){};});
+        QLocalSocket socket;socket.connectToServer(ProgressiveApi::endpointFor(profilePath));QVERIFY(socket.waitForConnected(1000));
+        socket.write(QJsonDocument(releaseQuery).toJson(QJsonDocument::Compact)+'\n');socket.flush();
+        QTRY_VERIFY_WITH_TIMEOUT(future.wait_for(std::chrono::milliseconds(0))==std::future_status::ready,3000);
+        int ticks=0;QTimer tick;connect(&tick,&QTimer::timeout,&tick,[&]{++ticks;});tick.start(5);QTRY_VERIFY_WITH_TIMEOUT(ticks>=4,1000);
+        QVERIFY(api->request({{"version",1},{"action","capabilities"}})["ok"].toBool());
+        QVERIFY(api->request(playbackQuery)["active"].toBool());
+        if(mode.endsWith("-replace")){
+          window->openFiles({original});QTRY_COMPARE_WITH_TIMEOUT(QDir::fromNativeSeparators(player->get("path").toString()),QDir::fromNativeSeparators(original),5000);
+          QTRY_VERIFY_WITH_TIMEOUT(player->get("time-pos").toDouble()>.1,5000);
+        }
+        release->set_value();QTRY_VERIFY_WITH_TIMEOUT(socket.bytesAvailable()>0,3000);
+        const auto reply=QJsonDocument::fromJson(socket.readAll()).object();QVERIFY2(reply["ok"].toBool(),QJsonDocument(reply).toJson().constData());
+        if(mode.endsWith("-replace")){QCOMPARE(QDir::fromNativeSeparators(player->get("path").toString()),QDir::fromNativeSeparators(original));QVERIFY(!player->get("idle-active").toBool());}
+      }
+      QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString(),QString("closed"),3000);
+      const QJsonObject receiptQuery{{"version",1},{"action","readerStatus"},{"readerId",id}};
+      QTRY_VERIFY_WITH_TIMEOUT(api->request(receiptQuery)["reader"].toObject()["released"].toBool(),5000);
+      QCOMPARE(api->request(receiptQuery)["reader"].toObject()["reason"].toString(),QString("files-closed"));
+      QVERIFY(api->request(releaseQuery)["reader"].toObject()["released"].toBool());
+    }
     QElapsedTimer elapsed;elapsed.start();api.reset();QVERIFY(elapsed.elapsed()<200);elapsed.restart();window.reset();QVERIFY(elapsed.elapsed()<200);
     QTRY_VERIFY_WITH_TIMEOUT(nativeClosed->load(),10000);QTRY_COMPARE_WITH_TIMEOUT(p::ContinuousRetirement::occupied(),size_t(0),10000);
     QTRY_COMPARE_WITH_TIMEOUT(EngineRetirement::occupied(),size_t(0),10000);

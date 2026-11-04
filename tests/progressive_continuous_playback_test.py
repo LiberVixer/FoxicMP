@@ -100,7 +100,13 @@ def exercise(peers, root):
         control('seek',seconds=22);seeked=until(lambda:(lambda s:s if s['state']=='paused' and s['positionSeconds']>21 else None)(status()),'complete-source seek')
         control('play');finished=until(lambda:(lambda s:s if s['state']=='finished' else None)(status()),'verified natural end',12)
         assert finished['outputComplete'] and not finished['active'],finished
-        return dict(actualPlayback=running,pause=paused,heldPause=held,seek=seeked,finished=finished,playRequest=fields)
+        eof_receipts=[]
+        for identifier in finished['readerIds']:
+            command('readerRelease',readerId=identifier)
+            receipt=wait(lambda:(lambda r:r if r['released'] and r['filesClosed'] else None)(command('readerStatus',readerId=identifier)['reader']),'EOF reader closes after release',5)
+            assert receipt['reason']=='files-closed',receipt
+            eof_receipts.append(receipt)
+        return dict(actualPlayback=running,pause=paused,heldPause=held,seek=seeked,finished=finished,playRequest=fields,eofOutputReceipts=eof_receipts)
     case('growing-pause-append-complete-seek-eof',complete)
 
     def stopped():
@@ -111,8 +117,57 @@ def exercise(peers, root):
         return dict(actualPlayback=running,closed=closed,replayDidNotRestart=True)
     case('ordinary-toolbar-stop-and-request-replay',stopped)
 
+    def release_output(paused=False, waiting=False):
+        fields=open_play();running=until(playing,'playing before readerRelease')
+        if paused:
+            control('pause');until(lambda:status()['state']=='paused','paused before readerRelease')
+        if waiting:
+            position=running['positionSeconds'];advanced=time.monotonic()
+            def tail_wait():
+                nonlocal position,advanced
+                s=status();assert s['active'] and s['state'] not in ('error','closed','finished'),s
+                if abs(s['positionSeconds']-position)>.02:position=s['positionSeconds'];advanced=time.monotonic()
+                return s if s['positionSeconds']>1 and time.monotonic()-advanced>.5 and preparation()['producerCode']=='waiting' else None
+            until(tail_wait,'decoder stalls at unpublished tail without EOF',20)
+        outputs=until(lambda:status()['readerIds'],'output reader identity')
+        # Source leases have a different owner. A metadata request must not stop
+        # playback, acknowledge open files, or cancel an independent endpoint.
+        sources=[identifier for identifier in preparation()['readerIds'] if identifier not in outputs]
+        assert sources,preparation()
+        source_reply=command('readerRelease',readerId=sources[0])
+        assert source_reply['reader']['readerId']==sources[0] and not source_reply['reader']['released'],source_reply
+        assert status()['active'],status()
+        reject('readerRelease','unknown_reader',readerId=uuid.uuid4().hex)
+        reject('readerRelease','invalid_snapshot',readerId=outputs[0],generation='1')
+        try:peers[1].client.request(dict(version=1,action='readerRelease',readerId=outputs[0]))
+        except ApiError as e:assert e.code=='unknown_reader',e.reply
+        else:raise AssertionError('Reader release crossed endpoints')
+        before=status();release_began=time.monotonic();reply=command('readerRelease',readerId=outputs[0])
+        assert reply['reader']['readerId']==outputs[0],reply
+        closed=until(lambda:(lambda s:s if s['state']=='closed' and s['decoderReaders']==0 else None)(status()),'readerRelease closes owned output',5)
+        receipts=[]
+        for identifier in outputs:
+            receipt=wait(lambda:(lambda r:r if r['released'] and r['filesClosed'] else None)(command('readerStatus',readerId=identifier)['reader']),'actual output files closed',5)
+            assert receipt['reason']=='files-closed',receipt
+            repeated=command('readerRelease',readerId=identifier)['reader']
+            assert repeated['released'] and repeated['filesClosed'],repeated
+            receipts.append(receipt)
+        final=until(lambda:(lambda s:s if s['released'] and s['sourceFilesClosed'] else None)(preparation()),'source/cache released after output request',5)
+        release_seconds=time.monotonic()-release_began;assert release_seconds<2,release_seconds
+        assert not final['outputComplete'],final
+        assert command('continuousRemuxPlay',**fields)['state']=='closed','Replay restarted released playback'
+        if paused:
+            for identifier in outputs:
+                assert command('readerForget',readerId=identifier)['forgotten']
+                reject('readerStatus','unknown_reader',readerId=identifier)
+        return dict(actualPlayback=running,beforeRelease=before,reply=reply,closed=closed,outputReceipts=receipts,sourceMetadataReply=source_reply,producerReleased=final,releaseSeconds=release_seconds,outputReceiptAcknowledged=paused)
+    case('reader-release-playing-output',release_output)
+    case('reader-release-paused-output',lambda:release_output(paused=True))
+    case('reader-release-waiting-tail-output',lambda:release_output(waiting=True))
+
     def replaced():
         fields=open_play();running=until(playing,'playing before ordinary API replacement')
+        outputs=until(lambda:status()['readerIds'],'reader identities before replacement')
         other=directory/'ordinary.mp4';subprocess.run(['ffmpeg','-v','error','-y','-f','lavfi','-i','testsrc2=size=160x90:rate=25:duration=12','-c:v','libx264','-threads','2','-bf','0','-g','25','-movflags','+frag_keyframe+empty_moov+default_base_moof',str(other)],check=True,capture_output=True)
         data=other.read_bytes();ordinary=snapshot(other,data,complete=True);ordinary['timeline']['duration']='120000000';ordinary['tracks'][0].update(containerHint='fmp4',codecHint='h264',initializationReady=True)
         command('start',session=ordinary,sessionDirectory=str(directory),replace=True)
@@ -120,6 +175,9 @@ def exercise(peers, root):
             s=command('heartbeat',sessionId=ordinary['sessionId']);return s if s.get('active') and s['positionSeconds']>.2 else None
         current=wait(regular,'replacement plays');closed=status();assert closed['state']=='closed',closed
         control('stop');assert regular(), 'Stale stop affected replacement'
+        for identifier in outputs:
+            command('readerRelease',readerId=identifier)
+        assert regular(),'Stale output readerRelease affected replacement'
         assert command('continuousRemuxPlay',**fields)['state']=='closed'
         command('cancel',sessionId=ordinary['sessionId'])
         receipts=wait(lambda:(lambda rs:rs if rs and all(r['released'] and r['filesClosed'] for r in rs) else None)(command('readers',sessionId=ordinary['sessionId'],generation='1')['readers']),'ordinary replacement readers close')

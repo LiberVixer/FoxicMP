@@ -553,3 +553,19 @@ Windows-установки, 158 shell entries, SDK ZIP и Harvester сохран
 одноразовые задачи/копии Classic удалены. Публичные capability/SDK, поставка
 worker, continuous readerRelease adapter и полная waiting/replay/crash/stress
 matrix остаются открытыми; audio/B-frames этим не добавлены.
+
+
+4 ноября 2026, внутренний continuous output readerRelease: ordinary API всех
+трёх редакций сопоставляет квитанцию с точным output resource/device/file identity
+и зафиксированной попыткой просмотра. Проверены playing, pause, ожидание хвоста,
+EOF, повторные/чужие/устаревшие команды; Qt Window/API — delayed registry I/O,
+замена видео и дополнительный удерживаемый reader. Устранён Windows registry-busy
+ответ при повторном чтении сразу после уже принятой остановки: возвращается
+консервативная квитанция, затем клиент проверяет реальный close через readerStatus.
+Уже закрытые квитанции инертны до снятия lock; внешний readerForget совместим
+с cleanup задания только после независимых proofs закрытия и удаления кэша.
+[Отчёт](ProgressiveContinuousRemuxReaderReleaseValidation-2026-11-04.json).
+Linux обновлён атомарно с backup без изменения INI/267 других файлов.
+Публичные capability/SDK и worker пользователю пока не поставлены; audio/B-frames
+и полная waiting/replay/crash/stress matrix остаются открытыми. Harvester,
+Windows-установки, shell registration и личные настройки сохранены.

@@ -16,6 +16,7 @@ public:
     StreamCacheStatus status()const{return store->status();}
     std::string sessionId()const{return store->sessionId();}
     uint64_t generation()const{return store->generation();}
+    BoundResource readerResource()const{return store->readerResource();}
     std::shared_ptr<StreamOutputStore::Reader> reader()const {
         Require(!stopped(),"remuxDecoder","Decoder source cancelled","cancelled");return store->reader();
     }

@@ -30,6 +30,7 @@ private:
   void dispatch(const QJsonObject &, class QLocalSocket *, class QTimer *);
   std::shared_ptr<Preparation> preparation, registryPreparation;
   friend class ProgressiveApiTest;
+  friend class ContinuousPlayerTest;
   std::function<void()> preparationHook, readerIoHook;
   void acceptClients();
   Window *window;

@@ -116,7 +116,14 @@ class ContinuousRemuxController {
                     auto ids=v.native.source.readerIds;ids.insert(ids.end(),v.native.output.readerIds.begin(),v.native.output.readerIds.end());
                     for(const auto& id:ids)if(!acknowledged.count(id)){
                         rapidjson::Document reply;reply.Parse(ReaderRequest(registry,"{\"version\":1,\"action\":\"readerForget\",\"readerId\":\""+id+"\"}").c_str());
-                        Require(reply.IsObject() && reply.HasMember("ok") && reply["ok"].GetBool(),"continuousRemux","Wait for reader receipt acknowledgement","receipt-cleanup-failed");acknowledged.insert(id);
+                        // A client may already have acknowledged readerRelease
+                        // with readerForget. Absence is NOT a release proof:
+                        // permit idempotent cleanup only after independent
+                        // source close, zero output readers and cache removal.
+                        const bool alreadyAcknowledged=reply.IsObject() && reply.HasMember("code") && reply["code"].IsString()
+                            && std::string(reply["code"].GetString())=="unknown_reader" && v.native.source.filesClosed
+                            && v.native.output.removed && v.native.output.activeReaders==0;
+                        Require(reply.IsObject() && reply.HasMember("ok") && (reply["ok"].GetBool() || alreadyAcknowledged),"continuousRemux","Wait for reader receipt acknowledgement","receipt-cleanup-failed");acknowledged.insert(id);
                     }
                     session.reset();decoder.reset();v.phase="forgotten";v.forgotten=true;v.decoder.reset();expose(v);return;
                 }

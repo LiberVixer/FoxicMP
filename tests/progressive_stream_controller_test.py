@@ -178,6 +178,24 @@ def run(runner,worker,report):
                 if mode=='killed-worker':assert s['errorCode']=='backend-worker-exited',s
                 forget();return dict(final=s)
             case('late-resource-waits-until-published' if mode=='missing' else 'failure-'+mode,fault)
+        def externally_acknowledged(folder,path,rpc,c,start,status,f,w,p,forget,g,wg):
+            _,started=start();p(len(raw)*2//3);w(lambda s:s['playbackReady'])
+            reader=c('reader',jobId=started['jobId'],name='held')['readerId']
+            denied=rpc('readerForget',version=1,readerId=reader);assert denied['code']=='reader_in_use',denied
+            f('continuousRemuxCancel');pending=w(lambda s:s['sourceFilesClosed'])
+            assert not pending['released'] and not pending['forgotten'],pending
+            assert list((folder/'cache').glob('remux-*/output.fmp4'))
+            c('close',name='held');closed=w(lambda s:s['released']);assert not list((folder/'cache').glob('remux-*/output.fmp4'))
+            acknowledgements=[]
+            for identifier in closed['readerIds']:
+                receipt=c('readerStatus',version=1,readerId=identifier)['reader'];assert receipt['released'] and receipt['filesClosed'],receipt
+                assert c('readerForget',version=1,readerId=identifier)['forgotten']
+                missing=rpc('readerStatus',version=1,readerId=identifier);assert missing['code']=='unknown_reader',missing
+                acknowledgements.append(receipt)
+            final=forget();assert final['forgotten'] and final['released'] and final['errorCode'] in ('','cancelled'),final
+            return dict(heldReaderDenied=True,closeProvedBeforeAcknowledgement=True,acknowledgedReceipts=acknowledgements,final=final)
+        case('external-reader-acknowledgements-after-proven-close',externally_acknowledged)
+
         def rejected(folder,path,rpc,c,start,status,f,w,p,forget,g,wg):
             req=dict(version=1,requestId=uuid.uuid4().hex,sessionDirectory=str(folder),resourceId='clip',session=snapshot(path,raw,complete=False,prefix=4));req['session']['timeline']['duration']='240000000';checks=[]
             for mode in ['audio','failed-track','failed-resource','live','unknown-length','missing-integrity','clock','extra-resource','relative-root','caller-worker','request-size']:

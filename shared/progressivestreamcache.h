@@ -225,6 +225,8 @@ public:
     StreamCacheStatus status()const{std::lock_guard<std::mutex> lock(core->mutex);return core->state;}
     std::string sessionId()const{return core->session;}
     uint64_t generation()const{return core->generation;}
+    // Immutable binding: no cache mutex, file inspection or registry I/O.
+    BoundResource readerResource()const{return {core->resource,core->identity.device,core->identity.fileId};}
     bool retire(){std::lock_guard<std::mutex> lock(core->mutex);core->state.retiring=true;core->changed.notify_all();return core->cleanup();}
     // Private diagnostics for tests/owner only, never a decoder filesystem URL.
     std::filesystem::path privatePath()const{return core->path;}

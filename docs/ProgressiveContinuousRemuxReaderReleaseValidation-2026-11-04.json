@@ -1,0 +1,1269 @@
+{
+  "result": "PASS",
+  "date": "2026-11-04",
+  "applicationVersion": "0.2.0",
+  "publicSdkVersion": "1.81",
+  "baselineSourceCommit": "32541a128d491b972fb36f7eba7fd6644e3dc279",
+  "scope": {
+    "internalContinuousOutputReaderRelease": true,
+    "ordinaryPlayerIpc": true,
+    "exactOutputResourceDeviceFileBinding": true,
+    "admissionPlaybackTicketFence": true,
+    "sourceReaderReleaseIsMetadataOnly": true,
+    "closedReaderReleaseIsMetadataOnly": true,
+    "conservativePreCloseReceipt": true,
+    "filesClosedRequiresActualClose": true,
+    "publicCapabilityChanged": false,
+    "experimentalWorkerDistributed": false,
+    "harvesterModified": false
+  },
+  "sourceSha256": {
+    "shared/progressivestreamcontroller.h": "61972fa8dc181324ce6f838847695ee751af25ee0a299e875c03fe2bc84c6876",
+    "tests/progressive_stream_controller_test.py": "2f1540dc2129588e93cf7baa012c5df5f50cd0787920c8e317cf39c51f372d2a",
+    "shared/progressivestreamcache.h": "a27014645b190dd0929b4990bc304950da05559bb737b41f1e3ba564fa3fe7d9",
+    "shared/progressivestreamdecoder.h": "23eede9c9822ca65e934ce6683514f53a3c0b021e35789b699b8a609df271928",
+    "shared/progressivestreamplayback.h": "6912c1dc04fa51c432c4cee20928cd9ecc9ba0040ec17f8c5250675bb674fde9",
+    "qt/src/progressiveapi.cpp": "aa4e96cbaf55a783ef32ccc04678b515ae51134c08b374ff842e60204ae4a65f",
+    "qt/src/progressiveapi.h": "d537cb8b89c44938e4026d5da6506770d69e63b8b64c9aff0e1b87e37f63d2a5",
+    "qt/tests/continuousplayer_test.cpp": "3c4885a05f9eb0e5ff01659b8d10ce395eba694450ec341c1d1e2155775748f4",
+    "src/apps/mplayerc/ClassicProgressiveApi.cpp": "dd2699e7f4b26e9e53a8ee8ee0f1cf89a0ea7da98f429f1c29c5af5b3a70ed6d",
+    "src/apps/mplayerc/ClassicProgressiveApi.h": "8ed7e31e8d9a7161704c04325958c20fa35b79515ea2c4d193c076df9bf40c26",
+    "tests/progressive_continuous_playback_test.py": "eb21859552b26db3c5ef799f09df7631e2623ea2a1d9b0eee2a7c772cd0f4e41",
+    "tests/progressive_continuous_classic_close_test.py": "0105bbef1589ff7bbca0b42354c179663b2b11d2b5ab86023334baed61fa092e",
+    "tests/progressive_continuous_api_test.py": "ff59d7300b5255db83d5273e05360a8ba783a70c29ea2b806fda78d787ee5e27"
+  },
+  "exactFinalExitCodes": {
+    "stream-reader-release-final3-linux-build": 0,
+    "stream-reader-release-final3-linux-tests": 0,
+    "stream-reader-release-final3-windows-build": 0,
+    "stream-reader-release-final3-windows-tests": 0,
+    "stream-reader-release-final3-classic-build": 0,
+    "stream-reader-release-shell-before": 0,
+    "stream-reader-release-shell-after-final3": 0,
+    "stream-reader-release-classic-finalize-final3": 0
+  },
+  "editions": {
+    "linux-qt": {
+      "result": "PASS",
+      "count": 17,
+      "playerSha256": "42a3ad0332a252aeb417ff8bcb70b0fb1e8503f921f58257f6d58030fa2449fa",
+      "workerSha256": [
+        "e6420d9d98462712ea2ad43c9f78e3227d113dd313138230120586b658de4a49",
+        "e6420d9d98462712ea2ad43c9f78e3227d113dd313138230120586b658de4a49"
+      ],
+      "testSourceSha256": "eb21859552b26db3c5ef799f09df7631e2623ea2a1d9b0eee2a7c772cd0f4e41",
+      "maxRequestSeconds": 0.5076252250000834,
+      "temporaryWorkRemoved": true,
+      "rows": [
+        {
+          "profile": "growing-pause-append-complete-seek-eof",
+          "result": "PASS",
+          "eofOutputReceipts": [
+            {
+              "birth": "aa53ab3b-2203-4550-8555-5ffa5d9142db:1597285",
+              "filesClosed": true,
+              "generation": "1",
+              "pid": 265262,
+              "readerId": "544c16cf7feb25ff353a7a5dd4e14655",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "62",
+                  "fileId": "3784",
+                  "id": "remux-99a823ba7d9a214c798c86237d6af9c4"
+                }
+              ],
+              "sessionId": "409e694bf76f4e0491778b6580084282",
+              "version": 1
+            }
+          ]
+        },
+        {
+          "profile": "ordinary-toolbar-stop-and-request-replay",
+          "result": "PASS"
+        },
+        {
+          "profile": "reader-release-playing-output",
+          "result": "PASS",
+          "beforeState": "playing",
+          "beforePositionSeconds": 0.28,
+          "releaseSeconds": 0.2558645620010793,
+          "releaseReply": {
+            "birth": "aa53ab3b-2203-4550-8555-5ffa5d9142db:1597285",
+            "filesClosed": false,
+            "generation": "1",
+            "pid": 265262,
+            "readerId": "49e8ebb7a6d8041002e018de2677a885",
+            "reason": "lease-held",
+            "released": false,
+            "resources": [
+              {
+                "device": "62",
+                "fileId": "3795",
+                "id": "remux-f61c88ae869a50e97bc716dc082c029a"
+              }
+            ],
+            "sessionId": "aa9d58170297471aa6eebe1650300f55",
+            "version": 1
+          },
+          "outputReceipts": [
+            {
+              "birth": "aa53ab3b-2203-4550-8555-5ffa5d9142db:1597285",
+              "filesClosed": true,
+              "generation": "1",
+              "pid": 265262,
+              "readerId": "49e8ebb7a6d8041002e018de2677a885",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "62",
+                  "fileId": "3795",
+                  "id": "remux-f61c88ae869a50e97bc716dc082c029a"
+                }
+              ],
+              "sessionId": "aa9d58170297471aa6eebe1650300f55",
+              "version": 1
+            }
+          ],
+          "decoderReadersAfter": 0,
+          "sourceFilesClosed": true,
+          "cacheReleased": true,
+          "outputReceiptAcknowledged": false,
+          "sourceReleaseDidNotStopPlayback": true,
+          "unknownMalformedForeignReleaseDidNotStopPlayback": true,
+          "stoppedRequestReplayDidNotRestart": true
+        },
+        {
+          "profile": "reader-release-paused-output",
+          "result": "PASS",
+          "beforeState": "paused",
+          "beforePositionSeconds": 0.24,
+          "releaseSeconds": 0.25892749299964635,
+          "releaseReply": {
+            "birth": "aa53ab3b-2203-4550-8555-5ffa5d9142db:1597285",
+            "filesClosed": false,
+            "generation": "1",
+            "pid": 265262,
+            "readerId": "fabc64d7f5534d9450c27eb4d632e737",
+            "reason": "lease-held",
+            "released": false,
+            "resources": [
+              {
+                "device": "62",
+                "fileId": "3800",
+                "id": "remux-b9a51523b0c6af617f0d9b6ee124e681"
+              }
+            ],
+            "sessionId": "d348eb0441f446ae88a59179b4490119",
+            "version": 1
+          },
+          "outputReceipts": [
+            {
+              "birth": "aa53ab3b-2203-4550-8555-5ffa5d9142db:1597285",
+              "filesClosed": true,
+              "generation": "1",
+              "pid": 265262,
+              "readerId": "fabc64d7f5534d9450c27eb4d632e737",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "62",
+                  "fileId": "3800",
+                  "id": "remux-b9a51523b0c6af617f0d9b6ee124e681"
+                }
+              ],
+              "sessionId": "d348eb0441f446ae88a59179b4490119",
+              "version": 1
+            }
+          ],
+          "decoderReadersAfter": 0,
+          "sourceFilesClosed": true,
+          "cacheReleased": true,
+          "outputReceiptAcknowledged": true,
+          "sourceReleaseDidNotStopPlayback": true,
+          "unknownMalformedForeignReleaseDidNotStopPlayback": true,
+          "stoppedRequestReplayDidNotRestart": true
+        },
+        {
+          "profile": "reader-release-waiting-tail-output",
+          "result": "PASS",
+          "beforeState": "playing",
+          "beforePositionSeconds": 14.44,
+          "releaseSeconds": 0.2711168240002735,
+          "releaseReply": {
+            "birth": "aa53ab3b-2203-4550-8555-5ffa5d9142db:1597285",
+            "filesClosed": false,
+            "generation": "1",
+            "pid": 265262,
+            "readerId": "d304b77789855a1f7d6079beb4785134",
+            "reason": "lease-held",
+            "released": false,
+            "resources": [
+              {
+                "device": "62",
+                "fileId": "3805",
+                "id": "remux-140f65c46bc639d820cde299d5be71fb"
+              }
+            ],
+            "sessionId": "4fa28acefb6140c18a87677d9dddafcf",
+            "version": 1
+          },
+          "outputReceipts": [
+            {
+              "birth": "aa53ab3b-2203-4550-8555-5ffa5d9142db:1597285",
+              "filesClosed": true,
+              "generation": "1",
+              "pid": 265262,
+              "readerId": "d304b77789855a1f7d6079beb4785134",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "62",
+                  "fileId": "3805",
+                  "id": "remux-140f65c46bc639d820cde299d5be71fb"
+                }
+              ],
+              "sessionId": "4fa28acefb6140c18a87677d9dddafcf",
+              "version": 1
+            }
+          ],
+          "decoderReadersAfter": 0,
+          "sourceFilesClosed": true,
+          "cacheReleased": true,
+          "outputReceiptAcknowledged": false,
+          "sourceReleaseDidNotStopPlayback": true,
+          "unknownMalformedForeignReleaseDidNotStopPlayback": true,
+          "stoppedRequestReplayDidNotRestart": true
+        },
+        {
+          "profile": "ordinary-source-replacement-isolates-old-controls",
+          "result": "PASS"
+        },
+        {
+          "profile": "failed-replacement-preserves-current-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "continuousRemuxCancel-closes-only-owned-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "continuousRemuxForget-closes-only-owned-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "required-track-failure-during-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "not-ready-is-not-an-implicit-delayed-start",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-0",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-1",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-2",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-3",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-4",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-5",
+          "result": "PASS"
+        }
+      ],
+      "regressions": {
+        "continuousPreparation": {
+          "result": "PASS",
+          "reportSha256": "6e10cd373a66d12cfb4e950c677cb1e95ed74ca8e7068c929dd08e0fe73dfd49",
+          "playerSha256": "42a3ad0332a252aeb417ff8bcb70b0fb1e8503f921f58257f6d58030fa2449fa",
+          "count": 6
+        },
+        "boundedRemuxAndPlayback": {
+          "result": "PASS",
+          "reportSha256": "72e09e1636dc4231422cc61067bd8000f4316eddb8cf15d5e842de30073f715e",
+          "playerSha256": "42a3ad0332a252aeb417ff8bcb70b0fb1e8503f921f58257f6d58030fa2449fa",
+          "preparationCount": 24,
+          "playbackCount": 20
+        }
+      },
+      "processHistory": [
+        [
+          {
+            "pid": 265262,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": -9,
+            "terminationSeconds": 0.03746508899894252
+          }
+        ],
+        [
+          {
+            "pid": 265348,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": -9,
+            "terminationSeconds": 0.016431780999482726
+          }
+        ]
+      ],
+      "nativeController": {
+        "result": "PASS",
+        "count": 19,
+        "reportSha256": "9245bfc98daa163cb3e3f515a8402f3b3f0f8d4afd524743aae737f871ace165",
+        "externalAcknowledgement": {
+          "profile": "external-reader-acknowledgements-after-proven-close",
+          "result": "PASS",
+          "heldReaderDenied": true,
+          "closeProvedBeforeAcknowledgement": true,
+          "acknowledgedReceipts": [
+            {
+              "version": 1,
+              "readerId": "30e223ecfb41c4b0f8b561a0fdfd479c",
+              "sessionId": "d624ef5ef3bd46478c7fccf68dcfb15e",
+              "generation": "1",
+              "pid": 262658,
+              "birth": "aa53ab3b-2203-4550-8555-5ffa5d9142db:1593114",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "clip",
+                  "device": "2051",
+                  "fileId": "3948491"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            {
+              "version": 1,
+              "readerId": "73f2f2efa3ee2c35bd9498e42764b209",
+              "sessionId": "d624ef5ef3bd46478c7fccf68dcfb15e",
+              "generation": "1",
+              "pid": 262658,
+              "birth": "aa53ab3b-2203-4550-8555-5ffa5d9142db:1593114",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "remux-f6569df30f57f2df70fbfbb89372d07c",
+                  "device": "2051",
+                  "fileId": "3948497"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          ],
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "693dcd730c1f626a2b48b2095585e403",
+            "requestId": "c77ec194f83d42e9859b34b658874f99",
+            "sessionId": "d624ef5ef3bd46478c7fccf68dcfb15e",
+            "generation": "1",
+            "writerInstanceId": "ba69180c0f71411eab0db5db553e2dfe",
+            "state": "forgotten",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "cancelled",
+            "neededOffset": "0",
+            "visibleBytes": "94021",
+            "writtenBytes": "94021",
+            "maximumReadEnd": "131072",
+            "fragments": 5,
+            "samples": 125,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 262665,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": true,
+            "readerIds": [
+              "30e223ecfb41c4b0f8b561a0fdfd479c",
+              "73f2f2efa3ee2c35bd9498e42764b209"
+            ]
+          }
+        }
+      },
+      "qtWindowAndRegistry": {
+        "ctestGroups": 8,
+        "windowLifecycleRows": 6,
+        "realPlayerRows": 5,
+        "positiveRelease": true,
+        "heldIndependentReaderDoesNotGetFalseRelease": true,
+        "delayedRegistryKeepsUiResponsive": true,
+        "delayedReleaseDoesNotStopReplacement": true,
+        "releasedAndFilesClosedReceiptsInert": true,
+        "wrongSessionGenerationFileIdentityRejected": true,
+        "logSha256": "751cee6627e4393329ea645f92b730898976e78b50fbc4cfbffb078e8ffe2ee3"
+      }
+    },
+    "windows-qt": {
+      "result": "PASS",
+      "count": 17,
+      "playerSha256": "ad0dc23450d5a1af444f2bc53bbcd2a2ca3737c24538d3ecd6ce82eec7da9aed",
+      "workerSha256": [
+        "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+        "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e"
+      ],
+      "testSourceSha256": "eb21859552b26db3c5ef799f09df7631e2623ea2a1d9b0eee2a7c772cd0f4e41",
+      "maxRequestSeconds": 0.23400470000342466,
+      "temporaryWorkRemoved": true,
+      "rows": [
+        {
+          "profile": "growing-pause-append-complete-seek-eof",
+          "result": "PASS",
+          "eofOutputReceipts": [
+            {
+              "birth": "134382565449222153",
+              "filesClosed": true,
+              "generation": "1",
+              "pid": 2060,
+              "readerId": "dd7830f4fd7a461872c875f298487184",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "25051272928251176",
+                  "id": "remux-fbe4bc801855dc150afe123aa068f42d"
+                }
+              ],
+              "sessionId": "0ba5444ad0ed40f6a744af2793aa308f",
+              "version": 1
+            }
+          ]
+        },
+        {
+          "profile": "ordinary-toolbar-stop-and-request-replay",
+          "result": "PASS"
+        },
+        {
+          "profile": "reader-release-playing-output",
+          "result": "PASS",
+          "beforeState": "playing",
+          "beforePositionSeconds": 0.28,
+          "releaseSeconds": 0.08195509999859496,
+          "releaseReply": {
+            "birth": "134382565449222153",
+            "filesClosed": false,
+            "generation": "1",
+            "pid": 2060,
+            "readerId": "b09552c721e2c6509e687eec3fb2c4e9",
+            "reason": "lease-held",
+            "released": false,
+            "resources": [
+              {
+                "device": "656024512",
+                "fileId": "23362423067987246",
+                "id": "remux-3a3767b2a076005e759ade5e5a6f2549"
+              }
+            ],
+            "sessionId": "5d226d52b7974a1d93c36cb28d80baa1",
+            "version": 1
+          },
+          "outputReceipts": [
+            {
+              "birth": "134382565449222153",
+              "filesClosed": true,
+              "generation": "1",
+              "pid": 2060,
+              "readerId": "b09552c721e2c6509e687eec3fb2c4e9",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "23362423067987246",
+                  "id": "remux-3a3767b2a076005e759ade5e5a6f2549"
+                }
+              ],
+              "sessionId": "5d226d52b7974a1d93c36cb28d80baa1",
+              "version": 1
+            }
+          ],
+          "decoderReadersAfter": 0,
+          "sourceFilesClosed": true,
+          "cacheReleased": true,
+          "outputReceiptAcknowledged": false,
+          "sourceReleaseDidNotStopPlayback": true,
+          "unknownMalformedForeignReleaseDidNotStopPlayback": true,
+          "stoppedRequestReplayDidNotRestart": true
+        },
+        {
+          "profile": "reader-release-paused-output",
+          "result": "PASS",
+          "beforeState": "paused",
+          "beforePositionSeconds": 0.24,
+          "releaseSeconds": 0.08264609999969252,
+          "releaseReply": {
+            "birth": "134382565449222153",
+            "filesClosed": false,
+            "generation": "1",
+            "pid": 2060,
+            "readerId": "74a76598d424a46ef1e0276236f0b6af",
+            "reason": "lease-held",
+            "released": false,
+            "resources": [
+              {
+                "device": "656024512",
+                "fileId": "28428972648779055",
+                "id": "remux-2649155e7b04ce653100ea4a116d5fb1"
+              }
+            ],
+            "sessionId": "97109f298a1c49a68dd96db37c0547b9",
+            "version": 1
+          },
+          "outputReceipts": [
+            {
+              "birth": "134382565449222153",
+              "filesClosed": true,
+              "generation": "1",
+              "pid": 2060,
+              "readerId": "74a76598d424a46ef1e0276236f0b6af",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "28428972648779055",
+                  "id": "remux-2649155e7b04ce653100ea4a116d5fb1"
+                }
+              ],
+              "sessionId": "97109f298a1c49a68dd96db37c0547b9",
+              "version": 1
+            }
+          ],
+          "decoderReadersAfter": 0,
+          "sourceFilesClosed": true,
+          "cacheReleased": true,
+          "outputReceiptAcknowledged": true,
+          "sourceReleaseDidNotStopPlayback": true,
+          "unknownMalformedForeignReleaseDidNotStopPlayback": true,
+          "stoppedRequestReplayDidNotRestart": true
+        },
+        {
+          "profile": "reader-release-waiting-tail-output",
+          "result": "PASS",
+          "beforeState": "playing",
+          "beforePositionSeconds": 14.32,
+          "releaseSeconds": 0.10561830000006012,
+          "releaseReply": {
+            "birth": "134382565449222153",
+            "filesClosed": false,
+            "generation": "1",
+            "pid": 2060,
+            "readerId": "b7ca771b2d225eb106c36092a7cc6853",
+            "reason": "lease-held",
+            "released": false,
+            "resources": [
+              {
+                "device": "656024512",
+                "fileId": "23080948091276593",
+                "id": "remux-ea77043e6a0285ec2adb55656c5331a3"
+              }
+            ],
+            "sessionId": "6629a29252bb42eb9b074a0224da70aa",
+            "version": 1
+          },
+          "outputReceipts": [
+            {
+              "birth": "134382565449222153",
+              "filesClosed": true,
+              "generation": "1",
+              "pid": 2060,
+              "readerId": "b7ca771b2d225eb106c36092a7cc6853",
+              "reason": "files-closed",
+              "released": true,
+              "resources": [
+                {
+                  "device": "656024512",
+                  "fileId": "23080948091276593",
+                  "id": "remux-ea77043e6a0285ec2adb55656c5331a3"
+                }
+              ],
+              "sessionId": "6629a29252bb42eb9b074a0224da70aa",
+              "version": 1
+            }
+          ],
+          "decoderReadersAfter": 0,
+          "sourceFilesClosed": true,
+          "cacheReleased": true,
+          "outputReceiptAcknowledged": false,
+          "sourceReleaseDidNotStopPlayback": true,
+          "unknownMalformedForeignReleaseDidNotStopPlayback": true,
+          "stoppedRequestReplayDidNotRestart": true
+        },
+        {
+          "profile": "ordinary-source-replacement-isolates-old-controls",
+          "result": "PASS"
+        },
+        {
+          "profile": "failed-replacement-preserves-current-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "continuousRemuxCancel-closes-only-owned-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "continuousRemuxForget-closes-only-owned-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "required-track-failure-during-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "not-ready-is-not-an-implicit-delayed-start",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-0",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-1",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-2",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-3",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-4",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-5",
+          "result": "PASS"
+        }
+      ],
+      "regressions": {
+        "continuousPreparation": {
+          "result": "PASS",
+          "reportSha256": "dbdf99a8fd6a67a41e38d8a5350b0416cc13528c3616c65559663be0e4499714",
+          "playerSha256": "ad0dc23450d5a1af444f2bc53bbcd2a2ca3737c24538d3ecd6ce82eec7da9aed",
+          "count": 6
+        },
+        "boundedRemuxAndPlayback": {
+          "result": "PASS",
+          "reportSha256": "6d2dab13215b483e60aaccd12073b8f01dc2a869cab13d980f0771c7de69a82d",
+          "playerSha256": "ad0dc23450d5a1af444f2bc53bbcd2a2ca3737c24538d3ecd6ce82eec7da9aed",
+          "preparationCount": 24,
+          "playbackCount": 20
+        }
+      },
+      "processHistory": [
+        [
+          {
+            "pid": 2060,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": 1,
+            "terminationSeconds": 0.020671400001447182
+          }
+        ],
+        [
+          {
+            "pid": 10416,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": 1,
+            "terminationSeconds": 0.022274799997830996
+          }
+        ]
+      ],
+      "nativeController": {
+        "result": "PASS",
+        "count": 19,
+        "reportSha256": "d512cedbb2ad8651133953face146e7cdb9bd38e479ecd7fff6a209a9014c2e0",
+        "externalAcknowledgement": {
+          "profile": "external-reader-acknowledgements-after-proven-close",
+          "result": "PASS",
+          "heldReaderDenied": true,
+          "closeProvedBeforeAcknowledgement": true,
+          "acknowledgedReceipts": [
+            {
+              "version": 1,
+              "readerId": "6a31a38bfd9eebe97f7af64144449f69",
+              "sessionId": "0c06fa83ab5c464f8471653f6ebd560b",
+              "generation": "1",
+              "pid": 7912,
+              "birth": "134382565087797560",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "clip",
+                  "device": "656024512",
+                  "fileId": "17451448557063486"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            {
+              "version": 1,
+              "readerId": "53e24acd8e53bd0160e507d33d25e568",
+              "sessionId": "0c06fa83ab5c464f8471653f6ebd560b",
+              "generation": "1",
+              "pid": 7912,
+              "birth": "134382565087797560",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "remux-53fd27dc3b7e348b833adce592210a89",
+                  "device": "656024512",
+                  "fileId": "16044073673510212"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          ],
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "8b4b4666cb65232684568b7daaefc6f9",
+            "requestId": "4be078c3119942f997f6660412002726",
+            "sessionId": "0c06fa83ab5c464f8471653f6ebd560b",
+            "generation": "1",
+            "writerInstanceId": "87c6c1727d6649ceb16ef07ced477894",
+            "state": "forgotten",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "cancelled",
+            "neededOffset": "0",
+            "visibleBytes": "54751",
+            "writtenBytes": "54751",
+            "maximumReadEnd": "65536",
+            "fragments": 3,
+            "samples": 75,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 13180,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": true,
+            "readerIds": [
+              "6a31a38bfd9eebe97f7af64144449f69",
+              "53e24acd8e53bd0160e507d33d25e568"
+            ]
+          }
+        }
+      },
+      "qtWindowAndRegistry": {
+        "ctestGroups": 8,
+        "windowLifecycleRows": 6,
+        "realPlayerRows": 5,
+        "positiveRelease": true,
+        "heldIndependentReaderDoesNotGetFalseRelease": true,
+        "delayedRegistryKeepsUiResponsive": true,
+        "delayedReleaseDoesNotStopReplacement": true,
+        "releasedAndFilesClosedReceiptsInert": true,
+        "wrongSessionGenerationFileIdentityRejected": true,
+        "logSha256": "751d51d8955485b6d6cd4b4ab0fdb72335574b8e32a271c0976216554d67ddc1"
+      }
+    },
+    "windows-classic": {
+      "result": "PASS",
+      "count": 18,
+      "playerSha256": "2ecc2dc44e6250ff98e5168b26fec8d26c6d09345237d1b0c2f677398b6dca41",
+      "workerSha256": [
+        "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+        "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e"
+      ],
+      "testSourceSha256": "0105bbef1589ff7bbca0b42354c179663b2b11d2b5ab86023334baed61fa092e",
+      "maxRequestSeconds": 0.18800000000192085,
+      "temporaryWorkRemoved": true,
+      "rows": [
+        {
+          "profile": "growing-pause-append-complete-seek-eof",
+          "result": "PASS",
+          "eofOutputReceipts": [
+            {
+              "version": 1,
+              "readerId": "5ccffc375c8570db0adfceba4e899478",
+              "sessionId": "88c970309b5849fba6aefe96a26008ca",
+              "generation": "1",
+              "pid": 3784,
+              "birth": "134382564238637702",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "remux-05b31043a166e8aea730c3bba6cac74d",
+                  "device": "656024512",
+                  "fileId": "10696049116008038"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          ]
+        },
+        {
+          "profile": "ordinary-toolbar-stop-and-request-replay",
+          "result": "PASS"
+        },
+        {
+          "profile": "reader-release-playing-output",
+          "result": "PASS",
+          "beforeState": "playing",
+          "beforePositionSeconds": 0.24,
+          "releaseSeconds": 0.15599999999903957,
+          "releaseReply": {
+            "version": 1,
+            "readerId": "a488ee31227c4c8f1a7f649bf907c9b3",
+            "sessionId": "a8d16fb8412d47138a763348d43e5417",
+            "generation": "1",
+            "pid": 3784,
+            "birth": "134382564238637702",
+            "filesClosed": false,
+            "resources": [
+              {
+                "id": "remux-3096e376fd86e853876fcde5c7c32296",
+                "device": "656024512",
+                "fileId": "7318349395480183"
+              }
+            ],
+            "released": false,
+            "reason": "lease-held"
+          },
+          "outputReceipts": [
+            {
+              "version": 1,
+              "readerId": "a488ee31227c4c8f1a7f649bf907c9b3",
+              "sessionId": "a8d16fb8412d47138a763348d43e5417",
+              "generation": "1",
+              "pid": 3784,
+              "birth": "134382564238637702",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "remux-3096e376fd86e853876fcde5c7c32296",
+                  "device": "656024512",
+                  "fileId": "7318349395480183"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          ],
+          "decoderReadersAfter": 0,
+          "sourceFilesClosed": true,
+          "cacheReleased": true,
+          "outputReceiptAcknowledged": false,
+          "sourceReleaseDidNotStopPlayback": true,
+          "unknownMalformedForeignReleaseDidNotStopPlayback": true,
+          "stoppedRequestReplayDidNotRestart": true
+        },
+        {
+          "profile": "reader-release-paused-output",
+          "result": "PASS",
+          "beforeState": "paused",
+          "beforePositionSeconds": 0.206,
+          "releaseSeconds": 0.1569999999992433,
+          "releaseReply": {
+            "version": 1,
+            "readerId": "ce044d0220720d22e117512b9151b1ee",
+            "sessionId": "5c70377b4d8e4a7f8e436d90ba377e39",
+            "generation": "1",
+            "pid": 3784,
+            "birth": "134382564238637702",
+            "filesClosed": false,
+            "resources": [
+              {
+                "id": "remux-c5a95d3a2bdde8152a0c9ffb1647691c",
+                "device": "656024512",
+                "fileId": "24488322974829822"
+              }
+            ],
+            "released": false,
+            "reason": "lease-held"
+          },
+          "outputReceipts": [
+            {
+              "version": 1,
+              "readerId": "ce044d0220720d22e117512b9151b1ee",
+              "sessionId": "5c70377b4d8e4a7f8e436d90ba377e39",
+              "generation": "1",
+              "pid": 3784,
+              "birth": "134382564238637702",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "remux-c5a95d3a2bdde8152a0c9ffb1647691c",
+                  "device": "656024512",
+                  "fileId": "24488322974829822"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          ],
+          "decoderReadersAfter": 0,
+          "sourceFilesClosed": true,
+          "cacheReleased": true,
+          "outputReceiptAcknowledged": true,
+          "sourceReleaseDidNotStopPlayback": true,
+          "unknownMalformedForeignReleaseDidNotStopPlayback": true,
+          "stoppedRequestReplayDidNotRestart": true
+        },
+        {
+          "profile": "reader-release-waiting-tail-output",
+          "result": "PASS",
+          "beforeState": "buffering",
+          "beforePositionSeconds": 14.032,
+          "releaseSeconds": 0.1720000000022992,
+          "releaseReply": {
+            "version": 1,
+            "readerId": "4c3b80c5297b627bf9da2e6608bec68a",
+            "sessionId": "a0fc7bb2e8884d568e39b3257d958567",
+            "generation": "1",
+            "pid": 3784,
+            "birth": "134382564238637702",
+            "filesClosed": false,
+            "resources": [
+              {
+                "id": "remux-9b5bd25b65d8382a6d5e1782fbcaf1f6",
+                "device": "656024512",
+                "fileId": "22517998137855235"
+              }
+            ],
+            "released": false,
+            "reason": "lease-held"
+          },
+          "outputReceipts": [
+            {
+              "version": 1,
+              "readerId": "4c3b80c5297b627bf9da2e6608bec68a",
+              "sessionId": "a0fc7bb2e8884d568e39b3257d958567",
+              "generation": "1",
+              "pid": 3784,
+              "birth": "134382564238637702",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "remux-9b5bd25b65d8382a6d5e1782fbcaf1f6",
+                  "device": "656024512",
+                  "fileId": "22517998137855235"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          ],
+          "decoderReadersAfter": 0,
+          "sourceFilesClosed": true,
+          "cacheReleased": true,
+          "outputReceiptAcknowledged": false,
+          "sourceReleaseDidNotStopPlayback": true,
+          "unknownMalformedForeignReleaseDidNotStopPlayback": true,
+          "stoppedRequestReplayDidNotRestart": true
+        },
+        {
+          "profile": "ordinary-source-replacement-isolates-old-controls",
+          "result": "PASS"
+        },
+        {
+          "profile": "failed-replacement-preserves-current-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "continuousRemuxCancel-closes-only-owned-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "continuousRemuxForget-closes-only-owned-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "required-track-failure-during-playback",
+          "result": "PASS"
+        },
+        {
+          "profile": "not-ready-is-not-an-implicit-delayed-start",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-0",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-1",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-2",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-3",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-4",
+          "result": "PASS"
+        },
+        {
+          "profile": "stop-during-opening-5",
+          "result": "PASS"
+        },
+        {
+          "profile": "normal-window-close-and-same-profile-recovery",
+          "result": "PASS",
+          "normalExitCode": 0,
+          "exitSeconds": 0.1720000000022992,
+          "closedReceipts": [
+            {
+              "version": 1,
+              "readerId": "6318985b2769538faa5387cef22d04e0",
+              "sessionId": "f8b1a06fb6484e50ad3b37e9573bd54b",
+              "generation": "1",
+              "pid": 3784,
+              "birth": "134382564238637702",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "remux-8d473df2a141441bbf0f1e23ba335519",
+                  "device": "656024512",
+                  "fileId": "2533274791399071"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            {
+              "version": 1,
+              "readerId": "68a9c6efc5c708f51125c28e3c93fb96",
+              "sessionId": "f8b1a06fb6484e50ad3b37e9573bd54b",
+              "generation": "1",
+              "pid": 3784,
+              "birth": "134382564238637702",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "clip",
+                  "device": "656024512",
+                  "fileId": "5348024558505625"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            }
+          ],
+          "originalUnchanged": true
+        }
+      ],
+      "regressions": {
+        "continuousPreparation": {
+          "result": "PASS",
+          "reportSha256": "276b6baa8dd5b1eab0254beee1067ca75723a02943da642ce5a16ace2bb2ba56",
+          "playerSha256": "2ecc2dc44e6250ff98e5168b26fec8d26c6d09345237d1b0c2f677398b6dca41",
+          "count": 6
+        },
+        "boundedRemuxAndPlayback": {
+          "result": "PASS",
+          "reportSha256": "3d332816e610addd6d55b99adf6d486a10aa80708eb17ef0ef4b64cd22ca2d82",
+          "playerSha256": "2ecc2dc44e6250ff98e5168b26fec8d26c6d09345237d1b0c2f677398b6dca41",
+          "preparationCount": 24,
+          "playbackCount": 20
+        }
+      },
+      "processHistory": [
+        [
+          {
+            "pid": 3784,
+            "reason": "normal-window-close",
+            "exitCode": 0,
+            "terminationSeconds": 0.1720000000022992
+          },
+          {
+            "pid": 11216,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": 1,
+            "terminationSeconds": 0.01599999999962165
+          }
+        ],
+        [
+          {
+            "pid": 10712,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": 1,
+            "terminationSeconds": 0.014999999999417923
+          }
+        ]
+      ],
+      "taskFinalization": {
+        "lastTaskResult": 0,
+        "taskRemoved": true,
+        "stageRemoved": true,
+        "builtSha256": "2ecc2dc44e6250ff98e5168b26fec8d26c6d09345237d1b0c2f677398b6dca41",
+        "testedSha256": {
+          "value": [
+            "2ecc2dc44e6250ff98e5168b26fec8d26c6d09345237d1b0c2f677398b6dca41",
+            "2ecc2dc44e6250ff98e5168b26fec8d26c6d09345237d1b0c2f677398b6dca41"
+          ],
+          "Count": 2
+        },
+        "equal": true,
+        "testExitCode": 0
+      }
+    }
+  },
+  "preservation": {
+    "before": {
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "93af9a4e72e00bf5c16b41db08316cdef1325b1e480d5e8ba2a6442ef78c6af9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931"
+    },
+    "after": {
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "42a3ad0332a252aeb417ff8bcb70b0fb1e8503f921f58257f6d58030fa2449fa",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931"
+    },
+    "windowsInstallationsUnchanged": true,
+    "shellEntriesVerified": 158,
+    "shellEntriesUnchanged": true,
+    "linuxInstallation": {
+      "result": "PASS",
+      "version": "FoxicMPQt 0.2.0",
+      "previousSha256": "abdcaed3e968ddb29824b8b7c67b1d125dda985e03e0a948198db8ed8872a628",
+      "installedSha256": "42a3ad0332a252aeb417ff8bcb70b0fb1e8503f921f58257f6d58030fa2449fa",
+      "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-continuous-reader-release-20261104T090322Z",
+      "profileSha256Before": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "profileSha256After": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "profileUnchanged": true,
+      "otherFilesVerified": 267,
+      "publicCapabilitiesUnchanged": true,
+      "viewerInterrupted": false,
+      "runningViewerPids": [],
+      "experimentalWorkerInstalled": false
+    }
+  },
+  "temporaryClassicRuns": [
+    {
+      "testExitCode": 1,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "testedBinariesMatchBuild": true
+    },
+    {
+      "testExitCode": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "testedBinariesMatchBuild": true
+    },
+    {
+      "testExitCode": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "testedBinariesMatchBuild": true
+    },
+    {
+      "testExitCode": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "testedBinariesMatchBuild": true
+    },
+    {
+      "testExitCode": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "testedBinariesMatchBuild": true
+    },
+    {
+      "testExitCode": 0,
+      "taskRemoved": true,
+      "stageRemoved": true,
+      "testedBinariesMatchBuild": true
+    }
+  ],
+  "beforeFixFailures": {
+    "originalReaderReleaseDidNotStopOutput": {
+      "ctestExitCode": 8,
+      "playerSha256": "93af9a4e72e00bf5c16b41db08316cdef1325b1e480d5e8ba2a6442ef78c6af9",
+      "logSha256": "3cbd0b88027510f6cb7b70cbb6c222d78da318f40ca36fc4de8edc2b223847eb"
+    },
+    "immediatePostCloseRegistryQuery": {
+      "ctestExitCode": 8,
+      "diagnosticExitCode": 8,
+      "reasonCode": "reader_registry_busy",
+      "logSha256": "efafa3acba1a489f77f725abfcc78a7d764d935997500f1f50f0d183c7393984",
+      "fix": "Return validated pre-close receipt; poll readerStatus for actual release."
+    },
+    "testSetupCorrections": [
+      {
+        "exitCode": 8,
+        "reason": "Malformed reader command had expected invalid_request instead of the existing invalid_snapshot code."
+      },
+      {
+        "exitCode": 1,
+        "reason": "Initial Classic waiting-tail fixture had less than the startup buffer; use the already proven starting prefix before waiting for the tail."
+      },
+      {
+        "exitCode": 8,
+        "reason": "New native fixture expected an empty errorCode after an explicit cancellation; the established terminal cancelled code is valid.",
+        "linuxLogSha256": "94c0dc3e951cb0527516d1b8825581e649801a968921974078682358ca9393e6",
+        "windowsLogSha256": "af603da7c18be4c03b5cc98abbf3ed5ae80ec141ac4262ddd666f8afcc4b47cf"
+      }
+    ],
+    "externalReaderForgetAcknowledgement": {
+      "nativeDriverExitCode": 1,
+      "reasonCode": "receipt-cleanup-failed",
+      "logSha256": "1be8c108cf6a9bcab909bb91910713eff6eda3be4d4f645fba7a8ce27a5b2058",
+      "sourceAndRunnerBefore": {
+        "_bin/release-build-0.2.0/foxicmp-progressive-stream-controller-tests": "f8621777b188748d850eccc7ebaf1b20d63e4e09e275d728fa56f0be7428c961",
+        "tests/progressive_stream_controller_test.py": "bb3ccc38196ef0116ad24fac565c33201ec366737392602ad44530369b016a69"
+      },
+      "fix": "Treat missing receipt as already acknowledged only after independent source close, zero output readers, cache removal and service-owner release. Missing receipt is never the release proof."
+    }
+  },
+  "boundaries": [
+    "Internal narrow H.264 video-only profile; public capabilities/SDK and worker distribution remain open.",
+    "readerRelease requests GUI owner cancellation, not force-release of independent file holders; initial response is conservative and readerStatus remains the proof.",
+    "Waiting-tail row measures stopped decoder progress with incomplete waiting producer, not universal buffering UI/reason-code conformance.",
+    "Final timed rows assert the combined release-to-output/source/cache-close interval is below two seconds; artificial registry-delay and held-reader tests deliberately retain resources until released.",
+    "No full waiting/replay/crash/stress, audio/B-frame, real Harvester, physical A/V or final packaging acceptance is claimed.",
+    "All final drivers, builds and CTest groups exit zero. Idle private test cleanup uses OS kill exit -9 on Linux and 1 on Windows; explicit normal Classic close is zero.",
+    "Windows installations/profiles/HKCU preserved; Linux EXE atomically replaced with backup and all other existing files verified. Hardware and Wayland not resumed; no recurring tasks."
+  ]
+}

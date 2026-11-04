@@ -47,6 +47,7 @@ struct ProgressiveApi::Preparation {
   QJsonObject descriptor, reply;
   QString registry;
   std::shared_ptr<ProgressiveSource> candidate;
+  std::shared_ptr<foxicmp::progressive::ContinuousPlayback> readerPlayback;
 };
 ProgressiveApi::ProgressiveApi(Window *w, QObject *parent) : QObject(parent), window(w) {
   const auto invalidate=[this](bool retainCurrent){
@@ -235,12 +236,20 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
     if(prepared && !prepared->ready) {
       try{foxicmp::progressive::ReaderCommand(raw);}catch(const foxicmp::progressive::Error& e){return failure(QString::fromStdString(e.code),QString::fromUtf8(e.what()));}
       prepared->requested=true;prepared->readerQuery=true;prepared->descriptor=input;prepared->registry=readerRegistry;
+      if(action=="readerRelease")prepared->readerPlayback=continuousPlayback;
       if(action=="readerRelease" && input["readerId"]==readerId){auto active=source.lock();if(active && window->progressiveSession()==active)prepared->candidate=active;}
       return {};
     }
     const auto query=[&]{return QJsonDocument::fromJson(QByteArray::fromStdString(foxicmp::progressive::ReaderRequest(
         std::filesystem::u8path(readerRegistry.toUtf8().toStdString()),raw))).object();};
     auto reply=prepared?prepared->reply:query();
+    if(action=="readerRelease" && continuousPlayback && !continuousPlayback->closed && (!prepared || (!prepared->readerPass && prepared->readerPlayback==continuousPlayback))
+        && continuousPlayback->holdsOutputReader(QJsonDocument(reply).toJson(QJsonDocument::Compact).toStdString())){
+      continuousPlayback->closed=true;continuousRemux->cancelPlaybackJob(continuousPlayback->command.jobId);
+      if(window->ownsPreparedClip(QString::fromStdString(continuousPlayback->uri)))window->closeCurrent();
+      // Return the valid pre-close receipt conservatively. Registry cleanup is
+      // concurrent; only a later readerStatus can prove filesClosed/released.
+    }
     if(action=="readerRelease" && reply["ok"].toBool() && !readerId.isEmpty() && input["readerId"]==readerId && (!prepared || !prepared->readerPass)) {
       auto active=source.lock();
       if(active && window->progressiveSession()==active && (!prepared || prepared->candidate==active)) {

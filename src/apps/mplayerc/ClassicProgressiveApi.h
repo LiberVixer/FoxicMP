@@ -18,6 +18,7 @@ public:
         std::string descriptor, preparedReply;
         std::wstring registry;
         std::shared_ptr<CHarvesterSession> candidate;
+        std::shared_ptr<foxicmp::progressive::ContinuousPlayback> readerPlayback;
         std::atomic<bool> abandoned{false}, finished{false};
         bool requested=false, ready=false, probe=false, publication=false, readerQuery=false, readerRepeat=false;
         unsigned readerPass=0;

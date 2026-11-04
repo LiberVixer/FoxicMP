@@ -379,10 +379,19 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
                 try{foxicmp::progressive::ReaderCommand(raw);}catch(const foxicmp::progressive::Error& e){return Failure(e.code.c_str(),e.what());}
                 if(registryPreparation && !registryPreparation->finished.load(std::memory_order_acquire))return Failure("reader_registry_busy","Another registry request is active");
                 registryPreparation=prepared->shared_from_this();prepared->requested=true;prepared->readerQuery=true;prepared->descriptor=raw;prepared->registry=ReaderRegistry();
+                if(action=="readerRelease")prepared->readerPlayback=continuousPlayback;
                 if(action=="readerRelease" && harvester::String(d,"readerId")==readerId){auto active=source.lock();if(active && frame.OwnsHarvester(active))prepared->candidate=active;}
                 return {};
             }
             auto reply=prepared?prepared->preparedReply:foxicmp::progressive::ReaderRequest(std::filesystem::path(ReaderRegistry()),raw);
+            if(action=="readerRelease" && continuousPlayback && !continuousPlayback->closed && (!prepared || (!prepared->readerPass && prepared->readerPlayback==continuousPlayback))
+                && continuousPlayback->holdsOutputReader(reply)){
+                continuousPlayback->closed=true;if(continuousOpening)continuousOpening->abandoned.store(true);
+                continuousRemux->cancelPlaybackJob(continuousPlayback->command.jobId);
+                if(frame.OwnsHarvester(continuousNative.lock()))frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
+                // Keep the valid pre-close receipt; a fresh readerStatus must
+                // establish release after concurrent native/registry cleanup.
+            }
             Document result;result.Parse(reply.c_str());
             if(action=="readerRelease" && result["ok"].GetBool() && !readerId.empty() && harvester::String(d,"readerId")==readerId && (!prepared || !prepared->readerPass)) {
                 auto active=source.lock();
