@@ -710,8 +710,11 @@ complete seek/EOF, stop, освобождение и отказ audio/B-frames. 
    точные exit codes и исходные ошибки тестового стенда. Найденное Qt `playing`
    при фактическом ожидании хвоста затем [исправлено и проверено](ProgressiveContinuousBuffering.md)
    на обеих Qt ОС: API/строка состояния, manual pause, optional reasonCode,
-   writer-failed и 10/30/60 s waits. Далее — heartbeat expiry, shutdown/crash
-   и длительные stress проверки.
+   writer-failed и 10/30/60 s waits. [Heartbeat-срез](ProgressiveContinuousHeartbeat.md)
+   прошёл по пять сценариев каждой редакции; общий Qt исправлен для producer error
+   на ручной паузе. Единичное превышение 2 s release в исправленном Linux остаётся
+   открытым несмотря на успешный повтор. Далее — локализация этой задержки,
+   shutdown/crash и длительные stress проверки.
 2. Затем AAC trim, B-frames, остальные профили и общая cache/performance matrix.
 
 Полная интеграционная приёмка не объявляется выполненной этими ограниченными

@@ -255,6 +255,20 @@ AudioPcmWindow Window::progressivePcmWindow(double seconds) const {
 }
 void Window::updateProgressive() {
   if(preparedPlayback && current.startsWith("foxicmp-continuous://")){
+    // A paused decoder may never issue another read, and therefore never see
+    // a producer failure via mpv. Observe the controller on the existing GUI
+    // tick and detach the owned decoder without requiring client status polls.
+    if(continuousFailure){
+      const auto failure=continuousFailure();
+      if(!failure.isEmpty()){
+        continuousFailure={};
+        if(lastError.isEmpty())lastError=failure;
+        player->command({"stop"});
+        timeline->setEnabled(false);actions["frameBack"]->setEnabled(false);
+        state->setText(uiTr("Ошибка: ")+lastError);state->setToolTip(lastError);
+        updateClock();return;
+      }
+    }
     const bool seek=continuousSeekReady && continuousSeekReady();timeline->setEnabled(seek);actions["frameBack"]->setEnabled(seek);return;
   }
   if (!progressive)
@@ -517,10 +531,10 @@ bool Window::openPreparedClip(const std::shared_ptr<foxicmp::progressive::Prepar
   applyAudioSourceOptions();player->attachPrepared(source);state->setText(uiTr("Подготовка фрагмента…"));
   return player->loadSource(current,{{"pause","no"},{"aid","auto"},{"vid","auto"},{"sub-auto","no"},{"audio-file-auto","no"},{"force-media-title",title},{"cache","no"}});
 }
-QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady){
+QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure){
   if(!source || source->stopped())return {};
   emit playbackIntentChanged();savePosition();closePlaybackFile();
-  preparedPlayback=true;preparedFinished=false;preparedDuration=total;continuousSeekReady=std::move(seekReady);holdAfterLoad=false;lastError.clear();
+  preparedPlayback=true;preparedFinished=false;preparedDuration=total;continuousSeekReady=std::move(seekReady);continuousFailure=std::move(failure);holdAfterLoad=false;lastError.clear();
   pendingLaunchOptions={};pendingTrackSelections.clear();audioUserSelection=subtitleUserSelection=false;pendingResume=-1;
   pos=0;duration=total;timeline->position=0;timeline->duration=total;timeline->available=-1;timeline->chapters.clear();
   applyAudioSourceOptions();state->setText(uiTr("Подготовка видео…"));

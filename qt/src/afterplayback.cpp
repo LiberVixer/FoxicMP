@@ -145,6 +145,7 @@ void Window::closePlaybackFile() {
   stdinPlayback = false;
   preparedPlayback = preparedFinished = false;
   continuousSeekReady={};
+  continuousFailure={};
   releaseProgressive();
   if (isFullScreen())
     toggleFullscreen();

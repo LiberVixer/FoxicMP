@@ -87,6 +87,13 @@ SDK 1.82 и Classic могут не иметь этого поля; наличи
 что EXE уже содержит исправление.
 
 stop/close терминальны для объекта. close отменяет только этот preview, не download.
+Пока resource не завершён, writer явно обновляет heartbeat в пределах 30 s,
+включая ручную паузу просмотра. Чтение status не продлевает срок. В нынешнем
+ограниченном режиме timeout завершает попытку с `writer-heartbeat-timeout`,
+сохраняя оригинал; он не подтверждает смерть writer и не является EOF.
+Завершённый resource больше не требует heartbeat. Поздние события не оживляют
+старую попытку: после close/forget нужна новая явная prepare/play —
+[проверки трёх редакций и исправление paused Qt reader](ProgressiveContinuousHeartbeat.md).
 Обычный readerRelease output reader также закрывает принадлежащий ему просмотр;
 первый ответ консервативен, фактический proof получают через readerStatus.
 readerForget после подтверждения совместим с последующим continuousRemuxForget.

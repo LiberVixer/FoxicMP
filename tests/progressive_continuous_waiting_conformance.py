@@ -102,17 +102,16 @@ def exercise_owned(peers, root, report, owned):
 
     def playback(sdk):
         sdk.heartbeat()
+        other.heartbeat()
         value = sdk.playback_status()
         assert value['active'] and value['state'] not in ('error', 'closed', 'finished'), value
-        if value['state'] != 'opening':
-            assert value['decoderReaders'] > 0, value
         return value
 
     def ready(sdk):
         return wait(lambda: (lambda s: s if s['playbackReady'] else None)(preparation(sdk)), 'wait-suite preparation')
 
     def playing(sdk, minimum=.2):
-        return wait(lambda: (lambda s: s if s['state']=='playing' and s['positionSeconds']>minimum else None)(playback(sdk)), 'wait-suite actual playback')
+        return wait(lambda: (lambda s: s if s['state']=='playing' and s['positionSeconds']>minimum and s['decoderReaders']>0 else None)(playback(sdk)), 'wait-suite actual playback')
 
     def tail(sdk, maximum):
         position = -1
@@ -121,6 +120,7 @@ def exercise_owned(peers, root, report, owned):
         def stalled():
             nonlocal position, changed
             value = playback(sdk)
+            assert value['decoderReaders']>0, value
             assert not value['outputComplete'] and value['positionSeconds'] < maximum, value
             if abs(value['positionSeconds']-position) > .02:
                 position = value['positionSeconds']

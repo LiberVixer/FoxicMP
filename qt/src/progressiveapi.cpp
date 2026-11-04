@@ -185,7 +185,7 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
         next->producerError=continuousRemux->errorObserver(c.jobId);
         if(window->hasPlayback() && !c.replace)return failure("session_busy","Playback replacement must be explicit");
         next->committing=true;
-        next->uri=window->openContinuousSource(next->source,double(next->duration)/10000000.,QString::fromStdString(c.title),[observe=next->output]{return observe().complete;}).toStdString();
+        next->uri=window->openContinuousSource(next->source,double(next->duration)/10000000.,QString::fromStdString(c.title),[observe=next->output]{return observe().complete;},[observe=next->producerError]{return QString::fromStdString(observe());}).toStdString();
         next->committing=false;continuousPlayback=next;
         if(next->uri.empty()){next->error="continuous-start-failed";next->closed=true;continuousRemux->cancelPlaybackJob(c.jobId);}
         if(c.activate)window->restoreFromTray();return continuousStatus();

@@ -780,3 +780,19 @@ Linux обновлён атомарно с backup, сохранены INI и 278
 Classic ранее уже подтверждал buffering; новый optional Qt reasonCode не объявлен
 обязательным полем Classic/SDK. Следом идут heartbeat expiry, shutdown/crash и
 длительная stress matrix. Полное ТЗ и общая межформатная reasonCodes приёмка открыты.
+
+
+4 ноября 2026, [continuous writer heartbeat](ProgressiveContinuousHeartbeat.md):
+по пять публичных SDK сценариев Linux Qt, Windows Qt и Classic с настоящим сроком
+30000 ms. Status и чужие события не продлевают writer; timeout отличается от EOF,
+поздние события отклоняются; complete допускает паузу без heartbeat. В общем Qt
+исправлено удержание output reader декодером на ручной паузе после producer error;
+новый Window/API тест проверяет освобождение без playback status/control.
+[Отчёт и точные exit codes](ProgressiveContinuousHeartbeatValidation-2026-11-04.json).
+Windows Qt: 12 групп exit 0. Первый исправленный Linux full run: exit 8, включая
+ошибку waiting-стенда и превышение 2 s release на паузе; итоговые heartbeat/waiting
+повторы прошли, но причина единичного превышения остаётся открытой. Следом —
+локализация Linux release latency, shutdown/crash и stress. Linux обновлён атомарно
+с backup без изменения профиля; Windows-установки, 158 shell entries и Harvester
+сохранены. Одноразовая тестовая задача удалена; периодические не создавались.
+Полная reconnect/resume и общая приёмка ТЗ не объявляются завершёнными.

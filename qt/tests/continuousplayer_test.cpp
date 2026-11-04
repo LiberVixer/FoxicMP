@@ -72,7 +72,7 @@ private slots:
   }
   void windowClose_data(){
     QTest::addColumn<QString>("mode");
-    for(const auto* mode:{"close-window","destroy-api-before-window","reader-release","reader-release-held-reader","delayed-reader-release","delayed-reader-release-replace","waiting-status"})QTest::newRow(mode)<<QString(mode);
+    for(const auto* mode:{"close-window","destroy-api-before-window","reader-release","reader-release-held-reader","delayed-reader-release","delayed-reader-release-replace","waiting-status","producer-error-paused"})QTest::newRow(mode)<<QString(mode);
   }
   void windowClose(){
     QFETCH(QString,mode);QTemporaryDir dir;QVERIFY(dir.isValid());const auto profilePath=dir.filePath("profile");
@@ -89,6 +89,23 @@ private slots:
     auto playing=api->request({{"version",1},{"action","continuousRemuxPlay"},{"requestId",QString::fromStdString(p::lease_detail::RandomId())},{"jobId",job["jobId"]},{"sessionId",sid},{"generation","1"},{"writerInstanceId",writer}});QVERIFY(playing["ok"].toBool());
     QTRY_VERIFY_WITH_TIMEOUT(player->get("time-pos").toDouble()>.1,10000);const auto nativeClosed=player->lifetime->closed;
     const QJsonObject playbackQuery{{"version",1},{"action","continuousPlaybackStatus"},{"playbackId",playing["playbackId"]}};
+    if(mode=="producer-error-paused"){
+      QVERIFY(api->request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",playing["playbackId"]},{"command","pause"}})["ok"].toBool());
+      QTRY_VERIFY(player->get("pause").toBool());
+      auto failed=model;failed["revision"]="2";
+      auto tracks=failed["tracks"].toArray();auto track=tracks[0].toObject();track["state"]="failed";tracks[0]=track;failed["tracks"]=tracks;
+      QVERIFY(api->request({{"version",1},{"action","continuousRemuxUpdate"},{"jobId",job["jobId"]},{"session",failed}})["ok"].toBool());
+      // No playback status/control/readerRelease while waiting: the GUI must
+      // notice the failure and detach a paused mpv reader on its own.
+      QTRY_COMPARE_WITH_TIMEOUT(api->continuousPlayback->output().activeReaders,size_t(0),2000);
+      QTRY_VERIFY_WITH_TIMEOUT(api->request(query)["released"].toBool(),2000);
+      const auto stopped=api->request(playbackQuery);
+      QCOMPARE(stopped["state"].toString(),QString("error"));
+      QCOMPARE(stopped["reasonCode"].toString(),QString("writer-failed"));
+      QVERIFY(!stopped["active"].toBool());
+      auto* label=window->findChild<QLabel*>("playbackStatus");QVERIFY(label);
+      QTRY_VERIFY_WITH_TIMEOUT(label->text().contains("writer-failed"),2000);
+    }
     if(mode=="waiting-status"){
       auto* label=window->findChild<QLabel*>("playbackStatus");QVERIFY(label);
       QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString(),QString("playing"),5000);
