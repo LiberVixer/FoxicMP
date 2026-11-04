@@ -144,7 +144,7 @@ SDK 1.81 добавляет [явный sparse RF64 PCM16/24 playback](docs/Prog
 [Переход к итоговому файлу](docs/ProgressiveFinalFileTransition.md): active rename, защита от подмены старого пути, естественный EOF и открытие итогового имени проверены для RF64 во всех трёх редакциях.
 [Десятиминутный прогон](docs/ProgressiveSoakPlayback.md): два растущих RF64 на редакцию, паузы загрузчика 10/30/60 s и заранее заданные бюджеты ресурсов; измерения и графики опубликованы.
 [Длительное видео и remux-регрессия](docs/ProgressiveVideoSoakPlayback.md): десять минут fMP4/MPEG-TS во всех редакциях; исправлен отказ при 129 inline SHA-блоках, сохранены исходные лимиты безопасности и бюджеты.
-[Непрерывный remux — внутренние компоненты](docs/ProgressiveContinuousRemux.md): incremental fMP4 и управляющий слой с проверкой исходника/heartbeat/reader leases проверены на Windows/Linux; cache и подключение к публичному API плееров остаются отдельными этапами.
+[Непрерывный remux — внутренние компоненты](docs/ProgressiveContinuousRemux.md): incremental fMP4, управляющий слой и ограниченный cache с SHA/reader leases проверены на Windows/Linux; подключение к декодерам и публичному API плееров остаётся отдельным этапом.
 ZIP содержит SDK без EXE/установщиков. Общий remux, произвольные sparse media
 и оставшаяся приёмка перечислены в [чеклисте](docs/ProgressiveCompletionChecklist.md).
 SDK 1.38 добавляет [сегменты WebM VP8/VP9/AV1 с Opus](docs/ProgressiveWebmSegments.md), включая постраничный каталог, в трёх редакциях. Требуются новые EXE; SDK содержит клиент и документацию.

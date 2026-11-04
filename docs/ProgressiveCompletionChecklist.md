@@ -50,6 +50,8 @@
 
 - [x] Внутренний управляемый continuous-remux parent: отдельный поток, ResourceSource/SHA/ranges, writer/session identity, heartbeat/errors, Windows Job, раздельные lifetime/pipe deadlines и source leases. По 17 native сценариев GCC/MinGW/MSVC/ASan-UBSan; исправлен worker-death wait, повторена совместимость обычного remux API всех трёх редакций, Linux обновлён с backup. [Отчёт](ProgressiveContinuousRemuxParentValidation-2026-11-04.json). Output cache, decoder reader group, playback bridges и публичный API этим не закрыты.
 
+- [x] Ограниченный внутренний output store непрерывного remux: private disk cache/shared budget, atomic moov/moof+mdat visibility, FragmentIndex, SHA on read, original/output reader leases и cleanup после подтверждённого close. По 31 сценарию GCC/MinGW/MSVC/ASan-UBSan, включая cross-process readers, очередь retirement с пределом 16 store, quotas, corruption, worker crash, cancel и 600 packet/frame hashes — [отчёт](ProgressiveContinuousRemuxCacheValidation-2026-11-04.json). Это native component: настоящие decoder/API adapters, orphan recovery после перезапуска и общая cache/crash matrix ещё открыты; main EXE/SDK не менялись.
+
 - [ ] Проверенные backend demuxers через управляемый local I/O; платформенные адаптеры Qt/Classic.
 - [ ] Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей.
 - [ ] Явные native-progressive, progressive-remux, waiting, post-download и unsupported результаты.

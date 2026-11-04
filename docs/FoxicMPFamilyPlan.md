@@ -625,3 +625,16 @@ lifetime/pipe deadlines, Windows Job и закрытие source до receipt. П
 с backup и сохранением профиля. Это внутренняя подготовка: cache/decoder readers,
 непрерывный playback bridge и публичная capability/SDK ещё не подключены;
 Harvester и Windows установки не изменены.
+
+
+4 ноября 2026, следующий внутренний этап: [ограниченный выходной cache
+continuous-remux](ProgressiveContinuousRemux.md) связан с managed parent.
+Полные fMP4 fragments проверяются FragmentIndex и публикуются отдельно от
+незавершённых bytes; private disk budget ≤64 MiB, SHA на чтении, независимые
+reader leases, original + cross-process output receipt gates перед удалением.
+Владелец очереди удерживает до 16 активных/retired store и повторяет cleanup
+после закрытия внешних readers без периодических таймеров.
+По 31 native сценарию GCC/MinGW/MSVC/ASan-UBSan — [отчёт](ProgressiveContinuousRemuxCacheValidation-2026-11-04.json).
+GUI/decoder adapters и публичный API ещё не подключены; orphan recovery и полная
+cache/crash matrix открыты. Main EXE всех трёх редакций/установленный Linux EXE
+не изменились, новая поставка не создаётся. Harvester не меняется.

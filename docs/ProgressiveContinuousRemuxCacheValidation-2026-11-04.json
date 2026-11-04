@@ -1,0 +1,5610 @@
+{
+  "result": "PASS",
+  "date": "2026-11-04",
+  "applicationVersion": "0.2.0",
+  "publicSdkVersion": "1.81",
+  "scope": {
+    "internalCache": true,
+    "retirementOwnerQueue": true,
+    "managedWorkerIntegrated": true,
+    "nativeReaderIntegrated": true,
+    "realDecoderAdapterIntegrated": false,
+    "publicPlayerCapability": false,
+    "harvesterModified": false,
+    "mainExecutablesChanged": false,
+    "newPlayerInstallation": false,
+    "orphanRecoveryComplete": false,
+    "physicalAvSyncMeasured": false
+  },
+  "sourceSha256": {
+    "shared/progressivestreamcache.h": "ea3abe327d6c67cf3df2686bec6d7eb90560d3ebf53d6a30fc43d83c791a7325",
+    "shared/progressivecachedremux.h": "c852ff418ad3d523ca67fc9ce3a89aaa6375b1a4a98786afcc8713796a77eb78",
+    "tests/progressive_stream_cache_cli.cpp": "40685a5d7355c665bb81f8fbda3223f5380271109c3018aedcfc9afe29f4c9b6",
+    "tests/progressive_stream_cache_test.py": "6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902",
+    "qt/CMakeLists.txt": "d7c29cea0370066c2d2b3f6ff3c9bc61ced728a06b162fb251e30132e7bd6efc"
+  },
+  "exactExitCodes": {
+    "stream-cache-linux-build": 0,
+    "stream-cache-linux-direct": 0,
+    "stream-cache-linux-tests": 0,
+    "stream-cache-linux-final-tests": 0,
+    "stream-cache-windows-build": 0,
+    "stream-cache-windows-tests": 0,
+    "stream-cache-windows-ssh": 0,
+    "stream-cache-windows-regression": 0,
+    "stream-cache-windows-regression-ssh": 0,
+    "stream-cache-msvc-build": 0,
+    "stream-cache-msvc-tests": 0,
+    "stream-cache-msvc-ssh": 0,
+    "stream-cache-asan-build": 0,
+    "stream-cache-asan-tests": 0,
+    "stream-cache-asan-run": 0,
+    "stream-cache-final-state-ssh": 0
+  },
+  "nativeCache": {
+    "linux-gcc": {
+      "result": "PASS",
+      "count": 31,
+      "rows": [
+        {
+          "profile": "atomic-fragments-two-readers",
+          "result": "PASS",
+          "observations": [
+            {
+              "written": 1,
+              "visible": 0
+            },
+            {
+              "written": 7,
+              "visible": 0
+            },
+            {
+              "written": 8,
+              "visible": 0
+            },
+            {
+              "written": 23,
+              "visible": 0
+            },
+            {
+              "written": 24,
+              "visible": 0
+            },
+            {
+              "written": 25,
+              "visible": 0
+            },
+            {
+              "written": 31,
+              "visible": 0
+            },
+            {
+              "written": 791,
+              "visible": 0
+            },
+            {
+              "written": 792,
+              "visible": 792
+            },
+            {
+              "written": 793,
+              "visible": 792
+            },
+            {
+              "written": 799,
+              "visible": 792
+            },
+            {
+              "written": 995,
+              "visible": 792
+            },
+            {
+              "written": 996,
+              "visible": 792
+            },
+            {
+              "written": 997,
+              "visible": 792
+            },
+            {
+              "written": 1003,
+              "visible": 792
+            },
+            {
+              "written": 17889,
+              "visible": 792
+            },
+            {
+              "written": 17890,
+              "visible": 17890
+            },
+            {
+              "written": 17891,
+              "visible": 17890
+            },
+            {
+              "written": 17897,
+              "visible": 17890
+            },
+            {
+              "written": 18093,
+              "visible": 17890
+            },
+            {
+              "written": 18094,
+              "visible": 17890
+            },
+            {
+              "written": 18095,
+              "visible": 17890
+            },
+            {
+              "written": 18101,
+              "visible": 17890
+            },
+            {
+              "written": 34967,
+              "visible": 17890
+            },
+            {
+              "written": 34968,
+              "visible": 34968
+            },
+            {
+              "written": 34969,
+              "visible": 34968
+            },
+            {
+              "written": 34975,
+              "visible": 34968
+            },
+            {
+              "written": 35171,
+              "visible": 34968
+            },
+            {
+              "written": 35172,
+              "visible": 34968
+            },
+            {
+              "written": 35173,
+              "visible": 34968
+            },
+            {
+              "written": 35179,
+              "visible": 34968
+            },
+            {
+              "written": 54750,
+              "visible": 34968
+            },
+            {
+              "written": 54751,
+              "visible": 54751
+            },
+            {
+              "written": 446271,
+              "visible": 445767
+            }
+          ],
+          "samples": 600,
+          "receiptCount": 2,
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/atomic/remux-9b799f284f0350b891edbfcfeafee166/output.fmp4"
+          }
+        },
+        {
+          "profile": "external-output-physical-binding",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/external-output/remux-a7e6a0a524409ba4037c2d8d0fd48a63/output.fmp4"
+          }
+        },
+        {
+          "profile": "original-receipt-gates-retirement",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/original-group/remux-d083fcddbd63b0951202ec408d39535b/output.fmp4"
+          }
+        },
+        {
+          "profile": "truncated-box",
+          "result": "PASS",
+          "expectedCode": "cache-incomplete-output",
+          "final": {
+            "ok": true,
+            "written": 17889,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-incomplete-output",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/truncated-box/remux-feda258a246db49e92fc3d0e9c2870a6/output.fmp4"
+          }
+        },
+        {
+          "profile": "rewrite",
+          "result": "PASS",
+          "expectedCode": "cache-integrity-mismatch",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/rewrite/remux-e3f0f94fb8db7181ad0fbe27d0e8ca70/output.fmp4"
+          }
+        },
+        {
+          "profile": "truncate",
+          "result": "PASS",
+          "expectedCode": "cache-size-changed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-size-changed",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/truncate/remux-844e4ed98b05e290a0e2ae9e4238e8e9/output.fmp4"
+          }
+        },
+        {
+          "profile": "producer-error",
+          "result": "PASS",
+          "expectedCode": "writer-failed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/producer-error/remux-867fbf59cc11fbcbfc5e2cdf6fd665d2/output.fmp4"
+          }
+        },
+        {
+          "profile": "injected-disk-full",
+          "result": "PASS",
+          "expectedCode": "cache-disk-full",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-disk-full",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/injected-disk-full/remux-244a58fe9e29b515f0d3a941fb43d181/output.fmp4"
+          }
+        },
+        {
+          "profile": "zero-size",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/zero-size/remux-91a02ec2021a6f75c6cb0d6a80c3626b/output.fmp4"
+          }
+        },
+        {
+          "profile": "oversize",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/oversize/remux-ac37ce46d975dd9623ef3f90f62e2959/output.fmp4"
+          }
+        },
+        {
+          "profile": "unknown-atom",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/unknown-atom/remux-a93c6da983ca36c3c90350017b456053/output.fmp4"
+          }
+        },
+        {
+          "profile": "orphan-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/orphan-mdat/remux-0fca062a55fe091a38bce0cd56857699/output.fmp4"
+          }
+        },
+        {
+          "profile": "moov-without-ftyp",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/moov-without-ftyp/remux-48f2e332e50748e23679e0732da23683/output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-count",
+          "result": "PASS",
+          "expectedCode": "cache-sample-limit",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-sample-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/sample-count/remux-d579fd4c3247cd4f3b82b194ec9291f9/output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-outside-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/sample-outside-mdat/remux-03ecb26b267975631f7822ceacdae189/output.fmp4"
+          }
+        },
+        {
+          "profile": "wrong-offset",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/wrong-offset/remux-060a93213652a7f4d1da6b6fb7f237f1/output.fmp4"
+          }
+        },
+        {
+          "profile": "empty",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/empty/remux-fbf4e3dff25fbdc996d237c8f8b91ec2/output.fmp4"
+          }
+        },
+        {
+          "profile": "output-limit",
+          "result": "PASS",
+          "expectedCode": "cache-output-limit",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/output-limit/remux-6f1d091062fb1ca4199768fd7a1921f0/output.fmp4"
+          }
+        },
+        {
+          "profile": "chunk-limit",
+          "result": "PASS",
+          "expectedCode": "cache-chunk-limit",
+          "final": {
+            "ok": true,
+            "written": 8199,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-chunk-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/chunk-limit/remux-d82546e8408337a1442be14beb90431b/output.fmp4"
+          }
+        },
+        {
+          "profile": "shared-budget-two-stores",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/budget-a/remux-15a3f79c23bbe7b07cc34260c7560640/output.fmp4"
+          }
+        },
+        {
+          "profile": "replacement-is-not-deleted",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/path-poison/remux-33f7f625a90bdfb382322a75e5f2b2f1/output.fmp4"
+          }
+        },
+        {
+          "profile": "owner-drop-retains-local-reader",
+          "result": "PASS",
+          "cacheRemovedAfterLastClose": true
+        },
+        {
+          "profile": "reader-limit-128",
+          "result": "PASS",
+          "readerReceipts": 128,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/reader-limit/remux-320c12f094a53fb487855016136c86f8/output.fmp4"
+          }
+        },
+        {
+          "profile": "managed-worker-cache-readers",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 1,
+            "budgetBytes": 446271,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/managed-cache/remux-34cdd366553ca1ccbf805a2528a1d561/output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"476007\",\"bytesWritten\":\"446271\",\"sha256\":\"1a94309292f60cf91fae9dd0104932c0acf310c405b90009afbb71b8fed4fe65\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "602f22c16ffab84148522583e0a84a02"
+            ],
+            "workerId": 1086422
+          },
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/managed-cache/remux-34cdd366553ca1ccbf805a2528a1d561/output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"476007\",\"bytesWritten\":\"446271\",\"sha256\":\"1a94309292f60cf91fae9dd0104932c0acf310c405b90009afbb71b8fed4fe65\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "602f22c16ffab84148522583e0a84a02"
+            ],
+            "workerId": 1086422
+          },
+          "packets": 600,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "managed-worker-crash",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/managed-worker-crash/remux-76e63faa321d6aebfda6659e42a49bfb/output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "36cb6b5ef525f81f75292085ffe1ecef"
+            ],
+            "workerId": 1086475
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/managed-worker-crash/remux-76e63faa321d6aebfda6659e42a49bfb/output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "36cb6b5ef525f81f75292085ffe1ecef"
+            ],
+            "workerId": 1086475
+          }
+        },
+        {
+          "profile": "managed-cache-corruption",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/managed-cache-corruption/remux-a042ffc26069d58387f4c0a2bfb32d7f/output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "e3ba6f9b395723bb32e1a6b52d02f412"
+            ],
+            "workerId": 1086479
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/managed-cache-corruption/remux-a042ffc26069d58387f4c0a2bfb32d7f/output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "e3ba6f9b395723bb32e1a6b52d02f412"
+            ],
+            "workerId": 1086479
+          }
+        },
+        {
+          "profile": "managed-writer-failed",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "writer-failed",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/managed-writer-failed/remux-1ecf1a6760e6547dd37d677d9c79bffb/output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "5a0c28282378dd648308732e4f9be800"
+            ],
+            "workerId": 1086483
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/managed-writer-failed/remux-1ecf1a6760e6547dd37d677d9c79bffb/output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "5a0c28282378dd648308732e4f9be800"
+            ],
+            "workerId": 1086483
+          }
+        },
+        {
+          "profile": "managed-cache-quota",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-output-limit",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/managed-cache-quota/remux-85abf4a7aa18cbc0b83c35f624dd6f95/output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "3accc569b1f6c6f9950d50ce8d9f83d0"
+            ],
+            "workerId": 1086489
+          },
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/managed-cache-quota/remux-85abf4a7aa18cbc0b83c35f624dd6f95/output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "3accc569b1f6c6f9950d50ce8d9f83d0"
+            ],
+            "workerId": 1086489
+          }
+        },
+        {
+          "profile": "retired-session-external-reader-owner-queue",
+          "result": "PASS",
+          "pending": {
+            "ok": true,
+            "removed": 0,
+            "count": 1,
+            "bytes": 133085
+          },
+          "cleared": {
+            "ok": true,
+            "removed": 1,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "owner-session-limit-16",
+          "result": "PASS",
+          "cleared": {
+            "ok": true,
+            "removed": 0,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "cancel-wakes-decoder-wait",
+          "result": "PASS",
+          "elapsedSeconds": 0.050119658990297467,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-mralu722/cancel-cache/remux-b64c0707f8e57e6a27d4f126a5a30503/output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [],
+            "workerId": 1086512
+          }
+        }
+      ],
+      "cacheOnly": true,
+      "publicPlayerCapability": false,
+      "temporaryWorkRemoved": true,
+      "runnerSha256": "d919cf14a5b928081624c705d5a81f45f75a607d8e8aa4771d8cbce5872b6525",
+      "workerSha256": "e6420d9d98462712ea2ad43c9f78e3227d113dd313138230120586b658de4a49",
+      "testSourceSha256": "6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902"
+    },
+    "windows-mingw": {
+      "result": "PASS",
+      "count": 31,
+      "rows": [
+        {
+          "profile": "atomic-fragments-two-readers",
+          "result": "PASS",
+          "observations": [
+            {
+              "written": 1,
+              "visible": 0
+            },
+            {
+              "written": 7,
+              "visible": 0
+            },
+            {
+              "written": 8,
+              "visible": 0
+            },
+            {
+              "written": 23,
+              "visible": 0
+            },
+            {
+              "written": 24,
+              "visible": 0
+            },
+            {
+              "written": 25,
+              "visible": 0
+            },
+            {
+              "written": 31,
+              "visible": 0
+            },
+            {
+              "written": 790,
+              "visible": 0
+            },
+            {
+              "written": 791,
+              "visible": 791
+            },
+            {
+              "written": 792,
+              "visible": 791
+            },
+            {
+              "written": 798,
+              "visible": 791
+            },
+            {
+              "written": 994,
+              "visible": 791
+            },
+            {
+              "written": 995,
+              "visible": 791
+            },
+            {
+              "written": 996,
+              "visible": 791
+            },
+            {
+              "written": 1002,
+              "visible": 791
+            },
+            {
+              "written": 17889,
+              "visible": 791
+            },
+            {
+              "written": 17890,
+              "visible": 17890
+            },
+            {
+              "written": 17891,
+              "visible": 17890
+            },
+            {
+              "written": 17897,
+              "visible": 17890
+            },
+            {
+              "written": 18093,
+              "visible": 17890
+            },
+            {
+              "written": 18094,
+              "visible": 17890
+            },
+            {
+              "written": 18095,
+              "visible": 17890
+            },
+            {
+              "written": 18101,
+              "visible": 17890
+            },
+            {
+              "written": 34967,
+              "visible": 17890
+            },
+            {
+              "written": 34968,
+              "visible": 34968
+            },
+            {
+              "written": 34969,
+              "visible": 34968
+            },
+            {
+              "written": 34975,
+              "visible": 34968
+            },
+            {
+              "written": 35171,
+              "visible": 34968
+            },
+            {
+              "written": 35172,
+              "visible": 34968
+            },
+            {
+              "written": 35173,
+              "visible": 34968
+            },
+            {
+              "written": 35179,
+              "visible": 34968
+            },
+            {
+              "written": 54750,
+              "visible": 34968
+            },
+            {
+              "written": 54751,
+              "visible": 54751
+            },
+            {
+              "written": 446271,
+              "visible": 445767
+            }
+          ],
+          "samples": 600,
+          "receiptCount": 2,
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\atomic\\remux-f88155ea0e8a17cc7c3e085993fc8e37\\output.fmp4"
+          }
+        },
+        {
+          "profile": "external-output-physical-binding",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\external-output\\remux-f8a4bdc5650d469db8e0c25e98916abe\\output.fmp4"
+          }
+        },
+        {
+          "profile": "original-receipt-gates-retirement",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\original-group\\remux-e7cbc9828ca23fc6856aa0fa47a592bc\\output.fmp4"
+          }
+        },
+        {
+          "profile": "truncated-box",
+          "result": "PASS",
+          "expectedCode": "cache-incomplete-output",
+          "final": {
+            "ok": true,
+            "written": 17889,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-incomplete-output",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\truncated-box\\remux-da9df9d8aa9e6c14237377791b948ddb\\output.fmp4"
+          }
+        },
+        {
+          "profile": "rewrite",
+          "result": "PASS",
+          "expectedCode": "cache-integrity-mismatch",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\rewrite\\remux-f1c77647021efa17b399cefd5e049c32\\output.fmp4"
+          }
+        },
+        {
+          "profile": "truncate",
+          "result": "PASS",
+          "expectedCode": "cache-size-changed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-size-changed",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\truncate\\remux-167c9d47e0aaa3c17c613c18822e2e6a\\output.fmp4"
+          }
+        },
+        {
+          "profile": "producer-error",
+          "result": "PASS",
+          "expectedCode": "writer-failed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\producer-error\\remux-595780669611d51bf1e18165c6f32455\\output.fmp4"
+          }
+        },
+        {
+          "profile": "injected-disk-full",
+          "result": "PASS",
+          "expectedCode": "cache-disk-full",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-disk-full",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\injected-disk-full\\remux-154325ab2a7660b4b738ae5af6edf488\\output.fmp4"
+          }
+        },
+        {
+          "profile": "zero-size",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\zero-size\\remux-13c1ffd25efb4ba50f6549bdd31fff5f\\output.fmp4"
+          }
+        },
+        {
+          "profile": "oversize",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\oversize\\remux-0d4342c5f0515de3cebe56a74f3be70f\\output.fmp4"
+          }
+        },
+        {
+          "profile": "unknown-atom",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\unknown-atom\\remux-0da7696ea637ed17c930457817d5e54f\\output.fmp4"
+          }
+        },
+        {
+          "profile": "orphan-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\orphan-mdat\\remux-791aaab30dce3b1e3dfb5d712d1de995\\output.fmp4"
+          }
+        },
+        {
+          "profile": "moov-without-ftyp",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\moov-without-ftyp\\remux-37e1971b46dacf48b5357a41d6ea04fd\\output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-count",
+          "result": "PASS",
+          "expectedCode": "cache-sample-limit",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-sample-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\sample-count\\remux-f524cf7c0ee6129c7ad4fc939629a543\\output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-outside-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\sample-outside-mdat\\remux-0d93eeb42fe72cd2c192dfb926a6bd88\\output.fmp4"
+          }
+        },
+        {
+          "profile": "wrong-offset",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\wrong-offset\\remux-2cf78c443fc1f874cf8d18dfcc2b02e5\\output.fmp4"
+          }
+        },
+        {
+          "profile": "empty",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\empty\\remux-3f5cf0d59a1284e7ac2c5ad9b239144c\\output.fmp4"
+          }
+        },
+        {
+          "profile": "output-limit",
+          "result": "PASS",
+          "expectedCode": "cache-output-limit",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\output-limit\\remux-8044684014b048f195292d484f7985fa\\output.fmp4"
+          }
+        },
+        {
+          "profile": "chunk-limit",
+          "result": "PASS",
+          "expectedCode": "cache-chunk-limit",
+          "final": {
+            "ok": true,
+            "written": 8199,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-chunk-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\chunk-limit\\remux-04f3f848144e05525bdfc6b2b0300227\\output.fmp4"
+          }
+        },
+        {
+          "profile": "shared-budget-two-stores",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\budget-a\\remux-8b30e1bae5df0195634c8016f0d3044a\\output.fmp4"
+          }
+        },
+        {
+          "profile": "replacement-is-not-deleted",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\path-poison\\remux-aecb67deb80cc0ade71829c69761a226\\output.fmp4"
+          }
+        },
+        {
+          "profile": "owner-drop-retains-local-reader",
+          "result": "PASS",
+          "cacheRemovedAfterLastClose": true
+        },
+        {
+          "profile": "reader-limit-128",
+          "result": "PASS",
+          "readerReceipts": 128,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\reader-limit\\remux-5126490b0f3eb5f3da899a48f957c40c\\output.fmp4"
+          }
+        },
+        {
+          "profile": "managed-worker-cache-readers",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 1,
+            "budgetBytes": 446271,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\managed-cache\\remux-d6b327c042d90199817442fb334cb44a\\output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"443235\",\"bytesWritten\":\"446271\",\"sha256\":\"d5b731d9db1b51ffd1f695dce16c069f09fc1bfcf3fe7e48141442e6c0a401df\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "faf598a1e0afed5c52ee312d3167c04b"
+            ],
+            "workerId": 12412
+          },
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\managed-cache\\remux-d6b327c042d90199817442fb334cb44a\\output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"443235\",\"bytesWritten\":\"446271\",\"sha256\":\"d5b731d9db1b51ffd1f695dce16c069f09fc1bfcf3fe7e48141442e6c0a401df\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "faf598a1e0afed5c52ee312d3167c04b"
+            ],
+            "workerId": 12412
+          },
+          "packets": 600,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "managed-worker-crash",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\managed-worker-crash\\remux-707d27fe261b7c217dc26262768b5f8b\\output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "3a87c0ebb68a5115e5935597e591b4e6"
+            ],
+            "workerId": 14568
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\managed-worker-crash\\remux-707d27fe261b7c217dc26262768b5f8b\\output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "3a87c0ebb68a5115e5935597e591b4e6"
+            ],
+            "workerId": 14568
+          }
+        },
+        {
+          "profile": "managed-cache-corruption",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\managed-cache-corruption\\remux-93a710f006aa68c5a33463197397441b\\output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "51d269e6ccd63d28cd84a8bbd8176a64"
+            ],
+            "workerId": 8884
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\managed-cache-corruption\\remux-93a710f006aa68c5a33463197397441b\\output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "51d269e6ccd63d28cd84a8bbd8176a64"
+            ],
+            "workerId": 8884
+          }
+        },
+        {
+          "profile": "managed-writer-failed",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "writer-failed",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\managed-writer-failed\\remux-b167452ce1985c1d9695d2db2d7322fd\\output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "d3626bf89cbeaeb81940ec74324c4b01"
+            ],
+            "workerId": 9580
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\managed-writer-failed\\remux-b167452ce1985c1d9695d2db2d7322fd\\output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "d3626bf89cbeaeb81940ec74324c4b01"
+            ],
+            "workerId": 9580
+          }
+        },
+        {
+          "profile": "managed-cache-quota",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-output-limit",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\managed-cache-quota\\remux-5e101d3b750a33bf22995138aa6c102e\\output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "4be54dd7f98ecb8deabc2668f1d31009"
+            ],
+            "workerId": 8524
+          },
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\managed-cache-quota\\remux-5e101d3b750a33bf22995138aa6c102e\\output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "4be54dd7f98ecb8deabc2668f1d31009"
+            ],
+            "workerId": 8524
+          }
+        },
+        {
+          "profile": "retired-session-external-reader-owner-queue",
+          "result": "PASS",
+          "pending": {
+            "ok": true,
+            "removed": 0,
+            "count": 1,
+            "bytes": 133085
+          },
+          "cleared": {
+            "ok": true,
+            "removed": 1,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "owner-session-limit-16",
+          "result": "PASS",
+          "cleared": {
+            "ok": true,
+            "removed": 0,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "cancel-wakes-decoder-wait",
+          "result": "PASS",
+          "elapsedSeconds": 0.02740980000817217,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-i7n31m1e\\cancel-cache\\remux-c3765c793e97faf4209585c5869e637c\\output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [],
+            "workerId": 6968
+          }
+        }
+      ],
+      "cacheOnly": true,
+      "publicPlayerCapability": false,
+      "temporaryWorkRemoved": true,
+      "runnerSha256": "4df44452f0447bd7666145c1ff0d258bbfa85575fa93e9891fb30b30fd70693f",
+      "workerSha256": "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+      "testSourceSha256": "6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902"
+    },
+    "windows-msvc": {
+      "result": "PASS",
+      "count": 31,
+      "rows": [
+        {
+          "profile": "atomic-fragments-two-readers",
+          "result": "PASS",
+          "observations": [
+            {
+              "written": 1,
+              "visible": 0
+            },
+            {
+              "written": 7,
+              "visible": 0
+            },
+            {
+              "written": 8,
+              "visible": 0
+            },
+            {
+              "written": 23,
+              "visible": 0
+            },
+            {
+              "written": 24,
+              "visible": 0
+            },
+            {
+              "written": 25,
+              "visible": 0
+            },
+            {
+              "written": 31,
+              "visible": 0
+            },
+            {
+              "written": 790,
+              "visible": 0
+            },
+            {
+              "written": 791,
+              "visible": 791
+            },
+            {
+              "written": 792,
+              "visible": 791
+            },
+            {
+              "written": 798,
+              "visible": 791
+            },
+            {
+              "written": 994,
+              "visible": 791
+            },
+            {
+              "written": 995,
+              "visible": 791
+            },
+            {
+              "written": 996,
+              "visible": 791
+            },
+            {
+              "written": 1002,
+              "visible": 791
+            },
+            {
+              "written": 17889,
+              "visible": 791
+            },
+            {
+              "written": 17890,
+              "visible": 17890
+            },
+            {
+              "written": 17891,
+              "visible": 17890
+            },
+            {
+              "written": 17897,
+              "visible": 17890
+            },
+            {
+              "written": 18093,
+              "visible": 17890
+            },
+            {
+              "written": 18094,
+              "visible": 17890
+            },
+            {
+              "written": 18095,
+              "visible": 17890
+            },
+            {
+              "written": 18101,
+              "visible": 17890
+            },
+            {
+              "written": 34967,
+              "visible": 17890
+            },
+            {
+              "written": 34968,
+              "visible": 34968
+            },
+            {
+              "written": 34969,
+              "visible": 34968
+            },
+            {
+              "written": 34975,
+              "visible": 34968
+            },
+            {
+              "written": 35171,
+              "visible": 34968
+            },
+            {
+              "written": 35172,
+              "visible": 34968
+            },
+            {
+              "written": 35173,
+              "visible": 34968
+            },
+            {
+              "written": 35179,
+              "visible": 34968
+            },
+            {
+              "written": 54750,
+              "visible": 34968
+            },
+            {
+              "written": 54751,
+              "visible": 54751
+            },
+            {
+              "written": 446271,
+              "visible": 445767
+            }
+          ],
+          "samples": 600,
+          "receiptCount": 2,
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\atomic\\remux-b7bfff845c53404d77d91c53aa0dbfa3\\output.fmp4"
+          }
+        },
+        {
+          "profile": "external-output-physical-binding",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\external-output\\remux-caf0bdc6109d451cc55bf9be45bd7a75\\output.fmp4"
+          }
+        },
+        {
+          "profile": "original-receipt-gates-retirement",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\original-group\\remux-ee2dfb6cfee8782515b5a86264bb8c42\\output.fmp4"
+          }
+        },
+        {
+          "profile": "truncated-box",
+          "result": "PASS",
+          "expectedCode": "cache-incomplete-output",
+          "final": {
+            "ok": true,
+            "written": 17889,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-incomplete-output",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\truncated-box\\remux-96dd6fb22b91a6b22f2f78af34ec2c30\\output.fmp4"
+          }
+        },
+        {
+          "profile": "rewrite",
+          "result": "PASS",
+          "expectedCode": "cache-integrity-mismatch",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\rewrite\\remux-9328c64dc00a876d822ab10adb6f83a0\\output.fmp4"
+          }
+        },
+        {
+          "profile": "truncate",
+          "result": "PASS",
+          "expectedCode": "cache-size-changed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-size-changed",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\truncate\\remux-485556c0030cf41b84cfd03f4c74db25\\output.fmp4"
+          }
+        },
+        {
+          "profile": "producer-error",
+          "result": "PASS",
+          "expectedCode": "writer-failed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\producer-error\\remux-a9828850a230a8e95076bd6e6ca80c04\\output.fmp4"
+          }
+        },
+        {
+          "profile": "injected-disk-full",
+          "result": "PASS",
+          "expectedCode": "cache-disk-full",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-disk-full",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\injected-disk-full\\remux-686acab069aa1a536535f13af8bc188c\\output.fmp4"
+          }
+        },
+        {
+          "profile": "zero-size",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\zero-size\\remux-99bd76acba3e4e6d4d5e05dc969439ca\\output.fmp4"
+          }
+        },
+        {
+          "profile": "oversize",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\oversize\\remux-e7d77c892f09f5878f5121be73d63a78\\output.fmp4"
+          }
+        },
+        {
+          "profile": "unknown-atom",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\unknown-atom\\remux-da82d25b636340b851ffb6dac850a869\\output.fmp4"
+          }
+        },
+        {
+          "profile": "orphan-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\orphan-mdat\\remux-d24ff3174bf139bc8b2d33e41906e72d\\output.fmp4"
+          }
+        },
+        {
+          "profile": "moov-without-ftyp",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\moov-without-ftyp\\remux-9d3a818b93f4b097188184b4e5e22d56\\output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-count",
+          "result": "PASS",
+          "expectedCode": "cache-sample-limit",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-sample-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\sample-count\\remux-b7c239cb2bb092a00d96b6041538226a\\output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-outside-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\sample-outside-mdat\\remux-972fa97f9c3b6a3ee59d524bab481f08\\output.fmp4"
+          }
+        },
+        {
+          "profile": "wrong-offset",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\wrong-offset\\remux-99dff3aef07007c365ba76141a561045\\output.fmp4"
+          }
+        },
+        {
+          "profile": "empty",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\empty\\remux-f9990a3e499abce23a56c7e49481a1a6\\output.fmp4"
+          }
+        },
+        {
+          "profile": "output-limit",
+          "result": "PASS",
+          "expectedCode": "cache-output-limit",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\output-limit\\remux-e98ea274f5b59d2cfb3c8ce805313c3a\\output.fmp4"
+          }
+        },
+        {
+          "profile": "chunk-limit",
+          "result": "PASS",
+          "expectedCode": "cache-chunk-limit",
+          "final": {
+            "ok": true,
+            "written": 8199,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-chunk-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\chunk-limit\\remux-d1c4276d44ec0edc905cba94a2a3665f\\output.fmp4"
+          }
+        },
+        {
+          "profile": "shared-budget-two-stores",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\budget-a\\remux-28bcd63fb13091abd9b49be6d84f4d35\\output.fmp4"
+          }
+        },
+        {
+          "profile": "replacement-is-not-deleted",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\path-poison\\remux-662952420bd42914e92f43789ffab8a9\\output.fmp4"
+          }
+        },
+        {
+          "profile": "owner-drop-retains-local-reader",
+          "result": "PASS",
+          "cacheRemovedAfterLastClose": true
+        },
+        {
+          "profile": "reader-limit-128",
+          "result": "PASS",
+          "readerReceipts": 128,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\reader-limit\\remux-d3cd7e401f22c2fa67368e9885349485\\output.fmp4"
+          }
+        },
+        {
+          "profile": "managed-worker-cache-readers",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 1,
+            "budgetBytes": 446271,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\managed-cache\\remux-9d9f1d0df26159ccba58a27dff6cff23\\output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"443235\",\"bytesWritten\":\"446271\",\"sha256\":\"d5b731d9db1b51ffd1f695dce16c069f09fc1bfcf3fe7e48141442e6c0a401df\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "e59184785f44932255e7b7f62a600abe"
+            ],
+            "workerId": 11588
+          },
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\managed-cache\\remux-9d9f1d0df26159ccba58a27dff6cff23\\output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"443235\",\"bytesWritten\":\"446271\",\"sha256\":\"d5b731d9db1b51ffd1f695dce16c069f09fc1bfcf3fe7e48141442e6c0a401df\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "e59184785f44932255e7b7f62a600abe"
+            ],
+            "workerId": 11588
+          },
+          "packets": 600,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "managed-worker-crash",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\managed-worker-crash\\remux-602cd869b6b3c75a72021ea5bb088420\\output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "6bdc45dc0b220e38048f960bbc745060"
+            ],
+            "workerId": 4180
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\managed-worker-crash\\remux-602cd869b6b3c75a72021ea5bb088420\\output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "6bdc45dc0b220e38048f960bbc745060"
+            ],
+            "workerId": 4180
+          }
+        },
+        {
+          "profile": "managed-cache-corruption",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\managed-cache-corruption\\remux-1205a559f1ae4b9f7ab76bccb24a7fca\\output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "d5c0762da20c55d49f5f58d929d6cee0"
+            ],
+            "workerId": 12052
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\managed-cache-corruption\\remux-1205a559f1ae4b9f7ab76bccb24a7fca\\output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "d5c0762da20c55d49f5f58d929d6cee0"
+            ],
+            "workerId": 12052
+          }
+        },
+        {
+          "profile": "managed-writer-failed",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "writer-failed",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\managed-writer-failed\\remux-ad0a0353b81d1e0182fa87de88a8e645\\output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "8ca07158f4555977293dff5a1e085e1b"
+            ],
+            "workerId": 5860
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\managed-writer-failed\\remux-ad0a0353b81d1e0182fa87de88a8e645\\output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "8ca07158f4555977293dff5a1e085e1b"
+            ],
+            "workerId": 5860
+          }
+        },
+        {
+          "profile": "managed-cache-quota",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-output-limit",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\managed-cache-quota\\remux-62636ba6a53685bfeb4e2b19b1561adc\\output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "733072d16e253da26d96532fc8528c17"
+            ],
+            "workerId": 11796
+          },
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\managed-cache-quota\\remux-62636ba6a53685bfeb4e2b19b1561adc\\output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "733072d16e253da26d96532fc8528c17"
+            ],
+            "workerId": 11796
+          }
+        },
+        {
+          "profile": "retired-session-external-reader-owner-queue",
+          "result": "PASS",
+          "pending": {
+            "ok": true,
+            "removed": 0,
+            "count": 1,
+            "bytes": 133085
+          },
+          "cleared": {
+            "ok": true,
+            "removed": 1,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "owner-session-limit-16",
+          "result": "PASS",
+          "cleared": {
+            "ok": true,
+            "removed": 0,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "cancel-wakes-decoder-wait",
+          "result": "PASS",
+          "elapsedSeconds": 0.015000000013969839,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-o4cj3dq7\\cancel-cache\\remux-5b095ec0cc9fcf13b7efd6c4f0bf2adf\\output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [],
+            "workerId": 5752
+          }
+        }
+      ],
+      "cacheOnly": true,
+      "publicPlayerCapability": false,
+      "temporaryWorkRemoved": true,
+      "runnerSha256": "cc1963c77a3c8fa66baa606fea5b4817a3960ca488ff85bc55e74b2c9da17451",
+      "workerSha256": "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+      "testSourceSha256": "6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902"
+    },
+    "linux-asan-ubsan": {
+      "result": "PASS",
+      "count": 31,
+      "rows": [
+        {
+          "profile": "atomic-fragments-two-readers",
+          "result": "PASS",
+          "observations": [
+            {
+              "written": 1,
+              "visible": 0
+            },
+            {
+              "written": 7,
+              "visible": 0
+            },
+            {
+              "written": 8,
+              "visible": 0
+            },
+            {
+              "written": 23,
+              "visible": 0
+            },
+            {
+              "written": 24,
+              "visible": 0
+            },
+            {
+              "written": 25,
+              "visible": 0
+            },
+            {
+              "written": 31,
+              "visible": 0
+            },
+            {
+              "written": 791,
+              "visible": 0
+            },
+            {
+              "written": 792,
+              "visible": 792
+            },
+            {
+              "written": 793,
+              "visible": 792
+            },
+            {
+              "written": 799,
+              "visible": 792
+            },
+            {
+              "written": 995,
+              "visible": 792
+            },
+            {
+              "written": 996,
+              "visible": 792
+            },
+            {
+              "written": 997,
+              "visible": 792
+            },
+            {
+              "written": 1003,
+              "visible": 792
+            },
+            {
+              "written": 17889,
+              "visible": 792
+            },
+            {
+              "written": 17890,
+              "visible": 17890
+            },
+            {
+              "written": 17891,
+              "visible": 17890
+            },
+            {
+              "written": 17897,
+              "visible": 17890
+            },
+            {
+              "written": 18093,
+              "visible": 17890
+            },
+            {
+              "written": 18094,
+              "visible": 17890
+            },
+            {
+              "written": 18095,
+              "visible": 17890
+            },
+            {
+              "written": 18101,
+              "visible": 17890
+            },
+            {
+              "written": 34967,
+              "visible": 17890
+            },
+            {
+              "written": 34968,
+              "visible": 34968
+            },
+            {
+              "written": 34969,
+              "visible": 34968
+            },
+            {
+              "written": 34975,
+              "visible": 34968
+            },
+            {
+              "written": 35171,
+              "visible": 34968
+            },
+            {
+              "written": 35172,
+              "visible": 34968
+            },
+            {
+              "written": 35173,
+              "visible": 34968
+            },
+            {
+              "written": 35179,
+              "visible": 34968
+            },
+            {
+              "written": 54750,
+              "visible": 34968
+            },
+            {
+              "written": 54751,
+              "visible": 54751
+            },
+            {
+              "written": 446271,
+              "visible": 445767
+            }
+          ],
+          "samples": 600,
+          "receiptCount": 2,
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/atomic/remux-dd61ecc637e4eb614dc427508b069420/output.fmp4"
+          }
+        },
+        {
+          "profile": "external-output-physical-binding",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/external-output/remux-274682d29e9378677be753246a03166b/output.fmp4"
+          }
+        },
+        {
+          "profile": "original-receipt-gates-retirement",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/original-group/remux-b3dc9f96631579d55bc411a0a4472d01/output.fmp4"
+          }
+        },
+        {
+          "profile": "truncated-box",
+          "result": "PASS",
+          "expectedCode": "cache-incomplete-output",
+          "final": {
+            "ok": true,
+            "written": 17889,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-incomplete-output",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/truncated-box/remux-296c88caf3e3c6e8ae5550091fc0fb26/output.fmp4"
+          }
+        },
+        {
+          "profile": "rewrite",
+          "result": "PASS",
+          "expectedCode": "cache-integrity-mismatch",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/rewrite/remux-c4e0e26a6bde2f8257883f0711950d4e/output.fmp4"
+          }
+        },
+        {
+          "profile": "truncate",
+          "result": "PASS",
+          "expectedCode": "cache-size-changed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-size-changed",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/truncate/remux-41a7d5593d061caf0c7ac04da3389ba2/output.fmp4"
+          }
+        },
+        {
+          "profile": "producer-error",
+          "result": "PASS",
+          "expectedCode": "writer-failed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/producer-error/remux-6b572807beb2885b0105b4a10ad7a206/output.fmp4"
+          }
+        },
+        {
+          "profile": "injected-disk-full",
+          "result": "PASS",
+          "expectedCode": "cache-disk-full",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-disk-full",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/injected-disk-full/remux-b89b462efdff31026bc8e45346b01b69/output.fmp4"
+          }
+        },
+        {
+          "profile": "zero-size",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/zero-size/remux-569dfbc0ac97056d1a06da148cba511e/output.fmp4"
+          }
+        },
+        {
+          "profile": "oversize",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/oversize/remux-205954d89b493abadc99435b495204c0/output.fmp4"
+          }
+        },
+        {
+          "profile": "unknown-atom",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/unknown-atom/remux-1b3dc1d5d265d3d7c5f2338ff61c18ad/output.fmp4"
+          }
+        },
+        {
+          "profile": "orphan-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/orphan-mdat/remux-661323b3f0c2f1e0aa50e4688bfb56ff/output.fmp4"
+          }
+        },
+        {
+          "profile": "moov-without-ftyp",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/moov-without-ftyp/remux-53b2ba7b43c784b63c8326a592bd88e0/output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-count",
+          "result": "PASS",
+          "expectedCode": "cache-sample-limit",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-sample-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/sample-count/remux-89edd7a2e704a131b849bbf3aa0454bb/output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-outside-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/sample-outside-mdat/remux-a8699941286b626805649da1da9513e1/output.fmp4"
+          }
+        },
+        {
+          "profile": "wrong-offset",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/wrong-offset/remux-ea6f815039a4d2a372b4e9a21c102b4b/output.fmp4"
+          }
+        },
+        {
+          "profile": "empty",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/empty/remux-38bb011c672e6cd91af8bcc4f49e0b9d/output.fmp4"
+          }
+        },
+        {
+          "profile": "output-limit",
+          "result": "PASS",
+          "expectedCode": "cache-output-limit",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/output-limit/remux-8b3775171424cb1f6e1424482aefdfa9/output.fmp4"
+          }
+        },
+        {
+          "profile": "chunk-limit",
+          "result": "PASS",
+          "expectedCode": "cache-chunk-limit",
+          "final": {
+            "ok": true,
+            "written": 8199,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-chunk-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/chunk-limit/remux-a57c5e7f9639948d4e0fde158d07d9ca/output.fmp4"
+          }
+        },
+        {
+          "profile": "shared-budget-two-stores",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/budget-a/remux-8fda374fa637aebb9c4ad005171dc8bb/output.fmp4"
+          }
+        },
+        {
+          "profile": "replacement-is-not-deleted",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/path-poison/remux-65c1dfb82c9849f2a49b3cc09447e12e/output.fmp4"
+          }
+        },
+        {
+          "profile": "owner-drop-retains-local-reader",
+          "result": "PASS",
+          "cacheRemovedAfterLastClose": true
+        },
+        {
+          "profile": "reader-limit-128",
+          "result": "PASS",
+          "readerReceipts": 128,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/reader-limit/remux-63093f83be5773793d46a45a126750db/output.fmp4"
+          }
+        },
+        {
+          "profile": "managed-worker-cache-readers",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 1,
+            "budgetBytes": 446271,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/managed-cache/remux-d6c335008fd58412aafb7f95af124454/output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"476007\",\"bytesWritten\":\"446271\",\"sha256\":\"1a94309292f60cf91fae9dd0104932c0acf310c405b90009afbb71b8fed4fe65\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "0788b4da1f8ee1c516629f7ed62cb323"
+            ],
+            "workerId": 1085879
+          },
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/managed-cache/remux-d6c335008fd58412aafb7f95af124454/output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"476007\",\"bytesWritten\":\"446271\",\"sha256\":\"1a94309292f60cf91fae9dd0104932c0acf310c405b90009afbb71b8fed4fe65\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "0788b4da1f8ee1c516629f7ed62cb323"
+            ],
+            "workerId": 1085879
+          },
+          "packets": 600,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "managed-worker-crash",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/managed-worker-crash/remux-7109f03eadad1e16b31244a16c946ccb/output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "76aac19f12f8d64f3c5a24e6bda548cc"
+            ],
+            "workerId": 1085909
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/managed-worker-crash/remux-7109f03eadad1e16b31244a16c946ccb/output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "76aac19f12f8d64f3c5a24e6bda548cc"
+            ],
+            "workerId": 1085909
+          }
+        },
+        {
+          "profile": "managed-cache-corruption",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/managed-cache-corruption/remux-e851643861beb56b0089c82a8f72c582/output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "dbd69f579ad8aedcf10caa1dbc265629"
+            ],
+            "workerId": 1085917
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/managed-cache-corruption/remux-e851643861beb56b0089c82a8f72c582/output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "dbd69f579ad8aedcf10caa1dbc265629"
+            ],
+            "workerId": 1085917
+          }
+        },
+        {
+          "profile": "managed-writer-failed",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "writer-failed",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/managed-writer-failed/remux-11a809fb16c291864ce7912775ad1e1b/output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "dca27f5c525d63cec89af5edcfd4d96f"
+            ],
+            "workerId": 1085923
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/managed-writer-failed/remux-11a809fb16c291864ce7912775ad1e1b/output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "dca27f5c525d63cec89af5edcfd4d96f"
+            ],
+            "workerId": 1085923
+          }
+        },
+        {
+          "profile": "managed-cache-quota",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-output-limit",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/managed-cache-quota/remux-57b88fc0620e0bc698af9af16be5a37b/output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "0542415fae26fcf937ed69cc4e1df236"
+            ],
+            "workerId": 1085929
+          },
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/managed-cache-quota/remux-57b88fc0620e0bc698af9af16be5a37b/output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "0542415fae26fcf937ed69cc4e1df236"
+            ],
+            "workerId": 1085929
+          }
+        },
+        {
+          "profile": "retired-session-external-reader-owner-queue",
+          "result": "PASS",
+          "pending": {
+            "ok": true,
+            "removed": 0,
+            "count": 1,
+            "bytes": 133085
+          },
+          "cleared": {
+            "ok": true,
+            "removed": 1,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "owner-session-limit-16",
+          "result": "PASS",
+          "cleared": {
+            "ok": true,
+            "removed": 0,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "cancel-wakes-decoder-wait",
+          "result": "PASS",
+          "elapsedSeconds": 0.04745469699264504,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-flw1pdqu/cancel-cache/remux-d854549c158f9019d5ac9b03b89d34a7/output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [],
+            "workerId": 1085941
+          }
+        }
+      ],
+      "cacheOnly": true,
+      "publicPlayerCapability": false,
+      "temporaryWorkRemoved": true,
+      "runnerSha256": "3a7c40a7bd6ef993e4e6d3cd45596adebf4f05fd9b4ad57200f2624173263174",
+      "workerSha256": "a643a69f19b4eff5cd2af8dadec6ba3dc110f3cc318f45be493eeeff46a58bfc",
+      "testSourceSha256": "6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902"
+    }
+  },
+  "regressions": {
+    "linux": {
+      "parent": {
+        "result": "PASS",
+        "count": 17,
+        "rows": [
+          {
+            "profile": "growing-one-worker",
+            "result": "PASS",
+            "status": {
+              "ok": true,
+              "code": "data",
+              "reason": "",
+              "revision": "5",
+              "result": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"476007\",\"bytesWritten\":\"446271\",\"sha256\":\"1a94309292f60cf91fae9dd0104932c0acf310c405b90009afbb71b8fed4fe65\",\"waits\":\"4\"}",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": true,
+              "workerId": 1080038,
+              "bytesRead": 476007,
+              "bytesWritten": 446271,
+              "maximumReadEnd": 443235,
+              "neededOffset": 443235,
+              "neededLength": 0,
+              "readerIds": [
+                "72e845ee610828400153ab96ed4e428d"
+              ]
+            },
+            "partialOutputBytes": 277798,
+            "waitSeconds": 6.001062945986632,
+            "unpublishedTailNotRead": true,
+            "packets": 600,
+            "encodedPacketHashesMatch": true,
+            "ptsDtsPreservedWithinOneOutputTick": true,
+            "decodedHashesMatch": true
+          },
+          {
+            "profile": "unknown-length",
+            "result": "PASS",
+            "rejectedBeforeSpawn": true,
+            "code": "unsupported-stream-source"
+          },
+          {
+            "profile": "missing-integrity",
+            "result": "PASS",
+            "rejectedBeforeSpawn": true,
+            "code": "unsupported-stream-source"
+          },
+          {
+            "profile": "extra-audio-track",
+            "result": "PASS",
+            "rejectedBeforeSpawn": true,
+            "code": "unsupported-stream-source"
+          },
+          {
+            "profile": "cancel",
+            "result": "PASS",
+            "elapsedSeconds": 0.0214889140042942,
+            "status": {
+              "ok": true,
+              "code": "cancelled",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080088,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "014d2b55a2af3ce0d0bfec6ed9b3bb4f"
+              ]
+            }
+          },
+          {
+            "profile": "writer-failed",
+            "result": "PASS",
+            "elapsedSeconds": 0.02689695401932113,
+            "status": {
+              "ok": true,
+              "code": "writer-failed",
+              "reason": "",
+              "revision": "2",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080090,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "64a8fa5e2e7d774676075c7728780ac3"
+              ]
+            }
+          },
+          {
+            "profile": "heartbeat-loss",
+            "result": "PASS",
+            "elapsedSeconds": 0.6722905279893894,
+            "status": {
+              "ok": true,
+              "code": "writer-heartbeat-timeout",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080094,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "ff948257f5f5ebcca16ba3ca06c0a7ce"
+              ]
+            }
+          },
+          {
+            "profile": "lifetime",
+            "result": "PASS",
+            "elapsedSeconds": 0.973037725983886,
+            "status": {
+              "ok": true,
+              "code": "backend-time-limit",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080098,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "8c3a61712a46799e2cef82819845235f"
+              ]
+            }
+          },
+          {
+            "profile": "rewrite",
+            "result": "PASS",
+            "elapsedSeconds": 0.04127352900104597,
+            "status": {
+              "ok": true,
+              "code": "source-rewritten",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080102,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "01730894659751a6d74926fa09707f18"
+              ]
+            }
+          },
+          {
+            "profile": "initial-integrity",
+            "result": "PASS",
+            "elapsedSeconds": 0.0002284070069435984,
+            "status": {
+              "ok": true,
+              "code": "integrity-mismatch",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080104,
+              "bytesRead": 0,
+              "bytesWritten": 0,
+              "maximumReadEnd": 0,
+              "neededOffset": 0,
+              "neededLength": 0,
+              "readerIds": [
+                "49031f2a59c2575932a6f32a17aa9a7e"
+              ]
+            }
+          },
+          {
+            "profile": "truncate",
+            "result": "PASS",
+            "elapsedSeconds": 0.021476439986145124,
+            "status": {
+              "ok": true,
+              "code": "source-truncated",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080106,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "06221204996e85e62671d147feed874b"
+              ]
+            }
+          },
+          {
+            "profile": "worker-killed",
+            "result": "PASS",
+            "elapsedSeconds": 0.02076436800416559,
+            "status": {
+              "ok": true,
+              "code": "backend-worker-exited",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080108,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "5750823f6aa7a219b32e269f8ac5b0c4"
+              ]
+            }
+          },
+          {
+            "profile": "sink-failed",
+            "result": "PASS",
+            "elapsedSeconds": 0.03174980799667537,
+            "status": {
+              "ok": true,
+              "code": "output-store-failed",
+              "reason": "",
+              "revision": "2",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": true,
+              "workerId": 1080110,
+              "bytesRead": 180513,
+              "bytesWritten": 133085,
+              "maximumReadEnd": 180513,
+              "neededOffset": 147745,
+              "neededLength": 0,
+              "readerIds": [
+                "0429cd81c7a465cd4fc5080abe656fae"
+              ]
+            }
+          },
+          {
+            "profile": "stall",
+            "result": "PASS",
+            "status": {
+              "ok": true,
+              "code": "backend-operation-time-limit",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080113,
+              "bytesRead": 0,
+              "bytesWritten": 0,
+              "maximumReadEnd": 0,
+              "neededOffset": 0,
+              "neededLength": 0,
+              "readerIds": []
+            }
+          },
+          {
+            "profile": "partial-frame",
+            "result": "PASS",
+            "status": {
+              "ok": true,
+              "code": "backend-operation-time-limit",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080116,
+              "bytesRead": 0,
+              "bytesWritten": 0,
+              "maximumReadEnd": 0,
+              "neededOffset": 0,
+              "neededLength": 0,
+              "readerIds": []
+            }
+          },
+          {
+            "profile": "bad-offset",
+            "result": "PASS",
+            "status": {
+              "ok": true,
+              "code": "backend-protocol-error",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080118,
+              "bytesRead": 0,
+              "bytesWritten": 0,
+              "maximumReadEnd": 0,
+              "neededOffset": 0,
+              "neededLength": 0,
+              "readerIds": []
+            }
+          },
+          {
+            "profile": "receive-cancel",
+            "result": "PASS",
+            "elapsedSeconds": 0.020734129997435957,
+            "status": {
+              "ok": true,
+              "code": "cancelled",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 1080120,
+              "bytesRead": 0,
+              "bytesWritten": 0,
+              "maximumReadEnd": 0,
+              "neededOffset": 0,
+              "neededLength": 0,
+              "readerIds": []
+            }
+          }
+        ],
+        "publicPlayerCapability": false,
+        "controllerOnly": true,
+        "temporaryWorkRemoved": true,
+        "runnerSha256": "30ba3a53f6be4d8b642ae71930aa2e5de502f232b55c1c281580b0e47be0e431",
+        "workerSha256": "e6420d9d98462712ea2ad43c9f78e3227d113dd313138230120586b658de4a49",
+        "testSourceSha256": "4413b8eb453b9a97e7ad2f4df370ceceba73beef90a8f15ad9abc99a66d41091"
+      },
+      "worker": {
+        "result": "PASS",
+        "testSourceSha256": "2c74ad10d02df3b77a197ca5a118650a45e3850a239e56a862705be9f880c3c3",
+        "engineOnly": true,
+        "publicPlayerCapability": false,
+        "count": 9,
+        "rows": [
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "76063",
+                "available": 76063,
+                "outputBytes": 54751,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.04984064199379645,
+                "waitDurationSeconds": 1.056039849005174,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "153280",
+                "available": 153280,
+                "outputBytes": 133085,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 3.1280808830051683,
+                "waitDurationSeconds": 1.0532063959981315,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "223762",
+                "available": 223762,
+                "outputBytes": 206722,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.201904644985916,
+                "waitDurationSeconds": 1.0563610820099711,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "373823",
+                "available": 373823,
+                "outputBytes": 356163,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.288053511001635,
+                "waitDurationSeconds": 1.0503188580041751,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "443235",
+                "available": 443235,
+                "outputBytes": 428980,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 6.351203120982973,
+                "waitDurationSeconds": 1.0524362779979128,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 76063,
+              "total": 443235,
+              "outputBytes": 17890
+            },
+            "reads": 53,
+            "outputBytes": 446271,
+            "outputSha256": "1a94309292f60cf91fae9dd0104932c0acf310c405b90009afbb71b8fed4fe65",
+            "singleWorkerPid": 1080166,
+            "runtimeWarmup": {
+              "seconds": 2.002957429998787,
+              "cpuSeconds": 0.0,
+              "samples": [
+                {
+                  "seconds": 1.0020160929998383,
+                  "metrics": {
+                    "cpuSeconds": 0.03,
+                    "rssBytes": 31584256,
+                    "privateBytes": 5718016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 2.00295490201097,
+                  "metrics": {
+                    "cpuSeconds": 0.03,
+                    "rssBytes": 31584256,
+                    "privateBytes": 5718016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-h264-video-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 600,
+              "bytesRead": "443322",
+              "bytesWritten": "446271",
+              "sha256": "1a94309292f60cf91fae9dd0104932c0acf310c405b90009afbb71b8fed4fe65",
+              "waits": "5"
+            },
+            "profile": "main",
+            "packets": 600,
+            "encodedPacketsUnchanged": true,
+            "ptsDtsDurationsPreservedWithinOneOutputTick": true,
+            "decodedFramesIdentical": true
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "94279",
+                "available": 94279,
+                "outputBytes": 76089,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.05154321598820388,
+                "waitDurationSeconds": 0.12723746401024982,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "191266",
+                "available": 191266,
+                "outputBytes": 178085,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.1978748239926063,
+                "waitDurationSeconds": 0.12708833001670428,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "278418",
+                "available": 278418,
+                "outputBytes": 270917,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.344695165986195,
+                "waitDurationSeconds": 0.12616308499127626,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "462922",
+                "available": 462922,
+                "outputBytes": 446203,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.500130905013066,
+                "waitDurationSeconds": 0.1255164610047359,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "548216",
+                "available": 548216,
+                "outputBytes": 537477,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.644283164991066,
+                "waitDurationSeconds": 0.12557559300330468,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 94279,
+              "total": 548216,
+              "outputBytes": 18187
+            },
+            "reads": 54,
+            "outputBytes": 551887,
+            "outputSha256": "b57514f78ae9190ba8ffcdce3b2a048c9f7095c1f57eb6bae4df665cbab50bfa",
+            "singleWorkerPid": 1080284,
+            "runtimeWarmup": {
+              "seconds": 2.0023127250024118,
+              "cpuSeconds": 0.0,
+              "samples": [
+                {
+                  "seconds": 1.0013916399911977,
+                  "metrics": {
+                    "cpuSeconds": 0.03,
+                    "rssBytes": 31645696,
+                    "privateBytes": 5771264,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 2.002310352982022,
+                  "metrics": {
+                    "cpuSeconds": 0.03,
+                    "rssBytes": 31645696,
+                    "privateBytes": 5771264,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-h264-video-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 720,
+              "bytesRead": "548303",
+              "bytesWritten": "551887",
+              "sha256": "b57514f78ae9190ba8ffcdce3b2a048c9f7095c1f57eb6bae4df665cbab50bfa",
+              "waits": "5"
+            },
+            "profile": "fractional",
+            "packets": 720,
+            "encodedPacketsUnchanged": true,
+            "ptsDtsDurationsPreservedWithinOneOutputTick": true,
+            "decodedFramesIdentical": true
+          },
+          {
+            "exitCode": 1,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "76063",
+                "available": 76063,
+                "outputBytes": 54751,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.0519953949842602
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 76063,
+              "total": 443235,
+              "outputBytes": 17890
+            },
+            "reads": 4,
+            "outputBytes": 54751,
+            "outputSha256": "4e8e8e73739beb7cb7ef38080b14f4e9d69dce9da62ee2018761037b3d6f1c92",
+            "singleWorkerPid": 1080320,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "cancelled",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "cancel-wait"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1080323,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "cancelled",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "cancel-write"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1080326,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unconfirmed-eof",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "unconfirmed-eof"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1080329,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "integrity-mismatch",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "integrity"
+          },
+          {
+            "exitCode": -9,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "76063",
+                "available": 76063,
+                "outputBytes": 54751,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.05700577000970952
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 76063,
+              "total": 443235,
+              "outputBytes": 17890
+            },
+            "reads": 4,
+            "outputBytes": 54751,
+            "outputSha256": "4e8e8e73739beb7cb7ef38080b14f4e9d69dce9da62ee2018761037b3d6f1c92",
+            "singleWorkerPid": 1080332,
+            "runtimeWarmup": null,
+            "terminationSeconds": 0.0033694750163704157,
+            "profile": "kill-wait"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1080392,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-reorder",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "bframes"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1080395,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-count",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "audio"
+          }
+        ],
+        "workerSha256": "e6420d9d98462712ea2ad43c9f78e3227d113dd313138230120586b658de4a49",
+        "temporaryWorkRemoved": true
+      },
+      "logSha256": "7405a3eec8bc54cce9352a15604727a3df8bff2998bf42931b1e0910fe35868a",
+      "ctestExitCode": 0
+    },
+    "windows": {
+      "parent": {
+        "result": "PASS",
+        "count": 17,
+        "rows": [
+          {
+            "profile": "growing-one-worker",
+            "result": "PASS",
+            "status": {
+              "ok": true,
+              "code": "data",
+              "reason": "",
+              "revision": "5",
+              "result": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"443235\",\"bytesWritten\":\"446271\",\"sha256\":\"d5b731d9db1b51ffd1f695dce16c069f09fc1bfcf3fe7e48141442e6c0a401df\",\"waits\":\"4\"}",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": true,
+              "workerId": 10552,
+              "bytesRead": 443235,
+              "bytesWritten": 446271,
+              "maximumReadEnd": 443235,
+              "neededOffset": 443235,
+              "neededLength": 0,
+              "readerIds": [
+                "5963ab145e3dc6645c428181a2d04215"
+              ]
+            },
+            "partialOutputBytes": 277798,
+            "waitSeconds": 5.840967800002545,
+            "unpublishedTailNotRead": true,
+            "packets": 600,
+            "encodedPacketHashesMatch": true,
+            "ptsDtsPreservedWithinOneOutputTick": true,
+            "decodedHashesMatch": true
+          },
+          {
+            "profile": "unknown-length",
+            "result": "PASS",
+            "rejectedBeforeSpawn": true,
+            "code": "unsupported-stream-source"
+          },
+          {
+            "profile": "missing-integrity",
+            "result": "PASS",
+            "rejectedBeforeSpawn": true,
+            "code": "unsupported-stream-source"
+          },
+          {
+            "profile": "extra-audio-track",
+            "result": "PASS",
+            "rejectedBeforeSpawn": true,
+            "code": "unsupported-stream-source"
+          },
+          {
+            "profile": "cancel",
+            "result": "PASS",
+            "elapsedSeconds": 0.021898699982557446,
+            "status": {
+              "ok": true,
+              "code": "cancelled",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 14392,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "78f9b0bc2f25a0ede755952228fb5acf"
+              ]
+            }
+          },
+          {
+            "profile": "writer-failed",
+            "result": "PASS",
+            "elapsedSeconds": 0.024916599999414757,
+            "status": {
+              "ok": true,
+              "code": "writer-failed",
+              "reason": "",
+              "revision": "2",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 11892,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "3de7b2c23ff9fb2e33d1f4bc99859ff7"
+              ]
+            }
+          },
+          {
+            "profile": "heartbeat-loss",
+            "result": "PASS",
+            "elapsedSeconds": 0.6815069999720436,
+            "status": {
+              "ok": true,
+              "code": "writer-heartbeat-timeout",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 5492,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "479360b20618ba7861eb3542e3578c3b"
+              ]
+            }
+          },
+          {
+            "profile": "lifetime",
+            "result": "PASS",
+            "elapsedSeconds": 0.9893014999979641,
+            "status": {
+              "ok": true,
+              "code": "backend-time-limit",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 13612,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "158d8ebfaff837f6485becb128c870e4"
+              ]
+            }
+          },
+          {
+            "profile": "rewrite",
+            "result": "PASS",
+            "elapsedSeconds": 0.062463799986289814,
+            "status": {
+              "ok": true,
+              "code": "source-rewritten",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 8356,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "8f9f7481ee5d3130840f751238901f24"
+              ]
+            }
+          },
+          {
+            "profile": "initial-integrity",
+            "result": "PASS",
+            "elapsedSeconds": 0.00012349997996352613,
+            "status": {
+              "ok": true,
+              "code": "integrity-mismatch",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 10388,
+              "bytesRead": 0,
+              "bytesWritten": 0,
+              "maximumReadEnd": 0,
+              "neededOffset": 0,
+              "neededLength": 0,
+              "readerIds": [
+                "89ea0c6fa1c6d390ffb7c65649c5a50c"
+              ]
+            }
+          },
+          {
+            "profile": "truncate",
+            "result": "PASS",
+            "elapsedSeconds": 0.043654700013576075,
+            "status": {
+              "ok": true,
+              "code": "source-truncated",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 15304,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "1aa33df69e0225987d557eecea63b2e5"
+              ]
+            }
+          },
+          {
+            "profile": "worker-killed",
+            "result": "PASS",
+            "elapsedSeconds": 0.15340799998375587,
+            "status": {
+              "ok": true,
+              "code": "backend-worker-exited",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 11648,
+              "bytesRead": 4,
+              "bytesWritten": 0,
+              "maximumReadEnd": 4,
+              "neededOffset": 4,
+              "neededLength": 32768,
+              "readerIds": [
+                "b9984b509be84f584c0e1c73d97969c2"
+              ]
+            }
+          },
+          {
+            "profile": "sink-failed",
+            "result": "PASS",
+            "elapsedSeconds": 0.051136800000676885,
+            "status": {
+              "ok": true,
+              "code": "output-store-failed",
+              "reason": "",
+              "revision": "2",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": true,
+              "workerId": 8496,
+              "bytesRead": 180513,
+              "bytesWritten": 133085,
+              "maximumReadEnd": 180513,
+              "neededOffset": 147745,
+              "neededLength": 0,
+              "readerIds": [
+                "0d914ebaf89cdf9d6929dc92d7f22b81"
+              ]
+            }
+          },
+          {
+            "profile": "stall",
+            "result": "PASS",
+            "status": {
+              "ok": true,
+              "code": "backend-operation-time-limit",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 5788,
+              "bytesRead": 0,
+              "bytesWritten": 0,
+              "maximumReadEnd": 0,
+              "neededOffset": 0,
+              "neededLength": 0,
+              "readerIds": []
+            }
+          },
+          {
+            "profile": "partial-frame",
+            "result": "PASS",
+            "status": {
+              "ok": true,
+              "code": "backend-operation-time-limit",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 5872,
+              "bytesRead": 0,
+              "bytesWritten": 0,
+              "maximumReadEnd": 0,
+              "neededOffset": 0,
+              "neededLength": 0,
+              "readerIds": []
+            }
+          },
+          {
+            "profile": "bad-offset",
+            "result": "PASS",
+            "status": {
+              "ok": true,
+              "code": "backend-protocol-error",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 3276,
+              "bytesRead": 0,
+              "bytesWritten": 0,
+              "maximumReadEnd": 0,
+              "neededOffset": 0,
+              "neededLength": 0,
+              "readerIds": []
+            }
+          },
+          {
+            "profile": "receive-cancel",
+            "result": "PASS",
+            "elapsedSeconds": 0.020514900010311976,
+            "status": {
+              "ok": true,
+              "code": "cancelled",
+              "reason": "",
+              "revision": "1",
+              "result": "",
+              "done": true,
+              "filesClosed": true,
+              "sourceComplete": false,
+              "workerId": 10764,
+              "bytesRead": 0,
+              "bytesWritten": 0,
+              "maximumReadEnd": 0,
+              "neededOffset": 0,
+              "neededLength": 0,
+              "readerIds": []
+            }
+          }
+        ],
+        "publicPlayerCapability": false,
+        "controllerOnly": true,
+        "temporaryWorkRemoved": true,
+        "runnerSha256": "1cedfe40ab3a97619beae0ad4b87498d5097217857cdc7280dfa7ed1c11ddff8",
+        "workerSha256": "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+        "testSourceSha256": "4413b8eb453b9a97e7ad2f4df370ceceba73beef90a8f15ad9abc99a66d41091"
+      },
+      "worker": {
+        "result": "PASS",
+        "testSourceSha256": "2c74ad10d02df3b77a197ca5a118650a45e3850a239e56a862705be9f880c3c3",
+        "engineOnly": true,
+        "publicPlayerCapability": false,
+        "count": 9,
+        "rows": [
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "76063",
+                "available": 76063,
+                "outputBytes": 54751,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.04886780001106672,
+                "waitDurationSeconds": 1.0603974999976344,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "153280",
+                "available": 153280,
+                "outputBytes": 133085,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.293423700000858,
+                "waitDurationSeconds": 1.0597133999981452,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "223762",
+                "available": 223762,
+                "outputBytes": 206722,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 6.415449400024954,
+                "waitDurationSeconds": 1.0538500999973621,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "373823",
+                "available": 373823,
+                "outputBytes": 356163,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 7.5555786000040825,
+                "waitDurationSeconds": 1.05304790000082,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "443235",
+                "available": 443235,
+                "outputBytes": 428980,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 8.679105200018967,
+                "waitDurationSeconds": 1.052819999982603,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 76063,
+              "total": 443235,
+              "outputBytes": 17890
+            },
+            "reads": 53,
+            "outputBytes": 446271,
+            "outputSha256": "d5b731d9db1b51ffd1f695dce16c069f09fc1bfcf3fe7e48141442e6c0a401df",
+            "singleWorkerPid": 5348,
+            "runtimeWarmup": {
+              "seconds": 4.1134613000031095,
+              "cpuSeconds": 1.65625,
+              "samples": [
+                {
+                  "seconds": 1.0451731999928597,
+                  "metrics": {
+                    "cpuSeconds": 1.09375,
+                    "threads": 5,
+                    "rssBytes": 25010176,
+                    "privateBytes": 21061632,
+                    "handles": 1174,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.03125
+                },
+                {
+                  "seconds": 2.068465799995465,
+                  "metrics": {
+                    "cpuSeconds": 1.71875,
+                    "threads": 9,
+                    "rssBytes": 37793792,
+                    "privateBytes": 24129536,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.625
+                },
+                {
+                  "seconds": 3.0906353000027593,
+                  "metrics": {
+                    "cpuSeconds": 1.71875,
+                    "threads": 9,
+                    "rssBytes": 37793792,
+                    "privateBytes": 24129536,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 4.113457599974936,
+                  "metrics": {
+                    "cpuSeconds": 1.71875,
+                    "threads": 9,
+                    "rssBytes": 37793792,
+                    "privateBytes": 24129536,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-h264-video-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 600,
+              "bytesRead": "443322",
+              "bytesWritten": "446271",
+              "sha256": "d5b731d9db1b51ffd1f695dce16c069f09fc1bfcf3fe7e48141442e6c0a401df",
+              "waits": "5"
+            },
+            "profile": "main",
+            "packets": 600,
+            "encodedPacketsUnchanged": true,
+            "ptsDtsDurationsPreservedWithinOneOutputTick": true,
+            "decodedFramesIdentical": true
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "94279",
+                "available": 94279,
+                "outputBytes": 76089,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.053061299986438826,
+                "waitDurationSeconds": 0.12434309997479431,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "191266",
+                "available": 191266,
+                "outputBytes": 178085,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.358064900006866,
+                "waitDurationSeconds": 0.12398669999674894,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "278418",
+                "available": 278418,
+                "outputBytes": 270917,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.552189299982274,
+                "waitDurationSeconds": 0.12494320000405423,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "462922",
+                "available": 462922,
+                "outputBytes": 446203,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.767714399989927,
+                "waitDurationSeconds": 0.12469060000148602,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "548216",
+                "available": 548216,
+                "outputBytes": 537477,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.961902999988524,
+                "waitDurationSeconds": 0.1250508999801241,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 94279,
+              "total": 548216,
+              "outputBytes": 18187
+            },
+            "reads": 54,
+            "outputBytes": 551887,
+            "outputSha256": "3b4028a1c4668c93183541afcf0129d97efe1f9160a5c1fa654d0e0a3839d4cc",
+            "singleWorkerPid": 9508,
+            "runtimeWarmup": {
+              "seconds": 4.113089699996635,
+              "cpuSeconds": 1.609375,
+              "samples": [
+                {
+                  "seconds": 1.0433601000113413,
+                  "metrics": {
+                    "cpuSeconds": 1.15625,
+                    "threads": 5,
+                    "rssBytes": 25018368,
+                    "privateBytes": 21082112,
+                    "handles": 1173,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.015625
+                },
+                {
+                  "seconds": 2.0653891999972984,
+                  "metrics": {
+                    "cpuSeconds": 1.75,
+                    "threads": 9,
+                    "rssBytes": 37642240,
+                    "privateBytes": 23998464,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.59375
+                },
+                {
+                  "seconds": 3.0907932000118308,
+                  "metrics": {
+                    "cpuSeconds": 1.75,
+                    "threads": 9,
+                    "rssBytes": 37642240,
+                    "privateBytes": 23998464,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 4.113085499993758,
+                  "metrics": {
+                    "cpuSeconds": 1.75,
+                    "threads": 9,
+                    "rssBytes": 37642240,
+                    "privateBytes": 23998464,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-h264-video-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 720,
+              "bytesRead": "548303",
+              "bytesWritten": "551887",
+              "sha256": "3b4028a1c4668c93183541afcf0129d97efe1f9160a5c1fa654d0e0a3839d4cc",
+              "waits": "5"
+            },
+            "profile": "fractional",
+            "packets": 720,
+            "encodedPacketsUnchanged": true,
+            "ptsDtsDurationsPreservedWithinOneOutputTick": true,
+            "decodedFramesIdentical": true
+          },
+          {
+            "exitCode": 1,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "76063",
+                "available": 76063,
+                "outputBytes": 54751,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.04860249999910593
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 76063,
+              "total": 443235,
+              "outputBytes": 17890
+            },
+            "reads": 4,
+            "outputBytes": 54751,
+            "outputSha256": "29be18269674b0ddbfc412a00a8433845f69bf5e2f68053b14d270b102863fbf",
+            "singleWorkerPid": 4476,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "cancelled",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "cancel-wait"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 7280,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "cancelled",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "cancel-write"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 4824,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unconfirmed-eof",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "unconfirmed-eof"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 6308,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "integrity-mismatch",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "integrity"
+          },
+          {
+            "exitCode": 1,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "76063",
+                "available": 76063,
+                "outputBytes": 54751,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.04676090000430122
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 76063,
+              "total": 443235,
+              "outputBytes": 17890
+            },
+            "reads": 4,
+            "outputBytes": 54751,
+            "outputSha256": "29be18269674b0ddbfc412a00a8433845f69bf5e2f68053b14d270b102863fbf",
+            "singleWorkerPid": 13540,
+            "runtimeWarmup": null,
+            "terminationSeconds": 0.01815409999107942,
+            "profile": "kill-wait"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 2080,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-reorder",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "bframes"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 12720,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-count",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "audio"
+          }
+        ],
+        "workerSha256": "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+        "temporaryWorkRemoved": true
+      },
+      "logSha256": "fa078bb732eb3ba31541f0dcad9dd123ae9708254f44f95d48b36819e887ede1",
+      "ctestExitCode": 0
+    }
+  },
+  "preservation": {
+    "before": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "7ef65deb54a2b680f99a0956a1d3d73a47b79235bc81b522bd0788c3b5bd3714",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "d320b6596717a0ee10ffa24ab9ad28f7659b6d866900c080e494058b427d23e9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "c67ed0ba387ea51d1db44332ae3da2752c84ec007524c7c0be0ba8d55e6aa3d3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "after": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "d320b6596717a0ee10ffa24ab9ad28f7659b6d866900c080e494058b427d23e9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "c67ed0ba387ea51d1db44332ae3da2752c84ec007524c7c0be0ba8d55e6aa3d3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "unchangedProtectedFiles": 9,
+    "installedLinuxMatchesVerifiedBuild": true,
+    "installedExeSha256": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+    "installedLinuxIni": {
+      "unchanged": false,
+      "beforeSha256": "7ef65deb54a2b680f99a0956a1d3d73a47b79235bc81b522bd0788c3b5bd3714",
+      "afterSha256": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "mtimeNs": 1793759386304654300,
+      "observedInstalledViewers": [],
+      "agentWroteProfile": false,
+      "profileRestored": false,
+      "note": "INI changed while an installed viewer was running. No writer trace was taken; the task did not write or roll back that profile. Exact INI immutability is not claimed."
+    },
+    "windowsInstalledFilesUnchanged": true,
+    "privateWinpthreadDllUnchanged": true,
+    "immutableSdkZipUnchanged": true,
+    "windowsFinalState": {
+      "ownedTestProcessesRemaining": 0,
+      "windowsSettingsModified": false,
+      "scheduledTasksCreated": 0
+    }
+  },
+  "bounds": {
+    "perStoreBytes": 67108864,
+    "sharedBudgetMaxBytes": 67108864,
+    "appendBytes": 65536,
+    "chunks": 8192,
+    "samples": 50000,
+    "metadataBytes": 1048576,
+    "mdatBytes": 16777232,
+    "lifetimeReaders": 128,
+    "ownerStoreLimit": 16
+  },
+  "boundaries": [
+    "Video-only H.264/no-B-frame scope is unchanged.",
+    "This is native cache/reader validation, not GUI/libmpv/DirectShow playback integration.",
+    "Disk-full profile is injected producer failure; actual volume exhaustion not performed.",
+    "No hard bounded I/O promise for a stalled filesystem/registry; no new complete RSS/stress/A-V timing acceptance.",
+    "The service owner retains and retries retirement for external readers; service-owner loss/process-crash orphan recovery remains open.",
+    "Published SDK/installer assets unchanged; experimental worker not installed."
+  ]
+}
