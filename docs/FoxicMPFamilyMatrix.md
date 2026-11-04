@@ -646,3 +646,16 @@ Windows: release уже подтверждён первым контрольны
 Production EXE/установки/профили не менялись, Classic повторно не запускался,
 Harvester сохранён. Следом — продолжение диагностики при повторении и отдельная
 continuous shutdown/crash matrix; строгая latency приёмка остаётся открытой.
+
+
+4 ноября 2026, [continuous player close/crash и same-profile recovery](ProgressiveContinuousShutdown.md):
+по восемь сценариев Linux Qt, Windows Qt и Classic, все exit 0; preparation,
+playing, paused, buffering, обычный выход и принудительное завершение. Worker exit
+подтверждён ОС, независимый просмотр сохраняет IDs и продолжает кадры; writer
+физически дописывает оригинал после выхода player, новый prepare восстанавливает
+кэш до подтверждения старых receipts, Play создаёт новые IDs. [Результаты](ProgressiveContinuousShutdownValidation-2026-11-04.json).
+При части нормальных выходов закрытый journaled cache остаётся до повторного
+запуска: это открытый пункт очистки, не доказательство полного teardown ≤2 s.
+Прежний Linux heartbeat release outlier также открыт. Следом — normal-exit cache
+cleanup, worker crash/mid-I/O/races и stress. EXE/установленные профили, 158 shell
+entries, SDK ZIP и Harvester сохранены; одноразовая задача удалена.
