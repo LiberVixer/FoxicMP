@@ -8,11 +8,16 @@ SDK является частью FoxicMP и не меняет YouTubeHarvester.
 python3 tools/package_progressive_sdk.py --output /absolute/new/FoxicMP-progressive-sdk.zip
 ```
 
-В ZIP входят девять Python-модулей, эта инструкция, контракты v1 и draft v2,
+В ZIP входят десять Python-модулей, эта инструкция, контракты v1 и draft v2,
 пример метаданных v2, отчёты, лицензия и JSON с исходным commit, dirty-флагом и
 SHA-256 файлов. Воспроизведение v1 сохраняется; SDK 1.6 добавляет
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
+
+SDK 1.82 добавляет [явный ограниченный непрерывный remux](ProgressiveContinuousSdk.md):
+`progressive_continuous.ContinuousRemux`, отдельные prepare/play и read-only
+восстановление после потери ответа. Нужны соответствующие новые EXE и worker;
+профиль пока MP4/H.264 video-only без B-frames, остальные функции остаются прежними.
 
 Проверки трёх редакций и ограничения: [отчёт](ProgressiveSdkValidation-2026-10-25.md).
 Этот SDK требует новые сборки плеера с `releaseAcknowledgement=true`;

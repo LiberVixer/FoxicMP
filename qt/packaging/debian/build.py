@@ -2,6 +2,7 @@
 """Build a Mint 22 / Ubuntu 24.04 amd64 Debian package from a clean Qt stage."""
 import argparse
 import hashlib
+import json
 import os
 from pathlib import Path
 import shutil
@@ -18,6 +19,12 @@ def main():
     args = p.parse_args()
     source = args.stage.resolve()
     assert (source / 'foxicmp-qt').is_file()
+    worker = source / 'foxicmp-remux-stream-worker'
+    assert worker.is_file() and os.access(worker, os.X_OK), 'Missing executable continuous-remux worker'
+    runtime = json.loads(subprocess.check_output([str(worker), '--info'], text=True, timeout=5))
+    assert runtime['workerProtocol'] == 1 and runtime['runtimeVerified'] is True
+    runtime_depends = ', '.join(f'lib{name}{runtime[key] >> 16}' for name, key in
+        [('avformat','avformatVersion'), ('avcodec','avcodecVersion'), ('avutil','avutilVersion')])
     assert not any(x.name == 'FoxicMPQt.ini' for x in source.rglob('*')), 'Do not ship a personal profile'
     subprocess.run(['dpkg', '--validate-version', args.version], check=True)
     version = subprocess.check_output([str(source / 'foxicmp-qt'), '--version'],
@@ -76,7 +83,7 @@ Priority: optional
 Architecture: amd64
 Maintainer: FoxicMP Team <noreply@github.com>
 Installed-Size: {size}
-Depends: {depends}, python3, qt6-qpa-plugins
+Depends: {depends}, {runtime_depends}, python3, qt6-qpa-plugins
 Recommends: ffmpeg, yt-dlp, mint-meta-codecs
 Homepage: https://github.com/LiberVixer/FoxicMP
 Description: FoxiqMP qt media player for Linux Mint
@@ -102,6 +109,7 @@ exit 0
         stage.chmod(0o755)
         for file in (f for f in stage.rglob('*') if f.is_file()):
             executable = file in (launcher, payload / 'foxicmp-qt', payload / 'foxicmp-shader-check',
+                                  payload / 'foxicmp-demux-worker', payload / 'foxicmp-remux-stream-worker',
                                   control / 'postinst', control / 'postrm')
             file.chmod(0o755 if executable else 0o644)
         subprocess.run(['dpkg-deb', '--root-owner-group', '--build', str(stage), str(output)], check=True)

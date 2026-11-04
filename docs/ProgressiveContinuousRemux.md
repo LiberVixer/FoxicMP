@@ -690,11 +690,21 @@ driver и CTest exit codes равны 0; прежние отказы и испр
 
 ## Следующий обязательный этап
 
-1. Согласовать публичный capability/SDK-контракт и поставку worker.
-2. Проверить полную waiting/resume/seek/replay и shutdown/crash/stress matrix
-   через обычный API трёх редакций, не подменяя её успешными короткими сценариями.
-3. Затем AAC trim, B-frames, остальные профили и общая cache/performance matrix.
+SDK 1.82 публикует этот ограниченный профиль и matching worker/runtime:
+[публичный контракт и инструкция](ProgressiveContinuousSdk.md),
+[проверки SDK и поставок](ProgressiveContinuousSdkValidation-2026-11-04.json).
+Новые сборки объявляют отдельный continuousRemux capability и девять действий;
+прежние v1/v2 маршруты не заменяются автоматически. Пять реальных SDK сценариев
+прошли на каждой редакции, включая lost prepare/play replies, pause/append,
+complete seek/EOF, stop, освобождение и отказ audio/B-frames. Qt Windows portable
+и извлечённый .deb проверены отдельным реальным SDK прогоном. Worker --info
+подтверждает ABI загруженных FFmpeg libraries; декларация capability не заменяет
+проверку конкретного input до playbackReady.
 
-Полная интеграционная приёмка не объявляется выполненной наличием этих внутренних
-компонентов и ограниченных IPC-проверок. Новая capability и новый SDK release
-не объявлены; экспериментальный stream worker не установлен. Дисковые меню, оборудование и Wayland не возобновляются.
+1. Проверить полную waiting/resume/seek/replay и shutdown/crash/stress matrix
+   через обычный API трёх редакций, не подменяя её успешными короткими сценариями.
+2. Затем AAC trim, B-frames, остальные профили и общая cache/performance matrix.
+
+Полная интеграционная приёмка не объявляется выполненной этими ограниченными
+проверками. Public SDK 1.82 не расширяет профиль до всех контейнеров и кодеков.
+Дисковые меню, оборудование и Wayland не возобновляются; Harvester не меняется.

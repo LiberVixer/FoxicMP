@@ -1,6 +1,6 @@
-"""Internal continuous preparation over real, private Qt/Classic IPC endpoints.
+"""Continuous preparation over private test Qt/Classic IPC endpoints.
 
-No playback commit or public capability/SDK expansion is claimed here.
+This test covers preparation; SDK and actual playback have separate suites.
 """
 import argparse
 import copy
@@ -171,7 +171,7 @@ def exercise(peers, root):
         assert not Path(str(peers[1].registry)+'.continuous-cache').exists()
         rows.append(dict(profile='unsupported-before-cache-or-worker', result='PASS'))
         assert max(elapsed) < 2, elapsed
-        return dict(result='PASS', count=len(rows), rows=rows, maxRequestSeconds=max(elapsed), ordinaryPlayerIpc=True, playbackCommit=False, publicCapability=False)
+        return dict(result='PASS', count=len(rows), rows=rows, maxRequestSeconds=max(elapsed), ordinaryPlayerIpc=True, playbackCommit=False, publicCapability=True)
     finally:
         for i, value in enumerate(active):
             if value is not None:

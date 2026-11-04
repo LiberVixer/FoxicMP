@@ -20,7 +20,9 @@ def stage_payload(source, destination):
         marker = destination / '.payload-id'
         if marker.exists() and marker.read_bytes() == stamp:
             return
-        for original in sorted(source.rglob('*')):
+        # Publish dependencies/helpers before the new capability-bearing EXE.
+        # Existing viewers keep their old inode; no process is stopped here.
+        for original in sorted(source.rglob('*'), key=lambda p: (p == source/'foxicmp-qt', p.as_posix())):
             if not original.is_file() or original.name == '.payload-id':
                 continue
             relative = original.relative_to(source)

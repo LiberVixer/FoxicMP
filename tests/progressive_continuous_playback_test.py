@@ -233,7 +233,7 @@ def exercise(peers, root):
             return dict(initial=initial,closed=closed,noLateRestart=True)
         case('stop-during-opening-%d'%i,immediate)
     assert max(latencies)<2,latencies
-    return dict(result='PASS',count=len(rows),rows=rows,maxRequestSeconds=max(latencies),ordinaryPlayerIpc=True,playbackCommit=True,publicCapability=False)
+    return dict(result='PASS',count=len(rows),rows=rows,maxRequestSeconds=max(latencies),ordinaryPlayerIpc=True,playbackCommit=True,publicCapability=True)
 
 
 if __name__=='__main__':

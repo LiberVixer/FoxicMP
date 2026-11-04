@@ -569,3 +569,18 @@ Linux обновлён атомарно с backup без изменения INI/
 Публичные capability/SDK и worker пользователю пока не поставлены; audio/B-frames
 и полная waiting/replay/crash/stress matrix остаются открытыми. Harvester,
 Windows-установки, shell registration и личные настройки сохранены.
+
+
+4 ноября 2026, SDK 1.82: общий публичный ограниченный continuousRemux contract,
+девять API действий и явный Python ContinuousRemux helper. Prepare/play разделены;
+потеря ответов восстанавливается read-only status, writer events не запускают
+просмотр. По пять реальных SDK IPC сценариев Linux Qt, Windows Qt и Classic,
+17 SDK unit, прежние 17/17/18 playback и 6 preparation/24 bounded preparation/20
+playback regression; 19 v1 и 63 v2 SDK unit checks. Windows Qt clean portable и
+извлечённый .deb отдельно прошли SDK playback. Worker --info проверяет FFmpeg ABI;
+упаковка включает worker/runtime, Linux executable mode и обязательные библиотеки.
+[Контракт](ProgressiveContinuousSdk.md),
+[результаты](ProgressiveContinuousSdkValidation-2026-11-04.json).
+Linux обновляется с backup и сохранением профиля; Windows-установки/HKCU, SDK 1.81
+ZIP и Harvester сохраняются. Только MP4/H.264 video-only без B-frames. Полная
+waiting/replay/crash/stress matrix, audio/AAC trim/B-frames и остальное ТЗ открыты.

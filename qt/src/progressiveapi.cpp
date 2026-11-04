@@ -21,6 +21,7 @@
 #include "../../shared/progressivefmp4bridge.h"
 #include "../../shared/progressiveqtplayback.h"
 #include "../../shared/progressivestreamplayback.h"
+#include "../../shared/progressivestreamcapabilities.h"
 #ifndef Q_OS_WIN
 #include <sys/socket.h>
 #include <unistd.h>
@@ -91,8 +92,9 @@ QJsonObject ProgressiveApi::information(const QString &directory) {
 #endif
           }, {"profile", QDir(directory).absolutePath()},
           {"maxRequestBytes", limit}, {"heartbeatSeconds", 5}, {"disconnectAfterSeconds", 15},
-          {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers", "resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget", "previewRemux", "previewStatus", "previewCancel", "previewControl"}},
+          {"actions", QJsonArray{"capabilities", "validate", "probe", "start", "update", "complete", "heartbeat", "status", "cancel", "release", "error", "readerStatus", "readerRelease", "readerForget", "readers", "resourceProbe", "resourceProbeUpdate", "resourceProbeStatus", "resourceProbeCancel", "resourceProbeForget", "previewRemux", "previewStatus", "previewCancel", "previewControl", "continuousRemuxStart", "continuousRemuxStatus", "continuousRemuxUpdate", "continuousRemuxHeartbeat", "continuousRemuxCancel", "continuousRemuxForget", "continuousRemuxPlay", "continuousPlaybackStatus", "continuousPlaybackControl"}},
           {"completedSourceSeek",QJsonDocument::fromJson(foxicmp::progressive::CompletedSeekCapabilities()).object()},
+          {"continuousRemux",QJsonDocument::fromJson(foxicmp::progressive::ContinuousRemuxCapabilities()).object()},
           {"preparedRemuxPreview",QJsonDocument::fromJson(foxicmp::progressive::PreparedPreviewCapabilities()).object()},
           {"backendRemuxProbe",QJsonDocument::fromJson(foxicmp::progressive::BackendRemuxCapabilities()).object()},
           {"backendDemuxProbe",QJsonDocument::fromJson(foxicmp::progressive::BackendDemuxCapabilities()).object()},

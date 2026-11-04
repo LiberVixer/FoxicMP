@@ -26,6 +26,7 @@ if ldd "$stage_dir/$folder/foxicmp-qt" 2>&1 | grep -q 'not found'; then
   echo 'Runtime dependency check failed: ldd reported a missing library.' >&2
   exit 1
 fi
+"$stage_dir/$folder/foxicmp-remux-stream-worker" --info > "$stage_dir/$folder/continuous-remux-worker.json"
 # Never include developer profiles or playback history. Normalize archive
 # metadata so two builds from the same tree produce the same release checksum.
 tar --sort=name --mtime='UTC 1970-01-01' --owner=0 --group=0 --numeric-owner \

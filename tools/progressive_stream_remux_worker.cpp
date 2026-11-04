@@ -1,5 +1,6 @@
 // Internal continuous copy-remux component. No player capability is advertised.
 #include "progressive_demux_runtime.h"
+#include "../shared/progressivestreamcapabilities.h"
 namespace {
 using namespace foxicmp::demux_worker;
 constexpr uint64_t InputLimit=128*1024*1024,OutputLimit=64*1024*1024;
@@ -71,7 +72,7 @@ Doc run(Api& api,const Doc& start){
  Doc result;result.SetObject();auto& a=result.GetAllocator();put(result,"code","data");put(result,"mode","continuous-h264-video-v1");result.AddMember("sourceComplete",true,a);result.AddMember("sourceEof",true,a);result.AddMember("continuousOutput",true,a);result.AddMember("playbackSupported",false,a);result.AddMember("transcoded",false,a);result.AddMember("packets",packets,a);put(result,"bytesRead",std::to_string(source.readBytes));put(result,"bytesWritten",std::to_string(sink.bytes));put(result,"sha256",sink.digest.hex());put(result,"waits",std::to_string(source.waits));return result;
 }
 }
-int main(int argc,char**){
+int main(int argc,char** argv){
 #ifdef _WIN32
  _setmode(_fileno(stdin),_O_BINARY);_setmode(_fileno(stdout),_O_BINARY);
 #else
@@ -80,6 +81,10 @@ int main(int argc,char**){
  const rlimit memory{1024ULL*1024*1024,1024ULL*1024*1024};if(setrlimit(RLIMIT_AS,&memory))return 2;
 #endif
 #endif
- try{need(argc==1,"invalid-arguments");Api api;auto start=receive();auto result=run(api,start);std::cout<<"{\"result\":"<<encode(result)<<"}"<<std::endl;return 0;}
+ try{
+  need(argc==1 || (argc==2 && std::string(argv[1])=="--info"),"invalid-arguments");Api api;
+  if(argc==2){auto info=api.info();auto& a=info.GetAllocator();info.AddMember("version",1,a);info.AddMember("workerProtocol",1,a);info.AddMember("runtimeVerified",true,a);put(info,"mode","continuous-h264-video-v1");Doc cap;cap.Parse(foxicmp::progressive::ContinuousRemuxCapabilities());info.AddMember("contract",Value(cap,a),a);std::cout<<encode(info)<<std::endl;return 0;}
+  auto start=receive();auto result=run(api,start);std::cout<<"{\"result\":"<<encode(result)<<"}"<<std::endl;return 0;
+ }
  catch(const std::exception& e){Doc result;result.SetObject();put(result,"code",e.what());result.AddMember("sourceComplete",false,result.GetAllocator());result.AddMember("playbackSupported",false,result.GetAllocator());std::cout<<"{\"result\":"<<encode(result)<<"}"<<std::endl;return 1;}
 }

@@ -15,6 +15,7 @@
 #include "../../../shared/progressivefmp4bridge.h"
 #include "../../../shared/progressiveclassicplayback.h"
 #include "../../../shared/progressivestreamplayback.h"
+#include "../../../shared/progressivestreamcapabilities.h"
 
 namespace {
 using rapidjson::Document;
@@ -74,6 +75,8 @@ std::string ClassicProgressiveApi::Information() {
     d.AddMember("readerRegistryOffUi",true,a);Value retirement(rapidjson::kObjectType);retirement.AddMember("maxSources",uint32_t(foxicmp::progressive::SourceRetirement::Capacity),a);retirement.AddMember("workerLimit",uint32_t(foxicmp::progressive::SourceRetirement::WorkerLimit),a);retirement.AddMember("processOwned",true,a);retirement.AddMember("filesClosedBeforeRelease",true,a);d.AddMember("sourceRetirement",retirement,a);
     d.AddMember("readerLeaseProtocol",1,a);d.AddMember("readerLeaseOptIn",true,a);d.AddMember("maxReaderReceipts",128,a);
     for(const auto* action:{"readerStatus","readerRelease","readerForget","readers","resourceProbe","resourceProbeUpdate","resourceProbeStatus","resourceProbeCancel","resourceProbeForget","previewRemux","previewStatus","previewCancel","previewControl"})d["actions"].PushBack(Value(action,a),a);
+    for(const auto* action:{"continuousRemuxStart","continuousRemuxStatus","continuousRemuxUpdate","continuousRemuxHeartbeat","continuousRemuxCancel","continuousRemuxForget","continuousRemuxPlay","continuousPlaybackStatus","continuousPlaybackControl"})d["actions"].PushBack(Value(action,a),a);
+    Document continuous;continuous.Parse(foxicmp::progressive::ContinuousRemuxCapabilities());d.AddMember("continuousRemux",Value(continuous,a),a);
     Document seek;seek.Parse(foxicmp::progressive::CompletedSeekCapabilities());d.AddMember("completedSourceSeek",Value(seek,a),a);
     Document preview;preview.Parse(foxicmp::progressive::PreparedPreviewCapabilities());d.AddMember("preparedRemuxPreview",Value(preview,a),a);
     Document remux;remux.Parse(foxicmp::progressive::BackendRemuxCapabilities());d.AddMember("backendRemuxProbe",Value(remux,a),a);

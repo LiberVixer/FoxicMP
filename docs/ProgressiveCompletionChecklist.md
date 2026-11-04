@@ -2,7 +2,7 @@
 
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
-Текущий проверенный срез — SDK 1.81, приложение 0.2.0. Этот документ — перечень
+Текущий проверенный срез — SDK 1.82, приложение 0.2.0. Этот документ — перечень
 работ и критериев; пустой checkbox не означает отсутствие функции у обычного
 воспроизведения завершённых файлов. Проверяется именно progressive-сценарий.
 
@@ -63,7 +63,8 @@
 - [x] Шесть внутренних команд подготовки continuous-remux через обычный IPC всех трёх редакций, без playback commit и без изменения advertised capabilities/SDK. По шесть IPC сценариев на редакцию, прежние 24 preparation/20 playback; исправлен heartbeat после producer EOF, по 18 native сценариев четырёх сборок с 12 completion cycles — [отчёт](ProgressiveContinuousRemuxApiValidation-2026-11-04.json). Все main EXE пересобраны, Linux обновлён с backup без изменения INI/личных файлов; Windows-установки/HKCU и Harvester сохранены. Worker пока только в тестовых копиях.
 - [x] Внутренний continuous-remux playback commit/control/status через обычный IPC, intent fencing при Stop/замене/закрытии: по 14 сценариев Qt ОС и 15 Classic, две Qt Window/API lifecycle проверки на ОС, 11 native decoder ASan/UBSan. Исправлены prefix-duration seek Qt и преждевременная отмена текущего просмотра при подготовке замены; проверены EOF/receipts, Classic normal exit 0 и повторный запуск. Все main EXE пересобраны, Linux обновлён с backup без изменения профиля — [отчёт](ProgressiveContinuousRemuxPlaybackApiValidation-2026-11-04.json). Пока только внутренний узкий H.264 video-only профиль; capability/SDK/worker пользователю не поставлены.
 - [x] Ограниченный continuous output `readerRelease` adapter всех трёх редакций: точная привязка квитанции к output resource/file identity и попытке просмотра, остановка при playing/pause/ожидании хвоста, EOF/replay и изоляция старых/чужих запросов. Qt отдельно проверяет задержанный registry I/O, замену видео и удерживаемого дополнительного reader; положительный release требует фактического close — [отчёт](ProgressiveContinuousRemuxReaderReleaseValidation-2026-11-04.json). Это внутренний H.264 video-only профиль, не полная lifecycle/stress приёмка.
-- [ ] Публичные continuous-remux capability/SDK и поставка worker; полные waiting/replay/shutdown/crash/stress проверки трёх редакций.
+- [x] SDK 1.82: публичный ограниченный `continuousRemux` contract, явный `ContinuousRemux` helper, read-only восстановление job/playback после потери ответа и поставка worker/runtime. По пять SDK IPC сценариев каждой редакции, 17 SDK unit checks, Qt portable Windows и извлечённый Linux .deb проверены реальным SDK; worker ABI/права/dependencies и сохранение профиля проверяются упаковкой — [контракт](ProgressiveContinuousSdk.md), [отчёт](ProgressiveContinuousSdkValidation-2026-11-04.json). Только MP4/H.264 video-only без B-frames; весь ТЗ этим не закрыт.
+- [ ] Полные waiting/replay/shutdown/crash/stress проверки публичного continuous-remux SDK трёх редакций.
 
 - [ ] Проверенные backend demuxers через управляемый local I/O; платформенные адаптеры Qt/Classic.
 - [ ] Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей.

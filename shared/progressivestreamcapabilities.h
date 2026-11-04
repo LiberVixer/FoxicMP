@@ -1,0 +1,7 @@
+// Public bounded continuous copy-remux contract, shared by all three editions.
+// Runtime readiness is established per job, never by this build declaration.
+// GPL-3.0-or-later.
+#pragma once
+namespace foxicmp { namespace progressive {
+inline const char* ContinuousRemuxCapabilities(){return R"({"version":1,"mode":"continuous-h264-video-v1","progressiveMode":"progressive-remux","playbackSupported":true,"explicitPreparation":true,"explicitPlaybackCommit":true,"workerRequired":true,"workerProtocol":1,"runtimeValidation":"per-job-before-playback","containerHint":"mp4","videoCodec":"h264","videoOnly":true,"audio":false,"bFrames":false,"encrypted":false,"live":false,"configurationChanges":false,"knownDurationRequired":true,"zeroTimestampOriginRequired":true,"timebase":{"numerator":1,"denominator":10000000},"maxDurationSeconds":3600,"maxSourceBytes":134217728,"maxWorkerReadBytes":134217728,"maxOutputBytes":67108864,"maxSharedCacheBytes":67108864,"maxPackets":50000,"maxPacketBytes":16777216,"maxPendingUpdates":8,"maxActiveJobs":1,"maxRetainedJobs":8,"writerHeartbeatMilliseconds":30000,"maxJobLifetimeMilliseconds":3600000,"sourceIntegrity":"sha256","confirmedRangesOnly":true,"seek":"after-output-complete","readerRelease":true,"releaseRequiresFilesClosed":true,"originalsUnchanged":true,"transcoded":false,"networkFallback":false,"mediaBytesOverIpc":false})";}
+}}
