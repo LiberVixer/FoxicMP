@@ -1,0 +1,3263 @@
+{
+  "result": "PASS",
+  "date": "2026-11-04",
+  "applicationVersion": "0.2.0",
+  "publicSdkVersion": "1.81",
+  "scope": {
+    "sharedAsyncController": true,
+    "ordinaryEndpointsIntegrated": false,
+    "publicCapability": false,
+    "mainExecutablesChanged": false,
+    "newInstalledVersion": false,
+    "harvesterModified": false
+  },
+  "sourceSha256": {
+    "shared/progressivestreamcontroller.h": "e8ea4f20979d49e96a69a7e3a08b8e9e36df3c5865fa206265780259a324afcd",
+    "shared/progressivestreamcache.h": "a6cd1fe3d267941a2ec321ad150fd1936799fecbaa68c197598eb9dd058ebc7a",
+    "tests/progressive_stream_controller_cli.cpp": "0b85dff416918227b8a4e00d4100dffcc609bed177a77b94406f6f7d080e8cee",
+    "tests/progressive_stream_controller_test.py": "12618574961c9c65d618b988400b8f855fd49c19c57000b7641ad7c146e54bd3",
+    "tests/progressive_stream_cache_cli.cpp": "f4cd2cbd11d3918e7287f7a8cf88e2b0e828b45c938a68a5e4d6ff90390a3f54",
+    "qt/CMakeLists.txt": "80b6370e7c190530065607c82e64c0f8869a4457a284f56564738315bd396e07"
+  },
+  "exactExitCodes": {
+    "stream-controller-linux-build": 0,
+    "stream-controller-linux-tests": 0,
+    "stream-controller-linux-regression-build": 0,
+    "stream-controller-linux-regression": 0,
+    "stream-controller-windows-build": 0,
+    "stream-controller-windows-tests": 0,
+    "stream-controller-windows-ssh": 0,
+    "stream-controller-msvc-build": 0,
+    "stream-controller-msvc-tests": 0,
+    "stream-controller-msvc-ssh": 0,
+    "stream-controller-asan-build": 0,
+    "stream-controller-asan-tests": 0,
+    "stream-controller-final-state-ssh": 0
+  },
+  "controllerValidation": {
+    "linux-gcc": {
+      "result": "PASS",
+      "count": 17,
+      "rows": [
+        {
+          "profile": "growing-idempotence-fences-completion-reader-gate",
+          "result": "PASS",
+          "singleWorkerPid": 60175,
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "b5d53106335c077b873feb6bab4689d1",
+            "requestId": "47bc439da7954c56a72410100263cf7e",
+            "sessionId": "847a55a215a04b60a8d6258839c6e8d6",
+            "generation": "1",
+            "writerInstanceId": "89c92fb6bb754ca5a9731720f8e8101a",
+            "state": "forgotten",
+            "errorCode": "",
+            "cleanupCode": "released",
+            "acceptedRevision": "5",
+            "appliedRevision": "5",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "443235",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 60175,
+            "playbackReady": false,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": true,
+            "readerIds": [
+              "25e2357ab1181fd013e3337bfbcb9adb",
+              "ed22c68c8fbab2892edb7e8142b434fd"
+            ]
+          },
+          "heldReaderGatedCleanup": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "b5d53106335c077b873feb6bab4689d1",
+            "requestId": "47bc439da7954c56a72410100263cf7e",
+            "sessionId": "847a55a215a04b60a8d6258839c6e8d6",
+            "generation": "1",
+            "writerInstanceId": "89c92fb6bb754ca5a9731720f8e8101a",
+            "state": "forgetting",
+            "errorCode": "",
+            "cleanupCode": "cache-in-use",
+            "acceptedRevision": "5",
+            "appliedRevision": "5",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "443235",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 60175,
+            "playbackReady": false,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": false,
+            "forgotten": false,
+            "readerIds": [
+              "25e2357ab1181fd013e3337bfbcb9adb",
+              "ed22c68c8fbab2892edb7e8142b434fd"
+            ]
+          }
+        },
+        {
+          "profile": "blocked-prepare-status-heartbeat-cancel-destroy-off-caller",
+          "result": "PASS",
+          "startSeconds": 0.0005576700004894519,
+          "maxAdmissionSeconds": 0.0004747120001411531,
+          "destructionSeconds": 1.1214e-05,
+          "noWorkerSpawnAfterCancel": true
+        },
+        {
+          "profile": "bounded-update-queue-and-accepted-vs-applied",
+          "result": "PASS",
+          "queueLimit": 8,
+          "acceptedUnapplied": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "f506f914d8830b2fe8531d075a19b4c6",
+            "requestId": "5484cd2c0432421faae0f56125b74cfc",
+            "sessionId": "44bc4e1a53404825b085aef24c7a65a6",
+            "generation": "1",
+            "writerInstanceId": "dce4dd4585d24c84987892a80e724c2c",
+            "state": "preparing",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "9",
+            "appliedRevision": "",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "starting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 8,
+            "neededLength": 0,
+            "workerId": 0,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": false,
+            "released": false,
+            "forgotten": false,
+            "readerIds": []
+          },
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "f506f914d8830b2fe8531d075a19b4c6",
+            "requestId": "5484cd2c0432421faae0f56125b74cfc",
+            "sessionId": "44bc4e1a53404825b085aef24c7a65a6",
+            "generation": "1",
+            "writerInstanceId": "dce4dd4585d24c84987892a80e724c2c",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "9",
+            "appliedRevision": "",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "starting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 8,
+            "neededLength": 0,
+            "workerId": 0,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": []
+          }
+        },
+        {
+          "profile": "blocked-publication-does-not-block-cancel-or-status",
+          "result": "PASS",
+          "admissionSeconds": 0.00030358799995156005,
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "119316ece33fc6370b969ae6bc10e0d6",
+            "requestId": "37ee17f37eae47bba600160c72bcc139",
+            "sessionId": "d46ab6ea1b7e4427b902975a03b00656",
+            "generation": "1",
+            "writerInstanceId": "7003e78ac54949bcb7ff9ed17213e387",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 60190,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "8d84cc69a5180023fcd40fffc754e782"
+            ]
+          }
+        },
+        {
+          "profile": "writer-loss",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "c86b4e642e73f7b48b9dc12a897b3a92",
+            "requestId": "cad80670dae144b699d1f776ddf92867",
+            "sessionId": "3c60208aa9864e768b4238c4d496ee8d",
+            "generation": "1",
+            "writerInstanceId": "a73b729404f04bc09e25d1de1e2636b0",
+            "state": "error",
+            "errorCode": "writer-heartbeat-timeout",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "4",
+            "appliedHeartbeat": "4",
+            "producerCode": "writer-heartbeat-timeout",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 60197,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "91baa29c490fbc16597d6819c3a26c2b"
+            ]
+          }
+        },
+        {
+          "profile": "writer-keepalive",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "a721adc99a7cac6c3ec98a28f2bb3935",
+            "requestId": "7bd3cce9909e4ecd8ddc0361bf8e3d61",
+            "sessionId": "7c0050b5da40437e83d554c23fb8ddb4",
+            "generation": "1",
+            "writerInstanceId": "23111b98de124a23b3772d13cc8d5e34",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "21",
+            "appliedHeartbeat": "21",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 60213,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "3b77a2c8ff8a99294ad73b359be72eae"
+            ]
+          }
+        },
+        {
+          "profile": "writer-lifetime",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "53ea2c4bdc878e8adfa8a926e77100cc",
+            "requestId": "7e36f09f7f304a00952b7729e06dba04",
+            "sessionId": "15f3ff50841341c4a8e3f5671cbbc1e2",
+            "generation": "1",
+            "writerInstanceId": "86ffbab2c05341e68d92f546357304fb",
+            "state": "error",
+            "errorCode": "backend-time-limit",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "3",
+            "appliedHeartbeat": "3",
+            "producerCode": "backend-time-limit",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 60220,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "c682e988c7b3e5eb23b5e7e77c7c2476"
+            ]
+          }
+        },
+        {
+          "profile": "completed-source-ready-and-repeated-service-reuse",
+          "result": "PASS",
+          "cycles": 4
+        },
+        {
+          "profile": "all-mutating-command-identity-fences",
+          "result": "PASS",
+          "rejectedCommands": [
+            "continuousRemuxHeartbeat-jobId",
+            "continuousRemuxCancel-jobId",
+            "continuousRemuxForget-jobId",
+            "continuousRemuxHeartbeat-sessionId",
+            "continuousRemuxCancel-sessionId",
+            "continuousRemuxForget-sessionId",
+            "continuousRemuxHeartbeat-generation",
+            "continuousRemuxCancel-generation",
+            "continuousRemuxForget-generation",
+            "continuousRemuxHeartbeat-writerInstanceId",
+            "continuousRemuxCancel-writerInstanceId",
+            "continuousRemuxForget-writerInstanceId"
+          ]
+        },
+        {
+          "profile": "manager-destruction-retains-fence-until-reader-close",
+          "result": "PASS",
+          "destructionSeconds": 1.8389e-05,
+          "readerId": "78e592826344944ea533837c5d97c8bf",
+          "retainedUntilActualClose": true
+        },
+        {
+          "profile": "explicit-writer-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "3c10b4e87527382eff4282907d044568",
+            "requestId": "a34425d5bdaf4b15844d58ecc4b2d891",
+            "sessionId": "e871207d2b934d70a96cbad5e2878637",
+            "generation": "1",
+            "writerInstanceId": "a577cb136cbe484f8f8753c95725d853",
+            "state": "error",
+            "errorCode": "writer-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "writer-failed",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 60283,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "6d58c5cfe9facf7776b51f47341722e6"
+            ]
+          }
+        },
+        {
+          "profile": "required-track-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "4e002dfc9c1c4d5c2d5319c0f75cca49",
+            "requestId": "4bef3fb0726c456d87c759c2d8e62ee9",
+            "sessionId": "b0afd66746074c549d87354ae0fcb673",
+            "generation": "1",
+            "writerInstanceId": "812e9f9a6bbf4982a35a60b805bf1a58",
+            "state": "error",
+            "errorCode": "writer-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 60291,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "caaee7fb0b893bfb6a3075ac633f74b5"
+            ]
+          }
+        },
+        {
+          "profile": "required-resource-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "903ad3b40439fbac9f3c32711b631a52",
+            "requestId": "6f2d6f31e9264f718bd93706c4efb76e",
+            "sessionId": "1eef61eeb1714a7db914f16d6065615c",
+            "generation": "1",
+            "writerInstanceId": "b8f60b0bfffb42b5997f5ee0180b93cc",
+            "state": "error",
+            "errorCode": "resource-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "resource-failed",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 60298,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "969f3b188f6f31d26a32ae910d42dcaf"
+            ]
+          }
+        },
+        {
+          "profile": "failure-integrity",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "7897f68c6650065fd0a5dc179a641e02",
+            "requestId": "61e8ab168b7b488daa0ab936f782de8b",
+            "sessionId": "143397ce7bba441c89bfdad39cff0d65",
+            "generation": "1",
+            "writerInstanceId": "a37af8a6b76d406484b1bd5738295000",
+            "state": "error",
+            "errorCode": "integrity-mismatch",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "integrity-mismatch",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 60305,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "0942695cfd4670125394b32f19b3d0fd"
+            ]
+          }
+        },
+        {
+          "profile": "late-resource-waits-until-published",
+          "result": "PASS",
+          "initiallyWaiting": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "3c240aee0706a41ef729dc93519b41c3",
+            "requestId": "354639322d26406d8f37b835b302be02",
+            "sessionId": "81e625a00c8e4b7eae71f2d065cf495e",
+            "generation": "1",
+            "writerInstanceId": "f6f4f81a53774d50b9d3b3f4a2052ac8",
+            "state": "waiting",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "waiting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 60312,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": false,
+            "released": false,
+            "forgotten": false,
+            "readerIds": []
+          },
+          "completed": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "3c240aee0706a41ef729dc93519b41c3",
+            "requestId": "354639322d26406d8f37b835b302be02",
+            "sessionId": "81e625a00c8e4b7eae71f2d065cf495e",
+            "generation": "1",
+            "writerInstanceId": "f6f4f81a53774d50b9d3b3f4a2052ac8",
+            "state": "complete",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "0",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 60312,
+            "playbackReady": true,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": false,
+            "forgotten": false,
+            "readerIds": [
+              "82914573b42c41f5728731ada23f9061"
+            ]
+          }
+        },
+        {
+          "profile": "failure-killed-worker",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "4fb6e7e53050e0fff49bd0cd842a4ba7",
+            "requestId": "a187353395a54b078d122c01cb373b73",
+            "sessionId": "7579113bd85e4a6eb49bb64e338029b7",
+            "generation": "1",
+            "writerInstanceId": "dbb10ec7798b45bfa8154b30acafc161",
+            "state": "error",
+            "errorCode": "backend-worker-exited",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "backend-worker-exited",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 60319,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "8f7b214f9618ebe65f27af5b31bf90b4"
+            ]
+          }
+        },
+        {
+          "profile": "reject-before-spawn-profile-schema-path-limits",
+          "result": "PASS",
+          "rejections": [
+            {
+              "mode": "audio",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "failed-track",
+              "code": "writer-failed"
+            },
+            {
+              "mode": "failed-resource",
+              "code": "resource-failed"
+            },
+            {
+              "mode": "live",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "unknown-length",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "missing-integrity",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "clock",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "extra-resource",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "relative-root",
+              "code": "invalid_request"
+            },
+            {
+              "mode": "caller-worker",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "request-size",
+              "code": "invalid_request"
+            }
+          ],
+          "noWorkerOrCacheCreated": true
+        }
+      ],
+      "exactDriverExits": [
+        {
+          "profile": "growing-idempotence-fences-completion-reader-gate",
+          "pid": 60169,
+          "exitCode": 0
+        },
+        {
+          "profile": "blocked-prepare-status-heartbeat-cancel-destroy-off-caller",
+          "pid": 60176,
+          "exitCode": 0
+        },
+        {
+          "profile": "bounded-update-queue-and-accepted-vs-applied",
+          "pid": 60180,
+          "exitCode": 0
+        },
+        {
+          "profile": "blocked-publication-does-not-block-cancel-or-status",
+          "pid": 60184,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-loss",
+          "pid": 60191,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-keepalive",
+          "pid": 60207,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-lifetime",
+          "pid": 60214,
+          "exitCode": 0
+        },
+        {
+          "profile": "completed-source-ready-and-repeated-service-reuse",
+          "pid": 60235,
+          "exitCode": 0
+        },
+        {
+          "profile": "all-mutating-command-identity-fences",
+          "pid": 60261,
+          "exitCode": 0
+        },
+        {
+          "profile": "manager-destruction-retains-fence-until-reader-close",
+          "pid": 60268,
+          "exitCode": 0
+        },
+        {
+          "profile": "explicit-writer-failure-publication",
+          "pid": 60277,
+          "exitCode": 0
+        },
+        {
+          "profile": "required-track-failure-publication",
+          "pid": 60285,
+          "exitCode": 0
+        },
+        {
+          "profile": "required-resource-failure-publication",
+          "pid": 60292,
+          "exitCode": 0
+        },
+        {
+          "profile": "failure-integrity",
+          "pid": 60299,
+          "exitCode": 0
+        },
+        {
+          "profile": "late-resource-waits-until-published",
+          "pid": 60306,
+          "exitCode": 0
+        },
+        {
+          "profile": "failure-killed-worker",
+          "pid": 60313,
+          "exitCode": 0
+        },
+        {
+          "profile": "reject-before-spawn-profile-schema-path-limits",
+          "pid": 60320,
+          "exitCode": 0
+        }
+      ],
+      "runnerSha256": "0e768f3a87bcfada79c8bb0efe3b777bbda894d2504c40ab1f9efb996681d742",
+      "workerSha256": "e6420d9d98462712ea2ad43c9f78e3227d113dd313138230120586b658de4a49",
+      "testSourceSha256": "12618574961c9c65d618b988400b8f855fd49c19c57000b7641ad7c146e54bd3",
+      "temporaryWorkRemoved": true,
+      "internalControllerOnly": true,
+      "ordinaryPlayerApi": false
+    },
+    "windows-mingw": {
+      "result": "PASS",
+      "count": 17,
+      "rows": [
+        {
+          "profile": "growing-idempotence-fences-completion-reader-gate",
+          "result": "PASS",
+          "singleWorkerPid": 7444,
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "ddbcca9cf7bdcea45110d4dcbee267c6",
+            "requestId": "7b6e15c155e54e71a47cd00e28b328a1",
+            "sessionId": "eaff2cd5f72b45b09a91f43281b772fa",
+            "generation": "1",
+            "writerInstanceId": "08229d4ebeb74182b390cc1aca483ac7",
+            "state": "forgotten",
+            "errorCode": "",
+            "cleanupCode": "released",
+            "acceptedRevision": "5",
+            "appliedRevision": "5",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "443235",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 7444,
+            "playbackReady": false,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": true,
+            "readerIds": [
+              "3a65a36bcbce517666f81f6cc99c73dc",
+              "7077353939e6415e479f457700505add"
+            ]
+          },
+          "heldReaderGatedCleanup": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "ddbcca9cf7bdcea45110d4dcbee267c6",
+            "requestId": "7b6e15c155e54e71a47cd00e28b328a1",
+            "sessionId": "eaff2cd5f72b45b09a91f43281b772fa",
+            "generation": "1",
+            "writerInstanceId": "08229d4ebeb74182b390cc1aca483ac7",
+            "state": "forgetting",
+            "errorCode": "",
+            "cleanupCode": "cache-in-use",
+            "acceptedRevision": "5",
+            "appliedRevision": "5",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "443235",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 7444,
+            "playbackReady": false,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": false,
+            "forgotten": false,
+            "readerIds": [
+              "3a65a36bcbce517666f81f6cc99c73dc",
+              "7077353939e6415e479f457700505add"
+            ]
+          }
+        },
+        {
+          "profile": "blocked-prepare-status-heartbeat-cancel-destroy-off-caller",
+          "result": "PASS",
+          "startSeconds": 0.0007923000002847402,
+          "maxAdmissionSeconds": 0.00030359999982465524,
+          "destructionSeconds": 1.44e-05,
+          "noWorkerSpawnAfterCancel": true
+        },
+        {
+          "profile": "bounded-update-queue-and-accepted-vs-applied",
+          "result": "PASS",
+          "queueLimit": 8,
+          "acceptedUnapplied": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "dc9d424810f3cee128183aa2fe52b562",
+            "requestId": "2606c0306e914b73a7bc3f7a6867bd58",
+            "sessionId": "c8a604ff9b7f4bffb8ad9fdc820d6829",
+            "generation": "1",
+            "writerInstanceId": "438b4fc5f05e450ca47c0e1a399fef39",
+            "state": "preparing",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "9",
+            "appliedRevision": "",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "starting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 8,
+            "neededLength": 0,
+            "workerId": 0,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": false,
+            "released": false,
+            "forgotten": false,
+            "readerIds": []
+          },
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "dc9d424810f3cee128183aa2fe52b562",
+            "requestId": "2606c0306e914b73a7bc3f7a6867bd58",
+            "sessionId": "c8a604ff9b7f4bffb8ad9fdc820d6829",
+            "generation": "1",
+            "writerInstanceId": "438b4fc5f05e450ca47c0e1a399fef39",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "9",
+            "appliedRevision": "",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "starting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 8,
+            "neededLength": 0,
+            "workerId": 0,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": []
+          }
+        },
+        {
+          "profile": "blocked-publication-does-not-block-cancel-or-status",
+          "result": "PASS",
+          "admissionSeconds": 0.0003277000005255104,
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "21b494087ae4f0975f5205d4850ee8ec",
+            "requestId": "4875da4aa4b04e4096bc243d83830ff7",
+            "sessionId": "d7c25fd337724a7f9f163010e14b23cc",
+            "generation": "1",
+            "writerInstanceId": "d1be3bdd9b414e23ba1ee15f978d125b",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 11576,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "c21aac1a2f4e5f39d17d10c52735fc6f"
+            ]
+          }
+        },
+        {
+          "profile": "writer-loss",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "c7dcc9794422d22d77444240d6957aa9",
+            "requestId": "7f5cba670f544163b2dc2076db15ee69",
+            "sessionId": "56dc10b8720b43ad94fc7f59d143ac4d",
+            "generation": "1",
+            "writerInstanceId": "aac58f595f554d68a4c2da23904d9df3",
+            "state": "error",
+            "errorCode": "writer-heartbeat-timeout",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "5",
+            "appliedHeartbeat": "5",
+            "producerCode": "writer-heartbeat-timeout",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 6836,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "472a6278b8fbf150652e3f78ca71a1c5"
+            ]
+          }
+        },
+        {
+          "profile": "writer-keepalive",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "830499f161887ec947495f9c66304fed",
+            "requestId": "16e803ed232b42f48d009639e9c69d8d",
+            "sessionId": "dcaa38ffc9c540d589a93b5d2aee797e",
+            "generation": "1",
+            "writerInstanceId": "76a912ebd0ef49b79e77fd6dae1a4d29",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "22",
+            "appliedHeartbeat": "22",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 6472,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "a0131a622780f9161c61cc5cdd26e025"
+            ]
+          }
+        },
+        {
+          "profile": "writer-lifetime",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "f8b1b403c73c462829d6b2ef596b22b5",
+            "requestId": "a1a0a9bd6f404f00b535000294a89fff",
+            "sessionId": "060d589eb1d24c1ba7367f017c4ef5f3",
+            "generation": "1",
+            "writerInstanceId": "abd04f7f4b8545c5979ae9aab4158f6d",
+            "state": "error",
+            "errorCode": "backend-time-limit",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "4",
+            "appliedHeartbeat": "4",
+            "producerCode": "backend-time-limit",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 3444,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "ccd022f03057a69ee6d17a9a4ef8701d"
+            ]
+          }
+        },
+        {
+          "profile": "completed-source-ready-and-repeated-service-reuse",
+          "result": "PASS",
+          "cycles": 4
+        },
+        {
+          "profile": "all-mutating-command-identity-fences",
+          "result": "PASS",
+          "rejectedCommands": [
+            "continuousRemuxHeartbeat-jobId",
+            "continuousRemuxCancel-jobId",
+            "continuousRemuxForget-jobId",
+            "continuousRemuxHeartbeat-sessionId",
+            "continuousRemuxCancel-sessionId",
+            "continuousRemuxForget-sessionId",
+            "continuousRemuxHeartbeat-generation",
+            "continuousRemuxCancel-generation",
+            "continuousRemuxForget-generation",
+            "continuousRemuxHeartbeat-writerInstanceId",
+            "continuousRemuxCancel-writerInstanceId",
+            "continuousRemuxForget-writerInstanceId"
+          ]
+        },
+        {
+          "profile": "manager-destruction-retains-fence-until-reader-close",
+          "result": "PASS",
+          "destructionSeconds": 1.52e-05,
+          "readerId": "e376fb0727dcae76e5bca960536b7681",
+          "retainedUntilActualClose": true
+        },
+        {
+          "profile": "explicit-writer-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "1886934b2f189f084a4f9889bf0752fe",
+            "requestId": "0f9be74ca7734c9494584b97572df51b",
+            "sessionId": "65f5dcdb55614b70aed7438e0e4e3ca5",
+            "generation": "1",
+            "writerInstanceId": "41bd59e2155f421d9591a8597110af47",
+            "state": "error",
+            "errorCode": "writer-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "writer-failed",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 4108,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "f32c57aec07690d823e1e674850f7ce6"
+            ]
+          }
+        },
+        {
+          "profile": "required-track-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "c92fb955c94f8879cdc7138817bb19cd",
+            "requestId": "db3ad03748444e97b3a7194c3050163b",
+            "sessionId": "c8e016b4eb254901aee343fd1b194a2a",
+            "generation": "1",
+            "writerInstanceId": "5ac6f388b67b406da0b6777facb09c07",
+            "state": "error",
+            "errorCode": "writer-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 5968,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "79ccdeef9534f25d0c20c76da056354e"
+            ]
+          }
+        },
+        {
+          "profile": "required-resource-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "16ad5056aaa5bcd45742b5b8ddfaa602",
+            "requestId": "51541b7f05ad4dc691e7103cbb894b8d",
+            "sessionId": "857f14eadc674a7597d5ce663900438a",
+            "generation": "1",
+            "writerInstanceId": "adf5d2ff0c7b48fa983622597063dcc8",
+            "state": "error",
+            "errorCode": "resource-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "resource-failed",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 13156,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "2730626a1d18ae1299cd0712f3a5bab9"
+            ]
+          }
+        },
+        {
+          "profile": "failure-integrity",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "528df3ab3c7d71dba17ff1a6464754d9",
+            "requestId": "00fbd3b70c624a48beaa0248a66180f9",
+            "sessionId": "9a20340c4d614c479c6ec943c8fd131a",
+            "generation": "1",
+            "writerInstanceId": "7b07f071a3f844e9b0dc9a364b5c22e8",
+            "state": "error",
+            "errorCode": "integrity-mismatch",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "integrity-mismatch",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 6996,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "3ceb6d81ee63810f9d70255141279924"
+            ]
+          }
+        },
+        {
+          "profile": "late-resource-waits-until-published",
+          "result": "PASS",
+          "initiallyWaiting": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "17ae20742b0e0609737556d8b9dfb584",
+            "requestId": "6cc93ccb07584e8d8f9d3c8e4d40d409",
+            "sessionId": "6763e990bd24427bafa1441c37bf8a6f",
+            "generation": "1",
+            "writerInstanceId": "511e22d9d0894e4fbe0c0e44c7f96b80",
+            "state": "waiting",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "waiting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 7892,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": false,
+            "released": false,
+            "forgotten": false,
+            "readerIds": []
+          },
+          "completed": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "17ae20742b0e0609737556d8b9dfb584",
+            "requestId": "6cc93ccb07584e8d8f9d3c8e4d40d409",
+            "sessionId": "6763e990bd24427bafa1441c37bf8a6f",
+            "generation": "1",
+            "writerInstanceId": "511e22d9d0894e4fbe0c0e44c7f96b80",
+            "state": "complete",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "443235",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 7892,
+            "playbackReady": true,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": false,
+            "forgotten": false,
+            "readerIds": [
+              "1d35a03ac42339989afa735c77866c1c"
+            ]
+          }
+        },
+        {
+          "profile": "failure-killed-worker",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "cff44547f663a648f4422bca74d3d5fc",
+            "requestId": "42b6e13d13f24774a59da5686192aada",
+            "sessionId": "6b247a2c10fc40c4b612ccaacd57def3",
+            "generation": "1",
+            "writerInstanceId": "b45612abb2a14678985faa7e6f198e06",
+            "state": "error",
+            "errorCode": "backend-worker-exited",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "backend-worker-exited",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 12300,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "8cb16b011920602f3c0b73d607bd181b"
+            ]
+          }
+        },
+        {
+          "profile": "reject-before-spawn-profile-schema-path-limits",
+          "result": "PASS",
+          "rejections": [
+            {
+              "mode": "audio",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "failed-track",
+              "code": "writer-failed"
+            },
+            {
+              "mode": "failed-resource",
+              "code": "resource-failed"
+            },
+            {
+              "mode": "live",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "unknown-length",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "missing-integrity",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "clock",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "extra-resource",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "relative-root",
+              "code": "invalid_request"
+            },
+            {
+              "mode": "caller-worker",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "request-size",
+              "code": "invalid_request"
+            }
+          ],
+          "noWorkerOrCacheCreated": true
+        }
+      ],
+      "exactDriverExits": [
+        {
+          "profile": "growing-idempotence-fences-completion-reader-gate",
+          "pid": 7148,
+          "exitCode": 0
+        },
+        {
+          "profile": "blocked-prepare-status-heartbeat-cancel-destroy-off-caller",
+          "pid": 11296,
+          "exitCode": 0
+        },
+        {
+          "profile": "bounded-update-queue-and-accepted-vs-applied",
+          "pid": 11680,
+          "exitCode": 0
+        },
+        {
+          "profile": "blocked-publication-does-not-block-cancel-or-status",
+          "pid": 6308,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-loss",
+          "pid": 11996,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-keepalive",
+          "pid": 13264,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-lifetime",
+          "pid": 12444,
+          "exitCode": 0
+        },
+        {
+          "profile": "completed-source-ready-and-repeated-service-reuse",
+          "pid": 3260,
+          "exitCode": 0
+        },
+        {
+          "profile": "all-mutating-command-identity-fences",
+          "pid": 2824,
+          "exitCode": 0
+        },
+        {
+          "profile": "manager-destruction-retains-fence-until-reader-close",
+          "pid": 10704,
+          "exitCode": 0
+        },
+        {
+          "profile": "explicit-writer-failure-publication",
+          "pid": 3232,
+          "exitCode": 0
+        },
+        {
+          "profile": "required-track-failure-publication",
+          "pid": 3412,
+          "exitCode": 0
+        },
+        {
+          "profile": "required-resource-failure-publication",
+          "pid": 11720,
+          "exitCode": 0
+        },
+        {
+          "profile": "failure-integrity",
+          "pid": 12860,
+          "exitCode": 0
+        },
+        {
+          "profile": "late-resource-waits-until-published",
+          "pid": 8680,
+          "exitCode": 0
+        },
+        {
+          "profile": "failure-killed-worker",
+          "pid": 7344,
+          "exitCode": 0
+        },
+        {
+          "profile": "reject-before-spawn-profile-schema-path-limits",
+          "pid": 9816,
+          "exitCode": 0
+        }
+      ],
+      "runnerSha256": "38571dfdbc6632096ddef2f89c3c87c47a0654f421133d28a97c6e7d096f7181",
+      "workerSha256": "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+      "testSourceSha256": "12618574961c9c65d618b988400b8f855fd49c19c57000b7641ad7c146e54bd3",
+      "temporaryWorkRemoved": true,
+      "internalControllerOnly": true,
+      "ordinaryPlayerApi": false
+    },
+    "windows-msvc": {
+      "result": "PASS",
+      "count": 17,
+      "rows": [
+        {
+          "profile": "growing-idempotence-fences-completion-reader-gate",
+          "result": "PASS",
+          "singleWorkerPid": 9880,
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "5209ee74f25eaaedde074bc4464f73ac",
+            "requestId": "6618df960e614f5e8b188c48b55ffcc0",
+            "sessionId": "de80814943a94fe489277a7581765917",
+            "generation": "1",
+            "writerInstanceId": "89a5b55f2ee84b7a96be94b09835304a",
+            "state": "forgotten",
+            "errorCode": "",
+            "cleanupCode": "released",
+            "acceptedRevision": "5",
+            "appliedRevision": "5",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "443235",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 9880,
+            "playbackReady": false,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": true,
+            "readerIds": [
+              "b00d498290ce20acb4dbc482b719bb1e",
+              "e27852da9c9a8c99c568a7d06f318695"
+            ]
+          },
+          "heldReaderGatedCleanup": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "5209ee74f25eaaedde074bc4464f73ac",
+            "requestId": "6618df960e614f5e8b188c48b55ffcc0",
+            "sessionId": "de80814943a94fe489277a7581765917",
+            "generation": "1",
+            "writerInstanceId": "89a5b55f2ee84b7a96be94b09835304a",
+            "state": "forgetting",
+            "errorCode": "",
+            "cleanupCode": "cache-in-use",
+            "acceptedRevision": "5",
+            "appliedRevision": "5",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "443235",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 9880,
+            "playbackReady": false,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": false,
+            "forgotten": false,
+            "readerIds": [
+              "b00d498290ce20acb4dbc482b719bb1e",
+              "e27852da9c9a8c99c568a7d06f318695"
+            ]
+          }
+        },
+        {
+          "profile": "blocked-prepare-status-heartbeat-cancel-destroy-off-caller",
+          "result": "PASS",
+          "startSeconds": 0.0,
+          "maxAdmissionSeconds": 0.0,
+          "destructionSeconds": 6.2e-06,
+          "noWorkerSpawnAfterCancel": true
+        },
+        {
+          "profile": "bounded-update-queue-and-accepted-vs-applied",
+          "result": "PASS",
+          "queueLimit": 8,
+          "acceptedUnapplied": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "be04ba820dfae34022c1c064fa5fc3db",
+            "requestId": "0f3f890ba4e84055a19ccf117e27a21a",
+            "sessionId": "c58b4c47bfb0480582d6f8182fcd1ee6",
+            "generation": "1",
+            "writerInstanceId": "f605ddcbca4a43ec890b3ff63ecc6e7f",
+            "state": "preparing",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "9",
+            "appliedRevision": "",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "starting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 8,
+            "neededLength": 0,
+            "workerId": 0,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": false,
+            "released": false,
+            "forgotten": false,
+            "readerIds": []
+          },
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "be04ba820dfae34022c1c064fa5fc3db",
+            "requestId": "0f3f890ba4e84055a19ccf117e27a21a",
+            "sessionId": "c58b4c47bfb0480582d6f8182fcd1ee6",
+            "generation": "1",
+            "writerInstanceId": "f605ddcbca4a43ec890b3ff63ecc6e7f",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "9",
+            "appliedRevision": "",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "starting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 8,
+            "neededLength": 0,
+            "workerId": 0,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": []
+          }
+        },
+        {
+          "profile": "blocked-publication-does-not-block-cancel-or-status",
+          "result": "PASS",
+          "admissionSeconds": 0.0,
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "7438f4ad33ee5ae51ce291d7701b1f1f",
+            "requestId": "3781f8277119441190e10389f86ccf30",
+            "sessionId": "58a947f240fa477e9cfc0407bfef9729",
+            "generation": "1",
+            "writerInstanceId": "96778619d4934cf4b3a6539e93169ef6",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 8728,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "5ee7b23756f7845f924c93edce242b71"
+            ]
+          }
+        },
+        {
+          "profile": "writer-loss",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "2b39d96242386b68c5a0cb78f6ad130f",
+            "requestId": "aa021f7c7a164bf5bc07e3eba9ee2011",
+            "sessionId": "e499a11343444a22a4ebc92e18606c44",
+            "generation": "1",
+            "writerInstanceId": "422c81263016474ab7fae7eeb0255541",
+            "state": "error",
+            "errorCode": "writer-heartbeat-timeout",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "5",
+            "appliedHeartbeat": "5",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 6116,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "92e7e5e471bf22ba826be6e6ec24c26a"
+            ]
+          }
+        },
+        {
+          "profile": "writer-keepalive",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "452e6d1c325ce298b91fb146a51cdfe1",
+            "requestId": "90a72194a8134df5b2f84e1cb523a991",
+            "sessionId": "639fe3845cbd4b73893fe6fabe6e67be",
+            "generation": "1",
+            "writerInstanceId": "51e16fa3d3a64dbb95f005eebca96ca6",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "23",
+            "appliedHeartbeat": "23",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 10952,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "2892684900629862124a9cf90adace91"
+            ]
+          }
+        },
+        {
+          "profile": "writer-lifetime",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "314861812e41a506db86c7d2d96e04e5",
+            "requestId": "919f9ce135184676b50709363e58ec73",
+            "sessionId": "ae4eb152478c4d2daf79696a42c0a142",
+            "generation": "1",
+            "writerInstanceId": "900c1677635b41a5852d37bdbdffeab6",
+            "state": "error",
+            "errorCode": "backend-time-limit",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "4",
+            "appliedHeartbeat": "4",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 4144,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "3efd3f8f84f72dac0960c9031e40078c"
+            ]
+          }
+        },
+        {
+          "profile": "completed-source-ready-and-repeated-service-reuse",
+          "result": "PASS",
+          "cycles": 4
+        },
+        {
+          "profile": "all-mutating-command-identity-fences",
+          "result": "PASS",
+          "rejectedCommands": [
+            "continuousRemuxHeartbeat-jobId",
+            "continuousRemuxCancel-jobId",
+            "continuousRemuxForget-jobId",
+            "continuousRemuxHeartbeat-sessionId",
+            "continuousRemuxCancel-sessionId",
+            "continuousRemuxForget-sessionId",
+            "continuousRemuxHeartbeat-generation",
+            "continuousRemuxCancel-generation",
+            "continuousRemuxForget-generation",
+            "continuousRemuxHeartbeat-writerInstanceId",
+            "continuousRemuxCancel-writerInstanceId",
+            "continuousRemuxForget-writerInstanceId"
+          ]
+        },
+        {
+          "profile": "manager-destruction-retains-fence-until-reader-close",
+          "result": "PASS",
+          "destructionSeconds": 1.03e-05,
+          "readerId": "0b67c2e2a030f3897e8b7634b28b18de",
+          "retainedUntilActualClose": true
+        },
+        {
+          "profile": "explicit-writer-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "63cc3996868f5a4a35a4506079bbbf9d",
+            "requestId": "30a27e10bde2475ab82453ae2dbcbfe9",
+            "sessionId": "9bd6d45e77554aa3afd0aef836ee5fb5",
+            "generation": "1",
+            "writerInstanceId": "e2cf338d80e84f668d9120f1411888fd",
+            "state": "error",
+            "errorCode": "writer-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "writer-failed",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 828,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "875aa38691ae32ad4467b5478e785056"
+            ]
+          }
+        },
+        {
+          "profile": "required-track-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "fdc873957f7f3bf97df172716bd43af6",
+            "requestId": "026389fc522c48e8b633fe6a1d2babb1",
+            "sessionId": "f6f4f74a23384a6db1f4e373a69a51eb",
+            "generation": "1",
+            "writerInstanceId": "d6d5b48405974782862fcfff78907bdf",
+            "state": "error",
+            "errorCode": "writer-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 7404,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "86a6b3d251f7f516a001efbb8acc2696"
+            ]
+          }
+        },
+        {
+          "profile": "required-resource-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "c0d70218dfc67a9392dbce2ed4286bcf",
+            "requestId": "35b6e081d564418e9b76e26b37a0ceb8",
+            "sessionId": "dc6855f1337b47f29eb8005c205becfc",
+            "generation": "1",
+            "writerInstanceId": "afcf069f77844f11afaff5307ce38937",
+            "state": "error",
+            "errorCode": "resource-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "resource-failed",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 8120,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "11e3ed05698479118e8afca1219043db"
+            ]
+          }
+        },
+        {
+          "profile": "failure-integrity",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "209984b476f3004f195c8775cf96a754",
+            "requestId": "600bc7d9d9fe46bc9c0698d3541f8a73",
+            "sessionId": "39466ea6b5ba405fbdde839afb50e9a8",
+            "generation": "1",
+            "writerInstanceId": "41b972ac567944d8a7042025e7ea957e",
+            "state": "error",
+            "errorCode": "integrity-mismatch",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "integrity-mismatch",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 12864,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "ee69d2fb23d9b3f1bd60479dbe5e34ce"
+            ]
+          }
+        },
+        {
+          "profile": "late-resource-waits-until-published",
+          "result": "PASS",
+          "initiallyWaiting": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "8ec3014b651839e6a5a9ceaeee4f174c",
+            "requestId": "1df1730ac68b4308be760115567bd973",
+            "sessionId": "4619635f0afb4243b7c04a1fe80e1825",
+            "generation": "1",
+            "writerInstanceId": "ed1e1a68b215427fb733fbeb1ef75552",
+            "state": "waiting",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "waiting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 12888,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": false,
+            "released": false,
+            "forgotten": false,
+            "readerIds": []
+          },
+          "completed": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "8ec3014b651839e6a5a9ceaeee4f174c",
+            "requestId": "1df1730ac68b4308be760115567bd973",
+            "sessionId": "4619635f0afb4243b7c04a1fe80e1825",
+            "generation": "1",
+            "writerInstanceId": "ed1e1a68b215427fb733fbeb1ef75552",
+            "state": "complete",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "0",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 12888,
+            "playbackReady": true,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": false,
+            "forgotten": false,
+            "readerIds": [
+              "b9471e98404b8db1959b5e9dcbfe1ca1"
+            ]
+          }
+        },
+        {
+          "profile": "failure-killed-worker",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "d063b919764ea98447af607c02394deb",
+            "requestId": "eb094b32849f4bc2a0ea97dec5166d8d",
+            "sessionId": "1da2b51006d443adb70deda78834a39f",
+            "generation": "1",
+            "writerInstanceId": "700221d8463e4bc9a79c2ab7fee63048",
+            "state": "error",
+            "errorCode": "backend-worker-exited",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "backend-worker-exited",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 7632,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "0cbd64bd40a473458f3af6b567e40edf"
+            ]
+          }
+        },
+        {
+          "profile": "reject-before-spawn-profile-schema-path-limits",
+          "result": "PASS",
+          "rejections": [
+            {
+              "mode": "audio",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "failed-track",
+              "code": "writer-failed"
+            },
+            {
+              "mode": "failed-resource",
+              "code": "resource-failed"
+            },
+            {
+              "mode": "live",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "unknown-length",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "missing-integrity",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "clock",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "extra-resource",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "relative-root",
+              "code": "invalid_request"
+            },
+            {
+              "mode": "caller-worker",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "request-size",
+              "code": "invalid_request"
+            }
+          ],
+          "noWorkerOrCacheCreated": true
+        }
+      ],
+      "exactDriverExits": [
+        {
+          "profile": "growing-idempotence-fences-completion-reader-gate",
+          "pid": 11924,
+          "exitCode": 0
+        },
+        {
+          "profile": "blocked-prepare-status-heartbeat-cancel-destroy-off-caller",
+          "pid": 12100,
+          "exitCode": 0
+        },
+        {
+          "profile": "bounded-update-queue-and-accepted-vs-applied",
+          "pid": 12968,
+          "exitCode": 0
+        },
+        {
+          "profile": "blocked-publication-does-not-block-cancel-or-status",
+          "pid": 13004,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-loss",
+          "pid": 3868,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-keepalive",
+          "pid": 3444,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-lifetime",
+          "pid": 10640,
+          "exitCode": 0
+        },
+        {
+          "profile": "completed-source-ready-and-repeated-service-reuse",
+          "pid": 5308,
+          "exitCode": 0
+        },
+        {
+          "profile": "all-mutating-command-identity-fences",
+          "pid": 9888,
+          "exitCode": 0
+        },
+        {
+          "profile": "manager-destruction-retains-fence-until-reader-close",
+          "pid": 4060,
+          "exitCode": 0
+        },
+        {
+          "profile": "explicit-writer-failure-publication",
+          "pid": 10920,
+          "exitCode": 0
+        },
+        {
+          "profile": "required-track-failure-publication",
+          "pid": 832,
+          "exitCode": 0
+        },
+        {
+          "profile": "required-resource-failure-publication",
+          "pid": 7344,
+          "exitCode": 0
+        },
+        {
+          "profile": "failure-integrity",
+          "pid": 5528,
+          "exitCode": 0
+        },
+        {
+          "profile": "late-resource-waits-until-published",
+          "pid": 11372,
+          "exitCode": 0
+        },
+        {
+          "profile": "failure-killed-worker",
+          "pid": 9452,
+          "exitCode": 0
+        },
+        {
+          "profile": "reject-before-spawn-profile-schema-path-limits",
+          "pid": 10492,
+          "exitCode": 0
+        }
+      ],
+      "runnerSha256": "a36ad4ca7086a848b85b0240c3c1c9348775b52d5300635fa9c0a7be33b06677",
+      "workerSha256": "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+      "testSourceSha256": "12618574961c9c65d618b988400b8f855fd49c19c57000b7641ad7c146e54bd3",
+      "temporaryWorkRemoved": true,
+      "internalControllerOnly": true,
+      "ordinaryPlayerApi": false
+    },
+    "linux-asan-ubsan": {
+      "result": "PASS",
+      "count": 17,
+      "rows": [
+        {
+          "profile": "growing-idempotence-fences-completion-reader-gate",
+          "result": "PASS",
+          "singleWorkerPid": 61395,
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "925176707127ee147058d3fa0810ae87",
+            "requestId": "c4e18abb61b446f9a6c94c709e34459f",
+            "sessionId": "9ba0cb36438942928c28274847b6b580",
+            "generation": "1",
+            "writerInstanceId": "9178ef05f5cd43aa8546c2e4c1375227",
+            "state": "forgotten",
+            "errorCode": "",
+            "cleanupCode": "released",
+            "acceptedRevision": "5",
+            "appliedRevision": "5",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "443235",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 61395,
+            "playbackReady": false,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": true,
+            "readerIds": [
+              "5a10b2d9f1ba2d7815d2bc4b8f08c9cd",
+              "970089c25e5972dea76cda6e4cff7750"
+            ]
+          },
+          "heldReaderGatedCleanup": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "925176707127ee147058d3fa0810ae87",
+            "requestId": "c4e18abb61b446f9a6c94c709e34459f",
+            "sessionId": "9ba0cb36438942928c28274847b6b580",
+            "generation": "1",
+            "writerInstanceId": "9178ef05f5cd43aa8546c2e4c1375227",
+            "state": "forgetting",
+            "errorCode": "",
+            "cleanupCode": "cache-in-use",
+            "acceptedRevision": "5",
+            "appliedRevision": "5",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "443235",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 61395,
+            "playbackReady": false,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": false,
+            "forgotten": false,
+            "readerIds": [
+              "5a10b2d9f1ba2d7815d2bc4b8f08c9cd",
+              "970089c25e5972dea76cda6e4cff7750"
+            ]
+          }
+        },
+        {
+          "profile": "blocked-prepare-status-heartbeat-cancel-destroy-off-caller",
+          "result": "PASS",
+          "startSeconds": 0.008969266000349307,
+          "maxAdmissionSeconds": 0.0026835910002773744,
+          "destructionSeconds": 0.000134502,
+          "noWorkerSpawnAfterCancel": true
+        },
+        {
+          "profile": "bounded-update-queue-and-accepted-vs-applied",
+          "result": "PASS",
+          "queueLimit": 8,
+          "acceptedUnapplied": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "6c6b8ce1683c2e95ff45082ded7477a8",
+            "requestId": "1ea8d43e52164d5d9fec02185e3f4a9d",
+            "sessionId": "3ec261ba4dfc42aaadb9bf853f641c84",
+            "generation": "1",
+            "writerInstanceId": "ac6dfa417418467e962e07e2fb088575",
+            "state": "preparing",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "9",
+            "appliedRevision": "",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "starting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 8,
+            "neededLength": 0,
+            "workerId": 0,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": false,
+            "released": false,
+            "forgotten": false,
+            "readerIds": []
+          },
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "6c6b8ce1683c2e95ff45082ded7477a8",
+            "requestId": "1ea8d43e52164d5d9fec02185e3f4a9d",
+            "sessionId": "3ec261ba4dfc42aaadb9bf853f641c84",
+            "generation": "1",
+            "writerInstanceId": "ac6dfa417418467e962e07e2fb088575",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "9",
+            "appliedRevision": "",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "starting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 8,
+            "neededLength": 0,
+            "workerId": 0,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": []
+          }
+        },
+        {
+          "profile": "blocked-publication-does-not-block-cancel-or-status",
+          "result": "PASS",
+          "admissionSeconds": 0.001384937999318936,
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "0e863d370c442f1b408c46c7aeb2d5b5",
+            "requestId": "e8cb80692bf44071840600ccc7e57db4",
+            "sessionId": "13d14ed99b444915885323ab23d5cc34",
+            "generation": "1",
+            "writerInstanceId": "6e83cd39f9ff4bd0b5fbe73ffd4876cb",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 61434,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "d77b55366df9bfb5d911b753764a6695"
+            ]
+          }
+        },
+        {
+          "profile": "writer-loss",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "eef767574a1e2de91a4cbb95fcf857cc",
+            "requestId": "698ffccb5306445180f1803e386e576a",
+            "sessionId": "8d18881eb6eb48129822bf6b1c0de4f8",
+            "generation": "1",
+            "writerInstanceId": "b12555c39200429cbde7ad65b252bc56",
+            "state": "error",
+            "errorCode": "writer-heartbeat-timeout",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "4",
+            "appliedHeartbeat": "4",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 61441,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "d0c579bcf457b05bf4ba8d1f6ad87317"
+            ]
+          }
+        },
+        {
+          "profile": "writer-keepalive",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "13c67b809f4abf325fba3d604136979b",
+            "requestId": "b98ce0edef4448fb8cc7dfdf3a3d3587",
+            "sessionId": "e50650a132894494beace36091e76afd",
+            "generation": "1",
+            "writerInstanceId": "c398a6610eec40a49f20101df30ab97e",
+            "state": "cancelled",
+            "errorCode": "cancelled",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "23",
+            "appliedHeartbeat": "23",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 61453,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "15cb8f67b8cd081c7687792a4710b742"
+            ]
+          }
+        },
+        {
+          "profile": "writer-lifetime",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "0b4beeedec6c007c9d34f5540d5783af",
+            "requestId": "c987994ff96849928240b8ecb5e77956",
+            "sessionId": "9e5d596b4f4445eaa769ce363468a079",
+            "generation": "1",
+            "writerInstanceId": "82dfbfc5c6a04e9985e725cd0cc201a9",
+            "state": "error",
+            "errorCode": "backend-time-limit",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "5",
+            "appliedHeartbeat": "5",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 61476,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "345a38686b18a5df06a5f25aaca8acaf"
+            ]
+          }
+        },
+        {
+          "profile": "completed-source-ready-and-repeated-service-reuse",
+          "result": "PASS",
+          "cycles": 4
+        },
+        {
+          "profile": "all-mutating-command-identity-fences",
+          "result": "PASS",
+          "rejectedCommands": [
+            "continuousRemuxHeartbeat-jobId",
+            "continuousRemuxCancel-jobId",
+            "continuousRemuxForget-jobId",
+            "continuousRemuxHeartbeat-sessionId",
+            "continuousRemuxCancel-sessionId",
+            "continuousRemuxForget-sessionId",
+            "continuousRemuxHeartbeat-generation",
+            "continuousRemuxCancel-generation",
+            "continuousRemuxForget-generation",
+            "continuousRemuxHeartbeat-writerInstanceId",
+            "continuousRemuxCancel-writerInstanceId",
+            "continuousRemuxForget-writerInstanceId"
+          ]
+        },
+        {
+          "profile": "manager-destruction-retains-fence-until-reader-close",
+          "result": "PASS",
+          "destructionSeconds": 0.000126723,
+          "readerId": "2a69d0f2b2a6ec1d941ef35e29146855",
+          "retainedUntilActualClose": true
+        },
+        {
+          "profile": "explicit-writer-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "d552a4e3bfb18af91b3d3c2cc4dec36e",
+            "requestId": "c88ab9a193b541a2a6378131fab4fb98",
+            "sessionId": "3605802857e54640a975d472c04952b7",
+            "generation": "1",
+            "writerInstanceId": "eba746e87b5d4deb80ca5970416d63f1",
+            "state": "error",
+            "errorCode": "writer-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "writer-failed",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 61540,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "bdff2fc690f8776c94fb4ec45c03446f"
+            ]
+          }
+        },
+        {
+          "profile": "required-track-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "c01fec3e1c7de9c9c7440dc68adb66c3",
+            "requestId": "66235660c1174fc797d1fe6c6d70b5d7",
+            "sessionId": "b2d5ebd6798a4d389ffcd526a6bae7d7",
+            "generation": "1",
+            "writerInstanceId": "4b5c5cffe7574632800e96260111800f",
+            "state": "error",
+            "errorCode": "writer-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "cancelled",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 61552,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "de6a5d2ca26a9f96013060d70d5b39f1"
+            ]
+          }
+        },
+        {
+          "profile": "required-resource-failure-publication",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "e74ffc88e31ef80e49e8fb8c9eadb531",
+            "requestId": "751d5ce96c7e4c79be4a01d7d966df3e",
+            "sessionId": "9ccd93de11094579a3f454748bb06ac7",
+            "generation": "1",
+            "writerInstanceId": "b6a8f4bb608249a1aaee0722c1385be8",
+            "state": "error",
+            "errorCode": "resource-failed",
+            "cleanupCode": "released",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "resource-failed",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 61560,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "bc4615dacf8fd07c19835a1e662fe042"
+            ]
+          }
+        },
+        {
+          "profile": "failure-integrity",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "2eed02f3db5cd54522946f411dc3118a",
+            "requestId": "628ad127e3f04d04870f05b4746f3831",
+            "sessionId": "3066c73c1e3143c585f2e6ce0885a663",
+            "generation": "1",
+            "writerInstanceId": "2533a84ffdda4c2d8285c201970be221",
+            "state": "error",
+            "errorCode": "integrity-mismatch",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "integrity-mismatch",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 61568,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "219598b090bd4b6a7632ad17a4d5f7f4"
+            ]
+          }
+        },
+        {
+          "profile": "late-resource-waits-until-published",
+          "result": "PASS",
+          "initiallyWaiting": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "56c056a7c783fce4817155fa12269d90",
+            "requestId": "c6325d5505f84a7cbabfc6d65f621082",
+            "sessionId": "4e83d08927c340b7a669a4d084351cb4",
+            "generation": "1",
+            "writerInstanceId": "77d20a81bf9349838d92e74f39a1f4b4",
+            "state": "waiting",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "waiting",
+            "neededOffset": "0",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "0",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 61576,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": false,
+            "released": false,
+            "forgotten": false,
+            "readerIds": []
+          },
+          "completed": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "56c056a7c783fce4817155fa12269d90",
+            "requestId": "c6325d5505f84a7cbabfc6d65f621082",
+            "sessionId": "4e83d08927c340b7a669a4d084351cb4",
+            "generation": "1",
+            "writerInstanceId": "77d20a81bf9349838d92e74f39a1f4b4",
+            "state": "complete",
+            "errorCode": "",
+            "cleanupCode": "",
+            "acceptedRevision": "2",
+            "appliedRevision": "2",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "data",
+            "neededOffset": "0",
+            "visibleBytes": "446271",
+            "writtenBytes": "446271",
+            "maximumReadEnd": "443235",
+            "fragments": 24,
+            "samples": 600,
+            "queuedUpdates": 0,
+            "neededLength": 0,
+            "workerId": 61576,
+            "playbackReady": true,
+            "sourceComplete": true,
+            "outputComplete": true,
+            "sourceFilesClosed": true,
+            "released": false,
+            "forgotten": false,
+            "readerIds": [
+              "62c485efeff49b5c9217901fc7ddadef"
+            ]
+          }
+        },
+        {
+          "profile": "failure-killed-worker",
+          "result": "PASS",
+          "final": {
+            "version": 1,
+            "ok": true,
+            "mode": "continuous-h264-video-v1",
+            "jobId": "870bb78195026e5283a96a47a81955c7",
+            "requestId": "e6e1897b19d84188bd20df61780a4294",
+            "sessionId": "56dbd742591244c98c7260a35ab36764",
+            "generation": "1",
+            "writerInstanceId": "982a0ea289a64cae9b5942f1a4681f36",
+            "state": "error",
+            "errorCode": "backend-worker-exited",
+            "cleanupCode": "released",
+            "acceptedRevision": "1",
+            "appliedRevision": "1",
+            "acceptedHeartbeat": "0",
+            "appliedHeartbeat": "0",
+            "producerCode": "backend-worker-exited",
+            "neededOffset": "4",
+            "visibleBytes": "0",
+            "writtenBytes": "0",
+            "maximumReadEnd": "4",
+            "fragments": 0,
+            "samples": 0,
+            "queuedUpdates": 0,
+            "neededLength": 32768,
+            "workerId": 61585,
+            "playbackReady": false,
+            "sourceComplete": false,
+            "outputComplete": false,
+            "sourceFilesClosed": true,
+            "released": true,
+            "forgotten": false,
+            "readerIds": [
+              "606c5bdb80b56801cb62f6497a8a4a06"
+            ]
+          }
+        },
+        {
+          "profile": "reject-before-spawn-profile-schema-path-limits",
+          "result": "PASS",
+          "rejections": [
+            {
+              "mode": "audio",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "failed-track",
+              "code": "writer-failed"
+            },
+            {
+              "mode": "failed-resource",
+              "code": "resource-failed"
+            },
+            {
+              "mode": "live",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "unknown-length",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "missing-integrity",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "clock",
+              "code": "unsupported-stream-source"
+            },
+            {
+              "mode": "extra-resource",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "relative-root",
+              "code": "invalid_request"
+            },
+            {
+              "mode": "caller-worker",
+              "code": "invalid_snapshot"
+            },
+            {
+              "mode": "request-size",
+              "code": "invalid_request"
+            }
+          ],
+          "noWorkerOrCacheCreated": true
+        }
+      ],
+      "exactDriverExits": [
+        {
+          "profile": "growing-idempotence-fences-completion-reader-gate",
+          "pid": 61379,
+          "exitCode": 0
+        },
+        {
+          "profile": "blocked-prepare-status-heartbeat-cancel-destroy-off-caller",
+          "pid": 61416,
+          "exitCode": 0
+        },
+        {
+          "profile": "bounded-update-queue-and-accepted-vs-applied",
+          "pid": 61421,
+          "exitCode": 0
+        },
+        {
+          "profile": "blocked-publication-does-not-block-cancel-or-status",
+          "pid": 61428,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-loss",
+          "pid": 61436,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-keepalive",
+          "pid": 61447,
+          "exitCode": 0
+        },
+        {
+          "profile": "writer-lifetime",
+          "pid": 61470,
+          "exitCode": 0
+        },
+        {
+          "profile": "completed-source-ready-and-repeated-service-reuse",
+          "pid": 61480,
+          "exitCode": 0
+        },
+        {
+          "profile": "all-mutating-command-identity-fences",
+          "pid": 61517,
+          "exitCode": 0
+        },
+        {
+          "profile": "manager-destruction-retains-fence-until-reader-close",
+          "pid": 61525,
+          "exitCode": 0
+        },
+        {
+          "profile": "explicit-writer-failure-publication",
+          "pid": 61534,
+          "exitCode": 0
+        },
+        {
+          "profile": "required-track-failure-publication",
+          "pid": 61544,
+          "exitCode": 0
+        },
+        {
+          "profile": "required-resource-failure-publication",
+          "pid": 61554,
+          "exitCode": 0
+        },
+        {
+          "profile": "failure-integrity",
+          "pid": 61562,
+          "exitCode": 0
+        },
+        {
+          "profile": "late-resource-waits-until-published",
+          "pid": 61570,
+          "exitCode": 0
+        },
+        {
+          "profile": "failure-killed-worker",
+          "pid": 61579,
+          "exitCode": 0
+        },
+        {
+          "profile": "reject-before-spawn-profile-schema-path-limits",
+          "pid": 61587,
+          "exitCode": 0
+        }
+      ],
+      "runnerSha256": "a6839e792756fe4c4758d3ed65a371a14cf2b8b2b8a5d8defb855422ec61634b",
+      "workerSha256": "a643a69f19b4eff5cd2af8dadec6ba3dc110f3cc318f45be493eeeff46a58bfc",
+      "testSourceSha256": "12618574961c9c65d618b988400b8f855fd49c19c57000b7641ad7c146e54bd3",
+      "temporaryWorkRemoved": true,
+      "internalControllerOnly": true,
+      "ordinaryPlayerApi": false
+    }
+  },
+  "requiredTrackFailureFix": {
+    "beforePythonExitCode": 1,
+    "beforeBinarySha256": "963e72e237b5902a87d7c65a2e75b1e7c7f3af23448b447e10ac3ae481e0ce48",
+    "beforeLogSha256": "a2072c763fe68fa4956f10d4de746914fc6f072c462b7d07b0d751921dfbac12",
+    "beforeLog": "Traceback (most recent call last):\n  File \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_stream_controller_test.py\", line 181, in <module>\n    a=argparse.ArgumentParser();a.add_argument('--runner',type=Path,required=True);a.add_argument('--worker',type=Path,required=True);a.add_argument('--report-directory',type=Path,required=True);v=a.parse_args();run(v.runner.resolve(),v.worker.resolve(),v.report_directory.resolve())\n                                                                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_stream_controller_test.py\", line 142, in run\n    case('required-'+failed_part+'-failure-publication',required_failed)\n  File \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_stream_controller_test.py\", line 50, in case\n    detail=fn(folder,path,rpc,cmd,start,status,fenced,wait,publish,forget,gate,wait_gate)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_stream_controller_test.py\", line 141, in required_failed\n    c('continuousRemuxUpdate',version=1,jobId=s['jobId'],session=value);final=w(lambda s:s['released'],timeout=3);assert final['errorCode'] in ['writer-failed','resource-failed'] and not final['playbackReady'],final;forget();return dict(final=final)\n                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_stream_controller_test.py\", line 37, in wait\n    raise AssertionError((name,'timeout',s))\nAssertionError: ('required-track-failure-publication', 'timeout', {'version': 1, 'ok': True, 'mode': 'continuous-h264-video-v1', 'jobId': '92a7e469bdb312c32fb89648bdf7c108', 'requestId': 'cd225ddafdf94fb4a9fc186f784f360b', 'sessionId': '41cf7d3a45684ac599d38a7910a21911', 'generation': '1', 'writerInstanceId': '5563a9056568481a9f0a426c3d8bba74', 'state': 'waiting', 'errorCode': '', 'cleanupCode': '', 'acceptedRevision': '2', 'appliedRevision': '2', 'acceptedHeartbeat': '0', 'appliedHeartbeat': '0', 'producerCode': 'waiting', 'neededOffset': '4', 'visibleBytes': '0', 'writtenBytes': '0', 'maximumReadEnd': '4', 'fragments': 0, 'samples': 0, 'queuedUpdates': 0, 'neededLength': 32768, 'workerId': 59776, 'playbackReady': False, 'sourceComplete': False, 'outputComplete': False, 'sourceFilesClosed': False, 'released': False, 'forgotten': False, 'readerIds': ['9e5a6f46b41798f80aa76f735dc0d000']})\n",
+    "observed": "Required track failed publication was applied but job stayed waiting with no error/close",
+    "fix": "Check writer, required track and resource terminal failure metadata separately after application and before initial spawn."
+  },
+  "cacheStatusFixtureFix": {
+    "beforeCTestExitCode": 8,
+    "beforeBinarySha256": "a052d40bf73e6d62d6eead8822534bdf9ffb9ce1b7aec5ab9ef809a5d49cfc3e",
+    "beforeLogSha256": "0fe9b62793dd06d0a6b5a64ab6480ab9b64cf425e6c74fb26c4125bf3a4a9ace",
+    "observed": "Private cache fixture mixed output state from one snapshot with done/source fields from a later snapshot.",
+    "fix": "Capture one CachedRemuxStatus per fixture status reply; cache implementation unchanged by this correction."
+  },
+  "cacheRegression": {
+    "linux": {
+      "cache": {
+        "result": "PASS",
+        "count": 31,
+        "reportSha256": "6488a7af15679cf8ddd1825bbeec1b96700c2648e0ee970b40c3ce6ba8e941b0",
+        "runnerSha256": "fa34518ab70957254812ddb7ff5c00c5c656dd85474c059fe86a4049bffa902f",
+        "testSourceSha256": "6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902"
+      },
+      "recovery": {
+        "result": "PASS",
+        "count": 33,
+        "reportSha256": "1e971e83aab43b44e5c24bdf4942526aa83ebcce419b1f22685781969b94365f",
+        "runnerSha256": "fa34518ab70957254812ddb7ff5c00c5c656dd85474c059fe86a4049bffa902f",
+        "testSourceSha256": "1fe135e7d3dd4668be52f1f4a74b158c38fdcb808ed9eb65e1a84f5a85697f6e"
+      }
+    },
+    "windows": {
+      "cache": {
+        "result": "PASS",
+        "count": 31,
+        "reportSha256": "9858bef3169b896452943c1159b3d7a114ea5266820e1a186606a74d846d1089",
+        "runnerSha256": "6bf768fffc313254c5a4815918d89ef2d1d26453d355ec8f4a4368a9d8a6ac2b",
+        "testSourceSha256": "6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902"
+      },
+      "recovery": {
+        "result": "PASS",
+        "count": 31,
+        "reportSha256": "8fc118e9cfa3bc231d7c88af7418979fbb56522e9a5c69dc9ba31964f5b08cb4",
+        "runnerSha256": "6bf768fffc313254c5a4815918d89ef2d1d26453d355ec8f4a4368a9d8a6ac2b",
+        "testSourceSha256": "1fe135e7d3dd4668be52f1f4a74b158c38fdcb808ed9eb65e1a84f5a85697f6e"
+      }
+    }
+  },
+  "logs": {
+    "stream-controller-linux-tests": {
+      "sha256": "79bfa0ef8f9a27b77cd85c38b7c2df5ac83b5be692d27e54408c30bbc833f941",
+      "tail": "/DartConfiguration.tcl\nParse Config file:/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nParse Config file:/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nTest project /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 9\n    Start 9: progressive-stream-remux-controller\n\n9: Test command: /usr/bin/python3 \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_controller_test.py\" \"--runner\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-progressive-stream-controller-tests\" \"--worker\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-remux-stream-worker\" \"--report-directory\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/stream-controller-test-report\"\n9: Working Directory: /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\n9: Test timeout computed to be: 180\n9: {\"result\": \"PASS\", \"count\": 17}\n1/1 Test #9: progressive-stream-remux-controller ...   Passed    7.07 sec\n\nThe following tests passed:\n\tprogressive-stream-remux-controller\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   7.08 sec\n"
+    },
+    "stream-controller-linux-regression": {
+      "sha256": "7e198662d51dbc44f717c3778bf6aa696d57b66e1defc19fed3be9d7a680d3ea",
+      "tail": "ion-external-reader-owner-queue\", \"result\": \"PASS\", \"pending\": {\"ok\": true, \"removed\": 0, \"count\": 1, \"bytes\": 133085}, \"cleared\": {\"ok\": true, \"removed\": 1, \"count\": 0, \"bytes\": 0}}, {\"profile\": \"owner-session-limit-16\", \"result\": \"PASS\", \"cleared\": {\"ok\": true, \"removed\": 0, \"count\": 0, \"bytes\": 0}}, {\"profile\": \"cancel-wakes-decoder-wait\", \"result\": \"PASS\", \"elapsedSeconds\": 0.049029146999600925, \"final\": {\"ok\": true, \"written\": 0, \"visible\": 0, \"fragments\": 0, \"samples\": 0, \"activeReaders\": 0, \"budgetBytes\": 0, \"initialized\": false, \"complete\": false, \"producerClosed\": true, \"originalsClosed\": true, \"retiring\": true, \"removed\": true, \"failure\": \"cancelled\", \"cleanupCode\": \"removed\", \"path\": \"/tmp/foxicmp-stream-cache-5r_ek6if/cancel-cache/remux-1ce4865b57e1ea31cdc5b4576d655de3/output.fmp4\", \"done\": true, \"sourceCode\": \"cancelled\", \"sourceResult\": \"\", \"sourceReaderIds\": [], \"workerId\": 63272}}], \"cacheOnly\": true, \"publicPlayerCapability\": false, \"temporaryWorkRemoved\": true, \"runnerSha256\": \"fa34518ab70957254812ddb7ff5c00c5c656dd85474c059fe86a4049bffa902f\", \"workerSha256\": \"e6420d9d98462712ea2ad43c9f78e3227d113dd313138230120586b658de4a49\", \"testSourceSha256\": \"6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902\"}\n2/2 Test #12: progressive-stream-remux-cache ......   Passed    4.10 sec\n\nThe following tests passed:\n\tprogressive-stream-remux-recovery\n\tprogressive-stream-remux-cache\n\n100% tests passed, 0 tests failed out of 2\n\nTotal Test time (real) =   6.39 sec\n"
+    },
+    "stream-controller-windows-tests": {
+      "sha256": "c3613422bab04152b369679f91aae28d03a80067d2916ee0ef05abc349f29e51",
+      "tail": "true, \"removed\": 0, \"count\": 1, \"bytes\": 133085}, \"cleared\": {\"ok\": true, \"removed\": 1, \"count\": 0, \"bytes\": 0}}, {\"profile\": \"owner-session-limit-16\", \"result\": \"PASS\", \"cleared\": {\"ok\": true, \"removed\": 0, \"count\": 0, \"bytes\": 0}}, {\"profile\": \"cancel-wakes-decoder-wait\", \"result\": \"PASS\", \"elapsedSeconds\": 0.027232899999944493, \"final\": {\"ok\": true, \"written\": 0, \"visible\": 0, \"fragments\": 0, \"samples\": 0, \"activeReaders\": 0, \"budgetBytes\": 0, \"initialized\": false, \"complete\": false, \"producerClosed\": true, \"originalsClosed\": true, \"retiring\": true, \"removed\": true, \"failure\": \"cancelled\", \"cleanupCode\": \"removed\", \"path\": \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\foxicmp-stream-cache-c3bhffz2\\\\cancel-cache\\\\remux-c181d0873e18c1702ea32d63a7289c70\\\\output.fmp4\", \"done\": true, \"sourceCode\": \"cancelled\", \"sourceResult\": \"\", \"sourceReaderIds\": [], \"workerId\": 5144}}], \"cacheOnly\": true, \"publicPlayerCapability\": false, \"temporaryWorkRemoved\": true, \"runnerSha256\": \"6bf768fffc313254c5a4815918d89ef2d1d26453d355ec8f4a4368a9d8a6ac2b\", \"workerSha256\": \"4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e\", \"testSourceSha256\": \"6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902\"}\r\n3/3 Test #14: progressive-stream-remux-cache ........   Passed    4.72 sec\r\n\r\nThe following tests passed:\r\n\tprogressive-stream-remux-controller\r\n\tprogressive-stream-remux-recovery\r\n\tprogressive-stream-remux-cache\r\n\r\n100% tests passed out of 3\r\n\r\nTotal Test time (real) =  16.77 sec\r\n"
+    },
+    "stream-controller-msvc-tests": {
+      "sha256": "bb9074cfc865ba63fa558f44233f606fbfeb4631d8352b5df259d22cb5d82efe",
+      "tail": "{\"result\": \"PASS\", \"count\": 17}\r\n"
+    },
+    "stream-controller-asan-tests": {
+      "sha256": "4cc013273abb2851c0c3436868b291f3701b38e549833073b99c1c58abb64163",
+      "tail": "FoxicMP Qt test environment: ready\nInternal ctest changing into directory: /media/sf_Studio/Programs/MPMY-src/_bin/stream-controller-asan\nUpdateCTestConfiguration  from :/media/sf_Studio/Programs/MPMY-src/_bin/stream-controller-asan/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/media/sf_Studio/Programs/MPMY-src/_bin/stream-controller-asan/DartConfiguration.tcl\nTest project /media/sf_Studio/Programs/MPMY-src/_bin/stream-controller-asan\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 1\n    Start 1: controller-asan\n\n1: Test command: /usr/bin/python3 \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_stream_controller_test.py\" \"--runner\" \"/media/sf_Studio/Programs/MPMY-src/_bin/stream-controller-asan/controller\" \"--worker\" \"/media/sf_Studio/Programs/MPMY-src/_bin/stream-remux-asan/foxicmp-remux-stream-worker\" \"--report-directory\" \"/media/sf_Studio/Programs/MPMY-src/_bin/stream-controller-asan/report\"\n1: Working Directory: /media/sf_Studio/Programs/MPMY-src/_bin/stream-controller-asan\n1: Test timeout computed to be: 180\n1: {\"result\": \"PASS\", \"count\": 17}\n1/1 Test #1: controller-asan ..................   Passed   12.93 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =  12.94 sec\n"
+    }
+  },
+  "preservation": {
+    "before": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "f7d22c975d9376f87b41eb394199ab630c5781f4d181bfbab7afac048ed18b7d",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "3b588469898fb9da4baa29abe78f0c56dc6a8595f4057b1085815f827f8200af",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "after": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "e6524b8d4734321bd1e55411277626c86a6640874ac7cd56d86f2bba53fd62e9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "f7d22c975d9376f87b41eb394199ab630c5781f4d181bfbab7afac048ed18b7d",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "3b588469898fb9da4baa29abe78f0c56dc6a8595f4057b1085815f827f8200af",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "unchangedProtectedFiles": 10,
+    "installedLinuxMatchesLastVerifiedBuild": true,
+    "windowsFinalState": {
+      "ownedTestProcessesRemaining": 0,
+      "windowsSettingsModified": false,
+      "scheduledTasksCreated": 0,
+      "classicGuiLaunched": false
+    },
+    "immutableSdkAssetUnchanged": true
+  },
+  "limits": {
+    "maxRequestBytes": 65536,
+    "maxPendingUpdates": 8,
+    "maxInFlightPublication": 1,
+    "retainedJobsPerController": 1,
+    "activeClosingJobsPerProcess": 8,
+    "retirementWorkers": 2,
+    "sourceBytes": 134217728,
+    "outputBytes": 67108864
+  },
+  "boundaries": [
+    "Command controller is native/internal only; ordinary Qt/Classic API routing, UI intent fences and playback commit are the next step.",
+    "Status reads immutable published views, never producer/cache locks. Accepted and applied revisions/heartbeats differ by design.",
+    "One service owner/fence spans repeated jobs; cleanup waits for actual reader close and recovery proofs, without TTL deletion.",
+    "Unprovable quarantine remains bounded/fenced, including during shutdown; no forced filesystem preemption promised.",
+    "No new main build/install/SDK or published release asset change. Installed Linux still matches last verified main build.",
+    "No whole-player performance/stress, audio/B-frames, GPU/Wayland, power-loss or full crash acceptance claimed."
+  ]
+}

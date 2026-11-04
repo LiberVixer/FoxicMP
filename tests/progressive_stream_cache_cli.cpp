@@ -64,11 +64,12 @@ int main(int argc,char** argv){
         }else if(action=="readResult"){
             if(pending.valid() && pending.wait_for(std::chrono::milliseconds(0))==std::future_status::ready)std::cout<<pending.get()<<std::endl;else std::cout<<"{\"ok\":true,\"pending\":true}"<<std::endl;continue;
         }else if(action=="status"){
-            const auto s=session?session->status().output:store->status();rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();
+            const auto snapshot=session?session->status():p::CachedRemuxStatus{};
+            const auto s=session?snapshot.output:store->status();rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();
             out.AddMember("ok",true,a);out.AddMember("written",s.written,a);out.AddMember("visible",s.visible,a);out.AddMember("fragments",s.fragments,a);out.AddMember("samples",s.samples,a);out.AddMember("activeReaders",uint64_t(s.activeReaders),a);out.AddMember("budgetBytes",budget->bytes(),a);
             out.AddMember("initialized",s.initialized,a);out.AddMember("complete",s.complete,a);out.AddMember("producerClosed",s.producerClosed,a);out.AddMember("originalsClosed",s.originalsClosed,a);out.AddMember("retiring",s.retiring,a);out.AddMember("removed",s.removed,a);out.AddMember("failure",p::Value(s.failure.c_str(),a),a);out.AddMember("cleanupCode",p::Value(s.cleanupCode.c_str(),a),a);
             auto path=session?session->privatePath():store->privatePath();out.AddMember("path",p::Value(path.u8string().c_str(),a),a);
-            if(session){auto v=session->status();out.AddMember("done",v.done,a);out.AddMember("sourceCode",p::Value(v.source.code.c_str(),a),a);out.AddMember("sourceResult",p::Value(v.source.result.c_str(),a),a);p::Value ids(rapidjson::kArrayType);for(auto& id:v.source.readerIds)ids.PushBack(p::Value(id.c_str(),a),a);out.AddMember("sourceReaderIds",ids,a);out.AddMember("workerId",v.source.workerId,a);}
+            if(session){const auto& v=snapshot;out.AddMember("done",v.done,a);out.AddMember("sourceCode",p::Value(v.source.code.c_str(),a),a);out.AddMember("sourceResult",p::Value(v.source.result.c_str(),a),a);p::Value ids(rapidjson::kArrayType);for(auto& id:v.source.readerIds)ids.PushBack(p::Value(id.c_str(),a),a);out.AddMember("sourceReaderIds",ids,a);out.AddMember("workerId",v.source.workerId,a);}
             std::cout<<p::lease_detail::Encode(out)<<std::endl;continue;
         }else if(action=="retire"){const auto removed=session?session->retire():store->retire();std::cout<<"{\"ok\":true,\"removed\":"<<(removed?"true":"false")<<"}"<<std::endl;continue;}
         else if(action=="drop"){session.reset();store.reset();}

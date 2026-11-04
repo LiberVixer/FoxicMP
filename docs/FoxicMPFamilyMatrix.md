@@ -512,3 +512,13 @@ Qt сохраняет pause/speed/volume/mute, Stop/replacement/close освоб
 Все main EXE пересобраны; Linux обновлён атомарно с backup, INI/263 файла сохранены.
 HKCU Classic commands/icons неизменны. Публичный continuous controller/capability
 и запуск из Harvester ещё не подключены; Windows установки/SDK 1.81 не менялись.
+
+
+4 ноября 2026, общий внутренний `ContinuousRemuxController`: async preparation,
+accepted/applied updates и heartbeat, strict job/session/writer fences,
+requestId replay, bounded queue и off-caller shutdown. Source/cache owner
+удерживается до close output readers; один service fence используется successive
+jobs. По 17 native сценариев GCC/MinGW/MSVC/ASan-UBSan, cache/recovery regressions —
+[отчёт](ProgressiveContinuousRemuxControllerValidation-2026-11-04.json).
+Это общий компонент для API adapters; ordinary endpoints и public capabilities
+ещё не подключены. Main EXE, установки, INI, Harvester и SDK 1.81 не менялись.

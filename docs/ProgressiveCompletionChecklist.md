@@ -58,6 +58,8 @@
 
 - [x] Внутренние playback entry points continuous-remux в настоящем Qt Player/MpvLifetime и Classic CHarvesterSession/DirectShow. По пять сценариев Qt каждой ОС и пять Classic graph; 600 NV12 кадров совпали с независимым FFmpeg original decode, completed seek дал 350 кадров, pause/stop/error/close/receipts проверены. Повторены Qt retirement и прежний API 24 preparation/20 playback на ОС, Linux атомарно обновлён с сохранением INI/файлов — [отчёт](ProgressiveContinuousRemuxPlaybackValidation-2026-11-04.json). Публичного continuous API/controller/capability ещё нет; installed Classic UI/API, audio/B-frames и общая приёмка этим не закрыты.
 
+- [x] Общий внутренний async controller continuous-remux: replay/fences, отдельные accepted/applied revision/heartbeat, очередь ≤8 pending updates, быстрые status/cancel/destruction и удержание cache/root до настоящего reader close. По 17 native сценариев GCC/MinGW/MSVC/ASan-UBSan; cache/recovery regression Windows/Linux — [отчёт](ProgressiveContinuousRemuxControllerValidation-2026-11-04.json). Обычные endpoints/UI commit/capability пока не подключены; main EXE/установки/SDK не менялись.
+
 - [ ] Проверенные backend demuxers через управляемый local I/O; платформенные адаптеры Qt/Classic.
 - [ ] Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей.
 - [ ] Явные native-progressive, progressive-remux, waiting, post-download и unsupported результаты.

@@ -272,6 +272,14 @@ public:
     }
     size_t collect(){std::lock_guard<std::mutex> lock(mutex);return collectLocked();}
     size_t count()const{std::lock_guard<std::mutex> lock(mutex);return stores.size();}
+    // Background service retirement only. Unknown/orphan roots remain fenced
+    // until recovery proves them clear; zero allocated bytes is not that proof.
+    bool settle(){
+        std::lock_guard<std::mutex> lock(mutex);collectLocked();
+        for(auto& entry:roots)if(!entry.second.ready)
+            entry.second.ready=RecoverStreamCachePinned(*entry.second.root,entry.second.registry).ready;
+        return stores.empty() && std::all_of(roots.begin(),roots.end(),[](const auto& item){return item.second.ready;});
+    }
 };
 
 }}

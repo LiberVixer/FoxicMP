@@ -454,12 +454,78 @@ Windows установки и их профили, Harvester, SDK 1.81 и GitHub
 графом, но не через UI/API установленного приложения. Звук, AAC trim, B-frames,
 остальные codec/layout profiles и полная performance/crash приёмка остаются открытыми.
 
+## Общий фоновый контроллер — 4 ноября 2026
+
+`shared/progressivestreamcontroller.h` добавляет общий `ContinuousRemuxController`
+для будущих Qt/Classic API adapters. Это **внутренний command controller**:
+обычный API приложений ещё не маршрутизирует к нему запросы, capabilities/SDK
+остаются 1.81. Harvester не меняется. Код принимает JSON через native fixture;
+filesystem пути cache/registry и executable задаёт владелец сервиса, не запрос.
+
+| Внутренняя команда | Идентификация и действие |
+| --- | --- |
+| `continuousRemuxStart` | `requestId`, absolute `sessionDirectory`, schema-2 `session`, `resourceId`; немедленно принимает подготовку |
+| `continuousRemuxStatus` | Ровно один `jobId` или `requestId`; только опубликованный снимок, без файлового I/O |
+| `continuousRemuxUpdate` | `jobId` и новая `session`; проверка Parse/Advance до постановки в очередь |
+| `continuousRemuxHeartbeat` | `jobId` + `sessionId/generation/writerInstanceId`; heartbeat реального caller, не внутреннего опроса |
+| `continuousRemuxCancel` | Те же fences; запрос отмены без ожидания background I/O/join |
+| `continuousRemuxForget` | Те же fences; cancel/retirement и acknowledgement известных receipts после close |
+
+Повтор Start с тем же `requestId` и canonical input возвращает ту же последнюю
+задачу; другой input даёт `continuous-conflict`. Новый request требует состояния
+`forgotten` прежней задачи. Идемпотентность относится к последней retained job,
+а не к бессрочному журналу всех прежних requestId и не к восстановлению playback
+после crash. Идентификаторы — 32 lowercase hex; revision/generation/byte counters
+передаются decimal strings.
+
+Запрос ограничен 64 KiB. На controller допускается одна retained job, до восьми
+ожидающих updates плюс одна выполняющаяся публикация. На процесс — восемь
+active/closing job objects и два retirement workers. Source/cache лимиты прежние:
+один SHA-protected MP4/H.264 video-only resource, known zero-origin VOD clock до
+одного часа, input 128 MiB, output 64 MiB, no transcode/audio/B-frame expansion.
+Проверки фактического codec/packets остаются в FFmpeg worker.
+
+`acceptedRevision` отделена от `appliedRevision`, как и принятый/применённый
+heartbeat sequence. `preparing/waiting/ready/complete` описывают producer/cache:
+`playbackReady` разрешает получить внутренний decoder source, **не означает**
+запуск GUI/декодера; `complete` не означает окончание пользовательского просмотра.
+`outputComplete` требует настоящего успешного EOF/finalization, `sourceFilesClosed`
+и `released` — разные proofs. Нехватка файла может оставаться ожиданием до его
+появления и публикации. Недостающие bytes не заменяются размером файла/нулями.
+
+Job thread выполняет pin, remux, SHA/ranges publication, snapshot capture, cache
+retirement/recovery и receipt acknowledgement. Status читает immutable view;
+admission mutex не удерживается при I/O. Cancel/Forget/деструктор не вызывают
+producer/native close на caller: process-owned retirement удерживает job и
+root fence до настоящего закрытия output readers. Один service owner переживает
+successive jobs, исключая повторное выделение budget через новую root fence.
+`StreamCacheOwner::settle` не считает нулевой budget доказательством чистоты
+quarantined roots; использует прежние recovery proofs, без TTL/рекурсивного удаления.
+
+[Проверки](ProgressiveContinuousRemuxControllerValidation-2026-11-04.json): по 17
+сценариев Linux GCC/ASan-UBSan и Windows MinGW/MSVC. Реальный persistent worker,
+metadata replay/fences, queue limit, accepted/applied, blocked preparation и
+publication, отдельные writer/required track/resource failures, heartbeat/lifetime, worker kill, SHA error,
+late resource, четыре complete/forget cycles и surviving reader при manager
+shutdown. Тестовые задержки I/O доказывают быстрые status/heartbeat/cancel/drop;
+это не обещание прерывать зависший kernel syscall. При непроверяемой quarantine
+closing job остаётся bounded/fenced до восстановления proofs или конца процесса.
+Исправлен отказ обязательной track при живом writer: раньше job оставалась в
+waiting после принятой публикации; baseline binary/log сохранены. Теперь metadata
+failed/cancelled проверяются отдельно от состояния FFmpeg resource reader.
+В native cache fixture исправлен отдельный ложный отказ: ответ `status` теперь
+берёт output/done/source из одного снимка, а не из двух последовательных чтений.
+Исходный CTest exit 8 и SHA старого fixture сохранены в отчёте; это исправление
+тестового инструмента, не изменение cache engine. Повторены cache/recovery
+регрессии Windows/Linux. Main EXE/установки/INI/SDK ZIP
+этим этапом не менялись: отдельной новой пользовательской версии нет.
+
 ## Следующий обязательный этап
 
-1. Общий continuous-remux API controller: асинхронная подготовка, статус,
-   writer heartbeat/update/complete, producer lifetime и безопасный retirement.
-2. Связать его с проверенными playback entry points Qt/Classic, пользовательским
-   управлением, waiting и source EOF, без перезапуска при каждом append.
+1. Маршрутизировать команды общего controller через ordinary Qt/Classic API,
+   добавить async UI commit/intent fencing и status адаптеры.
+2. Связать его с проверенными playback entry points, пользовательским управлением,
+   waiting/source EOF и освобождением при Stop/замене, без перезапуска на append.
 3. Согласование capability/SDK и проверки через обычный API всех трёх редакций.
    Затем AAC trim, B-frames, остальные профили и общая cache/crash/performance matrix.
 
