@@ -64,11 +64,14 @@ int main(int argc,char** argv) {
 #endif
             std::cout<<"{\"ok\":true}"<<std::endl;continue;}
         if(action=="readers"){std::cout<<p::ReaderRequest(registry,line)<<std::endl;continue;}
-        if(action=="open")bridge=std::make_shared<TestedBridge>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,p::lease_detail::Encode(d["session"])
+        if(action=="open" || action=="openWhileRegistryLocked"){
+            auto guard=directory.file(".guard",true);
+            if(action=="openWhileRegistryLocked")p::Require(guard.lock(),"test","Cannot hold fixture registry guard");
+            bridge=std::make_shared<TestedBridge>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,p::lease_detail::Encode(d["session"])
 #if !defined(FOXICMP_INDEXED_MP4_ONLY) && !defined(FOXICMP_TAIL_MP4_ONLY)
             ,allowGapless
 #endif
-        );
+        );}
         else if(action=="release")bridge.reset();
         else if(action=="retain")retained=bridge;
         else if(action=="dropRetained")retained.reset();

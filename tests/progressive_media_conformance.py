@@ -49,6 +49,13 @@ def run(runner,fixtures):
             assert rpc('status')['decoderIoBytes'][k]=='8'
         assert len(readers())==2;rpc('release');assert readers()==[]
     case('full-uint64-counters-and-real-source-bytes',exact)
+    def registry_busy(v,paths,rpc,open_,read,readers,next_):
+        reply=rpc('openWhileRegistryLocked',directory=str(paths[0].parent),session=v)
+        assert not reply['ok'] and reply['code']=='reader_registry_busy',reply
+        assert readers()==[],'Failed admission must not leave a reader'
+        open_();assert read()['hex']==inputs[0][:8].hex()
+        rpc('release');assert readers()==[]
+    case('registry-contention-is-not-invalid-mp4-header',registry_busy)
     def held(v,paths,rpc,open_,read,readers,next_):
         open_();rpc('retain');rpc('release');assert len(readers())==2;rpc('dropRetained');assert readers()==[]
     case('internal-leases-close-after-last-media-owner',held)

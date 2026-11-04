@@ -757,3 +757,17 @@ release без Stop, filesClosed receipts и удаление кэша, неза
 Production code/EXE, установки, INI, 158 shell entries, SDK ZIP и Harvester
 сохранены; временная одноразовая задача удалена. Прежний Linux heartbeat outlier,
 mid-I/O/races, расширенный stress и полная приёмка ТЗ остаются открыты.
+
+
+4 ноября 2026, [гонки continuous-команд и замены просмотра](ProgressiveContinuousCommandRaces.md):
+по 16 сценариев Linux Qt, Windows Qt и Classic, все exit 0; publication/Stop,
+publication/replacement, readerRelease/replacement и cancel/replacement. Поздние
+старые команды не прерывают новый и независимый просмотр, receipts/cache и SHA
+проверены. Исправлена общая ложная ошибка MP4 header при registry contention:
+сохраняется reader_registry_busy; детерминированный baseline exit 1 сохранён.
+На Qt ОС по 13 основных и две multi-reader CTest-группы, по 469 native media
+checks; [отчёт](ProgressiveContinuousCommandRacesValidation-2026-11-04.json).
+Все main EXE пересобраны, Linux обновлён атомарно с backup и сохранением профиля;
+Windows-установки/HKCU/SDK ZIP и Harvester сохранены, одноразовая задача удалена.
+Прежний Linux heartbeat outlier, точные mid-I/O schedules, длительный stress и
+полная приёмка ТЗ остаются открыты.

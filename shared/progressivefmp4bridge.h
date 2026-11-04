@@ -174,6 +174,9 @@ class Fmp4V2Bridge {
         auto* out=static_cast<char*>(buffer);
         while(count) {
             const auto size=(std::min)(count,size_t(65536));const auto read=resourceRead(track,offset,out,size);
+            // Admission may race another source's receipt retirement. Keep the
+            // retryable registry result instead of reporting an invalid header.
+            if(read.code=="reader_registry_busy")throw Error(read.code.c_str(),"resourceIo",read.reason.c_str());
             if(!read.data() || read.bytes!=size)return false;
             out+=size;offset+=size;count-=size;
         }
