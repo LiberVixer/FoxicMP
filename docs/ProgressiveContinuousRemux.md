@@ -241,8 +241,8 @@ managed-сессию, пока отдельный процесс держит ou
 также удерживают Core после уничтожения непосредственного владельца.
 
 При выходе всего процесса, утрате service owner или ошибке cleanup допускается
-**консервативный остаток** частного cache. Восстановление orphan cache после
-перезапуска ещё предстоит; возраст файла не даёт права на его удаление. Этот
+**консервативный остаток** частного cache. Ограниченное восстановление журналируемого cache после перезапуска добавлено
+следующим этапом ниже; возраст файла не даёт права на его удаление. Этот
 ограниченный этап не закрывает всю cache/crash matrix ТЗ.
 
 [Отчёт cache](ProgressiveContinuousRemuxCacheValidation-2026-11-04.json): по 31
@@ -266,10 +266,92 @@ failure плюс реальные quota checks; заполнение реаль�
 перезаписывал и не восстанавливал прежние пользовательские значения.
 Windows EXE/INI и private Winpthread сохранены, Harvester не изменён.
 
+## Журнал и восстановление после перезапуска — 4 ноября 2026
+
+`shared/progressivestreamjournal.h` добавляет внутренний ownership journal v1.
+До первой append-порции store создаёт `journal.next`, записывает/синхронизирует
+ограниченный JSON, затем атомарно публикует его как `journal.json`. На Linux
+используется renameat2/RENAME_NOREPLACE с fsync каталога; на Windows —
+MoveFileEx/WRITE_THROUGH без перезаписи существующего journal. Сам журнал
+остаётся locked до конца жизни Core; он не переписывается при каждой порции.
+
+Запись содержит cache/session/generation, PID и OS birth владельца, физические
+идентичности каталога, output, самого journal и registry. Для файлов также
+сохраняется creation identity: Windows creation FILETIME либо Linux statx BTIME.
+Исходные пути, URL, аргументы FFmpeg и произвольные цели удаления не записываются.
+Journal принадлежит тому же private каталогу; лимит файла — 16 KiB.
+SHA-256 канонического содержимого выявляет повреждение, даже если JSON
+остался синтаксически корректным. Это checksum private metadata, не MAC/подпись
+против пользователя, который может переписать собственные файлы. Media budget
+по-прежнему считает output bytes, bounded служебные файлы учитываются отдельно.
+
+`StreamCacheOwner` удерживает `.service` lock одного владельца на cache root.
+Первое create в новом процессе выполняет bounded recovery до выделения нового
+store. Участвуют только имена `remux-` + 32 lowercase hex, фиксированные
+`output.fmp4`/`journal.json` и явно переданный сервером registry. Корни cache и
+registry остаются внутренними параметрами сервиса, новая команда IPC не добавлена.
+Ограничения: 16 root на owner, максимум 512 directory entries и 128 кандидатов
+за recovery. Граница scan проверяется до изменений; рекурсивного удаления нет.
+
+Для удаления необходимы все подтверждения:
+
+- private local directory и корректный, единственный, неповреждённый journal;
+  имена/физические идентичности и creation identities совпадают;
+- journal lock свободен; OS подтверждает Exited/ReusedPid владельца, включая
+  birth, а не только номер PID. Same/Unknown и занятая блокировка запрещают cleanup;
+- registry — тот же физический каталог. Его guard свободен, все квитанции группы
+  session/generation и всех readers той же physical output identity released;
+- output не заменён, не связан hardlink/reparse/symlink и не вырос сверх лимита;
+  неизвестных файлов в leaf-каталоге нет. Journal повторно проверяется под lock.
+
+Сначала удаляется только собственный output, затем журнал и пустой leaf-каталог.
+Если процесс уже успел удалить output, но не journal, следующая проверка может
+завершить metadata-only cleanup при тех же процессных/lease подтверждениях.
+Пустые неотслеживаемые каталоги не удаляются на основании одного имени.
+Если journal отсутствует/повреждён/частично опубликован, файл заменён, creation
+identity недоступна или proof недостаточен — остаток сохраняется как quarantine.
+Возраст не участвует в решении. Активные reader receipts не забываются и не
+переписываются recovery; исходные media files никогда не являются целями cleanup.
+
+Непустой непроверенный остаток блокирует новый create с
+`cache-recovery-required`, в том числе попытку переключить тот же owner на другой
+root. Поэтому новый budget не позволяет игнорировать место старого cache.
+После подтверждённого close внешнего reader следующий create повторяет recovery.
+Работа с другими, ещё неизвестными этому owner roots и глобальная системная квота
+не заявляются; будущий API обязан использовать фиксированные roots своей редакции.
+
+Найден и воспроизведён дефект штатной live-очистки: подмена directory registry
+пустым каталогом позволяла удалить cache при живом внешнем reader из прежнего
+registry. Теперь journal registry identity проверяется и при live cleanup,
+при создании output reader и при admission новой сессии. Failed-before-fix binary
+SHA/log/exit 1 и повторный положительный прогон включены в
+[отчёт восстановления](ProgressiveContinuousRemuxRecoveryValidation-2026-11-04.json).
+
+Native recovery: Linux GCC/ASan-UBSan — по 33 сценария, Windows MinGW/MSVC —
+по 31. Два дополнительных Linux rows проверяют symlinks без запроса Windows
+привилегий. Есть реальные kill owner и restart, managed FFmpeg preparation,
+выжившие external output/source readers, PID birth, unlocked-but-live owner,
+corrupt/missing/oversize/replaced/hardlinked journals, подмена output/registry,
+registry contention, scan bound, single-service lock и отказ fresh budget до
+закрытия orphan readers. Это native component, не GUI/decoder приёмка.
+
+Повторяются 31 cache, 17 parent и 9 engine сценариев; результаты платформ разделены.
+Crash tests сохраняют реальные owner exit -9 Linux / 1 Windows отдельно от exit 0
+драйверов. ASan/UBSan покрывает recovery и cache; намеренный SIGKILL не выдаётся за
+нормальный выход или sanitizer shutdown. Main EXE, установленные приложения,
+Harvester, SDK 1.81 и опубликованные assets этим этапом не изменяются.
+
+Это **удаление доказанно принадлежащих мёртвому owner cache**, не возобновление
+незавершённого FFmpeg context или декодирования после crash. Не выполнены
+power-loss/неисправный filesystem, полный stress/CPU/RSS бюджет, восстановление
+непроверяемого legacy cache без journal или новая пользовательская поставка.
+Состояния quarantine требуют отдельной диагностики; автоматическая нормализация
+профиля/registry ради успешной очистки запрещена.
+
 ## Следующий обязательный этап
 
-1. Восстановление orphan cache после перезапуска и интеграция output readers
-   с настоящими decoder adapters; общая cache/crash matrix остаётся открытой.
+1. Интеграция output readers с настоящими decoder adapters и статуса подготовки;
+   расширение общей cache/crash matrix за пределы проверенного journal recovery.
 2. Подключение выходного fMP4 к существующим Qt/Classic bridges и общему status,
    без restart playback при каждом append. Отдельная подготовка, waiting и EOF.
 3. Публичное согласование capability/SDK и проверки через обычный API всех трёх

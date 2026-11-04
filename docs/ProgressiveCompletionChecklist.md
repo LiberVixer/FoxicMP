@@ -52,6 +52,8 @@
 
 - [x] Ограниченный внутренний output store непрерывного remux: private disk cache/shared budget, atomic moov/moof+mdat visibility, FragmentIndex, SHA on read, original/output reader leases и cleanup после подтверждённого close. По 31 сценарию GCC/MinGW/MSVC/ASan-UBSan, включая cross-process readers, очередь retirement с пределом 16 store, quotas, corruption, worker crash, cancel и 600 packet/frame hashes — [отчёт](ProgressiveContinuousRemuxCacheValidation-2026-11-04.json). Это native component: настоящие decoder/API adapters, orphan recovery после перезапуска и общая cache/crash matrix ещё открыты; main EXE/SDK не менялись.
 
+- [x] Ограниченное восстановление private cache после смерти owner: immutable atomic journal, PID/birth + locks, physical/creation identities, source/output reader proofs, quarantine и startup admission до нового budget. По 33 recovery rows Linux GCC/ASan-UBSan, по 31 Windows MinGW/MSVC, повторены cache/parent/engine регрессии; исправлена live-очистка по подменённому registry, baseline failure сохранён — [отчёт](ProgressiveContinuousRemuxRecoveryValidation-2026-11-04.json). Это не восстановление playback/FFmpeg context, не decoder/API интеграция и не полная cache/crash/power-loss приёмка.
+
 - [ ] Проверенные backend demuxers через управляемый local I/O; платформенные адаптеры Qt/Classic.
 - [ ] Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей.
 - [ ] Явные native-progressive, progressive-remux, waiting, post-download и unsupported результаты.

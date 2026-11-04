@@ -19,10 +19,23 @@ int main(int argc,char** argv){
 #endif
     if(argc!=3)return 2;const auto registry=std::filesystem::u8path(argv[1]),worker=std::filesystem::u8path(argv[2]);
     auto budget=std::make_shared<p::StreamCacheBudget>();auto owner=std::make_shared<p::StreamCacheOwner>(budget);std::map<std::string,std::shared_ptr<p::StreamOutputStore::Reader>> readers;
-    std::map<std::string,std::shared_ptr<p::StreamOutputStore>> held;std::shared_ptr<p::StreamOutputStore> store;std::unique_ptr<p::CachedRemuxSession> session;std::future<std::string> pending;std::string line;
+    std::map<std::string,std::shared_ptr<p::StreamOutputStore>> held;std::shared_ptr<p::StreamOutputStore> store;std::unique_ptr<p::CachedRemuxSession> session;std::future<std::string> pending;std::unique_ptr<p::lease_detail::Handle> heldGuard;std::string line;
     while(std::getline(std::cin,line))try{
         rapidjson::Document d;d.Parse(line.c_str());p::Require(!d.HasParseError() && d.IsObject(),"test","Invalid command");const auto action=p::Text(d["action"],"action");
-        if(action=="collect"){const auto removed=owner->collect();std::cout<<"{\"ok\":true,\"removed\":"<<removed<<",\"count\":"<<owner->count()<<",\"bytes\":"<<budget->bytes()<<"}"<<std::endl;continue;}
+        if(action=="privateFile"){
+            const auto path=std::filesystem::u8path(p::Text(d["path"],"path",8192));p::lease_detail::Directory dir(path.parent_path(),false);const auto name=path.filename();p::PlainName(name.u8string(),"filename");
+#ifdef _WIN32
+            p::lease_detail::Security security;p::lease_detail::Handle file(CreateFileW(path.c_str(),GENERIC_READ|GENERIC_WRITE|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,&security.attributes,CREATE_NEW,FILE_FLAG_OPEN_REPARSE_POINT,nullptr));p::Require(file.value!=INVALID_HANDLE_VALUE,"test","Cannot create private file");
+#else
+            p::lease_detail::Handle file(openat(dir.handle.value,name.c_str(),O_RDWR|O_CREAT|O_EXCL|O_CLOEXEC|O_NOFOLLOW,0600));p::Require(file.value>=0,"test","Cannot create private file");
+#endif
+            p::lease_detail::Write(file,p::Text(d["text"],"text",16384));
+        }else if(action=="recover"){
+            const auto v=p::RecoverStreamCache(std::filesystem::u8path(p::Text(d["root"],"root",8192)),registry);rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();out.AddMember("ok",true,a);out.AddMember("ready",v.ready,a);out.AddMember("removed",uint64_t(v.removed),a);p::Value rows(rapidjson::kArrayType);
+            for(const auto& row:v.entries){p::Value item(rapidjson::kObjectType);item.AddMember("cache",p::Value(row.cache.c_str(),a),a);item.AddMember("code",p::Value(row.code.c_str(),a),a);item.AddMember("bytes",row.bytes,a);rows.PushBack(item,a);}out.AddMember("entries",rows,a);std::cout<<p::lease_detail::Encode(out)<<std::endl;continue;
+        }else if(action=="holdGuard"){p::lease_detail::Directory dir(registry,true);heldGuard=std::make_unique<p::lease_detail::Handle>(dir.file(".guard",true));p::Require(heldGuard->lock(),"test","Guard busy");}
+        else if(action=="releaseGuard")heldGuard.reset();
+        else if(action=="collect"){const auto removed=owner->collect();std::cout<<"{\"ok\":true,\"removed\":"<<removed<<",\"count\":"<<owner->count()<<",\"bytes\":"<<budget->bytes()<<"}"<<std::endl;continue;}
         else if(action=="ownerStore")store=owner->create(std::filesystem::u8path(p::Text(d["root"],"root",8192)),registry,p::Text(d["sessionId"],"sessionId"),1);
         else if(action=="ownerRetire"){std::cout<<"{\"ok\":true,\"removed\":"<<(owner->retire(store)?"true":"false")<<"}"<<std::endl;continue;}
         else if(action=="budgetStatus"){std::cout<<"{\"ok\":true,\"bytes\":"<<budget->bytes()<<"}"<<std::endl;continue;}

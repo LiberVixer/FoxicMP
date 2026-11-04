@@ -444,3 +444,14 @@ reader leases, original + cross-process output receipt gates перед удал
 GUI/decoder adapters и публичный API ещё не подключены; orphan recovery и полная
 cache/crash matrix открыты. Main EXE всех трёх редакций/установленный Linux EXE
 не изменились, новая поставка не создаётся. Harvester не меняется.
+
+
+4 ноября 2026, journal recovery: [неизменяемый private ownership journal
+и startup admission](ProgressiveContinuousRemux.md) проверяют OS owner birth,
+locks, file/directory creation identity, тот же registry и живые reader receipts
+до удаления cache. Непроверенные остатки сохраняются и блокируют новый budget.
+Исправлен live cleanup через подменённый пустой registry; baseline failure сохранён.
+Linux GCC/ASan-UBSan: по 33 recovery сценария, Windows MinGW/MSVC: по 31 —
+[отчёт](ProgressiveContinuousRemuxRecoveryValidation-2026-11-04.json).
+Это внутренний компонент; реальные decoder/API adapters и общая приёмка открыты.
+Main EXE, установки, Harvester и SDK/release assets не изменялись.

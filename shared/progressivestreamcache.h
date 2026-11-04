@@ -2,6 +2,7 @@
 // Internal component only. GPL-3.0-or-later.
 #pragma once
 #include "progressiveresourceio.h"
+#include "progressivestreamjournal.h"
 #include "DSUtil/HarvesterMP4.h"
 
 namespace foxicmp { namespace progressive {
@@ -58,7 +59,7 @@ class StreamOutputStore {
         std::shared_ptr<StreamCacheBudget> budget;
         std::filesystem::path registry,folder,path;
         std::unique_ptr<lease_detail::Directory> parent,directory;
-        Handle writer;resource_detail::Info identity;
+        Handle writer;resource_detail::Info identity;std::unique_ptr<StreamCacheJournal> journal;
         std::string session,resource;uint64_t generation,limit,charged=0,scan=0;
         struct Chunk {uint64_t offset;size_t length;std::array<unsigned char,32> digest;};
         std::vector<Chunk> chunks;
@@ -88,6 +89,7 @@ class StreamOutputStore {
             writer.value=openat(directory->handle.value,"output.fmp4",O_RDWR|O_CREAT|O_EXCL|O_CLOEXEC|O_NOFOLLOW,0600);check(writer.value>=0);
 #endif
             identity=resource_detail::Inspect(writer);lease_detail::Owned(writer.value,false);
+            journal=std::make_unique<StreamCacheJournal>(*directory,registry,resource,session,generation,writer,limit);
         }
         static void check(bool ok,const char* code="cache-io-error"){stream_cache_detail::check(ok,code);}
         Handle openReader(bool checkSize=true){
@@ -143,7 +145,7 @@ class StreamOutputStore {
             if(state.removed)return true;
             if(!state.retiring || !state.producerClosed || !state.originalsClosed || state.activeReaders){state.cleanupCode="cache-in-use";return false;}
             try{
-                lease_detail::Directory receipts(registry,true);auto guard=receipts.file(".guard",true);
+                lease_detail::Directory receipts(registry,true);journal->verifyRegistry(receipts);auto guard=receipts.file(".guard",true);
                 if(!guard.lock()){state.cleanupCode="reader_registry_busy";return false;}
                 const auto ids=receipts.ids();
                 for(const auto& id:ids){auto record=lease_detail::Inspect(receipts,id);bool relevant=std::find(originals.begin(),originals.end(),id)!=originals.end();
@@ -157,7 +159,7 @@ class StreamOutputStore {
 #else
                 check(unlinkat(directory->handle.value,"output.fmp4",0)==0,"cache-cleanup-failed");
 #endif
-                directory.reset();std::error_code error;std::filesystem::remove(folder,error);
+                journal->remove();journal.reset();directory.reset();std::error_code error;std::filesystem::remove(folder,error);
                 // An unexpected extra file is never recursively removed.
                 state.removed=true;state.cleanupCode=error?"removed-folder-retained":"removed";budget->release(charged);charged=0;return true;
             }catch(const Error& e){state.cleanupCode=e.code;return false;}catch(...){state.cleanupCode="cache-cleanup-failed";return false;}
@@ -170,7 +172,7 @@ public:
         std::shared_ptr<Core> core;Handle file;std::unique_ptr<ReaderLease> lease;std::string readerId;bool closed=false;
         friend class StreamOutputStore;
         explicit Reader(std::shared_ptr<Core> value):core(std::move(value)){
-            std::lock_guard<std::mutex> lock(core->mutex);Core::check(core->state.readerIds.size()<MaxReaders,"cache-reader-limit");Core::check(!core->state.retiring && !core->state.removed && core->state.failure.empty(),"cache-closed");auto opened=core->openReader();file.value=std::exchange(opened.value,
+            std::lock_guard<std::mutex> lock(core->mutex);Core::check(core->state.readerIds.size()<MaxReaders,"cache-reader-limit");Core::check(!core->state.retiring && !core->state.removed && core->state.failure.empty(),"cache-closed");lease_detail::Directory receipts(core->registry,true);core->journal->verifyRegistry(receipts);auto opened=core->openReader();file.value=std::exchange(opened.value,
 #ifdef _WIN32
             INVALID_HANDLE_VALUE
 #else
@@ -232,6 +234,21 @@ class StreamCacheOwner {
     std::shared_ptr<StreamCacheBudget> budget;
     std::vector<std::shared_ptr<StreamOutputStore>> stores;
     size_t limit;
+    struct Fence {std::unique_ptr<stream_journal_detail::Root> root;std::filesystem::path registry;resource_detail::Info registryIdentity;bool ready=false;};
+    std::map<std::filesystem::path,Fence> roots;
+    void admit(const std::filesystem::path& root,const std::filesystem::path& registry){
+        // Retained or unprovable orphans block new allocation, rather than
+        // silently forgetting their disk use in a fresh process budget.
+        for(auto& entry:roots)if(!entry.second.ready){entry.second.ready=RecoverStreamCachePinned(*entry.second.root,entry.second.registry).ready;Require(entry.second.ready,"remuxCache","Old cache still has readers or lacks ownership proof","cache-recovery-required");}
+        const auto key=root.lexically_normal();auto found=roots.find(key);
+        if(found==roots.end()){
+            Require(roots.size()<16,"remuxCache","Cache root limit reached","cache-root-limit");Fence fence;fence.registry=registry.lexically_normal();fence.root=std::make_unique<stream_journal_detail::Root>(key,true);
+            found=roots.emplace(key,std::move(fence)).first;{lease_detail::Directory receipts(registry,true);found->second.registryIdentity=resource_detail::Inspect(receipts.handle,true);}found->second.ready=RecoverStreamCachePinned(*found->second.root,registry).ready;
+        }
+        Require(found->second.registry==registry.lexically_normal(),"remuxCache","Cache registry changed","cache-registry-replaced");
+        {lease_detail::Directory receipts(registry,true);Require(stream_journal_detail::same(found->second.registryIdentity,resource_detail::Inspect(receipts.handle,true)),"remuxCache","Cache registry identity changed","cache-registry-replaced");}
+        Require(found->second.ready,"remuxCache","Old cache still has readers or lacks ownership proof","cache-recovery-required");
+    }
     size_t collectLocked(){
         size_t removed=0;
         for(auto i=stores.begin();i!=stores.end();){
@@ -243,7 +260,8 @@ public:
     explicit StreamCacheOwner(std::shared_ptr<StreamCacheBudget> shared,size_t sessions=16):budget(std::move(shared)),limit(sessions){Require(bool(budget) && limit>0 && limit<=16,"remuxCache","Invalid cache owner bounds","invalid_request");}
     std::shared_ptr<StreamOutputStore> create(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,uint64_t bytes=64*1024*1024){
         std::lock_guard<std::mutex> lock(mutex);collectLocked();Require(stores.size()<limit,"remuxCache","Retire old output stores first","cache-session-limit");
-        auto store=std::make_shared<StreamOutputStore>(root,registry,session,generation,budget,bytes);stores.push_back(store);return store;
+        admit(root,registry);
+        try{auto store=std::make_shared<StreamOutputStore>(root,registry,session,generation,budget,bytes);stores.push_back(store);return store;}catch(...){roots.at(root.lexically_normal()).ready=false;throw;}
     }
     bool retire(const std::shared_ptr<StreamOutputStore>& store){
         std::lock_guard<std::mutex> lock(mutex);const auto found=std::find(stores.begin(),stores.end(),store);
