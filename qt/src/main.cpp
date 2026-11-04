@@ -309,6 +309,10 @@ int main(int argc, char **argv) {
       reset = window.requestedProfileReset(&keepLibrary);
       broker->setReceiver({});
     } // Destroy playback workers and all window writers before replacing INI.
+    // The window is already gone: give background reader/cache retirement a
+    // bounded chance to finish without adding a wait to any live UI destructor.
+    if (!ProgressiveApi::settleContinuousExit())
+      std::fprintf(stderr, "Continuous cache cleanup deferred to profile recovery\n");
     broker.reset(); // Stop accepting IPC before the post-exit reset/status dialog.
     if (reset) {
       QString backup, error;

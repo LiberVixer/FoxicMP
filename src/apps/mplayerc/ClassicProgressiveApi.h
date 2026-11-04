@@ -32,6 +32,7 @@ public:
     static std::wstring Endpoint();
     static std::wstring ReaderRegistry();
     static std::string Information();
+    static bool SettleContinuousExit(); // After the frame/graph/API owners are gone.
     std::string Handle(const std::string&, Request* = nullptr);
     void PlaybackIntentChanged(const CStringW& incoming = CStringW(),bool retainCurrentPlayback=false);
     bool PreparedCompleted();

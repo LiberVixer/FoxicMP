@@ -31,6 +31,11 @@ int main(int argc,char** argv){
         }else if(action=="dropManager"){
             const auto start=std::chrono::steady_clock::now();manager.reset();out.AddMember("seconds",std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count(),a);
         }else if(action=="retirement"){out.AddMember("occupied",uint64_t(p::ContinuousRetirement::occupied()),a);}
+        else if(action=="settleExit"){
+            const auto began=std::chrono::steady_clock::now();
+            out.AddMember("settled",p::ContinuousRemuxController::settleOnExit(std::chrono::milliseconds(d["milliseconds"].GetUint())),a);
+            out.AddMember("seconds",std::chrono::duration<double>(std::chrono::steady_clock::now()-began).count(),a);
+        }
         else if(action=="reader"){
             auto source=manager->decoder(p::Text(d["jobId"],"jobId"));p::Require(bool(source),"fixture","Decoder not ready","decoder-not-ready");auto reader=source->reader();out.AddMember("readerId",p::Value(reader->id().c_str(),a),a);readers[p::Text(d["name"],"name")]=std::move(reader);
         }else if(action=="close")readers.erase(p::Text(d["name"],"name"));

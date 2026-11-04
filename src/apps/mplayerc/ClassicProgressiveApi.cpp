@@ -100,6 +100,9 @@ ClassicProgressiveApi::Request::~Request() {
     if(done)CloseHandle(done);
 }
 ClassicProgressiveApi::~ClassicProgressiveApi() {frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);if(legacyOpening)legacyOpening->abandoned.store(true);if(continuousOpening)continuousOpening->abandoned.store(true);if(preparation)preparation->abandoned.store(true);if(registryPreparation)registryPreparation->abandoned.store(true);if(stop){SetEvent(stop);if(worker.joinable())worker.join();CloseHandle(stop);}}
+bool ClassicProgressiveApi::SettleContinuousExit() {
+    return foxicmp::progressive::ContinuousRemuxController::settleOnExit(std::chrono::milliseconds(1500));
+}
 bool ClassicProgressiveApi::BeginLegacy(const std::wstring& manifest) {
     if(legacyOpening && legacyOpening->abandoned.load() && legacyOpening->finished.load(std::memory_order_acquire))legacyOpening.reset();
     if(manifest.empty() || legacyOpening)return false;

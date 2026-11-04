@@ -94,7 +94,7 @@ def normal_close(peer):
     return dict(pid=pid,exitCode=0,terminationSeconds=seconds,method=method)
 
 
-def exercise(peers,root,report):
+def exercise(peers,root,report,require_clean=False):
     rows=[];active=[None,None];watches=[]
     raw_path=fixture(root,'reference');raw=raw_path.read_bytes();packets=probe(raw_path)['packets']
     cuts={s:int(next(p['pos'] for p in packets if float(p['pts_time'])>=s))+13 for s in (12,20)}
@@ -185,11 +185,14 @@ def exercise(peers,root,report):
                 final=closed(replacement);active[0]=None
                 for rid in old_reader_ids:assert peers[0].native('readerForget',readerId=rid)['forgotten']
                 assert sha(path)==after_append and not list(cache.glob('remux-*'))
-                rows.append(dict(profile=name,result='PASS',initialProducer=initial,actualPlayback=actual,termination=termination,workerExit=worker,workerExitObservedSeconds=worker_seconds,oldReaderReceipts=receipts,cacheAfterExit=remaining,recoveredProducer=recovered,restartedPlayback=restarted,independentBefore=control_before,independentAfter=control_after,partialUnchangedByExit=True,writerAppendAfterExit=True,appendedOriginalSha256=after_append,originalUnchangedAfterRestart=True,explicitNewAttempt=True,**final))
+                if require_clean and kind=='normal' and remaining:
+                    (report/'normal-exit-cache-failure.json').write_text(json.dumps(dict(profile=name,remaining=remaining,termination=termination,receipts=receipts),indent=2)+'\n')
+                    raise AssertionError(('Normal exit retained continuous cache',name,remaining))
+                rows.append(dict(normalExitCacheClean=not remaining,profile=name,result='PASS',initialProducer=initial,actualPlayback=actual,termination=termination,workerExit=worker,workerExitObservedSeconds=worker_seconds,oldReaderReceipts=receipts,cacheAfterExit=remaining,recoveredProducer=recovered,restartedPlayback=restarted,independentBefore=control_before,independentAfter=control_after,partialUnchangedByExit=True,writerAppendAfterExit=True,appendedOriginalSha256=after_append,originalUnchangedAfterRestart=True,explicitNewAttempt=True,**final))
                 (report/'progress.json').write_text(json.dumps(dict(completed=len(rows),rows=rows),indent=2)+'\n')
                 print(json.dumps(dict(profile=name,result='PASS')),flush=True)
         other_final=closed(other);active[1]=None;assert sha(other_path)==sha(raw_path)
-        return dict(result='PASS',count=len(rows),rows=rows,independentEndpointPreserved=True,explicitNewAttempt=True,automaticPositionResume=False,otherFinal=other_final)
+        return dict(result='PASS',count=len(rows),rows=rows,independentEndpointPreserved=True,explicitNewAttempt=True,automaticPositionResume=False,requireCleanNormalExit=require_clean,otherFinal=other_final)
     finally:
         for i,sdk in enumerate(active):
             if sdk is not None and peers[i].process.poll() is None:
@@ -198,8 +201,8 @@ def exercise(peers,root,report):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--edition',choices=('qt','classic'),required=True);p.add_argument('--player',action='append',required=True);p.add_argument('--reader-runner',required=True);p.add_argument('--report-directory',required=True);args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--edition',choices=('qt','classic'),required=True);p.add_argument('--player',action='append',required=True);p.add_argument('--reader-runner',required=True);p.add_argument('--report-directory',required=True);p.add_argument('--require-clean-normal-exit',action='store_true');args=p.parse_args()
     report=Path(args.report_directory).resolve();report.mkdir(parents=True,exist_ok=True)
-    try:run(args,lambda peers,root:exercise(peers,root,report),__file__)
+    try:run(args,lambda peers,root:exercise(peers,root,report,args.require_clean_normal_exit),__file__)
     except Exception:
         (report/'error.txt').write_text(traceback.format_exc(),encoding='utf-8');raise

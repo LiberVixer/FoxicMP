@@ -1564,6 +1564,10 @@ int CMPlayerCApp::ExitInstance()
 		}
 	}
 
+    // HWND/graph/API owners are already gone; keep final retirement bounded.
+    if (!ClassicProgressiveApi::SettleContinuousExit())
+        DLog(L"Continuous cache cleanup deferred to profile recovery");
+
 	OleUninitialize();
 
 	return CWinApp::ExitInstance();

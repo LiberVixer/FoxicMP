@@ -146,10 +146,11 @@ def run(runner,worker,report):
         def live_retirement(folder,path,rpc,c,start,status,f,w,p,forget,g,wg):
             start();p(len(raw)//3);s=w(lambda s:s['playbackReady']);rid=c('reader',jobId=s['jobId'],name='held')['readerId'];d=c('dropManager');assert d['seconds']<.2
             time.sleep(.1);assert c('retirement')['occupied']>0 and list((folder/'cache').glob('remux-*/output.fmp4'))
-            c('close',name='held');until=time.monotonic()+5
-            while c('retirement')['occupied']:
-                assert time.monotonic()<until;time.sleep(.02)
-            assert not list((folder/'cache').glob('remux-*'));return dict(destructionSeconds=d['seconds'],readerId=rid,retainedUntilActualClose=True)
+            held=c('settleExit',milliseconds=50);assert not held['settled'] and held['seconds']<.2,held
+            assert list((folder/'cache').glob('remux-*/output.fmp4'))
+            c('close',name='held');settled=c('settleExit',milliseconds=1500);assert settled['settled'] and settled['seconds']<1.5,settled
+            assert c('retirement')['occupied']==0
+            assert not list((folder/'cache').glob('remux-*'));return dict(destructionSeconds=d['seconds'],readerId=rid,retainedUntilActualClose=True,heldExitWait=held,closedExitWait=settled)
         case('manager-destruction-retains-fence-until-reader-close',live_retirement)
         def writer_failed(folder,path,rpc,c,start,status,f,w,p,forget,g,wg):
             req,s=start();w(lambda s:s['producerCode']=='waiting');value=copy.deepcopy(req['session']);value['revision']='2';value['writer']['state']=value['resources'][0]['state']=value['tracks'][0]['state']='failed'

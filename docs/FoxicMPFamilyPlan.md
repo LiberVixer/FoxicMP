@@ -820,3 +820,15 @@ playing, paused, buffering, обычный выход и принудитель�
 Прежний Linux heartbeat release outlier также открыт. Следом — normal-exit cache
 cleanup, worker crash/mid-I/O/races и stress. EXE/установленные профили, 158 shell
 entries, SDK ZIP и Harvester сохранены; одноразовая задача удалена.
+
+
+4 ноября 2026, [нормальная очистка continuous cache](ProgressiveContinuousExitCleanup.md)
+исправлена общим bounded final-exit wait ≤1500 ms после уничтожения владельцев
+GUI/API/decoder. Обычные деструкторы/Stop не ждут; живые readers сохраняют fence
+и журнал. По восемь усиленных close/crash сценариев каждой редакции: после всех
+двенадцати нормальных выходов кэш отсутствует, 0,062–0,235 s. Native controller
+проверяет timeout с удерживаемым reader и успешную очистку после реального close.
+[Отчёт](ProgressiveContinuousExitCleanupValidation-2026-11-04.json).
+Общая latency/crash/stress приёмка и прежний Linux heartbeat outlier открыты.
+Windows-установки, профили, shell registration, SDK ZIP и Harvester сохраняются;
+проверенная Linux-сборка устанавливается атомарно с backup и сохранением INI.

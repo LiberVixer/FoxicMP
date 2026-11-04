@@ -72,6 +72,9 @@ ProgressiveApi::ProgressiveApi(Window *w, QObject *parent) : QObject(parent), wi
   });
 }
 ProgressiveApi::~ProgressiveApi() { if(preparation)preparation->abandoned.store(true);if(registryPreparation)registryPreparation->abandoned.store(true);server.close(); }
+bool ProgressiveApi::settleContinuousExit() {
+  return foxicmp::progressive::ContinuousRemuxController::settleOnExit(std::chrono::milliseconds(1500));
+}
 QString ProgressiveApi::endpointFor(const QString &directory) {
   return InstanceBroker::endpointFor(directory) + ".progressive";
 }

@@ -18,6 +18,7 @@ using ContinuousRetirement=ObjectRetirement<ContinuousRetirementPolicy>;
 struct ContinuousControllerHooks {std::function<void()> prepare,publish;}; // Private deterministic I/O fixtures.
 class ContinuousRemuxController {
     using Clock=std::chrono::steady_clock;
+    static std::atomic<bool>& jobsStarted(){static std::atomic<bool> value{false};return value;}
     static int64_t now(){return std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now().time_since_epoch()).count();}
     static void profile(const Snapshot& s,const std::string& resource){
         Require(!s.live && !s.hasWindow && s.knownDuration && s.duration>0 && s.duration<=36000000000LL && s.numerator==1 && s.denominator==10000000 && s.offset==0,
@@ -163,6 +164,11 @@ public:
     ContinuousRemuxController(std::filesystem::path receipts,std::filesystem::path output,std::filesystem::path executable,StreamRemuxLimits policy={},ContinuousControllerHooks fixture={})
         :registry(std::move(receipts)),cache(std::move(output)),child(std::move(executable)),limits(policy),hooks(std::move(fixture)){}
     ~ContinuousRemuxController(){if(job){job->stop.store(true);job->requestCancel();}}
+    // Final process exit only, after GUI/API/decoder owners are gone. Ordinary
+    // destruction remains asynchronous; timeout keeps conservative recovery fences.
+    static bool settleOnExit(std::chrono::milliseconds timeout){
+        return !jobsStarted().load() || ContinuousRetirement::waitEmpty(timeout);
+    }
     void cancelPlaybackJob(const std::string& id){std::lock_guard<std::mutex> lock(dispatch);if(job && job->id==id)job->requestCancel();}
     std::function<StreamCacheStatus()> outputObserver(const std::string& id){
         std::lock_guard<std::mutex> lock(dispatch);Require(job && job->id==id,"continuousPlayback","Unknown remux job","unknown-continuous-job");
@@ -197,7 +203,7 @@ public:
                 healthy(parsed,resource);
                 const auto directory=std::filesystem::u8path(Text(d["sessionDirectory"],"sessionDirectory",8192));Require(directory.is_absolute(),"sessionDirectory","Absolute local directory required","invalid_request");
                 auto next=ContinuousRetirement::create<Job>([]{return new Job;});next->requestId=rid;next->fingerprint=fingerprint;next->initial=initial;next->accepted=parsed;next->initiallyComplete=parsed.resources.at(resource).state=="complete";next->resource=resource;next->directory=directory;next->registry=registry;next->cache=cache;next->child=child;next->limits=limits;next->hooks=hooks;next->owner=serviceOwner;
-                next->thread=std::thread([raw=next.get()]{raw->run();});job=std::move(next);return job->status();
+                next->thread=std::thread([raw=next.get()]{raw->run();});job=std::move(next);jobsStarted().store(true);return job->status();
             }
             if(action=="continuousRemuxStatus"){
                 Keys(d,"continuousRemux",{"version","action"},{"jobId","requestId"});Require(d.HasMember("jobId")!=d.HasMember("requestId"),"continuousRemux","Specify one status identity","invalid_request");

@@ -17,6 +17,7 @@ public:
   QString errorString() const { return server.errorString(); }
   static QString endpointFor(const QString &profileDirectory);
   static QString readerRegistryFor(const QString &profileDirectory);
+  static bool settleContinuousExit(); // Call after Window/API destruction.
   static QJsonObject information(const QString &profileDirectory);
   QJsonObject request(const QJsonObject &);
 
