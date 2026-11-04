@@ -832,3 +832,15 @@ GUI/API/decoder. Обычные деструкторы/Stop не ждут; жи�
 Общая latency/crash/stress приёмка и прежний Linux heartbeat outlier открыты.
 Windows-установки, профили, shell registration, SDK ZIP и Harvester сохраняются;
 проверенная Linux-сборка устанавливается атомарно с backup и сохранением INI.
+
+
+4 ноября 2026, [аварийное завершение continuous worker](ProgressiveContinuousWorkerCrash.md):
+по четыре сценария отдельно Linux Qt, Windows Qt и Classic, все exit 0. Проверенный
+OS identity дочернего worker, preparation/playing/paused/buffering, status-only
+release без Stop, filesClosed receipts и удаление кэша, независимый просмотр,
+реальное дописывание partial и явный retry в том же player с новыми IDs.
+Сумма kill/exit и release ожидания 0,047–0,297 s; [результаты и ошибка первого
+стендового ожидания](ProgressiveContinuousWorkerCrashValidation-2026-11-04.json).
+Production code/EXE, установки, INI, 158 shell entries, SDK ZIP и Harvester
+сохранены; временная одноразовая задача удалена. Прежний Linux heartbeat outlier,
+mid-I/O/races, расширенный stress и полная приёмка ТЗ остаются открыты.
