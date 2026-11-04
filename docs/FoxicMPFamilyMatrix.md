@@ -488,3 +488,15 @@ Linux GCC/ASan-UBSan: по 33 recovery сценария, Windows MinGW/MSVC: п�
 [отчёт](ProgressiveContinuousRemuxRecoveryValidation-2026-11-04.json).
 Это внутренний компонент; реальные decoder/API adapters и общая приёмка открыты.
 Main EXE, установки, Harvester и SDK/release assets не изменялись.
+
+
+4 ноября 2026, первые decoder views continuous-remux: общий блокирующий cursor,
+внутренний libmpv stream adapter и sample-index view для Classic.
+Реальный libmpv декодирует 600 кадров до/после source complete; каждый PNG
+совпадает с completed-source reference той же ОС. Есть pause/resume, interrupt,
+EOF/producer errors, совместные readers и actual close. По 11 native сценариев
+GCC/MinGW/MSVC/ASan-UBSan, повторены 31 cache regression Windows/Linux —
+[отчёт](ProgressiveContinuousRemuxDecoderValidation-2026-11-04.json).
+Это не установка нового playback: обычные Player/API и реальный Classic
+DirectShow graph ещё не подключены, их приёмка остаётся открытой.
+Main EXE/профили/Harvester/SDK 1.81 и опубликованные assets не менялись.

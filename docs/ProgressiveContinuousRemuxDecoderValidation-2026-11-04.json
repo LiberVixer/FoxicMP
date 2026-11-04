@@ -1,0 +1,2759 @@
+{
+  "result": "PASS",
+  "date": "2026-11-04",
+  "applicationVersion": "0.2.0",
+  "publicSdkVersion": "1.81",
+  "scope": {
+    "realLibmpvDecoderInNativeFixture": true,
+    "classicFragmentView": true,
+    "installedPlayerApiIntegrated": false,
+    "classicDirectShowGraphTested": false,
+    "newPlayerInstallation": false,
+    "harvesterModified": false
+  },
+  "sourceSha256": {
+    "shared/progressivestreamdecoder.h": "aa0eed93ea24a1fdf44ebc75cd6f4923c9d89bce7edc9cf7685f4631313dce26",
+    "qt/src/continuousstreams.h": "664a53712a3634f3410e2d338b0523261356b1b271ae5ea6560379ba3f3f1eb7",
+    "shared/progressivecachedremux.h": "3d29abe32f75811fa0f5f5159f197f8a0d180396f93f40f7afc7d8e248da824f",
+    "tests/progressive_stream_decoder_cli.cpp": "455f25212e0e4df8c42077c3c208bffae57413c852ead1840804ce0f352d1546",
+    "tests/progressive_stream_decoder_test.py": "109cd8d128614da7fb5e4f7ab88426985f7404b52a335791963986a2738935b4",
+    "qt/CMakeLists.txt": "148e80685fb73b5dbd8123a37d2d4acfad58f8b75edf39067defc705ca686606"
+  },
+  "exactExitCodes": {
+    "stream-decoder-linux-build": 0,
+    "stream-decoder-linux-tests": 0,
+    "stream-decoder-linux-final-tests": 0,
+    "stream-decoder-windows-build": 0,
+    "stream-decoder-windows-tests": 0,
+    "stream-decoder-windows-ssh": 0,
+    "stream-decoder-msvc-build": 0,
+    "stream-decoder-msvc-tests": 0,
+    "stream-decoder-msvc-ssh": 0,
+    "stream-decoder-asan-build": 0,
+    "stream-decoder-asan-tests": 0,
+    "stream-decoder-final-state-ssh": 0
+  },
+  "decoderValidation": {
+    "linux-gcc": {
+      "result": "PASS",
+      "count": 11,
+      "rows": [
+        {
+          "profile": "completed-source-libmpv-reference",
+          "result": "PASS",
+          "frames": 600,
+          "decoder": {
+            "ok": true,
+            "loaded": true,
+            "ended": true,
+            "reason": 0,
+            "error": 0,
+            "position": 0.0,
+            "codec": "",
+            "logs": []
+          }
+        },
+        {
+          "profile": "interrupt-blocked-read-without-false-eof",
+          "result": "PASS",
+          "interruptSeconds": 0.04195948300002783,
+          "readerId": "e3f3af808c02fce9dd18eb9a7bf40081",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": ""
+          }
+        },
+        {
+          "profile": "source-cancel-wakes-blocked-cursor",
+          "result": "PASS"
+        },
+        {
+          "profile": "bounded-read-seek-size-confirmed-eof",
+          "result": "PASS",
+          "boundedRead": 65536,
+          "finalSize": 446271,
+          "confirmedEof": true
+        },
+        {
+          "profile": "cursor-propagates-writer-failed",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "writer-failed"
+          }
+        },
+        {
+          "profile": "cursor-propagates-cancelled",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "cancelled"
+          }
+        },
+        {
+          "profile": "cursor-propagates-backend-worker-exited",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "backend-worker-exited"
+          }
+        },
+        {
+          "profile": "classic-fragment-view-packets-clocks-keyframes",
+          "result": "PASS",
+          "samples": 600,
+          "exactPacketSha256": true,
+          "clockTolerance100ns": 1
+        },
+        {
+          "profile": "libmpv-destroy-during-empty-output-wait",
+          "result": "PASS",
+          "ok": true,
+          "seconds": 0.009113842
+        },
+        {
+          "profile": "libmpv-growing-fragments-pause-resume-exact-frames",
+          "result": "PASS",
+          "frames": 600,
+          "decodedPngSequenceEqualsCompletedSource": true,
+          "framesBeforeComplete": 78,
+          "manualPausePreserved": true,
+          "receiptCount": 1
+        },
+        {
+          "profile": "managed-resource-remux-libmpv-and-classic-view",
+          "result": "PASS",
+          "singleWorkerPid": 18464,
+          "frames": 600,
+          "decodedPngSequenceEqualsCompletedSource": true,
+          "framesBeforeComplete": 3,
+          "partialClassicSamples": 175,
+          "receiptCount": 3,
+          "originalUnchanged": true
+        }
+      ],
+      "exactDriverExits": [
+        {
+          "profile": "completed-source-libmpv-reference",
+          "pid": 15916,
+          "exitCode": 0
+        },
+        {
+          "profile": "interrupt-blocked-read-without-false-eof",
+          "pid": 16919,
+          "exitCode": 0
+        },
+        {
+          "profile": "source-cancel-wakes-blocked-cursor",
+          "pid": 16955,
+          "exitCode": 0
+        },
+        {
+          "profile": "bounded-read-seek-size-confirmed-eof",
+          "pid": 16983,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-writer-failed",
+          "pid": 17023,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-cancelled",
+          "pid": 17047,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-backend-worker-exited",
+          "pid": 17070,
+          "exitCode": 0
+        },
+        {
+          "profile": "classic-fragment-view-packets-clocks-keyframes",
+          "pid": 17095,
+          "exitCode": 0
+        },
+        {
+          "profile": "libmpv-destroy-during-empty-output-wait",
+          "pid": 17183,
+          "exitCode": 0
+        },
+        {
+          "profile": "libmpv-growing-fragments-pause-resume-exact-frames",
+          "pid": 17223,
+          "exitCode": 0
+        },
+        {
+          "profile": "managed-resource-remux-libmpv-and-classic-view",
+          "pid": 18450,
+          "exitCode": 0
+        }
+      ],
+      "temporaryWorkRemoved": true,
+      "runnerSha256": "93c03bb03db91fc6e7f1af10dd51959fece40e266be2055bd0cc11bbba560487",
+      "workerSha256": "e6420d9d98462712ea2ad43c9f78e3227d113dd313138230120586b658de4a49",
+      "testSourceSha256": "109cd8d128614da7fb5e4f7ab88426985f7404b52a335791963986a2738935b4",
+      "realLibmpvDecode": true,
+      "classicFragmentParserOnly": true,
+      "installedDirectShowGraphTested": false,
+      "publicPlayerCapability": false
+    },
+    "windows-mingw": {
+      "result": "PASS",
+      "count": 11,
+      "rows": [
+        {
+          "profile": "completed-source-libmpv-reference",
+          "result": "PASS",
+          "frames": 600,
+          "decoder": {
+            "ok": true,
+            "loaded": true,
+            "ended": true,
+            "reason": 0,
+            "error": 0,
+            "position": 0.0,
+            "codec": "",
+            "logs": []
+          }
+        },
+        {
+          "profile": "interrupt-blocked-read-without-false-eof",
+          "result": "PASS",
+          "interruptSeconds": 0.04165180000018154,
+          "readerId": "beeda267cac5c2ae6b31b227337a52cf",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": ""
+          }
+        },
+        {
+          "profile": "source-cancel-wakes-blocked-cursor",
+          "result": "PASS"
+        },
+        {
+          "profile": "bounded-read-seek-size-confirmed-eof",
+          "result": "PASS",
+          "boundedRead": 65536,
+          "finalSize": 446271,
+          "confirmedEof": true
+        },
+        {
+          "profile": "cursor-propagates-writer-failed",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "writer-failed"
+          }
+        },
+        {
+          "profile": "cursor-propagates-cancelled",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "cancelled"
+          }
+        },
+        {
+          "profile": "cursor-propagates-backend-worker-exited",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "backend-worker-exited"
+          }
+        },
+        {
+          "profile": "classic-fragment-view-packets-clocks-keyframes",
+          "result": "PASS",
+          "samples": 600,
+          "exactPacketSha256": true,
+          "clockTolerance100ns": 1
+        },
+        {
+          "profile": "libmpv-destroy-during-empty-output-wait",
+          "result": "PASS",
+          "ok": true,
+          "seconds": 0.0189953
+        },
+        {
+          "profile": "libmpv-growing-fragments-pause-resume-exact-frames",
+          "result": "PASS",
+          "frames": 600,
+          "decodedPngSequenceEqualsCompletedSource": true,
+          "framesBeforeComplete": 75,
+          "manualPausePreserved": true,
+          "receiptCount": 1
+        },
+        {
+          "profile": "managed-resource-remux-libmpv-and-classic-view",
+          "result": "PASS",
+          "singleWorkerPid": 7372,
+          "frames": 600,
+          "decodedPngSequenceEqualsCompletedSource": true,
+          "framesBeforeComplete": 13,
+          "partialClassicSamples": 175,
+          "receiptCount": 3,
+          "originalUnchanged": true
+        }
+      ],
+      "exactDriverExits": [
+        {
+          "profile": "completed-source-libmpv-reference",
+          "pid": 5520,
+          "exitCode": 0
+        },
+        {
+          "profile": "interrupt-blocked-read-without-false-eof",
+          "pid": 2020,
+          "exitCode": 0
+        },
+        {
+          "profile": "source-cancel-wakes-blocked-cursor",
+          "pid": 7092,
+          "exitCode": 0
+        },
+        {
+          "profile": "bounded-read-seek-size-confirmed-eof",
+          "pid": 7400,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-writer-failed",
+          "pid": 8724,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-cancelled",
+          "pid": 6096,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-backend-worker-exited",
+          "pid": 4204,
+          "exitCode": 0
+        },
+        {
+          "profile": "classic-fragment-view-packets-clocks-keyframes",
+          "pid": 2512,
+          "exitCode": 0
+        },
+        {
+          "profile": "libmpv-destroy-during-empty-output-wait",
+          "pid": 1472,
+          "exitCode": 0
+        },
+        {
+          "profile": "libmpv-growing-fragments-pause-resume-exact-frames",
+          "pid": 6876,
+          "exitCode": 0
+        },
+        {
+          "profile": "managed-resource-remux-libmpv-and-classic-view",
+          "pid": 1920,
+          "exitCode": 0
+        }
+      ],
+      "temporaryWorkRemoved": true,
+      "runnerSha256": "d495209b9969d595acb60e85002d925ab30afd885b651f0ea3b994e6849d320d",
+      "workerSha256": "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+      "testSourceSha256": "109cd8d128614da7fb5e4f7ab88426985f7404b52a335791963986a2738935b4",
+      "realLibmpvDecode": true,
+      "classicFragmentParserOnly": true,
+      "installedDirectShowGraphTested": false,
+      "publicPlayerCapability": false
+    },
+    "windows-msvc": {
+      "result": "PASS",
+      "count": 11,
+      "rows": [
+        {
+          "profile": "completed-source-libmpv-reference",
+          "result": "PASS",
+          "frames": 600,
+          "decoder": {
+            "ok": true,
+            "loaded": true,
+            "ended": true,
+            "reason": 0,
+            "error": 0,
+            "position": 0.0,
+            "codec": "",
+            "logs": []
+          }
+        },
+        {
+          "profile": "interrupt-blocked-read-without-false-eof",
+          "result": "PASS",
+          "interruptSeconds": 0.047000000000025466,
+          "readerId": "470a5a10b2e7e7370248ffdba5c09120",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": ""
+          }
+        },
+        {
+          "profile": "source-cancel-wakes-blocked-cursor",
+          "result": "PASS"
+        },
+        {
+          "profile": "bounded-read-seek-size-confirmed-eof",
+          "result": "PASS",
+          "boundedRead": 65536,
+          "finalSize": 446271,
+          "confirmedEof": true
+        },
+        {
+          "profile": "cursor-propagates-writer-failed",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "writer-failed"
+          }
+        },
+        {
+          "profile": "cursor-propagates-cancelled",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "cancelled"
+          }
+        },
+        {
+          "profile": "cursor-propagates-backend-worker-exited",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "backend-worker-exited"
+          }
+        },
+        {
+          "profile": "classic-fragment-view-packets-clocks-keyframes",
+          "result": "PASS",
+          "samples": 600,
+          "exactPacketSha256": true,
+          "clockTolerance100ns": 1
+        },
+        {
+          "profile": "libmpv-destroy-during-empty-output-wait",
+          "result": "PASS",
+          "ok": true,
+          "seconds": 0.0147985
+        },
+        {
+          "profile": "libmpv-growing-fragments-pause-resume-exact-frames",
+          "result": "PASS",
+          "frames": 600,
+          "decodedPngSequenceEqualsCompletedSource": true,
+          "framesBeforeComplete": 76,
+          "manualPausePreserved": true,
+          "receiptCount": 1
+        },
+        {
+          "profile": "managed-resource-remux-libmpv-and-classic-view",
+          "result": "PASS",
+          "singleWorkerPid": 7676,
+          "frames": 600,
+          "decodedPngSequenceEqualsCompletedSource": true,
+          "framesBeforeComplete": 12,
+          "partialClassicSamples": 175,
+          "receiptCount": 3,
+          "originalUnchanged": true
+        }
+      ],
+      "exactDriverExits": [
+        {
+          "profile": "completed-source-libmpv-reference",
+          "pid": 10636,
+          "exitCode": 0
+        },
+        {
+          "profile": "interrupt-blocked-read-without-false-eof",
+          "pid": 10876,
+          "exitCode": 0
+        },
+        {
+          "profile": "source-cancel-wakes-blocked-cursor",
+          "pid": 10132,
+          "exitCode": 0
+        },
+        {
+          "profile": "bounded-read-seek-size-confirmed-eof",
+          "pid": 11644,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-writer-failed",
+          "pid": 3444,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-cancelled",
+          "pid": 10116,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-backend-worker-exited",
+          "pid": 2692,
+          "exitCode": 0
+        },
+        {
+          "profile": "classic-fragment-view-packets-clocks-keyframes",
+          "pid": 8816,
+          "exitCode": 0
+        },
+        {
+          "profile": "libmpv-destroy-during-empty-output-wait",
+          "pid": 11372,
+          "exitCode": 0
+        },
+        {
+          "profile": "libmpv-growing-fragments-pause-resume-exact-frames",
+          "pid": 10392,
+          "exitCode": 0
+        },
+        {
+          "profile": "managed-resource-remux-libmpv-and-classic-view",
+          "pid": 10044,
+          "exitCode": 0
+        }
+      ],
+      "temporaryWorkRemoved": true,
+      "runnerSha256": "e7c684025b92d48d11d721674c8c24ff24d398ad5a9d173264d63cf5404a567a",
+      "workerSha256": "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+      "testSourceSha256": "109cd8d128614da7fb5e4f7ab88426985f7404b52a335791963986a2738935b4",
+      "realLibmpvDecode": true,
+      "classicFragmentParserOnly": true,
+      "installedDirectShowGraphTested": false,
+      "publicPlayerCapability": false
+    },
+    "linux-asan-ubsan": {
+      "result": "PASS",
+      "count": 11,
+      "rows": [
+        {
+          "profile": "completed-source-libmpv-reference",
+          "result": "PASS",
+          "frames": 600,
+          "decoder": {
+            "ok": true,
+            "loaded": true,
+            "ended": true,
+            "reason": 0,
+            "error": 0,
+            "position": 0.0,
+            "codec": "",
+            "logs": []
+          }
+        },
+        {
+          "profile": "interrupt-blocked-read-without-false-eof",
+          "result": "PASS",
+          "interruptSeconds": 0.044697507000023506,
+          "readerId": "3f2ffde741d8ca9d897aa7d074311d9a",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": ""
+          }
+        },
+        {
+          "profile": "source-cancel-wakes-blocked-cursor",
+          "result": "PASS"
+        },
+        {
+          "profile": "bounded-read-seek-size-confirmed-eof",
+          "result": "PASS",
+          "boundedRead": 65536,
+          "finalSize": 446271,
+          "confirmedEof": true
+        },
+        {
+          "profile": "cursor-propagates-writer-failed",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "writer-failed"
+          }
+        },
+        {
+          "profile": "cursor-propagates-cancelled",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "cancelled"
+          }
+        },
+        {
+          "profile": "cursor-propagates-backend-worker-exited",
+          "result": "PASS",
+          "read": {
+            "ok": true,
+            "bytes": -1,
+            "code": "backend-worker-exited"
+          }
+        },
+        {
+          "profile": "classic-fragment-view-packets-clocks-keyframes",
+          "result": "PASS",
+          "samples": 600,
+          "exactPacketSha256": true,
+          "clockTolerance100ns": 1
+        },
+        {
+          "profile": "libmpv-destroy-during-empty-output-wait",
+          "result": "PASS",
+          "ok": true,
+          "seconds": 0.033584767
+        },
+        {
+          "profile": "libmpv-growing-fragments-pause-resume-exact-frames",
+          "result": "PASS",
+          "frames": 600,
+          "decodedPngSequenceEqualsCompletedSource": true,
+          "framesBeforeComplete": 72,
+          "manualPausePreserved": true,
+          "receiptCount": 1
+        },
+        {
+          "profile": "managed-resource-remux-libmpv-and-classic-view",
+          "result": "PASS",
+          "singleWorkerPid": 17332,
+          "frames": 600,
+          "decodedPngSequenceEqualsCompletedSource": true,
+          "framesBeforeComplete": 19,
+          "partialClassicSamples": 175,
+          "receiptCount": 3,
+          "originalUnchanged": true
+        }
+      ],
+      "exactDriverExits": [
+        {
+          "profile": "completed-source-libmpv-reference",
+          "pid": 15167,
+          "exitCode": 0
+        },
+        {
+          "profile": "interrupt-blocked-read-without-false-eof",
+          "pid": 15813,
+          "exitCode": 0
+        },
+        {
+          "profile": "source-cancel-wakes-blocked-cursor",
+          "pid": 15818,
+          "exitCode": 0
+        },
+        {
+          "profile": "bounded-read-seek-size-confirmed-eof",
+          "pid": 15821,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-writer-failed",
+          "pid": 15826,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-cancelled",
+          "pid": 15831,
+          "exitCode": 0
+        },
+        {
+          "profile": "cursor-propagates-backend-worker-exited",
+          "pid": 15834,
+          "exitCode": 0
+        },
+        {
+          "profile": "classic-fragment-view-packets-clocks-keyframes",
+          "pid": 15838,
+          "exitCode": 0
+        },
+        {
+          "profile": "libmpv-destroy-during-empty-output-wait",
+          "pid": 15977,
+          "exitCode": 0
+        },
+        {
+          "profile": "libmpv-growing-fragments-pause-resume-exact-frames",
+          "pid": 16043,
+          "exitCode": 0
+        },
+        {
+          "profile": "managed-resource-remux-libmpv-and-classic-view",
+          "pid": 17306,
+          "exitCode": 0
+        }
+      ],
+      "temporaryWorkRemoved": true,
+      "runnerSha256": "323f2d80ed37318004e743d0f401b647abe1a92a3c269b7761fc88719c2b403a",
+      "workerSha256": "a643a69f19b4eff5cd2af8dadec6ba3dc110f3cc318f45be493eeeff46a58bfc",
+      "testSourceSha256": "109cd8d128614da7fb5e4f7ab88426985f7404b52a335791963986a2738935b4",
+      "realLibmpvDecode": true,
+      "classicFragmentParserOnly": true,
+      "installedDirectShowGraphTested": false,
+      "publicPlayerCapability": false
+    }
+  },
+  "cacheRegression": {
+    "linux": {
+      "result": "PASS",
+      "count": 31,
+      "rows": [
+        {
+          "profile": "atomic-fragments-two-readers",
+          "result": "PASS",
+          "observations": [
+            {
+              "written": 1,
+              "visible": 0
+            },
+            {
+              "written": 7,
+              "visible": 0
+            },
+            {
+              "written": 8,
+              "visible": 0
+            },
+            {
+              "written": 23,
+              "visible": 0
+            },
+            {
+              "written": 24,
+              "visible": 0
+            },
+            {
+              "written": 25,
+              "visible": 0
+            },
+            {
+              "written": 31,
+              "visible": 0
+            },
+            {
+              "written": 791,
+              "visible": 0
+            },
+            {
+              "written": 792,
+              "visible": 792
+            },
+            {
+              "written": 793,
+              "visible": 792
+            },
+            {
+              "written": 799,
+              "visible": 792
+            },
+            {
+              "written": 995,
+              "visible": 792
+            },
+            {
+              "written": 996,
+              "visible": 792
+            },
+            {
+              "written": 997,
+              "visible": 792
+            },
+            {
+              "written": 1003,
+              "visible": 792
+            },
+            {
+              "written": 17889,
+              "visible": 792
+            },
+            {
+              "written": 17890,
+              "visible": 17890
+            },
+            {
+              "written": 17891,
+              "visible": 17890
+            },
+            {
+              "written": 17897,
+              "visible": 17890
+            },
+            {
+              "written": 18093,
+              "visible": 17890
+            },
+            {
+              "written": 18094,
+              "visible": 17890
+            },
+            {
+              "written": 18095,
+              "visible": 17890
+            },
+            {
+              "written": 18101,
+              "visible": 17890
+            },
+            {
+              "written": 34967,
+              "visible": 17890
+            },
+            {
+              "written": 34968,
+              "visible": 34968
+            },
+            {
+              "written": 34969,
+              "visible": 34968
+            },
+            {
+              "written": 34975,
+              "visible": 34968
+            },
+            {
+              "written": 35171,
+              "visible": 34968
+            },
+            {
+              "written": 35172,
+              "visible": 34968
+            },
+            {
+              "written": 35173,
+              "visible": 34968
+            },
+            {
+              "written": 35179,
+              "visible": 34968
+            },
+            {
+              "written": 54750,
+              "visible": 34968
+            },
+            {
+              "written": 54751,
+              "visible": 54751
+            },
+            {
+              "written": 446271,
+              "visible": 445767
+            }
+          ],
+          "samples": 600,
+          "receiptCount": 2,
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/atomic/remux-18699f60e2902e91449208435f21effb/output.fmp4"
+          }
+        },
+        {
+          "profile": "external-output-physical-binding",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/external-output/remux-376e263938f2fbee386c5bf4b7fc37d6/output.fmp4"
+          }
+        },
+        {
+          "profile": "original-receipt-gates-retirement",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/original-group/remux-6e5c83025bf4f11706df401fc925abfe/output.fmp4"
+          }
+        },
+        {
+          "profile": "truncated-box",
+          "result": "PASS",
+          "expectedCode": "cache-incomplete-output",
+          "final": {
+            "ok": true,
+            "written": 17889,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-incomplete-output",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/truncated-box/remux-da3323fa1c00a80b32d98f55b3e9cc67/output.fmp4"
+          }
+        },
+        {
+          "profile": "rewrite",
+          "result": "PASS",
+          "expectedCode": "cache-integrity-mismatch",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/rewrite/remux-b0f01a7d2e16a19d5213e382f6827905/output.fmp4"
+          }
+        },
+        {
+          "profile": "truncate",
+          "result": "PASS",
+          "expectedCode": "cache-size-changed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-size-changed",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/truncate/remux-77cee0e54555fb5756a2998764c87a79/output.fmp4"
+          }
+        },
+        {
+          "profile": "producer-error",
+          "result": "PASS",
+          "expectedCode": "writer-failed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/producer-error/remux-2d8e7bec16789e892514504d0023b625/output.fmp4"
+          }
+        },
+        {
+          "profile": "injected-disk-full",
+          "result": "PASS",
+          "expectedCode": "cache-disk-full",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-disk-full",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/injected-disk-full/remux-0a131870b1bf61a7409371c97a697f37/output.fmp4"
+          }
+        },
+        {
+          "profile": "zero-size",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/zero-size/remux-34e97df02ad98e842fae11c12f022c68/output.fmp4"
+          }
+        },
+        {
+          "profile": "oversize",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/oversize/remux-02f75e0c8d05e6cb250c9e694282625b/output.fmp4"
+          }
+        },
+        {
+          "profile": "unknown-atom",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/unknown-atom/remux-62f7328cd972db5c3bb42c16e810d87b/output.fmp4"
+          }
+        },
+        {
+          "profile": "orphan-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/orphan-mdat/remux-26b3a7257e72055ff993538adfa142a1/output.fmp4"
+          }
+        },
+        {
+          "profile": "moov-without-ftyp",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/moov-without-ftyp/remux-df7b042ed83b36097ee297288a6041d5/output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-count",
+          "result": "PASS",
+          "expectedCode": "cache-sample-limit",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-sample-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/sample-count/remux-ac93cdc9614c8efc7c1ac953cc051a78/output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-outside-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/sample-outside-mdat/remux-9fbb115646588f23bfe5308ac84ddd08/output.fmp4"
+          }
+        },
+        {
+          "profile": "wrong-offset",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/wrong-offset/remux-ce25b94485fb09eef819dc0b800c4889/output.fmp4"
+          }
+        },
+        {
+          "profile": "empty",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/empty/remux-9253bbe358961dd70090db5e5ecf2519/output.fmp4"
+          }
+        },
+        {
+          "profile": "output-limit",
+          "result": "PASS",
+          "expectedCode": "cache-output-limit",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/output-limit/remux-c9ec3e9dcd8043f12f6a7a5a8d5c45c1/output.fmp4"
+          }
+        },
+        {
+          "profile": "chunk-limit",
+          "result": "PASS",
+          "expectedCode": "cache-chunk-limit",
+          "final": {
+            "ok": true,
+            "written": 8199,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-chunk-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/chunk-limit/remux-d4725d0478bdf56d53fb114c1813040e/output.fmp4"
+          }
+        },
+        {
+          "profile": "shared-budget-two-stores",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/budget-a/remux-2696d5dca38e9dcd7b4268980a29f376/output.fmp4"
+          }
+        },
+        {
+          "profile": "replacement-is-not-deleted",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 792,
+            "visible": 792,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/path-poison/remux-014cb8b3be1d138e161bdcae20254722/output.fmp4"
+          }
+        },
+        {
+          "profile": "owner-drop-retains-local-reader",
+          "result": "PASS",
+          "cacheRemovedAfterLastClose": true
+        },
+        {
+          "profile": "reader-limit-128",
+          "result": "PASS",
+          "readerReceipts": 128,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/reader-limit/remux-d53f37846eebf72244e382bc25cf4b00/output.fmp4"
+          }
+        },
+        {
+          "profile": "managed-worker-cache-readers",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 1,
+            "budgetBytes": 446271,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/managed-cache/remux-16c0d98acf40108829f5643c6d052f46/output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"476007\",\"bytesWritten\":\"446271\",\"sha256\":\"1a94309292f60cf91fae9dd0104932c0acf310c405b90009afbb71b8fed4fe65\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "7e783adaf003a3a57d85e715a1557a33"
+            ],
+            "workerId": 14733
+          },
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/managed-cache/remux-16c0d98acf40108829f5643c6d052f46/output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"476007\",\"bytesWritten\":\"446271\",\"sha256\":\"1a94309292f60cf91fae9dd0104932c0acf310c405b90009afbb71b8fed4fe65\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "7e783adaf003a3a57d85e715a1557a33"
+            ],
+            "workerId": 14733
+          },
+          "packets": 600,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "managed-worker-crash",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/managed-worker-crash/remux-0521bec9bfcf228340e60c9b5f768439/output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "d09966ad9ee52c6cf60aae4959f1cf06"
+            ],
+            "workerId": 14771
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/managed-worker-crash/remux-0521bec9bfcf228340e60c9b5f768439/output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "d09966ad9ee52c6cf60aae4959f1cf06"
+            ],
+            "workerId": 14771
+          }
+        },
+        {
+          "profile": "managed-cache-corruption",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/managed-cache-corruption/remux-80f9005b5bd99ff4a04b2a9731868bfe/output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "4d76e139b8173a94da88966c3113d01c"
+            ],
+            "workerId": 14776
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/managed-cache-corruption/remux-80f9005b5bd99ff4a04b2a9731868bfe/output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "4d76e139b8173a94da88966c3113d01c"
+            ],
+            "workerId": 14776
+          }
+        },
+        {
+          "profile": "managed-writer-failed",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "writer-failed",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/managed-writer-failed/remux-ef9c0293a463f95355fd591ba2606196/output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "4d294ab5e238e8b79ffcbd76c4009a92"
+            ],
+            "workerId": 14785
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/managed-writer-failed/remux-ef9c0293a463f95355fd591ba2606196/output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "4d294ab5e238e8b79ffcbd76c4009a92"
+            ],
+            "workerId": 14785
+          }
+        },
+        {
+          "profile": "managed-cache-quota",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-output-limit",
+            "cleanupCode": "cache-in-use",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/managed-cache-quota/remux-5c603ed2940745a2edd9c8fb1ed479c0/output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "eed812ce6b97e6bb0e0a3c5b73caae1f"
+            ],
+            "workerId": 14790
+          },
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/managed-cache-quota/remux-5c603ed2940745a2edd9c8fb1ed479c0/output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "eed812ce6b97e6bb0e0a3c5b73caae1f"
+            ],
+            "workerId": 14790
+          }
+        },
+        {
+          "profile": "retired-session-external-reader-owner-queue",
+          "result": "PASS",
+          "pending": {
+            "ok": true,
+            "removed": 0,
+            "count": 1,
+            "bytes": 133085
+          },
+          "cleared": {
+            "ok": true,
+            "removed": 1,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "owner-session-limit-16",
+          "result": "PASS",
+          "cleared": {
+            "ok": true,
+            "removed": 0,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "cancel-wakes-decoder-wait",
+          "result": "PASS",
+          "elapsedSeconds": 0.048371239999994486,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "/tmp/foxicmp-stream-cache-v836pte8/cancel-cache/remux-42ba9a4b5e86f496dfce7f0e75d83f2d/output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [],
+            "workerId": 14799
+          }
+        }
+      ],
+      "cacheOnly": true,
+      "publicPlayerCapability": false,
+      "temporaryWorkRemoved": true,
+      "runnerSha256": "850dff8ff4672308a7dc46cba6557dd967951d3a1a6c20c16f945f375ef44da0",
+      "workerSha256": "e6420d9d98462712ea2ad43c9f78e3227d113dd313138230120586b658de4a49",
+      "testSourceSha256": "6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902"
+    },
+    "windows": {
+      "result": "PASS",
+      "count": 31,
+      "rows": [
+        {
+          "profile": "atomic-fragments-two-readers",
+          "result": "PASS",
+          "observations": [
+            {
+              "written": 1,
+              "visible": 0
+            },
+            {
+              "written": 7,
+              "visible": 0
+            },
+            {
+              "written": 8,
+              "visible": 0
+            },
+            {
+              "written": 23,
+              "visible": 0
+            },
+            {
+              "written": 24,
+              "visible": 0
+            },
+            {
+              "written": 25,
+              "visible": 0
+            },
+            {
+              "written": 31,
+              "visible": 0
+            },
+            {
+              "written": 790,
+              "visible": 0
+            },
+            {
+              "written": 791,
+              "visible": 791
+            },
+            {
+              "written": 792,
+              "visible": 791
+            },
+            {
+              "written": 798,
+              "visible": 791
+            },
+            {
+              "written": 994,
+              "visible": 791
+            },
+            {
+              "written": 995,
+              "visible": 791
+            },
+            {
+              "written": 996,
+              "visible": 791
+            },
+            {
+              "written": 1002,
+              "visible": 791
+            },
+            {
+              "written": 17889,
+              "visible": 791
+            },
+            {
+              "written": 17890,
+              "visible": 17890
+            },
+            {
+              "written": 17891,
+              "visible": 17890
+            },
+            {
+              "written": 17897,
+              "visible": 17890
+            },
+            {
+              "written": 18093,
+              "visible": 17890
+            },
+            {
+              "written": 18094,
+              "visible": 17890
+            },
+            {
+              "written": 18095,
+              "visible": 17890
+            },
+            {
+              "written": 18101,
+              "visible": 17890
+            },
+            {
+              "written": 34967,
+              "visible": 17890
+            },
+            {
+              "written": 34968,
+              "visible": 34968
+            },
+            {
+              "written": 34969,
+              "visible": 34968
+            },
+            {
+              "written": 34975,
+              "visible": 34968
+            },
+            {
+              "written": 35171,
+              "visible": 34968
+            },
+            {
+              "written": 35172,
+              "visible": 34968
+            },
+            {
+              "written": 35173,
+              "visible": 34968
+            },
+            {
+              "written": 35179,
+              "visible": 34968
+            },
+            {
+              "written": 54750,
+              "visible": 34968
+            },
+            {
+              "written": 54751,
+              "visible": 54751
+            },
+            {
+              "written": 446271,
+              "visible": 445767
+            }
+          ],
+          "samples": 600,
+          "receiptCount": 2,
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\atomic\\remux-066733175c88b1f4d0eaa7c18ee7b21f\\output.fmp4"
+          }
+        },
+        {
+          "profile": "external-output-physical-binding",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\external-output\\remux-5809f6c5daba69f8a38fdc1075704770\\output.fmp4"
+          }
+        },
+        {
+          "profile": "original-receipt-gates-retirement",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\original-group\\remux-0490cc45de3b0c473c952abbf82ba4ee\\output.fmp4"
+          }
+        },
+        {
+          "profile": "truncated-box",
+          "result": "PASS",
+          "expectedCode": "cache-incomplete-output",
+          "final": {
+            "ok": true,
+            "written": 17889,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-incomplete-output",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\truncated-box\\remux-41d1ef3ff7c0a3c82ba5268f58d375a9\\output.fmp4"
+          }
+        },
+        {
+          "profile": "rewrite",
+          "result": "PASS",
+          "expectedCode": "cache-integrity-mismatch",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\rewrite\\remux-c43c748e39ed824f2b8329f93d5494bc\\output.fmp4"
+          }
+        },
+        {
+          "profile": "truncate",
+          "result": "PASS",
+          "expectedCode": "cache-size-changed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-size-changed",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\truncate\\remux-d30d341d90a854f7af93fdcf896cb9b7\\output.fmp4"
+          }
+        },
+        {
+          "profile": "producer-error",
+          "result": "PASS",
+          "expectedCode": "writer-failed",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\producer-error\\remux-ed872309af0bea9babcd213b589ebba5\\output.fmp4"
+          }
+        },
+        {
+          "profile": "injected-disk-full",
+          "result": "PASS",
+          "expectedCode": "cache-disk-full",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 17890,
+            "fragments": 1,
+            "samples": 25,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-disk-full",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\injected-disk-full\\remux-c081cebc76aa74cb9db18bd77eaac216\\output.fmp4"
+          }
+        },
+        {
+          "profile": "zero-size",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\zero-size\\remux-a606f6a0e555ef8e4e4889e142ea0173\\output.fmp4"
+          }
+        },
+        {
+          "profile": "oversize",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\oversize\\remux-524619d8f0d62aa04861d6c4b781fac4\\output.fmp4"
+          }
+        },
+        {
+          "profile": "unknown-atom",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\unknown-atom\\remux-a84eded75438ef26305876ad3b8f614a\\output.fmp4"
+          }
+        },
+        {
+          "profile": "orphan-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\orphan-mdat\\remux-a18dac069bd169aee29e4dae73258a72\\output.fmp4"
+          }
+        },
+        {
+          "profile": "moov-without-ftyp",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 8,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\moov-without-ftyp\\remux-42038971a98db35ffd40496a1641e13a\\output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-count",
+          "result": "PASS",
+          "expectedCode": "cache-sample-limit",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-sample-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\sample-count\\remux-05f335a6c5b21e7e76d04cff8d64a5df\\output.fmp4"
+          }
+        },
+        {
+          "profile": "sample-outside-mdat",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-fragment",
+          "final": {
+            "ok": true,
+            "written": 17890,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-fragment",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\sample-outside-mdat\\remux-dd9c8eb28419aa64f4e2a697ad44dfaf\\output.fmp4"
+          }
+        },
+        {
+          "profile": "wrong-offset",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\wrong-offset\\remux-375e9f7bf7c00e2bb9e8df3dacafd84c\\output.fmp4"
+          }
+        },
+        {
+          "profile": "empty",
+          "result": "PASS",
+          "expectedCode": "cache-invalid-append",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-invalid-append",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\empty\\remux-f1bdfc498c9ae2713339f71844e09786\\output.fmp4"
+          }
+        },
+        {
+          "profile": "output-limit",
+          "result": "PASS",
+          "expectedCode": "cache-output-limit",
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\output-limit\\remux-8a1b66b6bfce7ad53b3285d0a01493b7\\output.fmp4"
+          }
+        },
+        {
+          "profile": "chunk-limit",
+          "result": "PASS",
+          "expectedCode": "cache-chunk-limit",
+          "final": {
+            "ok": true,
+            "written": 8199,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-chunk-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\chunk-limit\\remux-62bb11462e31a953d0cc686bd8f8b6ee\\output.fmp4"
+          }
+        },
+        {
+          "profile": "shared-budget-two-stores",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\budget-a\\remux-c6bf7972c12bc3d43ab378cf4f85582e\\output.fmp4"
+          }
+        },
+        {
+          "profile": "replacement-is-not-deleted",
+          "result": "PASS",
+          "final": {
+            "ok": true,
+            "written": 791,
+            "visible": 791,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\path-poison\\remux-e0294795db1b81f12f84ae4f479a7ccb\\output.fmp4"
+          }
+        },
+        {
+          "profile": "owner-drop-retains-local-reader",
+          "result": "PASS",
+          "cacheRemovedAfterLastClose": true
+        },
+        {
+          "profile": "reader-limit-128",
+          "result": "PASS",
+          "readerReceipts": 128,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\reader-limit\\remux-b4f8428cf0035a7255ed607cd199d9c8\\output.fmp4"
+          }
+        },
+        {
+          "profile": "managed-worker-cache-readers",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 1,
+            "budgetBytes": 446271,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\managed-cache\\remux-2f98ecb9eae4b51e415b4016f039ce0d\\output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"443235\",\"bytesWritten\":\"446271\",\"sha256\":\"d5b731d9db1b51ffd1f695dce16c069f09fc1bfcf3fe7e48141442e6c0a401df\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "100eaef0296aee570b190e73446ffa19"
+            ],
+            "workerId": 8508
+          },
+          "final": {
+            "ok": true,
+            "written": 446271,
+            "visible": 446271,
+            "fragments": 24,
+            "samples": 600,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": true,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\managed-cache\\remux-2f98ecb9eae4b51e415b4016f039ce0d\\output.fmp4",
+            "done": true,
+            "sourceCode": "data",
+            "sourceResult": "{\"code\":\"data\",\"mode\":\"continuous-h264-video-v1\",\"sourceComplete\":true,\"sourceEof\":true,\"continuousOutput\":true,\"playbackSupported\":false,\"transcoded\":false,\"packets\":600,\"bytesRead\":\"443235\",\"bytesWritten\":\"446271\",\"sha256\":\"d5b731d9db1b51ffd1f695dce16c069f09fc1bfcf3fe7e48141442e6c0a401df\",\"waits\":\"4\"}",
+            "sourceReaderIds": [
+              "100eaef0296aee570b190e73446ffa19"
+            ],
+            "workerId": 8508
+          },
+          "packets": 600,
+          "encodedPacketHashesMatch": true,
+          "ptsDtsPreservedWithinOneOutputTick": true,
+          "decodedHashesMatch": true
+        },
+        {
+          "profile": "managed-worker-crash",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\managed-worker-crash\\remux-6a697a2f54dfffd66633e3407a814a53\\output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "9ddf6435c15e44a2950ac4e2eb273b2d"
+            ],
+            "workerId": 7340
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "backend-worker-exited",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\managed-worker-crash\\remux-6a697a2f54dfffd66633e3407a814a53\\output.fmp4",
+            "done": true,
+            "sourceCode": "backend-worker-exited",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "9ddf6435c15e44a2950ac4e2eb273b2d"
+            ],
+            "workerId": 7340
+          }
+        },
+        {
+          "profile": "managed-cache-corruption",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\managed-cache-corruption\\remux-4c8ae9c3f2140b7fde766c7dac510ebc\\output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "7c2812af4fa9f8a528c240ee065e3165"
+            ],
+            "workerId": 8400
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-integrity-mismatch",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\managed-cache-corruption\\remux-4c8ae9c3f2140b7fde766c7dac510ebc\\output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "7c2812af4fa9f8a528c240ee065e3165"
+            ],
+            "workerId": 8400
+          }
+        },
+        {
+          "profile": "managed-writer-failed",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 1,
+            "budgetBytes": 133085,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "writer-failed",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\managed-writer-failed\\remux-bbc9438a171f7152a9db4ffe9a6d8207\\output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "76a91a36977c09603ba3f132e54a9660"
+            ],
+            "workerId": 2588
+          },
+          "final": {
+            "ok": true,
+            "written": 133085,
+            "visible": 133085,
+            "fragments": 7,
+            "samples": 175,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": true,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "writer-failed",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\managed-writer-failed\\remux-bbc9438a171f7152a9db4ffe9a6d8207\\output.fmp4",
+            "done": true,
+            "sourceCode": "writer-failed",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "76a91a36977c09603ba3f132e54a9660"
+            ],
+            "workerId": 2588
+          }
+        },
+        {
+          "profile": "managed-cache-quota",
+          "result": "PASS",
+          "source": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": false,
+            "removed": false,
+            "failure": "cache-output-limit",
+            "cleanupCode": "cache-in-use",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\managed-cache-quota\\remux-0b76068a8d7fd343bb6e3918ddca6622\\output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "d600a128f2a59bf818af76acbd3c3183"
+            ],
+            "workerId": 4332
+          },
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cache-output-limit",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\managed-cache-quota\\remux-0b76068a8d7fd343bb6e3918ddca6622\\output.fmp4",
+            "done": true,
+            "sourceCode": "cache-output-limit",
+            "sourceResult": "",
+            "sourceReaderIds": [
+              "d600a128f2a59bf818af76acbd3c3183"
+            ],
+            "workerId": 4332
+          }
+        },
+        {
+          "profile": "retired-session-external-reader-owner-queue",
+          "result": "PASS",
+          "pending": {
+            "ok": true,
+            "removed": 0,
+            "count": 1,
+            "bytes": 133085
+          },
+          "cleared": {
+            "ok": true,
+            "removed": 1,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "owner-session-limit-16",
+          "result": "PASS",
+          "cleared": {
+            "ok": true,
+            "removed": 0,
+            "count": 0,
+            "bytes": 0
+          }
+        },
+        {
+          "profile": "cancel-wakes-decoder-wait",
+          "result": "PASS",
+          "elapsedSeconds": 0.02744920000031925,
+          "final": {
+            "ok": true,
+            "written": 0,
+            "visible": 0,
+            "fragments": 0,
+            "samples": 0,
+            "activeReaders": 0,
+            "budgetBytes": 0,
+            "initialized": false,
+            "complete": false,
+            "producerClosed": true,
+            "originalsClosed": true,
+            "retiring": true,
+            "removed": true,
+            "failure": "cancelled",
+            "cleanupCode": "removed",
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-stream-cache-d9pthtb0\\cancel-cache\\remux-e6568c5627072fee592786eebd93d0d3\\output.fmp4",
+            "done": true,
+            "sourceCode": "cancelled",
+            "sourceResult": "",
+            "sourceReaderIds": [],
+            "workerId": 8564
+          }
+        }
+      ],
+      "cacheOnly": true,
+      "publicPlayerCapability": false,
+      "temporaryWorkRemoved": true,
+      "runnerSha256": "a6115ca29fbe5c645752162e441a32471177058dc6f98d750a59576f6b98a455",
+      "workerSha256": "4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e",
+      "testSourceSha256": "6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902"
+    }
+  },
+  "logs": {
+    "stream-decoder-linux-final-tests": {
+      "sha256": "0daf1d422e5f61591ea4e08613146644d31e83e0122d76fa10e04e5dd5d9d35d",
+      "text": "FoxicMP Qt test environment: ready\nInternal ctest changing into directory: /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\nUpdateCTestConfiguration  from :/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nParse Config file:/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nParse Config file:/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nTest project /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 9\n    Start 9: progressive-stream-remux-decoder\n\n9: Test command: /usr/bin/python3 \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\" \"--runner\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-progressive-stream-decoder-tests\" \"--worker\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-remux-stream-worker\" \"--report-directory\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/stream-decoder-test-report\"\n9: Working Directory: /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\n9: Test timeout computed to be: 180\n9: {\"result\": \"PASS\", \"count\": 11}\n1/1 Test #9: progressive-stream-remux-decoder ...   Passed   17.02 sec\n\nThe following tests passed:\n\tprogressive-stream-remux-decoder\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =  17.04 sec\n"
+    },
+    "stream-decoder-linux-tests": {
+      "sha256": "46c4646ddc836edf6c28de1ec6e37320cf4d08ff898c861b21331fa9c33c4303",
+      "text": " \"removed\", \"path\": \"/tmp/foxicmp-stream-cache-v836pte8/managed-cache-quota/remux-5c603ed2940745a2edd9c8fb1ed479c0/output.fmp4\", \"done\": true, \"sourceCode\": \"cache-output-limit\", \"sourceResult\": \"\", \"sourceReaderIds\": [\"eed812ce6b97e6bb0e0a3c5b73caae1f\"], \"workerId\": 14790}}, {\"profile\": \"retired-session-external-reader-owner-queue\", \"result\": \"PASS\", \"pending\": {\"ok\": true, \"removed\": 0, \"count\": 1, \"bytes\": 133085}, \"cleared\": {\"ok\": true, \"removed\": 1, \"count\": 0, \"bytes\": 0}}, {\"profile\": \"owner-session-limit-16\", \"result\": \"PASS\", \"cleared\": {\"ok\": true, \"removed\": 0, \"count\": 0, \"bytes\": 0}}, {\"profile\": \"cancel-wakes-decoder-wait\", \"result\": \"PASS\", \"elapsedSeconds\": 0.048371239999994486, \"final\": {\"ok\": true, \"written\": 0, \"visible\": 0, \"fragments\": 0, \"samples\": 0, \"activeReaders\": 0, \"budgetBytes\": 0, \"initialized\": false, \"complete\": false, \"producerClosed\": true, \"originalsClosed\": true, \"retiring\": true, \"removed\": true, \"failure\": \"cancelled\", \"cleanupCode\": \"removed\", \"path\": \"/tmp/foxicmp-stream-cache-v836pte8/cancel-cache/remux-42ba9a4b5e86f496dfce7f0e75d83f2d/output.fmp4\", \"done\": true, \"sourceCode\": \"cancelled\", \"sourceResult\": \"\", \"sourceReaderIds\": [], \"workerId\": 14799}}], \"cacheOnly\": true, \"publicPlayerCapability\": false, \"temporaryWorkRemoved\": true, \"runnerSha256\": \"850dff8ff4672308a7dc46cba6557dd967951d3a1a6c20c16f945f375ef44da0\", \"workerSha256\": \"e6420d9d98462712ea2ad43c9f78e3227d113dd313138230120586b658de4a49\", \"testSourceSha256\": \"6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902\"}\n2/2 Test #11: progressive-stream-remux-cache .....   Passed    4.17 sec\n\nThe following tests passed:\n\tprogressive-stream-remux-decoder\n\tprogressive-stream-remux-cache\n\n100% tests passed, 0 tests failed out of 2\n\nTotal Test time (real) =  21.34 sec\n"
+    },
+    "stream-decoder-windows-tests": {
+      "sha256": "a3144126e4e15168c6ccf098541decb7622657f360e36610edf8da3b6aa57b15",
+      "text": "emp\\\\foxicmp-stream-cache-d9pthtb0\\\\managed-cache-quota\\\\remux-0b76068a8d7fd343bb6e3918ddca6622\\\\output.fmp4\", \"done\": true, \"sourceCode\": \"cache-output-limit\", \"sourceResult\": \"\", \"sourceReaderIds\": [\"d600a128f2a59bf818af76acbd3c3183\"], \"workerId\": 4332}}, {\"profile\": \"retired-session-external-reader-owner-queue\", \"result\": \"PASS\", \"pending\": {\"ok\": true, \"removed\": 0, \"count\": 1, \"bytes\": 133085}, \"cleared\": {\"ok\": true, \"removed\": 1, \"count\": 0, \"bytes\": 0}}, {\"profile\": \"owner-session-limit-16\", \"result\": \"PASS\", \"cleared\": {\"ok\": true, \"removed\": 0, \"count\": 0, \"bytes\": 0}}, {\"profile\": \"cancel-wakes-decoder-wait\", \"result\": \"PASS\", \"elapsedSeconds\": 0.02744920000031925, \"final\": {\"ok\": true, \"written\": 0, \"visible\": 0, \"fragments\": 0, \"samples\": 0, \"activeReaders\": 0, \"budgetBytes\": 0, \"initialized\": false, \"complete\": false, \"producerClosed\": true, \"originalsClosed\": true, \"retiring\": true, \"removed\": true, \"failure\": \"cancelled\", \"cleanupCode\": \"removed\", \"path\": \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\foxicmp-stream-cache-d9pthtb0\\\\cancel-cache\\\\remux-e6568c5627072fee592786eebd93d0d3\\\\output.fmp4\", \"done\": true, \"sourceCode\": \"cancelled\", \"sourceResult\": \"\", \"sourceReaderIds\": [], \"workerId\": 8564}}], \"cacheOnly\": true, \"publicPlayerCapability\": false, \"temporaryWorkRemoved\": true, \"runnerSha256\": \"a6115ca29fbe5c645752162e441a32471177058dc6f98d750a59576f6b98a455\", \"workerSha256\": \"4f0f89b04d9faa6257e7ccf0a2ec59b65dcea8218114c9efcdafad7e903fe53e\", \"testSourceSha256\": \"6838927ccf2e51be7d30938b0294b01f38aee4bc9688f7d911bb1877df4ec902\"}\n2/2 Test #13: progressive-stream-remux-cache .....   Passed    4.85 sec\n\nThe following tests passed:\n\tprogressive-stream-remux-decoder\n\tprogressive-stream-remux-cache\n\n100% tests passed out of 2\n\nTotal Test time (real) =  23.47 sec\n"
+    },
+    "stream-decoder-msvc-tests": {
+      "sha256": "863e4852716084047756f41bdfae45f201434c469219aa37391511a22517e1c6",
+      "text": "{\"result\": \"PASS\", \"count\": 11}\n"
+    },
+    "stream-decoder-asan-tests": {
+      "sha256": "332f907898197778faac095ea7f1300e82154a98512af1f26b0ae637077510f5",
+      "text": "FoxicMP Qt test environment: ready\nInternal ctest changing into directory: /media/sf_Studio/Programs/MPMY-src/_bin/stream-decoder-asan\nUpdateCTestConfiguration  from :/media/sf_Studio/Programs/MPMY-src/_bin/stream-decoder-asan/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/media/sf_Studio/Programs/MPMY-src/_bin/stream-decoder-asan/DartConfiguration.tcl\nTest project /media/sf_Studio/Programs/MPMY-src/_bin/stream-decoder-asan\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 1\n    Start 1: decoder-asan\n\n1: Test command: /usr/bin/python3 \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_stream_decoder_test.py\" \"--runner\" \"/media/sf_Studio/Programs/MPMY-src/_bin/stream-decoder-asan/decoder\" \"--worker\" \"/media/sf_Studio/Programs/MPMY-src/_bin/stream-remux-asan/foxicmp-remux-stream-worker\" \"--report-directory\" \"/media/sf_Studio/Programs/MPMY-src/_bin/stream-decoder-asan/report\"\n1: Working Directory: /media/sf_Studio/Programs/MPMY-src/_bin/stream-decoder-asan\n1: Test timeout computed to be: 180\n1: {\"result\": \"PASS\", \"count\": 11}\n1/1 Test #1: decoder-asan .....................   Passed   24.36 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =  24.37 sec\n"
+    }
+  },
+  "preservation": {
+    "before": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "d320b6596717a0ee10ffa24ab9ad28f7659b6d866900c080e494058b427d23e9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "c67ed0ba387ea51d1db44332ae3da2752c84ec007524c7c0be0ba8d55e6aa3d3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "after": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "96fb80ae9da46448f29c0bc9b9d045efc81da9516a70d819abd191b10a3a0931",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/FoxicMPQt.ini": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt": "8aca524473d02355c832b6c3ab8742878a34db8b269416a04795b60cb85294bf",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe": "d320b6596717a0ee10ffa24ab9ad28f7659b6d866900c080e494058b427d23e9",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMP_x64/FoxicMP64.exe": "c67ed0ba387ea51d1db44332ae3da2752c84ec007524c7c0be0ba8d55e6aa3d3",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "unchangedCount": 10,
+    "windowsFinalState": {
+      "ownedTestProcessesRemaining": 0,
+      "windowsSettingsModified": false,
+      "scheduledTasksCreated": 0,
+      "classicGuiLaunched": false
+    },
+    "immutableSdkZipUnchanged": true,
+    "privateWinpthreadDllUnchanged": true
+  },
+  "failedBeforeFix": {
+    "ctestExitCode": 8,
+    "binarySha256": "d05f619f73fc383ea78bb84e3e4f8338740d73e16dd6d407d6136f25f5507f80",
+    "logSha256": "130324908f464154180b98a4018b28dc9c1c027bb95d4b9c2b8c8ef206a589bb",
+    "log": "FoxicMP Qt test environment: ready\nInternal ctest changing into directory: /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\nUpdateCTestConfiguration  from :/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nParse Config file:/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nParse Config file:/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/DartConfiguration.tcl\nTest project /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 9\n    Start 9: progressive-stream-remux-decoder\n\n9: Test command: /usr/bin/python3 \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\" \"--runner\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-progressive-stream-decoder-tests\" \"--worker\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-remux-stream-worker\" \"--report-directory\" \"/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/stream-decoder-test-report\"\n9: Working Directory: /media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0\n9: Test timeout computed to be: 180\n9: Traceback (most recent call last):\n9:   File \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\", line 141, in <module>\n9:     a=argparse.ArgumentParser();a.add_argument('--runner',type=Path,required=True);a.add_argument('--worker',type=Path,required=True);a.add_argument('--report-directory',type=Path,required=True);v=a.parse_args();run(v.runner.resolve(),v.worker.resolve(),v.report_directory.resolve())\n9:                                                                                                                                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n9:   File \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\", line 136, in run\n9:     case('managed-resource-remux-libmpv-and-classic-view',managed)\n9:   File \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\", line 50, in case\n9:     detail=fn(folder,cmd,wait,push,new,finish,receipts)\n9:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n9:   File \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\", line 133, in managed\n9:     hashes=[sha(path) for path in sorted(images.glob('*.png'))];assert hashes==reference_hashes,(len(hashes),len(reference_hashes));assert len(c('fragments')['samples'])==600\n9:                                                                                                                                                ^^^^^^^^^^^^^^\n9:   File \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\", line 31, in cmd\n9:     v=rpc(action,**fields);assert v['ok'],(action,v);return v\n9:                                   ~^^^^^^\n9: AssertionError: ('fragments', {'ok': False, 'code': 'cancelled', 'message': 'Decoder source cancelled'})\n1/1 Test #9: progressive-stream-remux-decoder ...***Failed   17.26 sec\nTraceback (most recent call last):\n  File \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\", line 141, in <module>\n    a=argparse.ArgumentParser();a.add_argument('--runner',type=Path,required=True);a.add_argument('--worker',type=Path,required=True);a.add_argument('--report-directory',type=Path,required=True);v=a.parse_args();run(v.runner.resolve(),v.worker.resolve(),v.report_directory.resolve())\n                                                                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\", line 136, in run\n    case('managed-resource-remux-libmpv-and-classic-view',managed)\n  File \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\", line 50, in case\n    detail=fn(folder,cmd,wait,push,new,finish,receipts)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\", line 133, in managed\n    hashes=[sha(path) for path in sorted(images.glob('*.png'))];assert hashes==reference_hashes,(len(hashes),len(reference_hashes));assert len(c('fragments')['samples'])==600\n                                                                                                                                               ^^^^^^^^^^^^^^\n  File \"/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_stream_decoder_test.py\", line 31, in cmd\n    v=rpc(action,**fields);assert v['ok'],(action,v);return v\n                                  ~^^^^^^\nAssertionError: ('fragments', {'ok': False, 'code': 'cancelled', 'message': 'Decoder source cancelled'})\n\n\n0% tests passed, 1 tests failed out of 1\n\nTotal Test time (real) =  17.30 sec\n\nThe following tests FAILED:\n\t  9 - progressive-stream-remux-decoder (Failed)\nErrors while running CTest\n",
+    "scenario": "Destroy libmpv adapter while independent Classic fragment reader still owns same source",
+    "fix": "Detach interrupts only factory cursors; shared source is cancelled explicitly by its owner."
+  },
+  "boundaries": [
+    "Internal adapter code is compiled into native fixtures, not ordinary Player/MpvLifetime/Classic graph.",
+    "H.264 video-only 24s/25fps/600 frames; no audio/B-frame expansion or physical A/V acceptance.",
+    "PNG sequences compare with the same-platform libmpv completed original; no cross-platform PNG identity claim.",
+    "Classic uses its real FragmentIndex and sample bytes in a native fixture; no DirectShow graph playback claim.",
+    "Only final validated producer completion permits EOF. Public status must also inspect source/store error, not only mpv end-file.",
+    "Byte seek is bounded to visible output; public time-based seek and decoder reopen policy remain open.",
+    "50ms cooperative polling does not promise interrupting a stalled filesystem call.",
+    "No main executable/installed profile change; no release/SDK asset replacement."
+  ]
+}

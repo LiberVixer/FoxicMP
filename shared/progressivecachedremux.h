@@ -3,6 +3,7 @@
 #pragma once
 #include "progressivestreamremux.h"
 #include "progressivestreamcache.h"
+#include "progressivestreamdecoder.h"
 namespace foxicmp { namespace progressive {
 struct CachedRemuxStatus {StreamRemuxStatus source;StreamCacheStatus output;bool done=false;};
 class CachedRemuxSession {
@@ -38,6 +39,7 @@ public:
     void heartbeat(){producer->heartbeat();}
     void cancel(){producer->cancel();}
     std::shared_ptr<StreamOutputStore::Reader> reader(){return output->reader();}
+    std::shared_ptr<StreamDecoderSource> decoderSource(){return std::make_shared<StreamDecoderSource>(output);}
     CachedRemuxStatus status()const{CachedRemuxStatus s;s.source=producer->status();s.output=output->status();s.done=s.source.done && s.output.producerClosed;return s;}
     bool retire(){producer->cancel();return owner->retire(output);}
     std::filesystem::path privatePath()const{return output->privatePath();}

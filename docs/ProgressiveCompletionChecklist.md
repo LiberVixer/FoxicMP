@@ -54,6 +54,8 @@
 
 - [x] Ограниченное восстановление private cache после смерти owner: immutable atomic journal, PID/birth + locks, physical/creation identities, source/output reader proofs, quarantine и startup admission до нового budget. По 33 recovery rows Linux GCC/ASan-UBSan, по 31 Windows MinGW/MSVC, повторены cache/parent/engine регрессии; исправлена live-очистка по подменённому registry, baseline failure сохранён — [отчёт](ProgressiveContinuousRemuxRecoveryValidation-2026-11-04.json). Это не восстановление playback/FFmpeg context, не decoder/API интеграция и не полная cache/crash/power-loss приёмка.
 
+- [x] Первые внутренние decoder views: блокирующий cache cursor, настоящий libmpv callback adapter и Classic FragmentIndex/sample view. По 11 сценариев GCC/MinGW/MSVC/ASan-UBSan; по 600 кадров совпали с completed-source libmpv reference, проверены growing ResourceSource→worker→cache, manual pause, cancel/EOF/errors, совместные readers и close; повторены 31 cache regression Windows/Linux — [отчёт](ProgressiveContinuousRemuxDecoderValidation-2026-11-04.json). Это native fixture: установленный Player/API и DirectShow graph не подключены, audio/B-frames и общая приёмка открыты.
+
 - [ ] Проверенные backend demuxers через управляемый local I/O; платформенные адаптеры Qt/Classic.
 - [ ] Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей.
 - [ ] Явные native-progressive, progressive-remux, waiting, post-download и unsupported результаты.

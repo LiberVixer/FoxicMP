@@ -348,15 +348,69 @@ power-loss/неисправный filesystem, полный stress/CPU/RSS бюд
 Состояния quarantine требуют отдельной диагностики; автоматическая нормализация
 профиля/registry ради успешной очистки запрещена.
 
+## Первые decoder views — 4 ноября 2026
+
+`shared/progressivestreamdecoder.h` добавляет два внутренних представления
+подтверждённого output store. Они не открывают `privatePath()` и не принимают
+произвольные пути: каждый реальный open получает отдельный native handle и
+reader receipt через `StreamOutputStore::Reader`.
+
+- `StreamDecoderCursor`: блокирующее чтение для libmpv, порциями до 64 KiB.
+  Нехватка полного фрагмента остаётся ожиданием. Нулевой результат для непустого
+  запроса возможен только при подтверждённом EOF; ошибка producer/SHA/reader
+  возвращает -1 и сохраняется отдельно. Запрос ошибки не блокируется за read.
+- Отмена отдельного курсора — atomic flag, без ожидания его read mutex. Ожидание
+  внутри store проверяет отмену через интервалы не более 50 ms. Это граница
+  cooperative wait, а не обещание прерывать зависший filesystem syscall.
+- Размер неизвестен до успешного `producerClosed`; byte seek ограничен текущими
+  полными fragments, с запретом отрицательных/будущих offsets. Это не завершённая
+  реализация временной перемотки через пользовательский API.
+- `StreamFragmentDecoder`: атомарное обновление штатного Classic `FragmentIndex`
+  и SHA-проверенное чтение sample bytes. Владелец сериализует refresh/чтение index;
+  этот view ещё не подключён к `CHarvesterSession` и реальному DirectShow graph.
+
+`qt/src/continuousstreams.h` связывает курсоры с настоящими `mpv_stream_cb_*`.
+Случайный URI привязан к одному attachment; старый URI/посторонний source не
+открывается. `cancel_fn` прерывает reader без libmpv вызовов из callback.
+Factory должна жить до возврата `mpv_terminate_destroy`. Detach/замена factory
+прерывает только её курсоры, сохраняя независимые readers того же store.
+Первая проверка обнаружила ошибочную отмену общего source при закрытии Qt
+factory; failing binary/log сохранены, исправление проверяется одновременным
+libmpv и fragment reader. Источник может отдельно отменить всю свою группу.
+
+В native fixture `CachedRemuxSession::decoderSource()` подключён к реальному
+libmpv. Оригинал H.264 video-only 24 s/25 fps декодируется в 600 PNG через
+`vo=image`, затем каждый PNG сравнивается с growing-output вариантом той же ОС
+и того же libmpv. Проверяются прямые fragments и полный путь
+ResourceSource → один FFmpeg worker → private cache → libmpv, без рестартов
+на append. Часть кадров появляется до writer complete, manual pause переживает
+публикацию, ранний конец не объявляется, все reader receipts освобождаются
+после native close. На том же output параллельно читается Classic fragment view;
+для отдельной fMP4 фикстуры проверяются все 600 packet hashes, keyframes и часы
+с погрешностью не более 100 ns. Это **не проверка установленного Classic**.
+
+Native test `progressive-stream-remux-decoder`: по 11 сценариев Linux GCC,
+Windows MinGW и Windows MSVC; ASan/UBSan проверяет тот же собственный код.
+[Отчёт и точные exit codes](ProgressiveContinuousRemuxDecoderValidation-2026-11-04.json).
+Windows и Linux PNG сверяются со своим completed-source reference; равенство
+изображений разных сборок/ОС не заявлено. Декодирование software/video-only:
+звука, A/V sync, GPU, оконного вывода, 30-min/RSS/performance acceptance здесь нет.
+
+Обычные Player/API, `MpvLifetime`, Classic graph и опубликованная capability
+этим этапом не меняются. Внешний статус обязан проверять producer/store failure:
+одного `MPV_EVENT_END_FILE` недостаточно для признания успешного source EOF.
+SDK 1.81, main EXE и установки не менялись; это внутренний decoder-adapter этап.
+
 ## Следующий обязательный этап
 
-1. Интеграция output readers с настоящими decoder adapters и статуса подготовки;
-   расширение общей cache/crash matrix за пределы проверенного journal recovery.
+1. Подключение проверенного libmpv adapter к Player/MpvLifetime и настоящего
+   Classic fragment view к DirectShow graph; статус подготовки и reader groups.
+   Расширение общей cache/crash matrix за пределы проверенного journal recovery.
 2. Подключение выходного fMP4 к существующим Qt/Classic bridges и общему status,
    без restart playback при каждом append. Отдельная подготовка, waiting и EOF.
 3. Публичное согласование capability/SDK и проверки через обычный API всех трёх
    редакций. Затем AAC trim, B-frames и остальные обязательные профили.
 
-Ни один из этих пунктов не объявляется выполненным наличием внутренних
-компонентов. Новая capability и новый SDK release не объявлены; экспериментальный
-stream worker не установлен. Дисковые меню, оборудование и Wayland не возобновляются.
+Ни один из этих общих пунктов не объявляется выполненным наличием внутренних
+компонентов и native decoder fixture. Новая capability и новый SDK release
+не объявлены; экспериментальный stream worker не установлен. Дисковые меню, оборудование и Wayland не возобновляются.
