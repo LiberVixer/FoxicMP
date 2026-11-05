@@ -841,3 +841,20 @@ worker/INI/SDK ZIP и 158 HKCU shell entries сохранены; Harvester не 
 Планировщик не использовался. Новый профиль ещё требует controller/Player/
 Window/API/lifecycle приёмки и публичной поставки; audio, общая stress/A-V
 матрица и исторические outliers остаются OPEN.
+
+
+5 ноября 2026, [внутренний B-frame controller/Player/API](ProgressiveReorderPlayerApi.md):
+выбор mode при start связан с immutable job/source/playback ticket, а не с
+текущим глобальным заданием. Mode в replay fingerprint, смена в update запрещена;
+следующее задание без mode сохраняет legacy и отвергает B-frames. По 18 новых,
+17 прежних playback и пять SDK-сценариев каждой редакции; семь Qt CTest-групп
+каждой ОС. Classic использует приватный EXE и guarded INI. [SHA, отказы и
+установка](ProgressiveReorderPlayerApiValidation-2026-11-05.json).
+Linux EXE/worker обновлены атомарно с backup, INI и 309 прежних файлов сохранены;
+проверен установленный EXE с частным профилем. Windows-установки/SDK ZIP/Harvester
+и 158 HKCU shell entries сохранены, одноразовая задача удалена.
+Один Windows Qt reader-release receipt FAIL с QTRY timeout 5000 ms не объяснён;
+добавлена диагностика, три целевых и полный повторы прошли без смены порога.
+Этот outlier, прежние Linux >2 s/Classic heartbeat-12, общие stress/A-V остаются
+OPEN. Capability/Python SDK пока объявляют только legacy; публичный reorder
+contract/SDK/пакеты и fractional/VFR UI — следующий этап.

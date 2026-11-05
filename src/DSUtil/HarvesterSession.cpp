@@ -202,7 +202,7 @@ bool CHarvesterSession::IsWebM(int track) const {return m_v2Bridge && m_v2Bridge
 bool CHarvesterSession::AllowsHevcFragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="hevc";}
 std::string CHarvesterSession::RegisteredReaderId() const {return m_continuousReader?m_continuousReader->id():m_readerLease?m_readerLease->id():std::string();}
 std::string CHarvesterSession::PlaybackDetails() const {
-    if(m_continuousSource){const auto s=m_continuousSource->status();rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);d.AddMember("mediaMode","continuous-h264-video-v1",a);d.AddMember("internalAdapter",true,a);d.AddMember("complete",s.complete,a);d.AddMember("visible",s.visible,a);d.AddMember("failure",rapidjson::Value(s.failure.c_str(),a),a);return foxicmp::progressive::lease_detail::Encode(d);}
+    if(m_continuousSource){const auto s=m_continuousSource->status();rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);d.AddMember("mediaMode",rapidjson::Value(m_continuousSource->mode().c_str(),a),a);d.AddMember("internalAdapter",true,a);d.AddMember("complete",s.complete,a);d.AddMember("visible",s.visible,a);d.AddMember("failure",rapidjson::Value(s.failure.c_str(),a),a);return foxicmp::progressive::lease_detail::Encode(d);}
     if(!m_v2Bridge)return "{\"schemaVersion\":1}";
     std::lock_guard<std::mutex> lock(m_mutex);rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());
     auto& a=d.GetAllocator();d["revision"].SetString(std::to_string(m_state.revision).c_str(),a);

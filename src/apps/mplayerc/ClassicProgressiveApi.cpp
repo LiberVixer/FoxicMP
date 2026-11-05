@@ -324,6 +324,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
                     if(!continuousRemux)return Failure("unknown-continuous-job","Unknown remux job");
                     auto next=std::make_shared<foxicmp::progressive::ContinuousPlayback>();next->command=c;
                     next->source=continuousRemux->playbackSource(c.jobId,c.sessionId,c.generation,c.writer,next->duration);
+                    next->mode=next->source->mode();
                     next->output=continuousRemux->outputObserver(c.jobId);
                     next->producerError=continuousRemux->errorObserver(c.jobId);
                     if((frame.GetLoadState()!=MLS_CLOSED || frame.HasHarvesterPlayback()) && !c.replace)return Failure("session_busy","Playback replacement must be explicit");
@@ -575,7 +576,7 @@ std::string ClassicProgressiveApi::ContinuousStatus(){
     const auto producerError=p.producerError();
     const auto error=!p.error.empty()?p.error:!producerError.empty() && producerError!="cancelled"?producerError:!p.closed && !out.failure.empty()?out.failure:std::string();
     const char* state=!error.empty()?"error":p.closed?"closed":continuousOpening || p.committing?"opening":!owned?"closed":!loaded?"buffering":continuousFinished?"finished":!frame.m_harvesterWantPlay?"paused":frame.m_harvesterBuffering?"buffering":frame.GetMediaState()==State_Paused?"paused":"playing";
-    Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("version",1,a);d.AddMember("ok",true,a);d.AddMember("mode","continuous-h264-video-v1",a);
+    Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("version",1,a);d.AddMember("ok",true,a);d.AddMember("mode",Value(p.mode.c_str(),a),a);
     auto text=[&](const char* key,const std::string& value){d.AddMember(Value(key,a),Value(value.c_str(),a),a);};
     text("playbackId",p.id);text("requestId",p.command.requestId);text("jobId",p.command.jobId);text("sessionId",p.command.sessionId);text("generation",std::to_string(p.command.generation));text("writerInstanceId",p.command.writer);text("state",state);text("error",error);
     d.AddMember("active",std::string(state)=="opening" || std::string(state)=="buffering" || std::string(state)=="playing" || std::string(state)=="paused",a);

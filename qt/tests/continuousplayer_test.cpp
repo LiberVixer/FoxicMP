@@ -189,7 +189,8 @@ private slots:
       }
       QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString(),QString("closed"),3000);
       const QJsonObject receiptQuery{{"version",1},{"action","readerStatus"},{"readerId",id}};
-      QTRY_VERIFY_WITH_TIMEOUT(api->request(receiptQuery)["reader"].toObject()["released"].toBool(),5000);
+      const auto releaseDiagnostic=[&]{return QJsonDocument(QJsonObject{{"receipt",api->request(receiptQuery)},{"job",api->request(query)},{"playback",api->request(playbackQuery)}}).toJson(QJsonDocument::Compact);};
+      QTRY_VERIFY2_WITH_TIMEOUT(api->request(receiptQuery)["reader"].toObject()["released"].toBool(),releaseDiagnostic().constData(),5000);
       QCOMPARE(api->request(receiptQuery)["reader"].toObject()["reason"].toString(),QString("files-closed"));
       QVERIFY(api->request(releaseQuery)["reader"].toObject()["released"].toBool());
     }

@@ -6,13 +6,16 @@
 namespace foxicmp { namespace progressive {
 class StreamDecoderSource {
     std::shared_ptr<StreamOutputStore> store;
+    const std::string selectedMode;
     std::atomic<bool> cancelled{false};
     mutable std::mutex decoderMutex;
     mutable std::vector<std::weak_ptr<StreamOutputStore::Reader>> decoderReaders;
 public:
-    explicit StreamDecoderSource(std::shared_ptr<StreamOutputStore> output):store(std::move(output)) {
+    explicit StreamDecoderSource(std::shared_ptr<StreamOutputStore> output,std::string mode="continuous-h264-video-v1"):store(std::move(output)),selectedMode(std::move(mode)) {
         Require(bool(store),"remuxDecoder","Missing output cache","invalid_request");
+        Require(selectedMode=="continuous-h264-video-v1" || selectedMode=="continuous-h264-reordered-video-v1","remuxDecoder","Invalid decoder profile","invalid_request");
     }
+    const std::string& mode()const{return selectedMode;}
     void cancel() noexcept {cancelled.store(true);}
     bool stopped()const noexcept{return cancelled.load();}
     StreamCacheStatus status()const{return store->status();}

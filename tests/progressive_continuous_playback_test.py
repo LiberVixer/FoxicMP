@@ -15,11 +15,14 @@ from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
 
 
-def exercise(peers, root):
+def exercise(peers, root, reordered_video=False):
     peer=peers[0];client=peer.client;rows=[];job=None;play=None;model=None;directory=None
-    source=fixture(root,'source');raw=source.read_bytes();latencies=[];old_playbacks=[]
-    def command(action,**fields):
-        began=time.monotonic();reply=client.request(dict(version=1,action=action,**fields));latencies.append(time.monotonic()-began);return reply
+    mode='continuous-h264-reordered-video-v1' if reordered_video else 'continuous-h264-video-v1'
+    source=fixture(root,'source',bframes=2 if reordered_video else 0);raw=source.read_bytes();latencies=[];old_playbacks=[]
+    def command(action,_mode=mode,**fields):
+        began=time.monotonic();reply=client.request(dict(version=1,action=action,**fields));latencies.append(time.monotonic()-began)
+        if action.startswith('continuous'):assert reply['mode']==_mode,(action,reply)
+        return reply
     def reject(action,code,**fields):
         try:command(action,**fields)
         except ApiError as e:assert e.code==code,e.reply
@@ -78,9 +81,15 @@ def exercise(peers, root):
         nonlocal job,play,model,directory
         directory=root/name;directory.mkdir();path=directory/'input.part';n=len(raw)*2//3 if prefix is None else prefix
         model=snapshot(path,raw,complete=False,prefix=n);model['timeline']['duration']='240000000';path.write_bytes(raw);before=sha(path);play=None
-        job=command('continuousRemuxStart',requestId=uuid.uuid4().hex,sessionDirectory=str(directory),session=model,resourceId='clip')
-        until(lambda:(lambda v:v if v['producerCode']=='waiting' and (v['playbackReady'] if n>4 else not v['playbackReady']) else None)(preparation()),'prepared source')
+        fields=dict(requestId=uuid.uuid4().hex,sessionDirectory=str(directory),session=model,resourceId='clip')
+        if reordered_video:fields['mode']=mode
+        job=command('continuousRemuxStart',**fields)
         try:
+            if reordered_video:
+                assert command('continuousRemuxStart',**fields)['jobId']==job['jobId']
+                reject('continuousRemuxStart','continuous-conflict',**dict(fields,mode='continuous-h264-video-v1'))
+                reject('continuousRemuxUpdate','invalid_snapshot',jobId=job['jobId'],session=model,mode=mode)
+            until(lambda:(lambda v:v if v['producerCode']=='waiting' and (v['playbackReady'] if n>4 else not v['playbackReady']) else None)(preparation()),'prepared source')
             detail=fn();final=forgotten();assert sha(path)==before
             rows.append(dict(profile=name,result='PASS',final=final,**(detail or {})))
             if play is not None:old_playbacks.append(play['playbackId'])
@@ -233,13 +242,28 @@ def exercise(peers, root):
             time.sleep(.12);assert command('continuousRemuxPlay',**fields)['state']=='closed'
             return dict(initial=initial,closed=closed,noLateRestart=True)
         case('stop-during-opening-%d'%i,immediate)
+    if reordered_video:
+        # Selecting reorder never changes the controller default. A retained old
+        # playback ticket must also keep its mode after the next job is admitted.
+        legacy='continuous-h264-video-v1';directory=root/'default-after-reorder';directory.mkdir();path=directory/'input.part'
+        model=snapshot(path,raw,complete=True);model['timeline']['duration']='240000000';before=sha(path)
+        fields=dict(requestId=uuid.uuid4().hex,sessionDirectory=str(directory),session=model,resourceId='clip')
+        reject('continuousRemuxStart','invalid_request',**dict(fields,mode='continuous-h264-audio-v1'))
+        job=command('continuousRemuxStart',_mode=legacy,**fields)
+        error=wait(lambda:(lambda s:s if s['state']=='error' and s['released'] else None)(command('continuousRemuxStatus',_mode=legacy,jobId=job['jobId'])),'Default still rejects reordered input')
+        assert error['errorCode']=='unsupported-stream-reorder' and not error['playbackReady'] and not error['outputComplete'],error
+        retained=command('continuousPlaybackStatus',playbackId=old_playbacks[-1]);assert retained['state']=='closed',retained
+        command('continuousRemuxForget',_mode=legacy,**{key:job[key] for key in ('jobId','sessionId','generation','writerInstanceId')})
+        final=wait(lambda:(lambda s:s if s['forgotten'] else None)(command('continuousRemuxStatus',_mode=legacy,jobId=job['jobId'])),'Default job forgotten')
+        assert final['sourceFilesClosed'] and sha(path)==before
+        rows.append(dict(profile='default-profile-and-old-ticket-mode-isolation',result='PASS',defaultError=error,retainedPlayback=retained,final=final))
     assert max(latencies)<2,latencies
-    return dict(result='PASS',count=len(rows),rows=rows,maxRequestSeconds=max(latencies),ordinaryPlayerIpc=True,playbackCommit=True,publicCapability=True)
+    return dict(result='PASS',count=len(rows),rows=rows,maxRequestSeconds=max(latencies),ordinaryPlayerIpc=True,playbackCommit=True,publicCapability=not reordered_video,internalReorderedProfile=reordered_video,mode=mode)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--edition',choices=('qt','classic'),required=True);p.add_argument('--player',action='append',required=True);p.add_argument('--reader-runner',required=True);p.add_argument('--report-directory',required=True);args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--edition',choices=('qt','classic'),required=True);p.add_argument('--player',action='append',required=True);p.add_argument('--reader-runner',required=True);p.add_argument('--report-directory',required=True);p.add_argument('--reordered-video',action='store_true');args=p.parse_args()
     try:
-        result=run(args,exercise,__file__);print(json.dumps(dict(result=result['result'],count=result['count'])))
+        result=run(args,lambda peers,root:exercise(peers,root,args.reordered_video),__file__);print(json.dumps(dict(result=result['result'],count=result['count'])))
     except Exception:
         Path(args.report_directory).mkdir(parents=True,exist_ok=True);(Path(args.report_directory)/'error.txt').write_text(traceback.format_exc(),encoding='utf-8');raise

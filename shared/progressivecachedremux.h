@@ -11,11 +11,12 @@ class CachedRemuxSession {
     std::shared_ptr<StreamOutputStore> output;
     std::unique_ptr<StreamRemuxSession> producer;
     std::thread finalizer;
+    const std::string mode;
 public:
     CachedRemuxSession(const std::filesystem::path& directory,const std::filesystem::path& registry,
         const std::filesystem::path& cache,const std::string& json,const std::string& resource,
         const std::filesystem::path& child,std::shared_ptr<StreamCacheOwner> cacheOwner,
-        uint64_t outputLimit=64*1024*1024,StreamRemuxLimits limits={},StreamRemuxProfile profile=StreamRemuxProfile::H264Video):owner(std::move(cacheOwner)) {
+        uint64_t outputLimit=64*1024*1024,StreamRemuxLimits limits={},StreamRemuxProfile profile=StreamRemuxProfile::H264Video):owner(std::move(cacheOwner)),mode(profile==StreamRemuxProfile::H264ReorderedVideo?"continuous-h264-reordered-video-v1":"continuous-h264-video-v1") {
         Require(bool(owner),"remuxCache","Cache service owner required","invalid_request");
         const auto model=Parse(json);
         output=owner->create(cache,registry,model.id,model.generation,outputLimit);
@@ -40,7 +41,7 @@ public:
     bool heartbeatWhileRunning(){return producer->heartbeatWhileRunning();}
     void cancel(){producer->cancel();}
     std::shared_ptr<StreamOutputStore::Reader> reader(){return output->reader();}
-    std::shared_ptr<StreamDecoderSource> decoderSource(){return std::make_shared<StreamDecoderSource>(output);}
+    std::shared_ptr<StreamDecoderSource> decoderSource(){return std::make_shared<StreamDecoderSource>(output,mode);}
     CachedRemuxStatus status()const{CachedRemuxStatus s;s.source=producer->status();s.output=output->status();s.done=s.source.done && s.output.producerClosed;return s;}
     bool retire(){producer->cancel();return owner->retire(output);}
     std::filesystem::path privatePath()const{return output->privatePath();}

@@ -184,6 +184,7 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
         if(!continuousRemux)return failure("unknown-continuous-job","Unknown remux job");
         auto next=std::make_shared<foxicmp::progressive::ContinuousPlayback>();next->command=c;
         next->source=continuousRemux->playbackSource(c.jobId,c.sessionId,c.generation,c.writer,next->duration);
+        next->mode=next->source->mode();
         next->output=continuousRemux->outputObserver(c.jobId);
         next->producerError=continuousRemux->errorObserver(c.jobId);
         if(window->hasPlayback() && !c.replace)return failure("session_busy","Playback replacement must be explicit");
@@ -518,7 +519,7 @@ QJsonObject ProgressiveApi::continuousStatus()const{
   if(result["state"]=="closed")result["reasonCode"]="playback-closed";
   else if(result["state"]=="error")result["reasonCode"]=QString::fromStdString(!p.error.empty()?p.error:!producerError.empty()?producerError:!out.failure.empty()?out.failure:"decoder-error");
   else if(result["reasonCode"]=="waiting-range" && out.complete)result["reasonCode"]="decoder-buffering";
-  result["version"]=1;result["ok"]=true;result["mode"]="continuous-h264-video-v1";
+  result["version"]=1;result["ok"]=true;result["mode"]=QString::fromStdString(p.mode);
   result["playbackId"]=QString::fromStdString(p.id);result["requestId"]=QString::fromStdString(p.command.requestId);result["jobId"]=QString::fromStdString(p.command.jobId);
   result["sessionId"]=QString::fromStdString(p.command.sessionId);result["generation"]=QString::number(p.command.generation);result["writerInstanceId"]=QString::fromStdString(p.command.writer);
   result["durationSeconds"]=double(p.duration)/10000000.;result["outputComplete"]=out.complete;result["decoderReaders"]=int(out.activeReaders);

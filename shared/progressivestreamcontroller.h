@@ -48,6 +48,7 @@ class ContinuousRemuxController {
         std::filesystem::path directory,registry,cache,child;
         std::shared_ptr<StreamCacheOwner> owner;
         StreamRemuxLimits limits;
+        StreamRemuxProfile selected=StreamRemuxProfile::H264Video;
         ContinuousControllerHooks hooks;
         std::mutex mutex;std::condition_variable changed;std::deque<std::string> updates;
         std::atomic<bool> cancel{false},forget{false},stop{false};
@@ -69,7 +70,7 @@ class ContinuousRemuxController {
                 Require(!cancel.load() && !stop.load(),"continuousRemux","Preparation cancelled","cancelled");
                 Require(Clock::now()-began<limits.lifetime,"continuousRemux","Controller lifetime expired during preparation","backend-time-limit");
                 Require(initiallyComplete || now()-heartbeatAt.load()<limits.heartbeat.count(),"continuousRemux","Writer heartbeat expired during preparation","writer-heartbeat-timeout");
-                session=std::make_unique<CachedRemuxSession>(directory,registry,cache,initial,resource,child,owner,64*1024*1024,limits);
+                session=std::make_unique<CachedRemuxSession>(directory,registry,cache,initial,resource,child,owner,64*1024*1024,limits,selected);
                 decoder=session->decoderSource();
             }catch(const Error& e){v.error=e.code;v.terminal=true;}catch(...){v.error="continuous-preparation-failed";v.terminal=true;}
             for(;;)try{
@@ -145,7 +146,7 @@ class ContinuousRemuxController {
         std::string status(){
             const auto v=view();Snapshot admitted;size_t queued=0;
             {std::lock_guard<std::mutex> lock(mutex);admitted=accepted;queued=updates.size();}
-            rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();out.AddMember("version",1,a);out.AddMember("ok",true,a);out.AddMember("mode","continuous-h264-video-v1",a);
+            rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();out.AddMember("version",1,a);out.AddMember("ok",true,a);out.AddMember("mode",Value(selected==StreamRemuxProfile::H264ReorderedVideo?"continuous-h264-reordered-video-v1":"continuous-h264-video-v1",a),a);
             auto text=[&](const char* key,const std::string& value){out.AddMember(Value(key,a),Value(value.c_str(),a),a);};
             text("jobId",id);text("requestId",requestId);text("sessionId",admitted.id);text("generation",std::to_string(admitted.generation));text("writerInstanceId",admitted.writer);
             text("state",forget.load() && !v->forgotten?"forgetting":cancel.load() && !v->released?"cancelling":v->phase);text("errorCode",v->error);text("cleanupCode",v->cleanup);
@@ -202,7 +203,11 @@ public:
             Require(!d.HasParseError() && d.IsObject(),"continuousRemux","Invalid command JSON","invalid_request");InlineKeys(d);
             Require(d.HasMember("version") && d["version"].IsUint() && d["version"].GetUint()==1 && d.HasMember("action"),"continuousRemux","Expected API version 1","invalid_request");const auto action=Text(d["action"],"action",32);
             if(action=="continuousRemuxStart"){
-                Keys(d,"continuousRemux",{"version","action","requestId","sessionDirectory","session","resourceId"});
+                Keys(d,"continuousRemux",{"version","action","requestId","sessionDirectory","session","resourceId"},{"mode"});
+                // The reordered profile is an internal API extension until its
+                // player lifecycle/SDK acceptance and capability publication.
+                const auto mode=d.HasMember("mode")?Text(d["mode"],"mode",64):"continuous-h264-video-v1";
+                Require(mode=="continuous-h264-video-v1" || mode=="continuous-h264-reordered-video-v1","mode","Unsupported continuous mode","invalid_request");
                 const auto rid=Id(d["requestId"],"requestId",true);rapidjson::StringBuffer encoded;rapidjson::Writer<rapidjson::StringBuffer> writer(encoded);Canonical(d,writer);const std::string fingerprint(encoded.GetString(),encoded.GetSize());
                 if(job && job->requestId==rid){Require(job->fingerprint==fingerprint,"requestId","Request identity conflict","continuous-conflict");return job->status();}
                 Require(!job || job->view()->forgotten,"continuousRemux","Forget the previous job first","continuous-busy");
@@ -210,6 +215,7 @@ public:
                 healthy(parsed,resource);
                 const auto directory=std::filesystem::u8path(Text(d["sessionDirectory"],"sessionDirectory",8192));Require(directory.is_absolute(),"sessionDirectory","Absolute local directory required","invalid_request");
                 auto next=ContinuousRetirement::create<Job>([]{return new Job;});next->requestId=rid;next->fingerprint=fingerprint;next->initial=initial;next->accepted=parsed;next->initiallyComplete=parsed.resources.at(resource).state=="complete";next->resource=resource;next->directory=directory;next->registry=registry;next->cache=cache;next->child=child;next->limits=limits;next->hooks=hooks;next->owner=serviceOwner;
+                next->selected=mode=="continuous-h264-reordered-video-v1"?StreamRemuxProfile::H264ReorderedVideo:StreamRemuxProfile::H264Video;
                 next->thread=std::thread([raw=next.get()]{raw->run();});job=std::move(next);jobsStarted().store(true);return job->status();
             }
             if(action=="continuousRemuxStatus"){

@@ -38,6 +38,7 @@ inline ContinuousPlaybackCommand ParseContinuousPlayback(const std::string& json
 }
 struct ContinuousPlayback {
     const std::string id=lease_detail::RandomId();ContinuousPlaybackCommand command;
+    std::string mode="continuous-h264-video-v1";
     std::shared_ptr<StreamDecoderSource> source;
     std::function<StreamCacheStatus()> output;
     std::function<std::string()> producerError;
