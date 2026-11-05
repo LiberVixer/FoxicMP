@@ -784,3 +784,16 @@ Production code/main EXE, установки, профили, HKCU, SDK ZIP и H
 одноразовая задача удалена. Это компонентная проверка с synthetic child:
 настоящий FFmpeg mid file-I/O/cache/decoder, Linux heartbeat outlier и общая
 stress/ТЗ-приёмка остаются открытыми.
+
+
+5 ноября 2026, [авария настоящего FFmpeg в AVIO](ProgressiveContinuousAvioFaults.md):
+по восемь public SDK сценариев каждой редакции, всего 24; read/write callbacks,
+playing/manual pause и surviving external cache reader. Фактические decoder/
+source filesClosed, удержание кэша до последнего close, partial output rejection,
+независимый просмотр, SHA и явный retry проверены;
+[отчёт с исходными отказами стенда](ProgressiveContinuousAvioFaultsValidation-2026-11-05.json).
+Отдельный instrumented test worker собран GCC/MinGW/MSVC, девять engine guards
+пройдены под ASan/UBSan. Production worker macro выключен; пересобранный Linux
+worker побайтно прежний. Установки/профили, SDK ZIP, HKCU и Harvester сохранены,
+одноразовая задача удалена. OS disk/parent file-I/O, прежний Linux heartbeat
+outlier и полная stress/ТЗ-приёмка остаются открытыми.

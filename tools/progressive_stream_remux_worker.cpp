@@ -27,6 +27,9 @@ struct StreamInput {
    need(d.HasMember("hex") && d["hex"].IsString(),"invalid-read-data");const auto n=d["hex"].GetStringLength();need(n && !(n&1) && n<=unsigned(count)*2 && n/2<=uint64_t(s.length-s.at),"invalid-read-data");
    const auto* p=d["hex"].GetString();auto digit=[](char c){return c>='0'&&c<='9'?c-'0':c>='a'&&c<='f'?c-'a'+10:-1;};
    for(size_t i=0;i<n/2;++i){auto a=digit(p[2*i]),b=digit(p[2*i+1]);need(a>=0 && b>=0,"invalid-read-hex");data[i]=uint8_t((a<<4)|b);}
+#ifdef FOXICMP_STREAM_WORKER_TEST_CHECKPOINT
+   FOXICMP_STREAM_WORKER_TEST_CHECKPOINT("read",uint64_t(s.at),p,n);
+#endif
    s.at+=n/2;s.readBytes+=n/2;return int(n/2);
   }
  }catch(const std::exception& e){s.failure=e.what();return AVERROR_EXIT;}}
@@ -40,6 +43,9 @@ struct StreamOutput {
  static int writeBytes(void* opaque,const uint8_t* data,int count) noexcept {auto& s=*static_cast<StreamOutput*>(opaque);try{
   need(count>0 && uint64_t(count)<=OutputLimit-s.bytes,"backend-output-limit");const char* digits="0123456789abcdef";
   for(size_t at=0;at<size_t(count);){auto n=(std::min)(size_t(65536),size_t(count)-at);std::string hex;hex.reserve(n*2);for(size_t i=0;i<n;++i){auto b=data[at+i];hex+=digits[b>>4];hex+=digits[b&15];}
+#ifdef FOXICMP_STREAM_WORKER_TEST_CHECKPOINT
+   FOXICMP_STREAM_WORKER_TEST_CHECKPOINT("write",s.bytes,hex.data(),hex.size());
+#endif
    std::cout<<"{\"io\":\"write\",\"offset\":\""<<s.bytes<<"\",\"hex\":\""<<hex<<"\"}"<<std::endl;auto reply=receive();auto c=code(reply);need(c!="cancelled","cancelled");need(c=="data","parent-write-rejected");s.digest.update(data+at,n);s.bytes+=n;at+=n;
   }return count;
  }catch(const std::exception& e){s.failure=e.what();return AVERROR(EIO);}}
