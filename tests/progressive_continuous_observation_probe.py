@@ -37,6 +37,10 @@ class Observer:
                 workerSha256={worker.name:lifecycle.sha(worker) for worker in workers}))
         sources = [Path(__file__), Path(lifecycle.__file__),
                    Path(lifecycle.__file__).with_name('progressive_continuous_heartbeat_conformance.py')]
+        if os.name == 'nt' and os.environ.get('FOXICMP_EVENT_AUDIT') in ('0','1'):
+            sources += [Path(__file__).parent/'windows'/name for name in
+                ('progressive_event_audit.cpp','progressive_event_audit.h',
+                 'progressive_event_audit_reader.py','progressive_event_audit_test.cpp')]
         (report/'inputs.json').write_text(json.dumps(dict(players=players,
             sourceSha256={source.name:lifecycle.sha(source) for source in sources},
             snapshotAfterOwnedEndpointReady=True, snapshotBeforeScenarios=True), indent=2)+'\n')
@@ -138,6 +142,12 @@ class Observer:
                     handleTypesCapturedSeparately=True)
 
     def run(self, exercise):
+        # Import before the exercise, so collection cannot pick up a different
+        # reader revision midway through a long diagnostic run.
+        audit_capture = None
+        if os.name == 'nt' and self.peers[0].edition == 'classic' and os.environ.get('FOXICMP_EVENT_AUDIT') in ('0','1'):
+            from windows.progressive_event_audit_reader import capture
+            audit_capture = capture
         originals = [peer.client.request for peer in self.peers]
         original_sample = lifecycle.sample
         thread = threading.Thread(target=self.watch, name='private-player-observer')
@@ -167,9 +177,11 @@ class Observer:
             return result
         lifecycle.sample = measured
         thread.start()
+        failed = False
         try:
             return exercise()
         except BaseException:
+            failed = True
             if os.name == 'nt':
                 try:
                     self.capture_failure()
@@ -179,6 +191,17 @@ class Observer:
         finally:
             self.stop.set()
             thread.join(2)
+            audit_errors = []
+            if audit_capture:
+                audits = []
+                for peer, handle in zip(self.peers, self.handles):
+                    try:
+                        audits.append(audit_capture(peer.process.pid, peer.player, self.report, self.kernel, handle))
+                    except BaseException:
+                        audit_errors.append(traceback.format_exc())
+                (self.report/'event-audit.json').write_text(json.dumps(audits, indent=2)+'\n')
+                if audit_errors:
+                    (self.report/'event-audit-errors.txt').write_text('\n'.join(audit_errors))
             lifecycle.sample = original_sample
             for peer, original in zip(self.peers, originals):
                 peer.client.request = original
@@ -189,6 +212,8 @@ class Observer:
                                ('budget-measurements', self.measurements), ('observer-errors', self.errors)):
                 (self.report/(name+'.json')).write_text(json.dumps(data, indent=2)+'\n')
             assert not self.errors, self.errors
+            if audit_errors and not failed:
+                raise AssertionError('Event audit capture failed; see event-audit-errors.txt')
 
 
 def main(args):

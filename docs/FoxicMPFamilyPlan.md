@@ -925,3 +925,18 @@ renderer/драйвера и не production fix. Инструментирова
 [Результаты и границы](ProgressiveContinuousObservationValidation-2026-11-05.json).
 EXE/профили/SDK/worker сохранены, 158 shell entries совпали, одноразовая задача
 удалена; Harvester и сторонние установленные компоненты не менялись.
+
+
+5 ноября 2026, [исправление времени жизни DWM Event в Classic](ProgressiveDwmEventLifetime.md):
+лёгкий process-local аудит воспроизвёл три FAIL, каждый со 104 Event из
+CreateDxBltEvent; PDB/стеки показали первичную регистрацию DWM cleanup hook в
+недолговечном splitter thread. Начальный MPCVR Paint теперь выполняется в UI
+до Run/Pause. Обычный EXE прошёл 100 cycles +12 heartbeat expiry, отдельный повтор
+ещё 100 cycles, диагностический EXE ещё 100 cycles и подтвердил ноль оставшихся
+DWM Event. Максимальный наблюдаемый auto-release 0,296 s при прежнем лимите 2 s;
+обычный Stop/Play и 16 command-race сценариев прошли. [Exit codes и исходные
+отказы](ProgressiveDwmEventLifetimeValidation-2026-11-05.json). Это конкретный
+Classic source fix без Qt/Harvester изменений; SDK ZIP 1.82 и установленные
+приложения сохранены. 17 защищённых файлов и 158 shell entries совпали, обе
+одноразовые задачи удалены. Исторические Classic heartbeat-12 и Linux >2 s не
+объявляются объяснёнными; полная ТЗ/stress/A-V приёмка остаётся OPEN.

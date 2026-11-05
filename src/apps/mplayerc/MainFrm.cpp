@@ -4798,6 +4798,14 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 void CMainFrame::OnFilePostOpenMedia(std::unique_ptr<OpenMediaData>& pOMD)
 {
 	ASSERT(m_eMediaLoadState == MLS_LOADING);
+
+	// Present MPCVR's initial black frame on the persistent UI thread before
+	// Run/Pause can deliver samples. On affected Windows builds, D3D9 installs
+	// DWM's window-cleanup hook on the first presenting thread. A splitter
+	// thread ends with its file and would take that process-wide hook with it.
+	if (m_pCAP && m_clsidCAP == CLSID_MPCVRAllocatorPresenter) {
+		m_pCAP->Paint(true);
+	}
 	SetLoadState(MLS_LOADED);
 
 	// destroy invisible top-level d3dfs window if there is no video renderer
