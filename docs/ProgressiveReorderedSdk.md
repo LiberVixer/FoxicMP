@@ -96,6 +96,8 @@ EXE, worker/runtime/licenses и integration; Classic поставляет factor
 packet/pixel эталоны managed cache. Native проверки изображений самих декодеров
 остаются отдельным доказательством; физическая точность вывода окна не измерялась.
 Audio, многочасовой stress, физический A/V и все crash/latency варианты не закрыты.
+Первый [внутренний AAC aligned worker](ProgressiveContinuousAacAligned.md) ещё
+не подключён к SDK: его частные проверки не расширяют публичную capability.
 
 При повторении Windows UI теста выявлены недостоверные раздельные проверки
 registry после уже полученного proof: metadata API допускает

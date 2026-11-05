@@ -33,7 +33,7 @@ def complete_media(raw):
 
 def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.12,
           mode='continuous-h264-video-v1',on_wait=None):
-    raw=path.read_bytes();source=probe(path);video=[p for p in source['packets'] if p['codec_type']=='video'];tb=Fraction(source['streams'][0]['time_base']);origin=int(video[0]['pts'])
+    raw=path.read_bytes();source=probe(path);video=[p for p in source['packets'] if p['codec_type']=='video'];tb=Fraction(next(s for s in source['streams'] if s['codec_type']=='video')['time_base']);origin=int(video[0]['pts'])
     cuts=[int(next(p['pos'] for p in video if (int(p['pts'])-origin)*tb>=s))+13 for s in (4,8,12,20)] if growing else []
     cuts+=[len(raw)];available=cuts.pop(0);complete=not growing;output=bytearray();events=[];results=[];errors=[];reads=0;first_media=None;warmup=None;kill_ready=threading.Event();released=threading.Event()
     p=subprocess.Popen([str(worker)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf-8');began=time.monotonic()

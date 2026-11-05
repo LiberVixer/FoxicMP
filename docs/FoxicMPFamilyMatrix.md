@@ -905,3 +905,22 @@ Classic отдельно сохраняет и подтверждает нача
 не менялся. Это функциональная приёмка перечисленных public SDK/Player профилей,
 не физическая экранная/A-V синхронизация или полная waiting/crash/stress матрица;
 исторические outliers и audio/remux остаются OPEN.
+
+
+5 ноября 2026, [первый внутренний continuous H.264/AAC worker](ProgressiveContinuousAacAligned.md):
+частный `continuous-h264-aac-aligned-v1`, ровно одна H.264 и одна AAC-LC дорожка,
+44,1/48 kHz mono/stereo, начальный skip и окончание на границе 1024 samples.
+Copy-remux сохраняет рациональные clocks без независимого обнуления; movie clock
+равен точному НОК timebase. По 17 новых и 20 прежних worker сценариев GCC,
+MinGW, MSVC и ASan/UBSan; по 11 video-only SDK playback случаев трёх редакций
+с частными новыми worker. [SHA, exit codes и границы](ProgressiveContinuousAacAlignedValidation-2026-11-05.json).
+На Windows воспроизведены лишние 990/848 PCM frames при non-aligned AAC, простой
+elst patch не помогает. Такие файлы отклоняются до output header. Для успешных
+fixtures PCM сравнивается напрямую, без trim-фильтра, с проверкой ожидаемого
+sample count. Linux ffprobe duration oracle исправлен на чтение trex/tfhd/trun,
+исходный KeyError сохранён. Source parent/cache/AV decoder и публичная AAC
+capability не подключены; это внутренний компонент, не готовый audio playback.
+Все 572 защищённых файла и 158 shell entries совпали; задача Windows удалена.
+Main EXE, установленные Linux/Windows worker/INI и immutable SDK ZIP сохранены;
+новой пользовательской версии нет. Harvester не менялся. Sample-window trim,
+AV adapters, full stress/A-V и исторические outliers остаются OPEN.
