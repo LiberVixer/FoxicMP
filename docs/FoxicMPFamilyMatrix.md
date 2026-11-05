@@ -795,3 +795,18 @@ Windows-установки/SDK ZIP/Harvester не менялись, 158 shell en
 Точное происхождение исторического Linux >2 s всё ещё OPEN: новый fixture
 доказывает конкретную зависимость, не тождественность старому отказу. Stuck OS I/O,
 общие A/V и полный stress остаются отдельными шагами.
+
+
+5 ноября 2026, [два просмотра одного физически растущего файла](ProgressiveGrowingStress.md):
+128 s H.264 video-only, 27 append-only публикаций и настоящая 60 s пауза writer.
+Во всех трёх редакциях один прогон длился 129–131 s; manual pause сохранена,
+второй viewer пережил close/replay первого с прежними identities/worker до complete.
+По два output caches каждой редакции совпали с собственным reference по всем
+3200 payload/PTS/DTS/duration. После complete проверены seek/EOF/filesClosed/forget;
+прежние +8 handles/+2 threads/+256 MiB/≤1 core и <2 s request/resume/release
+budgets выдержаны. [Полные данные](ProgressiveGrowingStressValidation-2026-11-05.json).
+Production code не менялся, нового EXE нет; установленный Linux ebb0a806… и
+все профили/SDK/Windows-установки сохранены. 17 защищённых файлов и 158 shell
+entries совпали, одноразовая задача удалена, Harvester не изменялся. Новый CTest
+имеет label stress. Это ограниченный двухминутный срез, не многочасовая/A-V
+приёмка; исторические Linux >2 s и Classic heartbeat-12 остаются OPEN.
