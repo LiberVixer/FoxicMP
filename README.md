@@ -109,6 +109,8 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 Он добавляет [явный continuous H.264 профиль с B-frames](docs/ProgressiveReorderedSdk.md)
 для всех трёх редакций; прежний no-B default и SDK 1.82 совместимы. В релизе есть
 Windows portable Classic/Qt, Linux tar/`.deb` и SDK; [проверки пакетов и установки](docs/ProgressiveReorderedSdkPackagesValidation-2026-11-05.json).
+Дополнительно [проверены дробные частоты и VFR через SDK и обычные окна](docs/ProgressiveReorderedSdkTiming.md)
+всех трёх редакций, включая паузу, перемотку и подтверждённый конец файла.
 SDK 1.54–1.55 добавляют обычный растущий MP4 H.264/AAC-LC с индексом в начале
 или в конце файла: [контракт tail-index и advisory ranges](docs/ProgressiveTailMp4.md),
 [проверки трёх редакций](docs/ProgressiveTailMp4Validation-2026-11-01.md).

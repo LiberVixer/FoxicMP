@@ -90,8 +90,11 @@ EXE, worker/runtime/licenses и integration; Classic поставляет factor
 
 ## Границы
 
-Полная ТЗ-приёмка остаётся открытой. SDK/UI срез — H.264 25 fps; native этап
-отдельно проверяет fractional/VFR и encoder -bf 16 с packet/pixel эталонами.
+Полная ТЗ-приёмка остаётся открытой. Исходный SDK/UI срез — H.264 25 fps.
+Дополнительно [проверены публичные SDK/Player fractional/VFR профили](ProgressiveReorderedSdkTiming.md)
+во всех трёх редакциях: 25, 30000/1001, 60000/1001 fps и VFR, 36 seek, точные
+packet/pixel эталоны managed cache. Native проверки изображений самих декодеров
+остаются отдельным доказательством; физическая точность вывода окна не измерялась.
 Audio, многочасовой stress, физический A/V и все crash/latency варианты не закрыты.
 
 При повторении Windows UI теста выявлены недостоверные раздельные проверки

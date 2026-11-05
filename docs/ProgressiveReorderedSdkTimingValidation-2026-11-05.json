@@ -1,0 +1,4337 @@
+{
+  "result": "PASS",
+  "date": "2026-11-05",
+  "sdkVersion": "1.83",
+  "applicationVersion": "0.2.0",
+  "baselineSourceCommit": "b36069bdaaec8e15fe56f893b6533ba6645828ea",
+  "productionCodeChanged": false,
+  "newBinaries": false,
+  "testSourceSha256": "e308ad757ec99cdd3c09a2dc644ca37d4e6e883b34bd52c1ebe408769282151f",
+  "editions": {
+    "linuxQt": {
+      "result": {
+        "result": "PASS",
+        "count": 4,
+        "rows": [
+          {
+            "profile": "b2-25",
+            "result": "PASS",
+            "rate": "25",
+            "requestedBFrames": 2,
+            "sourceStream": {
+              "time_base": "1/12800",
+              "avg_frame_rate": "25/1",
+              "r_frame_rate": "25/1",
+              "duration_ts": 307200,
+              "has_b_frames": 2
+            },
+            "durationRational": "24",
+            "duration100ns": "240000000",
+            "presentationIntervals": [
+              "1/25"
+            ],
+            "samples": 600,
+            "decodedFrames": 600,
+            "partialProof": {
+              "packets": 75,
+              "frames": 75,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 74134,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 145345,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 209991,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 412958,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 412958,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": null,
+            "actualPlayback": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24,
+              "error": "",
+              "generation": "1",
+              "jobId": "0f2c02fca6c69827ab757a194928acf4",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "80a1b9a551fb38513c8f6c7cc8572beb",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "f476ac6adf628896e89cbd5fe50c6283"
+              ],
+              "reasonCode": "",
+              "requestId": "a4d337e7a6f346a488f05ac2400f4a01",
+              "sessionId": "95543d6829fa452f9307a374f3c79428",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "6ebbc0c245bb4b528a885be45431ea95"
+            },
+            "pause": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24,
+              "error": "",
+              "generation": "1",
+              "jobId": "0f2c02fca6c69827ab757a194928acf4",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "80a1b9a551fb38513c8f6c7cc8572beb",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "f476ac6adf628896e89cbd5fe50c6283"
+              ],
+              "reasonCode": "paused",
+              "requestId": "a4d337e7a6f346a488f05ac2400f4a01",
+              "sessionId": "95543d6829fa452f9307a374f3c79428",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "6ebbc0c245bb4b528a885be45431ea95"
+            },
+            "held": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24,
+              "error": "",
+              "generation": "1",
+              "jobId": "0f2c02fca6c69827ab757a194928acf4",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "80a1b9a551fb38513c8f6c7cc8572beb",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "f476ac6adf628896e89cbd5fe50c6283"
+              ],
+              "reasonCode": "paused",
+              "requestId": "a4d337e7a6f346a488f05ac2400f4a01",
+              "sessionId": "95543d6829fa452f9307a374f3c79428",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "6ebbc0c245bb4b528a885be45431ea95"
+            },
+            "resumed": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24,
+              "error": "",
+              "generation": "1",
+              "jobId": "0f2c02fca6c69827ab757a194928acf4",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "80a1b9a551fb38513c8f6c7cc8572beb",
+              "positionSeconds": 0.48,
+              "readerIds": [
+                "f476ac6adf628896e89cbd5fe50c6283"
+              ],
+              "reasonCode": "",
+              "requestId": "a4d337e7a6f346a488f05ac2400f4a01",
+              "sessionId": "95543d6829fa452f9307a374f3c79428",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "6ebbc0c245bb4b528a885be45431ea95"
+            },
+            "workerPidUnchanged": 1107899,
+            "complete": {
+              "acceptedHeartbeat": "36",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "36",
+              "appliedRevision": "6",
+              "cleanupCode": "",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 24,
+              "generation": "1",
+              "jobId": "0f2c02fca6c69827ab757a194928acf4",
+              "maximumReadEnd": "412958",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "412958",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": true,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "7684dde27cecf0444ef35e19a8db0560",
+                "f476ac6adf628896e89cbd5fe50c6283"
+              ],
+              "released": false,
+              "requestId": "61b3884c907c4ac68a7edc10aff65cef",
+              "samples": 600,
+              "sessionId": "95543d6829fa452f9307a374f3c79428",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "complete",
+              "version": 1,
+              "visibleBytes": "415090",
+              "workerId": 1107899,
+              "writerInstanceId": "6ebbc0c245bb4b528a885be45431ea95",
+              "writtenBytes": "415090"
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.125,
+                "toleranceSeconds": 0.05,
+                "elapsedSeconds": 0.024866748994099908
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.375,
+                "toleranceSeconds": 0.05,
+                "elapsedSeconds": 0.007969993996084668
+              },
+              {
+                "targetSeconds": 22.825,
+                "observedSeconds": 22.825,
+                "toleranceSeconds": 0.05,
+                "elapsedSeconds": 0.010206662002019584
+              }
+            ],
+            "finished": {
+              "active": false,
+              "audioCodec": "",
+              "decoderReaders": 0,
+              "durationSeconds": 24,
+              "error": "",
+              "generation": "1",
+              "jobId": "0f2c02fca6c69827ab757a194928acf4",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": true,
+              "playbackId": "80a1b9a551fb38513c8f6c7cc8572beb",
+              "positionSeconds": 24,
+              "readerIds": [
+                "f476ac6adf628896e89cbd5fe50c6283"
+              ],
+              "reasonCode": "source-complete",
+              "requestId": "a4d337e7a6f346a488f05ac2400f4a01",
+              "sessionId": "95543d6829fa452f9307a374f3c79428",
+              "state": "finished",
+              "version": 1,
+              "videoCodec": "",
+              "writerInstanceId": "6ebbc0c245bb4b528a885be45431ea95"
+            },
+            "eofWallSeconds": 1.4072963399958098,
+            "releaseSeconds": 0.03197683300822973,
+            "proof": {
+              "acceptedHeartbeat": "36",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "36",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 24,
+              "generation": "1",
+              "jobId": "0f2c02fca6c69827ab757a194928acf4",
+              "maximumReadEnd": "412958",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "412958",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "7684dde27cecf0444ef35e19a8db0560",
+                "f476ac6adf628896e89cbd5fe50c6283"
+              ],
+              "released": true,
+              "requestId": "61b3884c907c4ac68a7edc10aff65cef",
+              "samples": 600,
+              "sessionId": "95543d6829fa452f9307a374f3c79428",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "cancelled",
+              "version": 1,
+              "visibleBytes": "415090",
+              "workerId": 1107899,
+              "writerInstanceId": "6ebbc0c245bb4b528a885be45431ea95",
+              "writtenBytes": "415090"
+            },
+            "forgotten": {
+              "acceptedHeartbeat": "36",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "36",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": true,
+              "fragments": 24,
+              "generation": "1",
+              "jobId": "0f2c02fca6c69827ab757a194928acf4",
+              "maximumReadEnd": "412958",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "412958",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "7684dde27cecf0444ef35e19a8db0560",
+                "f476ac6adf628896e89cbd5fe50c6283"
+              ],
+              "released": true,
+              "requestId": "61b3884c907c4ac68a7edc10aff65cef",
+              "samples": 600,
+              "sessionId": "95543d6829fa452f9307a374f3c79428",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "forgotten",
+              "version": 1,
+              "visibleBytes": "415090",
+              "workerId": 1107899,
+              "writerInstanceId": "6ebbc0c245bb4b528a885be45431ea95",
+              "writtenBytes": "415090"
+            },
+            "originalSha256": "296e00f8baf7777fbaf2fb72fc6e590c349b4b1858614bb61c2ad78fbd70364e"
+          },
+          {
+            "profile": "b3-30000-1001",
+            "result": "PASS",
+            "rate": "30000/1001",
+            "requestedBFrames": 3,
+            "sourceStream": {
+              "time_base": "1/30000",
+              "avg_frame_rate": "30000/1001",
+              "r_frame_rate": "30000/1001",
+              "duration_ts": 720720,
+              "has_b_frames": 2
+            },
+            "durationRational": "3003/125",
+            "duration100ns": "240240000",
+            "presentationIntervals": [
+              "1001/30000"
+            ],
+            "samples": 720,
+            "decodedFrames": 720,
+            "partialProof": {
+              "packets": 100,
+              "frames": 100,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 88735,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 173877,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 250963,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 488634,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 488634,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": null,
+            "actualPlayback": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.024,
+              "error": "",
+              "generation": "1",
+              "jobId": "2ac5ee8b835735e203b4ac687d15c121",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "1bd8423dcd4efc3e8590b985ee698368",
+              "positionSeconds": 0.20020000000000002,
+              "readerIds": [
+                "05085c75c33e6642e866a6f3d977ae38"
+              ],
+              "reasonCode": "",
+              "requestId": "eb978fd62cb14553b3abe56f15ec4573",
+              "sessionId": "8d51cd22f5de473e9b02265069661f85",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "c0e09f0a660741299309649ab34d63af"
+            },
+            "pause": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.024,
+              "error": "",
+              "generation": "1",
+              "jobId": "2ac5ee8b835735e203b4ac687d15c121",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "1bd8423dcd4efc3e8590b985ee698368",
+              "positionSeconds": 0.20020000000000002,
+              "readerIds": [
+                "05085c75c33e6642e866a6f3d977ae38"
+              ],
+              "reasonCode": "paused",
+              "requestId": "eb978fd62cb14553b3abe56f15ec4573",
+              "sessionId": "8d51cd22f5de473e9b02265069661f85",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "c0e09f0a660741299309649ab34d63af"
+            },
+            "held": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.024,
+              "error": "",
+              "generation": "1",
+              "jobId": "2ac5ee8b835735e203b4ac687d15c121",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "1bd8423dcd4efc3e8590b985ee698368",
+              "positionSeconds": 0.20020000000000002,
+              "readerIds": [
+                "05085c75c33e6642e866a6f3d977ae38"
+              ],
+              "reasonCode": "paused",
+              "requestId": "eb978fd62cb14553b3abe56f15ec4573",
+              "sessionId": "8d51cd22f5de473e9b02265069661f85",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "c0e09f0a660741299309649ab34d63af"
+            },
+            "resumed": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.024,
+              "error": "",
+              "generation": "1",
+              "jobId": "2ac5ee8b835735e203b4ac687d15c121",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "1bd8423dcd4efc3e8590b985ee698368",
+              "positionSeconds": 0.40040000000000003,
+              "readerIds": [
+                "05085c75c33e6642e866a6f3d977ae38"
+              ],
+              "reasonCode": "",
+              "requestId": "eb978fd62cb14553b3abe56f15ec4573",
+              "sessionId": "8d51cd22f5de473e9b02265069661f85",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "c0e09f0a660741299309649ab34d63af"
+            },
+            "workerPidUnchanged": 1108015,
+            "complete": {
+              "acceptedHeartbeat": "35",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "35",
+              "appliedRevision": "6",
+              "cleanupCode": "",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 29,
+              "generation": "1",
+              "jobId": "2ac5ee8b835735e203b4ac687d15c121",
+              "maximumReadEnd": "488634",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "488634",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": true,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "b7ba1002446f29c52a91496b5f79354d",
+                "05085c75c33e6642e866a6f3d977ae38"
+              ],
+              "released": false,
+              "requestId": "7e3dc6ac15464ce8a19dcb0a89432d41",
+              "samples": 720,
+              "sessionId": "8d51cd22f5de473e9b02265069661f85",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "complete",
+              "version": 1,
+              "visibleBytes": "489825",
+              "workerId": 1108015,
+              "writerInstanceId": "c0e09f0a660741299309649ab34d63af",
+              "writtenBytes": "489825"
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.125,
+                "toleranceSeconds": 0.04336666666666667,
+                "elapsedSeconds": 0.01983282000583131
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.375,
+                "toleranceSeconds": 0.04336666666666667,
+                "elapsedSeconds": 0.011315532989101484
+              },
+              {
+                "targetSeconds": 22.849,
+                "observedSeconds": 22.849,
+                "toleranceSeconds": 0.04336666666666667,
+                "elapsedSeconds": 0.012796602997696027
+              }
+            ],
+            "finished": {
+              "active": false,
+              "audioCodec": "",
+              "decoderReaders": 0,
+              "durationSeconds": 24.024,
+              "error": "",
+              "generation": "1",
+              "jobId": "2ac5ee8b835735e203b4ac687d15c121",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": true,
+              "playbackId": "1bd8423dcd4efc3e8590b985ee698368",
+              "positionSeconds": 24.024,
+              "readerIds": [
+                "05085c75c33e6642e866a6f3d977ae38"
+              ],
+              "reasonCode": "source-complete",
+              "requestId": "eb978fd62cb14553b3abe56f15ec4573",
+              "sessionId": "8d51cd22f5de473e9b02265069661f85",
+              "state": "finished",
+              "version": 1,
+              "videoCodec": "",
+              "writerInstanceId": "c0e09f0a660741299309649ab34d63af"
+            },
+            "eofWallSeconds": 1.3910153239994543,
+            "releaseSeconds": 0.0277158109965967,
+            "proof": {
+              "acceptedHeartbeat": "35",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "35",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 29,
+              "generation": "1",
+              "jobId": "2ac5ee8b835735e203b4ac687d15c121",
+              "maximumReadEnd": "488634",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "488634",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "b7ba1002446f29c52a91496b5f79354d",
+                "05085c75c33e6642e866a6f3d977ae38"
+              ],
+              "released": true,
+              "requestId": "7e3dc6ac15464ce8a19dcb0a89432d41",
+              "samples": 720,
+              "sessionId": "8d51cd22f5de473e9b02265069661f85",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "cancelled",
+              "version": 1,
+              "visibleBytes": "489825",
+              "workerId": 1108015,
+              "writerInstanceId": "c0e09f0a660741299309649ab34d63af",
+              "writtenBytes": "489825"
+            },
+            "forgotten": {
+              "acceptedHeartbeat": "35",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "35",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": true,
+              "fragments": 29,
+              "generation": "1",
+              "jobId": "2ac5ee8b835735e203b4ac687d15c121",
+              "maximumReadEnd": "488634",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "488634",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "b7ba1002446f29c52a91496b5f79354d",
+                "05085c75c33e6642e866a6f3d977ae38"
+              ],
+              "released": true,
+              "requestId": "7e3dc6ac15464ce8a19dcb0a89432d41",
+              "samples": 720,
+              "sessionId": "8d51cd22f5de473e9b02265069661f85",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "forgotten",
+              "version": 1,
+              "visibleBytes": "489825",
+              "workerId": 1108015,
+              "writerInstanceId": "c0e09f0a660741299309649ab34d63af",
+              "writtenBytes": "489825"
+            },
+            "originalSha256": "ef71712cca7693811f194162eaedbb6aca45339af4b3deb07035300ea3fd3175"
+          },
+          {
+            "profile": "requested-b16-60000-1001",
+            "result": "PASS",
+            "rate": "60000/1001",
+            "requestedBFrames": 16,
+            "sourceStream": {
+              "time_base": "1/60000",
+              "avg_frame_rate": "60000/1001",
+              "r_frame_rate": "60000/1001",
+              "duration_ts": 1440439,
+              "has_b_frames": 2
+            },
+            "durationRational": "1440439/60000",
+            "duration100ns": "240073167",
+            "presentationIntervals": [
+              "1001/60000"
+            ],
+            "samples": 1439,
+            "decodedFrames": 1439,
+            "partialProof": {
+              "packets": 225,
+              "frames": 225,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 126087,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 243910,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 349447,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 681927,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 681927,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": null,
+            "actualPlayback": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.0073167,
+              "error": "",
+              "generation": "1",
+              "jobId": "4e3fadf5cea96ec75a4f18ce495178cc",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "54b1cda87d8e7e40e88411ec99758c4a",
+              "positionSeconds": 0.20020000000000002,
+              "readerIds": [
+                "789ce82252e27b8d1ddfee1edd9b197e"
+              ],
+              "reasonCode": "",
+              "requestId": "14808bff0fd14669a456e79a7123a185",
+              "sessionId": "db6078d7088145a5898ddc2272037bb4",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "ac88097c6c3b4973b4bad2271663d922"
+            },
+            "pause": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.0073167,
+              "error": "",
+              "generation": "1",
+              "jobId": "4e3fadf5cea96ec75a4f18ce495178cc",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "54b1cda87d8e7e40e88411ec99758c4a",
+              "positionSeconds": 0.21688333333333334,
+              "readerIds": [
+                "789ce82252e27b8d1ddfee1edd9b197e"
+              ],
+              "reasonCode": "paused",
+              "requestId": "14808bff0fd14669a456e79a7123a185",
+              "sessionId": "db6078d7088145a5898ddc2272037bb4",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "ac88097c6c3b4973b4bad2271663d922"
+            },
+            "held": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.0073167,
+              "error": "",
+              "generation": "1",
+              "jobId": "4e3fadf5cea96ec75a4f18ce495178cc",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "54b1cda87d8e7e40e88411ec99758c4a",
+              "positionSeconds": 0.21688333333333334,
+              "readerIds": [
+                "789ce82252e27b8d1ddfee1edd9b197e"
+              ],
+              "reasonCode": "paused",
+              "requestId": "14808bff0fd14669a456e79a7123a185",
+              "sessionId": "db6078d7088145a5898ddc2272037bb4",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "ac88097c6c3b4973b4bad2271663d922"
+            },
+            "resumed": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.0073167,
+              "error": "",
+              "generation": "1",
+              "jobId": "4e3fadf5cea96ec75a4f18ce495178cc",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "54b1cda87d8e7e40e88411ec99758c4a",
+              "positionSeconds": 0.41708333333333336,
+              "readerIds": [
+                "789ce82252e27b8d1ddfee1edd9b197e"
+              ],
+              "reasonCode": "",
+              "requestId": "14808bff0fd14669a456e79a7123a185",
+              "sessionId": "db6078d7088145a5898ddc2272037bb4",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "ac88097c6c3b4973b4bad2271663d922"
+            },
+            "workerPidUnchanged": 1108100,
+            "complete": {
+              "acceptedHeartbeat": "32",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "32",
+              "appliedRevision": "6",
+              "cleanupCode": "",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 58,
+              "generation": "1",
+              "jobId": "4e3fadf5cea96ec75a4f18ce495178cc",
+              "maximumReadEnd": "681927",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "681927",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": true,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "572d9d847363def9f40e5e6ff813c619",
+                "789ce82252e27b8d1ddfee1edd9b197e"
+              ],
+              "released": false,
+              "requestId": "7bce9485475d4236b5911667a5316d92",
+              "samples": 1439,
+              "sessionId": "db6078d7088145a5898ddc2272037bb4",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "complete",
+              "version": 1,
+              "visibleBytes": "685501",
+              "workerId": 1108100,
+              "writerInstanceId": "ac88097c6c3b4973b4bad2271663d922",
+              "writtenBytes": "685501"
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.125,
+                "toleranceSeconds": 0.026683333333333337,
+                "elapsedSeconds": 0.026054370988276787
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.375,
+                "toleranceSeconds": 0.026683333333333337,
+                "elapsedSeconds": 0.018173396994825453
+              },
+              {
+                "targetSeconds": 22.8323167,
+                "observedSeconds": 22.832,
+                "toleranceSeconds": 0.026683333333333337,
+                "elapsedSeconds": 0.02789958099310752
+              }
+            ],
+            "finished": {
+              "active": false,
+              "audioCodec": "",
+              "decoderReaders": 0,
+              "durationSeconds": 24.0073167,
+              "error": "",
+              "generation": "1",
+              "jobId": "4e3fadf5cea96ec75a4f18ce495178cc",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": true,
+              "playbackId": "54b1cda87d8e7e40e88411ec99758c4a",
+              "positionSeconds": 24.0073167,
+              "readerIds": [
+                "789ce82252e27b8d1ddfee1edd9b197e"
+              ],
+              "reasonCode": "source-complete",
+              "requestId": "14808bff0fd14669a456e79a7123a185",
+              "sessionId": "db6078d7088145a5898ddc2272037bb4",
+              "state": "finished",
+              "version": 1,
+              "videoCodec": "",
+              "writerInstanceId": "ac88097c6c3b4973b4bad2271663d922"
+            },
+            "eofWallSeconds": 1.615875646006316,
+            "releaseSeconds": 0.035074679006356746,
+            "proof": {
+              "acceptedHeartbeat": "32",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "32",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 58,
+              "generation": "1",
+              "jobId": "4e3fadf5cea96ec75a4f18ce495178cc",
+              "maximumReadEnd": "681927",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "681927",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "572d9d847363def9f40e5e6ff813c619",
+                "789ce82252e27b8d1ddfee1edd9b197e"
+              ],
+              "released": true,
+              "requestId": "7bce9485475d4236b5911667a5316d92",
+              "samples": 1439,
+              "sessionId": "db6078d7088145a5898ddc2272037bb4",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "cancelled",
+              "version": 1,
+              "visibleBytes": "685501",
+              "workerId": 1108100,
+              "writerInstanceId": "ac88097c6c3b4973b4bad2271663d922",
+              "writtenBytes": "685501"
+            },
+            "forgotten": {
+              "acceptedHeartbeat": "32",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "32",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": true,
+              "fragments": 58,
+              "generation": "1",
+              "jobId": "4e3fadf5cea96ec75a4f18ce495178cc",
+              "maximumReadEnd": "681927",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "681927",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "572d9d847363def9f40e5e6ff813c619",
+                "789ce82252e27b8d1ddfee1edd9b197e"
+              ],
+              "released": true,
+              "requestId": "7bce9485475d4236b5911667a5316d92",
+              "samples": 1439,
+              "sessionId": "db6078d7088145a5898ddc2272037bb4",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "forgotten",
+              "version": 1,
+              "visibleBytes": "685501",
+              "workerId": 1108100,
+              "writerInstanceId": "ac88097c6c3b4973b4bad2271663d922",
+              "writtenBytes": "685501"
+            },
+            "originalSha256": "d20186c76a673676a2c94dc927e5271ab7eadc06501de70a93264ad7f6c171a9"
+          },
+          {
+            "profile": "b2-vfr",
+            "result": "PASS",
+            "rate": "25",
+            "requestedBFrames": 2,
+            "sourceStream": {
+              "time_base": "1/12800",
+              "avg_frame_rate": "12000/599",
+              "r_frame_rate": "25/1",
+              "duration_ts": 306688,
+              "has_b_frames": 2
+            },
+            "durationRational": "599/25",
+            "duration100ns": "239600000",
+            "presentationIntervals": [
+              "1/25",
+              "2/25"
+            ],
+            "samples": 480,
+            "decodedFrames": 480,
+            "partialProof": {
+              "packets": 75,
+              "frames": 75,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 65517,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 125619,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 178960,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 351314,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 351314,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": null,
+            "actualPlayback": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 23.96,
+              "error": "",
+              "generation": "1",
+              "jobId": "b12fdd0524a93c5a04f4fb208ed4ef46",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "5d2e4bcabbe008bc1fd42029ea18303e",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "a19092a7ff48d08c20236e6d09d24540"
+              ],
+              "reasonCode": "",
+              "requestId": "f15ca40d47554ad6862066c5020ab61d",
+              "sessionId": "e7fa50e3bc284508829968091a319083",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "97a9acb33ea142cf81eaf2633806e55c"
+            },
+            "pause": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 23.96,
+              "error": "",
+              "generation": "1",
+              "jobId": "b12fdd0524a93c5a04f4fb208ed4ef46",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "5d2e4bcabbe008bc1fd42029ea18303e",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "a19092a7ff48d08c20236e6d09d24540"
+              ],
+              "reasonCode": "paused",
+              "requestId": "f15ca40d47554ad6862066c5020ab61d",
+              "sessionId": "e7fa50e3bc284508829968091a319083",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "97a9acb33ea142cf81eaf2633806e55c"
+            },
+            "held": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 23.96,
+              "error": "",
+              "generation": "1",
+              "jobId": "b12fdd0524a93c5a04f4fb208ed4ef46",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "5d2e4bcabbe008bc1fd42029ea18303e",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "a19092a7ff48d08c20236e6d09d24540"
+              ],
+              "reasonCode": "paused",
+              "requestId": "f15ca40d47554ad6862066c5020ab61d",
+              "sessionId": "e7fa50e3bc284508829968091a319083",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "97a9acb33ea142cf81eaf2633806e55c"
+            },
+            "resumed": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 23.96,
+              "error": "",
+              "generation": "1",
+              "jobId": "b12fdd0524a93c5a04f4fb208ed4ef46",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "5d2e4bcabbe008bc1fd42029ea18303e",
+              "positionSeconds": 0.48,
+              "readerIds": [
+                "a19092a7ff48d08c20236e6d09d24540"
+              ],
+              "reasonCode": "",
+              "requestId": "f15ca40d47554ad6862066c5020ab61d",
+              "sessionId": "e7fa50e3bc284508829968091a319083",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "97a9acb33ea142cf81eaf2633806e55c"
+            },
+            "workerPidUnchanged": 1108246,
+            "complete": {
+              "acceptedHeartbeat": "33",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "33",
+              "appliedRevision": "6",
+              "cleanupCode": "",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 20,
+              "generation": "1",
+              "jobId": "b12fdd0524a93c5a04f4fb208ed4ef46",
+              "maximumReadEnd": "351314",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "351314",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": true,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "9f690939fc370101e06467da55cbd4ba",
+                "a19092a7ff48d08c20236e6d09d24540"
+              ],
+              "released": false,
+              "requestId": "d9af476cf0ef486b83115014159552de",
+              "samples": 480,
+              "sessionId": "e7fa50e3bc284508829968091a319083",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "complete",
+              "version": 1,
+              "visibleBytes": "352650",
+              "workerId": 1108246,
+              "writerInstanceId": "97a9acb33ea142cf81eaf2633806e55c",
+              "writtenBytes": "352650"
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.120000000000001,
+                "toleranceSeconds": 0.09,
+                "elapsedSeconds": 0.278826460998971
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.375,
+                "toleranceSeconds": 0.09,
+                "elapsedSeconds": 0.020656107008107938
+              },
+              {
+                "targetSeconds": 22.785,
+                "observedSeconds": 22.785,
+                "toleranceSeconds": 0.09,
+                "elapsedSeconds": 0.015806975003215484
+              }
+            ],
+            "finished": {
+              "active": false,
+              "audioCodec": "",
+              "decoderReaders": 0,
+              "durationSeconds": 23.96,
+              "error": "",
+              "generation": "1",
+              "jobId": "b12fdd0524a93c5a04f4fb208ed4ef46",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": true,
+              "playbackId": "5d2e4bcabbe008bc1fd42029ea18303e",
+              "positionSeconds": 23.96,
+              "readerIds": [
+                "a19092a7ff48d08c20236e6d09d24540"
+              ],
+              "reasonCode": "source-complete",
+              "requestId": "f15ca40d47554ad6862066c5020ab61d",
+              "sessionId": "e7fa50e3bc284508829968091a319083",
+              "state": "finished",
+              "version": 1,
+              "videoCodec": "",
+              "writerInstanceId": "97a9acb33ea142cf81eaf2633806e55c"
+            },
+            "eofWallSeconds": 1.3884051890054252,
+            "releaseSeconds": 0.028612626003450714,
+            "proof": {
+              "acceptedHeartbeat": "33",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "33",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 20,
+              "generation": "1",
+              "jobId": "b12fdd0524a93c5a04f4fb208ed4ef46",
+              "maximumReadEnd": "351314",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "351314",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "9f690939fc370101e06467da55cbd4ba",
+                "a19092a7ff48d08c20236e6d09d24540"
+              ],
+              "released": true,
+              "requestId": "d9af476cf0ef486b83115014159552de",
+              "samples": 480,
+              "sessionId": "e7fa50e3bc284508829968091a319083",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "cancelled",
+              "version": 1,
+              "visibleBytes": "352650",
+              "workerId": 1108246,
+              "writerInstanceId": "97a9acb33ea142cf81eaf2633806e55c",
+              "writtenBytes": "352650"
+            },
+            "forgotten": {
+              "acceptedHeartbeat": "33",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "33",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": true,
+              "fragments": 20,
+              "generation": "1",
+              "jobId": "b12fdd0524a93c5a04f4fb208ed4ef46",
+              "maximumReadEnd": "351314",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "351314",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "9f690939fc370101e06467da55cbd4ba",
+                "a19092a7ff48d08c20236e6d09d24540"
+              ],
+              "released": true,
+              "requestId": "d9af476cf0ef486b83115014159552de",
+              "samples": 480,
+              "sessionId": "e7fa50e3bc284508829968091a319083",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "forgotten",
+              "version": 1,
+              "visibleBytes": "352650",
+              "workerId": 1108246,
+              "writerInstanceId": "97a9acb33ea142cf81eaf2633806e55c",
+              "writtenBytes": "352650"
+            },
+            "originalSha256": "13430690e117b727e0d5e0eb20fbc50a4091d7c09ef1be08193a888a8271b9d3"
+          }
+        ],
+        "mode": "continuous-h264-reordered-video-v1",
+        "defaultMode": "continuous-h264-video-v1",
+        "publicSdk": true,
+        "sourceSeconds": 24,
+        "physicalAppendOnly": true,
+        "actualPlayerPlayback": true,
+        "cachePixelAndPacketOracle": true,
+        "physicalScreenTimingMeasured": false,
+        "audioSupported": false,
+        "maxRequestSeconds": 0.24999435899371747,
+        "edition": "qt",
+        "temporaryWorkRemoved": true,
+        "processHistory": [
+          [
+            {
+              "pid": 1107694,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": -9,
+              "terminationSeconds": 0.03335700499883387
+            }
+          ],
+          [
+            {
+              "pid": 1107792,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": -9,
+              "terminationSeconds": 0.03359333999105729
+            }
+          ]
+        ],
+        "playerSha256": [
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5",
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5"
+        ],
+        "workerSha256": [
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf",
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf"
+        ],
+        "testSourceSha256": "e308ad757ec99cdd3c09a2dc644ca37d4e6e883b34bd52c1ebe408769282151f",
+        "readerRunnerSha256": "644b92db481809822256437657900e3498e06337a644dc2f63ee4a63f4b0eb17",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_continuous.py",
+            "sha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+          }
+        },
+        "scenario": "timing",
+        "stagedCopiesRemoved": true,
+        "originalPlayerSha256": "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5",
+        "stagingDriverSha256": "8ce5ef1400463129ce324454943182b7168dd625b5d3da85931ed2999f0355bf",
+        "helperPath": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_continuous.py",
+        "helperSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "modulesDirectory": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration"
+      },
+      "actualDriverExit": 0,
+      "evidence": {
+        "path": "_bin/reordered-timing-linux-checked/result.json",
+        "sha256": "bca4126c8ca911a34cdee463c754e03df7b0c774a3eb7192898b8253d073a8c9",
+        "bytes": 43861,
+        "keptLocal": true
+      },
+      "observations": {
+        "path": "_bin/reordered-timing-linux-checked/observations.json",
+        "sha256": "a8e6a5c2016a36cf28d380326bb47696899063f859162226038d68b93cdc32a4",
+        "bytes": 272048,
+        "keptLocal": true
+      },
+      "maxSeekErrorSeconds": 0.004999999999999005
+    },
+    "windowsQt": {
+      "result": {
+        "result": "PASS",
+        "count": 4,
+        "rows": [
+          {
+            "profile": "b2-25",
+            "result": "PASS",
+            "rate": "25",
+            "requestedBFrames": 2,
+            "sourceStream": {
+              "time_base": "1/12800",
+              "avg_frame_rate": "25/1",
+              "r_frame_rate": "25/1",
+              "duration_ts": 307200,
+              "has_b_frames": 2
+            },
+            "durationRational": "24",
+            "duration100ns": "240000000",
+            "presentationIntervals": [
+              "1/25"
+            ],
+            "samples": 600,
+            "decodedFrames": 600,
+            "partialProof": {
+              "packets": 75,
+              "frames": 75,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 74134,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 145345,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 209991,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 412958,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 412958,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": null,
+            "actualPlayback": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24,
+              "error": "",
+              "generation": "1",
+              "jobId": "1fbc1fea80939b9f7c945dd7be78e45f",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "a819a5c5b9e72a580c5ffd85e57bd5c2",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "944ee339e7a1809f72e12f613a7b6484"
+              ],
+              "reasonCode": "",
+              "requestId": "638c9a69f86348a188211ce8eee9e6a1",
+              "sessionId": "e54a01b6639148c5843d80c99a0dd3ea",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "fce88971698d471682020e9e2a5d1851"
+            },
+            "pause": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24,
+              "error": "",
+              "generation": "1",
+              "jobId": "1fbc1fea80939b9f7c945dd7be78e45f",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "a819a5c5b9e72a580c5ffd85e57bd5c2",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "944ee339e7a1809f72e12f613a7b6484"
+              ],
+              "reasonCode": "paused",
+              "requestId": "638c9a69f86348a188211ce8eee9e6a1",
+              "sessionId": "e54a01b6639148c5843d80c99a0dd3ea",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "fce88971698d471682020e9e2a5d1851"
+            },
+            "held": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24,
+              "error": "",
+              "generation": "1",
+              "jobId": "1fbc1fea80939b9f7c945dd7be78e45f",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "a819a5c5b9e72a580c5ffd85e57bd5c2",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "944ee339e7a1809f72e12f613a7b6484"
+              ],
+              "reasonCode": "paused",
+              "requestId": "638c9a69f86348a188211ce8eee9e6a1",
+              "sessionId": "e54a01b6639148c5843d80c99a0dd3ea",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "fce88971698d471682020e9e2a5d1851"
+            },
+            "resumed": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24,
+              "error": "",
+              "generation": "1",
+              "jobId": "1fbc1fea80939b9f7c945dd7be78e45f",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "a819a5c5b9e72a580c5ffd85e57bd5c2",
+              "positionSeconds": 0.48,
+              "readerIds": [
+                "944ee339e7a1809f72e12f613a7b6484"
+              ],
+              "reasonCode": "",
+              "requestId": "638c9a69f86348a188211ce8eee9e6a1",
+              "sessionId": "e54a01b6639148c5843d80c99a0dd3ea",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "fce88971698d471682020e9e2a5d1851"
+            },
+            "workerPidUnchanged": 8852,
+            "complete": {
+              "acceptedHeartbeat": "43",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "43",
+              "appliedRevision": "6",
+              "cleanupCode": "",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 24,
+              "generation": "1",
+              "jobId": "1fbc1fea80939b9f7c945dd7be78e45f",
+              "maximumReadEnd": "412958",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "412958",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": true,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "811de0c2980fe052f27ae7b2b777003d",
+                "944ee339e7a1809f72e12f613a7b6484"
+              ],
+              "released": false,
+              "requestId": "f0a7f846684741c0abd97729d506770e",
+              "samples": 600,
+              "sessionId": "e54a01b6639148c5843d80c99a0dd3ea",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "complete",
+              "version": 1,
+              "visibleBytes": "415090",
+              "workerId": 8852,
+              "writerInstanceId": "fce88971698d471682020e9e2a5d1851",
+              "writtenBytes": "415090"
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.120000000000001,
+                "toleranceSeconds": 0.05,
+                "elapsedSeconds": 0.04700000000593718
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.375,
+                "toleranceSeconds": 0.05,
+                "elapsedSeconds": 0.0
+              },
+              {
+                "targetSeconds": 22.825,
+                "observedSeconds": 22.84,
+                "toleranceSeconds": 0.05,
+                "elapsedSeconds": 0.23399999999674037
+              }
+            ],
+            "finished": {
+              "active": false,
+              "audioCodec": "",
+              "decoderReaders": 0,
+              "durationSeconds": 24,
+              "error": "",
+              "generation": "1",
+              "jobId": "1fbc1fea80939b9f7c945dd7be78e45f",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": true,
+              "playbackId": "a819a5c5b9e72a580c5ffd85e57bd5c2",
+              "positionSeconds": 24,
+              "readerIds": [
+                "944ee339e7a1809f72e12f613a7b6484"
+              ],
+              "reasonCode": "source-complete",
+              "requestId": "638c9a69f86348a188211ce8eee9e6a1",
+              "sessionId": "e54a01b6639148c5843d80c99a0dd3ea",
+              "state": "finished",
+              "version": 1,
+              "videoCodec": "",
+              "writerInstanceId": "fce88971698d471682020e9e2a5d1851"
+            },
+            "eofWallSeconds": 1.187000000005355,
+            "releaseSeconds": 0.01600000000325963,
+            "proof": {
+              "acceptedHeartbeat": "43",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "43",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 24,
+              "generation": "1",
+              "jobId": "1fbc1fea80939b9f7c945dd7be78e45f",
+              "maximumReadEnd": "412958",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "412958",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "811de0c2980fe052f27ae7b2b777003d",
+                "944ee339e7a1809f72e12f613a7b6484"
+              ],
+              "released": true,
+              "requestId": "f0a7f846684741c0abd97729d506770e",
+              "samples": 600,
+              "sessionId": "e54a01b6639148c5843d80c99a0dd3ea",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "cancelled",
+              "version": 1,
+              "visibleBytes": "415090",
+              "workerId": 8852,
+              "writerInstanceId": "fce88971698d471682020e9e2a5d1851",
+              "writtenBytes": "415090"
+            },
+            "forgotten": {
+              "acceptedHeartbeat": "43",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "43",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": true,
+              "fragments": 24,
+              "generation": "1",
+              "jobId": "1fbc1fea80939b9f7c945dd7be78e45f",
+              "maximumReadEnd": "412958",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "412958",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "811de0c2980fe052f27ae7b2b777003d",
+                "944ee339e7a1809f72e12f613a7b6484"
+              ],
+              "released": true,
+              "requestId": "f0a7f846684741c0abd97729d506770e",
+              "samples": 600,
+              "sessionId": "e54a01b6639148c5843d80c99a0dd3ea",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "forgotten",
+              "version": 1,
+              "visibleBytes": "415090",
+              "workerId": 8852,
+              "writerInstanceId": "fce88971698d471682020e9e2a5d1851",
+              "writtenBytes": "415090"
+            },
+            "originalSha256": "0632badaebd8ecb1f726b7d8cfb57874ec39bf0338c3a74c2d857d5209234570"
+          },
+          {
+            "profile": "b3-30000-1001",
+            "result": "PASS",
+            "rate": "30000/1001",
+            "requestedBFrames": 3,
+            "sourceStream": {
+              "time_base": "1/30000",
+              "avg_frame_rate": "30000/1001",
+              "r_frame_rate": "30000/1001",
+              "duration_ts": 720720,
+              "has_b_frames": 2
+            },
+            "durationRational": "3003/125",
+            "duration100ns": "240240000",
+            "presentationIntervals": [
+              "1001/30000"
+            ],
+            "samples": 720,
+            "decodedFrames": 720,
+            "partialProof": {
+              "packets": 100,
+              "frames": 100,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 88735,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 173877,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 250963,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 488634,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 488634,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": null,
+            "actualPlayback": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.024,
+              "error": "",
+              "generation": "1",
+              "jobId": "d1b4b393e2fbe53a3e01a15cfeb29884",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "e7502bf21a00556debf1448ac3b7e384",
+              "positionSeconds": 0.20020000000000002,
+              "readerIds": [
+                "b5e5711c74a775b67d70017e977d891a"
+              ],
+              "reasonCode": "",
+              "requestId": "b681a73ae64b45d8a85b4019ede07a57",
+              "sessionId": "2680e77a4db74eeebbdc280c0b87ac01",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "f9be5b74c78344e4b5056f7494bb9a4b"
+            },
+            "pause": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.024,
+              "error": "",
+              "generation": "1",
+              "jobId": "d1b4b393e2fbe53a3e01a15cfeb29884",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "e7502bf21a00556debf1448ac3b7e384",
+              "positionSeconds": 0.23356666666666667,
+              "readerIds": [
+                "b5e5711c74a775b67d70017e977d891a"
+              ],
+              "reasonCode": "paused",
+              "requestId": "b681a73ae64b45d8a85b4019ede07a57",
+              "sessionId": "2680e77a4db74eeebbdc280c0b87ac01",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "f9be5b74c78344e4b5056f7494bb9a4b"
+            },
+            "held": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.024,
+              "error": "",
+              "generation": "1",
+              "jobId": "d1b4b393e2fbe53a3e01a15cfeb29884",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "e7502bf21a00556debf1448ac3b7e384",
+              "positionSeconds": 0.23356666666666667,
+              "readerIds": [
+                "b5e5711c74a775b67d70017e977d891a"
+              ],
+              "reasonCode": "paused",
+              "requestId": "b681a73ae64b45d8a85b4019ede07a57",
+              "sessionId": "2680e77a4db74eeebbdc280c0b87ac01",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "f9be5b74c78344e4b5056f7494bb9a4b"
+            },
+            "resumed": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.024,
+              "error": "",
+              "generation": "1",
+              "jobId": "d1b4b393e2fbe53a3e01a15cfeb29884",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "e7502bf21a00556debf1448ac3b7e384",
+              "positionSeconds": 0.4337666666666667,
+              "readerIds": [
+                "b5e5711c74a775b67d70017e977d891a"
+              ],
+              "reasonCode": "",
+              "requestId": "b681a73ae64b45d8a85b4019ede07a57",
+              "sessionId": "2680e77a4db74eeebbdc280c0b87ac01",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "f9be5b74c78344e4b5056f7494bb9a4b"
+            },
+            "workerPidUnchanged": 10264,
+            "complete": {
+              "acceptedHeartbeat": "39",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "39",
+              "appliedRevision": "6",
+              "cleanupCode": "",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 29,
+              "generation": "1",
+              "jobId": "d1b4b393e2fbe53a3e01a15cfeb29884",
+              "maximumReadEnd": "488634",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "488634",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": true,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "b1ce25e9316d01835073cfb734d7d043",
+                "b5e5711c74a775b67d70017e977d891a"
+              ],
+              "released": false,
+              "requestId": "68d457a41a2b4b7782c2efd328aa84e0",
+              "samples": 720,
+              "sessionId": "2680e77a4db74eeebbdc280c0b87ac01",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "complete",
+              "version": 1,
+              "visibleBytes": "489825",
+              "workerId": 10264,
+              "writerInstanceId": "f9be5b74c78344e4b5056f7494bb9a4b",
+              "writtenBytes": "489825"
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.143466666666667,
+                "toleranceSeconds": 0.04336666666666667,
+                "elapsedSeconds": 0.23500000000058208
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.375,
+                "toleranceSeconds": 0.04336666666666667,
+                "elapsedSeconds": 0.014999999999417923
+              },
+              {
+                "targetSeconds": 22.849,
+                "observedSeconds": 22.856166666666667,
+                "toleranceSeconds": 0.04336666666666667,
+                "elapsedSeconds": 0.04700000000593718
+              }
+            ],
+            "finished": {
+              "active": false,
+              "audioCodec": "",
+              "decoderReaders": 0,
+              "durationSeconds": 24.024,
+              "error": "",
+              "generation": "1",
+              "jobId": "d1b4b393e2fbe53a3e01a15cfeb29884",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": true,
+              "playbackId": "e7502bf21a00556debf1448ac3b7e384",
+              "positionSeconds": 24.024,
+              "readerIds": [
+                "b5e5711c74a775b67d70017e977d891a"
+              ],
+              "reasonCode": "source-complete",
+              "requestId": "b681a73ae64b45d8a85b4019ede07a57",
+              "sessionId": "2680e77a4db74eeebbdc280c0b87ac01",
+              "state": "finished",
+              "version": 1,
+              "videoCodec": "",
+              "writerInstanceId": "f9be5b74c78344e4b5056f7494bb9a4b"
+            },
+            "eofWallSeconds": 1.2029999999940628,
+            "releaseSeconds": 0.01600000000325963,
+            "proof": {
+              "acceptedHeartbeat": "39",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "39",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 29,
+              "generation": "1",
+              "jobId": "d1b4b393e2fbe53a3e01a15cfeb29884",
+              "maximumReadEnd": "488634",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "488634",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "b1ce25e9316d01835073cfb734d7d043",
+                "b5e5711c74a775b67d70017e977d891a"
+              ],
+              "released": true,
+              "requestId": "68d457a41a2b4b7782c2efd328aa84e0",
+              "samples": 720,
+              "sessionId": "2680e77a4db74eeebbdc280c0b87ac01",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "cancelled",
+              "version": 1,
+              "visibleBytes": "489825",
+              "workerId": 10264,
+              "writerInstanceId": "f9be5b74c78344e4b5056f7494bb9a4b",
+              "writtenBytes": "489825"
+            },
+            "forgotten": {
+              "acceptedHeartbeat": "39",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "39",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": true,
+              "fragments": 29,
+              "generation": "1",
+              "jobId": "d1b4b393e2fbe53a3e01a15cfeb29884",
+              "maximumReadEnd": "488634",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "488634",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "b1ce25e9316d01835073cfb734d7d043",
+                "b5e5711c74a775b67d70017e977d891a"
+              ],
+              "released": true,
+              "requestId": "68d457a41a2b4b7782c2efd328aa84e0",
+              "samples": 720,
+              "sessionId": "2680e77a4db74eeebbdc280c0b87ac01",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "forgotten",
+              "version": 1,
+              "visibleBytes": "489825",
+              "workerId": 10264,
+              "writerInstanceId": "f9be5b74c78344e4b5056f7494bb9a4b",
+              "writtenBytes": "489825"
+            },
+            "originalSha256": "1cc7fe0e387332708be7832c4e14779fe600ac1ffb960d5433b815b75096d7a2"
+          },
+          {
+            "profile": "requested-b16-60000-1001",
+            "result": "PASS",
+            "rate": "60000/1001",
+            "requestedBFrames": 16,
+            "sourceStream": {
+              "time_base": "1/60000",
+              "avg_frame_rate": "60000/1001",
+              "r_frame_rate": "60000/1001",
+              "duration_ts": 1440439,
+              "has_b_frames": 2
+            },
+            "durationRational": "1440439/60000",
+            "duration100ns": "240073167",
+            "presentationIntervals": [
+              "1001/60000"
+            ],
+            "samples": 1439,
+            "decodedFrames": 1439,
+            "partialProof": {
+              "packets": 225,
+              "frames": 225,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 126087,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 243910,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 349447,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 681927,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 681927,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": null,
+            "actualPlayback": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.0073167,
+              "error": "",
+              "generation": "1",
+              "jobId": "18df80071e160c001acd7af85964adc5",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "240ccbe5bd9ccdfd3e96e8964d3b86e9",
+              "positionSeconds": 0.20020000000000002,
+              "readerIds": [
+                "687fbd4cda05f6224b99338d981d24be"
+              ],
+              "reasonCode": "",
+              "requestId": "0ba2ed0a247843e2a7bebcb79ac2baf2",
+              "sessionId": "2f917ca683c34b01b6fcecc3161d2421",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "befab087a48f4172a96e3892859e262b"
+            },
+            "pause": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.0073167,
+              "error": "",
+              "generation": "1",
+              "jobId": "18df80071e160c001acd7af85964adc5",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "240ccbe5bd9ccdfd3e96e8964d3b86e9",
+              "positionSeconds": 0.21688333333333334,
+              "readerIds": [
+                "687fbd4cda05f6224b99338d981d24be"
+              ],
+              "reasonCode": "paused",
+              "requestId": "0ba2ed0a247843e2a7bebcb79ac2baf2",
+              "sessionId": "2f917ca683c34b01b6fcecc3161d2421",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "befab087a48f4172a96e3892859e262b"
+            },
+            "held": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.0073167,
+              "error": "",
+              "generation": "1",
+              "jobId": "18df80071e160c001acd7af85964adc5",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "240ccbe5bd9ccdfd3e96e8964d3b86e9",
+              "positionSeconds": 0.21688333333333334,
+              "readerIds": [
+                "687fbd4cda05f6224b99338d981d24be"
+              ],
+              "reasonCode": "paused",
+              "requestId": "0ba2ed0a247843e2a7bebcb79ac2baf2",
+              "sessionId": "2f917ca683c34b01b6fcecc3161d2421",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "befab087a48f4172a96e3892859e262b"
+            },
+            "resumed": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.0073167,
+              "error": "",
+              "generation": "1",
+              "jobId": "18df80071e160c001acd7af85964adc5",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "240ccbe5bd9ccdfd3e96e8964d3b86e9",
+              "positionSeconds": 0.41708333333333336,
+              "readerIds": [
+                "687fbd4cda05f6224b99338d981d24be"
+              ],
+              "reasonCode": "",
+              "requestId": "0ba2ed0a247843e2a7bebcb79ac2baf2",
+              "sessionId": "2f917ca683c34b01b6fcecc3161d2421",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "befab087a48f4172a96e3892859e262b"
+            },
+            "workerPidUnchanged": 12436,
+            "complete": {
+              "acceptedHeartbeat": "45",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "45",
+              "appliedRevision": "6",
+              "cleanupCode": "",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 58,
+              "generation": "1",
+              "jobId": "18df80071e160c001acd7af85964adc5",
+              "maximumReadEnd": "681927",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "681927",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": true,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "9fb7a882d141d9fcb06c07d9fd130207",
+                "687fbd4cda05f6224b99338d981d24be"
+              ],
+              "released": false,
+              "requestId": "939e8c52537e42b69dfb4d9aec0f844f",
+              "samples": 1439,
+              "sessionId": "2f917ca683c34b01b6fcecc3161d2421",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "complete",
+              "version": 1,
+              "visibleBytes": "685501",
+              "workerId": 12436,
+              "writerInstanceId": "befab087a48f4172a96e3892859e262b",
+              "writtenBytes": "685501"
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.126783333333334,
+                "toleranceSeconds": 0.026683333333333337,
+                "elapsedSeconds": 0.25
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.3847166666666668,
+                "toleranceSeconds": 0.026683333333333337,
+                "elapsedSeconds": 0.21899999999732245
+              },
+              {
+                "targetSeconds": 22.8323167,
+                "observedSeconds": 22.839483333333334,
+                "toleranceSeconds": 0.026683333333333337,
+                "elapsedSeconds": 0.062000000005355105
+              }
+            ],
+            "finished": {
+              "active": false,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 24.0073167,
+              "error": "",
+              "generation": "1",
+              "jobId": "18df80071e160c001acd7af85964adc5",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": true,
+              "playbackId": "240ccbe5bd9ccdfd3e96e8964d3b86e9",
+              "positionSeconds": 24.0073167,
+              "readerIds": [
+                "687fbd4cda05f6224b99338d981d24be"
+              ],
+              "reasonCode": "source-complete",
+              "requestId": "0ba2ed0a247843e2a7bebcb79ac2baf2",
+              "sessionId": "2f917ca683c34b01b6fcecc3161d2421",
+              "state": "finished",
+              "version": 1,
+              "videoCodec": "",
+              "writerInstanceId": "befab087a48f4172a96e3892859e262b"
+            },
+            "eofWallSeconds": 1.2029999999940628,
+            "releaseSeconds": 0.03200000000651926,
+            "proof": {
+              "acceptedHeartbeat": "45",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "45",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 58,
+              "generation": "1",
+              "jobId": "18df80071e160c001acd7af85964adc5",
+              "maximumReadEnd": "681927",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "681927",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "9fb7a882d141d9fcb06c07d9fd130207",
+                "687fbd4cda05f6224b99338d981d24be"
+              ],
+              "released": true,
+              "requestId": "939e8c52537e42b69dfb4d9aec0f844f",
+              "samples": 1439,
+              "sessionId": "2f917ca683c34b01b6fcecc3161d2421",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "cancelled",
+              "version": 1,
+              "visibleBytes": "685501",
+              "workerId": 12436,
+              "writerInstanceId": "befab087a48f4172a96e3892859e262b",
+              "writtenBytes": "685501"
+            },
+            "forgotten": {
+              "acceptedHeartbeat": "45",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "45",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": true,
+              "fragments": 58,
+              "generation": "1",
+              "jobId": "18df80071e160c001acd7af85964adc5",
+              "maximumReadEnd": "681927",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "681927",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "9fb7a882d141d9fcb06c07d9fd130207",
+                "687fbd4cda05f6224b99338d981d24be"
+              ],
+              "released": true,
+              "requestId": "939e8c52537e42b69dfb4d9aec0f844f",
+              "samples": 1439,
+              "sessionId": "2f917ca683c34b01b6fcecc3161d2421",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "forgotten",
+              "version": 1,
+              "visibleBytes": "685501",
+              "workerId": 12436,
+              "writerInstanceId": "befab087a48f4172a96e3892859e262b",
+              "writtenBytes": "685501"
+            },
+            "originalSha256": "d37b8f72064589232e32627b7de45b4157a075cb5b12d2f0f41c393149e7a674"
+          },
+          {
+            "profile": "b2-vfr",
+            "result": "PASS",
+            "rate": "25",
+            "requestedBFrames": 2,
+            "sourceStream": {
+              "time_base": "1/12800",
+              "avg_frame_rate": "12000/599",
+              "r_frame_rate": "25/1",
+              "duration_ts": 306688,
+              "has_b_frames": 2
+            },
+            "durationRational": "599/25",
+            "duration100ns": "239600000",
+            "presentationIntervals": [
+              "1/25",
+              "2/25"
+            ],
+            "samples": 480,
+            "decodedFrames": 480,
+            "partialProof": {
+              "packets": 75,
+              "frames": 75,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 65517,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 125619,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 178960,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 351314,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 351314,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": null,
+            "actualPlayback": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 23.96,
+              "error": "",
+              "generation": "1",
+              "jobId": "4bfcbb5e105b2627e11571687240ebd7",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "27f97db6c9bad4ccb2702e45aee2dfe3",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "ec2bdddac44a76c864123ae9e00c63a8"
+              ],
+              "reasonCode": "",
+              "requestId": "1a2ee00159b84975a685ae38152ca166",
+              "sessionId": "e0e46bd3fa22450ca968b83f23409dc3",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "1bd980b6d3984caab42c9a4462c447cd"
+            },
+            "pause": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 23.96,
+              "error": "",
+              "generation": "1",
+              "jobId": "4bfcbb5e105b2627e11571687240ebd7",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "27f97db6c9bad4ccb2702e45aee2dfe3",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "ec2bdddac44a76c864123ae9e00c63a8"
+              ],
+              "reasonCode": "paused",
+              "requestId": "1a2ee00159b84975a685ae38152ca166",
+              "sessionId": "e0e46bd3fa22450ca968b83f23409dc3",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "1bd980b6d3984caab42c9a4462c447cd"
+            },
+            "held": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 23.96,
+              "error": "",
+              "generation": "1",
+              "jobId": "4bfcbb5e105b2627e11571687240ebd7",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "27f97db6c9bad4ccb2702e45aee2dfe3",
+              "positionSeconds": 0.24,
+              "readerIds": [
+                "ec2bdddac44a76c864123ae9e00c63a8"
+              ],
+              "reasonCode": "paused",
+              "requestId": "1a2ee00159b84975a685ae38152ca166",
+              "sessionId": "e0e46bd3fa22450ca968b83f23409dc3",
+              "state": "paused",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "1bd980b6d3984caab42c9a4462c447cd"
+            },
+            "resumed": {
+              "active": true,
+              "audioCodec": "",
+              "decoderReaders": 1,
+              "durationSeconds": 23.96,
+              "error": "",
+              "generation": "1",
+              "jobId": "4bfcbb5e105b2627e11571687240ebd7",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": false,
+              "playbackId": "27f97db6c9bad4ccb2702e45aee2dfe3",
+              "positionSeconds": 0.48,
+              "readerIds": [
+                "ec2bdddac44a76c864123ae9e00c63a8"
+              ],
+              "reasonCode": "",
+              "requestId": "1a2ee00159b84975a685ae38152ca166",
+              "sessionId": "e0e46bd3fa22450ca968b83f23409dc3",
+              "state": "playing",
+              "version": 1,
+              "videoCodec": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+              "writerInstanceId": "1bd980b6d3984caab42c9a4462c447cd"
+            },
+            "workerPidUnchanged": 3976,
+            "complete": {
+              "acceptedHeartbeat": "34",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "34",
+              "appliedRevision": "6",
+              "cleanupCode": "",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 20,
+              "generation": "1",
+              "jobId": "4bfcbb5e105b2627e11571687240ebd7",
+              "maximumReadEnd": "351314",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "351314",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": true,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "343523c26b22cf8175432e3659041a57",
+                "ec2bdddac44a76c864123ae9e00c63a8"
+              ],
+              "released": false,
+              "requestId": "5ba51cfa78f64387a9ec8b3e14fb8d2c",
+              "samples": 480,
+              "sessionId": "e0e46bd3fa22450ca968b83f23409dc3",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "complete",
+              "version": 1,
+              "visibleBytes": "352650",
+              "workerId": 3976,
+              "writerInstanceId": "1bd980b6d3984caab42c9a4462c447cd",
+              "writtenBytes": "352650"
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.120000000000001,
+                "toleranceSeconds": 0.09,
+                "elapsedSeconds": 0.09399999999732245
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.4000000000000001,
+                "toleranceSeconds": 0.09,
+                "elapsedSeconds": 0.23500000000058208
+              },
+              {
+                "targetSeconds": 22.785,
+                "observedSeconds": 22.8,
+                "toleranceSeconds": 0.09,
+                "elapsedSeconds": 0.07799999999406282
+              }
+            ],
+            "finished": {
+              "active": false,
+              "audioCodec": "",
+              "decoderReaders": 0,
+              "durationSeconds": 23.96,
+              "error": "",
+              "generation": "1",
+              "jobId": "4bfcbb5e105b2627e11571687240ebd7",
+              "mode": "continuous-h264-reordered-video-v1",
+              "ok": true,
+              "outputComplete": true,
+              "playbackId": "27f97db6c9bad4ccb2702e45aee2dfe3",
+              "positionSeconds": 23.96,
+              "readerIds": [
+                "ec2bdddac44a76c864123ae9e00c63a8"
+              ],
+              "reasonCode": "source-complete",
+              "requestId": "1a2ee00159b84975a685ae38152ca166",
+              "sessionId": "e0e46bd3fa22450ca968b83f23409dc3",
+              "state": "finished",
+              "version": 1,
+              "videoCodec": "",
+              "writerInstanceId": "1bd980b6d3984caab42c9a4462c447cd"
+            },
+            "eofWallSeconds": 1.1880000000091968,
+            "releaseSeconds": 0.031000000002677552,
+            "proof": {
+              "acceptedHeartbeat": "34",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "34",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": false,
+              "fragments": 20,
+              "generation": "1",
+              "jobId": "4bfcbb5e105b2627e11571687240ebd7",
+              "maximumReadEnd": "351314",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "351314",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "343523c26b22cf8175432e3659041a57",
+                "ec2bdddac44a76c864123ae9e00c63a8"
+              ],
+              "released": true,
+              "requestId": "5ba51cfa78f64387a9ec8b3e14fb8d2c",
+              "samples": 480,
+              "sessionId": "e0e46bd3fa22450ca968b83f23409dc3",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "cancelled",
+              "version": 1,
+              "visibleBytes": "352650",
+              "workerId": 3976,
+              "writerInstanceId": "1bd980b6d3984caab42c9a4462c447cd",
+              "writtenBytes": "352650"
+            },
+            "forgotten": {
+              "acceptedHeartbeat": "34",
+              "acceptedRevision": "6",
+              "appliedHeartbeat": "34",
+              "appliedRevision": "6",
+              "cleanupCode": "released",
+              "errorCode": "",
+              "forgotten": true,
+              "fragments": 20,
+              "generation": "1",
+              "jobId": "4bfcbb5e105b2627e11571687240ebd7",
+              "maximumReadEnd": "351314",
+              "mode": "continuous-h264-reordered-video-v1",
+              "neededLength": 0,
+              "neededOffset": "351314",
+              "ok": true,
+              "outputComplete": true,
+              "playbackReady": false,
+              "producerCode": "data",
+              "queuedUpdates": 0,
+              "readerIds": [
+                "343523c26b22cf8175432e3659041a57",
+                "ec2bdddac44a76c864123ae9e00c63a8"
+              ],
+              "released": true,
+              "requestId": "5ba51cfa78f64387a9ec8b3e14fb8d2c",
+              "samples": 480,
+              "sessionId": "e0e46bd3fa22450ca968b83f23409dc3",
+              "sourceComplete": true,
+              "sourceFilesClosed": true,
+              "state": "forgotten",
+              "version": 1,
+              "visibleBytes": "352650",
+              "workerId": 3976,
+              "writerInstanceId": "1bd980b6d3984caab42c9a4462c447cd",
+              "writtenBytes": "352650"
+            },
+            "originalSha256": "626c818801fc5f2c922bf6ce093f85ecabe65a22ead456e3c0622024031007dd"
+          }
+        ],
+        "mode": "continuous-h264-reordered-video-v1",
+        "defaultMode": "continuous-h264-video-v1",
+        "publicSdk": true,
+        "sourceSeconds": 24,
+        "physicalAppendOnly": true,
+        "actualPlayerPlayback": true,
+        "cachePixelAndPacketOracle": true,
+        "physicalScreenTimingMeasured": false,
+        "audioSupported": false,
+        "maxRequestSeconds": 0.21800000000803266,
+        "edition": "qt",
+        "temporaryWorkRemoved": true,
+        "processHistory": [
+          [
+            {
+              "pid": 12416,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.031000000002677552
+            }
+          ],
+          [
+            {
+              "pid": 6476,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.031000000002677552
+            }
+          ]
+        ],
+        "playerSha256": [
+          "54a2485403507d5d76c068ec91fa4efcc8d424d17eeea8006499eb6dfb5daab1",
+          "54a2485403507d5d76c068ec91fa4efcc8d424d17eeea8006499eb6dfb5daab1"
+        ],
+        "workerSha256": [
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9",
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9"
+        ],
+        "testSourceSha256": "e308ad757ec99cdd3c09a2dc644ca37d4e6e883b34bd52c1ebe408769282151f",
+        "readerRunnerSha256": "31d2d1d737be24311bbc1e48ac12cdd8d7ea61d2948afb3116fc13e61b63f881",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+            "sha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+          }
+        },
+        "scenario": "timing",
+        "stagedCopiesRemoved": true,
+        "originalPlayerSha256": "54a2485403507d5d76c068ec91fa4efcc8d424d17eeea8006499eb6dfb5daab1",
+        "stagingDriverSha256": "8ce5ef1400463129ce324454943182b7168dd625b5d3da85931ed2999f0355bf",
+        "helperPath": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+        "helperSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "modulesDirectory": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration"
+      },
+      "actualDriverExit": 0,
+      "evidence": {
+        "path": "_bin/reordered-timing-windows-checked-qt/result.json",
+        "sha256": "71a13d34f2c42f726a246c3ee02b4d3434bf19e13651c8780b4ff6dc136072e3",
+        "bytes": 45490,
+        "keptLocal": true
+      },
+      "observations": {
+        "path": "_bin/reordered-timing-windows-checked-qt/observations.json",
+        "sha256": "fdb69565cb94c87da88e07b5361f251824d1c0b2d561c5f5f5c1636d7b274772",
+        "bytes": 281096,
+        "keptLocal": true
+      },
+      "maxSeekErrorSeconds": 0.025000000000000133
+    },
+    "windowsClassic": {
+      "result": {
+        "result": "PASS",
+        "count": 4,
+        "rows": [
+          {
+            "profile": "b2-25",
+            "result": "PASS",
+            "rate": "25",
+            "requestedBFrames": 2,
+            "sourceStream": {
+              "time_base": "1/12800",
+              "avg_frame_rate": "25/1",
+              "r_frame_rate": "25/1",
+              "duration_ts": 307200,
+              "has_b_frames": 2
+            },
+            "durationRational": "24",
+            "duration100ns": "240000000",
+            "presentationIntervals": [
+              "1/25"
+            ],
+            "samples": 600,
+            "decodedFrames": 600,
+            "partialProof": {
+              "packets": 75,
+              "frames": 75,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 74134,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 145345,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 209991,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 277514,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 349039,
+                "complete": false
+              },
+              {
+                "revision": "7",
+                "physicalBytes": 412958,
+                "complete": false
+              },
+              {
+                "revision": "8",
+                "physicalBytes": 412958,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": {
+              "initialPublishedSeconds": 4,
+              "nextPublishedSeconds": 8,
+              "configuredInitialBufferSeconds": 10,
+              "first": {
+                "version": 1,
+                "ok": true,
+                "mode": "continuous-h264-reordered-video-v1",
+                "playbackId": "47f8f7d2c2b3c773a39ecdf56165df99",
+                "requestId": "5acde1214f3240058f121d49558180d1",
+                "jobId": "1985aa7947abc792ca85e32d20698f19",
+                "sessionId": "d263ecd39c9848d7932605c9c484386c",
+                "generation": "1",
+                "writerInstanceId": "269279c3a70447bc9858d04931c543d3",
+                "state": "buffering",
+                "error": "",
+                "active": true,
+                "positionSeconds": 0.0,
+                "durationSeconds": 24.0,
+                "outputComplete": false,
+                "decoderReaders": 1,
+                "readerIds": [
+                  "31adb80911740caf01bb374667ec62e0"
+                ]
+              },
+              "belowThreshold": {
+                "version": 1,
+                "ok": true,
+                "mode": "continuous-h264-reordered-video-v1",
+                "playbackId": "47f8f7d2c2b3c773a39ecdf56165df99",
+                "requestId": "5acde1214f3240058f121d49558180d1",
+                "jobId": "1985aa7947abc792ca85e32d20698f19",
+                "sessionId": "d263ecd39c9848d7932605c9c484386c",
+                "generation": "1",
+                "writerInstanceId": "269279c3a70447bc9858d04931c543d3",
+                "state": "buffering",
+                "error": "",
+                "active": true,
+                "positionSeconds": 0.0,
+                "durationSeconds": 24.0,
+                "outputComplete": false,
+                "decoderReaders": 1,
+                "readerIds": [
+                  "31adb80911740caf01bb374667ec62e0"
+                ]
+              }
+            },
+            "actualPlayback": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "47f8f7d2c2b3c773a39ecdf56165df99",
+              "requestId": "5acde1214f3240058f121d49558180d1",
+              "jobId": "1985aa7947abc792ca85e32d20698f19",
+              "sessionId": "d263ecd39c9848d7932605c9c484386c",
+              "generation": "1",
+              "writerInstanceId": "269279c3a70447bc9858d04931c543d3",
+              "state": "playing",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.227,
+              "durationSeconds": 24.0,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "31adb80911740caf01bb374667ec62e0"
+              ]
+            },
+            "pause": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "47f8f7d2c2b3c773a39ecdf56165df99",
+              "requestId": "5acde1214f3240058f121d49558180d1",
+              "jobId": "1985aa7947abc792ca85e32d20698f19",
+              "sessionId": "d263ecd39c9848d7932605c9c484386c",
+              "generation": "1",
+              "writerInstanceId": "269279c3a70447bc9858d04931c543d3",
+              "state": "paused",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.238,
+              "durationSeconds": 24.0,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "31adb80911740caf01bb374667ec62e0"
+              ]
+            },
+            "held": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "47f8f7d2c2b3c773a39ecdf56165df99",
+              "requestId": "5acde1214f3240058f121d49558180d1",
+              "jobId": "1985aa7947abc792ca85e32d20698f19",
+              "sessionId": "d263ecd39c9848d7932605c9c484386c",
+              "generation": "1",
+              "writerInstanceId": "269279c3a70447bc9858d04931c543d3",
+              "state": "paused",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.238,
+              "durationSeconds": 24.0,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "31adb80911740caf01bb374667ec62e0"
+              ]
+            },
+            "resumed": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "47f8f7d2c2b3c773a39ecdf56165df99",
+              "requestId": "5acde1214f3240058f121d49558180d1",
+              "jobId": "1985aa7947abc792ca85e32d20698f19",
+              "sessionId": "d263ecd39c9848d7932605c9c484386c",
+              "generation": "1",
+              "writerInstanceId": "269279c3a70447bc9858d04931c543d3",
+              "state": "playing",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.458,
+              "durationSeconds": 24.0,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "31adb80911740caf01bb374667ec62e0"
+              ]
+            },
+            "workerPidUnchanged": 4368,
+            "complete": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "1985aa7947abc792ca85e32d20698f19",
+              "requestId": "d26d2301c09e48e3998040563fd0606c",
+              "sessionId": "d263ecd39c9848d7932605c9c484386c",
+              "generation": "1",
+              "writerInstanceId": "269279c3a70447bc9858d04931c543d3",
+              "state": "complete",
+              "errorCode": "",
+              "cleanupCode": "",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "49",
+              "appliedHeartbeat": "49",
+              "producerCode": "data",
+              "neededOffset": "412958",
+              "visibleBytes": "415090",
+              "writtenBytes": "415090",
+              "maximumReadEnd": "412958",
+              "fragments": 24,
+              "samples": 600,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 4368,
+              "playbackReady": true,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": false,
+              "forgotten": false,
+              "readerIds": [
+                "5bdc1f96fa935938de9d6b2ed880d808",
+                "31adb80911740caf01bb374667ec62e0"
+              ]
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.125,
+                "toleranceSeconds": 0.05,
+                "elapsedSeconds": 0.0
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.375,
+                "toleranceSeconds": 0.05,
+                "elapsedSeconds": 0.01600000000325963
+              },
+              {
+                "targetSeconds": 22.825,
+                "observedSeconds": 22.825,
+                "toleranceSeconds": 0.05,
+                "elapsedSeconds": 0.014999999999417923
+              }
+            ],
+            "finished": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "47f8f7d2c2b3c773a39ecdf56165df99",
+              "requestId": "5acde1214f3240058f121d49558180d1",
+              "jobId": "1985aa7947abc792ca85e32d20698f19",
+              "sessionId": "d263ecd39c9848d7932605c9c484386c",
+              "generation": "1",
+              "writerInstanceId": "269279c3a70447bc9858d04931c543d3",
+              "state": "finished",
+              "error": "",
+              "active": false,
+              "positionSeconds": 24.0,
+              "durationSeconds": 24.0,
+              "outputComplete": true,
+              "decoderReaders": 1,
+              "readerIds": [
+                "31adb80911740caf01bb374667ec62e0"
+              ]
+            },
+            "eofWallSeconds": 1.2039999999979045,
+            "releaseSeconds": 0.17100000000209548,
+            "proof": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "1985aa7947abc792ca85e32d20698f19",
+              "requestId": "d26d2301c09e48e3998040563fd0606c",
+              "sessionId": "d263ecd39c9848d7932605c9c484386c",
+              "generation": "1",
+              "writerInstanceId": "269279c3a70447bc9858d04931c543d3",
+              "state": "cancelled",
+              "errorCode": "",
+              "cleanupCode": "released",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "49",
+              "appliedHeartbeat": "49",
+              "producerCode": "data",
+              "neededOffset": "412958",
+              "visibleBytes": "415090",
+              "writtenBytes": "415090",
+              "maximumReadEnd": "412958",
+              "fragments": 24,
+              "samples": 600,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 4368,
+              "playbackReady": false,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": true,
+              "forgotten": false,
+              "readerIds": [
+                "5bdc1f96fa935938de9d6b2ed880d808",
+                "31adb80911740caf01bb374667ec62e0"
+              ]
+            },
+            "forgotten": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "1985aa7947abc792ca85e32d20698f19",
+              "requestId": "d26d2301c09e48e3998040563fd0606c",
+              "sessionId": "d263ecd39c9848d7932605c9c484386c",
+              "generation": "1",
+              "writerInstanceId": "269279c3a70447bc9858d04931c543d3",
+              "state": "forgotten",
+              "errorCode": "",
+              "cleanupCode": "released",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "49",
+              "appliedHeartbeat": "49",
+              "producerCode": "data",
+              "neededOffset": "412958",
+              "visibleBytes": "415090",
+              "writtenBytes": "415090",
+              "maximumReadEnd": "412958",
+              "fragments": 24,
+              "samples": 600,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 4368,
+              "playbackReady": false,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": true,
+              "forgotten": true,
+              "readerIds": [
+                "5bdc1f96fa935938de9d6b2ed880d808",
+                "31adb80911740caf01bb374667ec62e0"
+              ]
+            },
+            "originalSha256": "0632badaebd8ecb1f726b7d8cfb57874ec39bf0338c3a74c2d857d5209234570"
+          },
+          {
+            "profile": "b3-30000-1001",
+            "result": "PASS",
+            "rate": "30000/1001",
+            "requestedBFrames": 3,
+            "sourceStream": {
+              "time_base": "1/30000",
+              "avg_frame_rate": "30000/1001",
+              "r_frame_rate": "30000/1001",
+              "duration_ts": 720720,
+              "has_b_frames": 2
+            },
+            "durationRational": "3003/125",
+            "duration100ns": "240240000",
+            "presentationIntervals": [
+              "1001/30000"
+            ],
+            "samples": 720,
+            "decodedFrames": 720,
+            "partialProof": {
+              "packets": 100,
+              "frames": 100,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 88735,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 173877,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 250963,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 329664,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 413350,
+                "complete": false
+              },
+              {
+                "revision": "7",
+                "physicalBytes": 488634,
+                "complete": false
+              },
+              {
+                "revision": "8",
+                "physicalBytes": 488634,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": {
+              "initialPublishedSeconds": 4,
+              "nextPublishedSeconds": 8,
+              "configuredInitialBufferSeconds": 10,
+              "first": {
+                "version": 1,
+                "ok": true,
+                "mode": "continuous-h264-reordered-video-v1",
+                "playbackId": "099d2ce4b189f6de62795b07709741a2",
+                "requestId": "c3d57b809cf84d189a577c0d63ce1475",
+                "jobId": "6571be55668644cce19936d8c4372102",
+                "sessionId": "c6fd019244b94965bcb8c0a3c0eb2483",
+                "generation": "1",
+                "writerInstanceId": "bb399195c30844db8d69b6e7888eacb1",
+                "state": "buffering",
+                "error": "",
+                "active": true,
+                "positionSeconds": 0.0,
+                "durationSeconds": 24.024,
+                "outputComplete": false,
+                "decoderReaders": 1,
+                "readerIds": [
+                  "a78dda8dff651152af8803bfe9a0811f"
+                ]
+              },
+              "belowThreshold": {
+                "version": 1,
+                "ok": true,
+                "mode": "continuous-h264-reordered-video-v1",
+                "playbackId": "099d2ce4b189f6de62795b07709741a2",
+                "requestId": "c3d57b809cf84d189a577c0d63ce1475",
+                "jobId": "6571be55668644cce19936d8c4372102",
+                "sessionId": "c6fd019244b94965bcb8c0a3c0eb2483",
+                "generation": "1",
+                "writerInstanceId": "bb399195c30844db8d69b6e7888eacb1",
+                "state": "buffering",
+                "error": "",
+                "active": true,
+                "positionSeconds": 0.0,
+                "durationSeconds": 24.024,
+                "outputComplete": false,
+                "decoderReaders": 1,
+                "readerIds": [
+                  "a78dda8dff651152af8803bfe9a0811f"
+                ]
+              }
+            },
+            "actualPlayback": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "099d2ce4b189f6de62795b07709741a2",
+              "requestId": "c3d57b809cf84d189a577c0d63ce1475",
+              "jobId": "6571be55668644cce19936d8c4372102",
+              "sessionId": "c6fd019244b94965bcb8c0a3c0eb2483",
+              "generation": "1",
+              "writerInstanceId": "bb399195c30844db8d69b6e7888eacb1",
+              "state": "playing",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.222,
+              "durationSeconds": 24.024,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "a78dda8dff651152af8803bfe9a0811f"
+              ]
+            },
+            "pause": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "099d2ce4b189f6de62795b07709741a2",
+              "requestId": "c3d57b809cf84d189a577c0d63ce1475",
+              "jobId": "6571be55668644cce19936d8c4372102",
+              "sessionId": "c6fd019244b94965bcb8c0a3c0eb2483",
+              "generation": "1",
+              "writerInstanceId": "bb399195c30844db8d69b6e7888eacb1",
+              "state": "paused",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.262,
+              "durationSeconds": 24.024,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "a78dda8dff651152af8803bfe9a0811f"
+              ]
+            },
+            "held": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "099d2ce4b189f6de62795b07709741a2",
+              "requestId": "c3d57b809cf84d189a577c0d63ce1475",
+              "jobId": "6571be55668644cce19936d8c4372102",
+              "sessionId": "c6fd019244b94965bcb8c0a3c0eb2483",
+              "generation": "1",
+              "writerInstanceId": "bb399195c30844db8d69b6e7888eacb1",
+              "state": "paused",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.262,
+              "durationSeconds": 24.024,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "a78dda8dff651152af8803bfe9a0811f"
+              ]
+            },
+            "resumed": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "099d2ce4b189f6de62795b07709741a2",
+              "requestId": "c3d57b809cf84d189a577c0d63ce1475",
+              "jobId": "6571be55668644cce19936d8c4372102",
+              "sessionId": "c6fd019244b94965bcb8c0a3c0eb2483",
+              "generation": "1",
+              "writerInstanceId": "bb399195c30844db8d69b6e7888eacb1",
+              "state": "playing",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.472,
+              "durationSeconds": 24.024,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "a78dda8dff651152af8803bfe9a0811f"
+              ]
+            },
+            "workerPidUnchanged": 3244,
+            "complete": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "6571be55668644cce19936d8c4372102",
+              "requestId": "fc75aa1e58204211a9e0c39528f79c45",
+              "sessionId": "c6fd019244b94965bcb8c0a3c0eb2483",
+              "generation": "1",
+              "writerInstanceId": "bb399195c30844db8d69b6e7888eacb1",
+              "state": "complete",
+              "errorCode": "",
+              "cleanupCode": "",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "46",
+              "appliedHeartbeat": "46",
+              "producerCode": "data",
+              "neededOffset": "488634",
+              "visibleBytes": "489825",
+              "writtenBytes": "489825",
+              "maximumReadEnd": "488634",
+              "fragments": 29,
+              "samples": 720,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 3244,
+              "playbackReady": true,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": false,
+              "forgotten": false,
+              "readerIds": [
+                "b92959e0a37ac7bb9d38e7a17dce2f5d",
+                "a78dda8dff651152af8803bfe9a0811f"
+              ]
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.125,
+                "toleranceSeconds": 0.04336666666666667,
+                "elapsedSeconds": 0.0
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.375,
+                "toleranceSeconds": 0.04336666666666667,
+                "elapsedSeconds": 0.014999999999417923
+              },
+              {
+                "targetSeconds": 22.849,
+                "observedSeconds": 22.849,
+                "toleranceSeconds": 0.04336666666666667,
+                "elapsedSeconds": 0.01600000000325963
+              }
+            ],
+            "finished": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "099d2ce4b189f6de62795b07709741a2",
+              "requestId": "c3d57b809cf84d189a577c0d63ce1475",
+              "jobId": "6571be55668644cce19936d8c4372102",
+              "sessionId": "c6fd019244b94965bcb8c0a3c0eb2483",
+              "generation": "1",
+              "writerInstanceId": "bb399195c30844db8d69b6e7888eacb1",
+              "state": "finished",
+              "error": "",
+              "active": false,
+              "positionSeconds": 24.024,
+              "durationSeconds": 24.024,
+              "outputComplete": true,
+              "decoderReaders": 1,
+              "readerIds": [
+                "a78dda8dff651152af8803bfe9a0811f"
+              ]
+            },
+            "eofWallSeconds": 1.2029999999940628,
+            "releaseSeconds": 0.20300000000861473,
+            "proof": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "6571be55668644cce19936d8c4372102",
+              "requestId": "fc75aa1e58204211a9e0c39528f79c45",
+              "sessionId": "c6fd019244b94965bcb8c0a3c0eb2483",
+              "generation": "1",
+              "writerInstanceId": "bb399195c30844db8d69b6e7888eacb1",
+              "state": "cancelled",
+              "errorCode": "",
+              "cleanupCode": "released",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "46",
+              "appliedHeartbeat": "46",
+              "producerCode": "data",
+              "neededOffset": "488634",
+              "visibleBytes": "489825",
+              "writtenBytes": "489825",
+              "maximumReadEnd": "488634",
+              "fragments": 29,
+              "samples": 720,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 3244,
+              "playbackReady": false,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": true,
+              "forgotten": false,
+              "readerIds": [
+                "b92959e0a37ac7bb9d38e7a17dce2f5d",
+                "a78dda8dff651152af8803bfe9a0811f"
+              ]
+            },
+            "forgotten": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "6571be55668644cce19936d8c4372102",
+              "requestId": "fc75aa1e58204211a9e0c39528f79c45",
+              "sessionId": "c6fd019244b94965bcb8c0a3c0eb2483",
+              "generation": "1",
+              "writerInstanceId": "bb399195c30844db8d69b6e7888eacb1",
+              "state": "forgotten",
+              "errorCode": "",
+              "cleanupCode": "released",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "46",
+              "appliedHeartbeat": "46",
+              "producerCode": "data",
+              "neededOffset": "488634",
+              "visibleBytes": "489825",
+              "writtenBytes": "489825",
+              "maximumReadEnd": "488634",
+              "fragments": 29,
+              "samples": 720,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 3244,
+              "playbackReady": false,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": true,
+              "forgotten": true,
+              "readerIds": [
+                "b92959e0a37ac7bb9d38e7a17dce2f5d",
+                "a78dda8dff651152af8803bfe9a0811f"
+              ]
+            },
+            "originalSha256": "1cc7fe0e387332708be7832c4e14779fe600ac1ffb960d5433b815b75096d7a2"
+          },
+          {
+            "profile": "requested-b16-60000-1001",
+            "result": "PASS",
+            "rate": "60000/1001",
+            "requestedBFrames": 16,
+            "sourceStream": {
+              "time_base": "1/60000",
+              "avg_frame_rate": "60000/1001",
+              "r_frame_rate": "60000/1001",
+              "duration_ts": 1440439,
+              "has_b_frames": 2
+            },
+            "durationRational": "1440439/60000",
+            "duration100ns": "240073167",
+            "presentationIntervals": [
+              "1001/60000"
+            ],
+            "samples": 1439,
+            "decodedFrames": 1439,
+            "partialProof": {
+              "packets": 225,
+              "frames": 225,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 126087,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 243910,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 349447,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 461407,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 576154,
+                "complete": false
+              },
+              {
+                "revision": "7",
+                "physicalBytes": 681927,
+                "complete": false
+              },
+              {
+                "revision": "8",
+                "physicalBytes": 681927,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": {
+              "initialPublishedSeconds": 4,
+              "nextPublishedSeconds": 8,
+              "configuredInitialBufferSeconds": 10,
+              "first": {
+                "version": 1,
+                "ok": true,
+                "mode": "continuous-h264-reordered-video-v1",
+                "playbackId": "058df667cde2252f5e323c084375c2fb",
+                "requestId": "cdea408d5f2543cf8166dec5d2282a2f",
+                "jobId": "c466157005115852749d47886329f4a3",
+                "sessionId": "0bca6e3e759240c29ea74f77e7a6669e",
+                "generation": "1",
+                "writerInstanceId": "a09cab763e7b4170b2e6e0595eaef0de",
+                "state": "buffering",
+                "error": "",
+                "active": true,
+                "positionSeconds": 0.0,
+                "durationSeconds": 24.0073167,
+                "outputComplete": false,
+                "decoderReaders": 1,
+                "readerIds": [
+                  "82e249b7497b6a9c175d2708d8d55489"
+                ]
+              },
+              "belowThreshold": {
+                "version": 1,
+                "ok": true,
+                "mode": "continuous-h264-reordered-video-v1",
+                "playbackId": "058df667cde2252f5e323c084375c2fb",
+                "requestId": "cdea408d5f2543cf8166dec5d2282a2f",
+                "jobId": "c466157005115852749d47886329f4a3",
+                "sessionId": "0bca6e3e759240c29ea74f77e7a6669e",
+                "generation": "1",
+                "writerInstanceId": "a09cab763e7b4170b2e6e0595eaef0de",
+                "state": "buffering",
+                "error": "",
+                "active": true,
+                "positionSeconds": 0.0,
+                "durationSeconds": 24.0073167,
+                "outputComplete": false,
+                "decoderReaders": 1,
+                "readerIds": [
+                  "82e249b7497b6a9c175d2708d8d55489"
+                ]
+              }
+            },
+            "actualPlayback": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "058df667cde2252f5e323c084375c2fb",
+              "requestId": "cdea408d5f2543cf8166dec5d2282a2f",
+              "jobId": "c466157005115852749d47886329f4a3",
+              "sessionId": "0bca6e3e759240c29ea74f77e7a6669e",
+              "generation": "1",
+              "writerInstanceId": "a09cab763e7b4170b2e6e0595eaef0de",
+              "state": "playing",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.216,
+              "durationSeconds": 24.0073167,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "82e249b7497b6a9c175d2708d8d55489"
+              ]
+            },
+            "pause": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "058df667cde2252f5e323c084375c2fb",
+              "requestId": "cdea408d5f2543cf8166dec5d2282a2f",
+              "jobId": "c466157005115852749d47886329f4a3",
+              "sessionId": "0bca6e3e759240c29ea74f77e7a6669e",
+              "generation": "1",
+              "writerInstanceId": "a09cab763e7b4170b2e6e0595eaef0de",
+              "state": "paused",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.216,
+              "durationSeconds": 24.0073167,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "82e249b7497b6a9c175d2708d8d55489"
+              ]
+            },
+            "held": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "058df667cde2252f5e323c084375c2fb",
+              "requestId": "cdea408d5f2543cf8166dec5d2282a2f",
+              "jobId": "c466157005115852749d47886329f4a3",
+              "sessionId": "0bca6e3e759240c29ea74f77e7a6669e",
+              "generation": "1",
+              "writerInstanceId": "a09cab763e7b4170b2e6e0595eaef0de",
+              "state": "paused",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.236,
+              "durationSeconds": 24.0073167,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "82e249b7497b6a9c175d2708d8d55489"
+              ]
+            },
+            "resumed": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "058df667cde2252f5e323c084375c2fb",
+              "requestId": "cdea408d5f2543cf8166dec5d2282a2f",
+              "jobId": "c466157005115852749d47886329f4a3",
+              "sessionId": "0bca6e3e759240c29ea74f77e7a6669e",
+              "generation": "1",
+              "writerInstanceId": "a09cab763e7b4170b2e6e0595eaef0de",
+              "state": "playing",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.456,
+              "durationSeconds": 24.0073167,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "82e249b7497b6a9c175d2708d8d55489"
+              ]
+            },
+            "workerPidUnchanged": 5308,
+            "complete": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "c466157005115852749d47886329f4a3",
+              "requestId": "0161d39abe4b4d2391d6ebc9e6db95cd",
+              "sessionId": "0bca6e3e759240c29ea74f77e7a6669e",
+              "generation": "1",
+              "writerInstanceId": "a09cab763e7b4170b2e6e0595eaef0de",
+              "state": "complete",
+              "errorCode": "",
+              "cleanupCode": "",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "44",
+              "appliedHeartbeat": "44",
+              "producerCode": "data",
+              "neededOffset": "681927",
+              "visibleBytes": "685501",
+              "writtenBytes": "685501",
+              "maximumReadEnd": "681927",
+              "fragments": 58,
+              "samples": 1439,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 5308,
+              "playbackReady": true,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": false,
+              "forgotten": false,
+              "readerIds": [
+                "5e2b6c70e3cd95b9287d6ede67d44b7b",
+                "82e249b7497b6a9c175d2708d8d55489"
+              ]
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.125,
+                "toleranceSeconds": 0.026683333333333337,
+                "elapsedSeconds": 0.01600000000325963
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.375,
+                "toleranceSeconds": 0.026683333333333337,
+                "elapsedSeconds": 0.031000000002677552
+              },
+              {
+                "targetSeconds": 22.8323167,
+                "observedSeconds": 22.8323167,
+                "toleranceSeconds": 0.026683333333333337,
+                "elapsedSeconds": 0.031000000002677552
+              }
+            ],
+            "finished": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "058df667cde2252f5e323c084375c2fb",
+              "requestId": "cdea408d5f2543cf8166dec5d2282a2f",
+              "jobId": "c466157005115852749d47886329f4a3",
+              "sessionId": "0bca6e3e759240c29ea74f77e7a6669e",
+              "generation": "1",
+              "writerInstanceId": "a09cab763e7b4170b2e6e0595eaef0de",
+              "state": "finished",
+              "error": "",
+              "active": false,
+              "positionSeconds": 23.9833167,
+              "durationSeconds": 24.0073167,
+              "outputComplete": true,
+              "decoderReaders": 1,
+              "readerIds": [
+                "82e249b7497b6a9c175d2708d8d55489"
+              ]
+            },
+            "eofWallSeconds": 1.2189999999973224,
+            "releaseSeconds": 0.1870000000053551,
+            "proof": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "c466157005115852749d47886329f4a3",
+              "requestId": "0161d39abe4b4d2391d6ebc9e6db95cd",
+              "sessionId": "0bca6e3e759240c29ea74f77e7a6669e",
+              "generation": "1",
+              "writerInstanceId": "a09cab763e7b4170b2e6e0595eaef0de",
+              "state": "cancelled",
+              "errorCode": "",
+              "cleanupCode": "released",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "44",
+              "appliedHeartbeat": "44",
+              "producerCode": "data",
+              "neededOffset": "681927",
+              "visibleBytes": "685501",
+              "writtenBytes": "685501",
+              "maximumReadEnd": "681927",
+              "fragments": 58,
+              "samples": 1439,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 5308,
+              "playbackReady": false,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": true,
+              "forgotten": false,
+              "readerIds": [
+                "5e2b6c70e3cd95b9287d6ede67d44b7b",
+                "82e249b7497b6a9c175d2708d8d55489"
+              ]
+            },
+            "forgotten": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "c466157005115852749d47886329f4a3",
+              "requestId": "0161d39abe4b4d2391d6ebc9e6db95cd",
+              "sessionId": "0bca6e3e759240c29ea74f77e7a6669e",
+              "generation": "1",
+              "writerInstanceId": "a09cab763e7b4170b2e6e0595eaef0de",
+              "state": "forgotten",
+              "errorCode": "",
+              "cleanupCode": "released",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "44",
+              "appliedHeartbeat": "44",
+              "producerCode": "data",
+              "neededOffset": "681927",
+              "visibleBytes": "685501",
+              "writtenBytes": "685501",
+              "maximumReadEnd": "681927",
+              "fragments": 58,
+              "samples": 1439,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 5308,
+              "playbackReady": false,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": true,
+              "forgotten": true,
+              "readerIds": [
+                "5e2b6c70e3cd95b9287d6ede67d44b7b",
+                "82e249b7497b6a9c175d2708d8d55489"
+              ]
+            },
+            "originalSha256": "d37b8f72064589232e32627b7de45b4157a075cb5b12d2f0f41c393149e7a674"
+          },
+          {
+            "profile": "b2-vfr",
+            "result": "PASS",
+            "rate": "25",
+            "requestedBFrames": 2,
+            "sourceStream": {
+              "time_base": "1/12800",
+              "avg_frame_rate": "12000/599",
+              "r_frame_rate": "25/1",
+              "duration_ts": 306688,
+              "has_b_frames": 2
+            },
+            "durationRational": "599/25",
+            "duration100ns": "239600000",
+            "presentationIntervals": [
+              "1/25",
+              "2/25"
+            ],
+            "samples": 480,
+            "decodedFrames": 480,
+            "partialProof": {
+              "packets": 75,
+              "frames": 75,
+              "exactPayloadPtsDtsDuration": true,
+              "exactDecodedPrefix": true
+            },
+            "exactCachePacketsAndDecodedFrames": true,
+            "physicalAppendOnly": true,
+            "unpublishedPhysicalBytesNotRead": true,
+            "publications": [
+              {
+                "revision": "2",
+                "physicalBytes": 65517,
+                "complete": false
+              },
+              {
+                "revision": "3",
+                "physicalBytes": 125619,
+                "complete": false
+              },
+              {
+                "revision": "4",
+                "physicalBytes": 178960,
+                "complete": false
+              },
+              {
+                "revision": "5",
+                "physicalBytes": 234600,
+                "complete": false
+              },
+              {
+                "revision": "6",
+                "physicalBytes": 296720,
+                "complete": false
+              },
+              {
+                "revision": "7",
+                "physicalBytes": 351314,
+                "complete": false
+              },
+              {
+                "revision": "8",
+                "physicalBytes": 351314,
+                "complete": true
+              }
+            ],
+            "initialBufferPolicyProof": {
+              "initialPublishedSeconds": 4,
+              "nextPublishedSeconds": 8,
+              "configuredInitialBufferSeconds": 10,
+              "first": {
+                "version": 1,
+                "ok": true,
+                "mode": "continuous-h264-reordered-video-v1",
+                "playbackId": "646f0b00175a1c7481d0f707150c8458",
+                "requestId": "dcc5209683964916ac87c392659c8fa9",
+                "jobId": "ab00d613ad2373e89aeb6f2d7ed1dbd1",
+                "sessionId": "f1dc0941d6c845c59edc5e929a71d6a3",
+                "generation": "1",
+                "writerInstanceId": "36509022676e458b87498d59f568233b",
+                "state": "buffering",
+                "error": "",
+                "active": true,
+                "positionSeconds": 0.0,
+                "durationSeconds": 23.96,
+                "outputComplete": false,
+                "decoderReaders": 1,
+                "readerIds": [
+                  "db133499aff39e854a64875dd7d37d67"
+                ]
+              },
+              "belowThreshold": {
+                "version": 1,
+                "ok": true,
+                "mode": "continuous-h264-reordered-video-v1",
+                "playbackId": "646f0b00175a1c7481d0f707150c8458",
+                "requestId": "dcc5209683964916ac87c392659c8fa9",
+                "jobId": "ab00d613ad2373e89aeb6f2d7ed1dbd1",
+                "sessionId": "f1dc0941d6c845c59edc5e929a71d6a3",
+                "generation": "1",
+                "writerInstanceId": "36509022676e458b87498d59f568233b",
+                "state": "buffering",
+                "error": "",
+                "active": true,
+                "positionSeconds": 0.0,
+                "durationSeconds": 23.96,
+                "outputComplete": false,
+                "decoderReaders": 1,
+                "readerIds": [
+                  "db133499aff39e854a64875dd7d37d67"
+                ]
+              }
+            },
+            "actualPlayback": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "646f0b00175a1c7481d0f707150c8458",
+              "requestId": "dcc5209683964916ac87c392659c8fa9",
+              "jobId": "ab00d613ad2373e89aeb6f2d7ed1dbd1",
+              "sessionId": "f1dc0941d6c845c59edc5e929a71d6a3",
+              "generation": "1",
+              "writerInstanceId": "36509022676e458b87498d59f568233b",
+              "state": "playing",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.225,
+              "durationSeconds": 23.96,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "db133499aff39e854a64875dd7d37d67"
+              ]
+            },
+            "pause": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "646f0b00175a1c7481d0f707150c8458",
+              "requestId": "dcc5209683964916ac87c392659c8fa9",
+              "jobId": "ab00d613ad2373e89aeb6f2d7ed1dbd1",
+              "sessionId": "f1dc0941d6c845c59edc5e929a71d6a3",
+              "generation": "1",
+              "writerInstanceId": "36509022676e458b87498d59f568233b",
+              "state": "paused",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.273,
+              "durationSeconds": 23.96,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "db133499aff39e854a64875dd7d37d67"
+              ]
+            },
+            "held": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "646f0b00175a1c7481d0f707150c8458",
+              "requestId": "dcc5209683964916ac87c392659c8fa9",
+              "jobId": "ab00d613ad2373e89aeb6f2d7ed1dbd1",
+              "sessionId": "f1dc0941d6c845c59edc5e929a71d6a3",
+              "generation": "1",
+              "writerInstanceId": "36509022676e458b87498d59f568233b",
+              "state": "paused",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.28,
+              "durationSeconds": 23.96,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "db133499aff39e854a64875dd7d37d67"
+              ]
+            },
+            "resumed": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "646f0b00175a1c7481d0f707150c8458",
+              "requestId": "dcc5209683964916ac87c392659c8fa9",
+              "jobId": "ab00d613ad2373e89aeb6f2d7ed1dbd1",
+              "sessionId": "f1dc0941d6c845c59edc5e929a71d6a3",
+              "generation": "1",
+              "writerInstanceId": "36509022676e458b87498d59f568233b",
+              "state": "playing",
+              "error": "",
+              "active": true,
+              "positionSeconds": 0.543,
+              "durationSeconds": 23.96,
+              "outputComplete": false,
+              "decoderReaders": 1,
+              "readerIds": [
+                "db133499aff39e854a64875dd7d37d67"
+              ]
+            },
+            "workerPidUnchanged": 10060,
+            "complete": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "ab00d613ad2373e89aeb6f2d7ed1dbd1",
+              "requestId": "603c34fbd35e4d5388d07676666d8ad0",
+              "sessionId": "f1dc0941d6c845c59edc5e929a71d6a3",
+              "generation": "1",
+              "writerInstanceId": "36509022676e458b87498d59f568233b",
+              "state": "complete",
+              "errorCode": "",
+              "cleanupCode": "",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "38",
+              "appliedHeartbeat": "38",
+              "producerCode": "data",
+              "neededOffset": "351314",
+              "visibleBytes": "352650",
+              "writtenBytes": "352650",
+              "maximumReadEnd": "351314",
+              "fragments": 20,
+              "samples": 480,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 10060,
+              "playbackReady": true,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": false,
+              "forgotten": false,
+              "readerIds": [
+                "05bdb43dda1e8cc403b15953fb12a56b",
+                "db133499aff39e854a64875dd7d37d67"
+              ]
+            },
+            "seeks": [
+              {
+                "targetSeconds": 10.125,
+                "observedSeconds": 10.125,
+                "toleranceSeconds": 0.09,
+                "elapsedSeconds": 0.031000000002677552
+              },
+              {
+                "targetSeconds": 1.375,
+                "observedSeconds": 1.375,
+                "toleranceSeconds": 0.09,
+                "elapsedSeconds": 0.030999999988125637
+              },
+              {
+                "targetSeconds": 22.785,
+                "observedSeconds": 22.785,
+                "toleranceSeconds": 0.09,
+                "elapsedSeconds": 0.031000000002677552
+              }
+            ],
+            "finished": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "playbackId": "646f0b00175a1c7481d0f707150c8458",
+              "requestId": "dcc5209683964916ac87c392659c8fa9",
+              "jobId": "ab00d613ad2373e89aeb6f2d7ed1dbd1",
+              "sessionId": "f1dc0941d6c845c59edc5e929a71d6a3",
+              "generation": "1",
+              "writerInstanceId": "36509022676e458b87498d59f568233b",
+              "state": "finished",
+              "error": "",
+              "active": false,
+              "positionSeconds": 23.96,
+              "durationSeconds": 23.96,
+              "outputComplete": true,
+              "decoderReaders": 1,
+              "readerIds": [
+                "db133499aff39e854a64875dd7d37d67"
+              ]
+            },
+            "eofWallSeconds": 1.2029999999940628,
+            "releaseSeconds": 0.1870000000053551,
+            "proof": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "ab00d613ad2373e89aeb6f2d7ed1dbd1",
+              "requestId": "603c34fbd35e4d5388d07676666d8ad0",
+              "sessionId": "f1dc0941d6c845c59edc5e929a71d6a3",
+              "generation": "1",
+              "writerInstanceId": "36509022676e458b87498d59f568233b",
+              "state": "cancelled",
+              "errorCode": "",
+              "cleanupCode": "released",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "38",
+              "appliedHeartbeat": "38",
+              "producerCode": "data",
+              "neededOffset": "351314",
+              "visibleBytes": "352650",
+              "writtenBytes": "352650",
+              "maximumReadEnd": "351314",
+              "fragments": 20,
+              "samples": 480,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 10060,
+              "playbackReady": false,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": true,
+              "forgotten": false,
+              "readerIds": [
+                "05bdb43dda1e8cc403b15953fb12a56b",
+                "db133499aff39e854a64875dd7d37d67"
+              ]
+            },
+            "forgotten": {
+              "version": 1,
+              "ok": true,
+              "mode": "continuous-h264-reordered-video-v1",
+              "jobId": "ab00d613ad2373e89aeb6f2d7ed1dbd1",
+              "requestId": "603c34fbd35e4d5388d07676666d8ad0",
+              "sessionId": "f1dc0941d6c845c59edc5e929a71d6a3",
+              "generation": "1",
+              "writerInstanceId": "36509022676e458b87498d59f568233b",
+              "state": "forgotten",
+              "errorCode": "",
+              "cleanupCode": "released",
+              "acceptedRevision": "8",
+              "appliedRevision": "8",
+              "acceptedHeartbeat": "38",
+              "appliedHeartbeat": "38",
+              "producerCode": "data",
+              "neededOffset": "351314",
+              "visibleBytes": "352650",
+              "writtenBytes": "352650",
+              "maximumReadEnd": "351314",
+              "fragments": 20,
+              "samples": 480,
+              "queuedUpdates": 0,
+              "neededLength": 0,
+              "workerId": 10060,
+              "playbackReady": false,
+              "sourceComplete": true,
+              "outputComplete": true,
+              "sourceFilesClosed": true,
+              "released": true,
+              "forgotten": true,
+              "readerIds": [
+                "05bdb43dda1e8cc403b15953fb12a56b",
+                "db133499aff39e854a64875dd7d37d67"
+              ]
+            },
+            "originalSha256": "626c818801fc5f2c922bf6ce093f85ecabe65a22ead456e3c0622024031007dd"
+          }
+        ],
+        "mode": "continuous-h264-reordered-video-v1",
+        "defaultMode": "continuous-h264-video-v1",
+        "publicSdk": true,
+        "sourceSeconds": 24,
+        "physicalAppendOnly": true,
+        "actualPlayerPlayback": true,
+        "cachePixelAndPacketOracle": true,
+        "physicalScreenTimingMeasured": false,
+        "audioSupported": false,
+        "maxRequestSeconds": 0.04700000000593718,
+        "edition": "classic",
+        "temporaryWorkRemoved": true,
+        "processHistory": [
+          [
+            {
+              "pid": 9300,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.031000000002677552
+            }
+          ],
+          [
+            {
+              "pid": 9044,
+              "reason": "cleanup-owned-idle-process",
+              "exitCode": 1,
+              "terminationSeconds": 0.01600000000325963
+            }
+          ]
+        ],
+        "playerSha256": [
+          "974917b277e725dbc5eadceb502a2a6db9e4f527967a9448529bbb32b5d95239",
+          "974917b277e725dbc5eadceb502a2a6db9e4f527967a9448529bbb32b5d95239"
+        ],
+        "workerSha256": [
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9",
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9"
+        ],
+        "testSourceSha256": "e308ad757ec99cdd3c09a2dc644ca37d4e6e883b34bd52c1ebe408769282151f",
+        "readerRunnerSha256": "31d2d1d737be24311bbc1e48ac12cdd8d7ea61d2948afb3116fc13e61b63f881",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+            "sha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+          }
+        },
+        "scenario": "timing",
+        "stagedCopiesRemoved": true,
+        "originalPlayerSha256": "974917b277e725dbc5eadceb502a2a6db9e4f527967a9448529bbb32b5d95239",
+        "stagingDriverSha256": "8ce5ef1400463129ce324454943182b7168dd625b5d3da85931ed2999f0355bf",
+        "helperPath": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+        "helperSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "modulesDirectory": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration"
+      },
+      "actualDriverExit": 0,
+      "evidence": {
+        "path": "_bin/reordered-timing-windows-checked-classic/result.json",
+        "sha256": "667af1c4975849a50dbad9e852bab19c0398a13d3a109e6820c252210bab394d",
+        "bytes": 50752,
+        "keptLocal": true
+      },
+      "observations": {
+        "path": "_bin/reordered-timing-windows-checked-classic/observations.json",
+        "sha256": "024ad6d399b25b504a7e86dbd11920323e3e6f3ba0022207a6f1f7fa938b9f75",
+        "bytes": 281394,
+        "keptLocal": true
+      },
+      "maxSeekErrorSeconds": 0.0
+    }
+  },
+  "scope": {
+    "publicSdk": true,
+    "physicalAppendOnly": true,
+    "unpublishedBytesNotRead": true,
+    "managedCachePacketsAndPixelsCompared": true,
+    "actualQtAndClassicPlayerPlayback": true,
+    "physicalScreenTimingMeasured": false,
+    "audioMeasured": false,
+    "waylandAndHardwareExcluded": true
+  },
+  "boundaries": [
+    "12 finite 24-second generated video-only profiles, not longer public waiting/stress/crash acceptance",
+    "Seek tolerance is a frame interval plus 10ms; it is not a physical display synchronization measurement",
+    "Existing Linux >2s, Classic heartbeat-12 and first Windows reader receipt outliers remain OPEN"
+  ],
+  "preservation": {
+    "protectedFileCount": 572,
+    "allUnchanged": true,
+    "snapshot": {
+      "path": "_bin/reordered-timing-preservation-before.json",
+      "sha256": "448f7343f0b0dd7504371d84524f8c63e437df96cad6b86e60aca7449e652cbc",
+      "bytes": 102229,
+      "keptLocal": true
+    },
+    "linuxProfileSha256": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+    "installedLinuxTestedWithoutReplacement": true,
+    "windowsInstallationsUnchanged": true,
+    "immutableSdkArchivesUnchanged": true
+  },
+  "shellEntriesUnchanged": 158,
+  "task": {
+    "periodicTriggersCreated": false,
+    "taskRemoved": true,
+    "lastTaskResult": 0,
+    "task": "FoxicMP-ReorderedTiming-OneShot"
+  },
+  "publishedReleaseAssetsUnchanged": true,
+  "initialFailures": {
+    "missingPrivateOracle": {
+      "actualDriverExit": 1,
+      "evidence": {
+        "path": "_bin/reordered-timing-windows-qt/error.txt",
+        "sha256": "33d5fb8abc0baa13c6e0584ed793a2d331897d699b4034ea90b76fa799e2f0e7",
+        "bytes": 2204,
+        "keptLocal": true
+      }
+    },
+    "classicInsufficientInitialBuffer": {
+      "actualDriverExit": 1,
+      "source": {
+        "path": "_bin/reordered-timing-test-before-classic-buffer-policy.py",
+        "sha256": "eb098fc80c23fcbab555f567f48152f1aa3d16600bf5f559bdece0b2a914c0e7",
+        "bytes": 14016,
+        "keptLocal": true
+      },
+      "evidence": {
+        "path": "_bin/reordered-timing-windows-final-classic/error.txt",
+        "sha256": "a6595da15b63cfa823336d07d6e46d3fd2b20d3eae01f50d5657a6d9fe677edd",
+        "bytes": 1529,
+        "keptLocal": true
+      },
+      "observations": {
+        "path": "_bin/reordered-timing-windows-final-classic/observations.json",
+        "sha256": "f180340689902ba063651084651cd2ce336d1c18fe4fb5b7bfd0d1ba4745232d",
+        "bytes": 377253,
+        "keptLocal": true
+      },
+      "productionPolicyInitialSeconds": 10,
+      "productionPolicyResumeSeconds": 5,
+      "productionPolicyChanged": false
+    }
+  },
+  "tools": {
+    "windowsPrivateFfprobeSha256": "f0d36ecbbdd3bcfac3efa078c96c7271c2e68b3810595552ac3b7f17e9a65c52",
+    "driver": {
+      "path": "_bin/run-reordered-timing-case.py",
+      "sha256": "8ce5ef1400463129ce324454943182b7168dd625b5d3da85931ed2999f0355bf",
+      "bytes": 3538,
+      "keptLocal": true
+    },
+    "ffprobeNotAddedToPlayerPackages": true
+  },
+  "totals": {
+    "playerProfiles": 12,
+    "packetAndDecodedFrameComparisons": 9717,
+    "pausedSeeks": 36,
+    "confirmedEofAndRelease": 12
+  },
+  "cmakeRegistration": {
+    "actualConfigureExit": 0,
+    "registeredTest": {
+      "backtrace": 253,
+      "command": [
+        "/usr/bin/python3",
+        "/media/sf_Studio/Programs/MPMY-src/qt/../tests/progressive_reordered_sdk_timing_test.py",
+        "--edition",
+        "qt",
+        "--player",
+        "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt",
+        "--reader-runner",
+        "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-progressive-reader-tests",
+        "--report-directory",
+        "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/reordered-sdk-timing-report"
+      ],
+      "name": "progressive-reordered-sdk-timing",
+      "properties": [
+        {
+          "name": "TIMEOUT",
+          "value": 240.0
+        },
+        {
+          "name": "WORKING_DIRECTORY",
+          "value": "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0"
+        }
+      ]
+    }
+  }
+}

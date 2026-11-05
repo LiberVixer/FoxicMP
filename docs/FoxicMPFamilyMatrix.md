@@ -889,3 +889,19 @@ Windows-установки/старые SDK/Classic build control files и 158 H
 сохранены. Задача повторной проверки создавалась после удаления предыдущей;
 обе одноразовые фазы завершены и удалены. Harvester не менялся. Audio, public
 fractional/VFR UI, длинный stress/crash/latency и исторические outliers OPEN.
+
+
+5 ноября 2026, [fractional/VFR через публичный SDK 1.83 и обычные окна](ProgressiveReorderedSdkTiming.md):
+по четыре 24-секундных fixture (25, 30000/1001, 60000/1001, VFR) в Linux Qt,
+Windows Qt и Classic; физический append-only, unpublished-tail bounds, пауза
+при росте, complete и 36 seek с допуском интервала кадра +10 ms. По 3239 точных
+packet records и decoded frames managed cache на редакцию, 12 EOF/release/forget.
+Classic отдельно сохраняет и подтверждает начальный буфер 10 s (4/8 s ожидает,
+после 12 s играет), повторный штатный порог остаётся 5 s. Первый неверный timeout
+этого теста и отсутствие ffprobe в test PATH сохранены. [SHA, exit codes, измерения](ProgressiveReorderedSdkTimingValidation-2026-11-05.json).
+Менялись только новый тест/CTest и документы. Проверен установленный Linux без
+замены EXE: все 572 защищённых файла, immutable SDK/release assets, Windows
+установки и 158 shell entries совпали; одноразовая задача удалена. Харвестер
+не менялся. Это функциональная приёмка перечисленных public SDK/Player профилей,
+не физическая экранная/A-V синхронизация или полная waiting/crash/stress матрица;
+исторические outliers и audio/remux остаются OPEN.
