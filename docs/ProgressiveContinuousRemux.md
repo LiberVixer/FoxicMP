@@ -825,3 +825,16 @@ Stop/cancel/readerRelease/complete-seek, независимый playback, filesC
 и Harvester сохранены, HKCU сверены, одноразовая задача удалена. Исходный Linux
 release >2 s тоже OPEN. Длительная growing continuous загрузка и полная stress/
 ТЗ-приёмка остаются открытыми.
+
+
+5 ноября 2026, [пассивное наблюдение release/Classic resources](ProgressiveContinuousObservation.md):
+две 100-cycle серии со штатным внешним MPCVR завершились resource-budget exit 1,
+handles 568 → 625 при пределе 576; после отказа сохранены Event types/modules
+и локальные minidump. Контроли по 100 циклов с внутренним EVR и Null прошли
+без роста. Это локализация пути, не доказательство ошибки конкретного allocator/
+renderer/драйвера и не production fix. Инструментированные успехи отказы не отменяют.
+На исходном Linux EXE a778… и текущем 9f67… дважды выполнена полная heartbeat
+последовательность: 20 сценариев, CTest exit 0; исторический release >2 s OPEN.
+[Результаты и границы](ProgressiveContinuousObservationValidation-2026-11-05.json).
+EXE/профили/SDK/worker сохранены, 158 shell entries совпали, одноразовая задача
+удалена; Harvester и сторонние установленные компоненты не менялись.
