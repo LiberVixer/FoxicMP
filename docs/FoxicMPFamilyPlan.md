@@ -884,3 +884,16 @@ source filesClosed, удержание кэша до последнего close,
 worker побайтно прежний. Установки/профили, SDK ZIP, HKCU и Harvester сохранены,
 одноразовая задача удалена. OS disk/parent file-I/O, прежний Linux heartbeat
 outlier и полная stress/ТЗ-приёмка остаются открытыми.
+
+
+5 ноября 2026, [parent syscall-result faults](ProgressiveContinuousFileIoFaults.md):
+50 native scenarios GCC/MinGW/MSVC/ASan-UBSan — source error/short read, cache
+write error/disk-full/physical partial write, external readers и POSIX retry.
+Исправлена общая диагностика short read: source-truncated вместо ложной
+source-rewritten; baseline exit 1 сохранён. По 15 Qt CTest-групп ОС и восемь
+настоящих AVIO SDK scenarios Classic;
+[результаты, SHA и установка](ProgressiveContinuousFileIoFaultsValidation-2026-11-05.json).
+Все main EXE пересобраны, Linux обновлён атомарно с backup и сохранением профиля;
+Windows-установки/HKCU, SDK ZIP и Harvester сохранены, одноразовая задача удалена.
+Это конечные syscall return faults, не зависший диск: полный cancellation/stress
+и прежний Linux heartbeat outlier остаются открытыми.

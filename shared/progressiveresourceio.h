@@ -151,7 +151,8 @@ struct Pin {
         Check(now.size>=required,"source-truncated","Confirmed bytes were truncated or never written");
         if(!lastRead.empty()) {
             std::vector<char> bytes(lastRead.size());
-            Check(ReadAt(file,lastOffset,bytes.data(),bytes.size(),cancelled)==bytes.size() && bytes==lastRead,"source-rewritten","The last verified read was overwritten");
+            Check(ReadAt(file,lastOffset,bytes.data(),bytes.size(),cancelled)==bytes.size(),"source-truncated","The last verified read returned short physical data");
+            Check(bytes==lastRead,"source-rewritten","The last verified read was overwritten");
         }
         // One bounded audit per verification also revisits consumed bytes that
         // are no longer the most recent decoder read. It is not a full disk scan.
