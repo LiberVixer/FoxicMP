@@ -138,3 +138,10 @@ Windows использует `.exe` и отдельные тестовые пр�
 меняет только тесты/документацию: production EXE, установленный Linux-профиль,
 Windows-установки и Harvester сохранены. Classic здесь не перезапускался; его пять
 предыдущих heartbeat-сценариев не выдаются за новые проверки Qt latency.
+
+
+5 ноября 2026: добавлено [фоновое освобождение decoder readers](ProgressiveDecoderRetirement.md)
+без ожидания libmpv close callback. Задержанный callback воспроизведён отдельным
+native fixture, исправление прошло Qt Linux/Windows и Classic регрессии.
+Это не доказывает причину исторического единичного >2 s случая; его статус OPEN
+сохраняется. Публичный deadline 30000 ms и release budget 2 s не менялись.

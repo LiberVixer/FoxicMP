@@ -940,3 +940,19 @@ Classic source fix без Qt/Harvester изменений; SDK ZIP 1.82 и ус�
 приложения сохранены. 17 защищённых файлов и 158 shell entries совпали, обе
 одноразовые задачи удалены. Исторические Classic heartbeat-12 и Linux >2 s не
 объявляются объяснёнными; полная ТЗ/stress/A-V приёмка остаётся OPEN.
+
+
+5 ноября 2026, [очистка decoder readers без ожидания libmpv callback](ProgressiveDecoderRetirement.md):
+целевая native-фиксация удержанного cursor воспроизвела cache-in-use дольше 2 s.
+На фоне controller после cancel закрывает только зарегистрированные decoder
+readers; independent readers сохраняют lease, complete без отмены не закрывается.
+Ошибка публикуется до close I/O, cancel остаётся metadata-only. Linux/Windows Qt:
+по четыре целевых native случая, по 12 CTest групп, включая пять настоящих
+heartbeat-сценариев и 16 command-race случаев, exit 0. Classic: приватная сборка,
+100+4 cycles и пять heartbeat-сценариев, exit 0; raw fragment reader путь сохранён.
+Linux EXE обновлён атомарно с backup, INI и 309 других файлов сохранены.
+Windows-установки/SDK ZIP/Harvester не менялись, 158 shell entries совпали,
+одноразовая задача удалена. [SHA, исходные отказы и результаты](ProgressiveDecoderRetirementValidation-2026-11-05.json).
+Точное происхождение исторического Linux >2 s всё ещё OPEN: новый fixture
+доказывает конкретную зависимость, не тождественность старому отказу. Stuck OS I/O,
+общие A/V и полный stress остаются отдельными шагами.

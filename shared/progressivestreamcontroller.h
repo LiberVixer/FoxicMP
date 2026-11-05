@@ -100,6 +100,13 @@ class ContinuousRemuxController {
                 const bool retiring=stop.load() || cancel.load() || forget.load() || !v.error.empty();
                 if(retiring){
                     v.decoder.reset();
+                    if(decoder && !v.released) {
+                        // Publish failure/cancellation before potentially slow
+                        // file/receipt I/O. Do not wait for the UI/mpv close_fn
+                        // to retire cancelled decoder cursors' native handles.
+                        v.phase=!v.error.empty() && v.error!="cancelled"?"error":"cancelling";
+                        expose(v);decoder->closeCancelledDecoderReaders();
+                    }
                     if(session && !v.native.done){v.phase="cancelling";}
                     else {
                         if(session)session->retire();

@@ -7,6 +7,8 @@ namespace foxicmp { namespace progressive {
 class StreamDecoderSource {
     std::shared_ptr<StreamOutputStore> store;
     std::atomic<bool> cancelled{false};
+    mutable std::mutex decoderMutex;
+    mutable std::vector<std::weak_ptr<StreamOutputStore::Reader>> decoderReaders;
 public:
     explicit StreamDecoderSource(std::shared_ptr<StreamOutputStore> output):store(std::move(output)) {
         Require(bool(store),"remuxDecoder","Missing output cache","invalid_request");
@@ -19,6 +21,23 @@ public:
     BoundResource readerResource()const{return store->readerResource();}
     std::shared_ptr<StreamOutputStore::Reader> reader()const {
         Require(!stopped(),"remuxDecoder","Decoder source cancelled","cancelled");return store->reader();
+    }
+    // Only decoder cursors opt in. Raw/independent readers keep their own lease
+    // until their owner explicitly closes it, even after producer cancellation.
+    std::shared_ptr<StreamOutputStore::Reader> decoderReader()const {
+        std::lock_guard<std::mutex> lock(decoderMutex);
+        auto value=reader();decoderReaders.push_back(value);return value;
+    }
+    // Controller worker only: cancel() itself remains metadata-only. Closing
+    // Reader serializes with in-flight I/O and persists filesClosed after close.
+    // A paused libmpv callback may outlive these files; subsequent reads fail.
+    void closeCancelledDecoderReaders() {
+        if(!stopped())return;
+        std::lock_guard<std::mutex> lock(decoderMutex);
+        for(auto it=decoderReaders.begin();it!=decoderReaders.end();) {
+            if(auto value=it->lock())try {value->close();} catch(...) {++it;continue;}
+            it=decoderReaders.erase(it);
+        }
     }
 };
 
@@ -37,7 +56,7 @@ class StreamDecoderCursor {
     void fail(const std::string& code){std::lock_guard<std::mutex> lock(errorMutex);if(failure.empty())failure=code;}
 public:
     explicit StreamDecoderCursor(std::shared_ptr<StreamDecoderSource> value):source(std::move(value)) {
-        Require(bool(source),"remuxDecoder","Missing decoder source","invalid_request");reader=source->reader();
+        Require(bool(source),"remuxDecoder","Missing decoder source","invalid_request");reader=source->decoderReader();
     }
     ~StreamDecoderCursor(){close();}
     StreamDecoderCursor(const StreamDecoderCursor&)=delete;
