@@ -1,0 +1,2078 @@
+{
+  "result": "PASS",
+  "date": "2026-11-05",
+  "sdkVersion": "1.83",
+  "applicationVersion": "0.2.0",
+  "sourceCommit": "51c7fc9d92c09b8ae53a5b2b23ae5a1e616b4886",
+  "sourceValidationReport": "docs/ProgressiveReorderedSdkValidation-2026-11-05.json",
+  "packageMetadata": {
+    "result": "PASS",
+    "sourceCommit": "51c7fc9d92c09b8ae53a5b2b23ae5a1e616b4886",
+    "sdkVersion": "1.83",
+    "applicationVersion": "0.2.0",
+    "binaryValidationReport": "docs/ProgressiveReorderedSdkValidation-2026-11-05.json",
+    "binaryValidationReportSha256": "69cb3a5512ba6d262ea6ad497db1c2ca5cd438c0b31047f5726ca167d5be0f7b",
+    "binaryBuildBaselineCommit": "7466058dd225e65552686aa5fa69259dad21e6e2",
+    "binariesFromRecordedModifiedSources": true,
+    "sdkVerification": {
+      "result": "PASS",
+      "sdkVersion": "1.83",
+      "sourceCommit": "51c7fc9d92c09b8ae53a5b2b23ae5a1e616b4886",
+      "sourceDirty": false,
+      "filesVerified": 318,
+      "modulesVerified": 10,
+      "standaloneImportExitCode": 0,
+      "sha256": "cd75e73056f786998cb152f12ba3e80298bcc1b848f51e9cf17d873026bd22ab"
+    },
+    "allPayloadCodeMatchesTestedBuilds": true,
+    "finalDebCodeFilesMatched": 22,
+    "finalDebLauncherMatchesSource": true,
+    "qtOnlineHelperPreservedSha256": "33121d192d706e62f684a06f80918e3f3a8ba52ac3a65213b6951c39c7d9f555",
+    "assets": {
+      "FoxicMPClassic-0.2.0-progressive-1.83-windows-x64.zip": {
+        "sha256": "8b0a1b69e06eff73b5096c728847f37eb03618a096302b6c971b5e4fa4b1fce7",
+        "bytes": 80325192
+      },
+      "FoxicMPQt-0.2.0-progressive-1.83-windows-x64.zip": {
+        "sha256": "6110f16c0ce5423b1a14840ebbe2599df3abd82528ec2e74fde0f9d80271541e",
+        "bytes": 133448389
+      },
+      "FoxicMPQt-0.2.0-progressive-1.83-linux-x64.tar.gz": {
+        "sha256": "1762768bf71c14b0159bcc568dd80fe6735c49fbb220b13a587189dc6a3971f8",
+        "bytes": 9120732
+      },
+      "foxiqmp-qt_0.2.0-183_amd64.deb": {
+        "sha256": "1b38d4138e3588d61e5d505825a3d624c8739bb93b3fe9a2198bcec725d56ce0",
+        "bytes": 7387824
+      },
+      "FoxicMP-progressive-sdk-1.83.zip": {
+        "sha256": "cd75e73056f786998cb152f12ba3e80298bcc1b848f51e9cf17d873026bd22ab",
+        "bytes": 2143961
+      }
+    }
+  },
+  "downloadVerification": {
+    "result": "PASS",
+    "sdkVersion": "1.83",
+    "sourceCommit": "51c7fc9d92c09b8ae53a5b2b23ae5a1e616b4886",
+    "sourceDirty": false,
+    "filesVerified": 318,
+    "modulesVerified": 10,
+    "standaloneImportExitCode": 0,
+    "sha256": "cd75e73056f786998cb152f12ba3e80298bcc1b848f51e9cf17d873026bd22ab"
+  },
+  "downloadActualExitCode": 0,
+  "assets": {
+    "FoxicMP-progressive-sdk-1.83.zip": {
+      "sha256": "cd75e73056f786998cb152f12ba3e80298bcc1b848f51e9cf17d873026bd22ab",
+      "bytes": 2143961,
+      "githubServerDigestVerified": true,
+      "fullyDownloadedHere": true
+    },
+    "FoxicMPClassic-0.2.0-progressive-1.83-windows-x64.zip": {
+      "sha256": "8b0a1b69e06eff73b5096c728847f37eb03618a096302b6c971b5e4fa4b1fce7",
+      "bytes": 80325192,
+      "githubServerDigestVerified": true,
+      "fullyDownloadedHere": false
+    },
+    "FoxicMPQt-0.2.0-progressive-1.83-linux-x64.tar.gz": {
+      "sha256": "1762768bf71c14b0159bcc568dd80fe6735c49fbb220b13a587189dc6a3971f8",
+      "bytes": 9120732,
+      "githubServerDigestVerified": true,
+      "fullyDownloadedHere": false
+    },
+    "FoxicMPQt-0.2.0-progressive-1.83-windows-x64.zip": {
+      "sha256": "6110f16c0ce5423b1a14840ebbe2599df3abd82528ec2e74fde0f9d80271541e",
+      "bytes": 133448389,
+      "githubServerDigestVerified": true,
+      "fullyDownloadedHere": false
+    },
+    "SHA256SUMS.txt": {
+      "sha256": "9401e153aa6a3f41951c465a9388ddf9a739f6e1e577a66ca27821dc03604f05",
+      "bytes": 642,
+      "githubServerDigestVerified": true,
+      "fullyDownloadedHere": true
+    },
+    "foxiqmp-qt_0.2.0-183_amd64.deb": {
+      "sha256": "1b38d4138e3588d61e5d505825a3d624c8739bb93b3fe9a2198bcec725d56ce0",
+      "bytes": 7387824,
+      "githubServerDigestVerified": true,
+      "fullyDownloadedHere": false
+    },
+    "progressive-1.83-assets.json": {
+      "sha256": "ae2c1ea7782a5a04a45e94b2ffe1492ff6f3a2dffbe1a90842e31d840e9c1b7a",
+      "bytes": 1863,
+      "githubServerDigestVerified": true,
+      "fullyDownloadedHere": true
+    }
+  },
+  "githubApiRelease": {
+    "url": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/435250187",
+    "assets_url": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/435250187/assets",
+    "upload_url": "https://uploads.github.com/repos/LiberVixer/FoxicMP/releases/435250187/assets{?name,label}",
+    "html_url": "https://github.com/LiberVixer/FoxicMP/releases/tag/untagged-3acdf74fb24c542e2759",
+    "id": 435250187,
+    "author": {
+      "login": "LiberVixer",
+      "id": 291428526,
+      "node_id": "U_kgDOEV7Yrg",
+      "avatar_url": "https://avatars.githubusercontent.com/u/291428526?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/LiberVixer",
+      "html_url": "https://github.com/LiberVixer",
+      "followers_url": "https://api.github.com/users/LiberVixer/followers",
+      "following_url": "https://api.github.com/users/LiberVixer/following{/other_user}",
+      "gists_url": "https://api.github.com/users/LiberVixer/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/LiberVixer/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/LiberVixer/subscriptions",
+      "organizations_url": "https://api.github.com/users/LiberVixer/orgs",
+      "repos_url": "https://api.github.com/users/LiberVixer/repos",
+      "events_url": "https://api.github.com/users/LiberVixer/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/LiberVixer/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "node_id": "RE_kwDOU9eb2c4Z8WQL",
+    "tag_name": "progressive-api-v1.83",
+    "target_commitish": "main",
+    "name": "Progressive API / SDK 1.83 — explicit H.264 B-frame preview",
+    "draft": true,
+    "immutable": false,
+    "prerelease": true,
+    "created_at": "2026-11-05T13:36:51Z",
+    "updated_at": "2026-11-05T14:05:03Z",
+    "published_at": null,
+    "assets": [
+      {
+        "url": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713542392",
+        "id": 713542392,
+        "node_id": "RA_kwDOU9eb2c4qh8r4",
+        "name": "FoxicMP-progressive-sdk-1.83.zip",
+        "label": "",
+        "uploader": {
+          "login": "LiberVixer",
+          "id": 291428526,
+          "node_id": "U_kgDOEV7Yrg",
+          "avatar_url": "https://avatars.githubusercontent.com/u/291428526?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/LiberVixer",
+          "html_url": "https://github.com/LiberVixer",
+          "followers_url": "https://api.github.com/users/LiberVixer/followers",
+          "following_url": "https://api.github.com/users/LiberVixer/following{/other_user}",
+          "gists_url": "https://api.github.com/users/LiberVixer/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/LiberVixer/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/LiberVixer/subscriptions",
+          "organizations_url": "https://api.github.com/users/LiberVixer/orgs",
+          "repos_url": "https://api.github.com/users/LiberVixer/repos",
+          "events_url": "https://api.github.com/users/LiberVixer/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/LiberVixer/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "application/zip",
+        "state": "uploaded",
+        "size": 2143961,
+        "digest": "sha256:cd75e73056f786998cb152f12ba3e80298bcc1b848f51e9cf17d873026bd22ab",
+        "download_count": 0,
+        "created_at": "2026-11-05T13:38:49Z",
+        "updated_at": "2026-11-05T13:39:06Z",
+        "browser_download_url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/FoxicMP-progressive-sdk-1.83.zip"
+      },
+      {
+        "url": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600187",
+        "id": 713600187,
+        "node_id": "RA_kwDOU9eb2c4qiKy7",
+        "name": "FoxicMPClassic-0.2.0-progressive-1.83-windows-x64.zip",
+        "label": "",
+        "uploader": {
+          "login": "LiberVixer",
+          "id": 291428526,
+          "node_id": "U_kgDOEV7Yrg",
+          "avatar_url": "https://avatars.githubusercontent.com/u/291428526?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/LiberVixer",
+          "html_url": "https://github.com/LiberVixer",
+          "followers_url": "https://api.github.com/users/LiberVixer/followers",
+          "following_url": "https://api.github.com/users/LiberVixer/following{/other_user}",
+          "gists_url": "https://api.github.com/users/LiberVixer/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/LiberVixer/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/LiberVixer/subscriptions",
+          "organizations_url": "https://api.github.com/users/LiberVixer/orgs",
+          "repos_url": "https://api.github.com/users/LiberVixer/repos",
+          "events_url": "https://api.github.com/users/LiberVixer/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/LiberVixer/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "application/zip",
+        "state": "uploaded",
+        "size": 80325192,
+        "digest": "sha256:8b0a1b69e06eff73b5096c728847f37eb03618a096302b6c971b5e4fa4b1fce7",
+        "download_count": 0,
+        "created_at": "2026-11-05T13:59:03Z",
+        "updated_at": "2026-11-05T14:03:56Z",
+        "browser_download_url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/FoxicMPClassic-0.2.0-progressive-1.83-windows-x64.zip"
+      },
+      {
+        "url": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600199",
+        "id": 713600199,
+        "node_id": "RA_kwDOU9eb2c4qiKzH",
+        "name": "FoxicMPQt-0.2.0-progressive-1.83-linux-x64.tar.gz",
+        "label": "",
+        "uploader": {
+          "login": "LiberVixer",
+          "id": 291428526,
+          "node_id": "U_kgDOEV7Yrg",
+          "avatar_url": "https://avatars.githubusercontent.com/u/291428526?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/LiberVixer",
+          "html_url": "https://github.com/LiberVixer",
+          "followers_url": "https://api.github.com/users/LiberVixer/followers",
+          "following_url": "https://api.github.com/users/LiberVixer/following{/other_user}",
+          "gists_url": "https://api.github.com/users/LiberVixer/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/LiberVixer/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/LiberVixer/subscriptions",
+          "organizations_url": "https://api.github.com/users/LiberVixer/orgs",
+          "repos_url": "https://api.github.com/users/LiberVixer/repos",
+          "events_url": "https://api.github.com/users/LiberVixer/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/LiberVixer/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "application/x-gtar",
+        "state": "uploaded",
+        "size": 9120732,
+        "digest": "sha256:1762768bf71c14b0159bcc568dd80fe6735c49fbb220b13a587189dc6a3971f8",
+        "download_count": 0,
+        "created_at": "2026-11-05T13:59:03Z",
+        "updated_at": "2026-11-05T13:59:43Z",
+        "browser_download_url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/FoxicMPQt-0.2.0-progressive-1.83-linux-x64.tar.gz"
+      },
+      {
+        "url": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600185",
+        "id": 713600185,
+        "node_id": "RA_kwDOU9eb2c4qiKy5",
+        "name": "FoxicMPQt-0.2.0-progressive-1.83-windows-x64.zip",
+        "label": "",
+        "uploader": {
+          "login": "LiberVixer",
+          "id": 291428526,
+          "node_id": "U_kgDOEV7Yrg",
+          "avatar_url": "https://avatars.githubusercontent.com/u/291428526?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/LiberVixer",
+          "html_url": "https://github.com/LiberVixer",
+          "followers_url": "https://api.github.com/users/LiberVixer/followers",
+          "following_url": "https://api.github.com/users/LiberVixer/following{/other_user}",
+          "gists_url": "https://api.github.com/users/LiberVixer/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/LiberVixer/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/LiberVixer/subscriptions",
+          "organizations_url": "https://api.github.com/users/LiberVixer/orgs",
+          "repos_url": "https://api.github.com/users/LiberVixer/repos",
+          "events_url": "https://api.github.com/users/LiberVixer/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/LiberVixer/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "application/zip",
+        "state": "uploaded",
+        "size": 133448389,
+        "digest": "sha256:6110f16c0ce5423b1a14840ebbe2599df3abd82528ec2e74fde0f9d80271541e",
+        "download_count": 0,
+        "created_at": "2026-11-05T13:59:03Z",
+        "updated_at": "2026-11-05T14:05:03Z",
+        "browser_download_url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/FoxicMPQt-0.2.0-progressive-1.83-windows-x64.zip"
+      },
+      {
+        "url": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600207",
+        "id": 713600207,
+        "node_id": "RA_kwDOU9eb2c4qiKzP",
+        "name": "foxiqmp-qt_0.2.0-183_amd64.deb",
+        "label": "",
+        "uploader": {
+          "login": "LiberVixer",
+          "id": 291428526,
+          "node_id": "U_kgDOEV7Yrg",
+          "avatar_url": "https://avatars.githubusercontent.com/u/291428526?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/LiberVixer",
+          "html_url": "https://github.com/LiberVixer",
+          "followers_url": "https://api.github.com/users/LiberVixer/followers",
+          "following_url": "https://api.github.com/users/LiberVixer/following{/other_user}",
+          "gists_url": "https://api.github.com/users/LiberVixer/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/LiberVixer/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/LiberVixer/subscriptions",
+          "organizations_url": "https://api.github.com/users/LiberVixer/orgs",
+          "repos_url": "https://api.github.com/users/LiberVixer/repos",
+          "events_url": "https://api.github.com/users/LiberVixer/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/LiberVixer/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "application/x-debian-package",
+        "state": "uploaded",
+        "size": 7387824,
+        "digest": "sha256:1b38d4138e3588d61e5d505825a3d624c8739bb93b3fe9a2198bcec725d56ce0",
+        "download_count": 0,
+        "created_at": "2026-11-05T13:59:03Z",
+        "updated_at": "2026-11-05T13:59:37Z",
+        "browser_download_url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/foxiqmp-qt_0.2.0-183_amd64.deb"
+      },
+      {
+        "url": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600669",
+        "id": 713600669,
+        "node_id": "RA_kwDOU9eb2c4qiK6d",
+        "name": "progressive-1.83-assets.json",
+        "label": "",
+        "uploader": {
+          "login": "LiberVixer",
+          "id": 291428526,
+          "node_id": "U_kgDOEV7Yrg",
+          "avatar_url": "https://avatars.githubusercontent.com/u/291428526?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/LiberVixer",
+          "html_url": "https://github.com/LiberVixer",
+          "followers_url": "https://api.github.com/users/LiberVixer/followers",
+          "following_url": "https://api.github.com/users/LiberVixer/following{/other_user}",
+          "gists_url": "https://api.github.com/users/LiberVixer/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/LiberVixer/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/LiberVixer/subscriptions",
+          "organizations_url": "https://api.github.com/users/LiberVixer/orgs",
+          "repos_url": "https://api.github.com/users/LiberVixer/repos",
+          "events_url": "https://api.github.com/users/LiberVixer/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/LiberVixer/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "application/json",
+        "state": "uploaded",
+        "size": 1863,
+        "digest": "sha256:ae2c1ea7782a5a04a45e94b2ffe1492ff6f3a2dffbe1a90842e31d840e9c1b7a",
+        "download_count": 0,
+        "created_at": "2026-11-05T13:59:14Z",
+        "updated_at": "2026-11-05T13:59:15Z",
+        "browser_download_url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/progressive-1.83-assets.json"
+      },
+      {
+        "url": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600188",
+        "id": 713600188,
+        "node_id": "RA_kwDOU9eb2c4qiKy8",
+        "name": "SHA256SUMS.txt",
+        "label": "",
+        "uploader": {
+          "login": "LiberVixer",
+          "id": 291428526,
+          "node_id": "U_kgDOEV7Yrg",
+          "avatar_url": "https://avatars.githubusercontent.com/u/291428526?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/LiberVixer",
+          "html_url": "https://github.com/LiberVixer",
+          "followers_url": "https://api.github.com/users/LiberVixer/followers",
+          "following_url": "https://api.github.com/users/LiberVixer/following{/other_user}",
+          "gists_url": "https://api.github.com/users/LiberVixer/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/LiberVixer/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/LiberVixer/subscriptions",
+          "organizations_url": "https://api.github.com/users/LiberVixer/orgs",
+          "repos_url": "https://api.github.com/users/LiberVixer/repos",
+          "events_url": "https://api.github.com/users/LiberVixer/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/LiberVixer/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "content_type": "text/plain; charset=utf-8",
+        "state": "uploaded",
+        "size": 642,
+        "digest": "sha256:9401e153aa6a3f41951c465a9388ddf9a739f6e1e577a66ca27821dc03604f05",
+        "download_count": 0,
+        "created_at": "2026-11-05T13:59:03Z",
+        "updated_at": "2026-11-05T13:59:03Z",
+        "browser_download_url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/SHA256SUMS.txt"
+      }
+    ],
+    "tarball_url": null,
+    "zipball_url": null,
+    "body": "SDK 1.83 adds an explicitly selected `continuous-h264-reordered-video-v1` profile to FoxicMP Classic, Windows Qt and Linux Qt. The existing default continuous profile and SDK 1.82 payload remain unchanged.\n\nUse `ContinuousRemux(client, session_directory, mode=REORDERED_MODE)` after checking the player capability. The new profile preserves H.264 B-frame presentation order without transcoding. Its current scope is one local video-only fast-start MP4, known duration, zero timestamp origin and confirmed SHA/ranges, within the advertised memory, byte and packet budgets. Audio, live and encrypted sources are outside this profile.\n\nIncluded: standalone Python SDK, Windows Classic and Qt portable packages, Linux portable tarball and Debian package (`0.2.0-183`). These packages are required for this new profile; earlier application installers do not gain it by replacing only the Python SDK. Personal profiles are not included. Application version remains 0.2.0; SDK version is 1.83.\n\nValidation covers all three editions, SDK 1.82 compatibility, explicit playback, pause/append/complete/seek/EOF, Stop, independent endpoints, files-closed receipts and final unpacked payloads. The clean SDK manifest records the exact source commit and every file checksum. See `docs/ProgressiveReorderedSdk.md` and the validation reports for scope and open acceptance items.\n\nThis is an integration prerelease, not full completion of the progressive playback specification. General audio/remux, longer stress tests and previously recorded latency outliers remain open. YouTubeHarvester is unchanged.\n"
+  },
+  "downloadScope": "SDK ZIP and both manifests downloaded; all seven assets verified against GitHub SHA-256 digest and size, not claimed fully downloaded",
+  "tests": {
+    "clean-unpacked-linux-reordered": {
+      "summary": {
+        "result": "PASS",
+        "count": 6,
+        "playerSha256": [
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5",
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5"
+        ],
+        "workerSha256": [
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf",
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf"
+        ],
+        "helperPath": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-clean-unpacked-linux/FoxicMPQt-0.2.0-linux-x64/integration/progressive_continuous.py",
+        "helperSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-clean-unpacked-linux/FoxicMPQt-0.2.0-linux-x64/integration/progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-clean-unpacked-linux/FoxicMPQt-0.2.0-linux-x64/integration/progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-clean-unpacked-linux/FoxicMPQt-0.2.0-linux-x64/integration/progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-clean-unpacked-linux/FoxicMPQt-0.2.0-linux-x64/integration/progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-clean-unpacked-linux/FoxicMPQt-0.2.0-linux-x64/integration/progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-clean-unpacked-linux/FoxicMPQt-0.2.0-linux-x64/integration/progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-clean-unpacked-linux/FoxicMPQt-0.2.0-linux-x64/integration/progressive_continuous.py",
+            "sha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+          }
+        },
+        "temporaryWorkRemoved": true,
+        "stagedCopiesRemoved": true
+      },
+      "evidence": {
+        "path": "_bin/reordered-sdk-clean-unpacked-linux-reordered/result.json",
+        "sha256": "4303427379a23da7365d7932795ea1931d9809db3f9cce2cd73327796b4de6a4",
+        "bytes": 34298,
+        "keptLocal": true
+      }
+    },
+    "clean-unpacked-linux-old": {
+      "summary": {
+        "result": "PASS",
+        "count": 5,
+        "playerSha256": [
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5",
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5"
+        ],
+        "workerSha256": [
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf",
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf"
+        ],
+        "helperPath": "/media/sf_Studio/Programs/MPMY-src/_bin/sdk182-extracted/progressive_continuous.py",
+        "helperSha256": "a5391e85de34aeca854ee699f2816890640a80f79cf023663e097c3e62ca13ea",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/sdk182-extracted/progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/sdk182-extracted/progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/sdk182-extracted/progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/sdk182-extracted/progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/sdk182-extracted/progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/sdk182-extracted/progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/sdk182-extracted/progressive_continuous.py",
+            "sha256": "a5391e85de34aeca854ee699f2816890640a80f79cf023663e097c3e62ca13ea"
+          }
+        },
+        "temporaryWorkRemoved": true,
+        "stagedCopiesRemoved": true
+      },
+      "evidence": {
+        "path": "_bin/reordered-sdk-clean-unpacked-linux-old/result.json",
+        "sha256": "b0df174045204c9a5c8e8130528a31a4c08143901a678029e353ec28c0d3a51f",
+        "bytes": 30048,
+        "keptLocal": true
+      }
+    },
+    "clean-unpacked-deb-reordered": {
+      "summary": {
+        "result": "PASS",
+        "count": 6,
+        "playerSha256": [
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5",
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5"
+        ],
+        "workerSha256": [
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf",
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf"
+        ],
+        "helperPath": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-deb-clean-extracted/usr/lib/foxiqmp-qt/integration/progressive_continuous.py",
+        "helperSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-deb-clean-extracted/usr/lib/foxiqmp-qt/integration/progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-deb-clean-extracted/usr/lib/foxiqmp-qt/integration/progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-deb-clean-extracted/usr/lib/foxiqmp-qt/integration/progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-deb-clean-extracted/usr/lib/foxiqmp-qt/integration/progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-deb-clean-extracted/usr/lib/foxiqmp-qt/integration/progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-deb-clean-extracted/usr/lib/foxiqmp-qt/integration/progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/reordered-sdk-deb-clean-extracted/usr/lib/foxiqmp-qt/integration/progressive_continuous.py",
+            "sha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+          }
+        },
+        "temporaryWorkRemoved": true,
+        "stagedCopiesRemoved": true
+      },
+      "evidence": {
+        "path": "_bin/reordered-sdk-clean-unpacked-deb-reordered/result.json",
+        "sha256": "e7e0805346bce359ca7918bc9ed20478cd93c0c4e0475bee13c99987bc701f40",
+        "bytes": 34216,
+        "keptLocal": true
+      }
+    },
+    "clean-unpacked-windows-qt-reordered": {
+      "summary": {
+        "result": "PASS",
+        "count": 6,
+        "playerSha256": [
+          "54a2485403507d5d76c068ec91fa4efcc8d424d17eeea8006499eb6dfb5daab1",
+          "54a2485403507d5d76c068ec91fa4efcc8d424d17eeea8006499eb6dfb5daab1"
+        ],
+        "workerSha256": [
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9",
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9"
+        ],
+        "helperPath": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+        "helperSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+            "sha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+          }
+        },
+        "temporaryWorkRemoved": true,
+        "stagedCopiesRemoved": true
+      },
+      "evidence": {
+        "path": "_bin/reordered-sdk-clean-unpacked-windows-qt-reordered/result.json",
+        "sha256": "27ff179c25f048986991a2c4701a47db4fdf6e8ea38ef9ce2ec0e4c70ff75697",
+        "bytes": 35099,
+        "keptLocal": true
+      }
+    },
+    "clean-unpacked-windows-qt-legacy": {
+      "summary": {
+        "result": "PASS",
+        "count": 5,
+        "playerSha256": [
+          "54a2485403507d5d76c068ec91fa4efcc8d424d17eeea8006499eb6dfb5daab1",
+          "54a2485403507d5d76c068ec91fa4efcc8d424d17eeea8006499eb6dfb5daab1"
+        ],
+        "workerSha256": [
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9",
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9"
+        ],
+        "helperPath": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+        "helperSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-qt\\FoxicMPQt-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+            "sha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+          }
+        },
+        "temporaryWorkRemoved": true,
+        "stagedCopiesRemoved": true
+      },
+      "evidence": {
+        "path": "_bin/reordered-sdk-clean-unpacked-windows-qt-legacy/result.json",
+        "sha256": "4c1b2e2017baa1975b5838a395c4ad8627e02f463f13984376b14042fb7caea6",
+        "bytes": 31345,
+        "keptLocal": true
+      }
+    },
+    "clean-unpacked-windows-classic-reordered": {
+      "summary": {
+        "result": "PASS",
+        "count": 6,
+        "playerSha256": [
+          "974917b277e725dbc5eadceb502a2a6db9e4f527967a9448529bbb32b5d95239",
+          "974917b277e725dbc5eadceb502a2a6db9e4f527967a9448529bbb32b5d95239"
+        ],
+        "workerSha256": [
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9",
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9"
+        ],
+        "helperPath": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+        "helperSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+            "sha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+          }
+        },
+        "temporaryWorkRemoved": true,
+        "stagedCopiesRemoved": true
+      },
+      "evidence": {
+        "path": "_bin/reordered-sdk-clean-unpacked-windows-classic-reordered/result.json",
+        "sha256": "c8bd803eb21f167ae13a7c872330478e9ec13cd7c6c5ed7085b3ad46877c4ba8",
+        "bytes": 34681,
+        "keptLocal": true
+      }
+    },
+    "clean-unpacked-windows-classic-legacy": {
+      "summary": {
+        "result": "PASS",
+        "count": 5,
+        "playerSha256": [
+          "974917b277e725dbc5eadceb502a2a6db9e4f527967a9448529bbb32b5d95239",
+          "974917b277e725dbc5eadceb502a2a6db9e4f527967a9448529bbb32b5d95239"
+        ],
+        "workerSha256": [
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9",
+          "33b18a3137b137af4253e0720e0176f6612c22f245f025cf5a00e5e3bd2d97c9"
+        ],
+        "helperPath": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+        "helperSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "E:\\Programs\\MPMY-src\\_bin\\reordered-sdk-clean-unpacked-classic\\FoxicMPClassic-0.2.0-windows-x64\\integration\\progressive_continuous.py",
+            "sha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+          }
+        },
+        "temporaryWorkRemoved": true,
+        "stagedCopiesRemoved": true
+      },
+      "evidence": {
+        "path": "_bin/reordered-sdk-clean-unpacked-windows-classic-legacy/result.json",
+        "sha256": "f111468077a3d2f1757480299a81086af11225441f3976a81f40d1930dcb8c52",
+        "bytes": 31003,
+        "keptLocal": true
+      }
+    },
+    "clean-installed-linux-reordered": {
+      "summary": {
+        "result": "PASS",
+        "count": 6,
+        "playerSha256": [
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5",
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5"
+        ],
+        "workerSha256": [
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf",
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf"
+        ],
+        "helperPath": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_continuous.py",
+        "helperSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_continuous.py",
+            "sha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+          }
+        },
+        "temporaryWorkRemoved": true,
+        "stagedCopiesRemoved": true
+      },
+      "evidence": {
+        "path": "_bin/reordered-sdk-clean-installed-linux-reordered/result.json",
+        "sha256": "b603425d4303b121ae6ff3e95218cd57ca09efa9e2f025adc2004cb2eba81074",
+        "bytes": 33899,
+        "keptLocal": true
+      }
+    },
+    "clean-installed-linux-legacy": {
+      "summary": {
+        "result": "PASS",
+        "count": 5,
+        "playerSha256": [
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5",
+          "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5"
+        ],
+        "workerSha256": [
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf",
+          "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf"
+        ],
+        "helperPath": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_continuous.py",
+        "helperSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "loadedSdkModules": {
+          "progressive_schema": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_schema.py",
+            "sha256": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778"
+          },
+          "progressive_client": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_client.py",
+            "sha256": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662"
+          },
+          "progressive_integrity": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_integrity.py",
+            "sha256": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830"
+          },
+          "progressive_resources": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_resources.py",
+            "sha256": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7"
+          },
+          "progressive_sdk": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_sdk.py",
+            "sha256": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2"
+          },
+          "progressive_v2": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_v2.py",
+            "sha256": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d"
+          },
+          "progressive_continuous": {
+            "path": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/integration/progressive_continuous.py",
+            "sha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+          }
+        },
+        "temporaryWorkRemoved": true,
+        "stagedCopiesRemoved": true
+      },
+      "evidence": {
+        "path": "_bin/reordered-sdk-clean-installed-linux-legacy/result.json",
+        "sha256": "a8fb680e7c64ea983568850ed8aa799c37e3e8b1353d2c886ad19b266b0770e7",
+        "bytes": 30305,
+        "keptLocal": true
+      }
+    }
+  },
+  "install": {
+    "result": "PASS",
+    "version": "FoxicMPQt 0.2.0",
+    "sdkVersion": "1.83",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/rollback-sdk183-20261105T134025Z",
+    "atomicReplace": true,
+    "replaced": {
+      "foxicmp-qt": {
+        "previousSha256": "3dec5db71ec7809d27998fc83416a70ae87de1af8e51ab5014b29b522abd9bf8",
+        "installedSha256": "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5"
+      },
+      "foxicmp-remux-stream-worker": {
+        "previousSha256": "f887cf452a6bf0c13b9096ce99c9f0fbb60a8f3d093f317918cecd262a782615",
+        "installedSha256": "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf"
+      },
+      "continuous-remux-worker.json": {
+        "previousSha256": "43678c4ad8a9366606ee0cc6f53f836a77ed4a44ed5713c667e8935f0f366525",
+        "installedSha256": "0fddbbe478585f6199c32a221f08ee3a99e8e8563b1ad3facfbcec59f23d47b7"
+      },
+      "integration/FoxicMPFamilyMatrix.md": {
+        "previousSha256": null,
+        "installedSha256": "b94605c0a3af530972b85b1efdb1b1262e36a13f016047afff1ec0384789860b"
+      },
+      "integration/FoxicMPFamilyPlan.md": {
+        "previousSha256": null,
+        "installedSha256": "fc9cbb00d607e8ba989518ab8fcdfab142d0a2256f6b98b51c2128f09004678c"
+      },
+      "integration/integrity-empty.idx": {
+        "previousSha256": null,
+        "installedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "integration/LinuxProgressiveApi.md": {
+        "previousSha256": "54ee249e891e4d7b902c97081be66cf556c6f486a2b10ddb9f206051f2c3e17b",
+        "installedSha256": "bd78e4c462931d0b9eb742c7a775d1caf06cca8dac837bb069b71a68626756b0"
+      },
+      "integration/progressive-v2-ac3.json": {
+        "previousSha256": null,
+        "installedSha256": "1b66009c7b7cbe61faf860e06a37f91ef484dff9edbc2c76feacca488080d6f4"
+      },
+      "integration/progressive-v2-adts.json": {
+        "previousSha256": null,
+        "installedSha256": "a6ba9ef7781bf94b2689c4962df706d94994f29caf9849a1297552f43e231a36"
+      },
+      "integration/progressive-v2-eac3.json": {
+        "previousSha256": null,
+        "installedSha256": "b37cca82d88d422a9f23aa8c03ebe662a4a2df46f6e25a05e45945b5aab5adeb"
+      },
+      "integration/progressive-v2-growing-ts-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "25ac4aa3b59fb9ca0dc68b4b1c63a5a26f5768948c33da5fb2ca19e666b3cbd6"
+      },
+      "integration/progressive-v2-indexed-mp4-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "7e6dce41d6842bb5341c33e5e9cdaddc67c0c586d3c189fbe5860119e4450681"
+      },
+      "integration/progressive-v2-mp3-gapless.json": {
+        "previousSha256": null,
+        "installedSha256": "73566d2da4df3a0c4d8f9ff0e8efa652c05a90eb7eb0d8f96419d8c68ae11391"
+      },
+      "integration/progressive-v2-mp3-indexed.json": {
+        "previousSha256": null,
+        "installedSha256": "8de2f093c3bbc8ea96ab13e76580a738ad46eb3a11ed75dfe2dba14e5fb3caba"
+      },
+      "integration/progressive-v2-mp3.json": {
+        "previousSha256": null,
+        "installedSha256": "09764564d6a68fcbb850cf4b51913837cb0c56f4bb93bd865b31864dccab45d0"
+      },
+      "integration/progressive-v2-muxed-fmp4-av1-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "bf639b9837eed0f69b1434f2bfff66bbd1e2309a3463bccbe27a073330534a8c"
+      },
+      "integration/progressive-v2-muxed-fmp4-hevc-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "66f55b64952427a3dbed618b4aadd3c4a96ca56d212a6edb8dd970f88ad1f8bb"
+      },
+      "integration/progressive-v2-muxed-fmp4-opus-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "881aca3abf641b8a6c4de0ba42699095ab3460572a6ae244825c1b2767e3a5d2"
+      },
+      "integration/progressive-v2-muxed-fmp4-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "31c8100beff30ed3046e921402606749c521d2b65d499f79991ad3a2151652b3"
+      },
+      "integration/progressive-v2-muxed-fmp4-vp9-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "089218c57d107ed918d14873971edfef2df0c75b22e2c2962117e5f9d85e2c55"
+      },
+      "integration/progressive-v2-muxed-webm-av1-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "99485b939ca2c2539c64075ae35cc6749a0d1edb36eb0b4723ceef44bb8dd18c"
+      },
+      "integration/progressive-v2-muxed-webm-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "4a3c10338da4ed1906f12908c5b1a05731664c115b2fe444ca7016cac188ed9d"
+      },
+      "integration/progressive-v2-muxed-webm-vorbis-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "20b2cfeeadf074be06b8bde550c2eba2ee976d37cfd087a137376cfa08f6e3eb"
+      },
+      "integration/progressive-v2-muxed-webm-vp8-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "8f7f9e45f9a93e49ec51953b751d7521b7e9d02ada432751feba3bfb4417988c"
+      },
+      "integration/progressive-v2-ogg-opus.json": {
+        "previousSha256": null,
+        "installedSha256": "f604abb5b1fb92cdd645b56d92d5fdfede6642e4d65beacff1a3002043e374a4"
+      },
+      "integration/progressive-v2-ogg-vorbis.json": {
+        "previousSha256": null,
+        "installedSha256": "dcf09424bfb65a76b9cdc31394cb079c43987bd2c6407269d3fc5714346f1c9c"
+      },
+      "integration/progressive-v2-raw-flac.json": {
+        "previousSha256": null,
+        "installedSha256": "b5f661d496f3d187284ccbc466620c8ee91a3164e28d1449293931ffa5a49006"
+      },
+      "integration/progressive-v2-rf64-external-index.json": {
+        "previousSha256": null,
+        "installedSha256": "be6966d3c2fe8274b1e11c3c13d3125244938e0e9769fda34774b40718c4af03"
+      },
+      "integration/progressive-v2-rf64-pcm16.json": {
+        "previousSha256": null,
+        "installedSha256": "e4b88020d5a722deb63634bd393c16e5f032bc0984f8b3ba4e605ceaea97c774"
+      },
+      "integration/progressive-v2-rf64-pcm24.json": {
+        "previousSha256": null,
+        "installedSha256": "580959b77971a608d06781aedaeaee29327936eca4fac0c0d8d42aa28d076020"
+      },
+      "integration/progressive-v2-rf64-sparse-pcm16.json": {
+        "previousSha256": null,
+        "installedSha256": "780c65509bc27a1a1dc1fe7f6cfa7ffe4df5875d0f918925aa6fbf23bbab9a8c"
+      },
+      "integration/progressive-v2-rf64-sparse-pcm24.json": {
+        "previousSha256": null,
+        "installedSha256": "8e59dd5fe7b9f36ff23660b7924fdb82460a6858474ad3b7091371d775fb7c62"
+      },
+      "integration/progressive-v2-standalone-audio.json": {
+        "previousSha256": null,
+        "installedSha256": "29fbccf037125218f6e96f85948c873fc5e13ad06186232f5e835e644e1514ad"
+      },
+      "integration/progressive-v2-standalone-flac.json": {
+        "previousSha256": null,
+        "installedSha256": "2ec4ccab2d9bd4d9b4b476cc13ca038c8a3dd06cc919c4206939ea9c8600560e"
+      },
+      "integration/progressive-v2-standalone-fmp4-av1.json": {
+        "previousSha256": null,
+        "installedSha256": "f1580bcdd7084c1d3ada483d63ab7f25f5580e747ec48efa4ae228c964c66720"
+      },
+      "integration/progressive-v2-standalone-fmp4-hevc.json": {
+        "previousSha256": null,
+        "installedSha256": "b5b972044ecaf35b2e4e3a47f72e6102148ddc07d0738de5546bba90c2dda6bc"
+      },
+      "integration/progressive-v2-standalone-fmp4-vp9.json": {
+        "previousSha256": null,
+        "installedSha256": "98db2322cd25f9fac3b5a40b23e10f5e4863a53b7aae7394cf2d783fd0b7eac5"
+      },
+      "integration/progressive-v2-standalone-opus.json": {
+        "previousSha256": null,
+        "installedSha256": "75373f9b543cad7a367c4824ea09b97a3410f01e23cb042f2611a627acc778f6"
+      },
+      "integration/progressive-v2-standalone-video.json": {
+        "previousSha256": null,
+        "installedSha256": "9c841ca54a836242562de138fe1618987d52a9c6c23fac9ced6f1ba7bfd7828e"
+      },
+      "integration/progressive-v2-standalone-webm-av1.json": {
+        "previousSha256": null,
+        "installedSha256": "d046bbb8ecf52ea0a77b08819eda5db26a0c357a3011736e12abfc5f6d834920"
+      },
+      "integration/progressive-v2-standalone-webm-opus.json": {
+        "previousSha256": null,
+        "installedSha256": "6e99da370c84035403bea8b755b2a2d278d966ec7e28e6e19991f6cb4adc748d"
+      },
+      "integration/progressive-v2-standalone-webm-vorbis.json": {
+        "previousSha256": null,
+        "installedSha256": "25704f845dae86ed9a881e30e74ec2f83cfd43e3aa6464fec156dc0b3954ce8b"
+      },
+      "integration/progressive-v2-standalone-webm-vp8.json": {
+        "previousSha256": null,
+        "installedSha256": "d6b98809dd1c792486efa1183411e9a47e4d118efbb0a60a4baf80c1ffa1fd30"
+      },
+      "integration/progressive-v2-standalone-webm-vp9.json": {
+        "previousSha256": null,
+        "installedSha256": "3b22e349aa4a8bbb704a98adb7f145dde0dfbed4705ea985bd5ffa0f1eafbe6f"
+      },
+      "integration/progressive-v2-tail-mp4-vod.json": {
+        "previousSha256": null,
+        "installedSha256": "8dcf5677cf0108118109583f6f41b6017a4500f8b6d1c4f1817312b8979fdd0b"
+      },
+      "integration/progressive-v2-wav-extensible-pcm24.json": {
+        "previousSha256": null,
+        "installedSha256": "2a492b8aa59e52fa93ac3b6029df59f6bfb14885c78f284f961108ddce236796"
+      },
+      "integration/progressive-v2-wav-pcm16.json": {
+        "previousSha256": null,
+        "installedSha256": "5b7159b0e40128f2d1286903b0faee08fd9b7445fbcfedad772307566dde734a"
+      },
+      "integration/progressive-v2-wav-pcm24.json": {
+        "previousSha256": null,
+        "installedSha256": "7dd1470eee48f9337832cc19f3bad9b1f57bb1bd55c2dfd4036d218d1a60502c"
+      },
+      "integration/ProgressiveAc3.md": {
+        "previousSha256": null,
+        "installedSha256": "22df11009a7832f630322325170f4ff7544abc5c91f636f405d9beffd94c41ae"
+      },
+      "integration/ProgressiveAc3Validation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "8f428ed73f9111ea93ce821383687d7051a3b07020380b6774aacd2feb3dc965"
+      },
+      "integration/ProgressiveActiveAudioErrors.md": {
+        "previousSha256": null,
+        "installedSha256": "680773168dd9a10a23873265f2fcc2695fb0ba9f412351f13d44e587d0059b18"
+      },
+      "integration/ProgressiveActiveAudioValidation-2026-10-29.json": {
+        "previousSha256": null,
+        "installedSha256": "7ed497fdf87819457131031a3a33468c77b749f22e6f975fdfeb96dfdaf21b75"
+      },
+      "integration/ProgressiveActiveAudioValidation-2026-10-29.md": {
+        "previousSha256": null,
+        "installedSha256": "67443563773d708a7bbec78cedb217dea888b70c8cfd7c3629a30a0a1e5f622c"
+      },
+      "integration/ProgressiveAdts.md": {
+        "previousSha256": null,
+        "installedSha256": "b49e5fb81c9e434cc11b24bbf7a390299b06b1d073d9be6ac28e6f06b8c64eeb"
+      },
+      "integration/ProgressiveAdtsValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "2b40e02ae2ae0592fb3bf1d267f19bc4630e8ad53417f43b0cbacbabeb6d1f6d"
+      },
+      "integration/ProgressiveAdtsValidation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "285ab28303f194a63492bb7b067ff9514866defead223b05c4824e61050e7593"
+      },
+      "integration/ProgressiveBackendDemux.md": {
+        "previousSha256": null,
+        "installedSha256": "1bb1110d685875ebbfac139cb18ee2a580a55827781686f8ffb9b0947bf46821"
+      },
+      "integration/ProgressiveBackendDemuxValidation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "412360a378c5bf7bc36cb45974bb37c7bc3c62a60c80768a8ff55a3d5f65fa73"
+      },
+      "integration/ProgressiveBackendDemuxValidation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "ba01fa872be565597fdc0c0a05ef13797b97aef6396ccb13c9cfb5339811fdb8"
+      },
+      "integration/ProgressiveCatalogCache.md": {
+        "previousSha256": null,
+        "installedSha256": "9bc0b21ce9dff57d5f446cfc34fbbd4ab13e7d87f6a47619e0868058a337cbd0"
+      },
+      "integration/ProgressiveCatalogCacheValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "2a675844a95d951c36bf49a5c2eed4374a4997b69dc8b3dedc80b96e7ff807e1"
+      },
+      "integration/ProgressiveCatalogCacheValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "5ee3b82774f5f4115e716d5d9c520ce6180044a3ec4f4923aad4045b2a352fff"
+      },
+      "integration/ProgressiveCatalogPlayback.md": {
+        "previousSha256": null,
+        "installedSha256": "81b723c2f22601c6359dc02cdf3f026a2d2f9813739c23199fc9fa4f8658709d"
+      },
+      "integration/ProgressiveCatalogPlaybackValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "bdf4c0b4e43528e170a1b46beb6c9b890c5cceb505e278b61089eeefe2f7cc6b"
+      },
+      "integration/ProgressiveCatalogPlaybackValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "ae48df00b749c18de1a16b6ac8f6402b8e1d3adae675cf9793be8179c057bc04"
+      },
+      "integration/ProgressiveClassicMp3Gapless.md": {
+        "previousSha256": null,
+        "installedSha256": "5cdf955ace514509860b4fbd96f6f491e770e193eac90ec1d8c7dd4897e40632"
+      },
+      "integration/ProgressiveClassicMp3GaplessValidation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "76aeff3e170a9c93930cd9d84244b17fc0e7b9796b4584e8e935133d5ccc9f9a"
+      },
+      "integration/ProgressiveClassicPcmGraph.md": {
+        "previousSha256": null,
+        "installedSha256": "1842ea4eaa56dc175d1e4e76aa0ea14659b46cc2541ff41772d5b81c1b898b1a"
+      },
+      "integration/ProgressiveClassicPcmGraphValidation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "72d0d187a58d2df667c0047c9ee40fb4ca6411136da8ab42e98dfc431a561035"
+      },
+      "integration/ProgressiveClassicPcmWindow.md": {
+        "previousSha256": null,
+        "installedSha256": "159741ae28be353258d100f8d214720696f55ed4f06005a9dac149007501687a"
+      },
+      "integration/ProgressiveClassicPcmWindowValidation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "3a35d8dd6e822c1f5d249d770ad01f098092a70f1f974d5f9b284fee6f43427f"
+      },
+      "integration/ProgressiveCompletedSeek.md": {
+        "previousSha256": null,
+        "installedSha256": "e66748d6e12388103103f72814848bfec9aa028e24753330443d053df6a11dfa"
+      },
+      "integration/ProgressiveCompletedSeekValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "3a1ffef8ee015a6ac07e4b358e290a3ae82f717d109424a29d76f839c6baa973"
+      },
+      "integration/ProgressiveCompletedSeekValidation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "30bb910f7b2d19c6efe1543d6bbba771af5f4468d8c51cea8d2099d8868f11ef"
+      },
+      "integration/ProgressiveCompletionChecklist.md": {
+        "previousSha256": "aeebc0df023ebb4894b42b3ecef69353d5b8a3b1b1afda4fdf9806e8ce717f59",
+        "installedSha256": "139813776a05d4198a36bb5529d804f5e924d8eb22def512946c573035939e21"
+      },
+      "integration/ProgressiveContinuousRemux.md": {
+        "previousSha256": "902e89093484b4190154343bb4b032f290b4abd59ce1d7c66547a1f6aa7416c9",
+        "installedSha256": "a844801d70e7159a5b74545fff12a92dced3c1ff3924df6caa691196f902cf2f"
+      },
+      "integration/ProgressiveContinuousSdk.md": {
+        "previousSha256": "e3f40879284ba273b93055cefddf4bbea830b94b6973a577c3b73633debf451d",
+        "installedSha256": "9177d4eda6245068bcbb34f80973ab5da55b9d24aff89d775a15ee20795eed34"
+      },
+      "integration/ProgressiveEac3.md": {
+        "previousSha256": null,
+        "installedSha256": "d55d0930edba222b8b1cc65a518aa2ffe412711b46e4353b5745b0b0225022bc"
+      },
+      "integration/ProgressiveEac3Validation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "d33deadebb3b8fe70f58f2b7604746b21344d6a47f37480f9640b02484c1b155"
+      },
+      "integration/ProgressiveExternalIntegrity.md": {
+        "previousSha256": null,
+        "installedSha256": "1b25b9fd37bd8efaec9234246296728b4d26a272839e14e20f533f7e4da4dab9"
+      },
+      "integration/ProgressiveGrowingTs.md": {
+        "previousSha256": null,
+        "installedSha256": "a745eae50b619f8471b9af463f08b8c2e5b08f156e53460e5b52488424a3bb28"
+      },
+      "integration/ProgressiveGrowingTsValidation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "f1a6e25ed97dd094f9a19b35a233485d2e9551ed67291903f143ef66fa5c5c13"
+      },
+      "integration/ProgressiveGrowingTsValidation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "355a212e17c4700d08410592855c5f0ba75197a71b0bd67ac9dcc1d91fb8f722"
+      },
+      "integration/ProgressiveIndexedMp4.md": {
+        "previousSha256": null,
+        "installedSha256": "e757ffd7acc587e36a457a42e9d37d0abd12bbfadcb16e616aef29d52ab9c887"
+      },
+      "integration/ProgressiveIndexedMp4Validation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "aa260e6a97ce4c0fcb8335bab32bf8795319f94ac4c93f7373436a3217d40803"
+      },
+      "integration/ProgressiveIndexedMp4Validation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "329709173ec3165818f4547fc4dfc30ea0beec9987e450f6ba6946e786fda291"
+      },
+      "integration/ProgressiveIntegrationPlan.md": {
+        "previousSha256": "82fd5988378cf5b350f8897f5818651b15f1d729722c8940ab5cbdac7e4fa0ae",
+        "installedSha256": "1774d279338f02b795a814e43bf638e9995724ba4fc9dbe36afdf794d655a7e9"
+      },
+      "integration/ProgressiveIntegrity.md": {
+        "previousSha256": null,
+        "installedSha256": "7d23c31cc9b2cc95bcbef1785a4a61feb0e49b013f5116962095e9f001de732f"
+      },
+      "integration/ProgressiveIntegrityValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "9e91ae9702ada93c2e89f7f4bcd04b1c927a7fba90031135fe0fcc963cdf1b8a"
+      },
+      "integration/ProgressiveLargeRf64.md": {
+        "previousSha256": null,
+        "installedSha256": "208d80e71b8ce72ac1307810a8782256d69df582c0b832d978192dddd28b5ab3"
+      },
+      "integration/ProgressiveLargeRf64Validation-2026-11-03.json": {
+        "previousSha256": null,
+        "installedSha256": "a8906ff378751ed31a05c8c5c317a0ef97c1f4d87f48aa2b6d54ea7a99604a83"
+      },
+      "integration/ProgressiveLocalCatalog.md": {
+        "previousSha256": null,
+        "installedSha256": "b9337e5212519f728cdfc6fbd6fe6d1badb52deb84039d8c4252ab0ef7c74cd4"
+      },
+      "integration/ProgressiveLocalCatalogValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "d4c152c3adf7385a2e335055ad61f8dcd3420cddc9bbf1259b58235558c9b847"
+      },
+      "integration/ProgressiveLocalCatalogValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "d18ac575a8d9e1689731c4b8cfb1d5b0badb09b9a4611968640125b2de27378b"
+      },
+      "integration/ProgressiveManifestV2.md": {
+        "previousSha256": "bb75eeaeb26658572ebe6c52dbf39ba04e0a2065c65be13ace28dc4ceb3e626f",
+        "installedSha256": "a5ed303d8ff702c21ee1d8b7140f7c191a8e32c01dbfd89c814b21b8c902823e"
+      },
+      "integration/ProgressiveMetadata.md": {
+        "previousSha256": null,
+        "installedSha256": "9f0561d2022f4eb3c1a4b1c318fdeac4099e8f13aefab0da9f11e7d1fbc74f4e"
+      },
+      "integration/ProgressiveMetadataUiValidation-2026-10-29.json": {
+        "previousSha256": null,
+        "installedSha256": "fe8db6ca615f8e9b725e515a9a6332b63516548daa126764a373e9f7f59a6e9b"
+      },
+      "integration/ProgressiveMetadataUiValidation-2026-10-29.md": {
+        "previousSha256": null,
+        "installedSha256": "d17c167cc419be7c36aad8f713376a18838012a10a93ff111590bf67241de792"
+      },
+      "integration/ProgressiveMetadataValidation-2026-10-29.md": {
+        "previousSha256": null,
+        "installedSha256": "867c0f27388de1fb244f979028d3ae91b7b7eb5f9a0e02a749175502c5a906c5"
+      },
+      "integration/ProgressiveMp3.md": {
+        "previousSha256": null,
+        "installedSha256": "66aa0fa00e4d337a8beac5b9cf1579a3d6fdac8dff32444f12c3f5ae1b022c99"
+      },
+      "integration/ProgressiveMp3Gapless.md": {
+        "previousSha256": null,
+        "installedSha256": "87061404ebe9773a16880c43a770b468893aa935733de1141fac9ee85b7f5aac"
+      },
+      "integration/ProgressiveMp3GaplessReference.md": {
+        "previousSha256": null,
+        "installedSha256": "5dbe7682ddfce38373d876ae5cd19561d254af6deec3a309cd6c6bbeca57c8e5"
+      },
+      "integration/ProgressiveMp3GaplessReferenceValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "852ca380180e521b39eda742843213f847cb2f4921e8cf6a342e3f4f9207df75"
+      },
+      "integration/ProgressiveMp3GaplessValidation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "0a8e4a73ec211ef56ba2b6df3f517aaaa66f65be5971c13634ca579f4fa59528"
+      },
+      "integration/ProgressiveMp3GaplessValidation-2026-11-02.md": {
+        "previousSha256": null,
+        "installedSha256": "6dcfa400a4b9fcc9e37a943decfecc5f0b4508b3557303d057aa0638931a2314"
+      },
+      "integration/ProgressiveMp3Indexed.md": {
+        "previousSha256": null,
+        "installedSha256": "3fd1fde84ea033d19e22495d69a3e03922293004e56d0458e0d39217740d2ec8"
+      },
+      "integration/ProgressiveMp3IndexedValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "4c404ad0f3895b23fa77b23b49216ff814c799f477b35a900c24ac5c6de3840e"
+      },
+      "integration/ProgressiveMp3IndexedValidation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "6016152922caade2611c17b590e09958d7986a71820ba51b8550521f32b91740"
+      },
+      "integration/ProgressiveMp3Tag.md": {
+        "previousSha256": null,
+        "installedSha256": "7dee196f3bbfc54fffaec52fb498c12aeed82d48ceb147fe475bd77479ddf86e"
+      },
+      "integration/ProgressiveMp3TagValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "7ce20b6d1df2e2b07b527a284c8a22d25363e062fbd219d3a85b0b149ec860ec"
+      },
+      "integration/ProgressiveMp3TagValidation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "43fe2e1d9b09370150539b2d14dd9173238a902e4ad724b97ed7920183118c42"
+      },
+      "integration/ProgressiveMp3Validation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "b5ce6c3a0dbd8515f2ad9284b2cf01834f440298016fc9b21e9307dfbd558285"
+      },
+      "integration/ProgressiveMp3Validation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "b97f253494e6e77e104cf8af5877661d8ce5a713a866793d295eb1d909deb842"
+      },
+      "integration/ProgressiveMultiTrack.md": {
+        "previousSha256": "5faf6f458458c9d5d6fa246381bdc321955f080a93cf27ef88c328494aaae4de",
+        "installedSha256": "4740b7a4388841df95e6ab7f776a6a08bb94deada2b8a6d4693298ff6194c65e"
+      },
+      "integration/ProgressiveMuxedFmp4.md": {
+        "previousSha256": null,
+        "installedSha256": "d23e9c2d7a5a99025281a750a57e2e54f7a28aed0a6c63e3905bee7b5383c2e2"
+      },
+      "integration/ProgressiveMuxedFmp4Av1.md": {
+        "previousSha256": null,
+        "installedSha256": "e971c3bfbf56c9887a2837a600987c8f3c6210dd894802366be12b0db767144f"
+      },
+      "integration/ProgressiveMuxedFmp4Av1Validation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "c9d3c815536eb4d8ff1dcf59885d9d893b7250e150aba3f7f7915488628def6b"
+      },
+      "integration/ProgressiveMuxedFmp4Av1Validation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "16b705d1b9794dfba8b4a24784fde5b9e1be8a30862f330864ec4016d298ef25"
+      },
+      "integration/ProgressiveMuxedFmp4Hevc.md": {
+        "previousSha256": null,
+        "installedSha256": "e59ccf549419f796871254773a1272bc349ef0f3c864a787006c231624a710c4"
+      },
+      "integration/ProgressiveMuxedFmp4HevcValidation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "87ced3c5381a636f151825d92972dd3258ce46003e49da74145b0236253c9162"
+      },
+      "integration/ProgressiveMuxedFmp4HevcValidation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "885ce26c77551343e56bd5097318b75538a3ce0f4fba5f230d87f003c748fc9f"
+      },
+      "integration/ProgressiveMuxedFmp4Opus.md": {
+        "previousSha256": null,
+        "installedSha256": "e0201dff898f175c736c22a6490ee3c1f7c30a1e24343a3e81e51c34cb2ad1fc"
+      },
+      "integration/ProgressiveMuxedFmp4OpusValidation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "9cf1a6e62178088483d2f618171702731710ffade41e3eef9aba7353123b1a09"
+      },
+      "integration/ProgressiveMuxedFmp4OpusValidation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "1a85b1c9dd50b6f3db00a899ba0d2316bb5b5cb6808a80ab994be0dbd41329a2"
+      },
+      "integration/ProgressiveMuxedFmp4Validation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "ced0370b5fec42cd2123f1078763cfc07a2e2849658fc8d4470d95746f9a17ed"
+      },
+      "integration/ProgressiveMuxedFmp4Validation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "e1aa8c6949d019ab5165fb07f0b65cb12a09750d2f3c7d30e63ddd59ab90e702"
+      },
+      "integration/ProgressiveMuxedFmp4Vp9.md": {
+        "previousSha256": null,
+        "installedSha256": "96a4d5e0a681f4f49363fd4680ad71b012f37eafc1e5e74367dedbf18cdb48f0"
+      },
+      "integration/ProgressiveMuxedFmp4Vp9Validation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "257b03c8e50ddbab09c3139e5fd2ad1fc885a300220b7e14adffe13286089054"
+      },
+      "integration/ProgressiveMuxedFmp4Vp9Validation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "da6ae32495339dcbce8f6244e6a5aef527059ee7ddc6e120f96a0ad1c3b8a9ce"
+      },
+      "integration/ProgressiveMuxedTsPlayback.md": {
+        "previousSha256": null,
+        "installedSha256": "ef61b99a0c4febd08b64836523fe0ffbb592caba879a41276e00f065912637ec"
+      },
+      "integration/ProgressiveMuxedTsValidation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "883d403392bede71bc11a5b75be4ad363e45b529ed477f5124ccfebaaaa272d2"
+      },
+      "integration/ProgressiveMuxedTsValidation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "4f2bc86a921930d6949ab2ae0cca61fc752f0993333e2cbce61d5869eccc39c1"
+      },
+      "integration/ProgressiveMuxedWebm.md": {
+        "previousSha256": null,
+        "installedSha256": "fdecebf58be58df7a2dfe60d0bc56f4940ba5bca028d0f04cfd3f7394498b25a"
+      },
+      "integration/ProgressiveMuxedWebmAv1.md": {
+        "previousSha256": null,
+        "installedSha256": "00679bf8fe9dcea0590e14571b60bc20f176bf540cc9b7d25d6d6bb008176a1d"
+      },
+      "integration/ProgressiveMuxedWebmAv1Validation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "e7f1bd5ba3ecadb992722ccd60404450ee236ad68f6f1b93ac4a56cccee367c5"
+      },
+      "integration/ProgressiveMuxedWebmAv1Validation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "7ea88f9672c5b0cf9e6839f1fb066871f1689346fed967c975d038751c2437ee"
+      },
+      "integration/ProgressiveMuxedWebmValidation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "a87905a43d8bd68e05c86d655333c5ecf4e2c2cc2eeb98908e814a6045d815c8"
+      },
+      "integration/ProgressiveMuxedWebmValidation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "671d026181e3b1e1d09e70f76191ad6362e3ebbdc45cb109badbb95ad4b25290"
+      },
+      "integration/ProgressiveMuxedWebmVorbis.md": {
+        "previousSha256": null,
+        "installedSha256": "d94aa5f9d348073d5e77443c75ef7309648e73422c0c79ab80d163b7a8133fa6"
+      },
+      "integration/ProgressiveMuxedWebmVorbisValidation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "defadccd60d31233bfb98082332dc2b7be3c3e7ff8ee2db3266e38aacc04d743"
+      },
+      "integration/ProgressiveMuxedWebmVorbisValidation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "f715bbdde1a9c99c160392e6c4c0a5d4aa41a392fdcf83aa531ced0eeab877b6"
+      },
+      "integration/ProgressiveMuxedWebmVp8.md": {
+        "previousSha256": null,
+        "installedSha256": "594185aa8d4c416da9e050e7aa29bbe10f0e3176fa42ca7ed562e286051d5511"
+      },
+      "integration/ProgressiveMuxedWebmVp8Validation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "727e7a2123982cbe39b0d173f59d7339c60fe4f18eface6e11e031d65d8bad58"
+      },
+      "integration/ProgressiveMuxedWebmVp8Validation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "ca83be44ea7177a52ce8137cebcd2dcbf8d2242e5e201797daf7402513396dea"
+      },
+      "integration/ProgressiveOggOpus.md": {
+        "previousSha256": null,
+        "installedSha256": "4b29c238acabe94367d3c64ba16a7d6b0056a474648a8f1e2d47247e9cb9b089"
+      },
+      "integration/ProgressiveOggOpusValidation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "1b44cd73345d5f42e7db9f71eee8cc2d7e3f90727164e82a2fa6ffb4ea4c438b"
+      },
+      "integration/ProgressiveOggVorbis.md": {
+        "previousSha256": null,
+        "installedSha256": "6789d2a4193054decf9c4187fb62280b50210a08a2d880d4e49764cad6b2b6f4"
+      },
+      "integration/ProgressiveOggVorbisValidation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "4c54c52c0e814a6f259faea1a4bfb3e638a4940b874691bce5c862b7f0c80911"
+      },
+      "integration/ProgressiveOptionalAudio.md": {
+        "previousSha256": null,
+        "installedSha256": "fcab339ef9b6ad6331cfd32ecc50d54281ed1b8e46997c8f98de7ace3ae849a7"
+      },
+      "integration/ProgressiveOptionalAudioValidation-2026-10-29.md": {
+        "previousSha256": null,
+        "installedSha256": "705a83d01f24492c7a0cf3cbc5bebb4f1a1505b41b0a2f01c856aeb7dc1a6a42"
+      },
+      "integration/ProgressivePartialAudio.md": {
+        "previousSha256": null,
+        "installedSha256": "f70658a141c53624090a8c91b5e61967da4319a4b05a47dc6720b321d1320d6f"
+      },
+      "integration/ProgressivePartialAudioValidation-2026-10-29.json": {
+        "previousSha256": null,
+        "installedSha256": "85ea1d87a8d7c4019ab47defcf76560f7691b48691deb4ac7259baf2fdf36fdf"
+      },
+      "integration/ProgressivePartialAudioValidation-2026-10-29.md": {
+        "previousSha256": null,
+        "installedSha256": "53911d92954110a6088a6fe72a4ae63f45196f3b7721ec2bd390627c34b1df5e"
+      },
+      "integration/ProgressivePreparedPreview.md": {
+        "previousSha256": null,
+        "installedSha256": "5bac1c4df5f78c06e9bb65ec0a1954d4bb6e6312732c00b4686a5dcd6a1563d3"
+      },
+      "integration/ProgressivePreparedPreviewValidation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "38b70f208bd518ad75283bb984dce8e2307744f1decb8df64c8d1c22918d3af8"
+      },
+      "integration/ProgressivePreparedPreviewValidation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "663e19b0d2c10603e5ab565f388ab6982db71d8bff321149d934cff8e4f8784a"
+      },
+      "integration/ProgressiveQtPcmWindow.md": {
+        "previousSha256": null,
+        "installedSha256": "5ebdddeb9b03db575fb3edd4e9720643ef7c88f552a7f4de184d52655903f2e3"
+      },
+      "integration/ProgressiveQtPcmWindowValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "5501745a49948aee420b9d75f7adc859ae5bec27482bd99373bae4ad761a5d19"
+      },
+      "integration/ProgressiveRawFlac.md": {
+        "previousSha256": null,
+        "installedSha256": "e4dca2e3bbf5ca829bffa29ceecc28b99362b6df1a04ededb186e4ea360410f0"
+      },
+      "integration/ProgressiveRawFlacValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "18e55dd49fb31e559d1f5139144f5bed508b0b3ae7ed16a90c43626f732f255f"
+      },
+      "integration/ProgressiveRawFlacValidation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "4f7aa2ecfec77798d5d6c937db00a393210f847715e156dae55ad5c236755d80"
+      },
+      "integration/ProgressiveReaderLeases.md": {
+        "previousSha256": "a5dcc45d9834175e289bf96b3d2a9bd0e7fd4a1ba4c6bb4709db7ef225fcfe8d",
+        "installedSha256": "e7a2575b5e8affa1fa71eb8a5902939c02637a593f8b21c1bc8bed290a63cdbf"
+      },
+      "integration/ProgressiveRemuxStage.md": {
+        "previousSha256": null,
+        "installedSha256": "1cda03f6f9cf7598c14de0d4a7fa68f4cd1fd2b42b0eeef72248ba0ecd734c0e"
+      },
+      "integration/ProgressiveRemuxStageValidation-2026-10-31.json": {
+        "previousSha256": null,
+        "installedSha256": "b24744d9ca2073fb34a72bc536d659ddd4c2a739bccf57de6afa151b9dcdaebb"
+      },
+      "integration/ProgressiveRemuxStageValidation-2026-10-31.md": {
+        "previousSha256": null,
+        "installedSha256": "24c7fdb317eea548771bf6d02df7c7e351313a9aee68123fb24ec1e665af26f7"
+      },
+      "integration/ProgressiveReorderedSdk.md": {
+        "previousSha256": null,
+        "installedSha256": "d2839f82f7b41609d3da86cb17f5a6b025b4d1b99859fc3d55a94c37ccc9d652"
+      },
+      "integration/ProgressiveReorderedSdkValidation-2026-11-05.json": {
+        "previousSha256": null,
+        "installedSha256": "69cb3a5512ba6d262ea6ad497db1c2ca5cd438c0b31047f5726ca167d5be0f7b"
+      },
+      "integration/ProgressiveResourceIo.md": {
+        "previousSha256": "3f553e55d732b9a194282849ccd15fc086bfa7e313eef83fd0fd51e5b9bd593b",
+        "installedSha256": "b88293c1580a8136a706f38e9d3e001007e49c9a16a9b88e3631457df4bcae82"
+      },
+      "integration/ProgressiveRf64.md": {
+        "previousSha256": null,
+        "installedSha256": "c08a88ea9ccd3f683006f533575bf01304b53be2d6ac56c2d9564852b1d0f5cd"
+      },
+      "integration/ProgressiveRf64RangeMap.md": {
+        "previousSha256": null,
+        "installedSha256": "c9d8e593731bae6a28489f0e026ea101f6440c3707a95e639ef9c7510e843329"
+      },
+      "integration/ProgressiveRf64RangeMapValidation-2026-11-03.json": {
+        "previousSha256": null,
+        "installedSha256": "8a835c5e3e8b164d1a565a80c13ef23120cddd05aac182dc9caf2a74f050af05"
+      },
+      "integration/ProgressiveRf64Ranges.md": {
+        "previousSha256": null,
+        "installedSha256": "faf802443eabb1f29e01e662cb2d4b6c92e334ca63e676b55b7e87363aad6897"
+      },
+      "integration/ProgressiveRf64RangesValidation-2026-11-03.json": {
+        "previousSha256": null,
+        "installedSha256": "3aba7ed29ff80712ae1606551bfbbf92280d631539986758a9a3b673c9cf9536"
+      },
+      "integration/ProgressiveRf64Sparse.md": {
+        "previousSha256": null,
+        "installedSha256": "4a1a6ce32e0c35d31f388bd44bb0bc88db870c5827544cdffa26f4338a969cc3"
+      },
+      "integration/ProgressiveRf64SparseValidation-2026-11-03.json": {
+        "previousSha256": null,
+        "installedSha256": "bb6d097e99c1b20d7376f8aa5e8cd18e1bfa8430f70b0d465bac7c2e1b5076e7"
+      },
+      "integration/ProgressiveRf64Validation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "83b98b57950c7c4b2bd072947a48f64898a84e22f7a39fcf38dedd09ea31b9d8"
+      },
+      "integration/ProgressiveSdk.md": {
+        "previousSha256": "9a107a30e2f7c1e48ba9e9f51d5578887a1eba339cb92d20f1c3fdb250bb271f",
+        "installedSha256": "210902b786a9ab93523054669a7944f074d3710ee9a1e3f7807537299a70502c"
+      },
+      "integration/ProgressiveSegmentAv1.md": {
+        "previousSha256": null,
+        "installedSha256": "ead1c7b7fccc90ebd25014403a6e02569af20bb2350d07e126f4fc8be7185595"
+      },
+      "integration/ProgressiveSegmentAv1Validation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "9e50a4055947398a31b7779f89485d49f77dc175f24a342be6a32d6b167cd774"
+      },
+      "integration/ProgressiveSegmentAv1Validation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "1151a13a4837d60a8d348e87148561ed6fcd72c82151ad7abddb7b672a0ed529"
+      },
+      "integration/ProgressiveSegmentCatalog.md": {
+        "previousSha256": null,
+        "installedSha256": "6e8feebbb6bbe0e2e935d04b843060bb41fcac815dee5a3b2f5ad164b75202db"
+      },
+      "integration/ProgressiveSegmentCatalogValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "ba5b68dfd572b1813213e5a1f6e7af38e090a3f055dcef7516e767dba725b6db"
+      },
+      "integration/ProgressiveSegmentCatalogValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "1aaad8bb3104c2f7c8d139aa9ab3fc383a94d80684524983c74dfc5f22292c16"
+      },
+      "integration/ProgressiveSegmentHevc.md": {
+        "previousSha256": null,
+        "installedSha256": "04bb69884f718a8627e3de660009a58fdff21475a7538c81a6650a7688ce0e28"
+      },
+      "integration/ProgressiveSegmentHevcValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "549b8c1773f948939dd61c6ca5eb187e2261a6d259ede5be5996ba6f02ccb4ad"
+      },
+      "integration/ProgressiveSegmentHevcValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "8be078c9c8a1dcf352dcb2c9f54faf7e3125c52ba1cd7adc1735c5ba3ee4f6c5"
+      },
+      "integration/ProgressiveSegmentPlayback.md": {
+        "previousSha256": null,
+        "installedSha256": "e4408f3b2b2c8e1c11a19d9927f7c64ab1597f8d4bf513df7a636e38d9101f30"
+      },
+      "integration/ProgressiveSegmentPlaybackValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "1b90d43f18423ba4afc4498675f9869fa6b273870c69ad2add7a460b06b6db7c"
+      },
+      "integration/ProgressiveSegmentPlaybackValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "c99ea7d3fae82d4fd36592d2f700fe3664fc5a8ca9f24cf87ebb0983591b7576"
+      },
+      "integration/ProgressiveSegments.md": {
+        "previousSha256": null,
+        "installedSha256": "0a996be4af64e0c141304b8418cff75fb11009be07c26d4706bf370c47f0e5c6"
+      },
+      "integration/ProgressiveSegmentStaging.md": {
+        "previousSha256": null,
+        "installedSha256": "28ad35ea000af7f4e7b19f8d846529cae80430e3fe8fca656344767df18a25dc"
+      },
+      "integration/ProgressiveSegmentStagingValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "924b45a84e841f52329812864ab70882e61947e1e99f1c1083f93f316e3c8061"
+      },
+      "integration/ProgressiveSegmentStagingValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "6acfd6832d7c66fb14a1f2399d846618dda775258105502f5a45be47b0043af6"
+      },
+      "integration/ProgressiveSegmentsValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "d8125378b80c0a54162f469bbd3f6e118a3fb0f0a7af271f5b52a725ba7b5f98"
+      },
+      "integration/ProgressiveSegmentVp9Opus.md": {
+        "previousSha256": null,
+        "installedSha256": "c90e0f728a96acec687af2ced2a98c34c67e85410c7c05a1b7561aa424a2b067"
+      },
+      "integration/ProgressiveSegmentVp9OpusValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "ac56bfbde11bc96bc5b604b50b2d83c784a111aaad3975b1ff55bc1337165290"
+      },
+      "integration/ProgressiveSegmentVp9OpusValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "24445afe495b68362b64aa016cef56cb7b484d72ed93d7e994f77797591e35d9"
+      },
+      "integration/ProgressiveStandalone.md": {
+        "previousSha256": null,
+        "installedSha256": "37c5fedb06f93919dd8502f2a1992c6def391127d11ed31aee219b2379f18053"
+      },
+      "integration/ProgressiveStandaloneFlac.md": {
+        "previousSha256": null,
+        "installedSha256": "5600849c37ac598d614ccabc00da9c73bcb732045a395db4cbe23ef8ceecf539"
+      },
+      "integration/ProgressiveStandaloneFlacValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "3d2ea622a5c99032af6d95eef442f655a0938e1e5adc98a944d2e9d574be226d"
+      },
+      "integration/ProgressiveStandaloneFlacValidation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "20c754a543355624181622a0c416eaed9064bb3bed528382899975377537a66e"
+      },
+      "integration/ProgressiveStandaloneFmp4Video.md": {
+        "previousSha256": null,
+        "installedSha256": "fc2ac7d08176b00a8b59ae71de4fe12bfa3c18d194513ec79b52ae622ca1ada8"
+      },
+      "integration/ProgressiveStandaloneFmp4VideoValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "ea805f30275e27cbd4d1de7605cefccee958373d102f11758bd38d62dc95c02d"
+      },
+      "integration/ProgressiveStandaloneFmp4VideoValidation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "d9356716dea7b9136632d3651fab1cf319e507b6e4c6bf66995f729829f4e353"
+      },
+      "integration/ProgressiveStandaloneOpus.md": {
+        "previousSha256": null,
+        "installedSha256": "7ec8178c5e91d424eb5f31f1cdbb1c4be7b9a59d3dbc46944e0082b3b21530b1"
+      },
+      "integration/ProgressiveStandaloneOpusValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "7dde42cf1470686e6b7f7d13226b5bee93e6503b8b96cfff2a81c3ee45873a13"
+      },
+      "integration/ProgressiveStandaloneOpusValidation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "76ff60502345bb5c4f59583250ba278b49daa4212551f4492332094d35853e3e"
+      },
+      "integration/ProgressiveStandaloneValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "40044a02631e195d377d093a66d03cadad13aff9c6018743de4b0fd6f4368716"
+      },
+      "integration/ProgressiveStandaloneValidation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "739eb3edba72429e4664f79f0b747beb7e05582ed64e5dc4febf1c4b9f10c2ad"
+      },
+      "integration/ProgressiveStandaloneWebm.md": {
+        "previousSha256": null,
+        "installedSha256": "7a76494a70a1135b4fc5e6bad906ca18127eaa0886cac7754b893b5eb75b78d6"
+      },
+      "integration/ProgressiveStandaloneWebmValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "307bf0bcceb3c93f1b5214402d070f13263df37f5a34a4a2368054114d61122c"
+      },
+      "integration/ProgressiveStandaloneWebmValidation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "8c8ebb799add846595ebb72eb76cf1a00612a5ccf840950dd811bc75c7dd16d5"
+      },
+      "integration/ProgressiveStandaloneWebmVideo.md": {
+        "previousSha256": null,
+        "installedSha256": "efad52c4c7bfee82669edd6dd554578159078c4fe3774605ef9f456a824fc01b"
+      },
+      "integration/ProgressiveStandaloneWebmVideoValidation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "991d8b67eece4cb1279b01b52a698967e3953e6aa0f8fadf9229d112cb8e9496"
+      },
+      "integration/ProgressiveStandaloneWebmVideoValidation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "5c9b725c1efb785c580fc1087baf72ec3b44ffd0442d97a2f81b3d308349df05"
+      },
+      "integration/ProgressiveTailMp4.md": {
+        "previousSha256": null,
+        "installedSha256": "16ef60a2d50e5fb550de3a2f0ae29b016b68c306c378f8cdf36c7463c2f7345b"
+      },
+      "integration/ProgressiveTailMp4Validation-2026-11-01.json": {
+        "previousSha256": null,
+        "installedSha256": "c802f1dda2efccbc7feb8b737d1af63f763c1798762e2b88c906a7b908a8f400"
+      },
+      "integration/ProgressiveTailMp4Validation-2026-11-01.md": {
+        "previousSha256": null,
+        "installedSha256": "d78170317ef740852ba52e3402135a987c6542bcab0579bd9501d7e22177f97c"
+      },
+      "integration/ProgressiveTsAccessIndex.md": {
+        "previousSha256": null,
+        "installedSha256": "567c4c67b829edae96e14c3160f44f86505fa0eb36bc930d49b7a374e5615a67"
+      },
+      "integration/ProgressiveTsAccessIndexValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "5f353020563e4bbeff1cf6e80a336a1f6b7bebc6a297d89c06e3efb1fd05a107"
+      },
+      "integration/ProgressiveTsAccessIndexValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "be15beb7c20769564581a4991e2222ed21f5accc4fb9169aaf77d1bd2cdd2b26"
+      },
+      "integration/ProgressiveTsPlayback.md": {
+        "previousSha256": null,
+        "installedSha256": "c0b45cad46e6d12daf55960beb6ecb85f5af57f1b12efc2ae1529ee403f8c726"
+      },
+      "integration/ProgressiveTsPlaybackValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "86df5585350f7e9830596325b970e372604a4a2f55e953a5d1a8182f355e416f"
+      },
+      "integration/ProgressiveTsPlaybackValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "9f72ec0f08ff19cce451829ac41f8f879f5f0215f198316d5284f89d0b0d3ce2"
+      },
+      "integration/ProgressiveTsResourceStream.md": {
+        "previousSha256": null,
+        "installedSha256": "3a658b00dc1da0540fa499ed6b841e08830b0374a3764d6f85dfc1f6cd34cf8e"
+      },
+      "integration/ProgressiveTsResourceStreamValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "d136d37212cc8911fd40d8cde7df3530c781f2d7064c5a15d2fd0514834ee4e7"
+      },
+      "integration/ProgressiveTsResourceStreamValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "a9165934514c197089b0eaf14bdd4524a4ee7ac5ab13faa7dc4f2fcd15ba9bf3"
+      },
+      "integration/ProgressiveTsTransport.md": {
+        "previousSha256": null,
+        "installedSha256": "ff6451cb9093ff198a717ec335b8d89b3b677237e57204097428086f48421cad"
+      },
+      "integration/ProgressiveTsTransportValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "6dd47dc97791a293181a6b7b2c900751db79ee657eca62bffb54804fbc159c02"
+      },
+      "integration/ProgressiveTsTransportValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "6b11aeba65baa887de91720405d046d1d553313264b8e3bc2bd416060430e24c"
+      },
+      "integration/ProgressiveWav.md": {
+        "previousSha256": null,
+        "installedSha256": "614c1821f62fd1517986cbce0f0ca5f3c0e1ffd031080cd4203e128690577fe0"
+      },
+      "integration/ProgressiveWav24.md": {
+        "previousSha256": null,
+        "installedSha256": "2b450f5c0cb36a03765efbe687e99b61e93727ce420f2ad7e4a31203d2c962fe"
+      },
+      "integration/ProgressiveWav24Validation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "14f0c0659ae80f53eb5c4a794e7c47e67a0516d6a4cc49cc70b68911889c7308"
+      },
+      "integration/ProgressiveWavExtensible24.md": {
+        "previousSha256": null,
+        "installedSha256": "f5634bd7613eeb2ff65bc46957a71ede789bcd3b702dfb65744cf7d6b420ec19"
+      },
+      "integration/ProgressiveWavExtensible24Validation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "331916090c43443c22bdeb1ad571e10dba83f4f905866276343742d3afeb713b"
+      },
+      "integration/ProgressiveWavValidation-2026-11-02.json": {
+        "previousSha256": null,
+        "installedSha256": "de2cb4092c66664f835706c5d638ac789b4291055f2ecffe62de697009e2eade"
+      },
+      "integration/ProgressiveWebmSegments.md": {
+        "previousSha256": null,
+        "installedSha256": "419abffa66f80f276eca34cd5e9959935f252f54c7678e0644fd519497591b3a"
+      },
+      "integration/ProgressiveWebmSegmentsValidation-2026-10-30.json": {
+        "previousSha256": null,
+        "installedSha256": "83619f760b1cc7c1c96da443f70465b23884903571689aacebeaf5816c9b8522"
+      },
+      "integration/ProgressiveWebmSegmentsValidation-2026-10-30.md": {
+        "previousSha256": null,
+        "installedSha256": "7258822fb287b7d5d305ed575291138d97bcb650812de5ee8f8a6253fde9916d"
+      },
+      "integration/progressive_continuous.py": {
+        "previousSha256": "a5391e85de34aeca854ee699f2816890640a80f79cf023663e097c3e62ca13ea",
+        "installedSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9"
+      },
+      "integration/README.ru.md": {
+        "previousSha256": "fe26af5dcf0be2929756c6ca2b5c62891b8dbd4eb011afc8b7c8bc30b93571d2",
+        "installedSha256": "210902b786a9ab93523054669a7944f074d3710ee9a1e3f7807537299a70502c"
+      },
+      "integration/rf64-external-index.json": {
+        "previousSha256": null,
+        "installedSha256": "be6966d3c2fe8274b1e11c3c13d3125244938e0e9769fda34774b40718c4af03"
+      },
+      "integration/sdk-manifest.json": {
+        "previousSha256": "e080d34d2de8222b9c6f0a2e922d135d099efc87a063883e91eb3b205adae780",
+        "installedSha256": "523202bf9a49445e245d5930de45b048e7d2e059aa9c4dc889e74079601bdff9"
+      },
+      "integration/verify_progressive_sdk.py": {
+        "previousSha256": "6b4a8a4652b1557e9f6743af7b34b5536c17cd4d245d7cf4ab3a229d756927b7",
+        "installedSha256": "92869f9bae27663e3598ae75d3465fb37b3f9202c9fcfced6c0bcb1b2c5d8766"
+      }
+    },
+    "existingFilesPreserved": 296,
+    "profileSha256Before": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+    "profileSha256After": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+    "profileUnchanged": true,
+    "legacyCapabilitiesUnchanged": true,
+    "addedCapabilities": [
+      "profiles",
+      "modeSelection"
+    ],
+    "runningViewerPids": [],
+    "viewerInterrupted": false,
+    "cacheCorrection": {
+      "removedFromManagedPayload": [
+        "integration/__pycache__/progressive_client.cpython-312.pyc",
+        "integration/__pycache__/progressive_continuous.cpython-312.pyc",
+        "integration/__pycache__/progressive_integrity.cpython-312.pyc",
+        "integration/__pycache__/progressive_resources.cpython-312.pyc",
+        "integration/__pycache__/progressive_schema.cpython-312.pyc",
+        "integration/__pycache__/progressive_sdk.cpython-312.pyc",
+        "integration/__pycache__/progressive_v2.cpython-312.pyc"
+      ],
+      "previousLocalCacheRestored": true,
+      "initialInstallReportSha256": "cbeaacaccb758d62eb6558331dc2cb2d35b60f0805f40e075eb24063f11eef2f",
+      "initialInstallReportPath": "_bin/reordered-sdk-linux-install-before-cache-cleanup.json"
+    }
+  },
+  "windowsTask": {
+    "periodicTriggersCreated": false,
+    "taskRemoved": true,
+    "lastTaskResult": 0,
+    "task": "FoxicMP-ReorderedSdk-OneShot"
+  },
+  "classicShellEntriesUnchanged": 158,
+  "installedProfileAndPersonalFilesPreserved": true,
+  "rollbackCopiesVerified": true,
+  "protectedFiles": {
+    "recorded": 17,
+    "unchanged": 11,
+    "expectedBuildAndLinuxProgramChanges": [
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-remux-stream-worker",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/FoxicMPq.exe",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/qt-release-0.2.0-win4/foxicmp-remux-stream-worker.exe",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-qt",
+      "/media/sf_Studio/Programs/MPMY-src/_bin/release-build-0.2.0/foxicmp-remux-stream-worker"
+    ],
+    "installedWindowsExeAndIniUnchanged": true,
+    "oldSdkZipsUnchanged": true,
+    "originalClassicBuildControlFilesUnchanged": true
+  },
+  "testCases": {
+    "finalUnpackedPackages": 39,
+    "installedLinux": 11,
+    "sourceAndStagedRuntime": 135,
+    "sdkUnit": 23,
+    "windowsFinalUiRuns": 4
+  },
+  "scope": {
+    "harvesterChanged": false,
+    "installedWindowsApplicationsChanged": false,
+    "applicationVersionBumped": false,
+    "newSdkAndPackages": true,
+    "completeTechnicalSpecification": false,
+    "remaining": [
+      "General continuous audio/AAC trim",
+      "Fractional/VFR public Player/API UI coverage",
+      "Longer stress and crash/latency matrix",
+      "Previously documented Windows/Linux/Classic outliers remain OPEN"
+    ],
+    "waylandAndPhysicalHardwareExcluded": true
+  },
+  "excludedPythonCache": {
+    "initialDraftPackagesSuperseded": true,
+    "cacheNotInFinalAssets": true,
+    "originalLocalCacheRestored": true,
+    "details": {
+      "removedFromManagedPayload": [
+        "integration/__pycache__/progressive_client.cpython-312.pyc",
+        "integration/__pycache__/progressive_continuous.cpython-312.pyc",
+        "integration/__pycache__/progressive_integrity.cpython-312.pyc",
+        "integration/__pycache__/progressive_resources.cpython-312.pyc",
+        "integration/__pycache__/progressive_schema.cpython-312.pyc",
+        "integration/__pycache__/progressive_sdk.cpython-312.pyc",
+        "integration/__pycache__/progressive_v2.cpython-312.pyc"
+      ],
+      "previousLocalCacheRestored": true,
+      "initialInstallReportSha256": "cbeaacaccb758d62eb6558331dc2cb2d35b60f0805f40e075eb24063f11eef2f",
+      "initialInstallReportPath": "_bin/reordered-sdk-linux-install-before-cache-cleanup.json"
+    }
+  },
+  "releaseSnapshot": {
+    "assets": [
+      {
+        "apiUrl": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713542392",
+        "contentType": "application/zip",
+        "createdAt": "2026-11-05T13:38:49Z",
+        "downloadCount": 0,
+        "id": "RA_kwDOU9eb2c4qh8r4",
+        "label": "",
+        "name": "FoxicMP-progressive-sdk-1.83.zip",
+        "size": 2143961,
+        "state": "uploaded",
+        "updatedAt": "2026-11-05T13:39:06Z",
+        "url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/FoxicMP-progressive-sdk-1.83.zip"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600187",
+        "contentType": "application/zip",
+        "createdAt": "2026-11-05T13:59:03Z",
+        "downloadCount": 0,
+        "id": "RA_kwDOU9eb2c4qiKy7",
+        "label": "",
+        "name": "FoxicMPClassic-0.2.0-progressive-1.83-windows-x64.zip",
+        "size": 80325192,
+        "state": "uploaded",
+        "updatedAt": "2026-11-05T14:03:56Z",
+        "url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/FoxicMPClassic-0.2.0-progressive-1.83-windows-x64.zip"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600199",
+        "contentType": "application/x-gtar",
+        "createdAt": "2026-11-05T13:59:03Z",
+        "downloadCount": 0,
+        "id": "RA_kwDOU9eb2c4qiKzH",
+        "label": "",
+        "name": "FoxicMPQt-0.2.0-progressive-1.83-linux-x64.tar.gz",
+        "size": 9120732,
+        "state": "uploaded",
+        "updatedAt": "2026-11-05T13:59:43Z",
+        "url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/FoxicMPQt-0.2.0-progressive-1.83-linux-x64.tar.gz"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600185",
+        "contentType": "application/zip",
+        "createdAt": "2026-11-05T13:59:03Z",
+        "downloadCount": 0,
+        "id": "RA_kwDOU9eb2c4qiKy5",
+        "label": "",
+        "name": "FoxicMPQt-0.2.0-progressive-1.83-windows-x64.zip",
+        "size": 133448389,
+        "state": "uploaded",
+        "updatedAt": "2026-11-05T14:05:03Z",
+        "url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/FoxicMPQt-0.2.0-progressive-1.83-windows-x64.zip"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600207",
+        "contentType": "application/x-debian-package",
+        "createdAt": "2026-11-05T13:59:03Z",
+        "downloadCount": 0,
+        "id": "RA_kwDOU9eb2c4qiKzP",
+        "label": "",
+        "name": "foxiqmp-qt_0.2.0-183_amd64.deb",
+        "size": 7387824,
+        "state": "uploaded",
+        "updatedAt": "2026-11-05T13:59:37Z",
+        "url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/foxiqmp-qt_0.2.0-183_amd64.deb"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600669",
+        "contentType": "application/json",
+        "createdAt": "2026-11-05T13:59:14Z",
+        "downloadCount": 0,
+        "id": "RA_kwDOU9eb2c4qiK6d",
+        "label": "",
+        "name": "progressive-1.83-assets.json",
+        "size": 1863,
+        "state": "uploaded",
+        "updatedAt": "2026-11-05T13:59:15Z",
+        "url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/progressive-1.83-assets.json"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/LiberVixer/FoxicMP/releases/assets/713600188",
+        "contentType": "text/plain; charset=utf-8",
+        "createdAt": "2026-11-05T13:59:03Z",
+        "downloadCount": 0,
+        "id": "RA_kwDOU9eb2c4qiKy8",
+        "label": "",
+        "name": "SHA256SUMS.txt",
+        "size": 642,
+        "state": "uploaded",
+        "updatedAt": "2026-11-05T13:59:03Z",
+        "url": "https://github.com/LiberVixer/FoxicMP/releases/download/untagged-3acdf74fb24c542e2759/SHA256SUMS.txt"
+      }
+    ],
+    "isDraft": true,
+    "isPrerelease": true,
+    "publishedAt": null,
+    "tagName": "progressive-api-v1.83",
+    "targetCommitish": "main",
+    "url": "https://github.com/LiberVixer/FoxicMP/releases/tag/untagged-3acdf74fb24c542e2759"
+  },
+  "releasePublication": {
+    "url": "https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.83",
+    "tag": "progressive-api-v1.83",
+    "isDraft": false,
+    "isPrerelease": true,
+    "publishedAt": "2026-11-05T14:06:12Z",
+    "allSevenGithubServerDigestsVerifiedAfterPublication": true
+  },
+  "status": "PASS_PUBLISHED_SDK_1_83_THREE_EDITIONS_AND_INSTALLED_LINUX",
+  "publicationActualExitCode": 0
+}

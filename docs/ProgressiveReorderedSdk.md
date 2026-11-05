@@ -82,6 +82,12 @@ EXE, worker/runtime/licenses и integration; Classic поставляет factor
 Прежние SDK ZIP сохраняются неизменными. Обычные установщики приложения 0.2.0
 из более ранних выпусков не приобретают этот профиль от одного обновления SDK.
 
+[Опубликованные пакеты SDK 1.83](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.83)
+и [аттестация поставки](ProgressiveReorderedSdkPackagesValidation-2026-11-05.json):
+39 сценариев распакованных пакетов, 11 установленного Linux, серверные SHA-256
+всех семи assets; SDK ZIP и оба манифеста скачаны обратно. Полная загрузка
+бинарных архивов с GitHub в этой аттестации не заявляется.
+
 ## Границы
 
 Полная ТЗ-приёмка остаётся открытой. SDK/UI срез — H.264 25 fps; native этап

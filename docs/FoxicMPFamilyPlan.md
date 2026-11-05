@@ -1035,3 +1035,18 @@ Windows UI прогона прошли. [Полные данные](ProgressiveR
 Исходный Windows receipt outlier, Linux >2 s/Classic heartbeat-12, audio и общая
 stress/A-V приёмка остаются OPEN. Финальные архивы/публикация/обновление Linux
 учитываются отдельно в чеклисте; Harvester и Windows-установки не менялись.
+
+
+5 ноября 2026, [поставка SDK 1.83](ProgressiveReorderedSdkPackagesValidation-2026-11-05.json):
+[prerelease](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.83)
+с clean SDK ZIP, Windows portable Classic/Qt, Linux tar и `.deb` 0.2.0-183.
+Кодовый коммит 51c7fc9d9; приложение остаётся 0.2.0. По 318 SDK SHA; 39 реальных
+сценариев окончательно распакованных пакетов и 11 установленного Linux, exit 0.
+Удалён созданный тестами Python cache из draft packages, проверки повторены без
+записи bytecode. Все семь server digests/size GitHub совпали; SDK и оба манифеста
+скачаны обратно (полные бинарные архивы повторно не скачивались). Linux обновлён
+атомарно с rollback, пользовательский INI и неменявшиеся файлы сохранены.
+Windows-установки/старые SDK/Classic build control files и 158 HKCU shell entries
+сохранены. Задача повторной проверки создавалась после удаления предыдущей;
+обе одноразовые фазы завершены и удалены. Harvester не менялся. Audio, public
+fractional/VFR UI, длинный stress/crash/latency и исторические outliers OPEN.
