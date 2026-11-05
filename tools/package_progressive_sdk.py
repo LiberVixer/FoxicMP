@@ -10,6 +10,8 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveReorderedSdk.md': 'docs/ProgressiveReorderedSdk.md',
+    'ProgressiveReorderedSdkValidation-2026-11-05.json': 'docs/ProgressiveReorderedSdkValidation-2026-11-05.json',
     'progressive_continuous.py': 'qt/tools/progressive_continuous.py',
     'ProgressiveContinuousRemux.md': 'docs/ProgressiveContinuousRemux.md',
     'ProgressiveContinuousSdk.md': 'docs/ProgressiveContinuousSdk.md',
@@ -187,7 +189,7 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.82', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.83', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(), qtSchema2Playback=qt_schema2_playback(), classicSchema2Playback=classic_schema2_playback(),

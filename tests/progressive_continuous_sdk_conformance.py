@@ -14,7 +14,7 @@ from progressive_player_crash_recovery import ApiError, sha, wait
 from progressive_backend_demux_conformance import snapshot
 from progressive_stream_remux_worker_test import fixture
 from progressive_integrity import protect_snapshot
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE
 
 
 class DropReplies:
@@ -25,19 +25,21 @@ class DropReplies:
         return reply
 
 
-def exercise(peers, root):
-    rows=[];source=fixture(root,'source');raw=source.read_bytes();client=peers[0].client
+def exercise(peers, root, mode=MODE):
+    rows=[];source=fixture(root,'source',bframes=2 if mode==REORDERED_MODE else 0);raw=source.read_bytes();client=peers[0].client
     cap=client.request(dict(version=1,action='capabilities'))
     assert ACTIONS <= set(cap['actions']) and cap['continuousRemux']['mode']==MODE,cap
     assert peers[0].client.info['continuousRemux']==cap['continuousRemux']
+    if mode==REORDERED_MODE:assert cap['continuousRemux']['profiles'][mode]['bFrames'] is True,cap
     worker=Path(peers[0].player).parent/('foxicmp-remux-stream-worker'+('.exe' if peers[0].edition=='classic' or os.name=='nt' else ''))
     probe=subprocess.run([str(worker),'--info'],capture_output=True,text=True,timeout=5)
     assert probe.returncode==0,(probe.returncode,probe.stderr,probe.stdout)
     info=json.loads(probe.stdout);assert info['runtimeVerified'] and info['workerProtocol']==1 and info['contract']==cap['continuousRemux'],info
-    def make(name, content=raw, prefix=None, transport=client):
+    def make(name, content=raw, prefix=None, transport=client, selected_mode=mode):
         directory=root/name;directory.mkdir();path=directory/'input.part';n=len(content)*2//3 if prefix is None else prefix
         model=snapshot(path,content,complete=False,prefix=n);model['timeline']['duration']='240000000';path.write_bytes(content)
-        return directory,path,model,ContinuousRemux(transport,str(directory))
+        sdk=ContinuousRemux(transport,str(directory)) if selected_mode==MODE else ContinuousRemux(transport,str(directory),mode=selected_mode)
+        return directory,path,model,sdk
     def prepared(sdk):
         def poll():
             s=sdk.status();assert not s['errorCode'],s
@@ -113,17 +115,21 @@ def exercise(peers, root):
 
     for kind in ('audio','bframes'):
         unsupported=fixture(root,'unsupported-'+kind,audio=kind=='audio',bframes=2 if kind=='bframes' else 0).read_bytes()
-        directory,path,model,sdk=make('sdk-reject-'+kind,content=unsupported);before=sha(path);sdk.prepare(model,'clip')
+        directory,path,model,sdk=make('sdk-reject-'+kind,content=unsupported,selected_mode=MODE if kind=='bframes' else mode);before=sha(path);sdk.prepare(model,'clip')
         error=wait(lambda:(lambda s:s if s['state']=='error' and s['released'] else None)(sdk.status()),'SDK unsupported media error')
         assert error['errorCode'] in ('unsupported-stream-count','unsupported-stream-reorder'),error
         assert not error['outputComplete'] and not error['playbackReady'] and sdk.play_request_id is None,error
         rows.append(dict(profile='sdk-reject-'+kind,result='PASS',error=error,**close(sdk,path,before)))
-    return dict(result='PASS',count=len(rows),rows=rows,publicCapability=True,sdkPlayback=True,workerInfo=info,workerInfoExitCode=probe.returncode)
+    if mode==REORDERED_MODE:
+        plain=fixture(root,'plain-no-b').read_bytes();directory,path,model,sdk=make('sdk-reordered-no-b',content=plain);before=sha(path)
+        sdk.prepare(model,'clip');prepared(sdk);sdk.play();actual=playing(sdk)
+        rows.append(dict(profile='sdk-reordered-profile-also-accepts-no-b-video',result='PASS',actual=actual,**close(sdk,path,before)))
+    return dict(result='PASS',count=len(rows),rows=rows,mode=mode,publicCapability=True,sdkPlayback=True,workerInfo=info,workerInfoExitCode=probe.returncode)
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--edition',choices=('qt','classic'),required=True);p.add_argument('--player',action='append',required=True);p.add_argument('--reader-runner',required=True);p.add_argument('--report-directory',required=True);args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--edition',choices=('qt','classic'),required=True);p.add_argument('--player',action='append',required=True);p.add_argument('--reader-runner',required=True);p.add_argument('--report-directory',required=True);p.add_argument('--reordered-video',action='store_true');args=p.parse_args()
     try:
-        result=run(args,exercise,__file__);print(json.dumps(dict(result=result['result'],count=result['count'])))
+        result=run(args,lambda peers,root:exercise(peers,root,REORDERED_MODE if args.reordered_video else MODE),__file__);print(json.dumps(dict(result=result['result'],count=result['count'])))
     except Exception:
         Path(args.report_directory).mkdir(parents=True,exist_ok=True);(Path(args.report_directory)/'error.txt').write_text(traceback.format_exc(),encoding='utf-8');raise

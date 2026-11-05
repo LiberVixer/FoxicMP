@@ -14,6 +14,7 @@ import time
 import uuid
 
 MODE = 'continuous-h264-video-v1'
+REORDERED_MODE = 'continuous-h264-reordered-video-v1'
 ACTIONS = frozenset(('continuousRemuxStart', 'continuousRemuxStatus',
     'continuousRemuxUpdate', 'continuousRemuxHeartbeat', 'continuousRemuxCancel',
     'continuousRemuxForget', 'continuousRemuxPlay', 'continuousPlaybackStatus',
@@ -45,7 +46,10 @@ class ContinuousRemux:
     status calls; publish/heartbeat never commit playback. close() proves release
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
-    def __init__(self, client, session_directory):
+    def __init__(self, client, session_directory, *, mode=MODE):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE):
+            raise ValueError('Unsupported continuous profile')
+        self._mode = mode
         self.client = client
         directory = Path(session_directory).expanduser()
         if not directory.is_absolute():
@@ -68,10 +72,27 @@ class ContinuousRemux:
                 or not ACTIONS <= set(caps.get('actions', []))):
             raise RuntimeError('Player lacks the explicit continuous MP4/H.264 video contract')
         self.capability = copy.deepcopy(cap)
+        if mode == REORDERED_MODE:
+            profiles = cap.get('profiles')
+            selected = profiles.get(mode) if isinstance(profiles, dict) else None
+            if (cap.get('modeSelection') != 'continuousRemuxStart.mode'
+                    or not isinstance(selected, dict) or type(selected.get('version')) is not int
+                    or selected['version'] != 1 or selected.get('mode') != mode
+                    or selected.get('containerHint') != 'mp4' or selected.get('videoCodec') != 'h264'
+                    or selected.get('videoOnly') is not True or selected.get('audio') is not False
+                    or selected.get('bFrames') is not True or selected.get('inheritsCommonContract') is not True
+                    or selected.get('explicitSelectionRequired') is not True):
+                raise RuntimeError('Player lacks the explicit reordered continuous profile')
+            self.capability.update(copy.deepcopy(selected))
+
+    @property
+    def mode(self):
+        """Fixed for this object/job; capability edits cannot change its identity."""
+        return self._mode
 
     def _check(self, reply, playback=False):
         expected = self.identity or {}
-        if (reply.get('mode') != MODE or any(reply.get(k) != v for k, v in expected.items())
+        if (reply.get('mode') != self.mode or any(reply.get(k) != v for k, v in expected.items())
                 or reply.get('requestId') != (self.play_request_id if playback else self.request_id)):
             raise RuntimeError('Unexpected continuous job/playback identity')
         field = 'playbackId' if playback else 'jobId'
@@ -109,9 +130,12 @@ class ContinuousRemux:
                 raise ValueError('Invalid local resource identity')
             self.identity = identity
             self.request_id = uuid.uuid4().hex
-            return self._check(self.client.request(dict(version=1, action='continuousRemuxStart',
+            fields = dict(version=1, action='continuousRemuxStart',
                 requestId=self.request_id, sessionDirectory=self.directory,
-                session=current, resourceId=resource_id)))
+                session=current, resourceId=resource_id)
+            if self.mode != MODE:
+                fields['mode'] = self.mode
+            return self._check(self.client.request(fields))
 
     def status(self, *, timeout=5):
         with self.lock:

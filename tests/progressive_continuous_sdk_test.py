@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE
 
 CAP = json.loads(re.search(r'return R"\((.*?)\)";',
     (ROOT/'shared/progressivestreamcapabilities.h').read_text(), re.S).group(1))
@@ -25,7 +25,7 @@ class Client:
             return dict(continuousRemux=copy.deepcopy(CAP), actions=sorted(ACTIONS), readerLeaseProtocol=1)
         if action == 'continuousRemuxStart':
             s = message['session']
-            self.job = dict(mode=MODE, requestId=message['requestId'], jobId='a'*32,
+            self.job = dict(mode=message.get('mode', MODE), requestId=message['requestId'], jobId='a'*32,
                 sessionId=s['sessionId'], generation=s['generation'], writerInstanceId=s['writer']['instanceId'])
         if action == 'continuousRemuxPlay':
             self.play = {**self.job, 'requestId': message['requestId'], 'playbackId': 'b'*32}
@@ -124,6 +124,50 @@ class Test(unittest.TestCase):
     def test_snapshot_and_capability_are_not_mutated(self):
         c=Client();p=ContinuousRemux(c,str(ROOT));s=self.model();before=copy.deepcopy(s);p.prepare(s,'clip');self.assertEqual(s,before)
         self.assertEqual(p.capability,CAP)
+
+    def test_legacy_start_payload_omits_mode(self):
+        c,p=self.setup_preview();self.assertNotIn('mode',c.calls[-1])
+
+    def test_unknown_mode_rejected_without_ipc(self):
+        for mode in (None,True,'',MODE+'x'):
+            c=Client();self.assertRaises(ValueError,ContinuousRemux,c,str(ROOT),mode=mode);self.assertEqual(c.calls,[])
+
+    def test_old_player_only_supports_default(self):
+        c=Client();old=c.request
+        def request(message,timeout=5):
+            reply=old(message,timeout)
+            if message['action']=='capabilities':reply['continuousRemux'].pop('profiles',None)
+            return reply
+        c.request=request;ContinuousRemux(c,str(ROOT))
+        self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=REORDERED_MODE)
+        self.assertFalse(any(m['action']=='continuousRemuxStart' for m in c.calls))
+
+    def test_reordered_profile_requires_full_explicit_declaration(self):
+        for field,value in [('version',True),('mode',MODE),('bFrames',False),('audio',True),
+                            ('inheritsCommonContract',False),('explicitSelectionRequired',False),
+                            ('containerHint','webm'),('videoCodec','hevc')]:
+            c=Client();old=c.request
+            def request(message,timeout=5):
+                reply=old(message,timeout);reply['continuousRemux']['profiles'][REORDERED_MODE][field]=value;return reply
+            c.request=request;self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=REORDERED_MODE)
+            self.assertEqual(len(c.calls),1)
+
+    def test_reordered_mode_is_explicit_fixed_and_does_not_mutate_capability(self):
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=REORDERED_MODE);p.prepare(self.model(),'clip')
+        self.assertEqual(c.calls[-1]['mode'],REORDERED_MODE);self.assertEqual(p.mode,REORDERED_MODE)
+        self.assertRaises(AttributeError,setattr,p,'mode',MODE)
+        p.capability['mode']=MODE;p.play();self.assertEqual(p.mode,REORDERED_MODE)
+        self.assertEqual(p.playback_status()['mode'],REORDERED_MODE)
+        self.assertFalse(CAP['bFrames']);self.assertTrue(CAP['profiles'][REORDERED_MODE]['bFrames'])
+
+    def test_reordered_lost_reply_recovery_binds_exact_profile(self):
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=REORDERED_MODE);c.drop.add('continuousRemuxStart')
+        self.assertRaises(TimeoutError,p.prepare,self.model(),'clip');c.job['mode']=MODE
+        self.assertRaises(RuntimeError,p.status);self.assertIsNone(p.job_id)
+        c.job['mode']=REORDERED_MODE;p.status();c.drop.add('continuousRemuxPlay')
+        self.assertRaises(TimeoutError,p.play);p.playback_status();p.close();p.forget()
+        self.assertEqual(sum(m['action']=='continuousRemuxStart' for m in c.calls),1)
+        self.assertEqual(sum(m['action']=='continuousRemuxPlay' for m in c.calls),1)
 
 
 if __name__=='__main__':unittest.main()

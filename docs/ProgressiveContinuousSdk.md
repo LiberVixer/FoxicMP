@@ -1,9 +1,15 @@
-# SDK 1.82: ограниченный непрерывный remux
+# SDK 1.82–1.83: ограниченный непрерывный remux
 
 Linux Qt, Windows Qt и Windows Classic используют один player-owned контракт
 `continuousRemux`, протокол 1, режим `continuous-h264-video-v1`. Это отдельный
 явно выбираемый маршрут, не автоматическая замена существующих v1/v2 профилей.
 YouTubeHarvester не изменяется. Этот ограниченный режим не закрывает всё ТЗ.
+
+SDK 1.83 добавляет [явный профиль с B-frames](ProgressiveReorderedSdk.md):
+`ContinuousRemux(client, directory, mode=REORDERED_MODE)`. Capability объявляет
+оба профиля в `profiles`; остальные лимиты общие. Прежний вызов и default mode
+сохраняют запрет B-frames. Старый плеер без новой capability отклоняется SDK до
+start; автоматического fallback нет. Новый профиль также принимает no-B video.
 
 ## Поддержанный профиль
 
@@ -114,7 +120,7 @@ avformat/avcodec/avutil runtime packages.
 ```
 
 Содержимое payload размещается рядом с Classic EXE в новом clean stage, integration/
-берётся из SDK 1.82 ZIP. Личные INI не копируются. Общий упаковщик
+берётся из соответствующего SDK ZIP (1.83 для нового opt-in). Личные INI не копируются. Общий упаковщик
 packaging/windows/generate.py включает stage в MSI/EXE обеих Windows-редакций.
 Worker/runtime/EXE поставляются вместе; упаковщик не заменяет установленные
 приложения и их профили автоматически.

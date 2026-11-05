@@ -204,8 +204,8 @@ public:
             Require(d.HasMember("version") && d["version"].IsUint() && d["version"].GetUint()==1 && d.HasMember("action"),"continuousRemux","Expected API version 1","invalid_request");const auto action=Text(d["action"],"action",32);
             if(action=="continuousRemuxStart"){
                 Keys(d,"continuousRemux",{"version","action","requestId","sessionDirectory","session","resourceId"},{"mode"});
-                // The reordered profile is an internal API extension until its
-                // player lifecycle/SDK acceptance and capability publication.
+                // Omission preserves the original profile. Explicit selection
+                // is immutable and forms part of the replay fingerprint.
                 const auto mode=d.HasMember("mode")?Text(d["mode"],"mode",64):"continuous-h264-video-v1";
                 Require(mode=="continuous-h264-video-v1" || mode=="continuous-h264-reordered-video-v1","mode","Unsupported continuous mode","invalid_request");
                 const auto rid=Id(d["requestId"],"requestId",true);rapidjson::StringBuffer encoded;rapidjson::Writer<rapidjson::StringBuffer> writer(encoded);Canonical(d,writer);const std::string fingerprint(encoded.GetString(),encoded.GetSize());

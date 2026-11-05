@@ -258,7 +258,7 @@ def exercise(peers, root, reordered_video=False):
         assert final['sourceFilesClosed'] and sha(path)==before
         rows.append(dict(profile='default-profile-and-old-ticket-mode-isolation',result='PASS',defaultError=error,retainedPlayback=retained,final=final))
     assert max(latencies)<2,latencies
-    return dict(result='PASS',count=len(rows),rows=rows,maxRequestSeconds=max(latencies),ordinaryPlayerIpc=True,playbackCommit=True,publicCapability=not reordered_video,internalReorderedProfile=reordered_video,mode=mode)
+    return dict(result='PASS',count=len(rows),rows=rows,maxRequestSeconds=max(latencies),ordinaryPlayerIpc=True,playbackCommit=True,publicCapability=True,reorderedProfile=reordered_video,mode=mode)
 
 
 if __name__=='__main__':

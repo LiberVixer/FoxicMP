@@ -21,8 +21,15 @@ def verify(path, require_clean=False):
             if p.is_absolute() or '..' in p.parts or '\\' in info.filename or ':' in info.filename or stat.S_ISLNK(info.external_attr>>16):
                 raise ValueError('Unsafe SDK entry')
         manifest=json.loads(archive.read('sdk-manifest.json'))
-        if manifest.get('sdkVersion')!='1.82' or manifest.get('continuousRemux',{}).get('mode')!='continuous-h264-video-v1':
+        if manifest.get('sdkVersion') not in ('1.82','1.83') or manifest.get('continuousRemux',{}).get('mode')!='continuous-h264-video-v1':
             raise ValueError('Unexpected SDK contract/version')
+        if manifest['sdkVersion']=='1.83':
+            contract=manifest['continuousRemux'];mode='continuous-h264-reordered-video-v1'
+            profile=contract.get('profiles',{}).get(mode,{})
+            if (contract.get('modeSelection')!='continuousRemuxStart.mode' or profile.get('mode')!=mode
+                    or profile.get('bFrames') is not True or profile.get('audio') is not False
+                    or profile.get('inheritsCommonContract') is not True or profile.get('explicitSelectionRequired') is not True):
+                raise ValueError('Missing explicit reordered profile')
         if require_clean and manifest.get('sourceDirty') is not False:
             raise ValueError('SDK was packaged from an uncommitted tree')
         files=manifest['files']

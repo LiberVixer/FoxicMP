@@ -189,10 +189,25 @@ private slots:
       }
       QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString(),QString("closed"),3000);
       const QJsonObject receiptQuery{{"version",1},{"action","readerStatus"},{"readerId",id}};
-      const auto releaseDiagnostic=[&]{return QJsonDocument(QJsonObject{{"receipt",api->request(receiptQuery)},{"job",api->request(query)},{"playback",api->request(playbackQuery)}}).toJson(QJsonDocument::Compact);};
-      QTRY_VERIFY2_WITH_TIMEOUT(api->request(receiptQuery)["reader"].toObject()["released"].toBool(),releaseDiagnostic().constData(),5000);
-      QCOMPARE(api->request(receiptQuery)["reader"].toObject()["reason"].toString(),QString("files-closed"));
-      QVERIFY(api->request(releaseQuery)["reader"].toObject()["released"].toBool());
+      QJsonObject receiptReply;bool receiptConfirmed=false;
+      const auto confirmed=[&]{if(receiptConfirmed)return true;receiptReply=api->request(receiptQuery);return receiptConfirmed=receiptReply["ok"].toBool() && receiptReply["reader"].toObject()["released"].toBool();};
+      const auto releaseDiagnostic=[&]{return QJsonDocument(QJsonObject{{"receipt",receiptReply},{"job",api->request(query)},{"playback",api->request(playbackQuery)}}).toJson(QJsonDocument::Compact);};
+      QTRY_VERIFY2_WITH_TIMEOUT(confirmed(),releaseDiagnostic().constData(),5000);
+      const auto receipt=receiptReply["reader"].toObject();
+      QCOMPARE(receipt["reason"].toString(),QString("files-closed"));QVERIFY(receipt["filesClosed"].toBool());
+      {
+        // A successful proof does not make a separate registry call atomic
+        // with concurrent cleanup. Demonstrate the permitted busy response.
+        p::lease_detail::Directory receipts(std::filesystem::u8path(registry.toStdString()),true);
+        auto guard=receipts.file(".guard",true);bool guardHeld=false;QTRY_VERIFY_WITH_TIMEOUT(guardHeld || (guardHeld=guard.lock()),2000);
+        const auto busyStatus=api->request(receiptQuery),busyRelease=api->request(releaseQuery);
+        QCOMPARE(busyStatus["code"].toString(),QString("reader_registry_busy"));
+        QCOMPARE(busyRelease["code"].toString(),QString("reader_registry_busy"));
+      }
+      QJsonObject repeatedRelease;bool repeatConfirmed=false;
+      const auto repeated=[&]{if(repeatConfirmed)return true;repeatedRelease=api->request(releaseQuery);return repeatConfirmed=repeatedRelease["ok"].toBool() && repeatedRelease["reader"].toObject()["released"].toBool();};
+      QTRY_VERIFY2_WITH_TIMEOUT(repeated(),QJsonDocument(repeatedRelease).toJson(QJsonDocument::Compact).constData(),2000);
+      QVERIFY(repeatedRelease["reader"].toObject()["filesClosed"].toBool());
     }
     QElapsedTimer elapsed;elapsed.start();api.reset();QVERIFY(elapsed.elapsed()<200);elapsed.restart();window.reset();QVERIFY(elapsed.elapsed()<200);
     QTRY_VERIFY_WITH_TIMEOUT(nativeClosed->load(),10000);QTRY_COMPARE_WITH_TIMEOUT(p::ContinuousRetirement::occupied(),size_t(0),10000);

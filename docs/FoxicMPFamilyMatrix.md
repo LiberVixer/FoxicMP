@@ -858,3 +858,19 @@ Linux EXE/worker обновлены атомарно с backup, INI и 309 пр�
 Этот outlier, прежние Linux >2 s/Classic heartbeat-12, общие stress/A-V остаются
 OPEN. Capability/Python SDK пока объявляют только legacy; публичный reorder
 contract/SDK/пакеты и fractional/VFR UI — следующий этап.
+
+
+5 ноября 2026, [публичный opt-in SDK 1.83](ProgressiveReorderedSdk.md):
+capability двух профилей и keyword-only mode для continuous H.264 B-frames.
+Legacy default/payload и его запрет B-frames сохранены; новый режим проверяет
+capability до start и связывает ответы с неизменным mode/job/playback identity.
+23 unit checks и по 34 реальных SDK/API сценария каждой редакции, включая
+неизменённый SDK 1.82; отдельные staged SDK проверки импортируют модули из
+integration с фиксацией SHA. В тестовом запускателе исправлен перехват imports
+исходным деревом; прежние неприкреплённые old/staged результаты заменены.
+UI proof проверяется одним успешным snapshot, registry busy воспроизведён native
+lock; production reader code/порог 5000 ms не менялись. Linux UI и четыре финальных
+Windows UI прогона прошли. [Полные данные](ProgressiveReorderedSdkValidation-2026-11-05.json).
+Исходный Windows receipt outlier, Linux >2 s/Classic heartbeat-12, audio и общая
+stress/A-V приёмка остаются OPEN. Финальные архивы/публикация/обновление Linux
+учитываются отдельно в чеклисте; Harvester и Windows-установки не менялись.
