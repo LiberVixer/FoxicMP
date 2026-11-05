@@ -858,3 +858,16 @@ checks; [отчёт](ProgressiveContinuousCommandRacesValidation-2026-11-04.json
 Windows-установки/HKCU/SDK ZIP и Harvester сохранены, одноразовая задача удалена.
 Прежний Linux heartbeat outlier, точные mid-I/O schedules, длительный stress и
 полная приёмка ТЗ остаются открыты.
+
+
+5 ноября 2026, [faults незавершённого pipe I/O](ProgressiveContinuousPipeFaults.md):
+по 12 native сценариев GCC/Linux, MinGW/Windows, MSVC/Windows и ASan/UBSan,
+все exit 0. Тестовый child доказывает partial receive либо backpressure send
+до kill/cancel/timeout. Source readers фактически закрыты, partial output не
+принят, оригиналы сохранены. Повторены прежние parent/transport проверки Qt ОС
+и реальные SDK worker-crash сценарии всех трёх редакций;
+[результаты и границы](ProgressiveContinuousPipeFaultsValidation-2026-11-05.json).
+Production code/main EXE, установки, профили, HKCU, SDK ZIP и Harvester сохранены;
+одноразовая задача удалена. Это компонентная проверка с synthetic child:
+настоящий FFmpeg mid file-I/O/cache/decoder, Linux heartbeat outlier и общая
+stress/ТЗ-приёмка остаются открытыми.

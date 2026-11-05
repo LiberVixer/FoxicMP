@@ -23,10 +23,10 @@ from progressive_continuous import ContinuousRemux
 
 
 class OwnedWorker(WorkerExit):
-    def __init__(self, peer, pid):
+    def __init__(self, peer, pid, expected=None):
         self.pid = pid
         self.fd = self.handle = None
-        expected = Path(peer.player).parent/('foxicmp-remux-stream-worker'+('.exe' if os.name == 'nt' else ''))
+        expected = Path(expected) if expected is not None else Path(peer.player).parent/('foxicmp-remux-stream-worker'+('.exe' if os.name == 'nt' else ''))
         if os.name == 'nt':
             from ctypes import wintypes as w
             self.kernel = ctypes.WinDLL('kernel32', use_last_error=True)

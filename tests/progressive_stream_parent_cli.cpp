@@ -2,6 +2,7 @@
 #include "../shared/progressivestreamremux.h"
 #include <iostream>
 #include <fstream>
+#include <cstdio>
 #ifdef _WIN32
 #include <fcntl.h>
 #include <io.h>
@@ -19,7 +20,48 @@ int main(int argc,char** argv){
     _setmode(_fileno(stdin),_O_BINARY);_setmode(_fileno(stdout),_O_BINARY);
 #endif
     if(const char* mode=std::getenv("FOXICMP_STREAM_PARENT_TEST_CHILD")){
-        const std::string m=mode;std::string line;std::getline(std::cin,line);
+        // Do not let stdio prefetch the deliberately unread reply remainder.
+        std::setvbuf(stdin,nullptr,_IONBF,0);
+        const std::string spec=mode;const auto split=spec.find('|');const auto m=spec.substr(0,split);std::string line;std::getline(std::cin,line);
+        if(m=="pipe-send" || m=="pipe-receive"){
+            // A private child/marker handshake proves pipe progress before the
+            // external test injects death/cancel. No production worker hooks.
+            if(split==std::string::npos)return 2;const auto hex=spec.substr(split+1);std::string name;
+            auto digit=[](char c){return c>='0' && c<='9'?c-'0':c>='a' && c<='f'?c-'a'+10:-1;};
+            if(hex.size()%2)return 2;for(size_t i=0;i<hex.size();i+=2){const auto a=digit(hex[i]),b=digit(hex[i+1]);if(a<0 || b<0)return 2;name+=char(a*16+b);}
+            unsigned capacity=0,transferred=0;std::string prefixSha;
+#ifdef _WIN32
+            DWORD outSize=0;if(!GetNamedPipeInfo(GetStdHandle(m=="pipe-send"?STD_INPUT_HANDLE:STD_OUTPUT_HANDLE),nullptr,&outSize,nullptr,nullptr))return 3;capacity=outSize;
+            const auto pid=GetCurrentProcessId();
+#else
+            const auto size=fcntl(m=="pipe-send"?0:1,F_GETPIPE_SZ);if(size<=0)return 3;capacity=unsigned(size);const auto pid=getpid();
+#endif
+            if(m=="pipe-receive"){
+                std::cout<<"{\"io\":\"read\",\"offset\":\"0\",\"length\":4096}"<<std::endl;
+                if(!std::getline(std::cin,line))return 4;p::Sha256 digest;digest.update(line.data(),line.size());prefixSha=digest.hex();
+                // Larger than either transport buffer, still below frame limit;
+                // completing this write requires the parent to consume a prefix.
+                const auto partial=std::string("{\"io\":\"write\",\"offset\":\"0\",\"hex\":\"")+std::string(131072,'0');
+                if(capacity>=partial.size())return 3;std::cout<<partial<<std::flush;if(!std::cout)return 4;transferred=unsigned(partial.size());
+            }else{
+                std::cout<<"{\"io\":\"read\",\"offset\":\"0\",\"length\":65536}"<<std::endl;
+                std::string prefix(4096,'\0');size_t at=0;
+                while(at<prefix.size()){
+#ifdef _WIN32
+                    DWORD count=0;if(!ReadFile(GetStdHandle(STD_INPUT_HANDLE),prefix.data()+at,DWORD(prefix.size()-at),&count,nullptr) || !count)return 4;at+=count;
+#else
+                    const auto count=::read(0,prefix.data()+at,prefix.size()-at);if(count<0 && errno==EINTR)continue;if(count<=0)return 4;at+=size_t(count);
+#endif
+                }
+                // Parent reply is >131072 bytes. Keep its remainder unread,
+                // exceeding the reported pipe capacity after this prefix.
+                if(capacity+prefix.size()>=131072)return 3;
+                p::Sha256 digest;digest.update(prefix.data(),prefix.size());prefixSha=digest.hex();transferred=unsigned(prefix.size());
+            }
+            const auto marker=std::filesystem::u8path(name),temporary=std::filesystem::u8path(name+".tmp");
+            {std::ofstream file(temporary,std::ios::binary);file<<"{\"mode\":\""<<m<<"\",\"pid\":"<<pid<<",\"transferredBytes\":"<<transferred<<",\"channelCapacityBytes\":"<<capacity<<",\"prefixSha256\":\""<<prefixSha<<"\"}";file.close();if(!file)return 5;}
+            std::filesystem::rename(temporary,marker);
+        }
         if(m=="bad-offset"){std::cout<<"{\"io\":\"write\",\"offset\":\"1\",\"hex\":\"00\"}"<<std::endl;std::getline(std::cin,line);return 1;}
         if(m=="partial-frame"){std::cout<<"{\"io\":"<<std::flush;}
         std::this_thread::sleep_for(std::chrono::seconds(30));return 0;
@@ -36,7 +78,7 @@ int main(int argc,char** argv){
             if(d.HasMember("lifetime"))limits.lifetime=std::chrono::milliseconds(d["lifetime"].GetUint());
             if(d.HasMember("operation"))limits.operation=std::chrono::milliseconds(d["operation"].GetUint());
             if(d.HasMember("heartbeat"))limits.heartbeat=std::chrono::milliseconds(d["heartbeat"].GetUint());
-            auto child=worker;if(d.HasMember("childMode")){child=std::filesystem::absolute(argv[0]);env(p::Text(d["childMode"],"childMode").c_str());}
+            auto child=worker;if(d.HasMember("childMode")){child=std::filesystem::absolute(argv[0]);auto mode=p::Text(d["childMode"],"childMode");if(d.HasMember("childMarker")){mode+='|';const auto name=p::Text(d["childMarker"],"childMarker",8192);const char* digits="0123456789abcdef";for(unsigned char c:name){mode+=digits[c>>4];mode+=digits[c&15];}}env(mode.c_str());}
             try{session=std::make_unique<p::StreamRemuxSession>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,p::lease_detail::Encode(d["session"]),"clip",child,[&](uint64_t at,const std::vector<char>& bytes){
                 if(sinkFails.load())throw p::Error("output-store-failed","test","Injected private sink failure");
                 p::Require(uint64_t(output.tellp())==at,"test","Wrong sink offset");output.write(bytes.data(),std::streamsize(bytes.size()));output.flush();
