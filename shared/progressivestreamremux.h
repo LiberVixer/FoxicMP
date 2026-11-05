@@ -9,6 +9,9 @@ namespace foxicmp { namespace progressive {
 struct StreamRemuxLimits {
     std::chrono::milliseconds lifetime{3600000},operation{10000},heartbeat{30000};
 };
+// Explicit internal selection. Existing callers/public v1 retain the verified
+// no-reorder profile; a manifest or worker reply cannot widen it implicitly.
+enum class StreamRemuxProfile { H264Video, H264ReorderedVideo };
 struct StreamRemuxStatus {
     std::string code="starting",reason,result,appliedRevision;
     uint64_t workerId=0,bytesRead=0,bytesWritten=0,maximumReadEnd=0,neededOffset=0;
@@ -33,10 +36,13 @@ private:
     std::string resourceId;
     std::filesystem::path executable;
     StreamRemuxLimits limits;
+    StreamRemuxProfile profile;
     Sink sink;
     StreamRemuxStatus state;
     Clock::time_point deadline,heartbeatDeadline;
     std::thread worker;
+    const char* workerMode()const{return profile==StreamRemuxProfile::H264ReorderedVideo?
+        "continuous-h264-reordered-video-v1":"continuous-h264-video-v1";}
     // All accesses to snapshot/source/status are under mutex, including release.
     void check() const {
         Require(!cancelled.load(),"streamRemux","Remux was cancelled","cancelled");
@@ -83,7 +89,7 @@ private:
         {
             std::lock_guard<std::mutex> lock(mutex);check();state.workerId=child.id();state.code="running";
             const auto& r=snapshot.resources.at(resourceId);
-            child.send(std::string("{\"mode\":\"continuous-h264-video-v1\",\"formatHint\":\"mp4\",\"length\":\"")+std::to_string(r.length)+"\",\"complete\":"+(r.state=="complete"?"true":"false")+"}");
+            child.send(std::string("{\"mode\":\"")+workerMode()+"\",\"formatHint\":\"mp4\",\"length\":\""+std::to_string(r.length)+"\",\"complete\":"+(r.state=="complete"?"true":"false")+"}");
         }
         for(;;){
             {std::lock_guard<std::mutex> lock(mutex);check();}
@@ -98,7 +104,7 @@ private:
                 Keys(result,"streamRemux.result",{"code","mode","sourceComplete","sourceEof","continuousOutput","playbackSupported","transcoded","packets","bytesRead","bytesWritten","sha256","waits"});
                 auto boolean=[&](const char* key,bool expected){valid(result[key].IsBool() && result[key].GetBool()==expected);};
                 boolean("sourceComplete",true);boolean("sourceEof",true);boolean("continuousOutput",true);boolean("playbackSupported",false);boolean("transcoded",false);
-                valid(Text(result["mode"],"mode")=="continuous-h264-video-v1" && result["packets"].IsUint() && result["packets"].GetUint()>0 && result["packets"].GetUint()<=50000);
+                valid(Text(result["mode"],"mode")==workerMode() && result["packets"].IsUint() && result["packets"].GetUint()>0 && result["packets"].GetUint()<=50000);
                 valid(totalWritten>0 && Unsigned(result["bytesWritten"],"bytesWritten",OutputLimit)==totalWritten && Unsigned(result["bytesRead"],"bytesRead",InputLimit)==totalRead && Text(result["sha256"],"sha256",64)==digest.hex());
                 {
                     std::lock_guard<std::mutex> lock(mutex);check();observe();
@@ -153,8 +159,9 @@ private:
 public:
     StreamRemuxSession(const std::filesystem::path& directory,const std::filesystem::path& registry,
                        const std::string& json,const std::string& resource,const std::filesystem::path& child,
-                       Sink output,StreamRemuxLimits policy={})
-        :snapshot(Parse(json)),resourceId(resource),executable(child),limits(policy),sink(std::move(output)) {
+                       Sink output,StreamRemuxLimits policy={},StreamRemuxProfile selected=StreamRemuxProfile::H264Video)
+        :snapshot(Parse(json)),resourceId(resource),executable(child),limits(policy),profile(selected),sink(std::move(output)) {
+        Require(profile==StreamRemuxProfile::H264Video || profile==StreamRemuxProfile::H264ReorderedVideo,"streamRemux","Invalid internal profile","invalid_request");
         Require(bool(sink) && limits.lifetime.count()>0 && limits.lifetime<=std::chrono::hours(1) && limits.operation.count()>0 && limits.operation<=limits.lifetime && limits.heartbeat.count()>0 && limits.heartbeat<=std::chrono::seconds(30),"streamRemux","Invalid internal limits","invalid_request");
         Require(!snapshot.live && snapshot.resources.count(resourceId),"streamRemux","Expected local non-live resource","unsupported-stream-source");
         Require(snapshot.tracks.size()==1,"streamRemux","Expected one video-only track","unsupported-stream-source");

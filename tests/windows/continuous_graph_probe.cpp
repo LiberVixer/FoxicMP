@@ -34,10 +34,11 @@ public:
     }
 };
 int main(int argc,char** argv)try{
-    check(argc==9,"initial full complete worker registry cache output mode");const auto mode=std::string(argv[8]);
+    check(argc==9 || (argc==10 && std::string(argv[9])=="reordered"),"initial full complete worker registry cache output mode [reordered]");const auto mode=std::string(argv[8]);
     check(AfxWinInit(GetModuleHandle(nullptr),nullptr,GetCommandLine(),0)!=FALSE,"MFC init");check(SUCCEEDED(CoInitializeEx(nullptr,COINIT_MULTITHREADED)),"COM init");
     auto path=[](const char* s){return std::filesystem::u8path(s);};const auto registry=path(argv[5]);const auto input=text(mode=="complete" || mode=="seek"?argv[3]:argv[1]);const auto model=p::Parse(input);
-    auto owner=std::make_shared<p::StreamCacheOwner>(std::make_shared<p::StreamCacheBudget>());auto session=std::make_unique<p::CachedRemuxSession>(path(argv[1]).parent_path(),registry,path(argv[6]),input,"clip",path(argv[4]),owner);
+    const auto profile=argc==10?p::StreamRemuxProfile::H264ReorderedVideo:p::StreamRemuxProfile::H264Video;
+    auto owner=std::make_shared<p::StreamCacheOwner>(std::make_shared<p::StreamCacheBudget>());auto session=std::make_unique<p::CachedRemuxSession>(path(argv[1]).parent_path(),registry,path(argv[6]),input,"clip",path(argv[4]),owner,64*1024*1024,p::StreamRemuxLimits{},profile);
     const auto wait=[&](auto predicate,DWORD ms=15000){const auto start=GetTickCount64();while(!predicate()){check(GetTickCount64()-start<ms,"native wait timeout");Sleep(10);}};
     wait([&]{return session->status().output.fragments>0;});auto decoded=session->decoderSource();CStringW error;
     auto source=CHarvesterSession::OpenContinuous(decoded,model.duration,error);if(!source)throw std::runtime_error(CW2A(error,CP_UTF8));const auto readerId=source->RegisteredReaderId();check(!readerId.empty(),"missing output receipt");

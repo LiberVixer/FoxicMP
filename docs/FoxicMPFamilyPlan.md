@@ -986,3 +986,19 @@ exit 0. [SHA, ошибки стенда и counterexample старых mux flags
 INI/SDK ZIP и HKCU shell сохранены, одноразовая задача удалена. Harvester не
 менялся. Audio/AAC trim, полная reorder playback/stress и исторические outliers
 остаются OPEN.
+
+
+5 ноября 2026, [managed B-frame профиль, кэш и настоящие декодеры](ProgressiveManagedReorder.md):
+parent/cache получают явный внутренний opt-in; прежний controller/SDK его не
+выбирает. Production FragmentIndex/ContinuousStreams/Classic adapter изменять
+не потребовалось. По четыре physical append-only профиля GCC/MinGW/MSVC/
+ASan-UBSan: 3239 точных packet/PNG и 1889 seek-кадров на сборку, sample index
+≤1 ×100 ns, pause/reader isolation/confirmed EOF/filesClosed/retirement.
+Настоящий Classic DirectShow software graph прошёл пять B-frame и пять no-B
+сценариев с независимым NV12-эталоном. Прежние parent/cache/decoder регрессии
+прошли; [exit codes, baseline и исправления oracle](ProgressiveManagedReorderValidation-2026-11-05.json).
+Public mode/capability и main EXE не расширены, установленный Linux/Windows,
+worker/INI/SDK ZIP и 158 HKCU shell entries сохранены; Harvester не менялся.
+Планировщик не использовался. Новый профиль ещё требует controller/Player/
+Window/API/lifecycle приёмки и публичной поставки; audio, общая stress/A-V
+матрица и исторические outliers остаются OPEN.

@@ -15,12 +15,12 @@ public:
     CachedRemuxSession(const std::filesystem::path& directory,const std::filesystem::path& registry,
         const std::filesystem::path& cache,const std::string& json,const std::string& resource,
         const std::filesystem::path& child,std::shared_ptr<StreamCacheOwner> cacheOwner,
-        uint64_t outputLimit=64*1024*1024,StreamRemuxLimits limits={}):owner(std::move(cacheOwner)) {
+        uint64_t outputLimit=64*1024*1024,StreamRemuxLimits limits={},StreamRemuxProfile profile=StreamRemuxProfile::H264Video):owner(std::move(cacheOwner)) {
         Require(bool(owner),"remuxCache","Cache service owner required","invalid_request");
         const auto model=Parse(json);
         output=owner->create(cache,registry,model.id,model.generation,outputLimit);
         try{
-            producer=std::make_unique<StreamRemuxSession>(directory,registry,json,resource,child,[store=output](uint64_t at,const std::vector<char>& bytes){store->append(at,bytes);},limits);
+            producer=std::make_unique<StreamRemuxSession>(directory,registry,json,resource,child,[store=output](uint64_t at,const std::vector<char>& bytes){store->append(at,bytes);},limits,profile);
             finalizer=std::thread([this]{
                 StreamRemuxStatus state;
                 try{

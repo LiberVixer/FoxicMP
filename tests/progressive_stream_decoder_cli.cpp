@@ -48,7 +48,8 @@ int main(int argc,char** argv){
         if(action=="store"){
             store=owner->create(std::filesystem::u8path(p::Text(d["root"],"root",8192)),registry,p::Text(d["sessionId"],"sessionId"),1);source=std::make_shared<p::StreamDecoderSource>(store);
         }else if(action=="start"){
-            session=std::make_unique<p::CachedRemuxSession>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,std::filesystem::u8path(p::Text(d["root"],"root",8192)),p::lease_detail::Encode(d["session"]),"clip",worker,owner);source=session->decoderSource();
+            const auto profile=d.HasMember("reorderedVideo") && d["reorderedVideo"].GetBool()?p::StreamRemuxProfile::H264ReorderedVideo:p::StreamRemuxProfile::H264Video;
+            session=std::make_unique<p::CachedRemuxSession>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,std::filesystem::u8path(p::Text(d["root"],"root",8192)),p::lease_detail::Encode(d["session"]),"clip",worker,owner,64*1024*1024,p::StreamRemuxLimits{},profile);source=session->decoderSource();
         }else if(action=="publish")session->publish(p::lease_detail::Encode(d["session"]));
         else if(action=="append"){
             const auto hex=p::Text(d["hex"],"hex",131072);std::vector<char> bytes;for(size_t k=0;k<hex.size();k+=2)bytes.push_back(char(std::stoul(hex.substr(k,2),nullptr,16)));store->append(store->status().written,bytes);
@@ -72,7 +73,7 @@ int main(int argc,char** argv){
                 p::Sha256 sha;std::vector<char> bytes(65536);for(uint64_t at=0;at<sample.size;){const auto n=size_t((std::min)(sample.size-at,uint64_t(bytes.size())));const auto r=classic->read(sample.offset+at,bytes.data(),n);p::Require(r.data() && r.bytes==n,"test","Cannot read sample");sha.update(bytes.data(),n);at+=n;}row.AddMember("sha256",p::Value(sha.hex().c_str(),a),a);samples.PushBack(row,a);}
             out.AddMember("samples",samples,a);
         }else if(action=="mpv"){
-            engine=std::make_unique<Engine>(p::Text(d["images"],"images",8192,true));const auto uri=d.HasMember("file")?p::Text(d["file"],"file",8192):engine->streams->attach(source);engine->command({"loadfile",uri});
+            engine=std::make_unique<Engine>(p::Text(d["images"],"images",8192,true));if(d.HasMember("paused") && d["paused"].GetBool())engine->command({"set","pause","yes"});const auto uri=d.HasMember("file")?p::Text(d["file"],"file",8192):engine->streams->attach(source);engine->command({"loadfile",uri});
         }else if(action=="mpvStatus"){
             engine->pump();out.AddMember("loaded",engine->loaded,a);out.AddMember("ended",engine->ended,a);out.AddMember("reason",engine->reason,a);out.AddMember("error",engine->error,a);double seconds=0;mpv_get_property(engine->handle,"time-pos",MPV_FORMAT_DOUBLE,&seconds);out.AddMember("position",seconds,a);
             char* codec=mpv_get_property_string(engine->handle,"video-codec");out.AddMember("codec",p::Value(codec?codec:"",a),a);mpv_free(codec);
@@ -87,7 +88,7 @@ int main(int argc,char** argv){
         else if(action=="status"){
             const auto s=source->status();out.AddMember("visible",s.visible,a);out.AddMember("written",s.written,a);out.AddMember("complete",s.complete,a);out.AddMember("activeReaders",uint64_t(s.activeReaders),a);out.AddMember("readerIds",p::Value(rapidjson::kArrayType),a);for(auto& id:s.readerIds)out["readerIds"].PushBack(p::Value(id.c_str(),a),a);
             out.AddMember("failure",p::Value(s.failure.c_str(),a),a);out.AddMember("removed",s.removed,a);
-            if(session){const auto state=session->status();out.AddMember("done",state.done,a);out.AddMember("workerId",state.source.workerId,a);out.AddMember("sourceCode",p::Value(state.source.code.c_str(),a),a);p::Value ids(rapidjson::kArrayType);for(auto& id:state.source.readerIds)ids.PushBack(p::Value(id.c_str(),a),a);out.AddMember("sourceReaderIds",ids,a);}
+            if(session){const auto state=session->status();out.AddMember("done",state.done,a);out.AddMember("workerId",state.source.workerId,a);out.AddMember("sourceCode",p::Value(state.source.code.c_str(),a),a);out.AddMember("maximumReadEnd",state.source.maximumReadEnd,a);out.AddMember("sourceFilesClosed",state.source.filesClosed,a);out.AddMember("sourceResult",p::Value(state.source.result.c_str(),a),a);p::Value ids(rapidjson::kArrayType);for(auto& id:state.source.readerIds)ids.PushBack(p::Value(id.c_str(),a),a);out.AddMember("sourceReaderIds",ids,a);}
         }else p::Require(false,"test","Unknown command");
         std::cout<<p::lease_detail::Encode(out)<<std::endl;
     }catch(const p::Error& e){rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();out.AddMember("ok",false,a);out.AddMember("code",p::Value(e.code.c_str(),a),a);out.AddMember("message",p::Value(e.what(),a),a);std::cout<<p::lease_detail::Encode(out)<<std::endl;}
