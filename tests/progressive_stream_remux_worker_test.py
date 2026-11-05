@@ -31,7 +31,8 @@ def complete_media(raw):
     return False
 
 
-def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.12):
+def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.12,
+          mode='continuous-h264-video-v1',on_wait=None):
     raw=path.read_bytes();source=probe(path);video=[p for p in source['packets'] if p['codec_type']=='video'];tb=Fraction(source['streams'][0]['time_base']);origin=int(video[0]['pts'])
     cuts=[int(next(p['pos'] for p in video if (int(p['pts'])-origin)*tb>=s))+13 for s in (4,8,12,20)] if growing else []
     cuts+=[len(raw)];available=cuts.pop(0);complete=not growing;output=bytearray();events=[];results=[];errors=[];reads=0;first_media=None;warmup=None;kill_ready=threading.Event();released=threading.Event()
@@ -40,7 +41,7 @@ def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.
     def dialog():
         nonlocal available,complete,reads,first_media,warmup
         try:
-            send(dict(mode='continuous-h264-video-v1',formatHint='mp4',length=str(len(raw)),complete=complete))
+            send(dict(mode=mode,formatHint='mp4',length=str(len(raw)),complete=complete))
             while True:
                 line=p.stdout.readline(140001)
                 if not line:break
@@ -59,6 +60,7 @@ def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.
                     assert p.poll() is None
                     if fault=='kill-wait':kill_ready.set();released.wait(10);break
                     if fault=='cancel-wait':send(dict(code='cancelled'));continue
+                    if on_wait:on_wait(bytes(output),dict(events[-1]))
                     # Hold the same process/demuxer without reply: no false EOF,
                     # reconnect or repeatedly restarting the input parser.
                     if warmup is None and not fault:

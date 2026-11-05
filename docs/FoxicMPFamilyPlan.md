@@ -971,3 +971,18 @@ Production code не менялся, нового EXE нет; установле
 entries совпали, одноразовая задача удалена, Harvester не изменялся. Новый CTest
 имеет label stress. Это ограниченный двухминутный срез, не многочасовая/A-V
 приёмка; исторические Linux >2 s и Classic heartbeat-12 остаются OPEN.
+
+
+5 ноября 2026, [внутренний continuous worker с H.264 B-frames](ProgressiveContinuousReorder.md):
+новый частный mode использует delay_moov/edit list и исходную timebase, сохраняя
+отрицательные DTS и presentation timeline. Четыре профиля: 25, fractional,
+encoder -bf 16 и VFR; на сборку 3239 точных packet/frame и 16 промежуточных
+prefix comparisons. По 11 новых и 9 прежних сценариев GCC/MinGW/MSVC/ASan-UBSan,
+exit 0; по пять прежних SDK playback-сценариев трёх редакций с новым worker,
+exit 0. [SHA, ошибки стенда и counterexample старых mux flags](ProgressiveContinuousReorderValidation-2026-11-05.json).
+Новый режим пока не подключён к managed parent/cache/index/libmpv/DirectShow
+или публичному SDK; прежний public mode по-прежнему отклоняет audio/B-frames.
+Частные сборки не заменяют установленный worker/main EXE: 17 защищённых файлов,
+INI/SDK ZIP и HKCU shell сохранены, одноразовая задача удалена. Harvester не
+менялся. Audio/AAC trim, полная reorder playback/stress и исторические outliers
+остаются OPEN.
