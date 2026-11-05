@@ -223,7 +223,14 @@ def exercise_owned(peers, root, report, owned, watches, profiles, completed):
             if producer['errorCode']:
                 terminal = producer
                 break
-            assert producer['workerId']==watcher.pid and not watcher.exited(), producer
+            assert producer['workerId']==watcher.pid, producer
+            if watcher.exited():
+                # Status and the OS process check are separate observations.
+                # Expiry may legally terminate the worker after the status
+                # reply, including while playback_status is in flight. Allow
+                # the next ordinary poll to observe the terminal error; the
+                # existing timeout/error-code/release checks still apply.
+                assert time.monotonic()-refreshed >= timeout-.1, producer
             assert not producer['released'], producer
             if mode=='preparation':
                 assert not producer['playbackReady'] and producer['maximumReadEnd']=='4', producer

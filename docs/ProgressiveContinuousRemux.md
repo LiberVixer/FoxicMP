@@ -810,3 +810,18 @@ source-rewritten; baseline exit 1 сохранён. По 15 Qt CTest-групп 
 Windows-установки/HKCU, SDK ZIP и Harvester сохранены, одноразовая задача удалена.
 Это конечные syscall return faults, не зависший диск: полный cancellation/stress
 и прежний Linux heartbeat outlier остаются открытыми.
+
+
+5 ноября 2026, [continuous lifecycle stress и повторные expiry](ProgressiveContinuousLifecycleStress.md):
+итоговый повтор — по 100 измеряемых +4 warmup cycles и 12 настоящих paused
+heartbeat timeout всех трёх редакций, те же два owned PID на серию.
+Stop/cancel/readerRelease/complete-seek, независимый playback, filesClosed/cache/SHA
+и заранее заданные budgets прошли в повторе;
+[метрики, первичный отказ и критические RPC timing windows](ProgressiveContinuousLifecycleStressValidation-2026-11-05.json).
+Первый Classic resource-budget FAIL после heartbeat 12 остаётся OPEN: точный
+неуспешный замер отсутствует; новый стенд сохраняет baseline и ошибки до assert.
+Исправлена гонка наблюдения IPC/OS exit в тестовом heartbeat helper;
+пороги не увеличены, production fix не заявляется. EXE/установки/профили, SDK ZIP
+и Harvester сохранены, HKCU сверены, одноразовая задача удалена. Исходный Linux
+release >2 s тоже OPEN. Длительная growing continuous загрузка и полная stress/
+ТЗ-приёмка остаются открытыми.
