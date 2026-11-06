@@ -1085,3 +1085,23 @@ capability не подключены; это внутренний компоне
 Main EXE, установленные Linux/Windows worker/INI и immutable SDK ZIP сохранены;
 новой пользовательской версии нет. Harvester не менялся. Sample-window trim,
 AV adapters, full stress/A-V и исторические outliers остаются OPEN.
+
+
+6 ноября 2026, [точное AAC PCM-окно](ProgressiveContinuousAacWindow.md):
+частный `continuous-h264-aac-window-v1` снимает ограничение окончания на границе
+1024 samples. Общая геометрия различает raw decoder и presentation origins;
+worker требует SHA-подтверждения плана до медиабайтов. Реальный Qt Player
+на Windows/Linux и внутренний AAC decoder Classic дают точные PCM-границы.
+По 53 worker cases и 9830 geometry checks в GCC/MinGW/MSVC/ASan-UBSan;
+32 Qt captures, 16 Classic trim captures, шесть raw captures, 12 lifecycle
+checks, шесть truncated rejections и 40 MP3 регрессий. Прежние 33 SDK cases
+трёх редакций прошли. Исправлена очередь interleave при одном полезном AAC sample
+только в новом режиме; исправление startup warmup теста не повышает CPU budget.
+[Отчёт с исходными отказами и SHA](ProgressiveContinuousAacWindowValidation-2026-11-06.json).
+Это частные worker/PCM adapters, ещё без managed AV parent/cache/index,
+настоящих continuous AV entry points/DirectShow control и публичной audio capability.
+Следующий этап — их подключение и growing A/V/seek/pause/EOF/reader приёмка,
+затем SDK/пакеты. Физическая A/V, полный stress и прежние outliers остаются OPEN.
+Все 576 защищённых файлов и 158 shell entries совпали, одноразовая задача удалена.
+Установленные main EXE/worker/INI, исходная MpaDecFilter.lib и SDK ZIP сохранены;
+новой пользовательской версии нет. Harvester не менялся.

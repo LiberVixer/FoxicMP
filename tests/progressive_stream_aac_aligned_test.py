@@ -17,12 +17,12 @@ MODE = 'continuous-h264-aac-aligned-v1'
 
 
 def fixture(root, name, rate=48000, channels=1, fps='25', bframes=2,
-            audio_first=False, aligned=True, codec='aac'):
+            audio_first=False, aligned=True, codec='aac', seconds=24, samples=None):
     path = root/(name+'.mp4')
-    samples = 24*rate//1024*1024 if aligned else 24*rate-137
+    samples = samples if samples is not None else int(seconds*rate)//1024*1024 if aligned else int(seconds*rate)-137
     args = ['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i',
-            'testsrc2=size=160x90:rate='+fps+':duration=24', '-f', 'lavfi', '-i',
-            'sine=sample_rate='+str(rate)+':duration=24', '-map',
+            'testsrc2=size=160x90:rate='+fps+':duration='+str(seconds), '-f', 'lavfi', '-i',
+            'sine=sample_rate='+str(rate)+':duration='+str(seconds), '-map',
             '1:a' if audio_first else '0:v', '-map', '0:v' if audio_first else '1:a',
             '-c:v', 'libx264', '-threads', '2', '-preset', 'veryfast', '-bf', str(bframes),
             '-g', '25', '-sc_threshold', '0', '-c:a', codec, '-ac', str(channels),

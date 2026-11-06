@@ -111,3 +111,9 @@ JSON не объявляется объяснённым; исторически�
 
 YouTubeHarvester не изменялся. Этот SDK позволяет другому проекту отдельно
 подключить профиль; факт реальной интеграции Harvester этим выпуском не заявлен.
+
+
+6 ноября: [частный AAC sample-window компонент](ProgressiveContinuousAacWindow.md)
+проверен с реальными PCM adapters Qt обеих ОС и внутренним decoder Classic.
+Managed continuous AV parent/cache/entry points пока не подключены;
+публичный SDK 1.83 и его video-only capability остаются прежними.

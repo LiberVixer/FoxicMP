@@ -32,9 +32,9 @@ def complete_media(raw):
 
 
 def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.12,
-          mode='continuous-h264-video-v1',on_wait=None):
+          mode='continuous-h264-video-v1',on_wait=None,on_audio_window=None,cut_seconds=(4,8,12,20)):
     raw=path.read_bytes();source=probe(path);video=[p for p in source['packets'] if p['codec_type']=='video'];tb=Fraction(next(s for s in source['streams'] if s['codec_type']=='video')['time_base']);origin=int(video[0]['pts'])
-    cuts=[int(next(p['pos'] for p in video if (int(p['pts'])-origin)*tb>=s))+13 for s in (4,8,12,20)] if growing else []
+    cuts=[int(next(p['pos'] for p in video if (int(p['pts'])-origin)*tb>=s))+13 for s in cut_seconds] if growing else []
     cuts+=[len(raw)];available=cuts.pop(0);complete=not growing;output=bytearray();events=[];results=[];errors=[];reads=0;first_media=None;warmup=None;kill_ready=threading.Event();released=threading.Event()
     p=subprocess.Popen([str(worker)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding='utf-8');began=time.monotonic()
     def send(value):p.stdin.write(json.dumps(value)+'\n');p.stdin.flush()
@@ -63,7 +63,7 @@ def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.
                     if on_wait:on_wait(bytes(output),dict(events[-1]))
                     # Hold the same process/demuxer without reply: no false EOF,
                     # reconnect or repeatedly restarting the input parser.
-                    if warmup is None and not fault:
+                    if warmup is None and (not fault or fault=='cancel-write'):
                         start=time.monotonic();initial=previous=sample(p.pid);warm_samples=[];stable=0
                         while stable<2:
                             assert time.monotonic()-start<20,'Worker runtime failed to settle within20s'
@@ -79,6 +79,12 @@ def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.
                     if cuts:available=cuts.pop(0)
                     else:complete=True
                     send(dict(code='resume',complete=complete))
+                elif message['io']=='audio-window':
+                    assert on_audio_window is not None and not output
+                    digest=hashlib.sha256(json.dumps(message['window'],separators=(',',':')).encode()).hexdigest()
+                    assert digest==message['sha256']
+                    accepted=on_audio_window(message['window'])
+                    send(dict(code='audio-window-accepted' if accepted else 'audio-window-rejected',sha256='0'*64 if fault=='window-digest' else digest))
                 elif message['io']=='write':
                     assert int(message['offset'])==len(output) and 0<len(message['hex'])<=131072
                     if fault=='cancel-write':send(dict(code='cancelled'));continue

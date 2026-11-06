@@ -92,8 +92,10 @@ python3 tests/progressive_stream_aac_aligned_test.py \
 
 ## Следующие шаги
 
-Sample-window trim обычного AAC, managed parent и AV cache/index, фактические
-libmpv/DirectShow adapters, seek/pause/EOF/reader isolation, затем публичный SDK.
+6 ноября [точное sample-window окончание и отдельные PCM adapters](ProgressiveContinuousAacWindow.md)
+проверены в частном worker, реальном Qt Player обеих ОС и AAC decoder Classic.
+Следующий шаг — managed parent и AV cache/index, доставка плана в фактические
+continuous entry points libmpv/DirectShow, seek/pause/EOF/reader isolation, затем публичный SDK.
 Существующие обычные/segmented AV профили этим ограничением не изменены.
 Новые main EXE/публичные worker и SDK ZIP не выпускаются; установленный Linux
 остаётся проверенной версией SDK 1.83. Установки Windows и профили сохранены.

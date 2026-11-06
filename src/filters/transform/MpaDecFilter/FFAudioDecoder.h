@@ -24,6 +24,7 @@
 #include "AudioTools/SampleFormat.h"
 #include "AudioTools/Mixer.h"
 #include "DSUtil/HarvesterPcmWindow.h"
+#include "DSUtil/HarvesterAacWindow.h"
 
 struct AVCodec;
 struct AVCodecContext;
@@ -87,6 +88,7 @@ public:
 	// Internal adapter only. The progressive controller must verify metadata,
 	// pin this decoder and re-arm after every flush/seek before using it.
 	bool SetPcmWindow(uint64_t begin, uint64_t end, uint32_t rate, uint64_t decodeFirst);
+	bool SetAacPcmWindow(const harvester::pcm::AacWindow& plan, uint64_t target=0, uint64_t decodeFirst=0);
 	bool PcmWindowFailed() const { return m_pcmWindowFailed; }
 	bool FinishPcmWindow() {
 		if (m_pcmWindow.Active() && !m_pcmWindow.Complete()) m_pcmWindowFailed=true;

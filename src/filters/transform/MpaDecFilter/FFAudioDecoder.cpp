@@ -587,6 +587,14 @@ bool CFFAudioDecoder::SetPcmWindow(uint64_t begin, uint64_t end, uint32_t rate, 
 	m_pcmWindowFailed=false;return true;
 }
 
+bool CFFAudioDecoder::SetAacPcmWindow(const harvester::pcm::AacWindow& plan, uint64_t target, uint64_t decodeFirst)
+{
+	if (!m_pAVCtx || GetCodecId()!=AV_CODEC_ID_AAC || m_bNeedMix || !plan.Valid() ||
+		m_pAVCtx->sample_rate!=plan.Rate() || m_pAVCtx->ch_layout.nb_channels!=plan.Channels()) return false;
+	if (!plan.RawWindow(m_pcmWindow,target,decodeFirst)) return false;
+	m_pcmWindowFailed=false;return true;
+}
+
 HRESULT CFFAudioDecoder::ReceiveData(std::vector<BYTE>& BuffOut, size_t& outputSize, SampleFormat& samplefmt, REFERENCE_TIME& rtStart)
 {
 	HRESULT hr = E_FAIL;
@@ -602,7 +610,7 @@ HRESULT CFFAudioDecoder::ReceiveData(std::vector<BYTE>& BuffOut, size_t& outputS
 		size_t nSamples = m_pFrame->nb_samples, skipSamples = 0;
 		if (m_pcmWindow.Active()) {
 			harvester::pcm::Slice slice;
-			if (GetCodecId()!=AV_CODEC_ID_MP3 || m_bNeedMix || !m_pcmWindow.Take(nSamples,m_pFrame->sample_rate,slice)) {
+			if ((GetCodecId()!=AV_CODEC_ID_MP3 && GetCodecId()!=AV_CODEC_ID_AAC) || m_bNeedMix || !m_pcmWindow.Take(nSamples,m_pFrame->sample_rate,slice)) {
 				m_pcmWindowFailed=true;av_frame_unref(m_pFrame);return E_INVALIDARG;
 			}
 			nSamples=size_t(slice.count);skipSamples=size_t(slice.skip);rtStart=slice.start;
