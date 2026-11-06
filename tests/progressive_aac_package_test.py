@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing'),required=True)
+    parser.add_argument('--scenario',choices=('aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
     parser.add_argument('--report-directory',type=Path,required=True)
     args=parser.parse_args();sdk=args.sdk_directory.resolve()
@@ -44,7 +44,9 @@ def main():
                'aac-races':'progressive_continuous_command_races',
                'aac-shutdown':'progressive_continuous_shutdown_conformance',
                'aac-lifecycle':'progressive_continuous_lifecycle_stress',
-               'aac-growing':'progressive_continuous_growing_stress'}
+               'aac-growing':'progressive_continuous_growing_stress',
+               'aac-heartbeat':'progressive_continuous_aac_heartbeat_stress',
+               'aac-heartbeat-ordering':'progressive_continuous_heartbeat_ordering'}
         case=importlib.import_module(cases[args.scenario])
         mode=modules['progressive_continuous'].AAC_MODE
         def exercise(peers,root):

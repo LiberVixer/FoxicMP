@@ -10,16 +10,16 @@ import json
 import os
 from pathlib import Path
 import select
+import sys
 import time
 import traceback
 
 from progressive_continuous_api_test import run
 from progressive_player_crash_recovery import ApiError, sha, wait
 from progressive_continuous_waiting_conformance import MeasuredClient
-from progressive_stream_remux_worker_test import fixture, probe
-from progressive_backend_demux_conformance import snapshot
+from progressive_continuous_test_media import source_fixture, source_snapshot, source_cuts, audible_decoder_ready
 from progressive_integrity import protect_snapshot
-from progressive_continuous import ContinuousRemux
+from progressive_continuous import ContinuousRemux, MODE
 
 
 class WorkerExit:
@@ -71,14 +71,15 @@ class WorkerExit:
             self.fd = None
 
 
-def exercise(peers, root, report, profiles=('preparation', 'playing', 'paused', 'renewals'), completed=True):
+def exercise(peers, root, report, profiles=('preparation', 'playing', 'paused', 'renewals'), completed=True, media_mode=MODE):
     owned, watches = [], []
     try:
-        return exercise_owned(peers, root, report, owned, watches, profiles, completed)
+        return exercise_owned(peers, root, report, owned, watches, profiles, completed, media_mode)
     except Exception:
         (report/'scenario-error.txt').write_text(traceback.format_exc(), encoding='utf-8')
         raise
     finally:
+        primary_failure = sys.exc_info()[0] is not None
         errors = []
         for sdk in reversed(owned):
             if sdk.forgotten:
@@ -93,14 +94,14 @@ def exercise(peers, root, report, profiles=('preparation', 'playing', 'paused', 
             watcher.close()
         if errors:
             (report/'job-cleanup-errors.txt').write_text('\n'.join(errors), encoding='utf-8')
-            raise AssertionError('Test cleanup failed; see job-cleanup-errors.txt')
+            if not primary_failure:
+                raise AssertionError('Test cleanup failed; see job-cleanup-errors.txt')
 
 
-def exercise_owned(peers, root, report, owned, watches, profiles, completed):
-    raw_path = fixture(root, 'reference')
+def exercise_owned(peers, root, report, owned, watches, profiles, completed, media_mode=MODE):
+    raw_path = source_fixture(root, 'reference', media_mode)
     raw = raw_path.read_bytes()
-    packets = probe(raw_path)['packets']
-    cuts = {s: int(next(p['pos'] for p in packets if float(p['pts_time']) >= s))+13 for s in (12, 20)}
+    cuts = source_cuts(raw_path, media_mode)
     transport = MeasuredClient(peers[0].client)
     rows, events = [], []
     timeout = 30
@@ -113,13 +114,12 @@ def exercise_owned(peers, root, report, owned, watches, profiles, completed):
         directory = root/name
         directory.mkdir()
         path = directory/'input.part'
-        model = snapshot(path, raw, complete=complete, prefix=prefix)
-        model['timeline']['duration'] = '240000000'
+        model = source_snapshot(path, raw, complete=complete, prefix=prefix, mode=media_mode)
         path.write_bytes(raw)
         return directory, path, model
 
     def create(client, directory, model):
-        sdk = ContinuousRemux(client, str(directory))
+        sdk = ContinuousRemux(client, str(directory), mode=media_mode)
         assert sdk.capability['writerHeartbeatMilliseconds'] == timeout*1000, sdk.capability
         owned.append(sdk)
         sdk.prepare(model, 'clip')
@@ -150,7 +150,7 @@ def exercise_owned(peers, root, report, owned, watches, profiles, completed):
         def check():
             value = sdk.playback_status()
             assert value['state'] not in ('error', 'closed', 'finished'), value
-            return value if value['state']=='playing' and value['positionSeconds']>.2 and value['decoderReaders'] else None
+            return value if value['state']=='playing' and value['positionSeconds']>.2 and value['decoderReaders'] and audible_decoder_ready(value, peers[0].edition, media_mode) else None
         return until(check, 'heartbeat-suite actual playback')
 
     def finish(sdk, path, original):
@@ -223,6 +223,14 @@ def exercise_owned(peers, root, report, owned, watches, profiles, completed):
             if producer['errorCode']:
                 terminal = producer
                 break
+            if value and value['state']=='error':
+                # The decoder may observe expiry after the producer reply was
+                # read. Keep polling the real producer; never accept another
+                # error, an early expiry, or a producer that stays nonterminal.
+                assert value['error']=='writer-heartbeat-timeout', value
+                assert time.monotonic()-refreshed >= timeout-.1, value
+                time.sleep(.2)
+                continue
             assert producer['workerId']==watcher.pid, producer
             if watcher.exited():
                 # Status and the OS process check are separate observations.
@@ -322,7 +330,7 @@ def exercise_owned(peers, root, report, owned, watches, profiles, completed):
     assert other.close(timeout=2)['released'] and other.forget(timeout=2)['forgotten']
     assert not list(Path(str(peers[0].registry)+'.continuous-cache').glob('remux-*'))
     assert max(c['seconds'] for c in transport.calls)<2, transport.calls
-    return dict(result='PASS', count=len(rows), rows=rows, publicSdk=True, actualHeartbeatMilliseconds=30000, deadlinesNotShortened=True, maxRequestSeconds=max(c['seconds'] for c in transport.calls), independentEndpointPreserved=True, statusDoesNotRenewWriter=True, noImplicitPlaybackRestart=True)
+    return dict(result='PASS', count=len(rows), rows=rows, publicMode=media_mode, publicSdk=True, actualHeartbeatMilliseconds=30000, deadlinesNotShortened=True, maxRequestSeconds=max(c['seconds'] for c in transport.calls), independentEndpointPreserved=True, statusDoesNotRenewWriter=True, noImplicitPlaybackRestart=True)
 
 
 if __name__=='__main__':

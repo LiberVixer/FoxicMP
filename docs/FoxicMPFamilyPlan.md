@@ -1217,3 +1217,21 @@ AAC-LC stereo 48 kHz / H.264 -bf 3 / 30000/1001; прежние resource/deadlin
 Приложения/SDK/установки не менялись; Harvester не затронут. Это не многочасовой
 soak и не физическая A/V приёмка. Остальные профили, повторные AAC expiry,
 старые Linux release latency и Classic/MPCVR Event outliers остаются OPEN.
+
+### 6 ноября 2026: AAC heartbeat — Qt PASS, Classic resource gate OPEN
+
+[Heartbeat-срез SDK 1.84](ProgressiveContinuousAacHeartbeat.md): Linux Qt и
+Windows Qt прошли по 17 cases, включая 12 paused expiry на прежних PID,
+реальные 30000 ms, renewals и completed playback без heartbeat. У Classic
+после пяти функциональных и четырёх успешных повторов пятый превысил threads
+budget preparing endpoint: 10 при baseline 7 и допуске +2. FAIL сохранён.
+Исправлен отдельный ложный oracle отказ на последовательных producer/decoder
+status вокруг deadline; old FAIL / fixed PASS и новый forced test трёх редакций
+подтверждены. Два video-only default контроля Linux прошли.
+Windows launcher терял child ExitCode; это воспроизведено, Qt полностью повторён
+с прямым LASTEXITCODE. [Все результаты и границы](ProgressiveContinuousAacHeartbeatValidation-2026-11-06.json).
+Пассивная диагностика thread start modules/idle не объясняет первый resource
+FAIL и не подменяет строгую приёмку. Приложения/установки/583 защищённых файла
+и 158 shell entries сохранены, собственные одноразовые задачи удалены.
+Harvester не менялся; Classic resource gate, остальные AAC профили, физический
+A/V, OS I/O faults и прежние latency/Event outliers остаются OPEN.
