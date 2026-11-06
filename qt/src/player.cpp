@@ -544,9 +544,13 @@ bool Player::loadContinuousSource(const std::shared_ptr<foxicmp::progressive::St
   options["demuxer-lavf-o"]="fflags=+ignidx";
   options["demuxer-lavf-analyzeduration"]="0.1";
   options["demuxer-readahead-secs"]="0";
-  options["cache"]="no";options["aid"]="no";options["sub-auto"]="no";options["audio-file-auto"]="no";
+  const auto* audio=source->audioWindow();
+  if(audio && (!managedAudioConfigured || options.contains("af") || std::any_of(options.keyBegin(),options.keyEnd(),[](const QString& key){return key.startsWith("af-") || key=="audio-file" || key.startsWith("audio-files");})))return false;
+  options["cache"]="no";options["aid"]=audio?"auto":"no";options["sub-auto"]="no";options["audio-file-auto"]="no";
+  if(audio)options["rebase-start-time"]="no";
   const auto uri=continuousStreams->attach(source);
-  if(loadSource(QString::fromStdString(uri),options))return true;
+  if(audio)options["audio-files-append"]=QString::fromStdString(continuousStreams->audioUri());
+  if(audio?loadPcmWindowSource(QString::fromStdString(uri),options,{0,audio->pcm.Samples(),int(audio->pcm.Rate())}):loadSource(QString::fromStdString(uri),options))return true;
   continuousStreams->clear();return false;
 }
 QString Player::attachStdin(int fd, QString *error) { return stdinStream->attach(fd, error); }

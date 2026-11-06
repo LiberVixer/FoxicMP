@@ -26,6 +26,7 @@
 #include "filters/filters/FilterInterfacesImpl.h"
 #include <IMediaSideData.h>
 #include "DSUtil/ProgressivePcmControl.h"
+#include "DSUtil/HarvesterAacWindow.h"
 
 struct IHarvesterReader;
 
@@ -103,9 +104,12 @@ class CMP4SplitterOutputPin : public CBaseSplitterOutputPin, protected CCritSec
 {
 	CComPtr<IHarvesterReader> m_pcmReader;
 	CComPtr<IProgressivePcmControl> m_pcmControl;
-	struct {uint64_t begin=0,end=0,first=0;uint32_t rate=0;bool pending=false;} m_pcmWindow;
+	CComPtr<IProgressiveAacPcmControl> m_aacPcmControl;
+	harvester::pcm::AacWindow m_aacPcmWindow;
+	struct {uint64_t begin=0,end=0,first=0;uint32_t rate=0;bool pending=false,aac=false;} m_pcmWindow;
 public:
 	void SetPcmWindow(IHarvesterReader* reader,uint64_t begin,uint64_t end,uint32_t rate,uint64_t first);
+	void SetAacPcmWindow(IHarvesterReader*,const harvester::pcm::AacWindow&,uint64_t target,uint64_t first);
 	CMP4SplitterOutputPin(std::vector<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 	virtual ~CMP4SplitterOutputPin();
 

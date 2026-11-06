@@ -41,6 +41,31 @@ int main(int argc,char** argv){
         if(action=="strictMux"){
             std::ifstream file(std::filesystem::u8path(p::Text(d["path"],"path",8192)),std::ios::binary);p::Require(file.good(),"test","Mux input");std::vector<char> raw((std::istreambuf_iterator<char>(file)),{});
             harvester::muxmp4::Layout layout;layout.Update([&](uint64_t at,void* out,size_t n){if(at>raw.size() || n>raw.size()-at)return false;std::memcpy(out,raw.data()+at,n);return true;},raw.size(),true,[](unsigned,harvester::BoxData){});
+        }else if(action=="projectionCheck"){
+            auto source=session->decoderSource(true);
+            rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();out.AddMember("ok",true,a);p::Value rows(rapidjson::kArrayType);
+            std::vector<std::shared_ptr<p::StreamDecoderCursor>> cursors;
+            bool invalidTrack=false;try{p::StreamDecoderCursor invalid(source,2);}catch(const p::Error& e){invalidTrack=e.code=="invalid_request";}
+            p::Require(invalidTrack,"test","Invalid projected track accepted");
+            for(unsigned kind=0;kind<2;++kind){
+                auto cursor=std::make_shared<p::StreamDecoderCursor>(source,int(kind));cursors.push_back(cursor);
+                uint64_t available=0;p::Sha256 hash;std::vector<char> bytes(65536);bool endpoint=false;
+                for(;;){
+                    auto pending=std::async(std::launch::async,[cursor,&bytes]{return cursor->read(bytes.data(),bytes.size());});
+                    if(pending.wait_for(std::chrono::milliseconds(250))==std::future_status::ready){
+                        const auto n=pending.get();p::Require(n>=0,"test","Projected cursor read");
+                        if(!n){endpoint=true;p::Require(cursor->size()==int64_t(available),"test","Projected endpoint size");break;}
+                        hash.update(bytes.data(),size_t(n));available+=uint64_t(n);continue;
+                    }
+                    p::Require(cursor->size()==-1,"test","Premature projected wait");cursor->interrupt();
+                    p::Require(pending.wait_for(std::chrono::seconds(1))==std::future_status::ready && pending.get()==-1,"test","Projected interrupt");break;
+                }
+                p::Value row(rapidjson::kObjectType);row.AddMember("kind",kind,a);row.AddMember("bytes",available,a);row.AddMember("eof",endpoint,a);row.AddMember("sha256",p::Value(hash.hex().c_str(),a),a);rows.PushBack(row,a);
+            }
+            source->cancel();source->closeCancelledDecoderReaders();
+            for(const auto& cursor:cursors){char b=0;p::Require(cursor->read(&b,1)==-1,"test","Cancelled projected reader survived");}
+            out.AddMember("tracks",rows,a);out.AddMember("sourceComplete",session->status().output.complete,a);out.AddMember("decoderReadersClosed",true,a);
+            std::cout<<p::lease_detail::Encode(out)<<std::endl;continue;
         }else if(action=="privateFile"){
             const auto path=std::filesystem::u8path(p::Text(d["path"],"path",8192));p::lease_detail::Directory dir(path.parent_path(),false);const auto name=path.filename();p::PlainName(name.u8string(),"filename");
 #ifdef _WIN32

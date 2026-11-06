@@ -397,6 +397,7 @@ STDMETHODIMP CMpaDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 	return
 		QI(IMpaDecFilter)
 		QI(IProgressivePcmControl)
+		QI(IProgressiveAacPcmControl)
 		QI(IExFilterConfig)
 		QI(ISpecifyPropertyPages)
 		QI(ISpecifyPropertyPages2)
@@ -477,6 +478,13 @@ STDMETHODIMP CMpaDecFilter::ArmPcmWindow(UINT version, ULONGLONG begin, ULONGLON
 	if(version!=1 || m_pcmSegment.received || m_pcmSegment.pending || m_pcmSegment.applied ||
 		m_CodecId!=AV_CODEC_ID_MP3 || !check.Configure(begin,end,rate,decodeFirst)) return E_INVALIDARG;
 	m_pcmSegment={begin,end,decodeFirst,rate,true,false,false,false};return S_OK;
+}
+STDMETHODIMP CMpaDecFilter::ArmAacPcmWindow(UINT version,UINT rate,UINT channels,ULONGLONG samples,UINT initialSkip,ULONGLONG target,ULONGLONG decodeFirst)
+{
+	CAutoLock lock(&m_csReceive);harvester::pcm::AacWindow plan;harvester::pcm::Window check;
+	if(version!=1 || m_pcmSegment.received || m_pcmSegment.pending || m_pcmSegment.applied || m_CodecId!=AV_CODEC_ID_AAC ||
+		!plan.Configure(rate,channels,samples,initialSkip) || !plan.RawWindow(check,target,decodeFirst))return E_INVALIDARG;
+	m_aacPcmWindow=plan;m_pcmSegment={initialSkip+target,plan.RawEnd(),decodeFirst,rate,true,false,false,false,true};return S_OK;
 }
 STDMETHODIMP CMpaDecFilter::PcmWindowState(DWORD* flags)
 {
@@ -615,7 +623,8 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 	if(m_pcmSegment.failed)return E_INVALIDARG;
 	if(m_pcmSegment.pending) {
-		if(!m_FFAudioDec.SetPcmWindow(m_pcmSegment.begin,m_pcmSegment.end,m_pcmSegment.rate,m_pcmSegment.first)) {
+		const bool armed=m_pcmSegment.aac?m_FFAudioDec.SetAacPcmWindow(m_aacPcmWindow,m_pcmSegment.begin-m_aacPcmWindow.RawBegin(),m_pcmSegment.first):m_FFAudioDec.SetPcmWindow(m_pcmSegment.begin,m_pcmSegment.end,m_pcmSegment.rate,m_pcmSegment.first);
+		if(!armed) {
 			m_pcmSegment.failed=true;return E_INVALIDARG;
 		}
 		m_pcmSegment.pending=false;m_pcmSegment.applied=true;

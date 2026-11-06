@@ -2736,7 +2736,7 @@ HRESULT CMP4SplitterOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENC
 {
 	CAutoLock cAutoLock(this);
 	if(m_pcmReader)m_pcmReader->GetSession()->ReportPcmState(0);
-	m_pcmControl.Release();m_pcmReader.Release();m_pcmWindow={};
+	m_pcmControl.Release();m_aacPcmControl.Release();m_pcmReader.Release();m_pcmWindow={};
 	return __super::DeliverNewSegment(tStart, tStop, dRate);
 }
 
@@ -2744,7 +2744,7 @@ HRESULT CMP4SplitterOutputPin::DeliverEndFlush()
 {
 	CAutoLock cAutoLock(this);
 	if(m_pcmReader)m_pcmReader->GetSession()->ReportPcmState(0);
-	m_pcmControl.Release();m_pcmReader.Release();m_pcmWindow={};
+	m_pcmControl.Release();m_aacPcmControl.Release();m_pcmReader.Release();m_pcmWindow={};
 	return __super::DeliverEndFlush();
 }
 
@@ -2753,6 +2753,10 @@ void CMP4SplitterOutputPin::SetPcmWindow(IHarvesterReader* reader,uint64_t begin
 	CAutoLock lock(this);m_pcmReader=reader;m_pcmWindow={begin,end,first,rate,true};
 }
 
+void CMP4SplitterOutputPin::SetAacPcmWindow(IHarvesterReader* reader,const harvester::pcm::AacWindow& plan,uint64_t target,uint64_t first)
+{
+	CAutoLock lock(this);m_pcmReader=reader;m_aacPcmWindow=plan;m_pcmWindow={plan.RawBegin()+target,plan.RawEnd(),first,plan.Rate(),true,true};
+}
 HRESULT CMP4SplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> p)
 {
 	CAutoLock cAutoLock(this);
@@ -2761,13 +2765,15 @@ HRESULT CMP4SplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> p)
 		// the first packet. Source-thread arming races that mandatory flush.
 		CComPtr<IPin> downstream;PIN_INFO info={};CComPtr<IBaseFilter> owner;
 		if(ConnectedTo(&downstream)==S_OK && downstream->QueryPinInfo(&info)==S_OK)owner.Attach(info.pFilter);
-		CComQIPtr<IProgressivePcmControl> control=owner;
-		if(!control || FAILED(control->ArmPcmWindow(1,m_pcmWindow.begin,m_pcmWindow.end,m_pcmWindow.rate,m_pcmWindow.first))) {
+		CComQIPtr<IProgressivePcmControl> control=owner;CComQIPtr<IProgressiveAacPcmControl> aac=owner;
+		const bool armed=m_pcmWindow.aac?(aac && SUCCEEDED(aac->ArmAacPcmWindow(1,m_aacPcmWindow.Rate(),m_aacPcmWindow.Channels(),m_aacPcmWindow.Samples(),UINT(m_aacPcmWindow.RawBegin()),m_pcmWindow.begin-m_aacPcmWindow.RawBegin(),m_pcmWindow.first))):
+			(control && SUCCEEDED(control->ArmPcmWindow(1,m_pcmWindow.begin,m_pcmWindow.end,m_pcmWindow.rate,m_pcmWindow.first)));
+		if(!armed) {
 			m_pcmReader->GetSession()->Fail("Decoder has no compatible PCM window or invalid preroll");
 			m_pSplitter->NotifyEvent(EC_ERRORABORT,VFW_E_UNSUPPORTED_AUDIO,0);return VFW_E_UNSUPPORTED_AUDIO;
 		}
 		m_pcmWindow.pending=false;
-		m_pcmControl=control;m_pcmReader->GetSession()->ReportPcmState(1);
+		m_pcmControl=control;m_aacPcmControl=aac;m_pcmReader->GetSession()->ReportPcmState(1);
 	}
 
 	if (p && m_mt.subtype == MEDIASUBTYPE_VP90) {
@@ -2829,7 +2835,7 @@ HRESULT CMP4SplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> p)
 	}
 
 	const auto result=__super::DeliverPacket(std::move(p));
-	if(m_pcmReader && m_pcmControl) {DWORD state=0;if(m_pcmControl->PcmWindowState(&state)==S_OK)m_pcmReader->GetSession()->ReportPcmState(state);}
+	if(m_pcmReader) {DWORD state=0;const auto hr=m_pcmWindow.aac?(m_aacPcmControl?m_aacPcmControl->AacPcmWindowState(&state):E_NOINTERFACE):(m_pcmControl?m_pcmControl->PcmWindowState(&state):E_NOINTERFACE);if(hr==S_OK)m_pcmReader->GetSession()->ReportPcmState(state);}
 	if(m_pcmReader && result==E_INVALIDARG) {
 		m_pcmReader->GetSession()->Fail("PCM window delivery failed");m_pSplitter->NotifyEvent(EC_ERRORABORT,result,0);
 	}
@@ -2847,6 +2853,16 @@ bool CMP4SplitterFilter::FragmentDemuxLoop(IHarvesterReader* reader) {
         const auto target=(std::min)(end-begin-1,time/10000000*rate+((time%10000000)*rate+5000000)/10000000);
         if(!pin)return false;
         static_cast<CMP4SplitterOutputPin*>(pin)->SetPcmWindow(reader,begin+target,end,rate,uint64_t(m_fragmentSample)*1152);
+    }
+    harvester::pcm::AacWindow aac;
+    if(reader->GetSession()->AllowsAacPcmWindow(reader->GetTrack()) && reader->GetSession()->AacPcmPlan(aac)) {
+        const auto time=uint64_t((std::max)(REFERENCE_TIME(0),m_rtStart));
+        const auto target=time/10000000*aac.Rate()+((time%10000000)*aac.Rate()+5000000)/10000000;
+        if(!pin)return false;
+        // A seek beyond the audible end must not replay its last sample. Keep
+        // waiting for confirmed source EOF, without sending padding packets.
+        if(target>=aac.Samples())m_fragmentSample=size_t(aac.PacketCount());
+        else static_cast<CMP4SplitterOutputPin*>(pin)->SetAacPcmWindow(reader,aac,target,uint64_t(m_fragmentSample)*1024);
     }
     CComQIPtr<IAsyncReader> bytes=reader;
     while(!CheckRequest(nullptr)) {

@@ -42,7 +42,9 @@ public:
     void cancel(){producer->cancel();}
     std::shared_ptr<StreamOutputStore::Reader> reader(){return output->reader();}
     std::vector<harvester::Sample> avSamples(unsigned kind)const{return output->avSamples(kind);}
-    std::shared_ptr<StreamDecoderSource> decoderSource(){return std::make_shared<StreamDecoderSource>(output,mode);}
+    // Audio callers must bind the explicit PCM-window adapter before decoding.
+    // Existing callers retain video-only admission, including the public API.
+    std::shared_ptr<StreamDecoderSource> decoderSource(bool audioConsumer=false){return std::make_shared<StreamDecoderSource>(output,mode,audioConsumer);}
     CachedRemuxStatus status()const{CachedRemuxStatus s;s.source=producer->status();s.output=output->status();s.done=s.source.done && s.output.producerClosed;return s;}
     bool retire(){producer->cancel();return owner->retire(output);}
     std::filesystem::path privatePath()const{return output->privatePath();}

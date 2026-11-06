@@ -79,6 +79,9 @@ def run(runner, worker, report):
                     model=protect_snapshot(model,folder,previous=previous);current=count
                     cmd('publish',session=model);publications.append(dict(bytes=count,complete=complete))
                 def index(kind):
+                    # Source AVIO can enter waiting before the output thread
+                    # publishes its initialization; no index exists yet then.
+                    if not status()['initialized']:return []
                     actual=cmd('avIndex',kind=kind,name='held')['samples']
                     wanted=[p for p in packet_data if p['codec_type']==('audio' if kind else 'video')]
                     assert len(actual)<=len(wanted)
@@ -98,17 +101,22 @@ def run(runner, worker, report):
                         publish(cut,gap=True)
                         wait(lambda:status()['sourceCode']=='waiting' and status()['maximumReadEnd']==current,'confirmed prefix wait')
                         index(0);index(1)
-                    ready=status();assert ready['visible']>0 and ready['fragments']>0 and ready['audioWindow'] and not ready['complete']
+                    ready=wait(lambda:(lambda s:s if s['visible']>0 and s['fragments']>0 and s['audioWindow'] else None)(status()),'first indexed AV output');assert not ready['complete']
                     plan=json.loads(ready['audioWindow']);assert int(plan['timestampEnd'])==samples and plan['trackId']==(1 if first else 2)
-                    # PCM consumers are not wired to continuous AV yet: reject
-                    # accidental use through the existing video-only decoder API.
+                    # The existing video-only decoder entry still rejects AAC;
+                    # only an explicit PCM-window consumer can opt in.
                     admission=rpc('decoderAdmission');assert not admission['ok'] and admission['code']=='invalid_request',admission
                     publish(len(raw));wait(lambda:status()['sourceCode']=='waiting','all bytes without complete')
                     tail=status();assert not tail['complete'] and not tail['done']
                     at=tail['visible'];assert cmd('read',name='held',offset=str(at),length='1')['code']=='waiting-range'
+                    projected_wait=cmd('projectionCheck')
+                    assert not projected_wait['sourceComplete'] and not projected_wait['tracks'][0]['eof'],projected_wait
+                    if samples==1:assert projected_wait['tracks'][1]['eof'],projected_wait
                     publish(len(raw),True)
                     final=wait(lambda:(lambda s:s if s['done'] else None)(status()),'producer complete')
                     assert final['complete'] and final['sourceCode']=='data' and final['sourceFilesClosed'],final
+                    projected_complete=cmd('projectionCheck')
+                    assert projected_complete['sourceComplete'] and all(t['eof'] for t in projected_complete['tracks']),projected_complete
                     result=json.loads(final['sourceResult']);assert result['mode']==MODE and result['aacPcmWindow']==plan
                     indexes=[index(0),index(1)];assert [len(x) for x in indexes]==[result['videoPackets'],result['audioPackets']]
                     cache=Path(final['path']);original_packets,output_packets=packets(original),packets(cache)
@@ -142,7 +150,7 @@ def run(runner, worker, report):
                                      exactPacketPayloadClocks=True,exactPcmReference=True,physicalAppendOnly=True,
                                      fragmentTrackCounts=counts,previousMuxProfileStillRequiresBothTracks=True,
                                      unpublishedTailNotRead=True,singleWorkerPid=pid,cacheSha256=cache_hash,
-                                     continuousDecoderAdmissionRejected=True))
+                                     continuousDecoderAdmissionRejected=True,decoderProjections=dict(waiting=projected_wait,complete=projected_complete)))
                 finally:
                     rpc.close();exits.append(dict(profile=label,exitCode=rpc.p.returncode))
                 (report/'progress.json').write_text(json.dumps(dict(completed=[r['profile'] for r in rows])))

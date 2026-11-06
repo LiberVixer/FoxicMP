@@ -1,6 +1,7 @@
 // FoxicMP progressive local playback. GPL-3.0-or-later.
 #pragma once
 #include "HarvesterMP4.h"
+#include "HarvesterAacWindow.h"
 #include <atomic>
 #include <mutex>
 #include <thread>
@@ -57,6 +58,8 @@ public:
     static std::shared_ptr<CHarvesterSession> OpenPublished(const std::string& json, CStringW& error, const std::wstring& readerRegistry = {}, std::string* reasonCode=nullptr, bool trackGroup=true, bool allowMp3PcmWindow=false);
     // Internal adapter: caller retains/cancels the managed remux producer.
     static std::shared_ptr<CHarvesterSession> OpenContinuous(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,int64_t duration,CStringW& error);
+    bool AacPcmPlan(harvester::pcm::AacWindow&)const;
+    bool AllowsAacPcmWindow(int track=1)const;
     bool Mp3PcmPlan(uint64_t& begin,uint64_t& end,uint32_t& rate)const {
         begin=m_pcmBegin;end=m_pcmEnd;rate=m_pcmRate;return rate!=0;
     }

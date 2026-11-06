@@ -57,8 +57,10 @@ class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
 	, public CExFilterConfigImpl
 	, public ISpecifyPropertyPages2
 	, public IProgressivePcmControl
+	, public IProgressiveAacPcmControl
 {
-	struct { uint64_t begin=0,end=0,first=0;UINT rate=0;bool pending=false,applied=false,failed=false,received=false; } m_pcmSegment;
+	struct { uint64_t begin=0,end=0,first=0;UINT rate=0;bool pending=false,applied=false,failed=false,received=false,aac=false; } m_pcmSegment;
+	harvester::pcm::AacWindow m_aacPcmWindow;
 	GUID            m_Subtype = GUID_NULL;
 	AVCodecID       m_CodecId;
 	SampleFormat    m_InternalSampleFormat = SAMPLE_FMT_NONE;
@@ -213,6 +215,8 @@ public:
 	HRESULT StopStreaming() override;
 	STDMETHODIMP ArmPcmWindow(UINT version, ULONGLONG begin, ULONGLONG end, UINT rate, ULONGLONG decodeFirst) override;
 	STDMETHODIMP PcmWindowState(DWORD* flags) override;
+	STDMETHODIMP ArmAacPcmWindow(UINT version,UINT rate,UINT channels,ULONGLONG samples,UINT initialSkip,ULONGLONG target,ULONGLONG decodeFirst) override;
+	STDMETHODIMP AacPcmWindowState(DWORD* flags) override {return PcmWindowState(flags);}
 	HRESULT Receive(IMediaSample* pIn);
 	HRESULT CompleteConnect(PIN_DIRECTION direction, IPin *pReceivePin);
 

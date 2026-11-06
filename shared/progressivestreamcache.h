@@ -244,6 +244,10 @@ public:
     }
     std::shared_ptr<Reader> reader(){return std::shared_ptr<Reader>(new Reader(core));}
     StreamCacheStatus status()const{std::lock_guard<std::mutex> lock(core->mutex);return core->state;}
+    harvester::muxmp4::Layout avLayout()const{
+        std::lock_guard<std::mutex> lock(core->mutex);
+        Core::check(bool(core->avIndex) && core->state.initialized && core->state.failure.empty(),"cache-invalid-audio-window");return core->avIndex->views();
+    }
     // Internal index diagnostics, physical offsets into this same protected cache.
     // Does not grant decoder admission or bypass Reader SHA/lease checks.
     std::vector<harvester::Sample> avSamples(unsigned kind)const{

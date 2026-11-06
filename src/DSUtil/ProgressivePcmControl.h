@@ -9,3 +9,10 @@ IProgressivePcmControl : public IUnknown {
     // Bit 1: armed, bit 2: applied to this segment, bit 4: failed.
     STDMETHOD(PcmWindowState)(DWORD* flags) PURE;
 };
+// Independent IID keeps the existing MP3 ABI/version-one admission unchanged.
+interface __declspec(uuid("620E4C65-7403-41C0-BA86-440A9A559B3E"))
+IProgressiveAacPcmControl : public IUnknown {
+    STDMETHOD(ArmAacPcmWindow)(UINT version, UINT rate, UINT channels,
+        ULONGLONG samples, UINT initialSkip, ULONGLONG target, ULONGLONG decodeFirst) PURE;
+    STDMETHOD(AacPcmWindowState)(DWORD* flags) PURE;
+};

@@ -962,3 +962,20 @@ AAC control/re-arm после flush/seek, growing A/V/pause/seek/EOF/reader пр
 outliers остаются OPEN. Все 576 защищённых файлов и 158 HKCU entries совпали.
 Main EXE/worker/INI/SDK ZIP не обновлялись: новой пользовательской версии нет.
 Harvester/рабочий стол/микшер не менялись; scheduled tasks не создавались.
+
+
+### 6 ноября 2026: внутренние continuous AAC decoder adapters
+
+[Qt Player и Classic DirectShow graph](ProgressiveContinuousAacDecoder.md) подключены
+к managed AV cache через явный PCM-window opt-in. Default entry и публичный SDK
+1.83 сохраняют прежние video-only profiles. Отдельный AAC COM control, два
+защищённых fMP4 view, re-arm после flush/seek и отсутствие повтора последнего
+sample при seek за конец короткого звука. Qt использует две protected проекции
+с независимым audio EOF, устраняя startup stall короткой дорожки. Linux/Windows Qt — по 31 сценарию,
+Classic — 37; native/cache, MP3/AAC adapters и старые no-B/B-frame graphs прошли.
+[SHA, точные exit codes, ограничения seek oracles и исходные отказы](ProgressiveContinuousAacDecoderValidation-2026-11-06.json).
+Физический A/V не измерялся; Qt frame export в этом стенде отсутствует.
+Далее — public controller/status/UI/SDK, обычная API приёмка, расширенные
+waiting/seek/replacement/failure/stress и поставка. 576 защищённых файлов и 158
+HKCU shell entries сохранены. Пользовательской версии и переустановки на этом
+внутреннем этапе нет; Harvester не менялся.
