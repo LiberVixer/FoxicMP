@@ -1,0 +1,73 @@
+"""Exercise deployed ordinary players using their bundled SDK, isolated profiles."""
+import argparse
+import configparser
+import hashlib
+import importlib
+import json
+from pathlib import Path
+import shutil
+import sys
+import os
+sys.dont_write_bytecode=True
+os.environ["PYTHONDONTWRITEBYTECODE"]="1"
+import tempfile
+import traceback
+from types import SimpleNamespace
+
+
+def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--edition',choices=('qt','classic'),required=True)
+    parser.add_argument('--player',type=Path,required=True)
+    parser.add_argument('--reader-runner',type=Path,required=True)
+    parser.add_argument('--sdk-directory',type=Path,required=True)
+    parser.add_argument('--scenario',choices=('aac','legacy','reordered'),required=True)
+    parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
+    parser.add_argument('--report-directory',type=Path,required=True)
+    args=parser.parse_args();sdk=args.sdk_directory.resolve()
+    sys.path.insert(0,str(sdk))
+    names=('progressive_schema','progressive_client','progressive_integrity','progressive_resources','progressive_sdk','progressive_v2','progressive_continuous','progressive_windows','progressive_preview','progressive_writer')
+    modules={name:importlib.import_module(name) for name in names}
+    assert all(Path(m.__file__).resolve().parent==sdk for m in modules.values())
+    from progressive_continuous_api_test import run
+    from progressive_player_crash_recovery import sha
+    if args.scenario=='aac':
+        import progressive_continuous_aac_api_test as case
+        exercise=lambda peers,root:case.exercise(peers,root,args.expected_audio_output)
+    else:
+        import progressive_continuous_sdk_conformance as case
+        mode=modules['progressive_continuous'].REORDERED_MODE if args.scenario=='reordered' else modules['progressive_continuous'].MODE
+        exercise=lambda peers,root:case.exercise(peers,root,mode)
+    with tempfile.TemporaryDirectory(prefix='foxicmp-package-peers-') as name:
+        root=Path(name);players=[str(args.player.resolve())]
+        if args.edition=='classic':
+            players=[]
+            for i in range(2):
+                dest=root/str(i);shutil.copytree(args.player.resolve().parent,dest)
+                player=dest/args.player.name;ini=player.with_suffix('.ini')
+                raw=ini.read_bytes();settings=configparser.ConfigParser();settings.optionxform=str
+                settings.read_string(raw.decode('utf-16') if raw.startswith(b'\xff\xfe') else raw.decode('utf-8-sig'))
+                if not settings.has_section('Settings'):settings.add_section('Settings')
+                settings.set('Settings','ContextMenuPrompted','1');settings.set('Settings','ContextMenuEnabled','0')
+                if not settings.has_section('Audio'):settings.add_section('Audio')
+                settings.set('Audio','AudioRenderer','Null Audio Renderer (Uncompressed)')
+                with ini.open('w',encoding='utf-16') as file:settings.write(file,space_around_delimiters=False)
+                players.append(str(player))
+        def checked(peers,work):
+            try:
+                return exercise(peers,work)
+            except BaseException:
+                args.report_directory.mkdir(parents=True,exist_ok=True)
+                (args.report_directory/'error.txt').write_text(traceback.format_exc(),encoding='utf-8')
+                try:
+                    shutil.copytree(work,args.report_directory/'failure-artifacts')
+                except Exception:
+                    (args.report_directory/'failure-artifacts-error.txt').write_text(traceback.format_exc(),encoding='utf-8')
+                raise
+        result=run(SimpleNamespace(edition=args.edition,player=players,reader_runner=str(args.reader_runner),report_directory=str(args.report_directory)),exercise_case=checked,source_file=case.__file__)
+    result.update(ordinaryPackagedMain=True,packagedMainAcceptance=True,privatePeerCopiesRemoved=not root.exists(),sdkDirectory=str(sdk),sdkModuleSha256={name:sha(module.__file__) for name,module in modules.items()},driverSha256=sha(__file__),scenario=args.scenario)
+    (args.report_directory/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps(dict(result=result['result'],count=result['count'])))
+
+
+if __name__=='__main__':main()

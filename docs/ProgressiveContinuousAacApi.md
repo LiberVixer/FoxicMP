@@ -2,8 +2,9 @@
 
 6 ноября 2026. Следующий этап после [decoder adapters](ProgressiveContinuousAacDecoder.md).
 Статус проверок и границы поставки: [отчёт](ProgressiveContinuousAacApiValidation-2026-11-06.json).
-SDK 1.84 пока является кандидатом исходников; установленные приложения и опубликованные
-пакеты SDK 1.83 не заменены.
+[Обычные приложения и пакеты SDK 1.84 проверены отдельно](ProgressiveContinuousAacPackages.md);
+Linux обновлён с сохранением профиля. Установленные Windows-приложения и прежние
+пакеты SDK 1.83 сохранены; новая экспериментальная поставка фиксируется отдельно.
 
 ## Контракт
 
@@ -55,7 +56,9 @@ prepare до initialization, явный play, pause при публикации,
 EOF, Stop, failure required audio, close/filesClosed/forget и неизменность исходника.
 Отдельная worker regression проверяет canonical ASC и пять неподдерживаемых конфигураций.
 
-Открыты упакованные обычные main приложения Qt, поставка SDK/runtime 1.84,
-установка новой Linux версии и полная AAC waiting/crash/race/stress матрица.
+[Обычные main, чистый .deb и Windows portable проверены отдельно](ProgressiveContinuousAacPackages.md),
+Linux обновлён с сохранением профиля. Classic completed-seek race между verified cache и фоновым fragment index
+воспроизведён с управляемой задержкой и исправлен. Поставка SDK/runtime 1.84
+и полная AAC waiting/crash/race/stress матрица не означают стабильную приёмку.
 Исторические latency outliers и остальная codec/container матрица остаются в
 [общем чеклисте](ProgressiveCompletionChecklist.md). Harvester не меняется.

@@ -997,3 +997,20 @@ Qt использует частный host с null audio; Classic — полн�
 Это source/API этап: обычные упакованные Qt main, SDK/runtime 1.84 prerelease и
 установка Linux ещё открыты. Published SDK 1.83 и установленные профили сохранены.
 Полная AAC waiting/crash/race/stress матрица и прежние latency outliers не закрыты.
+
+### 6 ноября 2026: обычные приложения, пакеты AAC 1.84 и Classic seek race
+
+[Проверка обычных main и упаковки](ProgressiveContinuousAacPackages.md):
+60 сценариев AAC/default/reordered трёх редакций, 20 чистого .deb,
+18 распакованных Windows portable, 9 установленного Linux и 90 повторов
+исправленной Classic прошли. Финальные 107 сценариев stage/.deb/архивов/установки закрепляют все десять
+SDK-модулей за пакетом, включая Windows transport. Ранние FAIL сохранены.
+Причина Classic completed-seek отказа — запоздавший локальный fragment index
+при уже завершённом verified cache. CanSeek использует подтверждённое
+completed-состояние кэша; частный fault test с задержкой 800 ms воспроизводит
+старый отказ и проходит с исправлением на том же MP4, ещё четыре сценария.
+В поставляемом EXE нет диагностических hooks. Debian packager отклоняет
+Python bytecode; чистый пакет пересобран и проверен. Linux обновлён атомарно
+с backup и неизменным INI; Windows установки и 158 HKCU shell entries сохранены.
+[Точные exits, SHA, исходные отказы и границы](ProgressiveContinuousAacPackagesValidation-2026-11-06.json).
+Полная AAC/crash/stress, физический A/V и стабильная ТЗ-приёмка остаются открытыми.

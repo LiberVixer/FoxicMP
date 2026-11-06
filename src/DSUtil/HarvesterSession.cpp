@@ -495,6 +495,15 @@ bool CHarvesterSession::SetIndex(int track,std::vector<harvester::Sample> sample
 }
 bool CHarvesterSession::CanSeek(int64_t position) const {
     if(position<0)return false;
+    if(m_continuousSource) {
+        if(m_continuousSource->stopped())return false;
+        const auto output=m_continuousSource->status();
+        if(!output.failure.empty())return false;
+        // The verified cache can finish before our background fragment index.
+        // SeekSample keeps a known sync point; Sample waits for the next index
+        // publication. Do not silently discard a completed-source seek here.
+        if(output.complete)return true;
+    }
     if(m_v2Bridge && m_v2Bridge->sparseRf64())return position<m_v2Bridge->sparseReadyEnd(position)-(Complete()?0:2000000);
     return Complete() || position<ReadyEnd();
 }

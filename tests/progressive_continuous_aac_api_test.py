@@ -1,4 +1,4 @@
-"""SDK opt-in over production Qt Window/IPC and Classic API, private null outputs."""
+"""SDK opt-in over production Qt Window/IPC and Classic API, isolated profiles."""
 import argparse
 import copy
 from fractions import Fraction
@@ -6,9 +6,21 @@ import json
 import shutil
 from pathlib import Path
 import sys
+import os
+sys.dont_write_bytecode=True
+os.environ["PYTHONDONTWRITEBYTECODE"]="1"
 import time
 import traceback
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'qt/tools'))
+bootstrap=argparse.ArgumentParser(add_help=False)
+bootstrap.add_argument('--sdk-directory',type=Path)
+sdk_args,_=bootstrap.parse_known_args()
+sdk_directory=(sdk_args.sdk_directory or Path(__file__).resolve().parents[1]/'qt/tools').resolve()
+sys.path.insert(0,str(sdk_directory))
+if sdk_args.sdk_directory:
+    import importlib
+    for name in ('progressive_schema','progressive_client','progressive_integrity','progressive_resources','progressive_sdk','progressive_v2','progressive_continuous','progressive_windows','progressive_preview','progressive_writer'):
+        module=importlib.import_module(name)
+        assert Path(module.__file__).resolve().parent==sdk_directory,(name,module.__file__)
 from progressive_continuous import ContinuousRemux, AAC_MODE
 from progressive_continuous_api_test import run
 from progressive_continuous_aac_controller_test import av_snapshot
@@ -19,7 +31,7 @@ from progressive_stream_aac_aligned_test import fixture
 from progressive_stream_remux_worker_test import probe
 
 
-def exercise(peers,root):
+def exercise(peers,root,audio_output='null'):
     rows=[];client=peers[0].client
     for label,rate,channels,fps,bframes,first,n in PROFILES:
         folder=root/label;folder.mkdir();samples=n if n is not None else rate*14+137
@@ -62,7 +74,7 @@ def exercise(peers,root):
                 return s if s['state']=='playing' and s['positionSeconds']>.15 and s['pcmWindowApplied'] else None
             running=until(playing,'AAC decoder playback')
             assert running['audio'] and not running['outputComplete'],running
-            if peers[0].edition=='qt':assert (running['audioOutput']=='null' or (samples==1 and running['audioOutput']=='')) and running['audioCodec']=='aac',running
+            if peers[0].edition=='qt':assert (running['audioOutput']==audio_output or (samples==1 and running['audioOutput']=='')) and running['audioCodec']=='aac',running
             sdk.control('pause');paused=until(lambda:(lambda s:s if s['state']=='paused' else None)(sdk.playback_status()),'AAC pause')
             publish(len(raw));time.sleep(.2);held=sdk.playback_status()
             assert held['state']=='paused' and abs(held['positionSeconds']-paused['positionSeconds'])<.15,held
@@ -70,14 +82,22 @@ def exercise(peers,root):
             except ApiError as e:assert e.code=='continuous-seek-unavailable',e.reply
             else:raise AssertionError('Unconfirmed seek accepted')
             publish(len(raw),True);until(lambda:sdk.status()['outputComplete'],'AAC complete')
-            sdk.control('seek',seconds=13.5)
-            sought=until(lambda:(lambda s:s if s['state']=='paused' and s['positionSeconds']>13 else None)(sdk.playback_status()),'AAC seek after complete')
+            seek_reply=sdk.control('seek',seconds=13.5)
+            (folder/'seek-reply.json').write_text(json.dumps(seek_reply,indent=2),encoding='utf-8')
+            (folder/'before-seek.json').write_text(json.dumps(dict(ready=ready,running=running,paused=paused,heldPause=held),indent=2),encoding='utf-8')
+            def seek_completed():
+                s=sdk.playback_status()
+                with (folder/'seek-status.jsonl').open('a',encoding='utf-8') as log:
+                    log.write(json.dumps(s)+'\n')
+                return s if s['state']=='paused' and s['positionSeconds']>13 else None
+            sought=until(seek_completed,'AAC seek after complete')
             sdk.control('play');finished=until(lambda:(lambda s:s if s['state']=='finished' else None)(sdk.playback_status()),'AAC natural EOF')
             assert finished['outputComplete'] and not finished['active'],finished
             receipt=sdk.close(timeout=2);assert receipt['released'] and receipt['sourceFilesClosed'],receipt
             forgotten=sdk.forget(timeout=2);assert forgotten['forgotten'],forgotten
             assert sha(path)==sha(original)==before
-            rows.append(dict(profile=label,result='PASS',initial=initial,pending=pending,ready=ready,running=running,pause=paused,heldPause=held,seek=sought,finished=finished,release=receipt,forgotten=forgotten,sourceSha256=before))
+            rows.append(dict(profile=label,result='PASS',initial=initial,pending=pending,ready=ready,running=running,pause=paused,heldPause=held,seekReply=seek_reply,seek=sought,finished=finished,release=receipt,forgotten=forgotten,sourceSha256=before))
+            (root/'completed-cases.json').write_text(json.dumps(rows,indent=2),encoding='utf-8')
         finally:
             primary_failure=sys.exc_info()[0] is not None
             if not sdk.forgotten:
@@ -107,6 +127,7 @@ def exercise(peers,root):
             assert receipt['released'] and receipt['sourceFilesClosed'] and elapsed<2,receipt
             sdk.forget(timeout=2);assert sha(path)==sha(original)
             rows.append(dict(profile=mode,result='PASS',release=receipt,closeSeconds=elapsed))
+            (root/'completed-cases.json').write_text(json.dumps(rows,indent=2),encoding='utf-8')
         finally:
             primary_failure=sys.exc_info()[0] is not None
             if not sdk.forgotten:
@@ -116,16 +137,20 @@ def exercise(peers,root):
                 except Exception:
                     (folder/'cleanup-error.txt').write_text(traceback.format_exc(),encoding='utf-8')
                     if not primary_failure:raise
-    return dict(result='PASS',count=len(rows),rows=rows,privateAudioOutputs=True,publicMode=AAC_MODE,packagedMainAcceptance=False)
+    return dict(result='PASS',count=len(rows),rows=rows,privateAudioOutputs=audio_output in ('null','pulse'),audioOutputPolicy=audio_output,publicMode=AAC_MODE,packagedMainAcceptance=False)
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--edition',choices=('qt','classic'),required=True);parser.add_argument('--player',action='append',required=True);parser.add_argument('--reader-runner',required=True);parser.add_argument('--report-directory',required=True);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--edition',choices=('qt','classic'),required=True);parser.add_argument('--player',action='append',required=True);parser.add_argument('--reader-runner',required=True);parser.add_argument('--report-directory',required=True);parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null');parser.add_argument('--sdk-directory',type=Path);args=parser.parse_args()
     try:
         def checked(peers,root):
-            try:return exercise(peers,root)
+            try:return exercise(peers,root,args.expected_audio_output)
             except BaseException:
                 shutil.copytree(root,Path(args.report_directory)/'failure-artifacts');raise
-        result=run(args,exercise_case=checked,source_file=__file__);print(json.dumps(dict(result=result['result'],count=result['count'])))
+        result=run(args,exercise_case=checked,source_file=__file__)
+        result['sdkDirectory']=str(sdk_directory)
+        result['sdkModuleSha256']={p.name:sha(p) for p in sorted(sdk_directory.glob('progressive_*.py'))}
+        (Path(args.report_directory)/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+        print(json.dumps(dict(result=result['result'],count=result['count'])))
     except BaseException:
         Path(args.report_directory).mkdir(parents=True,exist_ok=True);(Path(args.report_directory)/'error.txt').write_text(traceback.format_exc());raise

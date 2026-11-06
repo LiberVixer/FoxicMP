@@ -26,6 +26,7 @@ def main():
     runtime_depends = ', '.join(f'lib{name}{runtime[key] >> 16}' for name, key in
         [('avformat','avformatVersion'), ('avcodec','avcodecVersion'), ('avutil','avutilVersion')])
     assert not any(x.name == 'FoxicMPQt.ini' for x in source.rglob('*')), 'Do not ship a personal profile'
+    assert not any('__pycache__' in x.parts or x.suffix in ('.pyc','.pyo') for x in source.rglob('*')), 'Do not ship Python bytecode caches'
     subprocess.run(['dpkg', '--validate-version', args.version], check=True)
     version = subprocess.check_output([str(source / 'foxicmp-qt'), '--version'],
                                      env={**os.environ, 'QT_QPA_PLATFORM': 'offscreen'}, text=True).strip()
