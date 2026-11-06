@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown'),required=True)
+    parser.add_argument('--scenario',choices=('aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
     parser.add_argument('--report-directory',type=Path,required=True)
     args=parser.parse_args();sdk=args.sdk_directory.resolve()
@@ -42,12 +42,15 @@ def main():
         cases={'aac-waiting':'progressive_continuous_waiting_conformance',
                'aac-worker-crash':'progressive_continuous_worker_crash_conformance',
                'aac-races':'progressive_continuous_command_races',
-               'aac-shutdown':'progressive_continuous_shutdown_conformance'}
+               'aac-shutdown':'progressive_continuous_shutdown_conformance',
+               'aac-lifecycle':'progressive_continuous_lifecycle_stress',
+               'aac-growing':'progressive_continuous_growing_stress'}
         case=importlib.import_module(cases[args.scenario])
         mode=modules['progressive_continuous'].AAC_MODE
         def exercise(peers,root):
             options={'media_mode':mode} if args.scenario=='aac-races' else {'mode':mode}
             if args.scenario=='aac-shutdown':options['require_clean']=True
+            if args.scenario=='aac-lifecycle':options.update(cycles=100,repeats=0)
             result=case.exercise(peers,root,args.report_directory,**options)
             from progressive_continuous_test_media import __file__ as media_source
             result.update(publicMode=mode,fixtureProfile='h264-b3-30000/1001-aac-lc-48000-stereo',mediaHelperSha256=sha(media_source))

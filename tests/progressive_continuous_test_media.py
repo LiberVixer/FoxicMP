@@ -7,13 +7,13 @@ from progressive_stream_remux_worker_test import fixture, probe
 from progressive_continuous import MODE, AAC_MODE
 
 
-def source_fixture(root, name, mode=MODE):
+def source_fixture(root, name, mode=MODE, seconds=24):
     if mode == MODE:
-        return fixture(root, name)
+        return fixture(root, name, seconds=seconds)
     assert mode == AAC_MODE, mode
     from progressive_stream_aac_aligned_test import fixture as av_fixture
     path, _ = av_fixture(root, name, 48000, 2, '30000/1001', 3, False,
-                         False, seconds=24, samples=48000*24-137)
+                         False, seconds=seconds, samples=48000*seconds-137)
     return path
 
 

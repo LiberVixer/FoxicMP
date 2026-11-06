@@ -1202,3 +1202,18 @@ endpoint сохраняется. Дополнительно четыре video-o
 Код приложений, runtime 1.84, профили и 158 shell entries не менялись; временная
 задача удалена. Полная AAC/fps/layout/readers/stress, AVIO/OS fault и физическая
 A/V приёмка остаются открытыми. Harvester не менялся.
+
+### 6 ноября 2026: AAC cyclic и growing stress, один профиль
+
+[Ограниченный AAC stress 1.84](ProgressiveContinuousAacStress.md): по 100
+измеряемых +4 прогревочных цикла каждой редакции (300+12), Stop/Cancel/readerRelease
+и complete/seek/resume; второй endpoint продолжает независимый AAC playback.
+Отдельно по одному 128 s append-only source с двумя viewers, 27 публикациями,
+реальной паузой writer 60 s, ручной паузой, reopen, точными packet clocks и
+EOF/filesClosed/forget. Обычные packaged EXE и десять bundled SDK modules,
+AAC-LC stereo 48 kHz / H.264 -bf 3 / 30000/1001; прежние resource/deadline budgets
+пройдены без повышения. [Все метрики и точные exit codes](ProgressiveContinuousAacStressValidation-2026-11-06.json).
+583 защищённых файла и 158 shell entries сохранены; временная задача удалена.
+Приложения/SDK/установки не менялись; Harvester не затронут. Это не многочасовой
+soak и не физическая A/V приёмка. Остальные профили, повторные AAC expiry,
+старые Linux release latency и Classic/MPCVR Event outliers остаются OPEN.

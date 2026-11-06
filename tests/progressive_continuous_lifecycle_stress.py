@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import sys
 import tempfile
 import time
 import traceback
@@ -16,10 +17,9 @@ import traceback
 from progressive_continuous_api_test import run
 from progressive_continuous_heartbeat_conformance import exercise as heartbeat_exercise, WorkerExit
 from progressive_player_crash_recovery import sha, wait, ApiError
-from progressive_stream_remux_worker_test import fixture, probe
-from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
-from progressive_continuous import ContinuousRemux
+from progressive_continuous import ContinuousRemux, MODE, AAC_MODE
+from progressive_continuous_test_media import source_fixture, source_snapshot, source_cuts, audible_decoder_ready
 from progressive_process_metrics import sample
 
 BUDGET = dict(steadyHandleGrowth=8, steadyThreadGrowth=2, initialThreadGrowth=8,
@@ -45,7 +45,8 @@ def bounds(rows):
     return result
 
 
-def exercise(peers, root, report, cycles, repeats):
+def exercise(peers, root, report, cycles, repeats, mode=MODE):
+    assert mode == MODE or (mode == AAC_MODE and repeats == 0), "AAC expiry uses a separate suite"
     began = time.monotonic(); rows = []; warmup = []; traces = []; heartbeat_rows = []
     phase = ['setup']; originals = []; owned = []; watches = []
     peer = peers[0]; pids = [p.process.pid for p in peers]; old_ids = set()
@@ -66,7 +67,7 @@ def exercise(peers, root, report, cycles, repeats):
                 traces.append(entry)
         item.client.request = traced
     def create(client, directory, model):
-        sdk = ContinuousRemux(client, str(directory)); owned.append(sdk)
+        sdk = ContinuousRemux(client, str(directory), mode=mode); owned.append(sdk)
         sdk.prepare(model, 'clip'); return sdk
     def ready(sdk, seconds=20):
         def poll():
@@ -77,7 +78,7 @@ def exercise(peers, root, report, cycles, repeats):
     def playing(sdk):
         def poll():
             s = sdk.playback_status(); assert s['state'] not in ('closed','error','finished'), s
-            return s if s['state']=='playing' and s['positionSeconds']>.2 and s['decoderReaders'] else None
+            return s if s['state']=='playing' and s['positionSeconds']>.2 and s['decoderReaders'] and audible_decoder_ready(s, peer.edition, mode) else None
         return wait(poll, 'stress actual playback')
     def finish(sdk):
         proof = sdk.close(timeout=2); assert proof['released'] and proof['sourceFilesClosed'], proof
@@ -86,18 +87,19 @@ def exercise(peers, root, report, cycles, repeats):
         forgotten = sdk.forget(timeout=2); assert forgotten['forgotten']
         return dict(proof=proof, forgotten=forgotten, receipts=receipts)
     try:
-        reference = fixture(root, 'reference'); raw = reference.read_bytes()
-        cut = int(next(p['pos'] for p in probe(reference)['packets'] if float(p['pts_time'])>=12))+13
-        other_file = fixture(root, 'independent-long', seconds=900); other_raw = other_file.read_bytes(); other_sha = sha(other_file)
-        other_model = snapshot(other_file, other_raw, complete=True)
-        other_model['timeline']['duration'] = '9000000000'
+        reference = source_fixture(root, 'reference', mode); raw = reference.read_bytes()
+        cut = source_cuts(reference, mode)[12]
+        control_seconds = 600 if mode == AAC_MODE else 900
+        other_file = source_fixture(root, 'independent-long', mode, seconds=control_seconds); other_raw = other_file.read_bytes(); other_sha = sha(other_file)
+        other_model = source_snapshot(other_file, other_raw, complete=True, mode=mode)
+        other_model['timeline']['duration'] = str(control_seconds*10000000+(3000000 if mode==AAC_MODE else 0))
         other = create(peers[1].client, root, other_model); ready(other, 60)
         wait(lambda: other.status()['outputComplete'], 'long independent remux complete', 60)
         other.play(title='Continuous lifecycle independent control'); independent = playing(other)
         for index in range(cycles+4):
             number = index-3; phase[0] = 'cycle-%03d'%number
             directory = root/('cycle-%03d'%index); directory.mkdir(); path = directory/'input.part'
-            model = snapshot(path, raw, complete=False, prefix=cut); model['timeline']['duration'] = '240000000'
+            model = source_snapshot(path, raw, complete=False, prefix=cut, mode=mode)
             initial_sha = sha(path); started = time.monotonic(); sdk = create(peer.client, directory, model); ready(sdk)
             prepared = time.monotonic(); sdk.play(title='Continuous lifecycle %d'%number); actual = playing(sdk)
             play_seconds = time.monotonic()-prepared; assert play_seconds < BUDGET['readyToPlaySeconds']
@@ -106,14 +108,15 @@ def exercise(peers, root, report, cycles, repeats):
             assert not old_ids.intersection(initial['readerIds']); old_ids.update(initial['readerIds'])
             if index%2:
                 sdk.control('pause'); wait(lambda: sdk.playback_status()['state']=='paused','lifecycle manual pause')
-            mode = ('stop','cancel','reader-release','complete')[index%4]
+            operation = ('stop','cancel','reader-release','complete')[index%4]
             expected_sha = initial_sha
-            if mode=='complete':
+            if operation=='complete':
                 with path.open('ab') as stream:
                     assert stream.write(raw[cut:])==len(raw)-cut
                     stream.flush(); os.fsync(stream.fileno())
                 updated=copy.deepcopy(model); updated['revision']='2'
-                updated['writer']['state']=updated['resources'][0]['state']=updated['tracks'][0]['state']='complete'
+                updated['writer']['state']=updated['resources'][0]['state']='complete'
+                for track in updated['tracks']:track['state']='complete'
                 updated['resources'][0]['ranges']=[dict(offset='0',length=str(len(raw)))]
                 updated=protect_snapshot(updated,directory,previous=model); sdk.publish(updated)
                 wait(lambda: sdk.status()['outputComplete'],'stress complete output')
@@ -121,8 +124,8 @@ def exercise(peers, root, report, cycles, repeats):
                 wait(lambda: sdk.playback_status()['positionSeconds']>2.2,'complete seek/resume')
                 expected_sha=sha(reference)
             release_began=time.monotonic()
-            if mode in ('stop','complete'): sdk.control('stop')
-            elif mode=='cancel': peer.client.request(dict(version=1,action='continuousRemuxCancel',jobId=sdk.job_id,**sdk.identity),timeout=2)
+            if operation in ('stop','complete'): sdk.control('stop')
+            elif operation=='cancel': peer.client.request(dict(version=1,action='continuousRemuxCancel',jobId=sdk.job_id,**sdk.identity),timeout=2)
             else:
                 identifiers=sdk.playback_status()['readerIds']; assert identifiers
                 peer.client.request(dict(version=1,action='readerRelease',readerId=identifiers[0]),timeout=2)
@@ -139,7 +142,7 @@ def exercise(peers, root, report, cycles, repeats):
             assert control['state']=='playing' and control['playbackId']==independent['playbackId'] and control['readerIds']==independent['readerIds'],control
             assert control['positionSeconds']>independent['positionSeconds']
             assert all(p.process.poll() is None and p.process.pid==pid for p,pid in zip(peers,pids))
-            row=dict(cycle=number,result='PASS',mode=mode,prepareSeconds=prepared-started,
+            row=dict(cycle=number,result='PASS',mode=operation,prepareSeconds=prepared-started,
                 readyToPlaySeconds=play_seconds,releaseSeconds=release_seconds,
                 actual=actual,terminal=release,decoderTerminal=stopped,final=final,
                 workerMetrics=worker_metrics,workerExit=exit_proof,independentPositionSeconds=control['positionSeconds'],
@@ -186,12 +189,13 @@ def exercise(peers, root, report, cycles, repeats):
             (report/'progress.json').write_text(json.dumps(dict(phase=phase[0],completedCycles=len(rows),completedHeartbeats=len(heartbeat_rows),lastHeartbeat=heartbeat_rows[-1]),indent=2)+'\n')
             print(json.dumps(dict(heartbeat=index+1,result='PASS',releaseSeconds=observation)),flush=True)
         assert max(t['seconds'] for t in traces)<BUDGET['requestSeconds']
-        return dict(result='PASS',cycles=cycles,warmupCycles=4,heartbeatRepeats=repeats,rows=rows,warmup=warmup,
+        return dict(result='PASS',count=cycles,publicMode=mode,controlSourceSeconds=control_seconds,cycles=cycles,warmupCycles=4,heartbeatRepeats=repeats,rows=rows,warmup=warmup,
             heartbeatRows=heartbeat_rows,budget=BUDGET,bounds=budgets,independentFinal=independent_final,
             maximumRequestSeconds=max(t['seconds'] for t in traces),wallSeconds=time.monotonic()-began,
             samePrivatePlayers=True,realHeartbeatMilliseconds=30000,clockNotMocked=True,
             singleLongGrowingDownload=False,fullStressAcceptance=False)
     finally:
+        primary_failure=sys.exc_info()[0] is not None
         errors=[]
         for sdk in reversed(owned):
             if not sdk.forgotten:
@@ -201,7 +205,8 @@ def exercise(peers, root, report, cycles, repeats):
         (report/'rpc-trace.json').write_text(json.dumps(traces,indent=2)+'\n')
         for peer,original in zip(peers,originals):peer.client.request=original
         if errors:
-            (report/'cleanup-errors.txt').write_text('\n'.join(errors));raise AssertionError('Stress cleanup failed')
+            (report/'cleanup-errors.txt').write_text('\n'.join(errors))
+            if not primary_failure:raise AssertionError('Stress cleanup failed')
 
 
 def staged(args, report):

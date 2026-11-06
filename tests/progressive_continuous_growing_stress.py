@@ -17,12 +17,12 @@ import time
 import traceback
 
 from progressive_continuous_api_test import run
-from progressive_continuous import ContinuousRemux
+from progressive_continuous import ContinuousRemux, MODE, AAC_MODE
+from progressive_continuous_test_media import source_fixture, source_snapshot, audible_decoder_ready
 from progressive_continuous_heartbeat_conformance import WorkerExit
 from progressive_continuous_waiting_conformance import MeasuredClient
-from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
-from progressive_stream_remux_worker_test import fixture, probe
+from progressive_stream_remux_worker_test import probe
 from progressive_process_metrics import sample
 from progressive_player_crash_recovery import sha, ApiError
 
@@ -36,7 +36,7 @@ def packets(value):
             for p in value['packets'] if p['stream_index'] in tracks]
 
 
-def exercise(peers,root,report):
+def exercise(peers,root,report,mode=MODE):
     owned=[];watchers=[];clients=[MeasuredClient(p.client) for p in peers]
     jobs=[None,None];expected=[None,None];samples=[];events=[];publications=[]
     began=time.monotonic();last_sample=-1;last_heartbeat=began;complete=False;phase='setup'
@@ -45,11 +45,15 @@ def exercise(peers,root,report):
     def event(name,**fields):
         events.append(dict(event=name,seconds=time.monotonic()-began,**fields));save('events',events)
     save('owned-identities',dict(pids=[p.process.pid for p in peers],players=[str(p.player) for p in peers],playerSha256=[sha(p.player) for p in peers],testSourceSha256=SOURCE_SHA256,budgets=BUDGET))
-    reference=fixture(root,'reference',seconds=128);reference_sha=sha(reference);raw=reference.read_bytes()
-    original=probe(reference);reference_packets=packets(original)
+    reference=source_fixture(root,'reference',mode,seconds=128);reference_sha=sha(reference);raw=reference.read_bytes()
+    original=probe(reference)
+    if mode==AAC_MODE:
+        from progressive_stream_aac_window_test import packets as av_packets
+        reference_packets=av_packets(reference)
+    else:reference_packets=packets(original)
     cuts={s:int(next(p['pos'] for p in original['packets'] if p['codec_type']=='video' and float(p['pts_time'])>=s))+13 for s in range(12,128,4)}
     directory=root/'shared-writer';directory.mkdir();path=directory/'input.part'
-    prefix=cuts[12];model=snapshot(path,raw,complete=False,prefix=prefix);model['timeline']['duration']='1280000000'
+    prefix=cuts[12];model=source_snapshot(path,raw,complete=False,prefix=prefix,mode=mode);model['timeline']['duration']='1283000000' if mode==AAC_MODE else '1280000000'
     assert path.stat().st_size==prefix and len(raw)>prefix
     def tick():
         nonlocal last_heartbeat,last_sample
@@ -91,7 +95,7 @@ def exercise(peers,root,report):
             if check:check(views)
             time.sleep(min(.2,max(0,until-time.monotonic())))
     def attach(i):
-        sdk=ContinuousRemux(clients[i],str(directory));owned.append(sdk);sdk.prepare(model,'clip')
+        sdk=ContinuousRemux(clients[i],str(directory),mode=mode);owned.append(sdk);sdk.prepare(model,'clip')
         end=time.monotonic()+20
         while True:
             value=sdk.status();assert not value['errorCode'],value
@@ -100,7 +104,7 @@ def exercise(peers,root,report):
         sdk.play(title='Sustained growing writer')
         while True:
             value=sdk.playback_status();assert value['state'] not in ('error','closed','finished'),value
-            if value['state']=='playing' and value['positionSeconds']>.2 and value['decoderReaders']:break
+            if value['state']=='playing' and value['positionSeconds']>.2 and value['decoderReaders'] and audible_decoder_ready(value,peers[i].edition,mode):break
             assert time.monotonic()<end,'Actual playback not ready';sdk.heartbeat();time.sleep(.05)
         job=sdk.status();watcher=WorkerExit(job['workerId']);watchers.append(watcher)
         expected[i]=dict(workerId=job['workerId'],playbackId=value['playbackId'],readerIds=value['readerIds'],watcher=watcher)
@@ -118,7 +122,8 @@ def exercise(peers,root,report):
             hold(gap,bounded)
         model['revision']=str(int(model['revision'])+1);model['resources'][0]['ranges']=[dict(offset='0',length=str(next_prefix))]
         state='complete' if finished else 'downloading'
-        model['writer']['state']=model['resources'][0]['state']=model['tracks'][0]['state']=state
+        model['writer']['state']=model['resources'][0]['state']=state
+        for track in model['tracks']:track['state']=state
         model=protect_snapshot(model,directory,previous=previous)
         prefix=next_prefix;complete=finished;started=time.monotonic()
         for job in jobs:
@@ -177,9 +182,15 @@ def exercise(peers,root,report):
         packet_proofs=[]
         for i,peer in enumerate(peers):
             caches=list(Path(str(peer.registry)+'.continuous-cache').glob('remux-*/output.fmp4'));assert len(caches)==1,caches
-            copied=root/('output-%d.fmp4'%i);shutil.copyfile(caches[0],copied);actual=probe(copied);actual_packets=packets(actual)
-            save('output-%d-packets'%i,actual_packets);assert actual_packets==reference_packets,'Packet payload/PTS/DTS/duration mismatch'
-            packet_proofs.append(dict(peer=i,count=len(actual_packets),canonicalSha256=hashlib.sha256(json.dumps(actual_packets).encode()).hexdigest(),copySha256=sha(copied)))
+            copied=root/('output-%d.fmp4'%i);shutil.copyfile(caches[0],copied);actual=probe(copied);actual_packets=av_packets(copied) if mode==AAC_MODE else packets(actual)
+            save('output-%d-packets'%i,actual_packets)
+            if mode==AAC_MODE:
+                assert actual_packets['video']==reference_packets['video'],'Video payload/PTS/DTS/duration mismatch'
+                assert [p[:3] for p in actual_packets['audio']]==[p[:3] for p in reference_packets['audio']],'Audio payload/PTS/DTS mismatch'
+                producer=jobs[i].status()
+                assert producer['audioWindowReady'] and producer['audioPresentationSamples']==str(48000*128-137),producer
+            else:assert actual_packets==reference_packets,'Packet payload/PTS/DTS/duration mismatch'
+            packet_proofs.append(dict(peer=i,count={k:len(v) for k,v in actual_packets.items()} if mode==AAC_MODE else len(actual_packets),canonicalSha256=hashlib.sha256(json.dumps(actual_packets).encode()).hexdigest(),copySha256=sha(copied)))
         phase='seek-eof-release';ended=[];closed=[]
         for job in jobs:job.control('seek',seconds=126);job.control('play')
         for i in range(2):ended.append(wait(lambda v,i=i:v[i]['playback'] if v[i]['playback']['state']=='finished' else None,'Confirmed final EOF',10))
@@ -199,7 +210,7 @@ def exercise(peers,root,report):
             assert 0<=cores<=BUDGET['averageCores']
             resources.append(dict(peer=i,steadyMaxHandles=high(steady,'handles'),lateMaxHandles=high(late,'handles'),steadyMaxThreads=high(steady,'threads'),lateMaxThreads=high(late,'threads'),lastTenAverageCores=cores))
         event('finished',elapsedSeconds=elapsed)
-        return dict(result='PASS',sourceSeconds=128,videoOnly=True,bFrames=False,wallSeconds=elapsed,writerPauseSeconds=paused_seconds,
+        return dict(result='PASS',count=1,publicMode=mode,sourceSeconds=128,videoOnly=mode==MODE,bFrames=mode==AAC_MODE,wallSeconds=elapsed,writerPauseSeconds=paused_seconds,
             physicalAppendOnly=True,publicationCount=len(publications),twoIndependentEndpoints=True,sameSecondWorkerThroughout=True,
             partialFrameBytes=13,resumeSeconds=resume_seconds,packetProofs=packet_proofs,initial=initial,manualPause=manual,
             reopened=replacement,firstClosed=closed_first,ended=ended,closed=closed,originalSha256=reference_sha,
