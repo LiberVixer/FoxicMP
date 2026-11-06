@@ -1175,3 +1175,15 @@ Python bytecode; чистый пакет пересобран и провере�
 с backup и неизменным INI; Windows установки и 158 HKCU shell entries сохранены.
 [Точные exits, SHA, исходные отказы и границы](ProgressiveContinuousAacPackagesValidation-2026-11-06.json).
 Полная AAC/crash/stress, физический A/V и стабильная ТЗ-приёмка остаются открытыми.
+
+### 6 ноября 2026: опубликован предварительный SDK/runtime 1.84
+
+[Выпуск](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.84)
+содержит отдельные Windows Classic/Qt и Linux portable, .deb и source-clean SDK.
+[Аттестация](ProgressiveContinuousAacDeliveryValidation-2026-11-06.json): все семь
+assets полностью скачаны обратно и совпали с локальными SHA-256 и серверными
+Digest; tag и SDK указывают на d920adcfe206e36a26d246077c5fa1cad1ec5633.
+Linux runtime обновлён с backup; финальный SDK установлен отдельной атомарной
+заменой семи metadata-файлов, INI/кэш/EXE сохранены. Windows установки и 158 shell
+entries сохранены, временные задачи удалены. Полная ТЗ-приёмка остаётся открытой;
+Harvester не менялся.

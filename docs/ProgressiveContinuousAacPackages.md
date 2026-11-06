@@ -6,7 +6,8 @@
 Статус: локальная проверка обычных приложений и пакетов SDK 1.84 завершена.
 Исправлена гонка completed seek в Classic. Это экспериментальная поставка;
 полная ТЗ-приёмка, длительный AAC stress и физическая A/V точность остаются открытыми.
-Факт публикации и проверка финальных assets фиксируются отдельно.
+[Выпуск 1.84 опубликован](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.84);
+[все семь файлов скачаны обратно, сверены SHA-256, tag и source commit](ProgressiveContinuousAacDeliveryValidation-2026-11-06.json).
 
 ## Что проверено
 

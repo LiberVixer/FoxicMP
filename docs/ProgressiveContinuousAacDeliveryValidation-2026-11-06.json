@@ -1,0 +1,349 @@
+{
+  "result": "PASS",
+  "date": "2026-11-06",
+  "releaseUrl": "https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.84",
+  "releaseId": 436422287,
+  "prerelease": true,
+  "sourceCommit": "d920adcfe206e36a26d246077c5fa1cad1ec5633",
+  "tagCommit": "d920adcfe206e36a26d246077c5fa1cad1ec5633",
+  "publicSdkHttpStatus": 200,
+  "allSevenServerDigestsRecheckedAfterPublication": true,
+  "downloadVerification": {
+    "result": "PASS",
+    "releaseId": 436422287,
+    "tag": "progressive-api-v1.84",
+    "sourceCommit": "d920adcfe206e36a26d246077c5fa1cad1ec5633",
+    "verifiedWhileDraft": true,
+    "allSevenServerDigestsMatch": true,
+    "allSevenAssetsDownloadedAndHashed": true,
+    "downloadedChecksumManifestVerified": true,
+    "sdkVerification": {
+      "result": "PASS",
+      "sdkVersion": "1.84",
+      "sourceCommit": "d920adcfe206e36a26d246077c5fa1cad1ec5633",
+      "sourceDirty": false,
+      "filesVerified": 322,
+      "modulesVerified": 10,
+      "standaloneImportExitCode": 0,
+      "sha256": "90f85f33cab05a951a8808cbd81741d3e24a4a39f6e28a2aeb6dc63c5ecf1ed1"
+    },
+    "assets": {
+      "FoxicMP-progressive-sdk-1.84.zip": {
+        "assetId": 716941530,
+        "bytes": 2439790,
+        "sha256": "90f85f33cab05a951a8808cbd81741d3e24a4a39f6e28a2aeb6dc63c5ecf1ed1",
+        "serverDigest": "sha256:90f85f33cab05a951a8808cbd81741d3e24a4a39f6e28a2aeb6dc63c5ecf1ed1",
+        "downloadedSha256": "90f85f33cab05a951a8808cbd81741d3e24a4a39f6e28a2aeb6dc63c5ecf1ed1",
+        "downloadExitCode": 0,
+        "downloadSource": "Verified prefetch",
+        "seconds": 0.06041450399970927
+      },
+      "FoxicMPClassic-0.2.0-progressive-1.84-windows-x64.zip": {
+        "assetId": 716941525,
+        "bytes": 80677389,
+        "sha256": "75395388c8932899c63fa2102d4a22e862a3055561af11002292dfb50c9aafde",
+        "serverDigest": "sha256:75395388c8932899c63fa2102d4a22e862a3055561af11002292dfb50c9aafde",
+        "downloadedSha256": "75395388c8932899c63fa2102d4a22e862a3055561af11002292dfb50c9aafde",
+        "downloadExitCode": 0,
+        "downloadSource": "Verified prefetch",
+        "seconds": 0.7798323409997465
+      },
+      "FoxicMPQt-0.2.0-progressive-1.84-linux-x64.tar.gz": {
+        "assetId": 716941523,
+        "bytes": 9244087,
+        "sha256": "2ad495941bb715d1bdebabb41f22edac2b709231746eba19efdaaca8121ecb93",
+        "serverDigest": "sha256:2ad495941bb715d1bdebabb41f22edac2b709231746eba19efdaaca8121ecb93",
+        "downloadedSha256": "2ad495941bb715d1bdebabb41f22edac2b709231746eba19efdaaca8121ecb93",
+        "downloadExitCode": 0,
+        "downloadSource": "Verified prefetch",
+        "seconds": 0.1168940739999016
+      },
+      "FoxicMPQt-0.2.0-progressive-1.84-windows-x64.zip": {
+        "assetId": 716941528,
+        "bytes": 133773755,
+        "sha256": "a269af21614abf2bc0120bfc1342119ffe896ef738f48bd463623caf7fb25f08",
+        "serverDigest": "sha256:a269af21614abf2bc0120bfc1342119ffe896ef738f48bd463623caf7fb25f08",
+        "downloadedSha256": "a269af21614abf2bc0120bfc1342119ffe896ef738f48bd463623caf7fb25f08",
+        "downloadExitCode": 0,
+        "downloadSource": "API this run",
+        "seconds": 33.27887371599991
+      },
+      "foxiqmp-qt_0.2.0-184_amd64.deb": {
+        "assetId": 716942021,
+        "bytes": 7442552,
+        "sha256": "e7412abf5fea65e46cf2ddaac4bb70ff5bc662e7129e008ce603abdb86385590",
+        "serverDigest": "sha256:e7412abf5fea65e46cf2ddaac4bb70ff5bc662e7129e008ce603abdb86385590",
+        "downloadedSha256": "e7412abf5fea65e46cf2ddaac4bb70ff5bc662e7129e008ce603abdb86385590",
+        "downloadExitCode": 0,
+        "downloadSource": "Verified prefetch",
+        "seconds": 0.06616591200054245
+      },
+      "progressive-1.84-assets.json": {
+        "assetId": 716943203,
+        "bytes": 5570,
+        "sha256": "8b93bab7f7013e72ecc463895ee44e031e3aaf3ff9f2094e373ed0b00f850f7e",
+        "serverDigest": "sha256:8b93bab7f7013e72ecc463895ee44e031e3aaf3ff9f2094e373ed0b00f850f7e",
+        "downloadedSha256": "8b93bab7f7013e72ecc463895ee44e031e3aaf3ff9f2094e373ed0b00f850f7e",
+        "downloadExitCode": 0,
+        "downloadSource": "Verified prefetch",
+        "seconds": 0.0016517340000063996
+      },
+      "SHA256SUMS.txt": {
+        "assetId": 716941522,
+        "bytes": 642,
+        "sha256": "6aa7ac3551e1a9c7fc6c77ebcd2e2fc13924771eef6f666628dba74cacaf8bf7",
+        "serverDigest": "sha256:6aa7ac3551e1a9c7fc6c77ebcd2e2fc13924771eef6f666628dba74cacaf8bf7",
+        "downloadedSha256": "6aa7ac3551e1a9c7fc6c77ebcd2e2fc13924771eef6f666628dba74cacaf8bf7",
+        "downloadExitCode": 0,
+        "downloadSource": "Verified prefetch",
+        "seconds": 0.0009234770004695747
+      }
+    }
+  },
+  "localPackageAttestation": {
+    "result": "PASS",
+    "sourceCommit": "d920adcfe206e36a26d246077c5fa1cad1ec5633",
+    "sdkVersion": "1.84",
+    "applicationVersion": "0.2.0",
+    "knownBoundaries": "Classic completed-seek race fixed; full AAC stress and physical AV remain open",
+    "binaryValidationReport": "docs/ProgressiveContinuousAacPackagesValidation-2026-11-06.json",
+    "binaryValidationReportSha256": "28e9dd4411d15797d26dce5756f0172b1cdca3b1aab5597b91e168f7f09bfec2",
+    "binaryBuildBaselineCommit": "b4857b047c6a3206ae315fc221150d6df41b8a04",
+    "binariesFromRecordedModifiedSources": true,
+    "sdkVerification": {
+      "result": "PASS",
+      "sdkVersion": "1.84",
+      "sourceCommit": "d920adcfe206e36a26d246077c5fa1cad1ec5633",
+      "sourceDirty": false,
+      "filesVerified": 322,
+      "modulesVerified": 10,
+      "standaloneImportExitCode": 0,
+      "sha256": "90f85f33cab05a951a8808cbd81741d3e24a4a39f6e28a2aeb6dc63c5ecf1ed1"
+    },
+    "allPayloadCodeMatchesTestedBuilds": true,
+    "finalDebCodeFilesMatched": 22,
+    "finalDebLauncherMatchesSource": true,
+    "qtOnlineHelperPreservedSha256": "33121d192d706e62f684a06f80918e3f3a8ba52ac3a65213b6951c39c7d9f555",
+    "assets": {
+      "FoxicMPClassic-0.2.0-progressive-1.84-windows-x64.zip": {
+        "sha256": "75395388c8932899c63fa2102d4a22e862a3055561af11002292dfb50c9aafde",
+        "bytes": 80677389
+      },
+      "FoxicMPQt-0.2.0-progressive-1.84-windows-x64.zip": {
+        "sha256": "a269af21614abf2bc0120bfc1342119ffe896ef738f48bd463623caf7fb25f08",
+        "bytes": 133773755
+      },
+      "FoxicMPQt-0.2.0-progressive-1.84-linux-x64.tar.gz": {
+        "sha256": "2ad495941bb715d1bdebabb41f22edac2b709231746eba19efdaaca8121ecb93",
+        "bytes": 9244087
+      },
+      "foxiqmp-qt_0.2.0-184_amd64.deb": {
+        "sha256": "e7412abf5fea65e46cf2ddaac4bb70ff5bc662e7129e008ce603abdb86385590",
+        "bytes": 7442552
+      },
+      "FoxicMP-progressive-sdk-1.84.zip": {
+        "sha256": "90f85f33cab05a951a8808cbd81741d3e24a4a39f6e28a2aeb6dc63c5ecf1ed1",
+        "bytes": 2439790
+      }
+    },
+    "allTenBundledSdkModulesMatchAcceptance": true,
+    "finalDebAllPayloadFilesMatched": 393,
+    "editions": {
+      "linux": {
+        "playerSha256": "876f2a7be70eeb17812e69cd2c3660bbecc7b0ec14c22c7a39ea38eb256fc4ff",
+        "sdkModules": {
+          "progressive_client": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+          "progressive_continuous": "d62121dfdbd89061b2fa4414f7a7d6db1e9e3f8949357f0520be5af62b5793ac",
+          "progressive_integrity": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+          "progressive_preview": "c7e17465981d92acef623b530c7283868de9c8aad634b6a3cbbb82a67d5d1b44",
+          "progressive_resources": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7",
+          "progressive_schema": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778",
+          "progressive_sdk": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2",
+          "progressive_v2": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+          "progressive_windows": "fa48010d85e771dd40d05d58df6858def65bef72ead8027ef30f7033e768cde2",
+          "progressive_writer": "245f6781df624d7482f32c1db825946b7a2b7c96a1073e8d1eaaaf42fdf64b19"
+        }
+      },
+      "windowsQt": {
+        "playerSha256": "aa5bd526212e686788eda5cc5d1c4924ea0bad59dae6ac440945e0da210233c0",
+        "sdkModules": {
+          "progressive_client": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+          "progressive_continuous": "d62121dfdbd89061b2fa4414f7a7d6db1e9e3f8949357f0520be5af62b5793ac",
+          "progressive_integrity": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+          "progressive_preview": "c7e17465981d92acef623b530c7283868de9c8aad634b6a3cbbb82a67d5d1b44",
+          "progressive_resources": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7",
+          "progressive_schema": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778",
+          "progressive_sdk": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2",
+          "progressive_v2": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+          "progressive_windows": "fa48010d85e771dd40d05d58df6858def65bef72ead8027ef30f7033e768cde2",
+          "progressive_writer": "245f6781df624d7482f32c1db825946b7a2b7c96a1073e8d1eaaaf42fdf64b19"
+        }
+      },
+      "classic": {
+        "playerSha256": "7dbd2040c379e81e9f26a3dad9b562560342956a5b9dcbea722e525701ce20d7",
+        "sdkModules": {
+          "progressive_client": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+          "progressive_continuous": "d62121dfdbd89061b2fa4414f7a7d6db1e9e3f8949357f0520be5af62b5793ac",
+          "progressive_integrity": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+          "progressive_preview": "c7e17465981d92acef623b530c7283868de9c8aad634b6a3cbbb82a67d5d1b44",
+          "progressive_resources": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7",
+          "progressive_schema": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778",
+          "progressive_sdk": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2",
+          "progressive_v2": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+          "progressive_windows": "fa48010d85e771dd40d05d58df6858def65bef72ead8027ef30f7033e768cde2",
+          "progressive_writer": "245f6781df624d7482f32c1db825946b7a2b7c96a1073e8d1eaaaf42fdf64b19"
+        }
+      }
+    },
+    "classicSeekFixSourceSha256": "9b212176003ae463c79a074036496d1666b2505707d6d38ddcdc27d8e7a1a47f"
+  },
+  "initialLinuxInstall": {
+    "result": "PASS",
+    "version": "FoxicMPQt 0.2.0",
+    "sdkVersion": "1.84",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/rollback-sdk184-20261106T061022Z",
+    "atomicReplace": true,
+    "replaced": {
+      "foxicmp-qt": {
+        "previousSha256": "34933e84887e75e7336da09ff8c74d0af68cb09f8f599c289efe8bbf72af32a5",
+        "installedSha256": "876f2a7be70eeb17812e69cd2c3660bbecc7b0ec14c22c7a39ea38eb256fc4ff"
+      },
+      "foxicmp-remux-stream-worker": {
+        "previousSha256": "e5ab59d9e1bc0b5806a21e12e282475ecee0e9d66bc1ac1f2d42b3bf3c5564cf",
+        "installedSha256": "4aa4238d4b97d1275d5e9438e759335b94a2863e0950133f67a012d79fff8a66"
+      },
+      "continuous-remux-worker.json": {
+        "previousSha256": "0fddbbe478585f6199c32a221f08ee3a99e8e8563b1ad3facfbcec59f23d47b7",
+        "installedSha256": "23e003c1e4f8829c649ad19ca1a71cceeed7cccdb79646bbeb204965b42409be"
+      },
+      "integration/FoxicMPFamilyMatrix.md": {
+        "previousSha256": "b94605c0a3af530972b85b1efdb1b1262e36a13f016047afff1ec0384789860b",
+        "installedSha256": "c298dafe928cb7e966290c0c15b1841fd7ce11d9f3e89c26d4a238072aa0216f"
+      },
+      "integration/FoxicMPFamilyPlan.md": {
+        "previousSha256": "fc9cbb00d607e8ba989518ab8fcdfab142d0a2256f6b98b51c2128f09004678c",
+        "installedSha256": "8890782731af89f54b3dbaceb57300b5e6480971bdf6934c71913510eb52876b"
+      },
+      "integration/ProgressiveCompletionChecklist.md": {
+        "previousSha256": "139813776a05d4198a36bb5529d804f5e924d8eb22def512946c573035939e21",
+        "installedSha256": "a26a98cdc83931ee74bfe2f806e8b4eca1d41e33d36b92aaff25be7fcebb570f"
+      },
+      "integration/ProgressiveContinuousAacApi.md": {
+        "previousSha256": null,
+        "installedSha256": "5515c8e5b639a71369a70b7985fd05d48dedad3c6310c2e83cbc2ad05801845d"
+      },
+      "integration/ProgressiveContinuousAacApiValidation-2026-11-06.json": {
+        "previousSha256": null,
+        "installedSha256": "69e081f15ad808c490379418c9c0ebcb7693fbe69ed0d1645266dead8e6eb490"
+      },
+      "integration/ProgressiveReorderedSdk.md": {
+        "previousSha256": "d2839f82f7b41609d3da86cb17f5a6b025b4d1b99859fc3d55a94c37ccc9d652",
+        "installedSha256": "2b4b15c38da8161679784fe0dbb558f6f9043ac35b505d5d9bd9ce97f2a4f5a2"
+      },
+      "integration/progressive_continuous.py": {
+        "previousSha256": "71e663a521ab411f3c3ab930f129145721c991471c5471929186ca751e76b4d9",
+        "installedSha256": "d62121dfdbd89061b2fa4414f7a7d6db1e9e3f8949357f0520be5af62b5793ac"
+      },
+      "integration/sdk-manifest.json": {
+        "previousSha256": "523202bf9a49445e245d5930de45b048e7d2e059aa9c4dc889e74079601bdff9",
+        "installedSha256": "37de688c56e53b0f1c8471dfa7cf81a7fda826f9465b3a3b758d60ee931ecd96"
+      },
+      "integration/verify_progressive_sdk.py": {
+        "previousSha256": "92869f9bae27663e3598ae75d3465fb37b3f9202c9fcfced6c0bcb1b2c5d8766",
+        "installedSha256": "8700f4520ddf89493b1477ca2056e68a34f524ded23ea2b8bd9e4f52f38426bf"
+      },
+      "integration/__pycache__/progressive_client.cpython-312.pyc": {
+        "previousSha256": null,
+        "installedSha256": "aec8d76d45d04c45ecad0c9b4884411b75a43e11cc7c947bf1e59edfef7322fe"
+      },
+      "integration/__pycache__/progressive_continuous.cpython-312.pyc": {
+        "previousSha256": null,
+        "installedSha256": "c42ad71515c668cb5b1260311a481fa3079b7e050265cd94ff5cc4f67b2ebfcc"
+      },
+      "integration/__pycache__/progressive_integrity.cpython-312.pyc": {
+        "previousSha256": null,
+        "installedSha256": "ba0a940c9882859a5208017ff15fefba1a6f56f2ed29066cbda3e551fd603e44"
+      },
+      "integration/__pycache__/progressive_resources.cpython-312.pyc": {
+        "previousSha256": null,
+        "installedSha256": "2b19e2a0f8c558fc28b1bee3ec65601aae01655e58dca0688628e131b79c502e"
+      },
+      "integration/__pycache__/progressive_schema.cpython-312.pyc": {
+        "previousSha256": null,
+        "installedSha256": "19e44a72197b32201544e7c2df3e40c284dce18faefe9f5ea8582d3f4444d34f"
+      },
+      "integration/__pycache__/progressive_sdk.cpython-312.pyc": {
+        "previousSha256": null,
+        "installedSha256": "70b5ed03cab9d545917f8a477e0e7b1614031c1d7bf90c7758641e08d1ec84f7"
+      },
+      "integration/__pycache__/progressive_v2.cpython-312.pyc": {
+        "previousSha256": null,
+        "installedSha256": "76ff2457d4ba38533fe9281092413cb1446285d2bac5ce3ec74300e7bccee0df"
+      }
+    },
+    "existingFilesPreserved": 429,
+    "profileSha256Before": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+    "profileSha256After": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+    "profileUnchanged": true,
+    "legacyCapabilitiesUnchanged": true,
+    "addedCapabilities": [
+      "profiles.continuous-h264-aac-window-v1"
+    ],
+    "runningViewerPids": [],
+    "viewerInterrupted": false
+  },
+  "finalLinuxMetadataInstall": {
+    "result": "PASS",
+    "sdkVersion": "1.84",
+    "sourceCommit": "d920adcfe206e36a26d246077c5fa1cad1ec5633",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/rollback-sdk184-metadata-20261106T112748Z",
+    "atomicReplace": true,
+    "manifestInstalledLast": true,
+    "updatedFiles": [
+      "integration/FoxicMPFamilyMatrix.md",
+      "integration/FoxicMPFamilyPlan.md",
+      "integration/ProgressiveCompletionChecklist.md",
+      "integration/ProgressiveContinuousAacApi.md",
+      "integration/ProgressiveContinuousAacPackages.md",
+      "integration/ProgressiveContinuousAacPackagesValidation-2026-11-06.json",
+      "integration/sdk-manifest.json"
+    ],
+    "existingFilesPreserved": 436,
+    "profileSha256Before": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+    "profileSha256After": "bad5bb09fb261a148865fa5af8e3f8a96ab416b9df784ec284c9b1c36b2b3ad8",
+    "profileUnchanged": true,
+    "existingPythonCachesUnchanged": true,
+    "executablesUnchanged": true,
+    "runtimeSha256": {
+      "foxicmp-qt": "876f2a7be70eeb17812e69cd2c3660bbecc7b0ec14c22c7a39ea38eb256fc4ff",
+      "foxicmp-remux-stream-worker": "4aa4238d4b97d1275d5e9438e759335b94a2863e0950133f67a012d79fff8a66",
+      "continuous-remux-worker.json": "23e003c1e4f8829c649ad19ca1a71cceeed7cccdb79646bbeb204965b42409be"
+    },
+    "viewerInterrupted": false
+  },
+  "protectedFiles": {
+    "originalCount": 576,
+    "missing": 0,
+    "onlyAuthorizedLinuxFilesChanged": true,
+    "changedCount": 10,
+    "installedWindowsProgramsAndProfilesUnchanged": true
+  },
+  "temporaryTasksRemoved": {
+    "result": "PASS",
+    "removed": [
+      "FoxicMP-AacSdk184-PostFailure-OneShot",
+      "FoxicMP-AacSdk184-Delayed-Old-OneShot",
+      "FoxicMP-AacSdk184-Delayed-Fixed-OneShot",
+      "FoxicMP-AacSdk184-Fixed-OneShot",
+      "FoxicMP-AacSdk184-Final-Packages-OneShot",
+      "FoxicMP-AacSdk184-Final2-Packages-OneShot"
+    ],
+    "remaining": []
+  },
+  "testReport": "ProgressiveContinuousAacPackagesValidation-2026-11-06.json",
+  "testReportSha256": "28e9dd4411d15797d26dce5756f0172b1cdca3b1aab5597b91e168f7f09bfec2",
+  "sourceAndSdkImmutableAfterHashing": true,
+  "publicationReportAddedAfterAssetHashing": true,
+  "fullTzAcceptanceComplete": false,
+  "harvesterChanged": false
+}

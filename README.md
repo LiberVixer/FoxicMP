@@ -104,7 +104,15 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
-Предварительный [SDK 1.83](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.83)
+Предварительный [SDK 1.84](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.84)
+добавляет [явный continuous MP4/H.264 + AAC-LC профиль](docs/ProgressiveContinuousAacApi.md)
+для трёх редакций и исправляет гонку completed seek в Classic. В поставке —
+Windows portable Classic/Qt, Linux tar/`.deb` и SDK. Проверены 107 финальных
+пакетных сценариев, ещё 90 повторов Classic и 4 controlled-index-lag сценария;
+[все семь файлов скачаны обратно и сверены по SHA-256](docs/ProgressiveContinuousAacDeliveryValidation-2026-11-06.json).
+Linux обновлён с сохранением профиля. Полная progressive-ТЗ-приёмка остаётся открытой.
+
+Предыдущий [SDK 1.83](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.83)
 предназначен для интеграционных проверок с новыми сборками плеера.
 Он добавляет [явный continuous H.264 профиль с B-frames](docs/ProgressiveReorderedSdk.md)
 для всех трёх редакций; прежний no-B default и SDK 1.82 совместимы. В релизе есть

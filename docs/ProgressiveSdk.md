@@ -24,6 +24,14 @@ SDK 1.83: [отдельный opt-in профиль continuous H.264 с B-frames
 capability и привязывает все ответы к выбранному профилю. Обычный вызов сохраняет
 прежний режим, SDK 1.82 остаётся совместимым. Audio в этом маршруте пока нет.
 
+SDK 1.84: [continuous MP4/H.264 + AAC-LC](ProgressiveContinuousAacApi.md),
+явный `mode=AAC_MODE`, проверенное PCM-окно до playback commit и исправленный
+completed seek Classic при отстающем fragment index. Старые defaults сохранены.
+[Предварительный выпуск трёх редакций](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.84)
+проверен обычными main/пакетами и обратной загрузкой всех семи assets;
+[аттестация](ProgressiveContinuousAacDeliveryValidation-2026-11-06.json).
+Harvester не менялся; полная AAC crash/stress и физическая A/V приёмка открыты.
+
 Проверки трёх редакций и ограничения: [отчёт](ProgressiveSdkValidation-2026-10-25.md).
 Этот SDK требует новые сборки плеера с `releaseAcknowledgement=true`;
 опубликованные установщики 0.2.0 не содержат это расширение.
