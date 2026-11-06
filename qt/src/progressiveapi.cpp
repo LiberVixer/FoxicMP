@@ -520,6 +520,7 @@ QJsonObject ProgressiveApi::continuousStatus()const{
   else if(result["state"]=="error")result["reasonCode"]=QString::fromStdString(!p.error.empty()?p.error:!producerError.empty()?producerError:!out.failure.empty()?out.failure:"decoder-error");
   else if(result["reasonCode"]=="waiting-range" && out.complete)result["reasonCode"]="decoder-buffering";
   result["version"]=1;result["ok"]=true;result["mode"]=QString::fromStdString(p.mode);
+  result["audio"]=p.source->audioWindow()!=nullptr;
   result["playbackId"]=QString::fromStdString(p.id);result["requestId"]=QString::fromStdString(p.command.requestId);result["jobId"]=QString::fromStdString(p.command.jobId);
   result["sessionId"]=QString::fromStdString(p.command.sessionId);result["generation"]=QString::number(p.command.generation);result["writerInstanceId"]=QString::fromStdString(p.command.writer);
   result["durationSeconds"]=double(p.duration)/10000000.;result["outputComplete"]=out.complete;result["decoderReaders"]=int(out.activeReaders);

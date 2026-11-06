@@ -1,4 +1,4 @@
-"""Explicit, bounded continuous MP4/H.264 video preview through the player.
+"""Explicit, bounded continuous MP4/H.264 preview through the player.
 
 Standard library only. Call from the downloader's worker, never its GUI thread.
 The writer alone publishes bytes/heartbeats. This helper does not download,
@@ -15,6 +15,7 @@ import uuid
 
 MODE = 'continuous-h264-video-v1'
 REORDERED_MODE = 'continuous-h264-reordered-video-v1'
+AAC_MODE = 'continuous-h264-aac-window-v1'
 ACTIONS = frozenset(('continuousRemuxStart', 'continuousRemuxStatus',
     'continuousRemuxUpdate', 'continuousRemuxHeartbeat', 'continuousRemuxCancel',
     'continuousRemuxForget', 'continuousRemuxPlay', 'continuousPlaybackStatus',
@@ -47,7 +48,7 @@ class ContinuousRemux:
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
     def __init__(self, client, session_directory, *, mode=MODE):
-        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE):
             raise ValueError('Unsupported continuous profile')
         self._mode = mode
         self.client = client
@@ -72,17 +73,25 @@ class ContinuousRemux:
                 or not ACTIONS <= set(caps.get('actions', []))):
             raise RuntimeError('Player lacks the explicit continuous MP4/H.264 video contract')
         self.capability = copy.deepcopy(cap)
-        if mode == REORDERED_MODE:
+        if mode != MODE:
             profiles = cap.get('profiles')
             selected = profiles.get(mode) if isinstance(profiles, dict) else None
             if (cap.get('modeSelection') != 'continuousRemuxStart.mode'
                     or not isinstance(selected, dict) or type(selected.get('version')) is not int
                     or selected['version'] != 1 or selected.get('mode') != mode
                     or selected.get('containerHint') != 'mp4' or selected.get('videoCodec') != 'h264'
-                    or selected.get('videoOnly') is not True or selected.get('audio') is not False
+                    or selected.get('videoOnly') is not (mode != AAC_MODE) or selected.get('audio') is not (mode == AAC_MODE)
                     or selected.get('bFrames') is not True or selected.get('inheritsCommonContract') is not True
                     or selected.get('explicitSelectionRequired') is not True):
-                raise RuntimeError('Player lacks the explicit reordered continuous profile')
+                raise RuntimeError('Player lacks the selected explicit continuous profile')
+            if mode == AAC_MODE and (selected.get('audioCodec') != 'aac-lc'
+                    or selected.get('sampleRates') != [44100, 48000] or any(type(v) is not int for v in selected['sampleRates'])
+                    or selected.get('channels') != [1, 2] or any(type(v) is not int for v in selected['channels'])
+                    or selected.get('requiredTrackKinds') != ['video', 'audio'] or selected.get('sharedResourceRequired') is not True
+                    or selected.get('pcmWindowRequired') is not True or type(selected.get('pcmWindowVersion')) is not int or selected['pcmWindowVersion'] != 1
+                    or type(selected.get('initialSkipSamples')) is not int or selected['initialSkipSamples'] != 1024
+                    or selected.get('presentationSamplesRequired') is not True):
+                raise RuntimeError('Player lacks the exact AAC PCM-window contract')
             self.capability.update(copy.deepcopy(selected))
 
     @property

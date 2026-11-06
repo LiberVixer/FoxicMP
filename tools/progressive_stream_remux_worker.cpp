@@ -2,6 +2,9 @@
 #include "progressive_demux_runtime.h"
 #include "../shared/progressivestreamcapabilities.h"
 #include "../src/DSUtil/HarvesterAacWindow.h"
+#ifndef AV_PROFILE_UNKNOWN
+#define AV_PROFILE_UNKNOWN FF_PROFILE_UNKNOWN
+#endif
 namespace {
 using namespace foxicmp::demux_worker;
 constexpr uint64_t InputLimit=128*1024*1024,OutputLimit=64*1024*1024;
@@ -61,8 +64,8 @@ struct Context {
 };
 Doc run(Api& api,const Doc& start){
  need(start.MemberCount()==4 && start.HasMember("mode") && start["mode"].IsString() && start.HasMember("formatHint") && start["formatHint"].IsString() && start["formatHint"]=="mp4" && start.HasMember("complete") && start["complete"].IsBool() && start.HasMember("length") && start["length"].IsString(),"unsupported-stream-start");
- // Private audio profiles. Windowed output requires an explicit PCM-window
- // acknowledgement before media bytes; published profiles remain video-only.
+ // Audio output requires an explicit PCM-window acknowledgement before media
+ // bytes. The default mode remains video-only.
  const bool alignedAudio=start["mode"]=="continuous-h264-aac-aligned-v1";
  const bool windowAudio=start["mode"]=="continuous-h264-aac-window-v1",hasAudio=alignedAudio || windowAudio;
  const bool reordered=hasAudio || start["mode"]=="continuous-h264-reordered-video-v1";
@@ -79,6 +82,16 @@ Doc run(Api& api,const Doc& start){
   need(cp && cp->extradata_size>0 && cp->extradata_size<=1048576,"unsupported-stream-codec");need(stream->start_time==0 && stream->time_base.num>0 && stream->time_base.den>0,"unsupported-stream-clock");
   if(cp->codec_type==AVMEDIA_TYPE_VIDEO && cp->codec_id==AV_CODEC_ID_H264 && videoIndex<0){videoIndex=int(i);need(reordered ? cp->video_delay>=0 && cp->video_delay<=16 : cp->video_delay==0,"unsupported-stream-reorder");}
   else if(hasAudio && cp->codec_type==AVMEDIA_TYPE_AUDIO && cp->codec_id==AV_CODEC_ID_AAC && audioIndex<0){
+   // A very short AAC track can sit beyond find_stream_info's bounded probe.
+   // Recover only the canonical LC ASC (1024 samples, no SBR/PS), never guess
+   // from a codec hint or extend the probe into unpublished media bytes.
+   if((cp->profile==AV_PROFILE_UNKNOWN || cp->profile==AV_PROFILE_AAC_LOW) && (cp->frame_size==0 || cp->frame_size==1024) && (cp->extradata_size==2 || cp->extradata_size==5)){
+    const unsigned asc=(unsigned(cp->extradata[0])<<8)|cp->extradata[1];
+    const unsigned rateIndex=cp->sample_rate==48000?3:cp->sample_rate==44100?4:15;
+    const bool extension=cp->extradata_size==2 || (cp->extradata[2]==0x56 && cp->extradata[3]==0xe5 && cp->extradata[4]==0);
+    if(cp->ch_layout.nb_channels>=1 && cp->ch_layout.nb_channels<=2 && rateIndex!=15 && extension &&
+       asc==((2u<<11)|(rateIndex<<7)|(unsigned(cp->ch_layout.nb_channels)<<3))){cp->profile=AV_PROFILE_AAC_LOW;cp->frame_size=1024;}
+   }
    need(cp->profile==AV_PROFILE_AAC_LOW && (cp->sample_rate==44100 || cp->sample_rate==48000) && cp->ch_layout.nb_channels>=1 && cp->ch_layout.nb_channels<=2 && cp->frame_size==1024 && stream->time_base.num==1 && stream->time_base.den==cp->sample_rate,"unsupported-stream-aac-config");
    need(stream->duration>0 && stream->duration<=int64_t(cp->sample_rate)*3600 && (!alignedAudio || stream->duration%1024==0),"unsupported-stream-aac-end-trim");audioIndex=int(i);declaredAudioSamples=uint64_t(stream->duration);
   }else throw std::runtime_error("unsupported-stream-codec");

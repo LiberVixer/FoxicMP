@@ -550,6 +550,7 @@ QJsonObject Window::preparedClipStatus(const QString& uri)const{
   // alone must not turn a loaded, progressing decoder into "buffering".
   const auto state=!owned?QString("closed"):!lastError.isEmpty()?QString("error"):preparedFinished?QString("finished"):!loaded?QString("buffering"):player->get("pause").toBool()?QString("paused"):continuous && player->get("paused-for-cache").toBool()?QString("buffering"):QString("playing");
   QJsonObject result{{"state",state},{"active",owned && state!="finished" && state!="error"},{"positionSeconds",owned?(preparedFinished?preparedDuration:player->get("time-pos").toDouble()):0},{"durationSeconds",owned?preparedDuration:0},{"error",owned?lastError:QString()},{"videoCodec",owned?player->get("video-codec").toString():QString()},{"audioCodec",owned?player->get("audio-codec-name").toString():QString()}};
+  if(continuous){result["pcmWindowApplied"]=player->pcmWindowActive();result["audioOutput"]=player->get("current-ao").toString();}
   if(continuous)result["reasonCode"]=state=="buffering"?(loaded?"waiting-range":"decoder-opening"):state=="paused"?"paused":state=="finished"?"source-complete":state=="error"?"decoder-error":"";
   return result;
 }

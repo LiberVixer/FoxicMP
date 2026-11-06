@@ -326,10 +326,10 @@ void CHarvesterSession::RefreshContinuous(){
     const auto output=m_continuousSource->status();
     foxicmp::progressive::Require(!m_continuousSource->stopped() && output.failure.empty(),"remuxDecoder","Continuous output failed",output.failure.empty()?"cancelled":output.failure.c_str());
     m_continuousReader->refresh();auto next=Snapshot();bool same=next.revision!=0;
-    for(size_t i=0;i<next.tracks.size();++i){const auto& track=next.tracks[i];same=same && track.available==m_continuousReader->viewSize(unsigned(i)) && harvester::EndReady(track)==output.complete;}
+    for(size_t i=0;i<next.tracks.size();++i){const auto& track=next.tracks[i];same=same && track.available==m_continuousReader->viewSize(unsigned(i)) && harvester::EndReady(track)==m_continuousReader->viewComplete(unsigned(i));}
     if(same){PublishedHeartbeat();return;}
     ++next.revision;next.state=output.complete?harvester::State::Complete:harvester::State::Downloading;
-    for(size_t i=0;i<next.tracks.size();++i){auto& track=next.tracks[i];track.available=m_continuousReader->viewSize(unsigned(i));track.total=output.complete?track.available:0;track.initializationReady=output.initialized;track.state=next.state;}
+    for(size_t i=0;i<next.tracks.size();++i){auto& track=next.tracks[i];track.available=m_continuousReader->viewSize(unsigned(i));const bool complete=m_continuousReader->viewComplete(unsigned(i));track.total=complete?track.available:0;track.initializationReady=output.initialized;track.state=complete?harvester::State::Complete:next.state;}
     auto fragments=BuildFragments(next);Fragments retired;
     {std::lock_guard<std::mutex> lock(m_mutex);m_state=std::move(next);retired=std::move(m_fragments);m_fragments=std::move(fragments);for(size_t i=0;i<m_state.tracks.size();++i)m_duration[i]=m_state.duration;}
     PublishedHeartbeat();
@@ -504,6 +504,9 @@ int64_t CHarvesterSession::ReadyEnd() const {
     int64_t ready[harvester::MaxMediaTracks] = {};
     for(int track=0;size_t(track)<m_state.tracks.size();++track) {
         if(!m_state.tracks[track].required && (track!=m_selectedAudioTrack.load() || OptionalAudioFailed(track))){ready[track]=INT64_MAX;continue;}
+        // A validated finite AAC endpoint does not limit a longer video buffer.
+        // Its completion is local to this track; the video still needs writer EOF.
+        if(track==1 && m_continuousSource && m_continuousSource->audioWindow() && harvester::EndReady(m_state.tracks[track])){ready[track]=INT64_MAX;continue;}
         const auto& samples=Samples(track);auto& position=m_indexPosition[track];auto& end=m_indexEnd[track];
         while(position<samples.size() && harvester::RangeReady(samples[position].offset,samples[position].size,m_state.tracks[track].available)) {
             end=std::max(end,samples[position].end);++position;

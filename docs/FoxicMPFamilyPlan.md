@@ -1140,3 +1140,21 @@ Classic — 37; native/cache, MP3/AAC adapters и старые no-B/B-frame grap
 waiting/seek/replacement/failure/stress и поставка. 576 защищённых файлов и 158
 HKCU shell entries сохранены. Пользовательской версии и переустановки на этом
 внутреннем этапе нет; Harvester не менялся.
+
+### 6 ноября 2026: continuous AAC через API и SDK-кандидат 1.84
+
+[Явный AAC opt-in](ProgressiveContinuousAacApi.md) подключён к общему controller,
+production Qt Window/Player и обычному Classic EXE. Новый профиль требует две
+обязательные дорожки общего SHA-protected MP4 и проверенное PCM-окно до commit.
+Прежние video-only defaults сохранены. В Classic подключены обе проекции и
+независимый endpoint короткого AAC; пороги буфера 10/5 s не менялись.
+
+По девять IPC сценариев каждой редакции прошли (27): growing prepare/play,
+pause/publication, completed seek, EOF/Stop/audio failure и close/filesClosed/forget.
+Qt использует частный host с null audio; Classic — полный EXE в интерактивной Windows.
+Проверены canonical LC ASC и отказы конфигураций, а также прежний controller/SDK.
+[Точные exits, SHA, исходные отказы и границы](ProgressiveContinuousAacApiValidation-2026-11-06.json).
+
+Это source/API этап: обычные упакованные Qt main, SDK/runtime 1.84 prerelease и
+установка Linux ещё открыты. Published SDK 1.83 и установленные профили сохранены.
+Полная AAC waiting/crash/race/stress матрица и прежние latency outliers не закрыты.

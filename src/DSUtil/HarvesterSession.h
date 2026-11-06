@@ -60,6 +60,7 @@ public:
     static std::shared_ptr<CHarvesterSession> OpenContinuous(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,int64_t duration,CStringW& error);
     bool AacPcmPlan(harvester::pcm::AacWindow&)const;
     bool AllowsAacPcmWindow(int track=1)const;
+    bool AacPcmWindowApplied()const {return AllowsAacPcmWindow() && WaitForSingleObject(m_cancel,0)!=WAIT_OBJECT_0 && m_pcmState.load()==3;}
     bool Mp3PcmPlan(uint64_t& begin,uint64_t& end,uint32_t& rate)const {
         begin=m_pcmBegin;end=m_pcmEnd;rate=m_pcmRate;return rate!=0;
     }

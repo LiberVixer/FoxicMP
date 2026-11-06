@@ -99,6 +99,10 @@
 - [ ] Явные native-progressive, progressive-remux, waiting, post-download и unsupported результаты.
 - [ ] Remux только подтверждённых локальных данных, без перекодирования/ухудшения качества и без изменения оригиналов.
 
+- [x] [Continuous AAC API и SDK-кандидат 1.84](ProgressiveContinuousAacApi.md): явный вложенный profile, отложенный до PCM-плана commit, 27 IPC сценариев трёх редакций, подключение обязательного audio в Classic и независимый короткий AAC EOF. Qt проверен production Window/Player через частный host; Classic — обычный полный EXE. [Exits/SHA/отказы](ProgressiveContinuousAacApiValidation-2026-11-06.json).
+- [ ] Поставка AAC SDK/runtime 1.84: ordinary packaged Qt main acceptance, clean SDK ZIP/portable/deb, GitHub assets и атомарная установка Linux. API-стенд и кандидат исходников не заменяют этот этап.
+- [ ] Полная AAC waiting/replacement/crash/race/stress matrix и измерение физической A/V синхронизации.
+
 ## 3. Обычный MP4 и индексы
 
 - [x] SDK 1.54: ограниченный [fast-start MP4 с обычными sample tables](ProgressiveIndexedMp4.md), H.264/AAC-LC, один ресурс/две дорожки; [проверки](ProgressiveIndexedMp4Validation-2026-11-01.md).

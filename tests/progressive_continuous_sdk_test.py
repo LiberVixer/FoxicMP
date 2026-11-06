@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE
 
 CAP = json.loads(re.search(r'return R"\((.*?)\)";',
     (ROOT/'shared/progressivestreamcapabilities.h').read_text(), re.S).group(1))
@@ -140,6 +140,7 @@ class Test(unittest.TestCase):
             return reply
         c.request=request;ContinuousRemux(c,str(ROOT))
         self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=REORDERED_MODE)
+        self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=AAC_MODE)
         self.assertFalse(any(m['action']=='continuousRemuxStart' for m in c.calls))
 
     def test_reordered_profile_requires_full_explicit_declaration(self):
@@ -165,6 +166,40 @@ class Test(unittest.TestCase):
         self.assertRaises(TimeoutError,p.prepare,self.model(),'clip');c.job['mode']=MODE
         self.assertRaises(RuntimeError,p.status);self.assertIsNone(p.job_id)
         c.job['mode']=REORDERED_MODE;p.status();c.drop.add('continuousRemuxPlay')
+        self.assertRaises(TimeoutError,p.play);p.playback_status();p.close();p.forget()
+        self.assertEqual(sum(m['action']=='continuousRemuxStart' for m in c.calls),1)
+        self.assertEqual(sum(m['action']=='continuousRemuxPlay' for m in c.calls),1)
+
+    def test_aac_profile_requires_exact_pcm_window_contract(self):
+        changes = [('version', True), ('mode', MODE), ('audio', False), ('videoOnly', True),
+            ('audioCodec', 'aac'), ('sampleRates', [48000]), ('channels', [True, 2]),
+            ('pcmWindowRequired', False), ('pcmWindowVersion', True), ('initialSkipSamples', 0),
+            ('requiredTrackKinds', ['audio']), ('sharedResourceRequired', False),
+            ('presentationSamplesRequired', False), ('explicitSelectionRequired', False)]
+        for field, value in changes:
+            with self.subTest(field=field):
+                c=Client();old=c.request
+                def request(message,timeout=5):
+                    reply=old(message,timeout);reply['continuousRemux']['profiles'][AAC_MODE][field]=value;return reply
+                c.request=request
+                self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=AAC_MODE)
+                self.assertEqual(len(c.calls),1)
+
+    def test_aac_is_explicit_and_preserves_video_defaults(self):
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=AAC_MODE);p.prepare(self.model(),'clip')
+        self.assertEqual(c.calls[-1]['mode'],AAC_MODE)
+        self.assertTrue(p.capability['audio']);self.assertTrue(p.capability['pcmWindowRequired'])
+        self.assertFalse(CAP['audio']);self.assertTrue(CAP['videoOnly'])
+        self.assertRaises(AttributeError,setattr,p,'mode',MODE)
+        p.heartbeat();self.assertFalse(any(m['action']=='continuousRemuxPlay' for m in c.calls))
+        p.play();self.assertEqual(p.playback_status()['mode'],AAC_MODE)
+        p.control('stop');p.close();p.forget()
+
+    def test_aac_lost_reply_recovery_rejects_different_mode(self):
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=AAC_MODE);c.drop.add('continuousRemuxStart')
+        self.assertRaises(TimeoutError,p.prepare,self.model(),'clip');c.job['mode']=REORDERED_MODE
+        self.assertRaises(RuntimeError,p.status);self.assertIsNone(p.job_id)
+        c.job['mode']=AAC_MODE;p.status();c.drop.add('continuousRemuxPlay')
         self.assertRaises(TimeoutError,p.play);p.playback_status();p.close();p.forget()
         self.assertEqual(sum(m['action']=='continuousRemuxStart' for m in c.calls),1)
         self.assertEqual(sum(m['action']=='continuousRemuxPlay' for m in c.calls),1)

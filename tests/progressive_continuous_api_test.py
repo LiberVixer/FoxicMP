@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import sys
 import tempfile
 import time
 import traceback
@@ -204,17 +205,34 @@ def run(args, exercise_case=None, source_file=None):
                 peer.launch()
             result = (exercise_case or exercise)(peers, root)
         finally:
+            # A cache assertion must not skip the other peer's process/log close
+            # or the installed-registration check, and must retain the root cause.
+            primary_failure = sys.exc_info()[1]
+            cleanup_errors = []
             for peer in peers:
-                if peer.process is not None and peer.process.poll() is None:
-                    peer.kill('cleanup-owned-idle-process')
+                try:
+                    if peer.process is not None and peer.process.poll() is None:
+                        peer.kill('cleanup-owned-idle-process')
+                except Exception:
+                    cleanup_errors.append(traceback.format_exc())
             for peer in peers:
-                peer.cleanup()
-                cache = Path(str(peer.registry)+'.continuous-cache')
-                if cache.exists():
-                    assert not list(cache.glob('remux-*')), ('Unreleased output after test', str(cache))
-                    shutil.rmtree(cache)
+                try:
+                    peer.cleanup()
+                    cache = Path(str(peer.registry)+'.continuous-cache')
+                    if cache.exists():
+                        assert not list(cache.glob('remux-*')), ('Unreleased output after test', str(cache))
+                        shutil.rmtree(cache)
+                except Exception:
+                    cleanup_errors.append(traceback.format_exc())
             if registration is not None:
-                assert registration_snapshot() == registration, 'Installed Classic registration changed'
+                try:
+                    assert registration_snapshot() == registration, 'Installed Classic registration changed'
+                except Exception:
+                    cleanup_errors.append(traceback.format_exc())
+            if cleanup_errors:
+                (report/'cleanup-errors.json').write_text(json.dumps(cleanup_errors, indent=2), encoding='utf-8')
+                if primary_failure is None:
+                    raise AssertionError(cleanup_errors)
     worker = 'foxicmp-remux-stream-worker'+('.exe' if os.name == 'nt' else '')
     result.update(edition=args.edition, temporaryWorkRemoved=not root.exists(), processHistory=[p.history for p in peers], playerSha256=[sha(p.player) for p in peers], workerSha256=[sha(Path(p.player).parent/worker) for p in peers], testSourceSha256=sha(source_file or __file__), readerRunnerSha256=sha(args.reader_runner))
     (report/'result.json').write_text(json.dumps(result, indent=2)+'\n', encoding='utf-8')
