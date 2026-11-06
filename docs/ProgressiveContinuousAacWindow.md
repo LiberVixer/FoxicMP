@@ -110,8 +110,9 @@ Linux UI/audio проверялся только с частными X11/D-Bus/P
 Classic тестовые INI защищены от shell registration; HKCU до/после совпал.
 Одноразовая задача SDK-проверки удалена. Harvester не менялся.
 
-Следующий этап: managed AV parent/cache/index, доставка PCM-плана в настоящие
-continuous Qt/Classic entry points и DirectShow handshake, growing playback,
+Управляемый parent/cache/index завершён отдельным [native этапом](ProgressiveManagedAac.md).
+Следующее подключение — доставка PCM-плана в настоящие continuous Qt/Classic
+entry points и DirectShow handshake, growing playback,
 seek/pause/EOF/reader isolation и затем публичная capability/SDK/пакеты.
 Физическая A/V синхронизация, оборудование/Wayland, длинный stress и прежние
 необъяснённые latency/resource outliers этим этапом не закрываются.

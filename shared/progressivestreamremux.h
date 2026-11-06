@@ -3,6 +3,7 @@
 #pragma once
 #include "progressiveresourceio.h"
 #include "progressiveprocess.h"
+#include "progressivestreamaudio.h"
 #include <functional>
 
 namespace foxicmp { namespace progressive {
@@ -11,13 +12,17 @@ struct StreamRemuxLimits {
 };
 // Explicit internal selection. Existing callers/public v1 retain the verified
 // no-reorder profile; a manifest or worker reply cannot widen it implicitly.
-enum class StreamRemuxProfile { H264Video, H264ReorderedVideo };
+enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow };
+inline const char* StreamRemuxMode(StreamRemuxProfile profile){return profile==StreamRemuxProfile::H264AacWindow?
+    "continuous-h264-aac-window-v1":profile==StreamRemuxProfile::H264ReorderedVideo?
+    "continuous-h264-reordered-video-v1":"continuous-h264-video-v1";}
 struct StreamRemuxStatus {
     std::string code="starting",reason,result,appliedRevision;
     uint64_t workerId=0,bytesRead=0,bytesWritten=0,maximumReadEnd=0,neededOffset=0;
     unsigned neededLength=0;
     bool done=false,filesClosed=false,sourceComplete=false;
     std::vector<std::string> readerIds;
+    std::string audioWindow;
 };
 // The sink is an INTERNAL bounded, nonblocking append interface, not an arbitrary
 // application callback. It must throw on failure and must never retain references
@@ -25,6 +30,7 @@ struct StreamRemuxStatus {
 class StreamRemuxSession {
 public:
     using Sink=std::function<void(uint64_t,const std::vector<char>&)>;
+    using AudioWindowSink=std::function<void(const StreamAudioWindow&)>;
 private:
     using Clock=std::chrono::steady_clock;
     static constexpr uint64_t InputLimit=128*1024*1024,OutputLimit=64*1024*1024;
@@ -38,11 +44,11 @@ private:
     StreamRemuxLimits limits;
     StreamRemuxProfile profile;
     Sink sink;
+    AudioWindowSink audioSink;
     StreamRemuxStatus state;
     Clock::time_point deadline,heartbeatDeadline;
     std::thread worker;
-    const char* workerMode()const{return profile==StreamRemuxProfile::H264ReorderedVideo?
-        "continuous-h264-reordered-video-v1":"continuous-h264-video-v1";}
+    const char* workerMode()const{return StreamRemuxMode(profile);}
     // All accesses to snapshot/source/status are under mutex, including release.
     void check() const {
         Require(!cancelled.load(),"streamRemux","Remux was cancelled","cancelled");
@@ -85,7 +91,8 @@ private:
     }
     std::string execute() {
         process_detail::Process child(executable,cancelled,{limits.lifetime,limits.operation});
-        uint64_t totalRead=0,totalWritten=0;Sha256 digest;
+        uint64_t totalRead=0,totalWritten=0;Sha256 digest;StreamAudioWindow audio;
+        const bool hasAudio=profile==StreamRemuxProfile::H264AacWindow;
         {
             std::lock_guard<std::mutex> lock(mutex);check();state.workerId=child.id();state.code="running";
             const auto& r=snapshot.resources.at(resourceId);
@@ -101,11 +108,19 @@ private:
                 valid(result.IsObject() && result.HasMember("code") && result["code"].IsString());
                 const auto code=Text(result["code"],"streamRemux.code",64);
                 if(code!="data")throw Error(code.c_str(),"streamRemux","Worker rejected stream");
-                Keys(result,"streamRemux.result",{"code","mode","sourceComplete","sourceEof","continuousOutput","playbackSupported","transcoded","packets","bytesRead","bytesWritten","sha256","waits"});
+                if(hasAudio)Keys(result,"streamRemux.result",{"code","mode","sourceComplete","sourceEof","continuousOutput","playbackSupported","transcoded","packets","bytesRead","bytesWritten","sha256","waits","videoPackets","audioPackets","aacInitialSkipSamples","audioPresentationSamples","aacEndTrimRequired","pcmWindowRequired","aacPcmWindow"});
+                else Keys(result,"streamRemux.result",{"code","mode","sourceComplete","sourceEof","continuousOutput","playbackSupported","transcoded","packets","bytesRead","bytesWritten","sha256","waits"});
                 auto boolean=[&](const char* key,bool expected){valid(result[key].IsBool() && result[key].GetBool()==expected);};
                 boolean("sourceComplete",true);boolean("sourceEof",true);boolean("continuousOutput",true);boolean("playbackSupported",false);boolean("transcoded",false);
                 valid(Text(result["mode"],"mode")==workerMode() && result["packets"].IsUint() && result["packets"].GetUint()>0 && result["packets"].GetUint()<=50000);
                 valid(totalWritten>0 && Unsigned(result["bytesWritten"],"bytesWritten",OutputLimit)==totalWritten && Unsigned(result["bytesRead"],"bytesRead",InputLimit)==totalRead && Text(result["sha256"],"sha256",64)==digest.hex());
+                if(hasAudio){
+                    valid(audio.pcm.Valid() && StreamAudioWindow::Parse(result["aacPcmWindow"]).json==audio.json);
+                    boolean("pcmWindowRequired",true);boolean("aacEndTrimRequired",audio.pcm.EndPadding()!=0);
+                    valid(result["videoPackets"].IsUint() && result["videoPackets"].GetUint()>0 && result["audioPackets"].IsUint() && result["audioPackets"].GetUint()==audio.pcm.PacketCount());
+                    valid(result["packets"].GetUint()==uint64_t(result["videoPackets"].GetUint())+result["audioPackets"].GetUint());
+                    valid(result["aacInitialSkipSamples"].IsUint() && result["aacInitialSkipSamples"].GetUint()==audio.pcm.RawBegin() && Unsigned(result["audioPresentationSamples"],"audioPresentationSamples")==audio.pcm.Samples());
+                }
                 {
                     std::lock_guard<std::mutex> lock(mutex);check();observe();
                     valid(state.sourceComplete);source->verifyPinned();
@@ -113,6 +128,12 @@ private:
                 valid(child.finish()==0);return lease_detail::Encode(result);
             }
             valid(d.HasMember("io") && d["io"].IsString());const auto io=Text(d["io"],"streamRemux.io",16);
+            if(io=="audio-window"){
+                Keys(d,"streamRemux.audioWindow",{"io","window","sha256"});valid(hasAudio && !audio.pcm.Valid() && totalWritten==0);
+                auto plan=StreamAudioWindow::Parse(d["window"]);valid(Text(d["sha256"],"sha256",64)==plan.sha256);
+                {std::lock_guard<std::mutex> lock(mutex);check();source->verifyPinned();audioSink(plan);audio=plan;state.audioWindow=plan.json;}
+                child.send("{\"code\":\"audio-window-accepted\",\"sha256\":\""+plan.sha256+"\"}");continue;
+            }
             if(io=="wait") {
                 Keys(d,"streamRemux.wait",{"io","reason","offset","length"});const auto reason=Text(d["reason"],"reason",32);
                 valid(reason=="waiting-range" || reason=="source-complete");const auto offset=Unsigned(d["offset"],"offset",InputLimit);
@@ -121,6 +142,7 @@ private:
                 std::lock_guard<std::mutex> lock(mutex);check();child.send(std::string("{\"code\":\"resume\",\"complete\":")+(snapshot.resources.at(resourceId).state=="complete"?"true":"false")+"}");continue;
             }
             if(io=="write") {
+                valid(!hasAudio || audio.pcm.Valid());
                 Keys(d,"streamRemux.write",{"io","offset","hex"});valid(Unsigned(d["offset"],"offset",OutputLimit)==totalWritten && d["hex"].IsString());
                 const auto n=d["hex"].GetStringLength();valid(n>0 && n<=131072 && !(n&1) && n/2<=OutputLimit-totalWritten);
                 std::vector<char> bytes(n/2);const auto* hex=d["hex"].GetString();
@@ -159,14 +181,19 @@ private:
 public:
     StreamRemuxSession(const std::filesystem::path& directory,const std::filesystem::path& registry,
                        const std::string& json,const std::string& resource,const std::filesystem::path& child,
-                       Sink output,StreamRemuxLimits policy={},StreamRemuxProfile selected=StreamRemuxProfile::H264Video)
-        :snapshot(Parse(json)),resourceId(resource),executable(child),limits(policy),profile(selected),sink(std::move(output)) {
-        Require(profile==StreamRemuxProfile::H264Video || profile==StreamRemuxProfile::H264ReorderedVideo,"streamRemux","Invalid internal profile","invalid_request");
+                       Sink output,StreamRemuxLimits policy={},StreamRemuxProfile selected=StreamRemuxProfile::H264Video,AudioWindowSink windowSink={})
+        :snapshot(Parse(json)),resourceId(resource),executable(child),limits(policy),profile(selected),sink(std::move(output)),audioSink(std::move(windowSink)) {
+        Require(profile==StreamRemuxProfile::H264Video || profile==StreamRemuxProfile::H264ReorderedVideo || profile==StreamRemuxProfile::H264AacWindow,"streamRemux","Invalid internal profile","invalid_request");
         Require(bool(sink) && limits.lifetime.count()>0 && limits.lifetime<=std::chrono::hours(1) && limits.operation.count()>0 && limits.operation<=limits.lifetime && limits.heartbeat.count()>0 && limits.heartbeat<=std::chrono::seconds(30),"streamRemux","Invalid internal limits","invalid_request");
         Require(!snapshot.live && snapshot.resources.count(resourceId),"streamRemux","Expected local non-live resource","unsupported-stream-source");
-        Require(snapshot.tracks.size()==1,"streamRemux","Expected one video-only track","unsupported-stream-source");
-        const auto& track=snapshot.tracks.begin()->second;
-        Require(track.kind=="video" && track.container=="mp4" && (track.codec.empty() || track.codec=="h264") && track.resource==resourceId && track.initialization.empty() && track.segments.empty(),"streamRemux","Unsupported continuous-remux track layout","unsupported-stream-source");
+        const bool hasAudio=profile==StreamRemuxProfile::H264AacWindow;
+        Require(!hasAudio || bool(audioSink),"streamRemux","AAC window consumer required","invalid_request");
+        Require(snapshot.tracks.size()==(hasAudio?2u:1u),"streamRemux","Unexpected continuous track count","unsupported-stream-source");
+        std::set<std::string> kinds;
+        for(const auto& item:snapshot.tracks){const auto& track=item.second;
+            Require((track.kind=="video" || (hasAudio && track.kind=="audio")) && kinds.insert(track.kind).second && track.container=="mp4" && (track.codec.empty() || track.codec==(track.kind=="video"?"h264":"aac-lc")) && track.resource==resourceId && track.initialization.empty() && track.segments.empty() && (!hasAudio || track.required),"streamRemux","Unsupported continuous-remux track layout","unsupported-stream-source");
+        }
+        if(hasAudio)Require(snapshot.resources.size()==1 && snapshot.knownDuration && snapshot.numerator==1 && snapshot.denominator==10000000 && snapshot.offset==0 && !snapshot.hasWindow,"streamRemux","Known-duration local AV source required","unsupported-stream-source");
         const auto& r=snapshot.resources.at(resourceId);
         Require(r.known && r.length>0 && r.length<=InputLimit && r.integrity && !r.retired,"streamRemux","Known bounded SHA-protected source required","unsupported-stream-source");
         source=std::make_unique<ResourceSource>(directory,registry,json);

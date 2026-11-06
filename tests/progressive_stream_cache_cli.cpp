@@ -1,11 +1,14 @@
 // Native private cache fixture; files/paths are test diagnostics, not player API.
 #include "../shared/progressivecachedremux.h"
 #include <future>
+#include <cstdlib>
+#include <fstream>
 #include <iostream>
 #ifdef _WIN32
 #include <fcntl.h>
 #include <io.h>
 #endif
+
 namespace p=foxicmp::progressive;
 static std::string read(const std::shared_ptr<p::StreamOutputStore::Reader>& reader,const rapidjson::Value& d){
     const auto offset=p::Unsigned(d["offset"],"offset"),length=p::Unsigned(d["length"],"length",65536);
@@ -17,12 +20,28 @@ int main(int argc,char** argv){
 #ifdef _WIN32
     _setmode(_fileno(stdin),_O_BINARY);_setmode(_fileno(stdout),_O_BINARY);
 #endif
+    if(argc==1){
+        // Private adversarial child. The normal cache runner has argc==3;
+        // no installed application or production worker reads this variable.
+        const auto* mode=std::getenv("FOXICMP_MANAGED_AAC_TEST_CHILD");if(!mode)return 2;
+        std::string line;std::getline(std::cin,line);
+        if(std::string(mode)=="early-write"){std::cout<<"{\"io\":\"write\",\"offset\":\"0\",\"hex\":\"00\"}"<<std::endl;std::getline(std::cin,line);return 1;}
+        rapidjson::Document d;d.Parse(R"({"version":1,"trackId":2,"sampleRate":48000,"channels":1,"rawOrigin":"untrimmed-decoder-samples","timestampOrigin":"presentation-samples","rawBegin":"1024","rawEnd":"193161","timestampBegin":"0","timestampEnd":"192137","encodedEnd":"193536","endPadding":"375"})");
+        const auto plan=p::StreamAudioWindow::Parse(d);const std::string fault=mode;
+        if(fault=="missing-field")d.RemoveMember("rawEnd");
+        const auto message=std::string("{\"io\":\"audio-window\",\"window\":")+p::lease_detail::Encode(d)+",\"sha256\":\""+(fault=="wrong-digest"?std::string(64,'0'):plan.sha256)+"\"}";
+        std::cout<<message<<std::endl;std::getline(std::cin,line);
+        if(fault=="duplicate-window"){std::cout<<message<<std::endl;std::getline(std::cin,line);}return 1;
+    }
     if(argc!=3)return 2;const auto registry=std::filesystem::u8path(argv[1]),worker=std::filesystem::u8path(argv[2]);
     auto budget=std::make_shared<p::StreamCacheBudget>();auto owner=std::make_shared<p::StreamCacheOwner>(budget);std::map<std::string,std::shared_ptr<p::StreamOutputStore::Reader>> readers;
     std::map<std::string,std::shared_ptr<p::StreamOutputStore>> held;std::shared_ptr<p::StreamOutputStore> store;std::unique_ptr<p::CachedRemuxSession> session;std::future<std::string> pending;std::unique_ptr<p::lease_detail::Handle> heldGuard;std::string line;
     while(std::getline(std::cin,line))try{
         rapidjson::Document d;d.Parse(line.c_str());p::Require(!d.HasParseError() && d.IsObject(),"test","Invalid command");const auto action=p::Text(d["action"],"action");
-        if(action=="privateFile"){
+        if(action=="strictMux"){
+            std::ifstream file(std::filesystem::u8path(p::Text(d["path"],"path",8192)),std::ios::binary);p::Require(file.good(),"test","Mux input");std::vector<char> raw((std::istreambuf_iterator<char>(file)),{});
+            harvester::muxmp4::Layout layout;layout.Update([&](uint64_t at,void* out,size_t n){if(at>raw.size() || n>raw.size()-at)return false;std::memcpy(out,raw.data()+at,n);return true;},raw.size(),true,[](unsigned,harvester::BoxData){});
+        }else if(action=="privateFile"){
             const auto path=std::filesystem::u8path(p::Text(d["path"],"path",8192));p::lease_detail::Directory dir(path.parent_path(),false);const auto name=path.filename();p::PlainName(name.u8string(),"filename");
 #ifdef _WIN32
             p::lease_detail::Security security;p::lease_detail::Handle file(CreateFileW(path.c_str(),GENERIC_READ|GENERIC_WRITE|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,&security.attributes,CREATE_NEW,FILE_FLAG_OPEN_REPARSE_POINT,nullptr));p::Require(file.value!=INVALID_HANDLE_VALUE,"test","Cannot create private file");
@@ -48,9 +67,19 @@ int main(int argc,char** argv){
         else if(action=="append"){
             p::Require(bool(store),"test","No store");const auto hex=p::Text(d["hex"],"hex",131072,true);p::Require(!(hex.size()&1),"test","Invalid hex");std::vector<char> bytes;
             for(size_t k=0;k<hex.size();k+=2)bytes.push_back(char(std::stoul(hex.substr(k,2),nullptr,16)));store->append(p::Unsigned(d["offset"],"offset"),bytes);
+        }else if(action=="audioWindow"){
+            store->acceptAudioWindow(p::StreamAudioWindow::Parse(d["window"]));
+        }else if(action=="avIndex"){
+            const auto values=session?session->avSamples(d["kind"].GetUint()):store->avSamples(d["kind"].GetUint());
+            auto reader=readers.at(p::Text(d["name"],"name"));rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();out.AddMember("ok",true,a);p::Value samples(rapidjson::kArrayType);
+            for(const auto& sample:values){p::Sha256 hash;std::vector<char> bytes(65536);for(uint64_t at=0;at<sample.size;){const auto n=size_t((std::min)(sample.size-at,uint64_t(bytes.size())));const auto r=reader->read(sample.offset+at,bytes.data(),n);p::Require(r.data() && r.bytes==n,"test","Protected sample read");hash.update(bytes.data(),n);at+=n;}
+                p::Value row(rapidjson::kObjectType);row.AddMember("pts",sample.start,a);row.AddMember("dts",sample.decode,a);row.AddMember("end",sample.end,a);row.AddMember("sha256",p::Value(hash.hex().c_str(),a),a);samples.PushBack(row,a);}
+            out.AddMember("samples",samples,a);std::cout<<p::lease_detail::Encode(out)<<std::endl;continue;
         }else if(action=="producerClosed"){p::Require(bool(store),"test","No store");std::vector<std::string> originals;if(d.HasMember("originalReaders"))for(auto& id:d["originalReaders"].GetArray())originals.push_back(p::Text(id,"id"));store->producerClosed(originals,p::Text(d["error"],"error",64,true),d.HasMember("sha256")?p::Text(d["sha256"],"sha256",64):std::string());}
         else if(action=="start"){
-            session=std::make_unique<p::CachedRemuxSession>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,std::filesystem::u8path(p::Text(d["root"],"root",8192)),p::lease_detail::Encode(d["session"]),"clip",worker,owner,d.HasMember("limit")?p::Unsigned(d["limit"],"limit"):64*1024*1024);
+            const auto profile=d.HasMember("aacWindow") && d["aacWindow"].GetBool()?p::StreamRemuxProfile::H264AacWindow:p::StreamRemuxProfile::H264Video;
+            session=std::make_unique<p::CachedRemuxSession>(std::filesystem::u8path(p::Text(d["directory"],"directory",8192)),registry,std::filesystem::u8path(p::Text(d["root"],"root",8192)),p::lease_detail::Encode(d["session"]),"clip",worker,owner,d.HasMember("limit")?p::Unsigned(d["limit"],"limit"):64*1024*1024,p::StreamRemuxLimits{},profile);
+        }else if(action=="decoderAdmission"){session->decoderSource();
         }else if(action=="publish")session->publish(p::lease_detail::Encode(d["session"]));
         else if(action=="heartbeat")session->heartbeat();
         else if(action=="cancel")session->cancel();
@@ -67,9 +96,10 @@ int main(int argc,char** argv){
             const auto snapshot=session?session->status():p::CachedRemuxStatus{};
             const auto s=session?snapshot.output:store->status();rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();
             out.AddMember("ok",true,a);out.AddMember("written",s.written,a);out.AddMember("visible",s.visible,a);out.AddMember("fragments",s.fragments,a);out.AddMember("samples",s.samples,a);out.AddMember("activeReaders",uint64_t(s.activeReaders),a);out.AddMember("budgetBytes",budget->bytes(),a);
+            out.AddMember("videoSamples",s.videoSamples,a);out.AddMember("audioSamples",s.audioSamples,a);out.AddMember("audioWindow",p::Value(s.audioWindow.c_str(),a),a);
             out.AddMember("initialized",s.initialized,a);out.AddMember("complete",s.complete,a);out.AddMember("producerClosed",s.producerClosed,a);out.AddMember("originalsClosed",s.originalsClosed,a);out.AddMember("retiring",s.retiring,a);out.AddMember("removed",s.removed,a);out.AddMember("failure",p::Value(s.failure.c_str(),a),a);out.AddMember("cleanupCode",p::Value(s.cleanupCode.c_str(),a),a);
             auto path=session?session->privatePath():store->privatePath();out.AddMember("path",p::Value(path.u8string().c_str(),a),a);
-            if(session){const auto& v=snapshot;out.AddMember("done",v.done,a);out.AddMember("sourceCode",p::Value(v.source.code.c_str(),a),a);out.AddMember("sourceResult",p::Value(v.source.result.c_str(),a),a);p::Value ids(rapidjson::kArrayType);for(auto& id:v.source.readerIds)ids.PushBack(p::Value(id.c_str(),a),a);out.AddMember("sourceReaderIds",ids,a);out.AddMember("workerId",v.source.workerId,a);}
+            if(session){const auto& v=snapshot;out.AddMember("done",v.done,a);out.AddMember("maximumReadEnd",v.source.maximumReadEnd,a);out.AddMember("sourceFilesClosed",v.source.filesClosed,a);out.AddMember("sourceCode",p::Value(v.source.code.c_str(),a),a);out.AddMember("sourceResult",p::Value(v.source.result.c_str(),a),a);p::Value ids(rapidjson::kArrayType);for(auto& id:v.source.readerIds)ids.PushBack(p::Value(id.c_str(),a),a);out.AddMember("sourceReaderIds",ids,a);out.AddMember("workerId",v.source.workerId,a);}
             std::cout<<p::lease_detail::Encode(out)<<std::endl;continue;
         }else if(action=="retire"){const auto removed=session?session->retire():store->retire();std::cout<<"{\"ok\":true,\"removed\":"<<(removed?"true":"false")<<"}"<<std::endl;continue;}
         else if(action=="drop"){session.reset();store.reset();}

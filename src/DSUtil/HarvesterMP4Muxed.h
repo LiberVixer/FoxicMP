@@ -32,6 +32,9 @@ private:
     uint64_t position=0,scanned=0;uint32_t sequence=0;
     size_t fragments=0,atoms=0;bool initialized=false,trailer=false,hevc=false,av1=false,vp9=false,opus=false;
     Bytes ftyp;
+    // Only the private continuous A/V cache opts in. Existing shared fMP4
+    // profiles still require both tracks in every complete fragment.
+    bool sparseTracks=false;
     static bool Header(const Read& read,uint64_t prefix,uint64_t at,Atom& a) {
         if(!RangeReady(at,8,prefix))return false;
         uint8_t bytes[16]{};Check(read(at,bytes,8),"Muxed MP4 header I/O failed");BoxData b{bytes,sizeof(bytes)};
@@ -91,13 +94,13 @@ private:
         }
         initialized=true;
     }
-    static Bytes Project(BoxData moof,uint32_t id,uint64_t originalSize) {
+    Bytes Project(BoxData moof,uint32_t id,uint64_t originalSize) const {
         const auto mfhd=moof.One("mfhd");BoxData selected;size_t count=0;
         for(const auto& child:moof.Children()) {
             Check(child.first==FourCC("mfhd") || child.first==FourCC("traf"),"Unsupported moof child");
             if(child.first==FourCC("traf")){++count;if(child.second.One("tfhd").U32(4)==id){Check(!selected.data,"Duplicate fragment track");selected=child.second;}}
         }
-        Check(count==2 && selected.data,"Fragment requires both logical tracks");
+        Check((sparseTracks?(count>=1 && count<=2):count==2) && selected.data,"Fragment requires its logical tracks");
         const auto tfhd=selected.One("tfhd");selected.One("tfdt");
         Check((tfhd.U32(0)>>24)==0 && (tfhd.U32(0)&0x020000) && !(tfhd.U32(0)&1),"Muxed fragment requires default-base-is-moof without explicit base");
         Bytes traf;size_t runs=0;
@@ -127,9 +130,11 @@ private:
         Check(next && (!sequence || (sequence<UINT32_MAX && next==sequence+1)),"Fragment sequence gap/rollover");
         std::array<uint32_t,2> ids{};size_t count=0;
         for(const auto& child:body.Children())if(child.first==FourCC("traf")){Check(count<2,"Extra fragment track");ids[count++]=child.second.One("tfhd").U32(4);}
-        Check(count==2 && ids[0]!=ids[1] && (ids[0]==tracks[0].id || ids[1]==tracks[0].id) && (ids[0]==tracks[1].id || ids[1]==tracks[1].id),"Fragment track IDs differ from initialization");
+        Check((sparseTracks?(count>=1 && count<=2):count==2) && ids[0]!=ids[1],"Invalid fragment track count/IDs");
+        for(size_t i=0;i<count;++i)Check(ids[i]==tracks[0].id || ids[i]==tracks[1].id,"Fragment track IDs differ from initialization");
         std::vector<std::pair<uint64_t,uint64_t>> ranges;
         for(unsigned k=0;k<2;++k) {
+            if(sparseTracks && ids[0]!=tracks[k].id && ids[1]!=tracks[k].id)continue;
             auto& view=tracks[k];const auto old=view.index.Samples().size();Memory(view,Project(body,view.id,moof.size));const auto start=view.bytes;
             Check(mdat.size<=uint64_t(INT64_MAX)-view.bytes,"MP4 virtual size overflow");view.spans.push_back({view.bytes,mdat.size,mdat.at,{}});view.bytes+=mdat.size;
             view.index.Update([&](uint64_t at,void* out,size_t n){return ReadAt(read,k,at,out,n);},view.bytes,int(k),false,0,hevc,av1,vp9,opus);
@@ -145,6 +150,7 @@ private:
         Check(cursor==mdat.at+mdat.size,"Unreferenced muxed payload tail");sequence=next;
     }
 public:
+    static Layout ContinuousAv(){Layout value;value.sparseTracks=true;return value;}
     bool Initialized() const{return initialized;}
     uint64_t Position() const{return position;}
     size_t Fragments() const{return fragments;}

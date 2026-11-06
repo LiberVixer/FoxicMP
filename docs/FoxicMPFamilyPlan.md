@@ -1105,3 +1105,21 @@ checks, шесть truncated rejections и 40 MP3 регрессий. Прежн
 Все 576 защищённых файлов и 158 shell entries совпали, одноразовая задача удалена.
 Установленные main EXE/worker/INI, исходная MpaDecFilter.lib и SDK ZIP сохранены;
 новой пользовательской версии нет. Harvester не менялся.
+
+
+6 ноября 2026, [внутренний managed AAC parent/cache/index](ProgressiveManagedAac.md):
+явный `H264AacWindow` требует SHA-подтверждения неизменяемого PCM-плана до
+медиабайтов. Кэш проверяет две дорожки, clocks, AAC geometry/packet count и полное
+покрытие payload; только частный `Layout::ContinuousAv()` допускает один traf
+после окончания короткой дорожки. Старые shared fMP4 ограничения сохраняются.
+По 22 новых и 31 прежнему cache case GCC/MinGW/MSVC/ASan-UBSan, 212 PASS/exit 0;
+физический append-only source, unpublished tail, independent leases, cancel
+0,016–0,047 s и zero-budget cleanup. [SHA, первоначальные отказы и границы](ProgressiveManagedAacValidation-2026-11-06.json).
+Это native parent/cache с FFmpeg PCM reference, без настоящего continuous AV
+Player/DirectShow graph. Существующий video-only decoder source отвергает новый
+mode до подключения PCM adapters. Следующий этап — настоящие decoder sources,
+AAC control/re-arm после flush/seek, growing A/V/pause/seek/EOF/reader приёмка,
+затем public controller/API/SDK и пакеты. Физический A/V, полный stress и прежние
+outliers остаются OPEN. Все 576 защищённых файлов и 158 HKCU entries совпали.
+Main EXE/worker/INI/SDK ZIP не обновлялись: новой пользовательской версии нет.
+Harvester/рабочий стол/микшер не менялись; scheduled tasks не создавались.

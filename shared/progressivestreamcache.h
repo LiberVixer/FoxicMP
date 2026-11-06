@@ -4,6 +4,7 @@
 #include "progressiveresourceio.h"
 #include "progressivestreamjournal.h"
 #include "DSUtil/HarvesterMP4.h"
+#include "progressivestreamavindex.h"
 
 namespace foxicmp { namespace progressive {
 class StreamCacheBudget {
@@ -50,7 +51,8 @@ inline void write(const Handle& file,uint64_t at,const std::vector<char>& data){
 struct StreamCacheStatus {
     uint64_t written=0,visible=0,fragments=0,samples=0;size_t activeReaders=0;
     bool initialized=false,complete=false,producerClosed=false,originalsClosed=false,retiring=false,removed=false;
-    std::string failure,cleanupCode;std::vector<std::string> readerIds;
+    std::string failure,cleanupCode,audioWindow;std::vector<std::string> readerIds;
+    uint64_t videoSamples=0,audioSamples=0;
 };
 class StreamOutputStore {
     using Handle=lease_detail::Handle;
@@ -66,6 +68,7 @@ class StreamOutputStore {
         std::vector<std::string> originals;
         StreamCacheStatus state;
         Sha256 digest;harvester::FragmentIndex index;
+        std::unique_ptr<StreamAvIndex> avIndex;
         bool ftyp=false,trailer=false;
         std::atomic<bool> cancelled{false};
         Core(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& id,uint64_t gen,std::shared_ptr<StreamCacheBudget> shared,uint64_t bytes)
@@ -127,13 +130,22 @@ class StreamOutputStore {
                     check(state.initialized && a.size<=1048576,"cache-invalid-fragment");if(a.size>state.written-a.at)break;
                     Atom m;if(!header(a.at+a.size,m))break;check(m.type==harvester::FourCC("mdat") && m.size<=16*1024*1024+16,"cache-invalid-fragment");if(m.size>state.written-m.at)break;
                     std::vector<uint8_t> metadata(size_t(a.size-a.header));raw(a.at+a.header,metadata.data(),metadata.size());harvester::BoxData body{metadata.data(),metadata.size()};
-                    uint64_t samples=0;for(const auto& child:body.One("traf").Children())if(child.first==harvester::FourCC("trun")){const auto n=child.second.U32(4);check(n>0 && n<=50000-state.samples-samples,"cache-sample-limit");samples+=n;}
-                    check(samples>0,"cache-invalid-fragment");auto next=index;next.Update(raw,m.at+m.size,0);check(next.Position()==m.at+m.size && next.Samples().size()==state.samples+samples,"cache-invalid-fragment");index=std::move(next);state.samples+=samples;++state.fragments;scan=m.at+m.size;state.visible=scan;
+                    if(avIndex){
+                        auto next=*avIndex;next.update(raw,m.at+m.size);check(next.position()==m.at+m.size && next.samples()>state.samples,"cache-invalid-fragment");
+                        *avIndex=std::move(next);state.samples=avIndex->samples();state.videoSamples=avIndex->views().tracks[0].index.Samples().size();state.audioSamples=avIndex->views().tracks[1].index.Samples().size();
+                    }else{
+                        uint64_t samples=0;for(const auto& child:body.One("traf").Children())if(child.first==harvester::FourCC("trun")){const auto n=child.second.U32(4);check(n>0 && n<=50000-state.samples-samples,"cache-sample-limit");samples+=n;}
+                        check(samples>0,"cache-invalid-fragment");auto next=index;next.Update(raw,m.at+m.size,0);check(next.Position()==m.at+m.size && next.Samples().size()==state.samples+samples,"cache-invalid-fragment");index=std::move(next);state.samples+=samples;
+                    }
+                    ++state.fragments;scan=m.at+m.size;state.visible=scan;
                 }else{
                     check(a.size<=1048576,"cache-invalid-fragment");if(a.size>state.written-a.at)break;
                     if(kind==harvester::FourCC("ftyp")){check(!ftyp && scan==0 && a.size>=16,"cache-invalid-fragment");ftyp=true;}
                     else if(kind==harvester::FourCC("moov")){
-                        check(ftyp && !state.initialized && a.at+a.size<=1048576,"cache-invalid-fragment");auto next=index;next.Update(raw,a.at+a.size,0);check(next.Initialized() && next.Samples().empty(),"cache-invalid-fragment");index=std::move(next);state.initialized=true;state.visible=a.at+a.size;
+                        check(ftyp && !state.initialized && a.at+a.size<=1048576,"cache-invalid-fragment");
+                        if(avIndex){auto next=*avIndex;next.update(raw,a.at+a.size);check(next.initialized() && next.samples()==0,"cache-invalid-fragment");*avIndex=std::move(next);}
+                        else{auto next=index;next.Update(raw,a.at+a.size,0);check(next.Initialized() && next.Samples().empty(),"cache-invalid-fragment");index=std::move(next);}
+                        state.initialized=true;state.visible=a.at+a.size;
                     }else if(kind==harvester::FourCC("mfra")){check(state.fragments>0,"cache-invalid-fragment");trailer=true;}
                     else check(false,"cache-invalid-fragment");
                     scan=a.at+a.size;
@@ -202,6 +214,14 @@ public:
     StreamOutputStore(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,std::shared_ptr<StreamCacheBudget> budget,uint64_t limit=64*1024*1024)
         :core(std::make_shared<Core>(root,registry,session,generation,std::move(budget),limit)){}
     ~StreamOutputStore(){std::lock_guard<std::mutex> lock(core->mutex);core->state.retiring=true;core->cleanup();}
+    void acceptAudioWindow(const StreamAudioWindow& window){
+        std::lock_guard<std::mutex> lock(core->mutex);
+        Core::check(!core->state.written && !core->avIndex && !core->state.producerClosed && !core->state.retiring && core->state.failure.empty(),"cache-invalid-audio-window");
+        // Validate again at the cache boundary; all readers share this immutable plan.
+        rapidjson::Document d;d.Parse(window.json.c_str());Core::check(!d.HasParseError(),"cache-invalid-audio-window");
+        auto verified=StreamAudioWindow::Parse(d);Core::check(verified.sha256==window.sha256,"cache-invalid-audio-window");
+        core->avIndex=std::make_unique<StreamAvIndex>(verified);core->state.audioWindow=verified.json;
+    }
     void append(uint64_t at,const std::vector<char>& bytes){
         std::lock_guard<std::mutex> lock(core->mutex);
         try{
@@ -217,12 +237,26 @@ public:
         if(!error.empty())core->fail(error);
         if(core->state.failure.empty())try{
             Core::check(core->scan==core->state.written && core->state.initialized && core->state.fragments>0,"cache-incomplete-output");Core::check(core->digest.hex()==expectedSha256,"cache-integrity-mismatch");
+            if(core->avIndex)core->avIndex->update([&](uint64_t at,void* out,size_t n){core->protectedRead(core->writer,at,out,n);return true;},core->state.written,true);
             core->verify(core->writer);core->state.visible=core->state.written;core->state.complete=true;
         }catch(const Error& e){core->fail(e.code);}
         core->originals=originalReaders;core->state.originalsClosed=true;stream_cache_detail::close(core->writer);core->state.producerClosed=true;core->changed.notify_all();core->cleanup();
     }
     std::shared_ptr<Reader> reader(){return std::shared_ptr<Reader>(new Reader(core));}
     StreamCacheStatus status()const{std::lock_guard<std::mutex> lock(core->mutex);return core->state;}
+    // Internal index diagnostics, physical offsets into this same protected cache.
+    // Does not grant decoder admission or bypass Reader SHA/lease checks.
+    std::vector<harvester::Sample> avSamples(unsigned kind)const{
+        std::lock_guard<std::mutex> lock(core->mutex);Core::check(kind<2 && bool(core->avIndex),"cache-invalid-audio-window");
+        const auto& view=core->avIndex->views().tracks[kind];auto values=view.index.Samples();
+        for(auto& sample:values){
+            auto i=std::upper_bound(view.spans.begin(),view.spans.end(),sample.offset,[](uint64_t at,const harvester::muxmp4::Span& span){return at<span.offset;});
+            Core::check(i!=view.spans.begin(),"cache-invalid-fragment");--i;
+            Core::check(!i->memory && sample.offset>=i->offset && sample.offset-i->offset<=i->length && sample.size<=i->length-(sample.offset-i->offset),"cache-invalid-fragment");
+            sample.offset=i->physical+sample.offset-i->offset;
+        }
+        return values;
+    }
     std::string sessionId()const{return core->session;}
     uint64_t generation()const{return core->generation;}
     // Immutable binding: no cache mutex, file inspection or registry I/O.
