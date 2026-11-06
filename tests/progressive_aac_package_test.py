@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('aac','legacy','reordered'),required=True)
+    parser.add_argument('--scenario',choices=('aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
     parser.add_argument('--report-directory',type=Path,required=True)
     args=parser.parse_args();sdk=args.sdk_directory.resolve()
@@ -34,10 +34,24 @@ def main():
     if args.scenario=='aac':
         import progressive_continuous_aac_api_test as case
         exercise=lambda peers,root:case.exercise(peers,root,args.expected_audio_output)
-    else:
+    elif args.scenario in ('legacy','reordered'):
         import progressive_continuous_sdk_conformance as case
         mode=modules['progressive_continuous'].REORDERED_MODE if args.scenario=='reordered' else modules['progressive_continuous'].MODE
         exercise=lambda peers,root:case.exercise(peers,root,mode)
+    else:
+        cases={'aac-waiting':'progressive_continuous_waiting_conformance',
+               'aac-worker-crash':'progressive_continuous_worker_crash_conformance',
+               'aac-races':'progressive_continuous_command_races',
+               'aac-shutdown':'progressive_continuous_shutdown_conformance'}
+        case=importlib.import_module(cases[args.scenario])
+        mode=modules['progressive_continuous'].AAC_MODE
+        def exercise(peers,root):
+            options={'media_mode':mode} if args.scenario=='aac-races' else {'mode':mode}
+            if args.scenario=='aac-shutdown':options['require_clean']=True
+            result=case.exercise(peers,root,args.report_directory,**options)
+            from progressive_continuous_test_media import __file__ as media_source
+            result.update(publicMode=mode,fixtureProfile='h264-b3-30000/1001-aac-lc-48000-stereo',mediaHelperSha256=sha(media_source))
+            return result
     with tempfile.TemporaryDirectory(prefix='foxicmp-package-peers-') as name:
         root=Path(name);players=[str(args.player.resolve())]
         if args.edition=='classic':

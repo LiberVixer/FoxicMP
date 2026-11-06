@@ -12,14 +12,14 @@ import os
 from pathlib import Path
 import time
 import traceback
+import sys
 
 from progressive_continuous_api_test import run
 from progressive_continuous_heartbeat_conformance import WorkerExit
 from progressive_player_crash_recovery import ApiError, sha, wait
-from progressive_stream_remux_worker_test import fixture, probe
-from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
-from progressive_continuous import ContinuousRemux
+from progressive_continuous import ContinuousRemux, MODE
+from progressive_continuous_test_media import source_fixture, source_snapshot, source_cuts, audible_decoder_ready
 
 
 def normal_close(peer):
@@ -94,13 +94,13 @@ def normal_close(peer):
     return dict(pid=pid,exitCode=0,terminationSeconds=seconds,method=method)
 
 
-def exercise(peers,root,report,require_clean=False):
+def exercise(peers,root,report,require_clean=False,mode=MODE):
     rows=[];active=[None,None];watches=[]
-    raw_path=fixture(root,'reference');raw=raw_path.read_bytes();packets=probe(raw_path)['packets']
-    cuts={s:int(next(p['pos'] for p in packets if float(p['pts_time'])>=s))+13 for s in (12,20)}
+    raw_path=source_fixture(root,'reference',mode);raw=raw_path.read_bytes()
+    cuts=source_cuts(raw_path,mode)
     def model_for(name,prefix,complete=False):
         directory=root/name;directory.mkdir();path=directory/'input.part'
-        model=snapshot(path,raw,complete=complete,prefix=prefix);model['timeline']['duration']='240000000';path.write_bytes(raw[:prefix])
+        model=source_snapshot(path,raw,complete=complete,prefix=prefix,mode=mode);path.write_bytes(raw[:prefix])
         return directory,path,model
     def prepared(sdk):
         def poll():
@@ -111,7 +111,7 @@ def exercise(peers,root,report,require_clean=False):
     def playing(sdk):
         def poll():
             s=sdk.playback_status();assert s['state'] not in ('error','closed','finished'),s
-            return s if s['state']=='playing' and s['positionSeconds']>.2 and s['decoderReaders'] else None
+            return s if s['state']=='playing' and s['positionSeconds']>.2 and s['decoderReaders'] and audible_decoder_ready(s,peers[0].edition,mode) else None
         return wait(poll,'shutdown-suite actual playback')
     def closed(sdk):
         p=sdk.close(timeout=2);assert p['released'] and p['sourceFilesClosed'],p
@@ -123,7 +123,7 @@ def exercise(peers,root,report,require_clean=False):
         else:raise AssertionError(('Stale event accepted',action))
     try:
         other_dir,other_path,other_model=model_for('independent',len(raw),True)
-        other=active[1]=ContinuousRemux(peers[1].client,str(other_dir));other.prepare(other_model,'clip');prepared(other)
+        other=active[1]=ContinuousRemux(peers[1].client,str(other_dir),mode=mode);other.prepare(other_model,'clip');prepared(other)
         wait(lambda:other.status()['outputComplete'],'independent completed output')
         other.play(title='Independent shutdown control');other_initial=playing(other);other.control('pause')
         for kind in ('normal','crash'):
@@ -131,7 +131,7 @@ def exercise(peers,root,report,require_clean=False):
                 name=kind+'-'+phase
                 (report/'current.json').write_text(json.dumps(dict(kind=kind,phase=phase))+'\n')
                 directory,path,model=model_for(name,4 if phase=='preparation' else cuts[12])
-                before=sha(path);sdk=active[0]=ContinuousRemux(peers[0].client,str(directory));sdk.prepare(model,'clip')
+                before=sha(path);sdk=active[0]=ContinuousRemux(peers[0].client,str(directory),mode=mode);sdk.prepare(model,'clip')
                 if phase=='preparation':
                     initial=wait(lambda:(lambda s:s if s['producerCode']=='waiting' else None)(sdk.status()),'preparation before exit')
                     assert initial['maximumReadEnd']=='4' and not initial['playbackReady']
@@ -143,7 +143,7 @@ def exercise(peers,root,report,require_clean=False):
                     if phase=='buffering':
                         def starving():
                             sdk.heartbeat();s=sdk.playback_status();assert s['state'] not in ('finished','closed','error'),s
-                            return s if s['state']=='buffering' and s['positionSeconds']>.2 and s['decoderReaders'] else None
+                            return s if s['state']=='buffering' and s['positionSeconds']>.2 and s['decoderReaders'] and audible_decoder_ready(s,peers[0].edition,mode) else None
                         actual=wait(starving,'real tail starvation before exit',20)
                     initial=sdk.status();assert not initial['outputComplete']
                 watcher=WorkerExit(initial['workerId']);watches.append(watcher)
@@ -169,7 +169,7 @@ def exercise(peers,root,report,require_clean=False):
                 previous=model;model=copy.deepcopy(model);model['revision']='2';model['resources'][0]['ranges']=[dict(offset='0',length=str(cuts[20]))]
                 model=protect_snapshot(model,directory,previous=previous);after_append=sha(path)
                 peers[0].launch()
-                replacement=active[0]=ContinuousRemux(peers[0].client,str(directory));replacement.prepare(model,'clip');recovered=prepared(replacement)
+                replacement=active[0]=ContinuousRemux(peers[0].client,str(directory),mode=mode);replacement.prepare(model,'clip');recovered=prepared(replacement)
                 assert replacement.job_id!=old_job
                 current_cache={p.name for p in cache.glob('remux-*')};assert len(current_cache)==1 and not current_cache & old_cache,(old_cache,current_cache)
                 # Recovery must have occurred before the test inspects/forgets old receipts.
@@ -194,10 +194,18 @@ def exercise(peers,root,report,require_clean=False):
         other_final=closed(other);active[1]=None;assert sha(other_path)==sha(raw_path)
         return dict(result='PASS',count=len(rows),rows=rows,independentEndpointPreserved=True,explicitNewAttempt=True,automaticPositionResume=False,requireCleanNormalExit=require_clean,otherFinal=other_final)
     finally:
+        primary_failure=sys.exc_info()[0] is not None
+        errors=[]
         for i,sdk in enumerate(active):
             if sdk is not None and peers[i].process.poll() is None:
-                closed(sdk)
-        for watch in watches:watch.close()
+                try:closed(sdk)
+                except Exception:errors.append(traceback.format_exc())
+        for watch in watches:
+            try:watch.close()
+            except Exception:errors.append(traceback.format_exc())
+        if errors:
+            (report/'shutdown-cleanup-errors.txt').write_text('\n'.join(errors),encoding='utf-8')
+            if not primary_failure:raise AssertionError('Shutdown test cleanup failed')
 
 
 if __name__=='__main__':

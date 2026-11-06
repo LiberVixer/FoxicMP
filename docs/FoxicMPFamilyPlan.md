@@ -1187,3 +1187,18 @@ Linux runtime обновлён с backup; финальный SDK установ�
 заменой семи metadata-файлов, INI/кэш/EXE сохранены. Windows установки и 158 shell
 entries сохранены, временные задачи удалены. Полная ТЗ-приёмка остаётся открытой;
 Harvester не менялся.
+
+### 6 ноября 2026: AAC waiting/replacement/worker/player crash
+
+[Ограниченный resilience-срез SDK 1.84](ProgressiveContinuousAacResilience.md):
+по 33 AAC-сценария каждой редакции (99), H.264 -bf 3 / 30000/1001 и AAC-LC
+stereo 48 kHz. Реальные writer pauses 10/30/60 s, сохранение playback/worker/readers,
+ручная пауза, подтверждённые reverse/forward seek и EOF, Stop/Cancel request replay;
+проверенный worker kill и автоматический release; normal close / player crash в
+четырёх состояниях, cache recovery/append/явный retry; 16 конкурентных update,
+release, cancel, Stop и обычная замена с изоляцией поздних событий. Независимый
+endpoint сохраняется. Дополнительно четыре video-only default проверки Linux.
+[Точные exits, SHA, интервалы и измерения](ProgressiveContinuousAacResilienceValidation-2026-11-06.json).
+Код приложений, runtime 1.84, профили и 158 shell entries не менялись; временная
+задача удалена. Полная AAC/fps/layout/readers/stress, AVIO/OS fault и физическая
+A/V приёмка остаются открытыми. Harvester не менялся.

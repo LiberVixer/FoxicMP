@@ -12,19 +12,19 @@ import subprocess
 import threading
 import time
 import traceback
+import sys
 
 from progressive_continuous_api_test import run
 from progressive_player_crash_recovery import ApiError, sha, wait
-from progressive_stream_remux_worker_test import fixture, probe
 from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
-from progressive_continuous import ContinuousRemux
+from progressive_continuous import ContinuousRemux, MODE
+from progressive_continuous_test_media import source_fixture, source_snapshot, source_cuts, audible_decoder_ready
 
 
-def exercise(peers, root, report):
-    raw_path = fixture(root, 'reference'); raw = raw_path.read_bytes()
-    packets = probe(raw_path)['packets']
-    cuts = {s: int(next(p['pos'] for p in packets if float(p['pts_time']) >= s))+13 for s in (12, 20)}
+def exercise(peers, root, report, media_mode=MODE):
+    raw_path = source_fixture(root, 'reference', media_mode); raw = raw_path.read_bytes()
+    cuts = source_cuts(raw_path, media_mode)
     ordinary_path = root/'replacement.mp4'
     subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'lavfi', '-i',
         'testsrc2=size=160x90:rate=25:duration=24', '-c:v', 'libx264',
@@ -39,12 +39,12 @@ def exercise(peers, root, report):
 
     def model_for(name, prefix, complete=False):
         directory = root/name; directory.mkdir(); path = directory/'input.part'
-        model = snapshot(path, raw, complete=complete, prefix=prefix)
-        model['timeline']['duration'] = '240000000'; path.write_bytes(raw[:prefix])
+        model = source_snapshot(path, raw, complete=complete, prefix=prefix, mode=media_mode)
+        path.write_bytes(raw[:prefix])
         return directory, path, model
 
     def create(client, directory, model):
-        sdk = ContinuousRemux(client, str(directory)); owned.append(sdk)
+        sdk = ContinuousRemux(client, str(directory), mode=media_mode); owned.append(sdk)
         sdk.prepare(model, 'clip')
         return sdk
 
@@ -58,7 +58,7 @@ def exercise(peers, root, report):
     def playing(sdk):
         def poll():
             s = sdk.playback_status(); assert s['state'] not in ('closed', 'error', 'finished'), s
-            return s if s['state'] == 'playing' and s['positionSeconds'] > .2 and s['decoderReaders'] else None
+            return s if s['state'] == 'playing' and s['positionSeconds'] > .2 and s['decoderReaders'] and audible_decoder_ready(s, peers[0].edition, media_mode) else None
         return wait(poll, 'race actual playback')
 
     def finish(sdk):
@@ -201,6 +201,7 @@ def exercise(peers, root, report):
             realConcurrentIpcConnections=True, independentEndpointPreserved=True,
             deterministicInternalIoSchedule=False, stressAcceptance=False)
     finally:
+        primary_failure = sys.exc_info()[0] is not None
         errors = []
         for model in list(regular_sessions):
             try: stop_regular(model)
@@ -211,7 +212,8 @@ def exercise(peers, root, report):
                 except Exception: errors.append(traceback.format_exc())
         if errors:
             (report/'cleanup-errors.txt').write_text('\n'.join(errors))
-            raise AssertionError('Command-race cleanup failed')
+            if not primary_failure:
+                raise AssertionError('Command-race cleanup failed')
 
 
 if __name__ == '__main__':

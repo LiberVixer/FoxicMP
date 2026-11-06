@@ -104,6 +104,7 @@ Classic completed-seek race исправлен и проверен управл�
 - [x] [Continuous AAC API и SDK-кандидат 1.84](ProgressiveContinuousAacApi.md): явный вложенный profile, отложенный до PCM-плана commit, 27 IPC сценариев трёх редакций, подключение обязательного audio в Classic и независимый короткий AAC EOF. Qt проверен production Window/Player через частный host; Classic — обычный полный EXE. [Exits/SHA/отказы](ProgressiveContinuousAacApiValidation-2026-11-06.json).
 - [x] [Ordinary main/пакетная приёмка AAC 1.84](ProgressiveContinuousAacPackages.md): 107 финальных сценариев с десятью SDK-модулями из пакета, ещё 90 повторов исправленной Classic и 4 controlled-index-lag сценария; Linux обновлён с backup/сохранением INI.
 - [x] [Экспериментальная поставка SDK/runtime 1.84](ProgressiveContinuousAacDeliveryValidation-2026-11-06.json): source-clean SDK ZIP, отдельные portable трёх редакций и .deb, tag/commit d920adcfe, серверные SHA-256 и полная обратная загрузка семи assets, Linux backup/неизменный профиль. Полное ТЗ этим не закрыто.
+- [x] [Ограниченный AAC resilience-срез 1.84](ProgressiveContinuousAacResilience.md): 99 сценариев трёх редакций, реальные 10/30/60 s, Stop/Cancel/replay, concurrent replacement, worker death, normal/player crash и cache recovery/явный retry; stereo 48 kHz / H.264 -bf 3 / 30000/1001. 583 файла и 158 shell entries сохранены, exit 0 каждого прогона.
 - [ ] Полная AAC waiting/replacement/crash/race/stress matrix и измерение физической A/V синхронизации.
 
 ## 3. Обычный MP4 и индексы

@@ -12,14 +12,14 @@ from pathlib import Path
 import signal
 import time
 import traceback
+import sys
 
 from progressive_continuous_api_test import run
 from progressive_continuous_heartbeat_conformance import WorkerExit
 from progressive_player_crash_recovery import ApiError, sha, wait
-from progressive_stream_remux_worker_test import fixture, probe
-from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
-from progressive_continuous import ContinuousRemux
+from progressive_continuous import ContinuousRemux, MODE
+from progressive_continuous_test_media import source_fixture, source_snapshot, source_cuts, audible_decoder_ready
 
 
 class OwnedWorker(WorkerExit):
@@ -84,21 +84,20 @@ class OwnedWorker(WorkerExit):
             injectedTermination='TerminateProcess-197' if os.name == 'nt' else 'pidfd-SIGKILL')
 
 
-def exercise(peers, root, report):
-    raw_path = fixture(root, 'reference'); raw = raw_path.read_bytes()
-    packets = probe(raw_path)['packets']
-    cuts = {s: int(next(p['pos'] for p in packets if float(p['pts_time']) >= s))+13 for s in (12, 20)}
+def exercise(peers, root, report, mode=MODE):
+    raw_path = source_fixture(root, 'reference', mode); raw = raw_path.read_bytes()
+    cuts = source_cuts(raw_path, mode)
     active, watches, rows = [], [], []
     player_pid = peers[0].process.pid
 
     def model_for(name, prefix, complete=False):
         directory = root/name; directory.mkdir(); path = directory/'input.part'
-        model = snapshot(path, raw, complete=complete, prefix=prefix)
-        model['timeline']['duration'] = '240000000'; path.write_bytes(raw[:prefix])
+        model = source_snapshot(path, raw, complete=complete, prefix=prefix, mode=mode)
+        path.write_bytes(raw[:prefix])
         return directory, path, model
 
     def create(peer, directory, model):
-        sdk = ContinuousRemux(peer.client, str(directory)); active.append(sdk)
+        sdk = ContinuousRemux(peer.client, str(directory), mode=mode); active.append(sdk)
         sdk.prepare(model, 'clip')
         return sdk
 
@@ -112,7 +111,7 @@ def exercise(peers, root, report):
     def playing(sdk):
         def poll():
             s = sdk.playback_status(); assert s['state'] not in ('error', 'closed', 'finished'), s
-            return s if s['state'] == 'playing' and s['positionSeconds'] > .2 and s['decoderReaders'] else None
+            return s if s['state'] == 'playing' and s['positionSeconds'] > .2 and s['decoderReaders'] and audible_decoder_ready(s, peers[0].edition, mode) else None
         return wait(poll, 'worker-crash actual playback')
 
     def finish(sdk):
@@ -141,7 +140,7 @@ def exercise(peers, root, report):
                     def starving():
                         sdk.heartbeat(); s = sdk.playback_status()
                         assert s['state'] not in ('error', 'closed', 'finished'), s
-                        return s if s['state'] == 'buffering' and s['positionSeconds'] > .2 and s['decoderReaders'] else None
+                        return s if s['state'] == 'buffering' and s['positionSeconds'] > .2 and s['decoderReaders'] and audible_decoder_ready(s, peers[0].edition, mode) else None
                     actual = wait(starving, 'real tail wait before worker crash', 20)
                 initial = sdk.status()
             assert not initial['sourceComplete'] and not initial['outputComplete']
@@ -217,6 +216,7 @@ def exercise(peers, root, report):
             independentEndpointPreserved=True, onlyOwnedWorkerTerminated=True,
             automaticReleaseMeasuredBeforeCancel=True, sourceOnlyTest=True)
     finally:
+        primary_failure = sys.exc_info()[0] is not None
         errors = []
         for sdk in reversed(active):
             if not sdk.forgotten:
@@ -225,7 +225,8 @@ def exercise(peers, root, report):
         for watch in watches: watch.close()
         if errors:
             (report/'cleanup-errors.txt').write_text('\n'.join(errors))
-            raise AssertionError('Worker-crash test cleanup failed')
+            if not primary_failure:
+                raise AssertionError('Worker-crash test cleanup failed')
 
 
 if __name__ == '__main__':

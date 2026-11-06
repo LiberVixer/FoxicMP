@@ -111,6 +111,7 @@ Windows portable Classic/Qt, Linux tar/`.deb` и SDK. Проверены 107 ф�
 пакетных сценариев, ещё 90 повторов Classic и 4 controlled-index-lag сценария;
 [все семь файлов скачаны обратно и сверены по SHA-256](docs/ProgressiveContinuousAacDeliveryValidation-2026-11-06.json).
 Linux обновлён с сохранением профиля. Полная progressive-ТЗ-приёмка остаётся открытой.
+Дополнительно [проверены 99 AAC waiting/replacement/crash-сценариев трёх редакций](docs/ProgressiveContinuousAacResilience.md), включая настоящие паузы записи 10/30/60 секунд.
 
 Предыдущий [SDK 1.83](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.83)
 предназначен для интеграционных проверок с новыми сборками плеера.

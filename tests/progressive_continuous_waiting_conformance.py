@@ -9,13 +9,13 @@ import json
 from pathlib import Path
 import time
 import traceback
+import sys
 
 from progressive_continuous_api_test import run
 from progressive_player_crash_recovery import ApiError, sha, wait
-from progressive_stream_remux_worker_test import fixture, probe
-from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
-from progressive_continuous import ContinuousRemux
+from progressive_continuous import ContinuousRemux, MODE
+from progressive_continuous_test_media import source_fixture, source_snapshot, source_cuts, audible_decoder_ready
 from progressive_process_metrics import sample
 
 
@@ -32,16 +32,17 @@ class MeasuredClient:
             self.calls.append(dict(action=message['action'], seconds=time.monotonic()-began))
 
 
-def exercise(peers, root, report):
+def exercise(peers, root, report, mode=MODE):
     owned = []
     try:
-        return exercise_owned(peers, root, report, owned)
+        return exercise_owned(peers, root, report, owned, mode)
     except Exception:
         (report/'scenario-error.txt').write_text(traceback.format_exc(), encoding='utf-8')
         raise
     finally:
         # A failed assertion must also release the jobs before the driver kills
         # its idle players. Keep the original failure separate from cleanup.
+        primary_failure = sys.exc_info()[0] is not None
         errors = []
         for sdk in reversed(owned):
             if sdk.forgotten:
@@ -54,17 +55,14 @@ def exercise(peers, root, report):
                 errors.append(traceback.format_exc())
         if errors:
             (report/'job-cleanup-errors.txt').write_text('\n'.join(errors), encoding='utf-8')
-            raise AssertionError('Test job cleanup failed; see job-cleanup-errors.txt')
+            if not primary_failure:
+                raise AssertionError('Test job cleanup failed; see job-cleanup-errors.txt')
 
 
-def exercise_owned(peers, root, report, owned):
-    source = fixture(root, 'reference')
+def exercise_owned(peers, root, report, owned, mode=MODE):
+    source = source_fixture(root, 'reference', mode)
     raw = source.read_bytes()
-    packets = probe(source)['packets']
-    # Include only part of the frame at 12 s / 20 s. Its bytes must not become a
-    # decoded frame or an EOF merely because the physical file has a full tail.
-    cuts = {second: int(next(p['pos'] for p in packets if float(p['pts_time']) >= second))+13
-            for second in (12, 20)}
+    cuts = source_cuts(source, mode)
     transport = MeasuredClient(peers[0].client)
     rows = []
     events = []
@@ -77,10 +75,9 @@ def exercise_owned(peers, root, report, owned):
         directory = root/name
         directory.mkdir()
         path = directory/'input.part'
-        model = snapshot(path, raw, complete=False, prefix=prefix)
-        model['timeline']['duration'] = '240000000'
+        model = source_snapshot(path, raw, complete=False, prefix=prefix, mode=mode)
         path.write_bytes(raw)
-        sdk = ContinuousRemux(transport, str(directory))
+        sdk = ContinuousRemux(transport, str(directory), mode=mode)
         owned.append(sdk)
         sdk.prepare(model, 'clip')
         return directory, path, model, sdk
@@ -89,7 +86,8 @@ def exercise_owned(peers, root, report, owned):
         next_model = copy.deepcopy(model)
         next_model['revision'] = str(int(model['revision'])+1)
         phase = 'complete' if complete else 'downloading'
-        next_model['writer']['state'] = next_model['resources'][0]['state'] = next_model['tracks'][0]['state'] = phase
+        next_model['writer']['state'] = next_model['resources'][0]['state'] = phase
+        for track in next_model['tracks']: track['state'] = phase
         next_model['resources'][0]['ranges'] = [dict(offset='0', length=str(prefix))]
         next_model = protect_snapshot(next_model, directory, previous=model)
         sdk.publish(next_model)
@@ -111,7 +109,7 @@ def exercise_owned(peers, root, report, owned):
         return wait(lambda: (lambda s: s if s['playbackReady'] else None)(preparation(sdk)), 'wait-suite preparation')
 
     def playing(sdk, minimum=.2):
-        return wait(lambda: (lambda s: s if s['state']=='playing' and s['positionSeconds']>minimum and s['decoderReaders']>0 else None)(playback(sdk)), 'wait-suite actual playback')
+        return wait(lambda: (lambda s: s if s['state']=='playing' and s['positionSeconds']>minimum and s['decoderReaders']>0 and audible_decoder_ready(s, peers[0].edition, mode) else None)(playback(sdk)), 'wait-suite actual playback')
 
     def tail(sdk, maximum):
         position = -1
@@ -145,9 +143,8 @@ def exercise_owned(peers, root, report, owned):
     other_dir = root/'independent'
     other_dir.mkdir()
     other_path = other_dir/'input.part'
-    other_model = snapshot(other_path, raw, complete=False, prefix=4)
-    other_model['timeline']['duration'] = '240000000'
-    other = ContinuousRemux(peers[1].client, str(other_dir))
+    other_model = source_snapshot(other_path, raw, complete=False, prefix=4, mode=mode)
+    other = ContinuousRemux(peers[1].client, str(other_dir), mode=mode)
     owned.append(other)
     other.prepare(other_model, 'clip')
 
