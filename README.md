@@ -114,6 +114,7 @@ Linux обновлён с сохранением профиля. Полная pr
 Дополнительно [проверены 99 AAC waiting/replacement/crash-сценариев трёх редакций](docs/ProgressiveContinuousAacResilience.md), включая настоящие паузы записи 10/30/60 секунд.
 Затем [прошли 300 AAC lifecycle cycles и три growing stress-сценария](docs/ProgressiveContinuousAacStress.md) с прежними ресурсными лимитами; полная stress-приёмка остаётся открытой.
 [AAC heartbeat](docs/ProgressiveContinuousAacHeartbeat.md): обе Qt-редакции прошли по 17 сценариев; ресурсный gate Classic остаётся открытым. Исправлена и проверена гонка последовательных status-наблюдений в тестовом стенде.
+[Прирост потоков Classic определён по символам Windows](docs/ProgressiveClassicThreadStability.md): после простоя счётчик вернулся к baseline. Отдельный профиль устойчивости прошёл все 17 случаев; исходный мгновенный отказ сохранён.
 
 Предыдущий [SDK 1.83](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.83)
 предназначен для интеграционных проверок с новыми сборками плеера.

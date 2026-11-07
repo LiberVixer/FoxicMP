@@ -21,10 +21,12 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering'),required=True)
+    parser.add_argument('--scenario',choices=('aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
     parser.add_argument('--report-directory',type=Path,required=True)
     args=parser.parse_args();sdk=args.sdk_directory.resolve()
+    if args.scenario=='aac-heartbeat-idle-stability' and (args.edition!='classic' or os.name!='nt'):
+        parser.error('aac-heartbeat-idle-stability requires Windows Classic')
     sys.path.insert(0,str(sdk))
     names=('progressive_schema','progressive_client','progressive_integrity','progressive_resources','progressive_sdk','progressive_v2','progressive_continuous','progressive_windows','progressive_preview','progressive_writer')
     modules={name:importlib.import_module(name) for name in names}
@@ -46,7 +48,8 @@ def main():
                'aac-lifecycle':'progressive_continuous_lifecycle_stress',
                'aac-growing':'progressive_continuous_growing_stress',
                'aac-heartbeat':'progressive_continuous_aac_heartbeat_stress',
-               'aac-heartbeat-ordering':'progressive_continuous_heartbeat_ordering'}
+               'aac-heartbeat-ordering':'progressive_continuous_heartbeat_ordering',
+               'aac-heartbeat-idle-stability':'progressive_continuous_aac_heartbeat_stability'}
         case=importlib.import_module(cases[args.scenario])
         mode=modules['progressive_continuous'].AAC_MODE
         def exercise(peers,root):

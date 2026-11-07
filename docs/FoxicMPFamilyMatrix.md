@@ -1074,3 +1074,21 @@ FAIL и не подменяет строгую приёмку. Приложен�
 и 158 shell entries сохранены, собственные одноразовые задачи удалены.
 Harvester не менялся; Classic resource gate, остальные AAC профили, физический
 A/V, OS I/O faults и прежние latency/Event outliers остаются OPEN.
+
+### 7 ноября 2026: объяснён Classic thread growth, проверен профиль после idle
+
+[Точный повтор и дополнительная устойчивость](ProgressiveClassicThreadStability.md):
+старый строгий gate снова дал 7→10 на пятом expiry, native exit 1. Все три
+дополнительных потока имеют точный старт ntdll!TppWorkerThread по проверенному
+Microsoft PDB; шесть EXE-start threads не изменились. После 123 s процесса
+в живом состоянии threads/handles вернулись к 7/427. Исходный instant FAIL
+сохранён, числовой порог +2 не увеличивался.
+Новый явно отдельный Classic `aac-heartbeat-idle-stability`: пять функциональных
+и 12 paused expiry, прежние немедленные CPU/RSS/private/handles/RPC/release budgets,
+запись каждого мгновенного thread overrun, затем threads ≤ baseline+2 после
+минимум 120 s без новых jobs/IPC. Scope PASS, native exit 0; это другой момент
+проверки threads, а не PASS исходного мгновенного gate.
+[Метрики, SHA, исходные failures и точные exits](ProgressiveClassicThreadStabilityValidation-2026-11-07.json).
+Приложения/SDK/установки не менялись, 583 файла и 158 shell entries сохранены,
+две собственные одноразовые задачи удалены. Остальные AAC профили, физический
+A/V, OS faults и старые MPCVR Event/Linux release outliers остаются OPEN.

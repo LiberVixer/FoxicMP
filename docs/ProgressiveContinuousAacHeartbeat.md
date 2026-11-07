@@ -99,3 +99,11 @@ YouTubeHarvester, Windows-настройки и desktop не менялись.
 Остальные rates/layouts, HD/4K и многочасовой soak, физическая A/V синхронизация,
 OS I/O faults, прежние Linux release >2 s и MPCVR Event outliers остаются открытыми.
 Wayland и отложенное оборудование не проверялись.
+
+## Дополнение 7 ноября 2026
+
+[Точный повтор с символами и проверка после простоя](ProgressiveClassicThreadStability.md)
+установили природу роста 7→10: три TppWorkerThread; EXE-start count 6 неизменен.
+После 123 s потоки и handles вернулись к 7/427. Старый мгновенный gate остаётся
+FAIL. Отдельный Classic профиль проверил все 17 cases и threads +2 после ≥120 s
+без jobs/IPC, сохранив немедленные прочие лимиты и все instant overruns; exit 0.
