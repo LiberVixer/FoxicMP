@@ -1396,3 +1396,22 @@ GUI/native успех не подменяет эти маршруты. Linux TEM
 сохранены; 12 one-shot tasks удалены, owned процессы/артефакты очищены.
 Windows установки, release assets, профили и Harvester не менялись; SDK1.84
 и wire API совместимы.
+
+### 7 ноября 2026: полный Qt CLI и Windows legacy playback states
+
+[Десять случаев полного `--harvester-session` main](ProgressiveLegacyCli.md)
+прошли на Linux/Windows: по три длины source root со Stop, отдельно natural
+EOF и writer failure на short root; pause/resume, append/complete, явный
+provider release при живом main и normal app exit 0 через ordinary file.
+В Windows найдено и исправлено отсутствие исходящих buffering/playing/paused/error
+в legacy worker; I/O выполняется вне metadata mutex, write failure оставляет
+retry/reacquisition. В обеих Qt асинхронная ошибка opening выводится в stderr.
+Linux test больше не ждёт Windows file-ACK. Windows Qt adapter повторил пять
+сценариев включая provider restart (QTest7 с init/cleanup), native 0.
+[SHA, реальные IPC packets, native exits и retained failures](ProgressiveLegacyCliValidation-2026-11-07.json).
+Linux обновлён атомарно с rollback и прежним INI; 582 других protected SHA/158
+HKCU entries сохранены. Три owned one-shot tasks удалены, процессов не осталось.
+Windows установки, Classic, release assets и Harvester не менялись. SDK1.84
+и протокол совместимы. Long Windows TEMP/profile, предельные пути и полная
+rename/format/A-V/stress матрица остаются открытыми; отдельный decoder clock
+этот CLI-стенд не измеряет.

@@ -293,6 +293,16 @@ int main(int argc, char **argv) {
     bool reset = false, keepLibrary = true;
     {
       Window window(profile, {}, {}, {}, request.options.value("web-port").toInt(-1));
+      // CLI callers need the asynchronous legacy failure as well as the UI.
+      // Keep the window/exit policy unchanged so users can open another file.
+      QObject::connect(&window, &Window::progressiveOpeningFinished, &app,
+          [](bool opened, const QString &error) {
+            if (!opened && !error.isEmpty()) {
+              const auto message = error.toUtf8();
+              std::fprintf(stderr, "Progressive source: %s\n", message.constData());
+              std::fflush(stderr);
+            }
+          });
       ProgressiveApi progressiveApi(&window);
       if (result == InstanceBroker::Primary && !progressiveApi.listen(directory))
         std::fprintf(stderr, "Progressive API unavailable: %s\n", qPrintable(progressiveApi.errorString()));

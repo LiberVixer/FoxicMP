@@ -70,7 +70,15 @@ public:
     auto raw = QJsonDocument(message).toJson(QJsonDocument::Compact) + '\n';
     DWORD count = 0;
     if (!transfer(true, raw.data(), DWORD(raw.size()), count, 500) || count != DWORD(raw.size()))
-      throw std::runtime_error("Legacy provider write failed");
+      throw ProviderIoError("Legacy provider write failed");
+  }
+  // Only the publication worker performs pipe I/O. UI notify() updates metadata.
+  bool notify(const char *type) {
+    if (!connected()) return false;
+    try { send(type); return true; }
+    catch (const ProviderIoError &) {
+      CloseHandle(pipe); pipe = INVALID_HANDLE_VALUE; incoming.clear(); return false;
+    }
   }
   bool connected() const { return pipe != INVALID_HANDLE_VALUE; }
   bool heartbeat(const std::atomic<bool> *stop) {
@@ -193,18 +201,28 @@ std::shared_ptr<ProgressiveSource> ProgressiveSource::open(const QString &path) 
           QString error;
           if (!raw->publish(next, &error)) throw std::runtime_error(error.toStdString());
           last = next; lease->update(next);
+          bool failed;
+          {std::lock_guard<std::mutex> lock(raw->mutex);failed=!raw->currentStatus.error.isEmpty();}
+          if(failed){lease->notify("error");return;}
         }
         // Unchanged JSON is never a substitute for a provider/writer heartbeat.
         if (lease->heartbeat(&raw->stopping)) raw->publishedHeartbeat();
-        harvester::Snapshot current;
-        {std::lock_guard<std::mutex> lock(raw->mutex);current=raw->snapshot;}
+        harvester::Snapshot current; QString playback;
+        {std::lock_guard<std::mutex> lock(raw->mutex);current=raw->snapshot;playback=raw->playbackState;}
         for(int i=0;i<2;++i)ProgressiveFile::inspect(raw->files[i],current.tracks[i].available);
+        if (!raw->stopping.load() && lease->connected() && !lease->notify(playback.toLatin1().constData())) {
+          std::lock_guard<std::mutex> lock(raw->mutex);
+          raw->currentStatus.connected=false; raw->changed.notify_all();
+        }
         std::unique_lock<std::mutex> lock(raw->mutex);if(raw->stopping.load())return;
         if (!raw->currentStatus.complete && (!lease->connected() || std::chrono::steady_clock::now() - raw->lastPublished > std::chrono::seconds(15))) {
           raw->currentStatus.connected = false; raw->changed.notify_all();
         }
         raw->changed.wait_for(lock, std::chrono::milliseconds(100), [raw] { return raw->stopping.load(); });
-      } catch (const std::exception &e) { if(!raw->stopping.load())raw->fail(QString::fromUtf8(e.what()));return; }
+      } catch (const std::exception &e) {
+        if(!raw->stopping.load()){raw->fail(QString::fromUtf8(e.what()));lease->notify("error");}
+        return;
+      }
     }
   });
   return source;
