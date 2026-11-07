@@ -1321,3 +1321,20 @@ oracle failure не подменяет её доказательство. Сох
 исправлено в 51c7fc9d9; текущий этап добавляет регрессию и диагностику.
 Production EXE/SDK не менялись, Classic не запускался; 583 файла и 158 HKCU
 entries сохранены, одноразовая задача удалена. Обновление установок не требуется.
+
+### 7 ноября 2026: текущая Classic — строгая серия 100 +12
+
+[Отдельная сборка Classic с DWM/history fixes](ProgressiveClassicCurrentResources.md)
+прошла 100 измеряемых lifecycle cycles +4 warmup и 12 настоящих paused
+heartbeat expiry на тех же двух PID, native exit 0. Local H.264 video-only,
+обычный production EXE, bundled SDK 1.84. Немедленные +8 handles /+2 threads,
+RSS/private +256 MiB, RPC/release <2 s и ready→play <3 s сохранены.
+Стенд записал baseline и все heartbeat snapshots до assertions; observer
+пассивный и не добавлял RPC. Это текущий scoped PASS; исторический
+heartbeat-12 handles FAIL без baseline остаётся неклассифицированным,
+AAC cold-baseline thread FAIL и общая stress/A/V приёмка не закрываются.
+[Метрики, точные exits и SHA](ProgressiveClassicCurrentResourcesValidation-2026-11-07.json).
+Сохранены 583 файла и 158 HKCU command/icon entries, приватные копии и
+одноразовая задача удалены. Изменения этого этапа документационные;
+установленные EXE/INI и опубликованные assets не заменялись, Harvester
+не менялся. Пересборка/переустановка Linux не требуется.

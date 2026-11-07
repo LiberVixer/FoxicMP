@@ -10,6 +10,14 @@ Production code/EXE не меняются; приложение 0.2.0, SDK 1.82.
 получен отказ resource budget после двенадцатого expiry. Успех повторного
 прогона не объясняет этот отказ; подробности ниже.
 
+## Текущая отдельная Classic-сборка, 7 ноября
+
+[Строгий повтор 100 циклов +12 expiry](ProgressiveClassicCurrentResources.md)
+на сборке с DWM/history fixes и bundled SDK 1.84 прошёл с native exit 0.
+Лимиты не менялись; heartbeat baseline и каждый resource snapshot сохранены
+до assert. Это новый video-only срез текущей сборки, не доказательство причины
+первого отказа без baseline. Общая приёмка и AAC остаются отдельными задачами.
+
 ## Итоговые измерения повторного прогона
 
 | Редакция | Max ready → Play | Max команда → release | Max heartbeat auto-release | Exit |

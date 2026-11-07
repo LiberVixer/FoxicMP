@@ -1,0 +1,4020 @@
+{
+  "date": "2026-11-07",
+  "baseCommit": "663641ee082cddbd4e15d41d67eecee2e0a7eeef",
+  "result": "PASS current Classic scoped 100 cycles plus 12 actual paused expiry; historical failure remains unclassified",
+  "edition": "Windows Classic",
+  "applicationVersion": "0.2.0",
+  "bundledSdkVersion": "1.84",
+  "nativeExitCode": 0,
+  "productionCodeChanged": false,
+  "productBuildRequired": false,
+  "installedUpdateRequired": false,
+  "currentBinaryIncludes": [
+    "DWM redraw lifetime fix",
+    "continuous jobs isolated from ordinary file history"
+  ],
+  "counts": {
+    "measuredLifecycleCycles": 100,
+    "warmupCycles": 4,
+    "pausedHeartbeatExpiry": 12
+  },
+  "samePrivatePlayerProcesses": true,
+  "inputs": {
+    "players": [
+      {
+        "pid": 2940,
+        "executable": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-continuous-stress-gu0wgr0j\\0\\FoxicMP64.exe",
+        "sha256": "5e74cbf3393df202c3d9704f05fa682d486689660ff4ec9a9ade03b9b86444a7",
+        "workerSha256": {
+          "foxicmp-demux-worker.exe": "157e29a888750d85135b98b5971c23ec3fad8315fd5e1d300884212599930a74",
+          "foxicmp-remux-stream-worker.exe": "5cae4d262e54b248978cfdfa660135929b0d8d292900889837e5be08e88888b5"
+        }
+      },
+      {
+        "pid": 8220,
+        "executable": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-continuous-stress-gu0wgr0j\\1\\FoxicMP64.exe",
+        "sha256": "5e74cbf3393df202c3d9704f05fa682d486689660ff4ec9a9ade03b9b86444a7",
+        "workerSha256": {
+          "foxicmp-demux-worker.exe": "157e29a888750d85135b98b5971c23ec3fad8315fd5e1d300884212599930a74",
+          "foxicmp-remux-stream-worker.exe": "5cae4d262e54b248978cfdfa660135929b0d8d292900889837e5be08e88888b5"
+        }
+      }
+    ],
+    "sourceSha256": {
+      "progressive_continuous_observation_probe.py": "0a627c3e949a2e2f4d82bcd5cdb88763a525e31d17b4b7064f86f83454552a30",
+      "progressive_continuous_lifecycle_stress.py": "2a0e4fc19c75d9f3ea1ce7d93c51f50fe329e6eaf346b39c538d0ab8cb6d310b",
+      "progressive_continuous_heartbeat_conformance.py": "c84721d4c6d1d047d5cac7cba71142a47eb535c8dc349dfe6f7965e9f3034214"
+    },
+    "snapshotAfterOwnedEndpointReady": true,
+    "snapshotBeforeScenarios": true
+  },
+  "sdkModuleSha256": {
+    "progressive_schema": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778",
+    "progressive_client": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+    "progressive_integrity": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+    "progressive_resources": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7",
+    "progressive_sdk": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2",
+    "progressive_v2": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+    "progressive_continuous": "d62121dfdbd89061b2fa4414f7a7d6db1e9e3f8949357f0520be5af62b5793ac",
+    "progressive_windows": "fa48010d85e771dd40d05d58df6858def65bef72ead8027ef30f7033e768cde2",
+    "progressive_preview": "c7e17465981d92acef623b530c7283868de9c8aad634b6a3cbbb82a67d5d1b44",
+    "progressive_writer": "245f6781df624d7482f32c1db825946b7a2b7c96a1073e8d1eaaaf42fdf64b19"
+  },
+  "profile": {
+    "publicMode": "continuous-h264-video-v1",
+    "realHeartbeatMilliseconds": 30000,
+    "clockNotMocked": true,
+    "controlSourceSeconds": 900,
+    "controlIsCompletedSource": true,
+    "controlEntireFileWatched": false,
+    "singleLongGrowingDownload": false,
+    "audioChecked": false,
+    "physicalAvSyncChecked": false,
+    "fullStressAcceptance": false
+  },
+  "budget": {
+    "steadyHandleGrowth": 8,
+    "steadyThreadGrowth": 2,
+    "initialThreadGrowth": 8,
+    "rssPrivateGrowthBytes": 268435456,
+    "parentAverageCores": 1.0,
+    "requestSeconds": 2,
+    "readyToPlaySeconds": 3,
+    "releaseSeconds": 2
+  },
+  "lifecycleBounds": [
+    {
+      "peer": 0,
+      "steady": {
+        "handles": 524,
+        "threads": 16,
+        "rssBytes": 59088896,
+        "privateBytes": 34045952
+      },
+      "late": {
+        "handles": 521,
+        "threads": 15,
+        "rssBytes": 59711488,
+        "privateBytes": 34717696
+      },
+      "lastTenAverageCores": 0.42296511627906974
+    },
+    {
+      "peer": 1,
+      "steady": {
+        "handles": 1042,
+        "threads": 34,
+        "rssBytes": 78929920,
+        "privateBytes": 71270400
+      },
+      "late": {
+        "handles": 1038,
+        "threads": 33,
+        "rssBytes": 75190272,
+        "privateBytes": 71327744
+      },
+      "lastTenAverageCores": 0.050872093023255814
+    }
+  ],
+  "maximumReadyToPlaySeconds": 0.6570000000065193,
+  "maximumCommandToReleaseSeconds": 0.3129999999946449,
+  "maximumRequestSeconds": 0.20300000000861473,
+  "wallSeconds": 521.6410000000033,
+  "maximumHeartbeatAutomaticReleaseSeconds": 0.14100000000325963,
+  "maximumFirstErrorReplyToReleasedReplySeconds": 0.14100000000325963,
+  "heartbeatBaseline": [
+    {
+      "cpuSeconds": 53.453125,
+      "threads": 15,
+      "rssBytes": 56025088,
+      "privateBytes": 30470144,
+      "handles": 521,
+      "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+    },
+    {
+      "cpuSeconds": 10.359375,
+      "threads": 12,
+      "rssBytes": 43401216,
+      "privateBytes": 30183424,
+      "handles": 517,
+      "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+    }
+  ],
+  "heartbeatRows": [
+    {
+      "attempt": 1,
+      "automaticReleaseSeconds": 0.125,
+      "firstErrorToReleasedSeconds": 0.125,
+      "metrics": [
+        {
+          "cpuSeconds": 55.171875,
+          "threads": 15,
+          "rssBytes": 54853632,
+          "privateBytes": 28954624,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 10.84375,
+          "threads": 12,
+          "rssBytes": 39841792,
+          "privateBytes": 18825216,
+          "handles": 517,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    },
+    {
+      "attempt": 2,
+      "automaticReleaseSeconds": 0.14100000000325963,
+      "firstErrorToReleasedSeconds": 0.14100000000325963,
+      "metrics": [
+        {
+          "cpuSeconds": 56.859375,
+          "threads": 15,
+          "rssBytes": 54284288,
+          "privateBytes": 28712960,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 11.125,
+          "threads": 12,
+          "rssBytes": 39911424,
+          "privateBytes": 18833408,
+          "handles": 517,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    },
+    {
+      "attempt": 3,
+      "automaticReleaseSeconds": 0.046999999991385266,
+      "firstErrorToReleasedSeconds": 0.046999999991385266,
+      "metrics": [
+        {
+          "cpuSeconds": 58.796875,
+          "threads": 15,
+          "rssBytes": 51171328,
+          "privateBytes": 25739264,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 11.5,
+          "threads": 12,
+          "rssBytes": 39919616,
+          "privateBytes": 18829312,
+          "handles": 517,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    },
+    {
+      "attempt": 4,
+      "automaticReleaseSeconds": 0.014999999999417923,
+      "firstErrorToReleasedSeconds": 0.0,
+      "metrics": [
+        {
+          "cpuSeconds": 60.515625,
+          "threads": 15,
+          "rssBytes": 54386688,
+          "privateBytes": 29024256,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 11.890625,
+          "threads": 11,
+          "rssBytes": 39895040,
+          "privateBytes": 18784256,
+          "handles": 515,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    },
+    {
+      "attempt": 5,
+      "automaticReleaseSeconds": 0.062000000005355105,
+      "firstErrorToReleasedSeconds": 0.062000000005355105,
+      "metrics": [
+        {
+          "cpuSeconds": 62.375,
+          "threads": 13,
+          "rssBytes": 50651136,
+          "privateBytes": 24875008,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 12.375,
+          "threads": 11,
+          "rssBytes": 39710720,
+          "privateBytes": 18702336,
+          "handles": 515,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    },
+    {
+      "attempt": 6,
+      "automaticReleaseSeconds": 0.062000000005355105,
+      "firstErrorToReleasedSeconds": 0.062000000005355105,
+      "metrics": [
+        {
+          "cpuSeconds": 64.28125,
+          "threads": 15,
+          "rssBytes": 50999296,
+          "privateBytes": 25145344,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 12.890625,
+          "threads": 12,
+          "rssBytes": 40095744,
+          "privateBytes": 18817024,
+          "handles": 515,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    },
+    {
+      "attempt": 7,
+      "automaticReleaseSeconds": 0.0,
+      "firstErrorToReleasedSeconds": 0.0,
+      "metrics": [
+        {
+          "cpuSeconds": 66.234375,
+          "threads": 15,
+          "rssBytes": 54423552,
+          "privateBytes": 28659712,
+          "handles": 523,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 13.5,
+          "threads": 12,
+          "rssBytes": 40304640,
+          "privateBytes": 18886656,
+          "handles": 519,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    },
+    {
+      "attempt": 8,
+      "automaticReleaseSeconds": 0.0,
+      "firstErrorToReleasedSeconds": 0.0,
+      "metrics": [
+        {
+          "cpuSeconds": 67.8125,
+          "threads": 15,
+          "rssBytes": 53895168,
+          "privateBytes": 28315648,
+          "handles": 525,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 14.0625,
+          "threads": 12,
+          "rssBytes": 40267776,
+          "privateBytes": 18890752,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    },
+    {
+      "attempt": 9,
+      "automaticReleaseSeconds": 0.0,
+      "firstErrorToReleasedSeconds": 0.01600000000325963,
+      "metrics": [
+        {
+          "cpuSeconds": 69.78125,
+          "threads": 15,
+          "rssBytes": 51036160,
+          "privateBytes": 25231360,
+          "handles": 525,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 14.46875,
+          "threads": 12,
+          "rssBytes": 40226816,
+          "privateBytes": 18890752,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    },
+    {
+      "attempt": 10,
+      "automaticReleaseSeconds": 0.0,
+      "firstErrorToReleasedSeconds": 0.0,
+      "metrics": [
+        {
+          "cpuSeconds": 71.53125,
+          "threads": 15,
+          "rssBytes": 51294208,
+          "privateBytes": 25538560,
+          "handles": 525,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 14.921875,
+          "threads": 12,
+          "rssBytes": 40230912,
+          "privateBytes": 18894848,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    },
+    {
+      "attempt": 11,
+      "automaticReleaseSeconds": 0.0,
+      "firstErrorToReleasedSeconds": 0.0,
+      "metrics": [
+        {
+          "cpuSeconds": 73.5,
+          "threads": 15,
+          "rssBytes": 54710272,
+          "privateBytes": 29196288,
+          "handles": 525,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 15.3125,
+          "threads": 10,
+          "rssBytes": 40173568,
+          "privateBytes": 18829312,
+          "handles": 513,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    },
+    {
+      "attempt": 12,
+      "automaticReleaseSeconds": 0.046999999991385266,
+      "firstErrorToReleasedSeconds": 0.046999999991385266,
+      "metrics": [
+        {
+          "cpuSeconds": 75.421875,
+          "threads": 16,
+          "rssBytes": 50958336,
+          "privateBytes": 25784320,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 15.8125,
+          "threads": 10,
+          "rssBytes": 40157184,
+          "privateBytes": 18812928,
+          "handles": 513,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "originalUnchanged": true
+    }
+  ],
+  "lifecycleRows": [
+    {
+      "cycle": 1,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6100000000005821,
+      "releaseSeconds": 0.15699999999196734,
+      "workerExit": {
+        "pid": 7580,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 5.803,
+      "metrics": [
+        {
+          "cpuSeconds": 2.984375,
+          "threads": 16,
+          "rssBytes": 55808000,
+          "privateBytes": 31248384,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 5.71875,
+          "threads": 36,
+          "rssBytes": 78991360,
+          "privateBytes": 71217152,
+          "handles": 1046,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 2,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 8232,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 6.882,
+      "metrics": [
+        {
+          "cpuSeconds": 3.46875,
+          "threads": 16,
+          "rssBytes": 56238080,
+          "privateBytes": 31293440,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 5.765625,
+          "threads": 36,
+          "rssBytes": 78995456,
+          "privateBytes": 71217152,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 3,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.6090000000112923,
+      "releaseSeconds": 0.15700000000651926,
+      "workerExit": {
+        "pid": 4300,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 7.869,
+      "metrics": [
+        {
+          "cpuSeconds": 3.953125,
+          "threads": 16,
+          "rssBytes": 55828480,
+          "privateBytes": 30830592,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 5.828125,
+          "threads": 36,
+          "rssBytes": 78995456,
+          "privateBytes": 71221248,
+          "handles": 1046,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 4,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.5629999999946449,
+      "releaseSeconds": 0.125,
+      "workerExit": {
+        "pid": 3248,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 9.32,
+      "metrics": [
+        {
+          "cpuSeconds": 4.65625,
+          "threads": 16,
+          "rssBytes": 54272000,
+          "privateBytes": 30265344,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 5.890625,
+          "threads": 36,
+          "rssBytes": 78970880,
+          "privateBytes": 71196672,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 5,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.5779999999940628,
+      "releaseSeconds": 0.1870000000053551,
+      "workerExit": {
+        "pid": 4008,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 10.308,
+      "metrics": [
+        {
+          "cpuSeconds": 5.0625,
+          "threads": 16,
+          "rssBytes": 53858304,
+          "privateBytes": 29818880,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 5.9375,
+          "threads": 36,
+          "rssBytes": 78979072,
+          "privateBytes": 71204864,
+          "handles": 1046,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 6,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 11180,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 11.286,
+      "metrics": [
+        {
+          "cpuSeconds": 5.578125,
+          "threads": 16,
+          "rssBytes": 54325248,
+          "privateBytes": 29798400,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 5.96875,
+          "threads": 36,
+          "rssBytes": 78983168,
+          "privateBytes": 71208960,
+          "handles": 1046,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 7,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.5929999999934807,
+      "releaseSeconds": 0.15600000000267755,
+      "workerExit": {
+        "pid": 3388,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 12.274,
+      "metrics": [
+        {
+          "cpuSeconds": 6.09375,
+          "threads": 16,
+          "rssBytes": 54079488,
+          "privateBytes": 29405184,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.015625,
+          "threads": 36,
+          "rssBytes": 78974976,
+          "privateBytes": 71200768,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 8,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.5780000000086147,
+      "releaseSeconds": 0.13999999999941792,
+      "workerExit": {
+        "pid": 11868,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 13.776,
+      "metrics": [
+        {
+          "cpuSeconds": 6.796875,
+          "threads": 16,
+          "rssBytes": 57524224,
+          "privateBytes": 33280000,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.0625,
+          "threads": 36,
+          "rssBytes": 78987264,
+          "privateBytes": 71213056,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 9,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.5930000000080327,
+      "releaseSeconds": 0.1409999999887077,
+      "workerExit": {
+        "pid": 8992,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 14.712,
+      "metrics": [
+        {
+          "cpuSeconds": 7.234375,
+          "threads": 16,
+          "rssBytes": 57774080,
+          "privateBytes": 33689600,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.09375,
+          "threads": 36,
+          "rssBytes": 78962688,
+          "privateBytes": 71188480,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 10,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.1879999999946449,
+      "workerExit": {
+        "pid": 9796,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 15.694,
+      "metrics": [
+        {
+          "cpuSeconds": 7.71875,
+          "threads": 16,
+          "rssBytes": 58277888,
+          "privateBytes": 33644544,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.09375,
+          "threads": 36,
+          "rssBytes": 78966784,
+          "privateBytes": 71184384,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 11,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.5939999999973224,
+      "releaseSeconds": 0.14100000000325963,
+      "workerExit": {
+        "pid": 4196,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 16.634,
+      "metrics": [
+        {
+          "cpuSeconds": 8.140625,
+          "threads": 16,
+          "rssBytes": 58060800,
+          "privateBytes": 33390592,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.15625,
+          "threads": 36,
+          "rssBytes": 78950400,
+          "privateBytes": 71200768,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 12,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.5929999999934807,
+      "releaseSeconds": 0.13999999999941792,
+      "workerExit": {
+        "pid": 3444,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 18.178,
+      "metrics": [
+        {
+          "cpuSeconds": 8.8125,
+          "threads": 16,
+          "rssBytes": 59084800,
+          "privateBytes": 34942976,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.21875,
+          "threads": 36,
+          "rssBytes": 78909440,
+          "privateBytes": 71192576,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 13,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.5779999999940628,
+      "releaseSeconds": 0.15600000000267755,
+      "workerExit": {
+        "pid": 7332,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 19.162,
+      "metrics": [
+        {
+          "cpuSeconds": 9.265625,
+          "threads": 16,
+          "rssBytes": 58830848,
+          "privateBytes": 34508800,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.296875,
+          "threads": 36,
+          "rssBytes": 78934016,
+          "privateBytes": 71217152,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 14,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.5939999999973224,
+      "releaseSeconds": 0.15600000000267755,
+      "workerExit": {
+        "pid": 3420,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 20.146,
+      "metrics": [
+        {
+          "cpuSeconds": 9.703125,
+          "threads": 16,
+          "rssBytes": 59498496,
+          "privateBytes": 34791424,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.3125,
+          "threads": 36,
+          "rssBytes": 78925824,
+          "privateBytes": 71208960,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 15,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.5929999999934807,
+      "releaseSeconds": 0.15600000000267755,
+      "workerExit": {
+        "pid": 12068,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 21.133,
+      "metrics": [
+        {
+          "cpuSeconds": 10.1875,
+          "threads": 16,
+          "rssBytes": 57249792,
+          "privateBytes": 32124928,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.328125,
+          "threads": 36,
+          "rssBytes": 78938112,
+          "privateBytes": 71221248,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 16,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.5939999999973224,
+      "releaseSeconds": 0.13999999999941792,
+      "workerExit": {
+        "pid": 10992,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 22.631,
+      "metrics": [
+        {
+          "cpuSeconds": 10.796875,
+          "threads": 16,
+          "rssBytes": 56074240,
+          "privateBytes": 31248384,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.421875,
+          "threads": 36,
+          "rssBytes": 78938112,
+          "privateBytes": 71221248,
+          "handles": 1046,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 17,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.5939999999973224,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 12060,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 23.617,
+      "metrics": [
+        {
+          "cpuSeconds": 11.25,
+          "threads": 16,
+          "rssBytes": 56721408,
+          "privateBytes": 31907840,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.453125,
+          "threads": 36,
+          "rssBytes": 78934016,
+          "privateBytes": 71217152,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 18,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.5940000000118744,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 10120,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 24.6,
+      "metrics": [
+        {
+          "cpuSeconds": 11.703125,
+          "threads": 16,
+          "rssBytes": 57507840,
+          "privateBytes": 32186368,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.515625,
+          "threads": 36,
+          "rssBytes": 78942208,
+          "privateBytes": 71225344,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 19,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.5930000000080327,
+      "releaseSeconds": 0.17199999999138527,
+      "workerExit": {
+        "pid": 4576,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 25.591,
+      "metrics": [
+        {
+          "cpuSeconds": 12.171875,
+          "threads": 16,
+          "rssBytes": 57323520,
+          "privateBytes": 31956992,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.546875,
+          "threads": 36,
+          "rssBytes": 78938112,
+          "privateBytes": 71221248,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 20,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.5629999999946449,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 8360,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 27.137,
+      "metrics": [
+        {
+          "cpuSeconds": 12.78125,
+          "threads": 16,
+          "rssBytes": 57901056,
+          "privateBytes": 32608256,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.578125,
+          "threads": 36,
+          "rssBytes": 78958592,
+          "privateBytes": 71241728,
+          "handles": 1046,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 21,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.5940000000118744,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 11440,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 28.117,
+      "metrics": [
+        {
+          "cpuSeconds": 13.171875,
+          "threads": 16,
+          "rssBytes": 57991168,
+          "privateBytes": 32976896,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.609375,
+          "threads": 36,
+          "rssBytes": 78962688,
+          "privateBytes": 71245824,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 22,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.5940000000118744,
+      "releaseSeconds": 0.20300000000861473,
+      "workerExit": {
+        "pid": 9452,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 29.152,
+      "metrics": [
+        {
+          "cpuSeconds": 13.71875,
+          "threads": 16,
+          "rssBytes": 58040320,
+          "privateBytes": 33624064,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.625,
+          "threads": 36,
+          "rssBytes": 78987264,
+          "privateBytes": 71270400,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 23,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.5940000000118744,
+      "releaseSeconds": 0.14100000000325963,
+      "workerExit": {
+        "pid": 4540,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 30.089,
+      "metrics": [
+        {
+          "cpuSeconds": 14.1875,
+          "threads": 16,
+          "rssBytes": 58044416,
+          "privateBytes": 33337344,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.65625,
+          "threads": 36,
+          "rssBytes": 78979072,
+          "privateBytes": 71262208,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 24,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.5939999999973224,
+      "releaseSeconds": 0.125,
+      "workerExit": {
+        "pid": 8796,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 31.631,
+      "metrics": [
+        {
+          "cpuSeconds": 14.796875,
+          "threads": 16,
+          "rssBytes": 58200064,
+          "privateBytes": 33120256,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.78125,
+          "threads": 36,
+          "rssBytes": 78974976,
+          "privateBytes": 71258112,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 25,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.15600000000267755,
+      "workerExit": {
+        "pid": 7876,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 32.615,
+      "metrics": [
+        {
+          "cpuSeconds": 15.3125,
+          "threads": 16,
+          "rssBytes": 57843712,
+          "privateBytes": 33083392,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.84375,
+          "threads": 36,
+          "rssBytes": 78991360,
+          "privateBytes": 71274496,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 26,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6090000000112923,
+      "releaseSeconds": 0.1880000000091968,
+      "workerExit": {
+        "pid": 8572,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 33.651,
+      "metrics": [
+        {
+          "cpuSeconds": 15.828125,
+          "threads": 16,
+          "rssBytes": 58265600,
+          "privateBytes": 33239040,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.890625,
+          "threads": 36,
+          "rssBytes": 78991360,
+          "privateBytes": 71274496,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 27,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.5940000000118744,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 10448,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 34.631,
+      "metrics": [
+        {
+          "cpuSeconds": 16.375,
+          "threads": 16,
+          "rssBytes": 58527744,
+          "privateBytes": 33419264,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 6.96875,
+          "threads": 36,
+          "rssBytes": 78987264,
+          "privateBytes": 71270400,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 28,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.13999999999941792,
+      "workerExit": {
+        "pid": 2196,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 36.133,
+      "metrics": [
+        {
+          "cpuSeconds": 16.921875,
+          "threads": 16,
+          "rssBytes": 58720256,
+          "privateBytes": 33587200,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.03125,
+          "threads": 36,
+          "rssBytes": 78938112,
+          "privateBytes": 71270400,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 29,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6090000000112923,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 7444,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 37.121,
+      "metrics": [
+        {
+          "cpuSeconds": 17.546875,
+          "threads": 16,
+          "rssBytes": 59002880,
+          "privateBytes": 33914880,
+          "handles": 527,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.03125,
+          "threads": 36,
+          "rssBytes": 78901248,
+          "privateBytes": 71262208,
+          "handles": 1045,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 30,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6409999999887077,
+      "releaseSeconds": 0.17100000000209548,
+      "workerExit": {
+        "pid": 11328,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 38.147,
+      "metrics": [
+        {
+          "cpuSeconds": 18.09375,
+          "threads": 16,
+          "rssBytes": 58888192,
+          "privateBytes": 33673216,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.0625,
+          "threads": 34,
+          "rssBytes": 78868480,
+          "privateBytes": 71204864,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 31,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.5930000000080327,
+      "releaseSeconds": 0.13999999999941792,
+      "workerExit": {
+        "pid": 2216,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 39.087,
+      "metrics": [
+        {
+          "cpuSeconds": 18.546875,
+          "threads": 16,
+          "rssBytes": 58753024,
+          "privateBytes": 33402880,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.0625,
+          "threads": 34,
+          "rssBytes": 78860288,
+          "privateBytes": 71196672,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 32,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.6399999999994179,
+      "releaseSeconds": 0.17199999999138527,
+      "workerExit": {
+        "pid": 10992,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 40.682,
+      "metrics": [
+        {
+          "cpuSeconds": 19.171875,
+          "threads": 16,
+          "rssBytes": 57733120,
+          "privateBytes": 33292288,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.171875,
+          "threads": 34,
+          "rssBytes": 78856192,
+          "privateBytes": 71196672,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 33,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.125,
+      "workerExit": {
+        "pid": 8776,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 41.668,
+      "metrics": [
+        {
+          "cpuSeconds": 19.71875,
+          "threads": 16,
+          "rssBytes": 58126336,
+          "privateBytes": 33325056,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.203125,
+          "threads": 34,
+          "rssBytes": 78868480,
+          "privateBytes": 71208960,
+          "handles": 1042,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 34,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.15599999998812564,
+      "workerExit": {
+        "pid": 4400,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 42.695,
+      "metrics": [
+        {
+          "cpuSeconds": 20.328125,
+          "threads": 16,
+          "rssBytes": 58032128,
+          "privateBytes": 33284096,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.234375,
+          "threads": 34,
+          "rssBytes": 78860288,
+          "privateBytes": 71200768,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 35,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.15600000000267755,
+      "workerExit": {
+        "pid": 11832,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 43.725,
+      "metrics": [
+        {
+          "cpuSeconds": 20.828125,
+          "threads": 16,
+          "rssBytes": 58277888,
+          "privateBytes": 33292288,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.28125,
+          "threads": 34,
+          "rssBytes": 78884864,
+          "privateBytes": 71225344,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 36,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 9052,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 45.32,
+      "metrics": [
+        {
+          "cpuSeconds": 21.34375,
+          "threads": 16,
+          "rssBytes": 58904576,
+          "privateBytes": 34045952,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.375,
+          "threads": 34,
+          "rssBytes": 78876672,
+          "privateBytes": 71217152,
+          "handles": 1042,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 37,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.5929999999934807,
+      "releaseSeconds": 0.14100000000325963,
+      "workerExit": {
+        "pid": 1864,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 46.263,
+      "metrics": [
+        {
+          "cpuSeconds": 21.828125,
+          "threads": 16,
+          "rssBytes": 58810368,
+          "privateBytes": 33853440,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.40625,
+          "threads": 34,
+          "rssBytes": 78929920,
+          "privateBytes": 71270400,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 38,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6409999999887077,
+      "releaseSeconds": 0.14100000000325963,
+      "workerExit": {
+        "pid": 10584,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 47.241,
+      "metrics": [
+        {
+          "cpuSeconds": 22.28125,
+          "threads": 16,
+          "rssBytes": 59060224,
+          "privateBytes": 33955840,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.453125,
+          "threads": 34,
+          "rssBytes": 78921728,
+          "privateBytes": 71262208,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 39,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.13999999999941792,
+      "workerExit": {
+        "pid": 10504,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 48.181,
+      "metrics": [
+        {
+          "cpuSeconds": 22.671875,
+          "threads": 16,
+          "rssBytes": 59088896,
+          "privateBytes": 33976320,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.484375,
+          "threads": 34,
+          "rssBytes": 78884864,
+          "privateBytes": 71225344,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 40,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 11532,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 49.724,
+      "metrics": [
+        {
+          "cpuSeconds": 23.21875,
+          "threads": 16,
+          "rssBytes": 58441728,
+          "privateBytes": 33726464,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.53125,
+          "threads": 34,
+          "rssBytes": 78876672,
+          "privateBytes": 71217152,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 41,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6090000000112923,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 7992,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 50.713,
+      "metrics": [
+        {
+          "cpuSeconds": 23.703125,
+          "threads": 16,
+          "rssBytes": 58265600,
+          "privateBytes": 33546240,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.625,
+          "threads": 34,
+          "rssBytes": 78893056,
+          "privateBytes": 71233536,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 42,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.14100000000325963,
+      "workerExit": {
+        "pid": 9384,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 51.696,
+      "metrics": [
+        {
+          "cpuSeconds": 24.171875,
+          "threads": 16,
+          "rssBytes": 58572800,
+          "privateBytes": 33828864,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.703125,
+          "threads": 34,
+          "rssBytes": 78884864,
+          "privateBytes": 71225344,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 43,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.6100000000005821,
+      "releaseSeconds": 0.1409999999887077,
+      "workerExit": {
+        "pid": 8640,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 52.679,
+      "metrics": [
+        {
+          "cpuSeconds": 24.625,
+          "threads": 16,
+          "rssBytes": 58429440,
+          "privateBytes": 33447936,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.75,
+          "threads": 34,
+          "rssBytes": 78905344,
+          "privateBytes": 71245824,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 44,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 11396,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 54.227,
+      "metrics": [
+        {
+          "cpuSeconds": 25.234375,
+          "threads": 16,
+          "rssBytes": 58843136,
+          "privateBytes": 34283520,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.8125,
+          "threads": 34,
+          "rssBytes": 78905344,
+          "privateBytes": 71245824,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 45,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6399999999994179,
+      "releaseSeconds": 0.125,
+      "workerExit": {
+        "pid": 11924,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 55.258,
+      "metrics": [
+        {
+          "cpuSeconds": 25.671875,
+          "threads": 16,
+          "rssBytes": 59011072,
+          "privateBytes": 34263040,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.8125,
+          "threads": 34,
+          "rssBytes": 78909440,
+          "privateBytes": 71249920,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 46,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 768,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 56.293,
+      "metrics": [
+        {
+          "cpuSeconds": 26.171875,
+          "threads": 16,
+          "rssBytes": 59166720,
+          "privateBytes": 34426880,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.84375,
+          "threads": 34,
+          "rssBytes": 78921728,
+          "privateBytes": 71262208,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 47,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.14100000000325963,
+      "workerExit": {
+        "pid": 10256,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 57.271,
+      "metrics": [
+        {
+          "cpuSeconds": 26.75,
+          "threads": 16,
+          "rssBytes": 58568704,
+          "privateBytes": 33939456,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.890625,
+          "threads": 34,
+          "rssBytes": 78909440,
+          "privateBytes": 71249920,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 48,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.6100000000005821,
+      "releaseSeconds": 0.1879999999946449,
+      "workerExit": {
+        "pid": 7440,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 58.865,
+      "metrics": [
+        {
+          "cpuSeconds": 27.34375,
+          "threads": 16,
+          "rssBytes": 58347520,
+          "privateBytes": 33177600,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.921875,
+          "threads": 34,
+          "rssBytes": 78913536,
+          "privateBytes": 71254016,
+          "handles": 1042,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 49,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.17199999999138527,
+      "workerExit": {
+        "pid": 10928,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 59.85,
+      "metrics": [
+        {
+          "cpuSeconds": 27.828125,
+          "threads": 16,
+          "rssBytes": 58707968,
+          "privateBytes": 33460224,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.953125,
+          "threads": 34,
+          "rssBytes": 78909440,
+          "privateBytes": 71249920,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 50,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.17100000000209548,
+      "workerExit": {
+        "pid": 11184,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 60.884,
+      "metrics": [
+        {
+          "cpuSeconds": 28.3125,
+          "threads": 16,
+          "rssBytes": 58613760,
+          "privateBytes": 33546240,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 7.96875,
+          "threads": 34,
+          "rssBytes": 78913536,
+          "privateBytes": 71254016,
+          "handles": 1042,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 51,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.20299999999406282,
+      "workerExit": {
+        "pid": 11612,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 61.962,
+      "metrics": [
+        {
+          "cpuSeconds": 28.75,
+          "threads": 16,
+          "rssBytes": 58867712,
+          "privateBytes": 33488896,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.0,
+          "threads": 34,
+          "rssBytes": 78905344,
+          "privateBytes": 71245824,
+          "handles": 1042,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 52,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.6410000000032596,
+      "releaseSeconds": 0.1870000000053551,
+      "workerExit": {
+        "pid": 2948,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 63.646,
+      "metrics": [
+        {
+          "cpuSeconds": 29.203125,
+          "threads": 16,
+          "rssBytes": 55914496,
+          "privateBytes": 31035392,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.0,
+          "threads": 34,
+          "rssBytes": 78905344,
+          "privateBytes": 71245824,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 53,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.14100000000325963,
+      "workerExit": {
+        "pid": 10252,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 64.637,
+      "metrics": [
+        {
+          "cpuSeconds": 29.6875,
+          "threads": 16,
+          "rssBytes": 57487360,
+          "privateBytes": 32559104,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.046875,
+          "threads": 34,
+          "rssBytes": 78893056,
+          "privateBytes": 71233536,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 54,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.13999999999941792,
+      "workerExit": {
+        "pid": 608,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 65.615,
+      "metrics": [
+        {
+          "cpuSeconds": 30.140625,
+          "threads": 16,
+          "rssBytes": 55836672,
+          "privateBytes": 30703616,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.09375,
+          "threads": 34,
+          "rssBytes": 78917632,
+          "privateBytes": 71258112,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 55,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.15600000000267755,
+      "workerExit": {
+        "pid": 7412,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 66.653,
+      "metrics": [
+        {
+          "cpuSeconds": 30.609375,
+          "threads": 16,
+          "rssBytes": 55959552,
+          "privateBytes": 31141888,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.140625,
+          "threads": 34,
+          "rssBytes": 78905344,
+          "privateBytes": 71245824,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 56,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.13999999999941792,
+      "workerExit": {
+        "pid": 4144,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 68.198,
+      "metrics": [
+        {
+          "cpuSeconds": 31.15625,
+          "threads": 16,
+          "rssBytes": 58654720,
+          "privateBytes": 34287616,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.203125,
+          "threads": 34,
+          "rssBytes": 78925824,
+          "privateBytes": 71266304,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 57,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.15600000000267755,
+      "workerExit": {
+        "pid": 9584,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 69.184,
+      "metrics": [
+        {
+          "cpuSeconds": 31.703125,
+          "threads": 16,
+          "rssBytes": 58691584,
+          "privateBytes": 34369536,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.296875,
+          "threads": 34,
+          "rssBytes": 78925824,
+          "privateBytes": 71266304,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 58,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6570000000065193,
+      "releaseSeconds": 0.20399999999790452,
+      "workerExit": {
+        "pid": 11064,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 70.208,
+      "metrics": [
+        {
+          "cpuSeconds": 32.1875,
+          "threads": 16,
+          "rssBytes": 58888192,
+          "privateBytes": 34197504,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.34375,
+          "threads": 34,
+          "rssBytes": 78929920,
+          "privateBytes": 71270400,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 59,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.17199999999138527,
+      "workerExit": {
+        "pid": 12152,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 71.194,
+      "metrics": [
+        {
+          "cpuSeconds": 32.734375,
+          "threads": 16,
+          "rssBytes": 59191296,
+          "privateBytes": 34238464,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.375,
+          "threads": 34,
+          "rssBytes": 78938112,
+          "privateBytes": 71278592,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 60,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.125,
+      "workerExit": {
+        "pid": 11808,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 72.741,
+      "metrics": [
+        {
+          "cpuSeconds": 33.359375,
+          "threads": 16,
+          "rssBytes": 57815040,
+          "privateBytes": 33923072,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.4375,
+          "threads": 34,
+          "rssBytes": 78909440,
+          "privateBytes": 71249920,
+          "handles": 1042,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 61,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6090000000112923,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 4852,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 73.725,
+      "metrics": [
+        {
+          "cpuSeconds": 33.796875,
+          "threads": 16,
+          "rssBytes": 58052608,
+          "privateBytes": 33812480,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.4375,
+          "threads": 34,
+          "rssBytes": 78913536,
+          "privateBytes": 71254016,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 62,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 9088,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 74.71,
+      "metrics": [
+        {
+          "cpuSeconds": 34.296875,
+          "threads": 16,
+          "rssBytes": 58130432,
+          "privateBytes": 33943552,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.453125,
+          "threads": 34,
+          "rssBytes": 78913536,
+          "privateBytes": 71249920,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 63,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.5939999999973224,
+      "releaseSeconds": 0.1879999999946449,
+      "workerExit": {
+        "pid": 7912,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 75.745,
+      "metrics": [
+        {
+          "cpuSeconds": 34.765625,
+          "threads": 16,
+          "rssBytes": 56938496,
+          "privateBytes": 32309248,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.46875,
+          "threads": 34,
+          "rssBytes": 78921728,
+          "privateBytes": 71258112,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 64,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.5939999999973224,
+      "releaseSeconds": 0.14100000000325963,
+      "workerExit": {
+        "pid": 6668,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 77.241,
+      "metrics": [
+        {
+          "cpuSeconds": 35.40625,
+          "threads": 16,
+          "rssBytes": 58163200,
+          "privateBytes": 33898496,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.484375,
+          "threads": 34,
+          "rssBytes": 78950400,
+          "privateBytes": 71286784,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 65,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.13999999999941792,
+      "workerExit": {
+        "pid": 1784,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 78.224,
+      "metrics": [
+        {
+          "cpuSeconds": 35.8125,
+          "threads": 16,
+          "rssBytes": 58212352,
+          "privateBytes": 33882112,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.515625,
+          "threads": 34,
+          "rssBytes": 78946304,
+          "privateBytes": 71282688,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 66,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.13999999999941792,
+      "workerExit": {
+        "pid": 7416,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 79.162,
+      "metrics": [
+        {
+          "cpuSeconds": 36.25,
+          "threads": 16,
+          "rssBytes": 58564608,
+          "privateBytes": 33996800,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.578125,
+          "threads": 34,
+          "rssBytes": 78954496,
+          "privateBytes": 71290880,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 67,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.14100000000325963,
+      "workerExit": {
+        "pid": 5152,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 80.104,
+      "metrics": [
+        {
+          "cpuSeconds": 36.71875,
+          "threads": 16,
+          "rssBytes": 58642432,
+          "privateBytes": 33931264,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.640625,
+          "threads": 34,
+          "rssBytes": 78950400,
+          "privateBytes": 71286784,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 68,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.125,
+      "workerExit": {
+        "pid": 7940,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 81.647,
+      "metrics": [
+        {
+          "cpuSeconds": 37.265625,
+          "threads": 16,
+          "rssBytes": 55717888,
+          "privateBytes": 32153600,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.75,
+          "threads": 34,
+          "rssBytes": 78946304,
+          "privateBytes": 71282688,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 69,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6399999999994179,
+      "releaseSeconds": 0.1879999999946449,
+      "workerExit": {
+        "pid": 10036,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 82.726,
+      "metrics": [
+        {
+          "cpuSeconds": 37.734375,
+          "threads": 16,
+          "rssBytes": 55050240,
+          "privateBytes": 32014336,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.765625,
+          "threads": 34,
+          "rssBytes": 78938112,
+          "privateBytes": 71274496,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 70,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6569999999919673,
+      "releaseSeconds": 0.17100000000209548,
+      "workerExit": {
+        "pid": 3232,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 83.805,
+      "metrics": [
+        {
+          "cpuSeconds": 38.25,
+          "threads": 16,
+          "rssBytes": 57532416,
+          "privateBytes": 34402304,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.875,
+          "threads": 34,
+          "rssBytes": 78934016,
+          "privateBytes": 71270400,
+          "handles": 1042,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 71,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.6399999999994179,
+      "releaseSeconds": 0.17100000000209548,
+      "workerExit": {
+        "pid": 2996,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 84.79,
+      "metrics": [
+        {
+          "cpuSeconds": 38.65625,
+          "threads": 16,
+          "rssBytes": 57860096,
+          "privateBytes": 34287616,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 8.953125,
+          "threads": 34,
+          "rssBytes": 78938112,
+          "privateBytes": 71274496,
+          "handles": 1042,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 72,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.15699999999196734,
+      "workerExit": {
+        "pid": 7340,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 86.334,
+      "metrics": [
+        {
+          "cpuSeconds": 39.390625,
+          "threads": 16,
+          "rssBytes": 58273792,
+          "privateBytes": 34828288,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.03125,
+          "threads": 34,
+          "rssBytes": 78962688,
+          "privateBytes": 71299072,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 73,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.17199999999138527,
+      "workerExit": {
+        "pid": 9864,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 87.321,
+      "metrics": [
+        {
+          "cpuSeconds": 39.921875,
+          "threads": 16,
+          "rssBytes": 58277888,
+          "privateBytes": 34537472,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.0625,
+          "threads": 34,
+          "rssBytes": 78966784,
+          "privateBytes": 71303168,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 74,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6410000000032596,
+      "releaseSeconds": 0.20300000000861473,
+      "workerExit": {
+        "pid": 7592,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 88.396,
+      "metrics": [
+        {
+          "cpuSeconds": 40.40625,
+          "threads": 16,
+          "rssBytes": 58839040,
+          "privateBytes": 34758656,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.109375,
+          "threads": 34,
+          "rssBytes": 78966784,
+          "privateBytes": 71299072,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 75,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.6100000000005821,
+      "releaseSeconds": 0.15700000000651926,
+      "workerExit": {
+        "pid": 5960,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 89.38,
+      "metrics": [
+        {
+          "cpuSeconds": 40.875,
+          "threads": 16,
+          "rssBytes": 59084800,
+          "privateBytes": 34496512,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.125,
+          "threads": 34,
+          "rssBytes": 78974976,
+          "privateBytes": 71307264,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 76,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.125,
+      "workerExit": {
+        "pid": 10636,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 90.927,
+      "metrics": [
+        {
+          "cpuSeconds": 41.421875,
+          "threads": 16,
+          "rssBytes": 58503168,
+          "privateBytes": 34058240,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.15625,
+          "threads": 34,
+          "rssBytes": 78970880,
+          "privateBytes": 71303168,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 77,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.14100000000325963,
+      "workerExit": {
+        "pid": 10824,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 91.917,
+      "metrics": [
+        {
+          "cpuSeconds": 41.9375,
+          "threads": 16,
+          "rssBytes": 58474496,
+          "privateBytes": 34177024,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.171875,
+          "threads": 34,
+          "rssBytes": 78966784,
+          "privateBytes": 71299072,
+          "handles": 1042,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 78,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.5939999999973224,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 1952,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 92.897,
+      "metrics": [
+        {
+          "cpuSeconds": 42.390625,
+          "threads": 16,
+          "rssBytes": 58445824,
+          "privateBytes": 33964032,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.21875,
+          "threads": 34,
+          "rssBytes": 78983168,
+          "privateBytes": 71315456,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 79,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.5780000000086147,
+      "releaseSeconds": 0.20300000000861473,
+      "workerExit": {
+        "pid": 3280,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 93.886,
+      "metrics": [
+        {
+          "cpuSeconds": 42.859375,
+          "threads": 16,
+          "rssBytes": 58503168,
+          "privateBytes": 33792000,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.234375,
+          "threads": 34,
+          "rssBytes": 78991360,
+          "privateBytes": 71323648,
+          "handles": 1042,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 80,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.5620000000053551,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 8132,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 95.38,
+      "metrics": [
+        {
+          "cpuSeconds": 43.390625,
+          "threads": 16,
+          "rssBytes": 59281408,
+          "privateBytes": 34631680,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.28125,
+          "threads": 34,
+          "rssBytes": 79003648,
+          "privateBytes": 71344128,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 81,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6410000000032596,
+      "releaseSeconds": 0.1870000000053551,
+      "workerExit": {
+        "pid": 4620,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 96.413,
+      "metrics": [
+        {
+          "cpuSeconds": 43.921875,
+          "threads": 16,
+          "rssBytes": 58650624,
+          "privateBytes": 34566144,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.296875,
+          "threads": 34,
+          "rssBytes": 78880768,
+          "privateBytes": 71331840,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 82,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.5939999999973224,
+      "releaseSeconds": 0.1869999999908032,
+      "workerExit": {
+        "pid": 6620,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 97.444,
+      "metrics": [
+        {
+          "cpuSeconds": 44.359375,
+          "threads": 16,
+          "rssBytes": 58978304,
+          "privateBytes": 34570240,
+          "handles": 524,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.3125,
+          "threads": 34,
+          "rssBytes": 78483456,
+          "privateBytes": 71327744,
+          "handles": 1042,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 83,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.5939999999973224,
+      "releaseSeconds": 0.17199999999138527,
+      "workerExit": {
+        "pid": 2584,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 98.434,
+      "metrics": [
+        {
+          "cpuSeconds": 44.8125,
+          "threads": 16,
+          "rssBytes": 59187200,
+          "privateBytes": 34361344,
+          "handles": 523,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.4375,
+          "threads": 34,
+          "rssBytes": 78004224,
+          "privateBytes": 71323648,
+          "handles": 1040,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 84,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.14100000000325963,
+      "workerExit": {
+        "pid": 2560,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 99.981,
+      "metrics": [
+        {
+          "cpuSeconds": 45.4375,
+          "threads": 16,
+          "rssBytes": 58904576,
+          "privateBytes": 34099200,
+          "handles": 523,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.546875,
+          "threads": 34,
+          "rssBytes": 77991936,
+          "privateBytes": 71311360,
+          "handles": 1041,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 85,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.5779999999940628,
+      "releaseSeconds": 0.23500000000058208,
+      "workerExit": {
+        "pid": 9056,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 101.005,
+      "metrics": [
+        {
+          "cpuSeconds": 45.921875,
+          "threads": 15,
+          "rssBytes": 58765312,
+          "privateBytes": 33742848,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.59375,
+          "threads": 33,
+          "rssBytes": 77979648,
+          "privateBytes": 71274496,
+          "handles": 1039,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 86,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.6100000000005821,
+      "releaseSeconds": 0.17100000000209548,
+      "workerExit": {
+        "pid": 11328,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 102.04,
+      "metrics": [
+        {
+          "cpuSeconds": 46.359375,
+          "threads": 15,
+          "rssBytes": 59023360,
+          "privateBytes": 33964032,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.59375,
+          "threads": 33,
+          "rssBytes": 77983744,
+          "privateBytes": 71282688,
+          "handles": 1038,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 87,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.6410000000032596,
+      "releaseSeconds": 0.20299999999406282,
+      "workerExit": {
+        "pid": 4900,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 103.068,
+      "metrics": [
+        {
+          "cpuSeconds": 46.90625,
+          "threads": 15,
+          "rssBytes": 59015168,
+          "privateBytes": 33730560,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.59375,
+          "threads": 33,
+          "rssBytes": 77840384,
+          "privateBytes": 71294976,
+          "handles": 1038,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 88,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.17199999999138527,
+      "workerExit": {
+        "pid": 7340,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 104.708,
+      "metrics": [
+        {
+          "cpuSeconds": 47.453125,
+          "threads": 15,
+          "rssBytes": 55676928,
+          "privateBytes": 31195136,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.59375,
+          "threads": 33,
+          "rssBytes": 76615680,
+          "privateBytes": 71286784,
+          "handles": 1039,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 89,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.5619999999908032,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 10528,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 105.648,
+      "metrics": [
+        {
+          "cpuSeconds": 47.921875,
+          "threads": 15,
+          "rssBytes": 58470400,
+          "privateBytes": 34099200,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.59375,
+          "threads": 33,
+          "rssBytes": 76259328,
+          "privateBytes": 71294976,
+          "handles": 1038,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 90,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.5940000000118744,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 6944,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 106.631,
+      "metrics": [
+        {
+          "cpuSeconds": 48.390625,
+          "threads": 15,
+          "rssBytes": 58642432,
+          "privateBytes": 34263040,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.609375,
+          "threads": 33,
+          "rssBytes": 75624448,
+          "privateBytes": 71290880,
+          "handles": 1038,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 91,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.6409999999887077,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 1740,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 107.616,
+      "metrics": [
+        {
+          "cpuSeconds": 48.90625,
+          "threads": 15,
+          "rssBytes": 58327040,
+          "privateBytes": 33902592,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.640625,
+          "threads": 33,
+          "rssBytes": 75190272,
+          "privateBytes": 71303168,
+          "handles": 1038,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 92,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.5940000000118744,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 8740,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 109.169,
+      "metrics": [
+        {
+          "cpuSeconds": 49.46875,
+          "threads": 15,
+          "rssBytes": 57634816,
+          "privateBytes": 33558528,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.703125,
+          "threads": 33,
+          "rssBytes": 74764288,
+          "privateBytes": 71327744,
+          "handles": 1038,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 93,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.20299999999406282,
+      "workerExit": {
+        "pid": 5244,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 110.2,
+      "metrics": [
+        {
+          "cpuSeconds": 49.875,
+          "threads": 15,
+          "rssBytes": 57729024,
+          "privateBytes": 33488896,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.71875,
+          "threads": 33,
+          "rssBytes": 73650176,
+          "privateBytes": 71311360,
+          "handles": 1038,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 94,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.5779999999940628,
+      "releaseSeconds": 0.15699999999196734,
+      "workerExit": {
+        "pid": 10048,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 111.177,
+      "metrics": [
+        {
+          "cpuSeconds": 50.40625,
+          "threads": 15,
+          "rssBytes": 57966592,
+          "privateBytes": 33570816,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.78125,
+          "threads": 33,
+          "rssBytes": 73072640,
+          "privateBytes": 71319552,
+          "handles": 1038,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 95,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.15600000000267755,
+      "workerExit": {
+        "pid": 11584,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 112.168,
+      "metrics": [
+        {
+          "cpuSeconds": 50.875,
+          "threads": 15,
+          "rssBytes": 58068992,
+          "privateBytes": 33386496,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 9.875,
+          "threads": 32,
+          "rssBytes": 73084928,
+          "privateBytes": 71286784,
+          "handles": 1034,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 96,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.5620000000053551,
+      "releaseSeconds": 0.13999999999941792,
+      "workerExit": {
+        "pid": 7508,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 113.662,
+      "metrics": [
+        {
+          "cpuSeconds": 51.46875,
+          "threads": 15,
+          "rssBytes": 59346944,
+          "privateBytes": 34611200,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 10.0,
+          "threads": 32,
+          "rssBytes": 71897088,
+          "privateBytes": 71258112,
+          "handles": 1034,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 97,
+      "mode": "stop",
+      "readyToPlaySeconds": 0.5779999999940628,
+      "releaseSeconds": 0.20300000000861473,
+      "workerExit": {
+        "pid": 2604,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 114.693,
+      "metrics": [
+        {
+          "cpuSeconds": 51.984375,
+          "threads": 15,
+          "rssBytes": 59113472,
+          "privateBytes": 34717696,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 10.078125,
+          "threads": 32,
+          "rssBytes": 71192576,
+          "privateBytes": 71254016,
+          "handles": 1034,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 98,
+      "mode": "cancel",
+      "readyToPlaySeconds": 0.625,
+      "releaseSeconds": 0.17199999999138527,
+      "workerExit": {
+        "pid": 8848,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 115.725,
+      "metrics": [
+        {
+          "cpuSeconds": 52.4375,
+          "threads": 15,
+          "rssBytes": 59084800,
+          "privateBytes": 34603008,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 10.09375,
+          "threads": 32,
+          "rssBytes": 70488064,
+          "privateBytes": 71266304,
+          "handles": 1035,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 99,
+      "mode": "reader-release",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.3129999999946449,
+      "workerExit": {
+        "pid": 8772,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 1
+      },
+      "independentPositionSeconds": 116.849,
+      "metrics": [
+        {
+          "cpuSeconds": 52.90625,
+          "threads": 15,
+          "rssBytes": 55402496,
+          "privateBytes": 30633984,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 10.140625,
+          "threads": 32,
+          "rssBytes": 70500352,
+          "privateBytes": 71278592,
+          "handles": 1034,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    },
+    {
+      "cycle": 100,
+      "mode": "complete",
+      "readyToPlaySeconds": 0.6089999999967404,
+      "releaseSeconds": 0.17200000000593718,
+      "workerExit": {
+        "pid": 3044,
+        "exited": true,
+        "method": "Windows-held-process-handle",
+        "workerExitCode": 0
+      },
+      "independentPositionSeconds": 118.396,
+      "metrics": [
+        {
+          "cpuSeconds": 53.453125,
+          "threads": 15,
+          "rssBytes": 59711488,
+          "privateBytes": 34217984,
+          "handles": 521,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        },
+        {
+          "cpuSeconds": 10.1875,
+          "threads": 32,
+          "rssBytes": 70524928,
+          "privateBytes": 71303168,
+          "handles": 1035,
+          "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+        }
+      ],
+      "sourceRemovedAfterClose": true,
+      "samePlayerProcesses": true
+    }
+  ],
+  "testPlayersRemoved": true,
+  "preservation": {
+    "protectedFileCount": 583,
+    "changedFiles": [],
+    "shellEntryCount": 158,
+    "shellUnchanged": true,
+    "protectedBeforeSha256": "85c7007fc170a860594e6941834ce1b0b976ee0d93bd459bad24f56cad0d627a",
+    "protectedAfterSha256": "85c7007fc170a860594e6941834ce1b0b976ee0d93bd459bad24f56cad0d627a",
+    "shellBeforeSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "shellAfterSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "cleanup": {
+      "task": "FoxicMP-ClassicResources-OneShot",
+      "stateBefore": "Ready",
+      "lastTaskResult": 0,
+      "nativeExit": 0,
+      "taskRemoved": true
+    },
+    "installedProfilesNotWritten": true,
+    "harvesterNotModified": true,
+    "windowsSettingsNotChanged": true
+  },
+  "historicalLimitations": [
+    "Original heartbeat-12 handle failure lacks baseline and failing value; no cause can be inferred from this PASS.",
+    "AAC cold-baseline transient thread failure is a different profile and is not reclassified by this video-only run.",
+    "Current stage is separately built; published SDK 1.84 release assets and installed Windows EXE are unchanged."
+  ],
+  "rawArtifacts": [
+    {
+      "path": "_bin/classic-resource-current-results/budget-measurements.json",
+      "sizeBytes": 87876,
+      "sha256": "31873d7c089b3fccbe1590c6a4b2f6834aef88e3e5c3ad823395224611ae3664"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-01/events.json",
+      "sizeBytes": 177,
+      "sha256": "a2cf1ebe6dd885efe0d2ad3d9899a52bdefc5391394e64918f3e74e593ecc160"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-01/progress.json",
+      "sizeBytes": 10948,
+      "sha256": "f15ec5848d6f54907e851e4f44d2b12d0bca8f16bcb7d506c676bd1af10b757e"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-01/release-trace-paused.json",
+      "sizeBytes": 6651,
+      "sha256": "e6efab78eaf9a4c1ce2140eeaa5502b97a042c6534eebc9096f762328bfbd0c4"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-02/events.json",
+      "sizeBytes": 177,
+      "sha256": "a95eccf79c145dc14751fba00483a6123259df6eb1b82993f8814569e6363a3f"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-02/progress.json",
+      "sizeBytes": 10873,
+      "sha256": "85d5941e9ec4a6f116debf21f722b793af60e2cc805b1facc2d5aed64c82d0d4"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-02/release-trace-paused.json",
+      "sizeBytes": 7899,
+      "sha256": "73997dbfd6f141c0b92b3a07209d832353899d986a2d274b4de7638c9cb6f28e"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-03/events.json",
+      "sizeBytes": 177,
+      "sha256": "68ed72f5c6dd22f520cc4e340b24f1147d4491ec2f7c8dda9e169e013f59a5a0"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-03/progress.json",
+      "sizeBytes": 10919,
+      "sha256": "aac27fcd5f0652ebd57579624cedd0a38837dfdca2e19a4a8fa2c6dbb05e6bb1"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-03/release-trace-paused.json",
+      "sizeBytes": 2624,
+      "sha256": "bf6118ea81ef8692785722120b838dec4c366e48d6a0fadcecea5192d18795d5"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-04/events.json",
+      "sizeBytes": 177,
+      "sha256": "b0e4e1dfb268b4960056779932f273f02e6256950a67c597bfdb9ec95b2a8793"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-04/progress.json",
+      "sizeBytes": 11267,
+      "sha256": "98e21b2ed4e74060e489bf922a9afb4f69d461cf63967602515d0c40e76b5ded"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-04/release-trace-paused.json",
+      "sizeBytes": 1333,
+      "sha256": "95c3125f724feef892cc0b35db98547ca6a2ee62b1a46fc7be822e1ba18fb4bf"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-05/events.json",
+      "sizeBytes": 177,
+      "sha256": "1dcf9202eafb882b029b65ed5d061584ee2b3537adf4f5870bfa4031890eb1e4"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-05/progress.json",
+      "sizeBytes": 10917,
+      "sha256": "f47499ae5cfd00f671d9e909efb697628617e6bbcd9f4155d0e2562c65de5d6c"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-05/release-trace-paused.json",
+      "sizeBytes": 2624,
+      "sha256": "f94e6cda1dd76a33ae0b663d57f0b1fbf7027eff536732418bcf59c8c4fe0a33"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-06/events.json",
+      "sizeBytes": 176,
+      "sha256": "59e9e63c6e23b4cec1bb734ab86361f691ca45d63bbf398303f79524cb266dd4"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-06/progress.json",
+      "sizeBytes": 10960,
+      "sha256": "3c81fa3f18ef58cbc1f5bd77aea42f233952d4c425ebc0772f971a79f365258c"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-06/release-trace-paused.json",
+      "sizeBytes": 3992,
+      "sha256": "c5703a871909d226862c0d6dc70a5132136c70c753fdb8e6966188725a2ceb6e"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-07/events.json",
+      "sizeBytes": 177,
+      "sha256": "73371fd496f080c1f8c296f1762ce5146a8dc90835a22f1aa3977217f157b6b6"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-07/progress.json",
+      "sizeBytes": 10878,
+      "sha256": "70337a685368ed3bb13a1bef7a1e5c1f0134663042c31da97ec7404d69485bd7"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-07/release-trace-paused.json",
+      "sizeBytes": 1302,
+      "sha256": "c0c3f564d0867bfe19613e0b9988b49ab55063e91353a5986a7b7ffa9221d756"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-08/events.json",
+      "sizeBytes": 176,
+      "sha256": "167ac0f51a31ae8ee4c79d6803eaecd527f32fcf41a947fef42086e3073bc462"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-08/progress.json",
+      "sizeBytes": 10918,
+      "sha256": "233cf3193ec753b82791960ddb5c6c256b7769478ac3f22b3af24469626b99eb"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-08/release-trace-paused.json",
+      "sizeBytes": 1316,
+      "sha256": "5bc233290523a830ff643beeb8c4fcf0d74b2ddb3e59bba00538678e0ddc7245"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-09/events.json",
+      "sizeBytes": 177,
+      "sha256": "324c10875e8920662dea9dba41c9fec9444845e0b437af90e5acc5aec0148223"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-09/progress.json",
+      "sizeBytes": 10917,
+      "sha256": "b62ba589ce8e3f1021edfdd36debf5a8efd2655e4a6857b0e1062e35479f0128"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-09/release-trace-paused.json",
+      "sizeBytes": 1301,
+      "sha256": "7eadc8e315f30c508748b03b3d5f868c16cac451d507fb1cefdb4676a9b6687f"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-10/events.json",
+      "sizeBytes": 177,
+      "sha256": "b0e4e1dfb268b4960056779932f273f02e6256950a67c597bfdb9ec95b2a8793"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-10/progress.json",
+      "sizeBytes": 11205,
+      "sha256": "8406ea0dfc13f477f179438f3d6121da1aa578e769750026e873bd9734cc21f9"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-10/release-trace-paused.json",
+      "sizeBytes": 1301,
+      "sha256": "8674d8bed4a7ff651d4364fd872874fd7736558238f5ad7e41d6fe31383fa0fe"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-11/events.json",
+      "sizeBytes": 177,
+      "sha256": "b0e4e1dfb268b4960056779932f273f02e6256950a67c597bfdb9ec95b2a8793"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-11/progress.json",
+      "sizeBytes": 11269,
+      "sha256": "a20fbbf6be954b24160956113265ec7becdd5663111e625afb2ac403df1b0b7f"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-11/release-trace-paused.json",
+      "sizeBytes": 1316,
+      "sha256": "d72573c0fbe56c85bdc9048b3f53bdc5d81f2b0167e4ac7bc0893320f1a8f9e5"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-12/events.json",
+      "sizeBytes": 177,
+      "sha256": "6a90c002241b48a60836dad9612b4b5ee1b3d2c71cb3896701af21556ecc906c"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-12/progress.json",
+      "sizeBytes": 11266,
+      "sha256": "602ccab3ee2f48c5aab28a1608fb02f469297e36b4f0e076036ea953605c2034"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-12/release-trace-paused.json",
+      "sizeBytes": 2641,
+      "sha256": "7c2ba657da46da440210669ff314ce2ddfdc6356217a13377c3e2b0d7ec64fec"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-baseline.json",
+      "sizeBytes": 429,
+      "sha256": "c6c47e53774ceddc5012cb842d56a1e025cb9ed3a8c8d27b5b99c6a38a7111d1"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/heartbeat-metrics.json",
+      "sizeBytes": 140395,
+      "sha256": "7f67a250d4f233bab3be5daa8eaa8a148d43b9c16bffb5ba15679b75d7764ee3"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/inputs.json",
+      "sizeBytes": 1467,
+      "sha256": "7042c0bc0b1610bf5c91837dda2d41e8965d40f161f339b817d131b42d2a6f3e"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/lifecycle.json",
+      "sizeBytes": 886805,
+      "sha256": "71349651ea9f1742a0995b83a210760c6ca4f820b1aaf73d03d16559bc1e146c"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/observed-rpc.json",
+      "sizeBytes": 5555745,
+      "sha256": "69ef3fb89274d8f0669a93a62f64633f6428b989c82f2e778a73bb1d97fc64ee"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/observer-errors.json",
+      "sizeBytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/os-samples.json",
+      "sizeBytes": 4374020,
+      "sha256": "813bd5c0440ace6e820149868811304d7ba5341e2457b97f2b6c6cb9c63c9db3"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/progress.json",
+      "sizeBytes": 11288,
+      "sha256": "d09e5b7cf7327a6a5fac4320f398c35b740571328f65361f7493f051f238fdae"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/result.json",
+      "sizeBytes": 1029741,
+      "sha256": "cf8bb7b82807a7aef002b4f5897fd4ca5e091f28a2c61ec09f1f9378246d8707"
+    },
+    {
+      "path": "_bin/classic-resource-current-results/rpc-trace.json",
+      "sizeBytes": 7003961,
+      "sha256": "682ae58fe4381f88ec19097cfd5f9c4823405685bfd942296b523f854f2bf287"
+    }
+  ],
+  "driverArtifacts": [
+    {
+      "path": "_bin/run-classic-resource-current.ps1",
+      "sha256": "b2f3ccfe296d04ca6c650226b1dd56f25f7df123fc09c27988de4dd934c2d133"
+    },
+    {
+      "path": "_bin/classic-resource-current-sdk.py",
+      "sha256": "aeaaae6f50f4fe90883f45839b81977411a81e000da1608a0b436173a764f3f5"
+    },
+    {
+      "path": "_bin/classic-resource-current.log",
+      "sha256": "dd4031d6f9251572290dbe14ffbc8e3501d4ef2995697cf9457bd9f1ea8ed432"
+    },
+    {
+      "path": "_bin/classic-resource-current.exit",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    {
+      "path": "_bin/classic-resource-current-cleanup.json",
+      "sha256": "8c22b51a14a26fbf0e9832c3d528539ea0407bf03bd42c09dc2e76ca9f402c84"
+    }
+  ]
+}
