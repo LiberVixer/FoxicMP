@@ -1280,3 +1280,24 @@ prefix, не разрешение плееру читать лишнее. Ста
 установки не заменялись, опубликованные 1.84 assets не перезаписаны. Это scoped
 functional PASS; полная stress/A/V/OS-fault приёмка и подключение Harvester
 остаются OPEN.
+
+### 7 ноября 2026: Linux release — проверен захват потоков и registry contention
+
+[Новый пассивный Linux probe](ProgressiveLinuxReleaseProbe.md) сохраняет /proc
+threads/wchan/syscall/FD около настоящего 30000 ms deadline и существующие RPC,
+без добавочных запросов в release path. Семь обычных paused случаев на прежнем
+и текущем EXE прошли. Три отдельные fault-попытки удерживают только свой `.guard`
+на 3 s и воспроизводят FAIL бюджета 2 s; снимки связывают два ожидающих flock
+с этим же FD/path. API остаётся отзывчивым, ложный release не выдаётся.
+Основной повтор: native Python 0/0/1; mixed CTest exit 8 сохранён, без WILL_FAIL.
+[Все exits, SHA, исходные ошибки и системные наблюдения](ProgressiveLinuxReleaseProbeValidation-2026-11-07.json).
+Причина исторического естественного >2 s остаётся OPEN: в старом отказе нет
+таких снимков. Снятие инъекции и последующий SDK cleanup не считаются успешным
+автоматическим release. Это Linux-only диагностика; Windows/Classic заново не
+проверялись. Production EXE/SDK не менялись, 583 защищённых файла сохранены,
+новая сборка/установка Linux не требуется; Harvester не затронут.
+
+Уточнение текущего плана: воспроизводимый рост Event на пути MPCVR уже
+[исправлен как DWM lifetime bug](ProgressiveDwmEventLifetime.md). Открыта связь
+с отдельным историческим Classic heartbeat-12 resource FAIL без baseline,
+а не поиск уже установленного allocator для той воспроизводимой утечки.

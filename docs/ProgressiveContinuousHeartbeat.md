@@ -145,3 +145,10 @@ Windows-установки и Harvester сохранены. Classic здесь �
 native fixture, исправление прошло Qt Linux/Windows и Classic регрессии.
 Это не доказывает причину исторического единичного >2 s случая; его статус OPEN
 сохраняется. Публичный deadline 30000 ms и release budget 2 s не менялись.
+
+
+7 ноября 2026: [пассивный Linux /proc probe и управляемый registry contention](ProgressiveLinuxReleaseProbe.md)
+отделяют ожидание блокировки квитанций от GUI/RPC responsiveness. Обычные
+повторы прошли, намеренное удержание private .guard сохранило release FAIL;
+первоначальная естественная задержка остаётся OPEN, её причина не подменяется
+этой инъекцией.
