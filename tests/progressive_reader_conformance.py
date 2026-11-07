@@ -7,10 +7,16 @@ import subprocess
 import tempfile
 
 
-def run(runner):
+def run(runner, directory_length=0):
     processes=[];checks=[]
     with tempfile.TemporaryDirectory(prefix='foxicmp-reader-runtime-') as folder:
-        base=Path(folder);root=base/'readers';media=base/'media.bin';media.write_bytes(b'original-media')
+        base=Path(folder)
+        if directory_length:
+            base/='Кириллица с пробелами'
+            while len(str(base))<directory_length:
+                base/='Длинный путь '+'x'*25
+            base.mkdir(parents=True)
+        root=base/'readers';media=base/'медиа.bin' if directory_length else base/'media.bin';media.write_bytes(b'original-media')
         session='a'*32
         def query(action,**fields):
             result=subprocess.run([runner,'--request',str(root)],input=json.dumps(dict(version=1,action=action,**fields))+'\n',capture_output=True,text=True,timeout=10)
@@ -56,9 +62,9 @@ def run(runner):
                 if child.poll() is None:child.kill()
                 child.wait(timeout=10)
                 for stream in (child.stdin,child.stdout,child.stderr):stream.close()
-    return dict(passed=len(checks),checks=checks,exitCode=0)
+    return dict(passed=len(checks),checks=checks,exitCode=0,directoryLength=len(str(base)),unicodePaths=bool(directory_length),privateRootRemoved=not Path(folder).exists())
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--runner',required=True);args=parser.parse_args()
-    print(json.dumps(run(args.runner)))
+    parser=argparse.ArgumentParser();parser.add_argument('--runner',required=True);parser.add_argument('--directory-length',type=int,choices=(0,120,320,1100),default=0);args=parser.parse_args()
+    print(json.dumps(run(args.runner,args.directory_length)))

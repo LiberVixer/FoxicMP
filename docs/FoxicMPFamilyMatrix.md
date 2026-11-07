@@ -1271,3 +1271,18 @@ Parent-Python launcher и Classic TEMP остаются открытыми; reta
 583 SHA/158 HKCU entries сохранены, семь one-shot tasks удалены; Linux main
 побайтово совпадает с установленным, лишней замены нет. Windows установки,
 личные профили, release assets и Harvester не менялись. SDK1.84/API совместимы.
+
+### 7 ноября 2026: Classic TEMP240 и Unicode reader CLI
+
+[Четыре Classic indexed/fragmented сценария TEMP120/240 приняты](ProgressiveClassicRuntimePaths.md):
+реальный growing clock, append/complete, explicit filesClosed, forget и два
+normal main exit 0. TEMP240 действительно дал registry292. Исправлен test-only
+Windows reader CLI narrow argv; native conformance обычный/Unicode320/1100 —
+по 13 проверок Windows и по 14 Linux, native exits 0. Добавлен CTest Unicode slice.
+Classic TEMP320/1100 остаётся открыт: endpoint стартует, но start даёт timeout/pipe
+error; измеренный fallback не заменяет exact long root. Ошибки старого registry
+oracle, Unicode argv и Python temp probe сохранены отдельно от product отказов.
+[Точный отчёт](ProgressiveClassicRuntimePathsValidation-2026-11-07.json).
+583 protected SHA/158 HKCU entries неизменны, четыре one-shot task удалены,
+owned процессов нет. Product main/INI/Harvester/assets не менялись; новая версия
+приложений и переустановка Linux для test-only изменений не нужны.
