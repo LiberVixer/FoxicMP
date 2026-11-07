@@ -1092,3 +1092,30 @@ Microsoft PDB; шесть EXE-start threads не изменились. Посл�
 Приложения/SDK/установки не менялись, 583 файла и 158 shell entries сохранены,
 две собственные одноразовые задачи удалены. Остальные AAC профили, физический
 A/V, OS faults и старые MPCVR Event/Linux release outliers остаются OPEN.
+
+### 7 ноября 2026: шесть AAC-профилей и изоляция истории Classic
+
+[Новый функциональный срез](ProgressiveContinuousAacProfiles.md): по 30 cases
+Linux Qt, Windows Qt и Classic, плюс две проверки обычной истории Classic;
+точные exits 0. Mono/stereo 44.1/48 kHz, B0/B2/B3/B16, дробная частота кадров,
+короткий и одноотсчётный AAC, настоящий append-only writer и 10 s pause,
+Cancel/replay, worker death/retry, replacement/late events, required audio failure,
+seeks после complete, packet payload/PTS/DTS и filesClosed. Независимый playing
+endpoint сохраняется на прежнем PID во всех шести профилях.
+Найдено и исправлено чтение/сохранение позиции разных Classic jobs под общим
+`continuous-video.mp4`: old EXE со старой записью начал с 37 s и дал exit 1;
+исправленный начинает с нуля, не меняет старую запись, обычный файл дважды
+возобновился с 37 s. История включена в частных Classic профилях.
+Отдельный отказ на short AAC объяснён физическим размещением поздних packets:
+waiting на неопубликованном input корректен, исправлена зависимость тестового
+prefix, не разрешение плееру читать лишнее. Старые FAIL сохранены. Для независимого endpoint новый observer допускает
+только отдельно записанный decoder-buffering менее 2 s с прежней identity и
+подтверждённым возвратом к playing; старый мгновенный playing gate не объявлен PASS.
+[SHA, все результаты и native exits](ProgressiveContinuousAacProfilesValidation-2026-11-07.json).
+582 файла первого baseline и 158 shell entries неизменны; ещё один Linux INI
+сохранялся до итогового повтора, его текущая версия сохранена без отката.
+Отдельный конечный baseline содержит 583 файла. Собственная
+одноразовая задача удалена. Изменён только Classic history path; Qt EXE, SDK и
+установки не заменялись, опубликованные 1.84 assets не перезаписаны. Это scoped
+functional PASS; полная stress/A/V/OS-fault приёмка и подключение Harvester
+остаются OPEN.

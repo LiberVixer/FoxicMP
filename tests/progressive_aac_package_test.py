@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability'),required=True)
+    parser.add_argument('--scenario',choices=('aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
     parser.add_argument('--report-directory',type=Path,required=True)
     args=parser.parse_args();sdk=args.sdk_directory.resolve()
@@ -49,7 +49,8 @@ def main():
                'aac-growing':'progressive_continuous_growing_stress',
                'aac-heartbeat':'progressive_continuous_aac_heartbeat_stress',
                'aac-heartbeat-ordering':'progressive_continuous_heartbeat_ordering',
-               'aac-heartbeat-idle-stability':'progressive_continuous_aac_heartbeat_stability'}
+               'aac-heartbeat-idle-stability':'progressive_continuous_aac_heartbeat_stability',
+               'aac-profile-resilience':'progressive_continuous_aac_profiles'}
         case=importlib.import_module(cases[args.scenario])
         mode=modules['progressive_continuous'].AAC_MODE
         def exercise(peers,root):
@@ -58,7 +59,8 @@ def main():
             if args.scenario=='aac-lifecycle':options.update(cycles=100,repeats=0)
             result=case.exercise(peers,root,args.report_directory,**options)
             from progressive_continuous_test_media import __file__ as media_source
-            result.update(publicMode=mode,fixtureProfile='h264-b3-30000/1001-aac-lc-48000-stereo',mediaHelperSha256=sha(media_source))
+            result.update(publicMode=mode,mediaHelperSha256=sha(media_source))
+            result.setdefault('fixtureProfile','h264-b3-30000/1001-aac-lc-48000-stereo')
             return result
     with tempfile.TemporaryDirectory(prefix='foxicmp-package-peers-') as name:
         root=Path(name);players=[str(args.player.resolve())]
@@ -71,6 +73,10 @@ def main():
                 settings.read_string(raw.decode('utf-16') if raw.startswith(b'\xff\xfe') else raw.decode('utf-8-sig'))
                 if not settings.has_section('Settings'):settings.add_section('Settings')
                 settings.set('Settings','ContextMenuPrompted','1');settings.set('Settings','ContextMenuEnabled','0')
+                if args.scenario=='aac-profile-resilience':
+                    settings.set('Settings','KeepHistory','1');settings.set('Settings','RememberFilePos','1')
+                    # Reproduce older profiles that retained the shared alias.
+                    (dest/'history.mpc_lst').write_text('; FoxicMP History File 0.1\n\n[001]\nPath=continuous-video.mp4\nTitle=Existing continuous alias\nPosition=00:00:37\n',encoding='utf-8-sig')
                 if not settings.has_section('Audio'):settings.add_section('Audio')
                 settings.set('Audio','AudioRenderer','Null Audio Renderer (Uncompressed)')
                 with ini.open('w',encoding='utf-16') as file:settings.write(file,space_around_delimiters=False)

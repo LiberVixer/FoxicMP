@@ -13072,7 +13072,9 @@ CString CMainFrame::OpenFile(OpenFileData* pOFD, const CStringW& youtubeUrl)
 				}
 			}
 
-			if (s.bKeepHistory && !StartsWith(fn, L"foxicmp-remux://")) {
+			// Continuous paths are per-job projections, not stable history identities.
+			if (s.bKeepHistory && !(m_harvester && m_harvester->IsContinuous())
+					&& !StartsWith(fn, L"foxicmp-remux://")) {
 				// read file position from history
 				auto& historyFile = AfxGetMyApp()->m_HistoryFile;
 				bool found = historyFile.OpenSessionInfo(m_SessionInfo, s.bRememberFilePos);
@@ -21628,7 +21630,9 @@ void CMainFrame::OnUpdateRepeatForever(CCmdUI* pCmdUI)
 
 void CMainFrame::SaveHistory()
 {
-    if (StartsWith(m_SessionInfo.Path, L"foxicmp-remux://")) return;
+    // Do not persist a position under the shared continuous-video.mp4 alias.
+    if ((m_harvester && m_harvester->IsContinuous())
+            || StartsWith(m_SessionInfo.Path, L"foxicmp-remux://")) return;
 	auto& s = AfxGetAppSettings();
 	if (!s.bKeepHistory) {
 		return;

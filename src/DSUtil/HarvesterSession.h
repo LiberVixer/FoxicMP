@@ -67,6 +67,7 @@ public:
     void ReportPcmState(DWORD state){m_pcmState.store(state);}
     std::string RegisteredReaderId() const;
     std::string PlaybackDetails() const;
+    bool IsContinuous() const {return bool(m_continuousSource);}
     bool HasV2Bridge() const {return bool(m_v2Bridge);}
     bool HasVirtualReader() const {return bool(m_v2Bridge) || bool(m_continuousReader);}
     bool AllowsHevcFragments() const;
