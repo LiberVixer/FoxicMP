@@ -5,6 +5,7 @@
 #include <stdexcept>
 #ifdef Q_OS_WIN
 #include <windows.h>
+#include "../../shared/progressivelocalpath_win.h"
 #include <aclapi.h>
 #include <vector>
 #else
@@ -44,17 +45,7 @@ Info inspect(intptr_t file, uint64_t available) {
 intptr_t open(const QString &path) {
 #ifdef Q_OS_WIN
   if (!absolute(path)) throw std::runtime_error("Track must be on a local fixed drive");
-  const auto native = QDir::toNativeSeparators(QDir::cleanPath(path));
-  for (int i = 3; i <= native.size(); ++i) {
-    if (i != native.size() && native[i] != '\\') continue;
-    const auto part = native.left(i);
-    const DWORD attributes = GetFileAttributesW(reinterpret_cast<LPCWSTR>(part.utf16()));
-    if (attributes == INVALID_FILE_ATTRIBUTES || (attributes & FILE_ATTRIBUTE_REPARSE_POINT))
-      throw std::runtime_error("Missing path component or reparse point in track path");
-  }
-  HANDLE handle = CreateFileW(reinterpret_cast<LPCWSTR>(native.utf16()), GENERIC_READ | READ_CONTROL,
-      FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_FLAG_OPEN_REPARSE_POINT, nullptr);
-  if (handle == INVALID_HANDLE_VALUE) throw std::runtime_error("Cannot open shared growing track");
+  HANDLE handle = foxicmp::progressive::local_path_detail::Open(path.toStdWString());
   try {
     inspect(reinterpret_cast<intptr_t>(handle), 0);
     PSID owner = nullptr; PSECURITY_DESCRIPTOR security = nullptr;
@@ -75,14 +66,27 @@ intptr_t open(const QString &path) {
     if (token) CloseHandle(token);
     if (security) LocalFree(security);
     if (!owned) throw std::runtime_error("Track must belong to the current user");
-    std::vector<wchar_t> final(32768);
-    DWORD length = GetFinalPathNameByHandleW(handle, final.data(), DWORD(final.size()), FILE_NAME_NORMALIZED | VOLUME_NAME_DOS);
-    if (!length || length >= final.size() || QString::fromWCharArray(final.data()).mid(4).compare(native, Qt::CaseInsensitive))
-      throw std::runtime_error("Track path changed while opening");
   } catch (...) { CloseHandle(handle); throw; }
   return reinterpret_cast<intptr_t>(handle);
 #else
-  return ::open(QFile::encodeName(path).constData(), O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC);
+  // O_NOFOLLOW on the final open alone still follows directory symlinks.
+  // Walk from a pinned root, checking every component without a path-length
+  // buffer or a check/open race against a replaced parent directory.
+  const auto parts = QFile::encodeName(
+      QDir::cleanPath(QFileInfo(path).absoluteFilePath())).split('/');
+  int parent = ::open("/", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
+  if (parent < 0) return -1;
+  for (int i = 1; i + 1 < parts.size(); ++i) {
+    const int next = openat(parent, parts[i].constData(),
+        O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+    ::close(parent);
+    if (next < 0) return -1;
+    parent = next;
+  }
+  const int file = openat(parent, parts.last().constData(),
+      O_RDONLY | O_NOFOLLOW | O_NONBLOCK | O_CLOEXEC);
+  ::close(parent);
+  return file;
 #endif
 }
 int64_t read(intptr_t file, uint64_t offset, void *data, size_t count) {

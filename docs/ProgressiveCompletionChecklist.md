@@ -220,7 +220,8 @@ Classic completed-seek race исправлен и проверен управл�
 - [x] Ограниченный final-file срез: [rename RF64 при активных readers и complete после rename](ProgressiveFinalFileTransition.md), четыре SHA-защищённых профиля каждой редакции, неизменное логическое имя, отказ подменённому пути, по восемь natural EOF и открытий итогового имени в generation 2 на редакцию. [Отчёт](ProgressiveFinalFileTransitionValidation-2026-11-03.json). Прочие контейнеры, большие/внешние индексы, межтомные moves, коллизии и durable rename остаются открытыми.
 - [ ] Writer/player crash, resume по идентичности bytes, несколько readers, rename и переход на итоговый файл.
 - [ ] Ошибка preview не отменяет download; merge/writer errors не становятся успешным EOF.
-- [ ] Long paths, включая снятие нынешнего 240-символьного прикладного ограничения Classic.
+- [x] [Schema 1: длинные локальные пути трёх редакций](ProgressiveLongPaths.md): 40 финальных случаев (14 Classic /14 Windows Qt /12 Linux Qt), точные exit 0. В Windows общий Unicode/extended-path helper; Classic снял 240-char/MAX_PATH и отдельный 255-byte барьеры, сохранив bounded path validation. Linux теперь отклоняет также directory symlink. Growing playback, append→complete, filesClosed/forget, Unicode/пробелы, относительные/абсолютные имена до 1111 символов; исходные Windows/Linux отказы сохранены. Linux обновлён атомарно с backup и сохранением INI; 582 остальных файла /158 HKCU entries неизменны, три одноразовые задачи удалены.
+- [ ] Остальные long-path маршруты: schema 2/resource I/O, continuous-remux/cache/temp, legacy pipe/file-manifest entry, предельные длины компонентов/пути и rename matrix. Срез schema 1 их не закрывает.
 - [ ] Owner/permissions, reparse/symlink/path traversal/substitution, IPC current-user, секреты не попадают в логи.
 - [ ] Network/removable filesystem capabilities только по отдельным доказательствам; обязательная база — local fixed drive.
 

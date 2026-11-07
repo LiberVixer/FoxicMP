@@ -1,0 +1,1857 @@
+{
+  "date": "2026-11-07",
+  "baseCommit": "1b9feca3fa04d7bcbae06b18b4ad2fe8e10d9904",
+  "result": "PASS scoped schema-1 long local paths and link rejection on three editions",
+  "applicationVersion": "0.2.0",
+  "bundledSdkVersion": "1.84",
+  "publicProtocolChanged": false,
+  "scope": {
+    "schema": 1,
+    "media": "indexed MP4 H.264 plus M4A AAC; real append 80 percent to complete",
+    "targetDirectoryLengths": [
+      220,
+      320,
+      1100
+    ],
+    "maximumTestedFileLength": 1111,
+    "unicodeAndSpaces": true,
+    "relativeAndAbsoluteTrackPaths": true,
+    "physicalAudibilityChecked": false,
+    "schema2LongPathsChecked": false,
+    "continuousRemuxLongPathsChecked": false,
+    "legacyPipeManifestChecked": false,
+    "fullLongPathAcceptance": false
+  },
+  "sourceSha256": {
+    "shared/progressivelocalpath_win.h": "a86ff5ff93f18490950d7cc10294bea336550a3a4e6ef388a80db01011313f5f",
+    "src/DSUtil/HarvesterSession.cpp": "66452336a2b7520e0821bb1fafbe814ea8abd2e9b0b6ea5631645f158d6c784c",
+    "qt/src/progressivefile.cpp": "2991fe4c61487f375cd5af26734e45a007d1427d3aa634a90d6b1c3a36fe4e01",
+    "tests/progressive_long_paths_test.py": "edb2d8c49e711965db589472c63b9e55cd85c785784f29304d8471dc4de841be"
+  },
+  "results": {
+    "linuxQt": {
+      "nativeExitCode": 0,
+      "exitCodeOwner": "private CTest",
+      "testCount": 12,
+      "rows": [
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 220,
+          "directoryLength": 220,
+          "maximumFileLength": 231,
+          "absoluteTrackPaths": false,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:5651248",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 412427,
+            "readerId": "f76976acc44804bfd397500b50e6795b",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "2051",
+                "fileId": "6554893",
+                "id": "video"
+              },
+              {
+                "device": "2051",
+                "fileId": "6554894",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "35b6f30574f843e380ff3defc949bd51",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "f76976acc44804bfd397500b50e6795b",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "35b6f30574f843e380ff3defc949bd51",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 220,
+          "directoryLength": 220,
+          "maximumFileLength": 231,
+          "absoluteTrackPaths": true,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:5651248",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 412427,
+            "readerId": "31321a70ad5dac12c98b6ffb6a130fe2",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "2051",
+                "fileId": "6554898",
+                "id": "video"
+              },
+              {
+                "device": "2051",
+                "fileId": "6554899",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "57f96627f8f043b4bc6a1da7acb51424",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "31321a70ad5dac12c98b6ffb6a130fe2",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "57f96627f8f043b4bc6a1da7acb51424",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 320,
+          "directoryLength": 320,
+          "maximumFileLength": 331,
+          "absoluteTrackPaths": false,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:5651248",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 412427,
+            "readerId": "d76d8d1635a00b15a20015fe67459aad",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "2051",
+                "fileId": "6554909",
+                "id": "video"
+              },
+              {
+                "device": "2051",
+                "fileId": "6554910",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "423bc1899771487b95a55b13d278811a",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "d76d8d1635a00b15a20015fe67459aad",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "423bc1899771487b95a55b13d278811a",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 320,
+          "directoryLength": 320,
+          "maximumFileLength": 331,
+          "absoluteTrackPaths": true,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:5651248",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 412427,
+            "readerId": "0e40f33a826c87e4b5d4faae8c54e015",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "2051",
+                "fileId": "6554910",
+                "id": "video"
+              },
+              {
+                "device": "2051",
+                "fileId": "6554911",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "797a993d8a304815ad8631060804b931",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "0e40f33a826c87e4b5d4faae8c54e015",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "797a993d8a304815ad8631060804b931",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 1100,
+          "directoryLength": 1100,
+          "maximumFileLength": 1111,
+          "absoluteTrackPaths": false,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:5651248",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 412427,
+            "readerId": "6dd0f199efc463a26ca240ee55161110",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "2051",
+                "fileId": "6554933",
+                "id": "video"
+              },
+              {
+                "device": "2051",
+                "fileId": "6554934",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "cb168c0ec8894acbb51fbc6b1330a864",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "6dd0f199efc463a26ca240ee55161110",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "cb168c0ec8894acbb51fbc6b1330a864",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 1100,
+          "directoryLength": 1100,
+          "maximumFileLength": 1111,
+          "absoluteTrackPaths": true,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:5651248",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 412427,
+            "readerId": "26fec61799033075640b3e01eaa2345e",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "2051",
+                "fileId": "6554954",
+                "id": "video"
+              },
+              {
+                "device": "2051",
+                "fileId": "6554955",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "b5dc953639f84e078495aa2f904ef9ee",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "26fec61799033075640b3e01eaa2345e",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "b5dc953639f84e078495aa2f904ef9ee",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "rejected": "url",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "nul",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "over-wire-limit",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "file-link",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "directory-link",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "positiveFilesClosedReceipt": {
+            "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:5651248",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 412427,
+            "readerId": "155895528643af4c2486a4c25ff1c446",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "2051",
+                "fileId": "6554954",
+                "id": "video"
+              },
+              {
+                "device": "2051",
+                "fileId": "6554955",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "10a1451d1b804d878198351e3b15521e",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 20,
+            "complete": true,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "155895528643af4c2486a4c25ff1c446",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "10a1451d1b804d878198351e3b15521e",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "validAfterRejections": true
+        }
+      ],
+      "playerSha256": [
+        "015a9485bcbeba5e22561a63a73b652c4fcacfc007f813c34cf4990b3cc50dca",
+        "015a9485bcbeba5e22561a63a73b652c4fcacfc007f813c34cf4990b3cc50dca"
+      ],
+      "testSourceSha256": "edb2d8c49e711965db589472c63b9e55cd85c785784f29304d8471dc4de841be",
+      "sdkModuleSha256": {
+        "progressive_schema": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778",
+        "progressive_client": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+        "progressive_integrity": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+        "progressive_resources": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7",
+        "progressive_sdk": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2",
+        "progressive_v2": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+        "progressive_continuous": "d62121dfdbd89061b2fa4414f7a7d6db1e9e3f8949357f0520be5af62b5793ac",
+        "progressive_windows": "fa48010d85e771dd40d05d58df6858def65bef72ead8027ef30f7033e768cde2",
+        "progressive_preview": "c7e17465981d92acef623b530c7283868de9c8aad634b6a3cbbb82a67d5d1b44",
+        "progressive_writer": "245f6781df624d7482f32c1db825946b7a2b7c96a1073e8d1eaaaf42fdf64b19"
+      },
+      "processHistory": [
+        [
+          {
+            "pid": 412427,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": -9,
+            "terminationSeconds": 0.03287422499852255
+          }
+        ],
+        [
+          {
+            "pid": 412577,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": -9,
+            "terminationSeconds": 0.03295775500009768
+          }
+        ]
+      ],
+      "testDirectoriesRemoved": true,
+      "privateCopiesRemoved": true,
+      "readerRunnerSha256": "644b92db481809822256437657900e3498e06337a644dc2f63ee4a63f4b0eb17"
+    },
+    "windowsQt": {
+      "nativeExitCode": 0,
+      "exitCodeOwner": "Python test subprocess",
+      "testCount": 14,
+      "rows": [
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 220,
+          "directoryLength": 220,
+          "maximumFileLength": 231,
+          "absoluteTrackPaths": false,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "134385188944111645",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 7968,
+            "readerId": "56dcbfe5879d5b1e26fd6db406fe0380",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "656024512",
+                "fileId": "59954170040369414",
+                "id": "video"
+              },
+              {
+                "device": "656024512",
+                "fileId": "86694292827881738",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "04eb0e20c7ad490cb2327bd8bfc15239",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "56dcbfe5879d5b1e26fd6db406fe0380",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "04eb0e20c7ad490cb2327bd8bfc15239",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 220,
+          "directoryLength": 220,
+          "maximumFileLength": 231,
+          "absoluteTrackPaths": true,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "134385188944111645",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 7968,
+            "readerId": "af0002eeaf7dc8158118b47724dde391",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "656024512",
+                "fileId": "174514485561606423",
+                "id": "video"
+              },
+              {
+                "device": "656024512",
+                "fileId": "128634064357769504",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "dbf64b2431654d808f173bf5cb450c20",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "af0002eeaf7dc8158118b47724dde391",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "dbf64b2431654d808f173bf5cb450c20",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 320,
+          "directoryLength": 320,
+          "maximumFileLength": 331,
+          "absoluteTrackPaths": false,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "134385188944111645",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 7968,
+            "readerId": "76d7d0e0e822ab614d771c070c14a1cc",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "656024512",
+                "fileId": "88383142688145738",
+                "id": "video"
+              },
+              {
+                "device": "656024512",
+                "fileId": "79938893386826070",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "3c600f3b4bc540a6bc01636ad0b22ea8",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "76d7d0e0e822ab614d771c070c14a1cc",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "3c600f3b4bc540a6bc01636ad0b22ea8",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 320,
+          "directoryLength": 320,
+          "maximumFileLength": 331,
+          "absoluteTrackPaths": true,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "134385188944111645",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 7968,
+            "readerId": "6a7c9f539652edd062f040a9142a3da4",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "656024512",
+                "fileId": "31525197392593288",
+                "id": "video"
+              },
+              {
+                "device": "656024512",
+                "fileId": "113152940638683531",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "a0d9c661a4724369a4419c6ee2b86c1a",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "6a7c9f539652edd062f040a9142a3da4",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "a0d9c661a4724369a4419c6ee2b86c1a",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 1100,
+          "directoryLength": 1100,
+          "maximumFileLength": 1111,
+          "absoluteTrackPaths": false,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "134385188944111645",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 7968,
+            "readerId": "b8d9453d6624b936d152d909f5995ad4",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "656024512",
+                "fileId": "64739244644450900",
+                "id": "video"
+              },
+              {
+                "device": "656024512",
+                "fileId": "53198770599314005",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "3e9e3df1b6144dc7962b99c556833b27",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "b8d9453d6624b936d152d909f5995ad4",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "3e9e3df1b6144dc7962b99c556833b27",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 1100,
+          "directoryLength": 1100,
+          "maximumFileLength": 1111,
+          "absoluteTrackPaths": true,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "birth": "134385188944111645",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 7968,
+            "readerId": "b5926a1bcbc59be251c2540a196299fe",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "656024512",
+                "fileId": "56857945296553069",
+                "id": "video"
+              },
+              {
+                "device": "656024512",
+                "fileId": "52354345669182574",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "76fa2e856cc04d3a817ae40a82138344",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 15.8933333,
+            "complete": false,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "b5926a1bcbc59be251c2540a196299fe",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "76fa2e856cc04d3a817ae40a82138344",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "rejected": "url",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "nul",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "over-wire-limit",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "ads",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "unc",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "file-link",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "directory-link",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "positiveFilesClosedReceipt": {
+            "birth": "134385188944111645",
+            "filesClosed": true,
+            "generation": "1",
+            "pid": 7968,
+            "readerId": "52dc34fbc1f584a9f285d75a7837fe60",
+            "reason": "files-closed",
+            "released": true,
+            "resources": [
+              {
+                "device": "656024512",
+                "fileId": "57139420273263725",
+                "id": "video"
+              },
+              {
+                "device": "656024512",
+                "fileId": "52635820645893230",
+                "id": "audio"
+              }
+            ],
+            "sessionId": "51354ab1eff04065b3ed697d192a2a14",
+            "version": 1
+          },
+          "playing": {
+            "active": true,
+            "appliedMetadata": {
+              "chapters": [],
+              "revision": "",
+              "title": "video"
+            },
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "availableSeconds": 20,
+            "complete": true,
+            "connected": true,
+            "controls": {
+              "muted": true,
+              "speed": 1,
+              "volumePercent": 0
+            },
+            "durationSeconds": 20,
+            "error": "",
+            "mediaTracks": [],
+            "ok": true,
+            "positionSeconds": 0.24,
+            "readerId": "52dc34fbc1f584a9f285d75a7837fe60",
+            "released": false,
+            "schemaVersion": 1,
+            "seeking": false,
+            "sessionId": "51354ab1eff04065b3ed697d192a2a14",
+            "state": "playing",
+            "subtitleTracks": [],
+            "version": 1
+          },
+          "validAfterRejections": true
+        }
+      ],
+      "playerSha256": [
+        "164673a3d2cf0732ef771afae251c514de508f0f96b0b77a27c46fe0b1c15a14",
+        "164673a3d2cf0732ef771afae251c514de508f0f96b0b77a27c46fe0b1c15a14"
+      ],
+      "testSourceSha256": "edb2d8c49e711965db589472c63b9e55cd85c785784f29304d8471dc4de841be",
+      "sdkModuleSha256": {
+        "progressive_schema": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778",
+        "progressive_client": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+        "progressive_integrity": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+        "progressive_resources": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7",
+        "progressive_sdk": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2",
+        "progressive_v2": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+        "progressive_continuous": "d62121dfdbd89061b2fa4414f7a7d6db1e9e3f8949357f0520be5af62b5793ac",
+        "progressive_windows": "fa48010d85e771dd40d05d58df6858def65bef72ead8027ef30f7033e768cde2",
+        "progressive_preview": "c7e17465981d92acef623b530c7283868de9c8aad634b6a3cbbb82a67d5d1b44",
+        "progressive_writer": "245f6781df624d7482f32c1db825946b7a2b7c96a1073e8d1eaaaf42fdf64b19"
+      },
+      "processHistory": [
+        [
+          {
+            "pid": 7968,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": 1,
+            "terminationSeconds": 0.062000000005355105
+          }
+        ],
+        [
+          {
+            "pid": 8264,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": 1,
+            "terminationSeconds": 0.046999999991385266
+          }
+        ]
+      ],
+      "testDirectoriesRemoved": true,
+      "privateCopiesRemoved": true,
+      "readerRunnerSha256": "42929b3eb915a7ea19881c736c11b002838b6955084e35461b8fe176f3a38f0e"
+    },
+    "classic": {
+      "nativeExitCode": 0,
+      "exitCodeOwner": "Python test subprocess",
+      "testCount": 14,
+      "rows": [
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 220,
+          "directoryLength": 220,
+          "maximumFileLength": 231,
+          "absoluteTrackPaths": false,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "version": 1,
+            "readerId": "088a36e5aa915608ecd7a668aa3ff9de",
+            "sessionId": "2af0c38f1aaf4346bbbc049acb3db776",
+            "generation": "1",
+            "pid": 5376,
+            "birth": "134385189040183395",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "49821070878789207"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "19421773394038363"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "2af0c38f1aaf4346bbbc049acb3db776",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "088a36e5aa915608ecd7a668aa3ff9de",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.223,
+            "availableSeconds": 15.8933333,
+            "durationSeconds": 20.0
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 220,
+          "directoryLength": 220,
+          "maximumFileLength": 231,
+          "absoluteTrackPaths": true,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "version": 1,
+            "readerId": "d41a440958a7a72483d24958e14abd62",
+            "sessionId": "7fcea98253924168ac89fd590c2465e1",
+            "generation": "1",
+            "pid": 5376,
+            "birth": "134385189040183395",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "34902897113124456"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "34058472182992489"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "7fcea98253924168ac89fd590c2465e1",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "d41a440958a7a72483d24958e14abd62",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.224,
+            "availableSeconds": 15.8933333,
+            "durationSeconds": 20.0
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 320,
+          "directoryLength": 320,
+          "maximumFileLength": 331,
+          "absoluteTrackPaths": false,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "version": 1,
+            "readerId": "4aefa69ff5f4c8c5993c154607b616bd",
+            "sessionId": "2391ff384e1d458389579024c2f6ca04",
+            "generation": "1",
+            "pid": 5376,
+            "birth": "134385189040183395",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "37999121856941707"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "31806672369307314"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "2391ff384e1d458389579024c2f6ca04",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "4aefa69ff5f4c8c5993c154607b616bd",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.227,
+            "availableSeconds": 15.8933333,
+            "durationSeconds": 20.0
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 320,
+          "directoryLength": 320,
+          "maximumFileLength": 331,
+          "absoluteTrackPaths": true,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "version": 1,
+            "readerId": "037f78101dfc8a3d337423efa842532a",
+            "sessionId": "4c33f8efc86a4fb5bb676a2b75c6136f",
+            "generation": "1",
+            "pid": 5376,
+            "birth": "134385189040183395",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "24488322974830296"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "17732923533774553"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "4c33f8efc86a4fb5bb676a2b75c6136f",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "037f78101dfc8a3d337423efa842532a",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.212,
+            "availableSeconds": 15.8933333,
+            "durationSeconds": 20.0
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 1100,
+          "directoryLength": 1100,
+          "maximumFileLength": 1111,
+          "absoluteTrackPaths": false,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "version": 1,
+            "readerId": "8d75585e7beb506e9ef0e80b14c2e871",
+            "sessionId": "be336ec8b26543419f5d9bf28b28fda3",
+            "generation": "1",
+            "pid": 5376,
+            "birth": "134385189040183395",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "26177172835094261"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "22799473114566390"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "be336ec8b26543419f5d9bf28b28fda3",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "8d75585e7beb506e9ef0e80b14c2e871",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.23,
+            "availableSeconds": 15.8933333,
+            "durationSeconds": 20.0
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "requestedDirectoryLength": 1100,
+          "directoryLength": 1100,
+          "maximumFileLength": 1111,
+          "absoluteTrackPaths": true,
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ],
+          "positiveFilesClosedReceipt": {
+            "version": 1,
+            "readerId": "788e13f66ee0f74faa4b6a11b96d44c3",
+            "sessionId": "05a05fb537fa4b8380d02f16e4273bc2",
+            "generation": "1",
+            "pid": 5376,
+            "birth": "134385189040183395",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "19421773394038543"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "19984723347459856"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "05a05fb537fa4b8380d02f16e4273bc2",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "788e13f66ee0f74faa4b6a11b96d44c3",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.224,
+            "availableSeconds": 15.8933333,
+            "durationSeconds": 20.0
+          },
+          "writerCompleteObserved": true
+        },
+        {
+          "result": "PASS",
+          "rejected": "url",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "nul",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "over-wire-limit",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "ads",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "unc",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "file-link",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "rejected": "directory-link",
+          "code": "source_not_ready"
+        },
+        {
+          "result": "PASS",
+          "positiveFilesClosedReceipt": {
+            "version": 1,
+            "readerId": "c31c9ada368dd765f65fc0113be14a57",
+            "sessionId": "b478fad2b2364b4889dafe91cafaff6e",
+            "generation": "1",
+            "pid": 5376,
+            "birth": "134385189040183395",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "20266198324170512"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "18295873487195921"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "b478fad2b2364b4889dafe91cafaff6e",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": true,
+            "readerId": "c31c9ada368dd765f65fc0113be14a57",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "video",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.23,
+            "availableSeconds": 20.0,
+            "durationSeconds": 20.0
+          },
+          "validAfterRejections": true
+        }
+      ],
+      "playerSha256": [
+        "936f9a942ad9dbc57c3189aaa4bcc8b41e04b4ea9f6069a02e66d12e63017fba",
+        "936f9a942ad9dbc57c3189aaa4bcc8b41e04b4ea9f6069a02e66d12e63017fba"
+      ],
+      "testSourceSha256": "edb2d8c49e711965db589472c63b9e55cd85c785784f29304d8471dc4de841be",
+      "sdkModuleSha256": {
+        "progressive_schema": "320d78b1bbe5fc1980709e03a49be6f5601d6fb9dd1cb81457ea3befc8213778",
+        "progressive_client": "8fa1093f289bd455b959d3f8bb9154eaa1d8c06df1a3224a4e86302d63bfe662",
+        "progressive_integrity": "3602dd358859b979fc40d34382f767c82bdb59cfeb5e34a66a4e6dfa699a9830",
+        "progressive_resources": "f1e0547c597e50cdc8daaec2234bf480035f088454885028d1c39316839887e7",
+        "progressive_sdk": "65ac6de721096deb6328dac986811486dd09c68324e89b80e0a803f47de041b2",
+        "progressive_v2": "55a5b41fffb539a4bd460dcdbdf140ba9a593dbb962f16cc520cb7307bfc724d",
+        "progressive_continuous": "d62121dfdbd89061b2fa4414f7a7d6db1e9e3f8949357f0520be5af62b5793ac",
+        "progressive_windows": "fa48010d85e771dd40d05d58df6858def65bef72ead8027ef30f7033e768cde2",
+        "progressive_preview": "c7e17465981d92acef623b530c7283868de9c8aad634b6a3cbbb82a67d5d1b44",
+        "progressive_writer": "245f6781df624d7482f32c1db825946b7a2b7c96a1073e8d1eaaaf42fdf64b19"
+      },
+      "processHistory": [
+        [
+          {
+            "pid": 5376,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": 1,
+            "terminationSeconds": 0.01600000000325963
+          }
+        ],
+        [
+          {
+            "pid": 10760,
+            "reason": "cleanup-owned-idle-process",
+            "exitCode": 1,
+            "terminationSeconds": 0.014999999999417923
+          }
+        ]
+      ],
+      "testDirectoriesRemoved": true,
+      "privateCopiesRemoved": true,
+      "readerRunnerSha256": "42929b3eb915a7ea19881c736c11b002838b6955084e35461b8fe176f3a38f0e"
+    }
+  },
+  "retainedFailures": {
+    "qt-baseline": {
+      "nativeExitCode": 1,
+      "exitCodeOwner": "Python test subprocess",
+      "explanation": "Old Windows Qt fails at 320-character directory after two 220-character controls; GetFileAttributesW uses unprefixed paths.",
+      "completedCount": 2,
+      "error": "Traceback (most recent call last):\n  File \"E:\\Programs\\MPMY-src\\tests\\progressive_long_paths_test.py\", line 151, in main\n    result = run(SimpleNamespace(edition=args.edition, player=players,\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"E:\\Programs\\MPMY-src\\tests\\progressive_continuous_api_test.py\", line 206, in run\n    result = (exercise_case or exercise)(peers, root)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"E:\\Programs\\MPMY-src\\tests\\progressive_long_paths_test.py\", line 70, in exercise\n    started = client.start(model, session_directory=str(folder),\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"E:\\Programs\\MPMY-src\\_bin\\aac-sdk184-qt-win-stage\\integration\\progressive_client.py\", line 150, in start\n    return self.request(message)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"E:\\Programs\\MPMY-src\\_bin\\aac-sdk184-qt-win-stage\\integration\\progressive_client.py\", line 75, in request\n    return self._request_once(message, max(.001, deadline-time.monotonic()))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"E:\\Programs\\MPMY-src\\_bin\\aac-sdk184-qt-win-stage\\integration\\progressive_client.py\", line 117, in _request_once\n    raise ApiError(result)\nprogressive_client.ApiError: Missing path component or reparse point in track path\n"
+    },
+    "classic-baseline": {
+      "nativeExitCode": 1,
+      "exitCodeOwner": "Python test subprocess",
+      "explanation": "Old Classic fails at 220-character Unicode directory: harvester::String has a 255-byte limit. Separate 240-character LocalPath limit confirmed in source.",
+      "completedCount": 0,
+      "error": "Traceback (most recent call last):\n  File \"E:\\Programs\\MPMY-src\\tests\\progressive_long_paths_test.py\", line 151, in main\n    result = run(SimpleNamespace(edition=args.edition, player=players,\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"E:\\Programs\\MPMY-src\\tests\\progressive_continuous_api_test.py\", line 206, in run\n    result = (exercise_case or exercise)(peers, root)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"E:\\Programs\\MPMY-src\\tests\\progressive_long_paths_test.py\", line 70, in exercise\n    started = client.start(model, session_directory=str(folder),\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"E:\\Programs\\MPMY-src\\_bin\\aac-profile-history-fixed-stage\\integration\\progressive_client.py\", line 150, in start\n    return self.request(message)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"E:\\Programs\\MPMY-src\\_bin\\aac-profile-history-fixed-stage\\integration\\progressive_client.py\", line 75, in request\n    return self._request_once(message, max(.001, deadline-time.monotonic()))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"E:\\Programs\\MPMY-src\\_bin\\aac-profile-history-fixed-stage\\integration\\progressive_client.py\", line 117, in _request_once\n    raise ApiError(result)\nprogressive_client.ApiError: Invalid string field\n"
+    },
+    "linux-final": {
+      "nativeExitCode": 8,
+      "exitCodeOwner": "private CTest",
+      "explanation": "Initial expanded Linux test accepts a directory symlink. Leaf-only O_NOFOLLOW did not reject parent links.",
+      "completedCount": 9,
+      "error": "Traceback (most recent call last):\n  File \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_long_paths_test.py\", line 173, in main\n    result = run(SimpleNamespace(edition=args.edition, player=players,\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_continuous_api_test.py\", line 206, in run\n    result = (exercise_case or exercise)(peers, root)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_long_paths_test.py\", line 141, in exercise\n    raise AssertionError(('Unsafe path accepted', label))\nAssertionError: ('Unsafe path accepted', 'directory-link')\n"
+    }
+  },
+  "builds": {
+    "classic-build": {
+      "nativeExitCode": 0
+    },
+    "qt-build": {
+      "nativeExitCode": 0
+    },
+    "linux-fixed-build": {
+      "nativeExitCode": 0
+    }
+  },
+  "windowsBuildMethod": "Classic: recompile HarvesterSession.cpp and link prior checked objects without class-layout/PCH changes; Qt: normal CMake foxicmp-qt build.",
+  "windowsPathHandling": {
+    "wirePathsRemainDos": true,
+    "publishedUtf8ByteLimit": 8192,
+    "nativeDosUtf16Limit": 32760,
+    "explicitInternalExtendedPrefix": true,
+    "policyBefore": {
+      "LongPathsEnabled": 1
+    },
+    "policyAfter": {
+      "LongPathsEnabled": 1
+    },
+    "disabledPolicyNotTested": true
+  },
+  "linuxPathHandling": "Pinned root and openat O_DIRECTORY|O_NOFOLLOW for every parent; O_NOFOLLOW on the final file.",
+  "linuxInstall": {
+    "result": "PASS",
+    "version": "FoxicMPQt 0.2.0",
+    "oldSha256": "876f2a7be70eeb17812e69cd2c3660bbecc7b0ec14c22c7a39ea38eb256fc4ff",
+    "newSha256": "015a9485bcbeba5e22561a63a73b652c4fcacfc007f813c34cf4990b3cc50dca",
+    "backup": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt.before-long-paths-20261107T095427Z",
+    "atomicReplace": true,
+    "profileSha256Before": "f3b64a705e0f841d915011c0728a541533151696f7020edc47e8499f099e7333",
+    "profileSha256After": "f3b64a705e0f841d915011c0728a541533151696f7020edc47e8499f099e7333",
+    "unchangedProtectedFiles": 582,
+    "capabilitiesUnchanged": true,
+    "runningViewerPids": [],
+    "viewerInterrupted": false
+  },
+  "preservation": {
+    "protectedFiles": 583,
+    "unchangedProtectedFiles": 582,
+    "changedFiles": [
+      "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-x64/foxicmp-qt"
+    ],
+    "installedWindowsExeAndProfilesUnchanged": true,
+    "linuxProfileUnchanged": true,
+    "hkcuEntryCount": 158,
+    "hkcuUnchanged": true,
+    "cleanup": [
+      {
+        "task": "FoxicMP-LongPaths-Baseline-OneShot",
+        "stateBefore": "Ready",
+        "lastTaskResult": 0,
+        "removed": true
+      },
+      {
+        "task": "FoxicMP-LongPaths-Final-OneShot",
+        "stateBefore": "Ready",
+        "lastTaskResult": 0,
+        "removed": true
+      },
+      {
+        "task": "FoxicMP-LongPaths-Verified-OneShot",
+        "stateBefore": "Ready",
+        "lastTaskResult": 0,
+        "removed": true
+      }
+    ],
+    "harvesterNotModified": true,
+    "desktopAndMixerNotChanged": true,
+    "publishedReleaseAssetsUnchanged": true
+  },
+  "rawArtifacts": [
+    {
+      "path": "_bin/long-paths-after.json",
+      "sha256": "14e78d456a7349c266dcb6bd1b5b47fb9caa1381af89761c9f794641d7889f81",
+      "sizeBytes": 104023
+    },
+    {
+      "path": "_bin/long-paths-before.json",
+      "sha256": "85c7007fc170a860594e6941834ce1b0b976ee0d93bd459bad24f56cad0d627a",
+      "sizeBytes": 104023
+    },
+    {
+      "path": "_bin/long-paths-classic-baseline-results/error.txt",
+      "sha256": "4c8bca180eb63623f8191b131d87bcd7bb96c96cbe19a92d2d220bad8d874a6a",
+      "sizeBytes": 1367
+    },
+    {
+      "path": "_bin/long-paths-classic-verified-results/progress.json",
+      "sha256": "2114f7e44403c6683cb071fb2302bdc641f117666708d0bd9eb58ece508a4845",
+      "sizeBytes": 23963
+    },
+    {
+      "path": "_bin/long-paths-classic-verified-results/result.json",
+      "sha256": "114b3e7b194f16925b0aa16a207261ab03517bdc19cd5444010b3290215632d9",
+      "sizeBytes": 26094
+    },
+    {
+      "path": "_bin/long-paths-cleanup.json",
+      "sha256": "a33be59b2ea55ee62c0c9fba61af3bd154d4d2971fe60fd6e74f782a4f3b9420",
+      "sizeBytes": 491
+    },
+    {
+      "path": "_bin/long-paths-linux-final-results/error.txt",
+      "sha256": "0fc804bf8a99b9cebe97f5e119741d9d7a92771f39b6279e8614d04091ddb5aa",
+      "sizeBytes": 709
+    },
+    {
+      "path": "_bin/long-paths-linux-final-results/progress.json",
+      "sha256": "5ed5a358626e42cc3844e42ee6524f0487510cd69cfaf1479dd36dd64c8a9732",
+      "sizeBytes": 23813
+    },
+    {
+      "path": "_bin/long-paths-linux-fixed-results/progress.json",
+      "sha256": "481e6191b5714445e83f15b55dfa1f3f7aeebfe5805b25dd073316446cd5953f",
+      "sizeBytes": 25628
+    },
+    {
+      "path": "_bin/long-paths-linux-fixed-results/result.json",
+      "sha256": "90c6f26e1d749c9bbfdb2b223387771ede4a528a53581efe1537ec9bcde2e3fb",
+      "sizeBytes": 27711
+    },
+    {
+      "path": "_bin/long-paths-linux-install.json",
+      "sha256": "bfcff3ae467e7a719c2dbc0ae07167f7316b31aa8c2a168ebda68d89fcc69c53",
+      "sizeBytes": 676
+    },
+    {
+      "path": "_bin/long-paths-qt-baseline-results/error.txt",
+      "sha256": "6702c6cf2f12bf280e1986cd7b6c1a781e37f8184a474e147feb428428bbdf04",
+      "sizeBytes": 1376
+    },
+    {
+      "path": "_bin/long-paths-qt-baseline-results/progress.json",
+      "sha256": "3b32759f73d7d611869cad71e5281441b7471d599f8dd6bda83ea60f66ac4e04",
+      "sizeBytes": 8165
+    },
+    {
+      "path": "_bin/long-paths-qt-verified-results/progress.json",
+      "sha256": "e7b9b757ba7f9a34c4d89ce0c5e5fa95a3c1e9a190fb70824e8d00f00feb4b78",
+      "sizeBytes": 26806
+    },
+    {
+      "path": "_bin/long-paths-qt-verified-results/result.json",
+      "sha256": "28390e29cab68dc4bcfe75d06cd715c56b60e9b67ec600b0e2271a55de96c09e",
+      "sizeBytes": 28932
+    },
+    {
+      "path": "_bin/long-paths-shell-after.json",
+      "sha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+      "sizeBytes": 85216
+    },
+    {
+      "path": "_bin/long-paths-shell-before.json",
+      "sha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+      "sizeBytes": 85216
+    },
+    {
+      "path": "_bin/long-paths-shell-final-after.json",
+      "sha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+      "sizeBytes": 85216
+    },
+    {
+      "path": "_bin/long-paths-shell-final-before.json",
+      "sha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+      "sizeBytes": 85216
+    },
+    {
+      "path": "_bin/long-paths-shell-verified-after.json",
+      "sha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+      "sizeBytes": 85216
+    },
+    {
+      "path": "_bin/long-paths-shell-verified-before.json",
+      "sha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+      "sizeBytes": 85216
+    }
+  ]
+}

@@ -1338,3 +1338,22 @@ AAC cold-baseline thread FAIL и общая stress/A/V приёмка не за�
 одноразовая задача удалены. Изменения этого этапа документационные;
 установленные EXE/INI и опубликованные assets не заменялись, Harvester
 не менялся. Пересборка/переустановка Linux не требуется.
+
+### 7 ноября 2026: schema 1 — длинные пути и защита от ссылок
+
+[Исправлены длинные progressive paths](ProgressiveLongPaths.md) в обеих Windows
+редакциях: общий динамический Unicode/extended-path helper, DOS wire format,
+проверки fixed-drive/ADS/reparse/final-name и прежняя owner policy. Classic
+больше не применяет 240-char/MAX_PATH и 255-byte string barrier к этим путям;
+опубликованные пути ограничены 8192 UTF-8 bytes. В Linux исправлено принятие
+ссылки на родительский каталог: pinned openat/O_NOFOLLOW walk вместо проверки
+только leaf. Обычное открытие файлов вне progressive adapter не меняется.
+Финальные 40 случаев (14/14 Windows и 12 Linux) — exit 0: реальное growing
+playback, append/complete, filesClosed/forget, 220/320/1100-char roots,
+Unicode/пробелы, относительные/абсолютные track paths, unsafe-path отказы и
+валидное открытие после них. [Точные SHA, отказы и установка](ProgressiveLongPathsValidation-2026-11-07.json).
+Linux обновлён атомарно с rollback EXE, INI/capabilities сохранены; остальные
+582 защищённых файла и 158 HKCU entries неизменны. Три одноразовые задачи
+удалены; Windows установки, релизные assets и Harvester не менялись. Wire API
+не менялся, SDK остался 1.84. Schema 2, continuous/cache/temp, pipe-manifest и предельные
+длины остаются отдельной открытой long-path квалификацией.

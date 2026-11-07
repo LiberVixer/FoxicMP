@@ -1,6 +1,7 @@
 // FoxicMP progressive local playback. GPL-3.0-or-later.
 #include "stdafx.h"
 #include "HarvesterSession.h"
+#include "../../shared/progressivelocalpath_win.h"
 #include "../../shared/progressivereaderlease.h"
 #include "../../shared/progressiveretirement.h"
 #include "../../shared/progressivefmp4bridge.h"
@@ -17,32 +18,16 @@ std::wstring Wide(const std::string& s) {
     std::wstring out(n,L'\0'); MultiByteToWideChar(CP_UTF8,MB_ERR_INVALID_CHARS,s.data(),(int)s.size(),out.data(),n); return out;
 }
 std::wstring LocalPath(const std::wstring& path, bool inspect=true) {
-    if (path.empty() || path.size()>240 || path.find(L"://")!=std::wstring::npos) throw std::runtime_error("Invalid local session path");
-    WCHAR full[MAX_PATH];
-    DWORD n=GetFullPathNameW(path.c_str(),MAX_PATH,full,nullptr);
-    if (!n || n>=MAX_PATH || full[1]!=L':' || full[2]!=L'\\' || GetDriveTypeW(std::wstring(full,3).c_str())!=DRIVE_FIXED) throw std::runtime_error("Session must use a local fixed drive");
-    std::wstring result(full);
-    if (result.find(L':',2)!=std::wstring::npos) throw std::runtime_error("Alternate data streams are not allowed");
-    for (size_t i=3;inspect && i<=result.size();++i) {
-        if (i!=result.size() && result[i]!=L'\\') continue;
-        DWORD attrs=GetFileAttributesW(result.substr(0,i).c_str());
-        if (attrs==INVALID_FILE_ATTRIBUTES || (attrs&FILE_ATTRIBUTE_REPARSE_POINT)) throw std::runtime_error("Missing file or reparse point in session path");
-    }
-    return result;
+    return foxicmp::progressive::local_path_detail::Canonical(path,inspect);
 }
 HANDLE OpenLocal(const std::wstring& path,bool asynchronous) {
-    const auto full=LocalPath(path);
-    HANDLE h=CreateFileW(full.c_str(),GENERIC_READ|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,nullptr,OPEN_EXISTING,
-        FILE_FLAG_OPEN_REPARSE_POINT|(asynchronous?FILE_FLAG_OVERLAPPED:0),nullptr);
-    if (h==INVALID_HANDLE_VALUE) throw std::runtime_error("Cannot open session file with read/write sharing");
-    BY_HANDLE_FILE_INFORMATION info{};
-    WCHAR final[MAX_PATH+4];
-    DWORD n=GetFinalPathNameByHandleW(h,final,MAX_PATH+4,FILE_NAME_NORMALIZED|VOLUME_NAME_DOS);
-    if (!GetFileInformationByHandle(h,&info) || (info.dwFileAttributes&(FILE_ATTRIBUTE_REPARSE_POINT|FILE_ATTRIBUTE_DIRECTORY)) ||
-        !n || n>=MAX_PATH+4 || _wcsicmp(final,(L"\\\\?\\"+full).c_str())) {
-        CloseHandle(h); throw std::runtime_error("Session path changed or is not a regular local file");
-    }
-    return h;
+    return foxicmp::progressive::local_path_detail::Open(path,asynchronous);
+}
+std::wstring PublishedLocalText(const rapidjson::Value& input,const char* name) {
+    if(!input.HasMember(name) || !input[name].IsString() || !input[name].GetStringLength() ||
+        input[name].GetStringLength()>8192)
+        throw std::runtime_error("Invalid local path string");
+    return Wide(std::string(input[name].GetString(),input[name].GetStringLength()));
 }
 bool HeadIndexReady(const std::wstring& path,uint64_t prefix,uint64_t total) {
     HANDLE file=OpenLocal(path,false);
@@ -133,7 +118,7 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::Open(const std::wstring& p
 namespace {
 std::wstring PublishedDirectory(const rapidjson::Value& input, const std::wstring* bound=nullptr) {
     if(!input.HasMember("sessionDirectory"))return bound?*bound:std::wstring();
-    const auto raw=Wide(harvester::String(input,"sessionDirectory"));
+    const auto raw=PublishedLocalText(input,"sessionDirectory");
     if(raw.size()<3 || raw[1]!=L':' || (raw[2]!=L'\\' && raw[2]!=L'/'))
         throw std::runtime_error("sessionDirectory must be an absolute local directory");
     auto root=LocalPath(raw,false);
@@ -143,7 +128,7 @@ std::wstring PublishedDirectory(const rapidjson::Value& input, const std::wstrin
     return bound?*bound:root;
 }
 std::wstring PublishedPath(const std::wstring& root, const rapidjson::Value& track, bool inspect) {
-    auto raw=Wide(harvester::String(track,"path"));
+    auto raw=PublishedLocalText(track,"path");
     const bool absolute=raw.size()>2 && raw[1]==L':' && (raw[2]==L'\\' || raw[2]==L'/');
     if(!absolute) {
         if(root.empty())
