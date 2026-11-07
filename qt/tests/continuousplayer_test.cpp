@@ -189,8 +189,13 @@ private slots:
       }
       QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString(),QString("closed"),3000);
       const QJsonObject receiptQuery{{"version",1},{"action","readerStatus"},{"readerId",id}};
-      QJsonObject receiptReply;bool receiptConfirmed=false;
-      const auto confirmed=[&]{if(receiptConfirmed)return true;receiptReply=api->request(receiptQuery);return receiptConfirmed=receiptReply["ok"].toBool() && receiptReply["reader"].toObject()["released"].toBool();};
+      QJsonObject receiptReply;bool receiptConfirmed=false;QJsonArray receiptTrace;int receiptPolls=0;
+      QElapsedTimer receiptClock;receiptClock.start();
+      const auto receiptLog=qScopeGuard([&]{qInfo().noquote()<<"RECEIPT_WINDOW"<<QJsonDocument(QJsonObject{{"mode",mode},{"milliseconds",double(receiptClock.elapsed())},{"polls",receiptPolls},{"confirmed",receiptConfirmed},{"trace",receiptTrace},{"lastReply",receiptReply}}).toJson(QJsonDocument::Compact);});
+      const auto confirmed=[&]{if(receiptConfirmed)return true;receiptReply=api->request(receiptQuery);++receiptPolls;
+        const QJsonObject observation{{"milliseconds",double(receiptClock.elapsed())},{"reply",receiptReply}};
+        if(receiptTrace.size()<16)receiptTrace.append(observation);else receiptTrace[15]=observation;
+        return receiptConfirmed=receiptReply["ok"].toBool() && receiptReply["reader"].toObject()["released"].toBool();};
       const auto releaseDiagnostic=[&]{return QJsonDocument(QJsonObject{{"receipt",receiptReply},{"job",api->request(query)},{"playback",api->request(playbackQuery)}}).toJson(QJsonDocument::Compact);};
       QTRY_VERIFY2_WITH_TIMEOUT(confirmed(),releaseDiagnostic().constData(),5000);
       const auto receipt=receiptReply["reader"].toObject();

@@ -1301,3 +1301,23 @@ threads/wchan/syscall/FD около настоящего 30000 ms deadline и с
 [исправлен как DWM lifetime bug](ProgressiveDwmEventLifetime.md). Открыта связь
 с отдельным историческим Classic heartbeat-12 resource FAIL без baseline,
 а не поиск уже установленного allocator для той воспроизводимой утечки.
+
+### 7 ноября 2026: Qt receipt oracle — управляемый old FAIL и текущий PASS
+
+[Новая регрессия настоящего ReaderRequest и Qt QTRY](ProgressiveReceiptObservation.md)
+на Linux Qt 6.4.2 и Windows Qt 6.12.0: реальный media handle закрыт, сначала
+получен files-closed proof, затем занят private registry guard. Старый повторный
+polling дал native 1 после положительной квитанции; текущий latched подход дал
+native 0, сохранив flags/reason и обязательные busy/unlock/forget проверки.
+В GUI-тест добавлен bounded reply/time trace, лимиты сохранены. Полный
+Player/Window/API обеих Qt ОС — по 15 Qt PASS, native 0; ещё два целевых
+Windows reader-release повтора — native 0. Отрицательные exits сохранены,
+не превращены в успешную обычную приёмку.
+[Логи, коды, SHA и сохранность](ProgressiveReceiptObservationValidation-2026-11-07.json).
+Уточнена классификация старого Windows FAIL: ошибка до api/window destruction,
+исходный JSON и точный elapsed отсутствуют. Это не доказанная задержка закрытия
+>5 s; конкретная причина исторического assertion остаётся OPEN. Управляемый
+oracle failure не подменяет её доказательство. Сохранение proof уже было
+исправлено в 51c7fc9d9; текущий этап добавляет регрессию и диагностику.
+Production EXE/SDK не менялись, Classic не запускался; 583 файла и 158 HKCU
+entries сохранены, одноразовая задача удалена. Обновление установок не требуется.

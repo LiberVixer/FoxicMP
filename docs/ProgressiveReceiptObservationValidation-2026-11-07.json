@@ -1,0 +1,1085 @@
+{
+  "date": "2026-11-07",
+  "result": "PASS scoped oracle regression and current GUI tests; historical failure unclassified",
+  "baseCommit": "637f7231c8ff0f066aaae05e5bc0cb0eb6665a91",
+  "productionCodeChanged": false,
+  "productBuildRequired": false,
+  "installedUpdateRequired": false,
+  "sourceSha256": {
+    "qt/tests/receipt_observation_test.cpp": "dd206f6753cf2c8443698b821b86dc45e17e50c537fdf238db9d74732b767cca",
+    "qt/tests/continuousplayer_test.cpp": "014173389cc4e6a7e5fc0338c219e25a4da7b4374dcea96886ad396042ca9389",
+    "qt/CMakeLists.txt": "1cf84929034415ecc8dd52866c0811f40b5ceb6dd48b5266826615cb0721d2a2"
+  },
+  "results": {
+    "linux": {
+      "fixed": {
+        "nativeExitCode": 0,
+        "qtTotals": {
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0
+        },
+        "oracle": [
+          {
+            "calls": 1,
+            "contended": false,
+            "firstProof": {
+              "ok": true,
+              "reader": {
+                "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848302",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 340801,
+                "readerId": "b73b78d6eb9f748a2eaa0e99dc171ca1",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1604854",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "703699f546ac61de61fe421059528083",
+                "version": 1
+              },
+              "version": 1
+            },
+            "guardHeld": false,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848302",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 340801,
+                "readerId": "b73b78d6eb9f748a2eaa0e99dc171ca1",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1604854",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "703699f546ac61de61fe421059528083",
+                "version": 1
+              },
+              "version": 1
+            },
+            "legacy": false,
+            "milliseconds": 2,
+            "qtVersion": "6.4.2"
+          },
+          {
+            "calls": 1,
+            "contended": true,
+            "firstProof": {
+              "ok": true,
+              "reader": {
+                "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848302",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 340801,
+                "readerId": "35846d5195ea0bce0e972da37e871dcb",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1604854",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "e87a3f46d74df4dec09115926fed7efb",
+                "version": 1
+              },
+              "version": 1
+            },
+            "guardHeld": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848302",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 340801,
+                "readerId": "35846d5195ea0bce0e972da37e871dcb",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1604854",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "e87a3f46d74df4dec09115926fed7efb",
+                "version": 1
+              },
+              "version": 1
+            },
+            "legacy": false,
+            "milliseconds": 2,
+            "qtVersion": "6.4.2"
+          }
+        ],
+        "window": [],
+        "log": "********* Start testing of ReceiptObservationTest *********\nConfig: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3\nPASS   : ReceiptObservationTest::initTestCase()\nQINFO  : ReceiptObservationTest::receipt(ordinary) RECEIPT_ORACLE {\"calls\":1,\"contended\":false,\"firstProof\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848302\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340801,\"readerId\":\"b73b78d6eb9f748a2eaa0e99dc171ca1\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"2051\",\"fileId\":\"1604854\",\"id\":\"media\"}],\"sessionId\":\"703699f546ac61de61fe421059528083\",\"version\":1},\"version\":1},\"guardHeld\":false,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848302\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340801,\"readerId\":\"b73b78d6eb9f748a2eaa0e99dc171ca1\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"2051\",\"fileId\":\"1604854\",\"id\":\"media\"}],\"sessionId\":\"703699f546ac61de61fe421059528083\",\"version\":1},\"version\":1},\"legacy\":false,\"milliseconds\":2,\"qtVersion\":\"6.4.2\"}\nPASS   : ReceiptObservationTest::receipt(ordinary)\nQINFO  : ReceiptObservationTest::receipt(busy-after-proof) RECEIPT_ORACLE {\"calls\":1,\"contended\":true,\"firstProof\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848302\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340801,\"readerId\":\"35846d5195ea0bce0e972da37e871dcb\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"2051\",\"fileId\":\"1604854\",\"id\":\"media\"}],\"sessionId\":\"e87a3f46d74df4dec09115926fed7efb\",\"version\":1},\"version\":1},\"guardHeld\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848302\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340801,\"readerId\":\"35846d5195ea0bce0e972da37e871dcb\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"2051\",\"fileId\":\"1604854\",\"id\":\"media\"}],\"sessionId\":\"e87a3f46d74df4dec09115926fed7efb\",\"version\":1},\"version\":1},\"legacy\":false,\"milliseconds\":2,\"qtVersion\":\"6.4.2\"}\nPASS   : ReceiptObservationTest::receipt(busy-after-proof)\nPASS   : ReceiptObservationTest::cleanupTestCase()\nTotals: 4 passed, 0 failed, 0 skipped, 0 blacklisted, 29ms\n********* Finished testing of ReceiptObservationTest *********\n",
+        "logSha256": "f300d09f696ec7c0e1f9de8ffb4d2132472340b387910a5d2b6e074da0767b42"
+      },
+      "legacy": {
+        "nativeExitCode": 1,
+        "qtTotals": {
+          "passed": 2,
+          "failed": 1,
+          "skipped": 0
+        },
+        "oracle": [
+          {
+            "calls": 305,
+            "contended": true,
+            "firstProof": {
+              "ok": true,
+              "reader": {
+                "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848319",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 340804,
+                "readerId": "c32b5a0874a5673beefc624981834a0f",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "2051",
+                    "fileId": "1604854",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "64c7e5128a64680e43a4a502cdc7f3e7",
+                "version": 1
+              },
+              "version": 1
+            },
+            "guardHeld": true,
+            "lastReply": {
+              "code": "reader_registry_busy",
+              "error": "Reader registry is busy",
+              "ok": false,
+              "version": 1
+            },
+            "legacy": true,
+            "milliseconds": 15316,
+            "qtVersion": "6.4.2"
+          }
+        ],
+        "window": [],
+        "log": "********* Start testing of ReceiptObservationTest *********\nConfig: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3\nPASS   : ReceiptObservationTest::initTestCase()\nFAIL!  : ReceiptObservationTest::receipt(busy-after-proof) 'poll()' returned FALSE. ()\n   Loc: [/media/sf_Studio/Programs/MPMY-src/qt/tests/receipt_observation_test.cpp(71)]\nQINFO  : ReceiptObservationTest::receipt(busy-after-proof) RECEIPT_ORACLE {\"calls\":305,\"contended\":true,\"firstProof\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848319\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340804,\"readerId\":\"c32b5a0874a5673beefc624981834a0f\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"2051\",\"fileId\":\"1604854\",\"id\":\"media\"}],\"sessionId\":\"64c7e5128a64680e43a4a502cdc7f3e7\",\"version\":1},\"version\":1},\"guardHeld\":true,\"lastReply\":{\"code\":\"reader_registry_busy\",\"error\":\"Reader registry is busy\",\"ok\":false,\"version\":1},\"legacy\":true,\"milliseconds\":15316,\"qtVersion\":\"6.4.2\"}\nPASS   : ReceiptObservationTest::cleanupTestCase()\nTotals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 15324ms\n********* Finished testing of ReceiptObservationTest *********\n",
+        "logSha256": "1605589c34c2be700cc8c0599b09b6b8d2730fbac04f00c99b4642f8e006a6ea"
+      },
+      "window": {
+        "nativeExitCode": 0,
+        "qtTotals": {
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0
+        },
+        "oracle": [],
+        "window": [
+          {
+            "confirmed": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848315",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 340803,
+                "readerId": "10c4a754fca63b05a94fcf0c32087157",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "46",
+                    "fileId": "2979",
+                    "id": "remux-a9fbcc9bf657fefce26ba7901381bfde"
+                  }
+                ],
+                "sessionId": "4e5e62a07baa47ce8d416d4c6c97f6f7",
+                "version": 1
+              },
+              "version": 1
+            },
+            "milliseconds": 0,
+            "mode": "reader-release",
+            "polls": 1,
+            "trace": [
+              {
+                "milliseconds": 0,
+                "reply": {
+                  "ok": true,
+                  "reader": {
+                    "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848315",
+                    "filesClosed": true,
+                    "generation": "1",
+                    "pid": 340803,
+                    "readerId": "10c4a754fca63b05a94fcf0c32087157",
+                    "reason": "files-closed",
+                    "released": true,
+                    "resources": [
+                      {
+                        "device": "46",
+                        "fileId": "2979",
+                        "id": "remux-a9fbcc9bf657fefce26ba7901381bfde"
+                      }
+                    ],
+                    "sessionId": "4e5e62a07baa47ce8d416d4c6c97f6f7",
+                    "version": 1
+                  },
+                  "version": 1
+                }
+              }
+            ]
+          },
+          {
+            "confirmed": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848315",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 340803,
+                "readerId": "dee9d75385b1e9add2570119bca6880c",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "46",
+                    "fileId": "2992",
+                    "id": "remux-a5a758195694fb15d9ce809ab9f08401"
+                  }
+                ],
+                "sessionId": "0f31f5fdb0da15f5924c47ff4bec4624",
+                "version": 1
+              },
+              "version": 1
+            },
+            "milliseconds": 0,
+            "mode": "reader-release-held-reader",
+            "polls": 1,
+            "trace": [
+              {
+                "milliseconds": 0,
+                "reply": {
+                  "ok": true,
+                  "reader": {
+                    "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848315",
+                    "filesClosed": true,
+                    "generation": "1",
+                    "pid": 340803,
+                    "readerId": "dee9d75385b1e9add2570119bca6880c",
+                    "reason": "files-closed",
+                    "released": true,
+                    "resources": [
+                      {
+                        "device": "46",
+                        "fileId": "2992",
+                        "id": "remux-a5a758195694fb15d9ce809ab9f08401"
+                      }
+                    ],
+                    "sessionId": "0f31f5fdb0da15f5924c47ff4bec4624",
+                    "version": 1
+                  },
+                  "version": 1
+                }
+              }
+            ]
+          },
+          {
+            "confirmed": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848315",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 340803,
+                "readerId": "3c018ada186a7dcf9dfe2d72a3650e80",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "46",
+                    "fileId": "3006",
+                    "id": "remux-964f09d4dd73168ccbcf73966e7b1a1f"
+                  }
+                ],
+                "sessionId": "4fe24178d030e5019b5788ba29f457fc",
+                "version": 1
+              },
+              "version": 1
+            },
+            "milliseconds": 0,
+            "mode": "delayed-reader-release",
+            "polls": 1,
+            "trace": [
+              {
+                "milliseconds": 0,
+                "reply": {
+                  "ok": true,
+                  "reader": {
+                    "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848315",
+                    "filesClosed": true,
+                    "generation": "1",
+                    "pid": 340803,
+                    "readerId": "3c018ada186a7dcf9dfe2d72a3650e80",
+                    "reason": "files-closed",
+                    "released": true,
+                    "resources": [
+                      {
+                        "device": "46",
+                        "fileId": "3006",
+                        "id": "remux-964f09d4dd73168ccbcf73966e7b1a1f"
+                      }
+                    ],
+                    "sessionId": "4fe24178d030e5019b5788ba29f457fc",
+                    "version": 1
+                  },
+                  "version": 1
+                }
+              }
+            ]
+          },
+          {
+            "confirmed": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848315",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 340803,
+                "readerId": "a6116b626814f1f9c6859951a6b31ce0",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "46",
+                    "fileId": "3019",
+                    "id": "remux-87766ffd74c18af46fda0744558b8c86"
+                  }
+                ],
+                "sessionId": "cc776b93c9d4d1e9080097202f674ad0",
+                "version": 1
+              },
+              "version": 1
+            },
+            "milliseconds": 0,
+            "mode": "delayed-reader-release-replace",
+            "polls": 1,
+            "trace": [
+              {
+                "milliseconds": 0,
+                "reply": {
+                  "ok": true,
+                  "reader": {
+                    "birth": "e0c7e4fc-9322-4b24-8781-6380e050478d:4848315",
+                    "filesClosed": true,
+                    "generation": "1",
+                    "pid": 340803,
+                    "readerId": "a6116b626814f1f9c6859951a6b31ce0",
+                    "reason": "files-closed",
+                    "released": true,
+                    "resources": [
+                      {
+                        "device": "46",
+                        "fileId": "3019",
+                        "id": "remux-87766ffd74c18af46fda0744558b8c86"
+                      }
+                    ],
+                    "sessionId": "cc776b93c9d4d1e9080097202f674ad0",
+                    "version": 1
+                  },
+                  "version": 1
+                }
+              }
+            ]
+          }
+        ],
+        "log": "Gtk-Message: 10:38:23.739: Failed to load module \"colorreload-gtk-module\"\nGtk-Message: 10:38:23.740: Failed to load module \"window-decorations-gtk-module\"\n********* Start testing of ContinuousPlayerTest *********\nConfig: Using QtTest library 6.4.2, Qt 6.4.2 (x86_64-little_endian-lp64 shared (dynamic) release build; by GCC 13.2.0), linuxmint 22.3\nPASS   : ContinuousPlayerTest::initTestCase()\nPASS   : ContinuousPlayerTest::playback(complete)\nPASS   : ContinuousPlayerTest::playback(stop)\nPASS   : ContinuousPlayerTest::playback(replace)\nPASS   : ContinuousPlayerTest::playback(delete)\nPASS   : ContinuousPlayerTest::playback(producer-error)\nFailed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory\nPASS   : ContinuousPlayerTest::windowClose(close-window)\nFailed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory\nPASS   : ContinuousPlayerTest::windowClose(destroy-api-before-window)\nFailed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory\nQINFO  : ContinuousPlayerTest::windowClose(reader-release) RECEIPT_WINDOW {\"confirmed\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848315\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340803,\"readerId\":\"10c4a754fca63b05a94fcf0c32087157\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"46\",\"fileId\":\"2979\",\"id\":\"remux-a9fbcc9bf657fefce26ba7901381bfde\"}],\"sessionId\":\"4e5e62a07baa47ce8d416d4c6c97f6f7\",\"version\":1},\"version\":1},\"milliseconds\":0,\"mode\":\"reader-release\",\"polls\":1,\"trace\":[{\"milliseconds\":0,\"reply\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848315\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340803,\"readerId\":\"10c4a754fca63b05a94fcf0c32087157\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"46\",\"fileId\":\"2979\",\"id\":\"remux-a9fbcc9bf657fefce26ba7901381bfde\"}],\"sessionId\":\"4e5e62a07baa47ce8d416d4c6c97f6f7\",\"version\":1},\"version\":1}}]}\nPASS   : ContinuousPlayerTest::windowClose(reader-release)\nFailed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory\nQINFO  : ContinuousPlayerTest::windowClose(reader-release-held-reader) RECEIPT_WINDOW {\"confirmed\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848315\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340803,\"readerId\":\"dee9d75385b1e9add2570119bca6880c\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"46\",\"fileId\":\"2992\",\"id\":\"remux-a5a758195694fb15d9ce809ab9f08401\"}],\"sessionId\":\"0f31f5fdb0da15f5924c47ff4bec4624\",\"version\":1},\"version\":1},\"milliseconds\":0,\"mode\":\"reader-release-held-reader\",\"polls\":1,\"trace\":[{\"milliseconds\":0,\"reply\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848315\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340803,\"readerId\":\"dee9d75385b1e9add2570119bca6880c\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"46\",\"fileId\":\"2992\",\"id\":\"remux-a5a758195694fb15d9ce809ab9f08401\"}],\"sessionId\":\"0f31f5fdb0da15f5924c47ff4bec4624\",\"version\":1},\"version\":1}}]}\nPASS   : ContinuousPlayerTest::windowClose(reader-release-held-reader)\nFailed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory\nQINFO  : ContinuousPlayerTest::windowClose(delayed-reader-release) RECEIPT_WINDOW {\"confirmed\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848315\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340803,\"readerId\":\"3c018ada186a7dcf9dfe2d72a3650e80\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"46\",\"fileId\":\"3006\",\"id\":\"remux-964f09d4dd73168ccbcf73966e7b1a1f\"}],\"sessionId\":\"4fe24178d030e5019b5788ba29f457fc\",\"version\":1},\"version\":1},\"milliseconds\":0,\"mode\":\"delayed-reader-release\",\"polls\":1,\"trace\":[{\"milliseconds\":0,\"reply\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848315\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340803,\"readerId\":\"3c018ada186a7dcf9dfe2d72a3650e80\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"46\",\"fileId\":\"3006\",\"id\":\"remux-964f09d4dd73168ccbcf73966e7b1a1f\"}],\"sessionId\":\"4fe24178d030e5019b5788ba29f457fc\",\"version\":1},\"version\":1}}]}\nPASS   : ContinuousPlayerTest::windowClose(delayed-reader-release)\nFailed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory\nFailed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory\nQINFO  : ContinuousPlayerTest::windowClose(delayed-reader-release-replace) RECEIPT_WINDOW {\"confirmed\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848315\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340803,\"readerId\":\"a6116b626814f1f9c6859951a6b31ce0\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"46\",\"fileId\":\"3019\",\"id\":\"remux-87766ffd74c18af46fda0744558b8c86\"}],\"sessionId\":\"cc776b93c9d4d1e9080097202f674ad0\",\"version\":1},\"version\":1},\"milliseconds\":0,\"mode\":\"delayed-reader-release-replace\",\"polls\":1,\"trace\":[{\"milliseconds\":0,\"reply\":{\"ok\":true,\"reader\":{\"birth\":\"e0c7e4fc-9322-4b24-8781-6380e050478d:4848315\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":340803,\"readerId\":\"a6116b626814f1f9c6859951a6b31ce0\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"46\",\"fileId\":\"3019\",\"id\":\"remux-87766ffd74c18af46fda0744558b8c86\"}],\"sessionId\":\"cc776b93c9d4d1e9080097202f674ad0\",\"version\":1},\"version\":1}}]}\nPASS   : ContinuousPlayerTest::windowClose(delayed-reader-release-replace)\nFailed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory\nPASS   : ContinuousPlayerTest::windowClose(waiting-status)\nFailed to open VDPAU backend libvdpau_nvidia.so: cannot open shared object file: No such file or directory\nPASS   : ContinuousPlayerTest::windowClose(producer-error-paused)\nPASS   : ContinuousPlayerTest::cleanupTestCase()\nTotals: 15 passed, 0 failed, 0 skipped, 0 blacklisted, 18205ms\n********* Finished testing of ContinuousPlayerTest *********\n",
+        "logSha256": "00b03421ed4932f83dfba3de0e9d4a89cbd4af2637c55f5f87697047be35ffa6"
+      }
+    },
+    "windows": {
+      "fixed": {
+        "nativeExitCode": 0,
+        "qtTotals": {
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0
+        },
+        "oracle": [
+          {
+            "calls": 1,
+            "contended": false,
+            "firstProof": {
+              "ok": true,
+              "reader": {
+                "birth": "134385107399008562",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 3392,
+                "readerId": "b7b1eea5fdbcbde0629a79903a94b5f5",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "10414574138779020",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "ecdae4c67a0643b1d0b89e5235138cda",
+                "version": 1
+              },
+              "version": 1
+            },
+            "guardHeld": false,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "134385107399008562",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 3392,
+                "readerId": "b7b1eea5fdbcbde0629a79903a94b5f5",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "10414574138779020",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "ecdae4c67a0643b1d0b89e5235138cda",
+                "version": 1
+              },
+              "version": 1
+            },
+            "legacy": false,
+            "milliseconds": 2,
+            "qtVersion": "6.12.0"
+          },
+          {
+            "calls": 1,
+            "contended": true,
+            "firstProof": {
+              "ok": true,
+              "reader": {
+                "birth": "134385107399008562",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 3392,
+                "readerId": "c2fcc6c86047b344afa8e1340ed54411",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "10696049115489676",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "0b81d20910bdefe2d534e43a0a333a64",
+                "version": 1
+              },
+              "version": 1
+            },
+            "guardHeld": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "134385107399008562",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 3392,
+                "readerId": "c2fcc6c86047b344afa8e1340ed54411",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "10696049115489676",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "0b81d20910bdefe2d534e43a0a333a64",
+                "version": 1
+              },
+              "version": 1
+            },
+            "legacy": false,
+            "milliseconds": 3,
+            "qtVersion": "6.12.0"
+          }
+        ],
+        "window": [],
+        "log": "********* Start testing of ReceiptObservationTest *********\r\nConfig: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by GCC 16.2.0), windows 11\r\nPASS   : ReceiptObservationTest::initTestCase()\r\nQINFO  : ReceiptObservationTest::receipt(ordinary) RECEIPT_ORACLE {\"calls\":1,\"contended\":false,\"firstProof\":{\"ok\":true,\"reader\":{\"birth\":\"134385107399008562\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":3392,\"readerId\":\"b7b1eea5fdbcbde0629a79903a94b5f5\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"10414574138779020\",\"id\":\"media\"}],\"sessionId\":\"ecdae4c67a0643b1d0b89e5235138cda\",\"version\":1},\"version\":1},\"guardHeld\":false,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"134385107399008562\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":3392,\"readerId\":\"b7b1eea5fdbcbde0629a79903a94b5f5\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"10414574138779020\",\"id\":\"media\"}],\"sessionId\":\"ecdae4c67a0643b1d0b89e5235138cda\",\"version\":1},\"version\":1},\"legacy\":false,\"milliseconds\":2,\"qtVersion\":\"6.12.0\"}\r\nPASS   : ReceiptObservationTest::receipt(ordinary)\r\nQINFO  : ReceiptObservationTest::receipt(busy-after-proof) RECEIPT_ORACLE {\"calls\":1,\"contended\":true,\"firstProof\":{\"ok\":true,\"reader\":{\"birth\":\"134385107399008562\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":3392,\"readerId\":\"c2fcc6c86047b344afa8e1340ed54411\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"10696049115489676\",\"id\":\"media\"}],\"sessionId\":\"0b81d20910bdefe2d534e43a0a333a64\",\"version\":1},\"version\":1},\"guardHeld\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"134385107399008562\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":3392,\"readerId\":\"c2fcc6c86047b344afa8e1340ed54411\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"10696049115489676\",\"id\":\"media\"}],\"sessionId\":\"0b81d20910bdefe2d534e43a0a333a64\",\"version\":1},\"version\":1},\"legacy\":false,\"milliseconds\":3,\"qtVersion\":\"6.12.0\"}\r\nPASS   : ReceiptObservationTest::receipt(busy-after-proof)\r\nPASS   : ReceiptObservationTest::cleanupTestCase()\r\nTotals: 4 passed, 0 failed, 0 skipped, 0 blacklisted, 30ms\r\n********* Finished testing of ReceiptObservationTest *********\r\n",
+        "logSha256": "9be73cc5a77c66f47430f921afdaf1f49c533e6ddba59472df9b25de85951aa3"
+      },
+      "legacy": {
+        "nativeExitCode": 1,
+        "qtTotals": {
+          "passed": 2,
+          "failed": 1,
+          "skipped": 0
+        },
+        "oracle": [
+          {
+            "calls": 305,
+            "contended": true,
+            "firstProof": {
+              "ok": true,
+              "reader": {
+                "birth": "134385107401067571",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 3432,
+                "readerId": "e3bda49da0f83deb73ea1108182fdb04",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "10977524092200332",
+                    "id": "media"
+                  }
+                ],
+                "sessionId": "420da94ad4f0061dbd7bdd6a3170e9ac",
+                "version": 1
+              },
+              "version": 1
+            },
+            "guardHeld": true,
+            "lastReply": {
+              "code": "reader_registry_busy",
+              "error": "Reader registry is busy",
+              "ok": false,
+              "version": 1
+            },
+            "legacy": true,
+            "milliseconds": 15509,
+            "qtVersion": "6.12.0"
+          }
+        ],
+        "window": [],
+        "log": "********* Start testing of ReceiptObservationTest *********\r\nConfig: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by GCC 16.2.0), windows 11\r\nPASS   : ReceiptObservationTest::initTestCase()\r\nFAIL!  : ReceiptObservationTest::receipt(busy-after-proof) 'poll()' returned FALSE. ()\r\nE:/Programs/MPMY-src/qt/tests/receipt_observation_test.cpp(71) : failure location\r\nQINFO  : ReceiptObservationTest::receipt(busy-after-proof) RECEIPT_ORACLE {\"calls\":305,\"contended\":true,\"firstProof\":{\"ok\":true,\"reader\":{\"birth\":\"134385107401067571\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":3432,\"readerId\":\"e3bda49da0f83deb73ea1108182fdb04\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"10977524092200332\",\"id\":\"media\"}],\"sessionId\":\"420da94ad4f0061dbd7bdd6a3170e9ac\",\"version\":1},\"version\":1},\"guardHeld\":true,\"lastReply\":{\"code\":\"reader_registry_busy\",\"error\":\"Reader registry is busy\",\"ok\":false,\"version\":1},\"legacy\":true,\"milliseconds\":15509,\"qtVersion\":\"6.12.0\"}\r\nPASS   : ReceiptObservationTest::cleanupTestCase()\r\nTotals: 2 passed, 1 failed, 0 skipped, 0 blacklisted, 15525ms\r\n********* Finished testing of ReceiptObservationTest *********\r\n",
+        "logSha256": "4bce33090f1fb5a6730d325f942aed93962da347e930b8c59d544ab318bd7ea4"
+      },
+      "window-repeat": {
+        "nativeExitCode": 0,
+        "qtTotals": {
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0
+        },
+        "oracle": [],
+        "window": [
+          {
+            "confirmed": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "134385108702677794",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 8608,
+                "readerId": "1b824f8dd4e35d9ff86f2fd7ddc4af31",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "82190693200511242",
+                    "id": "remux-ca9b9c10f0066039aad4b90bf417447f"
+                  }
+                ],
+                "sessionId": "5126f04c27753895efb970a47396ac20",
+                "version": 1
+              },
+              "version": 1
+            },
+            "milliseconds": 2,
+            "mode": "reader-release",
+            "polls": 1,
+            "trace": [
+              {
+                "milliseconds": 0,
+                "reply": {
+                  "ok": true,
+                  "reader": {
+                    "birth": "134385108702677794",
+                    "filesClosed": true,
+                    "generation": "1",
+                    "pid": 8608,
+                    "readerId": "1b824f8dd4e35d9ff86f2fd7ddc4af31",
+                    "reason": "files-closed",
+                    "released": true,
+                    "resources": [
+                      {
+                        "device": "656024512",
+                        "fileId": "82190693200511242",
+                        "id": "remux-ca9b9c10f0066039aad4b90bf417447f"
+                      }
+                    ],
+                    "sessionId": "5126f04c27753895efb970a47396ac20",
+                    "version": 1
+                  },
+                  "version": 1
+                }
+              }
+            ]
+          },
+          {
+            "confirmed": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "134385108702677794",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 8608,
+                "readerId": "20435091922629b01000b1bdf4dbc988",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "82472168177221898",
+                    "id": "remux-c08887fb2da0ce70393423392cde828b"
+                  }
+                ],
+                "sessionId": "70faf9fdb38fe634114a77a33e9b55fd",
+                "version": 1
+              },
+              "version": 1
+            },
+            "milliseconds": 3,
+            "mode": "reader-release-held-reader",
+            "polls": 1,
+            "trace": [
+              {
+                "milliseconds": 0,
+                "reply": {
+                  "ok": true,
+                  "reader": {
+                    "birth": "134385108702677794",
+                    "filesClosed": true,
+                    "generation": "1",
+                    "pid": 8608,
+                    "readerId": "20435091922629b01000b1bdf4dbc988",
+                    "reason": "files-closed",
+                    "released": true,
+                    "resources": [
+                      {
+                        "device": "656024512",
+                        "fileId": "82472168177221898",
+                        "id": "remux-c08887fb2da0ce70393423392cde828b"
+                      }
+                    ],
+                    "sessionId": "70faf9fdb38fe634114a77a33e9b55fd",
+                    "version": 1
+                  },
+                  "version": 1
+                }
+              }
+            ]
+          },
+          {
+            "confirmed": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "134385108702677794",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 8608,
+                "readerId": "06d63c511ca80d5d77c3425dd7f10fc0",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "82753643153932554",
+                    "id": "remux-3208bb953dc67d0736221a1251a794af"
+                  }
+                ],
+                "sessionId": "109516c1ca4eb343ccc8340e71bb9296",
+                "version": 1
+              },
+              "version": 1
+            },
+            "milliseconds": 3,
+            "mode": "delayed-reader-release",
+            "polls": 1,
+            "trace": [
+              {
+                "milliseconds": 0,
+                "reply": {
+                  "ok": true,
+                  "reader": {
+                    "birth": "134385108702677794",
+                    "filesClosed": true,
+                    "generation": "1",
+                    "pid": 8608,
+                    "readerId": "06d63c511ca80d5d77c3425dd7f10fc0",
+                    "reason": "files-closed",
+                    "released": true,
+                    "resources": [
+                      {
+                        "device": "656024512",
+                        "fileId": "82753643153932554",
+                        "id": "remux-3208bb953dc67d0736221a1251a794af"
+                      }
+                    ],
+                    "sessionId": "109516c1ca4eb343ccc8340e71bb9296",
+                    "version": 1
+                  },
+                  "version": 1
+                }
+              }
+            ]
+          },
+          {
+            "confirmed": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "134385108702677794",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 8608,
+                "readerId": "816da476d7ac7792f34008c19f82b558",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "106679016174338294",
+                    "id": "remux-d9a40309275314cbf824061a453cd3a9"
+                  }
+                ],
+                "sessionId": "9bae71eff51326f40f08691c97abc76e",
+                "version": 1
+              },
+              "version": 1
+            },
+            "milliseconds": 3,
+            "mode": "delayed-reader-release-replace",
+            "polls": 1,
+            "trace": [
+              {
+                "milliseconds": 0,
+                "reply": {
+                  "ok": true,
+                  "reader": {
+                    "birth": "134385108702677794",
+                    "filesClosed": true,
+                    "generation": "1",
+                    "pid": 8608,
+                    "readerId": "816da476d7ac7792f34008c19f82b558",
+                    "reason": "files-closed",
+                    "released": true,
+                    "resources": [
+                      {
+                        "device": "656024512",
+                        "fileId": "106679016174338294",
+                        "id": "remux-d9a40309275314cbf824061a453cd3a9"
+                      }
+                    ],
+                    "sessionId": "9bae71eff51326f40f08691c97abc76e",
+                    "version": 1
+                  },
+                  "version": 1
+                }
+              }
+            ]
+          }
+        ],
+        "log": "********* Start testing of ContinuousPlayerTest *********\r\nConfig: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by GCC 16.2.0), windows 11\r\nPASS   : ContinuousPlayerTest::initTestCase()\r\nPASS   : ContinuousPlayerTest::playback(complete)\r\nPASS   : ContinuousPlayerTest::playback(stop)\r\nPASS   : ContinuousPlayerTest::playback(replace)\r\nPASS   : ContinuousPlayerTest::playback(delete)\r\nPASS   : ContinuousPlayerTest::playback(producer-error)\r\nPASS   : ContinuousPlayerTest::windowClose(close-window)\r\nPASS   : ContinuousPlayerTest::windowClose(destroy-api-before-window)\r\nQINFO  : ContinuousPlayerTest::windowClose(reader-release) RECEIPT_WINDOW {\"confirmed\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108702677794\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":8608,\"readerId\":\"1b824f8dd4e35d9ff86f2fd7ddc4af31\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"82190693200511242\",\"id\":\"remux-ca9b9c10f0066039aad4b90bf417447f\"}],\"sessionId\":\"5126f04c27753895efb970a47396ac20\",\"version\":1},\"version\":1},\"milliseconds\":2,\"mode\":\"reader-release\",\"polls\":1,\"trace\":[{\"milliseconds\":0,\"reply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108702677794\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":8608,\"readerId\":\"1b824f8dd4e35d9ff86f2fd7ddc4af31\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"82190693200511242\",\"id\":\"remux-ca9b9c10f0066039aad4b90bf417447f\"}],\"sessionId\":\"5126f04c27753895efb970a47396ac20\",\"version\":1},\"version\":1}}]}\r\nPASS   : ContinuousPlayerTest::windowClose(reader-release)\r\nQINFO  : ContinuousPlayerTest::windowClose(reader-release-held-reader) RECEIPT_WINDOW {\"confirmed\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108702677794\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":8608,\"readerId\":\"20435091922629b01000b1bdf4dbc988\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"82472168177221898\",\"id\":\"remux-c08887fb2da0ce70393423392cde828b\"}],\"sessionId\":\"70faf9fdb38fe634114a77a33e9b55fd\",\"version\":1},\"version\":1},\"milliseconds\":3,\"mode\":\"reader-release-held-reader\",\"polls\":1,\"trace\":[{\"milliseconds\":0,\"reply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108702677794\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":8608,\"readerId\":\"20435091922629b01000b1bdf4dbc988\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"82472168177221898\",\"id\":\"remux-c08887fb2da0ce70393423392cde828b\"}],\"sessionId\":\"70faf9fdb38fe634114a77a33e9b55fd\",\"version\":1},\"version\":1}}]}\r\nPASS   : ContinuousPlayerTest::windowClose(reader-release-held-reader)\r\nQINFO  : ContinuousPlayerTest::windowClose(delayed-reader-release) RECEIPT_WINDOW {\"confirmed\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108702677794\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":8608,\"readerId\":\"06d63c511ca80d5d77c3425dd7f10fc0\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"82753643153932554\",\"id\":\"remux-3208bb953dc67d0736221a1251a794af\"}],\"sessionId\":\"109516c1ca4eb343ccc8340e71bb9296\",\"version\":1},\"version\":1},\"milliseconds\":3,\"mode\":\"delayed-reader-release\",\"polls\":1,\"trace\":[{\"milliseconds\":0,\"reply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108702677794\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":8608,\"readerId\":\"06d63c511ca80d5d77c3425dd7f10fc0\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"82753643153932554\",\"id\":\"remux-3208bb953dc67d0736221a1251a794af\"}],\"sessionId\":\"109516c1ca4eb343ccc8340e71bb9296\",\"version\":1},\"version\":1}}]}\r\nPASS   : ContinuousPlayerTest::windowClose(delayed-reader-release)\r\nQINFO  : ContinuousPlayerTest::windowClose(delayed-reader-release-replace) RECEIPT_WINDOW {\"confirmed\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108702677794\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":8608,\"readerId\":\"816da476d7ac7792f34008c19f82b558\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"106679016174338294\",\"id\":\"remux-d9a40309275314cbf824061a453cd3a9\"}],\"sessionId\":\"9bae71eff51326f40f08691c97abc76e\",\"version\":1},\"version\":1},\"milliseconds\":3,\"mode\":\"delayed-reader-release-replace\",\"polls\":1,\"trace\":[{\"milliseconds\":0,\"reply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108702677794\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":8608,\"readerId\":\"816da476d7ac7792f34008c19f82b558\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"106679016174338294\",\"id\":\"remux-d9a40309275314cbf824061a453cd3a9\"}],\"sessionId\":\"9bae71eff51326f40f08691c97abc76e\",\"version\":1},\"version\":1}}]}\r\nPASS   : ContinuousPlayerTest::windowClose(delayed-reader-release-replace)\r\nPASS   : ContinuousPlayerTest::windowClose(waiting-status)\r\nPASS   : ContinuousPlayerTest::windowClose(producer-error-paused)\r\nPASS   : ContinuousPlayerTest::cleanupTestCase()\r\nTotals: 15 passed, 0 failed, 0 skipped, 0 blacklisted, 21153ms\r\n********* Finished testing of ContinuousPlayerTest *********\r\nQEventDispatcherWin32::wakeUp: Failed to post a message (������������ ���������� ����.)\r\n",
+        "logSha256": "1f4ae70e8f9d91310dddc58755d9c8f95a48994a54811d0b030461bdf846a3cc"
+      },
+      "reader-repeat-1": {
+        "nativeExitCode": 0,
+        "qtTotals": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0
+        },
+        "oracle": [],
+        "window": [
+          {
+            "confirmed": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "134385108917049775",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 1468,
+                "readerId": "c69a42d3088ffded85293c6a4831b2a3",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "172544160724631831",
+                    "id": "remux-4d4100566fa5f7f8b8ea258a680449cf"
+                  }
+                ],
+                "sessionId": "96613cf9a785224ad8d76fbf3dd63b8d",
+                "version": 1
+              },
+              "version": 1
+            },
+            "milliseconds": 2,
+            "mode": "reader-release",
+            "polls": 1,
+            "trace": [
+              {
+                "milliseconds": 0,
+                "reply": {
+                  "ok": true,
+                  "reader": {
+                    "birth": "134385108917049775",
+                    "filesClosed": true,
+                    "generation": "1",
+                    "pid": 1468,
+                    "readerId": "c69a42d3088ffded85293c6a4831b2a3",
+                    "reason": "files-closed",
+                    "released": true,
+                    "resources": [
+                      {
+                        "device": "656024512",
+                        "fileId": "172544160724631831",
+                        "id": "remux-4d4100566fa5f7f8b8ea258a680449cf"
+                      }
+                    ],
+                    "sessionId": "96613cf9a785224ad8d76fbf3dd63b8d",
+                    "version": 1
+                  },
+                  "version": 1
+                }
+              }
+            ]
+          }
+        ],
+        "log": "********* Start testing of ContinuousPlayerTest *********\r\nConfig: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by GCC 16.2.0), windows 11\r\nPASS   : ContinuousPlayerTest::initTestCase()\r\nQINFO  : ContinuousPlayerTest::windowClose(reader-release) RECEIPT_WINDOW {\"confirmed\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108917049775\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":1468,\"readerId\":\"c69a42d3088ffded85293c6a4831b2a3\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"172544160724631831\",\"id\":\"remux-4d4100566fa5f7f8b8ea258a680449cf\"}],\"sessionId\":\"96613cf9a785224ad8d76fbf3dd63b8d\",\"version\":1},\"version\":1},\"milliseconds\":2,\"mode\":\"reader-release\",\"polls\":1,\"trace\":[{\"milliseconds\":0,\"reply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108917049775\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":1468,\"readerId\":\"c69a42d3088ffded85293c6a4831b2a3\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"172544160724631831\",\"id\":\"remux-4d4100566fa5f7f8b8ea258a680449cf\"}],\"sessionId\":\"96613cf9a785224ad8d76fbf3dd63b8d\",\"version\":1},\"version\":1}}]}\r\nPASS   : ContinuousPlayerTest::windowClose(reader-release)\r\nPASS   : ContinuousPlayerTest::cleanupTestCase()\r\nTotals: 3 passed, 0 failed, 0 skipped, 0 blacklisted, 1285ms\r\n********* Finished testing of ContinuousPlayerTest *********\r\nQEventDispatcherWin32::wakeUp: Failed to post a message (������������ ���������� ����.)\r\n",
+        "logSha256": "c9e7b0990300c0d76990608cda67b87ea5e060f7313da519ac6b06f85893c9f8"
+      },
+      "reader-repeat-2": {
+        "nativeExitCode": 0,
+        "qtTotals": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0
+        },
+        "oracle": [],
+        "window": [
+          {
+            "confirmed": true,
+            "lastReply": {
+              "ok": true,
+              "reader": {
+                "birth": "134385108932476929",
+                "filesClosed": true,
+                "generation": "1",
+                "pid": 11452,
+                "readerId": "5562a3f60dafe320fc396cb70b2674b5",
+                "reason": "files-closed",
+                "released": true,
+                "resources": [
+                  {
+                    "device": "656024512",
+                    "fileId": "85005442967617802",
+                    "id": "remux-27e5ab678c9b2672ef5ee5db0bbb7acf"
+                  }
+                ],
+                "sessionId": "08842a39e220b3906703aee8185ec9d5",
+                "version": 1
+              },
+              "version": 1
+            },
+            "milliseconds": 2,
+            "mode": "reader-release",
+            "polls": 1,
+            "trace": [
+              {
+                "milliseconds": 0,
+                "reply": {
+                  "ok": true,
+                  "reader": {
+                    "birth": "134385108932476929",
+                    "filesClosed": true,
+                    "generation": "1",
+                    "pid": 11452,
+                    "readerId": "5562a3f60dafe320fc396cb70b2674b5",
+                    "reason": "files-closed",
+                    "released": true,
+                    "resources": [
+                      {
+                        "device": "656024512",
+                        "fileId": "85005442967617802",
+                        "id": "remux-27e5ab678c9b2672ef5ee5db0bbb7acf"
+                      }
+                    ],
+                    "sessionId": "08842a39e220b3906703aee8185ec9d5",
+                    "version": 1
+                  },
+                  "version": 1
+                }
+              }
+            ]
+          }
+        ],
+        "log": "********* Start testing of ContinuousPlayerTest *********\r\nConfig: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by GCC 16.2.0), windows 11\r\nPASS   : ContinuousPlayerTest::initTestCase()\r\nQINFO  : ContinuousPlayerTest::windowClose(reader-release) RECEIPT_WINDOW {\"confirmed\":true,\"lastReply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108932476929\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":11452,\"readerId\":\"5562a3f60dafe320fc396cb70b2674b5\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"85005442967617802\",\"id\":\"remux-27e5ab678c9b2672ef5ee5db0bbb7acf\"}],\"sessionId\":\"08842a39e220b3906703aee8185ec9d5\",\"version\":1},\"version\":1},\"milliseconds\":2,\"mode\":\"reader-release\",\"polls\":1,\"trace\":[{\"milliseconds\":0,\"reply\":{\"ok\":true,\"reader\":{\"birth\":\"134385108932476929\",\"filesClosed\":true,\"generation\":\"1\",\"pid\":11452,\"readerId\":\"5562a3f60dafe320fc396cb70b2674b5\",\"reason\":\"files-closed\",\"released\":true,\"resources\":[{\"device\":\"656024512\",\"fileId\":\"85005442967617802\",\"id\":\"remux-27e5ab678c9b2672ef5ee5db0bbb7acf\"}],\"sessionId\":\"08842a39e220b3906703aee8185ec9d5\",\"version\":1},\"version\":1}}]}\r\nPASS   : ContinuousPlayerTest::windowClose(reader-release)\r\nPASS   : ContinuousPlayerTest::cleanupTestCase()\r\nTotals: 3 passed, 0 failed, 0 skipped, 0 blacklisted, 1463ms\r\n********* Finished testing of ContinuousPlayerTest *********\r\nQEventDispatcherWin32::wakeUp: Failed to post a message (������������ ���������� ����.)\r\n",
+        "logSha256": "195c3f37de9b7dd07ca6ac13564625fc7036739723dff274ebccc7e78dc8bbd5"
+      }
+    }
+  },
+  "builds": {
+    "linux": {
+      "nativeExitCode": 0,
+      "logSha256": "3bf6b62e89318c3d796f6301839a580a3351a68f3b5140c8eb01c996cc04725e"
+    },
+    "windows": {
+      "nativeExitCode": 0,
+      "logSha256": "2c5bd8b5239d24749f0667fda3a7e78d1f9931046a43906e80f0b2739f902229"
+    }
+  },
+  "configuredReceiptBudgetMilliseconds": 5000,
+  "legacyExpectedFailureIsNotNormalCtest": true,
+  "linuxCtestExitCode": 8,
+  "windowsDriverInitial": {
+    "state": {
+      "state": "Ready",
+      "lastResult": 1,
+      "processes": []
+    },
+    "nativeWindowExitUnknown": true,
+    "qtOutputNotCountedAsCompletedAcceptance": true,
+    "logSha256": "b9d1eae11fbafa063363164c99623b59b819597b4feb82e6ae2838c5a1866291",
+    "reason": "Wrapper ended before recording the window command native exit; root cause not captured. Repeat uses subprocess to record native code before returning to PowerShell."
+  },
+  "windowsRepeatDriverExit": 0,
+  "historical": {
+    "status": "OPEN unclassified assertion failure",
+    "original": {
+      "status": "OPEN",
+      "profile": "legacy default, windowClose:reader-release",
+      "configuredQtryTimeoutMs": 5000,
+      "exactIndividualElapsedNotRecorded": true,
+      "initialReceiptJsonNotCaptured": true,
+      "originalFailureCondition": "readerStatus.reader.released predicate remained false; cannot distinguish open handle from receipt/status failure from this log",
+      "initialCtestExitCode": 8,
+      "failureLog": {
+        "path": "_bin/reorder-api-attempt1/reorder-api-windows-tests.log",
+        "bytes": 9407,
+        "sha256": "f0afebffec6dac2bba6ea3c01d89f7eb9a4dd83f4ee549e6363bb22d914504e8",
+        "keptLocal": true
+      },
+      "originalUiTestSource": {
+        "path": "_bin/reorder-api-first-ui-tested-source.cpp",
+        "bytes": 21100,
+        "sha256": "f7663b294079a8e107eccc49b386cbb80191391e26e75caa462e555100dc07e9",
+        "keptLocal": true
+      },
+      "change": "Diagnostic receipt/job/playback JSON on failure only; timeout unchanged",
+      "targetedRepeats": [
+        {
+          "repeat": 0,
+          "actualExitCode": 0
+        },
+        {
+          "repeat": 1,
+          "actualExitCode": 0
+        },
+        {
+          "repeat": 2,
+          "actualExitCode": 0
+        }
+      ],
+      "targetedLogs": [
+        {
+          "path": "_bin/reorder-api-reader-release-0.log",
+          "bytes": 734,
+          "sha256": "d87f41babf8b1603554fcde88d63fde8d1cc43eb1be18802b80c97b7ebf27933",
+          "keptLocal": true
+        },
+        {
+          "path": "_bin/reorder-api-reader-release-1.log",
+          "bytes": 734,
+          "sha256": "b857c37fce0d804aa4e68fc9e4ce0b1954218c5a9bae3a0a431b3d2a18d928f8",
+          "keptLocal": true
+        },
+        {
+          "path": "_bin/reorder-api-reader-release-2.log",
+          "bytes": 734,
+          "sha256": "af3add2c1ebf744a407fc3de13389337f8d7cabb7f300fe398e1a2c153cfe793",
+          "keptLocal": true
+        }
+      ],
+      "fullRepeatDriverExit": 0,
+      "initialFailureNotExplainedByPassingRepeats": true
+    },
+    "originalSourceSha256": "f7663b294079a8e107eccc49b386cbb80191391e26e75caa462e555100dc07e9",
+    "sourceControlFlow": "The failing readerStatus predicate is before api.reset/window.reset; mode reader-release does not call window.close.",
+    "noRecordedIndividualElapsed": true,
+    "noOriginalReplyJson": true,
+    "notProvenWindowHang": true,
+    "notProvenReleaseLatencyOver5000ms": true,
+    "forcedOracleFailureNotProofOfHistoricalCause": true
+  },
+  "semantics": {
+    "mediaHandleClosedBeforeReceipt": true,
+    "positiveReceiptObservedBeforePrivateGuardLock": true,
+    "noSyntheticReply": true,
+    "oldPollingUsesActualReaderRequest": true,
+    "latchedProofPreservesFlagsAndReason": true,
+    "latchedGuardBusyChecksStillRequired": true,
+    "afterUnlockReceiptAndForgetRequired": true,
+    "noTimeoutIncreased": true
+  },
+  "preservation": {
+    "protectedFiles": 583,
+    "unchanged": true,
+    "beforeSha256": "85c7007fc170a860594e6941834ce1b0b976ee0d93bd459bad24f56cad0d627a",
+    "afterSha256": "85c7007fc170a860594e6941834ce1b0b976ee0d93bd459bad24f56cad0d627a",
+    "shellEntries": 158,
+    "shellUnchanged": true,
+    "shellBeforeSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "shellAfterSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "harvesterChanged": false,
+    "desktopSettingsChanged": false
+  },
+  "taskCleanup": {
+    "name": "FoxicMP-ReceiptObservation-OneShot",
+    "stateBefore": "Ready",
+    "lastTaskExit": 0,
+    "removed": true,
+    "presentAfter": false
+  },
+  "binaries": {
+    "linux": {
+      "foxicmp-receipt-observation-tests": "cf464113f966dbc644e9c52c4a0f8621ec65dee32188301f463eb1fc56941425",
+      "foxicmp-continuous-player-tests": "1f24ef119a124fa3b0700573955d85e1bf6e91890eeb8da510bc7eec4d0f013d"
+    },
+    "windows": {
+      "foxicmp-receipt-observation-tests": "14359a09a2ee2548ce039ac539a29d45e3e1ba66aa7540977a075112c76f296d",
+      "foxicmp-continuous-player-tests": "376c0fc4644cfab3e1ddc3685c61de54824a4800d720cc2f5f6c035343c7c7cc"
+    }
+  }
+}

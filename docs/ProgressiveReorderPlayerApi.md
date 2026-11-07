@@ -83,3 +83,11 @@ ContextMenuPrompted=1/ContextMenuEnabled=0; «Форматы» не открыв
 скачанных assets; расширенная lifecycle/stress и fractional/VFR UI матрица.
 Audio/AAC trim, общий remux, многочасовой stress и физический A/V стенд открыты.
 Отложенное оборудование и Wayland не проверялись.
+
+
+7 ноября: [проверка повторного чтения receipt](ProgressiveReceiptObservation.md)
+уточняет этот исторический отказ. Ветка reader-release ждёт квитанцию до
+уничтожения окна; configured QTRY 5000 ms не является измерением закрытия.
+На обеих Qt ОС старый polling воспроизводимо падает после реального proof
+при последующем registry busy, текущий latched подход и полноценный GUI-тест
+проходят. Исходный ответ старого случая неизвестен; его причина остаётся OPEN.
