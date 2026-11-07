@@ -1,0 +1,63 @@
+--- a/src/corelib/io/qlockfile_win.cpp
++++ b/src/corelib/io/qlockfile_win.cpp
+@@ -31,7 +31,8 @@
+ {
+     const DWORD dwShareMode = 0;    // no sharing
+     SECURITY_ATTRIBUTES securityAtts = { sizeof(SECURITY_ATTRIBUTES), NULL, FALSE };
+-    HANDLE fh = CreateFile(qt_castToWchar(QDir::toNativeSeparators(fileName)),
++    const QFileSystemEntry entry(fileName);
++    HANDLE fh = CreateFile(qt_castToWchar(entry.nativeFilePath()),
+                            GENERIC_READ | GENERIC_WRITE,
+                            dwShareMode,
+                            &securityAtts,
+@@ -156,7 +157,8 @@
+     // We can't make this change immediately because currently-deployed
+     // applications will not be using FILE_SHARE_DELETE, so they would suddenly
+     // be unable to read the lockfile information.
+-    HANDLE handle = CreateFile(reinterpret_cast<const wchar_t *>(fileName.utf16()), GENERIC_READ,
++    const QFileSystemEntry entry(fileName);
++    HANDLE handle = CreateFile(qt_castToWchar(entry.nativeFilePath()), GENERIC_READ,
+                                FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr,
+                                OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+     if (handle == INVALID_HANDLE_VALUE)
+--- a/src/corelib/io/qfilesystemengine_win.cpp
++++ b/src/corelib/io/qfilesystemengine_win.cpp
+@@ -1651,7 +1651,7 @@
+ QString QFileSystemEngine::tempPath()
+ {
+     QString ret;
+-    wchar_t tempPath[MAX_PATH];
++    QVarLengthArray<wchar_t, MAX_PATH> tempPath(MAX_PATH);
+     using GetTempPathPrototype = DWORD (WINAPI *)(DWORD, LPWSTR);
+     // We try to resolve GetTempPath2 and use that, otherwise fall back to GetTempPath:
+     static GetTempPathPrototype getTempPathW = []() {
+@@ -1660,13 +1660,22 @@
+             return GetTempPathPrototype(func);
+         return GetTempPath;
+     }();
+-    const DWORD len = getTempPathW(MAX_PATH, tempPath);
+-    if (len) { // GetTempPath() can return short names, expand.
+-        wchar_t longTempPath[MAX_PATH];
+-        const DWORD longLen = GetLongPathName(tempPath, longTempPath, MAX_PATH);
+-        ret = longLen && longLen < MAX_PATH ?
+-              QString::fromWCharArray(longTempPath, longLen) :
+-              QString::fromWCharArray(tempPath, len);
++    DWORD len = getTempPathW(DWORD(tempPath.size()), tempPath.data());
++    if (len >= DWORD(tempPath.size()) && len <= 32768) {
++        tempPath.resize(qsizetype(len) + 1);
++        len = getTempPathW(DWORD(tempPath.size()), tempPath.data());
++    }
++    if (len && len < DWORD(tempPath.size())) {
++        // An insufficient buffer returns the required size, not readable data.
++        const DWORD capacity = GetLongPathName(tempPath.data(), nullptr, 0);
++        if (capacity && capacity <= 32768) {
++            QVarLengthArray<wchar_t, MAX_PATH> longTempPath(capacity);
++            const DWORD longLen = GetLongPathName(tempPath.data(), longTempPath.data(), capacity);
++            if (longLen && longLen < capacity)
++                ret = QString::fromWCharArray(longTempPath.data(), longLen);
++        }
++        if (ret.isEmpty())
++            ret = QString::fromWCharArray(tempPath.data(), len);
+     }
+     if (!ret.isEmpty()) {
+         while (ret.endsWith(u'\\'))

@@ -1415,3 +1415,20 @@ Windows установки, Classic, release assets и Harvester не менял
 и протокол совместимы. Long Windows TEMP/profile, предельные пути и полная
 rename/format/A-V/stress матрица остаются открытыми; отдельный decoder clock
 этот CLI-стенд не измеряет.
+
+### 7 ноября 2026: writable Qt profiles и Windows runtime
+
+[Ограниченный writable-profile срез закрыт](ProgressiveWindowsProfilePaths.md):
+full Qt main/CLI обычный/320/1100 прошёл на обеих ОС; повторный atomic QSettings
+sync, independent reader и concurrent merge — по 3 рабочих строки каждой ОС.
+В Windows частная QtCore исправляет native lock deletion/stale reads и
+fixed-size tempPath buffers; 6920 exports/216 feature flags совпали.
+ProfileLease и no-overwrite move используют native extended paths.
+Windows TEMP240 принят точно с lease/lock >260; TEMP320/1100 прошли только
+на измеренном системном fallback и не закрывают exact long-TEMP маршрут.
+Parent-Python launcher и Classic TEMP остаются открытыми; retained FAIL и
+неверный registry oracle control явно отделены от принятой Qt проверки.
+[Точные результаты/границы](ProgressiveWindowsProfilePathsValidation-2026-11-07.json).
+583 SHA/158 HKCU entries сохранены, семь one-shot tasks удалены; Linux main
+побайтово совпадает с установленным, лишней замены нет. Windows установки,
+личные профили, release assets и Harvester не менялись. SDK1.84/API совместимы.

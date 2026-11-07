@@ -26,7 +26,7 @@ else:
 from progressive_v1_conformance import fragment_prefix
 
 
-def exercise(player, fixtures, report, length, finish_mode):
+def exercise(player, fixtures, report, length, finish_mode, profile_length=0, child_temp=None, runtime_probe=None):
     events, packets, errors = [], [], []
     process = None
     mutex = threading.Lock()
@@ -34,6 +34,11 @@ def exercise(player, fixtures, report, length, finish_mode):
     provider = None
     thread = None
     result = dict(result='FAIL', targetDirectoryLength=length, finishMode=finish_mode)
+    child_environment = os.environ.copy()
+    if child_temp:
+        assert child_temp.is_dir()
+        for key in ('TEMP', 'TMP', 'TMPDIR'):
+            child_environment[key] = str(child_temp.resolve())
     report.mkdir(parents=True, exist_ok=False)
 
     def save():
@@ -51,12 +56,15 @@ def exercise(player, fixtures, report, length, finish_mode):
             folder.mkdir(parents=True, mode=0o700)
             folder.chmod(0o700)
             profile = root / 'profile'
-            profile.mkdir()
+            while len(str(profile)) < profile_length:
+                profile /= 'Профиль настроек ' + 'x'*25
+            profile.mkdir(parents=True)
+            sentinel = uuid.uuid4().hex
             (profile / 'FoxicMPQt.ini').write_text(
                 '[profile]\nversion=1\n[integration]\nprompted=true\ncheckOnStartup=false\n'
                 '[input]\nmpris=false\n[audio]\nmute=true\nvolume=0\n'
                 '[playback]\nhardwareDecoding=false\nrememberPosition=false\n'
-                '[video]\noutput=software\n[ui]\nosd=false\n', encoding='utf-8')
+                '[video]\noutput=software\n[ui]\nosd=false\n[test]\nsentinel=' + sentinel + '\n', encoding='utf-8')
             snapshot = dict(schemaVersion=1, sessionId=uuid.uuid4().hex, generation=1,
                             revision=1, state='downloading', duration100ns=200000000, tracks={})
             data, paths = [], []
@@ -141,16 +149,39 @@ def exercise(player, fixtures, report, length, finish_mode):
 
             def cli(*args):
                 value = subprocess.run([str(player), '--profile', str(profile), '--no-activate', *args],
-                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10)
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=10, env=child_environment)
                 assert value.returncode == 0, (value.returncode, value.stderr)
                 return value.returncode
 
             log = (report/'player.log').open('wb')
             try:
                 process = subprocess.Popen([str(player), '--profile', str(profile), '--no-activate',
-                    '--harvester-session', str(manifest)], stdout=log, stderr=subprocess.STDOUT)
+                    '--harvester-session', str(manifest)], stdout=log, stderr=subprocess.STDOUT, env=child_environment)
                 wait(lambda: any(e['kind']=='attach' and e['pid']==process.pid for e in events), 'provider accepted PID')
                 initial_buffering = wait(lambda: packet('buffering'), 'initial buffering notification')
+                runtime_paths = []
+                if child_temp and os.name == 'nt':
+                    info = subprocess.run([str(player), '--profile', str(profile), '--progressive-api-info'],
+                        capture_output=True, timeout=10, env=child_environment)
+                    assert info.returncode == 0, info.stderr
+                    endpoint = json.loads(info.stdout)['endpoint'].rsplit('\\', 1)[-1].removesuffix('.progressive')
+                    actual_temp = child_temp
+                    if runtime_probe:
+                        probe = subprocess.run([str(runtime_probe), '--temp-info'],capture_output=True,timeout=10,env=child_environment)
+                        assert probe.returncode == 0, probe.stderr
+                        actual_temp = Path(json.loads(probe.stdout)['actualTemp'])
+                        assert actual_temp.is_absolute() and actual_temp.is_dir()
+                    result['requestedTempHonored'] = actual_temp.resolve() == child_temp.resolve()
+                    result['actualTempDirectory'] = str(actual_temp)
+                    runtime = actual_temp/'FoxicMPq'
+                    broker_lock = runtime/(endpoint+'.lock')
+                    profile_id = endpoint.rsplit('-', 1)[-1]
+                    profile_leases = list(runtime.glob('FoxicMPQt-profile-'+profile_id+'*.lease'))
+                    result['runtimeProbe'] = dict(directoryExists=runtime.is_dir(), brokerLockExists=broker_lock.is_file(), matchingLeaseCount=len(profile_leases))
+                    assert broker_lock.is_file() and len(profile_leases)==1, (broker_lock, profile_leases)
+                    runtime_paths = [str(broker_lock), str(profile_leases[0])]
+                    if result['requestedTempHonored']:
+                        assert all(len(path)>260 for path in runtime_paths)
                 for i, kind in enumerate(('video', 'audio')):
                     prefix = fragment_prefix(data[i], 12)
                     with paths[i].open('ab', buffering=0) as stream:
@@ -207,14 +238,29 @@ def exercise(player, fixtures, report, length, finish_mode):
                 forwarded_exit = cli('--reuse-instance', '--after', 'exit', str(finish))
                 process.wait(timeout=15)
                 assert process.returncode==0, process.returncode
+                saved_settings = (profile/'FoxicMPQt.ini').read_bytes()
+                assert ('sentinel='+sentinel).encode() in saved_settings
+                assert not list(profile.glob('FoxicMPQt.ini.lock*'))
+                if runtime_paths:
+                    assert not Path(runtime_paths[0]).exists(), 'Broker lock not removed at normal exit'
+                    lease_file = Path(runtime_paths[1])
+                    assert lease_file.is_file() and lease_file.stat().st_size==0
+                    lease_file.unlink() # Exact random test-profile lease, after main and helpers exited.
+                    result['ownedRuntimeLeaseRemoved'] = True
                 result.update(result='PASS', manifestLength=len(str(manifest)),
                     initialBuffering=initial_buffering, observedPlaying=playing, observedPaused=paused,
                     pauseCommandExit=pause_exit, playCommandExit=play_exit,
                     invalidSessionCommandExit=invalid_exit, asynchronousErrorLogged=True,
                     release=released, nativePlayerExit=process.returncode,
                     stopCommandExit=stop_exit, forwardedFileCommandExit=forwarded_exit,
-                    sourceSha256=[hashlib.sha256(raw).hexdigest() for raw in data],
-                    sourceBytesUnchanged=True, profileIsShort=True, providerErrors=errors,
+                    referenceSha256=[hashlib.sha256(raw).hexdigest() for raw in data],
+                    sourceSha256=[hashlib.sha256(path.read_bytes()).hexdigest() for path in paths],
+                    profileSavedSha256=hashlib.sha256(saved_settings).hexdigest(),
+                    existingSettingsPreserved=True, profileLocksRemoved=True,
+                    sourceBytesUnchanged=True, profileIsShort=len(str(profile))<260,
+                    profileLength=len(str(profile)), childTemp=str(child_temp) if child_temp else None,
+                    observedRuntimeFiles=runtime_paths,
+                    parentEnvironmentUnchanged=True, providerErrors=errors,
                     normalExitViaOrdinaryFile=True, progressiveNaturalEofTested=finish_mode=='natural',
                     writerFailureTested=finish_mode=='failed',
                     decoderPositionMeasured=False, physicalAvSyncTested=False)
@@ -241,12 +287,15 @@ def main():
         parser.add_argument('--'+key, type=Path, required=True)
     parser.add_argument('--source-lengths', type=int, nargs='+', default=(0, 320, 1100))
     parser.add_argument('--finish', choices=('stop', 'natural', 'failed'), default='stop')
+    parser.add_argument('--profile-length', type=int, default=0)
+    parser.add_argument('--child-temp', type=Path, help='Process-only child environment; parent Python TEMP stays unchanged')
+    parser.add_argument('--runtime-probe', type=Path, help='Observe system-selected TEMP separately from the requested directory')
     args = parser.parse_args()
     args.report_directory.mkdir(parents=True, exist_ok=False)
     rows=[]
     for length in args.source_lengths:
         rows.append(exercise(args.player.resolve(), args.fixtures.resolve(),
-                             args.report_directory/str(length), length, args.finish))
+                             args.report_directory/str(length), length, args.finish, args.profile_length, args.child_temp, args.runtime_probe))
     report=dict(result='PASS',count=len(rows),rows=rows)
     (args.report_directory/'result.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(dict(result='PASS',count=len(rows))))

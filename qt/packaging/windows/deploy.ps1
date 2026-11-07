@@ -5,11 +5,25 @@ param(
   [Parameter(Mandatory=$true)][string]$ToolchainDirectory,
   [Parameter(Mandatory=$true)][string]$Destination,
   [string]$YtDlpExecutable,
-  [string]$YtDlpLicense
+  [string]$YtDlpLicense,
+  [string]$QtCoreRuntimeDirectory
 )
 $ErrorActionPreference = 'Stop'
 $bin = Join-Path $ToolchainDirectory 'ucrt64\bin'
 $env:PATH = "$bin;$env:PATH"
+if (!$QtCoreRuntimeDirectory) { $QtCoreRuntimeDirectory = $BuildDirectory }
+$coreMetadataPath = Join-Path $QtCoreRuntimeDirectory 'qtcore-longpaths-build.json'
+if (!(Test-Path $coreMetadataPath)) { throw 'Prepare/build the corrected QtCore runtime before deployment' }
+$coreMetadata = Get-Content $coreMetadataPath -Raw | ConvertFrom-Json
+$corePin = Get-Content (Join-Path $PSScriptRoot '../../../tools/runtime/qt-6.12.0-long-lock-paths.json') -Raw | ConvertFrom-Json
+$coreLibrary = Join-Path $QtCoreRuntimeDirectory 'Qt6Core.dll'
+if ($coreMetadata.architecture -ne 'x86_64' -or $coreMetadata.qtVersion -ne $corePin.version -or
+    $coreMetadata.localPatchSha256 -ne $corePin.localPatchSha256 -or
+    !$coreMetadata.allStockExportsPreserved -or !$coreMetadata.allFeatureFlagsEqual -or
+    (Get-FileHash $coreLibrary -Algorithm SHA256).Hash.ToLower() -ne $coreMetadata.librarySha256 -or
+    (Get-FileHash (Join-Path $bin 'Qt6Core.dll') -Algorithm SHA256).Hash.ToLower() -ne $coreMetadata.stockLibrarySha256) {
+  throw 'Private QtCore runtime SHA/ABI does not match this toolchain'
+}
 if (Test-Path $Destination) { throw "Use a new staging directory: $Destination" }
 & "$bin\cmake.exe" --install $BuildDirectory --prefix $Destination
 if ($LASTEXITCODE) { throw 'CMake install failed' }
@@ -64,6 +78,13 @@ $runtimeLibrary = Join-Path $BuildDirectory 'libwinpthread-1.dll'
 if ((Get-FileHash $runtimeLibrary -Algorithm SHA256).Hash.ToLower() -ne $runtimeMetadata.librarySha256) { throw 'Private runtime SHA-256 mismatch' }
 Copy-Item $runtimeLibrary (Join-Path $Destination 'libwinpthread-1.dll') -Force
 Copy-Item $runtimeMetadataPath $Destination
+# Apply after windeployqt selected the stock toolchain DLL.
+Copy-Item $coreLibrary (Join-Path $Destination 'Qt6Core.dll') -Force
+Copy-Item $coreMetadataPath $Destination
+$coreNotices = Join-Path $Destination 'licenses/qtcore-longpaths-fix'
+$null = New-Item -ItemType Directory -Force $coreNotices
+Get-ChildItem (Join-Path $PSScriptRoot '../../../tools/runtime') -File | Copy-Item -Destination $coreNotices
+Copy-Item (Join-Path $QtCoreRuntimeDirectory 'qtcore-licenses') $coreNotices -Recurse
 $licenses = Join-Path $ToolchainDirectory 'ucrt64\share\licenses'
 if (Test-Path $licenses) { Copy-Item $licenses (Join-Path $Destination 'licenses') -Recurse }
 $fixNotices = Join-Path $Destination 'licenses/winpthreads-fix'

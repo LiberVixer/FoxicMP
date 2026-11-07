@@ -66,11 +66,15 @@ cmake -S qt -B windows-build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING
 cmake --build windows-build -j 8
 ```
 
+Прямая CMake-сборка использует runtime окружения. Для проверенной поставки
+Windows 6.12.0 обязательны частные исправленные QtCore и winpthreads ниже.
+
+Сначала подготовьте частную QtCore по инструкции ниже.
 Из Windows PowerShell можно использовать штатный скрипт; пути компиляторов
 нормализуются для CMake, включая аргумент `C:\...`:
 
 ```powershell
-./qt/packaging/windows/build.ps1 -ToolchainDirectory C:\msys64 -BuildDirectory C:\build\FoxicMP-qt -Jobs 8
+./qt/packaging/windows/build.ps1 -ToolchainDirectory C:\msys64 -BuildDirectory C:\build\FoxicMP-qt -QtCoreRuntimeDirectory C:\build\FoxicMP-qtcore -Jobs 8
 ./qt/packaging/windows/deploy.ps1 -BuildDirectory C:\build\FoxicMP-qt -ToolchainDirectory C:\msys64 -Destination C:\packages\FoxicMPQt-0.2.0-windows-x64 -YtDlpExecutable C:\tools\yt-dlp.exe -YtDlpLicense C:\tools\yt-dlp-licenses.txt
 ```
 
@@ -116,3 +120,49 @@ DLL после автоматического поиска зависимост�
 Проверки MinGW CTest: `progressive-pthread-detached`,
 `progressive-pthread-joined`, `progressive-player-lifecycle`.
 Методика и границы: [100 циклов плеера](../../../docs/ProgressivePlayerLifecycle.md).
+
+
+## Частная QtCore: длинные writable profiles
+
+Для текущего MSYS2 UCRT64 Qt 6.12.0-1 штатный QLockFile оставляет lock при
+длинном INI. Исправление сохраняет QSettings atomic sync и блокировки между
+процессами. Динамические Windows tempPath buffers дополнительно исключают
+чтение за пределом массива. Это не обещание exact TEMP320/1100: на проверенной
+ОС native API выбирает короткий fallback. [Проверки и границы](../../../docs/ProgressiveWindowsProfilePaths.md).
+
+На исходном Linux-хосте нужны Python 3.12+ и GNU patch. Используйте свежие
+work directory и overlay output:
+
+```bash
+python3 tools/runtime/prepare_qtcore_long_paths.py --work /tmp/foxicmp-qtcore-source --overlay /tmp/foxicmp-qtcore-overlay.tar
+```
+
+Вывод содержит три пути: sourceArchive, overlay, cppWinRTArchive. Передайте
+эти файлы Windows-сборщику (например, через общую папку). Архивы, 11 патчей
+MSYS2 и overlay проверяются по закреплённым SHA. Пакет CppWinRT даёт только
+частные headers/лицензии. Затем в Windows PowerShell:
+
+```powershell
+./tools/runtime/build_qtcore_long_paths.ps1 -ToolchainPrefix C:\msys64\ucrt64 -WorkDirectory C:\build\FoxicMP-qtcore -SourceArchive C:\sources\qtbase-everywhere-src-6.12.0.tar.xz -SourceOverlay C:\sources\foxicmp-qtcore-overlay.tar -CppWinRTArchive C:\sources\cppwinrt-3.0.260818.1-3.pkg.tar.zst -Jobs 3
+```
+
+Скрипт собирает только Core и создаёт Qt6Core.dll, qtcore-longpaths-build.json
+и qtcore-licenses в WorkDirectory. Валидатор сверяет x86_64, все stock exports,
+216 feature flags и SHA исправленных исходников. Нужен соответствующий
+MSYS2 Qt6 6.12.0-1 toolchain; чужая версия может не пройти сравнение.
+Глобальная DLL и установленный плеер не заменяются.
+
+Передайте WorkDirectory в build.ps1 как QtCoreRuntimeDirectory (пример выше).
+После build.ps1 deploy.ps1 по умолчанию берёт проверенную DLL из BuildDirectory;
+можно явно передать -QtCoreRuntimeDirectory C:\build\FoxicMP-qtcore.
+Preflight проверяет patch pin, DLL/stock SHA и результаты ABI/feature проверки
+до создания Destination. Патч, source pin, инструменты и Qt/CppWinRT licenses
+попадают в licenses/qtcore-longpaths-fix. Не копируйте поверх эту DLL штатную
+Qt6Core.dll после упаковки.
+
+Тест foxicmp-settings-path-tests / CTest settings-paths проверяет повторные
+atomic sync, удаление lock, чтение отдельным процессом и concurrent merge
+на Unicode-путях 120/320/1100. Проверка полного main использует
+ tests/windows/progressive_long_runtime_test.py; тест TEMP-компонента
+ tests/windows/settings_temp_paths_test.py по умолчанию требует exact root,
+а --observe-system-temp явно фиксирует fallback и не объявляет long TEMP готовым.

@@ -27,7 +27,8 @@ ProfileLease::ProfileLease(const QString &directory) {
     return;
   const auto path = QDir(runtime).filePath("FoxicMPQt-profile-" + QString::fromLatin1(hash) + ".lease");
 #ifdef Q_OS_WIN
-  auto native = CreateFileW(reinterpret_cast<const wchar_t *>(path.utf16()),
+  const auto fileName=PlatformPaths::nativeFilePath(path);
+  auto native = CreateFileW(reinterpret_cast<const wchar_t *>(fileName.utf16()),
       GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,
       nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OPEN_REPARSE_POINT, nullptr);
   if (native == INVALID_HANDLE_VALUE) return;

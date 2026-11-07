@@ -180,6 +180,23 @@ private slots:
     QVERIFY(!ProfileLaunch::launcher(QCoreApplication::applicationFilePath(), restored, shortcut, &error));
     QVERIFY(f.open(QIODevice::ReadOnly)); QCOMPARE(f.readAll(), original);
   }
+  void nativePathsAndLongMoves() {
+    QCOMPARE(PlatformPaths::nativeFilePath("C:/folder/file"), QStringLiteral("\\\\?\\C:\\folder\\file"));
+    QCOMPARE(PlatformPaths::nativeFilePath("//server/share/file"), QStringLiteral("\\\\?\\UNC\\server\\share\\file"));
+    QCOMPARE(PlatformPaths::nativeFilePath("\\\\?\\C:\\file"), QStringLiteral("\\\\?\\C:\\file"));
+    QCOMPARE(PlatformPaths::nativeFilePath("folder/file"), QStringLiteral("folder\\file"));
+    QTemporaryDir temporary; QVERIFY(temporary.isValid());
+    auto directory=temporary.path();
+    while(directory.size()<1100)directory=QDir(directory).filePath(QString::fromUtf8("Профиль с пробелами xxxxxxxxxxxxxxxxxxxxx"));
+    QVERIFY(QDir().mkpath(directory));
+    const auto source=QDir(directory).filePath("source.ini"), target=QDir(directory).filePath("target.ini");
+    {QFile file(source);QVERIFY(file.open(QIODevice::WriteOnly));QCOMPARE(file.write("source"),6);}
+    {QFile file(target);QVERIFY(file.open(QIODevice::WriteOnly));QCOMPARE(file.write("keep"),4);}
+    QVERIFY(!PlatformPaths::moveNoReplace(source,target));
+    {QFile file(target);QVERIFY(file.open(QIODevice::ReadOnly));QCOMPARE(file.readAll(),QByteArray("keep"));}
+    QVERIFY(QFile::remove(target));QVERIFY(PlatformPaths::moveNoReplace(source,target));QVERIFY(!QFileInfo::exists(source));
+    {QFile file(target);QVERIFY(file.open(QIODevice::ReadOnly));QCOMPARE(file.readAll(),QByteArray("source"));}
+  }
   void fileOperationsNeverReplace() {
     QTemporaryDir dir;
     QFile a(dir.filePath("a")), b(dir.filePath("b"));
