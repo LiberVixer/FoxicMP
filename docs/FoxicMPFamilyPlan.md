@@ -1357,3 +1357,22 @@ Linux обновлён атомарно с rollback EXE, INI/capabilities сох
 удалены; Windows установки, релизные assets и Harvester не менялись. Wire API
 не менялся, SDK остался 1.84. Schema 2, continuous/cache/temp, pipe-manifest и предельные
 длины остаются отдельной открытой long-path квалификацией.
+
+### 7 ноября 2026: schema 2 и continuous — длинные source roots
+
+[18 playback cases трёх редакций](ProgressiveV2LongPaths.md) прошли для source
+roots 220/320/1100 chars: incomplete fMP4 H.264/AAC-LC и continuous MP4/H.264,
+физический append→complete, decoder I/O, filesClosed/forget и OS exit worker.
+Исправлен общий Windows Resource I/O: canonical/extended native paths вместо
+обычного GetFileAttributesW/CreateFileW, сохранены owner/fixed-drive/no-links/
+identity/integrity guards. Windows Qt baseline отказал на 320 chars; Classic
+и Linux baseline проходили и проверены после сборок повторно. Финальные exits 0.
+По 30 native checks Linux/Windows с настоящими file/directory symlinks, 40
+schema-1 регрессий и +3 Linux случая с exact installed worker прошли.
+[SHA, retained failures и native exits](ProgressiveV2LongPathsValidation-2026-11-07.json).
+Первые две ошибки нового стенда сохранены отдельно, filesClosed proof не заменён
+пустым registry. Два одноразовых task удалены; все 583 protected SHA /158 HKCU
+entries сохранены. Linux EXE синхронизирован атомарно с backup, bytes/INI/
+capabilities совпали; Windows установки, release assets и Harvester не менялись.
+Wire API/SDK 1.84 совместимы. Другие cache/temp/registry roots, pipe-manifest,
+предельные длины и rename matrix остаются открытыми.

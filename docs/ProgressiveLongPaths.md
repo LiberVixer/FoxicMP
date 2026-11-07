@@ -99,7 +99,8 @@ Classic собран повторной компиляцией Session и лин
 объектами: class layout и PCH не менялись. Qt собраны штатным CMake target.
 Это совместимое исправление без нового SDK-контракта.
 
-Открыты long-path проверки schema 2/resource I/O, continuous-remux/cache/temp,
-legacy pipe/file-manifest entry, предельных длин компонентов/полного имени и
-вариантов переименования. Новый результат не закрывает их, общую security,
-OS I/O fault или stress-приёмку. Wayland и отложенное оборудование не проверялись.
+После этого этапа [проверены source roots schema 2 и continuous-remux](ProgressiveV2LongPaths.md).
+Открыты другие cache/temp/registry roots, legacy pipe/file-manifest entry,
+предельные длины компонентов/полного имени и расширенные варианты переименования.
+Эти срезы не закрывают общую long-path/security/OS I/O fault/stress-приёмку.
+Wayland и отложенное оборудование не проверялись.

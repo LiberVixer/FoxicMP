@@ -8,7 +8,9 @@
 #include <cstring>
 #include <atomic>
 #include <list>
-#ifndef _WIN32
+#ifdef _WIN32
+#include "progressivelocalpath_win.h"
+#else
 #include <sys/vfs.h>
 #endif
 
@@ -68,8 +70,11 @@ public:
 #ifdef _WIN32
         Check(root.has_root_name() && root.root_name().wstring().size()==2 && root.root_name().wstring()[1]==L':' &&
               GetDriveTypeW(root.root_path().c_str())==DRIVE_FIXED,"unsafe-resource","Directory must use a local fixed drive");
-        fs::path prefix;
-        for(const auto& part:root) {prefix/=part;const auto attrs=GetFileAttributesW(prefix.c_str());Check(attrs!=INVALID_FILE_ATTRIBUTES && !(attrs&FILE_ATTRIBUTE_REPARSE_POINT),"unsafe-resource","Missing directory or reparse point in its path");}
+        // Keep DOS paths on the wire, but use extended Unicode paths for every
+        // native check/open, regardless of the executable's long-path manifest.
+        // Canonical also checks each full prefix (never the drive-relative C:).
+        try {root=fs::path(local_path_detail::Native(local_path_detail::Canonical(root.wstring())));}
+        catch(const std::runtime_error& e) {Check(false,"unsafe-resource",e.what());}
         file.value=CreateFileW(root.c_str(),FILE_LIST_DIRECTORY|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE,nullptr,OPEN_EXISTING,FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS,nullptr);
         Check(file.value!=INVALID_HANDLE_VALUE,"resource-io-error","Cannot pin session directory");Inspect(file,true);root=Final(file.value);
 #else

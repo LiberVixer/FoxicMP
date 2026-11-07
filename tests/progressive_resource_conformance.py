@@ -42,7 +42,7 @@ class Fixture:
         error=self.process.stderr.read();self.process.stdout.close();self.process.stderr.close();assert self.process.returncode==0,error
 
 
-def run(runner):
+def run(runner, require_symbolic_links=False):
     names=[]
     def case(name,function):
         with tempfile.TemporaryDirectory(prefix='foxicmp-resource-') as folder:
@@ -141,7 +141,7 @@ def run(runner):
     def alias(f):
         target=f.data/'alias.part';os.link(f.media,target);f.open(snapshot());assert f.read(0,4)['code']=='unsafe-resource'
     case('hardlink-resource-is-rejected',alias)
-    if os.name!='nt':
+    if os.name!='nt' or require_symbolic_links:
         def symlink(f):
             target=f.data/'alias.part';target.symlink_to(f.media);f.open(snapshot(name=target.name));assert f.read(0,4)['code']=='unsafe-resource'
         case('symbolic-resource-is-rejected',symlink)
@@ -188,4 +188,7 @@ def run(runner):
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--runner',required=True);args=parser.parse_args();print(json.dumps(run(args.runner)))
+    parser=argparse.ArgumentParser();parser.add_argument('--runner',required=True)
+    parser.add_argument('--require-symbolic-links',action='store_true',
+        help='Also require real symlink rejection on Windows; creation errors fail the test')
+    args=parser.parse_args();print(json.dumps(run(args.runner,args.require_symbolic_links)))
