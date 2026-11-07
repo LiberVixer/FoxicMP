@@ -12,6 +12,7 @@
 #include <windows.h>
 #include <sddl.h>
 #include <aclapi.h>
+#include "progressivelocalpath_win.h"
 #else
 #include <fcntl.h>
 #include <sys/file.h>
@@ -29,6 +30,37 @@ constexpr size_t MaxRecordBytes = 16384;
 inline void Check(bool value,const char* message,const char* code="reader_registry_error") {
     Require(value,"readerRegistry",message,code);
 }
+#ifdef _WIN32
+// Keep logical registry/cache paths stable; only native I/O receives the prefix.
+inline fs::path NativePath(const fs::path& path) {
+    Check(path.is_absolute(),"Registry/cache path must be absolute");
+    const auto text=path.wstring();
+    Check(!text.empty() && text.size()<=32766 && text.find(L'\0')==std::wstring::npos,"Invalid registry/cache path");
+    // Preserve existing absolute namespace support. Owned()/reparse/type checks
+    // remain authoritative; adding a prefix must not add a fixed-drive policy.
+    if(text.compare(0,4,L"\\\\?\\")==0)return path;
+    const DWORD capacity=GetFullPathNameW(text.c_str(),0,nullptr,nullptr);
+    Check(capacity>0 && capacity<=32761,"Invalid registry/cache path length");
+    std::wstring full(capacity,L'\0');
+    const DWORD count=GetFullPathNameW(text.c_str(),capacity,full.data(),nullptr);
+    Check(count>0 && count<capacity,"Cannot normalize registry/cache path");full.resize(count);
+    return fs::path(full.compare(0,2,L"\\\\")==0?L"\\\\?\\UNC\\"+full.substr(2):L"\\\\?\\"+full);
+}
+template<class Visitor> inline void ForEachName(const fs::path& path,Visitor visit) {
+    WIN32_FIND_DATAW data{};
+    const auto pattern=NativePath(path)/L"*";
+    HANDLE raw=FindFirstFileW(pattern.c_str(),&data);
+    if(raw==INVALID_HANDLE_VALUE) {
+        Check(GetLastError()==ERROR_FILE_NOT_FOUND,"Cannot enumerate private directory");return;
+    }
+    struct Search {HANDLE value;~Search(){FindClose(value);}} search{raw};
+    do {
+        const std::wstring name(data.cFileName);
+        if(name!=L"." && name!=L"..")visit(fs::path(name).u8string());
+    }while(FindNextFileW(search.value,&data));
+    Check(GetLastError()==ERROR_NO_MORE_FILES,"Cannot finish private directory enumeration");
+}
+#endif
 inline bool HexId(const std::string& id) {
     return id.size()==32 && id.find_first_not_of("0123456789abcdef")==std::string::npos;
 }
@@ -118,13 +150,16 @@ struct Directory {
     static Handle openRoot(const fs::path& root,bool create) {
         Check(root.is_absolute(),"Registry path must be absolute");
 #ifdef _WIN32
-        for(auto part=root.begin(),end=root.end();part!=end;++part) {
-            fs::path prefix;for(auto p=root.begin();p!=std::next(part);++p)prefix/=*p;
-            const auto attrs=GetFileAttributesW(prefix.c_str());
+        const auto native=NativePath(root);
+        fs::path prefix;
+        for(const auto& part:root) {
+            prefix/=part;
+            if(!prefix.is_absolute())continue; // C: alone is drive-relative.
+            const auto attrs=GetFileAttributesW(NativePath(prefix).c_str());
             Check(attrs==INVALID_FILE_ATTRIBUTES || !(attrs&FILE_ATTRIBUTE_REPARSE_POINT),"Reparse point in registry path");
         }
-        if(create){Security s;if(!CreateDirectoryW(root.c_str(),&s.attributes))Check(GetLastError()==ERROR_ALREADY_EXISTS,"Cannot create registry directory");}
-        Handle h(CreateFileW(root.c_str(),FILE_LIST_DIRECTORY|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE,nullptr,OPEN_EXISTING,FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS,nullptr));
+        if(create){Security s;if(!CreateDirectoryW(native.c_str(),&s.attributes))Check(GetLastError()==ERROR_ALREADY_EXISTS,"Cannot create registry directory");}
+        Handle h(CreateFileW(native.c_str(),FILE_LIST_DIRECTORY|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE,nullptr,OPEN_EXISTING,FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_BACKUP_SEMANTICS,nullptr));
         Check(h.value!=INVALID_HANDLE_VALUE,"Reader registry is unavailable","unknown_reader");Owned(h.value,true);return h;
 #else
         if(create && mkdir(root.c_str(),0700))Check(errno==EEXIST,"Cannot create registry directory");
@@ -135,8 +170,9 @@ struct Directory {
     Handle file(const std::string& name,bool create) const {
         Check(name==".guard" || (name.size()==38 && name.substr(32)==".lease" && HexId(name.substr(0,32))),"Invalid receipt name");
 #ifdef _WIN32
-        Security s;Handle h(CreateFileW((path/fs::u8path(name)).c_str(),GENERIC_READ|GENERIC_WRITE|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE,nullptr,OPEN_EXISTING,FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
-        if(create && h.value==INVALID_HANDLE_VALUE)h.value=CreateFileW((path/fs::u8path(name)).c_str(),GENERIC_READ|GENERIC_WRITE|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE,&s.attributes,CREATE_NEW,FILE_FLAG_OPEN_REPARSE_POINT,nullptr);
+        const auto native=NativePath(path/fs::u8path(name));
+        Security s;Handle h(CreateFileW(native.c_str(),GENERIC_READ|GENERIC_WRITE|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE,nullptr,OPEN_EXISTING,FILE_FLAG_OPEN_REPARSE_POINT,nullptr));
+        if(create && h.value==INVALID_HANDLE_VALUE)h.value=CreateFileW(native.c_str(),GENERIC_READ|GENERIC_WRITE|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE,&s.attributes,CREATE_NEW,FILE_FLAG_OPEN_REPARSE_POINT,nullptr);
         else if(create && name!=".guard" && h.value!=INVALID_HANDLE_VALUE)Check(false,"Reader ID collision");
         Check(h.value!=INVALID_HANDLE_VALUE,"Reader receipt is unavailable","unknown_reader");Owned(h.value,false);return h;
 #else
@@ -148,11 +184,10 @@ struct Directory {
         std::vector<std::string> result;
 #ifdef _WIN32
         // Holding the directory handle prevents replacement while enumerating.
-        for(const auto& entry:fs::directory_iterator(path)) {
-            auto name=entry.path().filename().u8string();
+        ForEachName(path,[&](const std::string& name) {
             if(name.size()==38 && name.substr(32)==".lease" && HexId(name.substr(0,32)))result.push_back(name.substr(0,32));
             Check(result.size()<=MaxReaders,"Reader receipt limit reached","reader_limit");
-        }
+        });
 #else
         DIR* raw=fdopendir(dup(handle.value));Check(raw!=nullptr,"Cannot enumerate reader receipts");
         std::unique_ptr<DIR,int(*)(DIR*)> entries(raw,closedir);
@@ -167,7 +202,7 @@ struct Directory {
     }
     void erase(const std::string& id) const {
 #ifdef _WIN32
-        Check(DeleteFileW((path/fs::u8path(id+".lease")).c_str())!=FALSE,"Cannot forget reader receipt");
+        Check(DeleteFileW(NativePath(path/fs::u8path(id+".lease")).c_str())!=FALSE,"Cannot forget reader receipt");
 #else
         Check(!unlinkat(handle.value,(id+".lease").c_str(),0) && !fsync(handle.value),"Cannot forget reader receipt");
 #endif

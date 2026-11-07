@@ -114,7 +114,13 @@ private slots:
   void init() {
     QVERIFY(temporary.isValid());
     indexed = QString::fromLatin1(QTest::currentDataTag()).contains("indexed");
-    const auto dir = temporary.filePath(QUuid::createUuid().toString(QUuid::Id128));
+    auto dir = temporary.filePath(QUuid::createUuid().toString(QUuid::Id128));
+    const auto tag = QString::fromLatin1(QTest::currentDataTag());
+    if (tag.startsWith("long-")) {
+      const auto target = tag.mid(5).toInt();
+      while (dir.size() < target)
+        dir = QDir(dir).filePath(QString::fromUtf8("Видео с пробелами xxxxxxxxxxxxxxxxxxxxxxxx"));
+    }
     QVERIFY(QDir().mkpath(dir));
     QJsonObject tracks;
     for (int i = 0; i < 2; ++i) {
@@ -1610,6 +1616,8 @@ private slots:
   void legacyProviderPublishesWriterStateAndReleases_data() {
     QTest::addColumn<bool>("failed"); QTest::addColumn<bool>("restart");
     QTest::newRow("complete") << false << false; QTest::newRow("failed") << true << false;
+    QTest::newRow("long-320") << false << false;
+    QTest::newRow("long-1100") << false << false;
 #ifdef Q_OS_WIN
     QTest::newRow("provider-restart") << false << true;
 #endif
@@ -1633,7 +1641,8 @@ private slots:
       if (!provider.waitForFinished(4000)) { provider.kill(); provider.waitForFinished(); }
     });
     QTRY_VERIFY_WITH_TIMEOUT(QFileInfo::exists(QDir(root).filePath("fixture-ready.json")), 6000);
-    Profile profile(QDir(root).filePath("legacy-test-profile")); prepare(profile);
+    // Keep profile locking independent of the manifest path under test.
+    Profile profile(temporary.filePath("legacy-test-profile-" + QUuid::createUuid().toString(QUuid::Id128))); prepare(profile);
     Window w(profile); w.show();
     auto *player = w.findChild<Player *>();
     QSignalSpy errors(player, &Player::error);

@@ -78,7 +78,7 @@ class StreamOutputStore {
             parent=std::make_unique<lease_detail::Directory>(root,true);resource_detail::Inspect(parent->handle,true);
             resource="remux-"+lease_detail::RandomId();folder=root/std::filesystem::u8path(resource);path=folder/"output.fmp4";
             #ifdef _WIN32
-            {lease_detail::Security security;check(CreateDirectoryW(folder.c_str(),&security.attributes)!=FALSE,"cache-directory-exists");}
+            {lease_detail::Security security;check(CreateDirectoryW(lease_detail::NativePath(folder).c_str(),&security.attributes)!=FALSE,"cache-directory-exists");}
 #else
             check(mkdir(folder.c_str(),0700)==0,"cache-directory-exists");
 #endif
@@ -86,7 +86,7 @@ class StreamOutputStore {
             resource_detail::Inspect(directory->handle,true);
 #ifdef _WIN32
             lease_detail::Security security;
-            writer.value=CreateFileW(path.c_str(),GENERIC_READ|GENERIC_WRITE|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,&security.attributes,CREATE_NEW,FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_OVERLAPPED,nullptr);
+            writer.value=CreateFileW(lease_detail::NativePath(path).c_str(),GENERIC_READ|GENERIC_WRITE|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,&security.attributes,CREATE_NEW,FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_OVERLAPPED,nullptr);
             check(writer.value!=INVALID_HANDLE_VALUE);
 #else
             writer.value=openat(directory->handle.value,"output.fmp4",O_RDWR|O_CREAT|O_EXCL|O_CLOEXEC|O_NOFOLLOW,0600);check(writer.value>=0);
@@ -97,7 +97,7 @@ class StreamOutputStore {
         static void check(bool ok,const char* code="cache-io-error"){stream_cache_detail::check(ok,code);}
         Handle openReader(bool checkSize=true){
 #ifdef _WIN32
-            Handle file(CreateFileW(path.c_str(),GENERIC_READ|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,nullptr,OPEN_EXISTING,FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_OVERLAPPED,nullptr));check(file.value!=INVALID_HANDLE_VALUE,"cache-path-replaced");
+            Handle file(CreateFileW(lease_detail::NativePath(path).c_str(),GENERIC_READ|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,nullptr,OPEN_EXISTING,FILE_FLAG_OPEN_REPARSE_POINT|FILE_FLAG_OVERLAPPED,nullptr));check(file.value!=INVALID_HANDLE_VALUE,"cache-path-replaced");
 #else
             Handle file(openat(directory->handle.value,"output.fmp4",O_RDONLY|O_CLOEXEC|O_NOFOLLOW));check(file.value>=0,"cache-path-replaced");
 #endif
@@ -167,11 +167,17 @@ class StreamOutputStore {
                 // Refuse to unlink a replacement at the old name, including links.
                 {auto file=openReader(false);}
 #ifdef _WIN32
-                check(DeleteFileW(path.c_str())!=FALSE,"cache-cleanup-failed");
+                check(DeleteFileW(lease_detail::NativePath(path).c_str())!=FALSE,"cache-cleanup-failed");
 #else
                 check(unlinkat(directory->handle.value,"output.fmp4",0)==0,"cache-cleanup-failed");
 #endif
-                journal->remove();journal.reset();directory.reset();std::error_code error;std::filesystem::remove(folder,error);
+                journal->remove();journal.reset();directory.reset();std::error_code error;std::filesystem::remove(
+#ifdef _WIN32
+                    lease_detail::NativePath(folder),
+#else
+                    folder,
+#endif
+                    error);
                 // An unexpected extra file is never recursively removed.
                 state.removed=true;state.cleanupCode=error?"removed-folder-retained":"removed";budget->release(charged);charged=0;return true;
             }catch(const Error& e){state.cleanupCode=e.code;return false;}catch(...){state.cleanupCode="cache-cleanup-failed";return false;}

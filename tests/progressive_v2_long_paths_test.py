@@ -26,6 +26,9 @@ def main():
     parser.add_argument('--sdk-directory', type=Path, required=True)
     parser.add_argument('--fixtures', type=Path, required=True)
     parser.add_argument('--report-directory', type=Path, required=True)
+    parser.add_argument('--source-lengths', type=int, nargs='+', default=(220, 320, 1100))
+    parser.add_argument('--runtime-parent', type=Path,
+        help='Private TEMP/TMP/TMPDIR override after staging players; never changes XDG runtime or desktop')
     args = parser.parse_args()
     args.report_directory.mkdir(parents=True, exist_ok=False)
     sdk = args.sdk_directory.resolve()
@@ -55,7 +58,7 @@ def main():
         else:
             data = [(args.fixtures/'progressive'/name).read_bytes()
                     for name in ('video.mp4', 'audio.m4a')]
-        for length in (220, 320, 1100):
+        for length in args.source_lengths:
             folder = root/('source-'+str(length))
             while len(str(folder)) < length:
                 component = ('Видео с пробелами '+'x'*35)[:max(1, length-len(str(folder))-1)]
@@ -171,8 +174,14 @@ def main():
             rows.append(dict(result='PASS', route=args.route, directoryLength=len(str(folder)),
                 maximumFileLength=max(len(str(p)) for p in paths), **row))
             (args.report_directory/'progress.json').write_text(json.dumps(dict(count=len(rows),rows=rows),indent=2)+'\n')
-        return dict(result='PASS',count=len(rows),rows=rows,longSourceRoots=True,
-                    longCacheRootTested=False,privateRegistryPaths=[str(p.registry) for p in peers])
+        registries = [str(p.registry) for p in peers]
+        cache_paths = [p+'.continuous-cache' for p in registries] if args.route=='continuous' else []
+        return dict(result='PASS',count=len(rows),rows=rows,
+                    longSourceRoots=any(row['directoryLength']>260 for row in rows),
+                    longCacheRootTested=bool(cache_paths) and all(len(p)>260 for p in cache_paths),
+                    privateCachePaths=cache_paths,
+                    runtimeParent=str(args.runtime_parent) if args.runtime_parent else None,
+                    privateRegistryPaths=registries)
 
     with tempfile.TemporaryDirectory(prefix='foxicmp-v2-long-path-player-') as name:
         players = [str(args.player.resolve())]
@@ -185,11 +194,23 @@ def main():
                     'PauseMinimizedVideo=0\nCheckForUpdates=0\nKeepHistory=0\n'
                     '[Audio]\nAudioRenderer=Null Audio Renderer (Uncompressed)\n',encoding='utf-16')
                 players.append(str(player))
+        old_environment = {key:os.environ.get(key) for key in ('TEMP','TMP','TMPDIR')}
+        old_tempdir = tempfile.tempdir
+        if args.runtime_parent:
+            parent = args.runtime_parent.resolve()
+            assert parent.is_dir()
+            for key in old_environment:os.environ[key]=str(parent)
+            tempfile.tempdir=None
         try:
             result=run(SimpleNamespace(edition=args.edition,player=players,reader_runner=str(args.reader_runner),
                 report_directory=str(args.report_directory)),exercise_case=exercise,source_file=__file__)
         except BaseException:
             (args.report_directory/'error.txt').write_text(traceback.format_exc(),encoding='utf-8');raise
+        finally:
+            for key,value in old_environment.items():
+                if value is None:os.environ.pop(key,None)
+                else:os.environ[key]=value
+            tempfile.tempdir=old_tempdir
     result.update(privateCopiesRemoved=True,sdkModuleSha256={n:sha(m.__file__) for n,m in modules.items()})
     (args.report_directory/'result.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(dict(result='PASS',count=result['count'],route=args.route)))

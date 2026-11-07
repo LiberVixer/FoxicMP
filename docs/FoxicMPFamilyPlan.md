@@ -1376,3 +1376,23 @@ entries сохранены. Linux EXE синхронизирован атома�
 capabilities совпали; Windows установки, release assets и Harvester не менялись.
 Wire API/SDK 1.84 совместимы. Другие cache/temp/registry roots, pipe-manifest,
 предельные длины и rename matrix остаются открытыми.
+
+### 7 ноября 2026: private registry/cache и legacy-манифесты
+
+[Общий Windows lease/cache/journal I/O исправлен для длинных native путей](ProgressivePrivatePaths.md):
+динамические Unicode extended paths и bounded FindFirst/Next вместо directory_iterator;
+прежние owner/ACL/reparse/identity guards сохранены. По 3 native длины каждой ОС
+до 1100+ chars, reader conformance 14 Linux /13 Windows и Resource 30/30 прошли.
+Cache/recovery регрессии на обычных путях: 31/33 Linux и 31/31 Windows, exit 0.
+Qt GUI-адаптер проверил Unicode-манифесты 320/1100 и фактический decoder clock;
+Classic literal CLI — 349/1142, ≥10 s partial playback, Stop/release и normal
+app/provider exit 0. Ordinary Windows continuous обоих main EXE также прошёл.
+[Точные native exits, SHA и retained failures](ProgressivePrivatePathsValidation-2026-11-07.json).
+Windows full long-TEMP startup, long writable Qt profile (QLockFile), literal
+Qt main/CLI lifecycle, предельные длины и rename matrix остаются открытыми;
+GUI/native успех не подменяет эти маршруты. Linux TEMP320/1100 прошёл отдельно,
+но XDG registry/cache остался коротким. Linux main rebuilt bytes уже совпадают
+с установленным; лишней переустановки нет. Все 583 protected SHA /158 HKCU entries
+сохранены; 12 one-shot tasks удалены, owned процессы/артефакты очищены.
+Windows установки, release assets, профили и Harvester не менялись; SDK1.84
+и wire API совместимы.

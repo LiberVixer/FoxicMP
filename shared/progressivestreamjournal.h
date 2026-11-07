@@ -17,7 +17,7 @@ inline Handle open(const Directory& dir,const std::string& name,bool create=fals
     check(name=="journal.next" || name=="journal.json" || name==".service","cache-journal-name");
 #ifdef _WIN32
     lease_detail::Security security;
-    Handle file(CreateFileW((dir.path/std::filesystem::u8path(name)).c_str(),GENERIC_READ|GENERIC_WRITE|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,create?&security.attributes:nullptr,create?(name==".service"?OPEN_ALWAYS:CREATE_NEW):OPEN_EXISTING,FILE_FLAG_OPEN_REPARSE_POINT,nullptr));check(file.value!=INVALID_HANDLE_VALUE,"cache-journal-unavailable");
+    Handle file(CreateFileW(lease_detail::NativePath(dir.path/std::filesystem::u8path(name)).c_str(),GENERIC_READ|GENERIC_WRITE|READ_CONTROL,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,create?&security.attributes:nullptr,create?(name==".service"?OPEN_ALWAYS:CREATE_NEW):OPEN_EXISTING,FILE_FLAG_OPEN_REPARSE_POINT,nullptr));check(file.value!=INVALID_HANDLE_VALUE,"cache-journal-unavailable");
 #else
     Handle file(openat(dir.handle.value,name.c_str(),O_RDWR|O_CLOEXEC|O_NOFOLLOW|(create?O_CREAT:0)|(create && name!=".service"?O_EXCL:0),0600));check(file.value>=0,"cache-journal-unavailable");
 #endif
@@ -35,14 +35,14 @@ inline std::string birth(const Handle& file){
 inline bool same(const resource_detail::Info& a,const resource_detail::Info& b){return a.device==b.device && a.fileId==b.fileId;}
 inline void erase(const Directory& dir,const std::string& name){
 #ifdef _WIN32
-    check(DeleteFileW((dir.path/std::filesystem::u8path(name)).c_str())!=FALSE,"cache-cleanup-failed");
+    check(DeleteFileW(lease_detail::NativePath(dir.path/std::filesystem::u8path(name)).c_str())!=FALSE,"cache-cleanup-failed");
 #else
     check(unlinkat(dir.handle.value,name.c_str(),0)==0,"cache-cleanup-failed");check(fsync(dir.handle.value)==0,"cache-cleanup-failed");
 #endif
 }
 inline bool exists(const Directory& dir,const std::string& name){
 #ifdef _WIN32
-    const auto attributes=GetFileAttributesW((dir.path/std::filesystem::u8path(name)).c_str());if(attributes!=INVALID_FILE_ATTRIBUTES)return true;
+    const auto attributes=GetFileAttributesW(lease_detail::NativePath(dir.path/std::filesystem::u8path(name)).c_str());if(attributes!=INVALID_FILE_ATTRIBUTES)return true;
     check(GetLastError()==ERROR_FILE_NOT_FOUND || GetLastError()==ERROR_PATH_NOT_FOUND);return false;
 #else
     struct stat info{};if(fstatat(dir.handle.value,name.c_str(),&info,AT_SYMLINK_NOFOLLOW)==0)return true;check(errno==ENOENT);return false;
@@ -51,7 +51,7 @@ inline bool exists(const Directory& dir,const std::string& name){
 inline std::vector<std::string> entries(const Directory& dir,size_t limit){
     std::vector<std::string> names;
 #ifdef _WIN32
-    for(const auto& entry:std::filesystem::directory_iterator(dir.path)){check(names.size()<limit,"cache-recovery-scan-limit");names.push_back(entry.path().filename().u8string());}
+    lease_detail::ForEachName(dir.path,[&](const std::string& name){check(names.size()<limit,"cache-recovery-scan-limit");names.push_back(name);});
 #else
     DIR* raw=fdopendir(dup(dir.handle.value));check(raw!=nullptr);std::unique_ptr<DIR,int(*)(DIR*)> owner(raw,closedir);rewinddir(raw);
     while(auto* entry=readdir(raw)){std::string name=entry->d_name;if(name=="." || name=="..")continue;check(names.size()<limit,"cache-recovery-scan-limit");names.push_back(name);}
@@ -114,7 +114,7 @@ public:
 #endif
         );record.journal=resource_detail::Inspect(file);record.journalBirth=birth(file);bytes=lease_detail::Encode(encode(record));lease_detail::Write(file,bytes);identity=resource_detail::Inspect(file);
 #ifdef _WIN32
-        check(MoveFileExW((directory.path/"journal.next").c_str(),(directory.path/"journal.json").c_str(),MOVEFILE_WRITE_THROUGH)!=FALSE);
+        check(MoveFileExW(lease_detail::NativePath(directory.path/"journal.next").c_str(),lease_detail::NativePath(directory.path/"journal.json").c_str(),MOVEFILE_WRITE_THROUGH)!=FALSE);
 #else
         check(renameat2(directory.handle.value,"journal.next",directory.handle.value,"journal.json",RENAME_NOREPLACE)==0);check(fsync(directory.handle.value)==0);
 #endif
@@ -162,7 +162,13 @@ inline StreamCacheRecovery RecoverStreamCachePinned(stream_journal_detail::Root&
             // The immutable journal is checked again under its lock before unlink.
             {auto named=open(*directory,"journal.json");check(same(resource_detail::Inspect(named),journalIdentity) && lease_detail::Read(named)==bytes,"cache-journal-replaced");}
             check(entries(*directory,4)==children,"cache-directory-changed");
-            if(haveOutput)erase(*directory,"output.fmp4");erase(*directory,"journal.json");close(journal);directory.reset();std::error_code error;std::filesystem::remove(path,error);check(!error,"cache-cleanup-failed");
+            if(haveOutput)erase(*directory,"output.fmp4");erase(*directory,"journal.json");close(journal);directory.reset();std::error_code error;std::filesystem::remove(
+#ifdef _WIN32
+                    lease_detail::NativePath(path),
+#else
+                    path,
+#endif
+                    error);check(!error,"cache-cleanup-failed");
             ++out.removed;row.code=haveOutput?"removed":"removed-metadata-only";
         }catch(const Error& e){row.code=e.code;out.ready=false;}catch(...){row.code="cache-recovery-error";out.ready=false;}
         out.entries.push_back(row);
