@@ -396,6 +396,15 @@ void Player::drainEvents() {
                         ? nodeValue(*static_cast<mpv_node *>(p->data))
                         : QVariant{});
     } else if (event->event_id == MPV_EVENT_FILE_LOADED) {
+      const auto continuous=continuousStreams->current();
+      if(continuous && continuous->audioWindow() && get("path").toString()==continuousSourceUri()) {
+        const auto tracks=get("track-list").toList();
+        if(std::none_of(tracks.begin(),tracks.end(),[](const QVariant& value){return value.toMap().value("type").toString()=="audio";})) {
+          command({"stop"},quint64(0x4341)<<48);
+          emit error(QStringLiteral("continuous-required-audio-unavailable"));
+          continue;
+        }
+      }
       // PS/TS byte-based seeking can land at the following keyframe even for
       // an exact seek. Give the demuxer one second of preroll and let mpv
       // decode forward to the requested frame. File-local scope keeps this

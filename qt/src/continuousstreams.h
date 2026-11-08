@@ -3,6 +3,7 @@
 #pragma once
 #include "../../shared/progressivestreamdecoder.h"
 #include <mpv/stream_cb.h>
+#include <cstdio>
 
 class ContinuousStreams {
     using Source=foxicmp::progressive::StreamDecoderSource;
@@ -45,6 +46,11 @@ class ContinuousStreams {
             info->size_fn=[](void* r)->int64_t{const auto v=(*static_cast<Cookie*>(r))->size();return v<0?int64_t(MPV_ERROR_UNSUPPORTED):v;};
             info->cancel_fn=[](void* r){(*static_cast<Cookie*>(r))->interrupt();};
             info->close_fn=[](void* r){delete static_cast<Cookie*>(r);};return 0;
+        }catch(const foxicmp::progressive::Error& e){
+            // A mandatory AAC projection must not silently lose its native
+            // opening error behind libmpv's generic external-file failure.
+            std::fprintf(stderr,"Continuous decoder open failed: %s\n",e.code.c_str());
+            if(reserved){std::lock_guard<std::mutex> lock(self->mutex);--self->opening;}return MPV_ERROR_LOADING_FAILED;
         }catch(...){if(reserved){std::lock_guard<std::mutex> lock(self->mutex);--self->opening;}return MPV_ERROR_LOADING_FAILED;}
     }
 public:

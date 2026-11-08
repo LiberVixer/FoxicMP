@@ -18,22 +18,23 @@ from progressive_stream_remux_worker_test import probe
 from progressive_stream_reorder_test import sha
 
 
-def seek_reference(oracle, original, packets, rate, channels, samples, folder):
+def seek_reference(oracle, original, packets, rate, channels, samples, folder, *, fresh=False):
     audio=[p for p in packets if p['codec_type']=='audio']
     # Independent packet geometry, not the production AudioSeekSample helper.
     first=next(i for i,p in enumerate(audio) if Fraction(p['pts_time'])+Fraction(p['duration_time'])>Fraction(3,4))
     raw=original.read_bytes();coded=folder/'oracle-packets.bin'
     coded.write_bytes(b''.join(struct.pack('<I',int(p['size']))+raw[int(p['pos']):int(p['pos'])+int(p['size'])] for p in audio))
     config=folder/'oracle-asc.bin';config.write_bytes(codec_config(original));output=folder/'oracle-raw.f32'
-    process=subprocess.run([str(oracle),str(coded),str(output),str(config),str(rate),str(channels),str(samples),'1024',str(first),'seek-raw',str((len(audio)-first)*1024*channels*4)],capture_output=True,timeout=30)
+    mode='start-seek-raw' if fresh else 'seek-raw'
+    process=subprocess.run([str(oracle),str(coded),str(output),str(config),str(rate),str(channels),str(samples),'1024',str(first),mode,str((len(audio)-first)*1024*channels*4)],capture_output=True,timeout=30)
     assert process.returncode==0,(process.returncode,process.stdout,process.stderr)
     raw=output.read_bytes();begin=(1024+rate-first*1024)*channels*4
     wanted=raw[begin:begin+(samples-rate)*channels*4]
     assert len(wanted)==(samples-rate)*channels*4
-    return wanted,dict(exitCode=process.returncode,firstPacket=first,sha256=sha(output),bitExactRawWindow=True)
+    return wanted,dict(exitCode=process.returncode,firstPacket=first,sha256=sha(output),bitExactRawWindow=True,decoderHistory='fresh' if fresh else 'full-file-then-flush')
 
 
-def run(runner,worker,edition,report,only=None,seek_oracle=None):
+def run(runner,worker,edition,report,only=None,seek_oracle=None,growing_seek_only=False,audio_guard_only=False):
     report.mkdir(parents=True,exist_ok=False);rows=[];exits=[]
     inputs=dict(testSourceSha256=sha(__file__),runnerSha256=sha(runner),workerSha256=sha(worker))
     try:
@@ -44,7 +45,13 @@ def run(runner,worker,edition,report,only=None,seek_oracle=None):
                 origin=root/label;origin.mkdir();samples=n if n is not None else rate*6+137
                 original,_=fixture(origin,'original',rate,channels,fps,bframes,first,False,seconds=6.137,samples=samples)
                 raw=original.read_bytes();before=sha(original);packets=probe(original)['packets']
-                prefix=int(next(p['pos'] for p in packets if p['codec_type']=='video' and Fraction(p['pts_time'])>=3))+13
+                # The PCM file AO has a 65536-sample startup buffer. After a
+                # one-second seek, the three-second source prefix can leave
+                # less than one audible second in complete output fragments.
+                # Supply four source seconds for this positive decode test;
+                # range coverage alone is not a decoder startup guarantee.
+                prefix_time=4 if growing_seek_only else 3
+                prefix=int(next(p['pos'] for p in packets if p['codec_type']=='video' and Fraction(p['pts_time'])>=prefix_time))+13
                 expected,_=reference(original,rate,channels,samples,float_pcm=edition=='classic')
                 video=None
                 video_pts=sorted(Fraction(p['pts_time']) for p in packets if p['codec_type']=='video')
@@ -55,6 +62,8 @@ def run(runner,worker,edition,report,only=None,seek_oracle=None):
                     video=[hashlib.sha256(decoded.stdout[at:at+quantum]).hexdigest() for at in range(0,len(decoded.stdout),quantum)]
                 modes=('complete','growing','seek','stop','failure')+(('foreign',) if edition=='classic' else ())
                 if label in ('aligned-control','one-sample-audio-first'):modes+=('seek-ended',)
+                if growing_seek_only:modes=('growing-seek',)
+                if audio_guard_only:modes=('audio-guard',)
                 for mode in modes:
                     # Seeking beyond the only audible sample is a separate EOF
                     # case; initial coverage here keeps a nonempty AAC segment.
@@ -73,33 +82,40 @@ def run(runner,worker,edition,report,only=None,seek_oracle=None):
                     complete=folder/'complete.json';complete.write_text(json.dumps(model),encoding='utf8')
                     output=folder/'output.pcm';args=[str(runner),str(initial),str(full),str(complete),str(worker),str(folder/'registry'),str(folder/'cache'),str(output),mode,str(rate),str(channels)]
                     result=subprocess.run(args,capture_output=True,text=True,encoding='utf8',errors='replace',timeout=60)
+                    (folder/'native.stderr.txt').write_text(result.stderr,encoding='utf8')
                     exits.append(dict(profile=label,mode=mode,exitCode=result.returncode))
                     if result.returncode!=0:shutil.copytree(folder,report/"failure-artifacts")
                     assert result.returncode==0,(label,mode,result.returncode,result.stdout,result.stderr)
                     status=json.loads(result.stdout.strip().splitlines()[-1]);assert status['result']=='PASS' and not status['audioDeviceOpened'],status
-                    if mode in ('complete','growing','seek','seek-ended'):
-                        actual=output.read_bytes() if output.exists() else b'';start=rate if mode=='seek' else 0
-                        if mode=='seek' and edition=='qt':
+                    if mode in ('complete','growing','seek','seek-ended','growing-seek'):
+                        actual=output.read_bytes() if output.exists() else b'';start=rate if mode in ('seek','growing-seek') else 0
+                        if mode in ('seek','growing-seek') and edition=='qt':
                             # mpv synchronizes the audio start to the first displayed
                             # video frame, not an invented frame exactly at 1 second.
                             frame_pts=next(t for t in video_pts if t>=1)
-                            oracle_args=args.copy();oracle_args[5]+='.oracle';oracle_args[6]+='.oracle';oracle_args[7]+='.oracle.pcm';oracle_args.append("@cache")
+                            oracle_args=args.copy();oracle_args[5]+='.oracle';oracle_args[6]+='.oracle';oracle_args[7]+='.oracle.pcm';oracle_args[8]='seek';oracle_args.append("@cache")
                             oracle=subprocess.run(oracle_args,capture_output=True,text=True,encoding='utf8',errors='replace',timeout=60)
                             assert oracle.returncode==0,(oracle.returncode,oracle.stdout,oracle.stderr)
-                            wanted=Path(oracle_args[7]).read_bytes()
+                            oracle_path=Path(oracle_args[7])
+                            assert oracle_path.exists() or samples<=rate,(label,'missing nonempty PCM oracle')
+                            wanted=oracle_path.read_bytes() if oracle_path.exists() else b''
                             start=samples-len(wanted)//channels//2
-                            assert abs(start-frame_pts*rate)<=1,(label,'completed file Player seek precision',start,str(frame_pts))
+                            if samples>rate:assert abs(start-frame_pts*rate)<=1,(label,'completed file Player seek precision',start,str(frame_pts))
+                            else:
+                                assert not wanted,(label,'audio past finite endpoint')
+                                status['finiteAudioAlreadyEnded']=True
                             status['seekAudioStartSample']=start
                             status['seekFirstVideoPts']=str(frame_pts)
-                            status['completedCachePlayerOracle']=dict(exitCode=oracle.returncode,sha256=sha(oracle_args[7]),bitExact=True)
+                            status['completedCachePlayerOracle']=dict(exitCode=oracle.returncode,sha256=hashlib.sha256(wanted).hexdigest(),bitExact=True,fileCreated=oracle_path.exists())
                             if actual!=wanted:shutil.copytree(folder,report/'failure-artifacts')
                             assert actual==wanted,(label,mode,'completed file Player oracle differs')
-                        if not(mode=='seek' and edition=='qt'):wanted=expected[start*channels*(4 if edition=='classic' else 2):]
+                        if not(mode in ('seek','growing-seek') and edition=='qt'):wanted=expected[start*channels*(4 if edition=='classic' else 2):]
                         if mode=='seek-ended':wanted=b''
-                        if mode=='seek' and edition=='classic':
-                            wanted,oracle=seek_reference(seek_oracle,original,packets,rate,channels,samples,folder)
+                        if mode in ('seek','growing-seek') and edition=='classic' and samples>rate:
+                            wanted,oracle=seek_reference(seek_oracle,original,packets,rate,channels,samples,folder,fresh=mode=='growing-seek')
                             status['seekOracle']=oracle
-                            assert actual==wanted,(label,mode,'raw decoder window differs')
+                            if actual!=wanted:shutil.copytree(folder,report/'failure-artifacts')
+                            assert actual==wanted,(label,mode,'raw decoder window differs',len(actual),len(wanted),status)
                         if len(actual)!=len(wanted):shutil.copytree(folder,report/"failure-artifacts")
                         assert len(actual)==len(wanted),(label,mode,len(actual),len(wanted))
                         if edition=='qt':assert actual==wanted,(label,mode,'PCM differs')
@@ -110,12 +126,13 @@ def run(runner,worker,edition,report,only=None,seek_oracle=None):
                             assert maximum<1e-5,(label,mode,maximum)
                             frames=[json.loads(line) for line in Path(str(output)+'.video.jsonl').read_text().splitlines()]
                             seek_time=Fraction(1,100) if mode=='seek-ended' and samples==1 else Fraction(41,10) if mode=='seek-ended' else Fraction(1)
-                            first_frame=next((i for i,t in enumerate(video_pts) if t>=seek_time),len(video_pts)) if mode in ('seek','seek-ended') else 0
+                            first_frame=next((i for i,t in enumerate(video_pts) if t>=seek_time),len(video_pts)) if mode in ('seek','seek-ended','growing-seek') else 0
                             assert [p['sha256'] for p in frames]==video[first_frame:],(label,mode,'video differs',len(frames),len(video[first_frame:]))
                         status.update(pcmFrames=len(actual)//channels//(4 if edition=='classic' else 2),pcmSha256=hashlib.sha256(actual).hexdigest(),exactPcmLength=True)
-                    if mode=='growing':assert status['pcmBeforeComplete']>0 if edition=='classic' else status['playedBeforeComplete']
+                    if mode in ('growing','growing-seek'):assert (status['pcmBeforeComplete']>0 if samples>rate else status['frames']>=10) if edition=='classic' else status['playedBeforeComplete']
                     if mode in ('stop','failure'):assert status['stopSeconds']<2
                     if mode=='foreign':assert status['foreignRejected'] and status['samples']==0
+                    if mode=='audio-guard':assert status['requiredAudioRejected'] and not status['naturalEof'] and not status['loaded'],status
                     assert sha(path)==sha(original)==before
                     rows.append(dict(profile=label,mode=mode,result='PASS',status=status,originalSha256=before))
                     (report/'progress.json').write_text(json.dumps(dict(completed=[r['profile']+'/'+r['mode'] for r in rows])))
@@ -127,6 +144,7 @@ def run(runner,worker,edition,report,only=None,seek_oracle=None):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--runner',type=Path,required=True);p.add_argument('--worker',type=Path,required=True);p.add_argument('--edition',choices=('qt','classic'),required=True);p.add_argument('--report-directory',type=Path,required=True);p.add_argument('--only');p.add_argument('--seek-oracle',type=Path);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--runner',type=Path,required=True);p.add_argument('--worker',type=Path,required=True);p.add_argument('--edition',choices=('qt','classic'),required=True);p.add_argument('--report-directory',type=Path,required=True);p.add_argument('--only');p.add_argument('--seek-oracle',type=Path);p.add_argument('--growing-seek-only',action='store_true');p.add_argument('--audio-guard-only',action='store_true');a=p.parse_args()
+    if a.audio_guard_only and (a.edition!='qt' or a.growing_seek_only):p.error('Audio-guard fixture requires Qt and no growing-seek-only flag')
     if a.edition=='classic' and not a.seek_oracle:p.error('Classic requires --seek-oracle for independent untrimmed seek capture')
-    v=run(a.runner.resolve(),a.worker.resolve(),a.edition,a.report_directory.resolve(),a.only,a.seek_oracle.resolve() if a.seek_oracle else None);print(json.dumps(dict(result=v['result'],count=v['count'])))
+    v=run(a.runner.resolve(),a.worker.resolve(),a.edition,a.report_directory.resolve(),a.only,a.seek_oracle.resolve() if a.seek_oracle else None,a.growing_seek_only,a.audio_guard_only);print(json.dumps(dict(result=v['result'],count=v['count'])))

@@ -41,7 +41,20 @@ public:
     // until their owner explicitly closes it, even after producer cancellation.
     std::shared_ptr<StreamOutputStore::Reader> decoderReader()const {
         std::lock_guard<std::mutex> lock(decoderMutex);
-        auto value=reader();decoderReaders.push_back(value);return value;
+        // Native decoder opens run off the GUI thread. Producer receipt release
+        // can briefly own the registry guard while libmpv opens required audio.
+        // Retry only that transient admission failure, never integrity/identity
+        // errors. Raw reader/API admission retains its immediate busy result.
+        const auto deadline=std::chrono::steady_clock::now()+std::chrono::milliseconds(250);
+        for(;;){
+            Require(!stopped(),"remuxDecoder","Decoder source cancelled","cancelled");
+            try{auto value=reader();decoderReaders.push_back(value);return value;}
+            catch(const Error& e){
+                Require(!stopped(),"remuxDecoder","Decoder source cancelled","cancelled");
+                if(e.code!="reader_registry_busy" || std::chrono::steady_clock::now()>=deadline)throw;
+                std::this_thread::sleep_for(std::chrono::milliseconds(5));
+            }
+        }
     }
     // Controller worker only: cancel() itself remains metadata-only. Closing
     // Reader serializes with in-flight I/O and persists filesClosed after close.

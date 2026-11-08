@@ -1370,3 +1370,24 @@ CMake/CTest exit 0. Первый отказ SHA guard при изменении 
 583 защищённых файла и 158 shell entries сохранены. Harvester, установленные
 профили и опубликованные assets не менялись. Growing seek, физический A/V
 и общая ресурсная/stress приёмка остаются открытыми.
+
+
+### 8 ноября 2026: growing-start и устранение потери обязательного AAC в Qt
+
+Частные Qt Player обеих ОС и Classic DirectShow graph прошли старт с 1 s
+в ещё незавершённом кэше: 18 новых и 99 прежних сценариев. Qt использует load
+с start/preroll, Classic — первоначальный SetPositions. Classic AAC проверяется
+свежим независимым raw decoder oracle: прежний warmed/flush oracle сохранён
+для completed-seek. Это не повторные seek и не новая публичная capability.
+[Детали](ProgressiveGrowingStartSeek.md), [SHA/exits](ProgressiveGrowingStartSeekValidation-2026-11-08.json).
+
+В Qt воспроизведён `reader_registry_busy` при открытии обязательной audio-проекции.
+Общий decoder reader ограниченно повторяет только этот transient отказ;
+raw reader/API admission и Classic shared-reader ownership сохранены.
+Отсутствие обязательного AAC после file-loaded теперь вызывает ошибку и async
+stop. Red control старого кода дал exit 1, конечные native компоненты — 224 PASS,
+два forced-audio случая Qt, 27 обычных main/установленного Linux SDK cases
+и 32 concurrent API race cases обеих Qt ОС прошли.
+Linux EXE обновлён с backup/неизменным INI и прочими 578 файлами папки. Из 583
+исходных защищённых файлов изменился только Linux EXE; Windows-установки,
+158 shell entries, Harvester и опубликованные assets сохранены.

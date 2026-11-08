@@ -92,6 +92,15 @@ def run(runner,worker,reader_runner,report):
             assert read_all('a',payload)==read_all('b',payload)
             assert not command('retire')['removed'] and path.exists();close_reader('a');assert path.exists() and not status()['removed'];close_reader('b');s=retire()
             rows.append(dict(profile='atomic-fragments-two-readers',result='PASS',observations=observations,samples=600,receiptCount=2,final=s))
+            path=new_store('decoder-registry-guard');push(payload[:first_mdat])
+            for mode,code in [('release','data'),('timeout','reader_registry_busy'),('cancel','cancelled')]:
+                result=command('decoderGuard',mode=mode);assert result['code']==code,result
+                assert (.2 if mode=='timeout' else .04)<=result['seconds']<1,result
+                assert status()['activeReaders']==0 and not status()['failure'],status()
+                if result['readerId']:
+                    ids.append(result['readerId']);receipts()
+                rows.append(dict(profile='decoder-guard-'+mode,result='PASS',observation=result))
+            close_producer(error='cancelled');retire()
             # Concrete cross-process output lease, even under another session id.
             path=new_store('external-output');push(payload[:init]);close_producer(error='cancelled')
             peer=subprocess.Popen([str(reader_runner),'--hold',str(registry),uuid.uuid4().hex,str(path)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)

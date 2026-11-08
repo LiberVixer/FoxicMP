@@ -77,6 +77,14 @@ int main(int argc,char** argv){
         }else if(action=="recover"){
             const auto v=p::RecoverStreamCache(std::filesystem::u8path(p::Text(d["root"],"root",8192)),registry);rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();out.AddMember("ok",true,a);out.AddMember("ready",v.ready,a);out.AddMember("removed",uint64_t(v.removed),a);p::Value rows(rapidjson::kArrayType);
             for(const auto& row:v.entries){p::Value item(rapidjson::kObjectType);item.AddMember("cache",p::Value(row.cache.c_str(),a),a);item.AddMember("code",p::Value(row.code.c_str(),a),a);item.AddMember("bytes",row.bytes,a);rows.PushBack(item,a);}out.AddMember("entries",rows,a);std::cout<<p::lease_detail::Encode(out)<<std::endl;continue;
+        }else if(action=="decoderGuard"){
+            const auto mode=p::Text(d["mode"],"mode",16);p::Require(mode=="release" || mode=="timeout" || mode=="cancel","test","Guard mode");
+            auto source=std::make_shared<p::StreamDecoderSource>(store);p::lease_detail::Directory dir(registry,true);auto guard=dir.file(".guard",true);p::Require(guard.lock(),"test","Guard busy");
+            auto task=std::async(std::launch::async,[source]{const auto start=std::chrono::steady_clock::now();std::string code="data",id;
+                try{auto r=source->decoderReader();id=r->id();r->close();}catch(const p::Error& e){code=e.code;}
+                rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();out.AddMember("ok",true,a);out.AddMember("code",p::Value(code.c_str(),a),a);out.AddMember("readerId",p::Value(id.c_str(),a),a);out.AddMember("seconds",std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count(),a);return p::lease_detail::Encode(out);});
+            if(mode!="timeout"){std::this_thread::sleep_for(std::chrono::milliseconds(50));if(mode=="cancel")source->cancel();else p::stream_cache_detail::close(guard);}
+            auto reply=task.get();p::stream_cache_detail::close(guard);std::cout<<reply<<std::endl;continue;
         }else if(action=="holdGuard"){p::lease_detail::Directory dir(registry,true);heldGuard=std::make_unique<p::lease_detail::Handle>(dir.file(".guard",true));p::Require(heldGuard->lock(),"test","Guard busy");}
         else if(action=="releaseGuard")heldGuard.reset();
         else if(action=="collect"){const auto removed=owner->collect();std::cout<<"{\"ok\":true,\"removed\":"<<removed<<",\"count\":"<<owner->count()<<",\"bytes\":"<<budget->bytes()<<"}"<<std::endl;continue;}

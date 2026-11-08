@@ -60,13 +60,14 @@ public:
  }
 };
 int main(int argc,char** argv)try{
- require(argc==11,"initial full complete worker registry cache output mode rate channels");const std::string mode=argv[8];const bool foreign=mode=="foreign",seeking=mode=="seek" || mode=="seek-ended";
+ require(argc==11,"initial full complete worker registry cache output mode rate channels");const std::string mode=argv[8];const bool foreign=mode=="foreign",seeking=mode=="seek" || mode=="seek-ended",growingSeek=mode=="growing-seek";
  require(AfxWinInit(GetModuleHandle(nullptr),nullptr,GetCommandLine(),0)!=FALSE,"MFC init");require(SUCCEEDED(CoInitializeEx(nullptr,COINIT_MULTITHREADED)),"COM init");
  auto path=[](const char* p){return std::filesystem::u8path(p);};const auto model=p::Parse(text(mode=="complete" || seeking?argv[3]:argv[1]));const auto input=text(mode=="complete" || seeking?argv[3]:argv[1]);
  const UINT rate=std::stoul(argv[9]),channels=std::stoul(argv[10]);auto owner=std::make_shared<p::StreamCacheOwner>(std::make_shared<p::StreamCacheBudget>());
  auto session=std::make_unique<p::CachedRemuxSession>(path(argv[1]).parent_path(),path(argv[5]),path(argv[6]),input,"clip",path(argv[4]),owner,64*1024*1024,p::StreamRemuxLimits{},p::StreamRemuxProfile::H264AacWindow);
  auto wait=[&](auto fn,unsigned ms=20000){const auto start=GetTickCount64();while(!fn()){require(GetTickCount64()-start<ms,"graph wait timeout");Sleep(10);}};
- wait([&]{const auto s=session->status();require(s.output.failure.empty(),s.output.failure.c_str());return s.output.fragments>0;});const auto worker=session->status().source.workerId;
+ wait([&]{const auto s=session->status();require(s.output.failure.empty(),s.output.failure.c_str());return s.output.fragments>0 && (!growingSeek || s.output.indexedEnd100ns>=15000000);});const auto worker=session->status().source.workerId;
+ const auto startupIndexedEnd=session->status().output.indexedEnd100ns;
  auto decoded=session->decoderSource(true);CStringW error;auto source=CHarvesterSession::OpenContinuous(decoded,model.duration,error);require(bool(source),CW2A(error,CP_UTF8));require(source->TrackCount()==2,"two AV views missing");const auto receipt=source->RegisteredReaderId();
  HRESULT hr=S_OK;CComPtr<IGraphBuilder> graph;require(SUCCEEDED(graph.CoCreateInstance(CLSID_FilterGraph)),"graph init");
  auto* videoSplit=new CMP4SourceFilter(nullptr,&hr);CComPtr<IBaseFilter> vs=videoSplit;auto* audioSplit=new CMP4SourceFilter(nullptr,&hr);CComPtr<IBaseFilter> as=audioSplit;
@@ -88,10 +89,15 @@ int main(int argc,char** argv)try{
  CComQIPtr<IMediaControl> control=graph;CComQIPtr<IMediaEvent> events=graph;CComQIPtr<IMediaFilter> clock=graph;CComQIPtr<IMediaSeeking> audioSeek=as,videoSeek=vs;CComQIPtr<IProgressiveAacPcmControl> window=ad;CComQIPtr<IProgressivePcmControl> oldWindow=ad;
  require(SUCCEEDED(clock->SetSyncSource(nullptr)),"null test clock");require(oldWindow->ArmPcmWindow(1,0,10,rate,0)==E_INVALIDARG,"MP3 entry widened to AAC");
  require(window->ArmAacPcmWindow(2,rate,channels,10,0,0,0)==E_INVALIDARG,"unknown AAC control version");
+ if(growingSeek){
+  REFERENCE_TIME target=10000000;require(!source->Complete() && source->CanSeek(target),"confirmed growing seek unavailable");
+  require(SUCCEEDED(audioSeek->SetPositions(&target,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning)) && SUCCEEDED(videoSeek->SetPositions(&target,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning)),"initial growing AV seek");
+ }
  require(SUCCEEDED(control->Run()),"run AV graph");double stopSeconds=0;uint64_t before=0;
  if(foreign){long event=0;require(events->WaitForCompletion(10000,&event)==S_OK && event==EC_ERRORABORT && ac->Count()==0 && !source->Error().empty(),"foreign AAC decoder accepted");}
- else if(mode=="growing"){
-  wait([&]{return vc->Count()>=10 && ac->Count()>0;});before=ac->Count();long event=0;require(events->WaitForCompletion(100,&event)!=S_OK && !source->Complete(),"early AV EOF");
+ else if(mode=="growing" || growingSeek){
+  const bool audioEnded=growingSeek && decoded->audioWindow()->pcm.Samples()<=rate;
+  wait([&]{return vc->Count()>=10 && (audioEnded || ac->Count()>0);});before=ac->Count();long event=0;require(events->WaitForCompletion(100,&event)!=S_OK && !source->Complete(),"early AV EOF");
   require(SUCCEEDED(control->Pause()),"pause AV graph");Sleep(100);const auto paused=ac->Count();session->publish(text(argv[2]));Sleep(200);require(ac->Count()==paused,"manual audio pause lost");require(SUCCEEDED(control->Run()),"resume AV graph");
   wait([&]{return session->status().source.code=="waiting";});require(events->WaitForCompletion(100,&event)!=S_OK,"EOF before writer complete");session->publish(text(argv[3]));
  }else if(mode=="stop" || mode=="failure"){
@@ -103,12 +109,12 @@ int main(int argc,char** argv)try{
    require(SUCCEEDED(control->Pause()),"pause completed AV graph");ac->Reset(argv[7]);vc->Reset(videoFile.c_str());REFERENCE_TIME target=mode=="seek-ended"?(rate==44100?100000:41000000):10000000;
    require(SUCCEEDED(audioSeek->SetPositions(&target,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning)) && SUCCEEDED(videoSeek->SetPositions(&target,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning)),"same graph AV seek");require(SUCCEEDED(control->Run()),"resume sought AV graph");finish();
   }
-  DWORD flags=0;require(window->AacPcmWindowState(&flags)==S_OK && flags==(mode=="seek-ended"?0u:3u),"AAC window not applied/cleared");require(source->Error().empty(),"AV source error");
+  DWORD flags=0;require(window->AacPcmWindowState(&flags)==S_OK && flags==(mode=="seek-ended" || (growingSeek && decoded->audioWindow()->pcm.Samples()<=rate)?0u:3u),"AAC window not applied/cleared");require(source->Error().empty(),"AV source error");
  }
  const auto samples=ac->Count();const auto frames=vc->Count();auto released=source->ReleaseReceipt();source->Cancel();require(SUCCEEDED(control->Stop()),"final AV stop");DWORD flags=99;require(window->AacPcmWindowState(&flags)==S_OK && flags==0,"AAC window survives stop");
  window.Release();oldWindow.Release();audioSeek.Release();videoSeek.Release();clock.Release();events.Release();control.Release();
  for(auto f:{vs,as,vd,videoSink,audioSink})graph->RemoveFilter(f);if(!foreign)graph->RemoveFilter(ad);
  graph.Release();vs.Release();as.Release();vd.Release();ad.Release();videoSink.Release();audioSink.Release();videoReader.Release();audioReader.Release();source.reset();
  require(p::SourceRetirement::waitEmpty(std::chrono::seconds(5)) && released->load(),"AV source not retired");require(!decoded->stopped(),"graph cancelled shared cache source");session->cancel();wait([&]{return session->status().done;});require(session->status().source.workerId==worker,"worker changed");session.reset();owner->collect();require(decoded->status().removed,"AV cache retained");
- std::cout<<"{\"result\":\"PASS\",\"samples\":"<<samples<<",\"frames\":"<<frames<<",\"pcmBeforeComplete\":"<<before<<",\"stopSeconds\":"<<stopSeconds<<",\"foreignRejected\":"<<(foreign?"true":"false")<<",\"released\":true,\"audioDeviceOpened\":false}"<<std::endl;return 0;
+ std::cout<<"{\"result\":\"PASS\",\"samples\":"<<samples<<",\"frames\":"<<frames<<",\"pcmBeforeComplete\":"<<before<<",\"startupIndexedEnd100ns\":"<<startupIndexedEnd<<",\"stopSeconds\":"<<stopSeconds<<",\"foreignRejected\":"<<(foreign?"true":"false")<<",\"released\":true,\"audioDeviceOpened\":false}"<<std::endl;return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 1;}

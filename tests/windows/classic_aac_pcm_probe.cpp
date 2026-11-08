@@ -29,7 +29,7 @@ int main(int argc,char** argv)try{
  require(!decoder.SetAacPcmWindow(plan),"uninitialized decoder accepted AAC window");require(decoder.Init(AV_CODEC_ID_AAC,&mt),"AAC init");
  const std::string codecName=decoder.GetCodecName();
  require(!decoder.SetPcmWindow(0,samples,rate,0),"MP3-only entry accepted AAC");
- if(mode!="plain" && mode!="seek-raw"){
+ if(mode!="plain" && mode!="seek-raw" && mode!="start-seek-raw"){
   require(decoder.SetAacPcmWindow(plan,target),"AAC window admission");require(!decoder.SetAacPcmWindow(plan,samples),"invalid replacement accepted");
   if(mode=="flush")decoder.FlushBuffers();
   if(mode=="replace")require(decoder.Init(AV_CODEC_ID_AAC,&mt),"replacement init");
@@ -45,8 +45,8 @@ int main(int argc,char** argv)try{
   }
   require(result!=E_INVALIDARG && !decoder.PcmWindowFailed(),"PCM decode/window failure");
  };
- uint32_t length;
- while(input.read(reinterpret_cast<char*>(&length),sizeof(length))){require(length>0 && length<1048576,"packet length");std::vector<BYTE> data(length+AV_INPUT_BUFFER_PADDING_SIZE);require(bool(input.read(reinterpret_cast<char*>(data.data()),length)),"short packet");int used=0;require(SUCCEEDED(decoder.SendData(data.data(),int(length),&used)) && used==int(length),"AAC packet decode");drain();}
+ uint32_t length;uint64_t initialPacket=0;
+ while(input.read(reinterpret_cast<char*>(&length),sizeof(length))){require(length>0 && length<1048576,"packet length");std::vector<BYTE> data(length+AV_INPUT_BUFFER_PADDING_SIZE);require(bool(input.read(reinterpret_cast<char*>(data.data()),length)),"short packet");if(mode=="start-seek-raw" && initialPacket++<target)continue;int used=0;require(SUCCEEDED(decoder.SendData(data.data(),int(length),&used)) && used==int(length),"AAC packet decode");drain();}
  require(input.eof(),"packet read");require(SUCCEEDED(decoder.SendData(nullptr,0)),"AAC drain");drain();
  if(mode=="seek-raw"){
   // Independent untrimmed oracle: reproduce decoder history and seek preroll.
