@@ -34,6 +34,7 @@
 #include "DSUtil/FileVersion.h"
 #include "DSUtil/GUIDString.h"
 #include <ExtLib/Detours/src/detours.h>
+#include "../../../shared/progressivetemppathhook_win.h"
 #include <afxsock.h>
 #include "UpdateChecker.h"
 
@@ -635,6 +636,15 @@ HANDLE WINAPI Mine_CreateFileA(LPCSTR p1, DWORD p2, DWORD p3, LPSECURITY_ATTRIBU
 	return Real_CreateFileA(p1, p2, p3, p4, p5, p6, p7);
 }
 
+// Some longPathAware hosts block in GetTempPathW even with a sufficient
+// buffer. Third-party decoder/driver DLLs also call it while building a graph.
+// Keep the workaround inside this player process; ordinary TEMP stays native.
+static foxicmp::progressive::TemporaryPathFunction Real_GetTempPathW = GetTempPathW;
+static DWORD WINAPI Mine_GetTempPathW(DWORD capacity, LPWSTR output)
+{
+    return foxicmp::progressive::LongTemporaryPath(capacity, output, Real_GetTempPathW);
+}
+
 BOOL CreateFakeVideoTS(LPCWSTR strIFOPath, LPWSTR strFakeFile, size_t nFakeFileSize)
 {
 	BOOL  bRet = FALSE;
@@ -1044,6 +1054,7 @@ BOOL CMPlayerCApp::InitInstance()
 	DetourAttach(&(PVOID&)Real_ChangeDisplaySettingsExW, (PVOID)Mine_ChangeDisplaySettingsExW);
 	DetourAttach(&(PVOID&)Real_CreateFileA, (PVOID)Mine_CreateFileA);
 	DetourAttach(&(PVOID&)Real_CreateFileW, (PVOID)Mine_CreateFileW);
+	DetourAttach(&(PVOID&)Real_GetTempPathW, (PVOID)Mine_GetTempPathW);
 	DetourAttach(&(PVOID&)Real_mixerSetControlDetails, (PVOID)Mine_mixerSetControlDetails);
 	DetourAttach(&(PVOID&)Real_DeviceIoControl, (PVOID)Mine_DeviceIoControl);
 

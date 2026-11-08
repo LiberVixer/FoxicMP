@@ -37,6 +37,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('player', 'reader-runner', 'fixtures', 'report-directory'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--thread-snapshot', type=Path)
+    parser.add_argument('--symbols', type=Path)
     parser.add_argument('--temp-mode', choices=('os', 'environment'), default='os')
     parser.add_argument('--require-exact-temp', action='store_true')
     parser.add_argument('--temp-lengths', type=int, nargs='+', default=(120, 240))
@@ -192,6 +194,18 @@ def main():
                     proc.wait(timeout=15)
                     assert proc.returncode == 0, proc.returncode
                     launch['phase'] = 'normal-exit'
+                except BaseException:
+                    if args.thread_snapshot is not None and proc.poll() is None:
+                        try:
+                            snapshot = subprocess.run([str(args.thread_snapshot.resolve()), str(proc.pid), str(player),
+                                str(args.symbols.resolve() if args.symbols else player.parent)], capture_output=True, timeout=20)
+                            artifact = args.report_directory / (str(length)+'-threads.json')
+                            artifact.write_bytes(snapshot.stdout)
+                            launch['threadSnapshot'] = dict(exitCode=snapshot.returncode, file=artifact.name,
+                                sha256=sha(artifact), stderr=snapshot.stderr.decode(errors='replace'))
+                        except BaseException as error:
+                            launch['threadSnapshotError'] = repr(error)
+                    raise
                 finally:
                     try:
                         if active is not None and proc.poll() is None:
@@ -213,7 +227,8 @@ def main():
                         assert not list(registry.glob('*.lease'))
                         shutil.rmtree(registry)
                         cleanup.append(str(registry))
-            private_removed = not root.exists()
+        private_removed = not root.exists()
+        assert private_removed, 'Private test root was not removed'
         assert dict(os.environ) == environment_before
         assert registration_snapshot() == shell_before, 'Classic shell registration changed'
         result = dict(result='PASS', count=len(rows), rows=rows, launches=launches,

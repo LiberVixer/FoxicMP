@@ -1,0 +1,3612 @@
+{
+  "date": "2026-11-08",
+  "baseCommit": "1a6a7ef131e776185c90289abf80f8ac421943e0",
+  "applicationVersion": "0.2.0",
+  "sdkVersion": "1.84",
+  "result": "PASS: bounded Classic long-TEMP MP4 playback slice; full specification remains open",
+  "finalPlayback": {
+    "result": "PASS",
+    "count": 8,
+    "rows": [
+      {
+        "result": "PASS",
+        "requestedLength": 120,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-3c5e8b9dfacfec82.progressive.readers",
+        "registryLength": 172,
+        "fragmented": false,
+        "started": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "6191d1d2202c4841b7e8aca2d37f8cfe",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "b4fac63e771873260a07fa2d7f464fd6",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 0.0,
+          "durationSeconds": 20.0
+        },
+        "playing": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "6191d1d2202c4841b7e8aca2d37f8cfe",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "b4fac63e771873260a07fa2d7f464fd6",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.267,
+          "availableSeconds": 15.8933333,
+          "durationSeconds": 20.0
+        },
+        "completed": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "6191d1d2202c4841b7e8aca2d37f8cfe",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": true,
+          "readerId": "b4fac63e771873260a07fa2d7f464fd6",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.267,
+          "availableSeconds": 20.0,
+          "durationSeconds": 20.0
+        },
+        "cancelled": {
+          "version": 1,
+          "ok": true,
+          "active": false,
+          "sessionId": "6191d1d2202c4841b7e8aca2d37f8cfe",
+          "state": "cancelled",
+          "error": "",
+          "schemaVersion": 1,
+          "released": false,
+          "readerId": "b4fac63e771873260a07fa2d7f464fd6"
+        },
+        "liveReceipt": {
+          "version": 1,
+          "readerId": "b4fac63e771873260a07fa2d7f464fd6",
+          "sessionId": "6191d1d2202c4841b7e8aca2d37f8cfe",
+          "generation": "1",
+          "pid": 8872,
+          "birth": "134385829630002850",
+          "filesClosed": false,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "2533274791432647"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "2533274791432648"
+            }
+          ],
+          "released": false,
+          "reason": "lease-held"
+        },
+        "releasedReceipt": {
+          "version": 1,
+          "readerId": "b4fac63e771873260a07fa2d7f464fd6",
+          "sessionId": "6191d1d2202c4841b7e8aca2d37f8cfe",
+          "generation": "1",
+          "pid": 8872,
+          "birth": "134385829630002850",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "2533274791432647"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "2533274791432648"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "nativeReleasedReceipt": {
+          "version": 1,
+          "readerId": "b4fac63e771873260a07fa2d7f464fd6",
+          "sessionId": "6191d1d2202c4841b7e8aca2d37f8cfe",
+          "generation": "1",
+          "pid": 8872,
+          "birth": "134385829630002850",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "2533274791432647"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "2533274791432648"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "sourceSha256": [
+          "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+          "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+        ]
+      },
+      {
+        "result": "PASS",
+        "requestedLength": 120,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-3c5e8b9dfacfec82.progressive.readers",
+        "registryLength": 172,
+        "fragmented": true,
+        "started": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "428695a0e9444c6ea4e0b52e4bc2dcdb",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "060d97e346946d62efbe8e40e3553c60",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "playing": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "428695a0e9444c6ea4e0b52e4bc2dcdb",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "060d97e346946d62efbe8e40e3553c60",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.223,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "completed": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "428695a0e9444c6ea4e0b52e4bc2dcdb",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": true,
+          "readerId": "060d97e346946d62efbe8e40e3553c60",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.223,
+          "availableSeconds": 20.0,
+          "durationSeconds": 20.0
+        },
+        "cancelled": {
+          "version": 1,
+          "ok": true,
+          "active": false,
+          "sessionId": "428695a0e9444c6ea4e0b52e4bc2dcdb",
+          "state": "cancelled",
+          "error": "",
+          "schemaVersion": 1,
+          "released": false,
+          "readerId": "060d97e346946d62efbe8e40e3553c60"
+        },
+        "liveReceipt": {
+          "version": 1,
+          "readerId": "060d97e346946d62efbe8e40e3553c60",
+          "sessionId": "428695a0e9444c6ea4e0b52e4bc2dcdb",
+          "generation": "1",
+          "pid": 8872,
+          "birth": "134385829630002850",
+          "filesClosed": false,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "2814749768143304"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "3377699721564619"
+            }
+          ],
+          "released": false,
+          "reason": "lease-held"
+        },
+        "releasedReceipt": {
+          "version": 1,
+          "readerId": "060d97e346946d62efbe8e40e3553c60",
+          "sessionId": "428695a0e9444c6ea4e0b52e4bc2dcdb",
+          "generation": "1",
+          "pid": 8872,
+          "birth": "134385829630002850",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "2814749768143304"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "3377699721564619"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "nativeReleasedReceipt": {
+          "version": 1,
+          "readerId": "060d97e346946d62efbe8e40e3553c60",
+          "sessionId": "428695a0e9444c6ea4e0b52e4bc2dcdb",
+          "generation": "1",
+          "pid": 8872,
+          "birth": "134385829630002850",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "2814749768143304"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "3377699721564619"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "sourceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ]
+      },
+      {
+        "result": "PASS",
+        "requestedLength": 240,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-0e4589fafa430921.progressive.readers",
+        "registryLength": 292,
+        "fragmented": false,
+        "started": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "6cd70766f8494e4b9c67108563818274",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "52da81848fc0f7e2e7eaf085b0efaaaa",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 0.0,
+          "durationSeconds": 20.0
+        },
+        "playing": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "6cd70766f8494e4b9c67108563818274",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "52da81848fc0f7e2e7eaf085b0efaaaa",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.268,
+          "availableSeconds": 15.8933333,
+          "durationSeconds": 20.0
+        },
+        "completed": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "6cd70766f8494e4b9c67108563818274",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": true,
+          "readerId": "52da81848fc0f7e2e7eaf085b0efaaaa",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.268,
+          "availableSeconds": 20.0,
+          "durationSeconds": 20.0
+        },
+        "cancelled": {
+          "version": 1,
+          "ok": true,
+          "active": false,
+          "sessionId": "6cd70766f8494e4b9c67108563818274",
+          "state": "cancelled",
+          "error": "",
+          "schemaVersion": 1,
+          "released": false,
+          "readerId": "52da81848fc0f7e2e7eaf085b0efaaaa"
+        },
+        "liveReceipt": {
+          "version": 1,
+          "readerId": "52da81848fc0f7e2e7eaf085b0efaaaa",
+          "sessionId": "6cd70766f8494e4b9c67108563818274",
+          "generation": "1",
+          "pid": 6036,
+          "birth": "134385829661233872",
+          "filesClosed": false,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "1688849861301580"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "1407374884590925"
+            }
+          ],
+          "released": false,
+          "reason": "lease-held"
+        },
+        "releasedReceipt": {
+          "version": 1,
+          "readerId": "52da81848fc0f7e2e7eaf085b0efaaaa",
+          "sessionId": "6cd70766f8494e4b9c67108563818274",
+          "generation": "1",
+          "pid": 6036,
+          "birth": "134385829661233872",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "1688849861301580"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "1407374884590925"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "nativeReleasedReceipt": {
+          "version": 1,
+          "readerId": "52da81848fc0f7e2e7eaf085b0efaaaa",
+          "sessionId": "6cd70766f8494e4b9c67108563818274",
+          "generation": "1",
+          "pid": 6036,
+          "birth": "134385829661233872",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "1688849861301580"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "1407374884590925"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "sourceSha256": [
+          "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+          "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+        ]
+      },
+      {
+        "result": "PASS",
+        "requestedLength": 240,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-0e4589fafa430921.progressive.readers",
+        "registryLength": 292,
+        "fragmented": true,
+        "started": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "c1a379efe5c741a7b2fda90b32cbb989",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "cbea8c6aeec6efef13fb96016637e7bc",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "playing": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "c1a379efe5c741a7b2fda90b32cbb989",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "cbea8c6aeec6efef13fb96016637e7bc",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.207,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "completed": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "c1a379efe5c741a7b2fda90b32cbb989",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": true,
+          "readerId": "cbea8c6aeec6efef13fb96016637e7bc",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.207,
+          "availableSeconds": 20.0,
+          "durationSeconds": 20.0
+        },
+        "cancelled": {
+          "version": 1,
+          "ok": true,
+          "active": false,
+          "sessionId": "c1a379efe5c741a7b2fda90b32cbb989",
+          "state": "cancelled",
+          "error": "",
+          "schemaVersion": 1,
+          "released": false,
+          "readerId": "cbea8c6aeec6efef13fb96016637e7bc"
+        },
+        "liveReceipt": {
+          "version": 1,
+          "readerId": "cbea8c6aeec6efef13fb96016637e7bc",
+          "sessionId": "c1a379efe5c741a7b2fda90b32cbb989",
+          "generation": "1",
+          "pid": 6036,
+          "birth": "134385829661233872",
+          "filesClosed": false,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "1688849861301581"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "1688849861301584"
+            }
+          ],
+          "released": false,
+          "reason": "lease-held"
+        },
+        "releasedReceipt": {
+          "version": 1,
+          "readerId": "cbea8c6aeec6efef13fb96016637e7bc",
+          "sessionId": "c1a379efe5c741a7b2fda90b32cbb989",
+          "generation": "1",
+          "pid": 6036,
+          "birth": "134385829661233872",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "1688849861301581"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "1688849861301584"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "nativeReleasedReceipt": {
+          "version": 1,
+          "readerId": "cbea8c6aeec6efef13fb96016637e7bc",
+          "sessionId": "c1a379efe5c741a7b2fda90b32cbb989",
+          "generation": "1",
+          "pid": 6036,
+          "birth": "134385829661233872",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "1688849861301581"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "1688849861301584"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "sourceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ]
+      },
+      {
+        "result": "PASS",
+        "requestedLength": 320,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-1f7291242f59774c.progressive.readers",
+        "registryLength": 372,
+        "fragmented": false,
+        "started": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "916dfd30d6654df7b1d120f09e52762b",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "d6972f7daed731d2361e0002af4bc3c9",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 0.0,
+          "durationSeconds": 20.0
+        },
+        "playing": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "916dfd30d6654df7b1d120f09e52762b",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "d6972f7daed731d2361e0002af4bc3c9",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.223,
+          "availableSeconds": 15.8933333,
+          "durationSeconds": 20.0
+        },
+        "completed": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "916dfd30d6654df7b1d120f09e52762b",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": true,
+          "readerId": "d6972f7daed731d2361e0002af4bc3c9",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.223,
+          "availableSeconds": 20.0,
+          "durationSeconds": 20.0
+        },
+        "cancelled": {
+          "version": 1,
+          "ok": true,
+          "active": false,
+          "sessionId": "916dfd30d6654df7b1d120f09e52762b",
+          "state": "cancelled",
+          "error": "",
+          "schemaVersion": 1,
+          "released": false,
+          "readerId": "d6972f7daed731d2361e0002af4bc3c9"
+        },
+        "liveReceipt": {
+          "version": 1,
+          "readerId": "d6972f7daed731d2361e0002af4bc3c9",
+          "sessionId": "916dfd30d6654df7b1d120f09e52762b",
+          "generation": "1",
+          "pid": 9524,
+          "birth": "134385829691726104",
+          "filesClosed": false,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "562949954459841"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "562949954459842"
+            }
+          ],
+          "released": false,
+          "reason": "lease-held"
+        },
+        "releasedReceipt": {
+          "version": 1,
+          "readerId": "d6972f7daed731d2361e0002af4bc3c9",
+          "sessionId": "916dfd30d6654df7b1d120f09e52762b",
+          "generation": "1",
+          "pid": 9524,
+          "birth": "134385829691726104",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "562949954459841"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "562949954459842"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "nativeReleasedReceipt": {
+          "version": 1,
+          "readerId": "d6972f7daed731d2361e0002af4bc3c9",
+          "sessionId": "916dfd30d6654df7b1d120f09e52762b",
+          "generation": "1",
+          "pid": 9524,
+          "birth": "134385829691726104",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "562949954459841"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "562949954459842"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "sourceSha256": [
+          "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+          "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+        ]
+      },
+      {
+        "result": "PASS",
+        "requestedLength": 320,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-1f7291242f59774c.progressive.readers",
+        "registryLength": 372,
+        "fragmented": true,
+        "started": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "b4059e1b14a24907acb382b4febd4acf",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "7f9b675fbcdc474440b9acb134b504bd",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "playing": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "b4059e1b14a24907acb382b4febd4acf",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "7f9b675fbcdc474440b9acb134b504bd",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.205,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "completed": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "b4059e1b14a24907acb382b4febd4acf",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": true,
+          "readerId": "7f9b675fbcdc474440b9acb134b504bd",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.205,
+          "availableSeconds": 20.0,
+          "durationSeconds": 20.0
+        },
+        "cancelled": {
+          "version": 1,
+          "ok": true,
+          "active": false,
+          "sessionId": "b4059e1b14a24907acb382b4febd4acf",
+          "state": "cancelled",
+          "error": "",
+          "schemaVersion": 1,
+          "released": false,
+          "readerId": "7f9b675fbcdc474440b9acb134b504bd"
+        },
+        "liveReceipt": {
+          "version": 1,
+          "readerId": "7f9b675fbcdc474440b9acb134b504bd",
+          "sessionId": "b4059e1b14a24907acb382b4febd4acf",
+          "generation": "1",
+          "pid": 9524,
+          "birth": "134385829691726104",
+          "filesClosed": false,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "844424931170498"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "844424931170501"
+            }
+          ],
+          "released": false,
+          "reason": "lease-held"
+        },
+        "releasedReceipt": {
+          "version": 1,
+          "readerId": "7f9b675fbcdc474440b9acb134b504bd",
+          "sessionId": "b4059e1b14a24907acb382b4febd4acf",
+          "generation": "1",
+          "pid": 9524,
+          "birth": "134385829691726104",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "844424931170498"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "844424931170501"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "nativeReleasedReceipt": {
+          "version": 1,
+          "readerId": "7f9b675fbcdc474440b9acb134b504bd",
+          "sessionId": "b4059e1b14a24907acb382b4febd4acf",
+          "generation": "1",
+          "pid": 9524,
+          "birth": "134385829691726104",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "844424931170498"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "844424931170501"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "sourceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ]
+      },
+      {
+        "result": "PASS",
+        "requestedLength": 1100,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx\\FoxicMPClassic-40746472828571c7.progressive.readers",
+        "registryLength": 1152,
+        "fragmented": false,
+        "started": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "1e99b2687cdf424bb53544ecc9f56f7d",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "69c4d445b5ba6958f40dd62a8d5422e3",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 0.0,
+          "durationSeconds": 20.0
+        },
+        "playing": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "1e99b2687cdf424bb53544ecc9f56f7d",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "69c4d445b5ba6958f40dd62a8d5422e3",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.229,
+          "availableSeconds": 15.8933333,
+          "durationSeconds": 20.0
+        },
+        "completed": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "1e99b2687cdf424bb53544ecc9f56f7d",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": true,
+          "readerId": "69c4d445b5ba6958f40dd62a8d5422e3",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.229,
+          "availableSeconds": 20.0,
+          "durationSeconds": 20.0
+        },
+        "cancelled": {
+          "version": 1,
+          "ok": true,
+          "active": false,
+          "sessionId": "1e99b2687cdf424bb53544ecc9f56f7d",
+          "state": "cancelled",
+          "error": "",
+          "schemaVersion": 1,
+          "released": false,
+          "readerId": "69c4d445b5ba6958f40dd62a8d5422e3"
+        },
+        "liveReceipt": {
+          "version": 1,
+          "readerId": "69c4d445b5ba6958f40dd62a8d5422e3",
+          "sessionId": "1e99b2687cdf424bb53544ecc9f56f7d",
+          "generation": "1",
+          "pid": 11360,
+          "birth": "134385829722061513",
+          "filesClosed": false,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "281474977750090"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "281474977750091"
+            }
+          ],
+          "released": false,
+          "reason": "lease-held"
+        },
+        "releasedReceipt": {
+          "version": 1,
+          "readerId": "69c4d445b5ba6958f40dd62a8d5422e3",
+          "sessionId": "1e99b2687cdf424bb53544ecc9f56f7d",
+          "generation": "1",
+          "pid": 11360,
+          "birth": "134385829722061513",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "281474977750090"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "281474977750091"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "nativeReleasedReceipt": {
+          "version": 1,
+          "readerId": "69c4d445b5ba6958f40dd62a8d5422e3",
+          "sessionId": "1e99b2687cdf424bb53544ecc9f56f7d",
+          "generation": "1",
+          "pid": 11360,
+          "birth": "134385829722061513",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "281474977750090"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "281474977750091"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "sourceSha256": [
+          "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+          "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+        ]
+      },
+      {
+        "result": "PASS",
+        "requestedLength": 1100,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx\\FoxicMPClassic-40746472828571c7.progressive.readers",
+        "registryLength": 1152,
+        "fragmented": true,
+        "started": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "537a03a48b374be4b0a42fa45d2b5c72",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "037fdfc182d2ca6bae6e6d1be6c1fe16",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "playing": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "537a03a48b374be4b0a42fa45d2b5c72",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "037fdfc182d2ca6bae6e6d1be6c1fe16",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.222,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "completed": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "537a03a48b374be4b0a42fa45d2b5c72",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": true,
+          "readerId": "037fdfc182d2ca6bae6e6d1be6c1fe16",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.274,
+          "availableSeconds": 20.0,
+          "durationSeconds": 20.0
+        },
+        "cancelled": {
+          "version": 1,
+          "ok": true,
+          "active": false,
+          "sessionId": "537a03a48b374be4b0a42fa45d2b5c72",
+          "state": "cancelled",
+          "error": "",
+          "schemaVersion": 1,
+          "released": false,
+          "readerId": "037fdfc182d2ca6bae6e6d1be6c1fe16"
+        },
+        "liveReceipt": {
+          "version": 1,
+          "readerId": "037fdfc182d2ca6bae6e6d1be6c1fe16",
+          "sessionId": "537a03a48b374be4b0a42fa45d2b5c72",
+          "generation": "1",
+          "pid": 11360,
+          "birth": "134385829722061513",
+          "filesClosed": false,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "562949954460747"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "562949954460750"
+            }
+          ],
+          "released": false,
+          "reason": "lease-held"
+        },
+        "releasedReceipt": {
+          "version": 1,
+          "readerId": "037fdfc182d2ca6bae6e6d1be6c1fe16",
+          "sessionId": "537a03a48b374be4b0a42fa45d2b5c72",
+          "generation": "1",
+          "pid": 11360,
+          "birth": "134385829722061513",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "562949954460747"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "562949954460750"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "nativeReleasedReceipt": {
+          "version": 1,
+          "readerId": "037fdfc182d2ca6bae6e6d1be6c1fe16",
+          "sessionId": "537a03a48b374be4b0a42fa45d2b5c72",
+          "generation": "1",
+          "pid": 11360,
+          "birth": "134385829722061513",
+          "filesClosed": true,
+          "resources": [
+            {
+              "id": "video",
+              "device": "656024512",
+              "fileId": "562949954460747"
+            },
+            {
+              "id": "audio",
+              "device": "656024512",
+              "fileId": "562949954460750"
+            }
+          ],
+          "released": true,
+          "reason": "files-closed"
+        },
+        "sourceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ]
+      }
+    ],
+    "launches": [
+      {
+        "pid": 8872,
+        "requestedLength": 120,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-3c5e8b9dfacfec82.progressive.readers",
+        "nativeTempProbeExit": 0,
+        "nativeExit": 0,
+        "phase": "normal-exit",
+        "fragmented": true,
+        "apiStartWallSeconds": 0.01600000000325963,
+        "acceptedStart": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "428695a0e9444c6ea4e0b52e4bc2dcdb",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "060d97e346946d62efbe8e40e3553c60",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "statusChecks": 24,
+        "lastStatus": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "428695a0e9444c6ea4e0b52e4bc2dcdb",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "060d97e346946d62efbe8e40e3553c60",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.223,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "longestStatusReplySeconds": 0.09400000001187436,
+        "forcedCleanup": false
+      },
+      {
+        "pid": 6036,
+        "requestedLength": 240,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-0e4589fafa430921.progressive.readers",
+        "nativeTempProbeExit": 0,
+        "nativeExit": 0,
+        "phase": "normal-exit",
+        "fragmented": true,
+        "apiStartWallSeconds": 0.01600000000325963,
+        "acceptedStart": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "c1a379efe5c741a7b2fda90b32cbb989",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "cbea8c6aeec6efef13fb96016637e7bc",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "statusChecks": 23,
+        "lastStatus": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "c1a379efe5c741a7b2fda90b32cbb989",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "cbea8c6aeec6efef13fb96016637e7bc",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.207,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "longestStatusReplySeconds": 0.10899999999674037,
+        "forcedCleanup": false
+      },
+      {
+        "pid": 9524,
+        "requestedLength": 320,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-1f7291242f59774c.progressive.readers",
+        "nativeTempProbeExit": 0,
+        "nativeExit": 0,
+        "phase": "normal-exit",
+        "fragmented": true,
+        "apiStartWallSeconds": 0.015000000013969839,
+        "acceptedStart": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "b4059e1b14a24907acb382b4febd4acf",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "7f9b675fbcdc474440b9acb134b504bd",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "statusChecks": 23,
+        "lastStatus": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "b4059e1b14a24907acb382b4febd4acf",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "7f9b675fbcdc474440b9acb134b504bd",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.205,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "longestStatusReplySeconds": 0.10999999998603016,
+        "forcedCleanup": false
+      },
+      {
+        "pid": 11360,
+        "requestedLength": 1100,
+        "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx",
+        "actualTemp": {
+          "progressiveTempDirectory": {
+            "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx\\"
+          }
+        },
+        "requestedTempHonored": true,
+        "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx\\FoxicMPClassic-40746472828571c7.progressive.readers",
+        "nativeTempProbeExit": 0,
+        "nativeExit": 0,
+        "phase": "normal-exit",
+        "fragmented": true,
+        "apiStartWallSeconds": 0.01600000000325963,
+        "acceptedStart": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "537a03a48b374be4b0a42fa45d2b5c72",
+          "state": "buffering",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "037fdfc182d2ca6bae6e6d1be6c1fe16",
+          "schemaVersion": 1,
+          "positionSeconds": 0.0,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "statusChecks": 24,
+        "lastStatus": {
+          "version": 1,
+          "ok": true,
+          "active": true,
+          "sessionId": "537a03a48b374be4b0a42fa45d2b5c72",
+          "state": "playing",
+          "error": "",
+          "released": false,
+          "connected": true,
+          "complete": false,
+          "readerId": "037fdfc182d2ca6bae6e6d1be6c1fe16",
+          "schemaVersion": 1,
+          "audioSelection": {
+            "count": 1,
+            "index": 0
+          },
+          "loadedSubtitleCount": 0,
+          "appliedMetadata": {
+            "revision": "",
+            "title": "видео",
+            "chapters": []
+          },
+          "controls": {
+            "speed": 1.0,
+            "volumePercent": 100,
+            "muted": false
+          },
+          "positionSeconds": 0.222,
+          "availableSeconds": 16.0,
+          "durationSeconds": 20.0
+        },
+        "longestStatusReplySeconds": 0.09299999999348074,
+        "forcedCleanup": false
+      }
+    ],
+    "privateCopiesRemoved": true,
+    "runtimeRegistriesRemoved": [
+      "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-3c5e8b9dfacfec82.progressive.readers",
+      "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-0e4589fafa430921.progressive.readers",
+      "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-1f7291242f59774c.progressive.readers",
+      "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx\\FoxicMPClassic-40746472828571c7.progressive.readers"
+    ],
+    "parentEnvironmentUnchanged": true,
+    "shellRegistrationUnchanged": true,
+    "tempMode": "environment",
+    "exactTempRequired": true
+  },
+  "legacyRegression": {
+    "report": {
+      "result": "PASS",
+      "count": 2,
+      "rows": [
+        {
+          "manifestLength": 349,
+          "contract": "legacy-provider",
+          "result": "PASS",
+          "beforeComplete": {
+            "schemaVersion": 1,
+            "sessionId": "ee751f5bea9940879852e9321eaeb25c",
+            "generation": 1,
+            "revision": 2,
+            "type": "playing",
+            "pid": 8932,
+            "position100ns": 100240000,
+            "readyEnd100ns": 120000000,
+            "completionWaiters": 0,
+            "observedPlaying": true
+          },
+          "complete": {
+            "schemaVersion": 1,
+            "sessionId": "ee751f5bea9940879852e9321eaeb25c",
+            "generation": 1,
+            "revision": 3,
+            "type": "playing",
+            "pid": 8932,
+            "position100ns": 110100000,
+            "readyEnd100ns": 200000000,
+            "completionWaiters": 0
+          },
+          "filesClosedLeaseReleased": true
+        },
+        {
+          "manifestLength": 1142,
+          "contract": "legacy-provider",
+          "result": "PASS",
+          "beforeComplete": {
+            "schemaVersion": 1,
+            "sessionId": "69d7052d37274beeaffc85b2247065d7",
+            "generation": 1,
+            "revision": 2,
+            "type": "playing",
+            "pid": 8584,
+            "position100ns": 101190000,
+            "readyEnd100ns": 120000000,
+            "completionWaiters": 0,
+            "observedPlaying": true
+          },
+          "complete": {
+            "schemaVersion": 1,
+            "sessionId": "69d7052d37274beeaffc85b2247065d7",
+            "generation": 1,
+            "revision": 3,
+            "type": "playing",
+            "pid": 8584,
+            "position100ns": 111010000,
+            "readyEnd100ns": 200000000,
+            "completionWaiters": 0
+          },
+          "filesClosedLeaseReleased": true
+        }
+      ],
+      "testCopiesRemoved": true
+    },
+    "nativeExit": 0,
+    "ordinaryTemp": true,
+    "minimumPartialPlaybackSeconds": 10,
+    "playerAndProviderNormalExitAssertionsPassed": true
+  },
+  "nativeHook": {
+    "report": {
+      "result": "PASS",
+      "count": 4,
+      "rows": [
+        {
+          "targetLength": 120,
+          "nativeExit": 0,
+          "result": {
+            "result": "PASS",
+            "longCase": false,
+            "pathLength": 121
+          }
+        },
+        {
+          "targetLength": 240,
+          "nativeExit": 0,
+          "result": {
+            "result": "PASS",
+            "longCase": false,
+            "pathLength": 242
+          }
+        },
+        {
+          "targetLength": 320,
+          "nativeExit": 0,
+          "result": {
+            "result": "PASS",
+            "longCase": true,
+            "pathLength": 321
+          }
+        },
+        {
+          "targetLength": 1100,
+          "nativeExit": 0,
+          "result": {
+            "result": "PASS",
+            "longCase": true,
+            "pathLength": 1101
+          }
+        }
+      ],
+      "privateRootRemoved": true,
+      "parentEnvironmentUnchanged": true
+    },
+    "executableSha256": "f7a3cff55a34f6814e80dcc593d22dafb116157439f84b25ae8b84e92297cb91",
+    "manifestLongPathAware": true,
+    "scope": "Actual process-local Detours attach/detach; native short path and buffer results; long exact root, length query, null/small/exact buffers, guard and terminator, GetTempPath2 delegation"
+  },
+  "baselineFailure": {
+    "nativeExit": 1,
+    "observations": {
+      "rows": [],
+      "launches": [
+        {
+          "pid": 12112,
+          "requestedLength": 320,
+          "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-pla7gxd_\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx",
+          "actualTemp": {
+            "progressiveTempDirectory": {
+              "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-pla7gxd_\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\"
+            }
+          },
+          "requestedTempHonored": true,
+          "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-pla7gxd_\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-037c13c59911df6f.progressive.readers",
+          "nativeTempProbeExit": 0,
+          "nativeExit": 1,
+          "phase": "start-accepted",
+          "fragmented": false,
+          "apiStartWallSeconds": 0.0,
+          "acceptedStart": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "a934fad50d9a4442a5d0d45c428e433c",
+            "state": "buffering",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "d26dbfc037a84aa343ad944efda5aeb0",
+            "schemaVersion": 1,
+            "positionSeconds": 0.0,
+            "availableSeconds": 0.0,
+            "durationSeconds": 20.0
+          },
+          "statusChecks": 292,
+          "lastStatus": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "a934fad50d9a4442a5d0d45c428e433c",
+            "state": "buffering",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "d26dbfc037a84aa343ad944efda5aeb0",
+            "schemaVersion": 1,
+            "positionSeconds": 0.0,
+            "availableSeconds": 0.0,
+            "durationSeconds": 20.0
+          },
+          "longestStatusReplySeconds": 0.01600000000325963,
+          "threadSnapshot": {
+            "exitCode": 0,
+            "file": "320-threads.json",
+            "sha256": "f6b7b3f1815eb2db47d862b57a52cdc927f436606d4b1f8266f7815dce957e86",
+            "stderr": ""
+          },
+          "forcedCleanup": true,
+          "failureCleanupReceipts": [
+            {
+              "version": 1,
+              "readerId": "d26dbfc037a84aa343ad944efda5aeb0",
+              "sessionId": "a934fad50d9a4442a5d0d45c428e433c",
+              "generation": "1",
+              "pid": 12112,
+              "birth": "134385823971716633",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1688849861300677"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1688849861300678"
+                }
+              ],
+              "released": true,
+              "reason": "process-exited"
+            }
+          ]
+        }
+      ],
+      "runtimeRegistriesRemoved": [
+        "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-pla7gxd_\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-037c13c59911df6f.progressive.readers"
+      ],
+      "shellRegistrationUnchanged": true,
+      "parentEnvironmentUnchanged": true
+    },
+    "stack": {
+      "pid": 12112,
+      "birth": 134385823971716633,
+      "image": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-pla7gxd_\\player-320\\FoxicMP64.exe",
+      "symbolHandlerReady": true,
+      "dbghelpLoadError": 0,
+      "modules": [
+        {
+          "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-pla7gxd_\\player-320\\FoxicMP64.exe",
+          "base": 140696861016064,
+          "size": 44367872
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "base": 140717038370816,
+          "size": 2523136
+        },
+        {
+          "path": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "base": 140717010124800,
+          "size": 823296
+        },
+        {
+          "path": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "base": 140716991971328,
+          "size": 4161536
+        },
+        {
+          "path": "C:\\Windows\\System32\\USER32.dll",
+          "base": 140717006323712,
+          "size": 1863680
+        },
+        {
+          "path": "C:\\Windows\\System32\\win32u.dll",
+          "base": 140716996165632,
+          "size": 159744
+        },
+        {
+          "path": "C:\\Windows\\System32\\GDI32.dll",
+          "base": 140717031817216,
+          "size": 176128
+        },
+        {
+          "path": "C:\\Windows\\System32\\gdi32full.dll",
+          "base": 140716990005248,
+          "size": 1228800
+        },
+        {
+          "path": "C:\\Windows\\System32\\msvcp_win.dll",
+          "base": 140717001605120,
+          "size": 667648
+        },
+        {
+          "path": "C:\\Windows\\System32\\ucrtbase.dll",
+          "base": 140716997869568,
+          "size": 1355776
+        },
+        {
+          "path": "C:\\Windows\\System32\\ADVAPI32.dll",
+          "base": 140717035290624,
+          "size": 737280
+        },
+        {
+          "path": "C:\\Windows\\System32\\msvcrt.dll",
+          "base": 140717034504192,
+          "size": 692224
+        },
+        {
+          "path": "C:\\Windows\\System32\\sechost.dll",
+          "base": 140717032013824,
+          "size": 679936
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\MSIMG32.dll",
+          "base": 140716379865088,
+          "size": 32768
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\WINSPOOL.DRV",
+          "base": 140716379078656,
+          "size": 720896
+        },
+        {
+          "path": "C:\\Windows\\System32\\RPCRT4.dll",
+          "base": 140717002981376,
+          "size": 1146880
+        },
+        {
+          "path": "C:\\Windows\\System32\\combase.dll",
+          "base": 140717013008384,
+          "size": 3715072
+        },
+        {
+          "path": "C:\\Windows\\System32\\SHELL32.dll",
+          "base": 140717016743936,
+          "size": 7663616
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\cfgmgr32.dll",
+          "base": 140716985876480,
+          "size": 356352
+        },
+        {
+          "path": "C:\\Windows\\System32\\shcore.dll",
+          "base": 140717036994560,
+          "size": 991232
+        },
+        {
+          "path": "C:\\Windows\\System32\\wintypes.dll",
+          "base": 140716996362240,
+          "size": 1486848
+        },
+        {
+          "path": "C:\\Windows\\System32\\SHLWAPI.dll",
+          "base": 140717036077056,
+          "size": 421888
+        },
+        {
+          "path": "C:\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.7019_none_3e06ffa0e335b8a8\\COMCTL32.dll",
+          "base": 140716717441024,
+          "size": 2703360
+        },
+        {
+          "path": "C:\\Windows\\System32\\ole32.dll",
+          "base": 140717004554240,
+          "size": 1667072
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\UxTheme.dll",
+          "base": 140716938887168,
+          "size": 696320
+        },
+        {
+          "path": "C:\\Windows\\System32\\OLEAUT32.dll",
+          "base": 140717033259008,
+          "size": 880640
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\WindowsCodecs.dll",
+          "base": 140716912214016,
+          "size": 2293760
+        },
+        {
+          "path": "C:\\Windows\\System32\\WS2_32.dll",
+          "base": 140717008224256,
+          "size": 475136
+        },
+        {
+          "path": "C:\\Windows\\System32\\CRYPT32.dll",
+          "base": 140716999245824,
+          "size": 1536000
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\oledlg.dll",
+          "base": 140716163989504,
+          "size": 237568
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\dwmapi.dll",
+          "base": 140716941574144,
+          "size": 196608
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\bcrypt.dll",
+          "base": 140716988301312,
+          "size": 172032
+        },
+        {
+          "path": "C:\\Windows\\System32\\IMM32.dll",
+          "base": 140717036535808,
+          "size": 200704
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\WININET.dll",
+          "base": 140716645613568,
+          "size": 2658304
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\WINMM.dll",
+          "base": 140716869812224,
+          "size": 217088
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\VERSION.dll",
+          "base": 140716878594048,
+          "size": 45056
+        },
+        {
+          "path": "C:\\Windows\\WinSxS\\amd64_microsoft.windows.gdiplus_6595b64144ccf1df_1.1.26100.7019_none_6ef1f2863dc83276\\gdiplus.dll",
+          "base": 140716377112576,
+          "size": 1937408
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\OLEACC.dll",
+          "base": 140716376588288,
+          "size": 495616
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\windows.storage.dll",
+          "base": 140716952059904,
+          "size": 8769536
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\kernel.appcore.dll",
+          "base": 140716970278912,
+          "size": 110592
+        },
+        {
+          "path": "C:\\Windows\\System32\\bcryptPrimitives.dll",
+          "base": 140716991250432,
+          "size": 675840
+        },
+        {
+          "path": "C:\\Program Files (x86)\\Punto Switcher\\PSHook64.dll",
+          "base": 140716936790016,
+          "size": 139264
+        },
+        {
+          "path": "C:\\FoxBroxer\\Prg\\Dex\\hooxpot64.dll",
+          "base": 140715569577984,
+          "size": 69632
+        },
+        {
+          "path": "C:\\Windows\\system32\\IconCodecService.dll",
+          "base": 140716124274688,
+          "size": 45056
+        },
+        {
+          "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-pla7gxd_\\player-320\\Lang\\FoxicMPresources.ru.dll",
+          "base": 2784511066112,
+          "size": 241664
+        },
+        {
+          "path": "C:\\Windows\\System32\\clbcatq.dll",
+          "base": 140717009338368,
+          "size": 720896
+        },
+        {
+          "path": "C:\\Windows\\System32\\MSCTF.dll",
+          "base": 140717029261312,
+          "size": 1433600
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\textinputframework.dll",
+          "base": 140716668551168,
+          "size": 1339392
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+          "base": 140716933775360,
+          "size": 1208320
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\CoreUIComponents.dll",
+          "base": 140716890783744,
+          "size": 3022848
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\CRYPTBASE.DLL",
+          "base": 140716978995200,
+          "size": 49152
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\TextShaping.dll",
+          "base": 140716317409280,
+          "size": 733184
+        },
+        {
+          "path": "C:\\Program Files\\Common Files\\microsoft shared\\ink\\tiptsf.dll",
+          "base": 140715438309376,
+          "size": 659456
+        },
+        {
+          "path": "C:\\Windows\\system32\\dataexchange.dll",
+          "base": 140716235292672,
+          "size": 368640
+        },
+        {
+          "path": "C:\\Windows\\system32\\twinapi.appcore.dll",
+          "base": 140716813123584,
+          "size": 2375680
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\wtsapi32.dll",
+          "base": 140716938493952,
+          "size": 172032
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\SspiCli.dll",
+          "base": 140716973031424,
+          "size": 299008
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\WINSTA.dll",
+          "base": 140716979453952,
+          "size": 405504
+        },
+        {
+          "path": "C:\\Windows\\system32\\explorerframe.dll",
+          "base": 140716262096896,
+          "size": 2867200
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\VirtDisk.dll",
+          "base": 140715565580288,
+          "size": 94208
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\iertutil.dll",
+          "base": 140716687884288,
+          "size": 2904064
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\netutils.dll",
+          "base": 140716963790848,
+          "size": 53248
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\srvcli.dll",
+          "base": 140716687163392,
+          "size": 167936
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\profapi.dll",
+          "base": 140716988497920,
+          "size": 167936
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\ondemandconnroutehelper.dll",
+          "base": 140716638076928,
+          "size": 98304
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\WINHTTP.dll",
+          "base": 140716868567040,
+          "size": 1212416
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\urlmon.dll",
+          "base": 140716690833408,
+          "size": 1957888
+        },
+        {
+          "path": "C:\\Windows\\system32\\mswsock.dll",
+          "base": 140716975980544,
+          "size": 438272
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\IPHLPAPI.DLL",
+          "base": 140716964052992,
+          "size": 212992
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\WINNSI.DLL",
+          "base": 140716904022016,
+          "size": 61440
+        },
+        {
+          "path": "C:\\Windows\\System32\\NSI.dll",
+          "base": 140717035225088,
+          "size": 40960
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\dhcpcsvc6.DLL",
+          "base": 140716833374208,
+          "size": 122880
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\dhcpcsvc.DLL",
+          "base": 140716833177600,
+          "size": 143360
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\ntmarta.dll",
+          "base": 140716971458560,
+          "size": 221184
+        },
+        {
+          "path": "C:\\Windows\\System32\\quartz.dll",
+          "base": 140715440734208,
+          "size": 2043904
+        },
+        {
+          "path": "C:\\Windows\\System32\\devenum.dll",
+          "base": 140716373901312,
+          "size": 135168
+        },
+        {
+          "path": "C:\\Windows\\System32\\setupapi.dll",
+          "base": 140717024477184,
+          "size": 4759552
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\DEVOBJ.dll",
+          "base": 140716985679872,
+          "size": 184320
+        },
+        {
+          "path": "C:\\Windows\\System32\\WINTRUST.dll",
+          "base": 140716989415424,
+          "size": 520192
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\MSASN1.dll",
+          "base": 140716979322880,
+          "size": 77824
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\msdmo.dll",
+          "base": 140716198658048,
+          "size": 57344
+        },
+        {
+          "path": "C:\\Windows\\System32\\MMDevApi.dll",
+          "base": 140716782780416,
+          "size": 618496
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\winmmbase.dll",
+          "base": 140716367282176,
+          "size": 221184
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\wdmaud.drv",
+          "base": 140716301680640,
+          "size": 290816
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\AUDIOSES.DLL",
+          "base": 140716348473344,
+          "size": 1789952
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\msacm32.drv",
+          "base": 140716878397440,
+          "size": 61440
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\MSACM32.dll",
+          "base": 140716367085568,
+          "size": 135168
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\midimap.dll",
+          "base": 140716874989568,
+          "size": 49152
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\dsound.dll",
+          "base": 140716096552960,
+          "size": 606208
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\ResampleDmo.DLL",
+          "base": 140716063457280,
+          "size": 724992
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\powrprof.dll",
+          "base": 140716982075392,
+          "size": 385024
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\UMPDC.dll",
+          "base": 140716981944320,
+          "size": 81920
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\d3d9.dll",
+          "base": 140716422594560,
+          "size": 1769472
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\dxcore.dll",
+          "base": 140716939804672,
+          "size": 274432
+        },
+        {
+          "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0201039.inf_amd64_89c3272f19eab06b\\B025980\\aticfx64.dll",
+          "base": 140716870336512,
+          "size": 1814528
+        },
+        {
+          "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0201039.inf_amd64_89c3272f19eab06b\\B025980\\atiu9p64.dll",
+          "base": 140716301418496,
+          "size": 212992
+        },
+        {
+          "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0201039.inf_amd64_89c3272f19eab06b\\B025980\\atiumd64.dll",
+          "base": 140715238883328,
+          "size": 13922304
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\dbghelp.dll",
+          "base": 140716949438464,
+          "size": 2367488
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\dbgcore.DLL",
+          "base": 140715113971712,
+          "size": 245760
+        }
+      ],
+      "threads": [
+        {
+          "tid": 6152,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 141,
+          "frames": [
+            {
+              "pc": 140716996170532,
+              "symbol": "NtUserGetMessage",
+              "displacement": 20
+            },
+            {
+              "pc": 140717006582786,
+              "symbol": "GetMessageW",
+              "displacement": 34
+            },
+            {
+              "pc": 140696890132183,
+              "symbol": "AfxInternalPumpMessage",
+              "displacement": 39
+            },
+            {
+              "pc": 140696890134456,
+              "symbol": "CWinThread::Run",
+              "displacement": 132
+            },
+            {
+              "pc": 140696892846443,
+              "symbol": "AfxWinMain",
+              "displacement": 191
+            },
+            {
+              "pc": 140696891730198,
+              "symbol": "__scrt_common_main_seh",
+              "displacement": 262
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 1836,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039835508,
+              "symbol": "ZwWaitForWorkViaWorkerFactory",
+              "displacement": 20
+            },
+            {
+              "pc": 140717038853950,
+              "symbol": "RtlSetThreadSubProcessTag",
+              "displacement": 6894
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 10852,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039835508,
+              "symbol": "ZwWaitForWorkViaWorkerFactory",
+              "displacement": 20
+            },
+            {
+              "pc": 140717038853950,
+              "symbol": "RtlSetThreadSubProcessTag",
+              "displacement": 6894
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 9256,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 15,
+          "frames": [
+            {
+              "pc": 140717039835508,
+              "symbol": "ZwWaitForWorkViaWorkerFactory",
+              "displacement": 20
+            },
+            {
+              "pc": 140717038853950,
+              "symbol": "RtlSetThreadSubProcessTag",
+              "displacement": 6894
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 3496,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039822868,
+              "symbol": "NtWaitForMultipleObjects",
+              "displacement": 20
+            },
+            {
+              "pc": 140716992227267,
+              "symbol": "WaitForMultipleObjectsEx",
+              "displacement": 291
+            },
+            {
+              "pc": 140717014013934,
+              "symbol": "DllGetClassObject",
+              "displacement": 39950
+            },
+            {
+              "pc": 140717014196673,
+              "symbol": "RoParameterizedTypeExtraGetTypeSignature",
+              "displacement": 593
+            },
+            {
+              "pc": 140717014196345,
+              "symbol": "RoParameterizedTypeExtraGetTypeSignature",
+              "displacement": 265
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 3928,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039835508,
+              "symbol": "ZwWaitForWorkViaWorkerFactory",
+              "displacement": 20
+            },
+            {
+              "pc": 140717038853950,
+              "symbol": "RtlSetThreadSubProcessTag",
+              "displacement": 6894
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 7980,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039835508,
+              "symbol": "ZwWaitForWorkViaWorkerFactory",
+              "displacement": 20
+            },
+            {
+              "pc": 140717038853950,
+              "symbol": "RtlSetThreadSubProcessTag",
+              "displacement": 6894
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 11912,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039065052,
+              "symbol": "RtlQueryEnvironmentVariable",
+              "displacement": 492
+            },
+            {
+              "pc": 140717039063896,
+              "symbol": "RtlQueryEnvironmentVariable_U",
+              "displacement": 56
+            },
+            {
+              "pc": 140716992949407,
+              "symbol": "GetTempPathW",
+              "displacement": 127
+            },
+            {
+              "pc": 140716992948476,
+              "symbol": "GetTempPath2W",
+              "displacement": 108
+            },
+            {
+              "pc": 140716949498670,
+              "symbol": "SymCleanup",
+              "displacement": 462
+            },
+            {
+              "pc": 140716949646150,
+              "symbol": "GetSymLoadError",
+              "displacement": 1910
+            },
+            {
+              "pc": 140717039810926,
+              "symbol": "RtlEncodeRemotePointer",
+              "displacement": 206
+            },
+            {
+              "pc": 140717038419118,
+              "symbol": "RtlRaiseException",
+              "displacement": 5486
+            },
+            {
+              "pc": 140717038409644,
+              "symbol": "RtlDeleteElementGenericTableAvlEx",
+              "displacement": 1276
+            },
+            {
+              "pc": 140717038991082,
+              "symbol": "LdrGetProcedureAddressForCaller",
+              "displacement": 2842
+            },
+            {
+              "pc": 140717038991126,
+              "symbol": "LdrGetProcedureAddressForCaller",
+              "displacement": 2886
+            },
+            {
+              "pc": 140717038985731,
+              "symbol": "LdrGetProcedureAddress",
+              "displacement": 275
+            },
+            {
+              "pc": 140717038461972,
+              "symbol": "LdrGetDllHandleEx",
+              "displacement": 3460
+            },
+            {
+              "pc": 140717038460960,
+              "symbol": "LdrGetDllHandleEx",
+              "displacement": 2448
+            },
+            {
+              "pc": 140717038631456,
+              "symbol": "LdrLoadDll",
+              "displacement": 368
+            },
+            {
+              "pc": 140716992221855,
+              "symbol": "LoadLibraryExW",
+              "displacement": 255
+            },
+            {
+              "pc": 140716992956477,
+              "symbol": "LoadLibraryA",
+              "displacement": 141
+            },
+            {
+              "pc": 140716301478813,
+              "symbol": "XopOpenAdapters9",
+              "displacement": 3853
+            },
+            {
+              "pc": 140716301461587,
+              "symbol": "OpenAdapter",
+              "displacement": 103
+            },
+            {
+              "pc": 140716870821524,
+              "symbol": "OpenAdapter",
+              "displacement": 9668
+            },
+            {
+              "pc": 140716423041533,
+              "symbol": "D3DPERF_EndEvent",
+              "displacement": 10637
+            },
+            {
+              "pc": 140716423040077,
+              "symbol": "D3DPERF_EndEvent",
+              "displacement": 9181
+            },
+            {
+              "pc": 140716422626074
+            },
+            {
+              "pc": 140716422617598
+            },
+            {
+              "pc": 140716422615247
+            },
+            {
+              "pc": 140716423177691,
+              "symbol": "Direct3DCreate9Ex",
+              "displacement": 347
+            },
+            {
+              "pc": 140716423177326,
+              "symbol": "Direct3DCreate9",
+              "displacement": 30
+            },
+            {
+              "pc": 140696880276712,
+              "symbol": "D3D9Helper::Direct3DCreate9",
+              "displacement": 184
+            },
+            {
+              "pc": 140696883472062,
+              "symbol": "CMPCVideoDecFilter::DetectVideoCard",
+              "displacement": 62
+            },
+            {
+              "pc": 140696883470881,
+              "symbol": "CMPCVideoDecFilter::CMPCVideoDecFilter",
+              "displacement": 2913
+            },
+            {
+              "pc": 140696877727136,
+              "symbol": "CFGMPCVideoDecoderInternal::Create",
+              "displacement": 80
+            },
+            {
+              "pc": 140696877751040,
+              "symbol": "CFGManager::ConnectInternal",
+              "displacement": 4496
+            },
+            {
+              "pc": 140696877764128,
+              "symbol": "CFGManager::ConnectFilter",
+              "displacement": 2576
+            },
+            {
+              "pc": 140696877756839,
+              "symbol": "CFGManager::RenderFile",
+              "displacement": 1847
+            },
+            {
+              "pc": 140696878083251,
+              "symbol": "CMainFrame::OpenFile",
+              "displacement": 963
+            },
+            {
+              "pc": 140696878138726,
+              "symbol": "CMainFrame::OpenMediaPrivate",
+              "displacement": 2326
+            },
+            {
+              "pc": 140696877397965,
+              "symbol": "CGraphThread::OnOpen",
+              "displacement": 45
+            },
+            {
+              "pc": 140696890133267,
+              "symbol": "CWinThread::DispatchThreadMessageEx",
+              "displacement": 91
+            },
+            {
+              "pc": 140696890131965,
+              "symbol": "AfxInternalPreTranslateMessage",
+              "displacement": 41
+            },
+            {
+              "pc": 140696890132204,
+              "symbol": "AfxInternalPumpMessage",
+              "displacement": 60
+            },
+            {
+              "pc": 140696890134456,
+              "symbol": "CWinThread::Run",
+              "displacement": 132
+            },
+            {
+              "pc": 140696890135004,
+              "symbol": "_AfxThreadEntry",
+              "displacement": 288
+            },
+            {
+              "pc": 140696892676538,
+              "symbol": "thread_start<unsigned int (__cdecl*)(void *),1>",
+              "displacement": 90
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 2608,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039835508,
+              "symbol": "ZwWaitForWorkViaWorkerFactory",
+              "displacement": 20
+            },
+            {
+              "pc": 140717038853950,
+              "symbol": "RtlSetThreadSubProcessTag",
+              "displacement": 6894
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 2380,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039822868,
+              "symbol": "NtWaitForMultipleObjects",
+              "displacement": 20
+            },
+            {
+              "pc": 140716992227267,
+              "symbol": "WaitForMultipleObjectsEx",
+              "displacement": 291
+            },
+            {
+              "pc": 140716992226961,
+              "symbol": "WaitForMultipleObjects",
+              "displacement": 17
+            },
+            {
+              "pc": 140696878779066,
+              "symbol": "ClassicProgressiveApi::Serve",
+              "displacement": 730
+            },
+            {
+              "pc": 140696878990753,
+              "symbol": "std::thread::_Invoke<std::tuple<<lambda_eb740ef1f8076faca93f7ca606297115> >,0>",
+              "displacement": 17
+            },
+            {
+              "pc": 140696892676538,
+              "symbol": "thread_start<unsigned int (__cdecl*)(void *),1>",
+              "displacement": 90
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 11608,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039822868,
+              "symbol": "NtWaitForMultipleObjects",
+              "displacement": 20
+            },
+            {
+              "pc": 140716992227267,
+              "symbol": "WaitForMultipleObjectsEx",
+              "displacement": 291
+            },
+            {
+              "pc": 140716992226961,
+              "symbol": "WaitForMultipleObjects",
+              "displacement": 17
+            },
+            {
+              "pc": 140696877960136,
+              "symbol": "CMainFrame::cmdLineThreadFunction",
+              "displacement": 88
+            },
+            {
+              "pc": 140696878305585,
+              "symbol": "std::thread::_Invoke<std::tuple<<lambda_cc499ab489c040b754048a78e677e084> >,0>",
+              "displacement": 17
+            },
+            {
+              "pc": 140696892676538,
+              "symbol": "thread_start<unsigned int (__cdecl*)(void *),1>",
+              "displacement": 90
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 3596,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039835412,
+              "symbol": "ZwWaitForAlertByThreadId",
+              "displacement": 20
+            },
+            {
+              "pc": 140717038980430,
+              "symbol": "RtlSleepConditionVariableSRW",
+              "displacement": 478
+            },
+            {
+              "pc": 140716992228008,
+              "symbol": "SleepConditionVariableSRW",
+              "displacement": 56
+            },
+            {
+              "pc": 140696891767716,
+              "symbol": "_Cnd_wait",
+              "displacement": 40
+            },
+            {
+              "pc": 140696890004812,
+              "symbol": "foxicmp::progressive::ObjectRetirement<foxicmp::progressive::SourceRetirementPolicy>::State::run",
+              "displacement": 76
+            },
+            {
+              "pc": 140696889516588,
+              "symbol": "<lambda_8fe7ab0f797973f5bd8d1730ea8f4907>::operator()",
+              "displacement": 12
+            },
+            {
+              "pc": 140696889464489,
+              "symbol": "std::invoke<<lambda_8fe7ab0f797973f5bd8d1730ea8f4907> >",
+              "displacement": 9
+            },
+            {
+              "pc": 140696889354131,
+              "symbol": "std::thread::_Invoke<std::tuple<<lambda_8fe7ab0f797973f5bd8d1730ea8f4907> >,0>",
+              "displacement": 51
+            },
+            {
+              "pc": 140696892676538,
+              "symbol": "thread_start<unsigned int (__cdecl*)(void *),1>",
+              "displacement": 90
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 6692,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039835412,
+              "symbol": "ZwWaitForAlertByThreadId",
+              "displacement": 20
+            },
+            {
+              "pc": 140717038980430,
+              "symbol": "RtlSleepConditionVariableSRW",
+              "displacement": 478
+            },
+            {
+              "pc": 140716992228008,
+              "symbol": "SleepConditionVariableSRW",
+              "displacement": 56
+            },
+            {
+              "pc": 140696891767716,
+              "symbol": "_Cnd_wait",
+              "displacement": 40
+            },
+            {
+              "pc": 140696890004812,
+              "symbol": "foxicmp::progressive::ObjectRetirement<foxicmp::progressive::SourceRetirementPolicy>::State::run",
+              "displacement": 76
+            },
+            {
+              "pc": 140696889516588,
+              "symbol": "<lambda_8fe7ab0f797973f5bd8d1730ea8f4907>::operator()",
+              "displacement": 12
+            },
+            {
+              "pc": 140696889464489,
+              "symbol": "std::invoke<<lambda_8fe7ab0f797973f5bd8d1730ea8f4907> >",
+              "displacement": 9
+            },
+            {
+              "pc": 140696889354131,
+              "symbol": "std::thread::_Invoke<std::tuple<<lambda_8fe7ab0f797973f5bd8d1730ea8f4907> >,0>",
+              "displacement": 51
+            },
+            {
+              "pc": 140696892676538,
+              "symbol": "thread_start<unsigned int (__cdecl*)(void *),1>",
+              "displacement": 90
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 10136,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039820100,
+              "symbol": "NtWaitForSingleObject",
+              "displacement": 20
+            },
+            {
+              "pc": 140716992200431,
+              "symbol": "WaitForSingleObjectEx",
+              "displacement": 175
+            },
+            {
+              "pc": 140696889519701,
+              "symbol": "<lambda_bd6ec88639ed28b05fee1822ea01a9e3>::operator()",
+              "displacement": 1061
+            },
+            {
+              "pc": 140696889354158,
+              "symbol": "std::thread::_Invoke<std::tuple<<lambda_8fe7ab0f797973f5bd8d1730ea8f4907> >,0>",
+              "displacement": 78
+            },
+            {
+              "pc": 140696892676538,
+              "symbol": "thread_start<unsigned int (__cdecl*)(void *),1>",
+              "displacement": 90
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 7912,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140716996170532,
+              "symbol": "NtUserGetMessage",
+              "displacement": 20
+            },
+            {
+              "pc": 140717006582786,
+              "symbol": "GetMessageW",
+              "displacement": 34
+            },
+            {
+              "pc": 140715440857292,
+              "symbol": "DllGetClassObject",
+              "displacement": 32044
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 2852,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039820100,
+              "symbol": "NtWaitForSingleObject",
+              "displacement": 20
+            },
+            {
+              "pc": 140716992200431,
+              "symbol": "WaitForSingleObjectEx",
+              "displacement": 175
+            },
+            {
+              "pc": 140696880512156,
+              "symbol": "std::thread::_Invoke<std::tuple<<lambda_c9ff7ee1b19f4c31dc94d3ca51b22e57> >,0>",
+              "displacement": 172
+            },
+            {
+              "pc": 140696892676538,
+              "symbol": "thread_start<unsigned int (__cdecl*)(void *),1>",
+              "displacement": 90
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        }
+      ]
+    },
+    "stackArtifactSha256": "f6b7b3f1815eb2db47d862b57a52cdc927f436606d4b1f8266f7815dce957e86",
+    "captureExecutableSha256": "40db01d18214a50046557a263e62851714f115e45a4eb650ff15489e73a43357",
+    "captureMethodSameAsFinalHelper": true,
+    "helperSourceRevisionNote": "Final source strengthens self-test with a known worker/join and adds atomic include; the captured process/path/stack code is unchanged."
+  },
+  "snapshotSelftest": {
+    "nativeExit": 0,
+    "result": {
+      "pid": 1360,
+      "birth": 134385826836648420,
+      "image": "E:\\Programs\\MPMY-src\\_bin\\classic-buffer-snapshot-final-stage\\foxicmp-classic-thread-snapshot.exe",
+      "symbolHandlerReady": true,
+      "dbghelpLoadError": 0,
+      "modules": [
+        {
+          "path": "E:\\Programs\\MPMY-src\\_bin\\classic-buffer-snapshot-final-stage\\foxicmp-classic-thread-snapshot.exe",
+          "base": 140697033048064,
+          "size": 98304
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "base": 140717038370816,
+          "size": 2523136
+        },
+        {
+          "path": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "base": 140717010124800,
+          "size": 823296
+        },
+        {
+          "path": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "base": 140716991971328,
+          "size": 4161536
+        },
+        {
+          "path": "C:\\Windows\\System32\\ucrtbase.dll",
+          "base": 140716997869568,
+          "size": 1355776
+        },
+        {
+          "path": "E:\\Programs\\MPMY-src\\_bin\\classic-buffer-snapshot-final-stage\\libgcc_s_seh-1.dll",
+          "base": 140715438309376,
+          "size": 172032
+        },
+        {
+          "path": "E:\\Programs\\MPMY-src\\_bin\\classic-buffer-snapshot-final-stage\\libwinpthread-1.dll",
+          "base": 140715438178304,
+          "size": 86016
+        },
+        {
+          "path": "E:\\Programs\\MPMY-src\\_bin\\classic-buffer-snapshot-final-stage\\libstdc++-6.dll",
+          "base": 140714878697472,
+          "size": 2678784
+        },
+        {
+          "path": "C:\\Windows\\System32\\advapi32.dll",
+          "base": 140717035290624,
+          "size": 737280
+        },
+        {
+          "path": "C:\\Windows\\System32\\msvcrt.dll",
+          "base": 140717034504192,
+          "size": 692224
+        },
+        {
+          "path": "C:\\Windows\\System32\\sechost.dll",
+          "base": 140717032013824,
+          "size": 679936
+        },
+        {
+          "path": "C:\\Windows\\System32\\RPCRT4.dll",
+          "base": 140717002981376,
+          "size": 1146880
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\CRYPTBASE.DLL",
+          "base": 140716978995200,
+          "size": 49152
+        },
+        {
+          "path": "C:\\Windows\\System32\\bcryptPrimitives.dll",
+          "base": 140716991250432,
+          "size": 675840
+        },
+        {
+          "path": "C:\\Windows\\SYSTEM32\\kernel.appcore.dll",
+          "base": 140716970278912,
+          "size": 110592
+        },
+        {
+          "path": "C:\\Windows\\system32\\dbghelp.dll",
+          "base": 140716949438464,
+          "size": 2367488
+        },
+        {
+          "path": "C:\\Windows\\System32\\combase.dll",
+          "base": 140717013008384,
+          "size": 3715072
+        },
+        {
+          "path": "C:\\Windows\\System32\\OLEAUT32.dll",
+          "base": 140717033259008,
+          "size": 880640
+        },
+        {
+          "path": "C:\\Windows\\System32\\msvcp_win.dll",
+          "base": 140717001605120,
+          "size": 667648
+        }
+      ],
+      "threads": [
+        {
+          "tid": 10856,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039835508,
+              "symbol": "ZwWaitForWorkViaWorkerFactory",
+              "displacement": 20
+            },
+            {
+              "pc": 140717038853950,
+              "symbol": "RtlSetThreadSubProcessTag",
+              "displacement": 6894
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 10300,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039835508,
+              "symbol": "ZwWaitForWorkViaWorkerFactory",
+              "displacement": 20
+            },
+            {
+              "pc": 140717038853950,
+              "symbol": "RtlSetThreadSubProcessTag",
+              "displacement": 6894
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 2224,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 0,
+          "frames": [
+            {
+              "pc": 140717039835508,
+              "symbol": "ZwWaitForWorkViaWorkerFactory",
+              "displacement": 20
+            },
+            {
+              "pc": 140717038853950,
+              "symbol": "RtlSetThreadSubProcessTag",
+              "displacement": 6894
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        },
+        {
+          "tid": 4612,
+          "previousSuspendCount": 0,
+          "suspendedMilliseconds": 31,
+          "frames": [
+            {
+              "pc": 140717039820100,
+              "symbol": "NtWaitForSingleObject",
+              "displacement": 20
+            },
+            {
+              "pc": 140716992200431,
+              "symbol": "WaitForSingleObjectEx",
+              "displacement": 175
+            },
+            {
+              "pc": 140714880264975,
+              "symbol": "atomic_flag_test_and_set_explicit",
+              "displacement": 703
+            },
+            {
+              "pc": 140715438210513,
+              "symbol": "pthread_create_wrapper",
+              "displacement": 305
+            },
+            {
+              "pc": 140716997883824,
+              "symbol": "wcsrchr",
+              "displacement": 336
+            },
+            {
+              "pc": 140717010315479,
+              "symbol": "BaseThreadInitThunk",
+              "displacement": 23
+            },
+            {
+              "pc": 140717038945596,
+              "symbol": "RtlUserThreadStart",
+              "displacement": 44
+            }
+          ]
+        }
+      ],
+      "fixtureWorkerJoined": true
+    },
+    "executableSha256": "bb236dd2f149f75d9755450881f5c8863b52f35b1965f4befcd1359d8aa0c15f",
+    "ctestEntryAdded": true,
+    "separateCtestRunClaimed": false
+  },
+  "exactExitCodes": {
+    "classic-buffer-snapshot": 1,
+    "classic-buffer-snapshot-build": 0,
+    "classic-buffer-snapshot-selftest": 0,
+    "classic-buffer-snapshot-final-build": 0,
+    "classic-buffer-snapshot-final-selftest": 0,
+    "classic-buffer-fixed-compile": 0,
+    "classic-buffer-fixed-link": 1103,
+    "classic-buffer-fixed-build": 1103,
+    "classic-buffer-fixed-api-compile2": 0,
+    "classic-buffer-fixed-compile2": 0,
+    "classic-buffer-fixed-link2": 1103,
+    "classic-buffer-fixed-build2": 1103,
+    "classic-temp-hook-build": 2,
+    "classic-buffer-fixed-build3": 2,
+    "classic-temp-hook-build4": 0,
+    "classic-buffer-fixed-link4": 0,
+    "classic-buffer-fixed-build4": 0,
+    "classic-temp-hook-tests": 0,
+    "classic-buffer-fixed-playback": 0,
+    "classic-buffer-final-playback": 0,
+    "classic-buffer-fixed-legacy": 0,
+    "classic-buffer-finish-ssh": 0,
+    "classic-buffer-final-finish-ssh": 0
+  },
+  "retainedBuildFailures": [
+    {
+      "nativeExit": 1103,
+      "artifact": "classic-buffer-fixed-build.log",
+      "sha256": "607569f4a6fa331884d99b2c0c249e04b36b7329ed040dec8e5bece2512cb88d",
+      "reason": "LNK1103 debug/PDB type records for copied object"
+    },
+    {
+      "nativeExit": 1103,
+      "artifact": "classic-buffer-fixed-build2.log",
+      "sha256": "c0febe6caab1439b496a8ceb0895a383883901b6fb8ab502a64f3248089a6aa0",
+      "reason": "LNK4020/LNK1103 debug type records after same-PDB recompilation"
+    },
+    {
+      "nativeExit": 2,
+      "artifact": "classic-buffer-fixed-build3.log",
+      "sha256": "1de3f350a0907ad074395335e7606dbeb1b5303417dfc0c38f3fe1e63c32d279",
+      "reason": "Native fixture DWORD/unsigned initializer list; corrected to array<DWORD>"
+    }
+  ],
+  "intermediatePlayback": {
+    "nativeExit": 0,
+    "reportSha256": "8470276395cf2c8dccb51fc7b1804162510683f7c7ab639aa32daa9ca63ede88",
+    "workingRows": 8,
+    "reportedPrivateCopiesRemoved": false,
+    "actualRemovalVerifiedIndependently": true,
+    "oracleCorrection": "Evaluate only after TemporaryDirectory context exit; assert removal; repeat full final 8 cases"
+  },
+  "candidateBuild": {
+    "scope": "Private MSVC mplayerc and ClassicProgressiveApi objects plus previous checked objects/libs, link /DEBUG:NONE; not a clean reproducible release build",
+    "exeSha256": "b92e0eb97906df6a28135dd9831b59d6b28d254061a9c08f4104d0bbd28f2224",
+    "registryOnlyBaselineSha256": "308e046b559f01fa55bab8494eec6a59cad7ab5b65ea0e54ea3abe1f46e7983f",
+    "debugSymbolsEmitted": false,
+    "inputSha256": {
+      "app-compile.rsp": "6ca59bb76b967344cfd8ba21cfbe0e3d40434983b02e792bacd49d6fe2e22762",
+      "api-compile.rsp": "dfb3274430e5f600d2ca14afc6a3158efc913db2b64b47c83915880f2a74b871",
+      "link-nodebug.rsp": "7c66b423c728933b84ad39072f46c62e14f9fb027d0f63aea052b311388cfa4e",
+      "HarvesterSession.obj": "395e42db99dcb1aa87062e5f77f53adc0ff9aa47b6908274d60c987f70df56d7"
+    },
+    "nativeBuildLogSha256": "5414b8f4b25afd690f2e104876bbf26675bfb3c779d6b0b4a403558a4d9bca61"
+  },
+  "sourceSha256": {
+    "qt/CMakeLists.txt": "5f3cd8806b4237357ef375caeba1bb32e77536be2de046b4debf1f5f9fb6bc03",
+    "shared/progressivetemppathhook_win.h": "2efe4c5e4c0bc217710c6767ea3e08fcc4cb156c1d46ed378675b5875144b6b2",
+    "src/apps/mplayerc/mplayerc.cpp": "f3d86a37599be2d4c970ec017152ebf916430a8757f53c744d64ddf7e95126dc",
+    "tests/windows/classic_thread_snapshot.cpp": "1dbf0ed762670e2ca98109dd31c90dfc0328eeb7920a334cc2d383fe00724117",
+    "tests/windows/classic_temp_hook_test.cpp": "09c5e91268fbac6aa2b65df66253baf1513297748650d78a7ad3b54cea422ff8",
+    "tests/windows/classic_temp_hook_driver.py": "5a74f70210e749d06d9934e29249002ad5f0c52b03dff53cfb1e50b65b7b5ae0",
+    "tests/windows/classic_runtime_paths_test.py": "3c6499067336cbd4fcada757cb88a1cb874a483868ae80f9fad33995b70a538f"
+  },
+  "reproduction": {
+    "buildDriver": "@echo off\ncall \"C:\\Program Files\\Microsoft Visual Studio\\18\\Enterprise\\VC\\Auxiliary\\Build\\vcvars64.bat\"\nif errorlevel 1 exit /b %ERRORLEVEL%\ncd /d E:\\Programs\\MPMY-src\ncl.exe /nologo /std:c++17 /EHsc /MT /O2 /D_UNICODE /DUNICODE /DNOMINMAX /I src tests\\windows\\classic_temp_hook_test.cpp /Fo_bin\\classic-buffer-fixed-build\\classic-temp-hook-test.obj /Fe_bin\\classic-buffer-fixed-build\\classic-temp-hook-test.exe /link _bin\\lib\\Release_x64\\Detours.lib /MANIFEST:EMBED /MANIFESTINPUT:tests\\windows\\runtime_paths_aware.manifest\n>_bin\\classic-temp-hook-build4.exit echo %ERRORLEVEL%\nif errorlevel 1 exit /b %ERRORLEVEL%\nlink.exe @_bin\\classic-buffer-fixed-build\\link-nodebug.rsp\n>_bin\\classic-buffer-fixed-link4.exit echo %ERRORLEVEL%\nexit /b %ERRORLEVEL%\n",
+    "playbackDriver": "$ErrorActionPreference='Continue';$r='E:/Programs/MPMY-src';$s=\"$r/_bin/runtime-temp-fixed-native-stage\";$py='C:/Users/User/AppData/Local/Programs/Python/Python311/python.exe';$env:PATH=\"$s;$env:SystemRoot/System32;$env:SystemRoot\"\nif((Get-Content \"$r/_bin/classic-temp-hook-tests.exit\" -Raw).Trim() -ne '0'){throw 'Native adapter suite not accepted'}\n& $py -B \"$r/_bin/receipt-observation-exit.py\" \"$r/_bin/classic-buffer-final-playback.exit\" \"$r/_bin/classic-buffer-final-playback.log\" $py -B \"$r/tests/windows/classic_runtime_paths_test.py\" --player \"$r/_bin/classic-buffer-fixed-stage/FoxicMP64.exe\" --reader-runner \"$s/foxicmp-progressive-reader-aware-tests.exe\" --fixtures \"$r/_bin/qt-test-media\" --report-directory \"$r/_bin/classic-buffer-final-playback-results\" --temp-mode environment --require-exact-temp --temp-lengths 120 240 320 1100 --thread-snapshot \"$r/_bin/classic-buffer-snapshot-final-stage/foxicmp-classic-thread-snapshot.exe\" --symbols \"$r/_bin/classic-buffer-fixed-build\"\nexit $LASTEXITCODE\n",
+    "nativeDriver": "$ErrorActionPreference='Continue';$r='E:/Programs/MPMY-src';$py='C:/Users/User/AppData/Local/Programs/Python/Python311/python.exe'\n& $py -B \"$r/_bin/receipt-observation-exit.py\" \"$r/_bin/classic-temp-hook-tests.exit\" \"$r/_bin/classic-temp-hook-tests.log\" $py -B \"$r/tests/windows/classic_temp_hook_driver.py\" --runner \"$r/_bin/classic-buffer-fixed-build/classic-temp-hook-test.exe\" --report-directory \"$r/_bin/classic-temp-hook-results\"\nexit $LASTEXITCODE\n"
+  },
+  "protection": {
+    "fileCount": 583,
+    "allHashesUnchanged": true,
+    "shellEntries": 158,
+    "shellUnchanged": true,
+    "beforeFileSnapshotSha256": "f48bff929d96a923771c097b8d77b2a0ed19d75f616aa53d91b9c847d836a5b5",
+    "afterFileSnapshotSha256": "f48bff929d96a923771c097b8d77b2a0ed19d75f616aa53d91b9c847d836a5b5",
+    "beforeShellSnapshotSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "afterShellSnapshotSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "linuxMainSha256": "ec395df9c0b54e124107d2b6263890919fb092654230e5905c87f4e1c3b721ca",
+    "linuxIniSha256": "f3b64a705e0f841d915011c0728a541533151696f7020edc47e8499f099e7333",
+    "linuxCodeChanged": false,
+    "linuxReinstallationNeeded": false,
+    "windowsInstalledAppsChanged": false,
+    "harvesterChanged": false,
+    "publishedAssetsChanged": false,
+    "windowsSessionSettingsChanged": false
+  },
+  "cleanup": {
+    "initial": {
+      "privateRootsRemoved": [
+        "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-pla7gxd_",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-a98jymzm"
+      ],
+      "tasksRemaining": 0,
+      "matchingTestProcesses": [],
+      "removedTasks": [
+        {
+          "taskResult": 1,
+          "name": "FoxicMP-Classic-BufferSnapshot-OneShot",
+          "state": "Ready"
+        },
+        {
+          "taskResult": 0,
+          "name": "FoxicMP-Classic-BufferFixed-OneShot",
+          "state": "Ready"
+        }
+      ]
+    },
+    "final": {
+      "privateRootsRemoved": [
+        "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-bnneo6gl"
+      ],
+      "tasksRemaining": 0,
+      "matchingTestProcesses": [],
+      "removedTasks": [
+        {
+          "taskResult": 0,
+          "name": "FoxicMP-Classic-BufferFinal-OneShot",
+          "state": "Ready"
+        }
+      ]
+    },
+    "removedTaskCount": 3
+  },
+  "remaining": [
+    "Windows Qt exact long TEMP versus system fallback",
+    "External Python launcher long-TEMP startup",
+    "Other formats, long-TEMP EOF/error and longer playback/resource stress",
+    "Physical A/V and full progressive specification/release qualification"
+  ],
+  "sourceFormattingNote": "Unrelated pre-existing mixed newline block restored after compilation; compiled hook logic unchanged."
+}

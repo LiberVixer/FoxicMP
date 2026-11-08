@@ -1463,3 +1463,20 @@ long-TEMP playback открыт, normal filesClosed не подменён proces
 Windows установки/профили, Linux main/INI, assets и Harvester не менялись.
 Следующий шаг — наблюдать открытие графа/источника при длинном TMP;
 точный Windows Qt TEMP и внешний Python launcher также не закрыты.
+
+### 8 ноября 2026: Classic играет при TEMP320/1100
+
+[Второе ожидание локализовано снимком owned потоков](ProgressiveClassicLongTempPlayback.md):
+D3D9/graphics driver load→DbgHelp→GetTempPathW. В существующие process-local
+Detours Classic добавлен long-TEMP adapter: short path/buffer остаются native,
+long root возвращается bounded без изменения environment/Windows policy.
+Четыре actual-hook tests и восемь indexed/fragmented MP4 main/IPC случаев
+TEMP120/240/320/1100 прошли с exact registry172/292/372/1152, actual clock,
+append/complete, явными filesClosed/forget и четырьмя normal main exit 0.
+Legacy CLI349/1142 с ≥10 s partial playback и normal app/provider exits 0 также
+прошёл. Oracle private-root cleanup исправлен и весь final8 прогон повторён.
+[Коды, SHA, стеки и сохранённые отказы](ProgressiveClassicLongTempPlaybackValidation-2026-11-08.json).
+583 SHA/158 HKCU entries сохранены, три one-shot task удалены. Кандидат — private
+MSVC link /DEBUG:NONE; две debug/PDB ошибки сохранены, clean release build открыт.
+Windows установки/INI, Linux main/INI, assets и Harvester не менялись. Windows Qt
+exact long TEMP, Python launcher и полная форматная/EOF/error/stress приёмка открыты.

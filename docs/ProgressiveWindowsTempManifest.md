@@ -1,5 +1,9 @@
 # Windows TEMP: manifest control and Classic registry selection
 
+Продолжение 8 ноября: [второе ожидание графа локализовано и ограниченный
+Classic long-TEMP playback срез прошёл](ProgressiveClassicLongTempPlayback.md).
+Ниже сохранены исходные частичные результаты этого этапа.
+
 8 ноября 2026. SDK 1.84 / приложение 0.2.0. Статус — частичное исправление:
 Classic больше не вызывает блокирующий GetTempPathW при выборе reader registry.
 Воспроизведение Classic при TEMP320/1100 остаётся открытым.
