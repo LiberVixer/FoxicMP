@@ -50,6 +50,7 @@ def run(runner,worker,reader_runner,report):
             ids.clear()
         def retire():
             v=command('retire');assert v['removed'],status();s=status();assert s['removed'] and not Path(s['path']).exists() and s['budgetBytes']==0,s
+            assert not any(s[k] for k in ('videoIndexedEnd100ns','audioIndexedEnd100ns','indexedEnd100ns','audioIndexedComplete')),s
             command('drop');receipts();return s
         def close_producer(error='',data=None,original_readers=None):
             return command('producerClosed',error=error,**({'sha256':hashlib.sha256(data).hexdigest()} if data is not None else {}),**({'originalReaders':original_readers} if original_readers is not None else {}))
@@ -77,8 +78,10 @@ def run(runner,worker,reader_runner,report):
                     for at,n,t in atoms:
                         if t==b'mdat' and at+n<=sent:visible=at+n
                 assert s['visible']==visible and not s['complete'],(sent,s,visible)
+                assert s['videoIndexedEnd100ns']==s['indexedEnd100ns']==s['samples']*400000,s
+                assert not s['audioIndexedEnd100ns'] and not s['audioIndexedComplete'],s
                 v=command('read',name='b',offset=str(visible),length='1');assert v['code']=='waiting-range',v
-                observations.append(dict(written=sent,visible=visible))
+                observations.append(dict(written=sent,visible=visible,indexedEnd100ns=s['indexedEnd100ns']))
             until=time.monotonic()+2
             while True:
                 v=command('readResult')
@@ -120,6 +123,7 @@ def run(runner,worker,reader_runner,report):
                     assert command('read',name='r',offset='0',length='1')['code']==code;close_producer(error='writer-failed')
                 else:close_producer(error='cache-disk-full' if name=='injected-disk-full' else 'writer-failed' if name=='producer-error' else '',data=payload[:first_mdat-1])
                 assert status()['failure']==code and not status()['complete'];assert command('read',name='r',offset=str(status()['visible']),length='1')['code']==code
+                failed=status();assert not any(failed[k] for k in ('videoIndexedEnd100ns','audioIndexedEnd100ns','indexedEnd100ns','audioIndexedComplete')),failed
                 assert not command('retire')['removed'];close_reader('r');s=retire();rows.append(dict(profile=name,result='PASS',expectedCode=code,final=s))
             malformed=[('zero-size',b'\0\0\0\0ftyp'),('oversize',(0xffffffff).to_bytes(4,'big')+b'ftyp'),('unknown-atom',(8).to_bytes(4,'big')+b'junk'),('orphan-mdat',(8).to_bytes(4,'big')+b'mdat'),('moov-without-ftyp',(8).to_bytes(4,'big')+b'moov')]
             for name,data in malformed:

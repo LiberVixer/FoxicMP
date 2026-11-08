@@ -1,0 +1,2827 @@
+{
+  "date": "2026-11-08",
+  "result": "PASS",
+  "scope": "Shared native continuous-cache presentation coverage; not player seek admission",
+  "appVersion": "0.2.0",
+  "sdkVersion": "1.84",
+  "sourceSha256": {
+    "shared/progressivestreamcoverage.h": "12e6f3e73e9949a4dda92e1da78aa6af0c6d84f89d82408a9d1cda00bdf73a81",
+    "shared/progressivestreamcache.h": "5205c0cb93ac3ca92f69516759ec43f85f271e485a5a7ee464cb8dece28c1a0a",
+    "shared/progressivestreamavindex.h": "eec025a148ad45301aae63669d51f442ab67244ea69f08f5a0ad14be97abc564",
+    "tests/progressive_stream_coverage_test.cpp": "421657594923789082488fa090fc8933cd57ca0a54d327efc3f8a34a29985e67",
+    "tests/progressive_stream_cache_cli.cpp": "5d003b6acd5797a00437abdf2a50f605a5de4b41bc7ff926d70f3af36d186601",
+    "tests/progressive_stream_cache_test.py": "dfb8313dabce865026634a7efaec97d07dbee68e61501c6c927071c43a110d88",
+    "tests/progressive_managed_aac_test.py": "ecb4b175b744f36125b9317c861121a36baf85ea3ba4223fd742964cba42b126",
+    "qt/CMakeLists.txt": "bef6c61629a51e63d64bed56046a4441b6c0ae9dd4322e31b426727b2f6322ee"
+  },
+  "toolchains": [
+    {
+      "toolchain": "gcc",
+      "unit": {
+        "result": "PASS",
+        "checks": 40013
+      },
+      "unitNativeExit": 0,
+      "unitExeSha256": "ade80345cc9bb0e8a01105b52295cb38cee719779dacacbaf892e15f804235eb",
+      "suites": [
+        {
+          "suite": "managed",
+          "result": "PASS",
+          "count": 22,
+          "nativeExit": 0,
+          "rawReport": "_bin/indexed-coverage-gcc-final-managed-results/result.json",
+          "rawReportSha256": "4ea404ff8ef25d5a01a1cef0d24d8222e6bebfd764c7354057757007b8bb6fe5",
+          "runnerSha256": "2183350b0b9cca93df62498321fe26d7ac2e208132f5c9fc93aa78634f2333c2",
+          "workerSha256": "c3ec240fd6a97b668793fdd0e414ac546b436b2a6677444cb0973098ee8e38e9",
+          "testSourceSha256": "ecb4b175b744f36125b9317c861121a36baf85ea3ba4223fd742964cba42b126",
+          "driverExits": [
+            {
+              "profile": "48000-mono",
+              "exitCode": 0
+            },
+            {
+              "profile": "48000-stereo-fractional",
+              "exitCode": 0
+            },
+            {
+              "profile": "44100-mono",
+              "exitCode": 0
+            },
+            {
+              "profile": "44100-stereo-b16",
+              "exitCode": 0
+            },
+            {
+              "profile": "aligned-control",
+              "exitCode": 0
+            },
+            {
+              "profile": "one-sample-audio-first",
+              "exitCode": 0
+            },
+            {
+              "profile": "no-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-rate",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-channels",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-track",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-skip",
+              "exitCode": 0
+            },
+            {
+              "profile": "missing-last-packet",
+              "exitCode": 0
+            },
+            {
+              "profile": "duplicate-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "late-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "bad-end-padding",
+              "exitCode": 0
+            },
+            {
+              "profile": "unknown-field",
+              "exitCode": 0
+            },
+            {
+              "profile": "cancel-before-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "cancel-after-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-early-write",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-wrong-digest",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-missing-field",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-duplicate-window",
+              "exitCode": 0
+            }
+          ],
+          "profiles": [
+            {
+              "profile": "48000-mono",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "193161",
+                "timestampBegin": "0",
+                "timestampEnd": "192137",
+                "encodedEnd": "193536",
+                "endPadding": "375"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 26465,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 45,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 9386667,
+                  "indexedEnd100ns": 9386667,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 50959,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 91,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 19200000,
+                  "indexedEnd100ns": 19200000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 78291,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 138,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 29226667,
+                  "indexedEnd100ns": 29226667,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 105350,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 185,
+                  "videoIndexedEnd100ns": 40000000,
+                  "audioIndexedEnd100ns": 39253333,
+                  "indexedEnd100ns": 39253333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 110499,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 189,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 40028541,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "48000-stereo-fractional",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 2,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "193161",
+                "timestampBegin": "0",
+                "timestampEnd": "192137",
+                "encodedEnd": "193536",
+                "endPadding": "375"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 29383,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 37,
+                  "videoIndexedEnd100ns": 8341667,
+                  "audioIndexedEnd100ns": 7680000,
+                  "indexedEnd100ns": 7680000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 59395,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 77,
+                  "videoIndexedEnd100ns": 16683333,
+                  "audioIndexedEnd100ns": 16213333,
+                  "indexedEnd100ns": 16213333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 90037,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 116,
+                  "videoIndexedEnd100ns": 25025000,
+                  "audioIndexedEnd100ns": 24533333,
+                  "indexedEnd100ns": 24533333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 121612,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 155,
+                  "videoIndexedEnd100ns": 33366667,
+                  "audioIndexedEnd100ns": 32853333,
+                  "indexedEnd100ns": 32853333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 121612,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 155,
+                  "videoIndexedEnd100ns": 33366667,
+                  "audioIndexedEnd100ns": 32853333,
+                  "indexedEnd100ns": 32853333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 151406,
+                  "complete": true,
+                  "videoSamples": 124,
+                  "audioSamples": 189,
+                  "videoIndexedEnd100ns": 41374667,
+                  "audioIndexedEnd100ns": 40028541,
+                  "indexedEnd100ns": 41374667,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "44100-mono",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 44100,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "177561",
+                "timestampBegin": "0",
+                "timestampEnd": "176537",
+                "encodedEnd": "178176",
+                "endPadding": "615"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 26270,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 41,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 9287982,
+                  "indexedEnd100ns": 9287982,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 50937,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 84,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 19272562,
+                  "indexedEnd100ns": 19272562,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 78226,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 127,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 29257143,
+                  "indexedEnd100ns": 29257143,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 105211,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 170,
+                  "videoIndexedEnd100ns": 40000000,
+                  "audioIndexedEnd100ns": 39241723,
+                  "indexedEnd100ns": 39241723,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 110394,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 174,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 40031065,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "44100-stereo-b16",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 44100,
+                "channels": 2,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "177561",
+                "timestampBegin": "0",
+                "timestampEnd": "176537",
+                "encodedEnd": "178176",
+                "endPadding": "615"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 36531,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 36,
+                  "videoIndexedEnd100ns": 8341667,
+                  "audioIndexedEnd100ns": 8126984,
+                  "indexedEnd100ns": 8126984,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 72679,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 72,
+                  "videoIndexedEnd100ns": 16683334,
+                  "audioIndexedEnd100ns": 16486168,
+                  "indexedEnd100ns": 16486168,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 130482,
+                  "complete": false,
+                  "videoSamples": 175,
+                  "audioSamples": 126,
+                  "videoIndexedEnd100ns": 29195834,
+                  "audioIndexedEnd100ns": 29024943,
+                  "indexedEnd100ns": 29024943,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 168596,
+                  "complete": false,
+                  "videoSamples": 225,
+                  "audioSamples": 162,
+                  "videoIndexedEnd100ns": 37537500,
+                  "audioIndexedEnd100ns": 37384127,
+                  "indexedEnd100ns": 37384127,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 168596,
+                  "complete": false,
+                  "videoSamples": 225,
+                  "audioSamples": 162,
+                  "videoIndexedEnd100ns": 37537500,
+                  "audioIndexedEnd100ns": 37384127,
+                  "indexedEnd100ns": 37384127,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 185071,
+                  "complete": true,
+                  "videoSamples": 248,
+                  "audioSamples": 174,
+                  "videoIndexedEnd100ns": 41374667,
+                  "audioIndexedEnd100ns": 40031065,
+                  "indexedEnd100ns": 41374667,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "aligned-control",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "192512",
+                "timestampBegin": "0",
+                "timestampEnd": "191488",
+                "encodedEnd": "192512",
+                "endPadding": "0"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 27768,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 48,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 10026667,
+                  "indexedEnd100ns": 10000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 53775,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 95,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 20053333,
+                  "indexedEnd100ns": 20000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 82475,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 142,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 30080000,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 82475,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 142,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 30080000,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 115205,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 188,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 39893333,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "one-sample-audio-first",
+              "window": {
+                "version": 1,
+                "trackId": 1,
+                "sampleRate": 44100,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "1025",
+                "timestampBegin": "0",
+                "timestampEnd": "1",
+                "encodedEnd": "2048",
+                "endPadding": "1023"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 17846,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 10000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 33573,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 20000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 51987,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 51987,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 74396,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "suite": "cache",
+          "result": "PASS",
+          "count": 31,
+          "nativeExit": 0,
+          "rawReport": "_bin/indexed-coverage-gcc-final-cache-results/result.json",
+          "rawReportSha256": "ad87f490da2a091d819c25489df696b11c83bf671f751a87533a5b55fcc1accb",
+          "runnerSha256": "2183350b0b9cca93df62498321fe26d7ac2e208132f5c9fc93aa78634f2333c2",
+          "workerSha256": "c3ec240fd6a97b668793fdd0e414ac546b436b2a6677444cb0973098ee8e38e9",
+          "testSourceSha256": "dfb8313dabce865026634a7efaec97d07dbee68e61501c6c927071c43a110d88",
+          "profiles": [
+            "atomic-fragments-two-readers",
+            "external-output-physical-binding",
+            "original-receipt-gates-retirement",
+            "truncated-box",
+            "rewrite",
+            "truncate",
+            "producer-error",
+            "injected-disk-full",
+            "zero-size",
+            "oversize",
+            "unknown-atom",
+            "orphan-mdat",
+            "moov-without-ftyp",
+            "sample-count",
+            "sample-outside-mdat",
+            "wrong-offset",
+            "empty",
+            "output-limit",
+            "chunk-limit",
+            "shared-budget-two-stores",
+            "replacement-is-not-deleted",
+            "owner-drop-retains-local-reader",
+            "reader-limit-128",
+            "managed-worker-cache-readers",
+            "managed-worker-crash",
+            "managed-cache-corruption",
+            "managed-writer-failed",
+            "managed-cache-quota",
+            "retired-session-external-reader-owner-queue",
+            "owner-session-limit-16",
+            "cancel-wakes-decoder-wait"
+          ]
+        }
+      ]
+    },
+    {
+      "toolchain": "asan",
+      "unit": {
+        "result": "PASS",
+        "checks": 40013
+      },
+      "unitNativeExit": 0,
+      "unitExeSha256": "103fc6fbd3a239eaa9a41ff51a6acb9d8517b3c358513f6d7bfa60afdd82f995",
+      "suites": [
+        {
+          "suite": "managed",
+          "result": "PASS",
+          "count": 22,
+          "nativeExit": 0,
+          "rawReport": "_bin/indexed-coverage-asan-final-managed-results/result.json",
+          "rawReportSha256": "954623c33527a1d812391340393b7f22d1941330bff403d81c8c009e3b824429",
+          "runnerSha256": "8d700f849436089b1b42e0d5ed2279c87b67fcaa9a3ab7c6c9a35dc2dd797fc2",
+          "workerSha256": "c3ec240fd6a97b668793fdd0e414ac546b436b2a6677444cb0973098ee8e38e9",
+          "testSourceSha256": "ecb4b175b744f36125b9317c861121a36baf85ea3ba4223fd742964cba42b126",
+          "driverExits": [
+            {
+              "profile": "48000-mono",
+              "exitCode": 0
+            },
+            {
+              "profile": "48000-stereo-fractional",
+              "exitCode": 0
+            },
+            {
+              "profile": "44100-mono",
+              "exitCode": 0
+            },
+            {
+              "profile": "44100-stereo-b16",
+              "exitCode": 0
+            },
+            {
+              "profile": "aligned-control",
+              "exitCode": 0
+            },
+            {
+              "profile": "one-sample-audio-first",
+              "exitCode": 0
+            },
+            {
+              "profile": "no-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-rate",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-channels",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-track",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-skip",
+              "exitCode": 0
+            },
+            {
+              "profile": "missing-last-packet",
+              "exitCode": 0
+            },
+            {
+              "profile": "duplicate-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "late-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "bad-end-padding",
+              "exitCode": 0
+            },
+            {
+              "profile": "unknown-field",
+              "exitCode": 0
+            },
+            {
+              "profile": "cancel-before-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "cancel-after-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-early-write",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-wrong-digest",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-missing-field",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-duplicate-window",
+              "exitCode": 0
+            }
+          ],
+          "profiles": [
+            {
+              "profile": "48000-mono",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "193161",
+                "timestampBegin": "0",
+                "timestampEnd": "192137",
+                "encodedEnd": "193536",
+                "endPadding": "375"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 26465,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 45,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 9386667,
+                  "indexedEnd100ns": 9386667,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 50959,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 91,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 19200000,
+                  "indexedEnd100ns": 19200000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 78291,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 138,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 29226667,
+                  "indexedEnd100ns": 29226667,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 105350,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 185,
+                  "videoIndexedEnd100ns": 40000000,
+                  "audioIndexedEnd100ns": 39253333,
+                  "indexedEnd100ns": 39253333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 110499,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 189,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 40028541,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "48000-stereo-fractional",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 2,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "193161",
+                "timestampBegin": "0",
+                "timestampEnd": "192137",
+                "encodedEnd": "193536",
+                "endPadding": "375"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 29383,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 37,
+                  "videoIndexedEnd100ns": 8341667,
+                  "audioIndexedEnd100ns": 7680000,
+                  "indexedEnd100ns": 7680000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 59395,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 77,
+                  "videoIndexedEnd100ns": 16683333,
+                  "audioIndexedEnd100ns": 16213333,
+                  "indexedEnd100ns": 16213333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 90037,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 116,
+                  "videoIndexedEnd100ns": 25025000,
+                  "audioIndexedEnd100ns": 24533333,
+                  "indexedEnd100ns": 24533333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 121612,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 155,
+                  "videoIndexedEnd100ns": 33366667,
+                  "audioIndexedEnd100ns": 32853333,
+                  "indexedEnd100ns": 32853333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 121612,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 155,
+                  "videoIndexedEnd100ns": 33366667,
+                  "audioIndexedEnd100ns": 32853333,
+                  "indexedEnd100ns": 32853333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 151406,
+                  "complete": true,
+                  "videoSamples": 124,
+                  "audioSamples": 189,
+                  "videoIndexedEnd100ns": 41374667,
+                  "audioIndexedEnd100ns": 40028541,
+                  "indexedEnd100ns": 41374667,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "44100-mono",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 44100,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "177561",
+                "timestampBegin": "0",
+                "timestampEnd": "176537",
+                "encodedEnd": "178176",
+                "endPadding": "615"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 26270,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 41,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 9287982,
+                  "indexedEnd100ns": 9287982,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 50937,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 84,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 19272562,
+                  "indexedEnd100ns": 19272562,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 78226,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 127,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 29257143,
+                  "indexedEnd100ns": 29257143,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 105211,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 170,
+                  "videoIndexedEnd100ns": 40000000,
+                  "audioIndexedEnd100ns": 39241723,
+                  "indexedEnd100ns": 39241723,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 110394,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 174,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 40031065,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "44100-stereo-b16",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 44100,
+                "channels": 2,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "177561",
+                "timestampBegin": "0",
+                "timestampEnd": "176537",
+                "encodedEnd": "178176",
+                "endPadding": "615"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 36531,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 36,
+                  "videoIndexedEnd100ns": 8341667,
+                  "audioIndexedEnd100ns": 8126984,
+                  "indexedEnd100ns": 8126984,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 72679,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 72,
+                  "videoIndexedEnd100ns": 16683334,
+                  "audioIndexedEnd100ns": 16486168,
+                  "indexedEnd100ns": 16486168,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 130482,
+                  "complete": false,
+                  "videoSamples": 175,
+                  "audioSamples": 126,
+                  "videoIndexedEnd100ns": 29195834,
+                  "audioIndexedEnd100ns": 29024943,
+                  "indexedEnd100ns": 29024943,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 168596,
+                  "complete": false,
+                  "videoSamples": 225,
+                  "audioSamples": 162,
+                  "videoIndexedEnd100ns": 37537500,
+                  "audioIndexedEnd100ns": 37384127,
+                  "indexedEnd100ns": 37384127,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 168596,
+                  "complete": false,
+                  "videoSamples": 225,
+                  "audioSamples": 162,
+                  "videoIndexedEnd100ns": 37537500,
+                  "audioIndexedEnd100ns": 37384127,
+                  "indexedEnd100ns": 37384127,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 185071,
+                  "complete": true,
+                  "videoSamples": 248,
+                  "audioSamples": 174,
+                  "videoIndexedEnd100ns": 41374667,
+                  "audioIndexedEnd100ns": 40031065,
+                  "indexedEnd100ns": 41374667,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "aligned-control",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "192512",
+                "timestampBegin": "0",
+                "timestampEnd": "191488",
+                "encodedEnd": "192512",
+                "endPadding": "0"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 27768,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 48,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 10026667,
+                  "indexedEnd100ns": 10000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 53775,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 95,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 20053333,
+                  "indexedEnd100ns": 20000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 82475,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 142,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 30080000,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 82475,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 142,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 30080000,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 115205,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 188,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 39893333,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "one-sample-audio-first",
+              "window": {
+                "version": 1,
+                "trackId": 1,
+                "sampleRate": 44100,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "1025",
+                "timestampBegin": "0",
+                "timestampEnd": "1",
+                "encodedEnd": "2048",
+                "endPadding": "1023"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 17846,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 10000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 33573,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 20000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 51987,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 51987,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 74396,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "suite": "cache",
+          "result": "PASS",
+          "count": 31,
+          "nativeExit": 0,
+          "rawReport": "_bin/indexed-coverage-asan-final-cache-results/result.json",
+          "rawReportSha256": "857045e7c2a4709979046902adce253156fc603f1580fa2d0e1905da857f607b",
+          "runnerSha256": "8d700f849436089b1b42e0d5ed2279c87b67fcaa9a3ab7c6c9a35dc2dd797fc2",
+          "workerSha256": "c3ec240fd6a97b668793fdd0e414ac546b436b2a6677444cb0973098ee8e38e9",
+          "testSourceSha256": "dfb8313dabce865026634a7efaec97d07dbee68e61501c6c927071c43a110d88",
+          "profiles": [
+            "atomic-fragments-two-readers",
+            "external-output-physical-binding",
+            "original-receipt-gates-retirement",
+            "truncated-box",
+            "rewrite",
+            "truncate",
+            "producer-error",
+            "injected-disk-full",
+            "zero-size",
+            "oversize",
+            "unknown-atom",
+            "orphan-mdat",
+            "moov-without-ftyp",
+            "sample-count",
+            "sample-outside-mdat",
+            "wrong-offset",
+            "empty",
+            "output-limit",
+            "chunk-limit",
+            "shared-budget-two-stores",
+            "replacement-is-not-deleted",
+            "owner-drop-retains-local-reader",
+            "reader-limit-128",
+            "managed-worker-cache-readers",
+            "managed-worker-crash",
+            "managed-cache-corruption",
+            "managed-writer-failed",
+            "managed-cache-quota",
+            "retired-session-external-reader-owner-queue",
+            "owner-session-limit-16",
+            "cancel-wakes-decoder-wait"
+          ]
+        }
+      ]
+    },
+    {
+      "toolchain": "mingw",
+      "unit": {
+        "result": "PASS",
+        "checks": 40013
+      },
+      "unitNativeExit": 0,
+      "unitExeSha256": "4b64a1508ced23984d268d44ef05bfff4bfaddbc7a4d5354edd713e2c3fa3e03",
+      "suites": [
+        {
+          "suite": "managed",
+          "result": "PASS",
+          "count": 22,
+          "nativeExit": 0,
+          "rawReport": "_bin/indexed-coverage-mingw-final-managed-results/result.json",
+          "rawReportSha256": "e05e219d47e1c8207858540a9e5c49dbc65a589316a90818b8cc9a25652b9dea",
+          "runnerSha256": "1d8554121014a2159403d4ac57fd932da396e9cbcc016bbcb930f4327b259d11",
+          "workerSha256": "fa7f35a89e2e2aa0575f7c512925e17419e936e12dc570ef92761db12463192d",
+          "testSourceSha256": "ecb4b175b744f36125b9317c861121a36baf85ea3ba4223fd742964cba42b126",
+          "driverExits": [
+            {
+              "profile": "48000-mono",
+              "exitCode": 0
+            },
+            {
+              "profile": "48000-stereo-fractional",
+              "exitCode": 0
+            },
+            {
+              "profile": "44100-mono",
+              "exitCode": 0
+            },
+            {
+              "profile": "44100-stereo-b16",
+              "exitCode": 0
+            },
+            {
+              "profile": "aligned-control",
+              "exitCode": 0
+            },
+            {
+              "profile": "one-sample-audio-first",
+              "exitCode": 0
+            },
+            {
+              "profile": "no-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-rate",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-channels",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-track",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-skip",
+              "exitCode": 0
+            },
+            {
+              "profile": "missing-last-packet",
+              "exitCode": 0
+            },
+            {
+              "profile": "duplicate-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "late-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "bad-end-padding",
+              "exitCode": 0
+            },
+            {
+              "profile": "unknown-field",
+              "exitCode": 0
+            },
+            {
+              "profile": "cancel-before-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "cancel-after-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-early-write",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-wrong-digest",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-missing-field",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-duplicate-window",
+              "exitCode": 0
+            }
+          ],
+          "profiles": [
+            {
+              "profile": "48000-mono",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "193161",
+                "timestampBegin": "0",
+                "timestampEnd": "192137",
+                "encodedEnd": "193536",
+                "endPadding": "375"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 26450,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 45,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 9386667,
+                  "indexedEnd100ns": 9386667,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 50944,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 91,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 19200000,
+                  "indexedEnd100ns": 19200000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 78317,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 138,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 29226667,
+                  "indexedEnd100ns": 29226667,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 105358,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 185,
+                  "videoIndexedEnd100ns": 40000000,
+                  "audioIndexedEnd100ns": 39253333,
+                  "indexedEnd100ns": 39253333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 110510,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 189,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 40028541,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "48000-stereo-fractional",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 2,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "193161",
+                "timestampBegin": "0",
+                "timestampEnd": "192137",
+                "encodedEnd": "193536",
+                "endPadding": "375"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 29389,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 37,
+                  "videoIndexedEnd100ns": 8341667,
+                  "audioIndexedEnd100ns": 7680000,
+                  "indexedEnd100ns": 7680000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 59397,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 77,
+                  "videoIndexedEnd100ns": 16683333,
+                  "audioIndexedEnd100ns": 16213333,
+                  "indexedEnd100ns": 16213333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 90045,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 116,
+                  "videoIndexedEnd100ns": 25025000,
+                  "audioIndexedEnd100ns": 24533333,
+                  "indexedEnd100ns": 24533333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 121621,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 155,
+                  "videoIndexedEnd100ns": 33366667,
+                  "audioIndexedEnd100ns": 32853333,
+                  "indexedEnd100ns": 32853333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 121621,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 155,
+                  "videoIndexedEnd100ns": 33366667,
+                  "audioIndexedEnd100ns": 32853333,
+                  "indexedEnd100ns": 32853333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 151415,
+                  "complete": true,
+                  "videoSamples": 124,
+                  "audioSamples": 189,
+                  "videoIndexedEnd100ns": 41374667,
+                  "audioIndexedEnd100ns": 40028541,
+                  "indexedEnd100ns": 41374667,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "44100-mono",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 44100,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "177561",
+                "timestampBegin": "0",
+                "timestampEnd": "176537",
+                "encodedEnd": "178176",
+                "endPadding": "615"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 26278,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 41,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 9287982,
+                  "indexedEnd100ns": 9287982,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 50898,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 84,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 19272562,
+                  "indexedEnd100ns": 19272562,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 78230,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 127,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 29257143,
+                  "indexedEnd100ns": 29257143,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 105216,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 170,
+                  "videoIndexedEnd100ns": 40000000,
+                  "audioIndexedEnd100ns": 39241723,
+                  "indexedEnd100ns": 39241723,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 110398,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 174,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 40031065,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "44100-stereo-b16",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 44100,
+                "channels": 2,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "177561",
+                "timestampBegin": "0",
+                "timestampEnd": "176537",
+                "encodedEnd": "178176",
+                "endPadding": "615"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 36546,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 36,
+                  "videoIndexedEnd100ns": 8341667,
+                  "audioIndexedEnd100ns": 8126984,
+                  "indexedEnd100ns": 8126984,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 72703,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 72,
+                  "videoIndexedEnd100ns": 16683334,
+                  "audioIndexedEnd100ns": 16486168,
+                  "indexedEnd100ns": 16486168,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 130470,
+                  "complete": false,
+                  "videoSamples": 175,
+                  "audioSamples": 126,
+                  "videoIndexedEnd100ns": 29195834,
+                  "audioIndexedEnd100ns": 29024943,
+                  "indexedEnd100ns": 29024943,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 168585,
+                  "complete": false,
+                  "videoSamples": 225,
+                  "audioSamples": 162,
+                  "videoIndexedEnd100ns": 37537500,
+                  "audioIndexedEnd100ns": 37384127,
+                  "indexedEnd100ns": 37384127,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 168585,
+                  "complete": false,
+                  "videoSamples": 225,
+                  "audioSamples": 162,
+                  "videoIndexedEnd100ns": 37537500,
+                  "audioIndexedEnd100ns": 37384127,
+                  "indexedEnd100ns": 37384127,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 185073,
+                  "complete": true,
+                  "videoSamples": 248,
+                  "audioSamples": 174,
+                  "videoIndexedEnd100ns": 41374667,
+                  "audioIndexedEnd100ns": 40031065,
+                  "indexedEnd100ns": 41374667,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "aligned-control",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "192512",
+                "timestampBegin": "0",
+                "timestampEnd": "191488",
+                "encodedEnd": "192512",
+                "endPadding": "0"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 27755,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 48,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 10026667,
+                  "indexedEnd100ns": 10000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 53786,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 95,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 20053333,
+                  "indexedEnd100ns": 20000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 82493,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 142,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 30080000,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 82493,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 142,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 30080000,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 115209,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 188,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 39893333,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "one-sample-audio-first",
+              "window": {
+                "version": 1,
+                "trackId": 1,
+                "sampleRate": 44100,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "1025",
+                "timestampBegin": "0",
+                "timestampEnd": "1",
+                "encodedEnd": "2048",
+                "endPadding": "1023"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 17844,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 10000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 33571,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 20000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 51985,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 51985,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 74394,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "suite": "cache",
+          "result": "PASS",
+          "count": 31,
+          "nativeExit": 0,
+          "rawReport": "_bin/indexed-coverage-mingw-final-cache-results/result.json",
+          "rawReportSha256": "c47dff8ad15a6f6394b124371222ea34d7b84a9e95ee964a78f9576da16bac9c",
+          "runnerSha256": "1d8554121014a2159403d4ac57fd932da396e9cbcc016bbcb930f4327b259d11",
+          "workerSha256": "fa7f35a89e2e2aa0575f7c512925e17419e936e12dc570ef92761db12463192d",
+          "testSourceSha256": "dfb8313dabce865026634a7efaec97d07dbee68e61501c6c927071c43a110d88",
+          "profiles": [
+            "atomic-fragments-two-readers",
+            "external-output-physical-binding",
+            "original-receipt-gates-retirement",
+            "truncated-box",
+            "rewrite",
+            "truncate",
+            "producer-error",
+            "injected-disk-full",
+            "zero-size",
+            "oversize",
+            "unknown-atom",
+            "orphan-mdat",
+            "moov-without-ftyp",
+            "sample-count",
+            "sample-outside-mdat",
+            "wrong-offset",
+            "empty",
+            "output-limit",
+            "chunk-limit",
+            "shared-budget-two-stores",
+            "replacement-is-not-deleted",
+            "owner-drop-retains-local-reader",
+            "reader-limit-128",
+            "managed-worker-cache-readers",
+            "managed-worker-crash",
+            "managed-cache-corruption",
+            "managed-writer-failed",
+            "managed-cache-quota",
+            "retired-session-external-reader-owner-queue",
+            "owner-session-limit-16",
+            "cancel-wakes-decoder-wait"
+          ]
+        }
+      ]
+    },
+    {
+      "toolchain": "msvc",
+      "unit": {
+        "result": "PASS",
+        "checks": 40013
+      },
+      "unitNativeExit": 0,
+      "unitExeSha256": "4977bc57e9c9f03709941fe82923692d3561b0f043db1ce7313d7794253aaa2f",
+      "suites": [
+        {
+          "suite": "managed",
+          "result": "PASS",
+          "count": 22,
+          "nativeExit": 0,
+          "rawReport": "_bin/indexed-coverage-msvc-final-managed-results/result.json",
+          "rawReportSha256": "a729a8d44082aa18352056729e979756ca14f5e44774477a05bf707b31fd322d",
+          "runnerSha256": "24bba69397c61371b1dcb220a4fed21b2b2b9c651b2f710432ff939a3e33e8ad",
+          "workerSha256": "1f81d32a007d3a7b281cbfc1bc0c7ea7140fa7460cbd1d3c0908dccfa040d46d",
+          "testSourceSha256": "ecb4b175b744f36125b9317c861121a36baf85ea3ba4223fd742964cba42b126",
+          "driverExits": [
+            {
+              "profile": "48000-mono",
+              "exitCode": 0
+            },
+            {
+              "profile": "48000-stereo-fractional",
+              "exitCode": 0
+            },
+            {
+              "profile": "44100-mono",
+              "exitCode": 0
+            },
+            {
+              "profile": "44100-stereo-b16",
+              "exitCode": 0
+            },
+            {
+              "profile": "aligned-control",
+              "exitCode": 0
+            },
+            {
+              "profile": "one-sample-audio-first",
+              "exitCode": 0
+            },
+            {
+              "profile": "no-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-rate",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-channels",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-track",
+              "exitCode": 0
+            },
+            {
+              "profile": "wrong-skip",
+              "exitCode": 0
+            },
+            {
+              "profile": "missing-last-packet",
+              "exitCode": 0
+            },
+            {
+              "profile": "duplicate-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "late-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "bad-end-padding",
+              "exitCode": 0
+            },
+            {
+              "profile": "unknown-field",
+              "exitCode": 0
+            },
+            {
+              "profile": "cancel-before-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "cancel-after-window",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-early-write",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-wrong-digest",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-missing-field",
+              "exitCode": 0
+            },
+            {
+              "profile": "protocol-duplicate-window",
+              "exitCode": 0
+            }
+          ],
+          "profiles": [
+            {
+              "profile": "48000-mono",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "193161",
+                "timestampBegin": "0",
+                "timestampEnd": "192137",
+                "encodedEnd": "193536",
+                "endPadding": "375"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 26450,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 45,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 9386667,
+                  "indexedEnd100ns": 9386667,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 50944,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 91,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 19200000,
+                  "indexedEnd100ns": 19200000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 78317,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 138,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 29226667,
+                  "indexedEnd100ns": 29226667,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 105358,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 185,
+                  "videoIndexedEnd100ns": 40000000,
+                  "audioIndexedEnd100ns": 39253333,
+                  "indexedEnd100ns": 39253333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 110510,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 189,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 40028541,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "48000-stereo-fractional",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 2,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "193161",
+                "timestampBegin": "0",
+                "timestampEnd": "192137",
+                "encodedEnd": "193536",
+                "endPadding": "375"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 29389,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 37,
+                  "videoIndexedEnd100ns": 8341667,
+                  "audioIndexedEnd100ns": 7680000,
+                  "indexedEnd100ns": 7680000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 59397,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 77,
+                  "videoIndexedEnd100ns": 16683333,
+                  "audioIndexedEnd100ns": 16213333,
+                  "indexedEnd100ns": 16213333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 90045,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 116,
+                  "videoIndexedEnd100ns": 25025000,
+                  "audioIndexedEnd100ns": 24533333,
+                  "indexedEnd100ns": 24533333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 121621,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 155,
+                  "videoIndexedEnd100ns": 33366667,
+                  "audioIndexedEnd100ns": 32853333,
+                  "indexedEnd100ns": 32853333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 121621,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 155,
+                  "videoIndexedEnd100ns": 33366667,
+                  "audioIndexedEnd100ns": 32853333,
+                  "indexedEnd100ns": 32853333,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 151415,
+                  "complete": true,
+                  "videoSamples": 124,
+                  "audioSamples": 189,
+                  "videoIndexedEnd100ns": 41374667,
+                  "audioIndexedEnd100ns": 40028541,
+                  "indexedEnd100ns": 41374667,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "44100-mono",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 44100,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "177561",
+                "timestampBegin": "0",
+                "timestampEnd": "176537",
+                "encodedEnd": "178176",
+                "endPadding": "615"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 26278,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 41,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 9287982,
+                  "indexedEnd100ns": 9287982,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 50898,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 84,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 19272562,
+                  "indexedEnd100ns": 19272562,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 78230,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 127,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 29257143,
+                  "indexedEnd100ns": 29257143,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 105216,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 170,
+                  "videoIndexedEnd100ns": 40000000,
+                  "audioIndexedEnd100ns": 39241723,
+                  "indexedEnd100ns": 39241723,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 110398,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 174,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 40031065,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "44100-stereo-b16",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 44100,
+                "channels": 2,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "177561",
+                "timestampBegin": "0",
+                "timestampEnd": "176537",
+                "encodedEnd": "178176",
+                "endPadding": "615"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 36546,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 36,
+                  "videoIndexedEnd100ns": 8341667,
+                  "audioIndexedEnd100ns": 8126984,
+                  "indexedEnd100ns": 8126984,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 72703,
+                  "complete": false,
+                  "videoSamples": 100,
+                  "audioSamples": 72,
+                  "videoIndexedEnd100ns": 16683334,
+                  "audioIndexedEnd100ns": 16486168,
+                  "indexedEnd100ns": 16486168,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 130470,
+                  "complete": false,
+                  "videoSamples": 175,
+                  "audioSamples": 126,
+                  "videoIndexedEnd100ns": 29195834,
+                  "audioIndexedEnd100ns": 29024943,
+                  "indexedEnd100ns": 29024943,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 168585,
+                  "complete": false,
+                  "videoSamples": 225,
+                  "audioSamples": 162,
+                  "videoIndexedEnd100ns": 37537500,
+                  "audioIndexedEnd100ns": 37384127,
+                  "indexedEnd100ns": 37384127,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 168585,
+                  "complete": false,
+                  "videoSamples": 225,
+                  "audioSamples": 162,
+                  "videoIndexedEnd100ns": 37537500,
+                  "audioIndexedEnd100ns": 37384127,
+                  "indexedEnd100ns": 37384127,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 185073,
+                  "complete": true,
+                  "videoSamples": 248,
+                  "audioSamples": 174,
+                  "videoIndexedEnd100ns": 41374667,
+                  "audioIndexedEnd100ns": 40031065,
+                  "indexedEnd100ns": 41374667,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "aligned-control",
+              "window": {
+                "version": 1,
+                "trackId": 2,
+                "sampleRate": 48000,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "192512",
+                "timestampBegin": "0",
+                "timestampEnd": "191488",
+                "encodedEnd": "192512",
+                "endPadding": "0"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 27755,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 48,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 10026667,
+                  "indexedEnd100ns": 10000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 53786,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 95,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 20053333,
+                  "indexedEnd100ns": 20000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 82493,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 142,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 30080000,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 82493,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 142,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 30080000,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 115209,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 188,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 39893333,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            },
+            {
+              "profile": "one-sample-audio-first",
+              "window": {
+                "version": 1,
+                "trackId": 1,
+                "sampleRate": 44100,
+                "channels": 1,
+                "rawOrigin": "untrimmed-decoder-samples",
+                "timestampOrigin": "presentation-samples",
+                "rawBegin": "1024",
+                "rawEnd": "1025",
+                "timestampBegin": "0",
+                "timestampEnd": "1",
+                "encodedEnd": "2048",
+                "endPadding": "1023"
+              },
+              "snapshots": [
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 0,
+                  "complete": false,
+                  "videoSamples": 0,
+                  "audioSamples": 0,
+                  "videoIndexedEnd100ns": 0,
+                  "audioIndexedEnd100ns": 0,
+                  "indexedEnd100ns": 0,
+                  "audioIndexedComplete": false
+                },
+                {
+                  "visible": 17844,
+                  "complete": false,
+                  "videoSamples": 25,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 10000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 10000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 33571,
+                  "complete": false,
+                  "videoSamples": 50,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 20000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 20000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 51985,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 51985,
+                  "complete": false,
+                  "videoSamples": 75,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 30000000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 30000000,
+                  "audioIndexedComplete": true
+                },
+                {
+                  "visible": 74394,
+                  "complete": true,
+                  "videoSamples": 104,
+                  "audioSamples": 2,
+                  "videoIndexedEnd100ns": 41600000,
+                  "audioIndexedEnd100ns": 226,
+                  "indexedEnd100ns": 41600000,
+                  "audioIndexedComplete": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "suite": "cache",
+          "result": "PASS",
+          "count": 31,
+          "nativeExit": 0,
+          "rawReport": "_bin/indexed-coverage-msvc-final-cache-results/result.json",
+          "rawReportSha256": "4b8460f45850f6f4474a994bcd90fef94b81a0eb48319d3af27bc83a00147059",
+          "runnerSha256": "24bba69397c61371b1dcb220a4fed21b2b2b9c651b2f710432ff939a3e33e8ad",
+          "workerSha256": "1f81d32a007d3a7b281cbfc1bc0c7ea7140fa7460cbd1d3c0908dccfa040d46d",
+          "testSourceSha256": "dfb8313dabce865026634a7efaec97d07dbee68e61501c6c927071c43a110d88",
+          "profiles": [
+            "atomic-fragments-two-readers",
+            "external-output-physical-binding",
+            "original-receipt-gates-retirement",
+            "truncated-box",
+            "rewrite",
+            "truncate",
+            "producer-error",
+            "injected-disk-full",
+            "zero-size",
+            "oversize",
+            "unknown-atom",
+            "orphan-mdat",
+            "moov-without-ftyp",
+            "sample-count",
+            "sample-outside-mdat",
+            "wrong-offset",
+            "empty",
+            "output-limit",
+            "chunk-limit",
+            "shared-budget-two-stores",
+            "replacement-is-not-deleted",
+            "owner-drop-retains-local-reader",
+            "reader-limit-128",
+            "managed-worker-cache-readers",
+            "managed-worker-crash",
+            "managed-cache-corruption",
+            "managed-writer-failed",
+            "managed-cache-quota",
+            "retired-session-external-reader-owner-queue",
+            "owner-session-limit-16",
+            "cancel-wakes-decoder-wait"
+          ]
+        }
+      ]
+    }
+  ],
+  "totalCacheCases": 212,
+  "totalCoverageUnitChecks": 160052,
+  "cmakeBuildExit": 0,
+  "cmakeCTestExit": 0,
+  "originalFailure": {
+    "profile": "first-msvc-managed-source-guard",
+    "nativeExit": 1,
+    "completedFunctionalCases": 22,
+    "allDriverExitsZero": true,
+    "cause": "Test source changed during run; terminal SHA guard rejected the run. Loaded test line 278 was the terminal source SHA assertion; displayed source had already changed.",
+    "oldTestSourceSha256": "b0baf17f53b43ac4f68400d37d1e319cc8e7c458980d251ea7147e2c1dcd73ed",
+    "newTestSourceSha256": "ecb4b175b744f36125b9317c861121a36baf85ea3ba4223fd742964cba42b126",
+    "rawFailureSha256": "0d78197f844469e27df3f3abe6309fad961b88d556361367b3666878d23dc828",
+    "preserved": true,
+    "originalRunNotReclassified": true
+  },
+  "preservation": {
+    "protectedFiles": 583,
+    "protectedBeforeSha256": "f48bff929d96a923771c097b8d77b2a0ed19d75f616aa53d91b9c847d836a5b5",
+    "protectedAfterSha256": "f48bff929d96a923771c097b8d77b2a0ed19d75f616aa53d91b9c847d836a5b5",
+    "allFileHashesEqual": true,
+    "windowsMainExesReplaced": false,
+    "linuxMainExeReplaced": false,
+    "harvesterChanged": false,
+    "profilesChanged": false,
+    "publishedAssetsChanged": false,
+    "oneShotTasksCreated": 0,
+    "shellEntries": 158,
+    "shellBeforeSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "shellAfterSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "shellUnchanged": true
+  },
+  "boundaries": {
+    "publicSeekStillCompleteOnly": true,
+    "publicApiOrSdkChanged": false,
+    "playerMainExecutablesRebuilt": false,
+    "physicalAvSyncMeasured": false,
+    "fullResourceAcceptance": false,
+    "rangeDefinition": "Contiguous union of validated published PTS intervals from zero; exact finite AAC PCM endpoint can finish before video. Does not establish decoder dependencies, source duration, seekability, EOF or OS I/O latency."
+  }
+}

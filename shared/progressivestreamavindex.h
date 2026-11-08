@@ -50,6 +50,8 @@ public:
     bool initialized()const{return layout.Initialized();}
     uint64_t position()const{return layout.Position();}
     uint64_t samples()const{return layout.tracks[0].index.Samples().size()+layout.tracks[1].index.Samples().size();}
+    bool audioComplete()const{return layout.tracks[1].index.Samples().size()==window.pcm.PacketCount();}
+    int64_t audioDuration100ns()const{return harvester::Time100ns(int64_t(window.pcm.Samples()),window.pcm.Rate());}
     const harvester::muxmp4::Layout& views()const{return layout;}
 };
 }}

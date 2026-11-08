@@ -31,6 +31,15 @@ def fragment_track_counts(data):
             for at,n,kind in boxes(0,len(data)) if kind==b'moof']
 
 
+def indexed_prefix(samples):
+    # Independent sorted presentation-interval oracle, including B-frame holes.
+    end=0
+    for begin,finish in sorted((max(0,s['pts']),s['end']) for s in samples):
+        if begin>end:break
+        end=max(end,finish)
+    return end
+
+
 def run(runner, worker, report):
     report.mkdir(parents=True, exist_ok=False)
     rows=[];exits=[]
@@ -48,7 +57,7 @@ def run(runner, worker, report):
                 model['timeline']['duration']='41370000'
                 audio=copy.deepcopy(model['tracks'][0]);audio.update(id='sound',kind='audio',codecHint='aac-lc')
                 model['tracks'][0]['codecHint']='h264';model['tracks'].append(audio)
-                rpc=Rpc([str(runner),str(folder/'registry'),str(worker)]);current=4;pid=None;publications=[];proof=[]
+                rpc=Rpc([str(runner),str(folder/'registry'),str(worker)]);current=4;pid=None;publications=[];proof=[];coverage=[]
                 def cmd(action,**fields):
                     value=rpc(action,**fields);assert value['ok'],(action,value);return value
                 def wait(fn,label,timeout=20):
@@ -92,15 +101,38 @@ def run(runner, worker, report):
                         duration=int(y['duration'])
                         assert abs(x['end']-int((int(y['pts'])+duration)*base*10000000))<=1,(x,y)
                     return actual
+                def check_coverage():
+                    # Pair counts before/after to avoid comparing a status from
+                    # one publication with a later, asynchronously grown index.
+                    def stable():
+                        before=status()
+                        if not before['initialized']:return before
+                        tracks=[cmd('avIndex',kind=k,name='held')['samples'] for k in (0,1)]
+                        after=status()
+                        if any(before[k]!=after[k] for k in ('videoSamples','audioSamples')):return None
+                        plan=json.loads(after['audioWindow']);video_end=indexed_prefix(tracks[0]);audio_end=indexed_prefix(tracks[1])
+                        audio_complete=len(tracks[1])==int(plan['encodedEnd'])//1024
+                        finite_end=int(plan['timestampEnd'])*10000000//plan['sampleRate']
+                        expected_audio=finite_end if audio_complete else min(audio_end,finite_end)
+                        assert after['videoIndexedEnd100ns']==video_end,after
+                        assert after['audioIndexedEnd100ns']==expected_audio,after
+                        assert after['audioIndexedComplete']==audio_complete,after
+                        assert after['indexedEnd100ns']==(video_end if audio_complete else min(video_end,expected_audio)),after
+                        return after
+                    s=wait(stable,'stable indexed coverage')
+                    if not s['initialized']:assert not any(s[k] for k in ('videoIndexedEnd100ns','audioIndexedEnd100ns','indexedEnd100ns','audioIndexedComplete')),s
+                    coverage.append({k:s[k] for k in ('visible','complete','videoSamples','audioSamples','videoIndexedEnd100ns','audioIndexedEnd100ns','indexedEnd100ns','audioIndexedComplete')})
                 try:
                     cmd('start',directory=str(folder),root=str(folder/'cache'),session=model,aacWindow=True)
                     initial=wait(lambda:(lambda s:s if s['sourceCode']=='waiting' else None)(status()),'initial wait')
                     pid=initial['workerId'];assert pid>0 and initial['visible']==0 and not initial['audioWindow']
                     cmd('reader',name='held');assert not cmd('read',name='held',offset='0',length='8')['bytes']
+                    check_coverage()
                     for cut in cuts:
                         publish(cut,gap=True)
                         wait(lambda:status()['sourceCode']=='waiting' and status()['maximumReadEnd']==current,'confirmed prefix wait')
                         index(0);index(1)
+                        check_coverage()
                     ready=wait(lambda:(lambda s:s if s['visible']>0 and s['fragments']>0 and s['audioWindow'] else None)(status()),'first indexed AV output');assert not ready['complete']
                     plan=json.loads(ready['audioWindow']);assert int(plan['timestampEnd'])==samples and plan['trackId']==(1 if first else 2)
                     # The existing video-only decoder entry still rejects AAC;
@@ -108,6 +140,7 @@ def run(runner, worker, report):
                     admission=rpc('decoderAdmission');assert not admission['ok'] and admission['code']=='invalid_request',admission
                     publish(len(raw));wait(lambda:status()['sourceCode']=='waiting','all bytes without complete')
                     tail=status();assert not tail['complete'] and not tail['done']
+                    check_coverage()
                     at=tail['visible'];assert cmd('read',name='held',offset=str(at),length='1')['code']=='waiting-range'
                     projected_wait=cmd('projectionCheck')
                     assert not projected_wait['sourceComplete'] and not projected_wait['tracks'][0]['eof'],projected_wait
@@ -115,6 +148,7 @@ def run(runner, worker, report):
                     publish(len(raw),True)
                     final=wait(lambda:(lambda s:s if s['done'] else None)(status()),'producer complete')
                     assert final['complete'] and final['sourceCode']=='data' and final['sourceFilesClosed'],final
+                    check_coverage()
                     projected_complete=cmd('projectionCheck')
                     assert projected_complete['sourceComplete'] and all(t['eof'] for t in projected_complete['tracks']),projected_complete
                     result=json.loads(final['sourceResult']);assert result['mode']==MODE and result['aacPcmWindow']==plan
@@ -137,6 +171,7 @@ def run(runner, worker, report):
                     assert not cmd('retire')['removed'] and cache.exists()
                     cmd('close',name='held');wait(lambda:cmd('retire')['removed'],'last reader retirement',2)
                     assert not cache.exists()
+                    removed=cmd('status');assert not any(removed[k] for k in ('videoIndexedEnd100ns','audioIndexedEnd100ns','indexedEnd100ns','audioIndexedComplete')),removed
                     reader_ids=set(final['sourceReaderIds'])
                     reader_ids.update(r['readerId'] for r in cmd('readers',version=1,sessionId=model['sessionId'],generation='1')['readers'])
                     for rid in sorted(reader_ids):
@@ -146,7 +181,7 @@ def run(runner, worker, report):
                     cmd('dropReader',name='held');cmd('drop');assert cmd('collect')['bytes']==0
                     assert sha(path)==sha(original)==before
                     rows.append(dict(profile=label,result='PASS',window=plan,sampleCounts=[len(x) for x in indexes],
-                                     firstReady=ready,final=final,publications=publications,receipts=proof,
+                                     firstReady=ready,final=final,publications=publications,receipts=proof,indexedCoverage=coverage,
                                      exactPacketPayloadClocks=True,exactPcmReference=True,physicalAppendOnly=True,
                                      fragmentTrackCounts=counts,previousMuxProfileStillRequiresBothTracks=True,
                                      unpublishedTailNotRead=True,singleWorkerPid=pid,cacheSha256=cache_hash,

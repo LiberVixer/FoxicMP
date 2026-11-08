@@ -5,6 +5,7 @@
 #include "progressivestreamjournal.h"
 #include "DSUtil/HarvesterMP4.h"
 #include "progressivestreamavindex.h"
+#include "progressivestreamcoverage.h"
 
 namespace foxicmp { namespace progressive {
 class StreamCacheBudget {
@@ -53,6 +54,9 @@ struct StreamCacheStatus {
     bool initialized=false,complete=false,producerClosed=false,originalsClosed=false,retiring=false,removed=false;
     std::string failure,cleanupCode,audioWindow;std::vector<std::string> readerIds;
     uint64_t videoSamples=0,audioSamples=0;
+    // Union of published presentation intervals from zero, not seek permission.
+    int64_t videoIndexedEnd100ns=0,audioIndexedEnd100ns=0,indexedEnd100ns=0;
+    bool audioIndexedComplete=false;
 };
 class StreamOutputStore {
     using Handle=lease_detail::Handle;
@@ -69,6 +73,7 @@ class StreamOutputStore {
         StreamCacheStatus state;
         Sha256 digest;harvester::FragmentIndex index;
         std::unique_ptr<StreamAvIndex> avIndex;
+        StreamIndexedCoverage videoCoverage,audioCoverage;
         bool ftyp=false,trailer=false;
         std::atomic<bool> cancelled{false};
         Core(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& id,uint64_t gen,std::shared_ptr<StreamCacheBudget> shared,uint64_t bytes)
@@ -138,6 +143,7 @@ class StreamOutputStore {
                         check(samples>0,"cache-invalid-fragment");auto next=index;next.Update(raw,m.at+m.size,0);check(next.Position()==m.at+m.size && next.Samples().size()==state.samples+samples,"cache-invalid-fragment");index=std::move(next);state.samples+=samples;
                     }
                     ++state.fragments;scan=m.at+m.size;state.visible=scan;
+                    updateCoverage();
                 }else{
                     check(a.size<=1048576,"cache-invalid-fragment");if(a.size>state.written-a.at)break;
                     if(kind==harvester::FourCC("ftyp")){check(!ftyp && scan==0 && a.size>=16,"cache-invalid-fragment");ftyp=true;}
@@ -152,7 +158,23 @@ class StreamOutputStore {
                 }
             }
         }
-        void fail(const std::string& code){if(state.failure.empty())state.failure=code;state.complete=false;changed.notify_all();}
+        void clearCoverage(){state.videoIndexedEnd100ns=state.audioIndexedEnd100ns=state.indexedEnd100ns=0;state.audioIndexedComplete=false;}
+        void updateCoverage(){
+            videoCoverage.update(avIndex?avIndex->views().tracks[0].index.Samples():index.Samples());
+            state.videoIndexedEnd100ns=videoCoverage.end100ns();
+            state.indexedEnd100ns=state.videoIndexedEnd100ns;
+            if(avIndex){
+                audioCoverage.update(avIndex->views().tracks[1].index.Samples());
+                state.audioIndexedComplete=avIndex->audioComplete();
+                // The validated PCM plan is exact in samples; rounded MP4
+                // timestamps alone may understate its last sample by one tick.
+                state.audioIndexedEnd100ns=state.audioIndexedComplete?avIndex->audioDuration100ns():(std::min)(audioCoverage.end100ns(),avIndex->audioDuration100ns());
+                // An immutable, fully indexed finite AAC track can end before
+                // video. This does not complete the producer or the video track.
+                if(!state.audioIndexedComplete)state.indexedEnd100ns=(std::min)(state.indexedEnd100ns,state.audioIndexedEnd100ns);
+            }
+        }
+        void fail(const std::string& code){if(state.failure.empty())state.failure=code;state.complete=false;clearCoverage();changed.notify_all();}
         bool cleanup(){
             if(state.removed)return true;
             if(!state.retiring || !state.producerClosed || !state.originalsClosed || state.activeReaders){state.cleanupCode="cache-in-use";return false;}
@@ -179,7 +201,7 @@ class StreamOutputStore {
 #endif
                     error);
                 // An unexpected extra file is never recursively removed.
-                state.removed=true;state.cleanupCode=error?"removed-folder-retained":"removed";budget->release(charged);charged=0;return true;
+                state.removed=true;clearCoverage();state.cleanupCode=error?"removed-folder-retained":"removed";budget->release(charged);charged=0;return true;
             }catch(const Error& e){state.cleanupCode=e.code;return false;}catch(...){state.cleanupCode="cache-cleanup-failed";return false;}
         }
         ~Core(){stream_cache_detail::close(writer);state.producerClosed=true;state.retiring=true;cleanup();}

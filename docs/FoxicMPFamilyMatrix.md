@@ -1353,3 +1353,20 @@ Harvester/Python/Windows не менялись; интегратору опис�
 удалён, owned процессов нет. Windows установки, Linux main/INI, Qt runtime и
 assets прежние. Private MSVC link /DEBUG:NONE не заменяет clean release build;
 общая форматная/lifecycle/stress/physical A/V приёмка остаётся открытой.
+
+
+### 8 ноября 2026: внутреннее временное покрытие continuous cache
+
+Общий cache Qt/Linux, Qt/Windows и Classic считает непрерывное объединение
+подтверждённых presentation-интервалов, учитывает B-frame holes и точный
+конечный AAC. Статус не выполняет файловый I/O; ошибка и удаление кэша обнуляют
+покрытие. Это не доказательство decoder-safe seek: публичный контракт 1.84
+остаётся complete-only, API/UI не расширены. [Детали и границы](ProgressiveIndexedCoverage.md),
+[SHA/exit codes](ProgressiveIndexedCoverageValidation-2026-11-08.json).
+По 40 013 unit checks и 53 cache/AAC cases GCC/ASan-UBSan/MinGW/MSVC прошли,
+CMake/CTest exit 0. Первый отказ SHA guard при изменении теста во время прогона
+сохранён отдельно; конечные прогоны используют один зафиксированный исходник.
+Это native component-проверка, main Player/graph не пересобирались;
+583 защищённых файла и 158 shell entries сохранены. Harvester, установленные
+профили и опубликованные assets не менялись. Growing seek, физический A/V
+и общая ресурсная/stress приёмка остаются открытыми.
