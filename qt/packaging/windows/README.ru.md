@@ -127,8 +127,11 @@ DLL после автоматического поиска зависимост�
 Для текущего MSYS2 UCRT64 Qt 6.12.0-1 штатный QLockFile оставляет lock при
 длинном INI. Исправление сохраняет QSettings atomic sync и блокировки между
 процессами. Динамические Windows tempPath buffers дополнительно исключают
-чтение за пределом массива. Это не обещание exact TEMP320/1100: на проверенной
-ОС native API выбирает короткий fallback. [Проверки и границы](../../../docs/ProgressiveWindowsProfilePaths.md).
+чтение за пределом массива. Текущий patch также сохраняет точный длинный TMP/TEMP/USERPROFILE обычного
+пользователя при длине >=MAX_PATH; пустые переменные пропускаются, короткий TMP
+остаётся приоритетным. Для LocalSystem сохраняется native SystemTemp branch.
+[Новая exact-TEMP проверка и границы](../../../docs/ProgressiveQtExactTempPaths.md);
+[исторический fallback/lock этап](../../../docs/ProgressiveWindowsProfilePaths.md).
 
 На исходном Linux-хосте нужны Python 3.12+ и GNU patch. Используйте свежие
 work directory и overlay output:
@@ -166,3 +169,15 @@ atomic sync, удаление lock, чтение отдельным процес
  tests/windows/progressive_long_runtime_test.py; тест TEMP-компонента
  tests/windows/settings_temp_paths_test.py по умолчанию требует exact root,
 а --observe-system-temp явно фиксирует fallback и не объявляет long TEMP готовым.
+
+
+Для строгой проверки актуального DLL используйте
+`tests/windows/progressive_long_runtime_test.py --require-exact-temp`:
+обычный режим сохраняет совместимость с историческими fallback-прогонами.
+`tests/windows/qt_temp_player_test.py` проверяет actual Player/decoder при
+TEMP240/320/1100, `tests/windows/qt_temp_policy_test.py` — приоритеты, пустую
+переменную и относительный путь. Native DLL SHA и exits приведены в
+[отчёте](../../../docs/ProgressiveQtExactTempPathsValidation-2026-11-08.json).
+Все команды выполняют проверки на частных профилях и сохраняют parent environment.
+Ссылки на опубликованные 0.2.0 пакеты в начале страницы остаются историческими
+immutable assets; новый runtime в них не подменялся.

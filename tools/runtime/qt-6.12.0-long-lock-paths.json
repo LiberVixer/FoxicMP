@@ -53,10 +53,10 @@
       "sha256": "49ce125098057e1efceaad2bb83c26d174ebd1fb92e672a5e2a8715263a965c9"
     }
   ],
-  "localPatchSha256": "a34a7966e0ecc1dc5ef31c87fa275583fe9e5bd71280ac1fdfd7a06aab867839",
+  "localPatchSha256": "a08863e5609e38a0e44aae7c5d42be137830e5c0abeeeed60f106d54821c29c3",
   "qlockfileBeforeSha256": "7ec8cd83a56858ec470d15ed53c67a311b61876f289f3c20818f0f373eef9279",
   "qlockfileAfterSha256": "858d9b3f6a87df017ab5b832190613a8b38139408dfce7fda212e2108e48847b",
-  "overlaySha256": "53d5e057997dd6c513dfb69502e37555486361f80ec7fb00c241a7f8e63f3cb2",
+  "overlaySha256": "1a629a01bedac34da87d91440ae4f2af96ece63674d919ec99a5edaa9d9d539b",
   "overlayFiles": [
     "cmake/QtPriHelpers.cmake",
     "cmake/QtPrlHelpers.cmake",
@@ -89,5 +89,5 @@
     "sha256": "017ce6a005a3dc6bf607d799b1707aab9100edde270d1ec21dfa4518fa625cd9"
   },
   "tempPathBeforeSha256": "6a016e4ba9b260c79a82828500395f00ac33a29e43b0c987b71b4684d30b9724",
-  "tempPathAfterSha256": "e3a2f8e3eb3b8a4e7a59faee4a695c61de860e1b3642d59bc8891a14baa99a3a"
+  "tempPathAfterSha256": "a2a143335378939f178e7ff0fa9acf0bdcc7cc9663771dec6b8506f419e6e418"
 }

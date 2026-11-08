@@ -1480,3 +1480,20 @@ Legacy CLI349/1142 с ≥10 s partial playback и normal app/provider exits 0 т
 MSVC link /DEBUG:NONE; две debug/PDB ошибки сохранены, clean release build открыт.
 Windows установки/INI, Linux main/INI, assets и Harvester не менялись. Windows Qt
 exact long TEMP, Python launcher и полная форматная/EOF/error/stress приёмка открыты.
+
+### 8 ноября 2026: Windows Qt использует exact TEMP320/1100
+
+[Private QtCore расширена для длинного user TMP/TEMP/USERPROFILE](ProgressiveQtExactTempPaths.md),
+с сохранением short native behavior и SYSTEM delegation. Строгий old-DLL
+контроль снова отказал на320; первый кандидат дополнительно обнаружил empty TMP
+ошибку, условие исправлено и финальная матрица повторена на окончательной DLL.
+6 main/CLI, strict QSettings3×3, обычный QSettings3, Windows port8, legacy adapter5,
+actual decoder Player3×5 и четыре precedence probes прошли с native exits0.
+Реальные broker locks313/393/1173 и ProfileLease338/418/1198 лежат в exact roots;
+fallback не засчитан. 6920 exports/216 flags сохранены, source overlay повторён,
+private deploy совпал с tested DLL и отверг stale pin до Destination mutation.
+[SHA, коды и retained failures](ProgressiveQtExactTempPathsValidation-2026-11-08.json).
+583 protected SHA/158 HKCU entries сохранены, три one-shot task удалены.
+Windows установки, Linux main/INI, assets и Harvester не менялись. SYSTEM execution,
+внешний Python launcher, Classic empty-variable edge и общий format/EOF/error/stress
+gate остаются открытыми; эта DLL не подменяет опубликованные 0.2.0 assets.

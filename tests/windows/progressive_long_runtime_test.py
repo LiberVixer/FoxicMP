@@ -17,6 +17,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     for name in ('player','fixtures','report-directory'):
         p.add_argument('--'+name,type=Path,required=True)
+    p.add_argument('--require-exact-temp',action='store_true')
     a=p.parse_args()
     a.report_directory.mkdir(parents=True,exist_ok=False)
     job=OwnedProcessJob()
@@ -34,11 +35,11 @@ def main():
                 folder/=component[:-1]+'x' if component.endswith(' ') else component
             folder.mkdir(parents=True)
             result=exercise(a.player.resolve(),a.fixtures.resolve(),a.report_directory/('temp-'+str(length)),0,'stop',0,folder,a.player.resolve().with_name('foxicmp-settings-path-tests.exe'))
-            if length==240:
-                assert result['requestedTempHonored']
+            if length==240 or a.require_exact_temp:
+                assert result['requestedTempHonored'], result
             rows.append(dict(route='temp' if result['requestedTempHonored'] else 'temp-os-fallback',targetLength=length,**result))
             (a.report_directory/'progress.json').write_text(json.dumps(rows,indent=2)+'\n')
-    report=dict(result='PASS',count=len(rows),rows=rows,runtimeRootRemoved=not root.exists(),parentEnvironmentNotChanged=True)
+    report=dict(result='PASS',count=len(rows),rows=rows,runtimeRootRemoved=not root.exists(),parentEnvironmentNotChanged=True,exactTempRequired=a.require_exact_temp)
     (a.report_directory/'result.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(dict(result='PASS',count=len(rows))))
     job.finish()

@@ -1,0 +1,1048 @@
+{
+  "date": "2026-11-08",
+  "baseCommit": "8fc39f3f3b4047e257f550a1e636c96c6430ad8e",
+  "applicationVersion": "0.2.0",
+  "sdkVersion": "1.84",
+  "result": "PASS: bounded exact user TEMP Windows Qt runtime/profile/Player slice; full specification incomplete",
+  "finalChecks": [
+    {
+      "name": "qt-exact-temp-final-policy",
+      "nativeExit": 0,
+      "workingRows": 4,
+      "logSha256": "ec9b4c8a421448dc239d87e0794f4ed7d7168d2cc66011d8010fe396c912b226"
+    },
+    {
+      "name": "qt-exact-temp-final-settings",
+      "nativeExit": 0,
+      "workingRows": 9,
+      "logSha256": "af1fd1ee276d0bb58f10c807e93382eb0d2b2788d4753216b5661ab57433221b"
+    },
+    {
+      "name": "qt-exact-temp-final-main",
+      "nativeExit": 0,
+      "workingRows": 6,
+      "logSha256": "1b5cc3606de83400a0f5ea2a2f5a848977b80692d5a854200ef9c9b036b8ab4d"
+    },
+    {
+      "name": "qt-exact-temp-final-port",
+      "nativeExit": 0,
+      "workingRows": 8,
+      "logSha256": "9922037b1832fe749121f79b3fd1b1f93e4f208987f3da0cb2b80cde0ecce969"
+    },
+    {
+      "name": "qt-exact-temp-final-adapter",
+      "nativeExit": 0,
+      "workingRows": 5,
+      "logSha256": "5ac6e0f1e9b5472a17e22b383986833f439ed036bc074858ffc126278968f5a2"
+    },
+    {
+      "name": "qt-exact-temp-final-settings-normal",
+      "nativeExit": 0,
+      "workingRows": 3,
+      "logSha256": "38cbe3035002b2c55fc8f570705d7b463befed119d4f887c0b658b9c88c755d4"
+    },
+    {
+      "name": "qt-exact-temp-final-player",
+      "nativeExit": 0,
+      "workingRows": 15,
+      "logSha256": "f96ff66dcbc7d05767a9240a4cf05c6e285fe101d3c37a13400251635fa2cf28"
+    }
+  ],
+  "finalMain": {
+    "result": "PASS",
+    "count": 6,
+    "rows": [
+      {
+        "route": "profile",
+        "targetLength": 0,
+        "result": "PASS",
+        "targetDirectoryLength": 0,
+        "finishMode": "stop",
+        "manifestLength": 80,
+        "initialBuffering": {
+          "generation": 1,
+          "pid": 9028,
+          "readerId": "c64787c89f714f09849ca6a0bfe642de",
+          "revision": 1,
+          "schemaVersion": 1,
+          "sessionId": "720bed1519ff4d9aa81a464c4ec52edb",
+          "type": "buffering"
+        },
+        "observedPlaying": {
+          "generation": 1,
+          "pid": 9028,
+          "readerId": "c64787c89f714f09849ca6a0bfe642de",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "720bed1519ff4d9aa81a464c4ec52edb",
+          "type": "playing"
+        },
+        "observedPaused": {
+          "generation": 1,
+          "pid": 9028,
+          "readerId": "c64787c89f714f09849ca6a0bfe642de",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "720bed1519ff4d9aa81a464c4ec52edb",
+          "type": "paused"
+        },
+        "pauseCommandExit": 0,
+        "playCommandExit": 0,
+        "invalidSessionCommandExit": 0,
+        "asynchronousErrorLogged": true,
+        "release": {
+          "kind": "release",
+          "pid": 9028,
+          "birth": 134385869876267510,
+          "playerAlive": true
+        },
+        "nativePlayerExit": 0,
+        "stopCommandExit": 0,
+        "forwardedFileCommandExit": 0,
+        "referenceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "sourceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "profileSavedSha256": "8804deb79cbf07cb953ddd73871ae2a15ee7d7d5122e4d11d236da8e12125708",
+        "existingSettingsPreserved": true,
+        "profileLocksRemoved": true,
+        "sourceBytesUnchanged": true,
+        "profileIsShort": true,
+        "profileLength": 68,
+        "childTemp": null,
+        "observedRuntimeFiles": [],
+        "parentEnvironmentUnchanged": true,
+        "providerErrors": [],
+        "normalExitViaOrdinaryFile": true,
+        "progressiveNaturalEofTested": false,
+        "writerFailureTested": false,
+        "decoderPositionMeasured": false,
+        "physicalAvSyncTested": false,
+        "testRootRemoved": true,
+        "wallSeconds": 2.937000000005355
+      },
+      {
+        "route": "profile",
+        "targetLength": 320,
+        "result": "PASS",
+        "targetDirectoryLength": 0,
+        "finishMode": "stop",
+        "manifestLength": 80,
+        "initialBuffering": {
+          "generation": 1,
+          "pid": 8108,
+          "readerId": "6b2f1b56059b48df85fbb65ee41a006e",
+          "revision": 1,
+          "schemaVersion": 1,
+          "sessionId": "c80e2b8e636940448279d20645c2319b",
+          "type": "buffering"
+        },
+        "observedPlaying": {
+          "generation": 1,
+          "pid": 8108,
+          "readerId": "6b2f1b56059b48df85fbb65ee41a006e",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "c80e2b8e636940448279d20645c2319b",
+          "type": "playing"
+        },
+        "observedPaused": {
+          "generation": 1,
+          "pid": 8108,
+          "readerId": "6b2f1b56059b48df85fbb65ee41a006e",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "c80e2b8e636940448279d20645c2319b",
+          "type": "paused"
+        },
+        "pauseCommandExit": 0,
+        "playCommandExit": 0,
+        "invalidSessionCommandExit": 0,
+        "asynchronousErrorLogged": true,
+        "release": {
+          "kind": "release",
+          "pid": 8108,
+          "birth": 134385869905623581,
+          "playerAlive": true
+        },
+        "nativePlayerExit": 0,
+        "stopCommandExit": 0,
+        "forwardedFileCommandExit": 0,
+        "referenceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "sourceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "profileSavedSha256": "cb642016288edb76c97ed8e507aa3ea2ef07c0207bf047bd95b91c863624168a",
+        "existingSettingsPreserved": true,
+        "profileLocksRemoved": true,
+        "sourceBytesUnchanged": true,
+        "profileIsShort": false,
+        "profileLength": 326,
+        "childTemp": null,
+        "observedRuntimeFiles": [],
+        "parentEnvironmentUnchanged": true,
+        "providerErrors": [],
+        "normalExitViaOrdinaryFile": true,
+        "progressiveNaturalEofTested": false,
+        "writerFailureTested": false,
+        "decoderPositionMeasured": false,
+        "physicalAvSyncTested": false,
+        "testRootRemoved": true,
+        "wallSeconds": 2.812999999994645
+      },
+      {
+        "route": "profile",
+        "targetLength": 1100,
+        "result": "PASS",
+        "targetDirectoryLength": 0,
+        "finishMode": "stop",
+        "manifestLength": 80,
+        "initialBuffering": {
+          "generation": 1,
+          "pid": 5768,
+          "readerId": "cae0f51e2e7845f8a82b97ad471ba84b",
+          "revision": 1,
+          "schemaVersion": 1,
+          "sessionId": "05cd0f4d797547a0a5bb4c2b863d3abc",
+          "type": "buffering"
+        },
+        "observedPlaying": {
+          "generation": 1,
+          "pid": 5768,
+          "readerId": "cae0f51e2e7845f8a82b97ad471ba84b",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "05cd0f4d797547a0a5bb4c2b863d3abc",
+          "type": "playing"
+        },
+        "observedPaused": {
+          "generation": 1,
+          "pid": 5768,
+          "readerId": "cae0f51e2e7845f8a82b97ad471ba84b",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "05cd0f4d797547a0a5bb4c2b863d3abc",
+          "type": "paused"
+        },
+        "pauseCommandExit": 0,
+        "playCommandExit": 0,
+        "invalidSessionCommandExit": 0,
+        "asynchronousErrorLogged": true,
+        "release": {
+          "kind": "release",
+          "pid": 5768,
+          "birth": 134385869933773833,
+          "playerAlive": true
+        },
+        "nativePlayerExit": 0,
+        "stopCommandExit": 0,
+        "forwardedFileCommandExit": 0,
+        "referenceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "sourceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "profileSavedSha256": "05953a07360e035b8a0da4ddd0e6afc7674b8be6f28cc5b76700725658dfd037",
+        "existingSettingsPreserved": true,
+        "profileLocksRemoved": true,
+        "sourceBytesUnchanged": true,
+        "profileIsShort": false,
+        "profileLength": 1100,
+        "childTemp": null,
+        "observedRuntimeFiles": [],
+        "parentEnvironmentUnchanged": true,
+        "providerErrors": [],
+        "normalExitViaOrdinaryFile": true,
+        "progressiveNaturalEofTested": false,
+        "writerFailureTested": false,
+        "decoderPositionMeasured": false,
+        "physicalAvSyncTested": false,
+        "testRootRemoved": true,
+        "wallSeconds": 3.0
+      },
+      {
+        "route": "temp",
+        "targetLength": 240,
+        "result": "PASS",
+        "targetDirectoryLength": 0,
+        "finishMode": "stop",
+        "requestedTempHonored": true,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\240\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Време",
+        "runtimeProbe": {
+          "directoryExists": true,
+          "brokerLockExists": true,
+          "matchingLeaseCount": 1
+        },
+        "ownedRuntimeLeaseRemoved": true,
+        "manifestLength": 80,
+        "initialBuffering": {
+          "generation": 1,
+          "pid": 7412,
+          "readerId": "80809437cc6647ff9a0c0305c9991411",
+          "revision": 1,
+          "schemaVersion": 1,
+          "sessionId": "9fa95c2566e74ea79143b5048e4a071c",
+          "type": "buffering"
+        },
+        "observedPlaying": {
+          "generation": 1,
+          "pid": 7412,
+          "readerId": "80809437cc6647ff9a0c0305c9991411",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "9fa95c2566e74ea79143b5048e4a071c",
+          "type": "playing"
+        },
+        "observedPaused": {
+          "generation": 1,
+          "pid": 7412,
+          "readerId": "80809437cc6647ff9a0c0305c9991411",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "9fa95c2566e74ea79143b5048e4a071c",
+          "type": "paused"
+        },
+        "pauseCommandExit": 0,
+        "playCommandExit": 0,
+        "invalidSessionCommandExit": 0,
+        "asynchronousErrorLogged": true,
+        "release": {
+          "kind": "release",
+          "pid": 7412,
+          "birth": 134385869963768241,
+          "playerAlive": true
+        },
+        "nativePlayerExit": 0,
+        "stopCommandExit": 0,
+        "forwardedFileCommandExit": 0,
+        "referenceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "sourceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "profileSavedSha256": "700fff9b57f02e4768bae7b611a149e9c89f8b39d99cae85bc760ccb8c2e3cb0",
+        "existingSettingsPreserved": true,
+        "profileLocksRemoved": true,
+        "sourceBytesUnchanged": true,
+        "profileIsShort": true,
+        "profileLength": 68,
+        "childTemp": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\240\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Време",
+        "observedRuntimeFiles": [
+          "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\240\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Време\\FoxicMPq\\FoxicMPq-3ea68dbd9e949909-e04bc5d2d3c367e176aa5efce67f389b.lock",
+          "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\240\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Време\\FoxicMPq\\FoxicMPQt-profile-e04bc5d2d3c367e176aa5efce67f389b89ffdbc965ae1cef37701b026b3beb26.lease"
+        ],
+        "parentEnvironmentUnchanged": true,
+        "providerErrors": [],
+        "normalExitViaOrdinaryFile": true,
+        "progressiveNaturalEofTested": false,
+        "writerFailureTested": false,
+        "decoderPositionMeasured": false,
+        "physicalAvSyncTested": false,
+        "testRootRemoved": true,
+        "wallSeconds": 2.937000000005355
+      },
+      {
+        "route": "temp",
+        "targetLength": 320,
+        "result": "PASS",
+        "targetDirectoryLength": 0,
+        "finishMode": "stop",
+        "requestedTempHonored": true,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\320\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\В",
+        "runtimeProbe": {
+          "directoryExists": true,
+          "brokerLockExists": true,
+          "matchingLeaseCount": 1
+        },
+        "ownedRuntimeLeaseRemoved": true,
+        "manifestLength": 80,
+        "initialBuffering": {
+          "generation": 1,
+          "pid": 9364,
+          "readerId": "df9d96e1e8e24f34a68621ac6e18c70c",
+          "revision": 1,
+          "schemaVersion": 1,
+          "sessionId": "816fca4d2d3a4d1c963dea2e0e04943b",
+          "type": "buffering"
+        },
+        "observedPlaying": {
+          "generation": 1,
+          "pid": 9364,
+          "readerId": "df9d96e1e8e24f34a68621ac6e18c70c",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "816fca4d2d3a4d1c963dea2e0e04943b",
+          "type": "playing"
+        },
+        "observedPaused": {
+          "generation": 1,
+          "pid": 9364,
+          "readerId": "df9d96e1e8e24f34a68621ac6e18c70c",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "816fca4d2d3a4d1c963dea2e0e04943b",
+          "type": "paused"
+        },
+        "pauseCommandExit": 0,
+        "playCommandExit": 0,
+        "invalidSessionCommandExit": 0,
+        "asynchronousErrorLogged": true,
+        "release": {
+          "kind": "release",
+          "pid": 9364,
+          "birth": 134385869993139019,
+          "playerAlive": true
+        },
+        "nativePlayerExit": 0,
+        "stopCommandExit": 0,
+        "forwardedFileCommandExit": 0,
+        "referenceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "sourceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "profileSavedSha256": "6ab9a545c29ad2b39563a199dfb65b2c5c11901a6275a92833c5c9d5e42d1c52",
+        "existingSettingsPreserved": true,
+        "profileLocksRemoved": true,
+        "sourceBytesUnchanged": true,
+        "profileIsShort": true,
+        "profileLength": 68,
+        "childTemp": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\320\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\В",
+        "observedRuntimeFiles": [
+          "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\320\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\В\\FoxicMPq\\FoxicMPq-3ea68dbd9e949909-3317bbf37dfd88f8a8d04b2a3f6143ae.lock",
+          "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\320\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\В\\FoxicMPq\\FoxicMPQt-profile-3317bbf37dfd88f8a8d04b2a3f6143ae1d96d6e56caebe079ab588222be48294.lease"
+        ],
+        "parentEnvironmentUnchanged": true,
+        "providerErrors": [],
+        "normalExitViaOrdinaryFile": true,
+        "progressiveNaturalEofTested": false,
+        "writerFailureTested": false,
+        "decoderPositionMeasured": false,
+        "physicalAvSyncTested": false,
+        "testRootRemoved": true,
+        "wallSeconds": 2.9070000000065193
+      },
+      {
+        "route": "temp",
+        "targetLength": 1100,
+        "result": "PASS",
+        "targetDirectoryLength": 0,
+        "finishMode": "stop",
+        "requestedTempHonored": true,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\1100\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxx",
+        "runtimeProbe": {
+          "directoryExists": true,
+          "brokerLockExists": true,
+          "matchingLeaseCount": 1
+        },
+        "ownedRuntimeLeaseRemoved": true,
+        "manifestLength": 80,
+        "initialBuffering": {
+          "generation": 1,
+          "pid": 11408,
+          "readerId": "3793c0ed6f5e43ef9f3949d2770de8f8",
+          "revision": 1,
+          "schemaVersion": 1,
+          "sessionId": "4123bde282164f5d85d2b418f4a55780",
+          "type": "buffering"
+        },
+        "observedPlaying": {
+          "generation": 1,
+          "pid": 11408,
+          "readerId": "3793c0ed6f5e43ef9f3949d2770de8f8",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "4123bde282164f5d85d2b418f4a55780",
+          "type": "playing"
+        },
+        "observedPaused": {
+          "generation": 1,
+          "pid": 11408,
+          "readerId": "3793c0ed6f5e43ef9f3949d2770de8f8",
+          "revision": 2,
+          "schemaVersion": 1,
+          "sessionId": "4123bde282164f5d85d2b418f4a55780",
+          "type": "paused"
+        },
+        "pauseCommandExit": 0,
+        "playCommandExit": 0,
+        "invalidSessionCommandExit": 0,
+        "asynchronousErrorLogged": true,
+        "release": {
+          "kind": "release",
+          "pid": 11408,
+          "birth": 134385870022325111,
+          "playerAlive": true
+        },
+        "nativePlayerExit": 0,
+        "stopCommandExit": 0,
+        "forwardedFileCommandExit": 0,
+        "referenceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "sourceSha256": [
+          "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+          "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+        ],
+        "profileSavedSha256": "eb72c7ebc0f53cc6e8c9fdf8cec053ba24ce3db0093206a8521651ec3cfd1899",
+        "existingSettingsPreserved": true,
+        "profileLocksRemoved": true,
+        "sourceBytesUnchanged": true,
+        "profileIsShort": true,
+        "profileLength": 68,
+        "childTemp": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\1100\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxx",
+        "observedRuntimeFiles": [
+          "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\1100\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxx\\FoxicMPq\\FoxicMPq-3ea68dbd9e949909-55ad41ec4a7f896cd557eada0fe6b51b.lock",
+          "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-long-runtime-cq5b8ptr\\1100\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxxxxxxxxxxxxxxxxxxx\\Временная папка xxxxxxxx\\FoxicMPq\\FoxicMPQt-profile-55ad41ec4a7f896cd557eada0fe6b51b43f8326a340b8491a50ef7ca0b2a6986.lease"
+        ],
+        "parentEnvironmentUnchanged": true,
+        "providerErrors": [],
+        "normalExitViaOrdinaryFile": true,
+        "progressiveNaturalEofTested": false,
+        "writerFailureTested": false,
+        "decoderPositionMeasured": false,
+        "physicalAvSyncTested": false,
+        "testRootRemoved": true,
+        "wallSeconds": 2.922000000020489
+      }
+    ],
+    "runtimeRootRemoved": true,
+    "parentEnvironmentNotChanged": true,
+    "exactTempRequired": true
+  },
+  "finalStrictSettings": {
+    "result": "PASS",
+    "rows": [
+      {
+        "result": "PASS",
+        "tempLength": 240,
+        "requestedTempHonored": true,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-settings-temp-le50ka8z\\240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Врем",
+        "bootstrapNativeExit": 0
+      },
+      {
+        "result": "PASS",
+        "tempLength": 321,
+        "requestedTempHonored": true,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-settings-temp-le50ka8z\\320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\В",
+        "bootstrapNativeExit": 0
+      },
+      {
+        "result": "PASS",
+        "tempLength": 1100,
+        "requestedTempHonored": true,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-settings-temp-le50ka8z\\1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxx",
+        "bootstrapNativeExit": 0
+      }
+    ],
+    "runtimeRootRemoved": true,
+    "parentEnvironmentNotChanged": true
+  },
+  "strictSettingsReportQualification": "actualTempDirectory in strict driver is the requested root; actual QDir::tempPath equality is asserted inside native QtTest before every suite. Full-main additionally queries its native --temp-info probe independently.",
+  "finalPlayerUnderTemp": {
+    "result": "PASS",
+    "count": 3,
+    "rows": [
+      {
+        "result": "PASS",
+        "targetLength": 240,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-qt-player-temp-nyocmgsn\\240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре",
+        "requestedTempHonored": true,
+        "nativeExit": 0,
+        "workingRows": 5,
+        "logSha256": "20957b69a723c9129ee52abec02da95ac7bfc7a1f44ef92c9ffa4ffb63c94c3e"
+      },
+      {
+        "result": "PASS",
+        "targetLength": 320,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-qt-player-temp-nyocmgsn\\320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx",
+        "requestedTempHonored": true,
+        "nativeExit": 0,
+        "workingRows": 5,
+        "logSha256": "51fe0890105036e0fa2396a82fea2ee9ba0cf38412034e23ef35fea4e49e59f9"
+      },
+      {
+        "result": "PASS",
+        "targetLength": 1100,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-qt-player-temp-nyocmgsn\\1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxx",
+        "requestedTempHonored": true,
+        "nativeExit": 0,
+        "workingRows": 5,
+        "logSha256": "15beefe396b702b5233e9d00f1851cfd468fd447f7cfd9f91d5bc86106a7bdb1"
+      }
+    ],
+    "privateRootRemoved": true,
+    "parentEnvironmentUnchanged": true
+  },
+  "finalTempPolicy": {
+    "result": "PASS",
+    "count": 4,
+    "rows": [
+      {
+        "result": "PASS",
+        "case": "short-tmp-wins",
+        "nativeExit": 0,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-qt-temp-policy-kw60s44_"
+      },
+      {
+        "result": "PASS",
+        "case": "empty-tmp-long-temp",
+        "nativeExit": 0,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-qt-temp-policy-kw60s44_\\Длинный каталог\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      {
+        "result": "PASS",
+        "case": "long-userprofile",
+        "nativeExit": 0,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-qt-temp-policy-kw60s44_\\Длинный каталог\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      {
+        "result": "PASS",
+        "case": "relative-long-tmp",
+        "nativeExit": 0,
+        "actualTempDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-qt-temp-policy-kw60s44_\\Длинный каталог\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx"
+      }
+    ],
+    "privateRootRemoved": true,
+    "parentEnvironmentUnchanged": true,
+    "localSystemTested": false
+  },
+  "qtCore": {
+    "architecture": "x86_64",
+    "qtVersion": "6.12.0",
+    "upstreamCommit": "025bdad181de241e81bf853c8a2d7bf3d19261a9",
+    "archiveSha256": "a951bd163c7b80fc6b8c88d7668fb56abf91c152373e13c10666763238131307",
+    "localPatchSha256": "a08863e5609e38a0e44aae7c5d42be137830e5c0abeeeed60f106d54821c29c3",
+    "sourceSha256": "858d9b3f6a87df017ab5b832190613a8b38139408dfce7fda212e2108e48847b",
+    "stockLibrarySha256": "bcfa6e5a8996340bd2b3a633629f97114e018f73658f15848e6a9e82645c386c",
+    "librarySha256": "945da33a0da53fd11cdaa20996f03c1503226d44039e8ae3c961bae26c2e419b",
+    "stockExports": 6920,
+    "fixedExports": 6920,
+    "allStockExportsPreserved": true,
+    "allFeatureFlagsEqual": true,
+    "featureHeaders": [
+      {
+        "stock": "qtcore-config.h",
+        "built": "qtcore-config.h",
+        "featureCount": 46,
+        "equal": true,
+        "stockSha256": "42723951721831c619181db236ce85a33d5254b8f27acfd797729c075857170d",
+        "builtSha256": "42723951721831c619181db236ce85a33d5254b8f27acfd797729c075857170d"
+      },
+      {
+        "stock": "6.12.0/QtCore/private/qtcore-config_p.h",
+        "built": "qtcore-config_p.h",
+        "featureCount": 59,
+        "equal": true,
+        "stockSha256": "464b64836530872ab2c63ede5726c519d9d3a844c290cef2903df38de2e47a53",
+        "builtSha256": "464b64836530872ab2c63ede5726c519d9d3a844c290cef2903df38de2e47a53"
+      },
+      {
+        "stock": "qconfig.h",
+        "built": "global/qconfig.h",
+        "featureCount": 34,
+        "equal": true,
+        "stockSha256": "f4b581d9a6d3834ec21fe5457f16757b7881606fd200ba760c19bf3f8f57038b",
+        "builtSha256": "f4b581d9a6d3834ec21fe5457f16757b7881606fd200ba760c19bf3f8f57038b"
+      },
+      {
+        "stock": "6.12.0/QtCore/private/qconfig_p.h",
+        "built": "global/qconfig_p.h",
+        "featureCount": 77,
+        "equal": true,
+        "stockSha256": "aed4e2337274e916cb7fbcec1d1d27fbbea384c18074db272cfe5d1ad8c33145",
+        "builtSha256": "aed4e2337274e916cb7fbcec1d1d27fbbea384c18074db272cfe5d1ad8c33145"
+      }
+    ],
+    "sourcePin": {
+      "version": "6.12.0",
+      "tag": "v6.12.0",
+      "commit": "025bdad181de241e81bf853c8a2d7bf3d19261a9",
+      "archiveUrl": "https://download.qt.io/official_releases/qt/6.12/6.12.0/submodules/qtbase-everywhere-src-6.12.0.tar.xz",
+      "archiveSha256": "a951bd163c7b80fc6b8c88d7668fb56abf91c152373e13c10666763238131307",
+      "packageVersion": "mingw-w64-ucrt-x86_64-qt6-base 6.12.0-1",
+      "packageRecipeUrl": "https://github.com/msys2/MINGW-packages/tree/master/mingw-w64-qt6-base",
+      "packageRecipeSha256": "f301dfa04e8a44b12b3868b4247d9956620945bf3807814eb696829c828b0ca7",
+      "packagePatches": [
+        {
+          "name": "003-adjust-qmake-conf-mingw.patch",
+          "sha256": "68156b8b7717a0ce19c4b991942469171bfa048cd5c90765115a546e65669a1d"
+        },
+        {
+          "name": "004-qt-6.2.0-win32-g-Add-QMAKE_EXTENSION_IMPORTLIB-defaulting-to-.patch",
+          "sha256": "1a6782d6d476cde4c4f554bd1bcd3c0d5abb64f870ae4b502d548f77f48bdc0f"
+        },
+        {
+          "name": "005-qt-6.7.0-opengl-header.patch",
+          "sha256": "a2afc74d181864409dc96eca368b647c0f79e25751db88e3263f2d1101edf8e4"
+        },
+        {
+          "name": "006-qt-6.2.0-dont-add-resource-files-to-qmake-libs.patch",
+          "sha256": "4085a10b290b8e3d930de535cbad2ba3e643432cba433aa2b28fe664f86d38a3"
+        },
+        {
+          "name": "008-freetype-fonts-fallback-dir.patch",
+          "sha256": "26c4f9ef96ecb75f42a2c14cdd63affbca4e966b4030931c5792336f97286383"
+        },
+        {
+          "name": "009-qfileinfo-undefine-mingw-stat.patch",
+          "sha256": "f4261d43a142a24e5fa3b23e25813754839db84078cc8c6dc611139bf531e64a"
+        },
+        {
+          "name": "010-export-some-constexpr-variables.patch",
+          "sha256": "2cd0b791209d53ce5a0ff2afc76cb1aedbdc1a92fe406c27bc6e5cd2f4ed0ad4"
+        },
+        {
+          "name": "011-qt6-windeployqt-fixes.patch",
+          "sha256": "9d9131f412f0505c38449718fcf2fcd4ae548563eb94b71d55c8238efffbbe5a"
+        },
+        {
+          "name": "012-qt6-windeployqt-ignore-debug.patch",
+          "sha256": "ce3449f8202766f1ceab9b44a0e94efdbb6b6a1c833381c93136a3786de1bea7"
+        },
+        {
+          "name": "013-qt6-windeployqt-qmlimportscanner-path.patch",
+          "sha256": "c4783da805c1189c747dc899fb4275a593b2e08522d3af88e74b3dec42d9b4fe"
+        },
+        {
+          "name": "014-qtextmarkdownimporter-md4c-0.6.0.patch",
+          "sha256": "49ce125098057e1efceaad2bb83c26d174ebd1fb92e672a5e2a8715263a965c9"
+        }
+      ],
+      "localPatchSha256": "a08863e5609e38a0e44aae7c5d42be137830e5c0abeeeed60f106d54821c29c3",
+      "qlockfileBeforeSha256": "7ec8cd83a56858ec470d15ed53c67a311b61876f289f3c20818f0f373eef9279",
+      "qlockfileAfterSha256": "858d9b3f6a87df017ab5b832190613a8b38139408dfce7fda212e2108e48847b",
+      "overlaySha256": "1a629a01bedac34da87d91440ae4f2af96ece63674d919ec99a5edaa9d9d539b",
+      "overlayFiles": [
+        "cmake/QtPriHelpers.cmake",
+        "cmake/QtPrlHelpers.cmake",
+        "mkspecs/common/g++-win32.conf",
+        "mkspecs/features/create_cmake.prf",
+        "mkspecs/features/default_post.prf",
+        "mkspecs/features/qt.prf",
+        "qmake/generators/win32/mingw_make.cpp",
+        "qmake/generators/win32/winmakefile.cpp",
+        "src/corelib/Qt6CoreMacros.cmake",
+        "src/corelib/global/qlibraryinfo.cpp",
+        "src/corelib/io/qfileinfo.h",
+        "src/corelib/io/qfilesystemengine_win.cpp",
+        "src/corelib/io/qlockfile_win.cpp",
+        "src/corelib/kernel/qdeadlinetimer.cpp",
+        "src/corelib/time/qtimezone.cpp",
+        "src/gui/opengl/qopengl.h",
+        "src/gui/rhi/qrhi.cpp",
+        "src/gui/text/qplatformfontdatabase.cpp",
+        "src/gui/text/qtextmarkdownimporter.cpp",
+        "src/gui/text/qtextmarkdownimporter_p.h",
+        "src/network/kernel/qhostaddress.cpp",
+        "src/tools/windeployqt/main.cpp",
+        "src/tools/windeployqt/qmlutils.cpp",
+        "src/tools/windeployqt/utils.cpp"
+      ],
+      "packageRecipeCommit": "cee2bde36669bf238fd791981d47e301289c70dc",
+      "cppWinRT": {
+        "url": "https://mirror.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-cppwinrt-3.0.260818.1-3-any.pkg.tar.zst",
+        "sha256": "017ce6a005a3dc6bf607d799b1707aab9100edde270d1ec21dfa4518fa625cd9"
+      },
+      "tempPathBeforeSha256": "6a016e4ba9b260c79a82828500395f00ac33a29e43b0c987b71b4684d30b9724",
+      "tempPathAfterSha256": "a2a143335378939f178e7ff0fa9acf0bdcc7cc9663771dec6b8506f419e6e418"
+    },
+    "toolchainModified": false,
+    "fix": "Native lock deletion/stale reads, bounded dynamic Windows temporary-path buffers and exact long non-SYSTEM user TMP selection; retain atomic sync, interprocess locking and SYSTEM native policy"
+  },
+  "sourceOverlayReproduction": {
+    "nativeExit": 0,
+    "sha256": "1a629a01bedac34da87d91440ae4f2af96ece63674d919ec99a5edaa9d9d539b",
+    "logSha256": "2d9e38221884f7b6f5eab5e600a1b5fe3cbdd543c1efb239409bd7e70fec9edb",
+    "freshWorkDirectory": true,
+    "binaryReproducibilityClaimed": false,
+    "patchApplication": "GNU patch zero-context exact-source hunks; every patched file hash checked by preparation pin"
+  },
+  "exactExitCodes": {
+    "qtcore-exact-temp-build": 0,
+    "qtcore-exact-temp-validate": 0,
+    "qtcore-exact-temp-final-validate": 0,
+    "qtcore-exact-temp-corrected-build": 0,
+    "qtcore-exact-temp-corrected-validate": 0,
+    "qtcore-exact-temp-corrected-final-validate": 0,
+    "qt-exact-temp-baseline-settings": 1,
+    "qt-exact-temp-settings": 0,
+    "qt-exact-temp-main": 0,
+    "qt-exact-temp-port": 0,
+    "qt-exact-temp-adapter": 0,
+    "qt-exact-temp-settings-normal": 0,
+    "qt-exact-temp-player": 0,
+    "qt-exact-temp-policy": 1,
+    "qt-exact-temp-deploy": 0,
+    "qt-exact-temp-deploy-final": 0,
+    "qt-exact-temp-guard-ssh": 0,
+    "qt-exact-temp-finish-ssh": 0
+  },
+  "retainedFailures": [
+    {
+      "name": "qt-exact-temp-baseline-settings",
+      "nativeExit": 1,
+      "coreSha256": "c7d6b0bf5c87f38cb7990f326b20b166192c0b3b3a17ae756dfc99dff368ebd5",
+      "logSha256": "145fdd79bbeae928c46602af10f1fdaaf5de17ea3ef28c4a0158725852c39ba6",
+      "nativeTemp320LogSha256": "b88efb61f225bc130961983042e823316c76a74474f1ebb3ff27f8942072b470",
+      "reason": "Prior private Core selected OS fallback; strict expected-root QtTest init failed at320"
+    },
+    {
+      "name": "qt-exact-temp-policy",
+      "nativeExit": 1,
+      "coreSha256": "d822c43c7d07598dbeca8fb341ef9ba59e6f33defb53c5624f76c5e29e041867",
+      "logSha256": "ea3e5bf7b3d8a39ba65421728254c41607bc2423571b23440c7e591af1c8dea4",
+      "reason": "First candidate treated empty TMP capacity1 as unstable environment and returned native fallback; corrected predicate >1, repeated all accepted suites",
+      "policySourceDifference": "Earlier policy driver did not save a per-case progress.json; assertions/cases otherwise identical"
+    }
+  ],
+  "firstCandidate": {
+    "metadata": {
+      "architecture": "x86_64",
+      "qtVersion": "6.12.0",
+      "upstreamCommit": "025bdad181de241e81bf853c8a2d7bf3d19261a9",
+      "archiveSha256": "a951bd163c7b80fc6b8c88d7668fb56abf91c152373e13c10666763238131307",
+      "localPatchSha256": "95b72b948ebd24b3f3b715ab45e519f7557ba0ac55ace9381d9e2a80506a0389",
+      "sourceSha256": "858d9b3f6a87df017ab5b832190613a8b38139408dfce7fda212e2108e48847b",
+      "stockLibrarySha256": "bcfa6e5a8996340bd2b3a633629f97114e018f73658f15848e6a9e82645c386c",
+      "librarySha256": "d822c43c7d07598dbeca8fb341ef9ba59e6f33defb53c5624f76c5e29e041867",
+      "stockExports": 6920,
+      "fixedExports": 6920,
+      "allStockExportsPreserved": true,
+      "allFeatureFlagsEqual": true,
+      "featureHeaders": [
+        {
+          "stock": "qtcore-config.h",
+          "built": "qtcore-config.h",
+          "featureCount": 46,
+          "equal": true,
+          "stockSha256": "42723951721831c619181db236ce85a33d5254b8f27acfd797729c075857170d",
+          "builtSha256": "42723951721831c619181db236ce85a33d5254b8f27acfd797729c075857170d"
+        },
+        {
+          "stock": "6.12.0/QtCore/private/qtcore-config_p.h",
+          "built": "qtcore-config_p.h",
+          "featureCount": 59,
+          "equal": true,
+          "stockSha256": "464b64836530872ab2c63ede5726c519d9d3a844c290cef2903df38de2e47a53",
+          "builtSha256": "464b64836530872ab2c63ede5726c519d9d3a844c290cef2903df38de2e47a53"
+        },
+        {
+          "stock": "qconfig.h",
+          "built": "global/qconfig.h",
+          "featureCount": 34,
+          "equal": true,
+          "stockSha256": "f4b581d9a6d3834ec21fe5457f16757b7881606fd200ba760c19bf3f8f57038b",
+          "builtSha256": "f4b581d9a6d3834ec21fe5457f16757b7881606fd200ba760c19bf3f8f57038b"
+        },
+        {
+          "stock": "6.12.0/QtCore/private/qconfig_p.h",
+          "built": "global/qconfig_p.h",
+          "featureCount": 77,
+          "equal": true,
+          "stockSha256": "aed4e2337274e916cb7fbcec1d1d27fbbea384c18074db272cfe5d1ad8c33145",
+          "builtSha256": "aed4e2337274e916cb7fbcec1d1d27fbbea384c18074db272cfe5d1ad8c33145"
+        }
+      ],
+      "sourcePin": {
+        "version": "6.12.0",
+        "tag": "v6.12.0",
+        "commit": "025bdad181de241e81bf853c8a2d7bf3d19261a9",
+        "archiveUrl": "https://download.qt.io/official_releases/qt/6.12/6.12.0/submodules/qtbase-everywhere-src-6.12.0.tar.xz",
+        "archiveSha256": "a951bd163c7b80fc6b8c88d7668fb56abf91c152373e13c10666763238131307",
+        "packageVersion": "mingw-w64-ucrt-x86_64-qt6-base 6.12.0-1",
+        "packageRecipeUrl": "https://github.com/msys2/MINGW-packages/tree/master/mingw-w64-qt6-base",
+        "packageRecipeSha256": "f301dfa04e8a44b12b3868b4247d9956620945bf3807814eb696829c828b0ca7",
+        "packagePatches": [
+          {
+            "name": "003-adjust-qmake-conf-mingw.patch",
+            "sha256": "68156b8b7717a0ce19c4b991942469171bfa048cd5c90765115a546e65669a1d"
+          },
+          {
+            "name": "004-qt-6.2.0-win32-g-Add-QMAKE_EXTENSION_IMPORTLIB-defaulting-to-.patch",
+            "sha256": "1a6782d6d476cde4c4f554bd1bcd3c0d5abb64f870ae4b502d548f77f48bdc0f"
+          },
+          {
+            "name": "005-qt-6.7.0-opengl-header.patch",
+            "sha256": "a2afc74d181864409dc96eca368b647c0f79e25751db88e3263f2d1101edf8e4"
+          },
+          {
+            "name": "006-qt-6.2.0-dont-add-resource-files-to-qmake-libs.patch",
+            "sha256": "4085a10b290b8e3d930de535cbad2ba3e643432cba433aa2b28fe664f86d38a3"
+          },
+          {
+            "name": "008-freetype-fonts-fallback-dir.patch",
+            "sha256": "26c4f9ef96ecb75f42a2c14cdd63affbca4e966b4030931c5792336f97286383"
+          },
+          {
+            "name": "009-qfileinfo-undefine-mingw-stat.patch",
+            "sha256": "f4261d43a142a24e5fa3b23e25813754839db84078cc8c6dc611139bf531e64a"
+          },
+          {
+            "name": "010-export-some-constexpr-variables.patch",
+            "sha256": "2cd0b791209d53ce5a0ff2afc76cb1aedbdc1a92fe406c27bc6e5cd2f4ed0ad4"
+          },
+          {
+            "name": "011-qt6-windeployqt-fixes.patch",
+            "sha256": "9d9131f412f0505c38449718fcf2fcd4ae548563eb94b71d55c8238efffbbe5a"
+          },
+          {
+            "name": "012-qt6-windeployqt-ignore-debug.patch",
+            "sha256": "ce3449f8202766f1ceab9b44a0e94efdbb6b6a1c833381c93136a3786de1bea7"
+          },
+          {
+            "name": "013-qt6-windeployqt-qmlimportscanner-path.patch",
+            "sha256": "c4783da805c1189c747dc899fb4275a593b2e08522d3af88e74b3dec42d9b4fe"
+          },
+          {
+            "name": "014-qtextmarkdownimporter-md4c-0.6.0.patch",
+            "sha256": "49ce125098057e1efceaad2bb83c26d174ebd1fb92e672a5e2a8715263a965c9"
+          }
+        ],
+        "localPatchSha256": "95b72b948ebd24b3f3b715ab45e519f7557ba0ac55ace9381d9e2a80506a0389",
+        "qlockfileBeforeSha256": "7ec8cd83a56858ec470d15ed53c67a311b61876f289f3c20818f0f373eef9279",
+        "qlockfileAfterSha256": "858d9b3f6a87df017ab5b832190613a8b38139408dfce7fda212e2108e48847b",
+        "overlaySha256": "4b784c3c434ccdc86bde1a541e7a798771bab1540b3bb7ad6b4a94a4f06f15b5",
+        "overlayFiles": [
+          "cmake/QtPriHelpers.cmake",
+          "cmake/QtPrlHelpers.cmake",
+          "mkspecs/common/g++-win32.conf",
+          "mkspecs/features/create_cmake.prf",
+          "mkspecs/features/default_post.prf",
+          "mkspecs/features/qt.prf",
+          "qmake/generators/win32/mingw_make.cpp",
+          "qmake/generators/win32/winmakefile.cpp",
+          "src/corelib/Qt6CoreMacros.cmake",
+          "src/corelib/global/qlibraryinfo.cpp",
+          "src/corelib/io/qfileinfo.h",
+          "src/corelib/io/qfilesystemengine_win.cpp",
+          "src/corelib/io/qlockfile_win.cpp",
+          "src/corelib/kernel/qdeadlinetimer.cpp",
+          "src/corelib/time/qtimezone.cpp",
+          "src/gui/opengl/qopengl.h",
+          "src/gui/rhi/qrhi.cpp",
+          "src/gui/text/qplatformfontdatabase.cpp",
+          "src/gui/text/qtextmarkdownimporter.cpp",
+          "src/gui/text/qtextmarkdownimporter_p.h",
+          "src/network/kernel/qhostaddress.cpp",
+          "src/tools/windeployqt/main.cpp",
+          "src/tools/windeployqt/qmlutils.cpp",
+          "src/tools/windeployqt/utils.cpp"
+        ],
+        "packageRecipeCommit": "cee2bde36669bf238fd791981d47e301289c70dc",
+        "cppWinRT": {
+          "url": "https://mirror.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-cppwinrt-3.0.260818.1-3-any.pkg.tar.zst",
+          "sha256": "017ce6a005a3dc6bf607d799b1707aab9100edde270d1ec21dfa4518fa625cd9"
+        },
+        "tempPathBeforeSha256": "6a016e4ba9b260c79a82828500395f00ac33a29e43b0c987b71b4684d30b9724",
+        "tempPathAfterSha256": "b53802d8c528f9c5a5e3060ae7f36f8b29586b52ff66b95f586419cddd269e62"
+      },
+      "toolchainModified": false,
+      "fix": "Native lock deletion/stale reads, bounded dynamic Windows temporary-path buffers and exact long non-SYSTEM user TMP selection; retain atomic sync, interprocess locking and SYSTEM native policy"
+    },
+    "passingInitialMainReportSha256": "2f98178cd2d3d94f7f64d2843c4c2d8cec1d43319435e98dca71b1d0488973dc",
+    "initialSettingsReportSha256": "5d86216fb46ced2488d69ac3da2e4ba454752bb1b74fd7641fd8e5ae1be1a2fa",
+    "initialPlayerReportSha256": "c017c0da7e417976ecf39299d8cf3d6633d668eed8db8c719e1a384aed8b16a7",
+    "packagingExit": 0,
+    "supersededByFinal": true
+  },
+  "deployment": {
+    "nativeExit": 0,
+    "logSha256": "addd671d03127a86f890d2f35ced5b53e3d4378a6fa5f66e273f19515f437114",
+    "standaloneVersion": "FoxicMPq 0.2.0",
+    "matchedTestedArtifacts": {
+      "Qt6Core.dll": "945da33a0da53fd11cdaa20996f03c1503226d44039e8ae3c961bae26c2e419b",
+      "FoxicMPq.exe": "2ad99712030874582f52ec7a1c736366badaa4140c8a74f6f3afc3672df3a442",
+      "libwinpthread-1.dll": "4118e2fc18e5edb2a2074cdf27ada9bdc42645d6659c43f7ae2ea7baa215a123"
+    },
+    "stalePinNegativeGuard": {
+      "result": "PASS",
+      "staleRuntimeRejected": true,
+      "destinationCreated": false
+    }
+  },
+  "sourceSha256": {
+    "tools/runtime/qt-6.12.0-long-lock-paths.patch": "a08863e5609e38a0e44aae7c5d42be137830e5c0abeeeed60f106d54821c29c3",
+    "tools/runtime/qt-6.12.0-long-lock-paths.json": "18a2c06c293587c4d32fab7fb6c2f901eac780057fa6e83c104d7a4f9c7004fb",
+    "tools/runtime/validate_qtcore_runtime.py": "d6128c093a4107ac8b9ddd2dc323b4313465e5e3eef6fe2c20165b93d950fa09",
+    "tools/runtime/prepare_qtcore_long_paths.py": "0462022071dc62833f2d321147855e531f3c39b40897e847bb4af508a95d876b",
+    "tools/runtime/build_qtcore_long_paths.ps1": "2e63977e1058ee12003fb30500598958359029dec63c08cd74c2566fc9b7f9c4",
+    "tests/windows/progressive_long_runtime_test.py": "ab7b0f6d8fdbfb0b8ce84a32e2d19cd92d40de82cb900dbd859603a89b942a07",
+    "tests/windows/settings_temp_paths_test.py": "8e5be321d9ac02aa80b6fcffbe2130aa91baaf8df472bcfbf612cc0f1a58879c",
+    "tests/windows/qt_temp_player_test.py": "b3aa8cbc17e6c9ed0d1f67b8ec3ade9564bd0b0fa0e44e66ee943438c0670e67",
+    "tests/windows/qt_temp_policy_test.py": "69961dcf9422fe38bd8f92c9e1b6c53a20b494830a820119672a3e89ee035858",
+    "tests/progressive_legacy_cli_paths_test.py": "cebc7d9c1289f7568a410c7552fc14905881f90ca172cc7a725234f8587f7145"
+  },
+  "reproduction": {
+    "finalDriver": "$ErrorActionPreference='Continue';$r='E:/Programs/MPMY-src';$stage=\"$r/_bin/qt-exact-temp-final-stage\";$py='C:/Users/User/AppData/Local/Programs/Python/Python311/python.exe';$env:PATH=\"$stage;$env:SystemRoot/System32;$env:SystemRoot\";$env:QT_QPA_PLATFORM='offscreen';$env:FOXICMP_TEST_MEDIA=\"$r/_bin/qt-test-media\";$env:QTEST_FUNCTION_TIMEOUT='60000'\n& $py -B \"$r/_bin/receipt-observation-exit.py\" \"$r/_bin/qt-exact-temp-final-policy.exit\" \"$r/_bin/qt-exact-temp-final-policy.log\" $py -B \"$r/tests/windows/qt_temp_policy_test.py\" --runner \"$stage/foxicmp-settings-path-tests.exe\" --report-directory \"$r/_bin/qt-exact-temp-final-policy-results\"\nif($LASTEXITCODE){exit $LASTEXITCODE}\n& $py -B \"$r/_bin/receipt-observation-exit.py\" \"$r/_bin/qt-exact-temp-final-settings.exit\" \"$r/_bin/qt-exact-temp-final-settings.log\" $py -B \"$r/tests/windows/settings_temp_paths_test.py\" --runner \"$stage/foxicmp-settings-path-tests.exe\" --report-directory \"$r/_bin/qt-exact-temp-final-settings-results\"\nif($LASTEXITCODE){exit $LASTEXITCODE}\n& $py -B \"$r/_bin/receipt-observation-exit.py\" \"$r/_bin/qt-exact-temp-final-main.exit\" \"$r/_bin/qt-exact-temp-final-main.log\" $py -B \"$r/tests/windows/progressive_long_runtime_test.py\" --player \"$stage/FoxicMPq.exe\" --fixtures \"$r/_bin/qt-test-media\" --report-directory \"$r/_bin/qt-exact-temp-final-main-results\" --require-exact-temp\n& $py -B \"$r/_bin/receipt-observation-exit.py\" \"$r/_bin/qt-exact-temp-final-port.exit\" \"$r/_bin/qt-exact-temp-final-port.log\" \"$stage/foxicmp-windows-tests.exe\" commandLineMetadataAndTls portableIsolationAndLeases capturedDefaultsOnlyForNewProfiles nativePathsAndLongMoves archiveAndShortcutNoOverwrite fileOperationsNeverReplace settingsAndNativeAssociationsPage namedPipeCommandForwarding\n& $py -B \"$r/_bin/receipt-observation-exit.py\" \"$r/_bin/qt-exact-temp-final-adapter.exit\" \"$r/_bin/qt-exact-temp-final-adapter.log\" \"$stage/foxicmp-progressive-api-tests.exe\" legacyProviderPublishesWriterStateAndReleases\n& $py -B \"$r/_bin/receipt-observation-exit.py\" \"$r/_bin/qt-exact-temp-final-settings-normal.exit\" \"$r/_bin/qt-exact-temp-final-settings-normal.log\" \"$stage/foxicmp-settings-path-tests.exe\"\n& $py -B \"$r/_bin/receipt-observation-exit.py\" \"$r/_bin/qt-exact-temp-final-player.exit\" \"$r/_bin/qt-exact-temp-final-player.log\" $py -B \"$r/tests/windows/qt_temp_player_test.py\" --runner \"$stage/foxicmp-progressive-api-tests.exe\" --temp-probe \"$stage/foxicmp-settings-path-tests.exe\" --fixtures \"$r/_bin/qt-test-media\" --report-directory \"$r/_bin/qt-exact-temp-final-player-results\"\nexit $LASTEXITCODE\n",
+    "buildDriver": "$ErrorActionPreference='Continue';$r='E:/Programs/MPMY-src';$t='C:/FoxBroxer/Build/FoxicMPq/msys64/ucrt64';$env:PATH=\"$t/bin;$env:SystemRoot/System32;$env:SystemRoot\";$base='C:/FoxBroxer/Build/FoxicMPq/qtcore-longpaths-6120'\n& \"$t/bin/cmake.exe\" --build \"$base/build\" --target Core --parallel 3 *> \"$r/_bin/qtcore-exact-temp-corrected-build.log\"\n$code=$LASTEXITCODE;[IO.File]::WriteAllText(\"$r/_bin/qtcore-exact-temp-corrected-build.exit\",[string]$code);if($code){exit $code}\n& \"$t/bin/python3.exe\" \"$r/tools/runtime/validate_qtcore_runtime.py\" --toolchain-prefix $t --work $base *> \"$r/_bin/qtcore-exact-temp-corrected-validated.json\"\n$code=$LASTEXITCODE;[IO.File]::WriteAllText(\"$r/_bin/qtcore-exact-temp-corrected-validate.exit\",[string]$code);exit $code\n",
+    "deployDriver": "$ErrorActionPreference='Stop';$r='E:/Programs/MPMY-src';$base='C:/FoxBroxer/Build/FoxicMPq/qtcore-longpaths-6120';$build=\"$r/_bin/continuous-aac-qt-windows\"\nif((Get-FileHash \"$build/FoxicMPq.exe\").Hash -ne (Get-FileHash \"$r/_bin/qt-exact-temp-final-stage/FoxicMPq.exe\").Hash){throw 'App differs from tested stage'}\n& \"$r/qt/packaging/windows/deploy.ps1\" -BuildDirectory $build -ToolchainDirectory 'C:/FoxBroxer/Build/FoxicMPq/msys64' -Destination \"$r/_bin/qt-exact-temp-deployment-final\" -QtCoreRuntimeDirectory $base *> \"$r/_bin/qt-exact-temp-deploy-final.log\"\n[IO.File]::WriteAllText(\"$r/_bin/qt-exact-temp-deploy-final.exit\",'0')\n"
+  },
+  "protection": {
+    "fileCount": 583,
+    "allHashesUnchanged": true,
+    "shellEntries": 158,
+    "shellUnchanged": true,
+    "shellBaseline": "classic-buffer-shell-after.json: last verified previous-stage checkpoint",
+    "beforeFileSnapshotSha256": "f48bff929d96a923771c097b8d77b2a0ed19d75f616aa53d91b9c847d836a5b5",
+    "afterFileSnapshotSha256": "f48bff929d96a923771c097b8d77b2a0ed19d75f616aa53d91b9c847d836a5b5",
+    "shellBaselineSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "afterShellSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "linuxMainSha256": "ec395df9c0b54e124107d2b6263890919fb092654230e5905c87f4e1c3b721ca",
+    "linuxIniSha256": "f3b64a705e0f841d915011c0728a541533151696f7020edc47e8499f099e7333",
+    "linuxCodeChanged": false,
+    "linuxReinstallationNeeded": false,
+    "windowsInstalledAppsChanged": false,
+    "globalToolchainCoreModified": false,
+    "harvesterChanged": false,
+    "publishedAssetsChanged": false
+  },
+  "cleanup": {
+    "tasksRemaining": 0,
+    "matchingTestProcesses": [],
+    "removedTasks": [
+      {
+        "taskResult": 0,
+        "name": "FoxicMP-Qt-ExactTemp-OneShot",
+        "state": "Ready"
+      },
+      {
+        "taskResult": 0,
+        "name": "FoxicMP-Qt-ExactTemp-Player-OneShot",
+        "state": "Ready"
+      },
+      {
+        "taskResult": 0,
+        "name": "FoxicMP-Qt-ExactTemp-Final-OneShot",
+        "state": "Ready"
+      }
+    ],
+    "sharedRuntimeFilesNotSwept": true
+  },
+  "boundaries": [
+    "Ordinary desktop user, local fixed drive tests; no actual LocalSystem execution or token-query-failure injection",
+    "Exact Qt temp/runtime root, not every third-party native temporary-file consumer",
+    "Main CLI IPC states are separate from decoder-clock proof in Player tests",
+    "No physical A/V, full long-root EOF/error/format/stress acceptance",
+    "Python parent/child long-TEMP launch remains open",
+    "Classic empty-variable precedence is outside this Windows Qt DLL stage; its shared resolver was unchanged"
+  ]
+}

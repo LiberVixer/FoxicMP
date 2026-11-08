@@ -1,5 +1,8 @@
 # Qt: writable profiles and Windows runtime paths
 
+Продолжение 8 ноября: [ограниченный Windows Qt exact-TEMP срез прошёл](ProgressiveQtExactTempPaths.md).
+Исторические fallback/Classic результаты ниже сохранены без переписывания.
+
 Уточнение 8 ноября: прежний native TEMP probe не имел longPathAware manifest.
 [Контроль с manifest Classic и частичное исправление registry](ProgressiveWindowsTempManifest.md)
 разделяет OS fallback и GetTempPathW timeout; полный long-TEMP playback открыт.

@@ -1,5 +1,8 @@
 # Classic: воспроизведение при длинном TEMP
 
+Продолжение 8 ноября: [ограниченный Windows Qt exact-TEMP срез прошёл](ProgressiveQtExactTempPaths.md).
+Исторические fallback/Classic результаты ниже сохранены без переписывания.
+
 8 ноября 2026. Приложение 0.2.0, SDK 1.84. Закрыт ограниченный MP4/AAC/H.264
 срез Classic TEMP120/240/320/1100. Общее ТЗ этим не завершено.
 [Машинный отчёт](ProgressiveClassicLongTempPlaybackValidation-2026-11-08.json).

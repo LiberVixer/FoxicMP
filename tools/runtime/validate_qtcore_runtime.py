@@ -61,7 +61,7 @@ def validate(prefix, work):
         localPatchSha256=pin['localPatchSha256'],sourceSha256=pin['qlockfileAfterSha256'],
         stockLibrarySha256=sha(stock),librarySha256=sha(fixed),stockExports=len(old),fixedExports=len(new),
         allStockExportsPreserved=True,allFeatureFlagsEqual=True,featureHeaders=comparisons,
-        sourcePin=pin,toolchainModified=False,fix='Native lock deletion/stale reads and bounded dynamic Windows temporary-path buffers; retain atomic sync and interprocess locking')
+        sourcePin=pin,toolchainModified=False,fix='Native lock deletion/stale reads, bounded dynamic Windows temporary-path buffers and exact long non-SYSTEM user TMP selection; retain atomic sync, interprocess locking and SYSTEM native policy')
     shutil.copy2(fixed,work/'Qt6Core.dll')
     (work/'qtcore-longpaths-build.json').write_text(json.dumps(result,indent=2)+'\n')
     return result
