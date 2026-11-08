@@ -1,0 +1,2 @@
+// Native test variant matching Classic/Python longPathAware opt-in.
+1 24 "runtime_paths_aware.manifest"

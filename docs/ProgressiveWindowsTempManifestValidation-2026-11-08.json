@@ -1,0 +1,2348 @@
+{
+  "date": "2026-11-08",
+  "baseCommit": "c14b8e5f3453880c16f0eef225c53dc591551a40",
+  "applicationVersion": "0.2.0",
+  "sdkVersion": "1.84",
+  "result": "PARTIAL: Classic progressive registry selection fixed; long TEMP playback remains open",
+  "manifestControl": {
+    "collectorExit": 0,
+    "collectorSuccessIsNotAllRowsPass": true,
+    "matrix": {
+      "rows": [
+        {
+          "requestedLength": 120,
+          "manifestLongPathAware": false,
+          "wrapperExit": 0,
+          "events": [
+            {
+              "phase": "before-popen",
+              "case": {
+                "command": [
+                  "E:\\Programs\\MPMY-src\\_bin\\runtime-temp-final-probe-stage\\foxicmp-progressive-reader-tests.exe",
+                  "--temp-info"
+                ],
+                "scope": "child",
+                "temp": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-native-aware-8ocpe02k\\120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные ф",
+                "timeout": 5
+              }
+            },
+            {
+              "phase": "after-popen",
+              "pid": 10648
+            },
+            {
+              "phase": "child-exit",
+              "exit": 0,
+              "stdout": "{\"GetTempPathW\":{\"path\":\"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\foxicmp-native-aware-8ocpe02k\\\\120\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные ф\\\\\",\"length\":121},\"GetTempPath2W\":{\"path\":\"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\foxicmp-native-aware-8ocpe02k\\\\120\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные ф\\\\\",\"length\":121}}\r\n",
+              "stderr": "temp-info:wide-main\r\ntemp-info:before-GetTempPathW\r\ntemp-info:after-GetTempPathW:121\r\ntemp-info:before-GetTempPath2W\r\ntemp-info:after-GetTempPath2W:121\r\n"
+            }
+          ],
+          "executableSha256": "f40eff182b214a009b85445a20e4c68f866cef3817b5aa600e5dbbafdc807f5a"
+        },
+        {
+          "requestedLength": 120,
+          "manifestLongPathAware": true,
+          "wrapperExit": 0,
+          "events": [
+            {
+              "phase": "before-popen",
+              "case": {
+                "command": [
+                  "E:\\Programs\\MPMY-src\\_bin\\runtime-temp-final-probe-stage\\foxicmp-progressive-reader-aware-tests.exe",
+                  "--temp-info"
+                ],
+                "scope": "child",
+                "temp": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-native-aware-8ocpe02k\\120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные ф",
+                "timeout": 5
+              }
+            },
+            {
+              "phase": "after-popen",
+              "pid": 8960
+            },
+            {
+              "phase": "child-exit",
+              "exit": 0,
+              "stdout": "{\"GetTempPathW\":{\"path\":\"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\foxicmp-native-aware-8ocpe02k\\\\120\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные ф\\\\\",\"length\":121},\"GetTempPath2W\":{\"path\":\"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\foxicmp-native-aware-8ocpe02k\\\\120\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные ф\\\\\",\"length\":121}}\r\n",
+              "stderr": "temp-info:wide-main\r\ntemp-info:before-GetTempPathW\r\ntemp-info:after-GetTempPathW:121\r\ntemp-info:before-GetTempPath2W\r\ntemp-info:after-GetTempPath2W:121\r\n"
+            }
+          ],
+          "executableSha256": "96b0f4de7760735ce10d128572f3674614cfc63268e3072b28402b3ff407c383"
+        },
+        {
+          "requestedLength": 240,
+          "manifestLongPathAware": false,
+          "wrapperExit": 0,
+          "events": [
+            {
+              "phase": "before-popen",
+              "case": {
+                "command": [
+                  "E:\\Programs\\MPMY-src\\_bin\\runtime-temp-final-probe-stage\\foxicmp-progressive-reader-tests.exe",
+                  "--temp-info"
+                ],
+                "scope": "child",
+                "temp": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-native-aware-8ocpe02k\\240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Време",
+                "timeout": 5
+              }
+            },
+            {
+              "phase": "after-popen",
+              "pid": 10900
+            },
+            {
+              "phase": "child-exit",
+              "exit": 0,
+              "stdout": "{\"GetTempPathW\":{\"path\":\"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\foxicmp-native-aware-8ocpe02k\\\\240\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Време\\\\\",\"length\":241},\"GetTempPath2W\":{\"path\":\"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\foxicmp-native-aware-8ocpe02k\\\\240\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Време\\\\\",\"length\":241}}\r\n",
+              "stderr": "temp-info:wide-main\r\ntemp-info:before-GetTempPathW\r\ntemp-info:after-GetTempPathW:241\r\ntemp-info:before-GetTempPath2W\r\ntemp-info:after-GetTempPath2W:241\r\n"
+            }
+          ],
+          "executableSha256": "f40eff182b214a009b85445a20e4c68f866cef3817b5aa600e5dbbafdc807f5a"
+        },
+        {
+          "requestedLength": 240,
+          "manifestLongPathAware": true,
+          "wrapperExit": 0,
+          "events": [
+            {
+              "phase": "before-popen",
+              "case": {
+                "command": [
+                  "E:\\Programs\\MPMY-src\\_bin\\runtime-temp-final-probe-stage\\foxicmp-progressive-reader-aware-tests.exe",
+                  "--temp-info"
+                ],
+                "scope": "child",
+                "temp": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-native-aware-8ocpe02k\\240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Време",
+                "timeout": 5
+              }
+            },
+            {
+              "phase": "after-popen",
+              "pid": 5436
+            },
+            {
+              "phase": "child-exit",
+              "exit": 0,
+              "stdout": "{\"GetTempPathW\":{\"path\":\"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\foxicmp-native-aware-8ocpe02k\\\\240\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Време\\\\\",\"length\":241},\"GetTempPath2W\":{\"path\":\"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\foxicmp-native-aware-8ocpe02k\\\\240\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\\\Време\\\\\",\"length\":241}}\r\n",
+              "stderr": "temp-info:wide-main\r\ntemp-info:before-GetTempPathW\r\ntemp-info:after-GetTempPathW:241\r\ntemp-info:before-GetTempPath2W\r\ntemp-info:after-GetTempPath2W:241\r\n"
+            }
+          ],
+          "executableSha256": "96b0f4de7760735ce10d128572f3674614cfc63268e3072b28402b3ff407c383"
+        },
+        {
+          "requestedLength": 320,
+          "manifestLongPathAware": false,
+          "wrapperExit": 0,
+          "events": [
+            {
+              "phase": "before-popen",
+              "case": {
+                "command": [
+                  "E:\\Programs\\MPMY-src\\_bin\\runtime-temp-final-probe-stage\\foxicmp-progressive-reader-tests.exe",
+                  "--temp-info"
+                ],
+                "scope": "child",
+                "temp": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-native-aware-8ocpe02k\\320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\В",
+                "timeout": 5
+              }
+            },
+            {
+              "phase": "after-popen",
+              "pid": 5416
+            },
+            {
+              "phase": "child-exit",
+              "exit": 0,
+              "stdout": "{\"GetTempPathW\":{\"path\":\"C:\\\\Users\\\\User\\\\\",\"length\":14},\"GetTempPath2W\":{\"path\":\"C:\\\\Users\\\\User\\\\\",\"length\":14}}\r\n",
+              "stderr": "temp-info:wide-main\r\ntemp-info:before-GetTempPathW\r\ntemp-info:after-GetTempPathW:14\r\ntemp-info:before-GetTempPath2W\r\ntemp-info:after-GetTempPath2W:14\r\n"
+            }
+          ],
+          "executableSha256": "f40eff182b214a009b85445a20e4c68f866cef3817b5aa600e5dbbafdc807f5a"
+        },
+        {
+          "requestedLength": 320,
+          "manifestLongPathAware": true,
+          "wrapperExit": 124,
+          "events": [
+            {
+              "phase": "before-popen",
+              "case": {
+                "command": [
+                  "E:\\Programs\\MPMY-src\\_bin\\runtime-temp-final-probe-stage\\foxicmp-progressive-reader-aware-tests.exe",
+                  "--temp-info"
+                ],
+                "scope": "child",
+                "temp": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-native-aware-8ocpe02k\\320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\В",
+                "timeout": 5
+              }
+            },
+            {
+              "phase": "after-popen",
+              "pid": 4104
+            },
+            {
+              "phase": "child-timeout",
+              "forcedCleanupExit": 1,
+              "stdout": "",
+              "stderr": "temp-info:wide-main\r\ntemp-info:before-GetTempPathW\r\n"
+            }
+          ],
+          "executableSha256": "96b0f4de7760735ce10d128572f3674614cfc63268e3072b28402b3ff407c383"
+        },
+        {
+          "requestedLength": 1100,
+          "manifestLongPathAware": false,
+          "wrapperExit": 0,
+          "events": [
+            {
+              "phase": "before-popen",
+              "case": {
+                "command": [
+                  "E:\\Programs\\MPMY-src\\_bin\\runtime-temp-final-probe-stage\\foxicmp-progressive-reader-tests.exe",
+                  "--temp-info"
+                ],
+                "scope": "child",
+                "temp": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-native-aware-8ocpe02k\\1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxx",
+                "timeout": 5
+              }
+            },
+            {
+              "phase": "after-popen",
+              "pid": 10768
+            },
+            {
+              "phase": "child-exit",
+              "exit": 0,
+              "stdout": "{\"GetTempPathW\":{\"path\":\"C:\\\\Users\\\\User\\\\\",\"length\":14},\"GetTempPath2W\":{\"path\":\"C:\\\\Users\\\\User\\\\\",\"length\":14}}\r\n",
+              "stderr": "temp-info:wide-main\r\ntemp-info:before-GetTempPathW\r\ntemp-info:after-GetTempPathW:14\r\ntemp-info:before-GetTempPath2W\r\ntemp-info:after-GetTempPath2W:14\r\n"
+            }
+          ],
+          "executableSha256": "f40eff182b214a009b85445a20e4c68f866cef3817b5aa600e5dbbafdc807f5a"
+        },
+        {
+          "requestedLength": 1100,
+          "manifestLongPathAware": true,
+          "wrapperExit": 124,
+          "events": [
+            {
+              "phase": "before-popen",
+              "case": {
+                "command": [
+                  "E:\\Programs\\MPMY-src\\_bin\\runtime-temp-final-probe-stage\\foxicmp-progressive-reader-aware-tests.exe",
+                  "--temp-info"
+                ],
+                "scope": "child",
+                "temp": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-native-aware-8ocpe02k\\1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxx",
+                "timeout": 5
+              }
+            },
+            {
+              "phase": "after-popen",
+              "pid": 10648
+            },
+            {
+              "phase": "child-timeout",
+              "forcedCleanupExit": 1,
+              "stdout": "",
+              "stderr": "temp-info:wide-main\r\ntemp-info:before-GetTempPathW\r\n"
+            }
+          ],
+          "executableSha256": "96b0f4de7760735ce10d128572f3674614cfc63268e3072b28402b3ff407c383"
+        }
+      ],
+      "privateRootRemoved": true,
+      "parentEnvironmentNotChanged": true
+    },
+    "controllerSource": "import hashlib,json,os,subprocess,sys,tempfile\nfrom pathlib import Path\nr=Path('E:/Programs/MPMY-src');sys.path.insert(0,str(r/'tests/windows'))\nfrom owned_process_job import OwnedProcessJob\njob=OwnedProcessJob();report=r/'_bin/runtime-temp-final-probe-results';report.mkdir(exist_ok=False);rows=[]\nwith tempfile.TemporaryDirectory(prefix='foxicmp-native-aware-') as name:\n root=Path(name)\n for length in [120,240,320,1100]:\n  folder=root/str(length)\n  while len(str(folder))<length:\n   text=('Временные файлы '+'x'*25)[:max(1,length-len(str(folder))-1)];folder/=text[:-1]+'x' if text.endswith(' ') else text\n  folder.mkdir(parents=True)\n  for aware in [False,True]:\n   exe=r/'_bin/runtime-temp-final-probe-stage'/('foxicmp-progressive-reader-aware-tests.exe' if aware else 'foxicmp-progressive-reader-tests.exe')\n   stem=str(length)+'-'+str(aware);case=report/(stem+'.json');case.write_text(json.dumps(dict(command=[str(exe),'--temp-info'],scope='child',temp=str(folder),timeout=5)))\n   out=report/(stem+'.log')\n   try:\n    with out.open('wb') as log:p=subprocess.run([sys.executable,'-B',str(r/'tests/windows/runtime_child_probe.py'),str(case)],stdout=log,stderr=subprocess.STDOUT,timeout=12)\n    wrapper=p.returncode\n   except subprocess.TimeoutExpired:wrapper=124\n   events=[]\n   for line in out.read_text(errors='replace').splitlines():\n    try:events.append(json.loads(line))\n    except ValueError:pass\n   rows.append(dict(requestedLength=length,manifestLongPathAware=aware,wrapperExit=wrapper,events=events,executableSha256=hashlib.sha256(exe.read_bytes()).hexdigest()))\n   (report/'progress.json').write_text(json.dumps(rows,indent=2)+'\\n')\nresult=dict(rows=rows,privateRootRemoved=not root.exists(),parentEnvironmentNotChanged=True)\n(report/'result.json').write_text(json.dumps(result,indent=2)+'\\n');print(json.dumps(result));job.finish()\n",
+    "traceAllocationBeforeMarker": true,
+    "sourceSha256": "beb0789cbbc700102dc211ba41cbf7b346716ffbab6c3632062b9df0491cbf5e"
+  },
+  "resolver": {
+    "nativeExit": 0,
+    "report": {
+      "result": "PASS",
+      "count": 11,
+      "rows": [
+        {
+          "result": "PASS",
+          "manifestLongPathAware": false,
+          "targetLength": 120,
+          "actualDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-temp-resolver-9x03bk1s\\120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временныеx",
+          "nativeExit": 0
+        },
+        {
+          "result": "PASS",
+          "manifestLongPathAware": true,
+          "targetLength": 120,
+          "actualDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-temp-resolver-9x03bk1s\\120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временныеx",
+          "nativeExit": 0
+        },
+        {
+          "result": "PASS",
+          "manifestLongPathAware": false,
+          "targetLength": 240,
+          "actualDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-temp-resolver-9x03bk1s\\240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Врем",
+          "nativeExit": 0
+        },
+        {
+          "result": "PASS",
+          "manifestLongPathAware": true,
+          "targetLength": 240,
+          "actualDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-temp-resolver-9x03bk1s\\240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Врем",
+          "nativeExit": 0
+        },
+        {
+          "result": "PASS",
+          "manifestLongPathAware": false,
+          "targetLength": 320,
+          "actualDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-temp-resolver-9x03bk1s\\320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\В",
+          "nativeExit": 0
+        },
+        {
+          "result": "PASS",
+          "manifestLongPathAware": true,
+          "targetLength": 320,
+          "actualDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-temp-resolver-9x03bk1s\\320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\В",
+          "nativeExit": 0
+        },
+        {
+          "result": "PASS",
+          "manifestLongPathAware": false,
+          "targetLength": 1100,
+          "actualDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-temp-resolver-9x03bk1s\\1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxx",
+          "nativeExit": 0
+        },
+        {
+          "result": "PASS",
+          "manifestLongPathAware": true,
+          "targetLength": 1100,
+          "actualDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-temp-resolver-9x03bk1s\\1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxx",
+          "nativeExit": 0
+        },
+        {
+          "result": "PASS",
+          "precedenceSource": "TEMP",
+          "actualDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-temp-resolver-9x03bk1s",
+          "nativeExit": 0
+        },
+        {
+          "result": "PASS",
+          "precedenceSource": "USERPROFILE",
+          "actualDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-temp-resolver-9x03bk1s",
+          "nativeExit": 0
+        },
+        {
+          "result": "PASS",
+          "precedenceSource": "Windows",
+          "actualDirectory": "C:\\Windows",
+          "nativeExit": 0
+        }
+      ],
+      "privateRootRemoved": true,
+      "parentEnvironmentUnchanged": true
+    },
+    "ctestExit": 0,
+    "ctestLogSha256": "8069796f3653444eec9458822b85c4e6c435a39339095eec094dfe54f98a2a74"
+  },
+  "readerConformance": [
+    {
+      "variant": "plain",
+      "targetLength": 0,
+      "nativeExit": 0,
+      "result": {
+        "passed": 13,
+        "checks": [
+          "two-independent-processes",
+          "live-reader-cannot-be-forgotten",
+          "unlocked-alive-is-not-release",
+          "abrupt-process-exit-recovered",
+          "one-dead-reader-does-not-release-another",
+          "closed-handles-release-while-process-lives",
+          "fresh-process-discovers-persisted-receipts",
+          "corrupt-receipt-is-not-release",
+          "path-escape-rejected",
+          "bounded-pagination",
+          "session-isolation",
+          "forgotten-is-unknown",
+          "media-never-modified-or-deleted"
+        ],
+        "exitCode": 0,
+        "directoryLength": 64,
+        "unicodePaths": false,
+        "privateRootRemoved": true
+      },
+      "logSha256": "458998f4000daf1e233802dcdf25172eed5453be736332f74d8c03702ce28ec8"
+    },
+    {
+      "variant": "plain",
+      "targetLength": 320,
+      "nativeExit": 0,
+      "result": {
+        "passed": 13,
+        "checks": [
+          "two-independent-processes",
+          "live-reader-cannot-be-forgotten",
+          "unlocked-alive-is-not-release",
+          "abrupt-process-exit-recovered",
+          "one-dead-reader-does-not-release-another",
+          "closed-handles-release-while-process-lives",
+          "fresh-process-discovers-persisted-receipts",
+          "corrupt-receipt-is-not-release",
+          "path-escape-rejected",
+          "bounded-pagination",
+          "session-isolation",
+          "forgotten-is-unknown",
+          "media-never-modified-or-deleted"
+        ],
+        "exitCode": 0,
+        "directoryLength": 320,
+        "unicodePaths": true,
+        "privateRootRemoved": true
+      },
+      "logSha256": "6543b74eb22062472d1f16ae41c9922619cd50e796f2178fe09eec0bcc475cc8"
+    },
+    {
+      "variant": "plain",
+      "targetLength": 1100,
+      "nativeExit": 0,
+      "result": {
+        "passed": 13,
+        "checks": [
+          "two-independent-processes",
+          "live-reader-cannot-be-forgotten",
+          "unlocked-alive-is-not-release",
+          "abrupt-process-exit-recovered",
+          "one-dead-reader-does-not-release-another",
+          "closed-handles-release-while-process-lives",
+          "fresh-process-discovers-persisted-receipts",
+          "corrupt-receipt-is-not-release",
+          "path-escape-rejected",
+          "bounded-pagination",
+          "session-isolation",
+          "forgotten-is-unknown",
+          "media-never-modified-or-deleted"
+        ],
+        "exitCode": 0,
+        "directoryLength": 1100,
+        "unicodePaths": true,
+        "privateRootRemoved": true
+      },
+      "logSha256": "ab9c83994224d91fe64ce9d9ef4a8bcdd15eac7c872e6a690653e6dec7a91bd0"
+    },
+    {
+      "variant": "aware",
+      "targetLength": 0,
+      "nativeExit": 0,
+      "result": {
+        "passed": 13,
+        "checks": [
+          "two-independent-processes",
+          "live-reader-cannot-be-forgotten",
+          "unlocked-alive-is-not-release",
+          "abrupt-process-exit-recovered",
+          "one-dead-reader-does-not-release-another",
+          "closed-handles-release-while-process-lives",
+          "fresh-process-discovers-persisted-receipts",
+          "corrupt-receipt-is-not-release",
+          "path-escape-rejected",
+          "bounded-pagination",
+          "session-isolation",
+          "forgotten-is-unknown",
+          "media-never-modified-or-deleted"
+        ],
+        "exitCode": 0,
+        "directoryLength": 64,
+        "unicodePaths": false,
+        "privateRootRemoved": true
+      },
+      "logSha256": "458998f4000daf1e233802dcdf25172eed5453be736332f74d8c03702ce28ec8"
+    },
+    {
+      "variant": "aware",
+      "targetLength": 320,
+      "nativeExit": 0,
+      "result": {
+        "passed": 13,
+        "checks": [
+          "two-independent-processes",
+          "live-reader-cannot-be-forgotten",
+          "unlocked-alive-is-not-release",
+          "abrupt-process-exit-recovered",
+          "one-dead-reader-does-not-release-another",
+          "closed-handles-release-while-process-lives",
+          "fresh-process-discovers-persisted-receipts",
+          "corrupt-receipt-is-not-release",
+          "path-escape-rejected",
+          "bounded-pagination",
+          "session-isolation",
+          "forgotten-is-unknown",
+          "media-never-modified-or-deleted"
+        ],
+        "exitCode": 0,
+        "directoryLength": 320,
+        "unicodePaths": true,
+        "privateRootRemoved": true
+      },
+      "logSha256": "6543b74eb22062472d1f16ae41c9922619cd50e796f2178fe09eec0bcc475cc8"
+    },
+    {
+      "variant": "aware",
+      "targetLength": 1100,
+      "nativeExit": 0,
+      "result": {
+        "passed": 13,
+        "checks": [
+          "two-independent-processes",
+          "live-reader-cannot-be-forgotten",
+          "unlocked-alive-is-not-release",
+          "abrupt-process-exit-recovered",
+          "one-dead-reader-does-not-release-another",
+          "closed-handles-release-while-process-lives",
+          "fresh-process-discovers-persisted-receipts",
+          "corrupt-receipt-is-not-release",
+          "path-escape-rejected",
+          "bounded-pagination",
+          "session-isolation",
+          "forgotten-is-unknown",
+          "media-never-modified-or-deleted"
+        ],
+        "exitCode": 0,
+        "directoryLength": 1100,
+        "unicodePaths": true,
+        "privateRootRemoved": true
+      },
+      "logSha256": "ab9c83994224d91fe64ce9d9ef4a8bcdd15eac7c872e6a690653e6dec7a91bd0"
+    }
+  ],
+  "acceptedClassic": {
+    "exitCode": 0,
+    "report": {
+      "result": "PASS",
+      "count": 4,
+      "rows": [
+        {
+          "result": "PASS",
+          "requestedLength": 120,
+          "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре",
+          "actualTemp": {
+            "progressiveTempDirectory": {
+              "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\"
+            }
+          },
+          "requestedTempHonored": true,
+          "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-1d53a8f4cbafbbb7.progressive.readers",
+          "registryLength": 172,
+          "fragmented": false,
+          "started": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "5c75f1373a78421d9b0545ff500ca155",
+            "state": "buffering",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "0f0e43f2946a2435b9b0707e9a4b5aea",
+            "schemaVersion": 1,
+            "positionSeconds": 0.0,
+            "availableSeconds": 0.0,
+            "durationSeconds": 20.0
+          },
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "5c75f1373a78421d9b0545ff500ca155",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "0f0e43f2946a2435b9b0707e9a4b5aea",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.203,
+            "availableSeconds": 15.8933333,
+            "durationSeconds": 20.0
+          },
+          "completed": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "5c75f1373a78421d9b0545ff500ca155",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": true,
+            "readerId": "0f0e43f2946a2435b9b0707e9a4b5aea",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.203,
+            "availableSeconds": 20.0,
+            "durationSeconds": 20.0
+          },
+          "cancelled": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "5c75f1373a78421d9b0545ff500ca155",
+            "state": "cancelled",
+            "error": "",
+            "schemaVersion": 1,
+            "released": false,
+            "readerId": "0f0e43f2946a2435b9b0707e9a4b5aea"
+          },
+          "liveReceipt": {
+            "version": 1,
+            "readerId": "0f0e43f2946a2435b9b0707e9a4b5aea",
+            "sessionId": "5c75f1373a78421d9b0545ff500ca155",
+            "generation": "1",
+            "pid": 7412,
+            "birth": "134385784064606082",
+            "filesClosed": false,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "2251799814721953"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "2251799814721954"
+              }
+            ],
+            "released": false,
+            "reason": "lease-held"
+          },
+          "releasedReceipt": {
+            "version": 1,
+            "readerId": "0f0e43f2946a2435b9b0707e9a4b5aea",
+            "sessionId": "5c75f1373a78421d9b0545ff500ca155",
+            "generation": "1",
+            "pid": 7412,
+            "birth": "134385784064606082",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "2251799814721953"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "2251799814721954"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "nativeReleasedReceipt": {
+            "version": 1,
+            "readerId": "0f0e43f2946a2435b9b0707e9a4b5aea",
+            "sessionId": "5c75f1373a78421d9b0545ff500ca155",
+            "generation": "1",
+            "pid": 7412,
+            "birth": "134385784064606082",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "2251799814721953"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "2251799814721954"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ]
+        },
+        {
+          "result": "PASS",
+          "requestedLength": 120,
+          "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре",
+          "actualTemp": {
+            "progressiveTempDirectory": {
+              "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\"
+            }
+          },
+          "requestedTempHonored": true,
+          "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-1d53a8f4cbafbbb7.progressive.readers",
+          "registryLength": 172,
+          "fragmented": true,
+          "started": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "93c28b967df742db96e17a4f911b300f",
+            "state": "buffering",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "6aff3894c743e818ea9b19283f670a0c",
+            "schemaVersion": 1,
+            "positionSeconds": 0.0,
+            "availableSeconds": 16.0,
+            "durationSeconds": 20.0
+          },
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "93c28b967df742db96e17a4f911b300f",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "6aff3894c743e818ea9b19283f670a0c",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.273,
+            "availableSeconds": 16.0,
+            "durationSeconds": 20.0
+          },
+          "completed": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "93c28b967df742db96e17a4f911b300f",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": true,
+            "readerId": "6aff3894c743e818ea9b19283f670a0c",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.273,
+            "availableSeconds": 20.0,
+            "durationSeconds": 20.0
+          },
+          "cancelled": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "93c28b967df742db96e17a4f911b300f",
+            "state": "cancelled",
+            "error": "",
+            "schemaVersion": 1,
+            "released": false,
+            "readerId": "6aff3894c743e818ea9b19283f670a0c"
+          },
+          "liveReceipt": {
+            "version": 1,
+            "readerId": "6aff3894c743e818ea9b19283f670a0c",
+            "sessionId": "93c28b967df742db96e17a4f911b300f",
+            "generation": "1",
+            "pid": 7412,
+            "birth": "134385784064606082",
+            "filesClosed": false,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "2533274791432610"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "2251799814721958"
+              }
+            ],
+            "released": false,
+            "reason": "lease-held"
+          },
+          "releasedReceipt": {
+            "version": 1,
+            "readerId": "6aff3894c743e818ea9b19283f670a0c",
+            "sessionId": "93c28b967df742db96e17a4f911b300f",
+            "generation": "1",
+            "pid": 7412,
+            "birth": "134385784064606082",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "2533274791432610"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "2251799814721958"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "nativeReleasedReceipt": {
+            "version": 1,
+            "readerId": "6aff3894c743e818ea9b19283f670a0c",
+            "sessionId": "93c28b967df742db96e17a4f911b300f",
+            "generation": "1",
+            "pid": 7412,
+            "birth": "134385784064606082",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "2533274791432610"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "2251799814721958"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "sourceSha256": [
+            "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+            "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+          ]
+        },
+        {
+          "result": "PASS",
+          "requestedLength": 240,
+          "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx",
+          "actualTemp": {
+            "progressiveTempDirectory": {
+              "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\"
+            }
+          },
+          "requestedTempHonored": true,
+          "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-8963648aa1b63d14.progressive.readers",
+          "registryLength": 292,
+          "fragmented": false,
+          "started": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "b68a1b19ce3048cca597b6cac2d44c1e",
+            "state": "buffering",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "ccfd46cd25f7e39afab990e93b843482",
+            "schemaVersion": 1,
+            "positionSeconds": 0.0,
+            "availableSeconds": 0.0,
+            "durationSeconds": 20.0
+          },
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "b68a1b19ce3048cca597b6cac2d44c1e",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "ccfd46cd25f7e39afab990e93b843482",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.237,
+            "availableSeconds": 15.8933333,
+            "durationSeconds": 20.0
+          },
+          "completed": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "b68a1b19ce3048cca597b6cac2d44c1e",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": true,
+            "readerId": "ccfd46cd25f7e39afab990e93b843482",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.237,
+            "availableSeconds": 20.0,
+            "durationSeconds": 20.0
+          },
+          "cancelled": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "b68a1b19ce3048cca597b6cac2d44c1e",
+            "state": "cancelled",
+            "error": "",
+            "schemaVersion": 1,
+            "released": false,
+            "readerId": "ccfd46cd25f7e39afab990e93b843482"
+          },
+          "liveReceipt": {
+            "version": 1,
+            "readerId": "ccfd46cd25f7e39afab990e93b843482",
+            "sessionId": "b68a1b19ce3048cca597b6cac2d44c1e",
+            "generation": "1",
+            "pid": 8312,
+            "birth": "134385784098590340",
+            "filesClosed": false,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "1688849861301529"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "1125899907880219"
+              }
+            ],
+            "released": false,
+            "reason": "lease-held"
+          },
+          "releasedReceipt": {
+            "version": 1,
+            "readerId": "ccfd46cd25f7e39afab990e93b843482",
+            "sessionId": "b68a1b19ce3048cca597b6cac2d44c1e",
+            "generation": "1",
+            "pid": 8312,
+            "birth": "134385784098590340",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "1688849861301529"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "1125899907880219"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "nativeReleasedReceipt": {
+            "version": 1,
+            "readerId": "ccfd46cd25f7e39afab990e93b843482",
+            "sessionId": "b68a1b19ce3048cca597b6cac2d44c1e",
+            "generation": "1",
+            "pid": 8312,
+            "birth": "134385784098590340",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "1688849861301529"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "1125899907880219"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "sourceSha256": [
+            "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+            "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+          ]
+        },
+        {
+          "result": "PASS",
+          "requestedLength": 240,
+          "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx",
+          "actualTemp": {
+            "progressiveTempDirectory": {
+              "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\"
+            }
+          },
+          "requestedTempHonored": true,
+          "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-8963648aa1b63d14.progressive.readers",
+          "registryLength": 292,
+          "fragmented": true,
+          "started": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "84827bd8bfbb4b3f9ee255ec1ad83230",
+            "state": "buffering",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "8a506c1038062fb69a82805d490d46d3",
+            "schemaVersion": 1,
+            "positionSeconds": 0.0,
+            "availableSeconds": 16.0,
+            "durationSeconds": 20.0
+          },
+          "playing": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "84827bd8bfbb4b3f9ee255ec1ad83230",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "8a506c1038062fb69a82805d490d46d3",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.22,
+            "availableSeconds": 16.0,
+            "durationSeconds": 20.0
+          },
+          "completed": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "84827bd8bfbb4b3f9ee255ec1ad83230",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": true,
+            "readerId": "8a506c1038062fb69a82805d490d46d3",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.266,
+            "availableSeconds": 20.0,
+            "durationSeconds": 20.0
+          },
+          "cancelled": {
+            "version": 1,
+            "ok": true,
+            "active": false,
+            "sessionId": "84827bd8bfbb4b3f9ee255ec1ad83230",
+            "state": "cancelled",
+            "error": "",
+            "schemaVersion": 1,
+            "released": false,
+            "readerId": "8a506c1038062fb69a82805d490d46d3"
+          },
+          "liveReceipt": {
+            "version": 1,
+            "readerId": "8a506c1038062fb69a82805d490d46d3",
+            "sessionId": "84827bd8bfbb4b3f9ee255ec1ad83230",
+            "generation": "1",
+            "pid": 8312,
+            "birth": "134385784098590340",
+            "filesClosed": false,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "1407374884590875"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "1407374884590878"
+              }
+            ],
+            "released": false,
+            "reason": "lease-held"
+          },
+          "releasedReceipt": {
+            "version": 1,
+            "readerId": "8a506c1038062fb69a82805d490d46d3",
+            "sessionId": "84827bd8bfbb4b3f9ee255ec1ad83230",
+            "generation": "1",
+            "pid": 8312,
+            "birth": "134385784098590340",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "1407374884590875"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "1407374884590878"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "nativeReleasedReceipt": {
+            "version": 1,
+            "readerId": "8a506c1038062fb69a82805d490d46d3",
+            "sessionId": "84827bd8bfbb4b3f9ee255ec1ad83230",
+            "generation": "1",
+            "pid": 8312,
+            "birth": "134385784098590340",
+            "filesClosed": true,
+            "resources": [
+              {
+                "id": "video",
+                "device": "656024512",
+                "fileId": "1407374884590875"
+              },
+              {
+                "id": "audio",
+                "device": "656024512",
+                "fileId": "1407374884590878"
+              }
+            ],
+            "released": true,
+            "reason": "files-closed"
+          },
+          "sourceSha256": [
+            "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+            "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+          ]
+        }
+      ],
+      "launches": [
+        {
+          "pid": 7412,
+          "requestedLength": 120,
+          "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре",
+          "actualTemp": {
+            "progressiveTempDirectory": {
+              "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\"
+            }
+          },
+          "requestedTempHonored": true,
+          "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-1d53a8f4cbafbbb7.progressive.readers",
+          "nativeTempProbeExit": 0,
+          "nativeExit": 0,
+          "phase": "normal-exit",
+          "fragmented": true,
+          "apiStartWallSeconds": 0.0,
+          "acceptedStart": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "93c28b967df742db96e17a4f911b300f",
+            "state": "buffering",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "6aff3894c743e818ea9b19283f670a0c",
+            "schemaVersion": 1,
+            "positionSeconds": 0.0,
+            "availableSeconds": 16.0,
+            "durationSeconds": 20.0
+          },
+          "statusChecks": 24,
+          "lastStatus": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "93c28b967df742db96e17a4f911b300f",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "6aff3894c743e818ea9b19283f670a0c",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.273,
+            "availableSeconds": 16.0,
+            "durationSeconds": 20.0
+          },
+          "longestStatusReplySeconds": 0.10899999999674037,
+          "forcedCleanup": false
+        },
+        {
+          "pid": 8312,
+          "requestedLength": 240,
+          "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx",
+          "actualTemp": {
+            "progressiveTempDirectory": {
+              "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\"
+            }
+          },
+          "requestedTempHonored": true,
+          "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-8963648aa1b63d14.progressive.readers",
+          "nativeTempProbeExit": 0,
+          "nativeExit": 0,
+          "phase": "normal-exit",
+          "fragmented": true,
+          "apiStartWallSeconds": 0.0,
+          "acceptedStart": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "84827bd8bfbb4b3f9ee255ec1ad83230",
+            "state": "buffering",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "8a506c1038062fb69a82805d490d46d3",
+            "schemaVersion": 1,
+            "positionSeconds": 0.0,
+            "availableSeconds": 16.0,
+            "durationSeconds": 20.0
+          },
+          "statusChecks": 25,
+          "lastStatus": {
+            "version": 1,
+            "ok": true,
+            "active": true,
+            "sessionId": "84827bd8bfbb4b3f9ee255ec1ad83230",
+            "state": "playing",
+            "error": "",
+            "released": false,
+            "connected": true,
+            "complete": false,
+            "readerId": "8a506c1038062fb69a82805d490d46d3",
+            "schemaVersion": 1,
+            "audioSelection": {
+              "count": 1,
+              "index": 0
+            },
+            "loadedSubtitleCount": 0,
+            "appliedMetadata": {
+              "revision": "",
+              "title": "видео",
+              "chapters": []
+            },
+            "controls": {
+              "speed": 1.0,
+              "volumePercent": 100,
+              "muted": false
+            },
+            "positionSeconds": 0.22,
+            "availableSeconds": 16.0,
+            "durationSeconds": 20.0
+          },
+          "longestStatusReplySeconds": 0.10899999999674037,
+          "forcedCleanup": false
+        }
+      ],
+      "privateCopiesRemoved": false,
+      "runtimeRegistriesRemoved": [
+        "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-1d53a8f4cbafbbb7.progressive.readers",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-8963648aa1b63d14.progressive.readers"
+      ],
+      "parentEnvironmentUnchanged": true,
+      "shellRegistrationUnchanged": true,
+      "tempMode": "environment",
+      "exactTempRequired": true
+    }
+  },
+  "retainedFailures": [
+    {
+      "name": "runtime-temp-classic-baseline",
+      "exitCode": 1,
+      "note": "Unchanged Classic320 start timeout; matched environment resolver oracle",
+      "observations": {
+        "rows": [],
+        "launches": [
+          {
+            "pid": 10320,
+            "requestedLength": 320,
+            "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-im02hcvp\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx",
+            "actualTemp": {
+              "progressiveTempDirectory": {
+                "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-im02hcvp\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\"
+              }
+            },
+            "requestedTempHonored": true,
+            "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-im02hcvp\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-fbed77fb97b1cf78.progressive.readers",
+            "nativeTempProbeExit": 0,
+            "nativeExit": 1,
+            "phase": "start-request",
+            "fragmented": false
+          }
+        ],
+        "runtimeRegistriesRemoved": [],
+        "shellRegistrationUnchanged": true,
+        "parentEnvironmentUnchanged": true
+      },
+      "logSha256": "73fb0b8e3ed1b8fff84e64cc07efafb2369686b954cff5c72c02d7124c85aecf"
+    },
+    {
+      "name": "runtime-temp-classic-fixed",
+      "exitCode": 1,
+      "note": "Four short playback rows passed; Classic320 start accepted but growing clock never advanced",
+      "observations": {
+        "rows": [
+          {
+            "result": "PASS",
+            "requestedLength": 120,
+            "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре",
+            "actualTemp": {
+              "progressiveTempDirectory": {
+                "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\"
+              }
+            },
+            "requestedTempHonored": true,
+            "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-6de01f6867913158.progressive.readers",
+            "registryLength": 172,
+            "fragmented": false,
+            "started": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "f4dc7f2b14d04d80a86715117053ea46",
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "1aee9d8381e89e1ada9c4205509f2255",
+              "schemaVersion": 1,
+              "positionSeconds": 0.0,
+              "availableSeconds": 0.0,
+              "durationSeconds": 20.0
+            },
+            "playing": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "f4dc7f2b14d04d80a86715117053ea46",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "1aee9d8381e89e1ada9c4205509f2255",
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "controls": {
+                "speed": 1.0,
+                "volumePercent": 100,
+                "muted": false
+              },
+              "positionSeconds": 0.221,
+              "availableSeconds": 15.8933333,
+              "durationSeconds": 20.0
+            },
+            "completed": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "f4dc7f2b14d04d80a86715117053ea46",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": true,
+              "readerId": "1aee9d8381e89e1ada9c4205509f2255",
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "controls": {
+                "speed": 1.0,
+                "volumePercent": 100,
+                "muted": false
+              },
+              "positionSeconds": 0.221,
+              "availableSeconds": 20.0,
+              "durationSeconds": 20.0
+            },
+            "cancelled": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "f4dc7f2b14d04d80a86715117053ea46",
+              "state": "cancelled",
+              "error": "",
+              "schemaVersion": 1,
+              "released": false,
+              "readerId": "1aee9d8381e89e1ada9c4205509f2255"
+            },
+            "liveReceipt": {
+              "version": 1,
+              "readerId": "1aee9d8381e89e1ada9c4205509f2255",
+              "sessionId": "f4dc7f2b14d04d80a86715117053ea46",
+              "generation": "1",
+              "pid": 7592,
+              "birth": "134385782629545619",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1407374884589983"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1407374884589984"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            "releasedReceipt": {
+              "version": 1,
+              "readerId": "1aee9d8381e89e1ada9c4205509f2255",
+              "sessionId": "f4dc7f2b14d04d80a86715117053ea46",
+              "generation": "1",
+              "pid": 7592,
+              "birth": "134385782629545619",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1407374884589983"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1407374884589984"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            "nativeReleasedReceipt": {
+              "version": 1,
+              "readerId": "1aee9d8381e89e1ada9c4205509f2255",
+              "sessionId": "f4dc7f2b14d04d80a86715117053ea46",
+              "generation": "1",
+              "pid": 7592,
+              "birth": "134385782629545619",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1407374884589983"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1407374884589984"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            "sourceSha256": [
+              "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+              "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+            ]
+          },
+          {
+            "result": "PASS",
+            "requestedLength": 120,
+            "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре",
+            "actualTemp": {
+              "progressiveTempDirectory": {
+                "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\"
+              }
+            },
+            "requestedTempHonored": true,
+            "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-6de01f6867913158.progressive.readers",
+            "registryLength": 172,
+            "fragmented": true,
+            "started": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "86e7741232604b64be9ab9c5e41ed6c1",
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "02db647e407b9bbb25d1b593515cb69f",
+              "schemaVersion": 1,
+              "positionSeconds": 0.0,
+              "availableSeconds": 16.0,
+              "durationSeconds": 20.0
+            },
+            "playing": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "86e7741232604b64be9ab9c5e41ed6c1",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "02db647e407b9bbb25d1b593515cb69f",
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "controls": {
+                "speed": 1.0,
+                "volumePercent": 100,
+                "muted": false
+              },
+              "positionSeconds": 0.22,
+              "availableSeconds": 16.0,
+              "durationSeconds": 20.0
+            },
+            "completed": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "86e7741232604b64be9ab9c5e41ed6c1",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": true,
+              "readerId": "02db647e407b9bbb25d1b593515cb69f",
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "controls": {
+                "speed": 1.0,
+                "volumePercent": 100,
+                "muted": false
+              },
+              "positionSeconds": 0.22,
+              "availableSeconds": 20.0,
+              "durationSeconds": 20.0
+            },
+            "cancelled": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "86e7741232604b64be9ab9c5e41ed6c1",
+              "state": "cancelled",
+              "error": "",
+              "schemaVersion": 1,
+              "released": false,
+              "readerId": "02db647e407b9bbb25d1b593515cb69f"
+            },
+            "liveReceipt": {
+              "version": 1,
+              "readerId": "02db647e407b9bbb25d1b593515cb69f",
+              "sessionId": "86e7741232604b64be9ab9c5e41ed6c1",
+              "generation": "1",
+              "pid": 7592,
+              "birth": "134385782629545619",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1688849861300640"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1688849861300643"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            "releasedReceipt": {
+              "version": 1,
+              "readerId": "02db647e407b9bbb25d1b593515cb69f",
+              "sessionId": "86e7741232604b64be9ab9c5e41ed6c1",
+              "generation": "1",
+              "pid": 7592,
+              "birth": "134385782629545619",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1688849861300640"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1688849861300643"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            "nativeReleasedReceipt": {
+              "version": 1,
+              "readerId": "02db647e407b9bbb25d1b593515cb69f",
+              "sessionId": "86e7741232604b64be9ab9c5e41ed6c1",
+              "generation": "1",
+              "pid": 7592,
+              "birth": "134385782629545619",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1688849861300640"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1688849861300643"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            "sourceSha256": [
+              "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+              "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+            ]
+          },
+          {
+            "result": "PASS",
+            "requestedLength": 240,
+            "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx",
+            "actualTemp": {
+              "progressiveTempDirectory": {
+                "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\"
+              }
+            },
+            "requestedTempHonored": true,
+            "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-5e78bfaaf811af4f.progressive.readers",
+            "registryLength": 292,
+            "fragmented": false,
+            "started": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "33ce0bef1a564b9dbe7c7aaa2a4576c5",
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "20d459f7e013643d30c19c9b84adee09",
+              "schemaVersion": 1,
+              "positionSeconds": 0.0,
+              "availableSeconds": 0.0,
+              "durationSeconds": 20.0
+            },
+            "playing": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "33ce0bef1a564b9dbe7c7aaa2a4576c5",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "20d459f7e013643d30c19c9b84adee09",
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "controls": {
+                "speed": 1.0,
+                "volumePercent": 100,
+                "muted": false
+              },
+              "positionSeconds": 0.238,
+              "availableSeconds": 15.8933333,
+              "durationSeconds": 20.0
+            },
+            "completed": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "33ce0bef1a564b9dbe7c7aaa2a4576c5",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": true,
+              "readerId": "20d459f7e013643d30c19c9b84adee09",
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "controls": {
+                "speed": 1.0,
+                "volumePercent": 100,
+                "muted": false
+              },
+              "positionSeconds": 0.238,
+              "availableSeconds": 20.0,
+              "durationSeconds": 20.0
+            },
+            "cancelled": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "33ce0bef1a564b9dbe7c7aaa2a4576c5",
+              "state": "cancelled",
+              "error": "",
+              "schemaVersion": 1,
+              "released": false,
+              "readerId": "20d459f7e013643d30c19c9b84adee09"
+            },
+            "liveReceipt": {
+              "version": 1,
+              "readerId": "20d459f7e013643d30c19c9b84adee09",
+              "sessionId": "33ce0bef1a564b9dbe7c7aaa2a4576c5",
+              "generation": "1",
+              "pid": 6380,
+              "birth": "134385782660867962",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "844424931169557"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "844424931169558"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            "releasedReceipt": {
+              "version": 1,
+              "readerId": "20d459f7e013643d30c19c9b84adee09",
+              "sessionId": "33ce0bef1a564b9dbe7c7aaa2a4576c5",
+              "generation": "1",
+              "pid": 6380,
+              "birth": "134385782660867962",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "844424931169557"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "844424931169558"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            "nativeReleasedReceipt": {
+              "version": 1,
+              "readerId": "20d459f7e013643d30c19c9b84adee09",
+              "sessionId": "33ce0bef1a564b9dbe7c7aaa2a4576c5",
+              "generation": "1",
+              "pid": 6380,
+              "birth": "134385782660867962",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "844424931169557"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "844424931169558"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            "sourceSha256": [
+              "0c8ac5ef2520553a2a4e5d4ad29f2b5095dcf4d7b6a490f338ef99832bab411e",
+              "2cb8972324b32b859731691a63327bfc45fc878eb56e44308a8910c708a9d07a"
+            ]
+          },
+          {
+            "result": "PASS",
+            "requestedLength": 240,
+            "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx",
+            "actualTemp": {
+              "progressiveTempDirectory": {
+                "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\"
+              }
+            },
+            "requestedTempHonored": true,
+            "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-5e78bfaaf811af4f.progressive.readers",
+            "registryLength": 292,
+            "fragmented": true,
+            "started": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "b01b76cdaff942e8baceee3363c35850",
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "176a7b55f90e142fa351a1989a267f4a",
+              "schemaVersion": 1,
+              "positionSeconds": 0.0,
+              "availableSeconds": 16.0,
+              "durationSeconds": 20.0
+            },
+            "playing": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "b01b76cdaff942e8baceee3363c35850",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "176a7b55f90e142fa351a1989a267f4a",
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "controls": {
+                "speed": 1.0,
+                "volumePercent": 100,
+                "muted": false
+              },
+              "positionSeconds": 0.221,
+              "availableSeconds": 16.0,
+              "durationSeconds": 20.0
+            },
+            "completed": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "b01b76cdaff942e8baceee3363c35850",
+              "state": "playing",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": true,
+              "readerId": "176a7b55f90e142fa351a1989a267f4a",
+              "schemaVersion": 1,
+              "audioSelection": {
+                "count": 1,
+                "index": 0
+              },
+              "loadedSubtitleCount": 0,
+              "appliedMetadata": {
+                "revision": "",
+                "title": "видео",
+                "chapters": []
+              },
+              "controls": {
+                "speed": 1.0,
+                "volumePercent": 100,
+                "muted": false
+              },
+              "positionSeconds": 0.221,
+              "availableSeconds": 20.0,
+              "durationSeconds": 20.0
+            },
+            "cancelled": {
+              "version": 1,
+              "ok": true,
+              "active": false,
+              "sessionId": "b01b76cdaff942e8baceee3363c35850",
+              "state": "cancelled",
+              "error": "",
+              "schemaVersion": 1,
+              "released": false,
+              "readerId": "176a7b55f90e142fa351a1989a267f4a"
+            },
+            "liveReceipt": {
+              "version": 1,
+              "readerId": "176a7b55f90e142fa351a1989a267f4a",
+              "sessionId": "b01b76cdaff942e8baceee3363c35850",
+              "generation": "1",
+              "pid": 6380,
+              "birth": "134385782660867962",
+              "filesClosed": false,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1125899907880214"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1125899907880217"
+                }
+              ],
+              "released": false,
+              "reason": "lease-held"
+            },
+            "releasedReceipt": {
+              "version": 1,
+              "readerId": "176a7b55f90e142fa351a1989a267f4a",
+              "sessionId": "b01b76cdaff942e8baceee3363c35850",
+              "generation": "1",
+              "pid": 6380,
+              "birth": "134385782660867962",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1125899907880214"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1125899907880217"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            "nativeReleasedReceipt": {
+              "version": 1,
+              "readerId": "176a7b55f90e142fa351a1989a267f4a",
+              "sessionId": "b01b76cdaff942e8baceee3363c35850",
+              "generation": "1",
+              "pid": 6380,
+              "birth": "134385782660867962",
+              "filesClosed": true,
+              "resources": [
+                {
+                  "id": "video",
+                  "device": "656024512",
+                  "fileId": "1125899907880214"
+                },
+                {
+                  "id": "audio",
+                  "device": "656024512",
+                  "fileId": "1125899907880217"
+                }
+              ],
+              "released": true,
+              "reason": "files-closed"
+            },
+            "sourceSha256": [
+              "bf64578cf6dc42c7c389d3099729b63005fa0fba491691642cb8ca6c40280d37",
+              "c3c63e851367f44032edb42ae55687025bf80f6ef30eb1d782e2f49018698fb4"
+            ]
+          }
+        ],
+        "launches": [
+          {
+            "pid": 7592,
+            "requestedLength": 120,
+            "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре",
+            "actualTemp": {
+              "progressiveTempDirectory": {
+                "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\"
+              }
+            },
+            "requestedTempHonored": true,
+            "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-6de01f6867913158.progressive.readers",
+            "nativeTempProbeExit": 0,
+            "nativeExit": 0,
+            "phase": "normal-exit",
+            "fragmented": true
+          },
+          {
+            "pid": 6380,
+            "requestedLength": 240,
+            "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx",
+            "actualTemp": {
+              "progressiveTempDirectory": {
+                "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\"
+              }
+            },
+            "requestedTempHonored": true,
+            "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-5e78bfaaf811af4f.progressive.readers",
+            "nativeTempProbeExit": 0,
+            "nativeExit": 0,
+            "phase": "normal-exit",
+            "fragmented": true
+          },
+          {
+            "pid": 7340,
+            "requestedLength": 320,
+            "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx",
+            "actualTemp": {
+              "progressiveTempDirectory": {
+                "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\"
+              }
+            },
+            "requestedTempHonored": true,
+            "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-179965dd97d3c20e.progressive.readers",
+            "nativeTempProbeExit": 0,
+            "nativeExit": 1,
+            "phase": "start-accepted",
+            "fragmented": false
+          }
+        ],
+        "runtimeRegistriesRemoved": [
+          "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-120\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Вре\\FoxicMPClassic-6de01f6867913158.progressive.readers",
+          "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-240\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-5e78bfaaf811af4f.progressive.readers",
+          "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq\\temp-320\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxx\\FoxicMPClassic-179965dd97d3c20e.progressive.readers"
+        ],
+        "shellRegistrationUnchanged": true,
+        "parentEnvironmentUnchanged": true
+      },
+      "logSha256": "fef8734b21fe290eb5495f6254d57abb076ab3b5380ed404c5f9db400144b752"
+    },
+    {
+      "name": "runtime-temp-classic-1100-observed",
+      "exitCode": 1,
+      "note": "Classic1100 start accepted; 292 status replies, buffering/zero clock. Persisted registry receipt read by native helper after forced process-exit cleanup, not explicit filesClosed.",
+      "observations": {
+        "rows": [],
+        "launches": [
+          {
+            "pid": 12244,
+            "requestedLength": 1100,
+            "requestedDirectory": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-wmsia_6l\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx",
+            "actualTemp": {
+              "progressiveTempDirectory": {
+                "path": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-wmsia_6l\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx\\"
+              }
+            },
+            "requestedTempHonored": true,
+            "registry": "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-wmsia_6l\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx\\FoxicMPClassic-6579a5f0fbd1620e.progressive.readers",
+            "nativeTempProbeExit": 0,
+            "nativeExit": 1,
+            "phase": "start-accepted",
+            "fragmented": false,
+            "apiStartWallSeconds": 0.015000000013969839,
+            "acceptedStart": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "b318efe6f05e43dbbde2a2c9ddc7c56d",
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "a534fb2d72fd6a4982a8d0028103b336",
+              "schemaVersion": 1,
+              "positionSeconds": 0.0,
+              "availableSeconds": 0.0,
+              "durationSeconds": 20.0
+            },
+            "statusChecks": 292,
+            "lastStatus": {
+              "version": 1,
+              "ok": true,
+              "active": true,
+              "sessionId": "b318efe6f05e43dbbde2a2c9ddc7c56d",
+              "state": "buffering",
+              "error": "",
+              "released": false,
+              "connected": true,
+              "complete": false,
+              "readerId": "a534fb2d72fd6a4982a8d0028103b336",
+              "schemaVersion": 1,
+              "positionSeconds": 0.0,
+              "availableSeconds": 0.0,
+              "durationSeconds": 20.0
+            },
+            "longestStatusReplySeconds": 0.01600000000325963,
+            "forcedCleanup": true,
+            "failureCleanupReceipts": [
+              {
+                "version": 1,
+                "readerId": "a534fb2d72fd6a4982a8d0028103b336",
+                "sessionId": "b318efe6f05e43dbbde2a2c9ddc7c56d",
+                "generation": "1",
+                "pid": 12244,
+                "birth": "134385783891143750",
+                "filesClosed": false,
+                "resources": [
+                  {
+                    "id": "video",
+                    "device": "656024512",
+                    "fileId": "1407374884590009"
+                  },
+                  {
+                    "id": "audio",
+                    "device": "656024512",
+                    "fileId": "1407374884590010"
+                  }
+                ],
+                "released": true,
+                "reason": "process-exited"
+              }
+            ]
+          }
+        ],
+        "runtimeRegistriesRemoved": [
+          "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-wmsia_6l\\temp-1100\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлы xxxxxxxxxxxxxxxxxxxxxxxxx\\Временные файлыx\\FoxicMPClassic-6579a5f0fbd1620e.progressive.readers"
+        ],
+        "shellRegistrationUnchanged": true,
+        "parentEnvironmentUnchanged": true
+      },
+      "logSha256": "6b16b45c5122b3eb50e75c1347ddbd4fe6b65ce60420cece479199eddbc5377a"
+    }
+  ],
+  "builds": {
+    "runtime-temp-classic-compile": 0,
+    "runtime-temp-classic-link": 0,
+    "runtime-temp-classic-build": 0,
+    "runtime-temp-native-build": 0,
+    "runtime-temp-final-probe-build": 0,
+    "runtime-temp-ctest-build": 0
+  },
+  "buildScope": "Private MSVC ClassicProgressiveApi object recompile/link with prior checked objects/libs; native helpers built with MinGW; not a clean release build",
+  "executableSha256": {
+    "baselineClassic": "e5b7eb0cc2a64746ffa677b222f512702987307b00ecb967719dcb0dd2bbe077",
+    "candidateClassic": "308e046b559f01fa55bab8494eec6a59cad7ab5b65ea0e54ea3abe1f46e7983f",
+    "readerForClassic": "366c26752a26dbce00e9d25d22533df1978d4c097801e7113e5043921236dedb",
+    "unawareManifestControl": "f40eff182b214a009b85445a20e4c68f866cef3817b5aa600e5dbbafdc807f5a",
+    "awareManifestControl": "96b0f4de7760735ce10d128572f3674614cfc63268e3072b28402b3ff407c383"
+  },
+  "sources": {
+    "shared/progressivetemppath_win.h": "038468496b909af9739b29cd4b1680ddf6aff61fb2707ef498643bf25a712b91",
+    "src/apps/mplayerc/ClassicProgressiveApi.cpp": "beb181fe42a41469d8927be5828085fbbc08d87fbc7d8caeb1c4fdafa954f8c2",
+    "tests/progressive_reader_cli.cpp": "beb0789cbbc700102dc211ba41cbf7b346716ffbab6c3632062b9df0491cbf5e",
+    "tests/windows/classic_runtime_paths_test.py": "764f90913777339cf6047e0cade9a67a15a9e381bbaca4c59b5eb91ea424a1bd",
+    "tests/windows/progressive_temp_directory_test.py": "a83f67951287fa013dafb3e474f7e7b6ac718325269cdd111455f5da068e538f",
+    "tests/windows/runtime_child_probe.py": "a2080efdebac23d73172f8e6f50080f66339b78083548a65287a0cd57a2d28b3",
+    "tests/windows/runtime_paths_aware.rc": "3d966d79f92cb8d7dc0d155f7cee060d0b5473bb35ab887bb07652a5a3046b4b",
+    "tests/windows/runtime_paths_aware.manifest": "3242062989f717f0f1846b13ad2082e37438d32bdc33903effeaecaa6cfb7382",
+    "qt/CMakeLists.txt": "bb7c1c0a1f1386affb40efad1ed8bc1bc2be2ce15f84c3baf1b9e5cbc2e7e6ce"
+  },
+  "sourceScopeNote": "Final native control logs markers after allocation. Earlier native conformance/Classic helper binary has the same resolver/request code with marker placement before allocation in unused --temp-info diagnostic branch.",
+  "privateBuildInputs": {
+    "api-compile.rsp": "60078ddea94fa12a6b365e3e1de0b50d3660711d1fc39b42a0d0a87fd2489c9e",
+    "link.rsp": "27d538a0855e6e351cf5c1d21770a65439ee7b1cec9ddfa1723bd19358d3cba3",
+    "HarvesterSession.obj": "395e42db99dcb1aa87062e5f77f53adc0ff9aa47b6908274d60c987f70df56d7"
+  },
+  "protection": {
+    "fileCount": 583,
+    "allHashesUnchanged": true,
+    "shellEntries": 158,
+    "shellUnchanged": true,
+    "beforeHashesSha256": "f48bff929d96a923771c097b8d77b2a0ed19d75f616aa53d91b9c847d836a5b5",
+    "afterHashesSha256": "f48bff929d96a923771c097b8d77b2a0ed19d75f616aa53d91b9c847d836a5b5",
+    "beforeShellSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "afterShellSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "linuxInstalledMainSha256": "ec395df9c0b54e124107d2b6263890919fb092654230e5905c87f4e1c3b721ca",
+    "linuxIniSha256": "f3b64a705e0f841d915011c0728a541533151696f7020edc47e8499f099e7333",
+    "linuxCodeChanged": false,
+    "installedWindowsAppsChanged": false,
+    "harvesterChanged": false,
+    "publishedAssetsChanged": false
+  },
+  "cleanup": {
+    "privateRootsRemoved": [
+      "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-im02hcvp",
+      "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-s985i7uq",
+      "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-wmsia_6l",
+      "C:\\Users\\User\\AppData\\Local\\Temp\\foxicmp-classic-runtime-is95y7z8"
+    ],
+    "tasksRemaining": 0,
+    "matchingTestProcesses": [],
+    "removedTasks": [
+      {
+        "taskResult": 1,
+        "name": "FoxicMP-RuntimeTemp-Fixed-OneShot",
+        "state": "Ready"
+      },
+      {
+        "taskResult": 0,
+        "name": "FoxicMP-RuntimeTemp-Observe-OneShot",
+        "state": "Ready"
+      }
+    ]
+  },
+  "remaining": [
+    "Classic graph/source stays buffering under long TMP despite responsive IPC; locate the next wait",
+    "Exact Windows Qt long TEMP root versus observed OS fallback",
+    "Python parent/child startup boundary; GetTempPath observation does not by itself prove its call stack",
+    "Full progressive specification and release qualification"
+  ]
+}

@@ -1,5 +1,9 @@
 # Classic: временный каталог и Unicode reader CLI
 
+Уточнение 8 ноября: прежний native TEMP probe не имел longPathAware manifest.
+[Контроль с manifest Classic и частичное исправление registry](ProgressiveWindowsTempManifest.md)
+разделяет OS fallback и GetTempPathW timeout; полный long-TEMP playback открыт.
+
 7 ноября 2026. Продолжение [Qt runtime-path проверки](ProgressiveWindowsProfilePaths.md).
 Принят ограниченный срез Classic TEMP120/240. Запуск воспроизведения при
 TEMP320/1100 остаётся открытым; полного long-TEMP PASS нет.

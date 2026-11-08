@@ -10,6 +10,7 @@
 #include <initializer_list>
 #include "../../../shared/progressivesession.h"
 #include "../../../shared/progressivereaderlease.h"
+#include "../../../shared/progressivetemppath_win.h"
 #include "../../../shared/progressiveretirement.h"
 #include "../../../shared/progressiveresourceprobe.h"
 #include "../../../shared/progressivefmp4bridge.h"
@@ -88,9 +89,8 @@ std::string ClassicProgressiveApi::Information() {
     return Encode(d);
 }
 std::wstring ClassicProgressiveApi::ReaderRegistry() {
-    WCHAR temp[32768];const auto length=GetTempPathW(32768,temp);
-    if(!length || length>=32768)throw std::runtime_error("Cannot obtain private reader runtime path");
-    const auto endpoint=Endpoint();return std::wstring(temp,length)+endpoint.substr(endpoint.find_last_of(L'\\')+1)+L".readers";
+    const auto temp=foxicmp::progressive::WindowsTemporaryDirectory();
+    const auto endpoint=Endpoint();return temp+endpoint.substr(endpoint.find_last_of(L'\\')+1)+L".readers";
 }
 ClassicProgressiveApi::ClassicProgressiveApi(CMainFrame& frame):frame(frame) {
     stop=CreateEventW(nullptr,TRUE,FALSE,nullptr);

@@ -1286,3 +1286,19 @@ oracle, Unicode argv и Python temp probe сохранены отдельно о
 583 protected SHA/158 HKCU entries неизменны, четыре one-shot task удалены,
 owned процессов нет. Product main/INI/Harvester/assets не менялись; новая версия
 приложений и переустановка Linux для test-only изменений не нужны.
+
+### 8 ноября 2026: longPathAware и Classic registry без GetTempPathW
+
+[Matched manifest control локализовал GetTempPathW timeout](ProgressiveWindowsTempManifest.md)
+на TEMP320/1100 в aware native EXE; unaware вариант выбирает fallback. Старый
+probe не описывал Classic/Python manifest. В Classic progressive registry
+выбор перенесён на bounded environment resolver с прежней precedence и guards.
+11 native resolver checks/CTest и 6×13 reader checks прошли; четыре Classic
+short-TEMP playback случая и normal exits 0 сохранились. При TEMP1100 start
+теперь принят за ~15 ms, 292 status reply ответили, но clock/available остаются 0:
+long-TEMP playback открыт, normal filesClosed не подменён process-exit cleanup.
+[Частичный результат, точные коды и сохранённые отказы](ProgressiveWindowsTempManifestValidation-2026-11-08.json).
+583 protected SHA/158 HKCU entries сохранены, два one-shot task удалены.
+Windows установки/профили, Linux main/INI, assets и Harvester не менялись.
+Следующий шаг — наблюдать открытие графа/источника при длинном TMP;
+точный Windows Qt TEMP и внешний Python launcher также не закрыты.

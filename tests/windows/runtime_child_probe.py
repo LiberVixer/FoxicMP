@@ -13,6 +13,11 @@ if __name__=='__main__':
  print(json.dumps(dict(phase='before-popen',case=case)),flush=True)
  child=subprocess.Popen(case['command'],env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
  print(json.dumps(dict(phase='after-popen',pid=child.pid)),flush=True)
- out,err=child.communicate(timeout=case.get("timeout",10))
+ try:
+  out,err=child.communicate(timeout=case.get("timeout",10))
+ except subprocess.TimeoutExpired:
+  child.kill();out,err=child.communicate(timeout=3)
+  print(json.dumps(dict(phase='child-timeout',forcedCleanupExit=child.returncode,stdout=out.decode('utf-8',errors='replace'),stderr=err.decode('utf-8',errors='replace'))),flush=True)
+  faulthandler.cancel_dump_traceback_later();job.finish();sys.exit(124)
  print(json.dumps(dict(phase='child-exit',exit=child.returncode,stdout=out.decode('utf-8',errors='replace'),stderr=err.decode('utf-8',errors='replace'))),flush=True)
  faulthandler.cancel_dump_traceback_later();job.finish();sys.exit(child.returncode)

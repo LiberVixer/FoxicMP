@@ -37,6 +37,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('player', 'reader-runner', 'fixtures', 'report-directory'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--temp-mode', choices=('os', 'environment'), default='os')
+    parser.add_argument('--require-exact-temp', action='store_true')
     parser.add_argument('--temp-lengths', type=int, nargs='+', default=(120, 240))
     args = parser.parse_args()
     if any(n < 1 or n > 2000 for n in args.temp_lengths):
@@ -77,14 +79,14 @@ def main():
                 env = dict(os.environ)
                 for key in ('TMP', 'TEMP', 'TMPDIR'):
                     env[key] = str(requested)
-                probe = subprocess.run([str(args.reader_runner.resolve()), '--temp-info'],
+                probe = subprocess.run([str(args.reader_runner.resolve()), '--temp-info-safe' if args.temp_mode=='environment' else '--temp-info'],
                                        env=env, capture_output=True, timeout=10)
                 assert probe.returncode == 0, (probe.returncode, probe.stderr)
                 temp_info = json.loads(probe.stdout)
-                actual = Path(temp_info['GetTempPathW']['path'])
+                actual = Path(temp_info['progressiveTempDirectory' if args.temp_mode=='environment' else 'GetTempPathW']['path'])
                 honored = actual.resolve() == requested.resolve()
                 # These two points are intentionally different expectations.
-                if length <= 240:
+                if length <= 240 or args.require_exact_temp:
                     assert honored, (requested, actual, temp_info)
                 client = ProgressiveClient(str(player))
                 registry = actual / (client.endpoint.rsplit('\\', 1)[-1] + '.readers')
@@ -108,7 +110,11 @@ def main():
                     return value
 
                 def status_playing(session):
+                    began = time.monotonic()
                     status = client.command('heartbeat', session)
+                    launch['statusChecks'] = launch.get('statusChecks', 0) + 1
+                    launch['lastStatus'] = status
+                    launch['longestStatusReplySeconds'] = max(launch.get('longestStatusReplySeconds', 0), time.monotonic()-began)
                     assert status['state'] not in ('error', 'finished'), status
                     return status if status['state'] == 'playing' and status['positionSeconds'] > .2 else None
 
@@ -140,8 +146,13 @@ def main():
                                 expectedTotalBytes=len(data[i]), state='downloading')
                         launch.update(phase='start-request', fragmented=fragmented)
                         save('progress.json', dict(rows=rows, launches=launches))
-                        started = client.start(model, session_directory=str(folder), track_reader=True, activate=False)
+                        began = time.monotonic()
+                        try:
+                            started = client.start(model, session_directory=str(folder), track_reader=True, activate=False)
+                        finally:
+                            launch['apiStartWallSeconds'] = time.monotonic()-began
                         launch['phase'] = 'start-accepted'
+                        launch['acceptedStart'] = started
                         active = model['sessionId']
                         assert started.get('readerId'), started
                         playing = wait(lambda: status_playing(active), 'Actual growing Classic playback')
@@ -186,6 +197,7 @@ def main():
                         if active is not None and proc.poll() is None:
                             client.command('cancel', active)
                     finally:
+                        launch['forcedCleanup'] = proc.poll() is None
                         if proc.poll() is None:
                             proc.kill()
                             proc.wait(timeout=5)
@@ -195,6 +207,7 @@ def main():
                         # Failed-case cleanup also requires an explicit OS/release proof.
                         for path in registry.glob('*.lease'):
                             proof = native('readerStatus', readerId=path.stem)['reader']
+                            launch.setdefault('failureCleanupReceipts', []).append(proof)
                             assert proof['released'] and proof['reason'] in ('files-closed', 'process-exited', 'pid-reused'), proof
                             assert native('readerForget', readerId=path.stem)['forgotten']
                         assert not list(registry.glob('*.lease'))
@@ -205,7 +218,7 @@ def main():
         assert registration_snapshot() == shell_before, 'Classic shell registration changed'
         result = dict(result='PASS', count=len(rows), rows=rows, launches=launches,
                       privateCopiesRemoved=private_removed, runtimeRegistriesRemoved=cleanup,
-                      parentEnvironmentUnchanged=True, shellRegistrationUnchanged=True)
+                      parentEnvironmentUnchanged=True, shellRegistrationUnchanged=True, tempMode=args.temp_mode, exactTempRequired=args.require_exact_temp)
         save('result.json', result)
         print(json.dumps(dict(result='PASS', count=len(rows))))
         job.finish()

@@ -2,17 +2,31 @@
 #include "../shared/progressivereaderlease.h"
 #include <iostream>
 #include <vector>
+#ifdef _WIN32
+#include "../shared/progressivetemppath_win.h"
+#endif
 namespace p=foxicmp::progressive;
 namespace n=p::lease_detail;
 static int run(int argc,const char* const* argv) {
     try {
 #ifdef _WIN32
+        if(argc==2 && std::string(argv[1])=="--temp-info-safe") {
+            const auto path=std::filesystem::path(p::WindowsTemporaryDirectory()).u8string();
+            rapidjson::Document result;result.SetObject();auto& allocator=result.GetAllocator();
+            rapidjson::Value directory(rapidjson::kObjectType);directory.AddMember("path",rapidjson::Value(path.c_str(),allocator),allocator);
+            result.AddMember("progressiveTempDirectory",directory,allocator);
+            rapidjson::StringBuffer output;rapidjson::Writer<rapidjson::StringBuffer> writer(output);result.Accept(writer);
+            std::cout<<output.GetString()<<std::endl;return 0;
+        }
         if(argc==2 && std::string(argv[1])=="--temp-info") {
             rapidjson::Document result;result.SetObject();auto& allocator=result.GetAllocator();
             using TempFunction=DWORD(WINAPI*)(DWORD,LPWSTR);
             auto add=[&](const char* name,TempFunction function) {
                 if(!function){result.AddMember(rapidjson::Value(name,allocator),rapidjson::Value(),allocator);return;}
-                std::wstring buffer(32768,L'\0');const auto count=function(DWORD(buffer.size()),buffer.data());
+                std::wstring buffer(32768,L'\0');
+                std::cerr<<"temp-info:before-"<<name<<std::endl;
+                const auto count=function(DWORD(buffer.size()),buffer.data());
+                std::cerr<<"temp-info:after-"<<name<<":"<<count<<std::endl;
                 n::Check(count>0 && count<buffer.size(),"Cannot obtain bounded temporary path");buffer.resize(count);
                 const auto utf8=std::filesystem::path(buffer).u8string();
                 rapidjson::Value value(rapidjson::kObjectType);value.AddMember("path",rapidjson::Value(utf8.c_str(),allocator),allocator);
@@ -60,6 +74,7 @@ static int run(int argc,const char* const* argv) {
 // Windows CRT narrow argv uses the active code page, not UTF-8. Preserve the
 // real Unicode command line before passing strings to filesystem::u8path.
 int wmain(int argc,wchar_t** wide) {
+    if(argc==2 && std::wstring(wide[1])==L"--temp-info")std::cerr<<"temp-info:wide-main"<<std::endl;
     try {
         std::vector<std::string> storage;
         for(int i=0;i<argc;++i) {

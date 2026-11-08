@@ -1,5 +1,9 @@
 # Qt: writable profiles and Windows runtime paths
 
+Уточнение 8 ноября: прежний native TEMP probe не имел longPathAware manifest.
+[Контроль с manifest Classic и частичное исправление registry](ProgressiveWindowsTempManifest.md)
+разделяет OS fallback и GetTempPathW timeout; полный long-TEMP playback открыт.
+
 7 ноября 2026. Приложение 0.2.0, SDK 1.84; API, endpoints и defaults не менялись.
 Этот этап закрывает ограниченный writable-profile срез. Полное progressive ТЗ
 и точный Windows TEMP320/1100 остаются открытыми.
