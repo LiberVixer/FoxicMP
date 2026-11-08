@@ -35,7 +35,7 @@ inline std::wstring WindowsTemporaryDirectory() {
         }
         if(!selected.empty())break;
         // A racing environment must not silently select a different directory.
-        if(GetEnvironmentVariableW(name,nullptr,0))throw std::runtime_error("Temporary-directory environment is unstable");
+        if(GetEnvironmentVariableW(name,nullptr,0)>1)throw std::runtime_error("Temporary-directory environment is unstable");
     }
     if(selected.empty()) {
         std::wstring buffer(limit,L'\0');

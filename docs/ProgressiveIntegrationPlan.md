@@ -297,3 +297,14 @@ checks, четырём growing profiles и 16 controller PCM windows на Qt О�
 Classic явно отказывает новому профилю без reader, сохраняя прежнее воспроизведение;
 его output adapter остаётся открытым. Общие capabilities прежние, Qt-дополнение
 описано отдельно. Linux обновлён с backup и сохранением INI. Harvester не изменён.
+
+
+### 8 ноября 2026: environment внешнего Windows launcher
+
+[Classic empty-TMP fallback исправлен; внешний Python launch диагностирован](ProgressiveClassicEmptyTemp.md).
+Проверенный путь сохраняет обычный TMP запускающего процесса и передаёт long TMP
+только через child env. Три owned Python long-parent случая остановились внутри
+Windows CreateProcess/GetTempPathW до возврата Popen, даже с коротким child TMP.
+Harvester/Python/Windows не изменялись. Это конкретная внешняя граница,
+а не codec failure и не закрытый launcher gate; один subprocess timeout не
+доказывает bounded process creation. [Стек/коды/сохранность](ProgressiveClassicEmptyTempValidation-2026-11-08.json).

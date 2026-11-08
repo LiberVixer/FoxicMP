@@ -39,6 +39,7 @@ def main():
         parser.add_argument('--' + name, type=Path, required=True)
     parser.add_argument('--thread-snapshot', type=Path)
     parser.add_argument('--symbols', type=Path)
+    parser.add_argument('--empty-tmp', action='store_true')
     parser.add_argument('--temp-mode', choices=('os', 'environment'), default='os')
     parser.add_argument('--require-exact-temp', action='store_true')
     parser.add_argument('--temp-lengths', type=int, nargs='+', default=(120, 240))
@@ -81,6 +82,8 @@ def main():
                 env = dict(os.environ)
                 for key in ('TMP', 'TEMP', 'TMPDIR'):
                     env[key] = str(requested)
+                if args.empty_tmp:
+                    env['TMP'] = ''
                 probe = subprocess.run([str(args.reader_runner.resolve()), '--temp-info-safe' if args.temp_mode=='environment' else '--temp-info'],
                                        env=env, capture_output=True, timeout=10)
                 assert probe.returncode == 0, (probe.returncode, probe.stderr)
@@ -233,7 +236,7 @@ def main():
         assert registration_snapshot() == shell_before, 'Classic shell registration changed'
         result = dict(result='PASS', count=len(rows), rows=rows, launches=launches,
                       privateCopiesRemoved=private_removed, runtimeRegistriesRemoved=cleanup,
-                      parentEnvironmentUnchanged=True, shellRegistrationUnchanged=True, tempMode=args.temp_mode, exactTempRequired=args.require_exact_temp)
+                      parentEnvironmentUnchanged=True, shellRegistrationUnchanged=True, tempMode=args.temp_mode, exactTempRequired=args.require_exact_temp, emptyTmp=args.empty_tmp)
         save('result.json', result)
         print(json.dumps(dict(result='PASS', count=len(rows))))
         job.finish()

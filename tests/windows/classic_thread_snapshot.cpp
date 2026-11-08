@@ -58,7 +58,7 @@ struct Suspended {
     void resume(){if(held){check(ResumeThread(thread)!=DWORD(-1),"Resume owned thread");held=false;}}
     ~Suspended(){if(held)ResumeThread(thread);}
 };
-static rapidjson::Document capture(DWORD pid,const std::wstring& expected,const std::string& symbols,bool self=false) {
+static rapidjson::Document capture(DWORD pid,const std::wstring& expected,const std::string& symbols,bool self=false,bool ownedPython=false) {
     using namespace rapidjson;
     Handle process(OpenProcess(PROCESS_QUERY_INFORMATION|PROCESS_VM_READ|SYNCHRONIZE,FALSE,pid));check(process.h!=nullptr,"Open owned process");
     check(WaitForSingleObject(process.h,0)==WAIT_TIMEOUT,"Owned process exited");
@@ -66,7 +66,10 @@ static rapidjson::Document capture(DWORD pid,const std::wstring& expected,const 
     check(!_wcsicmp(std::wstring(image,size).c_str(),expected.c_str()),"Image ownership mismatch");
     if(!self){
         check(parent(pid)==parent(GetCurrentProcessId()),"Target is not a sibling child of this test driver");
-        check(expected.find(L"foxicmp-classic-runtime-")!=std::wstring::npos,"Target is not a private Classic test copy");
+        if(ownedPython)
+            check(!_wcsicmp(std::filesystem::path(expected).filename().c_str(),L"python.exe"),"Expected an owned Python fixture child");
+        else
+            check(expected.find(L"foxicmp-classic-runtime-")!=std::wstring::npos,"Target is not a private Classic test copy");
     }
     FILETIME birth{},exit{},kernel{},user{};check(GetProcessTimes(process.h,&birth,&exit,&kernel,&user)!=FALSE,"Process identity");
     Document result;result.SetObject();auto& a=result.GetAllocator();
@@ -144,9 +147,11 @@ int wmain(int argc,wchar_t** argv) {
             check(captured,"Fixture waiting thread stack and suspension count");
             result.AddMember("fixtureWorkerJoined",true,result.GetAllocator());
         }else{
-            check(argc==4,"Expected PID EXACT_PRIVATE_EXE LOCAL_SYMBOL_DIRECTORY");
-            const auto pid=std::stoul(argv[1]);check(pid>0 && pid<=MAXDWORD,"Invalid PID");
-            result=capture(DWORD(pid),argv[2],utf8(argv[3]));
+            const bool python=argc==5 && std::wstring(argv[1])==L"--owned-python-child";
+            check(argc==4 || python,"Expected [--owned-python-child] PID EXACT_EXE LOCAL_SYMBOL_DIRECTORY");
+            const auto first=python?2:1;
+            const auto pid=std::stoul(argv[first]);check(pid>0 && pid<=MAXDWORD,"Invalid PID");
+            result=capture(DWORD(pid),argv[first+1],utf8(argv[first+2]),false,python);
         }
         rapidjson::StringBuffer output;rapidjson::Writer<rapidjson::StringBuffer> writer(output);result.Accept(writer);std::cout<<output.GetString()<<std::endl;return 0;
     }catch(const std::exception& error){std::cerr<<error.what()<<std::endl;return 1;}

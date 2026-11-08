@@ -1,5 +1,9 @@
 # Windows Qt: точный длинный TEMP
 
+Продолжение 8 ноября: [Classic empty-TMP fallback проверен, внешний Python
+CreateProcess stall локализован](ProgressiveClassicEmptyTemp.md).
+Ниже сохранены результаты прежнего этапа.
+
 8 ноября 2026. Приложение 0.2.0 / SDK 1.84. Закрыт ограниченный Windows Qt
 runtime-path срез: TMP240/320/1100 действительно использован полным плеером,
 QSettings и декодером. Общее progressive ТЗ остаётся открытым.

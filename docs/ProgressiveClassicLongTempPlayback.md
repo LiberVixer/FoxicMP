@@ -1,5 +1,9 @@
 # Classic: воспроизведение при длинном TEMP
 
+Продолжение 8 ноября: [Classic empty-TMP fallback проверен, внешний Python
+CreateProcess stall локализован](ProgressiveClassicEmptyTemp.md).
+Ниже сохранены результаты прежнего этапа.
+
 Продолжение 8 ноября: [ограниченный Windows Qt exact-TEMP срез прошёл](ProgressiveQtExactTempPaths.md).
 Исторические fallback/Classic результаты ниже сохранены без переписывания.
 

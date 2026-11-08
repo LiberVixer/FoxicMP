@@ -43,6 +43,26 @@ def main():
                 assert actual.resolve() == directory.resolve(), (actual, directory)
                 rows.append(dict(result='PASS', manifestLongPathAware=aware, targetLength=length,
                                  actualDirectory=str(actual), nativeExit=probe.returncode))
+        # Empty variables have an environment query capacity of one on Windows;
+        # they must not be mistaken for a concurrently changing nonempty value.
+        long = directory  # Last root above is at least 1100 characters.
+        cases = [
+            ('empty-tmp', dict(TMP='', TEMP=str(long), USERPROFILE=str(root)), long),
+            ('empty-tmp-temp', dict(TMP='', TEMP='', USERPROFILE=str(long)), long),
+            ('short-tmp-wins', dict(TMP=str(root), TEMP=str(long)), root),
+            ('relative-long-tmp', dict(TMP=os.path.relpath(long,root)), long),
+        ]
+        for label, changes, expected in cases:
+            for aware, exe in ((False, args.runner), (True, args.aware_runner)):
+                env = dict(os.environ)
+                env.update(changes)
+                probe = subprocess.run([str(exe.resolve()), '--temp-info-safe'], env=env, cwd=root,
+                                       capture_output=True, timeout=5)
+                assert probe.returncode == 0, (label, probe.returncode, probe.stderr)
+                actual = Path(json.loads(probe.stdout)['progressiveTempDirectory']['path'])
+                assert actual.resolve() == expected.resolve(), (label, actual, expected)
+                rows.append(dict(result='PASS', manifestLongPathAware=aware, policyCase=label,
+                                 actualDirectory=str(actual), nativeExit=probe.returncode))
         # No filesystem writes by the native helper: verify documented fallback
         # precedence independently of whether the selected directory is writable.
         for source in ('TEMP', 'USERPROFILE', 'Windows'):

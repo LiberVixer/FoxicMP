@@ -1336,3 +1336,20 @@ private deploy совпал с tested DLL и отверг stale pin до Destina
 Windows установки, Linux main/INI, assets и Harvester не менялись. SYSTEM execution,
 внешний Python launcher, Classic empty-variable edge и общий format/EOF/error/stress
 gate остаются открытыми; эта DLL не подменяет опубликованные 0.2.0 assets.
+
+### 8 ноября 2026: Classic empty TMP и внешний Python CreateProcess
+
+[Classic fallback пустой переменной исправлен](ProgressiveClassicEmptyTemp.md):
+capacity1 пропускается, nonempty environment race guard сохранён. Контроль
+старого helper отказал; resolver19, real hook6 и main12 случаев прошли с exits0,
+filesClosed/forget и шестью normal app exits0. Qt уже имел аналогичное исправление.
+Дополнительно пять изолированных Python launch наблюдений дали два child-only
+controls0 и три long-parent stall: стеки показывают GetTempPathW в Windows
+CreateProcess до возврата Popen, включая случай short child env. Это внешний
+OPEN gate; collector0 и forced cleanup1 не объявлены успехом или crash.
+[Точные коды, SHA и стеки](ProgressiveClassicEmptyTempValidation-2026-11-08.json).
+Harvester/Python/Windows не менялись; интегратору описан child env маршрут без
+временной мутации os.environ. 583 SHA/158 HKCU entries сохранены, один one-shot task
+удалён, owned процессов нет. Windows установки, Linux main/INI, Qt runtime и
+assets прежние. Private MSVC link /DEBUG:NONE не заменяет clean release build;
+общая форматная/lifecycle/stress/physical A/V приёмка остаётся открытой.

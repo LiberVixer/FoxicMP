@@ -8,7 +8,7 @@ if __name__=='__main__':
  env=os.environ.copy();env.update(case.get('environment',{}));env['QT_QPA_PLATFORM']='offscreen'
  if case.get('temp'):
   for key in ['TEMP','TMP','TMPDIR']:
-   env[key]=case['temp']
+   env[key]=case.get('childTemp',case['temp'])
    if case['scope']=='parent':os.environ[key]=case['temp']
  print(json.dumps(dict(phase='before-popen',case=case)),flush=True)
  child=subprocess.Popen(case['command'],env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
