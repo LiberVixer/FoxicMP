@@ -73,7 +73,7 @@ private slots:
   }
   void windowClose_data(){
     QTest::addColumn<QString>("mode");
-    for(const auto* mode:{"close-window","destroy-api-before-window","reader-release","reader-release-held-reader","delayed-reader-release","delayed-reader-release-replace","waiting-status","producer-error-paused","growing-timeline"})QTest::newRow(mode)<<QString(mode);
+    for(const auto* mode:{"close-window","destroy-api-before-window","reader-release","reader-release-held-reader","delayed-reader-release","delayed-reader-release-replace","waiting-status","producer-error-paused","growing-timeline","queued-timeline-publish","queued-timeline-stop","queued-timeline-replace","queued-timeline-failure"})QTest::newRow(mode)<<QString(mode);
   }
   void windowClose(){
     QFETCH(QString,mode);QTemporaryDir dir;QVERIFY(dir.isValid());const auto profilePath=dir.filePath("profile");
@@ -105,11 +105,47 @@ private slots:
       QCOMPARE(player->get("media-title").toString(),title);QCOMPARE(player->get("speed").toDouble(),1.25);
       QTRY_VERIFY(timeline->isEnabled());click(11);QTest::qWait(150);
       QCOMPARE(api->request(playbackQuery)["remainingGrowingSeeks"].toInt(),15);QVERIFY(player->get("pause").toBool());QVERIFY(std::abs(player->get("time-pos").toDouble()-2)<.12);
+      QTRY_VERIFY(timeline->pending>10.8);QVERIFY(api->request(playbackQuery)["pendingSeekSeconds"].isDouble());
+      QTest::mouseClick(timeline,Qt::RightButton,Qt::NoModifier,QPoint(qRound(timeline->pending/timeline->duration*(timeline->width()-1)),timeline->height()/2));
+      QTRY_VERIFY(timeline->pending<0);QVERIFY(api->request(playbackQuery)["pendingSeekSeconds"].isNull());
       QVERIFY(control("play")["ok"].toBool());QTRY_VERIFY(player->get("time-pos").toDouble()>2.15);
       QTRY_VERIFY(timeline->isEnabled());click(1);
       QTRY_VERIFY_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString()=="playing" && player->get("time-pos").toDouble()>1.15 && player->get("time-pos").toDouble()<2,8000);
       QCOMPARE(api->request(playbackQuery)["remainingGrowingSeeks"].toInt(),14);
       QCOMPARE(api->request(playbackQuery)["playbackId"],playing["playbackId"]);
+    }
+    if(mode.startsWith("queued-timeline-")){
+      QVERIFY(api->request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",playing["playbackId"]},{"command","pause"}})["ok"].toBool());
+      QTRY_VERIFY(player->get("pause").toBool());auto* timeline=window->findChild<Timeline*>();QVERIFY(timeline);QTRY_VERIFY(timeline->isEnabled());
+      const auto point=[&](double seconds){return QPoint(qRound(seconds/timeline->duration*(timeline->width()-1)),timeline->height()/2);};
+      const auto actual=player->get("time-pos").toDouble();const auto title=player->get("media-title").toString();QVERIFY(player->set("speed",1.25));
+      QTest::mousePress(timeline,Qt::LeftButton,Qt::NoModifier,point(9));QTest::mouseMove(timeline,point(10.5));
+      QVERIFY(std::abs(timeline->position-actual)<.15);QVERIFY(api->request(playbackQuery)["pendingSeekSeconds"].isNull());
+      QTest::mouseRelease(timeline,Qt::LeftButton,Qt::NoModifier,point(10.5));
+      QTRY_VERIFY(timeline->pending>10.4);QCOMPARE(api->request(playbackQuery)["remainingGrowingSeeks"].toInt(),16);QVERIFY(player->get("pause").toBool());
+      const auto image=timeline->grab().toImage();const int marker=qRound(timeline->pending/timeline->duration*(timeline->width()-1));
+      QCOMPARE(image.pixelColor(qRound(marker*image.devicePixelRatio()),image.height()/2),QColor(214,165,72));
+      const auto artifact=qEnvironmentVariable("FOXICMP_TIMELINE_ARTIFACTS");if(!artifact.isEmpty()){QDir().mkpath(artifact);QVERIFY(image.save(QDir(artifact).filePath(mode+".png")));}
+      QTest::mouseClick(timeline,Qt::LeftButton,Qt::NoModifier,point(10));QTRY_VERIFY(std::abs(timeline->pending-10)<.05);
+      QCOMPARE(api->request(playbackQuery)["seekRevision"].toString(),QString("2"));
+      QTest::mouseClick(timeline,Qt::RightButton,Qt::NoModifier,point(timeline->pending));QTRY_VERIFY(timeline->pending<0);QCOMPARE(api->request(playbackQuery)["seekState"].toString(),QString("cancelled"));
+      QTest::mouseClick(timeline,Qt::LeftButton,Qt::NoModifier,point(10.5));QTRY_VERIFY(timeline->pending>10.4);
+      if(mode.endsWith("publish")){
+        auto next=model;next["revision"]="2";auto resources=next["resources"].toArray();auto resource=resources[0].toObject();
+        resource["ranges"]=QJsonArray{QJsonObject{{"offset","0"},{"length",QString::number(bytes.size())}}};
+        resource["integrity"]=QJsonObject{{"algorithm","sha256"},{"blocks",QJsonArray{block(bytes,0,prefix),block(bytes,prefix,bytes.size()-prefix)}}};resources[0]=resource;next["resources"]=resources;
+        const auto target=timeline->pending;QVERIFY(api->request({{"version",1},{"action","continuousRemuxUpdate"},{"jobId",job["jobId"]},{"session",next}})["ok"].toBool());
+        QTRY_VERIFY_WITH_TIMEOUT(api->request(playbackQuery)["seekState"].toString()=="applied" && std::abs(player->get("time-pos").toDouble()-target)<.12,8000);
+        QTRY_VERIFY(timeline->pending<0);QVERIFY(player->get("pause").toBool());QCOMPARE(player->get("speed").toDouble(),1.25);QCOMPARE(player->get("media-title").toString(),title);QCOMPARE(api->request(playbackQuery)["remainingGrowingSeeks"].toInt(),15);
+      }else if(mode.endsWith("replace")){
+        window->openFiles({original});QTRY_COMPARE_WITH_TIMEOUT(QDir::fromNativeSeparators(player->get("path").toString()),QDir::fromNativeSeparators(original),5000);QTRY_VERIFY(timeline->pending<0);
+      }else if(mode.endsWith("stop")){
+        QVERIFY(api->request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",playing["playbackId"]},{"command","stop"}})["ok"].toBool());QTRY_VERIFY(timeline->pending<0);
+      }else{
+        auto failed=model;failed["revision"]="2";auto tracks=failed["tracks"].toArray();auto track=tracks[0].toObject();track["state"]="failed";tracks[0]=track;failed["tracks"]=tracks;
+        QVERIFY(api->request({{"version",1},{"action","continuousRemuxUpdate"},{"jobId",job["jobId"]},{"session",failed}})["ok"].toBool());
+        QTRY_VERIFY_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString()=="error",5000);QTRY_VERIFY(timeline->pending<0);
+      }
     }
     if(mode=="producer-error-paused"){
       QVERIFY(api->request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",playing["playbackId"]},{"command","pause"}})["ok"].toBool());

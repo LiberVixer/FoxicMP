@@ -63,6 +63,8 @@ private:
 	REFERENCE_TIME CalculatePosition(const CPoint point);
 
 	void MoveThumb(const CPoint point);
+    void DrawPendingSeek(CDC& dc);
+    void Paint(CDC& dc);
 	void SetPosInternal(const REFERENCE_TIME pos);
 
 	void MoveThumbPreview(const CPoint point);
@@ -143,6 +145,7 @@ protected:
 	virtual ULONG GetGestureStatus(CPoint) { return 0; }
 
 	afx_msg void OnPaint();
+    LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam) override;
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);

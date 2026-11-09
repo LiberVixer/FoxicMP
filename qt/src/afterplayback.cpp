@@ -4,6 +4,7 @@
 #include "playlistpanel.h"
 #include "systemactions.h"
 #include "window.h"
+#include "timeline.h"
 #include <QtWidgets>
 
 void Window::buildAfterPlaybackMenu(QMenu *playback) {
@@ -145,6 +146,7 @@ void Window::closePlaybackFile() {
   stdinPlayback = false;
   preparedPlayback = preparedFinished = false;
   continuousSeekReady={};
+  timeline->pending=-1;timeline->preservePositionOnSeek=false;timeline->setAccessibleDescription({});
   continuousGrowingSeek={};continuousSeekCommitted={};continuousIndexedEnd={};continuousReloading=false;
   continuousFailure={};
   releaseProgressive();

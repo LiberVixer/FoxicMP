@@ -77,6 +77,8 @@ public:
   QJsonObject progressivePlaybackStatus() const;
   bool openDeviceSource(const QString &source);
   bool seekTo(double seconds);
+  bool seekTimeline(double seconds);
+  void setContinuousSeekPending(double seconds);
   void reloadProgressive(double seconds,const QString &audioPath);
   AudioPcmWindow progressivePcmWindow(double seconds) const;
   bool setAbLoop(double a, double b, int plays = 0);
@@ -99,6 +101,8 @@ signals:
   void playbackIntentChanged();
   void playbackPreparationStarted();
   void continuousPlaybackTick();
+  void continuousTimelineSeek(double seconds, bool *accepted);
+  void continuousTimelineCancel();
   void webControlChanged();
   void frameSaved(const QString &path, bool success);
   void imageCaptured(bool success);

@@ -37,6 +37,9 @@ public:
     void PlaybackIntentChanged(const CStringW& incoming = CStringW(),bool retainCurrentPlayback=false);
     bool PreparedCompleted();
     void SeekIntentChanged();
+    bool QueueTimelineSeek(double seconds);
+    double PendingTimelineSeek() const;
+    void CancelTimelineSeek();
     bool BeginLegacy(const std::wstring&);
     void PollLegacy();
     bool IsPreparing() const{return (preparation && !preparation->abandoned.load()) || (legacyOpening && !legacyOpening->abandoned.load()) || (continuousOpening && !continuousOpening->abandoned.load());}

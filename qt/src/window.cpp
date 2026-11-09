@@ -313,7 +313,8 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
     child->setMouseTracking(true);
   }
   connect(timeline, &Timeline::seek, this,
-          [this](double seconds) { seekTo(seconds); });
+          [this](double seconds) { seekTimeline(seconds); });
+  connect(timeline,&Timeline::cancelPendingSeek,this,&Window::continuousTimelineCancel);
   connect(player, &Player::loaded, this, [this] {
     const auto params = player->get("video-params").toMap();
     transformStereoHint = params.value("stereo-in").toString();

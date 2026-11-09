@@ -17424,6 +17424,10 @@ REFERENCE_TIME const CMainFrame::GetClosestKeyFrame(REFERENCE_TIME rtTarget)
 	return ret;
 }
 
+bool CMainFrame::QueueContinuousSeek(REFERENCE_TIME pos){return m_progressiveApi && m_progressiveApi->QueueTimelineSeek(double(pos)/10000000.);}
+REFERENCE_TIME CMainFrame::PendingContinuousSeek() const {return m_progressiveApi?REFERENCE_TIME(m_progressiveApi->PendingTimelineSeek()*10000000.):-1;}
+void CMainFrame::CancelContinuousSeek(){if(m_progressiveApi)m_progressiveApi->CancelTimelineSeek();}
+
 void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD/* = true*/)
 {
 	if (m_harvester && !m_harvester->CanSeek(std::max<REFERENCE_TIME>(0,rtPos))) {

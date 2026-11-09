@@ -14,6 +14,9 @@ SHA-256 файлов. Воспроизведение v1 сохраняется; 
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
+Текущие сборки также дают [выбор ожидающей цели на таймлайне](ProgressiveTimelineSeek.md)
+в трёх редакциях; API и версия SDK 1.87 сохраняются.
+
 SDK 1.87 добавляет [ожидание подтверждённой позиции](ProgressiveQueuedSeek.md):
 `control('seek', seconds=11, allow_growing=True, wait_for_range=True)`, одна
 заменяемая цель, отдельный `cancelSeek`, прежнее воспроизведение до применения.

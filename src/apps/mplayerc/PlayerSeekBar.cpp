@@ -268,9 +268,32 @@ END_MESSAGE_MAP()
 
 // CPlayerSeekBar message handlers
 
+void CPlayerSeekBar::DrawPendingSeek(CDC& dc)
+{
+    const auto pending=m_pMainFrame->PendingContinuousSeek();
+    if(pending<0 || m_stop<=0 || pending>=m_stop)return;
+    const auto r=GetChannelRect();CRect client;GetClientRect(&client);const int x=r.left+int(llMulDiv(pending,r.Width(),m_stop,0));
+    const auto color=AfxGetAppSettings().bUseDarkTheme?RGB(214,165,72):RGB(146,100,20);
+    const int saved=dc.SaveDC();dc.SelectClipRgn(nullptr);
+    dc.FillSolidRect(x,client.top,1,client.Height(),color);
+    dc.FillSolidRect(std::max<LONG>(r.left,x-2),client.top,std::min<LONG>(r.right,x+3)-std::max<LONG>(r.left,x-2),1,color);
+    dc.RestoreDC(saved);
+}
+
 void CPlayerSeekBar::OnPaint()
 {
-	CPaintDC dc(this);
+    CPaintDC dc(this);Paint(dc);
+}
+LRESULT CPlayerSeekBar::WindowProc(UINT message, WPARAM target, LPARAM flags)
+{
+    if(message==WM_PRINTCLIENT || (message==WM_PRINT && (flags&PRF_CLIENT))){
+        if(target){auto* dc=CDC::FromHandle(reinterpret_cast<HDC>(target));const int saved=dc->SaveDC();CRect client;GetClientRect(&client);CRgn clip;clip.CreateRectRgnIndirect(&client);dc->SelectClipRgn(&clip);Paint(*dc);dc->RestoreDC(saved);}
+        return 0;
+    }
+    return __super::WindowProc(message,target,flags);
+}
+void CPlayerSeekBar::Paint(CDC& dc)
+{
 
 	const CAppSettings& s = AfxGetAppSettings();
 
@@ -428,6 +451,7 @@ void CPlayerSeekBar::OnPaint()
             const int width = int(llMulDiv(channelRect.Width(), available, 100, 0));
             memdc.FillSolidRect(channelRect.left, channelRect.bottom - 2, width, 2, RGB(112, 117, 122));
         }
+        DrawPendingSeek(memdc);
 		dc.BitBlt(r.left, r.top, r.Width(), r.Height(), &memdc, 0, 0, SRCCOPY);
 		DeleteObject(memdc.SelectObject(bmOld));
 		memdc.DeleteDC();
@@ -578,6 +602,7 @@ void CPlayerSeekBar::OnPaint()
 			CBrush b(bkg);
 			dc.FillRect(&r, &b);
 		}
+        DrawPendingSeek(dc);
 	}
 }
 
@@ -592,7 +617,10 @@ void CPlayerSeekBar::OnSize(UINT nType, int cx, int cy)
 
 void CPlayerSeekBar::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	const REFERENCE_TIME pos = CalculatePosition(point);
+    const REFERENCE_TIME pos = CalculatePosition(point);
+    if(m_bEnabled && (GetChannelRect() | GetThumbRect()).PtInRect(point) && m_pMainFrame->QueueContinuousSeek(pos)){
+        SetCapture();CDialogBar::OnLButtonDown(nFlags,point);return;
+    }
 	if (m_pMainFrame->ValidateSeek(pos, m_stop)) {
 		if (m_bEnabled && (GetChannelRect() | GetThumbRect()).PtInRect(point)) {
 			SetCapture();
@@ -624,6 +652,8 @@ void CPlayerSeekBar::OnLButtonUp(UINT nFlags, CPoint point)
 
 void CPlayerSeekBar::OnRButtonDown(UINT nFlags, CPoint point)
 {
+    const auto pending=m_pMainFrame->PendingContinuousSeek();const auto channel=GetChannelRect();CRect pendingHit;GetClientRect(&pendingHit);
+    if(m_bEnabled && pending>=0 && m_stop>0 && pendingHit.PtInRect(point) && std::abs(point.x-(channel.left+int(llMulDiv(pending,channel.Width(),m_stop,0))))<=4*m_scaleX1){m_pMainFrame->CancelContinuousSeek();return;}
 	CAppSettings& s = AfxGetAppSettings();
 
 	if (m_bEnabled && s.bUseDarkTheme && !s.bStatusBarIsVisible) {
@@ -701,7 +731,7 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 		UpdateTooltip(point);
 	}
 
-	if (m_CurrentPoint.x == point.x) {
+	if (m_CurrentPoint.x == point.x && !(nFlags & MK_LBUTTON)) {
 		CDialogBar::OnMouseMove(nFlags, point);
 		return;
 	}
@@ -713,6 +743,7 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 	const CWnd* w = GetCapture();
 	if (w && w->m_hWnd == m_hWnd && (nFlags & MK_LBUTTON)) {
 		const REFERENCE_TIME pos = CalculatePosition(point);
+        if(m_pMainFrame->QueueContinuousSeek(pos)){m_CurrentPoint=point;return;}
 		if (m_pMainFrame->ValidateSeek(pos, m_stop)) {
 			MoveThumb(point);
 
@@ -992,6 +1023,9 @@ void CPlayerSeekBar::UpdateToolTipText()
 	if (!chapterName.IsEmpty()) {
 		tooltipText.AppendFormat(L"   %s", (LPCWSTR)chapterName);
 	}
+
+    const auto pending=m_pMainFrame->PendingContinuousSeek();
+    if(pending>=0)tooltipText.AppendFormat(L"\n\u2026 \u2192 %s (%s: RMB)",(LPCWSTR)ReftimeToString2(pending,false),(LPCWSTR)ResStr(IDS_CANCEL));
 
 	if (!m_pMainFrame->CanPreviewUse()) {
 		m_ti.lpszText = (LPWSTR)(LPCWSTR)tooltipText;

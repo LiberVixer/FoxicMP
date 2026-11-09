@@ -50,22 +50,32 @@ void Timeline::paintEvent(QPaintEvent *) {
       const int marker = qRound(t / duration * (width() - 1));
       p.drawLine(marker, 0, marker, height() - 1);
     }
+  const double waiting=dragging && preservePositionOnSeek?dragTime:pending;
+  if(waiting>=0 && waiting<duration){
+    const int marker=qRound(waiting/duration*(width()-1));
+    p.setPen(QColor(214,165,72));p.drawLine(marker,0,marker,height()-1);
+    p.drawLine(std::max(0,marker-2),0,std::min(width()-1,marker+2),0);
+  }
 }
 void Timeline::mousePressEvent(QMouseEvent *e) {
+  if(e->button()==Qt::RightButton && duration>0 && pending>=0 && std::abs(e->position().x()-pending/duration*(width()-1))<=4){emit cancelPendingSeek();return;}
   if (e->button() == Qt::LeftButton && duration > 0) {
     emit hoverEnded();
     dragging = true;
-    position = timeAt(e->position().x());
+    dragTime = timeAt(e->position().x());
+    if(!preservePositionOnSeek)position=dragTime;
     update();
   }
 }
 void Timeline::mouseMoveEvent(QMouseEvent *e) {
   const double t = timeAt(e->position().x());
   if (dragging) {
-    position = t;
+    dragTime=t;
+    if(!preservePositionOnSeek)position=t;
     update();
   }
   QString tip = clockText(t);
+  if(pending>=0)tip+="\n… → "+clockText(pending)+" ("+uiTr("Отмена")+": RMB)";
   QString chapterHover;
   for (int i = chapters.size() - 1; i >= 0; --i)
     if (chapters[i].toMap().value("time").toDouble() <= t) {
@@ -97,6 +107,7 @@ void Timeline::mouseMoveEvent(QMouseEvent *e) {
 void Timeline::mouseReleaseEvent(QMouseEvent *e) {
   if (dragging && e->button() == Qt::LeftButton) {
     dragging = false;
+    dragTime=-1;update();
     emit seek(timeAt(e->position().x()));
   }
 }

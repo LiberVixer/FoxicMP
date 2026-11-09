@@ -21,8 +21,9 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
+    parser.add_argument('--scenario',choices=('timeline-ui','queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
+    parser.add_argument('--classic-ui-theme',choices=('dark','light'))
     parser.add_argument('--classic-null-video',action='store_true',help='Private profile: require decoded video without a desktop renderer')
     parser.add_argument('--report-directory',type=Path,required=True)
     args=parser.parse_args();sdk=args.sdk_directory.resolve()
@@ -35,7 +36,11 @@ def main():
     assert all(Path(m.__file__).resolve().parent==sdk for m in modules.values())
     from progressive_continuous_api_test import run
     from progressive_player_crash_recovery import sha
-    if args.scenario.startswith('queued-seek'):
+    if args.scenario=='timeline-ui':
+        if args.edition!='classic' or os.name!='nt' or args.classic_ui_theme is None:parser.error('timeline-ui requires Windows Classic and explicit private theme')
+        from windows import progressive_classic_timeline_test as case
+        exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,args.classic_ui_theme=='dark')
+    elif args.scenario.startswith('queued-seek'):
         import progressive_queued_seek_api_test as case
         mode=modules['progressive_continuous'].AAC_MODE if args.scenario=='queued-seek' else modules['progressive_continuous'].REORDERED_MODE if args.scenario.endswith('reordered') else modules['progressive_continuous'].MODE
         exercise=lambda peers,root:case.exercise(peers,root,args.expected_audio_output,mode)
@@ -97,6 +102,9 @@ def main():
                     settings.set('Settings','KeepHistory','1');settings.set('Settings','RememberFilePos','1')
                     # Reproduce older profiles that retained the shared alias.
                     (dest/'history.mpc_lst').write_text('; FoxicMP History File 0.1\n\n[001]\nPath=continuous-video.mp4\nTitle=Existing continuous alias\nPosition=00:00:37\n',encoding='utf-8-sig')
+                if args.classic_ui_theme is not None:
+                    if not settings.has_section('Theme'):settings.add_section('Theme')
+                    settings.set('Theme','UseDarkTheme','1' if args.classic_ui_theme=='dark' else '0')
                 if not settings.has_section('Audio'):settings.add_section('Audio')
                 settings.set('Audio','AudioRenderer','Null Audio Renderer (Uncompressed)')
                 if args.classic_null_video:

@@ -189,6 +189,20 @@ QString Window::progressiveSubtitlePath(const QString &selection) const {
   }
   return {};
 }
+bool Window::seekTimeline(double seconds){
+  if(preparedPlayback && current.startsWith("foxicmp-continuous://") && !seekAvailable(seconds,seconds)){
+    bool accepted=false;emit continuousTimelineSeek(seconds,&accepted);
+    timeline->position=pos;timeline->update();return accepted;
+  }
+  return seekTo(seconds);
+}
+void Window::setContinuousSeekPending(double seconds){
+  if(!preparedPlayback || !current.startsWith("foxicmp-continuous://"))seconds=-1;
+  if(timeline->pending==seconds)return;
+  timeline->pending=seconds;
+  timeline->setAccessibleDescription(seconds<0?QString():QString("… → %1 (%2: RMB)").arg(clockText(seconds),uiTr("Отмена")));
+  timeline->update();
+}
 bool Window::seekTo(double seconds) {
   if (stopped || stdinPlayback)
     return false;
@@ -545,6 +559,7 @@ bool Window::openPreparedClip(const std::shared_ptr<foxicmp::progressive::Prepar
 QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds,std::function<bool(double)> growingSeek,std::function<void(bool)> seekCommitted,std::function<double()> indexedEnd){
   if(!source || source->stopped())return {};
   emit playbackIntentChanged();savePosition();closePlaybackFile();
+  timeline->preservePositionOnSeek=true;timeline->pending=-1;
   preparedPlayback=true;preparedFinished=false;preparedDuration=total;continuousSeekReady=std::move(seekReady);continuousFailure=std::move(failure);holdAfterLoad=false;lastError.clear();
   continuousGrowingSeek=std::move(growingSeek);continuousSeekCommitted=std::move(seekCommitted);continuousIndexedEnd=std::move(indexedEnd);continuousReloading=false;
   pendingLaunchOptions={};pendingTrackSelections.clear();audioUserSelection=subtitleUserSelection=false;pendingResume=-1;

@@ -58,6 +58,13 @@ ProgressiveApi::ProgressiveApi(Window *w, QObject *parent) : QObject(parent), wi
   connect(window,&Window::playbackIntentChanged,this,[invalidate]{invalidate(false);});
   connect(window,&Window::playbackPreparationStarted,this,[invalidate]{invalidate(true);});
   connect(window,&Window::continuousPlaybackTick,this,&ProgressiveApi::pollContinuousSeek);
+  connect(window,&Window::continuousTimelineSeek,this,[this](double seconds,bool* accepted){
+    if(!continuousPlayback || !window->ownsPreparedClip(QString::fromStdString(continuousPlayback->uri)))return;
+    *accepted=request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",QString::fromStdString(continuousPlayback->id)},{"command","seek"},{"seconds",seconds},{"allowGrowing",true},{"waitForRange",true}})["ok"].toBool();
+  });
+  connect(window,&Window::continuousTimelineCancel,this,[this]{
+    if(continuousPlayback)continuousPlayback->clearPendingSeek();window->setContinuousSeekPending(-1);
+  });
   server.setSocketOptions(QLocalServer::UserAccessOption);
   server.setMaxPendingConnections(16);
   connect(&server, &QLocalServer::newConnection, this, &ProgressiveApi::acceptClients);
@@ -209,7 +216,7 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
         }else if(c.command=="cancelSeek")continuousPlayback->clearPendingSeek();
         else{
           if(continuousPlayback->closed || state=="error" || state=="closed" || state=="finished")return failure("continuous-playback-closed","Playback was stopped or replaced");
-          if(c.command=="seek" && c.waitForRange){continuousPlayback->queueSeek(c.seconds);return continuousStatus();}
+          if(c.command=="seek" && c.waitForRange){continuousPlayback->queueSeek(c.seconds);window->setContinuousSeekPending(c.seconds);return continuousStatus();}
           if(c.command=="seek")continuousPlayback->checkSeek(c.seconds,c.allowGrowing);
           if(!window->preparedClipControl(uri,QString::fromStdString(c.command),c.seconds))return failure("continuous-playback-not-ready","Wait for loaded playback");
         }
@@ -540,7 +547,7 @@ QJsonObject ProgressiveApi::continuousStatus()const{
 }
 
 void ProgressiveApi::pollContinuousSeek(){
-  const auto p=continuousPlayback;if(!p || p->pendingSeekSeconds<0)return;
+  const auto p=continuousPlayback;window->setContinuousSeekPending(p && !p->closed?p->pendingSeekSeconds:-1);if(!p || p->pendingSeekSeconds<0)return;
   const auto status=continuousStatus();const auto state=status["state"].toString();
   if(p->closed || state=="error" || state=="closed" || state=="finished"){
     p->clearPendingSeek(state=="error"?"error":"cancelled",status["reasonCode"].toString().toStdString());return;
