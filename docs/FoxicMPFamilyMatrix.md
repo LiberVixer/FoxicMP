@@ -1532,3 +1532,29 @@ steady→late handles/threads — Linux Qt 38→38/60→60, Windows Qt
 SDK-модули и INI не менялись. Linux проверен на установленной копии; новая
 сборка и переустановка не требуются. 587 защищённых файлов и 158 HKCU shell
 entries совпали. Windows-установки и Harvester сохранены, внешних задач нет.
+
+
+### 9 ноября 2026: граница commit отложенного seek
+
+[Общая транзакция](ProgressiveQueuedSeekCommit.md) перепроверяет revision,
+отмену, владение и подтверждённый диапазон после readiness callbacks и перед
+передачей декодеру. Вложенный poll не отправляет команду повторно; завершение
+старой команды сохраняет новую цель/cancel. Последний growing слот резервируется,
+отказ декодера его освобождает. Classic проверяет HRESULT и удерживает исходный
+IMediaSeeking, обычный void SeekTo и штатные настройки/оформление сохранены.
+Qt сохраняет growing AAC reload и pause/speed.
+
+[Проверка](ProgressiveQueuedSeekCommitValidation-2026-11-09.json): 115 component
+checks в четырёх native конфигурациях; по 28 реальных Qt Window cases на Linux
+и Windows. Семь новых случаев принудительно задают события до/после handoff,
+восьмой проверяет последний слот. Полный повтор: 222 main regression (69 новых
+SDK и 153 прежних) +108 IPC race +300 измеряемых cycles/12 warmup, итоговые native
+exits 0. Первичная ошибка собственной Qt резервации исправлена; исходные exit 8/1
+и diagnostic status сохранены. Отдельный прерванный Linux driver без native exit
+не засчитан PASS, завершённый одноразовый повтор имеет exit 0.
+
+DirectShow graph не подвергался принудительному внутреннему reentry: его публичные
+сценарии и MSVC shared test учитываются отдельно. Полные I/O/codec/crash/race,
+physical A/V и общая latency/stress приёмка остаются открытыми. SDK/API 1.87 не
+изменены. Linux обновлён атомарно с backup и неизменным профилем; Windows-установки
+и Harvester не менялись. Периодических и Windows Scheduler задач нет.

@@ -67,16 +67,16 @@ public:
   bool openProgressiveSession(const QString &manifest);
   bool progressiveOpening() const { return bool(legacyOpening); }
   bool openPreparedClip(const std::shared_ptr<foxicmp::progressive::PreparedClip>&,const QString& title);
-  QString openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,double duration,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds=0,std::function<bool(double)> growingSeek={},std::function<void(bool)> seekCommitted={},std::function<double()> indexedEnd={});
+  QString openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,double duration,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds=0,std::function<bool(double)> growingSeek={},std::function<void(bool,bool)> seekCommitted={},std::function<double()> indexedEnd={});
   QJsonObject preparedClipStatus(const QString& uri)const;
-  bool preparedClipControl(const QString& uri,const QString& command,double seconds=0);
+  bool preparedClipControl(const QString& uri,const QString& command,double seconds=0,const std::function<bool()>& queuedGuard={});
   bool ownsPreparedClip(const QString& uri)const{return preparedPlayback && current==uri;}
   bool hasPlayback()const;
   bool openProgressiveSource(const std::shared_ptr<ProgressiveSource> &);
   std::shared_ptr<ProgressiveSource> progressiveSession() const { return progressive; }
   QJsonObject progressivePlaybackStatus() const;
   bool openDeviceSource(const QString &source);
-  bool seekTo(double seconds);
+  bool seekTo(double seconds, const std::function<bool()>& queuedGuard = {});
   bool seekTimeline(double seconds);
   void setContinuousSeekPending(double seconds);
   void reloadProgressive(double seconds,const QString &audioPath);
@@ -398,7 +398,7 @@ private:
   double preparedDuration=0;
   std::function<bool()> continuousSeekReady;
   std::function<bool(double)> continuousGrowingSeek;
-  std::function<void(bool)> continuousSeekCommitted;
+  std::function<void(bool,bool)> continuousSeekCommitted;
   std::function<double()> continuousIndexedEnd;
   bool continuousReloading=false;
   double continuousReloadSpeed=1;

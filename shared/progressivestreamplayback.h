@@ -58,19 +58,68 @@ struct ContinuousPlayback {
     double pendingSeekSeconds=-1;
     uint64_t seekRevision=0;
     std::string seekState="none",seekError;
-    void committedSeek(bool growing){
+private:
+    // The epoch also invalidates cancel/requeue of an identical target. A
+    // transaction never clears a newer intent when decoder callbacks reenter.
+    uint64_t seekEpoch=0,submittingRevision=0,submittingEpoch=0;
+    double submittingSeconds=-1;
+    bool queuedSubmitting=false,queuedReported=false,queuedGrowing=false,queuedReserved=false;
+public:
+    enum class QueuedApply { None, Waiting, Superseded, Rejected, Applied };
+    bool queuedSubmissionCurrent()const{
+        return queuedSubmitting && !closed && seekRevision==submittingRevision && seekEpoch==submittingEpoch && pendingSeekSeconds==submittingSeconds;
+    }
+    bool queuedSubmissionAllowed()const{
+        if(!queuedSubmissionCurrent())return false;
+        try{
+            checkSeekInternal(submittingSeconds,true,false,true);
+            if(producerError && !producerError().empty())return false;
+            return queuedSubmissionCurrent();
+        }catch(const Error&){return false;}
+    }
+    void committedSeek(bool growing,bool queued=false){
+        if(queued && queuedSubmitting){queuedReported=true;queuedGrowing=growing;return;}
         // Completion may race admission. Never wrap the public remaining budget.
         if(growing && growingSeeks<MaxGrowingSeeks)++growingSeeks;
         clearPendingSeek("superseded");
     }
     void clearPendingSeek(const std::string& state="cancelled",const std::string& reason={}){
         if(pendingSeekSeconds<0)return;
-        pendingSeekSeconds=-1;seekState=state;seekError=reason;
+        pendingSeekSeconds=-1;seekState=state;seekError=reason;++seekEpoch;
     }
     void queueSeek(double seconds){
         checkSeek(seconds,true,true);
         Require(seekRevision<UINT64_MAX,"continuousPlayback","Seek revision exhausted","continuous-seek-limit");
-        pendingSeekSeconds=seconds;++seekRevision;seekState="waiting-range";seekError.clear();
+        pendingSeekSeconds=seconds;++seekRevision;++seekEpoch;seekState="waiting-range";seekError.clear();
+    }
+    template<class Owns,class Ready,class Submit> QueuedApply applyQueuedSeek(Owns owns,Ready ready,Submit submit){
+        if(pendingSeekSeconds<0 || queuedSubmitting)return QueuedApply::None;
+        submittingRevision=seekRevision;submittingEpoch=seekEpoch;submittingSeconds=pendingSeekSeconds;
+        queuedSubmitting=true;queuedReported=false;
+        struct Reset { bool& flag;bool& reserved;~Reset(){flag=false;reserved=false;} } reset{queuedSubmitting,queuedReserved};
+        const auto current=[&]{return queuedSubmissionCurrent() && owns() && queuedSubmissionCurrent();};
+        try{
+            if(!current())return QueuedApply::Superseded;
+            checkSeek(submittingSeconds,true);
+            if(producerError){const auto error=producerError();Require(error.empty(),"continuousPlayback","Output producer failed",error.c_str());}
+            if(!current())return QueuedApply::Superseded;
+            if(!ready(submittingSeconds))return current()?QueuedApply::Waiting:QueuedApply::Superseded;
+            if(!current())return QueuedApply::Superseded;
+            checkSeek(submittingSeconds,true);
+            if(producerError){const auto error=producerError();Require(error.empty(),"continuousPlayback","Output producer failed",error.c_str());}
+            if(!current())return QueuedApply::Superseded;
+            const bool growing=!output().complete;
+            if(!current())return QueuedApply::Superseded;
+            // Reserve the last growing-seek slot during a reentrant handoff.
+            // The submitting command may use its own reservation; another seek
+            // cannot spend it before this operation reports acceptance/rejection.
+            queuedReserved=growing;
+            if(!submit(submittingSeconds))return QueuedApply::Rejected;
+            queuedReserved=false;
+            if((queuedReported?queuedGrowing:growing) && growingSeeks<MaxGrowingSeeks)++growingSeeks;
+            if(current())clearPendingSeek("applied");
+            return QueuedApply::Applied;
+        }catch(const Error&){if(!queuedSubmissionCurrent())return QueuedApply::Superseded;throw;}
     }
     void checkInitialPosition()const{
         const auto seconds=command.startSeconds;
@@ -104,6 +153,10 @@ struct ContinuousPlayback {
         }catch(const Error&){return false;}
     }
     void checkSeek(double seconds,bool allowGrowing=false,bool allowUnconfirmed=false)const{
+        checkSeekInternal(seconds,allowGrowing,allowUnconfirmed,false);
+    }
+private:
+    void checkSeekInternal(double seconds,bool allowGrowing,bool allowUnconfirmed,bool ownSubmission)const{
         Require(bool(output),"continuousPlayback","Output is unavailable","continuous-seek-unavailable");const auto state=output();
         Require(state.complete || allowGrowing,"continuousPlayback","Seek requires completed output","continuous-seek-unavailable");
         Require(std::isfinite(seconds) && seconds>=0 && seconds<3600,"seconds","Invalid seek time","invalid_request");
@@ -111,7 +164,7 @@ struct ContinuousPlayback {
         Require(!closed && !state.retiring && !state.removed && (!source || !source->stopped()),"continuousPlayback","Playback is closing","continuous-playback-closed");
         Require(state.failure.empty(),"continuousPlayback","Output producer failed",state.failure.c_str());
         if(!state.complete){
-            Require(growingSeeks<MaxGrowingSeeks,"continuousPlayback","Growing seek budget exhausted; wait for complete output","continuous-seek-limit");
+            Require(growingSeeks<MaxGrowingSeeks-unsigned(queuedReserved && !ownSubmission),"continuousPlayback","Growing seek budget exhausted; wait for complete output","continuous-seek-limit");
             Require(allowUnconfirmed || int64_t(std::ceil(seconds*10000000.))<state.indexedEnd100ns,"seconds","Wait for confirmed seek range","waiting-range");
         }
     }

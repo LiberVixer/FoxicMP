@@ -613,11 +613,12 @@ void ClassicProgressiveApi::PollContinuousSeek(){
         p->clearPendingSeek(error.empty()?"cancelled":"error",error);frame.m_wndSeekBar.Invalidate(FALSE);return;
     }
     if(frame.GetLoadState()!=MLS_LOADED)return;
-    try{p->checkSeek(p->pendingSeekSeconds,true);}catch(const foxicmp::progressive::Error& e){
-        if(e.code!="waiting-range"){p->clearPendingSeek("error",e.code);frame.m_wndSeekBar.Invalidate(FALSE);}return;
-    }
-    const auto target=REFERENCE_TIME(p->pendingSeekSeconds*10000000.);if(!native->CanSeek(target))return;
-    const bool growing=!out.complete;p->clearPendingSeek("applied");frame.SeekTo(target,false);p->committedSeek(growing);frame.m_wndSeekBar.Invalidate(FALSE);
+    try{
+        p->applyQueuedSeek([&]{return continuousPlayback==p && frame.OwnsHarvester(native) && frame.GetLoadState()==MLS_LOADED;},
+          [&](double seconds){return native->CanSeek(REFERENCE_TIME(seconds*10000000.));},
+          [&](double seconds){const bool growing=!p->output().complete;const bool accepted=frame.SeekQueuedTo(REFERENCE_TIME(seconds*10000000.));if(accepted)p->committedSeek(growing,true);return accepted;});
+    }catch(const foxicmp::progressive::Error& e){if(e.code!="waiting-range")p->clearPendingSeek("error",e.code);}
+    frame.m_wndSeekBar.Invalidate(FALSE);
 }
 
 void ClassicProgressiveApi::SeekIntentChanged(){if(continuousPlayback)continuousPlayback->clearPendingSeek("superseded");}
@@ -635,3 +636,9 @@ double ClassicProgressiveApi::PendingTimelineSeek()const{
     const auto p=continuousPlayback;return p && !p->closed && p->error.empty() && frame.OwnsHarvester(continuousNative.lock())?p->pendingSeekSeconds:-1;
 }
 void ClassicProgressiveApi::CancelTimelineSeek(){if(continuousPlayback)continuousPlayback->clearPendingSeek();frame.m_wndSeekBar.Invalidate(FALSE);}
+
+bool ClassicProgressiveApi::CanCommitQueuedSeek()const{
+    const auto p=continuousPlayback;const auto native=continuousNative.lock();
+    return p && frame.GetLoadState()==MLS_LOADED && frame.OwnsHarvester(native) && p->queuedSubmissionAllowed()
+        && continuousPlayback==p && frame.GetLoadState()==MLS_LOADED && frame.OwnsHarvester(native);
+}

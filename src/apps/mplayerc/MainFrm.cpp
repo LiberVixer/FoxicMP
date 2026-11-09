@@ -17428,11 +17428,14 @@ bool CMainFrame::QueueContinuousSeek(REFERENCE_TIME pos){return m_progressiveApi
 REFERENCE_TIME CMainFrame::PendingContinuousSeek() const {return m_progressiveApi?REFERENCE_TIME(m_progressiveApi->PendingTimelineSeek()*10000000.):-1;}
 void CMainFrame::CancelContinuousSeek(){if(m_progressiveApi)m_progressiveApi->CancelTimelineSeek();}
 
-void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD/* = true*/)
+void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD/* = true*/){SeekToInternal(rtPos,bShowOSD,false);}
+bool CMainFrame::SeekQueuedTo(REFERENCE_TIME rtPos){return SeekToInternal(rtPos,false,true);}
+bool CMainFrame::SeekToInternal(REFERENCE_TIME rtPos, bool bShowOSD, bool queued)
 {
+    if(queued && (!m_progressiveApi || !m_progressiveApi->CanCommitQueuedSeek() || GetPlaybackMode()!=PM_FILE))return false;
 	if (m_harvester && !m_harvester->CanSeek(std::max<REFERENCE_TIME>(0,rtPos))) {
 		SetStatusMessage(L"Перемотка за пределы загруженного участка недоступна");
-		return;
+		return false;
 	}
 	const OAFilterState fs = GetMediaState();
 
@@ -17460,7 +17463,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD/* = true*/)
 			m_pMS->GetDuration(&total);
 		}
 		if (!total) {
-			return;
+			return false;
 		}
 
 		if (fs == State_Stopped) {
@@ -17468,11 +17471,20 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD/* = true*/)
 		}
 
 		if (!ValidateSeek(rtPos, stop)) {
-			return;
+			return false;
 		}
 
-        if(m_progressiveApi)m_progressiveApi->SeekIntentChanged();
-		m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
+        if(queued){
+            if(!m_progressiveApi || !m_progressiveApi->CanCommitQueuedSeek())return false;
+            const CComPtr<IMediaSeeking> seeking=m_pMS;
+            if(!seeking)return false;
+            const HRESULT result=seeking->SetPositions(&rtPos,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning);
+            if(FAILED(result))return false;
+            if(!m_progressiveApi->CanCommitQueuedSeek())return true;
+        }else{
+            if(m_progressiveApi)m_progressiveApi->SeekIntentChanged();
+            m_pMS->SetPositions(&rtPos,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning);
+        }
 
 		if (m_bUseReclock) {
 			// Crazy ReClock require delay between seek operation or causes crash in EVR :)
@@ -17508,6 +17520,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD/* = true*/)
 	}
 
 	SendCurrentPositionToApi(true);
+    return true;
 }
 
 bool CMainFrame::ValidateSeek(REFERENCE_TIME rtPos, REFERENCE_TIME rtStop)

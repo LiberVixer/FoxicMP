@@ -10,6 +10,8 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveQueuedSeekCommit.md': 'docs/ProgressiveQueuedSeekCommit.md',
+    'ProgressiveQueuedSeekCommitValidation-2026-11-09.json': 'docs/ProgressiveQueuedSeekCommitValidation-2026-11-09.json',
     'ProgressiveQueuedSeekRaces.md': 'docs/ProgressiveQueuedSeekRaces.md',
     'ProgressiveTimelineSeek.md': 'docs/ProgressiveTimelineSeek.md',
     'ProgressiveQueuedSeek.md': 'docs/ProgressiveQueuedSeek.md',

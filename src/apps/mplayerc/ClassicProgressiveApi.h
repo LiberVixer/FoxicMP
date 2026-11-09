@@ -37,6 +37,7 @@ public:
     void PlaybackIntentChanged(const CStringW& incoming = CStringW(),bool retainCurrentPlayback=false);
     bool PreparedCompleted();
     void SeekIntentChanged();
+    bool CanCommitQueuedSeek() const;
     bool QueueTimelineSeek(double seconds);
     double PendingTimelineSeek() const;
     void CancelTimelineSeek();

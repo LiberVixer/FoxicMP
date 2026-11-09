@@ -203,14 +203,20 @@ void Window::setContinuousSeekPending(double seconds){
   timeline->setAccessibleDescription(seconds<0?QString():QString("… → %1 (%2: RMB)").arg(clockText(seconds),uiTr("Отмена")));
   timeline->update();
 }
-bool Window::seekTo(double seconds) {
+bool Window::seekTo(double seconds,const std::function<bool()>& queuedGuard) {
   if (stopped || stdinPlayback)
     return false;
   if (DeviceSource::isLive(current)) {
     showOsd(uiTr("Перемотка прямого входа недоступна"));
     return false;
   }
-  if (!seekAvailable(seconds, seconds)) {
+  // A queued command owns its reserved budget slot. The ordinary availability
+  // callback deliberately excludes that slot from competing/manual seeks.
+  const bool available=queuedGuard
+      ? preparedPlayback && current.startsWith("foxicmp-continuous://") && !continuousReloading &&
+        std::isfinite(seconds) && seconds>=0 && seconds<preparedDuration && queuedGuard()
+      : seekAvailable(seconds,seconds);
+  if (!available) {
     showOsd(
         uiTr("Выбранная позиция недоступна или отсутствует в кэше просмотра"));
     timeline->position = pos;
@@ -219,10 +225,12 @@ bool Window::seekTo(double seconds) {
   }
   if(preparedPlayback && current.startsWith("foxicmp-continuous://") && continuousGrowingSeek && !(continuousSeekReady && continuousSeekReady())){
     const bool paused=player->get("pause").toBool();
-    continuousReloadSpeed=player->get("speed").toDouble();
-    holdAfterLoad=paused;continuousReloading=true;
+    const double speed=player->get("speed").toDouble();
+    const auto committed=continuousSeekCommitted;
+    if(queuedGuard && !queuedGuard())return false;
+    continuousReloadSpeed=speed;holdAfterLoad=paused;continuousReloading=true;
     if(!player->reloadContinuousSource(seconds,paused)){continuousReloading=false;holdAfterLoad=false;return false;}
-    if(continuousSeekCommitted)continuousSeekCommitted(true);
+    if(committed)committed(true,bool(queuedGuard));
     return true;
   }
   if (progressive && progressive->confirmedByteSeek()) {
@@ -245,9 +253,12 @@ bool Window::seekTo(double seconds) {
     return true;
   }
   const double offset = progressive ? progressive->status().timestampOffset : 0;
+  const auto committed=continuousSeekCommitted;
+  const bool continuous=preparedPlayback && current.startsWith("foxicmp-continuous://");
+  if(queuedGuard && !queuedGuard())return false;
   const bool accepted=player->command(
       {"seek", QString::number(seconds + offset, 'f', 3), "absolute+exact"});
-  if(accepted && preparedPlayback && current.startsWith("foxicmp-continuous://") && continuousSeekCommitted)continuousSeekCommitted(false);
+  if(accepted && continuous && committed)committed(false,bool(queuedGuard));
   return accepted;
 }
 void Window::reloadProgressive(double seconds,const QString &audioPath) {
@@ -556,7 +567,7 @@ bool Window::openPreparedClip(const std::shared_ptr<foxicmp::progressive::Prepar
   applyAudioSourceOptions();player->attachPrepared(source);state->setText(uiTr("Подготовка фрагмента…"));
   return player->loadSource(current,{{"pause","no"},{"aid","auto"},{"vid","auto"},{"sub-auto","no"},{"audio-file-auto","no"},{"force-media-title",title},{"cache","no"}});
 }
-QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds,std::function<bool(double)> growingSeek,std::function<void(bool)> seekCommitted,std::function<double()> indexedEnd){
+QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds,std::function<bool(double)> growingSeek,std::function<void(bool,bool)> seekCommitted,std::function<double()> indexedEnd){
   if(!source || source->stopped())return {};
   emit playbackIntentChanged();savePosition();closePlaybackFile();
   timeline->preservePositionOnSeek=true;timeline->pending=-1;
@@ -583,12 +594,12 @@ QJsonObject Window::preparedClipStatus(const QString& uri)const{
   if(continuous)result["reasonCode"]=state=="buffering"?(loaded?"waiting-range":"decoder-opening"):state=="paused"?"paused":state=="finished"?"source-complete":state=="error"?"decoder-error":"";
   return result;
 }
-bool Window::preparedClipControl(const QString& uri,const QString& command,double seconds){
+bool Window::preparedClipControl(const QString& uri,const QString& command,double seconds,const std::function<bool()>& queuedGuard){
   if(!preparedPlayback || current!=uri)return false;
   if(command=="cancel"){closeCurrent();return true;}
   if(player->get("path").toString()!=uri || player->get("duration").toDouble()<=0 || preparedFinished)return false;
   if(command=="pause"){if(continuousReloading)holdAfterLoad=true;return player->set("pause",true);}
   if(command=="play"){if(continuousReloading)holdAfterLoad=false;return player->set("pause",false);}
-  if(command=="seek")return seekTo(seconds);
+  if(command=="seek")return seekTo(seconds,queuedGuard);
   return false;
 }

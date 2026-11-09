@@ -34,6 +34,7 @@ private:
   friend class ProgressiveApiTest;
   friend class ContinuousPlayerTest;
   std::function<void()> preparationHook, readerIoHook;
+  std::function<void(bool)> queuedSeekBoundaryHook;
   void acceptClients();
   Window *window;
   QLocalServer server;

@@ -74,6 +74,8 @@ private slots:
   void windowClose_data(){
     QTest::addColumn<QString>("mode");
     for(const auto* mode:{"close-window","destroy-api-before-window","reader-release","reader-release-held-reader","delayed-reader-release","delayed-reader-release-replace","waiting-status","producer-error-paused","growing-timeline","queued-timeline-publish","queued-timeline-stop","queued-timeline-replace","queued-timeline-failure"})QTest::newRow(mode)<<QString(mode);
+    for(const auto* mode:{"commit-before-cancel","commit-before-supersede","commit-before-stop","commit-before-replace","commit-before-failure","commit-after-cancel","commit-after-supersede"})QTest::newRow(mode)<<QString(mode);
+    QTest::newRow("commit-budget")<<QString("commit-budget");
   }
   void windowClose(){
     QFETCH(QString,mode);QTemporaryDir dir;QVERIFY(dir.isValid());const auto profilePath=dir.filePath("profile");
@@ -90,6 +92,51 @@ private slots:
     auto playing=api->request({{"version",1},{"action","continuousRemuxPlay"},{"requestId",QString::fromStdString(p::lease_detail::RandomId())},{"jobId",job["jobId"]},{"sessionId",sid},{"generation","1"},{"writerInstanceId",writer}});QVERIFY(playing["ok"].toBool());
     QTRY_VERIFY_WITH_TIMEOUT(player->get("time-pos").toDouble()>.1,10000);const auto nativeClosed=player->lifetime->closed;
     const QJsonObject playbackQuery{{"version",1},{"action","continuousPlaybackStatus"},{"playbackId",playing["playbackId"]}};
+    if(mode.startsWith("commit-")){
+      const auto playback=api->continuousPlayback;
+      const auto control=[&](const QString& command){return api->request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",playing["playbackId"]},{"command",command}});};
+      const auto queue=[&](double seconds){return api->request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",playing["playbackId"]},{"command","seek"},{"seconds",seconds},{"allowGrowing",true},{"waitForRange",true}});};
+      QVERIFY(control("pause")["ok"].toBool());QTRY_VERIFY(player->get("pause").toBool());
+      if(mode=="commit-budget"){
+        playback->growingSeeks=15;QVERIFY(queue(2)["ok"].toBool());
+        QTRY_VERIFY_WITH_TIMEOUT(playback->seekState=="applied" && std::abs(player->get("time-pos").toDouble()-2)<.12,8000);
+        QCOMPARE(playback->growingSeeks,16u);QVERIFY(player->get("pause").toBool());
+        QCOMPARE(queue(3)["code"].toString(),QString("continuous-seek-limit"));
+      }else{
+      const auto before=player->get("time-pos").toDouble();bool fired=false,hookOk=true;
+      api->queuedSeekBoundaryHook=[&](bool acceptedBoundary){
+        if(fired || acceptedBoundary!=mode.startsWith("commit-after-"))return;
+        fired=true;
+        if(mode.endsWith("cancel"))hookOk=control("cancelSeek")["ok"].toBool();
+        else if(mode.endsWith("supersede"))hookOk=queue(3)["ok"].toBool();
+        else if(mode.endsWith("stop"))hookOk=control("stop")["ok"].toBool();
+        else if(mode.endsWith("replace"))window->openFiles({original});
+        else {
+          auto failed=model;failed["revision"]="2";auto tracks=failed["tracks"].toArray();auto track=tracks[0].toObject();track["state"]="failed";tracks[0]=track;failed["tracks"]=tracks;
+          hookOk=api->request({{"version",1},{"action","continuousRemuxUpdate"},{"jobId",job["jobId"]},{"session",failed}})["ok"].toBool();
+          // Drive the real asynchronous producer failure while the transaction
+          // is on the GUI stack. A nested poll must not submit the old target.
+          QTRY_VERIFY_WITH_TIMEOUT(!playback->producerError().empty() || !playback->output().failure.empty(),5000);
+        }
+      };
+      QVERIFY(queue(2)["ok"].toBool());QTRY_VERIFY_WITH_TIMEOUT(fired,5000);QVERIFY(hookOk);
+      if(mode.endsWith("supersede")){
+        QTRY_VERIFY_WITH_TIMEOUT(playback->seekState=="applied" && std::abs(player->get("time-pos").toDouble()-3)<.12,8000);
+        QCOMPARE(playback->seekRevision,uint64_t(2));QCOMPARE(playback->growingSeeks,mode.startsWith("commit-after-")?2u:1u);QVERIFY(player->get("pause").toBool());
+      }else if(mode.endsWith("cancel")){
+        QTRY_COMPARE(playback->seekState,std::string("cancelled"));QTest::qWait(200);
+        QCOMPARE(playback->growingSeeks,mode.startsWith("commit-after-")?1u:0u);
+        if(mode.startsWith("commit-after-"))QTRY_VERIFY_WITH_TIMEOUT(std::abs(player->get("time-pos").toDouble()-2)<.12,8000);
+        else QVERIFY(std::abs(player->get("time-pos").toDouble()-before)<.12);
+        QVERIFY(player->get("pause").toBool());QVERIFY(playback->pendingSeekSeconds<0);
+      }else if(mode.endsWith("replace")){
+        QTRY_COMPARE_WITH_TIMEOUT(QDir::fromNativeSeparators(player->get("path").toString()),QDir::fromNativeSeparators(original),5000);QCOMPARE(playback->growingSeeks,0u);
+      }else{
+        QTRY_COMPARE_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString(),mode.endsWith("failure")?QString("error"):QString("closed"),5000);QCOMPARE(playback->growingSeeks,0u);
+      }
+      api->queuedSeekBoundaryHook={};
+      }
+    }
     if(mode=="growing-timeline"){
       const auto control=[&](const QString& name){return api->request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",playing["playbackId"]},{"command",name}});};
       QVERIFY(control("pause")["ok"].toBool());QTRY_VERIFY(player->get("pause").toBool());

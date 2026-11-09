@@ -200,7 +200,7 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
         next->committing=true;
         next->uri=window->openContinuousSource(next->source,double(next->duration)/10000000.,QString::fromStdString(c.title),[observe=next->output]{return observe().complete;},[observe=next->producerError]{return QString::fromStdString(observe());},c.startSeconds,
           [next](double target){try{next->checkSeek(target,true);return true;}catch(const foxicmp::progressive::Error&){return false;}},
-          [next](bool growing){next->committedSeek(growing);},[next]{const auto state=next->output();return state.complete?double(next->duration)/10000000.:double(state.indexedEnd100ns)/10000000.;}).toStdString();
+          [next](bool growing,bool queued){next->committedSeek(growing,queued);},[next]{const auto state=next->output();return state.complete?double(next->duration)/10000000.:double(state.indexedEnd100ns)/10000000.;}).toStdString();
         next->committing=false;continuousPlayback=next;
         if(next->uri.empty()){next->error="continuous-start-failed";next->closed=true;continuousRemux->cancelPlaybackJob(c.jobId);}
         if(c.activate)window->restoreFromTray();return continuousStatus();
@@ -552,10 +552,12 @@ void ProgressiveApi::pollContinuousSeek(){
   if(p->closed || state=="error" || state=="closed" || state=="finished"){
     p->clearPendingSeek(state=="error"?"error":"cancelled",status["reasonCode"].toString().toStdString());return;
   }
-  try{p->checkSeek(p->pendingSeekSeconds,true);}catch(const foxicmp::progressive::Error& e){
-    if(e.code!="waiting-range")p->clearPendingSeek("error",e.code);return;
-  }
-  if(window->preparedClipControl(QString::fromStdString(p->uri),"seek",p->pendingSeekSeconds)){
-    p->pendingSeekSeconds=-1;p->seekState="applied";p->seekError.clear();
-  }
+  try{
+    p->applyQueuedSeek([&]{return continuousPlayback==p && window->ownsPreparedClip(QString::fromStdString(p->uri));},
+      [&](double){const auto hook=queuedSeekBoundaryHook;if(hook)hook(false);return true;},
+      [&](double seconds){
+        const bool accepted=window->preparedClipControl(QString::fromStdString(p->uri),"seek",seconds,[&]{return continuousPlayback==p && p->queuedSubmissionAllowed() && window->ownsPreparedClip(QString::fromStdString(p->uri));});
+        const auto hook=queuedSeekBoundaryHook;if(hook)hook(true);return accepted;
+      });
+  }catch(const foxicmp::progressive::Error& e){if(e.code!="waiting-range")p->clearPendingSeek("error",e.code);}
 }

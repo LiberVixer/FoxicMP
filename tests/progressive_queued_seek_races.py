@@ -74,10 +74,15 @@ def exercise(peers,root,report,stress=False):
         assert not list(Path(str(peer.registry)+'.continuous-cache').glob('remux-*')) if sdk.client is peer.client else True
         return dict(release=receipt,receipts=receipts,forgotten=forgotten,closeSeconds=elapsed)
     def settled(sdk,target,remaining):
+        last=None
         def poll():
+            nonlocal last
             s=sdk.playback_status();assert s['state'] not in ('error','closed','finished'),s
+            last=s
             return s if s['state']=='paused' and s['pendingSeekSeconds'] is None and s['seekState']=='applied' and abs(s['positionSeconds']-target)<.12 else None
-        s=wait(poll,'queued target applied',10);assert s['remainingGrowingSeeks'] in remaining if isinstance(remaining,tuple) else s['remainingGrowingSeeks']==remaining,s;return s
+        try:s=wait(poll,'queued target applied',10)
+        except AssertionError as e:raise AssertionError(('Queued seek deadline',target,remaining,last)) from e
+        assert s['remainingGrowingSeeks'] in remaining if isinstance(remaining,tuple) else s['remainingGrowingSeeks']==remaining,s;return s
     def cancel_regular(model):
         answer=request(dict(version=1,action='cancel',sessionId=model['sessionId']))['reply'];assert answer['ok'],answer
         receipts=wait(lambda:(lambda rs:rs if rs and all(r['released'] and r['filesClosed'] for r in rs) else None)(peer.client.readers(model['sessionId'],1)),'regular replacement released',2)

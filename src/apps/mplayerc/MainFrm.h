@@ -728,6 +728,8 @@ public:
 	bool GetNeighbouringKeyFrames(REFERENCE_TIME rtTarget, std::pair<REFERENCE_TIME, REFERENCE_TIME>& keyframes) const;
 	REFERENCE_TIME const GetClosestKeyFrame(REFERENCE_TIME rtTarget);
 	void SeekTo(REFERENCE_TIME rt, bool bShowOSD = true);
+    bool SeekQueuedTo(REFERENCE_TIME rt);
+    bool SeekToInternal(REFERENCE_TIME rt, bool showOSD, bool queued);
 	bool ValidateSeek(REFERENCE_TIME rtPos, REFERENCE_TIME rtStop);
     bool QueueContinuousSeek(REFERENCE_TIME pos);
     REFERENCE_TIME PendingContinuousSeek() const;
