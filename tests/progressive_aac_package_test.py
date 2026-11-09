@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('timeline-ui','queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
+    parser.add_argument('--scenario',choices=('queued-races','queued-stress','timeline-ui','queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
     parser.add_argument('--classic-ui-theme',choices=('dark','light'))
     parser.add_argument('--classic-null-video',action='store_true',help='Private profile: require decoded video without a desktop renderer')
@@ -36,7 +36,10 @@ def main():
     assert all(Path(m.__file__).resolve().parent==sdk for m in modules.values())
     from progressive_continuous_api_test import run
     from progressive_player_crash_recovery import sha
-    if args.scenario=='timeline-ui':
+    if args.scenario in ('queued-races','queued-stress'):
+        import progressive_queued_seek_races as case
+        exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,stress=args.scenario=='queued-stress')
+    elif args.scenario=='timeline-ui':
         if args.edition!='classic' or os.name!='nt' or args.classic_ui_theme is None:parser.error('timeline-ui requires Windows Classic and explicit private theme')
         from windows import progressive_classic_timeline_test as case
         exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,args.classic_ui_theme=='dark')
