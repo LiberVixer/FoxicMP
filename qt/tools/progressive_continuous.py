@@ -12,6 +12,7 @@ from pathlib import Path
 import threading
 import time
 import uuid
+from progressive_client import ApiError
 
 MODE = 'continuous-h264-video-v1'
 REORDERED_MODE = 'continuous-h264-reordered-video-v1'
@@ -73,6 +74,8 @@ class ContinuousRemux:
                 or not ACTIONS <= set(caps.get('actions', []))):
             raise RuntimeError('Player lacks the explicit continuous MP4/H.264 video contract')
         self.capability = copy.deepcopy(cap)
+        self._initial_position_capability=copy.deepcopy(cap.get('initialPosition'))
+        self._start_seconds=0
         if mode != MODE:
             profiles = cap.get('profiles')
             selected = profiles.get(mode) if isinstance(profiles, dict) else None
@@ -110,6 +113,9 @@ class ContinuousRemux:
         if (known is not None and identifier != known) or (playback and reply.get('jobId') != self.job_id):
             raise RuntimeError('Continuous reply belongs to another owner')
         if playback:
+            if self._start_seconds and (type(reply.get('startSeconds')) not in (int,float)
+                    or not math.isfinite(reply['startSeconds']) or reply['startSeconds']!=self._start_seconds):
+                raise RuntimeError('Unexpected initial playback position')
             self.playback_id = identifier
         else:
             self.job_id = identifier
@@ -172,19 +178,50 @@ class ContinuousRemux:
                 raise RuntimeError('This preview is closing')
             return self._fenced('continuousRemuxHeartbeat')
 
-    def play(self, *, title='FoxicMP', replace=False, activate=False):
+    def play(self, *, title='FoxicMP', replace=False, activate=False, start_seconds=0):
         with self.lock:
             if self.closing or self.play_request_id is not None:
                 raise RuntimeError('Playback was already requested; recover with playback_status()')
             if type(replace) is not bool or type(activate) is not bool or not isinstance(title, str) or len(title.encode('utf-8')) > 1024:
                 raise ValueError('Invalid playback options')
+            if type(start_seconds) not in (int, float) or not math.isfinite(start_seconds) or not 0 <= start_seconds < 3600:
+                raise ValueError('Invalid initial position')
+            if start_seconds:
+                cap=self._initial_position_capability
+                if (not isinstance(cap,dict) or type(cap.get('version')) is not int or cap['version']!=1
+                        or cap.get('field')!='continuousRemuxPlay.startSeconds'
+                        or cap.get('range')!='published-presentation-prefix'
+                        or cap.get('completeRange')!='source-duration'
+                        or cap.get('pending')!='caller-retry'
+                        or cap.get('decoderMayBuffer') is not True):
+                    raise RuntimeError('Player lacks explicit initial-position support')
             ready = self.status()
             if ready.get('playbackReady') is not True:
                 raise RuntimeError('Preparation is not ready; playback was not requested')
+            if start_seconds:
+                duration=ready.get('durationSeconds');boundary=ready.get('indexedEndSeconds')
+                if (type(duration) not in (int,float) or not math.isfinite(duration)
+                        or math.ceil(start_seconds*10000000)>=round(duration*10000000)):
+                    raise ValueError('Initial position exceeds source duration')
+                if ready.get('outputComplete') is not True and (type(boundary) not in (int,float)
+                        or not math.isfinite(boundary) or math.ceil(start_seconds*10000000)>=round(boundary*10000000)):
+                    raise RuntimeError('Wait for confirmed initial position; playback was not requested')
+            self._start_seconds=start_seconds
             self.play_request_id = uuid.uuid4().hex
-            return self._check(self.client.request(dict(version=1, action='continuousRemuxPlay',
+            fields=dict(version=1, action='continuousRemuxPlay',
                 jobId=self.job_id, requestId=self.play_request_id, **self.identity,
-                title=title, replace=replace, activate=activate)), playback=True)
+                title=title, replace=replace, activate=activate)
+            if start_seconds:fields['startSeconds']=start_seconds
+            try:
+                reply=self.client.request(fields)
+            except ApiError as error:
+                # An explicit range rejection occurs before ticket creation.
+                # A lost/ambiguous reply retains the identity for read-only recovery.
+                if start_seconds and error.code=='waiting-range':
+                    self.play_request_id=None
+                    self._start_seconds=0
+                raise
+            return self._check(reply, playback=True)
 
     def playback_status(self, *, timeout=5):
         with self.lock:

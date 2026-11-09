@@ -9,6 +9,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
 from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE
+from progressive_client import ApiError
 
 CAP = json.loads(re.search(r'return R"\((.*?)\)";',
     (ROOT/'shared/progressivestreamcapabilities.h').read_text(), re.S).group(1))
@@ -18,6 +19,7 @@ class Client:
     def __init__(self):
         self.calls = [];self.job = None;self.play = None;self.drop = set()
         self.ready = True;self.released = True;self.foreign = False
+        self.duration=24;self.boundary=3;self.complete=False
 
     def request(self, message, timeout=5):
         self.calls.append(copy.deepcopy(message));action = message['action']
@@ -29,9 +31,11 @@ class Client:
                 sessionId=s['sessionId'], generation=s['generation'], writerInstanceId=s['writer']['instanceId'])
         if action == 'continuousRemuxPlay':
             self.play = {**self.job, 'requestId': message['requestId'], 'playbackId': 'b'*32}
+            if 'startSeconds' in message:self.play['startSeconds']=message['startSeconds']
         playback = action in ('continuousRemuxPlay','continuousPlaybackStatus','continuousPlaybackControl')
         result = dict(self.play if playback else self.job)
         result.update(playbackReady=self.ready, released=self.released, sourceFilesClosed=self.released,
+            durationSeconds=self.duration,indexedEndSeconds=self.boundary,outputComplete=self.complete,
             forgotten=action == 'continuousRemuxForget', state='playing' if playback else 'ready')
         if self.foreign:result['generation'] = '2'
         if action in self.drop:
@@ -40,6 +44,42 @@ class Client:
 
 
 class Test(unittest.TestCase):
+    def test_initial_position_racing_range_rejection_can_retry(self):
+        c,p=self.setup_preview();original=c.request;reject=[True]
+        def request(message,timeout=5):
+            if message['action']=='continuousRemuxPlay' and reject.pop():
+                raise ApiError(dict(ok=False,code='waiting-range',error='Wait for output'))
+            return original(message,timeout)
+        c.request=request
+        self.assertRaises(ApiError,p.play,start_seconds=1);self.assertIsNone(p.play_request_id)
+        c.request=original;p.play(start_seconds=1);self.assertIsNotNone(p.playback_id)
+
+    def test_initial_position_default_remains_legacy_request(self):
+        c,p=self.setup_preview();p.play();self.assertNotIn('startSeconds',c.calls[-1])
+
+    def test_initial_position_invalid_does_not_consume_intent(self):
+        for value in (True,-1,float('nan'),float('inf'),3600,'1'):
+            c,p=self.setup_preview();self.assertRaises(ValueError,p.play,start_seconds=value);self.assertIsNone(p.play_request_id)
+
+    def test_initial_position_wait_and_duration(self):
+        c,p=self.setup_preview();self.assertRaises(RuntimeError,p.play,start_seconds=3);self.assertIsNone(p.play_request_id)
+        self.assertRaises(ValueError,p.play,start_seconds=24);self.assertIsNone(p.play_request_id)
+        p.play(start_seconds=1);self.assertEqual(c.calls[-1]['startSeconds'],1)
+
+    def test_initial_position_complete_and_lost_reply(self):
+        c,p=self.setup_preview();c.complete=True;c.drop.add('continuousRemuxPlay')
+        self.assertRaises(TimeoutError,p.play,start_seconds=8);self.assertEqual(p.playback_status()['startSeconds'],8)
+
+    def test_initial_position_capability_is_not_mutable_permission(self):
+        c=Client();original=c.request
+        def request(message,timeout=5):
+            result=original(message,timeout)
+            if message['action']=='capabilities':result['continuousRemux'].pop('initialPosition')
+            return result
+        c.request=request;p=ContinuousRemux(c,str(ROOT));p.prepare(self.model(),'clip')
+        p.capability['initialPosition']=CAP['initialPosition']
+        self.assertRaises(RuntimeError,p.play,start_seconds=1);self.assertIsNone(p.play_request_id)
+
     def model(self):
         return dict(sessionId='c'*32, generation='1', revision='1', writer=dict(instanceId='d'*32))
 

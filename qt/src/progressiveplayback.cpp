@@ -531,14 +531,16 @@ bool Window::openPreparedClip(const std::shared_ptr<foxicmp::progressive::Prepar
   applyAudioSourceOptions();player->attachPrepared(source);state->setText(uiTr("Подготовка фрагмента…"));
   return player->loadSource(current,{{"pause","no"},{"aid","auto"},{"vid","auto"},{"sub-auto","no"},{"audio-file-auto","no"},{"force-media-title",title},{"cache","no"}});
 }
-QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure){
+QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds){
   if(!source || source->stopped())return {};
   emit playbackIntentChanged();savePosition();closePlaybackFile();
   preparedPlayback=true;preparedFinished=false;preparedDuration=total;continuousSeekReady=std::move(seekReady);continuousFailure=std::move(failure);holdAfterLoad=false;lastError.clear();
   pendingLaunchOptions={};pendingTrackSelections.clear();audioUserSelection=subtitleUserSelection=false;pendingResume=-1;
   pos=0;duration=total;timeline->position=0;timeline->duration=total;timeline->available=-1;timeline->chapters.clear();
   applyAudioSourceOptions();state->setText(uiTr("Подготовка видео…"));
-  if(!player->loadContinuousSource(source,{{"pause","no"},{"force-media-title",title}})){preparedPlayback=false;return {};}
+  QMap<QString,QString> options{{"pause","no"},{"force-media-title",title}};
+  if(startSeconds>0){options["start"]=QString::number(startSeconds,'f',7);options["hr-seek"]="yes";options["hr-seek-demuxer-offset"]="0.25";}
+  if(!player->loadContinuousSource(source,options)){preparedPlayback=false;return {};}
   current=expectedPlaybackSource=player->continuousSourceUri();return current;
 }
 QJsonObject Window::preparedClipStatus(const QString& uri)const{

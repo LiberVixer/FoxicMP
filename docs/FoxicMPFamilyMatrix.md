@@ -1391,3 +1391,27 @@ stop. Red control старого кода дал exit 1, конечные native
 Linux EXE обновлён с backup/неизменным INI и прочими 578 файлами папки. Из 583
 исходных защищённых файлов изменился только Linux EXE; Windows-установки,
 158 shell entries, Harvester и опубликованные assets сохранены.
+
+
+### 9 ноября 2026: публичная начальная позиция continuous playback
+
+[SDK-кандидат 1.85](ProgressiveInitialPosition.md) добавляет opt-in
+`continuousRemuxPlay.startSeconds` и `ContinuousRemux.play(start_seconds=...)`
+для трёх редакций, с range admission до изменения намерения playback.
+Status содержит duration/indexedEnd/start; недоступная позиция возвращает
+waiting-range, потерянный ответ восстанавливается по прежнему requestId.
+Прежний SDK 1.84 и control seek complete-only сохранены.
+
+[Результаты](ProgressiveInitialPositionValidation-2026-11-09.json): 120 обычных
+main cases (60 новых и 60 старого SDK), 80 native admission и 32 helper checks,
+конечные driver exits 0. Classic использовал отдельные профили с Null Video
+Renderer (Uncompressed): desktop MPCVR показал модальную ошибку загрузки,
+причина записана, готовность экранного renderer не объявляется. Harvester,
+Windows-профили и регистрации приложений не меняются. Повторный growing seek
+и UI остаются в плане; initial position не закрывает их.
+
+Установленный Linux EXE/worker/SDK-кандидат 1.85 обновлён с backup: ещё 20
+сценариев прошли, INI совпал, личные файлы сохранены. Исходных защищённых файлов
+583: 572 неизменны, 11 обновлений приложения/SDK; дополнительно два документа.
+158 HKCU shell entries совпали. SDK-кандидат прошёл 323 file SHA/10 imports;
+новый release не публиковался, Windows-установки не заменены.

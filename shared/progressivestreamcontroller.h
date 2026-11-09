@@ -173,6 +173,8 @@ class ContinuousRemuxController {
             text("producerCode",v->native.source.code);text("neededOffset",std::to_string(v->native.source.neededOffset));text("visibleBytes",std::to_string(v->native.output.visible));text("writtenBytes",std::to_string(v->native.output.written));
             text("maximumReadEnd",std::to_string(v->native.source.maximumReadEnd));out.AddMember("fragments",v->native.output.fragments,a);out.AddMember("samples",v->native.output.samples,a);
             out.AddMember("queuedUpdates",uint64_t(queued),a);out.AddMember("neededLength",v->native.source.neededLength,a);out.AddMember("workerId",v->native.source.workerId,a);
+            out.AddMember("indexedEndSeconds",double(v->native.output.indexedEnd100ns)/10000000.,a);
+            out.AddMember("durationSeconds",double(admitted.duration)/10000000.,a);
             out.AddMember("playbackReady",bool(v->decoder) && !cancel.load() && !forget.load() && !stop.load(),a);out.AddMember("sourceComplete",v->native.source.sourceComplete,a);out.AddMember("outputComplete",v->native.output.complete,a);
             out.AddMember("sourceFilesClosed",v->native.source.filesClosed,a);out.AddMember("released",v->released,a);out.AddMember("forgotten",v->forgotten,a);
             Value ids(rapidjson::kArrayType);for(const auto& id:v->native.source.readerIds)ids.PushBack(Value(id.c_str(),a),a);for(const auto& id:v->native.output.readerIds)ids.PushBack(Value(id.c_str(),a),a);out.AddMember("readerIds",ids,a);

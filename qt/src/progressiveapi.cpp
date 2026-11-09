@@ -188,8 +188,9 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
         next->output=continuousRemux->outputObserver(c.jobId);
         next->producerError=continuousRemux->errorObserver(c.jobId);
         if(window->hasPlayback() && !c.replace)return failure("session_busy","Playback replacement must be explicit");
+        next->checkInitialPosition();
         next->committing=true;
-        next->uri=window->openContinuousSource(next->source,double(next->duration)/10000000.,QString::fromStdString(c.title),[observe=next->output]{return observe().complete;},[observe=next->producerError]{return QString::fromStdString(observe());}).toStdString();
+        next->uri=window->openContinuousSource(next->source,double(next->duration)/10000000.,QString::fromStdString(c.title),[observe=next->output]{return observe().complete;},[observe=next->producerError]{return QString::fromStdString(observe());},c.startSeconds).toStdString();
         next->committing=false;continuousPlayback=next;
         if(next->uri.empty()){next->error="continuous-start-failed";next->closed=true;continuousRemux->cancelPlaybackJob(c.jobId);}
         if(c.activate)window->restoreFromTray();return continuousStatus();
@@ -524,5 +525,6 @@ QJsonObject ProgressiveApi::continuousStatus()const{
   result["playbackId"]=QString::fromStdString(p.id);result["requestId"]=QString::fromStdString(p.command.requestId);result["jobId"]=QString::fromStdString(p.command.jobId);
   result["sessionId"]=QString::fromStdString(p.command.sessionId);result["generation"]=QString::number(p.command.generation);result["writerInstanceId"]=QString::fromStdString(p.command.writer);
   result["durationSeconds"]=double(p.duration)/10000000.;result["outputComplete"]=out.complete;result["decoderReaders"]=int(out.activeReaders);
+  result["startSeconds"]=p.command.startSeconds;
   QJsonArray ids;for(const auto& id:out.readerIds)ids.append(QString::fromStdString(id));result["readerIds"]=ids;return result;
 }

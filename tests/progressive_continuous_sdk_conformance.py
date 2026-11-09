@@ -25,7 +25,7 @@ class DropReplies:
         return reply
 
 
-def exercise(peers, root, mode=MODE):
+def exercise(peers, root, mode=MODE, initial_position=False):
     rows=[];source=fixture(root,'source',bframes=2 if mode==REORDERED_MODE else 0);raw=source.read_bytes();client=peers[0].client
     cap=client.request(dict(version=1,action='capabilities'))
     assert ACTIONS <= set(cap['actions']) and cap['continuousRemux']['mode']==MODE,cap
@@ -76,12 +76,14 @@ def exercise(peers, root, mode=MODE):
         model['resources'][0]['ranges']=[dict(offset='0',length=str(n))];model=protect_snapshot(model,directory,previous=previous)
         return sdk.publish(model)
     publish(len(raw)*2//3);prepared(sdk);sdk.heartbeat()
+    if initial_position:wait(lambda:sdk.status()['indexedEndSeconds']>2,'initial position coverage')
     assert not any(m['action']=='continuousRemuxPlay' for m in transport.calls)
     transport.drop.add('continuousRemuxPlay')
-    try:sdk.play(title='SDK public preview')
+    try:sdk.play(title='SDK public preview',**({'start_seconds':1} if initial_position else {}))
     except TimeoutError:pass
     else:raise AssertionError('Playback reply loss was not injected')
     restored=sdk.playback_status();running=playing(sdk)
+    if initial_position:assert restored['startSeconds']==1 and .99<=running['positionSeconds']<2,running
     n=len(transport.calls)
     try:sdk.play()
     except RuntimeError:pass

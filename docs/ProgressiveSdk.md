@@ -14,6 +14,11 @@ SHA-256 файлов. Воспроизведение v1 сохраняется; 
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
+SDK 1.85 добавляет [явную начальную позицию continuous playback](ProgressiveInitialPosition.md):
+`preview.play(start_seconds=1)`. Поле opt-in, новый EXE обязателен; прежний SDK 1.84
+и `continuousPlaybackControl seek` сохраняют своё поведение. Растущий кэш может
+потребовать дополнительной буферизации после открытия выбранной позиции.
+
 SDK 1.82 добавляет [явный ограниченный непрерывный remux](ProgressiveContinuousSdk.md):
 `progressive_continuous.ContinuousRemux`, отдельные prepare/play и read-only
 восстановление после потери ответа. Нужны соответствующие новые EXE и worker;

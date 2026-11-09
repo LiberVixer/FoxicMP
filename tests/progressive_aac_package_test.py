@@ -21,10 +21,12 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
+    parser.add_argument('--scenario',choices=('initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
+    parser.add_argument('--classic-null-video',action='store_true',help='Private profile: require decoded video without a desktop renderer')
     parser.add_argument('--report-directory',type=Path,required=True)
     args=parser.parse_args();sdk=args.sdk_directory.resolve()
+    if args.classic_null_video and args.edition!='classic':parser.error('--classic-null-video requires Classic')
     if args.scenario=='aac-heartbeat-idle-stability' and (args.edition!='classic' or os.name!='nt'):
         parser.error('aac-heartbeat-idle-stability requires Windows Classic')
     sys.path.insert(0,str(sdk))
@@ -33,7 +35,14 @@ def main():
     assert all(Path(m.__file__).resolve().parent==sdk for m in modules.values())
     from progressive_continuous_api_test import run
     from progressive_player_crash_recovery import sha
-    if args.scenario=='aac':
+    if args.scenario=='initial-position':
+        import progressive_initial_position_api_test as case
+        exercise=lambda peers,root:case.exercise(peers,root,args.expected_audio_output)
+    elif args.scenario in ('initial-position-video','initial-position-reordered'):
+        import progressive_continuous_sdk_conformance as case
+        mode=modules['progressive_continuous'].REORDERED_MODE if args.scenario.endswith('reordered') else modules['progressive_continuous'].MODE
+        exercise=lambda peers,root:case.exercise(peers,root,mode,initial_position=True)
+    elif args.scenario=='aac':
         import progressive_continuous_aac_api_test as case
         exercise=lambda peers,root:case.exercise(peers,root,args.expected_audio_output)
     elif args.scenario in ('legacy','reordered'):
@@ -79,6 +88,9 @@ def main():
                     (dest/'history.mpc_lst').write_text('; FoxicMP History File 0.1\n\n[001]\nPath=continuous-video.mp4\nTitle=Existing continuous alias\nPosition=00:00:37\n',encoding='utf-8-sig')
                 if not settings.has_section('Audio'):settings.add_section('Audio')
                 settings.set('Audio','AudioRenderer','Null Audio Renderer (Uncompressed)')
+                if args.classic_null_video:
+                    if not settings.has_section('Video'):settings.add_section('Video')
+                    settings.set('Video','VideoRenderer','11')
                 with ini.open('w',encoding='utf-16') as file:settings.write(file,space_around_delimiters=False)
                 players.append(str(player))
         def checked(peers,work):
@@ -94,6 +106,7 @@ def main():
                 raise
         result=run(SimpleNamespace(edition=args.edition,player=players,reader_runner=str(args.reader_runner),report_directory=str(args.report_directory)),exercise_case=checked,source_file=case.__file__)
     result.update(ordinaryPackagedMain=True,packagedMainAcceptance=True,privatePeerCopiesRemoved=not root.exists(),sdkDirectory=str(sdk),sdkModuleSha256={name:sha(module.__file__) for name,module in modules.items()},driverSha256=sha(__file__),scenario=args.scenario)
+    result['classicPrivateNullVideo']=args.classic_null_video
     (args.report_directory/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(result=result['result'],count=result['count'])))
 

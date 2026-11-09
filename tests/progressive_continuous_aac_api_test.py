@@ -11,6 +11,7 @@ sys.dont_write_bytecode=True
 os.environ["PYTHONDONTWRITEBYTECODE"]="1"
 import time
 import traceback
+import uuid
 bootstrap=argparse.ArgumentParser(add_help=False)
 bootstrap.add_argument('--sdk-directory',type=Path)
 sdk_args,_=bootstrap.parse_known_args()
@@ -31,13 +32,13 @@ from progressive_stream_aac_aligned_test import fixture
 from progressive_stream_remux_worker_test import probe
 
 
-def exercise(peers,root,audio_output='null'):
+def exercise(peers,root,audio_output='null',initial_position=False):
     rows=[];client=peers[0].client
     for label,rate,channels,fps,bframes,first,n in PROFILES:
         folder=root/label;folder.mkdir();samples=n if n is not None else rate*14+137
         original,_=fixture(folder,'original',rate,channels,fps,bframes,first,False,seconds=14.137,samples=samples)
         raw=original.read_bytes();before=sha(original);packets=probe(original)['packets']
-        prefix=int(next(p['pos'] for p in packets if p['codec_type']=='video' and Fraction(p['pts_time'])>=12))+13
+        prefix=int(next(p['pos'] for p in packets if p['codec_type']=='video' and Fraction(p['pts_time'])>=(13 if initial_position else 12)))+13
         path=folder/'input.part';model=av_snapshot(path,raw,4);path.write_bytes(raw)
         model['timeline']['duration']='143000000'
         sdk=ContinuousRemux(client,str(folder),mode=AAC_MODE)
@@ -66,13 +67,31 @@ def exercise(peers,root,audio_output='null'):
             else:raise AssertionError('Playback accepted before PCM plan')
             assert sdk.play_request_id is None
             publish(prefix)
-            ready=until(lambda:(lambda s:s if s['playbackReady'] else None)(sdk.status()),'AAC validated plan')
+            ready=until(lambda:(lambda s:s if s['playbackReady'] and (not initial_position or s['indexedEndSeconds']>2) else None)(sdk.status()),'AAC validated plan')
             assert ready['audioWindowReady'] and ready['audioSampleRate']==rate and ready['audioChannels']==channels and ready['audioPresentationSamples']==str(samples),ready
-            sdk.play(title='AAC SDK '+label)
+            rejected=None
+            if initial_position:
+                try:sdk.play(start_seconds=13.9)
+                except RuntimeError:pass
+                else:raise AssertionError('SDK initial target outside prefix was accepted')
+                assert sdk.play_request_id is None
+                rejected_id=uuid.uuid4().hex
+                try:client.request(dict(version=1,action='continuousRemuxPlay',jobId=sdk.job_id,requestId=rejected_id,**sdk.identity,startSeconds=13.9))
+                except ApiError as e:assert e.code=='waiting-range',e.reply;rejected=e.reply
+                else:raise AssertionError('Raw initial target outside prefix was accepted')
+                try:client.request(dict(version=1,action='continuousPlaybackStatus',requestId=rejected_id))
+                except ApiError as e:assert e.code=='unknown-continuous-playback',e.reply
+                else:raise AssertionError('Rejected request consumed playback intent')
+            sdk.play(title='AAC SDK '+label,**({'start_seconds':1} if initial_position else {}))
             def playing():
                 s=sdk.playback_status();(folder/'last-playback.json').write_text(json.dumps(s,indent=2),encoding='utf-8');assert s['state'] not in ('error','closed'),s
-                return s if s['state']=='playing' and s['positionSeconds']>.15 and s['pcmWindowApplied'] else None
+                start=s.get('startSeconds',0)
+                finite_audio_ended=start>0 and samples<=rate and peers[0].edition=='classic'
+                pcm_ready=not s['pcmWindowApplied'] if finite_audio_ended else s['pcmWindowApplied']
+                audio_ready=peers[0].edition!='qt' or s['audioOutput']==audio_output or (samples==1 and s['audioOutput']=='')
+                return s if s['state']=='playing' and s['positionSeconds']>start+.15 and pcm_ready and audio_ready else None
             running=until(playing,'AAC decoder playback')
+            if initial_position:assert running['startSeconds']==1 and .99<=running['positionSeconds']<2 and not running['outputComplete'],running
             assert running['audio'] and not running['outputComplete'],running
             if peers[0].edition=='qt':assert (running['audioOutput']==audio_output or (samples==1 and running['audioOutput']=='')) and running['audioCodec']=='aac',running
             sdk.control('pause');paused=until(lambda:(lambda s:s if s['state']=='paused' else None)(sdk.playback_status()),'AAC pause')
@@ -96,7 +115,7 @@ def exercise(peers,root,audio_output='null'):
             receipt=sdk.close(timeout=2);assert receipt['released'] and receipt['sourceFilesClosed'],receipt
             forgotten=sdk.forget(timeout=2);assert forgotten['forgotten'],forgotten
             assert sha(path)==sha(original)==before
-            rows.append(dict(profile=label,result='PASS',initial=initial,pending=pending,ready=ready,running=running,pause=paused,heldPause=held,seekReply=seek_reply,seek=sought,finished=finished,release=receipt,forgotten=forgotten,sourceSha256=before))
+            rows.append(dict(profile=label,result='PASS',initial=initial,pending=pending,ready=ready,running=running,pause=paused,heldPause=held,seekReply=seek_reply,seek=sought,finished=finished,release=receipt,forgotten=forgotten,sourceSha256=before,rejectedInitialPosition=rejected))
             (root/'completed-cases.json').write_text(json.dumps(rows,indent=2),encoding='utf-8')
         finally:
             primary_failure=sys.exc_info()[0] is not None

@@ -328,6 +328,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
                     next->output=continuousRemux->outputObserver(c.jobId);
                     next->producerError=continuousRemux->errorObserver(c.jobId);
                     if((frame.GetLoadState()!=MLS_CLOSED || frame.HasHarvesterPlayback()) && !c.replace)return Failure("session_busy","Playback replacement must be explicit");
+                    next->checkInitialPosition();
                     PlaybackIntentChanged();continuousEpoch=intentEpoch;continuousPlayback=next;continuousFinished=false;continuousNative.reset();
                     continuousOpening=foxicmp::progressive::SourceOpening<CHarvesterSession>::launch([next]{
                         CStringW error;auto source=CHarvesterSession::OpenContinuous(next->source,next->duration,error);
@@ -565,6 +566,7 @@ void ClassicProgressiveApi::PollContinuous(){
     ticket->committing=true;continuousNative=job->candidate;
     auto data=std::make_unique<OpenFileData>();data->harvesterManifest=L"continuous-api";data->fi=CStringW(job->candidate->Path(0).c_str());data->fi.SetTitle(Wide(ticket->command.title));data->title=Wide(ticket->command.title).GetString();data->bAddRecent=FALSE;data->preparedHarvester=job->candidate;
     for(size_t i=1;i<job->candidate->TrackCount();++i)data->auds.emplace_back(job->candidate->Path(int(i)).c_str());
+    if(ticket->command.startSeconds>0)data->rtStart=REFERENCE_TIME(std::llround(ticket->command.startSeconds*10000000.));
     frame.OpenMedia(std::move(data));ticket->committing=false;
     if(ticket->closed || !frame.OwnsHarvester(job->candidate)){
         ticket->closed=true;continuousRemux->cancelPlaybackJob(ticket->command.jobId);
@@ -584,5 +586,6 @@ std::string ClassicProgressiveApi::ContinuousStatus(){
     text("playbackId",p.id);text("requestId",p.command.requestId);text("jobId",p.command.jobId);text("sessionId",p.command.sessionId);text("generation",std::to_string(p.command.generation));text("writerInstanceId",p.command.writer);text("state",state);text("error",error);
     d.AddMember("active",std::string(state)=="opening" || std::string(state)=="buffering" || std::string(state)=="playing" || std::string(state)=="paused",a);
     d.AddMember("positionSeconds",loaded?double(frame.GetPos())/10000000.:0.,a);d.AddMember("durationSeconds",double(p.duration)/10000000.,a);d.AddMember("outputComplete",out.complete,a);d.AddMember("decoderReaders",uint64_t(out.activeReaders),a);
+    d.AddMember("startSeconds",p.command.startSeconds,a);
     Value ids(rapidjson::kArrayType);for(const auto& id:out.readerIds)ids.PushBack(Value(id.c_str(),a),a);d.AddMember("readerIds",ids,a);return Encode(d);
 }

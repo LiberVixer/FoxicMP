@@ -7,7 +7,7 @@ namespace foxicmp { namespace progressive {
 inline bool ContinuousPlaybackAction(const std::string& action){return action=="continuousRemuxPlay" || action=="continuousPlaybackStatus" || action=="continuousPlaybackControl";}
 struct ContinuousPlaybackCommand {
     std::string action,id,requestId,fingerprint,jobId,sessionId,writer,title,command;
-    uint64_t generation=0;double seconds=0;bool replace=false,activate=false,byRequest=false;
+    uint64_t generation=0;double seconds=0,startSeconds=0;bool replace=false,activate=false,byRequest=false;
 };
 inline ContinuousPlaybackCommand ParseContinuousPlayback(const std::string& json){
     Require(json.size()<=65536,"continuousPlayback","Request exceeds 64 KiB","invalid_request");
@@ -16,11 +16,16 @@ inline ContinuousPlaybackCommand ParseContinuousPlayback(const std::string& json
     Require(d.HasMember("version") && d["version"].IsUint() && d["version"].GetUint()==1 && d.HasMember("action"),"continuousPlayback","Expected version 1","invalid_request");
     ContinuousPlaybackCommand c;c.action=Text(d["action"],"action",32);
     if(c.action=="continuousRemuxPlay"){
-        Keys(d,"continuousPlayback",{"version","action","jobId","requestId","sessionId","generation","writerInstanceId"},{"title","replace","activate"});
+        Keys(d,"continuousPlayback",{"version","action","jobId","requestId","sessionId","generation","writerInstanceId"},{"title","replace","activate","startSeconds"});
         c.jobId=Id(d["jobId"],"jobId",true);c.requestId=Id(d["requestId"],"requestId",true);c.sessionId=Id(d["sessionId"],"sessionId",true);
         c.generation=Unsigned(d["generation"],"generation");c.writer=Id(d["writerInstanceId"],"writerInstanceId",true);
         c.title=d.HasMember("title")?Text(d["title"],"title",1024):"FoxicMP";for(auto& ch:c.title)if(static_cast<unsigned char>(ch)<32)ch=' ';
         if(d.HasMember("replace"))c.replace=Flag(d["replace"],"replace");if(d.HasMember("activate"))c.activate=Flag(d["activate"],"activate");
+        if(d.HasMember("startSeconds")){
+            Require(d["startSeconds"].IsNumber(),"startSeconds","Expected initial position","invalid_request");c.startSeconds=d["startSeconds"].GetDouble();
+            Require(std::isfinite(c.startSeconds) && c.startSeconds>=0 && c.startSeconds<3600,"startSeconds","Invalid initial position","invalid_request");
+            d["startSeconds"].SetDouble(c.startSeconds==0?0.:c.startSeconds);
+        }
         rapidjson::StringBuffer buffer;rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);Canonical(d,writer);c.fingerprint={buffer.GetString(),buffer.GetSize()};
     }else if(c.action=="continuousPlaybackStatus"){
         Keys(d,"continuousPlayback",{"version","action"},{"playbackId","requestId"});
@@ -43,6 +48,19 @@ struct ContinuousPlayback {
     std::function<StreamCacheStatus()> output;
     std::function<std::string()> producerError;
     int64_t duration=0;bool closed=false,committing=false;std::string error,uri;
+    void checkInitialPosition()const{
+        const auto seconds=command.startSeconds;
+        Require(std::isfinite(seconds) && seconds>=0 && seconds<3600,"startSeconds","Invalid initial position","invalid_request");
+        if(!seconds)return; // Preserve the existing zero/default startup path.
+        // Admission rounds upward; either backend's 100 ns rounding therefore
+        // cannot place the decoder beyond the admitted presentation prefix.
+        const auto target=int64_t(std::ceil(seconds*10000000.));
+        Require(target<duration,"startSeconds","Initial position exceeds source duration","invalid_request");
+        Require(bool(output),"continuousPlayback","Output is not ready","continuous-playback-not-ready");const auto s=output();
+        Require(s.failure.empty(),"continuousPlayback","Output producer failed",s.failure.c_str());
+        Require(!closed && !s.retiring && !s.removed && (!source || !source->stopped()),"continuousPlayback","Playback is closing","continuous-playback-closed");
+        Require(s.complete || (s.initialized && s.fragments && target<s.indexedEnd100ns),"startSeconds","Wait for confirmed initial position","waiting-range");
+    }
     bool matches(const ContinuousPlaybackCommand& c)const{return c.byRequest?command.requestId==c.id:id==c.id;}
     // ReaderRequest has already validated the receipt off the GUI thread. Bind
     // the release to this exact output, not just a reusable session/generation
