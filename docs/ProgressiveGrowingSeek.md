@@ -119,3 +119,6 @@ Classic main использует Null Video Renderer (Uncompressed) тольк�
 `ProgressiveGrowingSeek.md` сохранён отдельно. INI и прочие личные файлы не
 изменились, 158 HKCU shell entries совпали. Windows-установки не заменялись.
 Это проверенный кандидат из рабочего дерева, не новый публичный binary release.
+
+SDK 1.87 отдельно добавляет [явную очередь ожидающей позиции](ProgressiveQueuedSeek.md).
+Поведение вызовов 1.86 без нового opt-in остаётся прежним.

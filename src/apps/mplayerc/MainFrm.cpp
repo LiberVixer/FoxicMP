@@ -17467,6 +17467,7 @@ void CMainFrame::SeekTo(REFERENCE_TIME rtPos, bool bShowOSD/* = true*/)
 			return;
 		}
 
+        if(m_progressiveApi)m_progressiveApi->SeekIntentChanged();
 		m_pMS->SetPositions(&rtPos, AM_SEEKING_AbsolutePositioning, nullptr, AM_SEEKING_NoPositioning);
 
 		if (m_bUseReclock) {

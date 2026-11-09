@@ -75,6 +75,7 @@ class ContinuousRemux:
             raise RuntimeError('Player lacks the explicit continuous MP4/H.264 video contract')
         self.capability = copy.deepcopy(cap)
         self._initial_position_capability=copy.deepcopy(cap.get('initialPosition'))
+        self._queued_seek_capability=copy.deepcopy(cap.get('queuedSeek'))
         self._growing_seek_capability=copy.deepcopy(cap.get('growingSeek'))
         self._start_seconds=0
         if mode != MODE:
@@ -231,13 +232,23 @@ class ContinuousRemux:
             selector = dict(playbackId=self.playback_id) if self.playback_id else dict(requestId=self.play_request_id)
             return self._check(self.client.request(dict(version=1, action='continuousPlaybackStatus', **selector), timeout=timeout), playback=True)
 
-    def control(self, command, *, seconds=None, allow_growing=False):
+    def control(self, command, *, seconds=None, allow_growing=False, wait_for_range=False):
         with self.lock:
-            if command not in ('play', 'pause', 'stop', 'seek'):
+            if command not in ('play', 'pause', 'stop', 'seek', 'cancelSeek'):
                 raise ValueError('Unknown playback control')
             if type(allow_growing) is not bool or (allow_growing and command!='seek'):
                 raise ValueError('Growing seek option requires seek')
+            if type(wait_for_range) is not bool or (wait_for_range and (command!='seek' or not allow_growing)):
+                raise ValueError('Range waiting requires growing seek opt-in')
+            if wait_for_range or command=='cancelSeek':
+                expected=dict(version=1,field='continuousPlaybackControl.waitForRange',requiresGrowingOptIn=True,maxPending=1,
+                    superseding='latest-target',cancelCommand='cancelSeek',previousPlaybackUntilCommit=True)
+                cap=self._queued_seek_capability
+                if (not isinstance(cap,dict) or set(cap)!=set(expected)
+                        or any(type(cap[k]) is not type(v) or cap[k]!=v for k,v in expected.items())):
+                    raise RuntimeError('Player lacks explicit queued-seek support')
             fields = dict(command=command)
+            if wait_for_range:fields['waitForRange']=True
             if command == 'seek':
                 if type(seconds) not in (int, float) or not math.isfinite(seconds) or not 0 <= seconds < 3600:
                     raise ValueError('Invalid seek time')

@@ -7,7 +7,7 @@ namespace foxicmp { namespace progressive {
 inline bool ContinuousPlaybackAction(const std::string& action){return action=="continuousRemuxPlay" || action=="continuousPlaybackStatus" || action=="continuousPlaybackControl";}
 struct ContinuousPlaybackCommand {
     std::string action,id,requestId,fingerprint,jobId,sessionId,writer,title,command;
-    uint64_t generation=0;double seconds=0,startSeconds=0;bool replace=false,activate=false,byRequest=false,allowGrowing=false;
+    uint64_t generation=0;double seconds=0,startSeconds=0;bool replace=false,activate=false,byRequest=false,allowGrowing=false,waitForRange=false;
 };
 inline ContinuousPlaybackCommand ParseContinuousPlayback(const std::string& json){
     Require(json.size()<=65536,"continuousPlayback","Request exceeds 64 KiB","invalid_request");
@@ -33,13 +33,17 @@ inline ContinuousPlaybackCommand ParseContinuousPlayback(const std::string& json
         c.byRequest=d.HasMember("requestId");c.id=Id(d[c.byRequest?"requestId":"playbackId"],"playback identity",true);
     }else{
         Require(c.action=="continuousPlaybackControl","continuousPlayback","Unknown command","invalid_request");
-        Keys(d,"continuousPlayback",{"version","action","playbackId","command"},{"seconds","allowGrowing"});c.id=Id(d["playbackId"],"playbackId",true);c.command=Text(d["command"],"command",8);
-        Require(c.command=="play" || c.command=="pause" || c.command=="stop" || c.command=="seek","continuousPlayback","Unsupported control","invalid_request");
+        Keys(d,"continuousPlayback",{"version","action","playbackId","command"},{"seconds","allowGrowing","waitForRange"});c.id=Id(d["playbackId"],"playbackId",true);c.command=Text(d["command"],"command",10);
+        Require(c.command=="play" || c.command=="pause" || c.command=="stop" || c.command=="seek" || c.command=="cancelSeek","continuousPlayback","Unsupported control","invalid_request");
         if(c.command=="seek"){
             Require(d.HasMember("seconds") && d["seconds"].IsNumber(),"seconds","Expected seek time","invalid_request");c.seconds=d["seconds"].GetDouble();
             Require(std::isfinite(c.seconds) && c.seconds>=0 && c.seconds<3600,"seconds","Invalid seek time","invalid_request");
             if(d.HasMember("allowGrowing"))c.allowGrowing=Flag(d["allowGrowing"],"allowGrowing");
-        }else Require(!d.HasMember("seconds") && !d.HasMember("allowGrowing"),"seconds","Unexpected seek options","invalid_request");
+            if(d.HasMember("waitForRange")){
+                Require(d["waitForRange"].IsBool(),"waitForRange","Expected a boolean","invalid_request");c.waitForRange=d["waitForRange"].GetBool();
+            }
+            Require(!c.waitForRange || c.allowGrowing,"waitForRange","Waiting requires growing seek opt-in","invalid_request");
+        }else Require(!d.HasMember("seconds") && !d.HasMember("allowGrowing") && !d.HasMember("waitForRange"),"seconds","Unexpected seek options","invalid_request");
     }return c;
 }
 struct ContinuousPlayback {
@@ -51,6 +55,23 @@ struct ContinuousPlayback {
     int64_t duration=0;bool closed=false,committing=false;std::string error,uri;
     static constexpr unsigned MaxGrowingSeeks=16;
     unsigned growingSeeks=0;
+    double pendingSeekSeconds=-1;
+    uint64_t seekRevision=0;
+    std::string seekState="none",seekError;
+    void committedSeek(bool growing){
+        // Completion may race admission. Never wrap the public remaining budget.
+        if(growing && growingSeeks<MaxGrowingSeeks)++growingSeeks;
+        clearPendingSeek("superseded");
+    }
+    void clearPendingSeek(const std::string& state="cancelled",const std::string& reason={}){
+        if(pendingSeekSeconds<0)return;
+        pendingSeekSeconds=-1;seekState=state;seekError=reason;
+    }
+    void queueSeek(double seconds){
+        checkSeek(seconds,true,true);
+        Require(seekRevision<UINT64_MAX,"continuousPlayback","Seek revision exhausted","continuous-seek-limit");
+        pendingSeekSeconds=seconds;++seekRevision;seekState="waiting-range";seekError.clear();
+    }
     void checkInitialPosition()const{
         const auto seconds=command.startSeconds;
         Require(std::isfinite(seconds) && seconds>=0 && seconds<3600,"startSeconds","Invalid initial position","invalid_request");
@@ -82,7 +103,7 @@ struct ContinuousPlayback {
                 && Text(resource["id"],"id",64)==bound.id && Unsigned(resource["device"],"device")==bound.device && Unsigned(resource["fileId"],"fileId")==bound.fileId;
         }catch(const Error&){return false;}
     }
-    void checkSeek(double seconds,bool allowGrowing=false)const{
+    void checkSeek(double seconds,bool allowGrowing=false,bool allowUnconfirmed=false)const{
         Require(bool(output),"continuousPlayback","Output is unavailable","continuous-seek-unavailable");const auto state=output();
         Require(state.complete || allowGrowing,"continuousPlayback","Seek requires completed output","continuous-seek-unavailable");
         Require(std::isfinite(seconds) && seconds>=0 && seconds<3600,"seconds","Invalid seek time","invalid_request");
@@ -91,7 +112,7 @@ struct ContinuousPlayback {
         Require(state.failure.empty(),"continuousPlayback","Output producer failed",state.failure.c_str());
         if(!state.complete){
             Require(growingSeeks<MaxGrowingSeeks,"continuousPlayback","Growing seek budget exhausted; wait for complete output","continuous-seek-limit");
-            Require(int64_t(std::ceil(seconds*10000000.))<state.indexedEnd100ns,"seconds","Wait for confirmed seek range","waiting-range");
+            Require(allowUnconfirmed || int64_t(std::ceil(seconds*10000000.))<state.indexedEnd100ns,"seconds","Wait for confirmed seek range","waiting-range");
         }
     }
 };

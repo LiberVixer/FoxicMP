@@ -96,9 +96,12 @@ private slots:
       auto* timeline=window->findChild<Timeline*>();QVERIFY(timeline);QTRY_VERIFY(timeline->isEnabled());QTRY_VERIFY(timeline->available>3);
       const auto title=player->get("media-title").toString();QVERIFY(player->set("speed",1.25));
       const auto click=[&](double seconds){QTest::mouseClick(timeline,Qt::LeftButton,Qt::NoModifier,QPoint(qRound(seconds/timeline->duration*(timeline->width()-1)),timeline->height()/2));};
+      const auto pending=api->request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",playing["playbackId"]},{"command","seek"},{"seconds",11},{"allowGrowing",true},{"waitForRange",true}});
+      QVERIFY(pending["ok"].toBool());QCOMPARE(pending["pendingSeekSeconds"].toDouble(),11.);
       click(2);
       QTRY_VERIFY_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString()=="paused" && std::abs(player->get("time-pos").toDouble()-2)<.12,8000);
       QCOMPARE(api->request(playbackQuery)["remainingGrowingSeeks"].toInt(),15);
+      QVERIFY(api->request(playbackQuery)["pendingSeekSeconds"].isNull());QCOMPARE(api->request(playbackQuery)["seekState"].toString(),QString("superseded"));
       QCOMPARE(player->get("media-title").toString(),title);QCOMPARE(player->get("speed").toDouble(),1.25);
       QTRY_VERIFY(timeline->isEnabled());click(11);QTest::qWait(150);
       QCOMPARE(api->request(playbackQuery)["remainingGrowingSeeks"].toInt(),15);QVERIFY(player->get("pause").toBool());QVERIFY(std::abs(player->get("time-pos").toDouble()-2)<.12);

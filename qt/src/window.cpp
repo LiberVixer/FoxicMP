@@ -577,6 +577,7 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
   auto *progressiveTimer = new QTimer(this);
   progressiveTimer->setInterval(100);
   connect(progressiveTimer, &QTimer::timeout, this, &Window::updateProgressive);
+  connect(progressiveTimer, &QTimer::timeout, this, &Window::continuousPlaybackTick);
   progressiveTimer->start();
   if (profile.settings.value("ui/rememberGeometry", FoxicMPFamily::RememberGeometry).toBool() &&
       profile.settings.contains("window/geometry"))

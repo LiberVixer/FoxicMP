@@ -1442,3 +1442,36 @@ Uncompressed renderer, экранный renderer не квалифицирова
 сохранены, 573 из 584 защищённых файлов совпали; 11 ожидаемых Linux-обновлений
 и новый документ перечислены в отчёте. Windows-установки и 158 HKCU shell
 entries не менялись. Нового публичного binary release пока нет.
+
+
+### 9 ноября 2026: одна ожидающая цель continuous seek
+
+[SDK-кандидат 1.87](ProgressiveQueuedSeek.md) для трёх редакций: явный
+`waitForRange:true` с growing opt-in, одна latest-target цель, `cancelSeek`,
+`pendingSeekSeconds`/`seekRevision`/`seekState`/`seekError`. Прежний playback
+сохраняется до применения. Ожидание не расходует прежнюю квоту 16 переходов.
+Старые SDK/control без нового параметра сохраняют поведение 1.85/1.86.
+Используются существующие таймеры приложений; внешних задач нет.
+
+Qt применяет guarded reload и отменяет ожидающую цель при ручном seek.
+Classic использует свой decoder-ready guard/SeekTo; общий hook сохраняет
+его обычное поведение и внешний вид. Неподтверждённая цель выбирается через API;
+отдельный UI для её выбора/индикации пока не добавлен.
+
+[Отчёт](ProgressiveQueuedSeekValidation-2026-11-09.json) разделяет проверки
+редакций, старые SDK и новые сценарии; сохраняет ошибки первоначальных тестов.
+Физическая A/V синхронизация, полный race/stress/latency budget и расширение
+receipt retention остаются открытыми. Публичный binary release не создаётся.
+
+Конечная проверка: по 74 main case каждой редакции (23 новые queue cases и 51
+с прежними SDK 1.85/1.86), 4×44 native checks, 36 helper tests и 2×16 Window
+cases. Конечные drivers exit 0; первый Classic prefill и неподтверждённый tail
+сохранены как отказы фикстур с измеренными границами. Windows Qt stderr
+предупреждение сохранено. Classic — частный Null Uncompressed renderer;
+физический экран/звук и общая latency/stress приёмка не объявлены готовыми.
+
+Linux EXE/worker/SDK-кандидат обновлены с backup и без изменения INI/личных
+файлов; 23 installed cases прошли, всего 489 успешных checks/cases этого среза.
+574 из 585 защищённых файлов совпали, 11 ожидаемых Linux-обновлений и новый
+документ перечислены в отчёте. Windows-установки, 158 HKCU shell entries и
+Harvester сохранены. SDK ZIP проверен по 325 файлам/10 imports.

@@ -208,7 +208,7 @@ bool Window::seekTo(double seconds) {
     continuousReloadSpeed=player->get("speed").toDouble();
     holdAfterLoad=paused;continuousReloading=true;
     if(!player->reloadContinuousSource(seconds,paused)){continuousReloading=false;holdAfterLoad=false;return false;}
-    if(continuousSeekCommitted)continuousSeekCommitted();
+    if(continuousSeekCommitted)continuousSeekCommitted(true);
     return true;
   }
   if (progressive && progressive->confirmedByteSeek()) {
@@ -231,8 +231,10 @@ bool Window::seekTo(double seconds) {
     return true;
   }
   const double offset = progressive ? progressive->status().timestampOffset : 0;
-  return player->command(
+  const bool accepted=player->command(
       {"seek", QString::number(seconds + offset, 'f', 3), "absolute+exact"});
+  if(accepted && preparedPlayback && current.startsWith("foxicmp-continuous://") && continuousSeekCommitted)continuousSeekCommitted(false);
+  return accepted;
 }
 void Window::reloadProgressive(double seconds,const QString &audioPath) {
   // loadfile cancels blocked stream callbacks without replacing the pinned source.
@@ -540,7 +542,7 @@ bool Window::openPreparedClip(const std::shared_ptr<foxicmp::progressive::Prepar
   applyAudioSourceOptions();player->attachPrepared(source);state->setText(uiTr("Подготовка фрагмента…"));
   return player->loadSource(current,{{"pause","no"},{"aid","auto"},{"vid","auto"},{"sub-auto","no"},{"audio-file-auto","no"},{"force-media-title",title},{"cache","no"}});
 }
-QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds,std::function<bool(double)> growingSeek,std::function<void()> seekCommitted,std::function<double()> indexedEnd){
+QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds,std::function<bool(double)> growingSeek,std::function<void(bool)> seekCommitted,std::function<double()> indexedEnd){
   if(!source || source->stopped())return {};
   emit playbackIntentChanged();savePosition();closePlaybackFile();
   preparedPlayback=true;preparedFinished=false;preparedDuration=total;continuousSeekReady=std::move(seekReady);continuousFailure=std::move(failure);holdAfterLoad=false;lastError.clear();

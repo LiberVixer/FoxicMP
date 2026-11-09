@@ -44,6 +44,24 @@ class Client:
 
 
 class Test(unittest.TestCase):
+    def test_queued_seek_requires_exact_capability_and_opt_in(self):
+        c,p=self.setup_preview();p.play()
+        p.control('seek',seconds=5,allow_growing=True,wait_for_range=True)
+        self.assertIs(c.calls[-1]['waitForRange'],True)
+        p.control('cancelSeek');self.assertEqual(c.calls[-1]['command'],'cancelSeek')
+        p._queued_seek_capability=None
+        count=len(c.calls)
+        self.assertRaises(RuntimeError,p.control,'seek',seconds=5,allow_growing=True,wait_for_range=True)
+        self.assertRaises(RuntimeError,p.control,'cancelSeek');self.assertEqual(len(c.calls),count)
+
+    def test_queued_seek_rejects_invalid_options_without_transport(self):
+        c,p=self.setup_preview();p.play();count=len(c.calls)
+        for value in (1,'yes',None):self.assertRaises(ValueError,p.control,'seek',seconds=5,allow_growing=True,wait_for_range=value)
+        self.assertRaises(ValueError,p.control,'seek',seconds=5,wait_for_range=True)
+        self.assertRaises(ValueError,p.control,'pause',wait_for_range=True)
+        self.assertRaises(ValueError,p.control,'cancelSeek',seconds=5)
+        self.assertEqual(len(c.calls),count)
+
     def test_growing_seek_is_explicit_and_not_sent_to_older_players(self):
         c,p=self.setup_preview();p.play();p.control('seek',seconds=1);self.assertNotIn('allowGrowing',c.calls[-1])
         p.control('seek',seconds=1,allow_growing=True);self.assertIs(c.calls[-1]['allowGrowing'],True)

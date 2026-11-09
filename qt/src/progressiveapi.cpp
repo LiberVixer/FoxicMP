@@ -57,6 +57,7 @@ ProgressiveApi::ProgressiveApi(Window *w, QObject *parent) : QObject(parent), wi
   };
   connect(window,&Window::playbackIntentChanged,this,[invalidate]{invalidate(false);});
   connect(window,&Window::playbackPreparationStarted,this,[invalidate]{invalidate(true);});
+  connect(window,&Window::continuousPlaybackTick,this,&ProgressiveApi::pollContinuousSeek);
   server.setSocketOptions(QLocalServer::UserAccessOption);
   server.setMaxPendingConnections(16);
   connect(&server, &QLocalServer::newConnection, this, &ProgressiveApi::acceptClients);
@@ -192,7 +193,7 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
         next->committing=true;
         next->uri=window->openContinuousSource(next->source,double(next->duration)/10000000.,QString::fromStdString(c.title),[observe=next->output]{return observe().complete;},[observe=next->producerError]{return QString::fromStdString(observe());},c.startSeconds,
           [next](double target){try{next->checkSeek(target,true);return true;}catch(const foxicmp::progressive::Error&){return false;}},
-          [next]{++next->growingSeeks;},[next]{const auto state=next->output();return state.complete?double(next->duration)/10000000.:double(state.indexedEnd100ns)/10000000.;}).toStdString();
+          [next](bool growing){next->committedSeek(growing);},[next]{const auto state=next->output();return state.complete?double(next->duration)/10000000.:double(state.indexedEnd100ns)/10000000.;}).toStdString();
         next->committing=false;continuousPlayback=next;
         if(next->uri.empty()){next->error="continuous-start-failed";next->closed=true;continuousRemux->cancelPlaybackJob(c.jobId);}
         if(c.activate)window->restoreFromTray();return continuousStatus();
@@ -202,10 +203,13 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
         const auto uri=QString::fromStdString(continuousPlayback->uri);
         const auto state=continuousStatus()["state"].toString();
         if(c.command=="stop"){
+          continuousPlayback->clearPendingSeek();
           continuousPlayback->closed=true;continuousRemux->cancelPlaybackJob(continuousPlayback->command.jobId);
           if(!uri.isEmpty() && window->preparedClipStatus(uri)["state"]!="closed")window->closeCurrent();
-        }else{
+        }else if(c.command=="cancelSeek")continuousPlayback->clearPendingSeek();
+        else{
           if(continuousPlayback->closed || state=="error" || state=="closed" || state=="finished")return failure("continuous-playback-closed","Playback was stopped or replaced");
+          if(c.command=="seek" && c.waitForRange){continuousPlayback->queueSeek(c.seconds);return continuousStatus();}
           if(c.command=="seek")continuousPlayback->checkSeek(c.seconds,c.allowGrowing);
           if(!window->preparedClipControl(uri,QString::fromStdString(c.command),c.seconds))return failure("continuous-playback-not-ready","Wait for loaded playback");
         }
@@ -529,6 +533,22 @@ QJsonObject ProgressiveApi::continuousStatus()const{
   result["durationSeconds"]=double(p.duration)/10000000.;result["outputComplete"]=out.complete;result["decoderReaders"]=int(out.activeReaders);
   result["startSeconds"]=p.command.startSeconds;
   result["indexedEndSeconds"]=double(out.indexedEnd100ns)/10000000.;
+  result["pendingSeekSeconds"]=p.pendingSeekSeconds<0?QJsonValue():QJsonValue(p.pendingSeekSeconds);
+  result["seekRevision"]=QString::number(p.seekRevision);result["seekState"]=QString::fromStdString(p.seekState);result["seekError"]=QString::fromStdString(p.seekError);
   result["remainingGrowingSeeks"]=int(foxicmp::progressive::ContinuousPlayback::MaxGrowingSeeks-p.growingSeeks);
   QJsonArray ids;for(const auto& id:out.readerIds)ids.append(QString::fromStdString(id));result["readerIds"]=ids;return result;
+}
+
+void ProgressiveApi::pollContinuousSeek(){
+  const auto p=continuousPlayback;if(!p || p->pendingSeekSeconds<0)return;
+  const auto status=continuousStatus();const auto state=status["state"].toString();
+  if(p->closed || state=="error" || state=="closed" || state=="finished"){
+    p->clearPendingSeek(state=="error"?"error":"cancelled",status["reasonCode"].toString().toStdString());return;
+  }
+  try{p->checkSeek(p->pendingSeekSeconds,true);}catch(const foxicmp::progressive::Error& e){
+    if(e.code!="waiting-range")p->clearPendingSeek("error",e.code);return;
+  }
+  if(window->preparedClipControl(QString::fromStdString(p->uri),"seek",p->pendingSeekSeconds)){
+    p->pendingSeekSeconds=-1;p->seekState="applied";p->seekError.clear();
+  }
 }

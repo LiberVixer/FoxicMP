@@ -117,12 +117,12 @@ bool ClassicProgressiveApi::BeginLegacy(const std::wstring& manifest) {
     frame.SendStatusMessage(L"Harvester: подготовка источника…",5000);return true;
 }
 void ClassicProgressiveApi::PollLegacy() {
-    PollContinuous();
+    PollContinuous();PollContinuousSeek();
     auto job=legacyOpening;
-    if(!job){if(!continuousOpening)frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);return;}
+    if(!job){if(!continuousOpening && !(continuousPlayback && continuousPlayback->pendingSeekSeconds>=0))frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);return;}
     if(job->expired() && !job->abandoned.exchange(true))frame.SendStatusMessage(L"Harvester: истекло время подготовки источника",5000);
     if(!job->finished.load(std::memory_order_acquire))return;
-    if(!continuousOpening)frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);legacyOpening.reset();
+    if(!continuousOpening && !(continuousPlayback && continuousPlayback->pendingSeekSeconds>=0))frame.KillTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN);legacyOpening.reset();
     if(job->abandoned.load())return;
     if(!job->candidate){frame.SendStatusMessage(L"Harvester: "+Wide(job->error),5000);return;}
     auto data=std::make_unique<OpenFileData>();data->harvesterManifest=legacyManifest.c_str();
@@ -341,16 +341,23 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
                 if(c.action=="continuousPlaybackControl"){
                     const auto native=continuousNative.lock();
                     if(c.command=="stop"){
+                        continuousPlayback->clearPendingSeek();
                         continuousPlayback->closed=true;if(continuousOpening)continuousOpening->abandoned.store(true);
                         continuousRemux->cancelPlaybackJob(continuousPlayback->command.jobId);
                         if(frame.OwnsHarvester(native))frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
-                    }else{
+                    }else if(c.command=="cancelSeek")continuousPlayback->clearPendingSeek();
+                    else{
                         if(continuousPlayback->closed || continuousFinished || !continuousPlayback->error.empty() || !continuousPlayback->output().failure.empty() || continuousPlayback->source->stopped())return Failure("continuous-playback-closed","Playback was stopped or replaced");
                         if(!frame.OwnsHarvester(native) || frame.GetLoadState()!=MLS_LOADED)return Failure("continuous-playback-not-ready","Wait for loaded playback");
                         if(c.command=="seek"){
+                            if(c.waitForRange){
+                                continuousPlayback->checkSeek(c.seconds,true,true);
+                                if(!frame.SetTimer(TIMER_CLASSIC_PROGRESSIVE_OPEN,100,nullptr))return Failure("continuous-seek-unavailable","Cannot schedule pending seek");
+                                continuousPlayback->queueSeek(c.seconds);return ContinuousStatus();
+                            }
                             continuousPlayback->checkSeek(c.seconds,c.allowGrowing);const auto target=REFERENCE_TIME(c.seconds*10000000.);
                             if(!native->CanSeek(target))return Failure("waiting-range","Wait for decoder-confirmed seek range");
-                            const bool growing=!continuousPlayback->output().complete;frame.SeekTo(target,false);if(growing)++continuousPlayback->growingSeeks;
+                            const bool growing=!continuousPlayback->output().complete;continuousPlayback->clearPendingSeek("superseded");frame.SeekTo(target,false);continuousPlayback->committedSeek(growing);
                         }
                         if(c.command=="pause")frame.SendMessageW(WM_COMMAND,ID_PLAY_PAUSE);
                         if(c.command=="play")frame.SendMessageW(WM_COMMAND,ID_PLAY_PLAY);
@@ -592,6 +599,25 @@ std::string ClassicProgressiveApi::ContinuousStatus(){
     d.AddMember("positionSeconds",loaded?double(frame.GetPos())/10000000.:0.,a);d.AddMember("durationSeconds",double(p.duration)/10000000.,a);d.AddMember("outputComplete",out.complete,a);d.AddMember("decoderReaders",uint64_t(out.activeReaders),a);
     d.AddMember("startSeconds",p.command.startSeconds,a);
     d.AddMember("indexedEndSeconds",double(out.indexedEnd100ns)/10000000.,a);
+    if(p.pendingSeekSeconds<0)d.AddMember("pendingSeekSeconds",Value(rapidjson::kNullType),a);else d.AddMember("pendingSeekSeconds",p.pendingSeekSeconds,a);
+    text("seekRevision",std::to_string(p.seekRevision));text("seekState",p.seekState);text("seekError",p.seekError);
     d.AddMember("remainingGrowingSeeks",foxicmp::progressive::ContinuousPlayback::MaxGrowingSeeks-p.growingSeeks,a);
     Value ids(rapidjson::kArrayType);for(const auto& id:out.readerIds)ids.PushBack(Value(id.c_str(),a),a);d.AddMember("readerIds",ids,a);return Encode(d);
 }
+
+void ClassicProgressiveApi::PollContinuousSeek(){
+    const auto p=continuousPlayback;if(!p || p->pendingSeekSeconds<0)return;
+    const auto native=continuousNative.lock();const auto out=p->output();const auto producer=p->producerError();
+    if(p->closed || continuousFinished || !p->error.empty() || !out.failure.empty() || !producer.empty() || p->source->stopped() || !frame.OwnsHarvester(native)){
+        const auto error=!p->error.empty()?p->error:!out.failure.empty()?out.failure:producer;
+        p->clearPendingSeek(error.empty()?"cancelled":"error",error);return;
+    }
+    if(frame.GetLoadState()!=MLS_LOADED)return;
+    try{p->checkSeek(p->pendingSeekSeconds,true);}catch(const foxicmp::progressive::Error& e){
+        if(e.code!="waiting-range")p->clearPendingSeek("error",e.code);return;
+    }
+    const auto target=REFERENCE_TIME(p->pendingSeekSeconds*10000000.);if(!native->CanSeek(target))return;
+    const bool growing=!out.complete;p->clearPendingSeek("applied");frame.SeekTo(target,false);p->committedSeek(growing);
+}
+
+void ClassicProgressiveApi::SeekIntentChanged(){if(continuousPlayback)continuousPlayback->clearPendingSeek("superseded");}

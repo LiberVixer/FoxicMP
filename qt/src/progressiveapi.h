@@ -27,6 +27,7 @@ private:
   QString previewProbe,previewSession,previewRequest,previewFingerprint;bool previewSourceEof=false;
   QJsonObject previewStatus()const;
   QJsonObject continuousStatus()const;
+  void pollContinuousSeek();
   QJsonObject execute(const QJsonObject &, Preparation *);
   void dispatch(const QJsonObject &, class QLocalSocket *, class QTimer *);
   std::shared_ptr<Preparation> preparation, registryPreparation;

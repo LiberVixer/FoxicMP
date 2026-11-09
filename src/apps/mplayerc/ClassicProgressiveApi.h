@@ -36,6 +36,7 @@ public:
     std::string Handle(const std::string&, Request* = nullptr);
     void PlaybackIntentChanged(const CStringW& incoming = CStringW(),bool retainCurrentPlayback=false);
     bool PreparedCompleted();
+    void SeekIntentChanged();
     bool BeginLegacy(const std::wstring&);
     void PollLegacy();
     bool IsPreparing() const{return (preparation && !preparation->abandoned.load()) || (legacyOpening && !legacyOpening->abandoned.load()) || (continuousOpening && !continuousOpening->abandoned.load());}
@@ -67,5 +68,6 @@ private:
     uint64_t continuousEpoch=0;
     bool continuousFinished=false;
     void PollContinuous();
+    void PollContinuousSeek();
     std::string ContinuousStatus();
 };
