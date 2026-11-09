@@ -347,7 +347,11 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
                     }else{
                         if(continuousPlayback->closed || continuousFinished || !continuousPlayback->error.empty() || !continuousPlayback->output().failure.empty() || continuousPlayback->source->stopped())return Failure("continuous-playback-closed","Playback was stopped or replaced");
                         if(!frame.OwnsHarvester(native) || frame.GetLoadState()!=MLS_LOADED)return Failure("continuous-playback-not-ready","Wait for loaded playback");
-                        if(c.command=="seek"){continuousPlayback->checkSeek(c.seconds);frame.SeekTo(REFERENCE_TIME(c.seconds*10000000.),false);}
+                        if(c.command=="seek"){
+                            continuousPlayback->checkSeek(c.seconds,c.allowGrowing);const auto target=REFERENCE_TIME(c.seconds*10000000.);
+                            if(!native->CanSeek(target))return Failure("waiting-range","Wait for decoder-confirmed seek range");
+                            const bool growing=!continuousPlayback->output().complete;frame.SeekTo(target,false);if(growing)++continuousPlayback->growingSeeks;
+                        }
                         if(c.command=="pause")frame.SendMessageW(WM_COMMAND,ID_PLAY_PAUSE);
                         if(c.command=="play")frame.SendMessageW(WM_COMMAND,ID_PLAY_PLAY);
                     }
@@ -587,5 +591,7 @@ std::string ClassicProgressiveApi::ContinuousStatus(){
     d.AddMember("active",std::string(state)=="opening" || std::string(state)=="buffering" || std::string(state)=="playing" || std::string(state)=="paused",a);
     d.AddMember("positionSeconds",loaded?double(frame.GetPos())/10000000.:0.,a);d.AddMember("durationSeconds",double(p.duration)/10000000.,a);d.AddMember("outputComplete",out.complete,a);d.AddMember("decoderReaders",uint64_t(out.activeReaders),a);
     d.AddMember("startSeconds",p.command.startSeconds,a);
+    d.AddMember("indexedEndSeconds",double(out.indexedEnd100ns)/10000000.,a);
+    d.AddMember("remainingGrowingSeeks",foxicmp::progressive::ContinuousPlayback::MaxGrowingSeeks-p.growingSeeks,a);
     Value ids(rapidjson::kArrayType);for(const auto& id:out.readerIds)ids.PushBack(Value(id.c_str(),a),a);d.AddMember("readerIds",ids,a);return Encode(d);
 }

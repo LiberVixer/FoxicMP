@@ -69,6 +69,7 @@ public:
   // Internal growing-cache entry, intentionally separate from bounded preview.
   bool loadContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,
                             const QMap<QString,QString>& options = {});
+  bool reloadContinuousSource(double seconds,bool paused);
   QString continuousSourceUri()const;
   QString attachStdin(int descriptor, QString *error = nullptr);
   void progressiveSource(const std::shared_ptr<ProgressiveSource> &source);
@@ -97,6 +98,8 @@ private:
   QQueue<ExternalTrack> externalTracks;
   quint64 externalRequest = 0, externalSequence = 0;
   void pumpExternalTracks();
+  bool loadContinuousSourceImpl(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,
+                                const QMap<QString,QString>&,bool reuse);
   bool loadSourceImpl(const QString &, const QMap<QString, QString> &,
                       const AudioPcmWindow &);
   QString audioFilterOptions(const AudioPcmWindow &) const;

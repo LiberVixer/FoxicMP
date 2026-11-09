@@ -14,6 +14,10 @@ SHA-256 файлов. Воспроизведение v1 сохраняется; 
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
+SDK 1.86 добавляет [bounded growing seek](ProgressiveGrowingSeek.md):
+`preview.control('seek', seconds=2, allow_growing=True)`, только по подтверждённому
+кэшу, до 16 попыток до output complete. Старый control без opt-in не изменён.
+
 SDK 1.85 добавляет [явную начальную позицию continuous playback](ProgressiveInitialPosition.md):
 `preview.play(start_seconds=1)`. Поле opt-in, новый EXE обязателен; прежний SDK 1.84
 и `continuousPlaybackControl seek` сохраняют своё поведение. Растущий кэш может

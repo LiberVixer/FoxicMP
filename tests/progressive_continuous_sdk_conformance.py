@@ -25,7 +25,7 @@ class DropReplies:
         return reply
 
 
-def exercise(peers, root, mode=MODE, initial_position=False):
+def exercise(peers, root, mode=MODE, initial_position=False,growing_seek=False):
     rows=[];source=fixture(root,'source',bframes=2 if mode==REORDERED_MODE else 0);raw=source.read_bytes();client=peers[0].client
     cap=client.request(dict(version=1,action='capabilities'))
     assert ACTIONS <= set(cap['actions']) and cap['continuousRemux']['mode']==MODE,cap
@@ -93,6 +93,11 @@ def exercise(peers, root, mode=MODE, initial_position=False):
     assert sum(m['action']=='continuousRemuxStart' for m in transport.calls)==1
     sdk.control('pause');paused=wait(lambda:(lambda s:s if s['state']=='paused' else None)(sdk.playback_status()),'SDK manual pause')
     publish(len(raw)*5//6);time.sleep(.2);held=sdk.playback_status();assert held['state']=='paused' and abs(held['positionSeconds']-paused['positionSeconds'])<.15,held
+    if growing_seek:
+        for target in (2.,.5,3.,1.):
+            sdk.control('seek',seconds=target,allow_growing=True)
+            held=wait(lambda:(lambda s:s if s['state']=='paused' and abs(s['positionSeconds']-target)<.12 else None)(sdk.playback_status()),'video growing seek')
+            assert held['playbackId']==paused['playbackId'] and not held['outputComplete'],held
     try:sdk.control('seek',seconds=1)
     except ApiError as e:assert e.code=='continuous-seek-unavailable',e.reply
     else:raise AssertionError('Seek before output completion was accepted')

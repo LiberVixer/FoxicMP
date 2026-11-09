@@ -7,7 +7,7 @@ namespace foxicmp { namespace progressive {
 inline bool ContinuousPlaybackAction(const std::string& action){return action=="continuousRemuxPlay" || action=="continuousPlaybackStatus" || action=="continuousPlaybackControl";}
 struct ContinuousPlaybackCommand {
     std::string action,id,requestId,fingerprint,jobId,sessionId,writer,title,command;
-    uint64_t generation=0;double seconds=0,startSeconds=0;bool replace=false,activate=false,byRequest=false;
+    uint64_t generation=0;double seconds=0,startSeconds=0;bool replace=false,activate=false,byRequest=false,allowGrowing=false;
 };
 inline ContinuousPlaybackCommand ParseContinuousPlayback(const std::string& json){
     Require(json.size()<=65536,"continuousPlayback","Request exceeds 64 KiB","invalid_request");
@@ -33,12 +33,13 @@ inline ContinuousPlaybackCommand ParseContinuousPlayback(const std::string& json
         c.byRequest=d.HasMember("requestId");c.id=Id(d[c.byRequest?"requestId":"playbackId"],"playback identity",true);
     }else{
         Require(c.action=="continuousPlaybackControl","continuousPlayback","Unknown command","invalid_request");
-        Keys(d,"continuousPlayback",{"version","action","playbackId","command"},{"seconds"});c.id=Id(d["playbackId"],"playbackId",true);c.command=Text(d["command"],"command",8);
+        Keys(d,"continuousPlayback",{"version","action","playbackId","command"},{"seconds","allowGrowing"});c.id=Id(d["playbackId"],"playbackId",true);c.command=Text(d["command"],"command",8);
         Require(c.command=="play" || c.command=="pause" || c.command=="stop" || c.command=="seek","continuousPlayback","Unsupported control","invalid_request");
         if(c.command=="seek"){
             Require(d.HasMember("seconds") && d["seconds"].IsNumber(),"seconds","Expected seek time","invalid_request");c.seconds=d["seconds"].GetDouble();
             Require(std::isfinite(c.seconds) && c.seconds>=0 && c.seconds<3600,"seconds","Invalid seek time","invalid_request");
-        }else Require(!d.HasMember("seconds"),"seconds","Unexpected seek time","invalid_request");
+            if(d.HasMember("allowGrowing"))c.allowGrowing=Flag(d["allowGrowing"],"allowGrowing");
+        }else Require(!d.HasMember("seconds") && !d.HasMember("allowGrowing"),"seconds","Unexpected seek options","invalid_request");
     }return c;
 }
 struct ContinuousPlayback {
@@ -48,6 +49,8 @@ struct ContinuousPlayback {
     std::function<StreamCacheStatus()> output;
     std::function<std::string()> producerError;
     int64_t duration=0;bool closed=false,committing=false;std::string error,uri;
+    static constexpr unsigned MaxGrowingSeeks=16;
+    unsigned growingSeeks=0;
     void checkInitialPosition()const{
         const auto seconds=command.startSeconds;
         Require(std::isfinite(seconds) && seconds>=0 && seconds<3600,"startSeconds","Invalid initial position","invalid_request");
@@ -79,9 +82,17 @@ struct ContinuousPlayback {
                 && Text(resource["id"],"id",64)==bound.id && Unsigned(resource["device"],"device")==bound.device && Unsigned(resource["fileId"],"fileId")==bound.fileId;
         }catch(const Error&){return false;}
     }
-    void checkSeek(double seconds)const{
-        Require(output && output().complete,"continuousPlayback","Seek requires completed output","continuous-seek-unavailable");
+    void checkSeek(double seconds,bool allowGrowing=false)const{
+        Require(bool(output),"continuousPlayback","Output is unavailable","continuous-seek-unavailable");const auto state=output();
+        Require(state.complete || allowGrowing,"continuousPlayback","Seek requires completed output","continuous-seek-unavailable");
+        Require(std::isfinite(seconds) && seconds>=0 && seconds<3600,"seconds","Invalid seek time","invalid_request");
         Require(seconds<double(duration)/10000000.,"seconds","Seek exceeds source duration","invalid_request");
+        Require(!closed && !state.retiring && !state.removed && (!source || !source->stopped()),"continuousPlayback","Playback is closing","continuous-playback-closed");
+        Require(state.failure.empty(),"continuousPlayback","Output producer failed",state.failure.c_str());
+        if(!state.complete){
+            Require(growingSeeks<MaxGrowingSeeks,"continuousPlayback","Growing seek budget exhausted; wait for complete output","continuous-seek-limit");
+            Require(int64_t(std::ceil(seconds*10000000.))<state.indexedEnd100ns,"seconds","Wait for confirmed seek range","waiting-range");
+        }
     }
 };
 }}

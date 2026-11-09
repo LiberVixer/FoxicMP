@@ -44,6 +44,17 @@ class Client:
 
 
 class Test(unittest.TestCase):
+    def test_growing_seek_is_explicit_and_not_sent_to_older_players(self):
+        c,p=self.setup_preview();p.play();p.control('seek',seconds=1);self.assertNotIn('allowGrowing',c.calls[-1])
+        p.control('seek',seconds=1,allow_growing=True);self.assertIs(c.calls[-1]['allowGrowing'],True)
+        p._growing_seek_capability=None
+        self.assertRaises(RuntimeError,p.control,'seek',seconds=1,allow_growing=True)
+
+    def test_growing_seek_options_reject_wrong_types_or_command(self):
+        c,p=self.setup_preview();p.play()
+        for value in (1,'yes',None):self.assertRaises(ValueError,p.control,'seek',seconds=1,allow_growing=value)
+        self.assertRaises(ValueError,p.control,'pause',allow_growing=True)
+
     def test_initial_position_racing_range_rejection_can_retry(self):
         c,p=self.setup_preview();original=c.request;reject=[True]
         def request(message,timeout=5):

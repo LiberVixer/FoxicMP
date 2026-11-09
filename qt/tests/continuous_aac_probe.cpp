@@ -16,6 +16,7 @@ int main(int argc,char** argv)try{
 #endif
  QApplication app(argc,argv);const auto a=app.arguments();check(a.size()==11 || a.size()==12,"initial full complete worker registry cache output mode rate channels [original oracle]");
  auto path=[](const QString& s){return std::filesystem::u8path(s.toStdString());};const auto mode=a[8];const bool seeking=mode=="seek" || mode=="seek-ended";
+ const bool repeatSeek=mode=="repeat-seek";
  const bool growingSeek=mode=="growing-seek",audioGuard=mode=="audio-guard";
  const auto input=text(mode=="complete" || audioGuard || seeking?a[3]:a[1]);const auto model=p::Parse(input);
  auto owner=std::make_shared<p::StreamCacheOwner>(std::make_shared<p::StreamCacheBudget>());
@@ -50,7 +51,7 @@ int main(int argc,char** argv)try{
      if(kind)options["audio-files-append"]=file;else reference=file;
     }
    }
-   check(mode=="seek" && player.loadPcmWindowSource(reference,options,{0,source->audioWindow()->pcm.Samples(),a[9].toInt()}),"AAC file oracle load rejected");
+   check((mode=="seek" || repeatSeek) && player.loadPcmWindowSource(reference,options,{0,source->audioWindow()->pcm.Samples(),a[9].toInt()}),"AAC file oracle load rejected");
   }
   std::atomic<bool> guardHeld{false},releaseGuard{false};std::future<void> guardTask;
   if(audioGuard){
@@ -70,11 +71,26 @@ int main(int argc,char** argv)try{
   spin([&]{check(failure.isEmpty(),failure.toStdString().c_str());return loaded;});
   check(player.pcmWindowActive(),"PCM window missing after file-loaded");
   check(player.setAudioGraph("anull","s16",a[9].toInt()) && player.pcmWindowActive(),"audio reconfiguration lost window");
+  if(repeatSeek){
+   // All bytes are now published, but writer EOF is deliberately withheld.
+   // Seek the same decoder repeatedly while paused, including backwards.
+   if(a.size()!=12){session->publish(text(a[2]));spin([&]{return session->status().source.code=="waiting" && session->status().output.indexedEnd100ns>30000000;});}
+   for(double target:{1.,2.,.5,1.}){
+    check(player.get("pause").toBool(),"seek lost manual pause before command");
+    loaded=false;
+    if(a.size()==12){auto reload=options;reload["start"]=QString::number(target,'f',3);reload["hr-seek"]="yes";reload["hr-seek-demuxer-offset"]="0.25";
+     check(player.loadPcmWindowSource(a[7]+".video.mp4",reload,{0,source->audioWindow()->pcm.Samples(),a[9].toInt()}),"repeated file oracle reload rejected");
+    }else check(player.reloadContinuousSource(target,true),"repeated cache reload rejected");
+    spin([&]{check(failure.isEmpty(),failure.toStdString().c_str());return loaded && !player.get("seeking").toBool() && std::abs(player.get("time-pos").toDouble()-target)<.12;});
+    ended=false;
+    check(player.get("pause").toBool() && !natural,"repeated seek lost pause or manufactured EOF");
+   }
+  }
   player.set("pause",false);
-  if(mode=="growing" || growingSeek){
-   spin([&]{check(failure.isEmpty(),failure.toStdString().c_str());return player.get("time-pos").toDouble()>(growingSeek?1.1:.1);});
+  if(mode=="growing" || growingSeek || (repeatSeek && a.size()!=12)){
+   spin([&]{check(failure.isEmpty(),failure.toStdString().c_str());return player.get("time-pos").toDouble()>(growingSeek || repeatSeek?1.1:.1);});
    beforeComplete=!session->status().output.complete;check(beforeComplete && !ended,"early EOF");
-   player.set("pause",true);session->publish(text(a[2]));QElapsedTimer paused;paused.start();while(paused.elapsed()<200){QApplication::processEvents();QThread::msleep(5);}
+   player.set("pause",true);if(!repeatSeek)session->publish(text(a[2]));QElapsedTimer paused;paused.start();while(paused.elapsed()<200){QApplication::processEvents();QThread::msleep(5);}
    check(player.get("pause").toBool() && !ended,"manual pause lost");player.set("pause",false);
    spin([&]{check(failure.isEmpty(),failure.toStdString().c_str());return session->status().source.code=="waiting";});
    check(!ended && !session->status().output.complete,"unconfirmed EOF");session->publish(text(a[3]));

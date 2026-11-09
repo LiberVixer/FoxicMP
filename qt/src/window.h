@@ -67,7 +67,7 @@ public:
   bool openProgressiveSession(const QString &manifest);
   bool progressiveOpening() const { return bool(legacyOpening); }
   bool openPreparedClip(const std::shared_ptr<foxicmp::progressive::PreparedClip>&,const QString& title);
-  QString openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,double duration,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds=0);
+  QString openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,double duration,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds=0,std::function<bool(double)> growingSeek={},std::function<void()> seekCommitted={},std::function<double()> indexedEnd={});
   QJsonObject preparedClipStatus(const QString& uri)const;
   bool preparedClipControl(const QString& uri,const QString& command,double seconds=0);
   bool ownsPreparedClip(const QString& uri)const{return preparedPlayback && current==uri;}
@@ -392,6 +392,11 @@ private:
   bool stdinPlayback = false,preparedPlayback=false,preparedFinished=false;
   double preparedDuration=0;
   std::function<bool()> continuousSeekReady;
+  std::function<bool(double)> continuousGrowingSeek;
+  std::function<void()> continuousSeekCommitted;
+  std::function<double()> continuousIndexedEnd;
+  bool continuousReloading=false;
+  double continuousReloadSpeed=1;
   std::function<QString()> continuousFailure;
   quint64 playbackGeneration = 0;
   QVariantMap pendingTrackSelections;

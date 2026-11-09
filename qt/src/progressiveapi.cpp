@@ -190,7 +190,9 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
         if(window->hasPlayback() && !c.replace)return failure("session_busy","Playback replacement must be explicit");
         next->checkInitialPosition();
         next->committing=true;
-        next->uri=window->openContinuousSource(next->source,double(next->duration)/10000000.,QString::fromStdString(c.title),[observe=next->output]{return observe().complete;},[observe=next->producerError]{return QString::fromStdString(observe());},c.startSeconds).toStdString();
+        next->uri=window->openContinuousSource(next->source,double(next->duration)/10000000.,QString::fromStdString(c.title),[observe=next->output]{return observe().complete;},[observe=next->producerError]{return QString::fromStdString(observe());},c.startSeconds,
+          [next](double target){try{next->checkSeek(target,true);return true;}catch(const foxicmp::progressive::Error&){return false;}},
+          [next]{++next->growingSeeks;},[next]{const auto state=next->output();return state.complete?double(next->duration)/10000000.:double(state.indexedEnd100ns)/10000000.;}).toStdString();
         next->committing=false;continuousPlayback=next;
         if(next->uri.empty()){next->error="continuous-start-failed";next->closed=true;continuousRemux->cancelPlaybackJob(c.jobId);}
         if(c.activate)window->restoreFromTray();return continuousStatus();
@@ -204,7 +206,7 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
           if(!uri.isEmpty() && window->preparedClipStatus(uri)["state"]!="closed")window->closeCurrent();
         }else{
           if(continuousPlayback->closed || state=="error" || state=="closed" || state=="finished")return failure("continuous-playback-closed","Playback was stopped or replaced");
-          if(c.command=="seek")continuousPlayback->checkSeek(c.seconds);
+          if(c.command=="seek")continuousPlayback->checkSeek(c.seconds,c.allowGrowing);
           if(!window->preparedClipControl(uri,QString::fromStdString(c.command),c.seconds))return failure("continuous-playback-not-ready","Wait for loaded playback");
         }
       }return continuousStatus();
@@ -526,5 +528,7 @@ QJsonObject ProgressiveApi::continuousStatus()const{
   result["sessionId"]=QString::fromStdString(p.command.sessionId);result["generation"]=QString::number(p.command.generation);result["writerInstanceId"]=QString::fromStdString(p.command.writer);
   result["durationSeconds"]=double(p.duration)/10000000.;result["outputComplete"]=out.complete;result["decoderReaders"]=int(out.activeReaders);
   result["startSeconds"]=p.command.startSeconds;
+  result["indexedEndSeconds"]=double(out.indexedEnd100ns)/10000000.;
+  result["remainingGrowingSeeks"]=int(foxicmp::progressive::ContinuousPlayback::MaxGrowingSeeks-p.growingSeeks);
   QJsonArray ids;for(const auto& id:out.readerIds)ids.append(QString::fromStdString(id));result["readerIds"]=ids;return result;
 }

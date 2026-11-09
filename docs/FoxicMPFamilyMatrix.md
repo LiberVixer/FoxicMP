@@ -1415,3 +1415,30 @@ Windows-профили и регистрации приложений не ме�
 583: 572 неизменны, 11 обновлений приложения/SDK; дополнительно два документа.
 158 HKCU shell entries совпали. SDK-кандидат прошёл 323 file SHA/10 imports;
 новый release не публиковался, Windows-установки не заменены.
+
+
+### 9 ноября 2026: bounded growing seek и Qt-таймлайн
+
+[SDK-кандидат 1.86](ProgressiveGrowingSeek.md) добавляет opt-in
+`continuousPlaybackControl.allowGrowing` / `control(..., allow_growing=True)`
+всех трёх редакций: target внутри подтверждённого PTS-prefix, отказ waiting-range
+без изменения текущего playback, до 16 попыток перед complete. Старые control
+остаются complete-only; после complete счётчик не ограничивает прежнюю перемотку.
+Qt перезагружает те же protected projections с прежним URI, сохраняет pause,
+скорость и title; таймлайн показывает доступный buffer. Classic сохраняет
+штатный seek и собственный guarded timeline. Его API имеет тот же bounded limit.
+
+[Приёмка](ProgressiveGrowingSeekValidation-2026-11-09.json): 153 ordinary main
+cases трёх редакций, в том числе переходы paused/playing, budget limit,
+непринятый range и immediate Stop/Cancel; 18 decoder cases, 32 Qt Window cases,
+112 native admission и 34 helper checks. Qt PCM побайтно соответствует completed
+file reload oracle. Classic repeated PCM проверяет counts/timestamps, а не
+sample values; NV12 hashes проверены. Private Classic main использует Null
+Uncompressed renderer, экранный renderer не квалифицирован. Полная A/V/stress,
+неподтверждённый pending target и расширение retention остаются OPEN.
+
+Установленная Linux-копия обновлена атомарно по файлам с backup; ещё 22
+сценария прошли, всего 371 успешный case/check этого среза. INI/личные файлы
+сохранены, 573 из 584 защищённых файлов совпали; 11 ожидаемых Linux-обновлений
+и новый документ перечислены в отчёте. Windows-установки и 158 HKCU shell
+entries не менялись. Нового публичного binary release пока нет.

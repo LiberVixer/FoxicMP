@@ -75,6 +75,7 @@ class ContinuousRemux:
             raise RuntimeError('Player lacks the explicit continuous MP4/H.264 video contract')
         self.capability = copy.deepcopy(cap)
         self._initial_position_capability=copy.deepcopy(cap.get('initialPosition'))
+        self._growing_seek_capability=copy.deepcopy(cap.get('growingSeek'))
         self._start_seconds=0
         if mode != MODE:
             profiles = cap.get('profiles')
@@ -230,15 +231,25 @@ class ContinuousRemux:
             selector = dict(playbackId=self.playback_id) if self.playback_id else dict(requestId=self.play_request_id)
             return self._check(self.client.request(dict(version=1, action='continuousPlaybackStatus', **selector), timeout=timeout), playback=True)
 
-    def control(self, command, *, seconds=None):
+    def control(self, command, *, seconds=None, allow_growing=False):
         with self.lock:
             if command not in ('play', 'pause', 'stop', 'seek'):
                 raise ValueError('Unknown playback control')
+            if type(allow_growing) is not bool or (allow_growing and command!='seek'):
+                raise ValueError('Growing seek option requires seek')
             fields = dict(command=command)
             if command == 'seek':
                 if type(seconds) not in (int, float) or not math.isfinite(seconds) or not 0 <= seconds < 3600:
                     raise ValueError('Invalid seek time')
                 fields['seconds'] = seconds
+                if allow_growing:
+                    expected=dict(version=1,field='continuousPlaybackControl.allowGrowing',range='published-presentation-prefix',
+                        unavailable='waiting-range',maxSeeksPerPlayback=16,decoderMayBuffer=True)
+                    cap=self._growing_seek_capability
+                    if (not isinstance(cap,dict) or set(cap)!=set(expected)
+                            or any(type(cap[k]) is not type(v) or cap[k]!=v for k,v in expected.items())):
+                        raise RuntimeError('Player lacks explicit growing-seek support')
+                    fields['allowGrowing']=True
             elif seconds is not None:
                 raise ValueError('Unexpected seek time')
             if self.closing and command != 'stop':

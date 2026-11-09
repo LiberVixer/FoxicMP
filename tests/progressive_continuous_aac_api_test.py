@@ -32,7 +32,7 @@ from progressive_stream_aac_aligned_test import fixture
 from progressive_stream_remux_worker_test import probe
 
 
-def exercise(peers,root,audio_output='null',initial_position=False):
+def exercise(peers,root,audio_output='null',initial_position=False,growing_seek=False):
     rows=[];client=peers[0].client
     for label,rate,channels,fps,bframes,first,n in PROFILES:
         folder=root/label;folder.mkdir();samples=n if n is not None else rate*14+137
@@ -95,6 +95,35 @@ def exercise(peers,root,audio_output='null',initial_position=False):
             assert running['audio'] and not running['outputComplete'],running
             if peers[0].edition=='qt':assert (running['audioOutput']==audio_output or (samples==1 and running['audioOutput']=='')) and running['audioCodec']=='aac',running
             sdk.control('pause');paused=until(lambda:(lambda s:s if s['state']=='paused' else None)(sdk.playback_status()),'AAC pause')
+            transitions=[]
+            if growing_seek:
+                before_reject=sdk.playback_status()
+                try:sdk.control('seek',seconds=13.9,allow_growing=True)
+                except ApiError as e:assert e.code=='waiting-range',e.reply
+                else:raise AssertionError('Seek outside confirmed prefix accepted')
+                rejected=sdk.playback_status();assert rejected['remainingGrowingSeeks']==16 and rejected['state']=='paused' and abs(rejected['positionSeconds']-before_reject['positionSeconds'])<.15,rejected
+                targets=[2.,.5,3.,1.]
+                if label=='48000-mono':targets+=([.5,1.]*6)
+                for index,target in enumerate(targets):
+                    moving=index==2
+                    if moving:
+                        sdk.control('play')
+                        until(lambda:sdk.playback_status()['state']=='playing','growing seek running before transition')
+                    reply=sdk.control('seek',seconds=target,allow_growing=True)
+                    def settled():
+                        s=sdk.playback_status();assert s['state'] not in ('error','closed','finished'),s
+                        good=(s['state']=='playing' and target+.15<s['positionSeconds']<target+.75) if moving else (s['state']=='paused' and abs(s['positionSeconds']-target)<.12)
+                        return s if good else None
+                    settled=until(settled,'growing paused seek')
+                    assert settled['remainingGrowingSeeks']==15-index and settled['playbackId']==paused['playbackId'] and not settled['outputComplete'],settled
+                    transitions.append(dict(target=target,reply=reply,settled=settled))
+                    if moving:
+                        sdk.control('pause');until(lambda:sdk.playback_status()['state']=='paused','pause after growing seek')
+                if len(targets)==16:
+                    try:sdk.control('seek',seconds=2,allow_growing=True)
+                    except ApiError as e:assert e.code=='continuous-seek-limit',e.reply
+                    else:raise AssertionError('Growing seek budget widened')
+                paused=sdk.playback_status()
             publish(len(raw));time.sleep(.2);held=sdk.playback_status()
             assert held['state']=='paused' and abs(held['positionSeconds']-paused['positionSeconds'])<.15,held
             try:sdk.control('seek',seconds=1)
@@ -115,7 +144,7 @@ def exercise(peers,root,audio_output='null',initial_position=False):
             receipt=sdk.close(timeout=2);assert receipt['released'] and receipt['sourceFilesClosed'],receipt
             forgotten=sdk.forget(timeout=2);assert forgotten['forgotten'],forgotten
             assert sha(path)==sha(original)==before
-            rows.append(dict(profile=label,result='PASS',initial=initial,pending=pending,ready=ready,running=running,pause=paused,heldPause=held,seekReply=seek_reply,seek=sought,finished=finished,release=receipt,forgotten=forgotten,sourceSha256=before,rejectedInitialPosition=rejected))
+            rows.append(dict(profile=label,result='PASS',initial=initial,pending=pending,ready=ready,running=running,pause=paused,heldPause=held,seekReply=seek_reply,seek=sought,finished=finished,release=receipt,forgotten=forgotten,sourceSha256=before,rejectedInitialPosition=rejected,growingTransitions=transitions))
             (root/'completed-cases.json').write_text(json.dumps(rows,indent=2),encoding='utf-8')
         finally:
             primary_failure=sys.exc_info()[0] is not None

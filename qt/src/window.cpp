@@ -360,10 +360,11 @@ Window::Window(Profile &p, std::function<void(const QString &)> systemHandler,
       return;
     }
     if (stdinPlayback || preparedPlayback) {
+      const bool reloading=continuousReloading;continuousReloading=false;
       if(preparedPlayback){completionArmed=false;if(!current.startsWith("foxicmp-continuous://"))preparedDuration=player->get("duration").toDouble();}
       player->set("pause", holdAfterLoad);
       holdAfterLoad = false;
-      setSpeed(1);
+      setSpeed(reloading?continuousReloadSpeed:1);
       finishLaunchOptions();
       refreshPlaybackControls();
       updateMinimizePause();

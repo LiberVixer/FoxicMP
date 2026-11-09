@@ -145,6 +145,7 @@ void Window::closePlaybackFile() {
   stdinPlayback = false;
   preparedPlayback = preparedFinished = false;
   continuousSeekReady={};
+  continuousGrowingSeek={};continuousSeekCommitted={};continuousIndexedEnd={};continuousReloading=false;
   continuousFailure={};
   releaseProgressive();
   if (isFullScreen())

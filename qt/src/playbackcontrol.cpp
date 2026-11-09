@@ -10,8 +10,8 @@
 
 bool Window::seekAvailable(double start, double end) const {
   if(preparedPlayback && current.startsWith("foxicmp-continuous://"))
-    return continuousSeekReady && continuousSeekReady() && player->get("seekable").toBool() &&
-        std::isfinite(start) && std::isfinite(end) && start>=0 && end>=start && end<preparedDuration;
+    return !continuousReloading && std::isfinite(start) && std::isfinite(end) && start>=0 && end>=start && end<preparedDuration &&
+        ((continuousSeekReady && continuousSeekReady() && player->get("seekable").toBool()) || (continuousGrowingSeek && continuousGrowingSeek(end)));
   if (stdinPlayback) return false;
   if (!std::isfinite(start) || !std::isfinite(end) || start < 0 || end < start)
     return false;

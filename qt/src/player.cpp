@@ -548,6 +548,16 @@ void Player::cancelExternalTracks() {
 }
 void Player::attachPrepared(const std::shared_ptr<foxicmp::progressive::PreparedClip>& source){preparedStreams->attach(source);}
 bool Player::loadContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,const QMap<QString,QString>& requested){
+  return loadContinuousSourceImpl(source,requested,false);
+}
+bool Player::reloadContinuousSource(double seconds,bool paused){
+  auto source=continuousStreams->current();
+  if(!source || !std::isfinite(seconds) || seconds<0 || seconds>=3600)return false;
+  const auto state=source->status();
+  if(source->stopped() || !state.failure.empty() || state.retiring || state.removed || (!state.complete && int64_t(std::ceil(seconds*10000000.))>=state.indexedEnd100ns))return false;
+  return loadContinuousSourceImpl(source,{{"start",QString::number(seconds,'f',7)},{"pause",paused?"yes":"no"},{"force-media-title",get("media-title").toString()},{"hr-seek","yes"},{"hr-seek-demuxer-offset","0.25"}},true);
+}
+bool Player::loadContinuousSourceImpl(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,const QMap<QString,QString>& requested,bool reuse){
   if(!source || source->stopped())return false;
   auto options=requested;
   options["demuxer-lavf-o"]="fflags=+ignidx";
@@ -557,7 +567,8 @@ bool Player::loadContinuousSource(const std::shared_ptr<foxicmp::progressive::St
   if(audio && (!managedAudioConfigured || options.contains("af") || std::any_of(options.keyBegin(),options.keyEnd(),[](const QString& key){return key.startsWith("af-") || key=="audio-file" || key.startsWith("audio-files");})))return false;
   options["cache"]="no";options["aid"]=audio?"auto":"no";options["sub-auto"]="no";options["audio-file-auto"]="no";
   if(audio)options["rebase-start-time"]="no";
-  const auto uri=continuousStreams->attach(source);
+  if(reuse && continuousStreams->current()!=source)return false;
+  const auto uri=reuse?continuousStreams->uri():continuousStreams->attach(source);
   if(audio)options["audio-files-append"]=QString::fromStdString(continuousStreams->audioUri());
   if(audio?loadPcmWindowSource(QString::fromStdString(uri),options,{0,audio->pcm.Samples(),int(audio->pcm.Rate())}):loadSource(QString::fromStdString(uri),options))return true;
   continuousStreams->clear();return false;

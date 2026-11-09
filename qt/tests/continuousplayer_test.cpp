@@ -3,6 +3,7 @@
 #include "continuousstreams.h"
 #include "windowsruntime.h"
 #include "window.h"
+#include "timeline.h"
 #include "profile.h"
 #include "i18n.h"
 #include "progressiveapi.h"
@@ -72,7 +73,7 @@ private slots:
   }
   void windowClose_data(){
     QTest::addColumn<QString>("mode");
-    for(const auto* mode:{"close-window","destroy-api-before-window","reader-release","reader-release-held-reader","delayed-reader-release","delayed-reader-release-replace","waiting-status","producer-error-paused"})QTest::newRow(mode)<<QString(mode);
+    for(const auto* mode:{"close-window","destroy-api-before-window","reader-release","reader-release-held-reader","delayed-reader-release","delayed-reader-release-replace","waiting-status","producer-error-paused","growing-timeline"})QTest::newRow(mode)<<QString(mode);
   }
   void windowClose(){
     QFETCH(QString,mode);QTemporaryDir dir;QVERIFY(dir.isValid());const auto profilePath=dir.filePath("profile");
@@ -89,6 +90,24 @@ private slots:
     auto playing=api->request({{"version",1},{"action","continuousRemuxPlay"},{"requestId",QString::fromStdString(p::lease_detail::RandomId())},{"jobId",job["jobId"]},{"sessionId",sid},{"generation","1"},{"writerInstanceId",writer}});QVERIFY(playing["ok"].toBool());
     QTRY_VERIFY_WITH_TIMEOUT(player->get("time-pos").toDouble()>.1,10000);const auto nativeClosed=player->lifetime->closed;
     const QJsonObject playbackQuery{{"version",1},{"action","continuousPlaybackStatus"},{"playbackId",playing["playbackId"]}};
+    if(mode=="growing-timeline"){
+      const auto control=[&](const QString& name){return api->request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",playing["playbackId"]},{"command",name}});};
+      QVERIFY(control("pause")["ok"].toBool());QTRY_VERIFY(player->get("pause").toBool());
+      auto* timeline=window->findChild<Timeline*>();QVERIFY(timeline);QTRY_VERIFY(timeline->isEnabled());QTRY_VERIFY(timeline->available>3);
+      const auto title=player->get("media-title").toString();QVERIFY(player->set("speed",1.25));
+      const auto click=[&](double seconds){QTest::mouseClick(timeline,Qt::LeftButton,Qt::NoModifier,QPoint(qRound(seconds/timeline->duration*(timeline->width()-1)),timeline->height()/2));};
+      click(2);
+      QTRY_VERIFY_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString()=="paused" && std::abs(player->get("time-pos").toDouble()-2)<.12,8000);
+      QCOMPARE(api->request(playbackQuery)["remainingGrowingSeeks"].toInt(),15);
+      QCOMPARE(player->get("media-title").toString(),title);QCOMPARE(player->get("speed").toDouble(),1.25);
+      QTRY_VERIFY(timeline->isEnabled());click(11);QTest::qWait(150);
+      QCOMPARE(api->request(playbackQuery)["remainingGrowingSeeks"].toInt(),15);QVERIFY(player->get("pause").toBool());QVERIFY(std::abs(player->get("time-pos").toDouble()-2)<.12);
+      QVERIFY(control("play")["ok"].toBool());QTRY_VERIFY(player->get("time-pos").toDouble()>2.15);
+      QTRY_VERIFY(timeline->isEnabled());click(1);
+      QTRY_VERIFY_WITH_TIMEOUT(api->request(playbackQuery)["state"].toString()=="playing" && player->get("time-pos").toDouble()>1.15 && player->get("time-pos").toDouble()<2,8000);
+      QCOMPARE(api->request(playbackQuery)["remainingGrowingSeeks"].toInt(),14);
+      QCOMPARE(api->request(playbackQuery)["playbackId"],playing["playbackId"]);
+    }
     if(mode=="producer-error-paused"){
       QVERIFY(api->request({{"version",1},{"action","continuousPlaybackControl"},{"playbackId",playing["playbackId"]},{"command","pause"}})["ok"].toBool());
       QTRY_VERIFY(player->get("pause").toBool());

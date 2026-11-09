@@ -22,5 +22,14 @@ int main()try{
  state.failure="cache-integrity-mismatch";rejects([&]{play.checkInitialPosition();},"cache-integrity-mismatch");
  state.failure.clear();state.retiring=true;rejects([&]{play.checkInitialPosition();},"continuous-playback-closed");
  state.retiring=false;state.removed=true;rejects([&]{play.checkInitialPosition();},"continuous-playback-closed");
+ state.removed=false;state.complete=false;state.initialized=true;state.fragments=1;state.indexedEnd100ns=30000000;
+ rejects([&]{play.checkSeek(1);},"continuous-seek-unavailable");play.checkSeek(1,true);check(true);
+ rejects([&]{play.checkSeek(3,true);},"waiting-range");
+ rejects([&]{play.checkSeek(-1,true);},"invalid_request");
+ play.growingSeeks=16;rejects([&]{play.checkSeek(1,true);},"continuous-seek-limit");
+ state.complete=true;play.checkSeek(1);check(true);
+ const std::string control=R"({"version":1,"action":"continuousPlaybackControl","playbackId":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","command":)";
+ check(p::ParseContinuousPlayback(control+"\"seek\",\"seconds\":1,\"allowGrowing\":true}").allowGrowing);
+ rejects([&]{p::ParseContinuousPlayback(control+"\"pause\",\"allowGrowing\":true}");},"invalid_request");
  std::cout<<"{\"result\":\"PASS\",\"checks\":"<<checks<<"}\n";return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}

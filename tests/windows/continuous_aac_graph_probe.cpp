@@ -60,7 +60,7 @@ public:
  }
 };
 int main(int argc,char** argv)try{
- require(argc==11,"initial full complete worker registry cache output mode rate channels");const std::string mode=argv[8];const bool foreign=mode=="foreign",seeking=mode=="seek" || mode=="seek-ended",growingSeek=mode=="growing-seek";
+ require(argc==11,"initial full complete worker registry cache output mode rate channels");const std::string mode=argv[8];const bool foreign=mode=="foreign",seeking=mode=="seek" || mode=="seek-ended",growingSeek=mode=="growing-seek",repeatSeek=mode=="repeat-seek";
  require(AfxWinInit(GetModuleHandle(nullptr),nullptr,GetCommandLine(),0)!=FALSE,"MFC init");require(SUCCEEDED(CoInitializeEx(nullptr,COINIT_MULTITHREADED)),"COM init");
  auto path=[](const char* p){return std::filesystem::u8path(p);};const auto model=p::Parse(text(mode=="complete" || seeking?argv[3]:argv[1]));const auto input=text(mode=="complete" || seeking?argv[3]:argv[1]);
  const UINT rate=std::stoul(argv[9]),channels=std::stoul(argv[10]);auto owner=std::make_shared<p::StreamCacheOwner>(std::make_shared<p::StreamCacheBudget>());
@@ -80,7 +80,7 @@ int main(int argc,char** argv)try{
  // Internal AAC decoding keeps its native float output; the capture pin validates it.
  require(SUCCEEDED(audio->SetDynamicRangeControl(false)) && SUCCEEDED(audio->SetAVSyncCorrection(false)),"private AAC config");
  const auto videoFile=std::string(argv[7])+".video.jsonl",prime=std::string(argv[7])+".prime";
- auto* ac=new Capture(&hr,seeking?prime.c_str():argv[7],rate,channels,foreign);CComPtr<IBaseFilter> audioSink=ac;
+ auto* ac=new Capture(&hr,seeking || repeatSeek?prime.c_str():argv[7],rate,channels,foreign);CComPtr<IBaseFilter> audioSink=ac;
  auto* vc=new VideoCapture(&hr,videoFile.c_str());CComPtr<IBaseFilter> videoSink=vc;
  for(auto f:{vs,as,vd,videoSink,audioSink})require(SUCCEEDED(graph->AddFilter(f,L"Private continuous AV")),"add AV graph filter");if(!foreign)require(SUCCEEDED(graph->AddFilter(ad,L"Private internal AAC")),"add AAC decoder");
  require(SUCCEEDED(graph->ConnectDirect(videoSplit->GetPin(0),video->GetPin(0),nullptr)) && SUCCEEDED(graph->ConnectDirect(video->GetPin(1),vc->GetPin(0),nullptr)),"connect H264 graph");
@@ -95,10 +95,21 @@ int main(int argc,char** argv)try{
  }
  require(SUCCEEDED(control->Run()),"run AV graph");double stopSeconds=0;uint64_t before=0;
  if(foreign){long event=0;require(events->WaitForCompletion(10000,&event)==S_OK && event==EC_ERRORABORT && ac->Count()==0 && !source->Error().empty(),"foreign AAC decoder accepted");}
- else if(mode=="growing" || growingSeek){
+ else if(mode=="growing" || growingSeek || repeatSeek){
   const bool audioEnded=growingSeek && decoded->audioWindow()->pcm.Samples()<=rate;
   wait([&]{return vc->Count()>=10 && (audioEnded || ac->Count()>0);});before=ac->Count();long event=0;require(events->WaitForCompletion(100,&event)!=S_OK && !source->Complete(),"early AV EOF");
-  require(SUCCEEDED(control->Pause()),"pause AV graph");Sleep(100);const auto paused=ac->Count();session->publish(text(argv[2]));Sleep(200);require(ac->Count()==paused,"manual audio pause lost");require(SUCCEEDED(control->Run()),"resume AV graph");
+  if(repeatSeek){
+   require(SUCCEEDED(control->Pause()),"pause before repeated seek");session->publish(text(argv[2]));
+   wait([&]{return session->status().source.code=="waiting" && session->status().output.indexedEnd100ns>30000000;});
+   unsigned step=0;
+   for(REFERENCE_TIME target:{10000000LL,20000000LL,5000000LL,10000000LL}){
+    if(++step==4){ac->Reset(argv[7]);vc->Reset(videoFile.c_str());}
+    require(source->CanSeek(target) && !source->Complete(),"growing repeated target unavailable");
+    require(SUCCEEDED(audioSeek->SetPositions(&target,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning)) && SUCCEEDED(videoSeek->SetPositions(&target,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning)),"same graph repeated AV seek");
+    require(events->WaitForCompletion(25,&event)!=S_OK,"repeated seek manufactured EOF");
+   }
+  }
+  require(SUCCEEDED(control->Pause()),"pause AV graph");Sleep(100);const auto paused=ac->Count();if(!repeatSeek)session->publish(text(argv[2]));Sleep(200);require(ac->Count()==paused,"manual audio pause lost");require(SUCCEEDED(control->Run()),"resume AV graph");
   wait([&]{return session->status().source.code=="waiting";});require(events->WaitForCompletion(100,&event)!=S_OK,"EOF before writer complete");session->publish(text(argv[3]));
  }else if(mode=="stop" || mode=="failure"){
   wait([&]{return vc->Count()>=10 && ac->Count()>0;});if(mode=="failure")session->cancel();const auto start=GetTickCount64();source->Cancel();require(SUCCEEDED(control->Stop()),"stop AV graph");stopSeconds=double(GetTickCount64()-start)/1000.;require(stopSeconds<2,"AV stop latency");
@@ -109,7 +120,7 @@ int main(int argc,char** argv)try{
    require(SUCCEEDED(control->Pause()),"pause completed AV graph");ac->Reset(argv[7]);vc->Reset(videoFile.c_str());REFERENCE_TIME target=mode=="seek-ended"?(rate==44100?100000:41000000):10000000;
    require(SUCCEEDED(audioSeek->SetPositions(&target,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning)) && SUCCEEDED(videoSeek->SetPositions(&target,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning)),"same graph AV seek");require(SUCCEEDED(control->Run()),"resume sought AV graph");finish();
   }
-  DWORD flags=0;require(window->AacPcmWindowState(&flags)==S_OK && flags==(mode=="seek-ended" || (growingSeek && decoded->audioWindow()->pcm.Samples()<=rate)?0u:3u),"AAC window not applied/cleared");require(source->Error().empty(),"AV source error");
+  DWORD flags=0;require(window->AacPcmWindowState(&flags)==S_OK && flags==(mode=="seek-ended" || ((growingSeek || repeatSeek) && decoded->audioWindow()->pcm.Samples()<=rate)?0u:3u),"AAC window not applied/cleared");require(source->Error().empty(),"AV source error");
  }
  const auto samples=ac->Count();const auto frames=vc->Count();auto released=source->ReleaseReceipt();source->Cancel();require(SUCCEEDED(control->Stop()),"final AV stop");DWORD flags=99;require(window->AacPcmWindowState(&flags)==S_OK && flags==0,"AAC window survives stop");
  window.Release();oldWindow.Release();audioSeek.Release();videoSeek.Release();clock.Release();events.Release();control.Release();

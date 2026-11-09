@@ -203,6 +203,14 @@ bool Window::seekTo(double seconds) {
     timeline->update();
     return false;
   }
+  if(preparedPlayback && current.startsWith("foxicmp-continuous://") && continuousGrowingSeek && !(continuousSeekReady && continuousSeekReady())){
+    const bool paused=player->get("pause").toBool();
+    continuousReloadSpeed=player->get("speed").toDouble();
+    holdAfterLoad=paused;continuousReloading=true;
+    if(!player->reloadContinuousSource(seconds,paused)){continuousReloading=false;holdAfterLoad=false;return false;}
+    if(continuousSeekCommitted)continuousSeekCommitted();
+    return true;
+  }
   if (progressive && progressive->confirmedByteSeek()) {
     if (progressivePendingSeek >= 0) {
       if (progressive->playbackDetails().value("mediaMode").toString().startsWith("standalone-rf64-")) {
@@ -269,7 +277,8 @@ void Window::updateProgressive() {
         updateClock();return;
       }
     }
-    const bool seek=continuousSeekReady && continuousSeekReady();timeline->setEnabled(seek);actions["frameBack"]->setEnabled(seek);return;
+    const bool seek=!continuousReloading && ((continuousSeekReady && continuousSeekReady()) || (continuousGrowingSeek && continuousGrowingSeek(0)));timeline->setEnabled(seek);actions["frameBack"]->setEnabled(seek);
+    timeline->available=continuousIndexedEnd?continuousIndexedEnd():-1;timeline->update();return;
   }
   if (!progressive)
     return;
@@ -531,10 +540,11 @@ bool Window::openPreparedClip(const std::shared_ptr<foxicmp::progressive::Prepar
   applyAudioSourceOptions();player->attachPrepared(source);state->setText(uiTr("Подготовка фрагмента…"));
   return player->loadSource(current,{{"pause","no"},{"aid","auto"},{"vid","auto"},{"sub-auto","no"},{"audio-file-auto","no"},{"force-media-title",title},{"cache","no"}});
 }
-QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds){
+QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,double total,const QString& title,std::function<bool()> seekReady,std::function<QString()> failure,double startSeconds,std::function<bool(double)> growingSeek,std::function<void()> seekCommitted,std::function<double()> indexedEnd){
   if(!source || source->stopped())return {};
   emit playbackIntentChanged();savePosition();closePlaybackFile();
   preparedPlayback=true;preparedFinished=false;preparedDuration=total;continuousSeekReady=std::move(seekReady);continuousFailure=std::move(failure);holdAfterLoad=false;lastError.clear();
+  continuousGrowingSeek=std::move(growingSeek);continuousSeekCommitted=std::move(seekCommitted);continuousIndexedEnd=std::move(indexedEnd);continuousReloading=false;
   pendingLaunchOptions={};pendingTrackSelections.clear();audioUserSelection=subtitleUserSelection=false;pendingResume=-1;
   pos=0;duration=total;timeline->position=0;timeline->duration=total;timeline->available=-1;timeline->chapters.clear();
   applyAudioSourceOptions();state->setText(uiTr("Подготовка видео…"));
@@ -546,7 +556,7 @@ QString Window::openContinuousSource(const std::shared_ptr<foxicmp::progressive:
 QJsonObject Window::preparedClipStatus(const QString& uri)const{
   const bool owned=preparedPlayback && current==uri;
   const bool continuous=owned && uri.startsWith("foxicmp-continuous://");
-  const bool loaded=owned && player->get("path").toString()==uri && player->get("duration").toDouble()>0;
+  const bool loaded=owned && !continuousReloading && player->get("path").toString()==uri && player->get("duration").toDouble()>0;
   // pause is the user's intent; paused-for-cache is mpv's decoder starvation.
   // In particular, an accepted publication or a blocked read-ahead cursor
   // alone must not turn a loaded, progressing decoder into "buffering".
@@ -560,8 +570,8 @@ bool Window::preparedClipControl(const QString& uri,const QString& command,doubl
   if(!preparedPlayback || current!=uri)return false;
   if(command=="cancel"){closeCurrent();return true;}
   if(player->get("path").toString()!=uri || player->get("duration").toDouble()<=0 || preparedFinished)return false;
-  if(command=="pause")return player->set("pause",true);
-  if(command=="play")return player->set("pause",false);
+  if(command=="pause"){if(continuousReloading)holdAfterLoad=true;return player->set("pause",true);}
+  if(command=="play"){if(continuousReloading)holdAfterLoad=false;return player->set("pause",false);}
   if(command=="seek")return seekTo(seconds);
   return false;
 }
