@@ -15,11 +15,21 @@ from progressive_player_crash_recovery import wait,ApiError,sha
 from progressive_continuous_lifecycle_stress import BUDGET,bounds
 from progressive_continuous_heartbeat_conformance import WorkerExit
 from progressive_process_metrics import sample
+from progressive_stream_aac_aligned_test import fixture as av_fixture
 
+PROFILES = {'48000-mono': (48000,1,'25',2), '44100-stereo': (44100,2,'30000/1001',3)}
 
-def exercise(peers,root,report,stress=False):
+def exercise(peers,root,report,stress=False,fixture_profile=None):
     report=Path(report);report.mkdir(parents=True,exist_ok=True)
-    original=source_fixture(root,'reference',AAC_MODE);raw=original.read_bytes();cut=source_cuts(original,AAC_MODE)[12]
+    if fixture_profile is None:
+        original=source_fixture(root,'reference',AAC_MODE)
+        rate,channels,fps,bframes=48000,2,'30000/1001',3
+    else:
+        rate,channels,fps,bframes=PROFILES[fixture_profile]
+        original=av_fixture(root,'reference',rate,channels,fps,bframes,False,False,
+            seconds=24,samples=rate*24-137)[0]
+    raw=original.read_bytes();cut=source_cuts(original,AAC_MODE)[12]
+    geometry=dict(sampleRate=rate,channels=channels,videoFps=fps,bframes=bframes,presentationSamples=str(rate*24-137))
     ordinary_source=source_fixture(root,'ordinary-source');ordinary=root/'ordinary.mp4'
     subprocess.run(['ffmpeg','-v','error','-y','-i',str(ordinary_source),'-c','copy','-movflags','+frag_keyframe+empty_moov+default_base_moof',str(ordinary)],check=True,capture_output=True)
     ordinary_raw=ordinary.read_bytes();original_sha=sha(original);ordinary_sha=sha(ordinary)
@@ -45,7 +55,10 @@ def exercise(peers,root,report,stress=False):
     def ready(sdk):
         def poll():
             s=sdk.status();assert not s['errorCode'],s
-            if s['playbackReady'] and s['indexedEndSeconds']>10:return s
+            if s['playbackReady'] and s['indexedEndSeconds']>10:
+                if fixture_profile is not None:
+                    assert s['audioWindowReady'] and s['audioSampleRate']==rate and s['audioChannels']==channels and s['audioPresentationSamples']==geometry['presentationSamples'],s
+                return s
             sdk.heartbeat()
         return wait(poll,'queue race ready',20)
     def active(sdk):
@@ -186,7 +199,7 @@ def exercise(peers,root,report,stress=False):
             (report/'resource-windows.json').write_text(json.dumps(dict(budget=BUDGET,windows=windows),indent=2)+'\n')
             resource_summary=bounds(rows)
         other_final=finish(other,other_path);assert sha(original)==original_sha and sha(ordinary)==ordinary_sha
-        return dict(result='PASS',count=len(rows),rows=rows,warmup=warmup,otherFinal=other_final,resourceBudget=BUDGET if stress else None,resourceSummary=resource_summary,realConcurrentIpcConnections=True,deterministicInternalIoSchedule=False,fullStressAcceptance=False,originalsUnchanged=True,totalRequests=len(requests))
+        return dict(result='PASS',count=len(rows),rows=rows,warmup=warmup,otherFinal=other_final,resourceBudget=BUDGET if stress else None,resourceSummary=resource_summary,realConcurrentIpcConnections=True,deterministicInternalIoSchedule=False,fullStressAcceptance=False,originalsUnchanged=True,totalRequests=len(requests),fixtureProfile=fixture_profile or '48000-stereo',fixtureGeometry=geometry,fixtureSha256=original_sha)
     finally:
         primary=sys.exc_info()[0] is not None;errors=[]
         for model in list(regular):

@@ -1639,3 +1639,9 @@ Harvester, пользовательские профили, настройки W
 [Исправлена общая транзакция](ProgressiveSeekWorkerFailure.md): backend error, возникший внутри decoder handoff, больше не публикует ложный applied для pending seek. Принятый seek расходует прежний слот квоты; replacement intent из reentrant observer сохраняется. Изменение используется всеми тремя редакциями, API/SDK 1.87 не менялись.
 
 [Проверки и сохранность](ProgressiveSeekWorkerFailureValidation-2026-11-11.json) разделяют Classic private injection, native post-handoff controls, обычные Qt/Classic UI/SDK regressions и обновление Linux EXE с backup. Windows copies тестовые; Harvester/пользовательские настройки не менялись. Полные AAC/COM/physical-I/O/crash/stress interleavings остаются открытыми.
+
+### Два дополнительных AAC queue/race/stress профиля — 11 ноября 2026
+
+[Обычные три редакции](ProgressiveQueuedProfileStress.md) прошли 48 kHz mono/BF2/25 fps и 44.1 kHz stereo/BF3/30000/1001: всего 216 парных races, 600 измеряемых +24 warmup cycles и 10200 пар IPC. Прежние quota/resource/RPC/release budgets сохранены. Linux использовал установленный EXE с private profiles, Windows — отдельные copies.
+
+[Отчёт](ProgressiveQueuedProfileStressValidation-2026-11-11.json) сохраняет native exits, resource windows и отдельные намеренные cleanup/worker exit codes; 587 файлов и 158 HKCU shell entries неизменны. Production/SDK modules/установки не менялись, новая Linux установка не требуется. Полная codec/crash/physical-I/O/multi-hour/A/V приёмка остаётся открытой.

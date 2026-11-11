@@ -25,8 +25,11 @@ def main():
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
     parser.add_argument('--classic-ui-theme',choices=('dark','light'))
     parser.add_argument('--classic-null-video',action='store_true',help='Private profile: require decoded video without a desktop renderer')
+    parser.add_argument('--queued-profile',choices=('48000-mono','44100-stereo'),help='Opt-in AAC fixture for queued-races/queued-stress only')
     parser.add_argument('--report-directory',type=Path,required=True)
     args=parser.parse_args();sdk=args.sdk_directory.resolve()
+    if args.queued_profile is not None and args.scenario not in ('queued-races','queued-stress'):
+        parser.error('--queued-profile requires queued-races or queued-stress')
     if args.classic_null_video and args.edition!='classic':parser.error('--classic-null-video requires Classic')
     if args.scenario=='aac-heartbeat-idle-stability' and (args.edition!='classic' or os.name!='nt'):
         parser.error('aac-heartbeat-idle-stability requires Windows Classic')
@@ -38,7 +41,7 @@ def main():
     from progressive_player_crash_recovery import sha
     if args.scenario in ('queued-races','queued-stress'):
         import progressive_queued_seek_races as case
-        exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,stress=args.scenario=='queued-stress')
+        exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,stress=args.scenario=='queued-stress',fixture_profile=args.queued_profile)
     elif args.scenario=='timeline-ui':
         if args.edition!='classic' or os.name!='nt' or args.classic_ui_theme is None:parser.error('timeline-ui requires Windows Classic and explicit private theme')
         from windows import progressive_classic_timeline_test as case
