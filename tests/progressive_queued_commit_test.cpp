@@ -71,5 +71,30 @@ int main()try{
  {Fixture f;f.play.growingSeeks=15;check(f.apply()==Result::Applied && f.play.growingSeeks==16);rejects([&]{f.play.queueSeek(3);},"continuous-seek-limit");f.state.complete=true;f.play.queueSeek(3);check(f.apply()==Result::Applied && f.play.growingSeeks==16);}
  {Fixture f;f.play.growingSeeks=15;check(f.apply({},[&](double){check(f.play.queuedSubmissionAllowed());rejects([&]{f.play.checkSeek(3,true);},"continuous-seek-limit");rejects([&]{f.play.queueSeek(3);},"continuous-seek-limit");return false;})==Result::Rejected);check(f.play.growingSeeks==15);f.play.queueSeek(3);check(f.apply()==Result::Applied && f.play.growingSeeks==16);}
  {Fixture f;check(f.apply([&](double){f.state.complete=true;return true;})==Result::Applied);check(f.play.growingSeeks==0);}
+ // Backend death after an accepted handoff must not become a successful seek.
+ // Acceptance still spends its slot, even when the completion reports error.
+ for(unsigned action=0;action<5;++action){Fixture f;std::string producer;
+  f.play.producerError=[&]{return producer;};
+  check(f.apply({},[&](double){
+   if(action==0)producer="backend-worker-exited";
+   if(action==1)f.state.failure="backend-pipe-error";
+   if(action==2)f.play.error="decoder-failed";
+   if(action==3)f.state.retiring=true;
+   if(action==4)f.state.removed=true;
+   return true;
+  })==Result::Applied);
+  check(f.submits==1 && f.play.growingSeeks==1 && f.play.pendingSeekSeconds<0);
+  check(f.play.seekState==(action<3?"error":"cancelled"));
+  if(action<3)check(f.play.seekError==(action==0?"backend-worker-exited":action==1?"backend-pipe-error":"decoder-failed"));
+ }
+ // Post-handoff observers can themselves replace the target. Do not clear it
+ // or let an old producer failure overwrite its pending revision.
+ for(unsigned boundary=0;boundary<2;++boundary){Fixture f;bool returned=false,fired=false;
+  auto replace=[&]{if(returned && !fired){fired=true;f.play.clearPendingSeek();f.play.queueSeek(3);}};
+  if(boundary==0)f.observer=replace;
+  else f.play.producerError=[&]{replace();return returned?std::string("backend-worker-exited"):std::string();};
+  check(f.apply({},[&](double){returned=true;return true;})==Result::Applied);
+  check(fired && f.submits==1 && f.play.growingSeeks==1 && f.play.pendingSeekSeconds==3 && f.play.seekRevision==2 && f.play.seekState=="waiting-range");
+ }
  std::cout<<"{\"result\":\"PASS\",\"checks\":"<<checks<<"}\n";return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}

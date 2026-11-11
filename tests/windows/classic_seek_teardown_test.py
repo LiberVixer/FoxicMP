@@ -1,4 +1,4 @@
-"""Stop, replacement and window close within owned Classic real seek stacks.
+"""Teardown and worker death within owned Classic real seek stacks.
 
 Not a shipping nested message loop: FOXICMP_PRIVATE_CLASSIC_SEEK_TEST is required.
 """
@@ -24,6 +24,7 @@ from progressive_stream_remux_worker_test import fixture
 from progressive_stream_aac_aligned_test import fixture as av_fixture
 from progressive_continuous_test_media import source_snapshot, source_cuts
 from progressive_continuous_heartbeat_conformance import WorkerExit
+from progressive_continuous_worker_crash_conformance import OwnedWorker
 from progressive_integrity import protect_snapshot
 from progressive_family_test import registration_snapshot, post_command
 
@@ -55,10 +56,11 @@ def run(args):
         ordinary_raw = ordinary.read_bytes()
         ordinary_sha = sha(ordinary)
         cases = [(phase, mode) for phase in ('frame-before', 'graph-before', 'graph-after', 'frame-after')
-                 for mode in ('stop', 'replace', 'close')]
+                 for mode in ((args.mode,) if args.mode else ('stop', 'replace', 'close'))]
         if args.smoke:
-            cases = [('graph-before', 'stop')]
+            cases = [('graph-before', args.mode or 'stop')]
         cases = [(p,m) for p,m in cases if (not args.phase or p==args.phase) and (not args.mode or m==args.mode)]
+        assert cases, 'No selected seek-boundary scenarios'
         for phase, mode in cases:
             label = phase + '-' + mode
             folder = root / label
@@ -98,6 +100,11 @@ def run(args):
             scenario_passed = False
             close_proof = None
             forget_proof = None
+            killed = None
+            release_trace = []
+            retry = None
+            retry_proof = None
+            retry_watch = None
             try:
                 peer.launch()
                 sdk = ContinuousRemux(peer.client, str(source), mode=selected_mode)
@@ -111,7 +118,7 @@ def run(args):
                 ready = wait(producer_ready, 'owned source ready', 20)
                 if audio:
                     assert ready['audioWindowReady'] and ready['audioSampleRate']==rate and ready['audioChannels']==channels and ready['audioPresentationSamples']==str(rate*24+137), ready
-                watch = WorkerExit(int(ready['workerId']))
+                watch = OwnedWorker(peer, int(ready['workerId'])) if mode == 'worker-crash' else WorkerExit(int(ready['workerId']))
                 sdk.play(title='Main reentry ' + label)
                 wait(lambda: (lambda s: s if s['state'] == 'playing' and s['positionSeconds'] > .15 and (not audio or s['audio'] and s['pcmWindowApplied']) else None)(sdk.playback_status()), 'owned playing', 20)
                 sdk.control('pause')
@@ -145,7 +152,8 @@ def run(args):
                 new = copy.deepcopy(model)
                 new['revision'] = '2'
                 new['resources'][0]['ranges'] = [dict(offset='0', length=str(len(raw)))]
-                sdk.publish(protect_snapshot(new, source, previous=model))
+                published = protect_snapshot(new, source, previous=model)
+                sdk.publish(published)
                 # Read-only producer requests may dispatch inside the barrier;
                 # reaching it is established by its file, not IPC timing.
                 wait(lambda: (artifacts / 'ready').exists(), 'exact main/graph barrier', 15)
@@ -157,7 +165,32 @@ def run(args):
                     began = time.monotonic()
                     assert user.SendMessageTimeoutW(windows[0], message, value, 0, 2, 3000, ctypes.byref(result)), ctypes.get_last_error()
                     sent.append(dict(message=message, wparam=value, seconds=time.monotonic()-began, result=result.value))
-                if mode == 'stop':
+                if mode == 'worker-crash':
+                    killed = watch.terminate()
+                    (artifacts / 'worker-kill.json').write_text(json.dumps(killed, indent=2))
+                    assert killed['workerExitCode'] == 197, killed
+                    began = time.monotonic()
+                    def failed_source():
+                        value = sdk.status()
+                        release_trace.append(dict(seconds=time.monotonic()-began, producer=value))
+                        assert peer.process.poll() is None and not value['outputComplete'], value
+                        if value['errorCode']:
+                            assert value['errorCode'] in ('backend-worker-exited','backend-pipe-error'), value
+                        return value if value['errorCode'] and value['sourceFilesClosed'] else None
+                    try:
+                        nested = wait(failed_source, 'worker death closes source within seek', 2)
+                    finally:
+                        (artifacts / 'worker-release-trace.json').write_text(json.dumps(release_trace, indent=2))
+                    elapsed = time.monotonic()-began
+                    assert killed['terminationSeconds']+elapsed < 2, (killed, elapsed)
+                    killed['sourceCloseSeconds'] = elapsed
+                    if not nested['released']:
+                        assert nested['cleanupCode'] == 'cache-in-use', nested
+                        nested_receipts = peer.client.readers(model['sessionId'], 1)
+                        assert any(not v['released'] and not v['filesClosed'] for v in nested_receipts), nested_receipts
+                        killed['cacheHeldWithinSeek'] = nested_receipts
+                    replies.append(nested)
+                elif mode == 'stop':
                     replies.append(sdk.control('stop'))
                     nested = sdk.playback_status()
                     assert nested['state'] == 'closed' and nested['pendingSeekSeconds'] is None, nested
@@ -177,6 +210,21 @@ def run(args):
                     peer.process.wait(timeout=20)
                     assert peer.process.returncode == 0, peer.process.returncode
                     final = dict(processExited=True, exitCode=peer.process.returncode)
+                elif mode == 'worker-crash':
+                    resumed_at = time.monotonic()
+                    def dead_playback():
+                        value = sdk.playback_status()
+                        return value if value['state'] == 'error' and value['decoderReaders'] == 0 else None
+                    final = wait(dead_playback, 'dead worker closes graph after seek unwind', 2)
+                    assert final['error'] == nested['errorCode'] and final['pendingSeekSeconds'] is None and final['seekState'] != 'applied', final
+                    def dead_released():
+                        value = sdk.status()
+                        assert value['errorCode']==nested['errorCode'] and not value['outputComplete'], value
+                        return value if value['released'] and value['sourceFilesClosed'] else None
+                    released_after_unwind = wait(dead_released, 'last decoder close releases cache after seek unwind', 2)
+                    killed['releaseAfterBarrierSeconds'] = time.monotonic()-resumed_at
+                    killed['releasedAfterUnwind'] = released_after_unwind
+                    assert killed['releaseAfterBarrierSeconds'] < 2, killed
                 elif mode == 'stop':
                     def stopped():
                         value = sdk.playback_status()
@@ -209,16 +257,54 @@ def run(args):
                 if mode != 'close':
                     assert any(x['stage'] == 'nested-ipc-dispatch' for x in trace)
                 assert not any(x['stage'] == 'barrier-timeout' for x in trace), trace
+                if mode == 'worker-crash':
+                    receipts = peer.client.readers(model['sessionId'], 1)
+                    assert receipts and all(v['released'] and v['filesClosed'] and v['reason']=='files-closed' for v in receipts), receipts
+                    cache_root = Path(str(peer.registry) + '.continuous-cache')
+                    assert not list(cache_root.glob('remux-*'))
+                    close_proof = sdk.close(timeout=2)
+                    assert close_proof['released'] and close_proof['sourceFilesClosed'], close_proof
+                    forget_proof = sdk.forget(timeout=2)
+                    assert forget_proof['forgotten'], forget_proof
+                    retry = ContinuousRemux(peer.client, str(source), mode=selected_mode)
+                    retry.prepare(published, 'clip')
+                    def retry_ready():
+                        value = retry.status()
+                        assert not value['errorCode'], value
+                        retry.heartbeat()
+                        return value if value['playbackReady'] else None
+                    restarted_producer = wait(retry_ready, 'explicit retry preparation after worker death', 20)
+                    assert restarted_producer['jobId'] != ready['jobId'] and not set(restarted_producer['readerIds']) & set(ready['readerIds']), restarted_producer
+                    retry_watch = WorkerExit(int(restarted_producer['workerId']))
+                    assert not sdk.playback_status()['active'], 'Retry preparation automatically started playback'
+                    retry.play(title='Explicit retry after seek worker death')
+                    def retry_playing():
+                        value = retry.playback_status()
+                        assert value['state'] not in ('error','closed','finished'), value
+                        return value if value['state']=='playing' and .15<value['positionSeconds']<3 and (not audio or value['audio'] and value['pcmWindowApplied']) else None
+                    restarted = wait(retry_playing, 'explicit retry plays at its own position', 20)
+                    assert restarted['playbackId'] != held['playbackId'] and not set(restarted['readerIds']) & set(held['readerIds']), restarted
+                    retry.control('pause')
+                    restarted_paused = wait(lambda: (lambda v:v if v['state']=='paused' else None)(retry.playback_status()), 'retry pause', 5)
+                    assert restarted_paused['positionSeconds'] < 3 and restarted_paused['pendingSeekSeconds'] is None, restarted_paused
+                    retry_close = retry.close(timeout=2)
+                    assert retry_close['released'] and retry_close['sourceFilesClosed'], retry_close
+                    retry_forget = retry.forget(timeout=2)
+                    assert retry_forget['forgotten'], retry_forget
+                    wait(retry_watch.exited, 'explicit retry worker exits after close', 5)
+                    retry_proof = dict(producer=restarted_producer, playback=restarted, paused=restarted_paused,
+                        readerReceipts=receipts, close=retry_close, forget=retry_forget, workerExit=retry_watch.proof())
                 row = dict(profile=label, audioProfile=args.audio_profile, result='PASS', ready=ready, held=held, queued=queued, replies=replies,
-                           nested=nested, sent=sent, final=final, trace=trace, graphScopeForced=phase.startswith('graph-'))
+                           nested=nested, sent=sent, final=final, trace=trace, graphScopeForced=phase.startswith('graph-'),
+                           killedWorker=killed, releaseTrace=release_trace, explicitRetry=retry_proof)
                 (artifacts / 'scenario.json').write_text(json.dumps(row, indent=2))
                 rows.append(row)
                 scenario_passed = True
             finally:
                 (artifacts / 'release').write_text('cleanup')
                 if peer.process is not None and peer.process.poll() is None:
-                    for current in (sdk,):
-                        if current is None:
+                    for current in (retry, sdk):
+                        if current is None or current.forgotten:
                             continue
                         try:
                             proof = current.close(timeout=15)
@@ -254,6 +340,8 @@ def run(args):
                         worker_exit = watch.proof()
                     finally:
                         watch.close()
+                if retry_watch is not None:
+                    retry_watch.close()
                 receipts_before_cleanup = []
                 if peer.registry.exists():
                     for receipt_path in peer.registry.glob('*.lease'):
@@ -286,7 +374,7 @@ if __name__ == '__main__':
     parser.add_argument('--audio-profile', choices=('video','48000-mono','44100-stereo'), default='video')
     parser.add_argument('--smoke', action='store_true')
     parser.add_argument('--phase', choices=('frame-before','graph-before','graph-after','frame-after'))
-    parser.add_argument('--mode', choices=('stop','replace','close'))
+    parser.add_argument('--mode', choices=('stop','replace','close','worker-crash'))
     args = parser.parse_args()
     args.player = args.player.resolve()
     run(args)

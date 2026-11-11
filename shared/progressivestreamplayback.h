@@ -117,7 +117,21 @@ public:
             if(!submit(submittingSeconds))return QueuedApply::Rejected;
             queuedReserved=false;
             if((queuedReported?queuedGrowing:growing) && growingSeeks<MaxGrowingSeeks)++growingSeeks;
-            if(current())clearPendingSeek("applied");
+            if(current()){
+                // A decoder may accept the handoff while its producer dies in
+                // a nested callback. Charge that accepted operation once, but
+                // never publish an applied intent against the failed output.
+                const auto state=output();
+                if(current()){
+                    const auto producer=producerError?producerError():std::string();
+                    if(current()){
+                        const auto failure=!error.empty()?error:!state.failure.empty()?state.failure:producer;
+                        if(!failure.empty())clearPendingSeek("error",failure);
+                        else if(state.retiring || state.removed || (source && source->stopped()))clearPendingSeek("cancelled");
+                        else clearPendingSeek("applied");
+                    }
+                }
+            }
             return QueuedApply::Applied;
         }catch(const Error&){if(!queuedSubmissionCurrent())return QueuedApply::Superseded;throw;}
     }

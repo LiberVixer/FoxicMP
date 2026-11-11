@@ -1633,3 +1633,9 @@ Harvester, пользовательские профили, настройки W
 [Расширен private teardown driver](ProgressiveClassicAacTeardown.md): 24 AAC cases двух rate/channel/B-frame профилей, 12 video regression и smoke. Реальные Stop, A/V start(replace=True) и owned WM_CLOSE в frame/graph before/after; исходный AAC PCM window применён, новый graph читает оба tracks и сохраняет свой reader/позицию.
 
 [Отчёт](ProgressiveClassicAacTeardownValidation-2026-11-11.json) разделяет driver/main/worker exits, сохраняет положительные release proofs и cache cleanup; ошибочный первый replacement hint учтён отдельно. Все 587 защищённых файлов и 158 HKCU shell entries сохранены. Production/Qt/SDK modules не менялись, SDK 1.87; полная AAC/PCM/COM/physical-I/O/crash/stress приёмка остаётся открытой.
+
+### Worker failure после принятого seek — 11 ноября 2026
+
+[Исправлена общая транзакция](ProgressiveSeekWorkerFailure.md): backend error, возникший внутри decoder handoff, больше не публикует ложный applied для pending seek. Принятый seek расходует прежний слот квоты; replacement intent из reentrant observer сохраняется. Изменение используется всеми тремя редакциями, API/SDK 1.87 не менялись.
+
+[Проверки и сохранность](ProgressiveSeekWorkerFailureValidation-2026-11-11.json) разделяют Classic private injection, native post-handoff controls, обычные Qt/Classic UI/SDK regressions и обновление Linux EXE с backup. Windows copies тестовые; Harvester/пользовательские настройки не менялись. Полные AAC/COM/physical-I/O/crash/stress interleavings остаются открытыми.
