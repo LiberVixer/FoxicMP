@@ -216,7 +216,7 @@ STDMETHODIMP CHarvesterFileReader::SyncRead(LONGLONG offset,LONG size,BYTE* data
     const auto s=m_session->Snapshot();
     if(s.tracks[m_track].total && !harvester::RangeReady(offset,size,s.tracks[m_track].total))return E_FAIL;
     if(m_opening && !harvester::RangeReady(offset,size,s.tracks[m_track].available))return E_FAIL;
-    HRESULT hr=m_session->WaitRange(m_track,offset,size,m_flush,m_break.load());
+    HRESULT hr=m_session->WaitRangeGuarded(m_track,offset,size,m_flush,m_break.load(),false,interrupted);
     if(interrupted())return E_ABORT;
     if(hr!=S_OK || !size)return hr;
     if(m_session->HasVirtualReader()){
@@ -265,20 +265,40 @@ STDMETHODIMP CHarvesterFileReader::SyncRead(LONGLONG offset,LONG size,BYTE* data
 }
 
 STDMETHODIMP CHarvesterFileReader::WaitForCompletion() {
+    const auto generation=m_flushGeneration.load();
+    const auto interrupted=[&]{return ReadInterrupted(generation);};
+    if(interrupted())return E_ABORT;
     const auto track=m_session->Snapshot().tracks[m_track];
-    m_session->BeginCompletionWait();
-    const auto hr=m_session->WaitRange(m_track,track.total,0,m_flush,m_break.load(),true);
-    m_session->EndCompletionWait();
-    return hr;
+    struct CompletionWait {
+        CHarvesterSession& session;
+        explicit CompletionWait(CHarvesterSession& value):session(value){session.BeginCompletionWait();}
+        ~CompletionWait(){session.EndCompletionWait();}
+    } wait(*m_session);
+    const auto hr=m_session->WaitRangeGuarded(m_track,track.total,0,m_flush,m_break.load(),true,interrupted);
+    return interrupted()?E_ABORT:hr;
 }
 
 STDMETHODIMP CHarvesterFileReader::WaitForSample(size_t index,harvester::Sample* sample) {
     if(!sample)return E_POINTER;
+    const auto generation=m_flushGeneration.load();
+    const auto interrupted=[&]{return ReadInterrupted(generation);};
     for(;;) {
+        if(interrupted())return E_ABORT;
         HANDLE events[]={m_session->CancelEvent(),m_flush,m_break.load()};const DWORD count=events[2]?3:2;
-        if(WaitForMultipleObjects(count,events,FALSE,0)!=WAIT_TIMEOUT)return E_ABORT;
-        const auto status=m_session->SampleAt(m_track,index,*sample);
-        if(status)return status==1?S_OK:S_FALSE;
+        harvester::Sample next;
+        const auto status=m_session->SampleAt(m_track,index,next);
+        if(status){
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+            foxicmp::progressive::classic_read_test::Waiting(this,"sample-ready");
+#endif
+            if(interrupted())return E_ABORT;
+            // Commit caller output only after this request's final guard.
+            if(status==1)*sample=next;
+            return status==1?S_OK:S_FALSE;
+        }
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+        foxicmp::progressive::classic_read_test::Waiting(this,"sample-wait");
+#endif
         if(WaitForMultipleObjects(count,events,FALSE,50)!=WAIT_TIMEOUT)return E_ABORT;
     }
 }

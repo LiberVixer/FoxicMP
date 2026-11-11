@@ -10,6 +10,8 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveClassicRangeWait.md': 'docs/ProgressiveClassicRangeWait.md',
+    'ProgressiveClassicRangeWaitValidation-2026-11-11.json': 'docs/ProgressiveClassicRangeWaitValidation-2026-11-11.json',
     'ProgressiveClassicNativeIo.md': 'docs/ProgressiveClassicNativeIo.md',
     'ProgressiveClassicNativeIoValidation-2026-11-11.json': 'docs/ProgressiveClassicNativeIoValidation-2026-11-11.json',
     'ProgressiveClassicReadBoundaries.md': 'docs/ProgressiveClassicReadBoundaries.md',

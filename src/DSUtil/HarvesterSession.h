@@ -107,6 +107,7 @@ public:
     void Cancel();
     bool Connected() const { return (m_published && Complete()) || (m_connected && GetTickCount64()-m_lastUpdate.load()<15000); }
     HRESULT WaitRange(int track, uint64_t offset, uint64_t size, HANDLE flush, HANDLE breaker, bool completion=false);
+    HRESULT WaitRangeGuarded(int track,uint64_t offset,uint64_t size,HANDLE flush,HANDLE breaker,bool completion,const std::function<bool()>& interrupted);
     void BeginCompletionWait() {++m_completionWaiters;}
     void EndCompletionWait() {--m_completionWaiters;}
     bool SetIndex(int track, std::vector<harvester::Sample> samples, int64_t duration);

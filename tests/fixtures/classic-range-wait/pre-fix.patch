@@ -1,0 +1,64 @@
+--- a/src/DSUtil/HarvesterSession.cpp
++++ b/src/DSUtil/HarvesterSession.cpp
+@@ -465,4 +464,0 @@
+-    return WaitRangeGuarded(track,offset,size,flush,breaker,completion,{});
+-}
+-HRESULT CHarvesterSession::WaitRangeGuarded(int track,uint64_t offset,uint64_t size,HANDLE flush,HANDLE breaker,bool completion,const std::function<bool()>& guard) {
+-    const auto interrupted=[&]{return (guard && guard()) || WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0);};
+@@ -470 +466,2 @@
+-        if(interrupted() || OptionalAudioFailed(track))return E_ABORT;
++        if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0))return E_ABORT;
++        if(OptionalAudioFailed(track))return E_ABORT;
+@@ -472,5 +469,2 @@
+-        HRESULT result=E_PENDING;
+-        if(t.total && !harvester::RangeReady(offset,size,t.total))result=E_FAIL;
+-        else if(completion ? harvester::EndReady(t) : harvester::RangeReady(offset,size,t.available) && (!m_v2Bridge || m_v2Bridge->payloadReady(track,offset,size)))result=S_OK;
+-        else if(t.state==harvester::State::Complete)result=S_FALSE;
+-        if(result!=E_PENDING){
++        if(t.total && !harvester::RangeReady(offset,size,t.total))return E_FAIL;
++        if(completion ? harvester::EndReady(t) : harvester::RangeReady(offset,size,t.available) && (!m_v2Bridge || m_v2Bridge->payloadReady(track,offset,size))){
+@@ -480,2 +474,3 @@
+-            return interrupted()?E_ABORT:result;
+-        }
++            return S_OK;
++        }
++        if(t.state==harvester::State::Complete)return S_FALSE;
+--- a/src/DSUtil/HarvesterSession.h
++++ b/src/DSUtil/HarvesterSession.h
+@@ -110 +109,0 @@
+-    HRESULT WaitRangeGuarded(int track,uint64_t offset,uint64_t size,HANDLE flush,HANDLE breaker,bool completion,const std::function<bool()>& interrupted);
+--- a/src/filters/parser/BaseSplitter/AsyncReader.cpp
++++ b/src/filters/parser/BaseSplitter/AsyncReader.cpp
+@@ -219 +219 @@
+-    HRESULT hr=m_session->WaitRangeGuarded(m_track,offset,size,m_flush,m_break.load(),false,interrupted);
++    HRESULT hr=m_session->WaitRange(m_track,offset,size,m_flush,m_break.load());
+@@ -268,3 +267,0 @@
+-    const auto generation=m_flushGeneration.load();
+-    const auto interrupted=[&]{return ReadInterrupted(generation);};
+-    if(interrupted())return E_ABORT;
+@@ -272,7 +269,4 @@
+-    struct CompletionWait {
+-        CHarvesterSession& session;
+-        explicit CompletionWait(CHarvesterSession& value):session(value){session.BeginCompletionWait();}
+-        ~CompletionWait(){session.EndCompletionWait();}
+-    } wait(*m_session);
+-    const auto hr=m_session->WaitRangeGuarded(m_track,track.total,0,m_flush,m_break.load(),true,interrupted);
+-    return interrupted()?E_ABORT:hr;
++    m_session->BeginCompletionWait();
++    const auto hr=m_session->WaitRange(m_track,track.total,0,m_flush,m_break.load(),true);
++    m_session->EndCompletionWait();
++    return hr;
+@@ -283,2 +276,0 @@
+-    const auto generation=m_flushGeneration.load();
+-    const auto interrupted=[&]{return ReadInterrupted(generation);};
+@@ -286 +277,0 @@
+-        if(interrupted())return E_ABORT;
+@@ -288,2 +279,2 @@
+-        harvester::Sample next;
+-        const auto status=m_session->SampleAt(m_track,index,next);
++        if(WaitForMultipleObjects(count,events,FALSE,0)!=WAIT_TIMEOUT)return E_ABORT;
++        const auto status=m_session->SampleAt(m_track,index,*sample);
+@@ -294,3 +284,0 @@
+-            if(interrupted())return E_ABORT;
+-            // Commit caller output only after this request's final guard.
+-            if(status==1)*sample=next;

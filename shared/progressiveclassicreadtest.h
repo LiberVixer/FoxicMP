@@ -9,6 +9,8 @@ namespace foxicmp { namespace progressive { namespace classic_read_test {
 // in the fixture. No player target defines this macro or offers runtime control.
 inline std::function<void(void*,bool,int,uint64_t,int64_t)> payload;
 inline std::function<void(void*,long)> returned;
+inline std::function<void(void*,const char*)> waiting;
+inline void Waiting(void* owner,const char* stage){if(waiting)waiting(owner,stage);}
 // Windows-only caller supplies the actual OVERLAPPED and its completion event.
 inline std::function<void(void*,const char*,void*,void*,unsigned long)> nativeIo;
 inline void NativeIo(void* reader,const char* stage,void* file,void* overlapped,unsigned long error){if(nativeIo)nativeIo(reader,stage,file,overlapped,error);}

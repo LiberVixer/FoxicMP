@@ -462,14 +462,27 @@ void CHarvesterSession::Watch() {
     }
 }
 HRESULT CHarvesterSession::WaitRange(int track,uint64_t offset,uint64_t size,HANDLE flush,HANDLE breaker,bool completion) {
+    return WaitRangeGuarded(track,offset,size,flush,breaker,completion,{});
+}
+HRESULT CHarvesterSession::WaitRangeGuarded(int track,uint64_t offset,uint64_t size,HANDLE flush,HANDLE breaker,bool completion,const std::function<bool()>& guard) {
+    const auto interrupted=[&]{return (guard && guard()) || WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0);};
     for(;;) {
-        if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0))return E_ABORT;
-        if(OptionalAudioFailed(track))return E_ABORT;
+        if(interrupted() || OptionalAudioFailed(track))return E_ABORT;
         auto s=Snapshot(); const auto& t=s.tracks[track];
-        if(t.total && !harvester::RangeReady(offset,size,t.total))return E_FAIL;
-        if(completion ? harvester::EndReady(t) : harvester::RangeReady(offset,size,t.available) && (!m_v2Bridge || m_v2Bridge->payloadReady(track,offset,size)))return S_OK;
-        if(t.state==harvester::State::Complete)return S_FALSE;
+        HRESULT result=E_PENDING;
+        if(t.total && !harvester::RangeReady(offset,size,t.total))result=E_FAIL;
+        else if(completion ? harvester::EndReady(t) : harvester::RangeReady(offset,size,t.available) && (!m_v2Bridge || m_v2Bridge->payloadReady(track,offset,size)))result=S_OK;
+        else if(t.state==harvester::State::Complete)result=S_FALSE;
+        if(result!=E_PENDING){
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+            foxicmp::progressive::classic_read_test::Waiting(this,"range-ready");
+#endif
+            return interrupted()?E_ABORT:result;
+        }
         HANDLE events[3]={m_cancel,flush,breaker}; DWORD n=1;if(flush)events[n++]=flush;if(breaker)events[n++]=breaker;
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+        foxicmp::progressive::classic_read_test::Waiting(this,"range-wait");
+#endif
         if(WaitForMultipleObjects(n,events,FALSE,100)!=WAIT_TIMEOUT)return E_ABORT;
     }
 }

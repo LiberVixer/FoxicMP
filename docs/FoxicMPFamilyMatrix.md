@@ -1598,3 +1598,10 @@ Harvester, пользовательские профили, настройки W
 [Проверка](ProgressiveClassicNativeIoValidation-2026-11-11.json): 20 regular-file и 18 настоящих pending pipe cases; pre-fix два FAIL/native exit 1, fixed 38 PASS/exit 0 без rescue. На новом адаптере прошли прежние 31 native case и 12 DirectShow cases с 4200 совпавших кадров. Normal EXE — 2 schema-1 raw-file graph сценария и 23 queued API cases, exits 0. Pipe handle подставляется только private friend, публичная поддержка pipe не добавлялась. Все 587 защищённых файлов и 158 HKCU shell entries совпали до/после этого этапа.
 
 Это не проверка зависшего диска/драйвера, missing-range wait или CMainFrame/STA/public-IPC reentry. Полная codec/AAC/AV/crash/stress приёмка и прежние outliers остаются открытыми; настройки установок не нормализуются автоматически.
+
+
+### Classic ожидание неопубликованных данных — 11 ноября 2026
+
+[Исправлены WaitRange/WaitForSample/WaitForCompletion](ProgressiveClassicRangeWait.md): полный flush cycle прерывает старое ожидание; final guard сохраняет отмену у ready/EOF, sample не записывается вызывающему коду при E_ABORT. Старый C++ WaitRange сохранён, публичный SDK 1.87 и Qt без изменений.
+
+[Приёмка](ProgressiveClassicRangeWaitValidation-2026-11-11.json): 38 детерминированных native cases после 17 pre-fix FAIL; новые bytes физически дописываются и подтверждаются штатным Publish. Старые 31 payload +38 native-I/O +12 DirectShow cases/4200 кадров и 25 normal public API cases прошли с exits 0. Все 587 защищённых файлов и 158 HKCU shell entries сохранены. Private hooks отсутствуют в normal objects; аппаратный/STA/IPC forced scheduling и полная codec/AAC/crash/stress приёмка остаются открытыми.
