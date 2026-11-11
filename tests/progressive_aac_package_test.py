@@ -21,17 +21,21 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('queued-races','queued-stress','timeline-ui','queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
+    parser.add_argument('--scenario',choices=('aac-soak','queued-races','queued-stress','timeline-ui','queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
     parser.add_argument('--classic-ui-theme',choices=('dark','light'))
     parser.add_argument('--classic-null-video',action='store_true',help='Private profile: require decoded video without a desktop renderer')
     parser.add_argument('--queued-profile',choices=('48000-mono','44100-stereo'),help='Opt-in AAC fixture for queued-races/queued-stress only')
     parser.add_argument('--shutdown-queued',action='store_true',help='Add pending/applied growing seek to aac-shutdown')
+    parser.add_argument('--soak-fixture',type=Path,help='Immutable progressive_av_soak_fixture directory for aac-soak')
+    parser.add_argument('--soak-smoke',action='store_true',help='aac-soak setup check only; never thirty-minute acceptance')
     parser.add_argument('--report-directory',type=Path,required=True)
     args=parser.parse_args();sdk=args.sdk_directory.resolve()
     if args.queued_profile is not None and args.scenario not in ('queued-races','queued-stress'):
         parser.error('--queued-profile requires queued-races or queued-stress')
     if args.shutdown_queued and args.scenario!='aac-shutdown':parser.error('--shutdown-queued requires aac-shutdown')
+    if args.scenario=='aac-soak' and args.soak_fixture is None:parser.error('aac-soak requires --soak-fixture')
+    if args.scenario!='aac-soak' and (args.soak_fixture is not None or args.soak_smoke):parser.error('soak options require aac-soak')
     if args.classic_null_video and args.edition!='classic':parser.error('--classic-null-video requires Classic')
     if args.scenario=='aac-heartbeat-idle-stability' and (args.edition!='classic' or os.name!='nt'):
         parser.error('aac-heartbeat-idle-stability requires Windows Classic')
@@ -41,7 +45,10 @@ def main():
     assert all(Path(m.__file__).resolve().parent==sdk for m in modules.values())
     from progressive_continuous_api_test import run
     from progressive_player_crash_recovery import sha
-    if args.scenario in ('queued-races','queued-stress'):
+    if args.scenario=='aac-soak':
+        import progressive_continuous_av_soak as case
+        exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,args.soak_fixture,smoke=args.soak_smoke)
+    elif args.scenario in ('queued-races','queued-stress'):
         import progressive_queued_seek_races as case
         exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,stress=args.scenario=='queued-stress',fixture_profile=args.queued_profile)
     elif args.scenario=='timeline-ui':

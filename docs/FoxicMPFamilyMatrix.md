@@ -1651,3 +1651,9 @@ Harvester, пользовательские профили, настройки W
 [Три обычные редакции](ProgressiveQueuedShutdown.md) прошли normal exit/crash при waiting и applied target 19 s: физическое продолжение writer, recovery до ручного опроса receipts, явный новый play с позиции 0, отказ поздним старым Stop/cancelSeek/seek. 12 новых +24 regression cases проверены дважды; финальные drivers exit 0.
 
 [Отчёт](ProgressiveQueuedShutdownValidation-2026-11-11.json) разделяет files-closed и process-exited, main/worker/cleanup exits и первоначальный offscreen HWND setup failure. Все 587 файлов /158 HKCU entries сохранены; production/SDK modules/установки не менялись. Linux проверен установленным EXE с private profiles, Windows — отдельными copies. Один AAC stereo/48 kHz/BF3 профиль не закрывает полный crash/I/O/A/V допуск.
+
+### Длительный A/V soak с ресурсами и latency — 11 ноября 2026
+
+[Три обычные редакции](ProgressiveAvSoak30m.md) прошли по три полных 600 s H.264 640×360/BF3/AAC stereo jobs в тех же двух main processes, ≥31 min каждой редакции и 18 natural-EOF viewer jobs. Writer pauses 10/30/60 s, manual pause, packet/clock integrity, resource и latency gates прошли исходные пороги. Все native drivers exit 0; caps 50000 packets/64 MiB сохранены, smoke не засчитывался.
+
+[Отчёт и графики](ProgressiveAvSoak30mValidation-2026-11-11.json) отделяют main/worker/cleanup exits и ошибки исходного стенда. Linux private growth +72.44 MiB укладывается в бюджет, но плато не установлено — отдельный OPEN пункт без утверждения причины. 587 файлов /158 HKCU entries сохранены; production/SDK modules/установки не менялись. Это три bounded jobs, software/null output и один профиль, не один 30-minute источник, не физический A/V и не вся stress-приёмка.

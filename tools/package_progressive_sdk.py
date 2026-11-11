@@ -10,6 +10,9 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveAvSoak30m.md': 'docs/ProgressiveAvSoak30m.md',
+    'ProgressiveAvSoak30mValidation-2026-11-11.json': 'docs/ProgressiveAvSoak30mValidation-2026-11-11.json',
+    'assets/progressive-av-soak30m-2026-11-11.png': 'docs/assets/progressive-av-soak30m-2026-11-11.png',
     'ProgressiveQueuedShutdown.md': 'docs/ProgressiveQueuedShutdown.md',
     'ProgressiveQueuedShutdownValidation-2026-11-11.json': 'docs/ProgressiveQueuedShutdownValidation-2026-11-11.json',
     'ProgressiveQueuedProfileStress.md': 'docs/ProgressiveQueuedProfileStress.md',
