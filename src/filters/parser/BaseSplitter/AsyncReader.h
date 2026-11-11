@@ -116,6 +116,11 @@ class CHarvesterFileReader final : public CUnknown, public IAsyncReader, public 
     bool m_opening=true;
     std::wstring m_path;
     std::atomic<bool> m_error{false};
+    // Low bit is active flush; the remaining bits change on every begin/end.
+    // A read spanning a complete flush cycle must still be rejected.
+    std::atomic<uint64_t> m_flushGeneration{0};
+    void AdvanceFlushGeneration(bool active);
+    bool ReadInterrupted(uint64_t generation) const;
 public:
     CHarvesterFileReader(std::shared_ptr<CHarvesterSession> session,int track,HRESULT& hr);
     ~CHarvesterFileReader();
@@ -128,8 +133,8 @@ public:
     STDMETHODIMP SyncReadAligned(IMediaSample*) {return E_NOTIMPL;}
     STDMETHODIMP SyncRead(LONGLONG offset,LONG size,BYTE* data);
     STDMETHODIMP Length(LONGLONG* total,LONGLONG* available);
-    STDMETHODIMP BeginFlush() {SetEvent(m_flush);return S_OK;}
-    STDMETHODIMP EndFlush() {ResetEvent(m_flush);return S_OK;}
+    STDMETHODIMP BeginFlush();
+    STDMETHODIMP EndFlush();
     STDMETHODIMP_(void) SetBreakEvent(HANDLE h) {m_break=h;}
     STDMETHODIMP_(bool) HasErrors() {return m_error;}
     STDMETHODIMP_(void) ClearErrors() {m_error=false;}

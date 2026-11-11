@@ -7,9 +7,13 @@
 #include <thread>
 #include <memory>
 #include <map>
+#include <functional>
 namespace foxicmp { namespace progressive {class ReaderLease;class Fmp4V2Bridge;class StreamDecoderSource;class StreamFragmentDecoder;} }
 
 class CHarvesterSession {
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+    friend class ClassicReadBoundaryTest;
+#endif
     std::wstring m_manifest, m_root;
     bool m_published = false;
     std::array<std::wstring, harvester::MaxMediaTracks> m_publishedPaths;
@@ -90,6 +94,7 @@ public:
     bool IsWebM(int track=0) const;
     bool OptionalAudioFailed(int track) const;
     HRESULT ReadV2(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker);
+    HRESULT ReadV2Guarded(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker,const std::function<bool()>& interrupted);
     bool Publish(const std::string& json, CStringW& error, std::string* reasonCode=nullptr);
     void PublishedHeartbeat() {m_lastUpdate=GetTickCount64(); m_connected=true;}
     std::shared_ptr<std::atomic<bool>> ReleaseReceipt() const {return m_released;}

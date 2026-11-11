@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include "../../../../shared/progressiveclassicreadtest.h"
 #include "AsyncReader.h"
 #include "DSUtil/UrlParser.h"
 
@@ -190,14 +191,42 @@ STDMETHODIMP CHarvesterFileReader::NonDelegatingQueryInterface(REFIID riid,void*
 STDMETHODIMP CHarvesterFileReader::Length(LONGLONG* total,LONGLONG* available) {
     const auto s=m_session->Snapshot();if(total)*total=m_session->IsWebM(m_track) && !harvester::EndReady(s.tracks[m_track])?INT64_MAX:s.tracks[m_track].total?s.tracks[m_track].total:s.tracks[m_track].available;if(available)*available=s.tracks[m_track].available;return S_OK;
 }
+void CHarvesterFileReader::AdvanceFlushGeneration(bool active) {
+    auto previous=m_flushGeneration.load();
+    while(!m_flushGeneration.compare_exchange_weak(previous,((previous+2)&~uint64_t(1))|uint64_t(active))){}
+}
+bool CHarvesterFileReader::ReadInterrupted(uint64_t generation) const {
+    const auto current=m_flushGeneration.load();
+    const auto breaker=m_break.load();
+    return current!=generation || (current&1) || WaitForSingleObject(m_session->CancelEvent(),0)==WAIT_OBJECT_0
+        || WaitForSingleObject(m_flush,0)==WAIT_OBJECT_0
+        || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0);
+}
+STDMETHODIMP CHarvesterFileReader::BeginFlush() {
+    AdvanceFlushGeneration(true);SetEvent(m_flush);return S_OK;
+}
+STDMETHODIMP CHarvesterFileReader::EndFlush() {
+    ResetEvent(m_flush);AdvanceFlushGeneration(false);return S_OK;
+}
 STDMETHODIMP CHarvesterFileReader::SyncRead(LONGLONG offset,LONG size,BYTE* data) {
     if(offset<0 || size<0 || uint64_t(size)>uint64_t(INT64_MAX)-uint64_t(offset) || (!data && size))return E_INVALIDARG;
+    const auto generation=m_flushGeneration.load();
+    const auto interrupted=[&]{return ReadInterrupted(generation);};
+    if(interrupted())return E_ABORT;
     const auto s=m_session->Snapshot();
     if(s.tracks[m_track].total && !harvester::RangeReady(offset,size,s.tracks[m_track].total))return E_FAIL;
     if(m_opening && !harvester::RangeReady(offset,size,s.tracks[m_track].available))return E_FAIL;
     HRESULT hr=m_session->WaitRange(m_track,offset,size,m_flush,m_break.load());
+    if(interrupted())return E_ABORT;
     if(hr!=S_OK || !size)return hr;
-    if(m_session->HasVirtualReader())return m_session->ReadV2(m_track,uint64_t(offset),size_t(size),data,m_flush,m_break.load());
+    if(m_session->HasVirtualReader()){
+        auto result=m_session->ReadV2Guarded(m_track,uint64_t(offset),size_t(size),data,m_flush,m_break.load(),interrupted);
+        if(interrupted())result=E_ABORT;
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+        foxicmp::progressive::classic_read_test::Returned(this,result);
+#endif
+        return result;
+    }
     OVERLAPPED ov{};ov.Offset=(DWORD)offset;ov.OffsetHigh=(DWORD)(uint64_t(offset)>>32);ov.hEvent=CreateEventW(nullptr,TRUE,FALSE,nullptr);
     DWORD read=0;BOOL ok=ReadFile(m_session->File(m_track),data,size,&read,&ov);
     if(!ok && GetLastError()==ERROR_IO_PENDING) {
@@ -207,6 +236,7 @@ STDMETHODIMP CHarvesterFileReader::SyncRead(LONGLONG offset,LONG size,BYTE* data
         else {CancelIoEx(m_session->File(m_track),&ov);GetOverlappedResult(m_session->File(m_track),&ov,&read,TRUE);CloseHandle(ov.hEvent);return E_ABORT;}
     }
     CloseHandle(ov.hEvent);
+    if(interrupted())return E_ABORT;
     if(!ok || read!=(DWORD)size) {m_error=true;m_session->Fail("Local track I/O failed or confirmed bytes were truncated");return E_FAIL;}
     return S_OK;
 }

@@ -1,0 +1,72 @@
+--- a/src/DSUtil/HarvesterSession.cpp
++++ b/src/DSUtil/HarvesterSession.cpp
+@@ -559,6 +558,0 @@
+-    // Preserve the existing direct zero-length no-op and the C++ entry point.
+-    if(!size)return S_OK;
+-    return ReadV2Guarded(track,offset,size,data,flush,breaker,{});
+-}
+-HRESULT CHarvesterSession::ReadV2Guarded(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker,const std::function<bool()>& guard) {
+-    const auto interrupted=[&]{return (guard && guard()) || WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0);};
+@@ -567 +561 @@
+-        if(interrupted())return E_ABORT;
++        if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0))return E_ABORT;
+@@ -575,4 +569 @@
+-        // The final chunk can finish after cancel/flush. Also give an aborted
+-        // request priority over recording a read failure against this context.
+-        if(interrupted())return E_ABORT;
+-        if(count<=0){if(interrupted() || OptionalAudioFailed(track))return E_ABORT;Fail("Confirmed v2 resource I/O failed");return E_FAIL;}
++        if(count<=0){if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || OptionalAudioFailed(track))return E_ABORT;Fail("Confirmed v2 resource I/O failed");return E_FAIL;}
+@@ -581 +572 @@
+-    return interrupted()?E_ABORT:S_OK;
++    return S_OK;
+--- a/src/DSUtil/HarvesterSession.h
++++ b/src/DSUtil/HarvesterSession.h
+@@ -10 +9,0 @@
+-#include <functional>
+@@ -97 +95,0 @@
+-    HRESULT ReadV2Guarded(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker,const std::function<bool()>& interrupted);
+--- a/src/filters/parser/BaseSplitter/AsyncReader.cpp
++++ b/src/filters/parser/BaseSplitter/AsyncReader.cpp
+@@ -194,17 +193,0 @@
+-void CHarvesterFileReader::AdvanceFlushGeneration(bool active) {
+-    auto previous=m_flushGeneration.load();
+-    while(!m_flushGeneration.compare_exchange_weak(previous,((previous+2)&~uint64_t(1))|uint64_t(active))){}
+-}
+-bool CHarvesterFileReader::ReadInterrupted(uint64_t generation) const {
+-    const auto current=m_flushGeneration.load();
+-    const auto breaker=m_break.load();
+-    return current!=generation || (current&1) || WaitForSingleObject(m_session->CancelEvent(),0)==WAIT_OBJECT_0
+-        || WaitForSingleObject(m_flush,0)==WAIT_OBJECT_0
+-        || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0);
+-}
+-STDMETHODIMP CHarvesterFileReader::BeginFlush() {
+-    AdvanceFlushGeneration(true);SetEvent(m_flush);return S_OK;
+-}
+-STDMETHODIMP CHarvesterFileReader::EndFlush() {
+-    ResetEvent(m_flush);AdvanceFlushGeneration(false);return S_OK;
+-}
+@@ -213,3 +195,0 @@
+-    const auto generation=m_flushGeneration.load();
+-    const auto interrupted=[&]{return ReadInterrupted(generation);};
+-    if(interrupted())return E_ABORT;
+@@ -220 +199,0 @@
+-    if(interrupted())return E_ABORT;
+@@ -223,2 +202 @@
+-        auto result=m_session->ReadV2Guarded(m_track,uint64_t(offset),size_t(size),data,m_flush,m_break.load(),interrupted);
+-        if(interrupted())result=E_ABORT;
++        const auto result=m_session->ReadV2(m_track,uint64_t(offset),size_t(size),data,m_flush,m_break.load());
+@@ -239 +216,0 @@
+-    if(interrupted())return E_ABORT;
+--- a/src/filters/parser/BaseSplitter/AsyncReader.h
++++ b/src/filters/parser/BaseSplitter/AsyncReader.h
+@@ -119,5 +118,0 @@
+-    // Low bit is active flush; the remaining bits change on every begin/end.
+-    // A read spanning a complete flush cycle must still be rejected.
+-    std::atomic<uint64_t> m_flushGeneration{0};
+-    void AdvanceFlushGeneration(bool active);
+-    bool ReadInterrupted(uint64_t generation) const;
+@@ -136,2 +131,2 @@
+-    STDMETHODIMP BeginFlush();
+-    STDMETHODIMP EndFlush();
++    STDMETHODIMP BeginFlush() {SetEvent(m_flush);return S_OK;}
++    STDMETHODIMP EndFlush() {ResetEvent(m_flush);return S_OK;}

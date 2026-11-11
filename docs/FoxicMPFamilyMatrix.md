@@ -1581,3 +1581,11 @@ libmpv callback и не Classic SyncRead/ReadV2 или DirectShow graph; MSVC р
 за них не выдаётся. Kernel-pending I/O, AAC projections, original-source ranges,
 полная codec/crash/race/stress/latency и physical A/V приёмка остаются открытыми.
 Harvester, пользовательские профили, настройки Windows и сеанса не менялись.
+
+### Classic read/flush и graph reentry — 11 ноября 2026
+
+[Исправлен Classic adapter](ProgressiveClassicReadBoundaries.md): проверка cancel/flush/breaker после последнего payload read и поколение BeginFlush/EndFlush, чтобы старый SyncRead не переживал полный flush cycle. Общий Qt код и публичный SDK 1.87 сохранены; это различие адаптеров, не новая capability.
+
+[Native отчёт](ProgressiveClassicReadBoundariesValidation-2026-11-11.json): pre-fix 19 FAIL из 31 с native exit 1; исправленный adapter — 31 PASS. Настоящий DirectShow/MTA source callback — 12 PASS, BF0/BF2, 4200 совпавших NV12 кадров. Обычный Classic EXE — 74 API +36 races +100 stress/4 warmup, прежние бюджеты, все exits 0. Normal objects пересобраны с новым layout, без test macro. Windows установки/158 HKCU entries сохранены; 586/587 файлов совпали, причина изменения Linux INI не установлена. Linux EXE не менялся, новой Linux сборки нет.
+
+Это не проверка kernel-pending I/O, CMainFrame/STA message pump или forced IPC scheduling внутри graph; другой v2/native-file backend и полный codec/AAC/AV/crash/stress срезы остаются открытыми. Старые outliers сохранены. Harvester и пользовательские настройки не исправлялись автоматически.

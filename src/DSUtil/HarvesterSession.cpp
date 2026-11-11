@@ -6,6 +6,7 @@
 #include "../../shared/progressiveretirement.h"
 #include "../../shared/progressivefmp4bridge.h"
 #include "../../shared/progressivestreamdecoder.h"
+#include "../../shared/progressiveclassicreadtest.h"
 #include <map>
 #include <aclapi.h>
 #include "ExtLib/rapidjson/include/rapidjson/writer.h"
@@ -555,14 +556,29 @@ void CHarvesterSession::RefreshFragments() {
 bool CHarvesterSession::OptionalAudioFailed(int track) const {return m_v2Bridge && m_v2Bridge->optionalTrackFailed(track);}
 
 HRESULT CHarvesterSession::ReadV2(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker) {
+    // Preserve the existing direct zero-length no-op and the C++ entry point.
+    if(!size)return S_OK;
+    return ReadV2Guarded(track,offset,size,data,flush,breaker,{});
+}
+HRESULT CHarvesterSession::ReadV2Guarded(int track,uint64_t offset,size_t size,void* data,HANDLE flush,HANDLE breaker,const std::function<bool()>& guard) {
+    const auto interrupted=[&]{return (guard && guard()) || WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0);};
     auto* bytes=static_cast<char*>(data);
     while(size) {
-        if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || (flush && WaitForSingleObject(flush,0)==WAIT_OBJECT_0) || (breaker && WaitForSingleObject(breaker,0)==WAIT_OBJECT_0))return E_ABORT;
+        if(interrupted())return E_ABORT;
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+        foxicmp::progressive::classic_read_test::Payload(this,false,track,offset,int64_t(size));
+#endif
         const auto count=m_continuousReader?[&]()->int64_t{const auto r=m_continuousReader->readView(unsigned(track),offset,bytes,(std::min)(size,size_t(65536)));return r.data()?int64_t(r.bytes):-1;}():m_v2Bridge->readPayload(track,offset,bytes,size);
-        if(count<=0){if(WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0 || OptionalAudioFailed(track))return E_ABORT;Fail("Confirmed v2 resource I/O failed");return E_FAIL;}
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+        foxicmp::progressive::classic_read_test::Payload(this,true,track,offset,count);
+#endif
+        // The final chunk can finish after cancel/flush. Also give an aborted
+        // request priority over recording a read failure against this context.
+        if(interrupted())return E_ABORT;
+        if(count<=0){if(interrupted() || OptionalAudioFailed(track))return E_ABORT;Fail("Confirmed v2 resource I/O failed");return E_FAIL;}
         bytes+=count;offset+=uint64_t(count);size-=size_t(count);
     }
-    return S_OK;
+    return interrupted()?E_ABORT:S_OK;
 }
 
 int CHarvesterSession::SampleAt(int track,size_t index,harvester::Sample& sample) const {
