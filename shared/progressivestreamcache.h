@@ -6,6 +6,9 @@
 #include "DSUtil/HarvesterMP4.h"
 #include "progressivestreamavindex.h"
 #include "progressivestreamcoverage.h"
+#ifdef FOXICMP_PRIVATE_STREAM_IO_TEST
+#include <functional>
+#endif
 
 namespace foxicmp { namespace progressive {
 class StreamCacheBudget {
@@ -17,6 +20,12 @@ public:
     uint64_t bytes()const{std::lock_guard<std::mutex> lock(mutex);return used;}
 };
 namespace stream_cache_detail {
+#ifdef FOXICMP_PRIVATE_STREAM_IO_TEST
+// Standalone fixture only. No player target defines this macro. Instrumented
+// header definitions must never be linked with normal player/decoder objects.
+inline std::function<void(unsigned)> privateIoBoundaryHook;
+inline void privateIoBoundary(unsigned phase){if(privateIoBoundaryHook)privateIoBoundaryHook(phase);}
+#endif
 using Handle=lease_detail::Handle;
 inline void close(Handle& h){
 #ifdef _WIN32
@@ -114,7 +123,18 @@ class StreamOutputStore {
             verify(file);auto* destination=static_cast<char*>(out);size_t copied=0;
             auto i=std::upper_bound(chunks.begin(),chunks.end(),at,[](uint64_t p,const Chunk& c){return p<c.offset;});if(i!=chunks.begin())--i;
             while(copied<n){check(i!=chunks.end() && at>=i->offset && at<i->offset+i->length,"cache-integrity-missing");
-                std::vector<char> bytes(i->length);check(resource_detail::ReadAt(file,i->offset,bytes.data(),bytes.size(),cancelled)==bytes.size());Sha256 hash;hash.update(bytes.data(),bytes.size());check(hash.finish()==i->digest,"cache-integrity-mismatch");
+                std::vector<char> bytes(i->length);
+#ifdef FOXICMP_PRIVATE_STREAM_IO_TEST
+                stream_cache_detail::privateIoBoundary(1); // Before native read.
+#endif
+                check(resource_detail::ReadAt(file,i->offset,bytes.data(),bytes.size(),cancelled)==bytes.size());
+#ifdef FOXICMP_PRIVATE_STREAM_IO_TEST
+                stream_cache_detail::privateIoBoundary(2); // Read done, before SHA.
+#endif
+                Sha256 hash;hash.update(bytes.data(),bytes.size());check(hash.finish()==i->digest,"cache-integrity-mismatch");
+#ifdef FOXICMP_PRIVATE_STREAM_IO_TEST
+                stream_cache_detail::privateIoBoundary(3); // Verified bytes, before copy.
+#endif
                 const auto delta=size_t(at-i->offset),count=(std::min)(n-copied,bytes.size()-delta);std::memcpy(destination+copied,bytes.data()+delta,count);at+=count;copied+=count;++i;
             }
         }

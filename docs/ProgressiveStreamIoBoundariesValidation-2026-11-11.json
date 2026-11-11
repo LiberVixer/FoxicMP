@@ -1,0 +1,1952 @@
+{
+  "date": "2026-11-11",
+  "result": "PASS-scoped-native-cache-io",
+  "baseCommit": "7699b0e1e24bf8743538f38c43f9405778921500",
+  "appVersion": "0.2.0",
+  "sdkVersion": "1.87",
+  "publicApiChanged": false,
+  "sdkModulesChanged": false,
+  "normalRuntimeTokensChanged": false,
+  "applicationBinariesBuilt": false,
+  "sourceSha256": {
+    "shared/progressivestreamcache.h": "bf0a02751894570059338d7d96a0f0f2c11b09761014240312ddeccca8b8978a",
+    "shared/progressivestreamdecoder.h": "04cd79953355e73ec8e5913b803c4e4b72f1fd267ff3b71c112e1f56429dbf5d",
+    "tests/progressive_stream_io_boundaries.cpp": "3769a91c01a19b9114e210ef33ce54fd8831f81caf802228d3e35c0d463c74b9",
+    "tests/progressive_stream_io_boundaries.py": "fe3d223984008a9efd470a558bd8016de26978d66bbc16b039918afc483e1481",
+    "tests/progressive_stream_io_preprocess.py": "b1f6ab94d3bb8fe6dd789f07c42afa295a1852d6239680d38b00a975af8cee1a",
+    "qt/CMakeLists.txt": "eb34dfd96aee681f3557ef9d59fc0f69662d09e35d01d4ca9c5ddda3180edaf1",
+    "tools/package_progressive_sdk.py": "09369dad85b8bf148b1ac63267023c4ab0ded0855c491aa68461ad0699c4b923"
+  },
+  "runs": [
+    {
+      "compiler": "GCC CMake Release",
+      "nativeDriverExit": 0,
+      "rawReportSha256": "4caadfd1186377932e12a31b09622d26438cf3b3d5ecae7792db7ce2bcb31a38",
+      "stderr": "",
+      "evidence": {
+        "result": "PASS",
+        "count": 25,
+        "checks": 505,
+        "rows": [
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-1",
+            "phase": 1,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-1",
+            "phase": 1,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-1",
+            "phase": 1,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-1",
+            "phase": 1,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-2",
+            "phase": 2,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-2",
+            "phase": 2,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-2",
+            "phase": 2,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-2",
+            "phase": 2,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-3",
+            "phase": 3,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-3",
+            "phase": 3,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-3",
+            "phase": 3,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-3",
+            "phase": 3,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-4",
+            "phase": 4,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-4",
+            "phase": 4,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-4",
+            "phase": 4,
+            "checks": 30,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-4",
+            "phase": 4,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              0
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 1,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": true,
+            "closedAndForgottenReaders": 1,
+            "profile": "confirmed-eof-control",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": true,
+            "closedAndForgottenReaders": 1,
+            "profile": "cancel-confirmed-eof",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cancel-unpublished-tail",
+            "phase": 4,
+            "checks": 12,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-1",
+            "phase": 1,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              -1
+            ],
+            "deliveredBytes": 64,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-2",
+            "phase": 2,
+            "checks": 15,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              -1
+            ],
+            "deliveredBytes": 64,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-3",
+            "phase": 3,
+            "checks": 15,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "cache-io-error",
+            "cacheFailure": "cache-io-error",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "truncate-before-native-read",
+            "phase": 1,
+            "checks": 12,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              12882,
+              26088
+            ],
+            "deliveredBytes": 38970,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "publication-after-read",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              0
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "zero-length-probe",
+            "phase": 4,
+            "checks": 9,
+            "result": "PASS"
+          }
+        ],
+        "fixtureSha256": "ed7daaf913d4a7805a3db8025b5680580e3821de900f1b1f04963f247378a349",
+        "nativeExit": 0,
+        "ffmpegExit": 0,
+        "temporaryWorkRemoved": true,
+        "runnerSha256": "7fc5561271bd90de670b595d4cb70860026a0a85b9a42c58275edffc03c7f9d0",
+        "driverSha256": "fe3d223984008a9efd470a558bd8016de26978d66bbc16b039918afc483e1481",
+        "nativeSourceSha256": "3769a91c01a19b9114e210ef33ce54fd8831f81caf802228d3e35c0d463c74b9",
+        "inputUnchanged": true,
+        "actualMpvOrDirectShowGraph": false,
+        "privateHeaderInstrumentation": true
+      }
+    },
+    {
+      "compiler": "GCC ASan/UBSan/LSan",
+      "nativeDriverExit": 0,
+      "rawReportSha256": "b383da85702b656402255fedff1ea3d32e0e85064db70b4fc925744e3f404886",
+      "stderr": "",
+      "evidence": {
+        "result": "PASS",
+        "count": 25,
+        "checks": 505,
+        "rows": [
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-1",
+            "phase": 1,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-1",
+            "phase": 1,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-1",
+            "phase": 1,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-1",
+            "phase": 1,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-2",
+            "phase": 2,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-2",
+            "phase": 2,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-2",
+            "phase": 2,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-2",
+            "phase": 2,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-3",
+            "phase": 3,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-3",
+            "phase": 3,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-3",
+            "phase": 3,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-3",
+            "phase": 3,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-4",
+            "phase": 4,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-4",
+            "phase": 4,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-4",
+            "phase": 4,
+            "checks": 30,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-4",
+            "phase": 4,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              0
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 1,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": true,
+            "closedAndForgottenReaders": 1,
+            "profile": "confirmed-eof-control",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": true,
+            "closedAndForgottenReaders": 1,
+            "profile": "cancel-confirmed-eof",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cancel-unpublished-tail",
+            "phase": 4,
+            "checks": 12,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-1",
+            "phase": 1,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              -1
+            ],
+            "deliveredBytes": 64,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-2",
+            "phase": 2,
+            "checks": 15,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              -1
+            ],
+            "deliveredBytes": 64,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-3",
+            "phase": 3,
+            "checks": 15,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "cache-io-error",
+            "cacheFailure": "cache-io-error",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "truncate-before-native-read",
+            "phase": 1,
+            "checks": 12,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              12882,
+              26088
+            ],
+            "deliveredBytes": 38970,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "publication-after-read",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              0
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "zero-length-probe",
+            "phase": 4,
+            "checks": 9,
+            "result": "PASS"
+          }
+        ],
+        "fixtureSha256": "ed7daaf913d4a7805a3db8025b5680580e3821de900f1b1f04963f247378a349",
+        "nativeExit": 0,
+        "ffmpegExit": 0,
+        "temporaryWorkRemoved": true,
+        "runnerSha256": "73900fbc3d066f258202e45ac9a880073ac46b4ba21800c6f0956fbcca120f53",
+        "driverSha256": "fe3d223984008a9efd470a558bd8016de26978d66bbc16b039918afc483e1481",
+        "nativeSourceSha256": "3769a91c01a19b9114e210ef33ce54fd8831f81caf802228d3e35c0d463c74b9",
+        "inputUnchanged": true,
+        "actualMpvOrDirectShowGraph": false,
+        "privateHeaderInstrumentation": true
+      }
+    },
+    {
+      "compiler": "MinGW CMake Release",
+      "nativeDriverExit": 0,
+      "rawReportSha256": "437409cf1cf5ed1d7607604e000389fa49e1123435b46dac418c56519e50f08e",
+      "stderr": "",
+      "evidence": {
+        "result": "PASS",
+        "count": 25,
+        "checks": 505,
+        "rows": [
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-1",
+            "phase": 1,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-1",
+            "phase": 1,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-1",
+            "phase": 1,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-1",
+            "phase": 1,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-2",
+            "phase": 2,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-2",
+            "phase": 2,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-2",
+            "phase": 2,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-2",
+            "phase": 2,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-3",
+            "phase": 3,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-3",
+            "phase": 3,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-3",
+            "phase": 3,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-3",
+            "phase": 3,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-4",
+            "phase": 4,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-4",
+            "phase": 4,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-4",
+            "phase": 4,
+            "checks": 30,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-4",
+            "phase": 4,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              0
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 1,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": true,
+            "closedAndForgottenReaders": 1,
+            "profile": "confirmed-eof-control",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": true,
+            "closedAndForgottenReaders": 1,
+            "profile": "cancel-confirmed-eof",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cancel-unpublished-tail",
+            "phase": 4,
+            "checks": 12,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-1",
+            "phase": 1,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              -1
+            ],
+            "deliveredBytes": 64,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-2",
+            "phase": 2,
+            "checks": 15,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              -1
+            ],
+            "deliveredBytes": 64,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-3",
+            "phase": 3,
+            "checks": 15,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "resource-io-error",
+            "cacheFailure": "resource-io-error",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "truncate-before-native-read",
+            "phase": 1,
+            "checks": 12,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              12881,
+              26088
+            ],
+            "deliveredBytes": 38969,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "publication-after-read",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              0
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "zero-length-probe",
+            "phase": 4,
+            "checks": 9,
+            "result": "PASS"
+          }
+        ],
+        "fixtureSha256": "5fdfad880a3a7775645da783a319b3f6a9accca4f35814578cc06266ebb5aea4",
+        "nativeExit": 0,
+        "ffmpegExit": 0,
+        "temporaryWorkRemoved": true,
+        "runnerSha256": "28b00803b8586f53df2b3570d86f28f8b4d1065641c64ef51259339c618bb664",
+        "driverSha256": "fe3d223984008a9efd470a558bd8016de26978d66bbc16b039918afc483e1481",
+        "nativeSourceSha256": "3769a91c01a19b9114e210ef33ce54fd8831f81caf802228d3e35c0d463c74b9",
+        "inputUnchanged": true,
+        "actualMpvOrDirectShowGraph": false,
+        "privateHeaderInstrumentation": true
+      }
+    },
+    {
+      "compiler": "MSVC O2 MT",
+      "nativeDriverExit": 0,
+      "rawReportSha256": "ff885efaa6a660dc1d3ab22586921ffd0ee053d91205a474ae9db23e71402947",
+      "stderr": "",
+      "evidence": {
+        "result": "PASS",
+        "count": 25,
+        "checks": 505,
+        "rows": [
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-1",
+            "phase": 1,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-1",
+            "phase": 1,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-1",
+            "phase": 1,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-1",
+            "phase": 1,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-2",
+            "phase": 2,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-2",
+            "phase": 2,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-2",
+            "phase": 2,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-2",
+            "phase": 2,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-3",
+            "phase": 3,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-3",
+            "phase": 3,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-3",
+            "phase": 3,
+            "checks": 31,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-3",
+            "phase": 3,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "interrupt-4",
+            "phase": 4,
+            "checks": 17,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 0,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cursor-close-4",
+            "phase": 4,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 2,
+            "profile": "source-close-readers-4",
+            "phase": 4,
+            "checks": 30,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              64
+            ],
+            "deliveredBytes": 128,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "seek-serialization-4",
+            "phase": 4,
+            "checks": 24,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              0
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 1,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": true,
+            "closedAndForgottenReaders": 1,
+            "profile": "confirmed-eof-control",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": true,
+            "closedAndForgottenReaders": 1,
+            "profile": "cancel-confirmed-eof",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "cancel-unpublished-tail",
+            "phase": 4,
+            "checks": 12,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-1",
+            "phase": 1,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              -1
+            ],
+            "deliveredBytes": 64,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-2",
+            "phase": 2,
+            "checks": 15,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              64,
+              -1
+            ],
+            "deliveredBytes": 64,
+            "eofCount": 0,
+            "cursorError": "cache-integrity-mismatch",
+            "cacheFailure": "cache-integrity-mismatch",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "corruption-3",
+            "phase": 3,
+            "checks": 15,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              -1
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "resource-io-error",
+            "cacheFailure": "resource-io-error",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "truncate-before-native-read",
+            "phase": 1,
+            "checks": 12,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              12881,
+              26088
+            ],
+            "deliveredBytes": 38969,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "publication-after-read",
+            "phase": 4,
+            "checks": 14,
+            "result": "PASS"
+          },
+          {
+            "readReturns": [
+              0
+            ],
+            "deliveredBytes": 0,
+            "eofCount": 0,
+            "cursorError": "",
+            "cacheFailure": "",
+            "activeReadersBeforeCleanup": 1,
+            "completeBeforeCleanup": false,
+            "closedAndForgottenReaders": 1,
+            "profile": "zero-length-probe",
+            "phase": 4,
+            "checks": 9,
+            "result": "PASS"
+          }
+        ],
+        "fixtureSha256": "5fdfad880a3a7775645da783a319b3f6a9accca4f35814578cc06266ebb5aea4",
+        "nativeExit": 0,
+        "ffmpegExit": 0,
+        "temporaryWorkRemoved": true,
+        "runnerSha256": "99cd759d7f706439d983cf2216c12b9b4ad8712064e7c426b29825ce61136d91",
+        "driverSha256": "fe3d223984008a9efd470a558bd8016de26978d66bbc16b039918afc483e1481",
+        "nativeSourceSha256": "3769a91c01a19b9114e210ef33ce54fd8831f81caf802228d3e35c0d463c74b9",
+        "inputUnchanged": true,
+        "actualMpvOrDirectShowGraph": false,
+        "privateHeaderInstrumentation": true
+      }
+    }
+  ],
+  "totalNativeCases": 100,
+  "totalNativeChecks": 2020,
+  "barriers": {
+    "1": "after file verification, before native ReadAt",
+    "2": "after native ReadAt, before SHA",
+    "3": "after SHA, before buffer copy",
+    "4": "after reader, before cursor-visible result"
+  },
+  "normalPreprocessing": [
+    {
+      "compiler": "gcc",
+      "nativeCompareExit": 0,
+      "normalFlags": [
+        "NDEBUG",
+        "private macro absent"
+      ],
+      "representativeHeaderOnly": true,
+      "evidence": {
+        "result": "PASS",
+        "before": {
+          "rawSha256": "386be5b812172ccc09a8f3bb15ddc50d01e4b7bd08a05bc5579dc87e1ad74c23",
+          "tokenSha256": "d780962c2e16306d9fdc3d7d1cd191acffff15bb9b06dbfb3b0885ff98263785",
+          "tokens": 610193,
+          "privateHookPresent": false
+        },
+        "after": {
+          "rawSha256": "2303500bdf1627e6f7ae7b18615c6fdd916df247d4e2749dc56cd477c9f26246",
+          "tokenSha256": "d780962c2e16306d9fdc3d7d1cd191acffff15bb9b06dbfb3b0885ff98263785",
+          "tokens": 610193,
+          "privateHookPresent": false
+        },
+        "comparison": "Preprocessor tokens; layout ignored, literal spelling retained"
+      }
+    },
+    {
+      "compiler": "mingw",
+      "nativeCompareExit": 0,
+      "normalFlags": [
+        "NDEBUG",
+        "private macro absent"
+      ],
+      "representativeHeaderOnly": true,
+      "evidence": {
+        "result": "PASS",
+        "before": {
+          "rawSha256": "eaa49451376952289f839b3bdeae2b6066d3ff718f925ef0a60a1f50a739031d",
+          "tokenSha256": "784c79d7835411fc89ce38c3204afa34c9ec0867023ddcd091bbdbd05e4f33a2",
+          "tokens": 1193739,
+          "privateHookPresent": false
+        },
+        "after": {
+          "rawSha256": "ebf78760eecd0b1665d478821269383fd47ffc0e0a8b3e450c3e18479a25b5ee",
+          "tokenSha256": "784c79d7835411fc89ce38c3204afa34c9ec0867023ddcd091bbdbd05e4f33a2",
+          "tokens": 1193739,
+          "privateHookPresent": false
+        },
+        "comparison": "Preprocessor tokens; layout ignored, literal spelling retained"
+      }
+    },
+    {
+      "compiler": "msvc",
+      "nativeCompareExit": 0,
+      "normalFlags": [
+        "NDEBUG",
+        "private macro absent"
+      ],
+      "representativeHeaderOnly": true,
+      "evidence": {
+        "result": "PASS",
+        "before": {
+          "rawSha256": "4495e8419efbab60cd8786f9bedc27a109bd2b3868b5242a85a07290a17c70dd",
+          "tokenSha256": "ad31b327c4bc4f29c36d2abdde3006d18ad518df610f0b686b274c8f7a30a716",
+          "tokens": 949636,
+          "privateHookPresent": false
+        },
+        "after": {
+          "rawSha256": "dea7cd08e147b024b88fa86a548b3e5a41fcc03ca19d73e07210e094a2b3c452",
+          "tokenSha256": "ad31b327c4bc4f29c36d2abdde3006d18ad518df610f0b686b274c8f7a30a716",
+          "tokens": 949636,
+          "privateHookPresent": false
+        },
+        "comparison": "Preprocessor tokens; layout ignored, literal spelling retained"
+      }
+    }
+  ],
+  "checkerControls": {
+    "result": "PASS",
+    "checks": 13
+  },
+  "exactFinalExits": {
+    "stream-io-final-linux-build": 0,
+    "stream-io-final-asan-build": 0,
+    "stream-io-final-linux-test": 0,
+    "stream-io-final-mingw-build": 0,
+    "stream-io-final-msvc-build": 0,
+    "stream-io-final-mingw-test": 0,
+    "stream-io-final-msvc-test": 0,
+    "stream-io-final-windows-registration": 0,
+    "stream-io-pp-gcc-before-fixed": 0,
+    "stream-io-pp-gcc-after": 0,
+    "stream-io-pp-mingw-before": 0,
+    "stream-io-pp-mingw-after": 0,
+    "stream-io-pp-msvc-before": 0,
+    "stream-io-pp-msvc-after": 0
+  },
+  "firstFailures": [
+    {
+      "stage": "setup-preprocessor-before",
+      "nativeExit": 1,
+      "log": "cc1plus: fatal error: _bin/stream-io-boundaries-pp.cpp: No such file or directory\ncompilation terminated.",
+      "correctedExit": 0,
+      "cause": "Dependent preprocessing started before preparation finished; fixture input did not exist yet.",
+      "applicationFailure": false
+    },
+    {
+      "stage": "setup-windows-script-not-created-yet",
+      "sshWrapperExit": 0,
+      "nativeScriptExit": null,
+      "rawLogUnavailable": true,
+      "cause": "Initial SSH request named a script not created yet. Wrapper 0 is not a native test PASS. Correct invocation later captured 158 shell keys.",
+      "applicationFailure": false
+    },
+    {
+      "stage": "setup-windows-preprocessor-cwd",
+      "sshWrapperExit": 1,
+      "originalNativeReceiptOverwritten": true,
+      "originalObservedNativeExit": 1,
+      "rawLogUnavailable": true,
+      "correctedWrapperExit": 0,
+      "cause": "Relative source/include paths were resolved outside repository; Set-Location added to private launcher.",
+      "applicationFailure": false
+    },
+    {
+      "stage": "fixture-muxer",
+      "nativeDriverExit": 1,
+      "ffmpegExit": 234,
+      "nativeFixtureLaunched": false,
+      "log": "Traceback (most recent call last):\n  File \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_stream_io_boundaries.py\", line 65, in <module>\n    run(args.runner.resolve(), args.report_directory.resolve())\n  File \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_stream_io_boundaries.py\", line 27, in run\n    assert encoded.returncode == 0, (encoded.returncode, encoded.stderr.decode(errors='replace'))\n           ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: (234, \"[AVFormatContext @ 0x566be21e1240] Unable to choose an output format for '/tmp/foxicmp-io-boundaries-ag442vts/source.fmp4'; use a standard extension for the filename or specify the format manually.\\n[out#0 @ 0x566be21e0680] Error initializing the muxer for /tmp/foxicmp-io-boundaries-ag442vts/source.fmp4: Invalid argument\\nError opening output file /tmp/foxicmp-io-boundaries-ag442vts/source.fmp4.\\nError opening output files: Invalid argument\\n\")",
+      "correctedDriverExit": 0,
+      "cause": "The .fmp4 extension needs an explicit -f mp4 muxer.",
+      "applicationFailure": false
+    },
+    {
+      "stage": "checker-regexp",
+      "nativeExit": 1,
+      "log": "Traceback (most recent call last):\n  File \"/media/sf_Studio/Programs/MPMY-src/tests/progressive_stream_io_preprocess.py\", line 12, in <module>\n    TOKEN = re.compile(\n            ^^^^^^^^^^^\n  File \"/usr/lib/python3.12/re/__init__.py\", line 228, in compile\n    return _compile(pattern, flags)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/re/__init__.py\", line 307, in _compile\n    p = _compiler.compile(pattern, flags)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/re/_compiler.py\", line 745, in compile\n    p = _parser.parse(p, flags)\n        ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/re/_parser.py\", line 979, in parse\n    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/re/_parser.py\", line 460, in _parse_sub\n    itemsappend(_parse(source, state, verbose, nested + 1,\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/re/_parser.py\", line 864, in _parse\n    raise source.error(\"missing ), unterminated subpattern\",\nre.error: missing ), unterminated subpattern at position 293",
+      "correctedExit": 0,
+      "cause": "Unescaped hash in VERBOSE regexp; corrected and 13 positive/negative controls added.",
+      "applicationFailure": false
+    },
+    {
+      "stage": "windows-short-read-oracle",
+      "nativeDriverExit": 1,
+      "nativeFixtureExit": 1,
+      "stdout": "",
+      "stderr": "short read became EOF",
+      "logSha256": "41763bf37d4b6cae95883ccc79866613e75a9d886845dc78c04e9da08234aa0a",
+      "firstRunnerSha256": "13e3aba1ecd1d8c80545c0880a5f09b24772c714b32a71cd0d597631d84285be",
+      "firstNativeSourceHashUnavailable": true,
+      "falseEofNotEstablishedByCombinedAssertion": true,
+      "correctedNativeExit": 0,
+      "cause": "Combined assertion incorrectly required the Linux cache-io-error code on Windows. Final split assertions prove -1/eofCount 0 and the existing exact Windows resource-io-error; normal production tokens unchanged.",
+      "applicationFailure": false
+    }
+  ],
+  "scope": {
+    "realPrivateCacheFiles": true,
+    "realReaderLeasesAndFilesClosed": true,
+    "realNativeReadAt": true,
+    "sharedCacheAppliesToAllEditions": true,
+    "cursorRepresentsQt": true,
+    "headerInstrumentationTargetLocal": true,
+    "normalObjectsNotLinkedToInstrumentedTarget": true,
+    "profile": "3 s H264 video-only fMP4, no B-frames",
+    "actualMpvCallback": false,
+    "actualQtWindow": false,
+    "actualClassicSyncRead": false,
+    "actualClassicReadV2": false,
+    "actualDirectShowGraph": false,
+    "kernelPendingOverlappedSchedulingForced": false,
+    "aacProjection": false,
+    "controllerWorker": false,
+    "originalSourceRanges": false,
+    "physicalAvSync": false,
+    "fullRaceStressOrLatencyAcceptance": false,
+    "historicUnexplainedFailuresRemainOpen": true
+  },
+  "preservation": {
+    "protectedFiles": 587,
+    "allProtectedFilesUnchanged": true,
+    "hkcuEntries": 158,
+    "hkcuUnchanged": true,
+    "installedLinuxMainAndProfileUnchanged": true,
+    "installedWindowsAppsAndProfilesUnchanged": true,
+    "privateWindowsIniGuardFlags": true,
+    "privateNativeFixtureReadsPlayerIni": false,
+    "harvesterChanged": false,
+    "desktopMixerOrSessionChanged": false,
+    "createdRecurringTasks": 0,
+    "createdOneShotSchedulerTasks": 0,
+    "protectedBeforeSha256": "98288a22395b1e3173bf301249a183c784c4a45db2a4972a9164709bda7a5019",
+    "protectedAfterSha256": "98288a22395b1e3173bf301249a183c784c4a45db2a4972a9164709bda7a5019",
+    "hkcuBeforeSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6",
+    "hkcuAfterSha256": "0e3013a39d77f3f09d76930aedc2c2bf23a8bc7381ed9c0f5985ee1bd4317fe6"
+  },
+  "installation": {
+    "newPlayerVersion": false,
+    "required": false,
+    "reason": "Test-only instrumentation; normal header tokens match, no application executable was rebuilt or changed. Existing installed Linux build retained."
+  }
+}

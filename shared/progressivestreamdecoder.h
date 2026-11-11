@@ -180,6 +180,9 @@ public:
                     else if(projection->viewComplete(track))result={"eof","Confirmed track endpoint",0};
                     else {waiting=true;std::this_thread::sleep_for(std::chrono::milliseconds(50));continue;}
                 }else result=reader->read(position,out,size_t((std::min)(count,uint64_t(65536))),std::chrono::milliseconds(50));
+#ifdef FOXICMP_PRIVATE_STREAM_IO_TEST
+                stream_cache_detail::privateIoBoundary(4); // Before decoder-visible result.
+#endif
                 if(interrupted->load() || source->stopped()){waiting=false;return -1;}
                 if(result.code=="waiting-range"){waiting=true;continue;}
                 waiting=false;

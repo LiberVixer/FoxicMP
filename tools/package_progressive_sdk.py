@@ -10,6 +10,8 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveStreamIoBoundaries.md': 'docs/ProgressiveStreamIoBoundaries.md',
+    'ProgressiveStreamIoBoundariesValidation-2026-11-11.json': 'docs/ProgressiveStreamIoBoundariesValidation-2026-11-11.json',
     'ProgressiveQueuedSeekCommit.md': 'docs/ProgressiveQueuedSeekCommit.md',
     'ProgressiveQueuedSeekCommitValidation-2026-11-09.json': 'docs/ProgressiveQueuedSeekCommitValidation-2026-11-09.json',
     'ProgressiveQueuedSeekRaces.md': 'docs/ProgressiveQueuedSeekRaces.md',

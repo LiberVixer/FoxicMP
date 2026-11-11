@@ -1558,3 +1558,26 @@ DirectShow graph не подвергался принудительному вн
 physical A/V и общая latency/stress приёмка остаются открытыми. SDK/API 1.87 не
 изменены. Linux обновлён атомарно с backup и неизменным профилем; Windows-установки
 и Harvester не менялись. Периодических и Windows Scheduler задач нет.
+
+
+### 11 ноября 2026: детерминированное чтение private cache
+
+[Standalone cache/cursor стенд](ProgressiveStreamIoBoundaries.md) прошёл по
+25 cases/505 checks в GCC, ASan/UBSan/LSan, MinGW и MSVC: 100 cases/2020 checks,
+конечные native exits 0. Четыре барьера задают порядок вокруг native read/SHA
+и перед cursor return; проверены cancel/close/seek, независимый reader,
+повреждение/усечение, публикация, настоящий EOF и zero-length probe. Cache
+удалён, все readers закрыты/забыты, budget возвращён к нулю каждого случая.
+
+[Отчёт](ProgressiveStreamIoBoundariesValidation-2026-11-11.json) раздельно
+учитывает код усечения Linux/Windows и первые setup/oracle failures. Normal
+preprocessing совпал по C++ tokens для GCC/MinGW/MSVC; private instrumentation
+существует только в отдельном target и не попала в рабочие функции. Checker
+прошёл 13 controls. Все 587 защищённых файлов и 158 HKCU entries сохранены;
+новых app binaries/версии и переустановки нет, SDK/API 1.87 сохранены.
+
+Shared cache относится ко всем редакциям, cursor — к Qt. Это не фактический
+libmpv callback и не Classic SyncRead/ReadV2 или DirectShow graph; MSVC результат
+за них не выдаётся. Kernel-pending I/O, AAC projections, original-source ranges,
+полная codec/crash/race/stress/latency и physical A/V приёмка остаются открытыми.
+Harvester, пользовательские профили, настройки Windows и сеанса не менялись.
