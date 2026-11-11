@@ -1619,3 +1619,10 @@ Harvester, пользовательские профили, настройки W
 [Проверен ограниченный CMainFrame/MAINSTA reentry](ProgressiveClassicMainReentry.md): 16 cases на четырёх main/graph boundaries через настоящий public IPC. Отмена/new revision/same-target requeue не теряются, nested poll не отправляет второй seek. Отдельная private message pump задаёт порядок; shipping message loop не меняется.
 
 [Трассы и normal token proof](ProgressiveClassicMainReentryValidation-2026-11-11.json): HWND owner и caller совпадают, apartment MAINSTA, depth ≤1; normal MSVC main/api/splitter tokens до/после равны. Все 587 защищённых файлов и 158 HKCU shell entries сохранены. Новых normal binary/API/defaults нет, SDK 1.87 сохранён. Полные COM/renderer/Stop/replacement/crash/race/stress interleavings остаются открытыми.
+
+
+### Classic Stop, замена и закрытие внутри seek — 11 ноября 2026
+
+[Проверены 12 frame/graph teardown-сценариев](ProgressiveClassicSeekTeardown.md) на двух private main-reentry EXE. Настоящие public Stop/start(replace=True), owned WM_CLOSE, MAINSTA/stack traces, сохранение нового sessionId/reader/позиции и native exits 0. Штатный лимит одного remux job сохранён; замена использует отдельный regular prepared resource.
+
+[Результаты](ProgressiveClassicSeekTeardownValidation-2026-11-11.json) включают release/forget и финальный cleanup oracle. Все 587 защищённых файлов и 158 HKCU shell entries сохранены. Production source/binaries/SDK modules не менялись; версия SDK 1.87. Полные hardware/COM/AAC/physical-I/O/crash/stress interleavings не объявляются закрытыми.
