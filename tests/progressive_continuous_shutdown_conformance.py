@@ -18,7 +18,7 @@ from progressive_continuous_api_test import run
 from progressive_continuous_heartbeat_conformance import WorkerExit
 from progressive_player_crash_recovery import ApiError, sha, wait
 from progressive_integrity import protect_snapshot
-from progressive_continuous import ContinuousRemux, MODE
+from progressive_continuous import ContinuousRemux, MODE, AAC_MODE
 from progressive_continuous_test_media import source_fixture, source_snapshot, source_cuts, audible_decoder_ready
 
 
@@ -94,7 +94,8 @@ def normal_close(peer):
     return dict(pid=pid,exitCode=0,terminationSeconds=seconds,method=method)
 
 
-def exercise(peers,root,report,require_clean=False,mode=MODE):
+def exercise(peers,root,report,require_clean=False,mode=MODE,queued_seek=False):
+    assert not queued_seek or mode==AAC_MODE, 'Queued shutdown slice requires explicit AAC mode'
     rows=[];active=[None,None];watches=[]
     raw_path=source_fixture(root,'reference',mode);raw=raw_path.read_bytes()
     cuts=source_cuts(raw_path,mode)
@@ -127,19 +128,43 @@ def exercise(peers,root,report,require_clean=False,mode=MODE):
         wait(lambda:other.status()['outputComplete'],'independent completed output')
         other.play(title='Independent shutdown control');other_initial=playing(other);other.control('pause')
         for kind in ('normal','crash'):
-            for phase in ('preparation','playing','paused','buffering'):
+            for phase in ('preparation','playing','paused','buffering')+(('queued-waiting','queued-applied') if queued_seek else ()):
                 name=kind+'-'+phase
                 (report/'current.json').write_text(json.dumps(dict(kind=kind,phase=phase))+'\n')
                 directory,path,model=model_for(name,4 if phase=='preparation' else cuts[12])
                 before=sha(path);sdk=active[0]=ContinuousRemux(peers[0].client,str(directory),mode=mode);sdk.prepare(model,'clip')
+                queued_intent=None
                 if phase=='preparation':
                     initial=wait(lambda:(lambda s:s if s['producerCode']=='waiting' else None)(sdk.status()),'preparation before exit')
                     assert initial['maximumReadEnd']=='4' and not initial['playbackReady']
                     actual=None
                 else:
                     prepared(sdk);sdk.play(title='Shutdown '+name);actual=playing(sdk)
-                    if phase=='paused':
+                    if phase=='paused' or phase.startswith('queued-'):
                         sdk.control('pause');actual=wait(lambda:(lambda s:s if s['state']=='paused' else None)(sdk.playback_status()),'paused before exit')
+                    if phase.startswith('queued-'):
+                        held=actual
+                        assert held['pcmWindowApplied'] and held['pendingSeekSeconds'] is None and held['remainingGrowingSeeks']==16,held
+                        queued=sdk.control('seek',seconds=19,allow_growing=True,wait_for_range=True)
+                        assert queued['pendingSeekSeconds']==19 and queued['seekState']=='waiting-range' and queued['seekRevision']=='1' and queued['remainingGrowingSeeks']==16,queued
+                        if phase=='queued-applied':
+                            offset=path.stat().st_size
+                            with path.open('ab') as file:
+                                assert file.write(raw[offset:cuts[20]])==cuts[20]-offset
+                                file.flush();os.fsync(file.fileno())
+                            previous=model;model=copy.deepcopy(model);model['revision']='2'
+                            model['resources'][0]['ranges']=[dict(offset='0',length=str(cuts[20]))]
+                            model=protect_snapshot(model,directory,previous=previous);sdk.publish(model)
+                            def applied():
+                                value=sdk.playback_status();assert value['state'] not in ('error','closed','finished'),value
+                                return value if value['state']=='paused' and value['pendingSeekSeconds'] is None and value['seekState']=='applied' and abs(value['positionSeconds']-19)<.12 else None
+                            actual=wait(applied,'growing seek applied before shutdown',10)
+                            assert actual['remainingGrowingSeeks']==15,actual
+                        else:
+                            actual=sdk.playback_status()
+                            assert actual['pendingSeekSeconds']==19 and actual['remainingGrowingSeeks']==16 and actual['readerIds']==held['readerIds'],actual
+                        queued_intent=dict(held=held,queued=queued,beforeExit=actual)
+                        before=sha(path)
                     if phase=='buffering':
                         def starving():
                             sdk.heartbeat();s=sdk.playback_status();assert s['state'] not in ('finished','closed','error'),s
@@ -148,6 +173,7 @@ def exercise(peers,root,report,require_clean=False,mode=MODE):
                     initial=sdk.status();assert not initial['outputComplete']
                 watcher=WorkerExit(initial['workerId']);watches.append(watcher)
                 old_reader_ids=initial['readerIds'];assert len(old_reader_ids)>=(1 if phase=='preparation' else 2),initial
+                if queued_intent:old_reader_ids=list(dict.fromkeys(old_reader_ids+actual['readerIds']))
                 old_job=sdk.job_id;old_playback=sdk.playback_id
                 cache=Path(str(peers[0].registry)+'.continuous-cache');old_cache={p.name for p in cache.glob('remux-*')};assert len(old_cache)==1,old_cache
                 other.control('seek',seconds=0);other.control('play');control_before=playing(other)
@@ -163,10 +189,11 @@ def exercise(peers,root,report,require_clean=False,mode=MODE):
                 remaining=[p.name for p in cache.glob('remux-*')]
                 # Simulated live writer continues its real file after player exit.
                 offset=path.stat().st_size
+                end=len(raw) if phase=='queued-applied' else cuts[20]
                 with path.open('ab') as file:
-                    assert file.write(raw[offset:cuts[20]])==cuts[20]-offset;file.flush();os.fsync(file.fileno())
-                assert path.read_bytes()==raw[:cuts[20]]
-                previous=model;model=copy.deepcopy(model);model['revision']='2';model['resources'][0]['ranges']=[dict(offset='0',length=str(cuts[20]))]
+                    assert file.write(raw[offset:end])==end-offset;file.flush();os.fsync(file.fileno())
+                assert path.read_bytes()==raw[:end]
+                previous=model;model=copy.deepcopy(model);model['revision']=str(int(previous['revision'])+1);model['resources'][0]['ranges']=[dict(offset='0',length=str(end))]
                 model=protect_snapshot(model,directory,previous=previous);after_append=sha(path)
                 peers[0].launch()
                 replacement=active[0]=ContinuousRemux(peers[0].client,str(directory),mode=mode);replacement.prepare(model,'clip');recovered=prepared(replacement)
@@ -182,17 +209,30 @@ def exercise(peers,root,report,require_clean=False,mode=MODE):
                 assert len(recovered['readerIds'])==1,'Preparation implicitly opened decoder'
                 replacement.play(title='Explicit new preview after '+name);restarted=playing(replacement)
                 assert restarted['playbackId']!=old_playback and not set(restarted['readerIds']) & set(old_reader_ids),restarted
+                if queued_intent:
+                    assert .2<restarted['positionSeconds']<3 and restarted['startSeconds']==0 and restarted['pendingSeekSeconds'] is None and restarted['seekRevision']=='0' and restarted['remainingGrowingSeeks']==16,restarted
+                    for command in ('stop','cancelSeek','seek'):
+                        fields=dict(playbackId=old_playback,command=command)
+                        if command=='seek':fields.update(seconds=19,allowGrowing=True,waitForRange=True)
+                        reject(peers[0].client,'continuousPlaybackControl','unknown-continuous-playback',**fields)
+                    def retry_advances():
+                        value=replacement.playback_status()
+                        assert value['state']=='playing' and value['playbackId']==restarted['playbackId'] and value['readerIds']==restarted['readerIds'],value
+                        assert .2<value['positionSeconds']<3,value
+                        assert value['pendingSeekSeconds'] is None and value['seekRevision']=='0' and value['remainingGrowingSeeks']==16,value
+                        return value if value['positionSeconds']>restarted['positionSeconds']+.1 else None
+                    queued_intent.update(lateOldControlsRejected=True,retryAfterLateControls=wait(retry_advances,'old controls leave explicit new playback running',2))
                 final=closed(replacement);active[0]=None
                 for rid in old_reader_ids:assert peers[0].native('readerForget',readerId=rid)['forgotten']
                 assert sha(path)==after_append and not list(cache.glob('remux-*'))
                 if require_clean and kind=='normal' and remaining:
                     (report/'normal-exit-cache-failure.json').write_text(json.dumps(dict(profile=name,remaining=remaining,termination=termination,receipts=receipts),indent=2)+'\n')
                     raise AssertionError(('Normal exit retained continuous cache',name,remaining))
-                rows.append(dict(normalExitCacheClean=not remaining,profile=name,result='PASS',initialProducer=initial,actualPlayback=actual,termination=termination,workerExit=worker,workerExitObservedSeconds=worker_seconds,oldReaderReceipts=receipts,cacheAfterExit=remaining,recoveredProducer=recovered,restartedPlayback=restarted,independentBefore=control_before,independentAfter=control_after,partialUnchangedByExit=True,writerAppendAfterExit=True,appendedOriginalSha256=after_append,originalUnchangedAfterRestart=True,explicitNewAttempt=True,**final))
+                rows.append(dict(normalExitCacheClean=not remaining,profile=name,result='PASS',initialProducer=initial,actualPlayback=actual,queuedIntent=queued_intent,termination=termination,workerExit=worker,workerExitObservedSeconds=worker_seconds,oldReaderReceipts=receipts,cacheAfterExit=remaining,recoveredProducer=recovered,restartedPlayback=restarted,independentBefore=control_before,independentAfter=control_after,partialUnchangedByExit=True,writerAppendAfterExit=True,appendedOriginalSha256=after_append,originalUnchangedAfterRestart=True,explicitNewAttempt=True,**final))
                 (report/'progress.json').write_text(json.dumps(dict(completed=len(rows),rows=rows),indent=2)+'\n')
                 print(json.dumps(dict(profile=name,result='PASS')),flush=True)
         other_final=closed(other);active[1]=None;assert sha(other_path)==sha(raw_path)
-        return dict(result='PASS',count=len(rows),rows=rows,independentEndpointPreserved=True,explicitNewAttempt=True,automaticPositionResume=False,requireCleanNormalExit=require_clean,otherFinal=other_final)
+        return dict(result='PASS',count=len(rows),rows=rows,independentEndpointPreserved=True,explicitNewAttempt=True,automaticPositionResume=False,requireCleanNormalExit=require_clean,queuedSeekShutdown=queued_seek,otherFinal=other_final)
     finally:
         primary_failure=sys.exc_info()[0] is not None
         errors=[]

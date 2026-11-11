@@ -26,10 +26,12 @@ def main():
     parser.add_argument('--classic-ui-theme',choices=('dark','light'))
     parser.add_argument('--classic-null-video',action='store_true',help='Private profile: require decoded video without a desktop renderer')
     parser.add_argument('--queued-profile',choices=('48000-mono','44100-stereo'),help='Opt-in AAC fixture for queued-races/queued-stress only')
+    parser.add_argument('--shutdown-queued',action='store_true',help='Add pending/applied growing seek to aac-shutdown')
     parser.add_argument('--report-directory',type=Path,required=True)
     args=parser.parse_args();sdk=args.sdk_directory.resolve()
     if args.queued_profile is not None and args.scenario not in ('queued-races','queued-stress'):
         parser.error('--queued-profile requires queued-races or queued-stress')
+    if args.shutdown_queued and args.scenario!='aac-shutdown':parser.error('--shutdown-queued requires aac-shutdown')
     if args.classic_null_video and args.edition!='classic':parser.error('--classic-null-video requires Classic')
     if args.scenario=='aac-heartbeat-idle-stability' and (args.edition!='classic' or os.name!='nt'):
         parser.error('aac-heartbeat-idle-stability requires Windows Classic')
@@ -86,7 +88,7 @@ def main():
         mode=modules['progressive_continuous'].AAC_MODE
         def exercise(peers,root):
             options={'media_mode':mode} if args.scenario=='aac-races' else {'mode':mode}
-            if args.scenario=='aac-shutdown':options['require_clean']=True
+            if args.scenario=='aac-shutdown':options.update(require_clean=True,queued_seek=args.shutdown_queued)
             if args.scenario=='aac-lifecycle':options.update(cycles=100,repeats=0)
             result=case.exercise(peers,root,args.report_directory,**options)
             from progressive_continuous_test_media import __file__ as media_source

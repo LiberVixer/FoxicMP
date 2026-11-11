@@ -1645,3 +1645,9 @@ Harvester, пользовательские профили, настройки W
 [Обычные три редакции](ProgressiveQueuedProfileStress.md) прошли 48 kHz mono/BF2/25 fps и 44.1 kHz stereo/BF3/30000/1001: всего 216 парных races, 600 измеряемых +24 warmup cycles и 10200 пар IPC. Прежние quota/resource/RPC/release budgets сохранены. Linux использовал установленный EXE с private profiles, Windows — отдельные copies.
 
 [Отчёт](ProgressiveQueuedProfileStressValidation-2026-11-11.json) сохраняет native exits, resource windows и отдельные намеренные cleanup/worker exit codes; 587 файлов и 158 HKCU shell entries неизменны. Production/SDK modules/установки не менялись, новая Linux установка не требуется. Полная codec/crash/physical-I/O/multi-hour/A/V приёмка остаётся открытой.
+
+### AAC shutdown/recovery с queued seek — 11 ноября 2026
+
+[Три обычные редакции](ProgressiveQueuedShutdown.md) прошли normal exit/crash при waiting и applied target 19 s: физическое продолжение writer, recovery до ручного опроса receipts, явный новый play с позиции 0, отказ поздним старым Stop/cancelSeek/seek. 12 новых +24 regression cases проверены дважды; финальные drivers exit 0.
+
+[Отчёт](ProgressiveQueuedShutdownValidation-2026-11-11.json) разделяет files-closed и process-exited, main/worker/cleanup exits и первоначальный offscreen HWND setup failure. Все 587 файлов /158 HKCU entries сохранены; production/SDK modules/установки не менялись. Linux проверен установленным EXE с private profiles, Windows — отдельными copies. Один AAC stereo/48 kHz/BF3 профиль не закрывает полный crash/I/O/A/V допуск.
