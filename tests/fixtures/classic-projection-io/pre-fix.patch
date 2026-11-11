@@ -1,0 +1,7 @@
+--- a/src/filters/parser/BaseSplitter/AsyncReader.cpp
++++ b/src/filters/parser/BaseSplitter/AsyncReader.cpp
+@@ -224,3 +224 @@
+-        // ReadV2Guarded records a permanent I/O failure and signals its own
+-        // cancel event. Do not turn that committed failure into a flush abort.
+-        if(result!=E_FAIL && interrupted())result=E_ABORT;
++        if(interrupted())result=E_ABORT;

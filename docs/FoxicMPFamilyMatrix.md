@@ -1605,3 +1605,10 @@ Harvester, пользовательские профили, настройки W
 [Исправлены WaitRange/WaitForSample/WaitForCompletion](ProgressiveClassicRangeWait.md): полный flush cycle прерывает старое ожидание; final guard сохраняет отмену у ready/EOF, sample не записывается вызывающему коду при E_ABORT. Старый C++ WaitRange сохранён, публичный SDK 1.87 и Qt без изменений.
 
 [Приёмка](ProgressiveClassicRangeWaitValidation-2026-11-11.json): 38 детерминированных native cases после 17 pre-fix FAIL; новые bytes физически дописываются и подтверждаются штатным Publish. Старые 31 payload +38 native-I/O +12 DirectShow cases/4200 кадров и 25 normal public API cases прошли с exits 0. Все 587 защищённых файлов и 158 HKCU shell entries сохранены. Private hooks отсутствуют в normal objects; аппаратный/STA/IPC forced scheduling и полная codec/AAC/crash/stress приёмка остаются открытыми.
+
+
+### Classic v2/AAC ошибки payload — 11 ноября 2026
+
+[Исправлена классификация SyncRead](ProgressiveClassicProjectionIo.md): зафиксированный E_FAIL от ReadV2Guarded сохраняется, собственный cancel при Source::Fail не превращается во внешнюю отмену E_ABORT. Обычные cancel/flush/breaker guards сохранены. Изменён только Classic; Qt и публичный SDK 1.87 без изменений.
+
+[Проверки](ProgressiveClassicProjectionIoValidation-2026-11-11.json): 240 детерминированных readView/readPayload boundary cases на v2 resources и реальной AAC-проекции, два rates/layouts/B-frame профиля. Paired pre-fix — четыре FAIL; fixed — все PASS. Восемь full views совпали по packet payload SHA/PTS/DTS/duration, v2 ещё и побайтно с подготовленными файлами. 119 прежних native/DirectShow cases и 34 normal public API cases прошли; все 587 защищённых файлов и 158 HKCU shell entries сохранены. Full physical sub-read, decoded AAC PCM, STA/IPC и полная crash/stress приёмка остаются открытыми.

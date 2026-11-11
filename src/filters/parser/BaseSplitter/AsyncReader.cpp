@@ -221,7 +221,9 @@ STDMETHODIMP CHarvesterFileReader::SyncRead(LONGLONG offset,LONG size,BYTE* data
     if(hr!=S_OK || !size)return hr;
     if(m_session->HasVirtualReader()){
         auto result=m_session->ReadV2Guarded(m_track,uint64_t(offset),size_t(size),data,m_flush,m_break.load(),interrupted);
-        if(interrupted())result=E_ABORT;
+        // ReadV2Guarded records a permanent I/O failure and signals its own
+        // cancel event. Do not turn that committed failure into a flush abort.
+        if(result!=E_FAIL && interrupted())result=E_ABORT;
 #ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
         foxicmp::progressive::classic_read_test::Returned(this,result);
 #endif
