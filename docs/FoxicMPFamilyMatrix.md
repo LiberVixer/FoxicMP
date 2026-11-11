@@ -1626,3 +1626,10 @@ Harvester, пользовательские профили, настройки W
 [Проверены 12 frame/graph teardown-сценариев](ProgressiveClassicSeekTeardown.md) на двух private main-reentry EXE. Настоящие public Stop/start(replace=True), owned WM_CLOSE, MAINSTA/stack traces, сохранение нового sessionId/reader/позиции и native exits 0. Штатный лимит одного remux job сохранён; замена использует отдельный regular prepared resource.
 
 [Результаты](ProgressiveClassicSeekTeardownValidation-2026-11-11.json) включают release/forget и финальный cleanup oracle. Все 587 защищённых файлов и 158 HKCU shell entries сохранены. Production source/binaries/SDK modules не менялись; версия SDK 1.87. Полные hardware/COM/AAC/physical-I/O/crash/stress interleavings не объявляются закрытыми.
+
+
+### Classic AAC teardown внутри seek — 11 ноября 2026
+
+[Расширен private teardown driver](ProgressiveClassicAacTeardown.md): 24 AAC cases двух rate/channel/B-frame профилей, 12 video regression и smoke. Реальные Stop, A/V start(replace=True) и owned WM_CLOSE в frame/graph before/after; исходный AAC PCM window применён, новый graph читает оба tracks и сохраняет свой reader/позицию.
+
+[Отчёт](ProgressiveClassicAacTeardownValidation-2026-11-11.json) разделяет driver/main/worker exits, сохраняет положительные release proofs и cache cleanup; ошибочный первый replacement hint учтён отдельно. Все 587 защищённых файлов и 158 HKCU shell entries сохранены. Production/Qt/SDK modules не менялись, SDK 1.87; полная AAC/PCM/COM/physical-I/O/crash/stress приёмка остаётся открытой.

@@ -18,9 +18,12 @@ import time
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'qt' / 'tools'))
 from progressive_player_crash_recovery import Peer, sha, wait
-from progressive_continuous import ContinuousRemux, MODE
+from progressive_continuous import ContinuousRemux, MODE, AAC_MODE
 from progressive_backend_demux_conformance import snapshot
 from progressive_stream_remux_worker_test import fixture
+from progressive_stream_aac_aligned_test import fixture as av_fixture
+from progressive_continuous_test_media import source_snapshot, source_cuts
+from progressive_continuous_heartbeat_conformance import WorkerExit
 from progressive_integrity import protect_snapshot
 from progressive_family_test import registration_snapshot, post_command
 
@@ -38,7 +41,11 @@ def run(args):
     rows = []
     with tempfile.TemporaryDirectory(prefix='foxicmp-seek-teardown-') as tmp:
         root = Path(tmp)
-        original = fixture(root, 'original')
+        audio = args.audio_profile != 'video'
+        selected_mode = AAC_MODE if audio else MODE
+        rate, channels, fps, bframes = (48000,1,'25',2) if args.audio_profile == '48000-mono' else (44100,2,'30000/1001',3)
+        original = av_fixture(root,'original',rate,channels,fps,bframes,False,False,
+            seconds=24.137,samples=rate*24+137)[0] if audio else fixture(root,'original')
         raw = original.read_bytes()
         before_sha = sha(original)
         ordinary = root / 'replacement.mp4'
@@ -77,13 +84,14 @@ def run(args):
             source = folder / 'source'
             source.mkdir()
             path = source / 'input.part'
-            model = snapshot(path, raw, prefix=len(raw) * 2 // 3, complete=False)
-            model['timeline']['duration'] = '240000000'
+            prefix = source_cuts(original,AAC_MODE)[12] if audio else len(raw)*2//3
+            model = source_snapshot(path,raw,prefix=prefix,complete=False,mode=selected_mode)
             path.write_bytes(raw)
             peer = Peer('classic', player, folder / 'unused-profile', folder, args.reader_runner)
             previous = os.environ.get('FOXICMP_PRIVATE_SEEK_DIRECTORY')
             os.environ['FOXICMP_PRIVATE_SEEK_DIRECTORY'] = str(artifacts)
             sdk = None
+            watch = None
             replacement = None
             replacement_close = None
             replacement_forget = None
@@ -92,7 +100,7 @@ def run(args):
             forget_proof = None
             try:
                 peer.launch()
-                sdk = ContinuousRemux(peer.client, str(source), mode=MODE)
+                sdk = ContinuousRemux(peer.client, str(source), mode=selected_mode)
                 sdk.prepare(model, 'clip')
                 def producer_ready():
                     value = sdk.status()
@@ -100,19 +108,25 @@ def run(args):
                     if not value['outputComplete']:
                         sdk.heartbeat()
                     return value if value['playbackReady'] and value['indexedEndSeconds'] > 2 else None
-                wait(producer_ready, 'owned source ready', 20)
+                ready = wait(producer_ready, 'owned source ready', 20)
+                if audio:
+                    assert ready['audioWindowReady'] and ready['audioSampleRate']==rate and ready['audioChannels']==channels and ready['audioPresentationSamples']==str(rate*24+137), ready
+                watch = WorkerExit(int(ready['workerId']))
                 sdk.play(title='Main reentry ' + label)
-                wait(lambda: (lambda s: s if s['state'] == 'playing' and s['positionSeconds'] > .15 else None)(sdk.playback_status()), 'owned playing', 20)
+                wait(lambda: (lambda s: s if s['state'] == 'playing' and s['positionSeconds'] > .15 and (not audio or s['audio'] and s['pcmWindowApplied']) else None)(sdk.playback_status()), 'owned playing', 20)
                 sdk.control('pause')
                 held = wait(lambda: (lambda s: s if s['state'] == 'paused' else None)(sdk.playback_status()), 'owned paused', 10)
                 assert held['indexedEndSeconds'] < 21 and held['remainingGrowingSeeks'] == 16, held
+                if audio:
+                    assert held['audio'] and held['pcmWindowApplied'], held
                 if mode == 'replace':
                     second = folder / 'replacement'
                     second.mkdir()
                     second_path = second / 'second.part'
-                    second_model = snapshot(second_path, ordinary_raw, complete=True)
-                    second_model['timeline']['duration'] = '240000000'
-                    second_model['tracks'][0].update(containerHint='fmp4',codecHint='h264',initializationReady=True)
+                    second_model = source_snapshot(second_path,ordinary_raw,complete=True,mode=selected_mode)
+                    for track in second_model['tracks']:
+                        track.update(containerHint='fmp4-muxed' if audio else 'fmp4',initializationReady=True)
+                    second_model['tracks'][0]['codecHint']='h264'
                 windows = []
                 @callback
                 def visit(hwnd, _):
@@ -174,7 +188,7 @@ def run(args):
                     def playing_replacement():
                         value = peer.client.command('status', second_model['sessionId'])
                         assert value['state'] != 'error', value
-                        return value if value['state'] == 'playing' and .15 < value['positionSeconds'] < 3 else None
+                        return value if value['state'] == 'playing' and .15 < value['positionSeconds'] < 3 and (not audio or value.get('audioCodec')=='aac-lc' and all(int(value['decoderIoBytes'][kind])>0 for kind in ('audio','video'))) else None
                     final = wait(playing_replacement, 'replacement starts at its own position', 20)
                     assert final['sessionId'] == second_model['sessionId'] and final['readerId'] == replacement['readerId'], final
                     # Existing command id pauses the owned replacement graph.
@@ -195,7 +209,7 @@ def run(args):
                 if mode != 'close':
                     assert any(x['stage'] == 'nested-ipc-dispatch' for x in trace)
                 assert not any(x['stage'] == 'barrier-timeout' for x in trace), trace
-                row = dict(profile=label, result='PASS', held=held, queued=queued, replies=replies,
+                row = dict(profile=label, audioProfile=args.audio_profile, result='PASS', ready=ready, held=held, queued=queued, replies=replies,
                            nested=nested, sent=sent, final=final, trace=trace, graphScopeForced=phase.startswith('graph-'))
                 (artifacts / 'scenario.json').write_text(json.dumps(row, indent=2))
                 rows.append(row)
@@ -233,6 +247,13 @@ def run(args):
                         raise
                 assert peer.process is not None and peer.process.returncode == 0
                 peer.history[-1].update(reason='clean-exit', exitCode=peer.process.returncode)
+                worker_exit = None
+                if watch is not None:
+                    try:
+                        wait(watch.exited,'owned remux worker exit after main teardown',5)
+                        worker_exit = watch.proof()
+                    finally:
+                        watch.close()
                 receipts_before_cleanup = []
                 if peer.registry.exists():
                     for receipt_path in peer.registry.glob('*.lease'):
@@ -247,10 +268,10 @@ def run(args):
                     os.environ.pop('FOXICMP_PRIVATE_SEEK_DIRECTORY', None)
                 else:
                     os.environ['FOXICMP_PRIVATE_SEEK_DIRECTORY'] = previous
-            rows[-1].update(processHistory=peer.history, runtimePathsRemoved=removed, closeProof=close_proof, forgetProof=forget_proof, replacementClose=replacement_close, replacementForget=replacement_forget, receiptsBeforeCleanup=receipts_before_cleanup, remainingCachesAfterExit=remaining_caches)
+            rows[-1].update(processHistory=peer.history, runtimePathsRemoved=removed, closeProof=close_proof, forgetProof=forget_proof, replacementClose=replacement_close, replacementForget=replacement_forget, receiptsBeforeCleanup=receipts_before_cleanup, remainingCachesAfterExit=remaining_caches, workerExit=worker_exit)
             assert sha(path) == before_sha and sha(ordinary) == ordinary_sha and registration_snapshot() == registration
     value = dict(result='PASS', count=len(rows), rows=rows, playerSha256=sha(args.player),
-                 driverSha256=sha(__file__), temporaryWorkRemoved=not root.exists(),
+                 driverSha256=sha(__file__), audioProfile=args.audio_profile, temporaryWorkRemoved=not root.exists(),
                  actualCMainFrame=True, actualPublicIpc=True, actualDirectShowSetPositions=True,
                  compileOnlyNestedPump=True, shippingNestedPump=False, audioVideoHardware=False)
     (report / 'result.json').write_text(json.dumps(value, indent=2) + '\n')
@@ -262,6 +283,7 @@ if __name__ == '__main__':
     parser.add_argument('--player', type=Path, required=True)
     parser.add_argument('--reader-runner', type=Path, required=True)
     parser.add_argument('--report-directory', type=Path, required=True)
+    parser.add_argument('--audio-profile', choices=('video','48000-mono','44100-stereo'), default='video')
     parser.add_argument('--smoke', action='store_true')
     parser.add_argument('--phase', choices=('frame-before','graph-before','graph-after','frame-after'))
     parser.add_argument('--mode', choices=('stop','replace','close'))
