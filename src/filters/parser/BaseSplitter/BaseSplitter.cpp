@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include "../../../../shared/progressiveclassicseektest.h"
 #include "BaseSplitterThread.h"
 #include <moreuuids.h>
 #include "DSUtil/std_helper.h"
@@ -678,6 +679,9 @@ STDMETHODIMP CBaseSplitterFilter::GetPreroll(LONGLONG* pllPreroll)
 
 HRESULT CBaseSplitterFilter::SetPositionsInternal(void* id, LONGLONG* pCurrent, DWORD dwCurrentFlags, LONGLONG* pStop, DWORD dwStopFlags)
 {
+#ifdef FOXICMP_PRIVATE_CLASSIC_SEEK_TEST
+    foxicmp::progressive::classic_seek_test::GraphScope testScope;
+#endif
 	CAutoLock cAutoLock(this);
 
 	if (!pCurrent && !pStop

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "../../../shared/progressiveclassicseektest.h"
 #include "ClassicProgressiveApi.h"
 #include "../../../shared/preparedclip.h"
 #include "../../../shared/progressivecompletedseek.h"
@@ -606,6 +607,9 @@ std::string ClassicProgressiveApi::ContinuousStatus(){
 }
 
 void ClassicProgressiveApi::PollContinuousSeek(){
+#ifdef FOXICMP_PRIVATE_CLASSIC_SEEK_TEST
+    foxicmp::progressive::classic_seek_test::Observe("poll-continuous-seek");
+#endif
     const auto p=continuousPlayback;if(!p || p->pendingSeekSeconds<0)return;
     const auto native=continuousNative.lock();const auto out=p->output();const auto producer=p->producerError();
     if(p->closed || continuousFinished || !p->error.empty() || !out.failure.empty() || !producer.empty() || p->source->stopped() || !frame.OwnsHarvester(native)){

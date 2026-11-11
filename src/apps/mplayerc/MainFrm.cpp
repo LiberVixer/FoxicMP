@@ -20,6 +20,7 @@
  */
 
 #include "stdafx.h"
+#include "../../../shared/progressiveclassicseektest.h"
 #include "../../../shared/graphmessagewait.h"
 constexpr WPARAM FOXICMP_OWNED_CMDLINE = 0xF0C1;
 
@@ -17475,10 +17476,18 @@ bool CMainFrame::SeekToInternal(REFERENCE_TIME rtPos, bool bShowOSD, bool queued
 		}
 
         if(queued){
+#ifdef FOXICMP_PRIVATE_CLASSIC_SEEK_TEST
+            foxicmp::progressive::classic_seek_test::FrameScope testScope(m_hWnd,rtPos);
+            foxicmp::progressive::classic_seek_test::Hit("frame-before");
+#endif
             if(!m_progressiveApi || !m_progressiveApi->CanCommitQueuedSeek())return false;
             const CComPtr<IMediaSeeking> seeking=m_pMS;
             if(!seeking)return false;
             const HRESULT result=seeking->SetPositions(&rtPos,AM_SEEKING_AbsolutePositioning,nullptr,AM_SEEKING_NoPositioning);
+#ifdef FOXICMP_PRIVATE_CLASSIC_SEEK_TEST
+            foxicmp::progressive::classic_seek_test::Observe(FAILED(result)?"graph-call-failed":"graph-call-succeeded");
+            foxicmp::progressive::classic_seek_test::Hit("frame-after");
+#endif
             if(FAILED(result))return false;
             if(!m_progressiveApi->CanCommitQueuedSeek())return true;
         }else{

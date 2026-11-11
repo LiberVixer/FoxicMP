@@ -1612,3 +1612,10 @@ Harvester, пользовательские профили, настройки W
 [Исправлена классификация SyncRead](ProgressiveClassicProjectionIo.md): зафиксированный E_FAIL от ReadV2Guarded сохраняется, собственный cancel при Source::Fail не превращается во внешнюю отмену E_ABORT. Обычные cancel/flush/breaker guards сохранены. Изменён только Classic; Qt и публичный SDK 1.87 без изменений.
 
 [Проверки](ProgressiveClassicProjectionIoValidation-2026-11-11.json): 240 детерминированных readView/readPayload boundary cases на v2 resources и реальной AAC-проекции, два rates/layouts/B-frame профиля. Paired pre-fix — четыре FAIL; fixed — все PASS. Восемь full views совпали по packet payload SHA/PTS/DTS/duration, v2 ещё и побайтно с подготовленными файлами. 119 прежних native/DirectShow cases и 34 normal public API cases прошли; все 587 защищённых файлов и 158 HKCU shell entries сохранены. Full physical sub-read, decoded AAC PCM, STA/IPC и полная crash/stress приёмка остаются открытыми.
+
+
+### Classic главное окно и вложенный IPC во время seek — 11 ноября 2026
+
+[Проверен ограниченный CMainFrame/MAINSTA reentry](ProgressiveClassicMainReentry.md): 16 cases на четырёх main/graph boundaries через настоящий public IPC. Отмена/new revision/same-target requeue не теряются, nested poll не отправляет второй seek. Отдельная private message pump задаёт порядок; shipping message loop не меняется.
+
+[Трассы и normal token proof](ProgressiveClassicMainReentryValidation-2026-11-11.json): HWND owner и caller совпадают, apartment MAINSTA, depth ≤1; normal MSVC main/api/splitter tokens до/после равны. Все 587 защищённых файлов и 158 HKCU shell entries сохранены. Новых normal binary/API/defaults нет, SDK 1.87 сохранён. Полные COM/renderer/Stop/replacement/crash/race/stress interleavings остаются открытыми.
