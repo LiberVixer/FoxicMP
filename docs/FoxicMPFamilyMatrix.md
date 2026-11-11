@@ -1589,3 +1589,12 @@ Harvester, пользовательские профили, настройки W
 [Native отчёт](ProgressiveClassicReadBoundariesValidation-2026-11-11.json): pre-fix 19 FAIL из 31 с native exit 1; исправленный adapter — 31 PASS. Настоящий DirectShow/MTA source callback — 12 PASS, BF0/BF2, 4200 совпавших NV12 кадров. Обычный Classic EXE — 74 API +36 races +100 stress/4 warmup, прежние бюджеты, все exits 0. Normal objects пересобраны с новым layout, без test macro. Windows установки/158 HKCU entries сохранены; 586/587 файлов совпали, причина изменения Linux INI не установлена. Linux EXE не менялся, новой Linux сборки нет.
 
 Это не проверка kernel-pending I/O, CMainFrame/STA message pump или forced IPC scheduling внутри graph; другой v2/native-file backend и полный codec/AAC/AV/crash/stress срезы остаются открытыми. Старые outliers сохранены. Harvester и пользовательские настройки не исправлялись автоматически.
+
+
+### Classic native pending I/O — 11 ноября 2026
+
+[Исправлен wait файловой ветки](ProgressiveClassicNativeIo.md): SyncRead проверяет поколение flush во время ожидающего OVERLAPPED read, затем отменяет и дожидается подтверждения OS перед освобождением запроса. Только Classic; Qt и SDK 1.87 без изменений.
+
+[Проверка](ProgressiveClassicNativeIoValidation-2026-11-11.json): 20 regular-file и 18 настоящих pending pipe cases; pre-fix два FAIL/native exit 1, fixed 38 PASS/exit 0 без rescue. На новом адаптере прошли прежние 31 native case и 12 DirectShow cases с 4200 совпавших кадров. Normal EXE — 2 schema-1 raw-file graph сценария и 23 queued API cases, exits 0. Pipe handle подставляется только private friend, публичная поддержка pipe не добавлялась. Все 587 защищённых файлов и 158 HKCU shell entries совпали до/после этого этапа.
+
+Это не проверка зависшего диска/драйвера, missing-range wait или CMainFrame/STA/public-IPC reentry. Полная codec/AAC/AV/crash/stress приёмка и прежние outliers остаются открытыми; настройки установок не нормализуются автоматически.

@@ -229,12 +229,35 @@ STDMETHODIMP CHarvesterFileReader::SyncRead(LONGLONG offset,LONG size,BYTE* data
     }
     OVERLAPPED ov{};ov.Offset=(DWORD)offset;ov.OffsetHigh=(DWORD)(uint64_t(offset)>>32);ov.hEvent=CreateEventW(nullptr,TRUE,FALSE,nullptr);
     DWORD read=0;BOOL ok=ReadFile(m_session->File(m_track),data,size,&read,&ov);
-    if(!ok && GetLastError()==ERROR_IO_PENDING) {
+    const DWORD readError=ok?ERROR_SUCCESS:GetLastError();
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+    foxicmp::progressive::classic_read_test::NativeIo(this,"submitted",m_session->File(m_track),&ov,readError);
+#endif
+    if(!ok && readError==ERROR_IO_PENDING) {
         HANDLE events[4]={ov.hEvent,m_session->CancelEvent(),m_flush,m_break.load()};DWORD n=events[3]?4:3;
-        DWORD result=WaitForMultipleObjects(n,events,FALSE,INFINITE);
+        DWORD result=WAIT_TIMEOUT;
+        for(;;) {
+            // EndFlush can reset the event before this wait sees BeginFlush.
+            // Recheck the captured generation while the OS request is pending.
+            if(interrupted()){result=WAIT_OBJECT_0+1;break;}
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+            foxicmp::progressive::classic_read_test::NativeIo(this,"waiting",m_session->File(m_track),&ov,readError);
+#endif
+            result=WaitForMultipleObjects(n,events,FALSE,50);
+            if(result!=WAIT_TIMEOUT)break;
+        }
         if(result==WAIT_OBJECT_0)ok=GetOverlappedResult(m_session->File(m_track),&ov,&read,FALSE);
-        else {CancelIoEx(m_session->File(m_track),&ov);GetOverlappedResult(m_session->File(m_track),&ov,&read,TRUE);CloseHandle(ov.hEvent);return E_ABORT;}
+        else {
+            CancelIoEx(m_session->File(m_track),&ov);const BOOL drained=GetOverlappedResult(m_session->File(m_track),&ov,&read,TRUE);(void)drained;
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+            foxicmp::progressive::classic_read_test::NativeIo(this,"cancelled",m_session->File(m_track),&ov,drained?ERROR_SUCCESS:GetLastError());
+#endif
+            CloseHandle(ov.hEvent);return E_ABORT;
+        }
     }
+#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+    foxicmp::progressive::classic_read_test::NativeIo(this,"settled",m_session->File(m_track),&ov,ok?ERROR_SUCCESS:GetLastError());
+#endif
     CloseHandle(ov.hEvent);
     if(interrupted())return E_ABORT;
     if(!ok || read!=(DWORD)size) {m_error=true;m_session->Fail("Local track I/O failed or confirmed bytes were truncated");return E_FAIL;}

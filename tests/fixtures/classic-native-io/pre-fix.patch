@@ -1,0 +1,21 @@
+--- a/src/filters/parser/BaseSplitter/AsyncReader.cpp
++++ b/src/filters/parser/BaseSplitter/AsyncReader.cpp
+@@ -238,11 +238,4 @@
+-        DWORD result=WAIT_TIMEOUT;
+-        for(;;) {
+-            // EndFlush can reset the event before this wait sees BeginFlush.
+-            // Recheck the captured generation while the OS request is pending.
+-            if(interrupted()){result=WAIT_OBJECT_0+1;break;}
+-#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
+-            foxicmp::progressive::classic_read_test::NativeIo(this,"waiting",m_session->File(m_track),&ov,readError);
+-#endif
+-            result=WaitForMultipleObjects(n,events,FALSE,50);
+-            if(result!=WAIT_TIMEOUT)break;
+-        }
++#ifdef FOXICMP_PRIVATE_CLASSIC_READ_TEST
++        foxicmp::progressive::classic_read_test::NativeIo(this,"waiting",m_session->File(m_track),&ov,readError);
++#endif
++        DWORD result=WaitForMultipleObjects(n,events,FALSE,INFINITE);
+@@ -251 +244 @@
+-            CancelIoEx(m_session->File(m_track),&ov);const BOOL drained=GetOverlappedResult(m_session->File(m_track),&ov,&read,TRUE);(void)drained;
++            CancelIoEx(m_session->File(m_track),&ov);const BOOL drained=GetOverlappedResult(m_session->File(m_track),&ov,&read,TRUE);
