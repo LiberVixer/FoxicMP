@@ -185,7 +185,7 @@ bool CHarvesterSession::AllowsFlacFragments(int track) const {return m_v2Bridge 
 bool CHarvesterSession::AllowsMp3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="mp3";}
 std::string CHarvesterSession::WebMCodec(int track) const {return !m_v2Bridge?std::string():(track || m_v2Bridge->isStandaloneAudio())?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
 bool CHarvesterSession::IsWebM(int track) const {return m_v2Bridge && m_v2Bridge->isWebm(track);}
-bool CHarvesterSession::AllowsHevcFragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="hevc";}
+bool CHarvesterSession::AllowsHevcFragments() const {return (m_v2Bridge && m_v2Bridge->videoCodec()=="hevc") || (m_continuousSource && m_continuousSource->hevcVideo());}
 std::string CHarvesterSession::RegisteredReaderId() const {return m_continuousReader?m_continuousReader->id():m_readerLease?m_readerLease->id():std::string();}
 std::string CHarvesterSession::PlaybackDetails() const {
     if(m_continuousSource){const auto s=m_continuousSource->status();rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);d.AddMember("mediaMode",rapidjson::Value(m_continuousSource->mode().c_str(),a),a);d.AddMember("internalAdapter",true,a);d.AddMember("complete",s.complete,a);d.AddMember("visible",s.visible,a);d.AddMember("failure",rapidjson::Value(s.failure.c_str(),a),a);return foxicmp::progressive::lease_detail::Encode(d);}
@@ -554,7 +554,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
         };
         if(OptionalAudioFailed(track))continue;
         try {
-        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,m_v2Bridge && m_v2Bridge->videoCodec()=="hevc",m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track),AllowsPcmFragments(track),AllowsAc3Fragments(track),AllowsEac3Fragments(track),AllowsPcm24Fragments(track));
+        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,AllowsHevcFragments(),m_v2Bridge && m_v2Bridge->videoCodec()=="av1",m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track),AllowsPcmFragments(track),AllowsAc3Fragments(track),AllowsEac3Fragments(track),AllowsPcm24Fragments(track));
         } catch(const std::exception& error) {if(!m_v2Bridge || state.required)throw;m_v2Bridge->rejectOptionalIndex(track,error.what());continue;}
         result[track]=std::move(next);
     }

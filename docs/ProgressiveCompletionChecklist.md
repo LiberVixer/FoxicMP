@@ -3,12 +3,12 @@
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
 **Рабочий порядок оставшихся задач — [R01–R17, исторические H01–H04 и внешние E01–E03](ProgressiveRemainingWork.md).**
-Сводка актуализирована 12 ноября после `f5c0e701d`: 134 закрытых и 77 открытых
+Сводка актуализирована 12 ноября, SDK 1.88: 135 закрытых и 77 открытых
 записей, без вычисления процента готовности. Ниже сохранены подробные доказательства
 и исторические состояния; старые ограничения уточняются позднейшими отчётами.
 
 Приложение 0.2.0. Последний указанный здесь опубликованный пакетный срез — SDK 1.84;
-в текущих исходниках/проверенных кандидатах SDK 1.87 с исправлениями от 12 ноября.
+в текущих исходниках/проверенных кандидатах SDK 1.88 с исправлениями от 12 ноября.
 Исходники и clean SDK-архив кандидата не равны новому итоговому GitHub release.
 [SDK 1.84](ProgressiveContinuousAacPackages.md) проверен на обычных main/пакетах,
 Classic completed-seek race исправлен и проверен управляемой задержкой; полная стабильная приёмка открыта. Этот документ — перечень
@@ -43,8 +43,10 @@ Classic completed-seek race исправлен и проверен управл�
 ## 2. Общий demux и локальная подготовка — начат
 
 R01: [инвентаризация container/codec/layout и подготовка HEVC-профиля](ProgressiveRemuxInventory.md).
-Шаги инвентаризации/fixture завершены; новая public playback capability пока
-не добавлена. Общие checkbox ниже остаются открытыми.
+Первый public HEVC video-only mode реализован. Общие checkbox ниже остаются
+открытыми: это ограниченный профиль, не вся container/codec matrix.
+
+- [x] SDK 1.88: [ordinary MP4 → continuous HEVC Main/Main10 video-only](ProgressiveContinuousHevc.md), явный mode, hvc1/hev1, 8/10-bit 4:2:0, B-frames; worker/cache/decoder/Classic bridge и SDK. [54 worker checks, 30 public API rows, 78 регрессий](ProgressiveContinuousHevcValidation-2026-11-12.json), ≥10 s до complete, partial head/moov, exact packet/clock/frame hashes, initial/growing/queued seek, EOF/error/release/forget. Classic декодирует через private Null Video Renderer (Uncompressed); видимый renderer не аттестован. False complete для599/600 packets воспроизведён и исправлен; остальные codecs/layouts открыты.
 
 - [x] Первый этап: bounded FFmpeg AVIO **диагностика** подтверждённых ресурсов,
   11 format hints, отдельный процесс, ranges/SHA/wait/update/cancel/release,

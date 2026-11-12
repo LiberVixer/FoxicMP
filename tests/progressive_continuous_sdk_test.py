@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE
 from progressive_client import ApiError
 
 CAP = json.loads(re.search(r'return R"\((.*?)\)";',
@@ -210,7 +210,34 @@ class Test(unittest.TestCase):
         c.request=request;ContinuousRemux(c,str(ROOT))
         self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=REORDERED_MODE)
         self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=AAC_MODE)
+        self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=HEVC_MODE)
         self.assertFalse(any(m['action']=='continuousRemuxStart' for m in c.calls))
+
+    def test_hevc_contract_is_explicit_and_exact(self):
+        for field,value in [('videoCodec','h264'),('bFrames',False),('audio',True),
+                            ('hevcProfiles',['main']),('bitDepths',[8,10.0]),
+                            ('chromaSubsampling','4:4:4'),('sampleEntries',['hev1']),
+                            ('nalLengthBytes',4.0),('singleLayer',False),
+                            ('requiredTrackKinds',['video','audio']),('codecHintRequired',False),
+                            ('maxParameterSetsPerType',True),('firstPicture','any')]:
+            with self.subTest(field=field):
+                c=Client();old=c.request
+                def request(message,timeout=5):
+                    reply=old(message,timeout)
+                    reply['continuousRemux']['profiles'][HEVC_MODE][field]=value
+                    return reply
+                c.request=request
+                self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=HEVC_MODE)
+                self.assertEqual(len(c.calls),1)
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=HEVC_MODE)
+        p.prepare(self.model(),'clip')
+        self.assertEqual(c.calls[-1]['mode'],HEVC_MODE)
+        self.assertEqual(p.capability['videoCodec'],'hevc')
+        p.capability['mode']=MODE
+        self.assertEqual(p.mode,HEVC_MODE)
+        p.play()
+        self.assertEqual(p.playback_status()['mode'],HEVC_MODE)
+        p.close();p.forget()
 
     def test_reordered_profile_requires_full_explicit_declaration(self):
         for field,value in [('version',True),('mode',MODE),('bFrames',False),('audio',True),

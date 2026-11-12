@@ -4,8 +4,12 @@
 Эталон организации меню и настроек — **Linux Qt**, включая перенос в Classic.
 Основа дальнейшей работы: [общий план](FoxicMPFamilyPlan.md).
 Актуальная [инвентаризация progressive/remux от 12 ноября](ProgressiveRemuxInventory.md)
-разделяет native playback, диагностику, RAM clip и continuous режимы; первый
-следующий профиль — ordinary MP4/HEVC video-only, пока без public capability.
+разделяет native playback, диагностику, RAM clip и continuous режимы.
+[SDK 1.88](ProgressiveContinuousHevc.md) подключает первый новый профиль:
+ordinary MP4/HEVC video-only, Main/Main10 hvc1/hev1, B-frames, без transcoding.
+54 worker checks и 30 public API rows прошли. Qt проверен на обеих ОС;
+Classic — через ordinary EXE/DirectShow с частным Null Video Renderer,
+без подтверждения видимого desktop output. Остальные R01-профили открыты.
 
 ## Что именно сравнивается
 

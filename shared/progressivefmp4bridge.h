@@ -19,6 +19,7 @@
 #include "progressivemp3.h"
 #include "progressivemp3indexed.h"
 #include "DSUtil/HarvesterMP4.h"
+#include "DSUtil/HarvesterHevc.h"
 #include <array>
 
 namespace foxicmp { namespace progressive {
@@ -189,39 +190,9 @@ class Fmp4V2Bridge {
         supported(ended && length<=bytes.size-at,"Truncated AAC descriptor");return bytes.Slice(at,length);
     }
     static void hevcConfiguration(harvester::BoxData config,bool completeArrays) {
-        // HEVCDecoderConfigurationRecord framing; NAL decoding remains in the existing backend.
-        supported(config.size>=23 && config.data[0]==1,"Truncated/invalid HEVC decoder configuration");
-        const auto* b=config.data;const unsigned profile=b[1]&31;
-        supported((b[1]>>6)==0 && (profile==1 || profile==2),"Only HEVC Main/Main10 is enabled");
-        supported((b[13]&0xf0)==0xf0 && (b[15]&0xfc)==0xfc && (b[16]&0xfc)==0xfc
-                  && (b[17]&0xf8)==0xf8 && (b[18]&0xf8)==0xf8,"Invalid HEVC configuration reserved bits");
-        const unsigned luma=b[17]&7,chroma=b[18]&7;
-        supported((b[16]&3)==1 && luma==chroma && (luma==0 || (profile==2 && luma==2)),"Only 8/10-bit HEVC 4:2:0 is enabled");
-        supported((b[21]&3)==3,"Only four-byte HEVC NAL lengths are enabled");
-        supported(b[22]>0 && b[22]<=64,"Invalid HEVC NAL array count");
-        size_t at=23;bool parameterSets[3]={false,false,false};
-        for(unsigned array=0;array<b[22];++array) {
-            supported(at<=config.size && config.size-at>=3,"Truncated HEVC NAL array");
-            const auto flags=b[at++];const unsigned type=flags&63;
-            supported(!(flags&64) && (type==32 || type==33 || type==34 || type==39 || type==40),"Unsupported HEVC NAL array type");
-            const auto count=(unsigned(b[at])<<8)|b[at+1];at+=2;
-            supported(count>0 && count<=1024,"Invalid HEVC parameter-set count");
-            if(type>=32 && type<=34) {
-                supported(!parameterSets[type-32],"Duplicate HEVC parameter-set array");
-                supported(!completeArrays || (flags&128),"hvc1 requires complete parameter-set arrays");
-                parameterSets[type-32]=true;
-            }
-            for(unsigned unit=0;unit<count;++unit) {
-                supported(at<=config.size && config.size-at>=2,"Truncated HEVC NAL length");
-                const auto size=(unsigned(b[at])<<8)|b[at+1];at+=2;
-                supported(size>=2 && size<=config.size-at,"HEVC NAL exceeds configuration");
-                supported(!(b[at]&128) && ((b[at]>>1)&63)==type && !(b[at]&1)
-                          && !(b[at+1]&0xf8) && (b[at+1]&7),"Invalid/multilayer HEVC NAL header");
-                at+=size;
-            }
-        }
-        supported(at==config.size && parameterSets[0] && parameterSets[1] && parameterSets[2],"HEVC requires complete VPS/SPS/PPS initialization");
+        harvester::HEVCConfiguration(config.data,config.size,completeArrays,supported);
     }
+
     static void av1Configuration(harvester::BoxData config) {
         harvester::AV1Configuration(config.data,config.size,supported);
     }

@@ -14,6 +14,11 @@ SHA-256 файлов. Воспроизведение v1 сохраняется; 
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
+SDK 1.88 добавляет [явный HEVC video-only continuous профиль](ProgressiveContinuousHevc.md):
+`ContinuousRemux(..., mode=HEVC_MODE)`, ordinary MP4 Main/Main10 hvc1/hev1,
+8/10-bit 4:2:0, B-frames, без audio/transcoding. Нужна точная capability и
+новые согласованные player/worker builds. Старые modes не меняются.
+
 Конкурентные запросы очереди и 100-цикловый срез проверяются отдельным
 [стендом](ProgressiveQueuedSeekRaces.md); API и квоты 1.87 сохраняются.
 

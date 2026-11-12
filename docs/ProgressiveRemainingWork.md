@@ -1,12 +1,12 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 12 ноября 2026 после `f5c0e701d`.
+Рабочая сводка на 12 ноября 2026, включая bounded HEVC continuous SDK 1.88.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
 закрытыми широкие пункты по результатам узких тестов.
 
-В подробном чеклисте 134 выполненных и 77 открытых checkbox. Это число записей,
+В подробном чеклисте 135 выполненных и 77 открытых checkbox. Это число записей,
 не процент готовности: общая приёмка повторяет требования нескольких разделов.
 Ниже они сведены к пакетам работ с одним проверяемым результатом на пакет.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -70,12 +70,19 @@ R01–R10 выполняются последовательными неболь
    матрицу и отчёт. Затем переходить к следующей строке.
 
 [Инвентаризация шага 1 и объём первого профиля](ProgressiveRemuxInventory.md)
-готовы: выбран ordinary faststart MP4 с HEVC Main/Main10 video-only и B-frames.
-Подготовлены четыре fixture/oracle controls и исходный отказ H.264 worker mode
-на Linux и Windows workers из Qt/Classic stage. Это шаги 1–2, не playback-приёмка:
-public HEVC continuous ещё не подключён, R01 остаётся открытым. Следующий шаг —
-реализация через worker/cache/decoder/SDK, затем ordinary playback трёх редакций.
-Старые narrow tests остаются.
+готовы. [Первый профиль реализован в SDK 1.88](ProgressiveContinuousHevc.md):
+ordinary faststart MP4 с HEVC Main/Main10 video-only и B-frames. Worker, cache,
+decoder, Classic adapter и SDK согласуют один явный mode; старые H.264 не расширены.
+54 worker checks, 30 HEVC API rows и 78 прежних regression rows прошли;
+Classic использовал частный Null Video Renderer (Uncompressed), видимый вывод
+в SSH-сеансе не аттестован. Ошибка false complete при потере последнего пакета
+воспроизведена и исправлена сверкой с MP4 sample count.
+
+R01 остаётся открытым. Следующий профиль — HEVC + AAC-LC в ordinary MP4:
+сначала проверить packet clocks/PCM-window и состав paired projection, затем
+отдельный explicit mode и ordinary playback обеих Qt/Classic. Не включать звук
+в video-only mode автоматически. После него — AV1/VP9 и прочие container rows
+из инвентаризации. Старые narrow tests остаются.
 
 ## Исторические наблюдения: отдельно от новых функций
 

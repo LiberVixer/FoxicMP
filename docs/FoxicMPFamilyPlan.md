@@ -1518,3 +1518,13 @@ Harvester/Python/Windows не менялись; интегратору опис�
 удалён, owned процессов нет. Windows установки, Linux main/INI, Qt runtime и
 assets прежние. Private MSVC link /DEBUG:NONE не заменяет clean release build;
 общая форматная/lifecycle/stress/physical A/V приёмка остаётся открытой.
+
+## SDK 1.88: continuous HEVC video-only
+
+[Новый явный профиль ordinary MP4/HEVC](ProgressiveContinuousHevc.md) переносит
+Main/Main10 hvc1/hev1 с B-frames в append-only fMP4 без перекодирования.
+Один VPS/SPS/PPS, 8/10-bit 4:2:0, один required video track, известный VOD.
+Неполный head/moov ждёт writer; complete с отсутствующим последним пакетом
+отвергается по исходному sample count. Прежние H.264/AAC profiles сохранены.
+Отчёт различает Qt software playback и Classic DirectShow/null-video decoding;
+видимый Classic renderer в SSH-сеансе не аттестуется. R01 в целом остаётся открытым.

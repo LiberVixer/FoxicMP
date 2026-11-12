@@ -4,6 +4,7 @@
 #include "progressiveresourceio.h"
 #include "progressivestreamjournal.h"
 #include "DSUtil/HarvesterMP4.h"
+#include "DSUtil/HarvesterHevc.h"
 #include "progressivestreamavindex.h"
 #include "progressivestreamcoverage.h"
 #ifdef FOXICMP_PRIVATE_STREAM_IO_TEST
@@ -85,10 +86,11 @@ class StreamOutputStore {
         Sha256 digest;harvester::FragmentIndex index;
         std::unique_ptr<StreamAvIndex> avIndex;
         StreamIndexedCoverage videoCoverage,audioCoverage;
+        const bool hevc;
         bool ftyp=false,trailer=false;
         std::atomic<bool> cancelled{false};
-        Core(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& id,uint64_t gen,std::shared_ptr<StreamCacheBudget> shared,uint64_t bytes)
-            :budget(std::move(shared)),registry(receipts),session(id),generation(gen),limit(bytes){
+        Core(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& id,uint64_t gen,std::shared_ptr<StreamCacheBudget> shared,uint64_t bytes,bool hevcVideo)
+            :budget(std::move(shared)),registry(receipts),session(id),generation(gen),limit(bytes),hevc(hevcVideo){
             check(bool(budget) && lease_detail::HexId(id) && gen>0 && bytes>0 && bytes<=64*1024*1024,"invalid_request");
             // Validate a local, owner-only parent; one new private folder per store.
             parent=std::make_unique<lease_detail::Directory>(root,true);resource_detail::Inspect(parent->handle,true);
@@ -165,7 +167,7 @@ class StreamOutputStore {
                         state.samples=avIndex->samples();state.videoSamples=avIndex->views().tracks[0].index.Samples().size();state.audioSamples=avIndex->views().tracks[1].index.Samples().size();
                     }else{
                         uint64_t samples=0;for(const auto& child:body.One("traf").Children())if(child.first==harvester::FourCC("trun")){const auto n=child.second.U32(4);check(n>0 && n<=50000-state.samples-samples,"cache-sample-limit");samples+=n;}
-                        check(samples>0,"cache-invalid-fragment");auto next=index;next.Update(raw,m.at+m.size,0);check(next.Position()==m.at+m.size && next.Samples().size()==state.samples+samples,"cache-invalid-fragment");index=std::move(next);state.samples+=samples;
+                        check(samples>0,"cache-invalid-fragment");auto next=index;next.Update(raw,m.at+m.size,0,false,0,hevc);check(next.Position()==m.at+m.size && next.Samples().size()==state.samples+samples,"cache-invalid-fragment");index=std::move(next);state.samples+=samples;
                     }
                     ++state.fragments;scan=m.at+m.size;state.visible=scan;
                     updateCoverage();
@@ -175,7 +177,20 @@ class StreamOutputStore {
                     else if(kind==harvester::FourCC("moov")){
                         check(ftyp && !state.initialized && a.at+a.size<=1048576,"cache-invalid-fragment");
                         if(avIndex){avIndex->update(raw,a.at+a.size);check(avIndex->initialized() && avIndex->samples()==0,"cache-invalid-fragment");}
-                        else{auto next=index;next.Update(raw,a.at+a.size,0);check(next.Initialized() && next.Samples().empty(),"cache-invalid-fragment");index=std::move(next);}
+                        else{
+                            if(hevc){
+                                std::vector<uint8_t> bytes(size_t(a.size-a.header));raw(a.at+a.header,bytes.data(),bytes.size());
+                                harvester::BoxData moov{bytes.data(),bytes.size()};
+                                const auto stsd=moov.One("trak").One("mdia").One("minf").One("stbl").One("stsd");
+                                const auto entries=stsd.Slice(8,stsd.size-8).Children();
+                                check(entries.size()==1 && (entries[0].first==harvester::FourCC("hvc1") || entries[0].first==harvester::FourCC("hev1")),"cache-invalid-fragment");
+                                const auto entry=entries[0].second;const auto cfg=entry.Slice(78,entry.size-78).One("hvcC");
+                                harvester::HevcParameterSets parameters;
+                                harvester::HEVCConfiguration(cfg.data,cfg.size,entries[0].first==harvester::FourCC("hvc1"),[](bool ok,const char*){check(ok,"cache-invalid-fragment");},&parameters);
+                                check(parameters.size()==3,"cache-invalid-fragment");
+                            }
+                            auto next=index;next.Update(raw,a.at+a.size,0,false,0,hevc);check(next.Initialized() && next.Samples().empty(),"cache-invalid-fragment");index=std::move(next);
+                        }
                         state.initialized=true;state.visible=a.at+a.size;
                     }else if(kind==harvester::FourCC("mfra")){check(state.fragments>0,"cache-invalid-fragment");trailer=true;}
                     else check(false,"cache-invalid-fragment");
@@ -291,13 +306,14 @@ public:
             std::lock_guard<std::mutex> lock(core->mutex);core->cleanup();
         }
     };
-    StreamOutputStore(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,std::shared_ptr<StreamCacheBudget> budget,uint64_t limit=64*1024*1024)
-        :core(std::make_shared<Core>(root,registry,session,generation,std::move(budget),limit)){}
+    StreamOutputStore(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,std::shared_ptr<StreamCacheBudget> budget,uint64_t limit=64*1024*1024,bool hevcVideo=false)
+        :core(std::make_shared<Core>(root,registry,session,generation,std::move(budget),limit,hevcVideo)){}
+    bool hevcVideo()const{return core->hevc;}
     ~StreamOutputStore(){core->retryClosedReaders();std::lock_guard<std::mutex> lock(core->mutex);core->state.retiring=true;core->cleanup();}
     void retryClosedReaders(){core->retryClosedReaders();}
     void acceptAudioWindow(const StreamAudioWindow& window){
         std::lock_guard<std::mutex> lock(core->mutex);
-        Core::check(!core->state.written && !core->avIndex && !core->state.producerClosed && !core->state.retiring && core->state.failure.empty(),"cache-invalid-audio-window");
+        Core::check(!core->hevc && !core->state.written && !core->avIndex && !core->state.producerClosed && !core->state.retiring && core->state.failure.empty(),"cache-invalid-audio-window");
         // Validate again at the cache boundary; all readers share this immutable plan.
         rapidjson::Document d;d.Parse(window.json.c_str());Core::check(!d.HasParseError(),"cache-invalid-audio-window");
         auto verified=StreamAudioWindow::Parse(d);Core::check(verified.sha256==window.sha256,"cache-invalid-audio-window");
@@ -387,10 +403,10 @@ class StreamCacheOwner {
     }
 public:
     explicit StreamCacheOwner(std::shared_ptr<StreamCacheBudget> shared,size_t sessions=16):budget(std::move(shared)),limit(sessions){Require(bool(budget) && limit>0 && limit<=16,"remuxCache","Invalid cache owner bounds","invalid_request");}
-    std::shared_ptr<StreamOutputStore> create(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,uint64_t bytes=64*1024*1024){
+    std::shared_ptr<StreamOutputStore> create(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,uint64_t bytes=64*1024*1024,bool hevcVideo=false){
         std::lock_guard<std::mutex> lock(mutex);collectLocked();Require(stores.size()<limit,"remuxCache","Retire old output stores first","cache-session-limit");
         admit(root,registry);
-        try{auto store=std::make_shared<StreamOutputStore>(root,registry,session,generation,budget,bytes);stores.push_back(store);return store;}catch(...){roots.at(root.lexically_normal()).ready=false;throw;}
+        try{auto store=std::make_shared<StreamOutputStore>(root,registry,session,generation,budget,bytes,hevcVideo);stores.push_back(store);return store;}catch(...){roots.at(root.lexically_normal()).ready=false;throw;}
     }
     bool retire(const std::shared_ptr<StreamOutputStore>& store){
         std::lock_guard<std::mutex> lock(mutex);const auto found=std::find(stores.begin(),stores.end(),store);
