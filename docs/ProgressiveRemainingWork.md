@@ -77,6 +77,9 @@ decoder, Classic adapter и SDK согласуют один явный mode; с�
 Classic использовал частный Null Video Renderer (Uncompressed), видимый вывод
 в SSH-сеансе не аттестован. Ошибка false complete при потере последнего пакета
 воспроизведена и исправлена сверкой с MP4 sample count.
+Установленный Linux обновлён с backup и неизменным INI; [22 дополнительных
+сценария установленной копии и clean SDK](ProgressiveContinuousHevcDelivery-2026-11-12.json)
+прошли. App 0.2.0/SDK 1.88 source artifact не объявляется новым итоговым release.
 
 R01 остаётся открытым. Следующий профиль — HEVC + AAC-LC в ordinary MP4:
 сначала проверить packet clocks/PCM-window и состав paired projection, затем

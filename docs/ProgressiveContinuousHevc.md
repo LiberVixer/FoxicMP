@@ -111,8 +111,22 @@ cache removal. Сохранённый output сверяется с оригин�
 Контроль прежней сборки с обычным renderer в том же сеансе также не стартовал;
 этот отказ сохранён отдельно, не превращён в PASS.
 
-Результаты сборок и фактические exits сохраняются в
-`ProgressiveContinuousHevcValidation-2026-11-12.json` после окончательных прогонов.
+В [итоговом отчёте](ProgressiveContinuousHevcValidation-2026-11-12.json) сохранены
+54 worker checks (по 18 GCC/MinGW/MSVC), 30 public API rows (по 10 каждой
+редакции) и 78 прежних regression rows. Все принятые child exits равны 0;
+ожидаемые worker errors имеют exit 1. Старые failed runs перечислены отдельно.
+37 SDK unit tests и native HEVC/fMP4 regression прошли.
+
+[Подтверждение SDK и Linux-установки](ProgressiveContinuousHevcDelivery-2026-11-12.json):
+clean SDK 1.88 из `cda83ea4affefd2ece495047ff6dc0fc35d55ca3`, 357 файлов,
+10 Python modules; SHA-256 архива
+`8689fec5fe9abca3d309528b0537af821922f0fff2f64c7bc5b23b33a3af27a1`.
+Установлены EXE, worker, worker-info и согласованный SDK; 43 изменённых/новых
+файла подготовлены до atomic per-file rename, прежние версии сохранены.
+INI SHA до/после одинаков; 572 прежних файла не менялись. Установленная Linux
+копия с собственным SDK прошла ещё 22 сценария HEVC/AAC/source-close в частном
+X11/D-Bus/PulseAudio. Пользовательский просмотр не останавливался.
+
 Это не измерение физического выхода/GPU/HDR и не итоговая release-приёмка.
 
 Не добавляются HEVC+AAC, AV1/VP9 continuous, generic MOV/M4A/Matroska,
