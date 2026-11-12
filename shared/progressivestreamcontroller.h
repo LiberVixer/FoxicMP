@@ -100,6 +100,7 @@ class ContinuousRemuxController {
                     }
                 }
                 if(session){
+                    session->retryClosedReaders(); // Worker-owned receipt retry, never GUI status I/O.
                     v.native=session->status();
                     // AAC admission needs the immutable, SHA-validated window.
                     // Status/publications stay live while initialization is pending.

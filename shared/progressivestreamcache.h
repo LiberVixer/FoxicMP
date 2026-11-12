@@ -70,7 +70,9 @@ struct StreamCacheStatus {
 class StreamOutputStore {
     using Handle=lease_detail::Handle;
     struct Core {
-        std::mutex mutex;std::condition_variable changed;
+        std::mutex mutex,receiptMutex;std::condition_variable changed;
+        std::array<std::unique_ptr<ReaderLease>,MaxReaders> pendingReceipts;
+        size_t pendingReceiptCount=0;
         std::shared_ptr<StreamCacheBudget> budget;
         std::filesystem::path registry,folder,path;
         std::unique_ptr<lease_detail::Directory> parent,directory;
@@ -198,8 +200,24 @@ class StreamOutputStore {
             }
         }
         void fail(const std::string& code){if(state.failure.empty())state.failure=code;state.complete=false;clearCoverage();changed.notify_all();}
+        void retryClosedReaders() noexcept {
+            // Receipt I/O must not hold the cache mutex used by status/decoder
+            // callbacks. Only this nonblocking flusher can erase queue entries.
+            std::unique_lock<std::mutex> receipts(receiptMutex,std::try_to_lock);
+            if(!receipts.owns_lock())return;
+            {std::lock_guard<std::mutex> lock(mutex);if(!pendingReceiptCount)return;}
+            for(auto& slot:pendingReceipts){
+                ReaderLease* lease;
+                {std::lock_guard<std::mutex> lock(mutex);lease=slot.get();}
+                if(lease && lease->tryFilesClosed()){
+                    std::unique_ptr<ReaderLease> acknowledged;
+                    {std::lock_guard<std::mutex> lock(mutex);acknowledged=std::move(slot);--pendingReceiptCount;--state.activeReaders;changed.notify_all();}
+                }
+            }
+        }
         bool cleanup(){
             if(state.removed)return true;
+            if(pendingReceiptCount){state.cleanupCode="reader-receipt-pending";return false;}
             if(!state.retiring || !state.producerClosed || !state.originalsClosed || state.activeReaders){state.cleanupCode="cache-in-use";return false;}
             try{
                 lease_detail::Directory receipts(registry,true);journal->verifyRegistry(receipts);auto guard=receipts.file(".guard",true);
@@ -227,7 +245,7 @@ class StreamOutputStore {
                 state.removed=true;clearCoverage();state.cleanupCode=error?"removed-folder-retained":"removed";budget->release(charged);charged=0;return true;
             }catch(const Error& e){state.cleanupCode=e.code;return false;}catch(...){state.cleanupCode="cache-cleanup-failed";return false;}
         }
-        ~Core(){stream_cache_detail::close(writer);state.producerClosed=true;state.retiring=true;cleanup();}
+        ~Core(){stream_cache_detail::close(writer);state.producerClosed=true;state.retiring=true;retryClosedReaders();cleanup();}
     };
     std::shared_ptr<Core> core;
 public:
@@ -260,11 +278,23 @@ public:
                 core->changed.wait_until(lock,deadline);
             }
         }
-        void close(){std::lock_guard<std::mutex> lock(core->mutex);if(closed)return;stream_cache_detail::close(file);lease->filesClosed();lease.reset();closed=true;--core->state.activeReaders;core->changed.notify_all();core->cleanup();}
+        void close(){
+            {
+                std::lock_guard<std::mutex> lock(core->mutex);
+                if(!closed){
+                    auto slot=std::find_if(core->pendingReceipts.begin(),core->pendingReceipts.end(),[](const auto& value){return !value;});
+                    Core::check(slot!=core->pendingReceipts.end(),"cache-reader-limit");
+                    stream_cache_detail::close(file);*slot=std::move(lease);++core->pendingReceiptCount;closed=true;core->changed.notify_all();
+                }
+            }
+            core->retryClosedReaders();
+            std::lock_guard<std::mutex> lock(core->mutex);core->cleanup();
+        }
     };
     StreamOutputStore(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,std::shared_ptr<StreamCacheBudget> budget,uint64_t limit=64*1024*1024)
         :core(std::make_shared<Core>(root,registry,session,generation,std::move(budget),limit)){}
-    ~StreamOutputStore(){std::lock_guard<std::mutex> lock(core->mutex);core->state.retiring=true;core->cleanup();}
+    ~StreamOutputStore(){core->retryClosedReaders();std::lock_guard<std::mutex> lock(core->mutex);core->state.retiring=true;core->cleanup();}
+    void retryClosedReaders(){core->retryClosedReaders();}
     void acceptAudioWindow(const StreamAudioWindow& window){
         std::lock_guard<std::mutex> lock(core->mutex);
         Core::check(!core->state.written && !core->avIndex && !core->state.producerClosed && !core->state.retiring && core->state.failure.empty(),"cache-invalid-audio-window");
@@ -321,7 +351,7 @@ public:
     uint64_t generation()const{return core->generation;}
     // Immutable binding: no cache mutex, file inspection or registry I/O.
     BoundResource readerResource()const{return {core->resource,core->identity.device,core->identity.fileId};}
-    bool retire(){std::lock_guard<std::mutex> lock(core->mutex);core->state.retiring=true;core->changed.notify_all();return core->cleanup();}
+    bool retire(){core->retryClosedReaders();std::lock_guard<std::mutex> lock(core->mutex);core->state.retiring=true;core->changed.notify_all();return core->cleanup();}
     // Private diagnostics for tests/owner only, never a decoder filesystem URL.
     std::filesystem::path privatePath()const{return core->path;}
 };
@@ -350,6 +380,7 @@ class StreamCacheOwner {
     size_t collectLocked(){
         size_t removed=0;
         for(auto i=stores.begin();i!=stores.end();){
+            (*i)->retryClosedReaders();
             if((*i)->status().retiring && (*i)->retire()){i=stores.erase(i);++removed;}else ++i;
         }
         return removed;

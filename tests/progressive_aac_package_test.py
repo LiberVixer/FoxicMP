@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('aac-soak','queued-races','queued-stress','timeline-ui','queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
+    parser.add_argument('--scenario',choices=('receipt-close','aac-soak','queued-races','queued-stress','timeline-ui','queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
     parser.add_argument('--classic-ui-theme',choices=('dark','light'))
     parser.add_argument('--classic-null-video',action='store_true',help='Private profile: require decoded video without a desktop renderer')
@@ -45,7 +45,10 @@ def main():
     assert all(Path(m.__file__).resolve().parent==sdk for m in modules.values())
     from progressive_continuous_api_test import run
     from progressive_player_crash_recovery import sha
-    if args.scenario=='aac-soak':
+    if args.scenario=='receipt-close':
+        import progressive_receipt_close_api as case
+        exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,args.expected_audio_output)
+    elif args.scenario=='aac-soak':
         import progressive_continuous_av_soak as case
         exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,args.soak_fixture,smoke=args.soak_smoke)
     elif args.scenario in ('queued-races','queued-stress'):

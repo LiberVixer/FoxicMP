@@ -115,3 +115,8 @@ python3 -B tests/progressive_linux_release_probe.py \
 частными test dependencies в PATH. Для отдельного fault-воспроизведения добавить
 `--registry-hold-seconds 3 --repeat 1`, использовать новый каталог и сохранить
 его ненулевой exit. Порог heartbeat и release не увеличивать.
+
+
+## Последующий срез — 12 ноября 2026
+
+[Закрытие output reader переработано](ProgressiveReceiptClose.md): registry receipt I/O больше не держит cache mutex, остальные native output handles закрываются независимо. [Новая проверка](ProgressiveReceiptCloseValidation-2026-11-12.json) сохраняет deliberate 3s-lock release FAIL; обычный и 0.8s-lock expiry прошли. Исторический первоначальный отказ этим не атрибутирован, original-source/зависший OS I/O отдельно остаются OPEN.

@@ -40,6 +40,7 @@ public:
     void heartbeat(){producer->heartbeat();}
     bool heartbeatWhileRunning(){return producer->heartbeatWhileRunning();}
     void cancel(){producer->cancel();}
+    void retryClosedReaders(){output->retryClosedReaders();}
     std::shared_ptr<StreamOutputStore::Reader> reader(){return output->reader();}
     std::vector<harvester::Sample> avSamples(unsigned kind)const{return output->avSamples(kind);}
     // Audio callers must bind the explicit PCM-window adapter before decoding.

@@ -1664,3 +1664,8 @@ Harvester, пользовательские профили, настройки W
 [Исправление и сравнение](ProgressiveLinuxMemory.md): Linux/glibc фиксирует начальный mmap threshold перед Qt/native threads, сохраняя явные allocator overrides; общий cache/decoder переиспользует буферы индексов. Контракт SDK 1.87, настройки и Windows allocator policy не меняются.
 
 [Итоговый отчёт](ProgressiveLinuxMemoryValidation-2026-11-12.json): 31-minute final Linux soak в тех же двух процессах — private growth ≈11.91 MiB вместо 72.44; третья/вторая сессии в одинаковых окнах ≤0.82 MiB. Строгие 32/8 MiB gates, 100-cycle AAC и нормальные Qt/Classic regressions прошли. Linux EXE обновлён атомарно с backup и проверен на 9 installed AAC cases; INI, Windows-установки и 158 Classic HKCU keys/значения сохранены. Multi-hour/all-codec/physical A/V/hardware/Wayland этим срезом не закрываются.
+
+
+### Continuous output reader close — 12 ноября 2026
+
+[Общее исправление](ProgressiveReceiptClose.md) отделяет native file close от durable receipt при занятом registry, не удерживая cache mutex во время записи квитанции. Pending не считается released; ограниченная очередь повторяется controller worker/cache retirement. [Приёмка](ProgressiveReceiptCloseValidation-2026-11-12.json): native GCC/ASan/MinGW/MSVC, Stop/Cancel/WM_CLOSE трёх редакций, прежние A/V/seek/races/shutdown и 100 Linux cycles прошли. Linux обновлён с backup и сохранением INI; Windows-установки/163 shell keys сохранены. Deliberate lock3s сохраняет строгий release-budget FAIL; историческая причина и original-source/OS I/O остаются OPEN.

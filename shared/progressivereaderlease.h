@@ -278,6 +278,11 @@ class ReaderLease {
     ReaderBook book;ProcessIdentity peer;std::string reader,record;
     std::mutex mutex;bool closed=false;
     ReaderLease(const std::filesystem::path& root):directory(root,true){}
+    void persistClosed() {
+        book.beginRelease(reader,peer);book.filesClosed(reader,peer);
+        auto d=lease_detail::Record(record,reader);d["filesClosed"].SetBool(true);
+        lease_detail::Write(file,lease_detail::Encode(d));closed=true;
+    }
 public:
     ~ReaderLease()=default; // NO implicit release: source must first close its media handles.
     static std::unique_ptr<ReaderLease> Create(const std::filesystem::path& root,const std::string& session,uint64_t generation,const std::vector<BoundResource>& resources) {
@@ -312,15 +317,22 @@ public:
     }
     const std::string& id() const {return reader;}
     void beginRelease() {std::lock_guard<std::mutex> lock(mutex);if(!closed)book.beginRelease(reader,peer);}
+    // The owner retains this lease/lock until a durable receipt is written.
+    // Busy registry admission is retryable; it is never a release proof.
+    bool tryFilesClosed() noexcept {
+        std::lock_guard<std::mutex> lock(mutex);if(closed)return true;
+        try {
+            auto guard=directory.file(".guard",true);if(!guard.lock())return false;
+            persistClosed();return true;
+        }catch(...) {return false;}
+    }
     void filesClosed() noexcept {
         std::lock_guard<std::mutex> lock(mutex);if(closed)return;
         try {
             // Serialize receipt mutation with inspection; all media handles are
             // already closed. Cleanup may wait here, never claim release early.
             auto guard=directory.file(".guard",true);lease_detail::Check(guard.lock(true),"Cannot lock reader registry for close");
-            book.beginRelease(reader,peer);book.filesClosed(reader,peer);
-            auto d=lease_detail::Record(record,reader);d["filesClosed"].SetBool(true);
-            lease_detail::Write(file,lease_detail::Encode(d));closed=true;
+            persistClosed();
         }catch(...) { /* Keep a conservative, unacknowledged receipt on I/O failure. */ }
     }
 };

@@ -123,6 +123,10 @@ int main(int argc,char** argv){
         else if(action=="read" || action=="beginRead"){
             auto reader=readers.at(p::Text(d["name"],"name"));if(action=="read"){std::cout<<read(reader,d)<<std::endl;continue;}
             p::Require(!pending.valid(),"test","Read already pending");auto command=p::lease_detail::Encode(d);pending=std::async(std::launch::async,[reader,command]{rapidjson::Document input;input.Parse(command.c_str());return read(reader,input);});
+        }else if(action=="beginCloseAll"){
+            std::vector<std::shared_ptr<p::StreamOutputStore::Reader>> selected;
+            for(const auto& name:d["names"].GetArray())selected.push_back(readers.at(p::Text(name,"name")));
+            pending=std::async(std::launch::async,[selected]{for(const auto& reader:selected)reader->close();return std::string("{\"ok\":true,\"closed\":true}");});
         }else if(action=="readResult"){
             if(pending.valid() && pending.wait_for(std::chrono::milliseconds(0))==std::future_status::ready)std::cout<<pending.get()<<std::endl;else std::cout<<"{\"ok\":true,\"pending\":true}"<<std::endl;continue;
         }else if(action=="status"){
