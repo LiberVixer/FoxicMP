@@ -42,6 +42,10 @@ Classic completed-seek race исправлен и проверен управл�
 
 ## 2. Общий demux и локальная подготовка — начат
 
+R01: [инвентаризация container/codec/layout и подготовка HEVC-профиля](ProgressiveRemuxInventory.md).
+Шаги инвентаризации/fixture завершены; новая public playback capability пока
+не добавлена. Общие checkbox ниже остаются открытыми.
+
 - [x] Первый этап: bounded FFmpeg AVIO **диагностика** подтверждённых ресурсов,
   11 format hints, отдельный процесс, ranges/SHA/wait/update/cancel/release,
   одинаковый API трёх редакций — [SDK 1.51](ProgressiveBackendDemux.md),

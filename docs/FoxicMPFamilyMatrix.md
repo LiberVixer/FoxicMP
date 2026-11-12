@@ -3,6 +3,9 @@
 Срез исходников и проверок: 25 октября 2026 года, Qt 0.2.0.
 Эталон организации меню и настроек — **Linux Qt**, включая перенос в Classic.
 Основа дальнейшей работы: [общий план](FoxicMPFamilyPlan.md).
+Актуальная [инвентаризация progressive/remux от 12 ноября](ProgressiveRemuxInventory.md)
+разделяет native playback, диагностику, RAM clip и continuous режимы; первый
+следующий профиль — ordinary MP4/HEVC video-only, пока без public capability.
 
 ## Что именно сравнивается
 

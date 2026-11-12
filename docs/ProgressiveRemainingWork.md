@@ -69,8 +69,13 @@ R01–R10 выполняются последовательными неболь
    release/forget и сохранение профилей. После проверенной сборки обновить Linux,
    матрицу и отчёт. Затем переходить к следующей строке.
 
-Конкретный первый codec ещё не выбран: это результат инвентаризации шага 1,
-а не произвольное расширение прежнего H.264 пути. Старые narrow tests остаются.
+[Инвентаризация шага 1 и объём первого профиля](ProgressiveRemuxInventory.md)
+готовы: выбран ordinary faststart MP4 с HEVC Main/Main10 video-only и B-frames.
+Подготовлены четыре fixture/oracle controls и исходный отказ H.264 worker mode
+на Linux и Windows workers из Qt/Classic stage. Это шаги 1–2, не playback-приёмка:
+public HEVC continuous ещё не подключён, R01 остаётся открытым. Следующий шаг —
+реализация через worker/cache/decoder/SDK, затем ordinary playback трёх редакций.
+Старые narrow tests остаются.
 
 ## Исторические наблюдения: отдельно от новых функций
 
