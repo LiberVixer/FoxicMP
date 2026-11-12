@@ -96,3 +96,8 @@ progressive-continuous-receipt-close, обе проверки прошли.
 физическая A/V синхронизация остаются OPEN. Положительный ответ о приёме
 Cancel не равен подтверждённому освобождению. Внешний lock дольше бюджета
 не позволяет обещать durable receipt раньше его снятия.
+
+
+## Последующее исправление исходника
+
+[12 ноября: original source close](ProgressiveSourceClose.md) также вынесен за mutex continuous-remux сессии, чтобы receipt wait не блокировал status/cancel. Native handles закрываются до квитанций; actual stalled OS I/O и историческая причина отдельно остаются OPEN.

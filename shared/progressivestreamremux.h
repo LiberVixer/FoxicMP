@@ -38,6 +38,7 @@ private:
     std::condition_variable changed;
     std::atomic<bool> cancelled{false};
     std::unique_ptr<ResourceSource> source;
+    bool closingSource=false;
     Snapshot snapshot;
     std::string resourceId;
     std::filesystem::path executable;
@@ -51,6 +52,7 @@ private:
     const char* workerMode()const{return StreamRemuxMode(profile);}
     // All accesses to snapshot/source/status are under mutex, including release.
     void check() const {
+        Require(!closingSource,"streamRemux","Source is closing","session-closed");
         Require(!cancelled.load(),"streamRemux","Remux was cancelled","cancelled");
         const auto now=Clock::now();
         Require(now<deadline,"streamRemux","Remux lifetime expired","backend-time-limit");
@@ -172,11 +174,21 @@ private:
     void run() noexcept {
         std::string code="data",result;
         try{result=execute();}catch(const Error& e){code=e.code;}catch(const std::exception& e){code=e.what();}catch(...){code="backend-parent-error";}
-        std::lock_guard<std::mutex> lock(mutex);
-        // execute's Process destructor has killed/reaped the child first. Media
-        // handles close before filesClosed receipts; completion is visible last.
-        observe();source.reset();state.filesClosed=true;state.result=std::move(result);
-        state.code=code;state.done=true;state.reason.clear();changed.notify_all();
+        std::unique_ptr<ResourceSource> closing;
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            // execute's Process destructor has killed/reaped the child first.
+            // Freeze the last snapshot before transferring sole ownership;
+            // status/cancel must not wait behind durable receipt persistence.
+            observe();closingSource=true;closing=std::move(source);
+            state.code=code;state.reason="source-receipt-pending";changed.notify_all();
+        }
+        closing->closeMedia();closing.reset();
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            state.filesClosed=true;state.result=std::move(result);
+            state.done=true;state.reason.clear();changed.notify_all();
+        }
     }
 public:
     StreamRemuxSession(const std::filesystem::path& directory,const std::filesystem::path& registry,
@@ -212,7 +224,7 @@ public:
     void heartbeat(){std::lock_guard<std::mutex> lock(mutex);Require(!state.done,"streamRemux","Session already closed","session-closed");check();heartbeatDeadline=Clock::now()+limits.heartbeat;changed.notify_all();}
     // A controller may have accepted a heartbeat just before producer EOF.
     // Test-and-renew under the same lock; terminal results must stay terminal.
-    bool heartbeatWhileRunning(){std::lock_guard<std::mutex> lock(mutex);if(state.done)return false;check();heartbeatDeadline=Clock::now()+limits.heartbeat;changed.notify_all();return true;}
+    bool heartbeatWhileRunning(){std::lock_guard<std::mutex> lock(mutex);if(state.done || closingSource)return false;check();heartbeatDeadline=Clock::now()+limits.heartbeat;changed.notify_all();return true;}
     void cancel(){cancelled.store(true);std::lock_guard<std::mutex> lock(mutex);if(source)source->cancel();changed.notify_all();}
     StreamRemuxStatus status()const{std::lock_guard<std::mutex> lock(mutex);return state;}
 };

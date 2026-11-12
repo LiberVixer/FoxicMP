@@ -1669,3 +1669,8 @@ Harvester, пользовательские профили, настройки W
 ### Continuous output reader close — 12 ноября 2026
 
 [Общее исправление](ProgressiveReceiptClose.md) отделяет native file close от durable receipt при занятом registry, не удерживая cache mutex во время записи квитанции. Pending не считается released; ограниченная очередь повторяется controller worker/cache retirement. [Приёмка](ProgressiveReceiptCloseValidation-2026-11-12.json): native GCC/ASan/MinGW/MSVC, Stop/Cancel/WM_CLOSE трёх редакций, прежние A/V/seek/races/shutdown и 100 Linux cycles прошли. Linux обновлён с backup и сохранением INI; Windows-установки/163 shell keys сохранены. Deliberate lock3s сохраняет строгий release-budget FAIL; историческая причина и original-source/OS I/O остаются OPEN.
+
+
+### Continuous original source close — 12 ноября 2026
+
+[Общее исправление](ProgressiveSourceClose.md) выносит уничтожение исходника/ожидание receipt за mutex remux-сессии и закрывает все media pins до квитанций. Новые publish не обращаются к transferred source; late heartbeat сохраняет successful EOF. [Отчёт](ProgressiveSourceCloseValidation-2026-11-12.json): native GCC/ASan/MinGW/MSVC, Stop/Cancel/WM_CLOSE обычных трёх редакций, прежние public regressions, resources/parent/cache/I/O и 100 Linux cycles прошли. Linux обновлён с backup и сохранением профиля; Windows-установки/163 HKCU entries не менялись. Original durable receipt может ждать lock; actual stalled OS I/O и исторический необъяснённый release-budget outlier остаются OPEN.

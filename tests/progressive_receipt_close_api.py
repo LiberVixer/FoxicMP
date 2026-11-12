@@ -5,9 +5,10 @@ from pathlib import Path
 import threading
 import time
 import sys
+import uuid
 
 from progressive_continuous import ContinuousRemux, AAC_MODE
-from progressive_continuous_test_media import source_fixture, source_snapshot, audible_decoder_ready
+from progressive_continuous_test_media import source_fixture, source_snapshot, source_cuts, audible_decoder_ready
 from progressive_player_crash_recovery import wait
 from progressive_continuous_shutdown_conformance import normal_close
 
@@ -50,7 +51,7 @@ class RegistryHold:
         self.file.close()
 
 
-def exercise(peers, root, report, expected_audio):
+def exercise(peers, root, report, expected_audio, growing_source=False):
     report = Path(report)
     rows, failures = [], []
     original = source_fixture(root, 'reference', AAC_MODE)
@@ -62,8 +63,19 @@ def exercise(peers, root, report, expected_audio):
     def create(peer, title):
         sdk = ContinuousRemux(peer.client, str(root), mode=AAC_MODE)
         active.append(sdk)
-        sdk.prepare(model, 'clip')
-        wait(lambda: sdk.status()['outputComplete'], 'completed producer before registry contention', 30)
+        source = model
+        if growing_source and peer is peers[0]:
+            folder = root/('source-'+uuid.uuid4().hex)
+            folder.mkdir()
+            source = source_snapshot(folder/'input.part', raw, complete=False,
+                                     prefix=source_cuts(original, AAC_MODE)[20], mode=AAC_MODE)
+            # The source path is private and physically incomplete, not just a
+            # completed producer with output readers left attached.
+            sdk = ContinuousRemux(peer.client, str(folder), mode=AAC_MODE)
+            active[-1] = sdk
+        sdk.prepare(source, 'clip')
+        wait(lambda: sdk.status()['playbackReady'] if growing_source and peer is peers[0] else sdk.status()['outputComplete'],
+             'producer before registry contention', 30)
         sdk.play(title=title)
         def playing():
             status = sdk.playback_status()
@@ -81,6 +93,9 @@ def exercise(peers, root, report, expected_audio):
             if peer.edition=='qt': assert before['audioOutput']==expected_audio, before
             ids = before['readerIds']
             assert ids
+            producer_before = sdk.status()
+            if growing_source:
+                assert not producer_before['sourceFilesClosed'] and not producer_before['outputComplete'], producer_before
             control_before = control.playback_status()['positionSeconds']
             held = RegistryHold(peer.registry)
             row = dict(operation=operation, readerIds=ids, failures=[])
@@ -115,17 +130,29 @@ def exercise(peers, root, report, expected_audio):
                     pending = peer.client.request(dict(version=1, action='continuousRemuxCancel', jobId=sdk.job_id, **sdk.identity))
                     row['pendingCancelSeconds'] = time.monotonic()-at
                     row['pendingClose'] = pending
+                    if growing_source and pending.get('producerCode')!='cancelled':
+                        row['failures'].append('producer cancellation status not published during receipt wait')
                     if held.unlocked is None and pending['released']: row['failures'].append('release acknowledged while registry lock held')
                     if row['pendingCancelSeconds']>=.5: row['failures'].append('cancel acknowledgement blocked')
                     if os.name!='nt':
                         media = []
+                        pending_cache_writers = []
                         for fd in (Path('/proc')/str(peer.process.pid)/'fd').iterdir():
                             try:
                                 path = os.readlink(fd)
                                 if path.startswith(str(peer.registry)+'.continuous-cache/') and path.endswith('/output.fmp4'):
+                                    # The cache producer retains its writer until
+                                    # the original's durable receipt is known.
+                                    # Separate it from actual decoder readers.
+                                    flags = int(next(line.split()[1] for line in (fd.parent.parent/'fdinfo'/fd.name).read_text().splitlines() if line.startswith('flags:')), 8)
+                                    if growing_source and (flags & os.O_ACCMODE)==os.O_RDWR:
+                                        pending_cache_writers.append(dict(fd=int(fd.name), path=path))
+                                    else: media.append(dict(fd=int(fd.name), path=path))
+                                elif growing_source and path.startswith(str(root)) and path.endswith('/input.part'):
                                     media.append(dict(fd=int(fd.name), path=path))
                             except FileNotFoundError: pass
                         row['nativeOutputFdsDuringLock'] = media
+                        row['pendingCacheWriterFdsDuringLock'] = pending_cache_writers
                         if media: row['failures'].append('native output handles still open')
                     if time.monotonic()-held.began>=2: row['failures'].append('observation missed external lock window')
                 if held.unlocked is None:
@@ -167,6 +194,7 @@ def exercise(peers, root, report, expected_audio):
         active.remove(control)
         assert not failures, failures
         return dict(result='PASS', count=len(rows), rows=rows, failures=[],
+                    growingOriginalSource=growing_source,
                     controlledExternalLock=True, historicalFailureCauseEstablished=False,
                     durableReleaseWithinTwoSecondsUnderThreeSecondExternalLock=False)
     finally:

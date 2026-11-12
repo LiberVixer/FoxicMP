@@ -142,14 +142,14 @@ struct Pin {
     std::set<uint64_t> verifiedBlocks;
     uint64_t auditOffset=0;
     Pin(Handle opened,Info info):file(std::move(opened)),identity(info){}
-    ~Pin() {
+    void closeMedia() noexcept {
 #ifdef _WIN32
         if(file.value!=INVALID_HANDLE_VALUE){CloseHandle(file.value);file.value=INVALID_HANDLE_VALUE;}
 #else
         if(file.value>=0){::close(file.value);file.value=-1;}
 #endif
-        if(lease)lease->filesClosed();
     }
+    ~Pin() {closeMedia();if(lease)lease->filesClosed();}
     void verify(const Resource& resource,const std::atomic<bool>& cancelled) {
         const auto now=Inspect(file);const auto required=resource.ranges.empty()?0:resource.ranges.back().offset+resource.ranges.back().length;
         Check(now.device==identity.device && now.fileId==identity.fileId,"source-replaced","Pinned resource identity changed");
@@ -362,7 +362,13 @@ public:
         loadIntegrityIndexes(snapshot);
         resource_detail::Check(snapshot.state!="failed" && snapshot.state!="cancelled","writer-failed","Cannot attach a failed/cancelled writer");
     }
-    ~ResourceSource(){cancel();pins.clear();directory.reset();released->store(true);}
+    ~ResourceSource(){closeMedia();pins.clear();directory.reset();released->store(true);}
+    // Stop all native reads first. Receipt persistence can wait, but must not
+    // keep another resource's media handle open behind that registry lock.
+    void closeMedia() noexcept {
+        cancel();std::lock_guard<std::mutex> lock(mutex);
+        for(auto& pin:pins)pin.second->closeMedia();
+    }
     ResourceSource(const ResourceSource&)=delete;ResourceSource& operator=(const ResourceSource&)=delete;
     uint64_t maximumReadEnd()const{return maxReadEnd.load();}
     void cancel(){cancelled.store(true);changed.notify_all();}
