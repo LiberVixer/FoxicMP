@@ -168,3 +168,8 @@ worker exit code. Шесть idle main peers намеренно закрыты c
 Один H.264/AAC профиль, три jobs и software/null output не закрывают другие
 codec/layouts, multi-hour stress, физический A/V drift, hardware/Wayland и
 всю progressive-приёмку. Старые необъяснённые отказы остаются в чеклисте.
+
+
+## Последующее исправление — 12 ноября 2026
+
+Наблюдение Linux разобрано отдельно: [причина, изменения и новый прогон](ProgressiveLinuxMemory.md), [полный отчёт](ProgressiveLinuxMemoryValidation-2026-11-12.json). В новом обычном EXE память освобождается/переиспользуется между jobs; private growth ≈11.91 MiB за 31 min, а третье/второе одинаковые окна отличаются ≤0.82 MiB. Исходные результаты и бюджеты этой страницы остаются историческими; новая проверка применяет более строгие memory gates.

@@ -156,8 +156,11 @@ class StreamOutputStore {
                     Atom m;if(!header(a.at+a.size,m))break;check(m.type==harvester::FourCC("mdat") && m.size<=16*1024*1024+16,"cache-invalid-fragment");if(m.size>state.written-m.at)break;
                     std::vector<uint8_t> metadata(size_t(a.size-a.header));raw(a.at+a.header,metadata.data(),metadata.size());harvester::BoxData body{metadata.data(),metadata.size()};
                     if(avIndex){
-                        auto next=*avIndex;next.update(raw,m.at+m.size);check(next.position()==m.at+m.size && next.samples()>state.samples,"cache-invalid-fragment");
-                        *avIndex=std::move(next);state.samples=avIndex->samples();state.videoSamples=avIndex->views().tracks[0].index.Samples().size();state.audioSamples=avIndex->views().tracks[1].index.Samples().size();
+                        // StreamAvIndex already validates transactionally. The
+                        // core mutex and terminal failure gate cover the store
+                        // checks before any new visible prefix is published.
+                        avIndex->update(raw,m.at+m.size);check(avIndex->position()==m.at+m.size && avIndex->samples()>state.samples,"cache-invalid-fragment");
+                        state.samples=avIndex->samples();state.videoSamples=avIndex->views().tracks[0].index.Samples().size();state.audioSamples=avIndex->views().tracks[1].index.Samples().size();
                     }else{
                         uint64_t samples=0;for(const auto& child:body.One("traf").Children())if(child.first==harvester::FourCC("trun")){const auto n=child.second.U32(4);check(n>0 && n<=50000-state.samples-samples,"cache-sample-limit");samples+=n;}
                         check(samples>0,"cache-invalid-fragment");auto next=index;next.Update(raw,m.at+m.size,0);check(next.Position()==m.at+m.size && next.Samples().size()==state.samples+samples,"cache-invalid-fragment");index=std::move(next);state.samples+=samples;
@@ -169,7 +172,7 @@ class StreamOutputStore {
                     if(kind==harvester::FourCC("ftyp")){check(!ftyp && scan==0 && a.size>=16,"cache-invalid-fragment");ftyp=true;}
                     else if(kind==harvester::FourCC("moov")){
                         check(ftyp && !state.initialized && a.at+a.size<=1048576,"cache-invalid-fragment");
-                        if(avIndex){auto next=*avIndex;next.update(raw,a.at+a.size);check(next.initialized() && next.samples()==0,"cache-invalid-fragment");*avIndex=std::move(next);}
+                        if(avIndex){avIndex->update(raw,a.at+a.size);check(avIndex->initialized() && avIndex->samples()==0,"cache-invalid-fragment");}
                         else{auto next=index;next.Update(raw,a.at+a.size,0);check(next.Initialized() && next.Samples().empty(),"cache-invalid-fragment");index=std::move(next);}
                         state.initialized=true;state.visible=a.at+a.size;
                     }else if(kind==harvester::FourCC("mfra")){check(state.fragments>0,"cache-invalid-fragment");trailer=true;}
@@ -295,6 +298,11 @@ public:
     harvester::muxmp4::Layout avLayout()const{
         std::lock_guard<std::mutex> lock(core->mutex);
         Core::check(bool(core->avIndex) && core->state.initialized && core->state.failure.empty(),"cache-invalid-audio-window");return core->avIndex->views();
+    }
+    void copyAvLayout(harvester::muxmp4::Layout& target)const{
+        std::lock_guard<std::mutex> lock(core->mutex);
+        Core::check(bool(core->avIndex) && core->state.initialized && core->state.failure.empty(),"cache-invalid-audio-window");
+        target.CopyFrom(core->avIndex->views());
     }
     // Internal index diagnostics, physical offsets into this same protected cache.
     // Does not grant decoder admission or bypass Reader SHA/lease checks.

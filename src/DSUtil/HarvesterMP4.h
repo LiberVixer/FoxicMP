@@ -49,6 +49,12 @@ public:
     uint64_t Position() const {return webmIndex?webmIndex->Position():position;}
     const std::vector<Sample>& Samples() const {return webmIndex?webmIndex->Samples():samples;}
     bool Initialized() const {return webmIndex?webmIndex->Initialized():initialized;}
+    // Repeated decoder snapshots must reuse geometrically sized storage rather
+    // than allocate a new, slightly larger sample array for every publication.
+    void ReserveSamplesForCopy(size_t count) {
+        if(count>2000000)throw std::runtime_error("Too many fragment samples");
+        if(count>samples.capacity())samples.reserve((std::max)(count,(std::min)(size_t(2000000),samples.capacity()*2)));
+    }
     void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false,bool allowWebm=false,bool allowFlac=false,bool allowPcm=false,bool allowAc3=false,bool allowEac3=false,bool allowPcm24=false) {
         if(allowWebm){auto next=webmIndex?std::make_shared<WebMIndex>(*webmIndex):std::make_shared<WebMIndex>();next->Update(read,prefix,trackKind,complete,timestampOffset);webmIndex=std::move(next);return;}
         if(webmIndex)throw std::runtime_error("Progressive container changed");

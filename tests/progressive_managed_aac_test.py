@@ -141,7 +141,18 @@ def run(runner, worker, report):
                     publish(len(raw));wait(lambda:status()['sourceCode']=='waiting','all bytes without complete')
                     tail=status();assert not tail['complete'] and not tail['done']
                     check_coverage()
-                    at=tail['visible'];assert cmd('read',name='held',offset=str(at),length='1')['code']=='waiting-range'
+                    def waiting_at_tail():
+                        # Output can advance while coverage hashes are read.
+                        # A byte at an older tail may now be valid data; assert
+                        # waiting only against the same visible-prefix epoch.
+                        before=status()
+                        answer=cmd('read',name='held',offset=str(before['visible']),length='1')
+                        after=status()
+                        assert answer['code']!='eof', (before,answer,after)
+                        if before['visible']!=after['visible']:return None
+                        assert answer['code']=='waiting-range', (before,answer,after)
+                        return True
+                    wait(waiting_at_tail,'stable unpublished output tail')
                     projected_wait=cmd('projectionCheck')
                     assert not projected_wait['sourceComplete'] and not projected_wait['tracks'][0]['eof'],projected_wait
                     if samples==1:assert projected_wait['tracks'][1]['eof'],projected_wait

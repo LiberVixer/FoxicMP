@@ -7,6 +7,7 @@ namespace foxicmp { namespace progressive {
 class StreamAvIndex {
     StreamAudioWindow window;
     harvester::muxmp4::Layout layout=harvester::muxmp4::Layout::ContinuousAv();
+    harvester::muxmp4::Layout pending=harvester::muxmp4::Layout::ContinuousAv();
     static void check(bool ok){Require(ok,"remuxCache","Invalid continuous A/V output","cache-invalid-fragment");}
     static harvester::BoxData descriptor(harvester::BoxData bytes,uint8_t tag){
         check(bytes.size>=2 && bytes.data[0]==tag);size_t at=1,n=0;bool ended=false;
@@ -33,7 +34,8 @@ class StreamAvIndex {
 public:
     explicit StreamAvIndex(StreamAudioWindow value):window(std::move(value)){}
     void update(const harvester::FragmentIndex::Read& read,uint64_t prefix,bool complete=false){
-        auto next=layout;next.Update(read,prefix,complete,[&](unsigned k,harvester::BoxData movie){initialization(k,movie);});
+        pending.CopyFrom(layout);auto& next=pending;
+        next.Update(read,prefix,complete,[&](unsigned k,harvester::BoxData movie){initialization(k,movie);});
         const auto& audio=next.tracks[1].index.Samples();const auto& video=next.tracks[0].index.Samples();
         check(audio.size()<=window.pcm.PacketCount() && video.size()+audio.size()<=50000);
         // FragmentIndex clocks are 100 ns. Permit only its one-tick rounding,
@@ -45,7 +47,10 @@ public:
             const bool shortenedLast=i+1==window.pcm.PacketCount() && withinTick(audio[i].end,harvester::Time100ns(int64_t(window.pcm.Samples()),window.pcm.Rate()));
             check(withinTick(audio[i].start,begin) && withinTick(audio[i].decode,begin) && (withinTick(audio[i].end,end) || shortenedLast));
         }
-        if(complete)check(!video.empty() && audio.size()==window.pcm.PacketCount());layout=std::move(next);
+        if(complete)check(!video.empty() && audio.size()==window.pcm.PacketCount());
+        // Commit only after all validation. Retain the previous buffers for the
+        // next transaction instead of leaving growing holes in native arenas.
+        std::swap(layout,pending);
     }
     bool initialized()const{return layout.Initialized();}
     uint64_t position()const{return layout.Position();}

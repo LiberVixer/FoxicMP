@@ -29,7 +29,22 @@
 #include <QTimer>
 #include <clocale>
 #include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#if defined(Q_OS_LINUX) && defined(__GLIBC__)
+#include <malloc.h>
+#endif
 int main(int argc, char **argv) {
+#if defined(Q_OS_LINUX) && defined(__GLIBC__)
+  // glibc's adaptive mmap threshold leaves freed decoder/frame/index buffers
+  // in native thread arenas across file changes. Fix the initial 128 KiB
+  // threshold before Qt/native threads start, so large buffers can be unmapped
+  // on free. Respect explicit allocator tuning; no trimming timer or INI edits.
+  const char *tunables = std::getenv("GLIBC_TUNABLES");
+  if (!std::getenv("MALLOC_MMAP_THRESHOLD_") &&
+      (!tunables || !std::strstr(tunables, "glibc.malloc.mmap_threshold=")))
+    mallopt(M_MMAP_THRESHOLD, 128 * 1024);
+#endif
 #ifdef Q_OS_WIN
   WindowsRuntime windowsRuntime;
   if (!windowsRuntime.valid()) { std::fprintf(stderr, "Cannot initialize Windows Runtime\n"); return 1; }

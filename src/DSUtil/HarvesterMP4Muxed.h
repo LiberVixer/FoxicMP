@@ -151,6 +151,15 @@ private:
     }
 public:
     static Layout ContinuousAv(){Layout value;value.sparseTracks=true;return value;}
+    void CopyFrom(const Layout& value) {
+        if(this==&value)return;
+        for(unsigned k=0;k<2;++k){
+            auto& view=tracks[k];const auto& from=value.tracks[k];
+            view.index.ReserveSamplesForCopy(from.index.Samples().size());
+            if(from.spans.size()>view.spans.capacity())view.spans.reserve((std::max)(from.spans.size(),view.spans.capacity()*2));
+        }
+        *this=value;
+    }
     bool Initialized() const{return initialized;}
     uint64_t Position() const{return position;}
     size_t Fragments() const{return fragments;}

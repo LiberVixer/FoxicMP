@@ -1657,3 +1657,10 @@ Harvester, пользовательские профили, настройки W
 [Три обычные редакции](ProgressiveAvSoak30m.md) прошли по три полных 600 s H.264 640×360/BF3/AAC stereo jobs в тех же двух main processes, ≥31 min каждой редакции и 18 natural-EOF viewer jobs. Writer pauses 10/30/60 s, manual pause, packet/clock integrity, resource и latency gates прошли исходные пороги. Все native drivers exit 0; caps 50000 packets/64 MiB сохранены, smoke не засчитывался.
 
 [Отчёт и графики](ProgressiveAvSoak30mValidation-2026-11-11.json) отделяют main/worker/cleanup exits и ошибки исходного стенда. Linux private growth +72.44 MiB укладывается в бюджет, но плато не установлено — отдельный OPEN пункт без утверждения причины. 587 файлов /158 HKCU entries сохранены; production/SDK modules/установки не менялись. Это три bounded jobs, software/null output и один профиль, не один 30-minute источник, не физический A/V и не вся stress-приёмка.
+
+
+### Linux Qt: удерживаемая память — 12 ноября 2026
+
+[Исправление и сравнение](ProgressiveLinuxMemory.md): Linux/glibc фиксирует начальный mmap threshold перед Qt/native threads, сохраняя явные allocator overrides; общий cache/decoder переиспользует буферы индексов. Контракт SDK 1.87, настройки и Windows allocator policy не меняются.
+
+[Итоговый отчёт](ProgressiveLinuxMemoryValidation-2026-11-12.json): 31-minute final Linux soak в тех же двух процессах — private growth ≈11.91 MiB вместо 72.44; третья/вторая сессии в одинаковых окнах ≤0.82 MiB. Строгие 32/8 MiB gates, 100-cycle AAC и нормальные Qt/Classic regressions прошли. Linux EXE обновлён атомарно с backup и проверен на 9 installed AAC cases; INI, Windows-установки и 158 Classic HKCU keys/значения сохранены. Multi-hour/all-codec/physical A/V/hardware/Wayland этим срезом не закрываются.

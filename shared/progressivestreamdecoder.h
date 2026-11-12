@@ -28,6 +28,9 @@ public:
     harvester::muxmp4::Layout avLayout()const{
         Require(bool(pcmWindow),"remuxDecoder","Not an A/V source","invalid_request");return store->avLayout();
     }
+    void copyAvLayout(harvester::muxmp4::Layout& target)const{
+        Require(bool(pcmWindow),"remuxDecoder","Not an A/V source","invalid_request");store->copyAvLayout(target);
+    }
     void cancel() noexcept {cancelled.store(true);}
     bool stopped()const noexcept{return cancelled.load();}
     StreamCacheStatus status()const{return store->status();}
@@ -89,7 +92,10 @@ public:
         Require(!source->stopped(),"remuxDecoder","Decoder source cancelled","cancelled");const auto s=source->status();
         Require(s.failure.empty(),"remuxDecoder","Output producer failed",s.failure.c_str());
         if(visible==s.visible)return;
-        if(source->audioWindow()){av=std::make_unique<harvester::muxmp4::Layout>(source->avLayout());visible=s.visible;return;}
+        if(source->audioWindow()){
+            if(!av)av=std::make_unique<harvester::muxmp4::Layout>();
+            source->copyAvLayout(*av);visible=s.visible;return;
+        }
         auto next=index;
         next.Update([&](uint64_t at,void* data,size_t n){
             auto* out=static_cast<char*>(data);size_t copied=0;
