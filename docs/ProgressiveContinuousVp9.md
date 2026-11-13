@@ -97,3 +97,10 @@ DirectShow decoding/control проверены, visible desktop output не ат
 
 Основание полей контейнера — [VP Codec ISO Media File Format Binding](https://www.webmproject.org/vp9/mp4/).
 Порядок uncompressed header сверяется с [официальным VP9 decoder libvpx](https://chromium.googlesource.com/webm/libvpx/+/master/vp9/decoder/vp9_decodeframe.c).
+
+
+[Поставка и проверка установленной Linux-копии](ProgressiveContinuousVp9Delivery-2026-11-13.json):
+clean SDK 1.92 из указанного implementation commit, атомарная замена EXE/worker,
+backup и неизменный INI. Ещё 22 сценария (VP9, прежний H.264/AAC, source-close)
+прошли с собственным SDK установленного плеера. Windows установки не менялись.
+Этот source SDK и проверенные кандидаты не объявляются новым итоговым release.

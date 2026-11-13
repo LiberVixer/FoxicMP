@@ -113,6 +113,9 @@ Profile0/8-bit и Profile2/10-bit 4:2:0 vp09, head moov ≤1 MiB, fixed coded/re
 Каждый положительный player профиль играет ≥10 s до complete; hidden/show_existing
 и superframes отклоняются. Classic — private null renderer, без visible acceptance.
 
+[Linux установлен и проверен](ProgressiveContinuousVp9Delivery-2026-11-13.json):
+backup, неизменный INI и ещё 22 сценария с clean SDK 1.92 установленной копии.
+
 R01 остаётся открытым. Следующий профиль — VP9 + AAC-LC PCM-window в ordinary
 MP4: paired head/config/clock admission и точные compressed/decoded/sample windows,
 затем worker/cache/decoder и отдельная capability трёх редакций. Другие
