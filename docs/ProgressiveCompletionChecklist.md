@@ -3,12 +3,12 @@
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
 **Рабочий порядок оставшихся задач — [R01–R17, исторические H01–H04 и внешние E01–E03](ProgressiveRemainingWork.md).**
-Сводка актуализирована 13 ноября, SDK 1.91: 138 закрытых и 77 открытых
+Сводка актуализирована 13 ноября, SDK 1.92: 139 закрытых и 77 открытых
 записей, без вычисления процента готовности. Ниже сохранены подробные доказательства
 и исторические состояния; старые ограничения уточняются позднейшими отчётами.
 
 Приложение 0.2.0. Последний указанный здесь опубликованный пакетный срез — SDK 1.84;
-в текущих исходниках/проверенных кандидатах SDK 1.91 с исправлениями от 13 ноября.
+в текущих исходниках/проверенных кандидатах SDK 1.92 с исправлениями от 13 ноября.
 Исходники и clean SDK-архив кандидата не равны новому итоговому GitHub release.
 [SDK 1.84](ProgressiveContinuousAacPackages.md) проверен на обычных main/пакетах,
 Classic completed-seek race исправлен и проверен управляемой задержкой; полная стабильная приёмка открыта. Этот документ — перечень
@@ -52,6 +52,8 @@ R01: [инвентаризация container/codec/layout и подготовк�
 - [x] SDK 1.90: [AV1 Main8/Main10 video-only из ordinary MP4](ProgressiveContinuousAv1.md), отдельный mode, av01, single-layer, PTS=DTS и один displayed Frame OBU/sample. [51 worker, 30 public API rows](ProgressiveContinuousAv1Validation-2026-11-13.json), exact packets/clocks/frame hashes, ≥10 s playback до complete, pause/initial/growing/queued seek, EOF/cancel/release/forget трёх редакций. Truncated complete и hidden/show_existing/still/reorder не принимаются. Bounds проверены под ASan/UBSan и MSVC; Classic — private null renderer, не visible/physical A/V acceptance. [Linux обновлён с backup и неизменным INI, ещё 22 installed checks прошли](ProgressiveContinuousAv1Delivery-2026-11-13.json). AV1 + audio описан следующим пунктом; остальная R01 остаётся открытой.
 
 - [x] SDK 1.91: [AV1 + AAC-LC из ordinary MP4](ProgressiveContinuousAv1Aac.md), explicit paired mode, Main8/Main10 av01, mono/stereo 44.1/48 kHz, exact PCM-window, audio-first/one-sample/short audio. [48 worker, 48 PCM consumer, 39 API rows и 192 регрессии](ProgressiveContinuousAv1AacValidation-2026-11-13.json); ≥10 s playback до complete в шести положительных профилях каждой редакции, exact packet/clocks/video/PCM, initial/growing/queued seek, paused pending cancel, EOF/release/forget. Classic — private null renderer; [Linux обновлён с backup и неизменным INI, ещё 25 installed checks прошли](ProgressiveContinuousAv1AacDelivery-2026-11-13.json). full R01/physical A/V matrix остаётся открытой.
+
+- [x] SDK 1.92: [VP9 video-only из ordinary MP4](ProgressiveContinuousVp9.md), explicit mode, vp09 Profile0/8-bit или 2/10-bit, head moov ≤1 MiB, один displayed frame/sample, PTS=DTS и fixed coded/render size. [93 worker, 30 API rows, 231 регрессия и 34 Linux/native checks](ProgressiveContinuousVp9Validation-2026-11-13.json); ≥10 s до complete, exact packet/clock/frame hashes, initial/growing/queued seek, EOF/error/release/forget трёх редакций. Hidden/show_existing/superframes не включены; negative fixture подтверждает реальные superframes, ASan/UBSan и MSVC bounds прошли. Classic — private null renderer; VP9+audio и остальная R01 остаются открытыми.
 
 - [x] Первый этап: bounded FFmpeg AVIO **диагностика** подтверждённых ресурсов,
   11 format hints, отдельный процесс, ranges/SHA/wait/update/cancel/release,

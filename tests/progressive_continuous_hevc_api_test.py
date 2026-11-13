@@ -9,7 +9,7 @@ import time
 import uuid
 
 from progressive_backend_demux_conformance import snapshot
-from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE
+from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE
 from progressive_hevc_remux_preflight import PROFILES
 from progressive_integrity import protect_snapshot
 from progressive_mux_mp4_fixture import boxes
@@ -18,10 +18,13 @@ from progressive_stream_hevc_test import fixture, packets, frames
 from progressive_stream_remux_worker_test import probe, fixture as avc_fixture
 
 
-def exercise(peers, root, report, audio=False, expected_audio="null", av1=False):
-    mode = (AV1_AAC_MODE if audio else AV1_MODE) if av1 else HEVC_AAC_MODE if audio else HEVC_MODE
-    video_codec = 'av1' if av1 else 'hevc'
-    if av1:
+def exercise(peers, root, report, audio=False, expected_audio="null", av1=False, vp9=False):
+    assert not (vp9 and (audio or av1))
+    mode = VP9_MODE if vp9 else ((AV1_AAC_MODE if audio else AV1_MODE) if av1 else (HEVC_AAC_MODE if audio else HEVC_MODE))
+    video_codec = 'vp9' if vp9 else 'av1' if av1 else 'hevc'
+    if vp9:
+        from progressive_stream_vp9_test import PROFILES as video_profiles, fixture as video_fixture, packets as video_packets
+    elif av1:
         from progressive_stream_av1_test import PROFILES as video_profiles, fixture as video_fixture, packets as video_packets
     else:
         video_profiles, video_fixture, video_packets = PROFILES, fixture, packets
@@ -234,13 +237,16 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False)
             else:
                 raise AssertionError('Unsupported HEVC hint admitted')
         for kind, expected in [('actual-avc', 'unsupported-stream-codec'),
-                               ('malformed-av1c' if av1 else 'malformed-hvcc', 'unsupported-stream-av1-configuration' if av1 else 'unsupported-stream-hevc-configuration'),
-                               ('truncated-complete', 'incomplete-stream-av1-samples' if av1 else 'incomplete-stream-hevc-samples')]:
+                               ('malformed-vpcc' if vp9 else 'malformed-av1c' if av1 else 'malformed-hvcc', 'unsupported-stream-vp9-configuration' if vp9 else 'unsupported-stream-av1-configuration' if av1 else 'unsupported-stream-hevc-configuration'),
+                               ('truncated-complete', 'incomplete-stream-vp9-samples' if vp9 else 'incomplete-stream-av1-samples' if av1 else 'incomplete-stream-hevc-samples')]:
             if kind == 'actual-avc':
                 content = avc_fixture(root, 'actual-avc', bframes=2, audio=audio).read_bytes()
             elif kind.startswith('malformed-'):
                 content = bytearray(raw)
-                if av1:
+                if vp9:
+                    at = content.index(b'vpcC')+4
+                    content[at] = 0
+                elif av1:
                     at = content.index(b'av1C')+4
                     content[at] = 1
                 else:

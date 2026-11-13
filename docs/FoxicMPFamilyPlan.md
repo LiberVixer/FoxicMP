@@ -1568,3 +1568,19 @@ fixture с поздним физическим расположением AAC. �
 worker replay прошёл с точными payload/clock/frame checks. Classic использует
 private null renderer; видимый output и physical A/V sync не заявлены.
 Следующий узкий R01-профиль — ordinary MP4/VP9 video-only из инвентаризации.
+
+
+## SDK 1.92: continuous VP9 video-only
+
+[Новый ordinary MP4 профиль](ProgressiveContinuousVp9.md): VP9 Profile0/8-bit
+и Profile2/10-bit 4:2:0, vp09. Поскольку FFmpeg не передаёт vpcC в extradata,
+worker проверяет подтверждённый head moov ≤1 MiB самостоятельно. Один displayed
+frame/sample, фиксированные coded/render размеры; hidden/show_existing и
+indexed superframes отклоняются. Config validation, source sample-count guard,
+packet/clock/frame fidelity и bounded seeks согласованы в трёх редакциях.
+93 worker, 30 API rows, 231 регрессия и 34 Linux/native VP9 checks прошли.
+ASan/UBSan и MSVC проверили bounds parser. Исходные FAIL стенда (предварительный
+probe повреждённого файла и отсутствие superframes у однопроходного encoder)
+сохранены; итоговый negative fixture использует реальный двухпроходный output.
+Classic — private null renderer, visible/physical output не аттестован.
+Следующий узкий R01-профиль — VP9 + AAC-LC PCM-window в ordinary MP4.

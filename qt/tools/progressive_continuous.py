@@ -21,6 +21,7 @@ HEVC_MODE = 'continuous-hevc-reordered-video-v1'
 HEVC_AAC_MODE = 'continuous-hevc-aac-window-v1'
 AV1_MODE = 'continuous-av1-video-v1'
 AV1_AAC_MODE = 'continuous-av1-aac-window-v1'
+VP9_MODE = 'continuous-vp9-video-v1'
 ACTIONS = frozenset(('continuousRemuxStart', 'continuousRemuxStatus',
     'continuousRemuxUpdate', 'continuousRemuxHeartbeat', 'continuousRemuxCancel',
     'continuousRemuxForget', 'continuousRemuxPlay', 'continuousPlaybackStatus',
@@ -53,8 +54,9 @@ class ContinuousRemux:
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
     def __init__(self, client, session_directory, *, mode=MODE):
-        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE):
             raise ValueError('Unsupported continuous profile')
+        vp9_mode = mode == VP9_MODE
         av1_mode = mode in (AV1_MODE, AV1_AAC_MODE)
         audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE)
         hevc_mode = mode in (HEVC_MODE, HEVC_AAC_MODE)
@@ -91,9 +93,9 @@ class ContinuousRemux:
             if (cap.get('modeSelection') != 'continuousRemuxStart.mode'
                     or not isinstance(selected, dict) or type(selected.get('version')) is not int
                     or selected['version'] != 1 or selected.get('mode') != mode
-                    or selected.get('containerHint') != 'mp4' or selected.get('videoCodec') != ('av1' if av1_mode else 'hevc' if hevc_mode else 'h264')
+                    or selected.get('containerHint') != 'mp4' or selected.get('videoCodec') != ('vp9' if vp9_mode else 'av1' if av1_mode else 'hevc' if hevc_mode else 'h264')
                     or selected.get('videoOnly') is not (not audio_mode) or selected.get('audio') is not audio_mode
-                    or selected.get('bFrames') is not (not av1_mode) or selected.get('inheritsCommonContract') is not True
+                    or selected.get('bFrames') is not (not (av1_mode or vp9_mode)) or selected.get('inheritsCommonContract') is not True
                     or selected.get('explicitSelectionRequired') is not True):
                 raise RuntimeError('Player lacks the selected explicit continuous profile')
             if audio_mode and (selected.get('audioCodec') != 'aac-lc'
@@ -124,6 +126,16 @@ class ContinuousRemux:
                     or selected.get('sequenceHeaderRequiredInFirstPacket') is not True
                     or selected.get('requiredTrackKinds') != (['video', 'audio'] if audio_mode else ['video']) or selected.get('codecHintRequired') is not True):
                 raise RuntimeError('Player lacks the exact AV1 video contract')
+            if vp9_mode and (selected.get('vp9Profiles') != [0, 2] or any(type(v) is not int for v in selected['vp9Profiles'])
+                    or selected.get('bitDepths') != [8, 10] or any(type(v) is not int for v in selected['bitDepths'])
+                    or selected.get('chromaSubsampling') != '4:2:0' or selected.get('sampleEntries') != ['vp09']
+                    or type(selected.get('configurationVersion')) is not int or selected['configurationVersion'] != 1
+                    or selected.get('headMoovRequired') is not True or type(selected.get('maxHeadBytes')) is not int or selected['maxHeadBytes'] != 1048576
+                    or selected.get('packetReorder') is not False or selected.get('oneDisplayedFramePerSample') is not True
+                    or selected.get('hiddenFrames') is not False or selected.get('showExistingFrames') is not False
+                    or selected.get('superframes') is not False or selected.get('fixedCodedAndRenderSize') is not True
+                    or selected.get('requiredTrackKinds') != ['video'] or selected.get('codecHintRequired') is not True):
+                raise RuntimeError('Player lacks the exact VP9 video contract')
             self.capability.update(copy.deepcopy(selected))
 
     @property

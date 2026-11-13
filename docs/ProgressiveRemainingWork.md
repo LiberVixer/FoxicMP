@@ -1,6 +1,6 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 13 ноября 2026, включая bounded AV1/AAC continuous SDK 1.91.
+Рабочая сводка на 13 ноября 2026, включая bounded VP9 video-only continuous SDK 1.92.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
@@ -107,10 +107,16 @@ Classic — private null renderer, не visible/physical A/V acceptance.
 [Linux установлен и проверен](ProgressiveContinuousAv1AacDelivery-2026-11-13.json):
 backup, неизменный INI и ещё 25 сценариев с clean SDK 1.91 установленной копии.
 
-R01 остаётся открытым. Следующий профиль — VP9 video-only в ordinary MP4:
-fixture/config/clock/copy-remux admission, затем worker/cache/decoder и
-отдельная capability трёх редакций. VP9 + audio и другие container/layout
-rows из инвентаризации остаются дальнейшими этапами. Старые narrow tests сохраняются.
+[VP9 video-only подключён отдельным mode SDK 1.92](ProgressiveContinuousVp9.md):
+Profile0/8-bit и Profile2/10-bit 4:2:0 vp09, head moov ≤1 MiB, fixed coded/render
+размеры. 93 worker, 30 public API rows, 231 регрессия и 34 Linux/native checks прошли.
+Каждый положительный player профиль играет ≥10 s до complete; hidden/show_existing
+и superframes отклоняются. Classic — private null renderer, без visible acceptance.
+
+R01 остаётся открытым. Следующий профиль — VP9 + AAC-LC PCM-window в ordinary
+MP4: paired head/config/clock admission и точные compressed/decoded/sample windows,
+затем worker/cache/decoder и отдельная capability трёх редакций. Другие
+container/layout rows остаются дальнейшими этапами. Старые narrow tests сохраняются.
 
 ## Исторические наблюдения: отдельно от новых функций
 

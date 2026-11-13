@@ -175,7 +175,7 @@ void RequireOwned(HANDLE file) {
 }
 }
 bool CHarvesterSession::AllowsAv1Fragments() const {return (m_v2Bridge && m_v2Bridge->videoCodec()=="av1") || (m_continuousSource && m_continuousSource->av1Video());}
-bool CHarvesterSession::AllowsVp9Fragments() const {return m_v2Bridge && m_v2Bridge->videoCodec()=="vp9";}
+bool CHarvesterSession::AllowsVp9Fragments() const {return (m_v2Bridge && m_v2Bridge->videoCodec()=="vp9") || (m_continuousSource && m_continuousSource->vp9Video());}
 bool CHarvesterSession::AllowsOpusFragments(int track) const {return m_v2Bridge && m_v2Bridge->audioCodec(track)=="opus";}
 bool CHarvesterSession::AllowsEac3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="eac3";}
 bool CHarvesterSession::AllowsAc3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="ac3";}
@@ -554,7 +554,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
         };
         if(OptionalAudioFailed(track))continue;
         try {
-        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,AllowsHevcFragments(),AllowsAv1Fragments(),m_v2Bridge && m_v2Bridge->videoCodec()=="vp9",m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track),AllowsPcmFragments(track),AllowsAc3Fragments(track),AllowsEac3Fragments(track),AllowsPcm24Fragments(track));
+        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,AllowsHevcFragments(),AllowsAv1Fragments(),AllowsVp9Fragments(),m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track),AllowsPcmFragments(track),AllowsAc3Fragments(track),AllowsEac3Fragments(track),AllowsPcm24Fragments(track));
         } catch(const std::exception& error) {if(!m_v2Bridge || state.required)throw;m_v2Bridge->rejectOptionalIndex(track,error.what());continue;}
         result[track]=std::move(next);
     }

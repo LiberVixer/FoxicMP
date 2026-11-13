@@ -16,8 +16,8 @@ public:
     explicit StreamDecoderSource(std::shared_ptr<StreamOutputStore> output,std::string mode="continuous-h264-video-v1",bool audioConsumer=false):store(std::move(output)),selectedMode(std::move(mode)) {
         Require(bool(store),"remuxDecoder","Missing output cache","invalid_request");
         const bool audio=selectedMode=="continuous-h264-aac-window-v1" || selectedMode=="continuous-hevc-aac-window-v1" || selectedMode=="continuous-av1-aac-window-v1";
-        Require(selectedMode=="continuous-h264-video-v1" || selectedMode=="continuous-h264-reordered-video-v1" || selectedMode=="continuous-hevc-reordered-video-v1" || selectedMode=="continuous-av1-video-v1" || (audio && audioConsumer),"remuxDecoder","Invalid decoder profile","invalid_request");
-        Require(hevcVideo()==store->hevcVideo() && av1Video()==store->av1Video() && (!av1Video() || audio==store->av1AudioProfile()),"remuxDecoder","Cache codec/profile mismatch","invalid_request");
+        Require(selectedMode=="continuous-h264-video-v1" || selectedMode=="continuous-h264-reordered-video-v1" || selectedMode=="continuous-hevc-reordered-video-v1" || selectedMode=="continuous-av1-video-v1" || selectedMode=="continuous-vp9-video-v1" || (audio && audioConsumer),"remuxDecoder","Invalid decoder profile","invalid_request");
+        Require(hevcVideo()==store->hevcVideo() && av1Video()==store->av1Video() && vp9Video()==store->vp9Video() && (!av1Video() || audio==store->av1AudioProfile()),"remuxDecoder","Cache codec/profile mismatch","invalid_request");
         if(audio){
             const auto s=store->status();Require(s.initialized && s.fragments>0 && s.failure.empty() && !s.audioWindow.empty(),"remuxDecoder","Wait for validated A/V cache","waiting_initialization");
             rapidjson::Document d;d.Parse(s.audioWindow.c_str());Require(!d.HasParseError(),"remuxDecoder","Invalid cached PCM window","backend-protocol-error");
@@ -27,6 +27,7 @@ public:
     const std::string& mode()const{return selectedMode;}
     bool hevcVideo()const{return selectedMode=="continuous-hevc-reordered-video-v1" || selectedMode=="continuous-hevc-aac-window-v1";}
     bool av1Video()const{return selectedMode=="continuous-av1-video-v1" || selectedMode=="continuous-av1-aac-window-v1";}
+    bool vp9Video()const{return selectedMode=="continuous-vp9-video-v1";}
     const StreamAudioWindow* audioWindow()const{return pcmWindow.get();}
     harvester::muxmp4::Layout avLayout()const{
         Require(bool(pcmWindow),"remuxDecoder","Not an A/V source","invalid_request");return store->avLayout();
@@ -105,7 +106,7 @@ public:
             while(copied<n){const auto r=reader->read(at+copied,out+copied,(std::min)(n-copied,size_t(65536)));
                 Require(r.data() && r.bytes>0,"remuxDecoder","Cannot read validated fragment",r.code.c_str());copied+=r.bytes;}
             return true;
-        },s.visible,0,s.complete,0,source->hevcVideo(),source->av1Video());
+        },s.visible,0,s.complete,0,source->hevcVideo(),source->av1Video(),source->vp9Video());
         index=std::move(next);visible=s.visible;
     }
     const harvester::FragmentIndex& fragments()const{return index;}

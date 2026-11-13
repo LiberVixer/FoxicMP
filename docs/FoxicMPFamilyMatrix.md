@@ -25,6 +25,12 @@ Main8/Main10 av01, mono/stereo 44.1/48 kHz, audio-first/one-sample/short audio.
 [48 worker, 48 PCM consumer, 39 API rows и 192 регрессии](ProgressiveContinuousAv1AacValidation-2026-11-13.json)
 прошли на трёх редакциях. Classic — private null renderer; visible/physical
 A/V output не аттестуется. Остальная R01/container matrix остаётся открытой.
+[SDK 1.92](ProgressiveContinuousVp9.md) добавляет VP9 video-only ordinary MP4:
+Profile0/8-bit и Profile2/10-bit 4:2:0 vp09, head moov ≤1 MiB, PTS=DTS.
+[93 worker, 30 API rows и 231 регрессия](ProgressiveContinuousVp9Validation-2026-11-13.json)
+прошли на трёх редакциях; дополнительно 34 Linux/native VP9 checks.
+Superframes/hidden/show_existing/audio не включены. Classic — private null
+renderer, не аттестация visible desktop output. Остальная R01 открыта.
 
 ## Что именно сравнивается
 
