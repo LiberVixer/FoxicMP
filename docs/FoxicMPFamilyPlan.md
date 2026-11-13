@@ -1539,3 +1539,17 @@ Immutable PCM-window, paired cache/decoder views и packet clocks провере
 не объявляются проверенными.
 При отмене Classic синхронно сбрасывает pending seek, не ожидая UI timer.
 HEVC video-only/H.264 modes сохраняются; далее R01 AV1 video-only ordinary MP4.
+
+
+## SDK 1.90: continuous AV1 video-only
+
+[Отдельный ordinary MP4 профиль](ProgressiveContinuousAv1.md) переносит AV1 Main
+8/10-bit av01 без перекодирования. Явный codec hint и mode, single-layer,
+один displayed Frame OBU/sample, без hidden/show_existing/still/reorder.
+Четыре 24 s профиля каждой редакции играют ≥10 s до writer complete;
+проверены exact packets/clocks/frame hashes, initial/growing/queued seek,
+пауза, natural EOF, close/release/forget. 51 worker и 30 public API rows прошли.
+Framing bounds дополнительно проверены под ASan/UBSan и MSVC.
+Classic — DirectShow/private null renderer, не аттестация видимого output.
+Следующий узкий R01-профиль — AV1 + AAC-LC PCM-window в ordinary MP4;
+остальная container matrix и итоговая поставка остаются открытыми.

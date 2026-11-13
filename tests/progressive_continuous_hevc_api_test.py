@@ -9,7 +9,7 @@ import time
 import uuid
 
 from progressive_backend_demux_conformance import snapshot
-from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE
+from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE
 from progressive_hevc_remux_preflight import PROFILES
 from progressive_integrity import protect_snapshot
 from progressive_mux_mp4_fixture import boxes
@@ -18,8 +18,14 @@ from progressive_stream_hevc_test import fixture, packets, frames
 from progressive_stream_remux_worker_test import probe, fixture as avc_fixture
 
 
-def exercise(peers, root, report, audio=False, expected_audio="null"):
-    mode = HEVC_AAC_MODE if audio else HEVC_MODE
+def exercise(peers, root, report, audio=False, expected_audio="null", av1=False):
+    assert not (audio and av1), 'AV1/AAC is a separate future profile'
+    mode = AV1_MODE if av1 else HEVC_AAC_MODE if audio else HEVC_MODE
+    video_codec = 'av1' if av1 else 'hevc'
+    if av1:
+        from progressive_stream_av1_test import PROFILES as video_profiles, fixture as video_fixture, packets as video_packets
+    else:
+        video_profiles, video_fixture, video_packets = PROFILES, fixture, packets
     if audio:
         from progressive_stream_hevc_aac_test import PROFILES as av_profiles, fixture as av_fixture
         from progressive_stream_aac_window_test import packets as av_packets
@@ -62,13 +68,13 @@ def exercise(peers, root, report, audio=False, expected_audio="null"):
         return dict(released=released, forgotten=forgotten, closeSeconds=elapsed, sourceUnchanged=True)
 
     try:
-        for number, profile in enumerate(av_profiles if audio else PROFILES):
+        for number, profile in enumerate(av_profiles if audio else video_profiles):
             if audio:
                 name, sample_rate, channels, rate, pixel_format, tag, audio_first, _ = profile
                 original, presentation_samples = av_fixture(root, profile)
             else:
                 name, rate, pixel_format, tag = profile
-                original = fixture(root, name, rate, pixel_format, tag)
+                original = video_fixture(root, name, rate, pixel_format, tag)
             raw = original.read_bytes()
             source_sha = sha(original)
             directory = root / (name + '-session')
@@ -76,7 +82,7 @@ def exercise(peers, root, report, audio=False, expected_audio="null"):
             path = directory / 'video.part'
             model = snapshot(path, raw, complete=False, prefix=4)
             model['timeline']['duration'] = '240000000'
-            model['tracks'][0]['codecHint'] = 'hevc'
+            model['tracks'][0]['codecHint'] = video_codec
             if audio:
                 sound = copy.deepcopy(model['tracks'][0])
                 sound.update(id='sound', kind='audio', codecHint='aac-lc')
@@ -117,7 +123,7 @@ def exercise(peers, root, report, audio=False, expected_audio="null"):
             if audio:
                 assert int(ready['audioPresentationSamples']) == presentation_samples and ready['audioSampleRate']==sample_rate and ready['audioChannels']==channels, ready
             start_seconds = 1 if number == 1 else 0
-            sdk.play(title='HEVC continuous ' + name, start_seconds=start_seconds)
+            sdk.play(title=video_codec.upper()+' continuous ' + name, start_seconds=start_seconds)
             running = playback(sdk, lambda s: s['state'] == 'playing' and s['decoderReaders'] > 0
                                and s['positionSeconds'] > start_seconds+.15, 'HEVC decoder playing')
             if audio:
@@ -154,7 +160,7 @@ def exercise(peers, root, report, audio=False, expected_audio="null"):
                 left, right = av_packets(original), av_packets(output)
                 assert left['video']==right['video'] and [p[:3] for p in left['audio']]==[p[:3] for p in right['audio']]
             else:
-                assert packets(output) == packets(original)
+                assert video_packets(output) == video_packets(original)
             assert frames(output, pixel_format) == frames(original, pixel_format)
             sdk.control('play')
             finished = playback(sdk, lambda s: s['state'] == 'finished', 'HEVC natural EOF', 12)
@@ -178,7 +184,7 @@ def exercise(peers, root, report, audio=False, expected_audio="null"):
             path = directory / 'input.part'
             pending_model = snapshot(path, raw, complete=False, prefix=cut)
             pending_model['timeline']['duration'] = '240000000'
-            pending_model['tracks'][0]['codecHint'] = 'hevc'
+            pending_model['tracks'][0]['codecHint'] = video_codec
             sound = copy.deepcopy(pending_model['tracks'][0])
             sound.update(id='sound', kind='audio', codecHint='aac-lc')
             pending_model['tracks'].append(sound)
@@ -208,7 +214,7 @@ def exercise(peers, root, report, audio=False, expected_audio="null"):
             current = None
 
         # Explicit hints/layouts are rejected before any media or lease is opened.
-        for name, change in [('missing-hint', ''), ('avc-hint', 'h264'), ('extra-audio', 'hevc')]:
+        for name, change in [('missing-hint', ''), ('avc-hint', 'h264'), ('extra-audio', video_codec)]:
             bad = copy.deepcopy(model)
             bad['sessionId'] = uuid.uuid4().hex
             bad['tracks'][0]['codecHint'] = change
@@ -226,14 +232,18 @@ def exercise(peers, root, report, audio=False, expected_audio="null"):
             else:
                 raise AssertionError('Unsupported HEVC hint admitted')
         for kind, expected in [('actual-avc', 'unsupported-stream-codec'),
-                               ('malformed-hvcc', 'unsupported-stream-hevc-configuration'),
-                               ('truncated-complete', 'incomplete-stream-hevc-samples')]:
+                               ('malformed-av1c' if av1 else 'malformed-hvcc', 'unsupported-stream-av1-configuration' if av1 else 'unsupported-stream-hevc-configuration'),
+                               ('truncated-complete', 'incomplete-stream-av1-samples' if av1 else 'incomplete-stream-hevc-samples')]:
             if kind == 'actual-avc':
                 content = avc_fixture(root, 'actual-avc', bframes=2, audio=audio).read_bytes()
-            elif kind == 'malformed-hvcc':
+            elif kind.startswith('malformed-'):
                 content = bytearray(raw)
-                at = content.index(b'hvcC')+4+21
-                content[at] &= ~3
+                if av1:
+                    at = content.index(b'av1C')+4
+                    content[at] = 1
+                else:
+                    at = content.index(b'hvcC')+4+21
+                    content[at] &= ~3
                 content = bytes(content)
             else:
                 content = raw[:int(metadata['packets'][-1]['pos'])]
@@ -244,7 +254,7 @@ def exercise(peers, root, report, audio=False, expected_audio="null"):
                            prefix=len(content) if kind=='truncated-complete' else len(content)*2//3)
             path.write_bytes(content)
             bad['timeline']['duration'] = '240000000'
-            bad['tracks'][0]['codecHint'] = 'hevc'
+            bad['tracks'][0]['codecHint'] = video_codec
             if audio:
                 sound=copy.deepcopy(bad['tracks'][0])
                 sound.update(id='sound', kind='audio', codecHint='aac-lc')

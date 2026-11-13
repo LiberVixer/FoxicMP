@@ -1,6 +1,6 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 13 ноября 2026, включая bounded HEVC/AAC continuous SDK 1.89.
+Рабочая сводка на 13 ноября 2026, включая bounded AV1 video-only continuous SDK 1.90.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
@@ -89,9 +89,15 @@ paused playback с ожидающим seek. Classic очищает pending targe
 [Установленный Linux обновлён](ProgressiveContinuousHevcAacDelivery-2026-11-13.json)
 с backup и неизменным INI; ещё 25 сценариев установленной копии прошли.
 
-R01 остаётся открытым. Следующий профиль — AV1 video-only в ordinary MP4:
-сначала fixture/copy-remux/clock/config admission, затем worker/cache/decoder
-и отдельная public capability трёх редакций. После него — paired audio,
+[AV1 video-only подключён отдельным mode SDK 1.90](ProgressiveContinuousAv1.md):
+Main8/Main10 av01, 25/30000/1001, один displayed Frame OBU/sample, PTS=DTS.
+51 worker и 30 public API rows прошли, ≥10s playback до complete каждого
+положительного профиля. Hidden/show_existing/still/reorder отклоняются;
+Classic использует private null renderer, видимый desktop output не аттестован.
+
+R01 остаётся открытым. Следующий профиль — AV1 + AAC-LC PCM-window в ordinary
+MP4: сначала paired clock/window admission и exact compressed/decoded hashes,
+затем worker/cache/decoder и отдельная capability трёх редакций. После него —
 VP9 и прочие container rows из инвентаризации. Старые narrow tests остаются.
 
 ## Исторические наблюдения: отдельно от новых функций

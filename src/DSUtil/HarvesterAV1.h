@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <cstddef>
 #include <vector>
+#include <cstring>
 namespace harvester {
 template<class Check>
 inline std::vector<uint8_t> AV1Configuration(const uint8_t* bytes,size_t length,Check check) {
@@ -36,5 +37,43 @@ inline std::vector<uint8_t> AV1Configuration(const uint8_t* bytes,size_t length,
         }
         check(sequence,"This AV1 profile requires a Sequence Header OBU in av1C");
     return sequenceBytes;
+}
+// Copy-remux admission for the explicit continuous AV1 video profile. Existing
+// native MP4/WebM paths retain their own admission and decoder validation.
+template<class Check>
+inline void AV1ContinuousPacket(const uint8_t* bytes,size_t size,const std::vector<uint8_t>& sequence,bool initial,Check check) {
+    check(bytes && size && !sequence.empty(),"unsupported-stream-av1-packet");
+    bool frame=false,seenSequence=false;unsigned units=0;
+    for(size_t at=0;at<size;) {
+        check(++units<=128,"unsupported-stream-av1-packet");
+        const auto header=bytes[at++];const unsigned type=(header>>3)&15;
+        check(!(header&0x81) && (header&2),"unsupported-stream-av1-packet");
+        check(type==1 || type==2 || type==5 || type==6 || type==15,"unsupported-stream-av1-packet");
+        if(header&4)check(at<size && bytes[at++]==0,"unsupported-stream-av1-packet");
+        uint64_t length=0;bool ended=false;
+        for(unsigned i=0;i<8;++i){
+            check(at<size,"unsupported-stream-av1-packet");const auto part=bytes[at++];
+            length|=uint64_t(part&127)<<(i*7);if(!(part&128)){ended=true;break;}
+        }
+        check(ended && length<=size-at,"unsupported-stream-av1-packet");
+        if(type==1){
+            check(!seenSequence && !frame && length==sequence.size() && !std::memcmp(bytes+at,sequence.data(),sequence.size()),"unsupported-stream-configuration-change");
+            seenSequence=true;
+        }else if(type==6){
+            check(!frame && length>0,"unsupported-stream-av1-packet");
+            // This profile has one displayed frame OBU per MP4 sample. The
+            // first frame is independently keyed; later frames may reference it.
+            const bool reduced=(sequence[0]&8)!=0;
+            if(!reduced){
+                check(!(bytes[at]&128),"unsupported-stream-av1-frame"); // show_existing_frame
+                check((bytes[at]&16)!=0,"unsupported-stream-av1-frame"); // show_frame
+                if(initial)check((bytes[at]&0xe0)==0,"unsupported-stream-av1-frame");
+            }
+            frame=true;
+        }else if(type==2)check(length==0 && !seenSequence && !frame,"unsupported-stream-av1-packet");
+        else check(length>0,"unsupported-stream-av1-packet");
+        at+=size_t(length);
+    }
+    check(frame && (!initial || seenSequence),"unsupported-stream-av1-packet");
 }
 } // namespace harvester

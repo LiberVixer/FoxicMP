@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE
 from progressive_client import ApiError
 
 CAP = json.loads(re.search(r'return R"\((.*?)\)";',
@@ -212,7 +212,28 @@ class Test(unittest.TestCase):
         self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=AAC_MODE)
         self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=HEVC_MODE)
         self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=HEVC_AAC_MODE)
+        self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=AV1_MODE)
         self.assertFalse(any(m['action']=='continuousRemuxStart' for m in c.calls))
+
+    def test_av1_requires_exact_video_contract(self):
+        for field,value in [('videoCodec','hevc'),('audio',True),('bFrames',True),
+                            ('av1Profiles',['high']),('bitDepths',[8,10.0]),('sampleEntries',['av01','avc1']),
+                            ('packetReorder',True),('oneDisplayedFramePerSample',False),('hiddenFrames',True),
+                            ('showExistingFrames',True),('stillPicture',True),('singleLayer',False),
+                            ('lowOverheadObuRequired',False),('obuTypes',[1,2,3,4,6]),
+                            ('sequenceHeaderRequiredInFirstPacket',False),('codecHintRequired',False)]:
+            with self.subTest(field=field):
+                c=Client();old=c.request
+                def request(message,timeout=5):
+                    reply=old(message,timeout);reply['continuousRemux']['profiles'][AV1_MODE][field]=value
+                    return reply
+                c.request=request
+                self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=AV1_MODE)
+                self.assertEqual(len(c.calls),1)
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=AV1_MODE)
+        p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['mode'],AV1_MODE)
+        p.play();self.assertEqual(p.playback_status()['mode'],AV1_MODE)
+        p.close();p.forget()
 
     def test_hevc_aac_requires_both_exact_contracts(self):
         for field,value in [('videoCodec','h264'),('videoOnly',True),('audio',False),

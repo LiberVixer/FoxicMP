@@ -15,6 +15,11 @@ Classic — через ordinary EXE/DirectShow с частным Null Video Rend
 36 worker, 36 PCM consumer и 39 public API rows проверены отдельно по трём
 редакциям. В Classic исправлена очистка queued target при отмене; аппаратный
 вывод и дальнейшие codec/container rows остаются отдельными границами.
+[SDK 1.90](ProgressiveContinuousAv1.md) добавляет ordinary MP4/AV1 video-only:
+Main8/Main10 av01, 25/30000/1001, один displayed Frame OBU/sample, PTS=DTS.
+[51 worker и 30 public API rows](ProgressiveContinuousAv1Validation-2026-11-13.json)
+прошли на трёх редакциях; Classic проверен через private null-video renderer.
+Hidden/show_existing/still frames и audio этим mode не включены; R01 остаётся открытым.
 
 ## Что именно сравнивается
 

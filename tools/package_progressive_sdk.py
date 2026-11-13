@@ -10,6 +10,9 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveContinuousAv1.md': 'docs/ProgressiveContinuousAv1.md',
+    'ProgressiveContinuousAv1Validation-2026-11-13.json': 'docs/ProgressiveContinuousAv1Validation-2026-11-13.json',
+    'progressive-v2-continuous-av1-video.json': 'tests/fixtures/progressive-v2/continuous-av1-video.json',
     'ProgressiveContinuousHevcAac.md': 'docs/ProgressiveContinuousHevcAac.md',
     'ProgressiveContinuousHevcAacValidation-2026-11-13.json': 'docs/ProgressiveContinuousHevcAacValidation-2026-11-13.json',
     'ProgressiveContinuousHevcAacDelivery-2026-11-13.json': 'docs/ProgressiveContinuousHevcAacDelivery-2026-11-13.json',
@@ -233,7 +236,7 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.89', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.90', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(), qtSchema2Playback=qt_schema2_playback(), classicSchema2Playback=classic_schema2_playback(),

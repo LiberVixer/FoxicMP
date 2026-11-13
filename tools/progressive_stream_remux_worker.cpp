@@ -3,6 +3,7 @@
 #include "../shared/progressivestreamcapabilities.h"
 #include "../src/DSUtil/HarvesterAacWindow.h"
 #include "../src/DSUtil/HarvesterHevc.h"
+#include "../src/DSUtil/HarvesterAV1.h"
 #ifndef AV_PROFILE_UNKNOWN
 #define AV_PROFILE_UNKNOWN FF_PROFILE_UNKNOWN
 #endif
@@ -70,8 +71,9 @@ Doc run(Api& api,const Doc& start){
  const bool alignedAudio=start["mode"]=="continuous-h264-aac-aligned-v1";
  const bool windowAudio=start["mode"]=="continuous-h264-aac-window-v1" || start["mode"]=="continuous-hevc-aac-window-v1",hasAudio=alignedAudio || windowAudio;
  const bool hevc=start["mode"]=="continuous-hevc-reordered-video-v1" || start["mode"]=="continuous-hevc-aac-window-v1";
+ const bool av1=start["mode"]=="continuous-av1-video-v1";
  const bool reordered=hevc || hasAudio || start["mode"]=="continuous-h264-reordered-video-v1";
- need(reordered || start["mode"]=="continuous-h264-video-v1","unsupported-stream-start");
+ need(av1 || reordered || start["mode"]=="continuous-h264-video-v1","unsupported-stream-start");
  std::string n(start["length"].GetString(),start["length"].GetStringLength());need(!n.empty() && n.size()<=10 && n[0]!='0' && n.find_first_not_of("0123456789")==std::string::npos,"invalid-length");StreamInput source;source.length=std::stoll(n);source.complete=start["complete"].GetBool();need(uint64_t(source.length)<=InputLimit,"input-size-limit");StreamOutput sink;sink.windowRequired=windowAudio;Context c(api);
  auto allocate=[&](void* opaque,bool output){auto* bytes=static_cast<uint8_t*>(api.av_malloc(32768));need(bytes!=nullptr,"out-of-memory");auto* io=output?api.avio_alloc_context(bytes,32768,1,opaque,nullptr,StreamOutput::write,nullptr):api.avio_alloc_context(bytes,32768,0,opaque,StreamInput::read,nullptr,StreamInput::seek);if(!io)api.av_free(bytes);need(io!=nullptr,"out-of-memory");return io;};
  c.inputIo=allocate(&source,false);c.input=api.avformat_alloc_context();need(c.input!=nullptr,"out-of-memory");c.input->pb=c.inputIo;c.input->opaque=&source;c.input->flags|=AVFMT_FLAG_CUSTOM_IO;c.input->io_open=StreamInput::external;c.input->interrupt_callback={StreamInput::interrupt,&source};c.input->max_streams=2;
@@ -79,18 +81,25 @@ Doc run(Api& api,const Doc& start){
  need(c.input->nb_streams==(hasAudio?2u:1u),"unsupported-stream-count");
  // The transient format probe needs no decoder pool in a packet-copy process.
  std::vector<AVDictionary*> decoderOptions(c.input->nb_streams,nullptr);for(auto& options:decoderOptions)api.av_dict_set(&options,"threads","1",0);rc=api.avformat_find_stream_info(c.input,decoderOptions.data());for(auto& options:decoderOptions)api.av_dict_free(&options);need(source.failure.empty(),source.failure.c_str());need(rc>=0,"invalid-media");
- int videoIndex=-1,audioIndex=-1;unsigned movieScale=1;uint64_t declaredAudioSamples=0,declaredHevcPackets=0;harvester::HevcParameterSets hevcParameters;
+ int videoIndex=-1,audioIndex=-1;unsigned movieScale=1;uint64_t declaredAudioSamples=0,declaredIndexedVideoPackets=0;harvester::HevcParameterSets hevcParameters;std::vector<uint8_t> av1Sequence;
  for(unsigned i=0;i<c.input->nb_streams;++i){auto* stream=c.input->streams[i];auto* cp=stream->codecpar;
   need(cp && cp->extradata_size>0 && cp->extradata_size<=1048576,"unsupported-stream-codec");need(stream->start_time==0 && stream->time_base.num>0 && stream->time_base.den>0,"unsupported-stream-clock");
-  if(cp->codec_type==AVMEDIA_TYPE_VIDEO && cp->codec_id==(hevc?AV_CODEC_ID_HEVC:AV_CODEC_ID_H264) && videoIndex<0){
+  if(cp->codec_type==AVMEDIA_TYPE_VIDEO && cp->codec_id==(av1?AV_CODEC_ID_AV1:hevc?AV_CODEC_ID_HEVC:AV_CODEC_ID_H264) && videoIndex<0){
    videoIndex=int(i);need(reordered ? cp->video_delay>=0 && cp->video_delay<=16 : cp->video_delay==0,"unsupported-stream-reorder");
    if(hevc){
     need(stream->duration>0 && stream->duration<=int64_t(3600)*stream->time_base.den/stream->time_base.num,"unsupported-stream-clock");
-    need(stream->nb_frames>0 && uint64_t(stream->nb_frames)<=PacketLimit,"unsupported-stream-hevc-index");declaredHevcPackets=uint64_t(stream->nb_frames);
+    need(stream->nb_frames>0 && uint64_t(stream->nb_frames)<=PacketLimit,"unsupported-stream-hevc-index");declaredIndexedVideoPackets=uint64_t(stream->nb_frames);
     need(cp->codec_tag==MKTAG('h','v','c','1') || cp->codec_tag==MKTAG('h','e','v','1'),"unsupported-stream-hevc-configuration");
     harvester::HEVCConfiguration(cp->extradata,size_t(cp->extradata_size),cp->codec_tag==MKTAG('h','v','c','1'),
      [](bool ok,const char*){need(ok,"unsupported-stream-hevc-configuration");},&hevcParameters);
     need(hevcParameters.size()==3 && cp->format==((cp->extradata[17]&7)?AV_PIX_FMT_YUV420P10LE:AV_PIX_FMT_YUV420P),"unsupported-stream-hevc-configuration");
+   }
+   if(av1){
+    need(stream->duration>0 && stream->duration<=int64_t(3600)*stream->time_base.den/stream->time_base.num,"unsupported-stream-clock");
+    need(stream->nb_frames>0 && uint64_t(stream->nb_frames)<=PacketLimit,"unsupported-stream-av1-index");declaredIndexedVideoPackets=uint64_t(stream->nb_frames);
+    need(cp->codec_tag==MKTAG('a','v','0','1'),"unsupported-stream-av1-configuration");
+    av1Sequence=harvester::AV1Configuration(cp->extradata,size_t(cp->extradata_size),[](bool ok,const char*){need(ok,"unsupported-stream-av1-configuration");});
+    need(!(av1Sequence[0]&0x18) && cp->profile==0 && cp->format==((cp->extradata[2]&0x40)?AV_PIX_FMT_YUV420P10LE:AV_PIX_FMT_YUV420P),"unsupported-stream-av1-configuration");
    }
   }
   else if(hasAudio && cp->codec_type==AVMEDIA_TYPE_AUDIO && cp->codec_id==AV_CODEC_ID_AAC && audioIndex<0){
@@ -114,7 +123,7 @@ Doc run(Api& api,const Doc& start){
  // A short audio track must not hold every video fragment until source EOF.
  // This bounds the mux timestamp queue, not wall-clock reader latency.
  if(windowAudio)c.output->max_interleave_delta=250000;
- for(unsigned i=0;i<c.input->nb_streams;++i){auto* out=api.avformat_new_stream(c.output,nullptr);need(out && api.avcodec_parameters_copy(out->codecpar,c.input->streams[i]->codecpar)>=0,"remux-copy-failed");out->codecpar->codec_tag=hevc?c.input->streams[i]->codecpar->codec_tag:0;out->id=int(i+1);out->time_base=c.input->streams[i]->time_base;}
+ for(unsigned i=0;i<c.input->nb_streams;++i){auto* out=api.avformat_new_stream(c.output,nullptr);need(out && api.avcodec_parameters_copy(out->codecpar,c.input->streams[i]->codecpar)>=0,"remux-copy-failed");out->codecpar->codec_tag=(hevc || av1)?c.input->streams[i]->codecpar->codec_tag:0;out->id=int(i+1);out->time_base=c.input->streams[i]->time_base;}
  // Reordered packets begin with negative DTS. An empty moov/negative CTS
  // shifts their clocks; delay moov until the first fragment can seal an edit
  // list. The exact input timescale avoids rounding its initial decode delay.
@@ -126,6 +135,12 @@ Doc run(Api& api,const Doc& start){
  for(;;){need(source.failure.empty(),source.failure.c_str());need(!StreamInput::interrupt(&source),"stream-time-limit");rc=api.av_read_frame(c.input,c.packet);need(source.failure.empty(),source.failure.c_str());if(rc==AVERROR_EOF){while(!source.complete)source.wait("source-complete",0);break;}need(rc>=0,"invalid-media");need(++packets<=PacketLimit,"packet-limit");need(c.packet->stream_index>=0 && unsigned(c.packet->stream_index)<c.input->nb_streams && c.packet->size>0 && c.packet->size<=16777216 && !(c.packet->flags&AV_PKT_FLAG_CORRUPT),"invalid-stream-packet");need(c.packet->pts!=AV_NOPTS_VALUE && c.packet->dts!=AV_NOPTS_VALUE && c.packet->duration>0,"unsupported-stream-packet-clock");
   for(int i=0;i<c.packet->side_data_elems;++i)need(c.packet->side_data[i].type!=AV_PKT_DATA_ENCRYPTION_INFO && c.packet->side_data[i].type!=AV_PKT_DATA_ENCRYPTION_INIT_INFO,"unsupported-stream-encryption");
   const auto index=c.packet->stream_index;
+  if(av1){
+   need(c.packet->pts==c.packet->dts,"unsupported-stream-av1-clock");
+   need(packets>1 || ((c.packet->flags&AV_PKT_FLAG_KEY) && c.packet->pts==0),"unsupported-stream-av1-frame");
+   for(int i=0;i<c.packet->side_data_elems;++i)need(c.packet->side_data[i].type!=AV_PKT_DATA_NEW_EXTRADATA,"unsupported-stream-configuration-change");
+   harvester::AV1ContinuousPacket(c.packet->data,size_t(c.packet->size),av1Sequence,packets==1,need);
+  }
   if(hevc && index==videoIndex){
    for(int i=0;i<c.packet->side_data_elems;++i)need(c.packet->side_data[i].type!=AV_PKT_DATA_NEW_EXTRADATA,"unsupported-stream-configuration-change");
    const bool firstVideo=hasAudio?videoPackets==0:packets==1;
@@ -152,7 +167,7 @@ Doc run(Api& api,const Doc& start){
   }
   api.av_packet_rescale_ts(c.packet,c.input->streams[index]->time_base,c.output->streams[index]->time_base);c.packet->pos=-1;rc=api.av_interleaved_write_frame(c.output,c.packet);api.av_packet_unref(c.packet);need(sink.failure.empty(),sink.failure.c_str());need(rc>=0,"remux-packet-failed");api.avio_flush(c.outputIo);need(c.outputIo->error>=0 && sink.failure.empty(),"remux-output-failed");
  }
- need(packets>0,"no-packets");if(hevc)need((hasAudio?videoPackets:packets)==declaredHevcPackets,"incomplete-stream-hevc-samples");if(hasAudio)need(videoPackets>0 && audioPackets>0 && (windowAudio?audioWindow.Complete():uint64_t(audioSamples-initialSkip)==declaredAudioSamples),"unsupported-stream-aac-end-trim");rc=api.av_write_trailer(c.output);api.avio_flush(c.outputIo);need(sink.failure.empty(),sink.failure.c_str());need(rc>=0 && c.outputIo->error>=0,"remux-trailer-failed");
+ need(packets>0,"no-packets");if(hevc || av1)need((hasAudio?videoPackets:packets)==declaredIndexedVideoPackets,av1?"incomplete-stream-av1-samples":"incomplete-stream-hevc-samples");if(hasAudio)need(videoPackets>0 && audioPackets>0 && (windowAudio?audioWindow.Complete():uint64_t(audioSamples-initialSkip)==declaredAudioSamples),"unsupported-stream-aac-end-trim");rc=api.av_write_trailer(c.output);api.avio_flush(c.outputIo);need(sink.failure.empty(),sink.failure.c_str());need(rc>=0 && c.outputIo->error>=0,"remux-trailer-failed");
  Doc result;result.SetObject();auto& a=result.GetAllocator();put(result,"code","data");put(result,"mode",std::string(start["mode"].GetString(),start["mode"].GetStringLength()));result.AddMember("sourceComplete",true,a);result.AddMember("sourceEof",true,a);result.AddMember("continuousOutput",true,a);result.AddMember("playbackSupported",false,a);result.AddMember("transcoded",false,a);result.AddMember("packets",packets,a);put(result,"bytesRead",std::to_string(source.readBytes));put(result,"bytesWritten",std::to_string(sink.bytes));put(result,"sha256",sink.digest.hex());put(result,"waits",std::to_string(source.waits));
  if(hasAudio){result.AddMember("videoPackets",videoPackets,a);result.AddMember("audioPackets",audioPackets,a);result.AddMember("aacInitialSkipSamples",initialSkip,a);put(result,"audioPresentationSamples",std::to_string(declaredAudioSamples));result.AddMember("aacEndTrimRequired",windowAudio && audioWindow.EndPadding()!=0,a);if(windowAudio){result.AddMember("pcmWindowRequired",true,a);result.AddMember("aacPcmWindow",Value(windowDescription,a),a);}}return result;
 }
