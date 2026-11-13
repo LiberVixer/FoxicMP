@@ -12,8 +12,11 @@ struct StreamRemuxLimits {
 };
 // Explicit internal selection. Existing callers/public v1 retain the verified
 // no-reorder profile; a manifest or worker reply cannot widen it implicitly.
-enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo };
-inline const char* StreamRemuxMode(StreamRemuxProfile profile){return profile==StreamRemuxProfile::HevcReorderedVideo?
+enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo, HevcAacWindow };
+inline bool StreamRemuxHasAudio(StreamRemuxProfile profile){return profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcAacWindow;}
+inline bool StreamRemuxIsHevc(StreamRemuxProfile profile){return profile==StreamRemuxProfile::HevcReorderedVideo || profile==StreamRemuxProfile::HevcAacWindow;}
+inline const char* StreamRemuxMode(StreamRemuxProfile profile){return profile==StreamRemuxProfile::HevcAacWindow?
+    "continuous-hevc-aac-window-v1":profile==StreamRemuxProfile::HevcReorderedVideo?
     "continuous-hevc-reordered-video-v1":profile==StreamRemuxProfile::H264AacWindow?
     "continuous-h264-aac-window-v1":profile==StreamRemuxProfile::H264ReorderedVideo?
     "continuous-h264-reordered-video-v1":"continuous-h264-video-v1";}
@@ -95,7 +98,7 @@ private:
     std::string execute() {
         process_detail::Process child(executable,cancelled,{limits.lifetime,limits.operation});
         uint64_t totalRead=0,totalWritten=0;Sha256 digest;StreamAudioWindow audio;
-        const bool hasAudio=profile==StreamRemuxProfile::H264AacWindow;
+        const bool hasAudio=StreamRemuxHasAudio(profile);
         {
             std::lock_guard<std::mutex> lock(mutex);check();state.workerId=child.id();state.code="running";
             const auto& r=snapshot.resources.at(resourceId);
@@ -196,16 +199,16 @@ public:
                        const std::string& json,const std::string& resource,const std::filesystem::path& child,
                        Sink output,StreamRemuxLimits policy={},StreamRemuxProfile selected=StreamRemuxProfile::H264Video,AudioWindowSink windowSink={})
         :snapshot(Parse(json)),resourceId(resource),executable(child),limits(policy),profile(selected),sink(std::move(output)),audioSink(std::move(windowSink)) {
-        Require(profile==StreamRemuxProfile::H264Video || profile==StreamRemuxProfile::H264ReorderedVideo || profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcReorderedVideo,"streamRemux","Invalid internal profile","invalid_request");
+        Require(profile==StreamRemuxProfile::H264Video || profile==StreamRemuxProfile::H264ReorderedVideo || profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcReorderedVideo || profile==StreamRemuxProfile::HevcAacWindow,"streamRemux","Invalid internal profile","invalid_request");
         Require(bool(sink) && limits.lifetime.count()>0 && limits.lifetime<=std::chrono::hours(1) && limits.operation.count()>0 && limits.operation<=limits.lifetime && limits.heartbeat.count()>0 && limits.heartbeat<=std::chrono::seconds(30),"streamRemux","Invalid internal limits","invalid_request");
         Require(!snapshot.live && snapshot.resources.count(resourceId),"streamRemux","Expected local non-live resource","unsupported-stream-source");
-        const bool hasAudio=profile==StreamRemuxProfile::H264AacWindow;
-        const bool hevc=profile==StreamRemuxProfile::HevcReorderedVideo;
+        const bool hasAudio=StreamRemuxHasAudio(profile);
+        const bool hevc=StreamRemuxIsHevc(profile);
         Require(!hasAudio || bool(audioSink),"streamRemux","AAC window consumer required","invalid_request");
         Require(snapshot.tracks.size()==(hasAudio?2u:1u),"streamRemux","Unexpected continuous track count","unsupported-stream-source");
         std::set<std::string> kinds;
         for(const auto& item:snapshot.tracks){const auto& track=item.second;
-            Require((track.kind=="video" || (hasAudio && track.kind=="audio")) && kinds.insert(track.kind).second && track.container=="mp4" && (hevc?track.codec=="hevc":(track.codec.empty() || track.codec==(track.kind=="video"?"h264":"aac-lc"))) && track.resource==resourceId && track.initialization.empty() && track.segments.empty() && (!(hasAudio || hevc) || track.required),"streamRemux","Unsupported continuous-remux track layout","unsupported-stream-source");
+            Require((track.kind=="video" || (hasAudio && track.kind=="audio")) && kinds.insert(track.kind).second && track.container=="mp4" && (hevc?track.codec==(track.kind=="video"?"hevc":"aac-lc"):(track.codec.empty() || track.codec==(track.kind=="video"?"h264":"aac-lc"))) && track.resource==resourceId && track.initialization.empty() && track.segments.empty() && (!(hasAudio || hevc) || track.required),"streamRemux","Unsupported continuous-remux track layout","unsupported-stream-source");
         }
         if(hasAudio || hevc)Require(snapshot.resources.size()==1 && snapshot.knownDuration && snapshot.numerator==1 && snapshot.denominator==10000000 && snapshot.offset==0 && !snapshot.hasWindow,"streamRemux","Known-duration local source required","unsupported-stream-source");
         if(hevc)Require(snapshot.duration>0 && snapshot.duration<=36000000000LL,"streamRemux","Bounded HEVC VOD duration required","unsupported-stream-source");

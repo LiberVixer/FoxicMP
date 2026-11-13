@@ -14,6 +14,11 @@ SHA-256 файлов. Воспроизведение v1 сохраняется; 
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
+SDK 1.89 добавляет [HEVC + AAC-LC PCM-window](ProgressiveContinuousHevcAac.md):
+`ContinuousRemux(..., mode=HEVC_AAC_MODE)`, два обязательных потока одного
+ordinary MP4, 44.1/48 kHz mono/stereo, включая short audio и audio-first.
+Оба codec hints обязательны; HEVC video-only и прежний H.264/AAC сохраняются.
+
 SDK 1.88 добавляет [явный HEVC video-only continuous профиль](ProgressiveContinuousHevc.md):
 `ContinuousRemux(..., mode=HEVC_MODE)`, ordinary MP4 Main/Main10 hvc1/hev1,
 8/10-bit 4:2:0, B-frames, без audio/transcoding. Нужна точная capability и

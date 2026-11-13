@@ -313,11 +313,11 @@ public:
     void retryClosedReaders(){core->retryClosedReaders();}
     void acceptAudioWindow(const StreamAudioWindow& window){
         std::lock_guard<std::mutex> lock(core->mutex);
-        Core::check(!core->hevc && !core->state.written && !core->avIndex && !core->state.producerClosed && !core->state.retiring && core->state.failure.empty(),"cache-invalid-audio-window");
+        Core::check(!core->state.written && !core->avIndex && !core->state.producerClosed && !core->state.retiring && core->state.failure.empty(),"cache-invalid-audio-window");
         // Validate again at the cache boundary; all readers share this immutable plan.
         rapidjson::Document d;d.Parse(window.json.c_str());Core::check(!d.HasParseError(),"cache-invalid-audio-window");
         auto verified=StreamAudioWindow::Parse(d);Core::check(verified.sha256==window.sha256,"cache-invalid-audio-window");
-        core->avIndex=std::make_unique<StreamAvIndex>(verified);core->state.audioWindow=verified.json;
+        core->avIndex=std::make_unique<StreamAvIndex>(verified,core->hevc);core->state.audioWindow=verified.json;
     }
     void append(uint64_t at,const std::vector<char>& bytes){
         std::lock_guard<std::mutex> lock(core->mutex);

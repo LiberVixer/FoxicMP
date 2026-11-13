@@ -23,13 +23,13 @@ class ContinuousRemuxController {
     static void profile(const Snapshot& s,const std::string& resource,StreamRemuxProfile selected){
         Require(!s.live && !s.hasWindow && s.knownDuration && s.duration>0 && s.duration<=36000000000LL && s.numerator==1 && s.denominator==10000000 && s.offset==0,
             "continuousRemux","Known zero-origin VOD clock required","unsupported-stream-source");
-        const bool audio=selected==StreamRemuxProfile::H264AacWindow;
-        const bool hevc=selected==StreamRemuxProfile::HevcReorderedVideo;
+        const bool audio=StreamRemuxHasAudio(selected);
+        const bool hevc=StreamRemuxIsHevc(selected);
         Require(s.resources.size()==1 && s.resources.count(resource) && s.tracks.size()==(audio?2u:1u),"continuousRemux","Unexpected scalar MP4 track layout","unsupported-stream-source");
         std::set<std::string> kinds;
         for(const auto& item:s.tracks){const auto& t=item.second;
             Require((t.kind=="video" || (audio && t.kind=="audio")) && kinds.insert(t.kind).second && t.required && t.container=="mp4"
-                && (hevc?t.codec=="hevc":(t.codec.empty() || t.codec==(t.kind=="video"?"h264":"aac-lc"))) && t.resource==resource && t.initialization.empty() && t.segments.empty(),
+                && (hevc?t.codec==(t.kind=="video"?"hevc":"aac-lc"):(t.codec.empty() || t.codec==(t.kind=="video"?"h264":"aac-lc"))) && t.resource==resource && t.initialization.empty() && t.segments.empty(),
                 "continuousRemux","Unsupported continuous copy-remux track","unsupported-stream-source");
         }
         const auto& r=s.resources.at(resource);
@@ -79,7 +79,7 @@ class ContinuousRemuxController {
                 Require(Clock::now()-began<limits.lifetime,"continuousRemux","Controller lifetime expired during preparation","backend-time-limit");
                 Require(initiallyComplete || now()-heartbeatAt.load()<limits.heartbeat.count(),"continuousRemux","Writer heartbeat expired during preparation","writer-heartbeat-timeout");
                 session=std::make_unique<CachedRemuxSession>(directory,registry,cache,initial,resource,child,owner,64*1024*1024,limits,selected);
-                if(selected!=StreamRemuxProfile::H264AacWindow)decoder=session->decoderSource();
+                if(!StreamRemuxHasAudio(selected))decoder=session->decoderSource();
             }catch(const Error& e){v.error=e.code;v.terminal=true;}catch(...){v.error="continuous-preparation-failed";v.terminal=true;}
             for(;;)try{
                 if(stop.load() || cancel.load() || forget.load()){
@@ -105,7 +105,7 @@ class ContinuousRemuxController {
                     v.native=session->status();
                     // AAC admission needs the immutable, SHA-validated window.
                     // Status/publications stay live while initialization is pending.
-                    if(!decoder && selected==StreamRemuxProfile::H264AacWindow && !cancel.load() && !stop.load() && !forget.load()
+                    if(!decoder && StreamRemuxHasAudio(selected) && !cancel.load() && !stop.load() && !forget.load()
                         && v.error.empty() && v.native.output.initialized && v.native.output.fragments && v.native.output.failure.empty())decoder=session->decoderSource(true);
                     if(v.native.done){v.terminal=true;if(v.native.source.code!="data" && v.error.empty())v.error=v.native.source.code;}
                     if((!v.terminal || v.native.source.code=="data") && !cancel.load() && !stop.load() && !forget.load() && v.native.output.initialized && v.native.output.fragments && v.native.output.failure.empty())v.decoder=decoder;
@@ -160,7 +160,7 @@ class ContinuousRemuxController {
             const auto v=view();Snapshot admitted;size_t queued=0;
             {std::lock_guard<std::mutex> lock(mutex);admitted=accepted;queued=updates.size();}
             rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();out.AddMember("version",1,a);out.AddMember("ok",true,a);out.AddMember("mode",Value(StreamRemuxMode(selected),a),a);
-            out.AddMember("audio",selected==StreamRemuxProfile::H264AacWindow,a);
+            out.AddMember("audio",StreamRemuxHasAudio(selected),a);
             out.AddMember("audioWindowReady",v->decoder && v->decoder->audioWindow(),a);
             if(v->decoder && v->decoder->audioWindow()){
                 const auto& pcm=v->decoder->audioWindow()->pcm;
@@ -229,8 +229,8 @@ public:
                 // Omission preserves the original profile. Explicit selection
                 // is immutable and forms part of the replay fingerprint.
                 const auto mode=d.HasMember("mode")?Text(d["mode"],"mode",64):"continuous-h264-video-v1";
-                Require(mode=="continuous-h264-video-v1" || mode=="continuous-h264-reordered-video-v1" || mode=="continuous-h264-aac-window-v1" || mode=="continuous-hevc-reordered-video-v1","mode","Unsupported continuous mode","invalid_request");
-                const auto selected=mode=="continuous-hevc-reordered-video-v1"?StreamRemuxProfile::HevcReorderedVideo:mode=="continuous-h264-aac-window-v1"?StreamRemuxProfile::H264AacWindow:mode=="continuous-h264-reordered-video-v1"?StreamRemuxProfile::H264ReorderedVideo:StreamRemuxProfile::H264Video;
+                Require(mode=="continuous-h264-video-v1" || mode=="continuous-h264-reordered-video-v1" || mode=="continuous-h264-aac-window-v1" || mode=="continuous-hevc-reordered-video-v1" || mode=="continuous-hevc-aac-window-v1","mode","Unsupported continuous mode","invalid_request");
+                const auto selected=mode=="continuous-hevc-aac-window-v1"?StreamRemuxProfile::HevcAacWindow:mode=="continuous-hevc-reordered-video-v1"?StreamRemuxProfile::HevcReorderedVideo:mode=="continuous-h264-aac-window-v1"?StreamRemuxProfile::H264AacWindow:mode=="continuous-h264-reordered-video-v1"?StreamRemuxProfile::H264ReorderedVideo:StreamRemuxProfile::H264Video;
                 const auto rid=Id(d["requestId"],"requestId",true);rapidjson::StringBuffer encoded;rapidjson::Writer<rapidjson::StringBuffer> writer(encoded);Canonical(d,writer);const std::string fingerprint(encoded.GetString(),encoded.GetSize());
                 if(job && job->requestId==rid){Require(job->fingerprint==fingerprint,"requestId","Request identity conflict","continuous-conflict");return job->status();}
                 Require(!job || job->view()->forgotten,"continuousRemux","Forget the previous job first","continuous-busy");

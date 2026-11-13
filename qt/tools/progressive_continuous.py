@@ -18,6 +18,7 @@ MODE = 'continuous-h264-video-v1'
 REORDERED_MODE = 'continuous-h264-reordered-video-v1'
 AAC_MODE = 'continuous-h264-aac-window-v1'
 HEVC_MODE = 'continuous-hevc-reordered-video-v1'
+HEVC_AAC_MODE = 'continuous-hevc-aac-window-v1'
 ACTIONS = frozenset(('continuousRemuxStart', 'continuousRemuxStatus',
     'continuousRemuxUpdate', 'continuousRemuxHeartbeat', 'continuousRemuxCancel',
     'continuousRemuxForget', 'continuousRemuxPlay', 'continuousPlaybackStatus',
@@ -50,8 +51,10 @@ class ContinuousRemux:
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
     def __init__(self, client, session_directory, *, mode=MODE):
-        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE):
             raise ValueError('Unsupported continuous profile')
+        audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE)
+        hevc_mode = mode in (HEVC_MODE, HEVC_AAC_MODE)
         self._mode = mode
         self.client = client
         directory = Path(session_directory).expanduser()
@@ -85,12 +88,12 @@ class ContinuousRemux:
             if (cap.get('modeSelection') != 'continuousRemuxStart.mode'
                     or not isinstance(selected, dict) or type(selected.get('version')) is not int
                     or selected['version'] != 1 or selected.get('mode') != mode
-                    or selected.get('containerHint') != 'mp4' or selected.get('videoCodec') != ('hevc' if mode == HEVC_MODE else 'h264')
-                    or selected.get('videoOnly') is not (mode != AAC_MODE) or selected.get('audio') is not (mode == AAC_MODE)
+                    or selected.get('containerHint') != 'mp4' or selected.get('videoCodec') != ('hevc' if hevc_mode else 'h264')
+                    or selected.get('videoOnly') is not (not audio_mode) or selected.get('audio') is not audio_mode
                     or selected.get('bFrames') is not True or selected.get('inheritsCommonContract') is not True
                     or selected.get('explicitSelectionRequired') is not True):
                 raise RuntimeError('Player lacks the selected explicit continuous profile')
-            if mode == AAC_MODE and (selected.get('audioCodec') != 'aac-lc'
+            if audio_mode and (selected.get('audioCodec') != 'aac-lc'
                     or selected.get('sampleRates') != [44100, 48000] or any(type(v) is not int for v in selected['sampleRates'])
                     or selected.get('channels') != [1, 2] or any(type(v) is not int for v in selected['channels'])
                     or selected.get('requiredTrackKinds') != ['video', 'audio'] or selected.get('sharedResourceRequired') is not True
@@ -98,11 +101,11 @@ class ContinuousRemux:
                     or type(selected.get('initialSkipSamples')) is not int or selected['initialSkipSamples'] != 1024
                     or selected.get('presentationSamplesRequired') is not True):
                 raise RuntimeError('Player lacks the exact AAC PCM-window contract')
-            if mode == HEVC_MODE and (selected.get('hevcProfiles') != ['main', 'main10']
+            if hevc_mode and (selected.get('hevcProfiles') != ['main', 'main10']
                     or selected.get('bitDepths') != [8, 10] or any(type(v) is not int for v in selected['bitDepths'])
                     or selected.get('chromaSubsampling') != '4:2:0' or selected.get('sampleEntries') != ['hvc1', 'hev1']
                     or type(selected.get('nalLengthBytes')) is not int or selected['nalLengthBytes'] != 4
-                    or selected.get('singleLayer') is not True or selected.get('requiredTrackKinds') != ['video']
+                    or selected.get('singleLayer') is not True or selected.get('requiredTrackKinds') != (['video', 'audio'] if audio_mode else ['video'])
                     or selected.get('codecHintRequired') is not True
                     or type(selected.get('maxParameterSetsPerType')) is not int or selected['maxParameterSetsPerType'] != 1
                     or selected.get('firstPicture') != 'irap'):

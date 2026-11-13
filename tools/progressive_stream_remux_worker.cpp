@@ -68,8 +68,8 @@ Doc run(Api& api,const Doc& start){
  // Audio output requires an explicit PCM-window acknowledgement before media
  // bytes. The default mode remains video-only.
  const bool alignedAudio=start["mode"]=="continuous-h264-aac-aligned-v1";
- const bool windowAudio=start["mode"]=="continuous-h264-aac-window-v1",hasAudio=alignedAudio || windowAudio;
- const bool hevc=start["mode"]=="continuous-hevc-reordered-video-v1";
+ const bool windowAudio=start["mode"]=="continuous-h264-aac-window-v1" || start["mode"]=="continuous-hevc-aac-window-v1",hasAudio=alignedAudio || windowAudio;
+ const bool hevc=start["mode"]=="continuous-hevc-reordered-video-v1" || start["mode"]=="continuous-hevc-aac-window-v1";
  const bool reordered=hevc || hasAudio || start["mode"]=="continuous-h264-reordered-video-v1";
  need(reordered || start["mode"]=="continuous-h264-video-v1","unsupported-stream-start");
  std::string n(start["length"].GetString(),start["length"].GetStringLength());need(!n.empty() && n.size()<=10 && n[0]!='0' && n.find_first_not_of("0123456789")==std::string::npos,"invalid-length");StreamInput source;source.length=std::stoll(n);source.complete=start["complete"].GetBool();need(uint64_t(source.length)<=InputLimit,"input-size-limit");StreamOutput sink;sink.windowRequired=windowAudio;Context c(api);
@@ -126,10 +126,11 @@ Doc run(Api& api,const Doc& start){
  for(;;){need(source.failure.empty(),source.failure.c_str());need(!StreamInput::interrupt(&source),"stream-time-limit");rc=api.av_read_frame(c.input,c.packet);need(source.failure.empty(),source.failure.c_str());if(rc==AVERROR_EOF){while(!source.complete)source.wait("source-complete",0);break;}need(rc>=0,"invalid-media");need(++packets<=PacketLimit,"packet-limit");need(c.packet->stream_index>=0 && unsigned(c.packet->stream_index)<c.input->nb_streams && c.packet->size>0 && c.packet->size<=16777216 && !(c.packet->flags&AV_PKT_FLAG_CORRUPT),"invalid-stream-packet");need(c.packet->pts!=AV_NOPTS_VALUE && c.packet->dts!=AV_NOPTS_VALUE && c.packet->duration>0,"unsupported-stream-packet-clock");
   for(int i=0;i<c.packet->side_data_elems;++i)need(c.packet->side_data[i].type!=AV_PKT_DATA_ENCRYPTION_INFO && c.packet->side_data[i].type!=AV_PKT_DATA_ENCRYPTION_INIT_INFO,"unsupported-stream-encryption");
   const auto index=c.packet->stream_index;
-  if(hevc){
+  if(hevc && index==videoIndex){
    for(int i=0;i<c.packet->side_data_elems;++i)need(c.packet->side_data[i].type!=AV_PKT_DATA_NEW_EXTRADATA,"unsupported-stream-configuration-change");
-   need(packets>1 || ((c.packet->flags&AV_PKT_FLAG_KEY) && c.packet->pts==0),"unsupported-stream-hevc-packet");
-   harvester::HEVCPacket(c.packet->data,size_t(c.packet->size),hevcParameters,need,packets==1);
+   const bool firstVideo=hasAudio?videoPackets==0:packets==1;
+   need(!firstVideo || ((c.packet->flags&AV_PKT_FLAG_KEY) && c.packet->pts==0),"unsupported-stream-hevc-packet");
+   harvester::HEVCPacket(c.packet->data,size_t(c.packet->size),hevcParameters,need,firstVideo);
   }
   if(hasAudio){
    unsigned skip=0,discard=0;bool trimSide=false;
@@ -137,7 +138,7 @@ Doc run(Api& api,const Doc& start){
     if(side.type==AV_PKT_DATA_SKIP_SAMPLES){need(index==audioIndex && side.size>=10 && !trimSide,"unsupported-stream-aac-trim");trimSide=true;auto le32=[](const uint8_t* p){return uint32_t(p[0])|uint32_t(p[1])<<8|uint32_t(p[2])<<16|uint32_t(p[3])<<24;};skip=le32(side.data);discard=le32(side.data+4);}
    }
    if(index==audioIndex){
-    if(audioPackets==0){initialSkip=skip;need(initialSkip<=1024 && c.packet->pts==-int64_t(initialSkip),"unsupported-stream-aac-trim");}
+    if(audioPackets==0){initialSkip=skip;need(initialSkip<=1024 && c.packet->pts==-int64_t(initialSkip) && (!hevc || initialSkip==1024),"unsupported-stream-aac-trim");}
     if(windowAudio){
      if(audioPackets==0){auto* cp=c.input->streams[audioIndex]->codecpar;need(audioWindow.Configure(cp->sample_rate,cp->ch_layout.nb_channels,declaredAudioSamples,initialSkip),"unsupported-stream-aac-window");
       windowDescription.SetObject();auto& a=windowDescription.GetAllocator();windowDescription.AddMember("version",1,a);windowDescription.AddMember("trackId",audioIndex+1,a);windowDescription.AddMember("sampleRate",audioWindow.Rate(),a);windowDescription.AddMember("channels",audioWindow.Channels(),a);
@@ -151,7 +152,7 @@ Doc run(Api& api,const Doc& start){
   }
   api.av_packet_rescale_ts(c.packet,c.input->streams[index]->time_base,c.output->streams[index]->time_base);c.packet->pos=-1;rc=api.av_interleaved_write_frame(c.output,c.packet);api.av_packet_unref(c.packet);need(sink.failure.empty(),sink.failure.c_str());need(rc>=0,"remux-packet-failed");api.avio_flush(c.outputIo);need(c.outputIo->error>=0 && sink.failure.empty(),"remux-output-failed");
  }
- need(packets>0,"no-packets");if(hevc)need(packets==declaredHevcPackets,"incomplete-stream-hevc-samples");if(hasAudio)need(videoPackets>0 && audioPackets>0 && (windowAudio?audioWindow.Complete():uint64_t(audioSamples-initialSkip)==declaredAudioSamples),"unsupported-stream-aac-end-trim");rc=api.av_write_trailer(c.output);api.avio_flush(c.outputIo);need(sink.failure.empty(),sink.failure.c_str());need(rc>=0 && c.outputIo->error>=0,"remux-trailer-failed");
+ need(packets>0,"no-packets");if(hevc)need((hasAudio?videoPackets:packets)==declaredHevcPackets,"incomplete-stream-hevc-samples");if(hasAudio)need(videoPackets>0 && audioPackets>0 && (windowAudio?audioWindow.Complete():uint64_t(audioSamples-initialSkip)==declaredAudioSamples),"unsupported-stream-aac-end-trim");rc=api.av_write_trailer(c.output);api.avio_flush(c.outputIo);need(sink.failure.empty(),sink.failure.c_str());need(rc>=0 && c.outputIo->error>=0,"remux-trailer-failed");
  Doc result;result.SetObject();auto& a=result.GetAllocator();put(result,"code","data");put(result,"mode",std::string(start["mode"].GetString(),start["mode"].GetStringLength()));result.AddMember("sourceComplete",true,a);result.AddMember("sourceEof",true,a);result.AddMember("continuousOutput",true,a);result.AddMember("playbackSupported",false,a);result.AddMember("transcoded",false,a);result.AddMember("packets",packets,a);put(result,"bytesRead",std::to_string(source.readBytes));put(result,"bytesWritten",std::to_string(sink.bytes));put(result,"sha256",sink.digest.hex());put(result,"waits",std::to_string(source.waits));
  if(hasAudio){result.AddMember("videoPackets",videoPackets,a);result.AddMember("audioPackets",audioPackets,a);result.AddMember("aacInitialSkipSamples",initialSkip,a);put(result,"audioPresentationSamples",std::to_string(declaredAudioSamples));result.AddMember("aacEndTrimRequired",windowAudio && audioWindow.EndPadding()!=0,a);if(windowAudio){result.AddMember("pcmWindowRequired",true,a);result.AddMember("aacPcmWindow",Value(windowDescription,a),a);}}return result;
 }

@@ -15,7 +15,7 @@ class StreamDecoderSource {
 public:
     explicit StreamDecoderSource(std::shared_ptr<StreamOutputStore> output,std::string mode="continuous-h264-video-v1",bool audioConsumer=false):store(std::move(output)),selectedMode(std::move(mode)) {
         Require(bool(store),"remuxDecoder","Missing output cache","invalid_request");
-        const bool audio=selectedMode=="continuous-h264-aac-window-v1";
+        const bool audio=selectedMode=="continuous-h264-aac-window-v1" || selectedMode=="continuous-hevc-aac-window-v1";
         Require(selectedMode=="continuous-h264-video-v1" || selectedMode=="continuous-h264-reordered-video-v1" || selectedMode=="continuous-hevc-reordered-video-v1" || (audio && audioConsumer),"remuxDecoder","Invalid decoder profile","invalid_request");
         Require(hevcVideo()==store->hevcVideo(),"remuxDecoder","Cache codec/profile mismatch","invalid_request");
         if(audio){
@@ -25,7 +25,7 @@ public:
         }
     }
     const std::string& mode()const{return selectedMode;}
-    bool hevcVideo()const{return selectedMode=="continuous-hevc-reordered-video-v1";}
+    bool hevcVideo()const{return selectedMode=="continuous-hevc-reordered-video-v1" || selectedMode=="continuous-hevc-aac-window-v1";}
     const StreamAudioWindow* audioWindow()const{return pcmWindow.get();}
     harvester::muxmp4::Layout avLayout()const{
         Require(bool(pcmWindow),"remuxDecoder","Not an A/V source","invalid_request");return store->avLayout();

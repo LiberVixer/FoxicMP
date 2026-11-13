@@ -10,6 +10,11 @@ ordinary MP4/HEVC video-only, Main/Main10 hvc1/hev1, B-frames, без transcodin
 54 worker checks и 30 public API rows прошли. Qt проверен на обеих ОС;
 Classic — через ordinary EXE/DirectShow с частным Null Video Renderer,
 без подтверждения видимого desktop output. Остальные R01-профили открыты.
+[SDK 1.89](ProgressiveContinuousHevcAac.md) добавляет paired HEVC/AAC-LC:
+44.1/48 kHz mono/stereo, exact PCM window, audio-first и short audio.
+36 worker, 36 PCM consumer и 39 public API rows проверены отдельно по трём
+редакциям. В Classic исправлена очистка queued target при отмене; аппаратный
+вывод и дальнейшие codec/container rows остаются отдельными границами.
 
 ## Что именно сравнивается
 

@@ -1,12 +1,12 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 12 ноября 2026, включая bounded HEVC continuous SDK 1.88.
+Рабочая сводка на 13 ноября 2026, включая bounded HEVC/AAC continuous SDK 1.89.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
 закрытыми широкие пункты по результатам узких тестов.
 
-В подробном чеклисте 135 выполненных и 77 открытых checkbox. Это число записей,
+В подробном чеклисте 136 выполненных и 77 открытых checkbox. Это число записей,
 не процент готовности: общая приёмка повторяет требования нескольких разделов.
 Ниже они сведены к пакетам работ с одним проверяемым результатом на пакет.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -81,11 +81,16 @@ Classic использовал частный Null Video Renderer (Uncompressed)
 сценария установленной копии и clean SDK](ProgressiveContinuousHevcDelivery-2026-11-12.json)
 прошли. App 0.2.0/SDK 1.88 source artifact не объявляется новым итоговым release.
 
-R01 остаётся открытым. Следующий профиль — HEVC + AAC-LC в ordinary MP4:
-сначала проверить packet clocks/PCM-window и состав paired projection, затем
-отдельный explicit mode и ordinary playback обеих Qt/Classic. Не включать звук
-в video-only mode автоматически. После него — AV1/VP9 и прочие container rows
-из инвентаризации. Старые narrow tests остаются.
+[HEVC + AAC-LC подключён отдельным mode SDK 1.89](ProgressiveContinuousHevcAac.md):
+36 worker и 36 PCM consumer rows, 39 public API rows и 112 регрессий прошли.
+Включены audio-first, one-sample/short audio, точный sample window и cancel
+paused playback с ожидающим seek. Classic очищает pending target синхронно;
+видимый renderer по-прежнему не аттестован. Video-only mode не меняет поведения.
+
+R01 остаётся открытым. Следующий профиль — AV1 video-only в ordinary MP4:
+сначала fixture/copy-remux/clock/config admission, затем worker/cache/decoder
+и отдельная public capability трёх редакций. После него — paired audio,
+VP9 и прочие container rows из инвентаризации. Старые narrow tests остаются.
 
 ## Исторические наблюдения: отдельно от новых функций
 

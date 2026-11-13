@@ -1528,3 +1528,14 @@ Main/Main10 hvc1/hev1 с B-frames в append-only fMP4 без перекодир�
 отвергается по исходному sample count. Прежние H.264/AAC profiles сохранены.
 Отчёт различает Qt software playback и Classic DirectShow/null-video decoding;
 видимый Classic renderer в SSH-сеансе не аттестуется. R01 в целом остаётся открытым.
+
+## SDK 1.89: continuous HEVC + AAC-LC
+
+[Отдельный paired profile](ProgressiveContinuousHevcAac.md) сохраняет Main/Main10
+video и AAC-LC mono/stereo, 44.1/48 kHz одного ordinary MP4 без transcoding.
+Immutable PCM-window, paired cache/decoder views и packet clocks проверены
+на audio-first/one-sample/short audio. По трём редакциям: 36 worker, 36 PCM,
+39 public API rows; 112 регрессий и 38 SDK unit tests прошли. Classic декодирует через null renderer; видимый вывод и физическая A/V sync
+не объявляются проверенными.
+При отмене Classic синхронно сбрасывает pending seek, не ожидая UI timer.
+HEVC video-only/H.264 modes сохраняются; далее R01 AV1 video-only ordinary MP4.

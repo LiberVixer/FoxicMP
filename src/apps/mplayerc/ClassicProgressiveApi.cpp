@@ -308,7 +308,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             }
             auto reply=continuousRemux->request(raw);Document answer;answer.Parse(reply.c_str());
             if(answer["ok"].GetBool() && (action=="continuousRemuxCancel" || action=="continuousRemuxForget") && continuousPlayback && harvester::String(answer,"jobId")==continuousPlayback->command.jobId){
-                continuousPlayback->closed=true;if(continuousOpening)continuousOpening->abandoned.store(true);
+                continuousPlayback->clearPendingSeek();continuousPlayback->closed=true;if(continuousOpening)continuousOpening->abandoned.store(true);
                 if(frame.OwnsHarvester(continuousNative.lock()))frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
             }
             return reply;
@@ -406,7 +406,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             auto reply=prepared?prepared->preparedReply:foxicmp::progressive::ReaderRequest(std::filesystem::path(ReaderRegistry()),raw);
             if(action=="readerRelease" && continuousPlayback && !continuousPlayback->closed && (!prepared || (!prepared->readerPass && prepared->readerPlayback==continuousPlayback))
                 && continuousPlayback->holdsOutputReader(reply)){
-                continuousPlayback->closed=true;if(continuousOpening)continuousOpening->abandoned.store(true);
+                continuousPlayback->clearPendingSeek();continuousPlayback->closed=true;if(continuousOpening)continuousOpening->abandoned.store(true);
                 continuousRemux->cancelPlaybackJob(continuousPlayback->command.jobId);
                 if(frame.OwnsHarvester(continuousNative.lock()))frame.SendMessageW(WM_COMMAND,ID_FILE_CLOSEMEDIA);
                 // Keep the valid pre-close receipt; a fresh readerStatus must
@@ -541,7 +541,7 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
 void ClassicProgressiveApi::PlaybackIntentChanged(const CStringW& incoming,bool retainCurrentPlayback){
     ++intentEpoch;if(preparation)preparation->abandoned.store(true);if(legacyOpening)legacyOpening->abandoned.store(true);if(preview && incoming!=Wide(preview->uri()))preview->cancelled=true;
     if(continuousPlayback && !continuousPlayback->committing && !(retainCurrentPlayback && !continuousOpening && frame.OwnsHarvester(continuousNative.lock()))){
-        continuousPlayback->closed=true;if(continuousOpening)continuousOpening->abandoned.store(true);
+        continuousPlayback->clearPendingSeek();continuousPlayback->closed=true;if(continuousOpening)continuousOpening->abandoned.store(true);
         const auto failure=continuousPlayback->output().failure;if(!failure.empty() && failure!="cancelled")continuousPlayback->error=failure;
         const auto producerError=continuousPlayback->producerError();if(!producerError.empty() && producerError!="cancelled")continuousPlayback->error=producerError;
         if(continuousRemux)continuousRemux->cancelPlaybackJob(continuousPlayback->command.jobId);

@@ -3,9 +3,11 @@
 #pragma once
 #include "progressivestreamaudio.h"
 #include "DSUtil/HarvesterMP4Muxed.h"
+#include "DSUtil/HarvesterHevc.h"
 namespace foxicmp { namespace progressive {
 class StreamAvIndex {
     StreamAudioWindow window;
+    const bool hevc;
     harvester::muxmp4::Layout layout=harvester::muxmp4::Layout::ContinuousAv();
     harvester::muxmp4::Layout pending=harvester::muxmp4::Layout::ContinuousAv();
     static void check(bool ok){Require(ok,"remuxCache","Invalid continuous A/V output","cache-invalid-fragment");}
@@ -19,7 +21,18 @@ class StreamAvIndex {
         check((mdhd.U32(0)>>24)<=1 && (tkhd.U32(0)>>24)<=1);
         const auto stsd=media.One("minf").One("stbl").One("stsd");const auto entries=stsd.Slice(8,stsd.size-8).Children();check(entries.size()==1);
         const auto entry=entries[0].second;
-        if(!kind){check(entries[0].first==harvester::FourCC("avc1") && entry.size>=78);const auto children=entry.Slice(78,entry.size-78);check(!children.One("sinf",true).data);const auto avcc=children.One("avcC");check(avcc.size>=7 && avcc.data[0]==1);return;}
+        if(!kind){
+            check(entry.size>=78);const auto children=entry.Slice(78,entry.size-78);check(!children.One("sinf",true).data);
+            if(hevc){
+                check(entries[0].first==harvester::FourCC("hvc1") || entries[0].first==harvester::FourCC("hev1"));
+                const auto config=children.One("hvcC");harvester::HevcParameterSets parameters;
+                harvester::HEVCConfiguration(config.data,config.size,entries[0].first==harvester::FourCC("hvc1"),[](bool ok,const char*){check(ok);},&parameters);
+                check(parameters.size()==3);
+            }else{
+                check(entries[0].first==harvester::FourCC("avc1"));const auto avcc=children.One("avcC");check(avcc.size>=7 && avcc.data[0]==1);
+            }
+            return;
+        }
         check(tkhd.U32(tkhd.data[0]?20:12)==window.trackId);
         check(mdhd.U32(mdhd.data[0]?20:12)==window.pcm.Rate());
         check(entries[0].first==harvester::FourCC("mp4a") && entry.size>=28 && entry.data[8]==0 && entry.data[9]==0 && entry.U32(24)==(window.pcm.Rate()<<16));
@@ -32,7 +45,7 @@ class StreamAvIndex {
         check(rateIndex==(window.pcm.Rate()==48000?3:4) && channels==window.pcm.Channels());
     }
 public:
-    explicit StreamAvIndex(StreamAudioWindow value):window(std::move(value)){}
+    explicit StreamAvIndex(StreamAudioWindow value,bool hevcVideo=false):window(std::move(value)),hevc(hevcVideo){check(!hevc || window.pcm.RawBegin()==1024);}
     void update(const harvester::FragmentIndex::Read& read,uint64_t prefix,bool complete=false){
         pending.CopyFrom(layout);auto& next=pending;
         next.Update(read,prefix,complete,[&](unsigned k,harvester::BoxData movie){initialization(k,movie);});
