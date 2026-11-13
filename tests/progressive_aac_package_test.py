@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('av1','hevc-aac','hevc','source-close','receipt-close','aac-soak','queued-races','queued-stress','timeline-ui','queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
+    parser.add_argument('--scenario',choices=('av1','av1-aac','hevc-aac','hevc','source-close','receipt-close','aac-soak','queued-races','queued-stress','timeline-ui','queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
     parser.add_argument('--classic-ui-theme',choices=('dark','light'))
     parser.add_argument('--classic-null-video',action='store_true',help='Private profile: require decoded video without a desktop renderer')
@@ -45,9 +45,9 @@ def main():
     assert all(Path(m.__file__).resolve().parent==sdk for m in modules.values())
     from progressive_continuous_api_test import run
     from progressive_player_crash_recovery import sha
-    if args.scenario in ('hevc','hevc-aac','av1'):
+    if args.scenario in ('hevc','hevc-aac','av1','av1-aac'):
         import progressive_continuous_hevc_api_test as case
-        exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,audio=args.scenario=='hevc-aac',expected_audio=args.expected_audio_output,av1=args.scenario=='av1')
+        exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,audio=args.scenario in ('hevc-aac','av1-aac'),expected_audio=args.expected_audio_output,av1=args.scenario in ('av1','av1-aac'))
     elif args.scenario in ('receipt-close','source-close'):
         import progressive_receipt_close_api as case
         exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,args.expected_audio_output,growing_source=args.scenario=='source-close')
@@ -147,9 +147,10 @@ def main():
         result=run(SimpleNamespace(edition=args.edition,player=players,reader_runner=str(args.reader_runner),report_directory=str(args.report_directory)),exercise_case=checked,source_file=case.__file__)
     result.update(ordinaryPackagedMain=True,packagedMainAcceptance=True,privatePeerCopiesRemoved=not root.exists(),sdkDirectory=str(sdk),sdkModuleSha256={name:sha(module.__file__) for name,module in modules.items()},driverSha256=sha(__file__),scenario=args.scenario)
     result['classicPrivateNullVideo']=args.classic_null_video
-    if args.scenario in ('hevc','hevc-aac','av1'):
+    if args.scenario in ('hevc','hevc-aac','av1','av1-aac'):
         result['packagedMainAcceptance']=False
-        result['sourceBuildHevcAcceptance']=True
+        result['sourceBuildHevcAcceptance']=args.scenario in ('hevc','hevc-aac')
+        result['sourceBuildAv1Acceptance']=args.scenario in ('av1','av1-aac')
     (args.report_directory/'result.json').write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(result=result['result'],count=result['count'])))
 

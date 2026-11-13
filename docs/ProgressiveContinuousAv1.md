@@ -55,7 +55,7 @@ length/duration/identities, SHA-256 blocks и flush bytes публикует wri
 
 Profile не охватывает произвольный AV1 с alt-ref/hidden frames. Такие файлы
 могут играть как обычные завершённые файлы; progressive admission этого mode
-их отклоняет. Поддержка AV1+AAC будет отдельным проверенным профилем.
+их отклоняет. AV1 + AAC подключается отдельным [paired mode SDK 1.91](ProgressiveContinuousAv1Aac.md).
 
 ## Сохранность и бюджеты
 

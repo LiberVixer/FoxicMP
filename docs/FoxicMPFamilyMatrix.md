@@ -20,6 +20,11 @@ Main8/Main10 av01, 25/30000/1001, один displayed Frame OBU/sample, PTS=DTS.
 [51 worker и 30 public API rows](ProgressiveContinuousAv1Validation-2026-11-13.json)
 прошли на трёх редакциях; Classic проверен через private null-video renderer.
 Hidden/show_existing/still frames и audio этим mode не включены; R01 остаётся открытым.
+[SDK 1.91](ProgressiveContinuousAv1Aac.md) добавляет AV1 + AAC-LC PCM-window:
+Main8/Main10 av01, mono/stereo 44.1/48 kHz, audio-first/one-sample/short audio.
+[48 worker, 48 PCM consumer, 39 API rows и 192 регрессии](ProgressiveContinuousAv1AacValidation-2026-11-13.json)
+прошли на трёх редакциях. Classic — private null renderer; visible/physical
+A/V output не аттестуется. Остальная R01/container matrix остаётся открытой.
 
 ## Что именно сравнивается
 

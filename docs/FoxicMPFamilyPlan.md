@@ -1553,3 +1553,18 @@ Framing bounds дополнительно проверены под ASan/UBSan �
 Classic — DirectShow/private null renderer, не аттестация видимого output.
 Следующий узкий R01-профиль — AV1 + AAC-LC PCM-window в ordinary MP4;
 остальная container matrix и итоговая поставка остаются открытыми.
+
+
+## SDK 1.91: continuous AV1 + AAC-LC
+
+[Отдельный paired profile](ProgressiveContinuousAv1Aac.md) сохраняет AV1 Main8/Main10
+av01 и AAC-LC mono/stereo 44.1/48 kHz одного ordinary MP4 без transcoding.
+Explicit mode, immutable PCM-window, audio-first/one-sample/short audio,
+packet clocks, decoded video и точная audio presentation проверены отдельно.
+48 worker, 48 PCM consumer, 39 public API rows и 192 регрессии прошли;
+каждая из шести 24 s положительных player fixtures играет ≥10 s до complete.
+Исходный тест ошибочно требовал несколько output checkpoints у one-sample
+fixture с поздним физическим расположением AAC. Его FAIL сохранён; итоговый
+worker replay прошёл с точными payload/clock/frame checks. Classic использует
+private null renderer; видимый output и physical A/V sync не заявлены.
+Следующий узкий R01-профиль — ordinary MP4/VP9 video-only из инвентаризации.

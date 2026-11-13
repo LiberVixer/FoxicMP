@@ -4,10 +4,11 @@
 #include "progressivestreamaudio.h"
 #include "DSUtil/HarvesterMP4Muxed.h"
 #include "DSUtil/HarvesterHevc.h"
+#include "DSUtil/HarvesterAV1.h"
 namespace foxicmp { namespace progressive {
 class StreamAvIndex {
     StreamAudioWindow window;
-    const bool hevc;
+    const bool hevc,av1;
     harvester::muxmp4::Layout layout=harvester::muxmp4::Layout::ContinuousAv();
     harvester::muxmp4::Layout pending=harvester::muxmp4::Layout::ContinuousAv();
     static void check(bool ok){Require(ok,"remuxCache","Invalid continuous A/V output","cache-invalid-fragment");}
@@ -28,6 +29,10 @@ class StreamAvIndex {
                 const auto config=children.One("hvcC");harvester::HevcParameterSets parameters;
                 harvester::HEVCConfiguration(config.data,config.size,entries[0].first==harvester::FourCC("hvc1"),[](bool ok,const char*){check(ok);},&parameters);
                 check(parameters.size()==3);
+            }else if(av1){
+                check(entries[0].first==harvester::FourCC("av01"));const auto cfg=children.One("av1C");
+                const auto sequence=harvester::AV1Configuration(cfg.data,cfg.size,[](bool ok,const char*){check(ok);});
+                check(!(sequence[0]&0x18));
             }else{
                 check(entries[0].first==harvester::FourCC("avc1"));const auto avcc=children.One("avcC");check(avcc.size>=7 && avcc.data[0]==1);
             }
@@ -45,7 +50,7 @@ class StreamAvIndex {
         check(rateIndex==(window.pcm.Rate()==48000?3:4) && channels==window.pcm.Channels());
     }
 public:
-    explicit StreamAvIndex(StreamAudioWindow value,bool hevcVideo=false):window(std::move(value)),hevc(hevcVideo){check(!hevc || window.pcm.RawBegin()==1024);}
+    explicit StreamAvIndex(StreamAudioWindow value,bool hevcVideo=false,bool av1Video=false):window(std::move(value)),hevc(hevcVideo),av1(av1Video){check(!(hevc && av1) && (!(hevc || av1) || window.pcm.RawBegin()==1024));}
     void update(const harvester::FragmentIndex::Read& read,uint64_t prefix,bool complete=false){
         pending.CopyFrom(layout);auto& next=pending;
         next.Update(read,prefix,complete,[&](unsigned k,harvester::BoxData movie){initialization(k,movie);});

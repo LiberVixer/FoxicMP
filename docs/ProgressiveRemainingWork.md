@@ -1,6 +1,6 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 13 ноября 2026, включая bounded AV1 video-only continuous SDK 1.90.
+Рабочая сводка на 13 ноября 2026, включая bounded AV1/AAC continuous SDK 1.91.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
@@ -91,17 +91,23 @@ paused playback с ожидающим seek. Classic очищает pending targe
 
 [AV1 video-only подключён отдельным mode SDK 1.90](ProgressiveContinuousAv1.md):
 Main8/Main10 av01, 25/30000/1001, один displayed Frame OBU/sample, PTS=DTS.
-51 worker и 30 public API rows прошли, ≥10s playback до complete каждого
+51 worker и 30 public API rows прошли, ≥10 s playback до complete каждого
 положительного профиля. Hidden/show_existing/still/reorder отклоняются;
 Classic использует private null renderer, видимый desktop output не аттестован.
 
 [Linux установлен и проверен](ProgressiveContinuousAv1Delivery-2026-11-13.json):
 backup, неизменный INI и ещё 22 сценария с clean SDK 1.90 установленной копии.
 
-R01 остаётся открытым. Следующий профиль — AV1 + AAC-LC PCM-window в ordinary
-MP4: сначала paired clock/window admission и exact compressed/decoded hashes,
-затем worker/cache/decoder и отдельная capability трёх редакций. После него —
-VP9 и прочие container rows из инвентаризации. Старые narrow tests остаются.
+[AV1 + AAC-LC подключён отдельным mode SDK 1.91](ProgressiveContinuousAv1Aac.md):
+Main8/Main10 av01, mono/stereo 44.1/48 kHz, exact PCM-window, audio-first,
+one-sample и short audio. 48 worker, 48 PCM consumer, 39 public API rows и 192
+регрессии прошли; положительные player fixtures играют ≥10 s до complete.
+Classic — private null renderer, не visible/physical A/V acceptance.
+
+R01 остаётся открытым. Следующий профиль — VP9 video-only в ordinary MP4:
+fixture/config/clock/copy-remux admission, затем worker/cache/decoder и
+отдельная capability трёх редакций. VP9 + audio и другие container/layout
+rows из инвентаризации остаются дальнейшими этапами. Старые narrow tests сохраняются.
 
 ## Исторические наблюдения: отдельно от новых функций
 

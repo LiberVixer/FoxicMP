@@ -42,14 +42,15 @@ def fixture(root,profile,seconds=24):
     return path,samples
 
 
-def run(worker,report,consumer_kind=None,runner=None):
+def run(worker,report,consumer_kind=None,runner=None,*,profiles=PROFILES,make_fixture=fixture,mode=MODE,video_codec="hevc"):
+    selected_modes=["continuous-av1-video-v1","continuous-hevc-aac-window-v1"] if video_codec=="av1" else ["continuous-hevc-reordered-video-v1","continuous-h264-aac-window-v1"]
     report=Path(report);report.mkdir(parents=True,exist_ok=True);rows=[]
     with tempfile.TemporaryDirectory(prefix='fox-hevc-aac-') as temporary:
         root=Path(temporary);sources=[]
-        for profile in PROFILES:
+        for profile in profiles:
             name,rate,channels,fps,pixels,tag,first,_=profile
             folder=root/name;folder.mkdir();seconds=5 if consumer_kind else 24
-            source,samples=fixture(folder,profile,seconds=seconds);sources.append(source)
+            source,samples=make_fixture(folder,profile,seconds=seconds);sources.append(source)
             before=sha(source);windows=[]
             def accept(window):
                 assert not windows
@@ -57,17 +58,32 @@ def run(worker,report,consumer_kind=None,runner=None):
                 assert int(window['rawBegin'])==1024 and int(window['timestampEnd'])==samples
                 assert int(window['rawEnd'])==samples+1024
                 windows.append(window);return True
-            row,data=serve(worker,source,mode=MODE,on_audio_window=accept,short_reads=True,
+            partials=[]
+            def checkpoint(raw,state):
+                if video_codec!='av1' or state['available']>=source.stat().st_size:return
+                from progressive_stream_reorder_test import media_prefix
+                raw=media_prefix(raw)
+                if not raw:return
+                digest=hashlib.sha256(raw).hexdigest()
+                if any(p['sha256']==digest for p in partials):return
+                out=folder/'partial.mp4';out.write_bytes(raw)
+                actual,original=packets(out),packets(source)
+                if not actual['video']:return
+                assert actual['video']==original['video'][:len(actual['video'])]
+                assert [p[:3] for p in actual['audio']]==[p[:3] for p in original['audio'][:len(actual['audio'])]]
+                partials.append(dict(sha256=digest,videoPackets=len(actual['video']),audioPackets=len(actual['audio']),sourceAvailable=state['available']))
+            row,data=serve(worker,source,mode=mode,on_audio_window=accept,short_reads=True,on_wait=checkpoint,
                            cut_seconds=(1,2,3,4) if consumer_kind else (4,8,12,20))
             assert row['exitCode']==0 and row['result']['code']=='data',row
             assert row['firstCompleteFragmentBeforeSourceComplete'] and len(row['waits'])>=4,row
+            if video_codec=='av1':assert len(partials)>=(1 if samples==1 else 2),partials
             assert row['result']['pcmWindowRequired'] and row['result']['aacPcmWindow']==windows[0]
             output=folder/'output.mp4';output.write_bytes(data)
             original,actual=packets(source),packets(output)
             assert original['video']==actual['video']
             assert [p[:3] for p in original['audio']]==[p[:3] for p in actual['audio']]
             stream=next(s for s in probe(output)['streams'] if s['codec_type']=='video')
-            assert stream['codec_name']=='hevc' and stream['pix_fmt']==pixels and stream['codec_tag_string']==tag
+            assert stream['codec_name']==video_codec and stream['pix_fmt']==pixels and stream['codec_tag_string']==tag
             assert frames(source,pixels)==frames(output,pixels)
             pcm=subprocess.run(['ffmpeg','-v','error','-i',str(output),'-map','0:a','-f','s16le','-'],capture_output=True,timeout=30)
             assert pcm.returncode==0 and not pcm.stderr
@@ -79,10 +95,10 @@ def run(worker,report,consumer_kind=None,runner=None):
             row.update(profile=name,pixelFormat=pixels,sourceSha256=before,presentationSamples=samples,
                        exactVideoPayloadPtsDtsDuration=True,exactAudioPayloadPtsDts=True,
                        decodedVideoIdentical=True,rawPcmPrefixIdentical=True,encodedPcmFrames=encoded_samples,
-                       oracleDecodedFrames=oracle_frames,audioTrimRequired=True,audioWindow=windows[0])
+                       oracleDecodedFrames=oracle_frames,audioTrimRequired=True,audioWindow=windows[0],partials=partials)
             if consumer_kind:row['consumer']=consumer(consumer_kind,runner,source,output,windows[0],folder,samples,rate,channels)
             rows.append(row);(report/'progress.json').write_text(json.dumps(dict(completed=[r['profile'] for r in rows])))
-        for selected in ['continuous-hevc-reordered-video-v1','continuous-h264-aac-window-v1']:
+        for selected in selected_modes:
             row,data=serve(worker,sources[0],mode=selected,growing=False,on_audio_window=lambda _:True)
             assert row['exitCode']==1 and row['result']['code'] in ['unsupported-stream-count','unsupported-stream-codec'] and not data,row
             row['profile']='reject-through-'+selected;rows.append(row)
@@ -106,15 +122,15 @@ def run(worker,report,consumer_kind=None,runner=None):
                         raw[body+12:body+16]=bytes(4);changed=True
         assert changed
         zero=root/'zero-aac-skip.mp4';zero.write_bytes(raw)
-        row,data=serve(worker,zero,mode=MODE,growing=False,on_audio_window=lambda _:True)
+        row,data=serve(worker,zero,mode=mode,growing=False,on_audio_window=lambda _:True)
         assert row['exitCode']==1 and row['result']['code']=='unsupported-stream-aac-trim' and not data,row
         row['profile']='reject-noncontract-aac-initial-skip';rows.append(row)
         for fault,reason in [('cancel-wait','cancelled'),('cancel-write','cancelled'),('integrity','integrity-mismatch')]:
-            row,_=serve(worker,sources[0],mode=MODE,fault=fault,on_audio_window=lambda _:True,
+            row,_=serve(worker,sources[0],mode=mode,fault=fault,on_audio_window=lambda _:True,
                         cut_seconds=(1,2,3,4) if consumer_kind else (4,8,12,20))
             assert row['exitCode']==1 and row['result']['code']==reason,row
             row['profile']=fault;rows.append(row)
-    result=dict(result='PASS',count=len(rows),mode=MODE,rows=rows,workerSha256=sha(worker),testSourceSha256=sha(__file__),
+    result=dict(result='PASS',count=len(rows),mode=mode,rows=rows,workerSha256=sha(worker),testSourceSha256=sha(__file__),
                 consumer=consumer_kind,consumerSha256=sha(runner) if runner else None,
                 publicPlayerTested=False,physicalAudioMeasured=False)
     (report/'result.json').write_text(json.dumps(result,indent=2)+'\n');return result

@@ -20,6 +20,7 @@ AAC_MODE = 'continuous-h264-aac-window-v1'
 HEVC_MODE = 'continuous-hevc-reordered-video-v1'
 HEVC_AAC_MODE = 'continuous-hevc-aac-window-v1'
 AV1_MODE = 'continuous-av1-video-v1'
+AV1_AAC_MODE = 'continuous-av1-aac-window-v1'
 ACTIONS = frozenset(('continuousRemuxStart', 'continuousRemuxStatus',
     'continuousRemuxUpdate', 'continuousRemuxHeartbeat', 'continuousRemuxCancel',
     'continuousRemuxForget', 'continuousRemuxPlay', 'continuousPlaybackStatus',
@@ -52,10 +53,10 @@ class ContinuousRemux:
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
     def __init__(self, client, session_directory, *, mode=MODE):
-        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE):
             raise ValueError('Unsupported continuous profile')
-        av1_mode = mode == AV1_MODE
-        audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE)
+        av1_mode = mode in (AV1_MODE, AV1_AAC_MODE)
+        audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE)
         hevc_mode = mode in (HEVC_MODE, HEVC_AAC_MODE)
         self._mode = mode
         self.client = client
@@ -121,7 +122,7 @@ class ContinuousRemux:
                     or selected.get('lowOverheadObuRequired') is not True or selected.get('obuTypes') != [1, 2, 5, 6, 15]
                     or any(type(v) is not int for v in selected['obuTypes'])
                     or selected.get('sequenceHeaderRequiredInFirstPacket') is not True
-                    or selected.get('requiredTrackKinds') != ['video'] or selected.get('codecHintRequired') is not True):
+                    or selected.get('requiredTrackKinds') != (['video', 'audio'] if audio_mode else ['video']) or selected.get('codecHintRequired') is not True):
                 raise RuntimeError('Player lacks the exact AV1 video contract')
             self.capability.update(copy.deepcopy(selected))
 

@@ -9,7 +9,7 @@ import time
 import uuid
 
 from progressive_backend_demux_conformance import snapshot
-from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE
+from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE
 from progressive_hevc_remux_preflight import PROFILES
 from progressive_integrity import protect_snapshot
 from progressive_mux_mp4_fixture import boxes
@@ -19,15 +19,17 @@ from progressive_stream_remux_worker_test import probe, fixture as avc_fixture
 
 
 def exercise(peers, root, report, audio=False, expected_audio="null", av1=False):
-    assert not (audio and av1), 'AV1/AAC is a separate future profile'
-    mode = AV1_MODE if av1 else HEVC_AAC_MODE if audio else HEVC_MODE
+    mode = (AV1_AAC_MODE if audio else AV1_MODE) if av1 else HEVC_AAC_MODE if audio else HEVC_MODE
     video_codec = 'av1' if av1 else 'hevc'
     if av1:
         from progressive_stream_av1_test import PROFILES as video_profiles, fixture as video_fixture, packets as video_packets
     else:
         video_profiles, video_fixture, video_packets = PROFILES, fixture, packets
     if audio:
-        from progressive_stream_hevc_aac_test import PROFILES as av_profiles, fixture as av_fixture
+        if av1:
+            from progressive_stream_av1_aac_test import PROFILES as av_profiles, fixture as av_fixture
+        else:
+            from progressive_stream_hevc_aac_test import PROFILES as av_profiles, fixture as av_fixture
         from progressive_stream_aac_window_test import packets as av_packets
     report = Path(report)
     client = peers[0].client
