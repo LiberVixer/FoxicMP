@@ -95,6 +95,9 @@ Main8/Main10 av01, 25/30000/1001, один displayed Frame OBU/sample, PTS=DTS.
 положительного профиля. Hidden/show_existing/still/reorder отклоняются;
 Classic использует private null renderer, видимый desktop output не аттестован.
 
+[Linux установлен и проверен](ProgressiveContinuousAv1Delivery-2026-11-13.json):
+backup, неизменный INI и ещё 22 сценария с clean SDK 1.90 установленной копии.
+
 R01 остаётся открытым. Следующий профиль — AV1 + AAC-LC PCM-window в ordinary
 MP4: сначала paired clock/window admission и exact compressed/decoded hashes,
 затем worker/cache/decoder и отдельная capability трёх редакций. После него —

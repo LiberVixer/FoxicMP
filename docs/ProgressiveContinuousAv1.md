@@ -84,3 +84,10 @@ Classic в SSH-сеансе использует частный Null Video Rende
 аттестуется. Новый профиль video-only; он не доказывает physical A/V sync,
 GPU/HDR или готовность всей R01. Исторические неудачи тестового стенда
 сохраняются отдельно от итоговых прогонов.
+
+
+[Поставка и проверка установленной Linux-копии](ProgressiveContinuousAv1Delivery-2026-11-13.json):
+clean SDK 1.90 из указанного implementation commit, атомарная замена EXE/worker,
+backup и неизменный INI. Ещё 22 сценария (AV1, прежний AAC, source-close)
+прошли с собственным SDK установленного плеера. Windows установки не менялись.
+Этот source SDK и проверенные кандидаты не объявляются новым итоговым release.
