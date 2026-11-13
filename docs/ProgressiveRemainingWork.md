@@ -86,6 +86,8 @@ Classic использовал частный Null Video Renderer (Uncompressed)
 Включены audio-first, one-sample/short audio, точный sample window и cancel
 paused playback с ожидающим seek. Classic очищает pending target синхронно;
 видимый renderer по-прежнему не аттестован. Video-only mode не меняет поведения.
+[Установленный Linux обновлён](ProgressiveContinuousHevcAacDelivery-2026-11-13.json)
+с backup и неизменным INI; ещё 25 сценариев установленной копии прошли.
 
 R01 остаётся открытым. Следующий профиль — AV1 video-only в ordinary MP4:
 сначала fixture/copy-remux/clock/config admission, затем worker/cache/decoder

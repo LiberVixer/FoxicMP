@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FILES = {
     'ProgressiveContinuousHevcAac.md': 'docs/ProgressiveContinuousHevcAac.md',
     'ProgressiveContinuousHevcAacValidation-2026-11-13.json': 'docs/ProgressiveContinuousHevcAacValidation-2026-11-13.json',
+    'ProgressiveContinuousHevcAacDelivery-2026-11-13.json': 'docs/ProgressiveContinuousHevcAacDelivery-2026-11-13.json',
     'progressive-v2-continuous-hevc-aac.json': 'tests/fixtures/progressive-v2/continuous-hevc-aac.json',
     'ProgressiveContinuousHevc.md': 'docs/ProgressiveContinuousHevc.md',
     'ProgressiveContinuousHevcValidation-2026-11-12.json': 'docs/ProgressiveContinuousHevcValidation-2026-11-12.json',

@@ -104,6 +104,18 @@ rows прежних режимов и 18 дополнительных HEVC video
 38 SDK unit tests прошли. Все принятые harness/native build exits равны 0;
 ожидаемые media errors worker возвращает с exit 1. Исходные failed runs и
 Classic pending-seek baseline сохранены отдельно, не считаются PASS.
+
+[Подтверждение SDK и Linux-установки](ProgressiveContinuousHevcAacDelivery-2026-11-13.json):
+clean SDK 1.89 из `6e768e5a734bb69ec072f843035852721697613b`, 361 файл,
+10 Python modules, SHA-256
+`1276df211a61e57d17e63403c949be98579939cda337b4ebbbb642a9fc623ccf`.
+Linux EXE/worker и согласованный SDK обновлены atomic per-file rename;
+16 изменённых/новых файлов подготовлены до замены, прежние версии сохранены.
+INI до/после побайтно одинаков. Установленная копия с собственным SDK прошла
+ещё 25 сценариев HEVC/AAC, H.264/AAC и source-close на частных профилях.
+Установленные Windows EXE/INI и shell registration не менялись; Windows
+результаты относятся к отдельным candidate builds, не к новым MSI/EXE packages.
+
 Hardware A/V sync, GPU/HDR, full codec/container matrix и final release остаются
 отдельными пунктами. HE-AAC, multichannel, HEVC/Opus continuous, generic MOV/MKV,
 live/config changes и другие R01 rows не добавляются этим профилем.
