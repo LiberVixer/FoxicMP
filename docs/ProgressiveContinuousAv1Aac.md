@@ -91,3 +91,10 @@ seek к последней sample и усечённый decoder output. Это �
 A/V sync, output latency, GPU/HDR или оборудования. Classic в SSH использует
 private Null Video Renderer (Uncompressed); visible desktop output не аттестован.
 Общие R01/R15/R17 и остальная container/codec/layout matrix остаются открытыми.
+
+
+[Поставка и проверка установленной Linux-копии](ProgressiveContinuousAv1AacDelivery-2026-11-13.json):
+clean SDK 1.91 из указанного implementation commit, атомарная замена EXE/worker,
+backup и неизменный INI. Ещё 25 сценариев (AV1/AAC, прежний H.264/AAC, source-close)
+прошли с собственным SDK установленного плеера. Windows установки не менялись.
+Этот source SDK и проверенные кандидаты не объявляются новым итоговым release.

@@ -104,6 +104,9 @@ one-sample и short audio. 48 worker, 48 PCM consumer, 39 public API rows и 192
 регрессии прошли; положительные player fixtures играют ≥10 s до complete.
 Classic — private null renderer, не visible/physical A/V acceptance.
 
+[Linux установлен и проверен](ProgressiveContinuousAv1AacDelivery-2026-11-13.json):
+backup, неизменный INI и ещё 25 сценариев с clean SDK 1.91 установленной копии.
+
 R01 остаётся открытым. Следующий профиль — VP9 video-only в ordinary MP4:
 fixture/config/clock/copy-remux admission, затем worker/cache/decoder и
 отдельная capability трёх редакций. VP9 + audio и другие container/layout
