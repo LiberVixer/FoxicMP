@@ -11,6 +11,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
     'ProgressiveQueuedSeekBeforePositionWait-2026-11-14.py.txt': 'docs/ProgressiveQueuedSeekBeforePositionWait-2026-11-14.py.txt',
+    'ProgressiveContinuousWebmVp9SuperframeDelivery-2026-11-14.json': 'docs/ProgressiveContinuousWebmVp9SuperframeDelivery-2026-11-14.json',
     'ProgressiveContinuousWebmVp9Superframe.md': 'docs/ProgressiveContinuousWebmVp9Superframe.md',
     'ProgressiveContinuousWebmVp9SuperframeValidation-2026-11-14.json': 'docs/ProgressiveContinuousWebmVp9SuperframeValidation-2026-11-14.json',
     'progressive-v2-continuous-webm-vp9-superframe.json': 'tests/fixtures/progressive-v2/continuous-webm-vp9-superframe.json',

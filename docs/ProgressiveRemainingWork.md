@@ -199,6 +199,9 @@ bounds связаны по SHA. Первый пропуск decoder gate и ош
 packet offsets в тесте сохранены. Classic — private null renderer;
 visible/physical A/V acceptance и полная R01 остаются открытыми.
 
+[Linux обновлён и проверен](ProgressiveContinuousWebmVp9SuperframeDelivery-2026-11-14.json):
+backup, неизменный текущий INI и ещё 29 сценариев с clean SDK 1.97 установленной копии.
+
 R01 остаётся открытым. Следующий узкий этап R01 — подготовка continuous WebM VP9/Opus:
 согласование origin/clocks, начального skip и конечной PCM-обрезки, включая
 неполные prefixes. Прежнее preflight-наблюдение +7 ms не закрывает paired playback.

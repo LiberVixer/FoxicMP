@@ -80,3 +80,10 @@ Classic использует отдельный INI и private null renderer; э
 того же playing session. Первый Windows Qt FAIL одиночного 150 ms наблюдения
 сохранён; исходный terminal snapshot не был записан, причина того события
 не приписывается плееру или таймеру. [Прежний тест](ProgressiveQueuedSeekBeforePositionWait-2026-11-14.py.txt) сохранён для аудита.
+
+
+[Поставка и проверка установленной Linux-копии](ProgressiveContinuousWebmVp9SuperframeDelivery-2026-11-14.json):
+clean SDK 1.97 из implementation commit, атомарная замена EXE/worker,
+резервная копия и неизменный INI. Ещё 29 сценариев (WebM VP9 indexed video-only, прежний строгий WebM VP9,
+source-close) прошли с собственным SDK установленного плеера. Установки Windows
+не менялись. Source SDK и проверенные кандидаты не являются новым итоговым release.
