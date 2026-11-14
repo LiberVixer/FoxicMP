@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 2,
+  "sessionId": "11111111111111111111111111111111",
+  "generation": "1",
+  "revision": "1",
+  "writer": {
+    "instanceId": "22222222222222222222222222222222",
+    "state": "downloading"
+  },
+  "timeline": {
+    "timebase": {
+      "numerator": 1,
+      "denominator": 10000000
+    },
+    "live": false,
+    "duration": "240000000",
+    "timestampOffset": "0"
+  },
+  "resources": [
+    {
+      "id": "media",
+      "name": "media.part",
+      "length": "1048576",
+      "state": "downloading",
+      "ranges": [],
+      "integrity": {
+        "algorithm": "sha256",
+        "blocks": []
+      }
+    }
+  ],
+  "tracks": [
+    {
+      "id": "main",
+      "kind": "video",
+      "required": true,
+      "codecHint": "vp9",
+      "containerHint": "mp4",
+      "state": "downloading",
+      "initializationReady": false,
+      "source": {
+        "resourceId": "media"
+      }
+    },
+    {
+      "id": "sound",
+      "kind": "audio",
+      "required": true,
+      "codecHint": "aac-lc",
+      "containerHint": "mp4",
+      "state": "downloading",
+      "initializationReady": false,
+      "source": {
+        "resourceId": "media"
+      }
+    }
+  ]
+}

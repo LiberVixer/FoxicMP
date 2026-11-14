@@ -19,7 +19,7 @@ public:
         uint64_t outputLimit=64*1024*1024,StreamRemuxLimits limits={},StreamRemuxProfile profile=StreamRemuxProfile::H264Video):owner(std::move(cacheOwner)),mode(StreamRemuxMode(profile)) {
         Require(bool(owner),"remuxCache","Cache service owner required","invalid_request");
         const auto model=Parse(json);
-        output=owner->create(cache,registry,model.id,model.generation,outputLimit,StreamRemuxIsHevc(profile),StreamRemuxIsAv1(profile),profile==StreamRemuxProfile::Av1AacWindow,StreamRemuxIsVp9(profile),profile==StreamRemuxProfile::Vp9AacWindow);
+        output=owner->create(cache,registry,model.id,model.generation,outputLimit,StreamRemuxIsHevc(profile),StreamRemuxIsAv1(profile),profile==StreamRemuxProfile::Av1AacWindow,StreamRemuxIsVp9(profile),StreamRemuxIsVp9(profile) && StreamRemuxHasAudio(profile));
         try{
             producer=std::make_unique<StreamRemuxSession>(directory,registry,json,resource,child,[store=output](uint64_t at,const std::vector<char>& bytes){store->append(at,bytes);},limits,profile,[store=output](const StreamAudioWindow& plan){store->acceptAudioWindow(plan);});
             finalizer=std::thread([this]{

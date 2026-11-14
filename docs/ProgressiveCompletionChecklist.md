@@ -3,12 +3,12 @@
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
 **Рабочий порядок оставшихся задач — [R01–R17, исторические H01–H04 и внешние E01–E03](ProgressiveRemainingWork.md).**
-Сводка актуализирована 14 ноября, SDK 1.94: 141 закрытых и 77 открытых
+Сводка актуализирована 14 ноября, SDK 1.95: 142 закрытых и 77 открытых
 записей, без вычисления процента готовности. Ниже сохранены подробные доказательства
 и исторические состояния; старые ограничения уточняются позднейшими отчётами.
 
 Приложение 0.2.0. Последний указанный здесь опубликованный пакетный срез — SDK 1.84;
-в текущих исходниках/проверенных кандидатах SDK 1.94 с исправлениями от 14 ноября.
+в текущих исходниках/проверенных кандидатах SDK 1.95 с исправлениями от 14 ноября.
 Исходники и clean SDK-архив кандидата не равны новому итоговому GitHub release.
 [SDK 1.84](ProgressiveContinuousAacPackages.md) проверен на обычных main/пакетах,
 Classic completed-seek race исправлен и проверен управляемой задержкой; полная стабильная приёмка открыта. Этот документ — перечень
@@ -58,6 +58,8 @@ R01: [инвентаризация container/codec/layout и подготовк�
 - [x] SDK 1.93: [VP9 + AAC-LC из ordinary MP4](ProgressiveContinuousVp9Aac.md), explicit paired mode, Profile0/8-bit или Profile2/10-bit vp09, mono/stereo 44.1/48 kHz, immutable exact PCM-window и audio-first/one-sample/short audio. [48 worker, 48 PCM consumer, 39 API rows и 261 регрессия](ProgressiveContinuousVp9AacValidation-2026-11-14.json); ≥10 s по monotonic clocks и media advance ≥10.1 s до complete, exact payload/clocks/decoded frames/samples, seek/cancel/EOF/release/forget трёх редакций. Исходный Windows Qt wall-duration FAIL и старый тест сохранены отдельно. [Linux обновлён с backup и неизменным INI, ещё 25 installed checks прошли](ProgressiveContinuousVp9AacDelivery-2026-11-14.json). Classic — private null renderer; hidden/show_existing/superframes и полная R01/physical A/V приёмка открыты.
 
 - [x] SDK 1.94: [VP9 indexed superframes/alt-ref video-only](ProgressiveContinuousVp9Superframe.md), отдельный mode, Profile0/8-bit или Profile2/10-bit, 1–8 кадров/sample, hidden inter prefixes и один displayed last, PTS=DTS/fixed size. [108 worker, 30 новых API rows, 93 старых worker, 48 проверок прежнего PCM и 126 API регрессий](ProgressiveContinuousVp9SuperframeValidation-2026-11-14.json) трёх редакций; actual two-pass fixtures и exact payload/clocks/config/video, ≥10 s monotonic и ≥10.1 s media до complete, seek/pause/EOF/release/forget. ASan/UBSan/MSVC bounds; максимум восемь кадров проверен синтетически. [Linux обновлён с backup и неизменным INI, ещё 26 installed checks прошли](ProgressiveContinuousVp9SuperframeDelivery-2026-11-14.json). Classic — private null renderer; superframes+AAC/show_existing и полная R01/physical A/V приёмка открыты.
+
+- [x] SDK 1.95: [VP9 indexed superframes/alt-ref + AAC-LC](ProgressiveContinuousVp9SuperframeAac.md), explicit paired mode, Profile0/8-bit или Profile2/10-bit, mono/stereo 44.1/48 kHz, immutable exact PCM-window, audio-first/one-sample/short audio. [66 worker, 66 PCM consumer, 39 новых API rows, 108 прежних worker и 126 API регрессий](ProgressiveContinuousVp9SuperframeAacValidation-2026-11-14.json) трёх редакций; actual indexed fixtures, exact payload/clocks/video/PCM и decoded incomplete prefixes, ≥10 s monotonic/≥10.1 s media до complete, seek/pause/pending cancel/EOF/release/forget. Первый PCM FAIL расписания и прежний тест сохранены, minimum two incomplete fragments не ослаблен. Parser и прежние ASan/UBSan/MSVC proofs связаны по SHA. Classic — private null renderer; WebM/other layouts/show_existing и полная R01/physical A/V приёмка открыты.
 
 - [x] Первый этап: bounded FFmpeg AVIO **диагностика** подтверждённых ресурсов,
   11 format hints, отдельный процесс, ranges/SHA/wait/update/cancel/release,

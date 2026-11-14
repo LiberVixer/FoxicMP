@@ -53,6 +53,18 @@ PTS=DTS, фиксированные размеры, до восьми кадро
 кадров проверен на синтетических header/index cases. Classic — private null
 renderer; visible/physical A/V acceptance и полная R01 остаются открытыми.
 
+[SDK 1.95](ProgressiveContinuousVp9SuperframeAac.md) добавляет отдельный paired
+VP9 indexed superframes/alt-ref + AAC-LC mode: Profile0/8-bit или Profile2/10-bit,
+mono/stereo 44.1/48 kHz, точное PCM-window и audio-first/one-sample/short audio.
+[66 worker, 66 PCM consumer, 39 новых API rows, 108 прежних worker и 126 API регрессий](ProgressiveContinuousVp9SuperframeAacValidation-2026-11-14.json)
+прошли на трёх редакциях. Реальные indexed fixtures проверены по compressed
+payload/clocks, финальным и неполным декодированным video prefixes и PCM/trim/seek.
+До writer complete выдержаны ≥10 s monotonic и media advance ≥10.1 s.
+Первый Linux PCM FAIL расписания сохранён; публикации в пятисекундном источнике
+перенесены после keyframes, требование двух incomplete fragments не ослаблено.
+Header/index parser не менялся; ASan/UBSan/MSVC срез SDK 1.94 связан по SHA.
+Classic — private null renderer; visible/physical A/V acceptance и R01 открыты.
+
 ## Что именно сравнивается
 
 | Редакция | Движок | Проверенная сборка выпуска 0.2.0 | Отдельный профиль |

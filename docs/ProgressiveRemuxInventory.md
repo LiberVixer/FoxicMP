@@ -5,6 +5,9 @@
 Позднейшая реализация выбранного HEVC-профиля описана в
 [SDK 1.88](ProgressiveContinuousHevc.md). Таблица ниже сохраняет исходный срез
 до реализации и причины выбора; старые «нет/не реализован» относятся к этому срезу.
+Обычные MP4/HEVC/AV1/VP9 позднее расширены до
+[VP9 indexed superframes + AAC-LC SDK 1.95](ProgressiveContinuousVp9SuperframeAac.md);
+WebM и прочие container rows ниже остаются отдельными этапами.
 [Полный порядок работ](ProgressiveRemainingWork.md),
 [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [подробный чеклист](ProgressiveCompletionChecklist.md).

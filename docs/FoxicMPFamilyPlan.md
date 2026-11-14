@@ -1619,3 +1619,22 @@ PTS=DTS, фиксированные размеры, до восьми кадро
 renderer; visible/physical A/V acceptance и полная R01 остаются открытыми.
 Следующий узкий профиль — VP9 indexed superframes + AAC-LC PCM-window в ordinary
 MP4: paired admission, exact clocks/video/PCM и проверки трёх редакций.
+
+
+## SDK 1.95: continuous VP9 indexed superframes + AAC-LC
+
+[SDK 1.95](ProgressiveContinuousVp9SuperframeAac.md) добавляет отдельный paired
+VP9 indexed superframes/alt-ref + AAC-LC mode: Profile0/8-bit или Profile2/10-bit,
+mono/stereo 44.1/48 kHz, точное PCM-window и audio-first/one-sample/short audio.
+[66 worker, 66 PCM consumer, 39 новых API rows, 108 прежних worker и 126 API регрессий](ProgressiveContinuousVp9SuperframeAacValidation-2026-11-14.json)
+прошли на трёх редакциях. Реальные indexed fixtures проверены по compressed
+payload/clocks, финальным и неполным декодированным video prefixes и PCM/trim/seek.
+До writer complete выдержаны ≥10 s monotonic и media advance ≥10.1 s.
+Первый Linux PCM FAIL расписания сохранён; публикации в пятисекундном источнике
+перенесены после keyframes, требование двух incomplete fragments не ослаблено.
+Header/index parser не менялся; ASan/UBSan/MSVC срез SDK 1.94 связан по SHA.
+Classic — private null renderer; visible/physical A/V acceptance и R01 открыты.
+Следующий узкий этап R01 — подготовка continuous-входа WebM/VP9: сверить
+контракт с уже существующим native WebM, выбрать допустимые EBML/Cluster/clock
+формы и реальные fixtures. Native-пути не реализовывать повторно; WebM/Opus
+и прочие pairs не объявлять разрешёнными через новый MP4 mode.

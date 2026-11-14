@@ -9,7 +9,7 @@ import time
 import uuid
 
 from progressive_backend_demux_conformance import snapshot
-from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE
+from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE
 from progressive_hevc_remux_preflight import PROFILES
 from progressive_integrity import protect_snapshot
 from progressive_mux_mp4_fixture import boxes
@@ -19,8 +19,8 @@ from progressive_stream_remux_worker_test import probe, fixture as avc_fixture
 
 
 def exercise(peers, root, report, audio=False, expected_audio="null", av1=False, vp9=False, vp9_superframe=False):
-    assert not (vp9 and av1) and (not vp9_superframe or (vp9 and not audio))
-    mode = VP9_SUPERFRAME_MODE if vp9_superframe else (VP9_AAC_MODE if audio else VP9_MODE) if vp9 else ((AV1_AAC_MODE if audio else AV1_MODE) if av1 else (HEVC_AAC_MODE if audio else HEVC_MODE))
+    assert not (vp9 and av1) and (not vp9_superframe or vp9)
+    mode = (VP9_SUPERFRAME_AAC_MODE if audio else VP9_SUPERFRAME_MODE) if vp9_superframe else (VP9_AAC_MODE if audio else VP9_MODE) if vp9 else ((AV1_AAC_MODE if audio else AV1_MODE) if av1 else (HEVC_AAC_MODE if audio else HEVC_MODE))
     video_codec = 'vp9' if vp9 else 'av1' if av1 else 'hevc'
     if vp9_superframe:
         from progressive_stream_vp9_superframe_test import PROFILES as video_profiles, fixture as video_fixture, packets as video_packets
@@ -31,7 +31,9 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False,
     else:
         video_profiles, video_fixture, video_packets = PROFILES, fixture, packets
     if audio:
-        if vp9:
+        if vp9_superframe:
+            from progressive_stream_vp9_superframe_aac_test import PROFILES as av_profiles, fixture as av_fixture
+        elif vp9:
             from progressive_stream_vp9_aac_test import PROFILES as av_profiles, fixture as av_fixture
         elif av1:
             from progressive_stream_av1_aac_test import PROFILES as av_profiles, fixture as av_fixture
@@ -198,6 +200,10 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False,
                              paused=paused, growingSeek=seeking, queued=queued, applied=applied,
                              complete=complete, finished=finished, exactPacketClocks=True,
                              exactDecodedFrames=True, **final))
+            if vp9_superframe:
+                from progressive_stream_vp9_superframe_test import superframe
+                rows[-1]['indexedSuperframePackets']=sum(superframe(raw[int(p['pos']):int(p['pos'])+int(p['size'])]) for p in metadata['packets'] if p['codec_type']=='video')
+                assert rows[-1]['indexedSuperframePackets']>0
             (report / 'progress.json').write_text(json.dumps(dict(completed=[r['profile'] for r in rows])))
 
         if audio:

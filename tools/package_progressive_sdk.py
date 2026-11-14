@@ -10,6 +10,10 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveVp9SuperframeAacBeforePrefixSchedule-2026-11-14.py.txt': 'docs/ProgressiveVp9SuperframeAacBeforePrefixSchedule-2026-11-14.py.txt',
+    'ProgressiveContinuousVp9SuperframeAac.md': 'docs/ProgressiveContinuousVp9SuperframeAac.md',
+    'ProgressiveContinuousVp9SuperframeAacValidation-2026-11-14.json': 'docs/ProgressiveContinuousVp9SuperframeAacValidation-2026-11-14.json',
+    'progressive-v2-continuous-vp9-superframe-aac.json': 'tests/fixtures/progressive-v2/continuous-vp9-superframe-aac.json',
     'ProgressiveContinuousVp9SuperframeDelivery-2026-11-14.json': 'docs/ProgressiveContinuousVp9SuperframeDelivery-2026-11-14.json',
     'ProgressiveContinuousVp9Superframe.md': 'docs/ProgressiveContinuousVp9Superframe.md',
     'ProgressiveContinuousVp9SuperframeValidation-2026-11-14.json': 'docs/ProgressiveContinuousVp9SuperframeValidation-2026-11-14.json',
@@ -254,7 +258,7 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.94', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.95', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(), qtSchema2Playback=qt_schema2_playback(), classicSchema2Playback=classic_schema2_playback(),

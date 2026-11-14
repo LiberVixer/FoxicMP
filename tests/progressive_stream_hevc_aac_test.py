@@ -42,8 +42,11 @@ def fixture(root,profile,seconds=24):
     return path,samples
 
 
-def run(worker,report,consumer_kind=None,runner=None,*,profiles=PROFILES,make_fixture=fixture,mode=MODE,video_codec="hevc"):
+def run(worker,report,consumer_kind=None,runner=None,*,profiles=PROFILES,make_fixture=fixture,mode=MODE,video_codec="hevc",verify_partial_video=False):
     selected_modes=(["continuous-vp9-video-v1","continuous-h264-aac-window-v1"] if video_codec=="vp9" else ["continuous-av1-video-v1","continuous-hevc-aac-window-v1"] if video_codec=="av1" else ["continuous-hevc-reordered-video-v1","continuous-h264-aac-window-v1"])
+    # 2s GOP needs the 4s keyframe to be fully published before writer complete.
+    # Keep the same >=2 nonfinal-fragment assertion for normal PCM profiles.
+    cuts=((1.5,2.5,3.5,4.75) if mode=="continuous-vp9-superframe-aac-window-v1" else (1,2,3,4)) if consumer_kind else (4,8,12,20)
     report=Path(report);report.mkdir(parents=True,exist_ok=True);rows=[]
     with tempfile.TemporaryDirectory(prefix='fox-hevc-aac-') as temporary:
         root=Path(temporary);sources=[]
@@ -52,6 +55,7 @@ def run(worker,report,consumer_kind=None,runner=None,*,profiles=PROFILES,make_fi
             folder=root/name;folder.mkdir();seconds=5 if consumer_kind else 24
             source,samples=make_fixture(folder,profile,seconds=seconds);sources.append(source)
             before=sha(source);windows=[]
+            decoded_reference=frames(source,pixels) if verify_partial_video else None
             def accept(window):
                 assert not windows
                 assert window['sampleRate']==rate and window['channels']==channels
@@ -72,8 +76,12 @@ def run(worker,report,consumer_kind=None,runner=None,*,profiles=PROFILES,make_fi
                 assert actual['video']==original['video'][:len(actual['video'])]
                 assert [p[:3] for p in actual['audio']]==[p[:3] for p in original['audio'][:len(actual['audio'])]]
                 partials.append(dict(sha256=digest,videoPackets=len(actual['video']),audioPackets=len(actual['audio']),sourceAvailable=state['available']))
+                if verify_partial_video:
+                    images=frames(out,pixels)
+                    assert len(images)==len(actual['video']) and images==decoded_reference[:len(images)]
+                    partials[-1].update(decodedFramesIdentical=True,decodedFrames=len(images))
             row,data=serve(worker,source,mode=mode,on_audio_window=accept,short_reads=True,on_wait=checkpoint,
-                           cut_seconds=(1,2,3,4) if consumer_kind else (4,8,12,20))
+                           cut_seconds=cuts)
             assert row['exitCode']==0 and row['result']['code']=='data',row
             assert row['firstCompleteFragmentBeforeSourceComplete'] and len(row['waits'])>=4,row
             if video_codec in ('av1','vp9'):assert len(partials)>=(1 if samples==1 else 2),partials
@@ -127,7 +135,7 @@ def run(worker,report,consumer_kind=None,runner=None,*,profiles=PROFILES,make_fi
         row['profile']='reject-noncontract-aac-initial-skip';rows.append(row)
         for fault,reason in [('cancel-wait','cancelled'),('cancel-write','cancelled'),('integrity','integrity-mismatch')]:
             row,_=serve(worker,sources[0],mode=mode,fault=fault,on_audio_window=lambda _:True,
-                        cut_seconds=(1,2,3,4) if consumer_kind else (4,8,12,20))
+                        cut_seconds=cuts)
             assert row['exitCode']==1 and row['result']['code']==reason,row
             row['profile']=fault;rows.append(row)
     result=dict(result='PASS',count=len(rows),mode=mode,rows=rows,workerSha256=sha(worker),testSourceSha256=sha(__file__),

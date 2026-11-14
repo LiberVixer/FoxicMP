@@ -1,12 +1,12 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 14 ноября 2026, включая bounded VP9 indexed superframes continuous SDK 1.94.
+Рабочая сводка на 14 ноября 2026, включая bounded VP9 indexed superframes/AAC continuous SDK 1.95.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
 закрытыми широкие пункты по результатам узких тестов.
 
-В подробном чеклисте 141 выполненных и 77 открытых checkbox. Это число записей,
+В подробном чеклисте 142 выполненных и 77 открытых checkbox. Это число записей,
 не процент готовности: общая приёмка повторяет требования нескольких разделов.
 Ниже они сведены к пакетам работ с одним проверяемым результатом на пакет.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -143,11 +143,23 @@ renderer; visible/physical A/V acceptance и полная R01 остаются �
 [Linux обновлён и проверен](ProgressiveContinuousVp9SuperframeDelivery-2026-11-14.json):
 backup, неизменный INI и ещё 26 сценариев с clean SDK 1.94 установленной копии.
 
-R01 остаётся открытым. Следующий профиль — VP9 indexed superframes + AAC-LC
-PCM-window в ordinary MP4: paired admission, exact clocks/video/PCM и отдельный
-mode, затем проверки трёх редакций. Новый SDK 1.94 пока video-only;
-прежние VP9 video-only и paired modes сохраняют запрет superframes. Другие
-container/layout rows остаются дальнейшими этапами. Старые narrow tests сохраняются.
+[SDK 1.95](ProgressiveContinuousVp9SuperframeAac.md) добавляет отдельный paired
+VP9 indexed superframes/alt-ref + AAC-LC mode: Profile0/8-bit или Profile2/10-bit,
+mono/stereo 44.1/48 kHz, точное PCM-window и audio-first/one-sample/short audio.
+[66 worker, 66 PCM consumer, 39 новых API rows, 108 прежних worker и 126 API регрессий](ProgressiveContinuousVp9SuperframeAacValidation-2026-11-14.json)
+прошли на трёх редакциях. Реальные indexed fixtures проверены по compressed
+payload/clocks, финальным и неполным декодированным video prefixes и PCM/trim/seek.
+До writer complete выдержаны ≥10 s monotonic и media advance ≥10.1 s.
+Первый Linux PCM FAIL расписания сохранён; публикации в пятисекундном источнике
+перенесены после keyframes, требование двух incomplete fragments не ослаблено.
+Header/index parser не менялся; ASan/UBSan/MSVC срез SDK 1.94 связан по SHA.
+Classic — private null renderer; visible/physical A/V acceptance и R01 открыты.
+
+R01 остаётся открытым. Следующий этап — подготовка continuous-входа WebM/VP9:
+сверка отличий от уже реализованного native WebM, выбор EBML/Cluster/clock
+профиля и реальные fixtures. Дальше — отдельный mode/worker/cache/decoder
+и проверки трёх редакций. MP4 modes SDK 1.95 не принимают WebM/Opus автоматически.
+Другие container/layout rows и старые narrow tests сохраняются.
 
 ## Исторические наблюдения: отдельно от новых функций
 

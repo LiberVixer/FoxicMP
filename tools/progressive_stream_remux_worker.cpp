@@ -105,10 +105,10 @@ Doc run(Api& api,const Doc& start){
  // Audio output requires an explicit PCM-window acknowledgement before media
  // bytes. The default mode remains video-only.
  const bool alignedAudio=start["mode"]=="continuous-h264-aac-aligned-v1";
- const bool windowAudio=start["mode"]=="continuous-h264-aac-window-v1" || start["mode"]=="continuous-hevc-aac-window-v1" || start["mode"]=="continuous-av1-aac-window-v1" || start["mode"]=="continuous-vp9-aac-window-v1",hasAudio=alignedAudio || windowAudio;
+ const bool windowAudio=start["mode"]=="continuous-h264-aac-window-v1" || start["mode"]=="continuous-hevc-aac-window-v1" || start["mode"]=="continuous-av1-aac-window-v1" || start["mode"]=="continuous-vp9-aac-window-v1" || start["mode"]=="continuous-vp9-superframe-aac-window-v1",hasAudio=alignedAudio || windowAudio;
  const bool hevc=start["mode"]=="continuous-hevc-reordered-video-v1" || start["mode"]=="continuous-hevc-aac-window-v1";
  const bool av1=start["mode"]=="continuous-av1-video-v1" || start["mode"]=="continuous-av1-aac-window-v1";
- const bool vp9Superframe=start["mode"]=="continuous-vp9-superframe-video-v1";
+ const bool vp9Superframe=start["mode"]=="continuous-vp9-superframe-video-v1" || start["mode"]=="continuous-vp9-superframe-aac-window-v1";
  const bool vp9=vp9Superframe || start["mode"]=="continuous-vp9-video-v1" || start["mode"]=="continuous-vp9-aac-window-v1";
  const bool reordered=hevc || hasAudio || start["mode"]=="continuous-h264-reordered-video-v1";
  need(vp9 || av1 || reordered || start["mode"]=="continuous-h264-video-v1","unsupported-stream-start");
