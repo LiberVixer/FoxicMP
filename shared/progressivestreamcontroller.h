@@ -24,7 +24,7 @@ class ContinuousRemuxController {
         Require(!s.live && !s.hasWindow && s.knownDuration && s.duration>0 && s.duration<=36000000000LL && s.numerator==1 && s.denominator==10000000 && s.offset==0,
             "continuousRemux","Known zero-origin VOD clock required","unsupported-stream-source");
         const bool audio=StreamRemuxHasAudio(selected);
-        const bool hevc=StreamRemuxIsHevc(selected),av1=StreamRemuxIsAv1(selected),vp9=selected==StreamRemuxProfile::Vp9Video;
+        const bool hevc=StreamRemuxIsHevc(selected),av1=StreamRemuxIsAv1(selected),vp9=StreamRemuxIsVp9(selected);
         Require(s.resources.size()==1 && s.resources.count(resource) && s.tracks.size()==(audio?2u:1u),"continuousRemux","Unexpected scalar MP4 track layout","unsupported-stream-source");
         std::set<std::string> kinds;
         for(const auto& item:s.tracks){const auto& t=item.second;
@@ -229,8 +229,8 @@ public:
                 // Omission preserves the original profile. Explicit selection
                 // is immutable and forms part of the replay fingerprint.
                 const auto mode=d.HasMember("mode")?Text(d["mode"],"mode",64):"continuous-h264-video-v1";
-                Require(mode=="continuous-h264-video-v1" || mode=="continuous-h264-reordered-video-v1" || mode=="continuous-h264-aac-window-v1" || mode=="continuous-hevc-reordered-video-v1" || mode=="continuous-hevc-aac-window-v1" || mode=="continuous-av1-video-v1" || mode=="continuous-av1-aac-window-v1" || mode=="continuous-vp9-video-v1","mode","Unsupported continuous mode","invalid_request");
-                const auto selected=mode=="continuous-vp9-video-v1"?StreamRemuxProfile::Vp9Video:mode=="continuous-av1-aac-window-v1"?StreamRemuxProfile::Av1AacWindow:mode=="continuous-av1-video-v1"?StreamRemuxProfile::Av1Video:mode=="continuous-hevc-aac-window-v1"?StreamRemuxProfile::HevcAacWindow:mode=="continuous-hevc-reordered-video-v1"?StreamRemuxProfile::HevcReorderedVideo:mode=="continuous-h264-aac-window-v1"?StreamRemuxProfile::H264AacWindow:mode=="continuous-h264-reordered-video-v1"?StreamRemuxProfile::H264ReorderedVideo:StreamRemuxProfile::H264Video;
+                Require(mode=="continuous-h264-video-v1" || mode=="continuous-h264-reordered-video-v1" || mode=="continuous-h264-aac-window-v1" || mode=="continuous-hevc-reordered-video-v1" || mode=="continuous-hevc-aac-window-v1" || mode=="continuous-av1-video-v1" || mode=="continuous-av1-aac-window-v1" || mode=="continuous-vp9-video-v1" || mode=="continuous-vp9-aac-window-v1","mode","Unsupported continuous mode","invalid_request");
+                const auto selected=mode=="continuous-vp9-aac-window-v1"?StreamRemuxProfile::Vp9AacWindow:mode=="continuous-vp9-video-v1"?StreamRemuxProfile::Vp9Video:mode=="continuous-av1-aac-window-v1"?StreamRemuxProfile::Av1AacWindow:mode=="continuous-av1-video-v1"?StreamRemuxProfile::Av1Video:mode=="continuous-hevc-aac-window-v1"?StreamRemuxProfile::HevcAacWindow:mode=="continuous-hevc-reordered-video-v1"?StreamRemuxProfile::HevcReorderedVideo:mode=="continuous-h264-aac-window-v1"?StreamRemuxProfile::H264AacWindow:mode=="continuous-h264-reordered-video-v1"?StreamRemuxProfile::H264ReorderedVideo:StreamRemuxProfile::H264Video;
                 const auto rid=Id(d["requestId"],"requestId",true);rapidjson::StringBuffer encoded;rapidjson::Writer<rapidjson::StringBuffer> writer(encoded);Canonical(d,writer);const std::string fingerprint(encoded.GetString(),encoded.GetSize());
                 if(job && job->requestId==rid){Require(job->fingerprint==fingerprint,"requestId","Request identity conflict","continuous-conflict");return job->status();}
                 Require(!job || job->view()->forgotten,"continuousRemux","Forget the previous job first","continuous-busy");

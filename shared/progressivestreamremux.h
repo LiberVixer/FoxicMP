@@ -12,11 +12,13 @@ struct StreamRemuxLimits {
 };
 // Explicit internal selection. Existing callers/public v1 retain the verified
 // no-reorder profile; a manifest or worker reply cannot widen it implicitly.
-enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo, HevcAacWindow, Av1Video, Av1AacWindow, Vp9Video };
-inline bool StreamRemuxHasAudio(StreamRemuxProfile profile){return profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcAacWindow || profile==StreamRemuxProfile::Av1AacWindow;}
+enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo, HevcAacWindow, Av1Video, Av1AacWindow, Vp9Video, Vp9AacWindow };
+inline bool StreamRemuxHasAudio(StreamRemuxProfile profile){return profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcAacWindow || profile==StreamRemuxProfile::Av1AacWindow || profile==StreamRemuxProfile::Vp9AacWindow;}
 inline bool StreamRemuxIsHevc(StreamRemuxProfile profile){return profile==StreamRemuxProfile::HevcReorderedVideo || profile==StreamRemuxProfile::HevcAacWindow;}
 inline bool StreamRemuxIsAv1(StreamRemuxProfile profile){return profile==StreamRemuxProfile::Av1Video || profile==StreamRemuxProfile::Av1AacWindow;}
-inline const char* StreamRemuxMode(StreamRemuxProfile profile){return profile==StreamRemuxProfile::Vp9Video?
+inline bool StreamRemuxIsVp9(StreamRemuxProfile profile){return profile==StreamRemuxProfile::Vp9Video || profile==StreamRemuxProfile::Vp9AacWindow;}
+inline const char* StreamRemuxMode(StreamRemuxProfile profile){return profile==StreamRemuxProfile::Vp9AacWindow?
+    "continuous-vp9-aac-window-v1":profile==StreamRemuxProfile::Vp9Video?
     "continuous-vp9-video-v1":profile==StreamRemuxProfile::Av1AacWindow?
     "continuous-av1-aac-window-v1":profile==StreamRemuxProfile::Av1Video?
     "continuous-av1-video-v1":profile==StreamRemuxProfile::HevcAacWindow?
@@ -203,11 +205,11 @@ public:
                        const std::string& json,const std::string& resource,const std::filesystem::path& child,
                        Sink output,StreamRemuxLimits policy={},StreamRemuxProfile selected=StreamRemuxProfile::H264Video,AudioWindowSink windowSink={})
         :snapshot(Parse(json)),resourceId(resource),executable(child),limits(policy),profile(selected),sink(std::move(output)),audioSink(std::move(windowSink)) {
-        Require(profile==StreamRemuxProfile::H264Video || profile==StreamRemuxProfile::H264ReorderedVideo || profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcReorderedVideo || profile==StreamRemuxProfile::HevcAacWindow || StreamRemuxIsAv1(profile) || profile==StreamRemuxProfile::Vp9Video,"streamRemux","Invalid internal profile","invalid_request");
+        Require(profile==StreamRemuxProfile::H264Video || profile==StreamRemuxProfile::H264ReorderedVideo || profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcReorderedVideo || profile==StreamRemuxProfile::HevcAacWindow || StreamRemuxIsAv1(profile) || StreamRemuxIsVp9(profile),"streamRemux","Invalid internal profile","invalid_request");
         Require(bool(sink) && limits.lifetime.count()>0 && limits.lifetime<=std::chrono::hours(1) && limits.operation.count()>0 && limits.operation<=limits.lifetime && limits.heartbeat.count()>0 && limits.heartbeat<=std::chrono::seconds(30),"streamRemux","Invalid internal limits","invalid_request");
         Require(!snapshot.live && snapshot.resources.count(resourceId),"streamRemux","Expected local non-live resource","unsupported-stream-source");
         const bool hasAudio=StreamRemuxHasAudio(profile);
-        const bool hevc=StreamRemuxIsHevc(profile),av1=StreamRemuxIsAv1(profile),vp9=profile==StreamRemuxProfile::Vp9Video;
+        const bool hevc=StreamRemuxIsHevc(profile),av1=StreamRemuxIsAv1(profile),vp9=StreamRemuxIsVp9(profile);
         Require(!hasAudio || bool(audioSink),"streamRemux","AAC window consumer required","invalid_request");
         Require(snapshot.tracks.size()==(hasAudio?2u:1u),"streamRemux","Unexpected continuous track count","unsupported-stream-source");
         std::set<std::string> kinds;

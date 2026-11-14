@@ -1584,3 +1584,21 @@ probe повреждённого файла и отсутствие superframes 
 сохранены; итоговый negative fixture использует реальный двухпроходный output.
 Classic — private null renderer, visible/physical output не аттестован.
 Следующий узкий R01-профиль — VP9 + AAC-LC PCM-window в ordinary MP4.
+
+
+## SDK 1.93: continuous VP9 + AAC-LC
+
+[SDK 1.93](ProgressiveContinuousVp9Aac.md) добавляет VP9 + AAC-LC PCM-window:
+Profile0/8-bit или Profile2/10-bit, mono/stereo 44.1/48 kHz, audio-first и short audio.
+[48 worker, 48 PCM consumer, 39 API rows и 261 регрессия](ProgressiveContinuousVp9AacValidation-2026-11-14.json)
+прошли на трёх редакциях. Итоговые API-профили отдельно выдержали ≥10 s по
+monotonic clocks и продвижение media position ≥10.1 s до writer complete.
+Исходный Windows Qt FAIL прежнего wall-duration gate сохранён вместе со снимком
+теста; точное старое elapsed не было записано. Classic — private null renderer,
+без visible/physical A/V acceptance. Hidden/show_existing/superframes и R01 открыты.
+Head parser проверяет две дорожки vide/soun до mdat, vp09/vpcC и mp4a.
+Один shared cache, immutable PCM-window и exact sample count применяются при
+запуске и seek. Неполный поток не становится complete из-за demux EOF.
+Следующий узкий R01-профиль — VP9 indexed superframes/alt-ref в ordinary MP4:
+сначала реальные fixtures и packet/frame/clock admission, затем явный mode и
+проверки трёх редакций. Текущий mode по-прежнему отклоняет эти packets.

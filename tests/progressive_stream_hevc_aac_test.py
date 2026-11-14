@@ -43,7 +43,7 @@ def fixture(root,profile,seconds=24):
 
 
 def run(worker,report,consumer_kind=None,runner=None,*,profiles=PROFILES,make_fixture=fixture,mode=MODE,video_codec="hevc"):
-    selected_modes=["continuous-av1-video-v1","continuous-hevc-aac-window-v1"] if video_codec=="av1" else ["continuous-hevc-reordered-video-v1","continuous-h264-aac-window-v1"]
+    selected_modes=(["continuous-vp9-video-v1","continuous-h264-aac-window-v1"] if video_codec=="vp9" else ["continuous-av1-video-v1","continuous-hevc-aac-window-v1"] if video_codec=="av1" else ["continuous-hevc-reordered-video-v1","continuous-h264-aac-window-v1"])
     report=Path(report);report.mkdir(parents=True,exist_ok=True);rows=[]
     with tempfile.TemporaryDirectory(prefix='fox-hevc-aac-') as temporary:
         root=Path(temporary);sources=[]
@@ -60,7 +60,7 @@ def run(worker,report,consumer_kind=None,runner=None,*,profiles=PROFILES,make_fi
                 windows.append(window);return True
             partials=[]
             def checkpoint(raw,state):
-                if video_codec!='av1' or state['available']>=source.stat().st_size:return
+                if video_codec not in ('av1','vp9') or state['available']>=source.stat().st_size:return
                 from progressive_stream_reorder_test import media_prefix
                 raw=media_prefix(raw)
                 if not raw:return
@@ -76,7 +76,7 @@ def run(worker,report,consumer_kind=None,runner=None,*,profiles=PROFILES,make_fi
                            cut_seconds=(1,2,3,4) if consumer_kind else (4,8,12,20))
             assert row['exitCode']==0 and row['result']['code']=='data',row
             assert row['firstCompleteFragmentBeforeSourceComplete'] and len(row['waits'])>=4,row
-            if video_codec=='av1':assert len(partials)>=(1 if samples==1 else 2),partials
+            if video_codec in ('av1','vp9'):assert len(partials)>=(1 if samples==1 else 2),partials
             assert row['result']['pcmWindowRequired'] and row['result']['aacPcmWindow']==windows[0]
             output=folder/'output.mp4';output.write_bytes(data)
             original,actual=packets(source),packets(output)

@@ -88,12 +88,12 @@ class StreamOutputStore {
         Sha256 digest;harvester::FragmentIndex index;
         std::unique_ptr<StreamAvIndex> avIndex;
         StreamIndexedCoverage videoCoverage,audioCoverage;
-        const bool hevc,av1,av1Audio,vp9;
+        const bool hevc,av1,av1Audio,vp9,vp9Audio;
         bool ftyp=false,trailer=false;
         std::atomic<bool> cancelled{false};
-        Core(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& id,uint64_t gen,std::shared_ptr<StreamCacheBudget> shared,uint64_t bytes,bool hevcVideo,bool av1Video,bool av1AudioProfile,bool vp9Video)
-            :budget(std::move(shared)),registry(receipts),session(id),generation(gen),limit(bytes),hevc(hevcVideo),av1(av1Video),av1Audio(av1AudioProfile),vp9(vp9Video){
-            check(unsigned(hevc)+unsigned(av1)+unsigned(vp9)<=1 && (!av1Audio || av1),"invalid_request");
+        Core(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& id,uint64_t gen,std::shared_ptr<StreamCacheBudget> shared,uint64_t bytes,bool hevcVideo,bool av1Video,bool av1AudioProfile,bool vp9Video,bool vp9AudioProfile)
+            :budget(std::move(shared)),registry(receipts),session(id),generation(gen),limit(bytes),hevc(hevcVideo),av1(av1Video),av1Audio(av1AudioProfile),vp9(vp9Video),vp9Audio(vp9AudioProfile){
+            check(unsigned(hevc)+unsigned(av1)+unsigned(vp9)<=1 && (!av1Audio || av1) && (!vp9Audio || vp9),"invalid_request");
             check(bool(budget) && lease_detail::HexId(id) && gen>0 && bytes>0 && bytes<=64*1024*1024,"invalid_request");
             // Validate a local, owner-only parent; one new private folder per store.
             parent=std::make_unique<lease_detail::Directory>(root,true);resource_detail::Inspect(parent->handle,true);
@@ -319,21 +319,22 @@ public:
             std::lock_guard<std::mutex> lock(core->mutex);core->cleanup();
         }
     };
-    StreamOutputStore(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,std::shared_ptr<StreamCacheBudget> budget,uint64_t limit=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false)
-        :core(std::make_shared<Core>(root,registry,session,generation,std::move(budget),limit,hevcVideo,av1Video,av1AudioProfile,vp9Video)){}
+    StreamOutputStore(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,std::shared_ptr<StreamCacheBudget> budget,uint64_t limit=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false,bool vp9AudioProfile=false)
+        :core(std::make_shared<Core>(root,registry,session,generation,std::move(budget),limit,hevcVideo,av1Video,av1AudioProfile,vp9Video,vp9AudioProfile)){}
     bool hevcVideo()const{return core->hevc;}
     bool av1Video()const{return core->av1;}
     bool vp9Video()const{return core->vp9;}
     bool av1AudioProfile()const{return core->av1Audio;}
+    bool vp9AudioProfile()const{return core->vp9Audio;}
     ~StreamOutputStore(){core->retryClosedReaders();std::lock_guard<std::mutex> lock(core->mutex);core->state.retiring=true;core->cleanup();}
     void retryClosedReaders(){core->retryClosedReaders();}
     void acceptAudioWindow(const StreamAudioWindow& window){
         std::lock_guard<std::mutex> lock(core->mutex);
-        Core::check(!core->vp9 && (!core->av1 || core->av1Audio) && !core->state.written && !core->avIndex && !core->state.producerClosed && !core->state.retiring && core->state.failure.empty(),"cache-invalid-audio-window");
+        Core::check((!core->vp9 || core->vp9Audio) && (!core->av1 || core->av1Audio) && !core->state.written && !core->avIndex && !core->state.producerClosed && !core->state.retiring && core->state.failure.empty(),"cache-invalid-audio-window");
         // Validate again at the cache boundary; all readers share this immutable plan.
         rapidjson::Document d;d.Parse(window.json.c_str());Core::check(!d.HasParseError(),"cache-invalid-audio-window");
         auto verified=StreamAudioWindow::Parse(d);Core::check(verified.sha256==window.sha256,"cache-invalid-audio-window");
-        core->avIndex=std::make_unique<StreamAvIndex>(verified,core->hevc,core->av1);core->state.audioWindow=verified.json;
+        core->avIndex=std::make_unique<StreamAvIndex>(verified,core->hevc,core->av1,core->vp9);core->state.audioWindow=verified.json;
     }
     void append(uint64_t at,const std::vector<char>& bytes){
         std::lock_guard<std::mutex> lock(core->mutex);
@@ -419,10 +420,10 @@ class StreamCacheOwner {
     }
 public:
     explicit StreamCacheOwner(std::shared_ptr<StreamCacheBudget> shared,size_t sessions=16):budget(std::move(shared)),limit(sessions){Require(bool(budget) && limit>0 && limit<=16,"remuxCache","Invalid cache owner bounds","invalid_request");}
-    std::shared_ptr<StreamOutputStore> create(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,uint64_t bytes=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false){
+    std::shared_ptr<StreamOutputStore> create(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,uint64_t bytes=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false,bool vp9AudioProfile=false){
         std::lock_guard<std::mutex> lock(mutex);collectLocked();Require(stores.size()<limit,"remuxCache","Retire old output stores first","cache-session-limit");
         admit(root,registry);
-        try{auto store=std::make_shared<StreamOutputStore>(root,registry,session,generation,budget,bytes,hevcVideo,av1Video,av1AudioProfile,vp9Video);stores.push_back(store);return store;}catch(...){roots.at(root.lexically_normal()).ready=false;throw;}
+        try{auto store=std::make_shared<StreamOutputStore>(root,registry,session,generation,budget,bytes,hevcVideo,av1Video,av1AudioProfile,vp9Video,vp9AudioProfile);stores.push_back(store);return store;}catch(...){roots.at(root.lexically_normal()).ready=false;throw;}
     }
     bool retire(const std::shared_ptr<StreamOutputStore>& store){
         std::lock_guard<std::mutex> lock(mutex);const auto found=std::find(stores.begin(),stores.end(),store);

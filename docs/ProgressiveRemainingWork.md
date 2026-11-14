@@ -1,12 +1,12 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 13 ноября 2026, включая bounded VP9 video-only continuous SDK 1.92.
+Рабочая сводка на 14 ноября 2026, включая bounded VP9/AAC continuous SDK 1.93.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
 закрытыми широкие пункты по результатам узких тестов.
 
-В подробном чеклисте 136 выполненных и 77 открытых checkbox. Это число записей,
+В подробном чеклисте 140 выполненных и 77 открытых checkbox. Это число записей,
 не процент готовности: общая приёмка повторяет требования нескольких разделов.
 Ниже они сведены к пакетам работ с одним проверяемым результатом на пакет.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -116,10 +116,20 @@ Profile0/8-bit и Profile2/10-bit 4:2:0 vp09, head moov ≤1 MiB, fixed coded/re
 [Linux установлен и проверен](ProgressiveContinuousVp9Delivery-2026-11-13.json):
 backup, неизменный INI и ещё 22 сценария с clean SDK 1.92 установленной копии.
 
-R01 остаётся открытым. Следующий профиль — VP9 + AAC-LC PCM-window в ordinary
-MP4: paired head/config/clock admission и точные compressed/decoded/sample windows,
-затем worker/cache/decoder и отдельная capability трёх редакций. Другие
-container/layout rows остаются дальнейшими этапами. Старые narrow tests сохраняются.
+[SDK 1.93](ProgressiveContinuousVp9Aac.md) добавляет VP9 + AAC-LC PCM-window:
+Profile0/8-bit или Profile2/10-bit, mono/stereo 44.1/48 kHz, audio-first и short audio.
+[48 worker, 48 PCM consumer, 39 API rows и 261 регрессия](ProgressiveContinuousVp9AacValidation-2026-11-14.json)
+прошли на трёх редакциях. Итоговые API-профили отдельно выдержали ≥10 s по
+monotonic clocks и продвижение media position ≥10.1 s до writer complete.
+Исходный Windows Qt FAIL прежнего wall-duration gate сохранён вместе со снимком
+теста; точное старое elapsed не было записано. Classic — private null renderer,
+без visible/physical A/V acceptance. Hidden/show_existing/superframes и R01 открыты.
+
+R01 остаётся открытым. Следующий профиль — VP9 indexed superframes/alt-ref в
+ordinary MP4: реальные fixtures, packet/frame/clock admission и отдельный mode,
+затем worker/cache/decoder и проверки трёх редакций. Текущие VP9 modes сохраняют
+запрет этих packets. Другие container/layout rows остаются дальнейшими этапами.
+Старые narrow tests сохраняются.
 
 ## Исторические наблюдения: отдельно от новых функций
 

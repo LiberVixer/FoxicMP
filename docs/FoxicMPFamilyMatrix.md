@@ -32,6 +32,15 @@ Profile0/8-bit и Profile2/10-bit 4:2:0 vp09, head moov ≤1 MiB, PTS=DTS.
 Superframes/hidden/show_existing/audio не включены. Classic — private null
 renderer, не аттестация visible desktop output. Остальная R01 открыта.
 
+[SDK 1.93](ProgressiveContinuousVp9Aac.md) добавляет VP9 + AAC-LC PCM-window:
+Profile0/8-bit или Profile2/10-bit, mono/stereo 44.1/48 kHz, audio-first и short audio.
+[48 worker, 48 PCM consumer, 39 API rows и 261 регрессия](ProgressiveContinuousVp9AacValidation-2026-11-14.json)
+прошли на трёх редакциях. Итоговые API-профили отдельно выдержали ≥10 s по
+monotonic clocks и продвижение media position ≥10.1 s до writer complete.
+Исходный Windows Qt FAIL прежнего wall-duration gate сохранён вместе со снимком
+теста; точное старое elapsed не было записано. Classic — private null renderer,
+без visible/physical A/V acceptance. Hidden/show_existing/superframes и R01 открыты.
+
 ## Что именно сравнивается
 
 | Редакция | Движок | Проверенная сборка выпуска 0.2.0 | Отдельный профиль |

@@ -9,7 +9,7 @@ import time
 import uuid
 
 from progressive_backend_demux_conformance import snapshot
-from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE
+from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE
 from progressive_hevc_remux_preflight import PROFILES
 from progressive_integrity import protect_snapshot
 from progressive_mux_mp4_fixture import boxes
@@ -19,8 +19,8 @@ from progressive_stream_remux_worker_test import probe, fixture as avc_fixture
 
 
 def exercise(peers, root, report, audio=False, expected_audio="null", av1=False, vp9=False):
-    assert not (vp9 and (audio or av1))
-    mode = VP9_MODE if vp9 else ((AV1_AAC_MODE if audio else AV1_MODE) if av1 else (HEVC_AAC_MODE if audio else HEVC_MODE))
+    assert not (vp9 and av1)
+    mode = (VP9_AAC_MODE if audio else VP9_MODE) if vp9 else ((AV1_AAC_MODE if audio else AV1_MODE) if av1 else (HEVC_AAC_MODE if audio else HEVC_MODE))
     video_codec = 'vp9' if vp9 else 'av1' if av1 else 'hevc'
     if vp9:
         from progressive_stream_vp9_test import PROFILES as video_profiles, fixture as video_fixture, packets as video_packets
@@ -29,7 +29,9 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False,
     else:
         video_profiles, video_fixture, video_packets = PROFILES, fixture, packets
     if audio:
-        if av1:
+        if vp9:
+            from progressive_stream_vp9_aac_test import PROFILES as av_profiles, fixture as av_fixture
+        elif av1:
             from progressive_stream_av1_aac_test import PROFILES as av_profiles, fixture as av_fixture
         else:
             from progressive_stream_hevc_aac_test import PROFILES as av_profiles, fixture as av_fixture
@@ -38,6 +40,7 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False,
     client = peers[0].client
     rows = []
     current = None
+    last_observation = None
 
     def poll(sdk, predicate, label, timeout=25):
         def tick():
@@ -56,7 +59,13 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False,
 
     def playback(sdk, predicate, label, timeout=25):
         def check(_):
+            nonlocal last_observation
+            rpc_begin = time.monotonic()
             value = sdk.playback_status()
+            rpc_end = time.monotonic()
+            last_observation = dict(localBegin=rpc_begin, localEnd=rpc_end,
+                                    roundTripSeconds=rpc_end-rpc_begin, status=value)
+            (report / 'last-playback-observation.json').write_text(json.dumps(last_observation, indent=2), encoding='utf-8')
             (report / 'last-playback.json').write_text(json.dumps(value, indent=2), encoding='utf-8')
             assert value['state'] not in ('error', 'closed'), value
             assert value['audio'] is audio and value['mode'] == mode, value
@@ -135,12 +144,19 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False,
                 assert running['pcmWindowApplied'], running
                 if peers[0].edition=='qt':
                     assert running['audioCodec']=='aac' and (running['audioOutput']==expected_audio or presentation_samples==1 and running['audioOutput']==''), running
+            running_observation = copy.deepcopy(last_observation)
             began = time.monotonic()
             viewed = playback(sdk, lambda s: s['state'] == 'playing' and
-                              s['positionSeconds'] >= running['positionSeconds']+10.1,
-                              'ten seconds of incomplete HEVC playback', 20)
+                              s['positionSeconds'] >= running['positionSeconds']+10.1 and
+                              time.monotonic()-began >= 10.0,
+                              'ten seconds of incomplete playback by media and monotonic clocks', 20)
             elapsed = time.monotonic()-began
-            assert not viewed['outputComplete'] and elapsed >= 9.9 and path.stat().st_size < len(raw), viewed
+            incomplete_observation = dict(profile=name, wallSeconds=elapsed,
+                mediaAdvanceSeconds=viewed['positionSeconds']-running['positionSeconds'],
+                publishedBytes=path.stat().st_size, sourceBytes=len(raw),
+                running=running_observation, viewed=copy.deepcopy(last_observation))
+            (report / 'incomplete-playback-observation.json').write_text(json.dumps(incomplete_observation, indent=2), encoding='utf-8')
+            assert not viewed['outputComplete'] and elapsed >= 9.9 and path.stat().st_size < len(raw), incomplete_observation
             sdk.control('pause')
             paused = playback(sdk, lambda s: s['state'] == 'paused', 'HEVC pause')
             sdk.control('seek', seconds=2, allow_growing=True)
@@ -176,6 +192,7 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False,
                              sourceSha256=source_sha, outputSha256=sha(output),
                              waiting=waiting, partialIndex=partial_index, ready=ready,
                              running=running, viewedBeforeComplete=viewed, viewedWallSeconds=elapsed,
+                             incompleteObservation=incomplete_observation,
                              paused=paused, growingSeek=seeking, queued=queued, applied=applied,
                              complete=complete, finished=finished, exactPacketClocks=True,
                              exactDecodedFrames=True, **final))
