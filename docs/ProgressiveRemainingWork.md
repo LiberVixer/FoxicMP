@@ -202,11 +202,21 @@ visible/physical A/V acceptance и полная R01 остаются откры�
 [Linux обновлён и проверен](ProgressiveContinuousWebmVp9SuperframeDelivery-2026-11-14.json):
 backup, неизменный текущий INI и ещё 29 сценариев с clean SDK 1.97 установленной копии.
 
-R01 остаётся открытым. Следующий узкий этап R01 — подготовка continuous WebM VP9/Opus:
-согласование origin/clocks, начального skip и конечной PCM-обрезки, включая
-неполные prefixes. Прежнее preflight-наблюдение +7 ms не закрывает paired playback.
-Нужны отдельный admission, точные PCM-window proofs и затем три player adapters.
-Fractional WebM clocks и прочие layouts остаются самостоятельными задачами.
+[Подготовка continuous WebM VP9/Opus](ProgressiveWebmOpusRemuxPlan.md)
+проверена отдельно от реализации нового режима. [36 characterization rows](ProgressiveWebmOpusRemuxPreflight-2026-11-14.json)
+трёх compiler/native стендов включают30 точных source PCM-window rows и6
+открытых one-sample controls;60 native full/prefix projections сохраняют
+ожидаемые PCM/video. Стандартные MP4 copy references теряют terminal trim,
+а Linux default reference дополнительно сдвигает video на7ms (lowdelay —3ms).
+Выбран WebM sealer с сохранением CodecDelay/DiscardPadding, обязательным known
+audio sample count и отдельной проверкой first-and-last packet. Это не public
+playback: новый mode не объявлен, приложение0.2.0/SDK1.97 и установки сохранены.
+
+R01 остаётся открытым. Следующий узкий этап — bounded managed WebM sealer
+двух дорожек, exact Opus geometry и immutable audio sample count; затем cache/
+decoder/SDK wiring и обычная playback-приёмка трёх редакций. Исходные failures,
+one-packet trim и late-first-audio prefix не закрываются только успешным выходом
+preflight collector. Fractional clocks и остальные container rows остаются отдельно.
 
 ## Исторические наблюдения: отдельно от новых функций
 

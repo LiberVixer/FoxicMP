@@ -3,7 +3,7 @@
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
 **Рабочий порядок оставшихся задач — [R01–R17, исторические H01–H04 и внешние E01–E03](ProgressiveRemainingWork.md).**
-Сводка актуализирована 14 ноября, SDK 1.97: 145 закрытых и 77 открытых
+Сводка актуализирована 14 ноября, SDK 1.97: 146 закрытых и 77 открытых
 записей, без вычисления процента готовности. Ниже сохранены подробные доказательства
 и исторические состояния; старые ограничения уточняются позднейшими отчётами.
 
@@ -66,6 +66,9 @@ R01: [инвентаризация container/codec/layout и подготовк�
 - [x] SDK 1.96: [continuous WebM/VP9 video-only 25 fps](ProgressiveContinuousWebmVp9.md), Profile0/8-bit или Profile2/10-bit, finite/unknown Clusters, структурные границы и expected sample count из timeline. [87 worker, 39 новых API rows, 66 прежних MP4 worker, 126 API регрессий и 33 structural bounds checks](ProgressiveContinuousWebmVp9Validation-2026-11-14.json) трёх редакций, ASan/UBSan/MinGW/MSVC и по 10000 malformed inputs. Точные payload/clocks/final и incomplete decoded prefixes; ≥10 s monotonic/≥10.1 s media до complete, seek/pause/cancel/release/forget. Initial AVIO failure и ошибка .fmp4 oracle сохранены; первая причина чтения теперь фиксируется. [Linux обновлён с backup и неизменным текущим INI, ещё 29 installed checks прошли](ProgressiveContinuousWebmVp9Delivery-2026-11-14.json). Classic — private null renderer. WebM indexed superframes/audio/fractional clocks и полная R01 открыты.
 
 - [x] SDK 1.97: [WebM VP9 indexed superframes/alt-ref video-only](ProgressiveContinuousWebmVp9Superframe.md), отдельный mode, 25 fps, Profile0/8-bit или Profile2/10-bit, finite/unknown Clusters, до семи hidden inter frames перед одним показанным. [99 worker, 39 новых API rows, 153 прежних worker, 165 API регрессий и 66 structural bounds checks](ProgressiveContinuousWebmVp9SuperframeValidation-2026-11-14.json) трёх редакций; actual two-pass indexed fixtures, exact payload/clocks/decoded final и incomplete prefixes, ≥10 s monotonic/≥10.1 s media до complete, seek/pause/cancel/release/forget. ASan/UBSan/MinGW/MSVC, по 20000 malformed inputs обоих reader profiles; прежние maximum8-frame VP9 bounds связаны по SHA. Начальный пропуск decoder gate и ошибка WebM packet-pos oracle сохранены. [Linux обновлён с backup и неизменным текущим INI, ещё 29 installed checks прошли](ProgressiveContinuousWebmVp9SuperframeDelivery-2026-11-14.json). Строгий WebM mode по-прежнему отклоняет hidden packets; Classic — private null renderer. WebM/Opus, fractional clocks и полная R01 остаются открытыми.
+
+- [x] [Подготовка continuous WebM VP9/Opus](ProgressiveWebmOpusRemuxPlan.md), без нового mode или bump SDK1.97: [36 characterization rows трёх compiler/native стендов](ProgressiveWebmOpusRemuxPreflight-2026-11-14.json).30 точных PCM-window rows,60 точных native full/prefix projections,72 MP4 copy references и72 отказа прежних video-only worker modes.6 one-sample controls остаются OPEN: decoder выдаёт313/648 samples вместо1; исходные failures сохранены. Raw window не подменяет actual output; native projection не подменяет player/physical A/V. Выбран WebM sealer с сохранением clock/trim и known audio sample count. Новый API playback ещё не подключён; Linux/Windows EXE/INI/HKCU сохранены, R01 открыт.
+
 
 
 - [x] Первый этап: bounded FFmpeg AVIO **диагностика** подтверждённых ресурсов,

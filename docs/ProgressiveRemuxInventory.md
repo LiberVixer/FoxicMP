@@ -13,6 +13,8 @@
 [Подготовка WebM/VP9 от 14 ноября](ProgressiveWebmVp9RemuxPlan.md) измерила
 unknown-Cluster native gap и fractional clock differences. Это отдельный
 preflight; позднейший публичный 25 fps профиль описан в SDK 1.96 выше.
+[Подготовка VP9/Opus](ProgressiveWebmOpusRemuxPlan.md) сравнила MP4 copy и
+закрытые WebM Clusters; новый continuous audio mode пока не объявлен.
 [Полный порядок работ](ProgressiveRemainingWork.md),
 [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [подробный чеклист](ProgressiveCompletionChecklist.md).

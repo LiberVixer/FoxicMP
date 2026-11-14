@@ -1701,3 +1701,19 @@ visible/physical A/V acceptance и полная R01 остаются откры�
 неполные prefixes. Прежнее preflight-наблюдение +7 ms не закрывает paired playback.
 Нужны отдельный admission, точные PCM-window proofs и затем три player adapters.
 Fractional WebM clocks и прочие layouts остаются самостоятельными задачами.
+
+## WebM VP9/Opus: подготовка clock/trim перед новым mode
+
+[Подготовка continuous WebM VP9/Opus](ProgressiveWebmOpusRemuxPlan.md)
+проверена отдельно от реализации нового режима. [36 characterization rows](ProgressiveWebmOpusRemuxPreflight-2026-11-14.json)
+трёх compiler/native стендов включают30 точных source PCM-window rows и6
+открытых one-sample controls;60 native full/prefix projections сохраняют
+ожидаемые PCM/video. Стандартные MP4 copy references теряют terminal trim,
+а Linux default reference дополнительно сдвигает video на7ms (lowdelay —3ms).
+Выбран WebM sealer с сохранением CodecDelay/DiscardPadding, обязательным known
+audio sample count и отдельной проверкой first-and-last packet. Это не public
+playback: новый mode не объявлен, приложение0.2.0/SDK1.97 и установки сохранены.
+
+Следующий этап — bounded managed sealer и known video/audio packet geometry;
+затем отдельный WebM output store, decoder adapters и public playback трёх редакций.
+One-packet trim и prefix до появления audio остаются явными gates.

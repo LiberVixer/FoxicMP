@@ -103,6 +103,16 @@ bounds связаны по SHA. Первый пропуск decoder gate и ош
 packet offsets в тесте сохранены. Classic — private null renderer;
 visible/physical A/V acceptance и полная R01 остаются открытыми.
 
+[Подготовка continuous WebM VP9/Opus](ProgressiveWebmOpusRemuxPlan.md)
+проверена отдельно от реализации нового режима. [36 characterization rows](ProgressiveWebmOpusRemuxPreflight-2026-11-14.json)
+трёх compiler/native стендов включают30 точных source PCM-window rows и6
+открытых one-sample controls;60 native full/prefix projections сохраняют
+ожидаемые PCM/video. Стандартные MP4 copy references теряют terminal trim,
+а Linux default reference дополнительно сдвигает video на7ms (lowdelay —3ms).
+Выбран WebM sealer с сохранением CodecDelay/DiscardPadding, обязательным known
+audio sample count и отдельной проверкой first-and-last packet. Это не public
+playback: новый mode не объявлен, приложение0.2.0/SDK1.97 и установки сохранены.
+
 ## Что именно сравнивается
 
 | Редакция | Движок | Проверенная сборка выпуска 0.2.0 | Отдельный профиль |

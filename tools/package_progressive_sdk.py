@@ -10,6 +10,9 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveWebmOpusRemuxPlan.md': 'docs/ProgressiveWebmOpusRemuxPlan.md',
+    'ProgressiveWebmOpusRemuxPreflight-2026-11-14.json': 'docs/ProgressiveWebmOpusRemuxPreflight-2026-11-14.json',
+
     'ProgressiveQueuedSeekBeforePositionWait-2026-11-14.py.txt': 'docs/ProgressiveQueuedSeekBeforePositionWait-2026-11-14.py.txt',
     'ProgressiveContinuousWebmVp9SuperframeDelivery-2026-11-14.json': 'docs/ProgressiveContinuousWebmVp9SuperframeDelivery-2026-11-14.json',
     'ProgressiveContinuousWebmVp9Superframe.md': 'docs/ProgressiveContinuousWebmVp9Superframe.md',
