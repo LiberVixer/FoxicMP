@@ -11,6 +11,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
     'ProgressiveVp9AacApiBeforeWallBudget-2026-11-14.py.txt': 'docs/ProgressiveVp9AacApiBeforeWallBudget-2026-11-14.py.txt',
+    'ProgressiveContinuousVp9AacDelivery-2026-11-14.json': 'docs/ProgressiveContinuousVp9AacDelivery-2026-11-14.json',
     'ProgressiveContinuousVp9Aac.md': 'docs/ProgressiveContinuousVp9Aac.md',
     'ProgressiveContinuousVp9AacValidation-2026-11-14.json': 'docs/ProgressiveContinuousVp9AacValidation-2026-11-14.json',
     'progressive-v2-continuous-vp9-aac.json': 'tests/fixtures/progressive-v2/continuous-vp9-aac.json',

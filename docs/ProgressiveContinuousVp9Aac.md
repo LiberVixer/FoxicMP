@@ -105,3 +105,10 @@ Classic в SSH использует private Null Video Renderer (Uncompressed):
 DirectShow decoding/control проверяются, visible desktop output не аттестован.
 PCM probes не являются physical A/V, output latency, GPU/HDR или полной
 R01/R15/R17 приёмкой. Wayland и отложенное оборудование не возобновляются.
+
+
+[Поставка и проверка установленной Linux-копии](ProgressiveContinuousVp9AacDelivery-2026-11-14.json):
+clean SDK 1.93 из implementation commit, атомарная замена EXE/worker,
+резервная копия и неизменный INI. Ещё 25 сценариев (VP9/AAC, прежний H.264/AAC,
+source-close) прошли с собственным SDK установленного плеера. Установки Windows
+не менялись. Source SDK и проверенные кандидаты не являются новым итоговым release.

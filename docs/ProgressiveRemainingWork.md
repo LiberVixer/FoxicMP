@@ -125,6 +125,9 @@ monotonic clocks и продвижение media position ≥10.1 s до writer 
 теста; точное старое elapsed не было записано. Classic — private null renderer,
 без visible/physical A/V acceptance. Hidden/show_existing/superframes и R01 открыты.
 
+[Linux обновлён и проверен](ProgressiveContinuousVp9AacDelivery-2026-11-14.json):
+backup, неизменный INI и ещё 25 сценариев с clean SDK 1.93 установленной копии.
+
 R01 остаётся открытым. Следующий профиль — VP9 indexed superframes/alt-ref в
 ordinary MP4: реальные fixtures, packet/frame/clock admission и отдельный mode,
 затем worker/cache/decoder и проверки трёх редакций. Текущие VP9 modes сохраняют
