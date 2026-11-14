@@ -155,6 +155,9 @@ payload/clocks, финальным и неполным декодированн�
 Header/index parser не менялся; ASan/UBSan/MSVC срез SDK 1.94 связан по SHA.
 Classic — private null renderer; visible/physical A/V acceptance и R01 открыты.
 
+[Linux обновлён и проверен](ProgressiveContinuousVp9SuperframeAacDelivery-2026-11-14.json):
+backup, неизменный текущий INI и ещё 26 сценариев с clean SDK 1.95 установленной копии.
+
 R01 остаётся открытым. Следующий этап — подготовка continuous-входа WebM/VP9:
 сверка отличий от уже реализованного native WebM, выбор EBML/Cluster/clock
 профиля и реальные fixtures. Дальше — отдельный mode/worker/cache/decoder

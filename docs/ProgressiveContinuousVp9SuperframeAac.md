@@ -102,3 +102,10 @@ fragments и exact decoded-prefix проверка сохранены. Product b
 [Снимок прежнего теста](ProgressiveVp9SuperframeAacBeforePrefixSchedule-2026-11-14.py.txt)
 связывает первоначальные worker reports с их фактическим test source; обычные
 24 s worker fixtures используют прежнее расписание 4/8/12/20 s.
+
+
+[Поставка и проверка установленной Linux-копии](ProgressiveContinuousVp9SuperframeAacDelivery-2026-11-14.json):
+clean SDK 1.95 из implementation commit, атомарная замена EXE/worker,
+резервная копия и неизменный INI. Ещё 26 сценариев (VP9 superframes/AAC, прежний indexed VP9 video-only,
+source-close) прошли с собственным SDK установленного плеера. Установки Windows
+не менялись. Source SDK и проверенные кандидаты не являются новым итоговым release.
