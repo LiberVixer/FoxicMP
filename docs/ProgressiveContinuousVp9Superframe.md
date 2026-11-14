@@ -74,3 +74,10 @@ Classic использует private Null Video Renderer (Uncompressed) чере
 DirectShow decode/control проверяются, видимый desktop output не аттестуется.
 Physical A/V/output latency/GPU/HDR не заявляются. VP9 superframes + AAC,
 show_existing/intra-only, другие контейнеры и общие R01/R15/R17 остаются открытыми.
+
+
+[Поставка и проверка установленной Linux-копии](ProgressiveContinuousVp9SuperframeDelivery-2026-11-14.json):
+clean SDK 1.94 из implementation commit, атомарная замена EXE/worker,
+резервная копия и неизменный INI. Ещё 26 сценариев (VP9 superframes, прежний VP9/AAC,
+source-close) прошли с собственным SDK установленного плеера. Установки Windows
+не менялись. Source SDK и проверенные кандидаты не являются новым итоговым release.

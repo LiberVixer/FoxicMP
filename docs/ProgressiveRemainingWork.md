@@ -140,6 +140,9 @@ PTS=DTS, фиксированные размеры, до восьми кадро
 кадров проверен на синтетических header/index cases. Classic — private null
 renderer; visible/physical A/V acceptance и полная R01 остаются открытыми.
 
+[Linux обновлён и проверен](ProgressiveContinuousVp9SuperframeDelivery-2026-11-14.json):
+backup, неизменный INI и ещё 26 сценариев с clean SDK 1.94 установленной копии.
+
 R01 остаётся открытым. Следующий профиль — VP9 indexed superframes + AAC-LC
 PCM-window в ordinary MP4: paired admission, exact clocks/video/PCM и отдельный
 mode, затем проверки трёх редакций. Новый SDK 1.94 пока video-only;
