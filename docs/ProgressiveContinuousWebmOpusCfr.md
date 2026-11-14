@@ -58,3 +58,6 @@ Fixtures синтетические и воспроизводимые; они н
 VFR, другие fps/Opus packet geometries, one-packet Opus, полная R01/R15/R17
 матрица и физическое измерение A/V остаются открытыми. Harvester не изменён.
 Wayland и отложенное оборудование не проверяются.
+
+[Linux обновлён атомарно с backup и сохранением INI; восемь installed own-SDK сценариев прошли](ProgressiveContinuousWebmOpusCfrDelivery-2026-11-14.json).
+Установки Windows не менялись. Исходники и clean SDK кандидата не означают итоговый release.

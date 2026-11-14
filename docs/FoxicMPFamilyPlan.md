@@ -1765,3 +1765,6 @@ Legacy 25/NTSC режимы и Opus PCM trim сохранены.
 legacy 25/NTSC/AAC controls,4000 sanitizer mutations и133 SDK units](ProgressiveContinuousWebmOpusCfrValidation-2026-11-14.json)
 расширяют проверенную часть R01. Другие fps/VFR/Opus geometries, one-packet Opus,
 полные R01/R15/R17 и физическое A/V остаются открытыми. Harvester не изменён.
+
+[Linux обновлён атомарно с backup и сохранением INI; восемь installed own-SDK сценариев прошли](ProgressiveContinuousWebmOpusCfrDelivery-2026-11-14.json).
+Установки Windows не менялись. Исходники и clean SDK кандидата не означают итоговый release.
