@@ -1,6 +1,6 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 14 ноября 2026, включая bounded VP9 indexed superframes/AAC continuous SDK 1.95.
+Рабочая сводка на 14 ноября 2026, включая bounded continuous WebM/VP9 25 fps SDK 1.96.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
@@ -166,16 +166,25 @@ unknown-sized Clusters отвергаются текущим native index, но 
 на 720 packets; первый предлагаемый профиль ограничен точными 25 fps.
 VP9/Opus video-extraction reference имеет +7 ms в Linux/FFmpeg 6.1.1 и не имеет
 этого сдвига в Windows/FFmpeg 9.0.2; это не pair/physical A/V acceptance.
-Проверены только workers, диагностические index runners и FFmpeg references:
-плееры/новый mode не запускались, SDK 1.95/capabilities/установки сохранены.
+В рамках preflight проверены только workers, index runners и FFmpeg references:
+тогда плееры/новый mode не запускались, SDK 1.95/capabilities/установки были сохранены.
 
-R01 остаётся открытым. Следующий этап — реализация предложенного WebM/VP9
-video-only mode для точных 25 fps: bounded structural unknown-Cluster scanner,
-expected sample count из timeline, WebM configuration/clock admission и
-worker/cache/decoder wiring. Затем обычная playback-приёмка трёх редакций.
-Новый mode пока не объявлен. Native WebM, дробные clocks и MP4 modes SDK 1.95
-сохраняют свои capabilities; WebM/Opus не включается автоматически.
-Другие container/layout rows и старые narrow tests сохраняются.
+[SDK 1.96](ProgressiveContinuousWebmVp9.md) добавляет отдельный continuous
+WebM/VP9 video-only mode: точные 25 fps, Profile0/8-bit или Profile2/10-bit,
+unknown Segment и finite/unknown Clusters, SimpleBlock без lacing/hidden frames.
+Expected sample count выводится из timeline, потерянный целый последний block
+не принимается за complete. [87 worker, 39 новых API rows, 66 прежних MP4 worker,
+126 API регрессий и 33 structural bounds checks](ProgressiveContinuousWebmVp9Validation-2026-11-14.json)
+прошли на трёх редакциях; ASan/UBSan, MinGW и MSVC проверили parser,
+по 10000 malformed inputs на compiler. Payload/clocks/decoded frames точны,
+проверены incomplete prefixes и ≥10 s monotonic/≥10.1 s media до complete.
+Classic — private null renderer; физический output и полная R01 открыты.
+Native WebM index и прежние MP4 modes сохраняют свой admission.
+
+R01 остаётся открытым. Следующий узкий этап — continuous WebM VP9 indexed
+superframes/alt-ref video-only при точных 25 fps. Перед объявлением потребуются
+явный профиль и проверки actual indexed packets, incomplete prefixes и playback
+трёх редакций. Fractional clocks, WebM/Opus и другие layouts остаются отдельно.
 
 ## Исторические наблюдения: отдельно от новых функций
 

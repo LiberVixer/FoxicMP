@@ -9,7 +9,7 @@ import time
 import uuid
 
 from progressive_backend_demux_conformance import snapshot
-from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE
+from progressive_continuous import ContinuousRemux, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE
 from progressive_hevc_remux_preflight import PROFILES
 from progressive_integrity import protect_snapshot
 from progressive_mux_mp4_fixture import boxes
@@ -18,11 +18,14 @@ from progressive_stream_hevc_test import fixture, packets, frames
 from progressive_stream_remux_worker_test import probe, fixture as avc_fixture
 
 
-def exercise(peers, root, report, audio=False, expected_audio="null", av1=False, vp9=False, vp9_superframe=False):
+def exercise(peers, root, report, audio=False, expected_audio="null", av1=False, vp9=False, vp9_superframe=False,webm=False):
     assert not (vp9 and av1) and (not vp9_superframe or vp9)
-    mode = (VP9_SUPERFRAME_AAC_MODE if audio else VP9_SUPERFRAME_MODE) if vp9_superframe else (VP9_AAC_MODE if audio else VP9_MODE) if vp9 else ((AV1_AAC_MODE if audio else AV1_MODE) if av1 else (HEVC_AAC_MODE if audio else HEVC_MODE))
+    assert not webm or (vp9 and not audio and not vp9_superframe)
+    mode = WEBM_VP9_MODE if webm else (VP9_SUPERFRAME_AAC_MODE if audio else VP9_SUPERFRAME_MODE) if vp9_superframe else (VP9_AAC_MODE if audio else VP9_MODE) if vp9 else ((AV1_AAC_MODE if audio else AV1_MODE) if av1 else (HEVC_AAC_MODE if audio else HEVC_MODE))
     video_codec = 'vp9' if vp9 else 'av1' if av1 else 'hevc'
-    if vp9_superframe:
+    if webm:
+        from progressive_stream_webm_vp9_test import PROFILES as video_profiles, fixture as video_fixture, packets as video_packets
+    elif vp9_superframe:
         from progressive_stream_vp9_superframe_test import PROFILES as video_profiles, fixture as video_fixture, packets as video_packets
     elif vp9:
         from progressive_stream_vp9_test import PROFILES as video_profiles, fixture as video_fixture, packets as video_packets
@@ -101,6 +104,7 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False,
             model = snapshot(path, raw, complete=False, prefix=4)
             model['timeline']['duration'] = '240000000'
             model['tracks'][0]['codecHint'] = video_codec
+            if webm:model['tracks'][0]['containerHint']='webm'
             if audio:
                 sound = copy.deepcopy(model['tracks'][0])
                 sound.update(id='sound', kind='audio', codecHint='aac-lc')
@@ -127,7 +131,10 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False,
                 sdk.publish(model)
                 return poll(sdk, lambda s: s if s['appliedRevision'] == model['revision'] else None, 'applied publication')
 
-            head_end = next(at+size for at, size, kind, _ in boxes(raw) if kind == b'moov')
+            if webm:
+                from progressive_webm_remux_preflight import scan
+                head_end=scan(raw)['headBytes']+3
+            else:head_end = next(at+size for at, size, kind, _ in boxes(raw) if kind == b'moov')
             publish(head_end-4)
             partial_index = poll(sdk, lambda s: s if s['producerCode'] == 'waiting' else None, 'partial moov')
             assert not partial_index['playbackReady'], partial_index
@@ -261,14 +268,30 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False,
                 rows.append(dict(profile='reject-'+name, result='PASS', error=error.reply))
             else:
                 raise AssertionError('Unsupported HEVC hint admitted')
-        for kind, expected in [('actual-avc', 'unsupported-stream-codec'),
-                               ('malformed-vpcc' if vp9 else 'malformed-av1c' if av1 else 'malformed-hvcc', 'unsupported-stream-vp9-configuration' if vp9 else 'unsupported-stream-av1-configuration' if av1 else 'unsupported-stream-hevc-configuration'),
-                               ('truncated-complete', 'incomplete-stream-vp9-samples' if vp9 else 'incomplete-stream-av1-samples' if av1 else 'incomplete-stream-hevc-samples')]:
-            if kind == 'actual-avc':
+        cases=([('actual-vp8','unsupported-stream-codec'),('malformed-webm','unsupported-stream-webm-doctype'),('truncated-complete','truncated-stream-webm-element'),('missing-last-sample','incomplete-stream-webm-vp9-samples')] if webm else [('actual-avc', 'unsupported-stream-codec'),
+            ('malformed-vpcc' if vp9 else 'malformed-av1c' if av1 else 'malformed-hvcc', 'unsupported-stream-vp9-configuration' if vp9 else 'unsupported-stream-av1-configuration' if av1 else 'unsupported-stream-hevc-configuration'),
+            ('truncated-complete', 'incomplete-stream-vp9-samples' if vp9 else 'incomplete-stream-av1-samples' if av1 else 'incomplete-stream-hevc-samples')])
+        if webm:
+            for duration in ('240000001','20000400000'):
+                bad=copy.deepcopy(model);bad['sessionId']=uuid.uuid4().hex;bad['timeline']['duration']=duration
+                try:client.request(dict(version=1,action='continuousRemuxStart',mode=mode,requestId=uuid.uuid4().hex,sessionDirectory=str(directory),session=bad,resourceId='clip'))
+                except ApiError as error:
+                    assert error.code=='unsupported-stream-source',error.reply;rows.append(dict(profile='reject-timeline-'+duration,result='PASS',error=error.reply))
+                else:raise AssertionError('Non-grid/over-budget WebM timeline admitted')
+        for kind, expected in cases:
+            if kind == 'actual-vp8':
+                from progressive_stream_webm_vp9_test import vp8_fixture
+                content=vp8_fixture(root).read_bytes()
+            elif kind == 'missing-last-sample':
+                content=raw[:scan(raw)['blocks'][-1]['offset']]
+            elif kind == 'actual-avc':
                 content = avc_fixture(root, 'actual-avc', bframes=2, audio=audio).read_bytes()
             elif kind.startswith('malformed-'):
                 content = bytearray(raw)
-                if vp9:
+                if webm:
+                    from progressive_webm_fixtures import locate
+                    _,b,e=locate(content,0x4282);content[b:e]=b'xxxx'
+                elif vp9:
                     at = content.index(b'vpcC')+4
                     content[at] = 0
                 elif av1:
@@ -283,11 +306,12 @@ def exercise(peers, root, report, audio=False, expected_audio="null", av1=False,
             directory = root / kind
             directory.mkdir()
             path = directory / 'input.part'
-            bad = snapshot(path, content, complete=kind=='truncated-complete',
-                           prefix=len(content) if kind=='truncated-complete' else len(content)*2//3)
+            bad = snapshot(path, content, complete=kind in ('truncated-complete','missing-last-sample'),
+                           prefix=len(content) if kind in ('truncated-complete','missing-last-sample') else len(content)*2//3)
             path.write_bytes(content)
             bad['timeline']['duration'] = '240000000'
             bad['tracks'][0]['codecHint'] = video_codec
+            if webm:bad['tracks'][0]['containerHint']='webm'
             if audio:
                 sound=copy.deepcopy(bad['tracks'][0])
                 sound.update(id='sound', kind='audio', codecHint='aac-lc')

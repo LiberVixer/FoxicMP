@@ -156,3 +156,10 @@ result/exits и read/output accounting. Эти media artifacts остаются 
 и [Matroska timestamp notes](https://www.matroska.org/technical/notes.html)
 задают container semantics; выбранные ограничения являются политикой этого
 будущего режима, а не общим запретом формата.
+
+## Реализация после preflight
+
+Предложенный строгий 25 fps video-only путь реализован отдельно в
+[SDK 1.96](ProgressiveContinuousWebmVp9.md). Этот preflight остаётся исторической
+проверкой fixtures/index/copy references; public-player результаты находятся
+в отдельном отчёте реализации.

@@ -1650,8 +1650,8 @@ unknown-sized Clusters отвергаются текущим native index, но 
 на 720 packets; первый предлагаемый профиль ограничен точными 25 fps.
 VP9/Opus video-extraction reference имеет +7 ms в Linux/FFmpeg 6.1.1 и не имеет
 этого сдвига в Windows/FFmpeg 9.0.2; это не pair/physical A/V acceptance.
-Проверены только workers, диагностические index runners и FFmpeg references:
-плееры/новый mode не запускались, SDK 1.95/capabilities/установки сохранены.
+В рамках preflight проверены только workers, index runners и FFmpeg references:
+тогда плееры/новый mode не запускались, SDK 1.95/capabilities/установки были сохранены.
 [Контракт реализации](ProgressiveWebmVp9RemuxPlan.md): отдельный video-only
 mode, VP9 Profile0/8-bit или Profile2/10-bit, TimestampScale 1 ms,
 DefaultDuration 40 ms и шаг PTS/DTS 40 ms; unknown-size Segment и finite/unknown
@@ -1660,3 +1660,21 @@ Clusters. Expected video-sample count выводится из точной timel
 Дальше — bounded EBML admission, WebM config/packet validation, worker/cache/
 decoder wiring и отдельная обычная playback-приёмка трёх редакций. До неё
 не объявлять capability и не заменять работающие native WebM paths.
+
+## SDK 1.96: continuous WebM/VP9, точные 25 fps
+
+[SDK 1.96](ProgressiveContinuousWebmVp9.md) добавляет отдельный continuous
+WebM/VP9 video-only mode: точные 25 fps, Profile0/8-bit или Profile2/10-bit,
+unknown Segment и finite/unknown Clusters, SimpleBlock без lacing/hidden frames.
+Expected sample count выводится из timeline, потерянный целый последний block
+не принимается за complete. [87 worker, 39 новых API rows, 66 прежних MP4 worker,
+126 API регрессий и 33 structural bounds checks](ProgressiveContinuousWebmVp9Validation-2026-11-14.json)
+прошли на трёх редакциях; ASan/UBSan, MinGW и MSVC проверили parser,
+по 10000 malformed inputs на compiler. Payload/clocks/decoded frames точны,
+проверены incomplete prefixes и ≥10 s monotonic/≥10.1 s media до complete.
+Classic — private null renderer; физический output и полная R01 открыты.
+Native WebM index и прежние MP4 modes сохраняют свой admission.
+
+Следующий узкий этап R01 — WebM VP9 indexed superframes/alt-ref video-only
+при точных 25 fps, с отдельным admission и playback-проверками трёх редакций.
+WebM/Opus и fractional clocks требуют самостоятельного решения и не включены.

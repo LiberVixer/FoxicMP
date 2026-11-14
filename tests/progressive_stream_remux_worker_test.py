@@ -32,7 +32,7 @@ def complete_media(raw):
 
 
 def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.12,
-          mode='continuous-h264-video-v1',on_wait=None,on_audio_window=None,cut_seconds=(4,8,12,20)):
+          mode='continuous-h264-video-v1',on_wait=None,on_audio_window=None,cut_seconds=(4,8,12,20),format_hint='mp4',video_samples=None):
     raw=path.read_bytes();cuts=[]
     if growing:
         source=probe(path);video=[p for p in source['packets'] if p['codec_type']=='video'];tb=Fraction(next(s for s in source['streams'] if s['codec_type']=='video')['time_base']);origin=int(video[0]['pts'])
@@ -43,7 +43,9 @@ def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.
     def dialog():
         nonlocal available,complete,reads,first_media,warmup
         try:
-            send(dict(mode=mode,formatHint='mp4',length=str(len(raw)),complete=complete))
+            start=dict(mode=mode,formatHint=format_hint,length=str(len(raw)),complete=complete)
+            if video_samples is not None:start['videoSamples']=str(video_samples)
+            send(start)
             while True:
                 line=p.stdout.readline(140001)
                 if not line:break

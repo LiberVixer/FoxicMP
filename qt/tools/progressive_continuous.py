@@ -25,6 +25,7 @@ VP9_MODE = 'continuous-vp9-video-v1'
 VP9_AAC_MODE = 'continuous-vp9-aac-window-v1'
 VP9_SUPERFRAME_MODE = 'continuous-vp9-superframe-video-v1'
 VP9_SUPERFRAME_AAC_MODE = 'continuous-vp9-superframe-aac-window-v1'
+WEBM_VP9_MODE = 'continuous-webm-vp9-video-v1'
 ACTIONS = frozenset(('continuousRemuxStart', 'continuousRemuxStatus',
     'continuousRemuxUpdate', 'continuousRemuxHeartbeat', 'continuousRemuxCancel',
     'continuousRemuxForget', 'continuousRemuxPlay', 'continuousPlaybackStatus',
@@ -57,10 +58,11 @@ class ContinuousRemux:
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
     def __init__(self, client, session_directory, *, mode=MODE):
-        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE):
             raise ValueError('Unsupported continuous profile')
+        webm_mode = mode == WEBM_VP9_MODE
         vp9_superframe = mode in (VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE)
-        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE)
+        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE)
         av1_mode = mode in (AV1_MODE, AV1_AAC_MODE)
         audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_AAC_MODE)
         hevc_mode = mode in (HEVC_MODE, HEVC_AAC_MODE)
@@ -97,7 +99,7 @@ class ContinuousRemux:
             if (cap.get('modeSelection') != 'continuousRemuxStart.mode'
                     or not isinstance(selected, dict) or type(selected.get('version')) is not int
                     or selected['version'] != 1 or selected.get('mode') != mode
-                    or selected.get('containerHint') != 'mp4' or selected.get('videoCodec') != ('vp9' if vp9_mode else 'av1' if av1_mode else 'hevc' if hevc_mode else 'h264')
+                    or selected.get('containerHint') != ('webm' if webm_mode else 'mp4') or selected.get('videoCodec') != ('vp9' if vp9_mode else 'av1' if av1_mode else 'hevc' if hevc_mode else 'h264')
                     or selected.get('videoOnly') is not (not audio_mode) or selected.get('audio') is not audio_mode
                     or selected.get('bFrames') is not (not (av1_mode or vp9_mode)) or selected.get('inheritsCommonContract') is not True
                     or selected.get('explicitSelectionRequired') is not True):
@@ -134,7 +136,7 @@ class ContinuousRemux:
                     or selected.get('bitDepths') != [8, 10] or any(type(v) is not int for v in selected['bitDepths'])
                     or selected.get('chromaSubsampling') != '4:2:0' or selected.get('sampleEntries') != ['vp09']
                     or type(selected.get('configurationVersion')) is not int or selected['configurationVersion'] != 1
-                    or selected.get('headMoovRequired') is not True or type(selected.get('maxHeadBytes')) is not int or selected['maxHeadBytes'] != 1048576
+                    or (not webm_mode and selected.get('headMoovRequired') is not True) or type(selected.get('maxHeadBytes')) is not int or selected['maxHeadBytes'] != 1048576
                     or selected.get('packetReorder') is not False or selected.get('oneDisplayedFramePerSample') is not True
                     or selected.get('hiddenFrames') is not vp9_superframe or selected.get('showExistingFrames') is not False
                     or selected.get('superframes') is not vp9_superframe or selected.get('fixedCodedAndRenderSize') is not True
@@ -146,6 +148,10 @@ class ContinuousRemux:
                     or selected.get('displayedFrameLast') is not True or selected.get('hiddenInterFramesOnly') is not True
                     or selected.get('firstSampleSingleKeyframe') is not True):
                 raise RuntimeError('Player lacks the exact indexed VP9 superframe contract')
+            if webm_mode:
+                exact={'unknownSegmentSizeRequired': True, 'finiteClusters': True, 'unknownSizeClusters': True, 'simpleBlocksOnly': True, 'lacing': False, 'blockGroups': False, 'timestampScaleNanoseconds': 1000000, 'defaultDurationNanoseconds': 40000000, 'frameRate': 25, 'expectedSamplesFromTimeline': True, 'maxClusterBytes': 16777216, 'maxClusters': 8192, 'maxTopLevelElements': 32768, 'maxClusterChildren': 65536, 'maxMetadataDepth': 8, 'maxHeadElements': 32}
+                if any(type(selected.get(key)) is not type(value) or selected.get(key)!=value for key,value in exact.items()) or 'headMoovRequired' in selected:
+                    raise RuntimeError('Player lacks the exact bounded WebM/VP9 contract')
             self.capability.update(copy.deepcopy(selected))
 
     @property
