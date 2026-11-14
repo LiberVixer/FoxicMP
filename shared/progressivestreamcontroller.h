@@ -20,7 +20,7 @@ class ContinuousRemuxController {
     using Clock=std::chrono::steady_clock;
     static std::atomic<bool>& jobsStarted(){static std::atomic<bool> value{false};return value;}
     static int64_t now(){return std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now().time_since_epoch()).count();}
-    static void profile(const Snapshot& s,const std::string& resource,StreamRemuxProfile selected){
+    static void profile(const Snapshot& s,const std::string& resource,StreamRemuxProfile selected,harvester::WebmContinuousClock clock={}){
         Require(!s.live && !s.hasWindow && s.knownDuration && s.duration>0 && s.duration<=36000000000LL && s.numerator==1 && s.denominator==10000000 && s.offset==0,
             "continuousRemux","Known zero-origin VOD clock required","unsupported-stream-source");
         const bool audio=StreamRemuxHasAudio(selected);
@@ -32,7 +32,7 @@ class ContinuousRemuxController {
                 && ((hevc || av1 || vp9)?t.codec==(t.kind=="video"?(vp9?"vp9":av1?"av1":"hevc"):(StreamRemuxIsOpus(selected)?"opus":"aac-lc")):(t.codec.empty() || t.codec==(t.kind=="video"?"h264":(StreamRemuxIsOpus(selected)?"opus":"aac-lc")))) && t.resource==resource && t.initialization.empty() && t.segments.empty(),
                 "continuousRemux","Unsupported continuous copy-remux track","unsupported-stream-source");
         }
-        if(StreamRemuxIsWebm(selected))StreamRemuxWebmSamples(selected,s.duration);
+        if(StreamRemuxIsWebm(selected))StreamRemuxWebmSamples(selected,s.duration,clock);
         const auto& r=s.resources.at(resource);
         Require(r.known && r.length>0 && r.length<=128*1024*1024 && r.integrity && !r.retired,"continuousRemux","Unsupported continuous copy-remux resource","unsupported-stream-source");
     }
@@ -59,6 +59,7 @@ class ContinuousRemuxController {
         StreamRemuxLimits limits;
         StreamRemuxProfile selected=StreamRemuxProfile::H264Video;
         uint64_t opusSamples=0;
+        harvester::WebmContinuousClock videoClock;
         ContinuousControllerHooks hooks;
         std::mutex mutex;std::condition_variable changed;std::deque<std::string> updates;
         std::atomic<bool> cancel{false},forget{false},stop{false};
@@ -80,7 +81,7 @@ class ContinuousRemuxController {
                 Require(!cancel.load() && !stop.load(),"continuousRemux","Preparation cancelled","cancelled");
                 Require(Clock::now()-began<limits.lifetime,"continuousRemux","Controller lifetime expired during preparation","backend-time-limit");
                 Require(initiallyComplete || now()-heartbeatAt.load()<limits.heartbeat.count(),"continuousRemux","Writer heartbeat expired during preparation","writer-heartbeat-timeout");
-                session=std::make_unique<CachedRemuxSession>(directory,registry,cache,initial,resource,child,owner,64*1024*1024,limits,selected,opusSamples);
+                session=std::make_unique<CachedRemuxSession>(directory,registry,cache,initial,resource,child,owner,64*1024*1024,limits,selected,opusSamples,videoClock);
                 if(!StreamRemuxHasAudio(selected))decoder=session->decoderSource();
             }catch(const Error& e){v.error=e.code;v.terminal=true;}catch(...){v.error="continuous-preparation-failed";v.terminal=true;}
             for(;;)try{
@@ -163,6 +164,7 @@ class ContinuousRemuxController {
             {std::lock_guard<std::mutex> lock(mutex);admitted=accepted;queued=updates.size();}
             rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();out.AddMember("version",1,a);out.AddMember("ok",true,a);out.AddMember("mode",Value(StreamRemuxMode(selected),a),a);
             out.AddMember("audio",StreamRemuxHasAudio(selected),a);
+            if(videoClock.explicitRate){Value rate(rapidjson::kObjectType);rate.AddMember("numerator",videoClock.numerator,a);rate.AddMember("denominator",videoClock.denominator,a);out.AddMember("videoRate",rate,a);}
             out.AddMember("audioWindowReady",v->decoder && v->decoder->audioWindow(),a);
             if(v->decoder && v->decoder->audioWindow()){
                 const auto& pcm=v->decoder->audioWindow()->pcm;
@@ -227,22 +229,29 @@ public:
             Require(!d.HasParseError() && d.IsObject(),"continuousRemux","Invalid command JSON","invalid_request");InlineKeys(d);
             Require(d.HasMember("version") && d["version"].IsUint() && d["version"].GetUint()==1 && d.HasMember("action"),"continuousRemux","Expected API version 1","invalid_request");const auto action=Text(d["action"],"action",32);
             if(action=="continuousRemuxStart"){
-                Keys(d,"continuousRemux",{"version","action","requestId","sessionDirectory","session","resourceId"},{"mode","audioSamples"});
+                Keys(d,"continuousRemux",{"version","action","requestId","sessionDirectory","session","resourceId"},{"mode","audioSamples","videoRate"});
                 // Omission preserves the original profile. Explicit selection
                 // is immutable and forms part of the replay fingerprint.
                 const auto mode=d.HasMember("mode")?Text(d["mode"],"mode",64):"continuous-h264-video-v1";
-                Require(mode=="continuous-webm-vp9-opus-ntsc-v1" || mode=="continuous-webm-vp9-opus-v1" || mode=="continuous-webm-vp9-superframe-video-v1" || mode=="continuous-h264-video-v1" || mode=="continuous-h264-reordered-video-v1" || mode=="continuous-h264-aac-window-v1" || mode=="continuous-hevc-reordered-video-v1" || mode=="continuous-hevc-aac-window-v1" || mode=="continuous-av1-video-v1" || mode=="continuous-av1-aac-window-v1" || mode=="continuous-vp9-video-v1" || mode=="continuous-vp9-aac-window-v1" || mode=="continuous-vp9-superframe-video-v1" || mode=="continuous-vp9-superframe-aac-window-v1" || mode=="continuous-webm-vp9-video-v1","mode","Unsupported continuous mode","invalid_request");
-                const auto selected=mode=="continuous-webm-vp9-opus-ntsc-v1"?StreamRemuxProfile::WebmVp9OpusNtsc:mode=="continuous-webm-vp9-opus-v1"?StreamRemuxProfile::WebmVp9Opus:mode=="continuous-webm-vp9-superframe-video-v1"?StreamRemuxProfile::WebmVp9SuperframeVideo:mode=="continuous-webm-vp9-video-v1"?StreamRemuxProfile::WebmVp9Video:mode=="continuous-vp9-superframe-aac-window-v1"?StreamRemuxProfile::Vp9SuperframeAacWindow:mode=="continuous-vp9-superframe-video-v1"?StreamRemuxProfile::Vp9SuperframeVideo:mode=="continuous-vp9-aac-window-v1"?StreamRemuxProfile::Vp9AacWindow:mode=="continuous-vp9-video-v1"?StreamRemuxProfile::Vp9Video:mode=="continuous-av1-aac-window-v1"?StreamRemuxProfile::Av1AacWindow:mode=="continuous-av1-video-v1"?StreamRemuxProfile::Av1Video:mode=="continuous-hevc-aac-window-v1"?StreamRemuxProfile::HevcAacWindow:mode=="continuous-hevc-reordered-video-v1"?StreamRemuxProfile::HevcReorderedVideo:mode=="continuous-h264-aac-window-v1"?StreamRemuxProfile::H264AacWindow:mode=="continuous-h264-reordered-video-v1"?StreamRemuxProfile::H264ReorderedVideo:StreamRemuxProfile::H264Video;
+                Require(mode=="continuous-webm-vp9-opus-cfr-v1" || mode=="continuous-webm-vp9-opus-ntsc-v1" || mode=="continuous-webm-vp9-opus-v1" || mode=="continuous-webm-vp9-superframe-video-v1" || mode=="continuous-h264-video-v1" || mode=="continuous-h264-reordered-video-v1" || mode=="continuous-h264-aac-window-v1" || mode=="continuous-hevc-reordered-video-v1" || mode=="continuous-hevc-aac-window-v1" || mode=="continuous-av1-video-v1" || mode=="continuous-av1-aac-window-v1" || mode=="continuous-vp9-video-v1" || mode=="continuous-vp9-aac-window-v1" || mode=="continuous-vp9-superframe-video-v1" || mode=="continuous-vp9-superframe-aac-window-v1" || mode=="continuous-webm-vp9-video-v1","mode","Unsupported continuous mode","invalid_request");
+                const auto selected=mode=="continuous-webm-vp9-opus-cfr-v1"?StreamRemuxProfile::WebmVp9OpusCfr:mode=="continuous-webm-vp9-opus-ntsc-v1"?StreamRemuxProfile::WebmVp9OpusNtsc:mode=="continuous-webm-vp9-opus-v1"?StreamRemuxProfile::WebmVp9Opus:mode=="continuous-webm-vp9-superframe-video-v1"?StreamRemuxProfile::WebmVp9SuperframeVideo:mode=="continuous-webm-vp9-video-v1"?StreamRemuxProfile::WebmVp9Video:mode=="continuous-vp9-superframe-aac-window-v1"?StreamRemuxProfile::Vp9SuperframeAacWindow:mode=="continuous-vp9-superframe-video-v1"?StreamRemuxProfile::Vp9SuperframeVideo:mode=="continuous-vp9-aac-window-v1"?StreamRemuxProfile::Vp9AacWindow:mode=="continuous-vp9-video-v1"?StreamRemuxProfile::Vp9Video:mode=="continuous-av1-aac-window-v1"?StreamRemuxProfile::Av1AacWindow:mode=="continuous-av1-video-v1"?StreamRemuxProfile::Av1Video:mode=="continuous-hevc-aac-window-v1"?StreamRemuxProfile::HevcAacWindow:mode=="continuous-hevc-reordered-video-v1"?StreamRemuxProfile::HevcReorderedVideo:mode=="continuous-h264-aac-window-v1"?StreamRemuxProfile::H264AacWindow:mode=="continuous-h264-reordered-video-v1"?StreamRemuxProfile::H264ReorderedVideo:StreamRemuxProfile::H264Video;
+                harvester::WebmContinuousClock clock;
+                if(d.HasMember("videoRate")){
+                    const auto& rate=d["videoRate"];Keys(rate,"videoRate",{"numerator","denominator"});
+                    Require(rate["numerator"].IsUint() && rate["denominator"].IsUint(),"videoRate","Integer rate required","invalid_request");
+                    clock=harvester::WebmContinuousClock(rate["numerator"].GetUint(),rate["denominator"].GetUint());
+                }
+                StreamRemuxClock(selected,clock);
                 const auto rid=Id(d["requestId"],"requestId",true);rapidjson::StringBuffer encoded;rapidjson::Writer<rapidjson::StringBuffer> writer(encoded);Canonical(d,writer);const std::string fingerprint(encoded.GetString(),encoded.GetSize());
                 if(job && job->requestId==rid){Require(job->fingerprint==fingerprint,"requestId","Request identity conflict","continuous-conflict");return job->status();}
                 Require(!job || job->view()->forgotten,"continuousRemux","Forget the previous job first","continuous-busy");
-                const auto initial=lease_detail::Encode(d["session"]);const auto parsed=Parse(initial);const auto resource=Id(d["resourceId"],"resourceId");profile(parsed,resource,selected);
+                const auto initial=lease_detail::Encode(d["session"]);const auto parsed=Parse(initial);const auto resource=Id(d["resourceId"],"resourceId");profile(parsed,resource,selected,clock);
                 healthy(parsed,resource);
                 const auto directory=std::filesystem::u8path(Text(d["sessionDirectory"],"sessionDirectory",8192));Require(directory.is_absolute(),"sessionDirectory","Absolute local directory required","invalid_request");
                 auto next=ContinuousRetirement::create<Job>([]{return new Job;});next->requestId=rid;next->fingerprint=fingerprint;next->initial=initial;next->accepted=parsed;next->initiallyComplete=parsed.resources.at(resource).state=="complete";next->resource=resource;next->directory=directory;next->registry=registry;next->cache=cache;next->child=child;next->limits=limits;next->hooks=hooks;next->owner=serviceOwner;
                 Require((StreamRemuxIsOpus(selected))==d.HasMember("audioSamples"),"audioSamples","Explicit Opus sample count required only for WebM/Opus","invalid_request");
-                if(d.HasMember("audioSamples")){next->opusSamples=Unsigned(d["audioSamples"],"audioSamples",48000000);Require(next->opusSamples>648 && StreamRemuxWebmSamples(selected,parsed.duration)+(next->opusSamples+1271)/960<=50000,"audioSamples","Unsupported Opus packet/sample count","unsupported-stream-source");}
-                next->selected=selected;
+                if(d.HasMember("audioSamples")){next->opusSamples=Unsigned(d["audioSamples"],"audioSamples",48000000);Require(next->opusSamples>648 && StreamRemuxWebmSamples(selected,parsed.duration,clock)+(next->opusSamples+1271)/960<=50000,"audioSamples","Unsupported Opus packet/sample count","unsupported-stream-source");}
+                next->selected=selected;next->videoClock=clock;
                 next->thread=std::thread([raw=next.get()]{raw->run();});job=std::move(next);jobsStarted().store(true);return job->status();
             }
             if(action=="continuousRemuxStatus"){
@@ -258,7 +267,7 @@ public:
             if(action=="continuousRemuxCancel")job->requestCancel();
             if(action=="continuousRemuxForget"){job->forget.store(true);job->requestCancel();}
             if(action=="continuousRemuxUpdate"){
-                const auto raw=lease_detail::Encode(d["session"]);const auto next=Parse(raw);profile(next,job->resource,job->selected);std::lock_guard<std::mutex> lock(job->mutex);
+                const auto raw=lease_detail::Encode(d["session"]);const auto next=Parse(raw);profile(next,job->resource,job->selected,job->videoClock);std::lock_guard<std::mutex> lock(job->mutex);
                 Require(!job->cancel.load() && !job->forget.load() && !job->view()->terminal,"continuousRemux","Job no longer accepts updates","continuous-closed");
                 Require(job->updates.size()<8,"continuousRemux","Update queue is full","continuous-backpressure");Advance(job->accepted,next);
                 job->updates.push_back(raw);job->accepted=next;job->heartbeatAt.store(now());job->wake();

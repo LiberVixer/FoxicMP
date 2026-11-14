@@ -1752,3 +1752,16 @@ fixtures. Harvester не изменён. Другие fps/VFR/Opus geometries, o
 полные R01/R15/R17 и физический A/V остаются открытыми.
 
 [Linux обновлён атомарно с backup и неизменным INI; три installed own-SDK профиля прошли](ProgressiveContinuousWebmOpusNtscDelivery-2026-11-14.json). Windows установки сохранены.
+
+## SDK 1.100: WebM VP9/Opus, восемь CFR частот
+
+[Общий явный CFR mode](ProgressiveContinuousWebmOpusCfr.md) принимает только
+24000/1001,24/1,25/1,30000/1001,30/1,50/1,60000/1001,60/1. Start.videoRate
+immutable и подтверждается SDK по job/playback status. Frame timeline остаётся
+точным; допуск 1ns для FFmpeg DefaultDuration не ослабляет проверку каждого PTS.
+Legacy 25/NTSC режимы и Opus PCM trim сохранены.
+
+[99 worker,24 ordinary-main incomplete playback,24 PCM captures,
+legacy 25/NTSC/AAC controls,4000 sanitizer mutations и133 SDK units](ProgressiveContinuousWebmOpusCfrValidation-2026-11-14.json)
+расширяют проверенную часть R01. Другие fps/VFR/Opus geometries, one-packet Opus,
+полные R01/R15/R17 и физическое A/V остаются открытыми. Harvester не изменён.

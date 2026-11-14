@@ -18,5 +18,18 @@ int main()try{
  check(old.DefaultDuration(40000000) && !old.DefaultDuration(33366666));
  check(!ntsc.Packet(UINT64_MAX,1) && !ntsc.Packet(1,UINT64_MAX));
  check(!ntsc.Frames(INT64_MAX) && !ntsc.Frames(-1) && !ntsc.Frames(0));
+ const unsigned rates[][2]={{24000,1001},{24,1},{25,1},{30000,1001},{30,1},{50,1},{60000,1001},{60,1}};
+ for(const auto& rate:rates){
+  harvester::WebmContinuousClock c(rate[0],rate[1]);check(c.Valid());
+  for(uint64_t frame: {0ULL,1ULL,2ULL,599ULL,1438ULL,49999ULL}){
+   const auto ms=(frame*rate[1]*1000+rate[0]/2)/rate[0];
+   check(c.Packet(ms,frame));check(!c.Packet(ms+2,frame));
+   if(frame){const auto duration=c.End100ns(frame);check(c.Frames(duration)==frame && c.Frames(duration-2)==0);}
+  }
+  const auto lower=uint64_t(1000000000)*rate[1]/rate[0];
+  check(c.DefaultDuration(lower) && c.DefaultDuration(lower-1) && !c.DefaultDuration(lower-2));
+  check(!c.Packet(UINT64_MAX,1) && !c.Packet(1,UINT64_MAX) && !c.Frames(INT64_MAX));
+ }
+ check(!harvester::WebmContinuousClock(48000,2002).Valid());
  std::cout<<"{\"result\":\"PASS\",\"ntscOriginAndRounding\":true,\"old25fpsUnchanged\":true,\"boundedArithmetic\":true}"<<std::endl;return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 1;}

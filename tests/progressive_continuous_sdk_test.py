@@ -8,11 +8,11 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE
 from progressive_client import ApiError
 
-CAP = json.loads(re.search(r'return R"\((.*?)\)";',
-    (ROOT/'shared/progressivestreamcapabilities.h').read_text(), re.S).group(1))
+CAP = json.loads(''.join(re.findall(r'R"\((.*?)\)"',
+    (ROOT/'shared/progressivestreamcapabilities.h').read_text(), re.S)))
 
 
 class Client:
@@ -29,6 +29,7 @@ class Client:
             s = message['session']
             self.job = dict(mode=message.get('mode', MODE), requestId=message['requestId'], jobId='a'*32,
                 sessionId=s['sessionId'], generation=s['generation'], writerInstanceId=s['writer']['instanceId'])
+            if 'videoRate' in message:self.job['videoRate']=copy.deepcopy(message['videoRate'])
         if action == 'continuousRemuxPlay':
             self.play = {**self.job, 'requestId': message['requestId'], 'playbackId': 'b'*32}
             if 'startSeconds' in message:self.play['startSeconds']=message['startSeconds']
@@ -327,6 +328,20 @@ class Test(unittest.TestCase):
         p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['mode'],WEBM_VP9_MODE)
         p.play();self.assertEqual(p.playback_status()['mode'],WEBM_VP9_MODE)
         p.close();p.forget()
+
+    def test_cfr_rate_is_explicit_canonical_and_bound(self):
+        for rate in (None,(27,1),(48000,2002),(True,1),(24.0,1),(24,0),(24,),{'numerator':24,'denominator':1}):
+            c=Client();self.assertRaises(ValueError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_CFR_MODE,audio_samples=1152000,video_rate=rate);self.assertEqual(c.calls,[])
+        c=Client();self.assertRaises(ValueError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_MODE,audio_samples=1152000,video_rate=(25,1))
+        rate=[60000,1001];c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_OPUS_CFR_MODE,audio_samples=1152000,video_rate=rate);rate[0]=30000
+        p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['videoRate'],dict(numerator=60000,denominator=1001));p.play();p.playback_status();c.job['videoRate']['numerator']=30000;self.assertRaises(RuntimeError,p.status)
+
+    def test_cfr_contract_is_closed_and_typed(self):
+        for field,value in [('allowedVideoRates',[dict(numerator=24.,denominator=1)]),('videoRateField','fps'),('frameRate',60),('defaultDurationNanoseconds',16666667)]:
+            c=Client();old=c.request
+            def request(message,timeout=5):
+                reply=old(message,timeout);reply['continuousRemux']['profiles'][WEBM_VP9_OPUS_CFR_MODE][field]=value;return reply
+            c.request=request;self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_CFR_MODE,audio_samples=1152000,video_rate=(60,1))
 
     def test_webm_ntsc_requires_exact_frame_contract(self):
         for field,value in [('frameRate',25),('frameRate',dict(numerator=30000.0,denominator=1001)),('defaultDurationNanoseconds',[33366666.0,33366667]),('defaultDurationNanoseconds',[33366666]),

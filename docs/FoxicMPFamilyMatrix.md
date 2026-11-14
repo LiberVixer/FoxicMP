@@ -129,6 +129,12 @@ video grid. Точные PCM/packets, incomplete playback, seek/release и ре�
 25fps/AAC подтверждены [отдельным отчётом](ProgressiveContinuousWebmOpusNtscValidation-2026-11-14.json).
 Другие fps/VFR и полная R01 остаются открытыми; режим25fps не расширен.
 
+[SDK1.100](ProgressiveContinuousWebmOpusCfr.md): общий explicit WebM VP9/Opus CFR mode
+для восьми частот 23.976–60fps. Start.videoRate связывается с job/playback identity;
+проверяются exact frame count, nearest-ms clocks и PCM трёх редакций.
+[99 worker /24 main /24 PCM и прежние 25/NTSC/AAC регрессии](ProgressiveContinuousWebmOpusCfrValidation-2026-11-14.json).
+VFR, остальные частоты/Opus layouts и полная R01 остаются открытыми.
+
 ## Что именно сравнивается
 
 | Редакция | Движок | Проверенная сборка выпуска 0.2.0 | Отдельный профиль |

@@ -1,30 +1,40 @@
-// Explicit fixed frame clocks for bounded continuous WebM profiles.
-// Container PTS remain in milliseconds; no timestamp rewriting. GPL-3.0-or-later.
+// Explicit bounded fixed clocks. Original WebM PTS stay in milliseconds.
+// Legacy constructors preserve the25fps/30000-over-1001 profiles. GPL-3.0-or-later.
 #pragma once
 #include <cstdint>
 namespace harvester {
 struct WebmContinuousClock {
-    const bool ntsc;
-    explicit WebmContinuousClock(bool fractional=false):ntsc(fractional){}
+    uint32_t numerator=25,denominator=1;
+    bool explicitRate=false;
+    WebmContinuousClock()=default;
+    explicit WebmContinuousClock(bool ntsc):numerator(ntsc?30000:25),denominator(ntsc?1001:1){}
+    WebmContinuousClock(uint32_t n,uint32_t d):numerator(n),denominator(d),explicitRate(true){}
+    bool Valid()const {
+        return (denominator==1 && (numerator==24 || numerator==25 || numerator==30 || numerator==50 || numerator==60))
+            || (denominator==1001 && (numerator==24000 || numerator==30000 || numerator==60000));
+    }
     bool DefaultDuration(uint64_t ns)const {
-        return ntsc?(ns==33366666 || ns==33366667):ns==40000000;
+        if(!Valid())return false;
+        const auto scaled=uint64_t(1000000000)*denominator;
+        const auto lower=scaled/numerator,upper=(scaled+numerator-1)/numerator;
+        // FFmpeg may truncate an approximate double one nanosecond below the
+        // exact rational floor. Packet clocks still have to match every frame.
+        return ns==lower || ns==upper || (explicitRate && ns+1==lower);
     }
     bool Packet(uint64_t ms,uint64_t frame)const {
-        if(frame>=50000 || ms>2000000)return false;
-        if(!ntsc)return ms==frame*40;
-        // Round-to-nearest at the WebM 1ms scale, including either tie rule.
-        const auto actual=ms*30,expected=frame*1001;
-        return actual>expected?actual-expected<=15:expected-actual<=15;
+        if(!Valid() || frame>=50000 || ms>(explicitRate?3600000u:2000000u))return false;
+        const auto actual=ms*numerator,expected=frame*uint64_t(denominator)*1000;
+        return actual>expected?actual-expected<=numerator/2:expected-actual<=numerator/2;
     }
     uint64_t End100ns(uint64_t frames)const {
-        return ntsc?frames*10010000000ULL/30000:frames*400000;
+        return Valid() && frames<=50000?frames*uint64_t(denominator)*10000000/numerator:0;
     }
     uint64_t Frames(int64_t duration)const {
-        if(duration<=0 || duration>36000000000LL)return 0;
-        if(!ntsc)return duration%400000==0 && duration/400000<=50000?uint64_t(duration/400000):0;
-        const auto frames=(uint64_t(duration)*30000+5005000000ULL)/10010000000ULL;
+        if(!Valid() || duration<=0 || duration>36000000000LL)return 0;
+        const auto divisor=uint64_t(denominator)*10000000;
+        const auto frames=(uint64_t(duration)*numerator+divisor/2)/divisor;
         if(!frames || frames>50000)return 0;
-        const auto scaled=frames*10010000000ULL,lower=scaled/30000,upper=(scaled+29999)/30000;
+        const auto scaled=frames*divisor,lower=scaled/numerator,upper=(scaled+numerator-1)/numerator;
         return uint64_t(duration)==lower || uint64_t(duration)==upper?frames:0;
     }
 };

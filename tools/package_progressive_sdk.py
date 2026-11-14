@@ -10,6 +10,10 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveContinuousWebmOpusCfr.md': 'docs/ProgressiveContinuousWebmOpusCfr.md',
+    'ProgressiveContinuousWebmOpusCfrValidation-2026-11-14.json': 'docs/ProgressiveContinuousWebmOpusCfrValidation-2026-11-14.json',
+    'progressive-v2-continuous-webm-opus-cfr.json': 'tests/fixtures/progressive-v2/continuous-webm-opus-cfr.json',
+
     'ProgressiveContinuousWebmOpusNtscDelivery-2026-11-14.json': 'docs/ProgressiveContinuousWebmOpusNtscDelivery-2026-11-14.json',
     'ProgressiveContinuousWebmOpusNtsc.md': 'docs/ProgressiveContinuousWebmOpusNtsc.md',
     'ProgressiveContinuousWebmOpusNtscValidation-2026-11-14.json': 'docs/ProgressiveContinuousWebmOpusNtscValidation-2026-11-14.json',
@@ -283,13 +287,13 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.99', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.100', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(), qtSchema2Playback=qt_schema2_playback(), classicSchema2Playback=classic_schema2_playback(),
         completedSourceSeek=json.loads(re.search(r'CompletedSeekCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/progressivecompletedseek.h').read_text(),re.S).group(1)),
         preparedRemuxPreview=json.loads(re.search(r'PreparedPreviewCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/preparedclip.h').read_text(),re.S).group(1)),
-        continuousRemux=json.loads(re.search(r'ContinuousRemuxCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/progressivestreamcapabilities.h').read_text(),re.S).group(1)),
+        continuousRemux=json.loads("".join(re.findall(r'R"\((.*?)\)"', (ROOT/'shared/progressivestreamcapabilities.h').read_text(),re.S))),
         backendRemuxProbe=json.loads(re.search(r'BackendRemuxCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/progressivebackendprobe.h').read_text(),re.S).group(1)),
         backendDemuxProbe=json.loads(re.search(r'BackendDemuxCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/progressivebackendprobe.h').read_text(),re.S).group(1)),
         qtMultiAudioSeek=dict(maxTargetSecondsWhileIncomplete=922337203686,completeSourceByteSeek=True,confirmedRangesOnly=True,mode='confirmed-byte-seek'),

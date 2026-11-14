@@ -94,10 +94,12 @@ class StreamOutputStore {
         const bool hevc,av1,av1Audio,vp9,vp9Audio;
         const uint64_t opusSamples;
         const bool opusNtsc;
+        const harvester::WebmContinuousClock opusClock;
         bool ftyp=false,trailer=false;
         std::atomic<bool> cancelled{false};
-        Core(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& id,uint64_t gen,std::shared_ptr<StreamCacheBudget> shared,uint64_t bytes,bool hevcVideo,bool av1Video,bool av1AudioProfile,bool vp9Video,bool vp9AudioProfile,uint64_t opusAudioSamples,bool opusNtscProfile)
-            :budget(std::move(shared)),registry(receipts),session(id),generation(gen),limit(bytes),hevc(hevcVideo),av1(av1Video),av1Audio(av1AudioProfile),vp9(vp9Video),vp9Audio(vp9AudioProfile),opusSamples(opusAudioSamples),opusNtsc(opusNtscProfile){
+        Core(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& id,uint64_t gen,std::shared_ptr<StreamCacheBudget> shared,uint64_t bytes,bool hevcVideo,bool av1Video,bool av1AudioProfile,bool vp9Video,bool vp9AudioProfile,uint64_t opusAudioSamples,bool opusNtscProfile,harvester::WebmContinuousClock clock)
+            :budget(std::move(shared)),registry(receipts),session(id),generation(gen),limit(bytes),hevc(hevcVideo),av1(av1Video),av1Audio(av1AudioProfile),vp9(vp9Video),vp9Audio(vp9AudioProfile),opusSamples(opusAudioSamples),opusNtsc(opusNtscProfile),opusClock(clock.explicitRate?clock:harvester::WebmContinuousClock(opusNtscProfile)){
+            check(opusClock.Valid() && (!clock.explicitRate || (opusSamples && !opusNtsc)),"invalid_request");
             check(!opusNtsc || opusSamples,"invalid_request");
             if(opusSamples){check(vp9 && !vp9Audio && opusSamples>648 && opusSamples<=48000000,"invalid_request");webmIndex=std::make_unique<harvester::muxwebm::Layout>();}
             check(unsigned(hevc)+unsigned(av1)+unsigned(vp9)<=1 && (!av1Audio || av1) && (!vp9Audio || vp9),"invalid_request");
@@ -229,8 +231,8 @@ class StreamOutputStore {
         void updateCoverage(bool complete=false){
             videoCoverage.update(webmIndex?webmIndex->tracks[0].index.Samples():avIndex?avIndex->views().tracks[0].index.Samples():index.Samples());
             state.videoIndexedEnd100ns=videoCoverage.end100ns();
-            if(opusNtsc){
-                const auto end=harvester::WebmContinuousClock(true).End100ns(state.videoSamples);
+            if(opusNtsc || opusClock.explicitRate){
+                const auto end=opusClock.End100ns(state.videoSamples);
                 // Block PTS quantization is not a hole in the admitted frame grid.
                 state.videoIndexedEnd100ns=int64_t(complete?end:end>10000?end-10000:0);
             }
@@ -346,8 +348,10 @@ public:
             std::lock_guard<std::mutex> lock(core->mutex);core->cleanup();
         }
     };
-    StreamOutputStore(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,std::shared_ptr<StreamCacheBudget> budget,uint64_t limit=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false,bool vp9AudioProfile=false,uint64_t opusAudioSamples=0,bool opusNtscProfile=false)
-        :core(std::make_shared<Core>(root,registry,session,generation,std::move(budget),limit,hevcVideo,av1Video,av1AudioProfile,vp9Video,vp9AudioProfile,opusAudioSamples,opusNtscProfile)){}
+    StreamOutputStore(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,std::shared_ptr<StreamCacheBudget> budget,uint64_t limit=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false,bool vp9AudioProfile=false,uint64_t opusAudioSamples=0,bool opusNtscProfile=false,harvester::WebmContinuousClock clock={})
+        :core(std::make_shared<Core>(root,registry,session,generation,std::move(budget),limit,hevcVideo,av1Video,av1AudioProfile,vp9Video,vp9AudioProfile,opusAudioSamples,opusNtscProfile,clock)){}
+    bool cfrWebmOpus()const{return core->opusClock.explicitRate;}
+    harvester::WebmContinuousClock videoClock()const{return core->opusClock;}
     bool ntscWebmOpus()const{return core->opusNtsc;}
     bool webmOpus()const{return core->opusSamples!=0;}
     uint64_t opusAudioSamples()const{return core->opusSamples;}
@@ -452,10 +456,10 @@ class StreamCacheOwner {
     }
 public:
     explicit StreamCacheOwner(std::shared_ptr<StreamCacheBudget> shared,size_t sessions=16):budget(std::move(shared)),limit(sessions){Require(bool(budget) && limit>0 && limit<=16,"remuxCache","Invalid cache owner bounds","invalid_request");}
-    std::shared_ptr<StreamOutputStore> create(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,uint64_t bytes=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false,bool vp9AudioProfile=false,uint64_t opusAudioSamples=0,bool opusNtscProfile=false){
+    std::shared_ptr<StreamOutputStore> create(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,uint64_t bytes=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false,bool vp9AudioProfile=false,uint64_t opusAudioSamples=0,bool opusNtscProfile=false,harvester::WebmContinuousClock clock={}){
         std::lock_guard<std::mutex> lock(mutex);collectLocked();Require(stores.size()<limit,"remuxCache","Retire old output stores first","cache-session-limit");
         admit(root,registry);
-        try{auto store=std::make_shared<StreamOutputStore>(root,registry,session,generation,budget,bytes,hevcVideo,av1Video,av1AudioProfile,vp9Video,vp9AudioProfile,opusAudioSamples,opusNtscProfile);stores.push_back(store);return store;}catch(...){roots.at(root.lexically_normal()).ready=false;throw;}
+        try{auto store=std::make_shared<StreamOutputStore>(root,registry,session,generation,budget,bytes,hevcVideo,av1Video,av1AudioProfile,vp9Video,vp9AudioProfile,opusAudioSamples,opusNtscProfile,clock);stores.push_back(store);return store;}catch(...){roots.at(root.lexically_normal()).ready=false;throw;}
     }
     bool retire(const std::shared_ptr<StreamOutputStore>& store){
         std::lock_guard<std::mutex> lock(mutex);const auto found=std::find(stores.begin(),stores.end(),store);

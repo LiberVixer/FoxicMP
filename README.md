@@ -104,6 +104,11 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
+[SDK1.100](docs/ProgressiveContinuousWebmOpusCfr.md) добавляет общий continuous
+WebM VP9/Opus CFR: восемь частот от 23,976 до 60 fps, явно заданных через
+`video_rate`. [Проверки трёх редакций](docs/ProgressiveContinuousWebmOpusCfrValidation-2026-11-14.json)
+включают воспроизведение до complete, точный PCM и прежние режимы.
+
 [SDK1.99](docs/ProgressiveContinuousWebmOpusNtsc.md) добавляет отдельный continuous
 WebM VP9/Opus30000/1001fps с сохранением исходных packet clocks во всех трёх
 редакциях. Требуется точный video timeline и известное число audio samples;

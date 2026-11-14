@@ -592,6 +592,7 @@ std::string ClassicProgressiveApi::ContinuousStatus(){
     const auto error=!p.error.empty()?p.error:!producerError.empty() && producerError!="cancelled"?producerError:!p.closed && !out.failure.empty()?out.failure:std::string();
     const char* state=!error.empty()?"error":p.closed?"closed":continuousOpening || p.committing?"opening":!owned?"closed":!loaded?"buffering":continuousFinished?"finished":!frame.m_harvesterWantPlay?"paused":frame.m_harvesterBuffering?"buffering":frame.GetMediaState()==State_Paused?"paused":"playing";
     Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("version",1,a);d.AddMember("ok",true,a);d.AddMember("mode",Value(p.mode.c_str(),a),a);
+    if(p.source->cfrOpus()){const auto rate=p.source->videoClock();Value value(rapidjson::kObjectType);value.AddMember("numerator",rate.numerator,a);value.AddMember("denominator",rate.denominator,a);d.AddMember("videoRate",value,a);}
     d.AddMember("audio",p.source->hasAudio(),a);d.AddMember("pcmWindowApplied",owned && native && native->AacPcmWindowApplied(),a);
     d.AddMember("readyEndSeconds",native?double(native->ReadyEnd())/10000000.:0.,a);d.AddMember("sourceConnected",native && native->Connected(),a);
     auto text=[&](const char* key,const std::string& value){d.AddMember(Value(key,a),Value(value.c_str(),a),a);};

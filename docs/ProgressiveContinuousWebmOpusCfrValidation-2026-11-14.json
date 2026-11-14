@@ -1,0 +1,2030 @@
+{
+  "result": "PASS",
+  "sdkVersion": "1.100",
+  "applicationVersionUnchanged": "0.2.0",
+  "mode": "continuous-webm-vp9-opus-cfr-v1",
+  "baseSourceCommit": "aa7881d0ac539647ab0a1770d92c9b066a4258a9",
+  "editions": {
+    "linux-qt": {
+      "exits": {
+        "api": 0,
+        "worker": 0,
+        "pcm": 0,
+        "oldWorker": 0,
+        "ntscWorker": 0,
+        "regressions": 0
+      },
+      "ordinaryMain": true,
+      "playerSha256": [
+        "dd8d1ab633d05391db9be2a26677660312f6dc5169a367c7c13b3238e655ea81",
+        "dd8d1ab633d05391db9be2a26677660312f6dc5169a367c7c13b3238e655ea81"
+      ],
+      "workerSha256": [
+        "b37e5f583b74e1d3ebe3ba50abdad2ef6bb14d325b4dfd623a7cc5bf42c3df15",
+        "b37e5f583b74e1d3ebe3ba50abdad2ef6bb14d325b4dfd623a7cc5bf42c3df15"
+      ],
+      "apiRows": [
+        {
+          "rate": {
+            "numerator": 24000,
+            "denominator": 1001
+          },
+          "profile": "24000-1001",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.135,
+          "durationSeconds": 24.024,
+          "releaseSeconds": 0.031140456994762644,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 24,
+            "denominator": 1
+          },
+          "profile": "24-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.125,
+          "durationSeconds": 24,
+          "releaseSeconds": 0.028812697004468646,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 25,
+            "denominator": 1
+          },
+          "profile": "25-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.12,
+          "durationSeconds": 24,
+          "releaseSeconds": 0.03224578899971675,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 30000,
+            "denominator": 1001
+          },
+          "profile": "30000-1001",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.11,
+          "durationSeconds": 24.024,
+          "releaseSeconds": 0.028849081994849257,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "profile": "30-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.1,
+          "durationSeconds": 24,
+          "releaseSeconds": 0.036925077001797035,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 50,
+            "denominator": 1
+          },
+          "profile": "50-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.1,
+          "durationSeconds": 24,
+          "releaseSeconds": 0.04734282400022494,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 60000,
+            "denominator": 1001
+          },
+          "profile": "60000-1001",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.11,
+          "durationSeconds": 24.0073166,
+          "releaseSeconds": 0.031137057005253155,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "profile": "60-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.1,
+          "durationSeconds": 24,
+          "releaseSeconds": 0.02829658200062113,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        }
+      ],
+      "workerRows": [
+        {
+          "profile": "24000-1001-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "24000-1001-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "24-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "24-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "25-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 25,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "25-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 25,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30000-1001-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30000-1001-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "50-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 50,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "50-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 50,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60000-1001-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60000-1001-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "reject-rate-missing",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-bool",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-float",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-zero",
+          "exitCode": 1,
+          "code": "unsupported-stream-video-rate",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-unreduced-alias",
+          "exitCode": 1,
+          "code": "unsupported-stream-video-rate",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-unsupported-rate",
+          "exitCode": 1,
+          "code": "unsupported-stream-video-rate",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-extra",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-wrong-admitted-rate",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-configuration",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-off-grid",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-clock",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-lost-last-frame",
+          "exitCode": 1,
+          "code": "incomplete-stream-webm-opus-samples",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-overflow",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-clock",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-wrong-frame-count",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-clock",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "cancel-wait",
+          "exitCode": 1,
+          "code": "cancelled",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "cancel-write",
+          "exitCode": 1,
+          "code": "cancelled",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "integrity",
+          "exitCode": 1,
+          "code": "integrity-mismatch",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "unconfirmed-eof",
+          "exitCode": 1,
+          "code": "unconfirmed-eof",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "kill-wait",
+          "exitCode": -9,
+          "code": "process-terminated",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        }
+      ],
+      "pcm": {
+        "result": "PASS",
+        "count": 8,
+        "edition": "qt",
+        "rows": [
+          {
+            "profile": "24000-1001",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "0a98bd7ff23baac80a9f41db141eed194f1a387a4f246dda819f1d441b3e3106"
+          },
+          {
+            "profile": "24-1",
+            "exitCode": 0,
+            "samples": 95983,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "d879ce2c5a322d8c4c50713bfdb0f0a397dd80fcabf7944b023534ae468245cc"
+          },
+          {
+            "profile": "25-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "0a98bd7ff23baac80a9f41db141eed194f1a387a4f246dda819f1d441b3e3106"
+          },
+          {
+            "profile": "30000-1001",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "0a98bd7ff23baac80a9f41db141eed194f1a387a4f246dda819f1d441b3e3106"
+          },
+          {
+            "profile": "30-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "0a98bd7ff23baac80a9f41db141eed194f1a387a4f246dda819f1d441b3e3106"
+          },
+          {
+            "profile": "50-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "0a98bd7ff23baac80a9f41db141eed194f1a387a4f246dda819f1d441b3e3106"
+          },
+          {
+            "profile": "60000-1001",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "18a8617acc9bc47d44496bb11807048bcf3539ff362b034dbdfbc02bf331cd22"
+          },
+          {
+            "profile": "60-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "0a98bd7ff23baac80a9f41db141eed194f1a387a4f246dda819f1d441b3e3106"
+          }
+        ],
+        "runnerSha256": "76d9ea841ff354f74dc41cc56a244cb900a1a74ef1ae70b410ad2a3aae38fd06"
+      },
+      "legacy25WorkerRows": 26,
+      "legacyNtscWorkerRows": 29,
+      "regressions": [
+        {
+          "scenario": "webm-opus",
+          "count": 3,
+          "result": "PASS"
+        },
+        {
+          "scenario": "webm-opus-ntsc",
+          "count": 3,
+          "result": "PASS"
+        },
+        {
+          "scenario": "queued-seek",
+          "count": 11,
+          "result": "PASS"
+        }
+      ]
+    },
+    "windows-qt": {
+      "exits": {
+        "api": 0,
+        "worker": 0,
+        "pcm": 0,
+        "oldWorker": 0,
+        "ntscWorker": 0,
+        "regressions": 0
+      },
+      "ordinaryMain": true,
+      "playerSha256": [
+        "0a6d8ac2271073503e0718b7b3955dc775b09f7c7509339194827babee648fc8",
+        "0a6d8ac2271073503e0718b7b3955dc775b09f7c7509339194827babee648fc8"
+      ],
+      "workerSha256": [
+        "439b624dc2f879df7ec2a8383ac12f40a1aa4b71adabbfe6f8ae1bff7c44c5be",
+        "439b624dc2f879df7ec2a8383ac12f40a1aa4b71adabbfe6f8ae1bff7c44c5be"
+      ],
+      "apiRows": [
+        {
+          "rate": {
+            "numerator": 24000,
+            "denominator": 1001
+          },
+          "profile": "24000-1001",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.177,
+          "durationSeconds": 24.024,
+          "releaseSeconds": 0.01600000000325963,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 24,
+            "denominator": 1
+          },
+          "profile": "24-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.125,
+          "durationSeconds": 24,
+          "releaseSeconds": 0.014999999999417923,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 25,
+            "denominator": 1
+          },
+          "profile": "25-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.2,
+          "durationSeconds": 24,
+          "releaseSeconds": 0.01599999999598367,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 30000,
+            "denominator": 1001
+          },
+          "profile": "30000-1001",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.111,
+          "durationSeconds": 24.024,
+          "releaseSeconds": 0.01600000000325963,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "profile": "30-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.667,
+          "durationSeconds": 24,
+          "releaseSeconds": 0.01600000000325963,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 50,
+            "denominator": 1
+          },
+          "profile": "50-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.18,
+          "durationSeconds": 24,
+          "releaseSeconds": 0.031000000002677552,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 60000,
+            "denominator": 1001
+          },
+          "profile": "60000-1001",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.293,
+          "durationSeconds": 24.0073166,
+          "releaseSeconds": 0.030999999995401595,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "profile": "60-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.183,
+          "durationSeconds": 24,
+          "releaseSeconds": 0.01600000000325963,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        }
+      ],
+      "workerRows": [
+        {
+          "profile": "24000-1001-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "24000-1001-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "24-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "24-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "25-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 25,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "25-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 25,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30000-1001-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30000-1001-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "50-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 50,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "50-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 50,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60000-1001-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60000-1001-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "reject-rate-missing",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-bool",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-float",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-zero",
+          "exitCode": 1,
+          "code": "unsupported-stream-video-rate",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-unreduced-alias",
+          "exitCode": 1,
+          "code": "unsupported-stream-video-rate",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-unsupported-rate",
+          "exitCode": 1,
+          "code": "unsupported-stream-video-rate",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-extra",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-wrong-admitted-rate",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-configuration",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-off-grid",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-clock",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-lost-last-frame",
+          "exitCode": 1,
+          "code": "incomplete-stream-webm-opus-samples",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-overflow",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-clock",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-wrong-frame-count",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-clock",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "cancel-wait",
+          "exitCode": 1,
+          "code": "cancelled",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "cancel-write",
+          "exitCode": 1,
+          "code": "cancelled",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "integrity",
+          "exitCode": 1,
+          "code": "integrity-mismatch",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "unconfirmed-eof",
+          "exitCode": 1,
+          "code": "unconfirmed-eof",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "kill-wait",
+          "exitCode": 1,
+          "code": "process-terminated",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        }
+      ],
+      "pcm": {
+        "result": "PASS",
+        "count": 8,
+        "edition": "qt",
+        "rows": [
+          {
+            "profile": "24000-1001",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "3b14f2f7abadfd61236a81a72f874a1a6b2e3fe55c003952a1a981c22e0e1ee8"
+          },
+          {
+            "profile": "24-1",
+            "exitCode": 0,
+            "samples": 95983,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "a0e0ed3335e5ce2e9f6c3bfe45057f1c018772eff8ea666ec328d0ba58fbfdea"
+          },
+          {
+            "profile": "25-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "3b14f2f7abadfd61236a81a72f874a1a6b2e3fe55c003952a1a981c22e0e1ee8"
+          },
+          {
+            "profile": "30000-1001",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "3b14f2f7abadfd61236a81a72f874a1a6b2e3fe55c003952a1a981c22e0e1ee8"
+          },
+          {
+            "profile": "30-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "3b14f2f7abadfd61236a81a72f874a1a6b2e3fe55c003952a1a981c22e0e1ee8"
+          },
+          {
+            "profile": "50-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "3b14f2f7abadfd61236a81a72f874a1a6b2e3fe55c003952a1a981c22e0e1ee8"
+          },
+          {
+            "profile": "60000-1001",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "d1af19eb23bb32e6f4b014d1067ee15900145d9e31ab6cb1ae5a6aeac365e0a1"
+          },
+          {
+            "profile": "60-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "3b14f2f7abadfd61236a81a72f874a1a6b2e3fe55c003952a1a981c22e0e1ee8"
+          }
+        ],
+        "runnerSha256": "d84ba747622467985257382ff12130732ea0dd69d8dc030f83ca2ff73cf71a88"
+      },
+      "legacy25WorkerRows": 26,
+      "legacyNtscWorkerRows": 29,
+      "regressions": [
+        {
+          "scenario": "webm-opus",
+          "count": 3,
+          "result": "PASS"
+        },
+        {
+          "scenario": "webm-opus-ntsc",
+          "count": 3,
+          "result": "PASS"
+        },
+        {
+          "scenario": "queued-seek",
+          "count": 11,
+          "result": "PASS"
+        }
+      ]
+    },
+    "windows-classic": {
+      "exits": {
+        "api": 0,
+        "worker": 0,
+        "pcm": 0,
+        "oldWorker": 0,
+        "ntscWorker": 0,
+        "regressions": 0
+      },
+      "ordinaryMain": true,
+      "playerSha256": [
+        "07b1874d42beffb64d37911eb8c2eb654567d7775b5c74f2d23766f97f7825e4",
+        "07b1874d42beffb64d37911eb8c2eb654567d7775b5c74f2d23766f97f7825e4"
+      ],
+      "workerSha256": [
+        "c0a1b9715202c294bf224beeb8ab06c6a2694651d02f8030705244cd76f034df",
+        "c0a1b9715202c294bf224beeb8ab06c6a2694651d02f8030705244cd76f034df"
+      ],
+      "apiRows": [
+        {
+          "rate": {
+            "numerator": 24000,
+            "denominator": 1001
+          },
+          "profile": "24000-1001",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.127,
+          "durationSeconds": 24.024,
+          "releaseSeconds": 0.06199999999807915,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 24,
+            "denominator": 1
+          },
+          "profile": "24-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.128,
+          "durationSeconds": 24.0,
+          "releaseSeconds": 0.0629999999946449,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 25,
+            "denominator": 1
+          },
+          "profile": "25-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.126999999999999,
+          "durationSeconds": 24.0,
+          "releaseSeconds": 0.046000000002095476,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 30000,
+            "denominator": 1001
+          },
+          "profile": "30000-1001",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.128,
+          "durationSeconds": 24.024,
+          "releaseSeconds": 0.06300000000192085,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "profile": "30-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.125,
+          "durationSeconds": 24.0,
+          "releaseSeconds": 0.046999999998661224,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 50,
+            "denominator": 1
+          },
+          "profile": "50-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.122,
+          "durationSeconds": 24.0,
+          "releaseSeconds": 0.046999999998661224,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 60000,
+            "denominator": 1001
+          },
+          "profile": "60000-1001",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.12,
+          "durationSeconds": 24.0073166,
+          "releaseSeconds": 0.046999999998661224,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        },
+        {
+          "rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "profile": "60-1",
+          "result": "PASS",
+          "incompletePlaybackSeconds": 10.129,
+          "durationSeconds": 24.0,
+          "releaseSeconds": 0.06300000000192085,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true
+        }
+      ],
+      "workerRows": [
+        {
+          "profile": "24000-1001-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "24000-1001-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "24-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "24-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 24,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "25-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 25,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "25-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 25,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30000-1001-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30000-1001-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "30-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "50-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 50,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "50-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 50,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60000-1001-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60000-1001-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60000,
+            "denominator": 1001
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60-1-finite",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "60-1-unknown",
+          "exitCode": 0,
+          "code": "data",
+          "rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "exactPcm": true,
+          "decodedFramesIdentical": true
+        },
+        {
+          "profile": "reject-rate-missing",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-bool",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-float",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-zero",
+          "exitCode": 1,
+          "code": "unsupported-stream-video-rate",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-unreduced-alias",
+          "exitCode": 1,
+          "code": "unsupported-stream-video-rate",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-unsupported-rate",
+          "exitCode": 1,
+          "code": "unsupported-stream-video-rate",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-extra",
+          "exitCode": 1,
+          "code": "unsupported-stream-start",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-rate-wrong-admitted-rate",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-configuration",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-off-grid",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-clock",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-lost-last-frame",
+          "exitCode": 1,
+          "code": "incomplete-stream-webm-opus-samples",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-overflow",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-clock",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "reject-wrong-frame-count",
+          "exitCode": 1,
+          "code": "unsupported-stream-webm-clock",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "cancel-wait",
+          "exitCode": 1,
+          "code": "cancelled",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "cancel-write",
+          "exitCode": 1,
+          "code": "cancelled",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "integrity",
+          "exitCode": 1,
+          "code": "integrity-mismatch",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "unconfirmed-eof",
+          "exitCode": 1,
+          "code": "unconfirmed-eof",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        },
+        {
+          "profile": "kill-wait",
+          "exitCode": 1,
+          "code": "process-terminated",
+          "rate": null,
+          "exactPcm": false,
+          "decodedFramesIdentical": false
+        }
+      ],
+      "pcm": {
+        "result": "PASS",
+        "count": 8,
+        "edition": "classic",
+        "rows": [
+          {
+            "profile": "24000-1001",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 3.725290298461914e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "4d56553540f7c757a92e3a7be755a2462ec5ad15802bf56d85374d9a665443bb"
+          },
+          {
+            "profile": "24-1",
+            "exitCode": 0,
+            "samples": 95983,
+            "channels": 2,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 95983,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "7822550d7e556a4a42b63fa61a907fd7454b7f4915c13d00303fd70f0a303193"
+          },
+          {
+            "profile": "25-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 3.725290298461914e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "4d56553540f7c757a92e3a7be755a2462ec5ad15802bf56d85374d9a665443bb"
+          },
+          {
+            "profile": "30000-1001",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 3.725290298461914e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "4d56553540f7c757a92e3a7be755a2462ec5ad15802bf56d85374d9a665443bb"
+          },
+          {
+            "profile": "30-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 3.725290298461914e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "4d56553540f7c757a92e3a7be755a2462ec5ad15802bf56d85374d9a665443bb"
+          },
+          {
+            "profile": "50-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 3.725290298461914e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "4d56553540f7c757a92e3a7be755a2462ec5ad15802bf56d85374d9a665443bb"
+          },
+          {
+            "profile": "60000-1001",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "91dfdd4abe44c59cd7dc8b0f12dd019c29eb78bfd46deba798ba7d89e2d0fd27"
+          },
+          {
+            "profile": "60-1",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 3.725290298461914e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "4d56553540f7c757a92e3a7be755a2462ec5ad15802bf56d85374d9a665443bb"
+          }
+        ],
+        "runnerSha256": "4f519ec36961adac6ee4cdcc8b15fdfba18ca3a3dee15429f7f6eb9722c3dbd8"
+      },
+      "legacy25WorkerRows": 26,
+      "legacyNtscWorkerRows": 29,
+      "regressions": [
+        {
+          "scenario": "webm-opus",
+          "count": 3,
+          "result": "PASS"
+        },
+        {
+          "scenario": "webm-opus-ntsc",
+          "count": 3,
+          "result": "PASS"
+        },
+        {
+          "scenario": "queued-seek",
+          "count": 11,
+          "result": "PASS"
+        }
+      ]
+    }
+  },
+  "sanitizers": {
+    "clockExit": 0,
+    "fuzzExit": 0,
+    "fuzz": {
+      "result": "PASS",
+      "rows": [
+        {
+          "name": "24000-1001",
+          "exitCode": 0,
+          "stdout": "{\"result\":\"PASS\",\"mutations\":2000}\n",
+          "stderr": ""
+        },
+        {
+          "name": "60000-1001",
+          "exitCode": 0,
+          "stdout": "{\"result\":\"PASS\",\"mutations\":2000}\n",
+          "stderr": ""
+        }
+      ],
+      "mutations": 4000
+    }
+  },
+  "sdkUnits": [
+    {
+      "name": "sdk-unit",
+      "count": 51,
+      "exitCode": 0
+    },
+    {
+      "name": "general-sdk-unit",
+      "count": 19,
+      "exitCode": 0
+    },
+    {
+      "name": "v2-sdk-unit",
+      "count": 63,
+      "exitCode": 0
+    }
+  ],
+  "installedWindowsUnchanged": {
+    "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+    "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+    "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/ffmpeg.exe": "0e22e492846194b38206f8dcd1f2b1f0c099bb30d5d4eabc6e85a47fe0d0d074",
+    "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/foxicmp-shader-check.exe": "ee59fcd57753ffc86c55999839f52d5e89814554e782953e3f3eebb8d64ccfdb",
+    "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+    "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "e18f92641f44006014a2dec38f940e979333875bbe719b97916ab45dff3b429b",
+    "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/yt-dlp.exe": "33121d192d706e62f684a06f80918e3f3a8ba52ac3a65213b6951c39c7d9f555"
+  },
+  "registration": {
+    "qt": {
+      "unchanged": true,
+      "beforeSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+      "afterSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+      "entries": 163
+    },
+    "classic": {
+      "unchanged": true,
+      "beforeSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+      "afterSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+      "entries": 163
+    },
+    "finalAfterAllClassicGraphs": {
+      "unchanged": true,
+      "sha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+      "exitCode": 0
+    }
+  },
+  "buildExits": {
+    "webm-cfr-linux-build3": 0,
+    "webm-cfr-final-windows-build": 0,
+    "webm-cfr-qt-pcm-build": 0,
+    "webm-cfr-classic-pcm-build": 0,
+    "webm-cfr-clock-build": 0,
+    "webm-cfr-clock-ctest": 0
+  },
+  "preflight": {
+    "result": "PASS",
+    "rows": [
+      {
+        "name": "24000-1001",
+        "frames": 576,
+        "duration100ns": 240240000,
+        "defaultDurationNs": 41708333,
+        "pixels": "yuv420p"
+      },
+      {
+        "name": "24-1",
+        "frames": 576,
+        "duration100ns": 240000000,
+        "defaultDurationNs": 41666666,
+        "pixels": "yuv420p"
+      },
+      {
+        "name": "25-1",
+        "frames": 600,
+        "duration100ns": 240000000,
+        "defaultDurationNs": 40000000,
+        "pixels": "yuv420p"
+      },
+      {
+        "name": "30000-1001",
+        "frames": 720,
+        "duration100ns": 240240000,
+        "defaultDurationNs": 33366666,
+        "pixels": "yuv420p"
+      },
+      {
+        "name": "30-1",
+        "frames": 720,
+        "duration100ns": 240000000,
+        "defaultDurationNs": 33333333,
+        "pixels": "yuv420p"
+      },
+      {
+        "name": "50-1",
+        "frames": 1200,
+        "duration100ns": 240000000,
+        "defaultDurationNs": 20000000,
+        "pixels": "yuv420p"
+      },
+      {
+        "name": "60000-1001",
+        "frames": 1439,
+        "duration100ns": 240073166,
+        "defaultDurationNs": 16683332,
+        "pixels": "yuv420p10le"
+      },
+      {
+        "name": "60-1",
+        "frames": 1440,
+        "duration100ns": 240000000,
+        "defaultDurationNs": 16666666,
+        "pixels": "yuv420p"
+      }
+    ]
+  },
+  "physicalAvSyncMeasured": false,
+  "harvesterModified": false,
+  "fullR01R15R17Complete": false,
+  "sourceSha256": {
+    "qt/src/progressiveapi.cpp": "0aeaded523ea887be1c128f39f79bf5e643cce2808c7cbb3e76075e5bdae88db",
+    "qt/tests/continuous_opus_probe.cpp": "157e98a8c01754780e643df8c8a21ab521c98e3c2eb1f51a9fa3d3c2bb9ac34f",
+    "qt/tools/progressive_continuous.py": "1a9e613b541bc8acd0b89fae4cf2f1c31cf05b9e77d3bc5a8d74db740d1659dc",
+    "shared/progressivecachedremux.h": "8746aa211187c2f7ad3f05c2b67b8dac6f1e808a68eef0c691b1c3e79f5f3ac0",
+    "shared/progressivestreamcache.h": "ef82b8b42ce4a8ee997322cfdee6a528429e80770777371a0e913e36fad92c07",
+    "shared/progressivestreamcapabilities.h": "f3a5dd5db09d3cc252dcecd463388e235d34a7d4029fda9efe34e38641e8bfa3",
+    "shared/progressivestreamcontroller.h": "57b4a42280b7e1b63760fdcfc12b2fe5c3e6126a69af583698a93810a54ec0a6",
+    "shared/progressivestreamdecoder.h": "641018e45b993da58cf987e10840bec8e00255920713ce6e259b039329630b7b",
+    "shared/progressivestreamremux.h": "1331b7ec9585f54e0c62da8713d44f5c19016c1060feb846a580253168e691d4",
+    "src/DSUtil/HarvesterWebMContinuousClock.h": "3987eb2b88148c47b72a24b4b4af5e7b2dfe07760b9c4479650efa9a6f7c24c4",
+    "src/DSUtil/HarvesterWebMOpusContinuous.h": "55b42b2362cc498058ca23dd3a6bdbe9c88e90c17a6bb6afac623da40c1b6fe4",
+    "src/apps/mplayerc/ClassicProgressiveApi.cpp": "909a0e8464a049d8fa82fd054cd958a9fe317478748eec51c0fc58687705a7f8",
+    "tests/progressive_aac_package_test.py": "f3b766df86b546a1b4af0dcf5d170a69a8203a82c2750964756bb89b0212c6fc",
+    "tests/progressive_continuous_opus_pcm_test.py": "1db62f281c0defdf04041019625e48bdc2584171d5936e1f760f0e1796b9f684",
+    "tests/progressive_continuous_sdk_test.py": "5c4c168c3e21a632f47833938d35bfe8eaa60d193d3060fa404ee0511a098819",
+    "tests/progressive_continuous_webm_opus_api_test.py": "95e69cdd21d68f395ea7b34297f5c0457c1b9c99e989243e0d66330c4f6eb7b8",
+    "tests/progressive_stream_remux_worker_test.py": "b966433bc5e29e87acda98f0b4ea1a254761d120527a827a9f3c47f043923d33",
+    "tests/progressive_webm_clock_test.cpp": "c07e5d7438b26948c010628f012654f6de79cfd01b54e5a3143d6ccd9b21fce7",
+    "tests/progressive_webm_opus_bounds_cli.cpp": "3689046fa5a85a665c870409ec483034cbb47d7094efc2727cc59d1c6b0929ff",
+    "tests/windows/continuous_opus_graph_probe.cpp": "647f1b9476969edf7c6804757f58003b7bdb8a6854b252ed3b7c6226e995d401",
+    "tools/package_progressive_sdk.py": "2ae0710a0eecda4f411d3d77db220f9cc847c3f775b46b5fedabcd4485730d63",
+    "tools/progressive_stream_remux_worker.cpp": "b4b9c6116d9edf65bc2473886173ca23863bded11fd8befb02bf0be374b3b4ce",
+    "tools/verify_progressive_sdk.py": "8b2fc05b4bfa77df495b8641e910ec1fd03b5acf717e27c22f7140ecab707c6c",
+    "tests/progressive_webm_cfr_fixtures.py": "a3d7dbf5b928c600f75708a5979479579e33ddde6cc7da8d1763e768f2db6919",
+    "tests/progressive_stream_webm_cfr_test.py": "a1231cea54adc308f626d3bf4a59d2b980f22a6bb012651ff19dff20d0e46ce6",
+    "qt/CMakeLists.txt": "9cd7fad6eb192e7e15b6e7373ff35ff2b03972bc244855accc5127cf7c6dd4e5"
+  }
+}

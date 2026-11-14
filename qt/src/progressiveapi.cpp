@@ -508,6 +508,13 @@ void ProgressiveApi::acceptClients() {
         checked.Parse<rapidjson::kParseValidateEncodingFlag | rapidjson::kParseIterativeFlag>(buffer->constData(), size_t(buffer->size() - 1));
         if (checked.HasParseError() || !checked.IsObject()) throw std::runtime_error("Invalid JSON request");
         foxicmp::progressive::InlineKeys(checked);
+        // Validate this immutable identity before QJson normalizes 24000.0 to 24000.
+        if (checked.HasMember("videoRate")) {
+          const auto &rate=checked["videoRate"];
+          if (!rate.IsObject() || !rate.HasMember("numerator") || !rate.HasMember("denominator")
+              || !rate["numerator"].IsUint() || !rate["denominator"].IsUint())
+            throw std::runtime_error("Integer videoRate required");
+        }
         dispatch(QJsonDocument::fromJson(*buffer).object(),socket,deadline);
         return;
       } catch (const std::exception &e) { reply = failure("invalid_request", QString::fromUtf8(e.what())); }
@@ -535,6 +542,7 @@ QJsonObject ProgressiveApi::continuousStatus()const{
   else if(result["reasonCode"]=="waiting-range" && out.complete)result["reasonCode"]="decoder-buffering";
   result["version"]=1;result["ok"]=true;result["mode"]=QString::fromStdString(p.mode);
   result["audio"]=p.source->hasAudio();
+  if(p.source->cfrOpus()){const auto rate=p.source->videoClock();result["videoRate"]=QJsonObject{{"numerator",int(rate.numerator)},{"denominator",int(rate.denominator)}};}
   result["playbackId"]=QString::fromStdString(p.id);result["requestId"]=QString::fromStdString(p.command.requestId);result["jobId"]=QString::fromStdString(p.command.jobId);
   result["sessionId"]=QString::fromStdString(p.command.sessionId);result["generation"]=QString::number(p.command.generation);result["writerInstanceId"]=QString::fromStdString(p.command.writer);
   result["durationSeconds"]=double(p.duration)/10000000.;result["outputComplete"]=out.complete;result["decoderReaders"]=int(out.activeReaders);

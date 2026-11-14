@@ -3,12 +3,12 @@
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
 **Рабочий порядок оставшихся задач — [R01–R17, исторические H01–H04 и внешние E01–E03](ProgressiveRemainingWork.md).**
-Сводка актуализирована 14 ноября, SDK 1.99: 148 закрытых и 77 открытых
+Сводка актуализирована 14 ноября, SDK 1.100: 149 закрытых и 77 открытых
 записей, без вычисления процента готовности. Ниже сохранены подробные доказательства
 и исторические состояния; старые ограничения уточняются позднейшими отчётами.
 
 Приложение 0.2.0. Последний указанный здесь опубликованный пакетный срез — SDK 1.84;
-в текущих исходниках/проверенных кандидатах SDK 1.99 с исправлениями от 14 ноября.
+в текущих исходниках/проверенных кандидатах SDK 1.100 с исправлениями от 14 ноября.
 Исходники и clean SDK-архив кандидата не равны новому итоговому GitHub release.
 [SDK 1.84](ProgressiveContinuousAacPackages.md) проверен на обычных main/пакетах,
 Classic completed-seek race исправлен и проверен управляемой задержкой; полная стабильная приёмка открыта. Этот документ — перечень
@@ -180,6 +180,8 @@ R01: [инвентаризация container/codec/layout и подготовк�
 - [x] [Длительный continuous A/V-прогон, ограниченный срез](ProgressiveAvSoak30m.md): три полных 600 s jobs в тех же двух main processes каждой редакции, ≥31 min elapsed и 18 natural-EOF viewer jobs. 10/30/60 s writer pauses, manual pause, encoded packet/clock proofs, main/worker resources, startup/resume/release/RPC gates прошли исходные пороги, native drivers exit 0. [Отчёт](ProgressiveAvSoak30mValidation-2026-11-11.json) сохраняет исходные ошибки стенда и все samples. 587 файлов /158 HKCU entries неизменны; caps 50000 packets/64 MiB не расширялись. Это три jobs, не один 30-minute source, и не физический A/V допуск.
 - [x] [Linux Qt: причина роста private memory и исправление](ProgressiveLinuxMemory.md): glibc удерживала освобождённые крупные блоки в native arenas; Linux-only статический mmap threshold и reuse индексных buffers. [Приёмка 12 ноября](ProgressiveLinuxMemoryValidation-2026-11-12.json): два final processes /1897.74 s/371 samples, три полных A/V jobs; private growth ≈11.91 MiB вместо 72.44, одинаковые окна третьего/второго job ≤0.82 MiB. Строгие 32/8 MiB gates и 100 real AAC cycles прошли, старые результаты эти gates проваливают. Final drivers exit 0, Linux EXE атомарно обновлён с backup, ещё 9 installed AAC cases прошли; INI/личные файлы/Windows/158 Classic shell keys сохранены. Это bounded software-профили, не вся multi-hour/codec/physical A/V stress-приёмка.
 - [ ] Полная AAC waiting/replacement/crash/race/stress matrix и измерение физической A/V синхронизации.
+
+- [x] SDK 1.100: [явный WebM VP9/Opus CFR](ProgressiveContinuousWebmOpusCfr.md), восемь канонических частот 23.976–60 fps; immutable start.videoRate, точный frame timeline, исходные packet clocks, допуск DefaultDuration вниз 1 ns для FFmpeg. [Проверки трёх редакций](ProgressiveContinuousWebmOpusCfrValidation-2026-11-14.json): 99 worker cases, 24 ordinary-main incomplete playback, 24 PCM captures, прежние 25/NTSC workers/API и AAC queued seek, 4000 sanitizer mutations и 133 SDK units. VFR/другие геометрии Opus и общие R01/R15/R17 остаются открытыми; Harvester не изменён.
 
 ## 3. Обычный MP4 и индексы
 
