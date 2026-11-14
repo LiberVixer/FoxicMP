@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE
 from progressive_client import ApiError
 
 CAP = json.loads(re.search(r'return R"\((.*?)\)";',
@@ -327,6 +327,29 @@ class Test(unittest.TestCase):
         p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['mode'],WEBM_VP9_MODE)
         p.play();self.assertEqual(p.playback_status()['mode'],WEBM_VP9_MODE)
         p.close();p.forget()
+
+    def test_webm_opus_requires_exact_sample_plan(self):
+        for samples in (None, True, '1152000', 648, 0, -1, 48000001, 1152000.0):
+            c=Client()
+            self.assertRaises(ValueError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_MODE,audio_samples=samples)
+            self.assertEqual(c.calls,[])
+        c=Client();self.assertRaises(ValueError,ContinuousRemux,c,str(ROOT),audio_samples=1152000)
+        p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_OPUS_MODE,audio_samples=1152000)
+        p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['audioSamples'],'1152000')
+        p.play();self.assertEqual(p.playback_status()['mode'],WEBM_VP9_OPUS_MODE);p.close();p.forget()
+
+    def test_webm_opus_rejects_inexact_codec_contract(self):
+        for field,value in [('audioCodec','aac-lc'),('opusPreSkipSamples',1024),('opusPacketSamples',480),
+                ('sampleRates',[44100,48000]),('opusGain',1),('opusMappingFamily',1),
+                ('minAudioPackets',True),('pcmWindowRequired',True),('clusterSealing',False),
+                ('audioSamplesField','samples'),('discardPaddingPreserved',False),('seekPreRollNanoseconds',0)]:
+            with self.subTest(field=field):
+                c=Client();old=c.request
+                def request(message,timeout=5):
+                    reply=old(message,timeout);reply['continuousRemux']['profiles'][WEBM_VP9_OPUS_MODE][field]=value;return reply
+                c.request=request
+                self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_MODE,audio_samples=1152000)
+                self.assertEqual(len(c.calls),1)
 
     def test_webm_vp9_indexed_requires_exact_contract(self):
         for field,value in [('videoCodec','av1'),('audio',True),('bFrames',True),

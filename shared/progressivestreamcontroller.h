@@ -29,7 +29,7 @@ class ContinuousRemuxController {
         std::set<std::string> kinds;
         for(const auto& item:s.tracks){const auto& t=item.second;
             Require((t.kind=="video" || (audio && t.kind=="audio")) && kinds.insert(t.kind).second && t.required && t.container==(StreamRemuxIsWebm(selected)?"webm":"mp4")
-                && ((hevc || av1 || vp9)?t.codec==(t.kind=="video"?(vp9?"vp9":av1?"av1":"hevc"):"aac-lc"):(t.codec.empty() || t.codec==(t.kind=="video"?"h264":"aac-lc"))) && t.resource==resource && t.initialization.empty() && t.segments.empty(),
+                && ((hevc || av1 || vp9)?t.codec==(t.kind=="video"?(vp9?"vp9":av1?"av1":"hevc"):(selected==StreamRemuxProfile::WebmVp9Opus?"opus":"aac-lc")):(t.codec.empty() || t.codec==(t.kind=="video"?"h264":(selected==StreamRemuxProfile::WebmVp9Opus?"opus":"aac-lc")))) && t.resource==resource && t.initialization.empty() && t.segments.empty(),
                 "continuousRemux","Unsupported continuous copy-remux track","unsupported-stream-source");
         }
         if(StreamRemuxIsWebm(selected))Require(s.duration%400000==0 && s.duration/400000<=50000,"continuousRemux","Exact bounded 25fps timeline required","unsupported-stream-source");
@@ -58,6 +58,7 @@ class ContinuousRemuxController {
         std::shared_ptr<StreamCacheOwner> owner;
         StreamRemuxLimits limits;
         StreamRemuxProfile selected=StreamRemuxProfile::H264Video;
+        uint64_t opusSamples=0;
         ContinuousControllerHooks hooks;
         std::mutex mutex;std::condition_variable changed;std::deque<std::string> updates;
         std::atomic<bool> cancel{false},forget{false},stop{false};
@@ -79,7 +80,7 @@ class ContinuousRemuxController {
                 Require(!cancel.load() && !stop.load(),"continuousRemux","Preparation cancelled","cancelled");
                 Require(Clock::now()-began<limits.lifetime,"continuousRemux","Controller lifetime expired during preparation","backend-time-limit");
                 Require(initiallyComplete || now()-heartbeatAt.load()<limits.heartbeat.count(),"continuousRemux","Writer heartbeat expired during preparation","writer-heartbeat-timeout");
-                session=std::make_unique<CachedRemuxSession>(directory,registry,cache,initial,resource,child,owner,64*1024*1024,limits,selected);
+                session=std::make_unique<CachedRemuxSession>(directory,registry,cache,initial,resource,child,owner,64*1024*1024,limits,selected,opusSamples);
                 if(!StreamRemuxHasAudio(selected))decoder=session->decoderSource();
             }catch(const Error& e){v.error=e.code;v.terminal=true;}catch(...){v.error="continuous-preparation-failed";v.terminal=true;}
             for(;;)try{
@@ -107,7 +108,7 @@ class ContinuousRemuxController {
                     // AAC admission needs the immutable, SHA-validated window.
                     // Status/publications stay live while initialization is pending.
                     if(!decoder && StreamRemuxHasAudio(selected) && !cancel.load() && !stop.load() && !forget.load()
-                        && v.error.empty() && v.native.output.initialized && v.native.output.fragments && v.native.output.failure.empty())decoder=session->decoderSource(true);
+                        && v.error.empty() && v.native.output.initialized && v.native.output.fragments && (selected!=StreamRemuxProfile::WebmVp9Opus || (v.native.output.videoSamples && v.native.output.audioSamples)) && v.native.output.failure.empty())decoder=session->decoderSource(true);
                     if(v.native.done){v.terminal=true;if(v.native.source.code!="data" && v.error.empty())v.error=v.native.source.code;}
                     if((!v.terminal || v.native.source.code=="data") && !cancel.load() && !stop.load() && !forget.load() && v.native.output.initialized && v.native.output.fragments && v.native.output.failure.empty())v.decoder=decoder;
                     if(!v.error.empty()){if(decoder)decoder->cancel();v.decoder.reset();session->cancel();}
@@ -226,12 +227,12 @@ public:
             Require(!d.HasParseError() && d.IsObject(),"continuousRemux","Invalid command JSON","invalid_request");InlineKeys(d);
             Require(d.HasMember("version") && d["version"].IsUint() && d["version"].GetUint()==1 && d.HasMember("action"),"continuousRemux","Expected API version 1","invalid_request");const auto action=Text(d["action"],"action",32);
             if(action=="continuousRemuxStart"){
-                Keys(d,"continuousRemux",{"version","action","requestId","sessionDirectory","session","resourceId"},{"mode"});
+                Keys(d,"continuousRemux",{"version","action","requestId","sessionDirectory","session","resourceId"},{"mode","audioSamples"});
                 // Omission preserves the original profile. Explicit selection
                 // is immutable and forms part of the replay fingerprint.
                 const auto mode=d.HasMember("mode")?Text(d["mode"],"mode",64):"continuous-h264-video-v1";
-                Require(mode=="continuous-webm-vp9-superframe-video-v1" || mode=="continuous-h264-video-v1" || mode=="continuous-h264-reordered-video-v1" || mode=="continuous-h264-aac-window-v1" || mode=="continuous-hevc-reordered-video-v1" || mode=="continuous-hevc-aac-window-v1" || mode=="continuous-av1-video-v1" || mode=="continuous-av1-aac-window-v1" || mode=="continuous-vp9-video-v1" || mode=="continuous-vp9-aac-window-v1" || mode=="continuous-vp9-superframe-video-v1" || mode=="continuous-vp9-superframe-aac-window-v1" || mode=="continuous-webm-vp9-video-v1","mode","Unsupported continuous mode","invalid_request");
-                const auto selected=mode=="continuous-webm-vp9-superframe-video-v1"?StreamRemuxProfile::WebmVp9SuperframeVideo:mode=="continuous-webm-vp9-video-v1"?StreamRemuxProfile::WebmVp9Video:mode=="continuous-vp9-superframe-aac-window-v1"?StreamRemuxProfile::Vp9SuperframeAacWindow:mode=="continuous-vp9-superframe-video-v1"?StreamRemuxProfile::Vp9SuperframeVideo:mode=="continuous-vp9-aac-window-v1"?StreamRemuxProfile::Vp9AacWindow:mode=="continuous-vp9-video-v1"?StreamRemuxProfile::Vp9Video:mode=="continuous-av1-aac-window-v1"?StreamRemuxProfile::Av1AacWindow:mode=="continuous-av1-video-v1"?StreamRemuxProfile::Av1Video:mode=="continuous-hevc-aac-window-v1"?StreamRemuxProfile::HevcAacWindow:mode=="continuous-hevc-reordered-video-v1"?StreamRemuxProfile::HevcReorderedVideo:mode=="continuous-h264-aac-window-v1"?StreamRemuxProfile::H264AacWindow:mode=="continuous-h264-reordered-video-v1"?StreamRemuxProfile::H264ReorderedVideo:StreamRemuxProfile::H264Video;
+                Require(mode=="continuous-webm-vp9-opus-v1" || mode=="continuous-webm-vp9-superframe-video-v1" || mode=="continuous-h264-video-v1" || mode=="continuous-h264-reordered-video-v1" || mode=="continuous-h264-aac-window-v1" || mode=="continuous-hevc-reordered-video-v1" || mode=="continuous-hevc-aac-window-v1" || mode=="continuous-av1-video-v1" || mode=="continuous-av1-aac-window-v1" || mode=="continuous-vp9-video-v1" || mode=="continuous-vp9-aac-window-v1" || mode=="continuous-vp9-superframe-video-v1" || mode=="continuous-vp9-superframe-aac-window-v1" || mode=="continuous-webm-vp9-video-v1","mode","Unsupported continuous mode","invalid_request");
+                const auto selected=mode=="continuous-webm-vp9-opus-v1"?StreamRemuxProfile::WebmVp9Opus:mode=="continuous-webm-vp9-superframe-video-v1"?StreamRemuxProfile::WebmVp9SuperframeVideo:mode=="continuous-webm-vp9-video-v1"?StreamRemuxProfile::WebmVp9Video:mode=="continuous-vp9-superframe-aac-window-v1"?StreamRemuxProfile::Vp9SuperframeAacWindow:mode=="continuous-vp9-superframe-video-v1"?StreamRemuxProfile::Vp9SuperframeVideo:mode=="continuous-vp9-aac-window-v1"?StreamRemuxProfile::Vp9AacWindow:mode=="continuous-vp9-video-v1"?StreamRemuxProfile::Vp9Video:mode=="continuous-av1-aac-window-v1"?StreamRemuxProfile::Av1AacWindow:mode=="continuous-av1-video-v1"?StreamRemuxProfile::Av1Video:mode=="continuous-hevc-aac-window-v1"?StreamRemuxProfile::HevcAacWindow:mode=="continuous-hevc-reordered-video-v1"?StreamRemuxProfile::HevcReorderedVideo:mode=="continuous-h264-aac-window-v1"?StreamRemuxProfile::H264AacWindow:mode=="continuous-h264-reordered-video-v1"?StreamRemuxProfile::H264ReorderedVideo:StreamRemuxProfile::H264Video;
                 const auto rid=Id(d["requestId"],"requestId",true);rapidjson::StringBuffer encoded;rapidjson::Writer<rapidjson::StringBuffer> writer(encoded);Canonical(d,writer);const std::string fingerprint(encoded.GetString(),encoded.GetSize());
                 if(job && job->requestId==rid){Require(job->fingerprint==fingerprint,"requestId","Request identity conflict","continuous-conflict");return job->status();}
                 Require(!job || job->view()->forgotten,"continuousRemux","Forget the previous job first","continuous-busy");
@@ -239,6 +240,8 @@ public:
                 healthy(parsed,resource);
                 const auto directory=std::filesystem::u8path(Text(d["sessionDirectory"],"sessionDirectory",8192));Require(directory.is_absolute(),"sessionDirectory","Absolute local directory required","invalid_request");
                 auto next=ContinuousRetirement::create<Job>([]{return new Job;});next->requestId=rid;next->fingerprint=fingerprint;next->initial=initial;next->accepted=parsed;next->initiallyComplete=parsed.resources.at(resource).state=="complete";next->resource=resource;next->directory=directory;next->registry=registry;next->cache=cache;next->child=child;next->limits=limits;next->hooks=hooks;next->owner=serviceOwner;
+                Require((selected==StreamRemuxProfile::WebmVp9Opus)==d.HasMember("audioSamples"),"audioSamples","Explicit Opus sample count required only for WebM/Opus","invalid_request");
+                if(d.HasMember("audioSamples")){next->opusSamples=Unsigned(d["audioSamples"],"audioSamples",48000000);Require(next->opusSamples>648 && parsed.duration/400000+(next->opusSamples+1271)/960<=50000,"audioSamples","Unsupported Opus packet/sample count","unsupported-stream-source");}
                 next->selected=selected;
                 next->thread=std::thread([raw=next.get()]{raw->run();});job=std::move(next);jobsStarted().store(true);return job->status();
             }

@@ -1,6 +1,7 @@
 // Private bounded continuous-remux output, complete-fragment publication and leases.
 // Internal component only. GPL-3.0-or-later.
 #pragma once
+#include "../src/DSUtil/HarvesterWebMMuxed.h"
 #include "progressiveresourceio.h"
 #include "progressivestreamjournal.h"
 #include "DSUtil/HarvesterMP4.h"
@@ -87,12 +88,15 @@ class StreamOutputStore {
         StreamCacheStatus state;
         Sha256 digest;harvester::FragmentIndex index;
         std::unique_ptr<StreamAvIndex> avIndex;
+        std::unique_ptr<harvester::muxwebm::Layout> webmIndex;
         StreamIndexedCoverage videoCoverage,audioCoverage;
         const bool hevc,av1,av1Audio,vp9,vp9Audio;
+        const uint64_t opusSamples;
         bool ftyp=false,trailer=false;
         std::atomic<bool> cancelled{false};
-        Core(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& id,uint64_t gen,std::shared_ptr<StreamCacheBudget> shared,uint64_t bytes,bool hevcVideo,bool av1Video,bool av1AudioProfile,bool vp9Video,bool vp9AudioProfile)
-            :budget(std::move(shared)),registry(receipts),session(id),generation(gen),limit(bytes),hevc(hevcVideo),av1(av1Video),av1Audio(av1AudioProfile),vp9(vp9Video),vp9Audio(vp9AudioProfile){
+        Core(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& id,uint64_t gen,std::shared_ptr<StreamCacheBudget> shared,uint64_t bytes,bool hevcVideo,bool av1Video,bool av1AudioProfile,bool vp9Video,bool vp9AudioProfile,uint64_t opusAudioSamples)
+            :budget(std::move(shared)),registry(receipts),session(id),generation(gen),limit(bytes),hevc(hevcVideo),av1(av1Video),av1Audio(av1AudioProfile),vp9(vp9Video),vp9Audio(vp9AudioProfile),opusSamples(opusAudioSamples){
+            if(opusSamples){check(vp9 && !vp9Audio && opusSamples>648 && opusSamples<=48000000,"invalid_request");webmIndex=std::make_unique<harvester::muxwebm::Layout>();}
             check(unsigned(hevc)+unsigned(av1)+unsigned(vp9)<=1 && (!av1Audio || av1) && (!vp9Audio || vp9),"invalid_request");
             check(bool(budget) && lease_detail::HexId(id) && gen>0 && bytes>0 && bytes<=64*1024*1024,"invalid_request");
             // Validate a local, owner-only parent; one new private folder per store.
@@ -152,8 +156,15 @@ class StreamOutputStore {
             if(atom.size==1){if(state.written-at<16)return false;protectedRead(writer,at+8,b+8,8);atom.size=d.U64(8);atom.header=16;}
             check(atom.size>=atom.header && atom.size<=limit-at,"cache-invalid-fragment");return true;
         }
+        void updateWebm(bool complete=false){
+            webmIndex->Update([&](uint64_t at,void* out,size_t n){protectedRead(writer,at,out,n);return true;},state.written,complete,[&](unsigned k,const harvester::WebMInfo& info){check(k?info.codec=="opus":info.codec=="vp9","cache-invalid-fragment");});
+            state.initialized=webmIndex->Initialized();state.fragments=webmIndex->Fragments();scan=webmIndex->Position();state.visible=scan;
+            state.videoSamples=webmIndex->tracks[0].index.Samples().size();state.audioSamples=webmIndex->tracks[1].index.Samples().size();state.samples=state.videoSamples+state.audioSamples;check(state.samples<=50000 && state.audioSamples<=(opusSamples+1271)/960,"cache-sample-limit");
+            if(complete)check(state.audioSamples==(opusSamples+1271)/960,"cache-incomplete-output");updateCoverage();
+        }
         void advance(){
             auto raw=[&](uint64_t at,void* out,size_t n){protectedRead(writer,at,out,n);return true;};
+            if(webmIndex){updateWebm();return;}
             for(;;){
                 Atom a;if(!header(scan,a))break;
                 check(!trailer,"cache-invalid-fragment");
@@ -213,9 +224,17 @@ class StreamOutputStore {
         }
         void clearCoverage(){state.videoIndexedEnd100ns=state.audioIndexedEnd100ns=state.indexedEnd100ns=0;state.audioIndexedComplete=false;}
         void updateCoverage(){
-            videoCoverage.update(avIndex?avIndex->views().tracks[0].index.Samples():index.Samples());
+            videoCoverage.update(webmIndex?webmIndex->tracks[0].index.Samples():avIndex?avIndex->views().tracks[0].index.Samples():index.Samples());
             state.videoIndexedEnd100ns=videoCoverage.end100ns();
             state.indexedEnd100ns=state.videoIndexedEnd100ns;
+            if(webmIndex){
+                audioCoverage.update(webmIndex->tracks[1].index.Samples());state.audioIndexedComplete=state.audioSamples==(opusSamples+1271)/960;
+                // Structural admission has proved consecutive 960-sample Opus packets.
+                // Matroska's 1ms rounding may leave 1ms gaps in the packet PTS;
+                // do not mistake those quantization gaps for missing audio.
+                const auto decoded=state.audioSamples*960;
+                state.audioIndexedEnd100ns=int64_t((state.audioIndexedComplete?opusSamples:decoded>360?decoded-360:0)*10000000/48000);if(!state.audioIndexedComplete)state.indexedEnd100ns=(std::min)(state.indexedEnd100ns,state.audioIndexedEnd100ns);
+            }
             if(avIndex){
                 audioCoverage.update(avIndex->views().tracks[1].index.Samples());
                 state.audioIndexedComplete=avIndex->audioComplete();
@@ -319,8 +338,11 @@ public:
             std::lock_guard<std::mutex> lock(core->mutex);core->cleanup();
         }
     };
-    StreamOutputStore(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,std::shared_ptr<StreamCacheBudget> budget,uint64_t limit=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false,bool vp9AudioProfile=false)
-        :core(std::make_shared<Core>(root,registry,session,generation,std::move(budget),limit,hevcVideo,av1Video,av1AudioProfile,vp9Video,vp9AudioProfile)){}
+    StreamOutputStore(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,std::shared_ptr<StreamCacheBudget> budget,uint64_t limit=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false,bool vp9AudioProfile=false,uint64_t opusAudioSamples=0)
+        :core(std::make_shared<Core>(root,registry,session,generation,std::move(budget),limit,hevcVideo,av1Video,av1AudioProfile,vp9Video,vp9AudioProfile,opusAudioSamples)){}
+    bool webmOpus()const{return core->opusSamples!=0;}
+    uint64_t opusAudioSamples()const{return core->opusSamples;}
+    void copyWebmLayout(harvester::muxwebm::Layout& target)const{std::lock_guard<std::mutex> lock(core->mutex);Core::check(bool(core->webmIndex) && core->state.initialized && core->state.failure.empty(),"cache-invalid-fragment");target=*core->webmIndex;}
     bool hevcVideo()const{return core->hevc;}
     bool av1Video()const{return core->av1;}
     bool vp9Video()const{return core->vp9;}
@@ -351,9 +373,10 @@ public:
         if(!error.empty())core->fail(error);
         if(core->state.failure.empty())try{
             Core::check(core->scan==core->state.written && core->state.initialized && core->state.fragments>0,"cache-incomplete-output");Core::check(core->digest.hex()==expectedSha256,"cache-integrity-mismatch");
+            if(core->webmIndex)core->updateWebm(true);
             if(core->avIndex)core->avIndex->update([&](uint64_t at,void* out,size_t n){core->protectedRead(core->writer,at,out,n);return true;},core->state.written,true);
             core->verify(core->writer);core->state.visible=core->state.written;core->state.complete=true;
-        }catch(const Error& e){core->fail(e.code);}
+        }catch(const Error& e){core->fail(e.code);}catch(...){core->fail("cache-invalid-fragment");}
         core->originals=originalReaders;core->state.originalsClosed=true;stream_cache_detail::close(core->writer);core->state.producerClosed=true;core->changed.notify_all();core->cleanup();
     }
     std::shared_ptr<Reader> reader(){return std::shared_ptr<Reader>(new Reader(core));}
@@ -420,10 +443,10 @@ class StreamCacheOwner {
     }
 public:
     explicit StreamCacheOwner(std::shared_ptr<StreamCacheBudget> shared,size_t sessions=16):budget(std::move(shared)),limit(sessions){Require(bool(budget) && limit>0 && limit<=16,"remuxCache","Invalid cache owner bounds","invalid_request");}
-    std::shared_ptr<StreamOutputStore> create(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,uint64_t bytes=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false,bool vp9AudioProfile=false){
+    std::shared_ptr<StreamOutputStore> create(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,uint64_t bytes=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false,bool vp9AudioProfile=false,uint64_t opusAudioSamples=0){
         std::lock_guard<std::mutex> lock(mutex);collectLocked();Require(stores.size()<limit,"remuxCache","Retire old output stores first","cache-session-limit");
         admit(root,registry);
-        try{auto store=std::make_shared<StreamOutputStore>(root,registry,session,generation,budget,bytes,hevcVideo,av1Video,av1AudioProfile,vp9Video,vp9AudioProfile);stores.push_back(store);return store;}catch(...){roots.at(root.lexically_normal()).ready=false;throw;}
+        try{auto store=std::make_shared<StreamOutputStore>(root,registry,session,generation,budget,bytes,hevcVideo,av1Video,av1AudioProfile,vp9Video,vp9AudioProfile,opusAudioSamples);stores.push_back(store);return store;}catch(...){roots.at(root.lexically_normal()).ready=false;throw;}
     }
     bool retire(const std::shared_ptr<StreamOutputStore>& store){
         std::lock_guard<std::mutex> lock(mutex);const auto found=std::find(stores.begin(),stores.end(),store);

@@ -16,12 +16,12 @@ public:
     CachedRemuxSession(const std::filesystem::path& directory,const std::filesystem::path& registry,
         const std::filesystem::path& cache,const std::string& json,const std::string& resource,
         const std::filesystem::path& child,std::shared_ptr<StreamCacheOwner> cacheOwner,
-        uint64_t outputLimit=64*1024*1024,StreamRemuxLimits limits={},StreamRemuxProfile profile=StreamRemuxProfile::H264Video):owner(std::move(cacheOwner)),mode(StreamRemuxMode(profile)) {
+        uint64_t outputLimit=64*1024*1024,StreamRemuxLimits limits={},StreamRemuxProfile profile=StreamRemuxProfile::H264Video,uint64_t opusSamples=0):owner(std::move(cacheOwner)),mode(StreamRemuxMode(profile)) {
         Require(bool(owner),"remuxCache","Cache service owner required","invalid_request");
         const auto model=Parse(json);
-        output=owner->create(cache,registry,model.id,model.generation,outputLimit,StreamRemuxIsHevc(profile),StreamRemuxIsAv1(profile),profile==StreamRemuxProfile::Av1AacWindow,StreamRemuxIsVp9(profile),StreamRemuxIsVp9(profile) && StreamRemuxHasAudio(profile));
+        output=owner->create(cache,registry,model.id,model.generation,outputLimit,StreamRemuxIsHevc(profile),StreamRemuxIsAv1(profile),profile==StreamRemuxProfile::Av1AacWindow,StreamRemuxIsVp9(profile),StreamRemuxIsVp9(profile) && StreamRemuxHasAudio(profile) && profile!=StreamRemuxProfile::WebmVp9Opus,opusSamples);
         try{
-            producer=std::make_unique<StreamRemuxSession>(directory,registry,json,resource,child,[store=output](uint64_t at,const std::vector<char>& bytes){store->append(at,bytes);},limits,profile,[store=output](const StreamAudioWindow& plan){store->acceptAudioWindow(plan);});
+            producer=std::make_unique<StreamRemuxSession>(directory,registry,json,resource,child,[store=output](uint64_t at,const std::vector<char>& bytes){store->append(at,bytes);},limits,profile,[store=output](const StreamAudioWindow& plan){store->acceptAudioWindow(plan);},opusSamples);
             finalizer=std::thread([this]{
                 StreamRemuxStatus state;
                 try{

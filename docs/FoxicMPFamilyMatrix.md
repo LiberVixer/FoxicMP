@@ -113,6 +113,15 @@ visible/physical A/V acceptance и полная R01 остаются откры�
 audio sample count и отдельной проверкой first-and-last packet. Это не public
 playback: новый mode не объявлен, приложение0.2.0/SDK1.97 и установки сохранены.
 
+[SDK 1.98: continuous WebM VP9/Opus](ProgressiveContinuousWebmOpus.md)
+реализован **после** описанного выше preflight: structural finite/unknown Cluster
+sealer, общий защищённый WebM cache, две decoder views, Opus48k mono/stereo20ms
+с точными pre-skip/end trim в Linux Qt, Windows Qt и Classic. VP9p0/p2,25fps,
+включая indexed superframes; exact `audio_samples` обязателен при start.
+[78 worker/9 ordinary-main/9 PCM cases и4000 sanitizer mutations](ProgressiveContinuousWebmOpusValidation-2026-11-14.json)
+прошли; прежние modes проверены отдельно. One-packet Opus/fractional clocks,
+физический A/V и полная R01 остаются открытыми. Harvester не изменён.
+
 ## Что именно сравнивается
 
 | Редакция | Движок | Проверенная сборка выпуска 0.2.0 | Отдельный профиль |

@@ -176,15 +176,15 @@ void RequireOwned(HANDLE file) {
 }
 bool CHarvesterSession::AllowsAv1Fragments() const {return (m_v2Bridge && m_v2Bridge->videoCodec()=="av1") || (m_continuousSource && m_continuousSource->av1Video());}
 bool CHarvesterSession::AllowsVp9Fragments() const {return (m_v2Bridge && m_v2Bridge->videoCodec()=="vp9") || (m_continuousSource && m_continuousSource->vp9Video());}
-bool CHarvesterSession::AllowsOpusFragments(int track) const {return m_v2Bridge && m_v2Bridge->audioCodec(track)=="opus";}
+bool CHarvesterSession::AllowsOpusFragments(int track) const {return (m_continuousSource && m_continuousSource->opusAudio() && track==1) || (m_v2Bridge && m_v2Bridge->audioCodec(track)=="opus");}
 bool CHarvesterSession::AllowsEac3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="eac3";}
 bool CHarvesterSession::AllowsAc3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="ac3";}
 bool CHarvesterSession::AllowsPcm24Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="pcm-s24le";}
 bool CHarvesterSession::AllowsPcmFragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="pcm-s16le";}
 bool CHarvesterSession::AllowsFlacFragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="flac";}
 bool CHarvesterSession::AllowsMp3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="mp3";}
-std::string CHarvesterSession::WebMCodec(int track) const {return !m_v2Bridge?std::string():(track || m_v2Bridge->isStandaloneAudio())?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
-bool CHarvesterSession::IsWebM(int track) const {return m_v2Bridge && m_v2Bridge->isWebm(track);}
+std::string CHarvesterSession::WebMCodec(int track) const {return m_continuousSource && m_continuousSource->opusAudio()?(track?"opus":"vp9"):!m_v2Bridge?std::string():(track || m_v2Bridge->isStandaloneAudio())?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
+bool CHarvesterSession::IsWebM(int track) const {return (m_continuousSource && m_continuousSource->opusAudio()) || (m_v2Bridge && m_v2Bridge->isWebm(track));}
 bool CHarvesterSession::AllowsHevcFragments() const {return (m_v2Bridge && m_v2Bridge->videoCodec()=="hevc") || (m_continuousSource && m_continuousSource->hevcVideo());}
 std::string CHarvesterSession::RegisteredReaderId() const {return m_continuousReader?m_continuousReader->id():m_readerLease?m_readerLease->id():std::string();}
 std::string CHarvesterSession::PlaybackDetails() const {
@@ -289,6 +289,7 @@ bool CHarvesterSession::AacPcmPlan(harvester::pcm::AacWindow& plan)const {
     if(!m_continuousSource || !m_continuousSource->audioWindow())return false;
     plan=m_continuousSource->audioWindow()->pcm;return true;
 }
+uint64_t CHarvesterSession::ContinuousOpusSamples()const{return m_continuousSource && m_continuousSource->opusAudio()?m_continuousSource->opusAudioSamples():0;}
 bool CHarvesterSession::AllowsAacPcmWindow(int track)const {return track==1 && m_continuousSource && m_continuousSource->audioWindow();}
 std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenContinuous(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,int64_t duration,CStringW& error) {
     using namespace foxicmp::progressive;
@@ -297,10 +298,11 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenContinuous(const std::
         const auto output=source->status();Require(output.initialized && output.fragments>0 && output.failure.empty(),"remuxDecoder","Wait for complete initialization and media","waiting_initialization");
         auto context=SourceRetirement::create<CHarvesterSession>([]{return new CHarvesterSession;});
         context->m_published=true;context->m_continuousSource=source;context->m_continuousReader=std::make_unique<StreamFragmentDecoder>(source);
-        auto& s=context->m_state;s.sessionId=source->sessionId();s.generation=source->generation();s.revision=0;s.duration=duration;s.tracks.resize(source->audioWindow()?2:1);
+        auto& s=context->m_state;s.sessionId=source->sessionId();s.generation=source->generation();s.revision=0;s.duration=duration;s.tracks.resize(source->hasAudio()?2:1);
         auto& t=s.tracks[0];t.path="continuous-video.mp4";t.required=true;t.fragmented=true;t.container="fmp4";
         context->m_publishedPaths[0]=L"continuous-video.mp4";
-        if(source->audioWindow()){auto& audio=s.tracks[1];audio.path="continuous-audio.m4a";audio.required=true;audio.fragmented=true;audio.container="fmp4";context->m_publishedPaths[1]=L"continuous-audio.m4a";}
+        if(source->hasAudio()){auto& audio=s.tracks[1];audio.path="continuous-audio.m4a";audio.required=true;audio.fragmented=true;audio.container="fmp4";context->m_publishedPaths[1]=L"continuous-audio.m4a";}
+        if(source->opusAudio()){for(unsigned i=0;i<2;++i){s.tracks[i].path=i?"continuous-audio.webm":"continuous-video.webm";s.tracks[i].container="webm";context->m_publishedPaths[i]=i?L"continuous-audio.webm":L"continuous-video.webm";}}
         context->RefreshContinuous();
         context->m_thread=std::thread([raw=context.get()]{
             while(WaitForSingleObject(raw->m_stop,50)==WAIT_TIMEOUT && WaitForSingleObject(raw->m_cancel,0)==WAIT_TIMEOUT)
@@ -514,7 +516,7 @@ int64_t CHarvesterSession::ReadyEnd() const {
         if(!m_state.tracks[track].required && (track!=m_selectedAudioTrack.load() || OptionalAudioFailed(track))){ready[track]=INT64_MAX;continue;}
         // A validated finite AAC endpoint does not limit a longer video buffer.
         // Its completion is local to this track; the video still needs writer EOF.
-        if(track==1 && m_continuousSource && m_continuousSource->audioWindow() && harvester::EndReady(m_state.tracks[track])){ready[track]=INT64_MAX;continue;}
+        if(track==1 && m_continuousSource && m_continuousSource->hasAudio() && harvester::EndReady(m_state.tracks[track])){ready[track]=INT64_MAX;continue;}
         const auto& samples=Samples(track);auto& position=m_indexPosition[track];auto& end=m_indexEnd[track];
         while(position<samples.size() && harvester::RangeReady(samples[position].offset,samples[position].size,m_state.tracks[track].available)) {
             end=std::max(end,samples[position].end);++position;

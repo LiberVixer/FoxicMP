@@ -27,6 +27,7 @@ VP9_SUPERFRAME_MODE = 'continuous-vp9-superframe-video-v1'
 VP9_SUPERFRAME_AAC_MODE = 'continuous-vp9-superframe-aac-window-v1'
 WEBM_VP9_MODE = 'continuous-webm-vp9-video-v1'
 WEBM_VP9_SUPERFRAME_MODE = 'continuous-webm-vp9-superframe-video-v1'
+WEBM_VP9_OPUS_MODE = 'continuous-webm-vp9-opus-v1'
 ACTIONS = frozenset(('continuousRemuxStart', 'continuousRemuxStatus',
     'continuousRemuxUpdate', 'continuousRemuxHeartbeat', 'continuousRemuxCancel',
     'continuousRemuxForget', 'continuousRemuxPlay', 'continuousPlaybackStatus',
@@ -58,15 +59,22 @@ class ContinuousRemux:
     status calls; publish/heartbeat never commit playback. close() proves release
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
-    def __init__(self, client, session_directory, *, mode=MODE):
-        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE):
+    def __init__(self, client, session_directory, *, mode=MODE, audio_samples=None):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE):
             raise ValueError('Unsupported continuous profile')
-        webm_mode = mode in (WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE)
-        vp9_superframe = mode in (VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_SUPERFRAME_MODE)
-        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE)
+        webm_mode = mode in (WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE)
+        vp9_superframe = mode in (VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE)
+        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE)
         av1_mode = mode in (AV1_MODE, AV1_AAC_MODE)
-        audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_AAC_MODE)
+        audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_OPUS_MODE)
         hevc_mode = mode in (HEVC_MODE, HEVC_AAC_MODE)
+        opus_mode = mode == WEBM_VP9_OPUS_MODE
+        if opus_mode:
+            if type(audio_samples) is not int or not 648 < audio_samples <= 48000000:
+                raise ValueError("Opus requires an exact bounded presentation sample count")
+        elif audio_samples is not None:
+            raise ValueError("audio_samples is only valid for WebM/Opus")
+        self._audio_samples = audio_samples
         self._mode = mode
         self.client = client
         directory = Path(session_directory).expanduser()
@@ -105,7 +113,7 @@ class ContinuousRemux:
                     or selected.get('bFrames') is not (not (av1_mode or vp9_mode)) or selected.get('inheritsCommonContract') is not True
                     or selected.get('explicitSelectionRequired') is not True):
                 raise RuntimeError('Player lacks the selected explicit continuous profile')
-            if audio_mode and (selected.get('audioCodec') != 'aac-lc'
+            if audio_mode and not opus_mode and (selected.get('audioCodec') != 'aac-lc'
                     or selected.get('sampleRates') != [44100, 48000] or any(type(v) is not int for v in selected['sampleRates'])
                     or selected.get('channels') != [1, 2] or any(type(v) is not int for v in selected['channels'])
                     or selected.get('requiredTrackKinds') != ['video', 'audio'] or selected.get('sharedResourceRequired') is not True
@@ -113,6 +121,14 @@ class ContinuousRemux:
                     or type(selected.get('initialSkipSamples')) is not int or selected['initialSkipSamples'] != 1024
                     or selected.get('presentationSamplesRequired') is not True):
                 raise RuntimeError('Player lacks the exact AAC PCM-window contract')
+            if opus_mode:
+                exact = dict(audioCodec='opus', sampleRates=[48000], channels=[1,2], pcmWindowRequired=False,
+                    opusPacketSamples=960, opusPreSkipSamples=312, opusGain=0, opusMappingFamily=0,
+                    seekPreRollNanoseconds=80000000, minAudioPackets=2,
+                    audioSamplesField='continuousRemuxStart.audioSamples', maxAudioPresentationSamples=48000000,
+                    sharedResourceRequired=True, discardPaddingPreserved=True, clusterSealing=True, audioBlockGroupsOnly=True)
+                if any(type(selected.get(k)) is not type(v) or selected.get(k)!=v for k,v in exact.items()):
+                    raise RuntimeError('Player lacks the exact WebM/Opus contract')
             if hevc_mode and (selected.get('hevcProfiles') != ['main', 'main10']
                     or selected.get('bitDepths') != [8, 10] or any(type(v) is not int for v in selected['bitDepths'])
                     or selected.get('chromaSubsampling') != '4:2:0' or selected.get('sampleEntries') != ['hvc1', 'hev1']
@@ -151,6 +167,8 @@ class ContinuousRemux:
                 raise RuntimeError('Player lacks the exact indexed VP9 superframe contract')
             if webm_mode:
                 exact={'unknownSegmentSizeRequired': True, 'finiteClusters': True, 'unknownSizeClusters': True, 'simpleBlocksOnly': True, 'lacing': False, 'blockGroups': False, 'timestampScaleNanoseconds': 1000000, 'defaultDurationNanoseconds': 40000000, 'frameRate': 25, 'expectedSamplesFromTimeline': True, 'maxClusterBytes': 16777216, 'maxClusters': 8192, 'maxTopLevelElements': 32768, 'maxClusterChildren': 65536, 'maxMetadataDepth': 8, 'maxHeadElements': 32}
+                if opus_mode:
+                    exact.update(simpleBlocksOnly=False, blockGroups=True)
                 if any(type(selected.get(key)) is not type(value) or selected.get(key)!=value for key,value in exact.items()) or 'headMoovRequired' in selected:
                     raise RuntimeError('Player lacks the exact bounded WebM/VP9 contract')
             self.capability.update(copy.deepcopy(selected))
@@ -208,6 +226,8 @@ class ContinuousRemux:
                 session=current, resourceId=resource_id)
             if self.mode != MODE:
                 fields['mode'] = self.mode
+            if self._audio_samples is not None:
+                fields['audioSamples'] = str(self._audio_samples)
             return self._check(self.client.request(fields))
 
     def status(self, *, timeout=5):

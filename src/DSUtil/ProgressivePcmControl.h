@@ -2,6 +2,8 @@
 #pragma once
 interface __declspec(uuid("89A03A9A-C892-4B8E-95B4-612349981ACE"))
 IProgressivePcmControl : public IUnknown {
+    // Version 1: MP3 raw window. Version 2: explicitly admitted continuous
+    // Opus, 48kHz/960-sample packets, raw pre-skip=312; no AAC widening.
     // Called after NewSegment, before the first compressed packet. The first
     // packet's discontinuity flush must run before the decoder is armed.
     STDMETHOD(ArmPcmWindow)(UINT version, ULONGLONG begin, ULONGLONG end,

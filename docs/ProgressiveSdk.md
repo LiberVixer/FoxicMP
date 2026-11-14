@@ -14,6 +14,12 @@ SHA-256 файлов. Воспроизведение v1 сохраняется; 
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
+SDK 1.98 добавляет [continuous WebM VP9/Opus](ProgressiveContinuousWebmOpus.md):
+`ContinuousRemux(..., mode=WEBM_VP9_OPUS_MODE, audio_samples=N)`, ограниченный
+25fps VP9 p0/p2 и Opus48k mono/stereo20ms, structural Cluster sealer,
+обязательный точный audio sample count. Qt и Classic используют собственные
+проверенные decoder adapters; Harvester не изменён.
+
 [Подготовка continuous WebM/VP9](ProgressiveWebmVp9RemuxPlan.md) — только контракт
 и fixture/index/copy references. Версия/API SDK 1.95 и runtime capabilities не изменены,
 предлагаемый `continuous-webm-vp9-video-v1` ещё не принимается.

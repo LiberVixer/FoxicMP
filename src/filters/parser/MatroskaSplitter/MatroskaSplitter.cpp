@@ -3059,9 +3059,29 @@ CMatroskaSplitterOutputPin::~CMatroskaSplitterOutputPin()
 
 HRESULT CMatroskaSplitterOutputPin::DeliverNewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate)
 {
+	CAutoLock lock(&m_opusLock);ClearOpusWindow();
 	m_bNeedNextSubtitle = false;
 
 	return __super::DeliverNewSegment(tStart, tStop, dRate);
+}
+
+// Version 2 of the internal PCM control is reserved for this validated Opus
+// profile. Ordinary WebM and MP3/AAC callers retain their existing behavior.
+void CMatroskaSplitterOutputPin::ClearOpusWindow(){if(m_opusReader)m_opusReader->GetSession()->ReportPcmState(0);m_opusReader.Release();m_opusControl.Release();m_opusPending=false;}
+HRESULT CMatroskaSplitterOutputPin::DeliverEndFlush(){CAutoLock lock(&m_opusLock);ClearOpusWindow();return __super::DeliverEndFlush();}
+void CMatroskaSplitterOutputPin::SetOpusWindow(IHarvesterReader* reader,uint64_t begin,uint64_t end,uint64_t first){CAutoLock lock(&m_opusLock);m_opusReader=reader;m_opusBegin=begin;m_opusEnd=end;m_opusFirst=first;m_opusPending=true;}
+HRESULT CMatroskaSplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> packet){
+    CAutoLock lock(&m_opusLock);
+    if(m_opusPending){
+        CComPtr<IPin> downstream;PIN_INFO info={};CComPtr<IBaseFilter> owner;
+        if(ConnectedTo(&downstream)==S_OK && downstream->QueryPinInfo(&info)==S_OK)owner.Attach(info.pFilter);
+        m_opusControl=CComQIPtr<IProgressivePcmControl>(owner);
+        if(!m_opusControl || FAILED(m_opusControl->ArmPcmWindow(2,m_opusBegin,m_opusEnd,48000,m_opusFirst))){m_opusReader->GetSession()->Fail("Decoder has no compatible Opus PCM window");m_pSplitter->NotifyEvent(EC_ERRORABORT,VFW_E_UNSUPPORTED_AUDIO,0);return VFW_E_UNSUPPORTED_AUDIO;}
+        m_opusPending=false;m_opusReader->GetSession()->ReportPcmState(1);
+    }
+    const auto result=__super::DeliverPacket(std::move(packet));
+    if(m_opusReader){DWORD state=0;if(m_opusControl && m_opusControl->PcmWindowState(&state)==S_OK)m_opusReader->GetSession()->ReportPcmState(state);if(result==E_INVALIDARG){m_opusReader->GetSession()->Fail("Opus PCM window delivery failed");m_pSplitter->NotifyEvent(EC_ERRORABORT,result,0);}}
+    return result;
 }
 
 HRESULT CMatroskaSplitterOutputPin::QueuePacket(std::unique_ptr<CPacket> p)
@@ -3122,6 +3142,12 @@ HRESULT CMatroskaSplitterOutputPin::QueuePacket(std::unique_ptr<CPacket> p)
 bool CMatroskaSplitterFilter::ProgressiveWebmLoop(IHarvesterReader* reader) {
     if(m_pTrackEntryMap.size()!=1)return false;
     const auto id=m_pTrackEntryMap.begin()->first;CComQIPtr<IAsyncReader> bytes=reader;
+    const auto samples=reader->GetTrack()==1?reader->GetSession()->ContinuousOpusSamples():0;
+    if(samples){
+        const auto time=uint64_t((std::max)(REFERENCE_TIME(0),m_rtStart));const auto target=time/10000000*48000+((time%10000000)*48000+5000000)/10000000;
+        if(target>=samples)m_progressiveSample=size_t((samples+1271)/960);
+        else {auto pin=GetOutputPin(id);if(!pin)return false;static_cast<CMatroskaSplitterOutputPin*>(pin)->SetOpusWindow(reader,312+target,312+samples,uint64_t(m_progressiveSample)*960);}
+    }
     while(!CheckRequest(nullptr)) {
         harvester::Sample sample;const auto hr=reader->WaitForSample(m_progressiveSample,&sample);
         if(hr!=S_OK)break;

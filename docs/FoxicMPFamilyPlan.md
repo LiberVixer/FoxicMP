@@ -1717,3 +1717,19 @@ playback: новый mode не объявлен, приложение0.2.0/SDK1.
 Следующий этап — bounded managed sealer и known video/audio packet geometry;
 затем отдельный WebM output store, decoder adapters и public playback трёх редакций.
 One-packet trim и prefix до появления audio остаются явными gates.
+
+## SDK 1.98: continuous WebM VP9/Opus
+
+[Реализованный профиль](ProgressiveContinuousWebmOpus.md) завершает выбранный
+выше узкий этап: bounded structural sealer, WebM output store, две decoder views
+и обязательный Opus в трёх ordinary main. Harvester не изменён.
+[Проверены78 worker cases,9 ordinary-main cases,9 actual PCM captures,
+48 SDK units и4000 ASan/UBSan mutations](ProgressiveContinuousWebmOpusValidation-2026-11-14.json).
+Видеопакеты/аудиопакеты и clocks сохранены; exact sample counts проверены
+в декодерах Qt и Classic, включая короткий audio. В Classic исправлен настоящий
+сдвиг PCM из-за отрицательного PTS; обычные MP3/AAC/Opus paths сохраняются.
+
+Новый mode требует `audio_samples` при start: Opus48k,20ms, pre-skip312,
+mono/stereo, минимум два packets; VP9p0/p2,25fps, finite/unknown Clusters.
+One-packet trim, другие Opus geometries, fractional clocks и полная R01
+остаются открытыми. Физическое A/V измерение не заявляется.

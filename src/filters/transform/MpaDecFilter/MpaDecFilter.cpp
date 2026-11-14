@@ -475,9 +475,10 @@ HRESULT CMpaDecFilter::StopStreaming()
 STDMETHODIMP CMpaDecFilter::ArmPcmWindow(UINT version, ULONGLONG begin, ULONGLONG end, UINT rate, ULONGLONG decodeFirst)
 {
 	CAutoLock lock(&m_csReceive);harvester::pcm::Window check;
-	if(version!=1 || m_pcmSegment.received || m_pcmSegment.pending || m_pcmSegment.applied ||
-		m_CodecId!=AV_CODEC_ID_MP3 || !check.Configure(begin,end,rate,decodeFirst)) return E_INVALIDARG;
-	m_pcmSegment={begin,end,decodeFirst,rate,true,false,false,false};return S_OK;
+	const bool opus=version==2 && m_CodecId==AV_CODEC_ID_OPUS && rate==48000 && begin>=312 && end<=48000312 && decodeFirst%960==0;
+	if((!opus && (version!=1 || m_CodecId!=AV_CODEC_ID_MP3)) || m_pcmSegment.received || m_pcmSegment.pending || m_pcmSegment.applied ||
+		!check.Configure(begin,end,rate,decodeFirst)) return E_INVALIDARG;
+	m_pcmSegment={begin,end,decodeFirst,rate,true,false,false,false,false,opus};return S_OK;
 }
 STDMETHODIMP CMpaDecFilter::ArmAacPcmWindow(UINT version,UINT rate,UINT channels,ULONGLONG samples,UINT initialSkip,ULONGLONG target,ULONGLONG decodeFirst)
 {
@@ -623,7 +624,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 	if(m_pcmSegment.failed)return E_INVALIDARG;
 	if(m_pcmSegment.pending) {
-		const bool armed=m_pcmSegment.aac?m_FFAudioDec.SetAacPcmWindow(m_aacPcmWindow,m_pcmSegment.begin-m_aacPcmWindow.RawBegin(),m_pcmSegment.first):m_FFAudioDec.SetPcmWindow(m_pcmSegment.begin,m_pcmSegment.end,m_pcmSegment.rate,m_pcmSegment.first);
+		const bool armed=m_pcmSegment.opus?m_FFAudioDec.SetOpusPcmWindow(m_pcmSegment.begin,m_pcmSegment.end,m_pcmSegment.first):m_pcmSegment.aac?m_FFAudioDec.SetAacPcmWindow(m_aacPcmWindow,m_pcmSegment.begin-m_aacPcmWindow.RawBegin(),m_pcmSegment.first):m_FFAudioDec.SetPcmWindow(m_pcmSegment.begin,m_pcmSegment.end,m_pcmSegment.rate,m_pcmSegment.first);
 		if(!armed) {
 			m_pcmSegment.failed=true;return E_INVALIDARG;
 		}

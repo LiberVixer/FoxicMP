@@ -565,11 +565,11 @@ bool Player::loadContinuousSourceImpl(const std::shared_ptr<foxicmp::progressive
   options["demuxer-readahead-secs"]="0";
   const auto* audio=source->audioWindow();
   if(audio && (!managedAudioConfigured || options.contains("af") || std::any_of(options.keyBegin(),options.keyEnd(),[](const QString& key){return key.startsWith("af-") || key=="audio-file" || key.startsWith("audio-files");})))return false;
-  options["cache"]="no";options["aid"]=audio?"auto":"no";options["sub-auto"]="no";options["audio-file-auto"]="no";
-  if(audio)options["rebase-start-time"]="no";
+  options["cache"]="no";options["aid"]=source->hasAudio()?"auto":"no";options["sub-auto"]="no";options["audio-file-auto"]="no";
+  if(source->hasAudio())options["rebase-start-time"]="no";
   if(reuse && continuousStreams->current()!=source)return false;
   const auto uri=reuse?continuousStreams->uri():continuousStreams->attach(source);
-  if(audio)options["audio-files-append"]=QString::fromStdString(continuousStreams->audioUri());
+  if(source->hasAudio())options["audio-files-append"]=QString::fromStdString(continuousStreams->audioUri());
   if(audio?loadPcmWindowSource(QString::fromStdString(uri),options,{0,audio->pcm.Samples(),int(audio->pcm.Rate())}):loadSource(QString::fromStdString(uri),options))return true;
   continuousStreams->clear();return false;
 }

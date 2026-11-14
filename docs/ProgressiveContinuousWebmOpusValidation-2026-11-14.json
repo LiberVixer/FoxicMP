@@ -1,0 +1,1979 @@
+{
+  "result": "PASS",
+  "sdkVersion": "1.98",
+  "applicationVersionUnchanged": "0.2.0",
+  "mode": "continuous-webm-vp9-opus-v1",
+  "baseSourceCommit": "9bd24f29a66c9876c617238c50deebc3b98d5408",
+  "harvesterChanged": false,
+  "physicalAvSyncMeasured": false,
+  "finalRelease": false,
+  "editions": {
+    "linux-qt": {
+      "exits": {
+        "api": {
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-api-linux.exit"
+        },
+        "worker": {
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-worker-linux.exit"
+        },
+        "pcm": {
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-pcm-linux.exit"
+        }
+      },
+      "playerSha256": [
+        "eb55130d8d7ade8808c6ed95894fcad18e627cd728269613df199d4f8f7d8655",
+        "eb55130d8d7ade8808c6ed95894fcad18e627cd728269613df199d4f8f7d8655"
+      ],
+      "workerSha256": [
+        "adf9c4505420b20496499bab2a61b4c41e19a3bbd3036d845ebec35d952e79fb",
+        "adf9c4505420b20496499bab2a61b4c41e19a3bbd3036d845ebec35d952e79fb"
+      ],
+      "ordinaryMainTested": true,
+      "privateProfilesRemoved": true,
+      "temporaryWorkRemoved": true,
+      "apiRows": [
+        {
+          "profile": "p0-mono-20",
+          "requiredAudio": true,
+          "audioCodec": "opus",
+          "growingSeekPosition": 1,
+          "queuedSeekPosition": 22,
+          "releaseSeconds": 0.03230535199691076,
+          "sourceUnchanged": true,
+          "exactSealedPcm": true
+        },
+        {
+          "profile": "p2-indexed-stereo-20",
+          "requiredAudio": true,
+          "audioCodec": "opus",
+          "growingSeekPosition": 1,
+          "queuedSeekPosition": 22,
+          "releaseSeconds": 0.02774808299727738,
+          "sourceUnchanged": true,
+          "exactSealedPcm": true
+        },
+        {
+          "profile": "p0-short-stereo-20",
+          "requiredAudio": true,
+          "audioCodec": "opus",
+          "growingSeekPosition": 1,
+          "queuedSeekPosition": 22,
+          "releaseSeconds": 0.02862556299805874,
+          "sourceUnchanged": true,
+          "exactSealedPcm": true
+        }
+      ],
+      "workerRows": [
+        {
+          "profile": "p0-mono-20-finite",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "874084",
+            "bytesWritten": "874084",
+            "sha256": "7cbae3cfdfadff018004bca58d9dd2d050c28fdc3377ef282a4ee22d1e65aa86",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 54,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143718,
+            "total": 874084,
+            "outputBytes": 33814
+          }
+        },
+        {
+          "profile": "p0-mono-20-unknown",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "874084",
+            "bytesWritten": "874084",
+            "sha256": "7cbae3cfdfadff018004bca58d9dd2d050c28fdc3377ef282a4ee22d1e65aa86",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 54,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143718,
+            "total": 874084,
+            "outputBytes": 33814
+          }
+        },
+        {
+          "profile": "p2-indexed-stereo-20-finite",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "1276287",
+            "bytesWritten": "1276287",
+            "sha256": "12f4f7eb00029616d193c86f3abb051533694ec333bdc8287500554a858098d8",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 60,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 209972,
+            "total": 1276287,
+            "outputBytes": 36431
+          }
+        },
+        {
+          "profile": "p2-indexed-stereo-20-unknown",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "1276287",
+            "bytesWritten": "1276287",
+            "sha256": "12f4f7eb00029616d193c86f3abb051533694ec333bdc8287500554a858098d8",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 60,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 209972,
+            "total": 1276287,
+            "outputBytes": 36431
+          }
+        },
+        {
+          "profile": "p0-short-stereo-20-finite",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 701,
+            "bytesRead": "635237",
+            "bytesWritten": "635237",
+            "sha256": "eececc07fb76f78b8e52cc18add365ad98ef48fa262b96673042a08a58176b9f",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 49,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 131248,
+            "total": 635237,
+            "outputBytes": 33389
+          }
+        },
+        {
+          "profile": "p0-short-stereo-20-unknown",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 701,
+            "bytesRead": "635237",
+            "bytesWritten": "635237",
+            "sha256": "eececc07fb76f78b8e52cc18add365ad98ef48fa262b96673042a08a58176b9f",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 49,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 131248,
+            "total": 635237,
+            "outputBytes": 33389
+          }
+        },
+        {
+          "profile": "reject-doctype",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-doctype",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-delay",
+          "exitCode": 1,
+          "result": {
+            "code": "Opus CodecDelay/pre-skip mismatch",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-gain",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-configuration",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-lacing",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-block",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-duration-10ms",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-packet",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-audio-gap",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-clock",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-overflow-clock",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-clock",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-truncated",
+          "exitCode": 1,
+          "result": {
+            "code": "truncated-stream-webm-element",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-empty-terminal-cluster",
+          "exitCode": 1,
+          "result": {
+            "code": "truncated-stream-webm-cluster",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-wrong-audio-samples",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-end-trim",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-wrong-video-samples",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-clock",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-one-packet-count",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-opus-source",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 0,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-actual-10ms",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-packet",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-actual-5ms",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-configuration",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-actual-one-packet",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-opus-source",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 0,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "cancel-wait",
+          "exitCode": 1,
+          "result": {
+            "code": "cancelled",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 4,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143718,
+            "total": 874084,
+            "outputBytes": 33814
+          }
+        },
+        {
+          "profile": "cancel-write",
+          "exitCode": 1,
+          "result": {
+            "code": "cancelled",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "integrity",
+          "exitCode": 1,
+          "result": {
+            "code": "integrity-mismatch",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "unconfirmed-eof",
+          "exitCode": 1,
+          "result": {
+            "code": "unconfirmed-eof",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "kill-wait",
+          "exitCode": -9,
+          "result": null,
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 4,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143718,
+            "total": 874084,
+            "outputBytes": 33814
+          }
+        }
+      ],
+      "pcm": {
+        "result": "PASS",
+        "count": 3,
+        "edition": "qt",
+        "rows": [
+          {
+            "profile": "p0-mono-20",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "0a98bd7ff23baac80a9f41db141eed194f1a387a4f246dda819f1d441b3e3106"
+          },
+          {
+            "profile": "p2-indexed-stereo-20",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "18a8617acc9bc47d44496bb11807048bcf3539ff362b034dbdfbc02bf331cd22"
+          },
+          {
+            "profile": "p0-short-stereo-20",
+            "exitCode": 0,
+            "samples": 95983,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "d879ce2c5a322d8c4c50713bfdb0f0a397dd80fcabf7944b023534ae468245cc"
+          }
+        ],
+        "runnerSha256": "88a79189b7ebd1fb7caf82d0f59f1502bf76934273595eb66a7547a708a974ae"
+      },
+      "rawReports": {
+        "webm-opus-v6-api-linux": "1d68e43ce44f9c8cc8fd53c8500b69b79fa68b9e11036f5bb85794bad6e43eb6",
+        "webm-opus-v6-worker-linux": "86e08647c398ad9b1199b2c7bf34abb6614ba87509d48b17e382bbbc82da51d3",
+        "webm-opus-v6-pcm-linux": "0c9e3618cb5fd022e1ab8f6374327c4640319243c9482c7e467aa5122a8bb52e"
+      }
+    },
+    "windows-qt": {
+      "exits": {
+        "api": {
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-qt-windows-webm-opus.exit"
+        },
+        "worker": {
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-qt-windows-worker.exit"
+        },
+        "pcm": {
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-pcm-qt-windows.exit"
+        }
+      },
+      "playerSha256": [
+        "a31f5e8e4e6bf0d381a8fae9366a1cf85d47f88c64b60d114185779c16e146a9",
+        "a31f5e8e4e6bf0d381a8fae9366a1cf85d47f88c64b60d114185779c16e146a9"
+      ],
+      "workerSha256": [
+        "d389ae9ed17c30af4061aef8d77670fed1480d9f7b40d32aef39b60a36493f7c",
+        "d389ae9ed17c30af4061aef8d77670fed1480d9f7b40d32aef39b60a36493f7c"
+      ],
+      "ordinaryMainTested": true,
+      "privateProfilesRemoved": true,
+      "temporaryWorkRemoved": true,
+      "apiRows": [
+        {
+          "profile": "p0-mono-20",
+          "requiredAudio": true,
+          "audioCodec": "opus",
+          "growingSeekPosition": 1,
+          "queuedSeekPosition": 22,
+          "releaseSeconds": 0.014999999999417923,
+          "sourceUnchanged": true,
+          "exactSealedPcm": true
+        },
+        {
+          "profile": "p2-indexed-stereo-20",
+          "requiredAudio": true,
+          "audioCodec": "opus",
+          "growingSeekPosition": 1,
+          "queuedSeekPosition": 22,
+          "releaseSeconds": 0.031000000002677552,
+          "sourceUnchanged": true,
+          "exactSealedPcm": true
+        },
+        {
+          "profile": "p0-short-stereo-20",
+          "requiredAudio": true,
+          "audioCodec": "opus",
+          "growingSeekPosition": 1,
+          "queuedSeekPosition": 22,
+          "releaseSeconds": 0.01599999999598367,
+          "sourceUnchanged": true,
+          "exactSealedPcm": true
+        }
+      ],
+      "workerRows": [
+        {
+          "profile": "p0-mono-20-finite",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "874179",
+            "bytesWritten": "874179",
+            "sha256": "16b2d1a393834d403fa9fad1eeabee74de9d48c81517197161cc23087c355b4f",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 54,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143485,
+            "total": 874179,
+            "outputBytes": 33784
+          }
+        },
+        {
+          "profile": "p0-mono-20-unknown",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "874179",
+            "bytesWritten": "874179",
+            "sha256": "16b2d1a393834d403fa9fad1eeabee74de9d48c81517197161cc23087c355b4f",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 54,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143485,
+            "total": 874179,
+            "outputBytes": 33784
+          }
+        },
+        {
+          "profile": "p2-indexed-stereo-20-finite",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "1278827",
+            "bytesWritten": "1278827",
+            "sha256": "2a3e98e84afe5d641cadb7fccd31c59b4db53bde227cb7e3b9c7039a7dcbe367",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 60,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 210675,
+            "total": 1278827,
+            "outputBytes": 36360
+          }
+        },
+        {
+          "profile": "p2-indexed-stereo-20-unknown",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "1278827",
+            "bytesWritten": "1278827",
+            "sha256": "2a3e98e84afe5d641cadb7fccd31c59b4db53bde227cb7e3b9c7039a7dcbe367",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 60,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 210675,
+            "total": 1278827,
+            "outputBytes": 36360
+          }
+        },
+        {
+          "profile": "p0-short-stereo-20-finite",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 701,
+            "bytesRead": "635364",
+            "bytesWritten": "635364",
+            "sha256": "33988c999c3681693d5a70280643964779aef55aa2e12799a5ab5d84e774ed89",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 50,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 132155,
+            "total": 635364,
+            "outputBytes": 33418
+          }
+        },
+        {
+          "profile": "p0-short-stereo-20-unknown",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 701,
+            "bytesRead": "635364",
+            "bytesWritten": "635364",
+            "sha256": "33988c999c3681693d5a70280643964779aef55aa2e12799a5ab5d84e774ed89",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 50,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 132155,
+            "total": 635364,
+            "outputBytes": 33418
+          }
+        },
+        {
+          "profile": "reject-doctype",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-doctype",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-delay",
+          "exitCode": 1,
+          "result": {
+            "code": "Opus CodecDelay/pre-skip mismatch",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-gain",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-configuration",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-lacing",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-block",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-duration-10ms",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-packet",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-audio-gap",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-clock",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-overflow-clock",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-clock",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-truncated",
+          "exitCode": 1,
+          "result": {
+            "code": "truncated-stream-webm-element",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-empty-terminal-cluster",
+          "exitCode": 1,
+          "result": {
+            "code": "truncated-stream-webm-cluster",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-wrong-audio-samples",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-end-trim",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-wrong-video-samples",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-clock",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-one-packet-count",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-opus-source",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 0,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-actual-10ms",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-packet",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-actual-5ms",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-configuration",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-actual-one-packet",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-opus-source",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 0,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "cancel-wait",
+          "exitCode": 1,
+          "result": {
+            "code": "cancelled",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 4,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143485,
+            "total": 874179,
+            "outputBytes": 33784
+          }
+        },
+        {
+          "profile": "cancel-write",
+          "exitCode": 1,
+          "result": {
+            "code": "cancelled",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "integrity",
+          "exitCode": 1,
+          "result": {
+            "code": "integrity-mismatch",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "unconfirmed-eof",
+          "exitCode": 1,
+          "result": {
+            "code": "unconfirmed-eof",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "kill-wait",
+          "exitCode": 1,
+          "result": null,
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 4,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143485,
+            "total": 874179,
+            "outputBytes": 33784
+          }
+        }
+      ],
+      "pcm": {
+        "result": "PASS",
+        "count": 3,
+        "edition": "qt",
+        "rows": [
+          {
+            "profile": "p0-mono-20",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "3b14f2f7abadfd61236a81a72f874a1a6b2e3fe55c003952a1a981c22e0e1ee8"
+          },
+          {
+            "profile": "p2-indexed-stereo-20",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "d1af19eb23bb32e6f4b014d1067ee15900145d9e31ab6cb1ae5a6aeac365e0a1"
+          },
+          {
+            "profile": "p0-short-stereo-20",
+            "exitCode": 0,
+            "samples": 95983,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "a0e0ed3335e5ce2e9f6c3bfe45057f1c018772eff8ea666ec328d0ba58fbfdea"
+          }
+        ],
+        "runnerSha256": "0127e8d7075ec2da54e313d9cb6627d720ff527f417475b7ae93321136578c44"
+      },
+      "rawReports": {
+        "webm-opus-v6-qt-windows-webm-opus-results": "4636e232caa8528e3704f27d9aa3772b987dbd500443ec197b33d337760cc0db",
+        "webm-opus-v6-qt-windows-worker-results": "b6e271d0cc3c610b1b033515a12e4d2543ebe42903da0dfa4071a7eb5bc1127b",
+        "webm-opus-v6-pcm-qt-windows": "88bc3b04e8c64873409de5da44e16ea4fdefdf57acc488ff9966f4d7d9f4e02d"
+      },
+      "shellRegistration": {
+        "unchanged": true,
+        "entries": 163,
+        "snapshotSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04"
+      },
+      "previousModeControls": {
+        "legacy": {
+          "count": 5,
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-qt-windows-legacy.exit"
+        },
+        "queued-seek": {
+          "count": 11,
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-qt-windows-queued-seek.exit"
+        }
+      }
+    },
+    "windows-classic": {
+      "exits": {
+        "api": {
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-classic-windows-webm-opus.exit"
+        },
+        "worker": {
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-classic-windows-worker.exit"
+        },
+        "pcm": {
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-pcm-classic-windows.exit"
+        }
+      },
+      "playerSha256": [
+        "28b72ae0999f18587f34c8ae02471022459b09be64f821dc0be76d4e69f1f3c5",
+        "28b72ae0999f18587f34c8ae02471022459b09be64f821dc0be76d4e69f1f3c5"
+      ],
+      "workerSha256": [
+        "a967020686bb70483bafc5594c9c7762207124a17dfc2fb148b1004cc3ad4a2c",
+        "a967020686bb70483bafc5594c9c7762207124a17dfc2fb148b1004cc3ad4a2c"
+      ],
+      "ordinaryMainTested": true,
+      "privateProfilesRemoved": true,
+      "temporaryWorkRemoved": true,
+      "apiRows": [
+        {
+          "profile": "p0-mono-20",
+          "requiredAudio": true,
+          "audioCodec": null,
+          "growingSeekPosition": 1.0,
+          "queuedSeekPosition": 22.0,
+          "releaseSeconds": 0.06300000000192085,
+          "sourceUnchanged": true,
+          "exactSealedPcm": true
+        },
+        {
+          "profile": "p2-indexed-stereo-20",
+          "requiredAudio": true,
+          "audioCodec": null,
+          "growingSeekPosition": 1.0,
+          "queuedSeekPosition": 22.0,
+          "releaseSeconds": 0.046000000002095476,
+          "sourceUnchanged": true,
+          "exactSealedPcm": true
+        },
+        {
+          "profile": "p0-short-stereo-20",
+          "requiredAudio": true,
+          "audioCodec": null,
+          "growingSeekPosition": 1.0,
+          "queuedSeekPosition": 22.0,
+          "releaseSeconds": 0.046999999998661224,
+          "sourceUnchanged": true,
+          "exactSealedPcm": true
+        }
+      ],
+      "workerRows": [
+        {
+          "profile": "p0-mono-20-finite",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "874179",
+            "bytesWritten": "874179",
+            "sha256": "67b34cb9bad64985a10c360ad0e6a3e22c01b5a81d88e385786c96cffb61ea74",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 54,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143485,
+            "total": 874179,
+            "outputBytes": 33784
+          }
+        },
+        {
+          "profile": "p0-mono-20-unknown",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "874179",
+            "bytesWritten": "874179",
+            "sha256": "67b34cb9bad64985a10c360ad0e6a3e22c01b5a81d88e385786c96cffb61ea74",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 54,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143485,
+            "total": 874179,
+            "outputBytes": 33784
+          }
+        },
+        {
+          "profile": "p2-indexed-stereo-20-finite",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "1278827",
+            "bytesWritten": "1278827",
+            "sha256": "cf45ac18ee10f568ee9208ac05ce9e2488eeb6be2bc3ebec00c2dd0c640aba2c",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 60,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 210675,
+            "total": 1278827,
+            "outputBytes": 36360
+          }
+        },
+        {
+          "profile": "p2-indexed-stereo-20-unknown",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1801,
+            "bytesRead": "1278827",
+            "bytesWritten": "1278827",
+            "sha256": "cf45ac18ee10f568ee9208ac05ce9e2488eeb6be2bc3ebec00c2dd0c640aba2c",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 60,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 210675,
+            "total": 1278827,
+            "outputBytes": 36360
+          }
+        },
+        {
+          "profile": "p0-short-stereo-20-finite",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 701,
+            "bytesRead": "635364",
+            "bytesWritten": "635364",
+            "sha256": "215504968bda370e6fc10748ddee73e4c48a7ecae03ca3f1795c412f9c5014c5",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 50,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 132155,
+            "total": 635364,
+            "outputBytes": 33418
+          }
+        },
+        {
+          "profile": "p0-short-stereo-20-unknown",
+          "exitCode": 0,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 701,
+            "bytesRead": "635364",
+            "bytesWritten": "635364",
+            "sha256": "215504968bda370e6fc10748ddee73e4c48a7ecae03ca3f1795c412f9c5014c5",
+            "waits": 5
+          },
+          "exactPcm": true,
+          "exactPayloadsAndClocks": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "reads": 50,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 132155,
+            "total": 635364,
+            "outputBytes": 33418
+          }
+        },
+        {
+          "profile": "reject-doctype",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-doctype",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-delay",
+          "exitCode": 1,
+          "result": {
+            "code": "Opus CodecDelay/pre-skip mismatch",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-gain",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-configuration",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-lacing",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-block",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-duration-10ms",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-packet",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-audio-gap",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-clock",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-overflow-clock",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-clock",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-truncated",
+          "exitCode": 1,
+          "result": {
+            "code": "truncated-stream-webm-element",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-empty-terminal-cluster",
+          "exitCode": 1,
+          "result": {
+            "code": "truncated-stream-webm-cluster",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-wrong-audio-samples",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-end-trim",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-wrong-video-samples",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-clock",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 14,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-one-packet-count",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-opus-source",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 0,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-actual-10ms",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-opus-packet",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-actual-5ms",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-configuration",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "reject-actual-one-packet",
+          "exitCode": 1,
+          "result": {
+            "code": "unsupported-stream-webm-opus-source",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 0,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "cancel-wait",
+          "exitCode": 1,
+          "result": {
+            "code": "cancelled",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 4,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143485,
+            "total": 874179,
+            "outputBytes": 33784
+          }
+        },
+        {
+          "profile": "cancel-write",
+          "exitCode": 1,
+          "result": {
+            "code": "cancelled",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "integrity",
+          "exitCode": 1,
+          "result": {
+            "code": "integrity-mismatch",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "unconfirmed-eof",
+          "exitCode": 1,
+          "result": {
+            "code": "unconfirmed-eof",
+            "sourceComplete": false,
+            "playbackSupported": false
+          },
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 1,
+          "firstCompleteFragmentBeforeSourceComplete": null
+        },
+        {
+          "profile": "kill-wait",
+          "exitCode": 1,
+          "result": null,
+          "exactPcm": null,
+          "exactPayloadsAndClocks": null,
+          "decodedFramesIdentical": null,
+          "sourceUnchanged": null,
+          "reads": 4,
+          "firstCompleteFragmentBeforeSourceComplete": {
+            "available": 143485,
+            "total": 874179,
+            "outputBytes": 33784
+          }
+        }
+      ],
+      "pcm": {
+        "result": "PASS",
+        "count": 3,
+        "edition": "classic",
+        "rows": [
+          {
+            "profile": "p0-mono-20",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 3.725290298461914e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "4d56553540f7c757a92e3a7be755a2462ec5ad15802bf56d85374d9a665443bb"
+          },
+          {
+            "profile": "p2-indexed-stereo-20",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "91dfdd4abe44c59cd7dc8b0f12dd019c29eb78bfd46deba798ba7d89e2d0fd27"
+          },
+          {
+            "profile": "p0-short-stereo-20",
+            "exitCode": 0,
+            "samples": 95983,
+            "channels": 2,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 95983,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "7822550d7e556a4a42b63fa61a907fd7454b7f4915c13d00303fd70f0a303193"
+          }
+        ],
+        "runnerSha256": "1fd429bfe63b3e0f8e411ef6a153a8a573719b69aac9973087c6f8eb01cce75a"
+      },
+      "rawReports": {
+        "webm-opus-v6-classic-windows-webm-opus-results": "6b0d35dabc6ef99c5bc67fe73d3d4347f2d8d51a709a3fa6c5ed559021732cbb",
+        "webm-opus-v6-classic-windows-worker-results": "b964e273253c460dd18cb21cd36281bd9da69537bcfd6d9a0f32b1e9be6c0b35",
+        "webm-opus-v6-pcm-classic-windows": "fa1f788b449aa1df103b5565615e289572b6a6b16a9ebbbc7f721e91c95cb5de"
+      },
+      "shellRegistration": {
+        "unchanged": true,
+        "entries": 163,
+        "snapshotSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04"
+      },
+      "previousModeControls": {
+        "legacy": {
+          "count": 5,
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-classic-windows-legacy.exit"
+        },
+        "queued-seek": {
+          "count": 11,
+          "exitCode": 0,
+          "exitFile": "_bin/webm-opus-v6-classic-windows-queued-seek.exit"
+        }
+      }
+    }
+  },
+  "limits": {
+    "videoFps": 25,
+    "opusRate": 48000,
+    "opusPacketSamples": 960,
+    "preSkip": 312,
+    "minAudioPresentationSamplesExclusive": 648,
+    "maxAudioPresentationSamples": 48000000,
+    "maxTotalPackets": 50000,
+    "onePacketOpus": "excluded-open-profile"
+  },
+  "sanitizers": {
+    "p0": {
+      "mutations": 2000,
+      "exitCode": 0,
+      "exitFile": "_bin/webm-opus-v6-bounds-p0.exit"
+    },
+    "p2": {
+      "mutations": 2000,
+      "exitCode": 0,
+      "exitFile": "_bin/webm-opus-v6-bounds-p2.exit"
+    }
+  },
+  "boundsOverflowControl": {
+    "profile": "overflow-rejected",
+    "exitCode": 1
+  },
+  "sdkUnits": {
+    "count": 48,
+    "exitCode": 0,
+    "exitFile": "_bin/webm-opus-final-sdk-unit.exit"
+  },
+  "otherSdkUnits": [
+    {
+      "count": 19,
+      "exitCode": 0,
+      "exitFile": "_bin/webm-opus-general-sdk-unit.exit"
+    },
+    {
+      "count": 63,
+      "exitCode": 0,
+      "exitFile": "_bin/webm-opus-v2-sdk-unit.exit"
+    }
+  ],
+  "previousWebmWorker": {
+    "count": 33,
+    "exitCode": 0,
+    "exitFile": "_bin/webm-opus-old-webm-worker-linux.exit"
+  },
+  "windowsInstalledFiles": {
+    "unchanged": true,
+    "count": 7,
+    "hashes": {
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.exe": "3645e72b2565eb73e762be553fdaafc0f148863b90e681d22d7e50d1b1aa71a4",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMP/FoxicMP64.ini": "843aad777179b83f6afeccba10adf81aba82f4c1a8afea4b284baa3e858b4c29",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/ffmpeg.exe": "0e22e492846194b38206f8dcd1f2b1f0c099bb30d5d4eabc6e85a47fe0d0d074",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/foxicmp-shader-check.exe": "ee59fcd57753ffc86c55999839f52d5e89814554e782953e3f3eebb8d64ccfdb",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPq.exe": "4f4d274b6db5b013fef827e9157e89839701ab3824d62724c3a28b3052a03466",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/FoxicMPQt.ini": "e18f92641f44006014a2dec38f940e979333875bbe719b97916ab45dff3b429b",
+      "/media/sf_Windows/FoxBroxer/Prg/FoxicMPq/yt-dlp.exe": "33121d192d706e62f684a06f80918e3f3a8ba52ac3a65213b6951c39c7d9f555"
+    }
+  },
+  "correctedFindings": [
+    {
+      "issue": "WebM millisecond quantization mistaken for missing audio coverage",
+      "fixed": "Opus-only conservative coverage from admitted consecutive 960-sample packets"
+    },
+    {
+      "issue": "Late writer-complete reply could arrive as EOF before local worker state advanced",
+      "fixed": "explicit source-complete handshake at the known byte endpoint"
+    },
+    {
+      "issue": "Classic discarded first Opus PCM packet by negative PTS while terminal padding remained audible",
+      "baselineMaxAbsolutePcmError": 0.25344131141901016,
+      "fixed": "version2 Opus raw window, skip_manual, exact pre-skip/end sample trimming"
+    },
+    {
+      "issue": "Hostile Cluster clock could overflow sample-clock multiplication",
+      "fixed": "bounded timestamp gate before arithmetic; crafted overflow rejection under ASan/UBSan"
+    },
+    {
+      "issue": "Unbuffered EBML field reads exceeded Windows preparation deadlines",
+      "fixed": "bounded64KiB sequential reader"
+    },
+    {
+      "issue": "Unknown Cluster lookahead ending exactly at source length could omit an empty terminal Cluster",
+      "fixed": "consume and validate pending top-level header before EOF"
+    },
+    {
+      "issue": "Private Windows Qt PCM probe had no serviced video rendering context over SSH",
+      "fixed": "PCM-only probe explicitly disables video; ordinary main A/V remains separately exercised"
+    },
+    {
+      "issue": "Early orchestration attempted Classic stage before link finished and attempted Linux worker relink while a test held it",
+      "fixed": "final acceptance uses completed frozen v5 stages; preliminary exit1/link-text-busy excluded from acceptance"
+    }
+  ],
+  "sourceSha256": {
+    "qt/src/continuousstreams.h": "cb73aaf74e2081f53f9ad9605b2da82e3299886dc2333ca850ec6d761d509df2",
+    "qt/src/player.cpp": "5db427a0e9b2b80a691d9fd4894dbce281a2ba5649af14901bc21ea29a5fef35",
+    "qt/src/progressiveapi.cpp": "7dd3c70330371db987d7650ac1747039e7ad2851abd351fb9cc85d86cb1fb1fa",
+    "qt/tools/progressive_continuous.py": "48d769e7ebe6618e6b847293e09b454859fca48270379a92a44a040ec5d56963",
+    "shared/progressivecachedremux.h": "b1ac5cb12ff6478791d200996d058a4d71a2927648def7611e344c82453bd5d6",
+    "shared/progressivestreamcache.h": "cce182a3b5358a19f0fd2eb53e2347cbcd7f4adbdb8cdeaada6eecaf90b71ca0",
+    "shared/progressivestreamcapabilities.h": "0ef10c16ca6cd15a9e19707f7e2731c7ff7c3c40ae056d463c75484e490d246f",
+    "shared/progressivestreamcontroller.h": "31a177234dc8cf908e9ea61dea4c14db1e4cd0cd23b29230e4e24a22ca36e56a",
+    "shared/progressivestreamdecoder.h": "8e305bab9ecca0c759eec18c20fd66c0a47c6886d53306cf0a4ee2bd5a062b76",
+    "shared/progressivestreamremux.h": "10874975f18448eade44b4696377c294d01d403838ce8331e4c3f7bd6ecbde35",
+    "src/DSUtil/HarvesterSession.cpp": "92958921ffa30da2de826e1e35d7afca3040a533614c03503fbab6b99c941b41",
+    "src/DSUtil/HarvesterSession.h": "8b82a280317f117028461ce34de8ecb56c7f1275ff9e0d809cc54c22c7233bb4",
+    "src/DSUtil/ProgressivePcmControl.h": "7ea98caa52215a5bdd68c871f05d630f33547a60c2b3af164d0b4bd2a344a66f",
+    "src/apps/mplayerc/ClassicProgressiveApi.cpp": "02ce698e0f05906f595c945289141412646cfacd16e1011965b2edb49e3c5b92",
+    "src/filters/parser/MatroskaSplitter/MatroskaSplitter.cpp": "c12fc058244a7440c8e74a6e5e632c4464228b53fc19cbf989e8c76b64349e15",
+    "src/filters/parser/MatroskaSplitter/MatroskaSplitter.h": "b90cde4e1cc20f8d5536edd0bf9ca479c6efe2bc85c5a30e5e08353db14aaea0",
+    "src/filters/transform/MpaDecFilter/FFAudioDecoder.cpp": "3474e84b57ff6e2e168bed9beb6c680d7964c54f8fff76f0efddb70b08be292d",
+    "src/filters/transform/MpaDecFilter/FFAudioDecoder.h": "9dd63b984add4fdf88e8b9bceb670ce1db897e8c5437ca238ecd14b38e5c4e7b",
+    "src/filters/transform/MpaDecFilter/MpaDecFilter.cpp": "3a55035e38e5bd0e62e3d2506193177573c8bc01f99211a19403cd02020f2ec3",
+    "src/filters/transform/MpaDecFilter/MpaDecFilter.h": "a9b38646b2958646fa6f08cf6ba52ddc51e49e33b397368c266f4a384965fef5",
+    "tests/progressive_aac_package_test.py": "53830bbd97f21bcbb99594394cc23a02fdccdde36f7cbe0538a5e7ddc3074985",
+    "tests/progressive_continuous_sdk_test.py": "58548fc611ffb2a9bcf529e3cf1dda6b05b9e6a1429bc8dda897922ec59f0b73",
+    "tests/progressive_stream_remux_worker_test.py": "a72989ba57c64ba1cb462ab4e9ee61e2126100987441c8d38909d53236c85fa3",
+    "tools/package_progressive_sdk.py": "a57fd5b61cf4a5286f5d769f169c9e8f5eec00c844382ef4d36aa7fa5dbd565e",
+    "tools/progressive_stream_remux_worker.cpp": "c98886a40ae6e335b9f5b621c317b9d75fc51f0d9681da1a1bd5c523482f8cde",
+    "tools/verify_progressive_sdk.py": "4aeb995edbb975e95ab3acaae620e09c80bce9df19a570eda7550f34cdd64434",
+    "qt/tests/continuous_opus_probe.cpp": "8534a71e3511cb8c9587a87953efa919f092d42798e852ea785e4a0a50f55ba4",
+    "src/DSUtil/HarvesterWebMOpusContinuous.h": "00e79c2739a25eacdd67bb24a45a47310c62f3c08a9a9cbd429281cf629b69c3",
+    "tests/fixtures/progressive-v2/continuous-webm-opus.json": "080c950a008e41d99e6183fa242e9a6b72bb6a0f4958706ce9dbf5aa781a5894",
+    "tests/progressive_continuous_opus_pcm_test.py": "20157695c68780f5203c1ee88a7f07bf9a38419ff6aadbea2ca1909b5a9d922e",
+    "tests/progressive_continuous_webm_opus_api_test.py": "d1045bf4a548050ce5743eb1d7ac8698098dde6537bc0b0b82ecd55ef638fb02",
+    "tests/progressive_stream_webm_opus_test.py": "bd6fcca7c2b8b2ff202b02ac8ab46de900cdcb97672dbf74ad2e43dd97678144",
+    "tests/progressive_webm_opus_bounds_cli.cpp": "e6a82dab5d64f827c7a50f8caddccae9ba0d1cf963f81a15d3bdc2601b100b99",
+    "tests/windows/build_continuous_opus_graph_probe.cmd": "0cf49105270ad9513e378bbe0c8e9bfddd25646a85ac5d82c650cd71232b0fe7",
+    "tests/windows/continuous_opus_graph_probe.cpp": "bb846461c60cfea694ad460a324f6f671899a6f26387fab46869a3ebc96c12cf"
+  }
+}

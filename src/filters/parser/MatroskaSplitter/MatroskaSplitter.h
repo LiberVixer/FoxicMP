@@ -31,6 +31,7 @@
 #include "filters/filters/FilterInterfacesImpl.h"
 
 struct IHarvesterReader;
+#include "DSUtil/ProgressivePcmControl.h"
 
 #define MatroskaSplitterName L"MPC Matroska Splitter"
 #define MatroskaSourceName   L"MPC Matroska Source"
@@ -39,8 +40,15 @@ class CMatroskaSplitterOutputPin
 	: public CBaseSplitterOutputPin
 	, public CSubtitleStatus
 {
-
+    CCritSec m_opusLock;
+    CComPtr<IHarvesterReader> m_opusReader;
+    CComPtr<IProgressivePcmControl> m_opusControl;
+    uint64_t m_opusBegin=0,m_opusEnd=0,m_opusFirst=0;bool m_opusPending=false;
+    void ClearOpusWindow();
 public:
+    void SetOpusWindow(IHarvesterReader*,uint64_t,uint64_t,uint64_t);
+    HRESULT DeliverPacket(std::unique_ptr<CPacket> p) override;
+    HRESULT DeliverEndFlush() override;
 	CMatroskaSplitterOutputPin(std::vector<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);
 	virtual ~CMatroskaSplitterOutputPin();
 

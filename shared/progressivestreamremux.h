@@ -12,13 +12,13 @@ struct StreamRemuxLimits {
 };
 // Explicit internal selection. Existing callers/public v1 retain the verified
 // no-reorder profile; a manifest or worker reply cannot widen it implicitly.
-enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo, HevcAacWindow, Av1Video, Av1AacWindow, Vp9Video, Vp9AacWindow, Vp9SuperframeVideo, Vp9SuperframeAacWindow, WebmVp9Video, WebmVp9SuperframeVideo };
-inline bool StreamRemuxHasAudio(StreamRemuxProfile profile){return profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcAacWindow || profile==StreamRemuxProfile::Av1AacWindow || profile==StreamRemuxProfile::Vp9AacWindow || profile==StreamRemuxProfile::Vp9SuperframeAacWindow;}
+enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo, HevcAacWindow, Av1Video, Av1AacWindow, Vp9Video, Vp9AacWindow, Vp9SuperframeVideo, Vp9SuperframeAacWindow, WebmVp9Video, WebmVp9SuperframeVideo, WebmVp9Opus };
+inline bool StreamRemuxHasAudio(StreamRemuxProfile profile){return profile==StreamRemuxProfile::WebmVp9Opus || profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcAacWindow || profile==StreamRemuxProfile::Av1AacWindow || profile==StreamRemuxProfile::Vp9AacWindow || profile==StreamRemuxProfile::Vp9SuperframeAacWindow;}
 inline bool StreamRemuxIsHevc(StreamRemuxProfile profile){return profile==StreamRemuxProfile::HevcReorderedVideo || profile==StreamRemuxProfile::HevcAacWindow;}
 inline bool StreamRemuxIsAv1(StreamRemuxProfile profile){return profile==StreamRemuxProfile::Av1Video || profile==StreamRemuxProfile::Av1AacWindow;}
-inline bool StreamRemuxIsWebm(StreamRemuxProfile profile){return profile==StreamRemuxProfile::WebmVp9Video || profile==StreamRemuxProfile::WebmVp9SuperframeVideo;}
+inline bool StreamRemuxIsWebm(StreamRemuxProfile profile){return profile==StreamRemuxProfile::WebmVp9Opus || profile==StreamRemuxProfile::WebmVp9Video || profile==StreamRemuxProfile::WebmVp9SuperframeVideo;}
 inline bool StreamRemuxIsVp9(StreamRemuxProfile profile){return profile==StreamRemuxProfile::Vp9Video || profile==StreamRemuxProfile::Vp9AacWindow || profile==StreamRemuxProfile::Vp9SuperframeVideo || profile==StreamRemuxProfile::Vp9SuperframeAacWindow || StreamRemuxIsWebm(profile);}
-inline const char* StreamRemuxMode(StreamRemuxProfile profile){return profile==StreamRemuxProfile::WebmVp9SuperframeVideo?
+inline const char* StreamRemuxMode(StreamRemuxProfile profile){return profile==StreamRemuxProfile::WebmVp9Opus?"continuous-webm-vp9-opus-v1":profile==StreamRemuxProfile::WebmVp9SuperframeVideo?
     "continuous-webm-vp9-superframe-video-v1":profile==StreamRemuxProfile::WebmVp9Video?
     "continuous-webm-vp9-video-v1":profile==StreamRemuxProfile::Vp9SuperframeAacWindow?
     "continuous-vp9-superframe-aac-window-v1":profile==StreamRemuxProfile::Vp9SuperframeVideo?
@@ -59,6 +59,7 @@ private:
     std::filesystem::path executable;
     StreamRemuxLimits limits;
     StreamRemuxProfile profile;
+    uint64_t opusSamples=0;
     Sink sink;
     AudioWindowSink audioSink;
     StreamRemuxStatus state;
@@ -109,12 +110,12 @@ private:
     std::string execute() {
         process_detail::Process child(executable,cancelled,{limits.lifetime,limits.operation});
         uint64_t totalRead=0,totalWritten=0;Sha256 digest;StreamAudioWindow audio;
-        const bool hasAudio=StreamRemuxHasAudio(profile);
+        const bool hasAudio=StreamRemuxHasAudio(profile) && profile!=StreamRemuxProfile::WebmVp9Opus;
         {
             std::lock_guard<std::mutex> lock(mutex);check();state.workerId=child.id();state.code="running";
             const auto& r=snapshot.resources.at(resourceId);
             const bool webm=StreamRemuxIsWebm(profile);
-            child.send(std::string("{\"mode\":\"")+workerMode()+"\",\"formatHint\":\""+(webm?"webm":"mp4")+"\",\"length\":\""+std::to_string(r.length)+"\",\"complete\":"+(r.state=="complete"?"true":"false")+(webm?",\"videoSamples\":\""+std::to_string(snapshot.duration/400000)+"\"":"")+"}");
+            child.send(std::string("{\"mode\":\"")+workerMode()+"\",\"formatHint\":\""+(webm?"webm":"mp4")+"\",\"length\":\""+std::to_string(r.length)+"\",\"complete\":"+(r.state=="complete"?"true":"false")+(webm?",\"videoSamples\":\""+std::to_string(snapshot.duration/400000)+"\"":"")+(profile==StreamRemuxProfile::WebmVp9Opus?",\"audioSamples\":\""+std::to_string(opusSamples)+"\"":"")+"}");
         }
         for(;;){
             {std::lock_guard<std::mutex> lock(mutex);check();}
@@ -209,24 +210,25 @@ private:
 public:
     StreamRemuxSession(const std::filesystem::path& directory,const std::filesystem::path& registry,
                        const std::string& json,const std::string& resource,const std::filesystem::path& child,
-                       Sink output,StreamRemuxLimits policy={},StreamRemuxProfile selected=StreamRemuxProfile::H264Video,AudioWindowSink windowSink={})
-        :snapshot(Parse(json)),resourceId(resource),executable(child),limits(policy),profile(selected),sink(std::move(output)),audioSink(std::move(windowSink)) {
+                       Sink output,StreamRemuxLimits policy={},StreamRemuxProfile selected=StreamRemuxProfile::H264Video,AudioWindowSink windowSink={},uint64_t audioSamples=0)
+        :snapshot(Parse(json)),resourceId(resource),executable(child),limits(policy),profile(selected),opusSamples(audioSamples),sink(std::move(output)),audioSink(std::move(windowSink)) {
         Require(profile==StreamRemuxProfile::H264Video || profile==StreamRemuxProfile::H264ReorderedVideo || profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcReorderedVideo || profile==StreamRemuxProfile::HevcAacWindow || StreamRemuxIsAv1(profile) || StreamRemuxIsVp9(profile),"streamRemux","Invalid internal profile","invalid_request");
         Require(bool(sink) && limits.lifetime.count()>0 && limits.lifetime<=std::chrono::hours(1) && limits.operation.count()>0 && limits.operation<=limits.lifetime && limits.heartbeat.count()>0 && limits.heartbeat<=std::chrono::seconds(30),"streamRemux","Invalid internal limits","invalid_request");
         Require(!snapshot.live && snapshot.resources.count(resourceId),"streamRemux","Expected local non-live resource","unsupported-stream-source");
         const bool hasAudio=StreamRemuxHasAudio(profile);
         const bool hevc=StreamRemuxIsHevc(profile),av1=StreamRemuxIsAv1(profile),vp9=StreamRemuxIsVp9(profile);
-        Require(!hasAudio || bool(audioSink),"streamRemux","AAC window consumer required","invalid_request");
+        Require(profile==StreamRemuxProfile::WebmVp9Opus || !hasAudio || bool(audioSink),"streamRemux","AAC window consumer required","invalid_request");
         Require(snapshot.tracks.size()==(hasAudio?2u:1u),"streamRemux","Unexpected continuous track count","unsupported-stream-source");
         std::set<std::string> kinds;
         for(const auto& item:snapshot.tracks){const auto& track=item.second;
-            Require((track.kind=="video" || (hasAudio && track.kind=="audio")) && kinds.insert(track.kind).second && track.container==(StreamRemuxIsWebm(profile)?"webm":"mp4") && ((hevc || av1 || vp9)?track.codec==(track.kind=="video"?(vp9?"vp9":av1?"av1":"hevc"):"aac-lc"):(track.codec.empty() || track.codec==(track.kind=="video"?"h264":"aac-lc"))) && track.resource==resourceId && track.initialization.empty() && track.segments.empty() && (!(hasAudio || hevc || av1 || vp9) || track.required),"streamRemux","Unsupported continuous-remux track layout","unsupported-stream-source");
+            Require((track.kind=="video" || (hasAudio && track.kind=="audio")) && kinds.insert(track.kind).second && track.container==(StreamRemuxIsWebm(profile)?"webm":"mp4") && ((hevc || av1 || vp9)?track.codec==(track.kind=="video"?(vp9?"vp9":av1?"av1":"hevc"):(profile==StreamRemuxProfile::WebmVp9Opus?"opus":"aac-lc")):(track.codec.empty() || track.codec==(track.kind=="video"?"h264":(profile==StreamRemuxProfile::WebmVp9Opus?"opus":"aac-lc")))) && track.resource==resourceId && track.initialization.empty() && track.segments.empty() && (!(hasAudio || hevc || av1 || vp9) || track.required),"streamRemux","Unsupported continuous-remux track layout","unsupported-stream-source");
         }
         if(hasAudio || hevc || av1 || vp9)Require(snapshot.resources.size()==1 && snapshot.knownDuration && snapshot.numerator==1 && snapshot.denominator==10000000 && snapshot.offset==0 && !snapshot.hasWindow,"streamRemux","Known-duration local source required","unsupported-stream-source");
         if(hevc || av1 || vp9)Require(snapshot.duration>0 && snapshot.duration<=36000000000LL,"streamRemux","Bounded VOD duration required","unsupported-stream-source");
         if(StreamRemuxIsWebm(profile))Require(snapshot.duration%400000==0 && snapshot.duration/400000<=50000,"streamRemux","Exact bounded 25fps timeline required","unsupported-stream-source");
         const auto& r=snapshot.resources.at(resourceId);
         Require(r.known && r.length>0 && r.length<=InputLimit && r.integrity && !r.retired,"streamRemux","Known bounded SHA-protected source required","unsupported-stream-source");
+        Require(profile==StreamRemuxProfile::WebmVp9Opus?(opusSamples>648 && opusSamples<=48000000 && snapshot.duration/400000+(opusSamples+1271)/960<=50000):opusSamples==0,"streamRemux","Explicit bounded Opus sample count required","unsupported-stream-source");
         source=std::make_unique<ResourceSource>(directory,registry,json);
         deadline=Clock::now()+limits.lifetime;heartbeatDeadline=Clock::now()+limits.heartbeat;observe();
         worker=std::thread([this]{run();});

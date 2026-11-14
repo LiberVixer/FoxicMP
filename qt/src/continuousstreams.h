@@ -18,7 +18,7 @@ class ContinuousStreams {
     using Cookie=std::shared_ptr<Cursor>;
     std::vector<std::weak_ptr<std::atomic<bool>>> readers;
     void detachLocked(){for(auto& weak:readers)if(auto flag=weak.lock())flag->store(true);readers.clear();source.reset();token.clear();entryInterrupted=true;}
-    bool matchesLocked(const char* uri)const{return source && (token==uri || (source->audioWindow() && token+"/audio"==uri));}
+    bool matchesLocked(const char* uri)const{return source && (token==uri || (source->hasAudio() && token+"/audio"==uri));}
     static int open(void* opaque,char* uri,mpv_stream_cb_info* info) noexcept {
         auto* self=static_cast<ContinuousStreams*>(opaque);
         bool reserved=false;
@@ -29,7 +29,7 @@ class ContinuousStreams {
                 if(!self->matchesLocked(uri) || self->source->stopped())return MPV_ERROR_LOADING_FAILED;
                 auto& readers=self->readers;readers.erase(std::remove_if(readers.begin(),readers.end(),[](const auto& weak){return weak.expired();}),readers.end());
                 if(readers.size()+self->opening>=foxicmp::progressive::MaxReaders)return MPV_ERROR_LOADING_FAILED;
-                held=self->source;if(held->audioWindow())kind=self->token==uri?0:1;++self->opening;reserved=true;
+                held=self->source;if(held->hasAudio())kind=self->token==uri?0:1;++self->opening;reserved=true;
             }
             // Registration/pinning may perform I/O. Stop/replacement only need
             // the adapter mutex and must never wait behind this constructor.
@@ -62,7 +62,7 @@ public:
         std::lock_guard<std::mutex> lock(mutex);detachLocked();source=std::move(next);
         token="foxicmp-continuous://"+foxicmp::progressive::lease_detail::RandomId()+"/video";return token;
     }
-    std::string audioUri(){std::lock_guard<std::mutex> lock(mutex);return source && source->audioWindow()?token+"/audio":std::string();}
+    std::string audioUri(){std::lock_guard<std::mutex> lock(mutex);return source && source->hasAudio()?token+"/audio":std::string();}
     // Detaching one decoder must not cancel independent readers of the store.
     void clear(){std::lock_guard<std::mutex> lock(mutex);detachLocked();}
     void replacing(const std::string& uri){std::lock_guard<std::mutex> lock(mutex);if(token!=uri)detachLocked();}

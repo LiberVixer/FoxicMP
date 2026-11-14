@@ -32,7 +32,19 @@ def complete_media(raw):
 
 
 def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.12,
-          mode='continuous-h264-video-v1',on_wait=None,on_audio_window=None,cut_seconds=(4,8,12,20),format_hint='mp4',video_samples=None):
+          mode='continuous-h264-video-v1',on_wait=None,on_audio_window=None,cut_seconds=(4,8,12,20),format_hint='mp4',video_samples=None,audio_samples=None):
+    def ready(data):
+        if mode!='continuous-webm-vp9-opus-v1':return complete_media(data)
+        try:
+            from progressive_webm_fixtures import element
+            _,_,at=element(data,0);_,at,_=element(data,at)
+            while at<len(data):
+                tag,_,end=element(data,at)
+                if end is None or end>len(data):return False
+                if tag==0x1f43b675:return True
+                at=end
+        except (AssertionError,IndexError,ValueError):pass
+        return False
     raw=path.read_bytes();cuts=[]
     if growing:
         source=probe(path);video=[p for p in source['packets'] if p['codec_type']=='video'];tb=Fraction(next(s for s in source['streams'] if s['codec_type']=='video')['time_base']);origin=int(video[0]['pts'])
@@ -45,6 +57,7 @@ def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.
         try:
             start=dict(mode=mode,formatHint=format_hint,length=str(len(raw)),complete=complete)
             if video_samples is not None:start['videoSamples']=str(video_samples)
+            if audio_samples is not None:start['audioSamples']=str(audio_samples)
             send(start)
             while True:
                 line=p.stdout.readline(140001)
@@ -60,7 +73,7 @@ def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.
                     elif complete and at==len(raw):send(dict(code='eof'))
                     else:send(dict(code='waiting-range'))
                 elif message['io']=='wait':
-                    events.append(dict(reason=message['reason'],offset=message['offset'],available=available,outputBytes=len(output),mediaReady=complete_media(output),beforeSourceComplete=not complete,seconds=time.monotonic()-began))
+                    events.append(dict(reason=message['reason'],offset=message['offset'],available=available,outputBytes=len(output),mediaReady=ready(output),beforeSourceComplete=not complete,seconds=time.monotonic()-began))
                     assert p.poll() is None
                     if fault=='kill-wait':kill_ready.set();released.wait(10);break
                     if fault=='cancel-wait':send(dict(code='cancelled'));continue
@@ -93,7 +106,7 @@ def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.
                     assert int(message['offset'])==len(output) and 0<len(message['hex'])<=131072
                     if fault=='cancel-write':send(dict(code='cancelled'));continue
                     data=bytes.fromhex(message['hex']);output.extend(data);assert len(output)<=64*1024**2
-                    if first_media is None and not complete and available<len(raw) and complete_media(output):first_media=dict(available=available,total=len(raw),outputBytes=len(output))
+                    if first_media is None and not complete and available<len(raw) and ready(output):first_media=dict(available=available,total=len(raw),outputBytes=len(output))
                     send(dict(code='data'))
                 else:raise AssertionError(message)
         except (BrokenPipeError,OSError):

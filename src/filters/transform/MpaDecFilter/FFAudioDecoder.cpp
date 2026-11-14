@@ -587,6 +587,16 @@ bool CFFAudioDecoder::SetPcmWindow(uint64_t begin, uint64_t end, uint32_t rate, 
 	m_pcmWindowFailed=false;return true;
 }
 
+bool CFFAudioDecoder::SetOpusPcmWindow(uint64_t begin,uint64_t end,uint64_t decodeFirst)
+{
+    if(!m_pAVCtx || GetCodecId()!=AV_CODEC_ID_OPUS || m_bNeedMix || m_pAVCtx->sample_rate!=48000 ||
+       m_pAVCtx->ch_layout.nb_channels<1 || m_pAVCtx->ch_layout.nb_channels>2 || begin<312 || end>48000312 ||
+       decodeFirst%960 || !m_pcmWindow.Configure(begin,end,48000,decodeFirst))return false;
+    // The private source owns both endpoints. Keep raw decoded samples so
+    // libavcodec pre-skip and negative DirectShow PTS cannot trim twice.
+    m_pAVCtx->flags2|=AV_CODEC_FLAG2_SKIP_MANUAL;m_pcmWindowFailed=false;return true;
+}
+
 bool CFFAudioDecoder::SetAacPcmWindow(const harvester::pcm::AacWindow& plan, uint64_t target, uint64_t decodeFirst)
 {
 	if (!m_pAVCtx || GetCodecId()!=AV_CODEC_ID_AAC || m_bNeedMix || !plan.Valid() ||
@@ -610,7 +620,7 @@ HRESULT CFFAudioDecoder::ReceiveData(std::vector<BYTE>& BuffOut, size_t& outputS
 		size_t nSamples = m_pFrame->nb_samples, skipSamples = 0;
 		if (m_pcmWindow.Active()) {
 			harvester::pcm::Slice slice;
-			if ((GetCodecId()!=AV_CODEC_ID_MP3 && GetCodecId()!=AV_CODEC_ID_AAC) || m_bNeedMix || !m_pcmWindow.Take(nSamples,m_pFrame->sample_rate,slice)) {
+			if ((GetCodecId()!=AV_CODEC_ID_MP3 && GetCodecId()!=AV_CODEC_ID_AAC && GetCodecId()!=AV_CODEC_ID_OPUS) || m_bNeedMix || !m_pcmWindow.Take(nSamples,m_pFrame->sample_rate,slice)) {
 				m_pcmWindowFailed=true;av_frame_unref(m_pFrame);return E_INVALIDARG;
 			}
 			nSamples=size_t(slice.count);skipSamples=size_t(slice.skip);rtStart=slice.start;
@@ -663,6 +673,7 @@ HRESULT CFFAudioDecoder::ReceiveData(std::vector<BYTE>& BuffOut, size_t& outputS
 
 void CFFAudioDecoder::FlushBuffers()
 {
+    if(m_pAVCtx && GetCodecId()==AV_CODEC_ID_OPUS)m_pAVCtx->flags2&=~AV_CODEC_FLAG2_SKIP_MANUAL;
 	m_pcmWindow.Clear();
 	m_pcmWindowFailed=false;
 	if (m_pParser) {
