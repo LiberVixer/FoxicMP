@@ -14,6 +14,11 @@ SHA-256 файлов. Воспроизведение v1 сохраняется; 
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
+SDK 1.94 добавляет [VP9 indexed superframes/alt-ref video-only](ProgressiveContinuousVp9Superframe.md):
+`ContinuousRemux(..., mode=VP9_SUPERFRAME_MODE)`, Profile0/8-bit или Profile2/10-bit,
+до семи hidden inter frames и один показанный последним в indexed sample.
+Прежние VP9 modes сохраняют свои ограничения; audio/show_existing не включены.
+
 SDK 1.93 добавляет [VP9 + AAC-LC PCM-window](ProgressiveContinuousVp9Aac.md):
 `ContinuousRemux(..., mode=VP9_AAC_MODE)`, Profile0/8-bit или Profile2/10-bit,
 mono/stereo 44.1/48 kHz, audio-first/one-sample/short audio. Новый paired mode

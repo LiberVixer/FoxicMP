@@ -23,6 +23,7 @@ AV1_MODE = 'continuous-av1-video-v1'
 AV1_AAC_MODE = 'continuous-av1-aac-window-v1'
 VP9_MODE = 'continuous-vp9-video-v1'
 VP9_AAC_MODE = 'continuous-vp9-aac-window-v1'
+VP9_SUPERFRAME_MODE = 'continuous-vp9-superframe-video-v1'
 ACTIONS = frozenset(('continuousRemuxStart', 'continuousRemuxStatus',
     'continuousRemuxUpdate', 'continuousRemuxHeartbeat', 'continuousRemuxCancel',
     'continuousRemuxForget', 'continuousRemuxPlay', 'continuousPlaybackStatus',
@@ -55,9 +56,10 @@ class ContinuousRemux:
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
     def __init__(self, client, session_directory, *, mode=MODE):
-        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE):
             raise ValueError('Unsupported continuous profile')
-        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE)
+        vp9_superframe = mode == VP9_SUPERFRAME_MODE
+        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE)
         av1_mode = mode in (AV1_MODE, AV1_AAC_MODE)
         audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE, VP9_AAC_MODE)
         hevc_mode = mode in (HEVC_MODE, HEVC_AAC_MODE)
@@ -133,10 +135,16 @@ class ContinuousRemux:
                     or type(selected.get('configurationVersion')) is not int or selected['configurationVersion'] != 1
                     or selected.get('headMoovRequired') is not True or type(selected.get('maxHeadBytes')) is not int or selected['maxHeadBytes'] != 1048576
                     or selected.get('packetReorder') is not False or selected.get('oneDisplayedFramePerSample') is not True
-                    or selected.get('hiddenFrames') is not False or selected.get('showExistingFrames') is not False
-                    or selected.get('superframes') is not False or selected.get('fixedCodedAndRenderSize') is not True
+                    or selected.get('hiddenFrames') is not vp9_superframe or selected.get('showExistingFrames') is not False
+                    or selected.get('superframes') is not vp9_superframe or selected.get('fixedCodedAndRenderSize') is not True
                     or selected.get('requiredTrackKinds') != (['video', 'audio'] if audio_mode else ['video']) or selected.get('codecHintRequired') is not True):
                 raise RuntimeError('Player lacks the exact VP9 video contract')
+            if vp9_superframe and (selected.get('indexedSuperframesRequired') is not True
+                    or type(selected.get('maxFramesPerSample')) is not int or selected['maxFramesPerSample'] != 8
+                    or type(selected.get('maxHiddenFramesPerSample')) is not int or selected['maxHiddenFramesPerSample'] != 7
+                    or selected.get('displayedFrameLast') is not True or selected.get('hiddenInterFramesOnly') is not True
+                    or selected.get('firstSampleSingleKeyframe') is not True):
+                raise RuntimeError('Player lacks the exact indexed VP9 superframe contract')
             self.capability.update(copy.deepcopy(selected))
 
     @property

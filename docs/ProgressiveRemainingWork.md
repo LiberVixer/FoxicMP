@@ -1,12 +1,12 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 14 ноября 2026, включая bounded VP9/AAC continuous SDK 1.93.
+Рабочая сводка на 14 ноября 2026, включая bounded VP9 indexed superframes continuous SDK 1.94.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
 закрытыми широкие пункты по результатам узких тестов.
 
-В подробном чеклисте 140 выполненных и 77 открытых checkbox. Это число записей,
+В подробном чеклисте 141 выполненных и 77 открытых checkbox. Это число записей,
 не процент готовности: общая приёмка повторяет требования нескольких разделов.
 Ниже они сведены к пакетам работ с одним проверяемым результатом на пакет.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -128,11 +128,23 @@ monotonic clocks и продвижение media position ≥10.1 s до writer 
 [Linux обновлён и проверен](ProgressiveContinuousVp9AacDelivery-2026-11-14.json):
 backup, неизменный INI и ещё 25 сценариев с clean SDK 1.93 установленной копии.
 
-R01 остаётся открытым. Следующий профиль — VP9 indexed superframes/alt-ref в
-ordinary MP4: реальные fixtures, packet/frame/clock admission и отдельный mode,
-затем worker/cache/decoder и проверки трёх редакций. Текущие VP9 modes сохраняют
-запрет этих packets. Другие container/layout rows остаются дальнейшими этапами.
-Старые narrow tests сохраняются.
+[SDK 1.94](ProgressiveContinuousVp9Superframe.md) добавляет отдельный VP9
+indexed superframes/alt-ref video-only mode: Profile0/8-bit или Profile2/10-bit,
+PTS=DTS, фиксированные размеры, до восьми кадров на sample и один показанный
+последним. Hidden prefixes содержат только inter frames; начальный sample —
+один показанный keyframe. Старые modes по-прежнему отклоняют superframes.
+[108 worker, 30 новых API rows, 93 старых worker, 48 проверок прежнего PCM и 126 API регрессий](ProgressiveContinuousVp9SuperframeValidation-2026-11-14.json)
+прошли на трёх редакциях; ASan/UBSan и MSVC проверили bounds parser.
+Каждая реальная положительная fixture содержит superframes; показ до complete
+отдельно выдержал ≥10 s monotonic и media advance ≥10.1 s. Максимум восемь
+кадров проверен на синтетических header/index cases. Classic — private null
+renderer; visible/physical A/V acceptance и полная R01 остаются открытыми.
+
+R01 остаётся открытым. Следующий профиль — VP9 indexed superframes + AAC-LC
+PCM-window в ordinary MP4: paired admission, exact clocks/video/PCM и отдельный
+mode, затем проверки трёх редакций. Новый SDK 1.94 пока video-only;
+прежние VP9 video-only и paired modes сохраняют запрет superframes. Другие
+container/layout rows остаются дальнейшими этапами. Старые narrow tests сохраняются.
 
 ## Исторические наблюдения: отдельно от новых функций
 

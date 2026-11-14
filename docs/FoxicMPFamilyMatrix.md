@@ -41,6 +41,18 @@ monotonic clocks и продвижение media position ≥10.1 s до writer 
 теста; точное старое elapsed не было записано. Classic — private null renderer,
 без visible/physical A/V acceptance. Hidden/show_existing/superframes и R01 открыты.
 
+[SDK 1.94](ProgressiveContinuousVp9Superframe.md) добавляет отдельный VP9
+indexed superframes/alt-ref video-only mode: Profile0/8-bit или Profile2/10-bit,
+PTS=DTS, фиксированные размеры, до восьми кадров на sample и один показанный
+последним. Hidden prefixes содержат только inter frames; начальный sample —
+один показанный keyframe. Старые modes по-прежнему отклоняют superframes.
+[108 worker, 30 новых API rows, 93 старых worker, 48 проверок прежнего PCM и 126 API регрессий](ProgressiveContinuousVp9SuperframeValidation-2026-11-14.json)
+прошли на трёх редакциях; ASan/UBSan и MSVC проверили bounds parser.
+Каждая реальная положительная fixture содержит superframes; показ до complete
+отдельно выдержал ≥10 s monotonic и media advance ≥10.1 s. Максимум восемь
+кадров проверен на синтетических header/index cases. Classic — private null
+renderer; visible/physical A/V acceptance и полная R01 остаются открытыми.
+
 ## Что именно сравнивается
 
 | Редакция | Движок | Проверенная сборка выпуска 0.2.0 | Отдельный профиль |

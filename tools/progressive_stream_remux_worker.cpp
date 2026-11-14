@@ -108,7 +108,8 @@ Doc run(Api& api,const Doc& start){
  const bool windowAudio=start["mode"]=="continuous-h264-aac-window-v1" || start["mode"]=="continuous-hevc-aac-window-v1" || start["mode"]=="continuous-av1-aac-window-v1" || start["mode"]=="continuous-vp9-aac-window-v1",hasAudio=alignedAudio || windowAudio;
  const bool hevc=start["mode"]=="continuous-hevc-reordered-video-v1" || start["mode"]=="continuous-hevc-aac-window-v1";
  const bool av1=start["mode"]=="continuous-av1-video-v1" || start["mode"]=="continuous-av1-aac-window-v1";
- const bool vp9=start["mode"]=="continuous-vp9-video-v1" || start["mode"]=="continuous-vp9-aac-window-v1";
+ const bool vp9Superframe=start["mode"]=="continuous-vp9-superframe-video-v1";
+ const bool vp9=vp9Superframe || start["mode"]=="continuous-vp9-video-v1" || start["mode"]=="continuous-vp9-aac-window-v1";
  const bool reordered=hevc || hasAudio || start["mode"]=="continuous-h264-reordered-video-v1";
  need(vp9 || av1 || reordered || start["mode"]=="continuous-h264-video-v1","unsupported-stream-start");
  std::string n(start["length"].GetString(),start["length"].GetStringLength());need(!n.empty() && n.size()<=10 && n[0]!='0' && n.find_first_not_of("0123456789")==std::string::npos,"invalid-length");StreamInput source;source.length=std::stoll(n);source.complete=start["complete"].GetBool();need(uint64_t(source.length)<=InputLimit,"input-size-limit");StreamOutput sink;sink.windowRequired=windowAudio;Context c(api);
@@ -184,7 +185,8 @@ Doc run(Api& api,const Doc& start){
    need(c.packet->pts==c.packet->dts,"unsupported-stream-vp9-clock");
    need(!firstVideo || ((c.packet->flags&AV_PKT_FLAG_KEY) && c.packet->pts==0),"unsupported-stream-vp9-frame");
    for(int i=0;i<c.packet->side_data_elems;++i)need(c.packet->side_data[i].type!=AV_PKT_DATA_NEW_EXTRADATA,"unsupported-stream-configuration-change");
-   harvester::VP9ContinuousPacket(c.packet->data,size_t(c.packet->size),vp9Input.config,vp9Input.width,vp9Input.height,firstVideo,need);
+   if(vp9Superframe)harvester::VP9ContinuousSuperframePacket(c.packet->data,size_t(c.packet->size),vp9Input.config,vp9Input.width,vp9Input.height,firstVideo,need);
+   else harvester::VP9ContinuousPacket(c.packet->data,size_t(c.packet->size),vp9Input.config,vp9Input.width,vp9Input.height,firstVideo,need);
   }
   if(av1 && index==videoIndex){
    const bool firstVideo=hasAudio?videoPackets==0:packets==1;
