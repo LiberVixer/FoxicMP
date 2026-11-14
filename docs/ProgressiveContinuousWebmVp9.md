@@ -40,7 +40,8 @@ VP9 Profile0/8-bit или Profile2/10-bit, 4:2:0, один показанный 
 дальше точный шаг 40 ms, PTS=DTS. TimestampScale=1000000 ns,
 DefaultDuration=40000000 ns, фиксированные coded/render размеры без container
 crop/display transformations. Configuration из header/keyframe согласуется с
-каждым packet и параметрами demuxer. Output — vp09/vpcC в fragmented MP4,
+каждым packet и параметрами demuxer. Это проверка структуры и заголовков,
+не полная проверка compressed entropy. Output — vp09/vpcC в fragmented MP4,
 без encoder/resampler; compressed payload, clocks и декодированные кадры сохраняются.
 
 Timeline 1/10000000, offset 0, duration положительная и кратна 400000 ticks.
@@ -74,3 +75,10 @@ Classic проверяется с отдельным INI и private null rendere
 Прежние MP4 modes остаются самостоятельными и не принимают WebM автоматически.
 WebM/Opus, fractional clocks, indexed superframes и другие контейнерные layouts
 требуют отдельных профилей. R01 и полное ТЗ остаются открытыми.
+
+
+[Поставка и проверка установленной Linux-копии](ProgressiveContinuousWebmVp9Delivery-2026-11-14.json):
+clean SDK 1.96 из implementation commit, атомарная замена EXE/worker,
+резервная копия и неизменный INI. Ещё 29 сценариев (WebM VP9 video-only, прежний indexed VP9/AAC,
+source-close) прошли с собственным SDK установленного плеера. Установки Windows
+не менялись. Source SDK и проверенные кандидаты не являются новым итоговым release.

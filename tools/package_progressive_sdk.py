@@ -10,6 +10,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveContinuousWebmVp9Delivery-2026-11-14.json': 'docs/ProgressiveContinuousWebmVp9Delivery-2026-11-14.json',
     'ProgressiveContinuousWebmVp9.md': 'docs/ProgressiveContinuousWebmVp9.md',
     'ProgressiveContinuousWebmVp9Validation-2026-11-14.json': 'docs/ProgressiveContinuousWebmVp9Validation-2026-11-14.json',
     'progressive-v2-continuous-webm-vp9.json': 'tests/fixtures/progressive-v2/continuous-webm-vp9.json',

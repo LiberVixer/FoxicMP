@@ -181,6 +181,9 @@ Expected sample count выводится из timeline, потерянный ц�
 Classic — private null renderer; физический output и полная R01 открыты.
 Native WebM index и прежние MP4 modes сохраняют свой admission.
 
+[Linux обновлён и проверен](ProgressiveContinuousWebmVp9Delivery-2026-11-14.json):
+backup, неизменный текущий INI и ещё 29 сценариев с clean SDK 1.96 установленной копии.
+
 R01 остаётся открытым. Следующий узкий этап — continuous WebM VP9 indexed
 superframes/alt-ref video-only при точных 25 fps. Перед объявлением потребуются
 явный профиль и проверки actual indexed packets, incomplete prefixes и playback

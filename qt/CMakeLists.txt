@@ -100,7 +100,7 @@ install(FILES tools/progressive_client.py tools/progressive_windows.py tools/pro
 install(FILES ../docs/ProgressiveWebmVp9RemuxPlan.md ../docs/ProgressiveWebmVp9RemuxPreflight-2026-11-14.json DESTINATION integration)
 install(FILES ../docs/ProgressiveVp9SuperframeAacBeforePrefixSchedule-2026-11-14.py.txt DESTINATION integration)
 install(FILES ../docs/ProgressiveContinuousVp9SuperframeAac.md ../docs/ProgressiveContinuousVp9SuperframeAacValidation-2026-11-14.json ../docs/ProgressiveContinuousVp9SuperframeAacDelivery-2026-11-14.json DESTINATION integration)
-install(FILES ../docs/ProgressiveContinuousWebmVp9.md ../docs/ProgressiveContinuousWebmVp9Validation-2026-11-14.json DESTINATION integration)
+install(FILES ../docs/ProgressiveContinuousWebmVp9.md ../docs/ProgressiveContinuousWebmVp9Validation-2026-11-14.json ../docs/ProgressiveContinuousWebmVp9Delivery-2026-11-14.json DESTINATION integration)
 install(FILES ../tests/fixtures/progressive-v2/continuous-webm-vp9.json DESTINATION integration RENAME progressive-v2-continuous-webm-vp9.json)
 install(FILES ../tests/fixtures/progressive-v2/continuous-vp9-superframe-aac.json DESTINATION integration RENAME progressive-v2-continuous-vp9-superframe-aac.json)
 install(FILES ../docs/ProgressiveContinuousVp9Superframe.md ../docs/ProgressiveContinuousVp9SuperframeValidation-2026-11-14.json ../docs/ProgressiveContinuousVp9SuperframeDelivery-2026-11-14.json DESTINATION integration)
