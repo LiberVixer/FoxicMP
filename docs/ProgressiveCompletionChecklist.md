@@ -3,12 +3,12 @@
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
 **Рабочий порядок оставшихся задач — [R01–R17, исторические H01–H04 и внешние E01–E03](ProgressiveRemainingWork.md).**
-Сводка актуализирована 14 ноября, SDK 1.98: 147 закрытых и 77 открытых
+Сводка актуализирована 14 ноября, SDK 1.99: 148 закрытых и 77 открытых
 записей, без вычисления процента готовности. Ниже сохранены подробные доказательства
 и исторические состояния; старые ограничения уточняются позднейшими отчётами.
 
 Приложение 0.2.0. Последний указанный здесь опубликованный пакетный срез — SDK 1.84;
-в текущих исходниках/проверенных кандидатах SDK 1.98 с исправлениями от 14 ноября.
+в текущих исходниках/проверенных кандидатах SDK 1.99 с исправлениями от 14 ноября.
 Исходники и clean SDK-архив кандидата не равны новому итоговому GitHub release.
 [SDK 1.84](ProgressiveContinuousAacPackages.md) проверен на обычных main/пакетах,
 Classic completed-seek race исправлен и проверен управляемой задержкой; полная стабильная приёмка открыта. Этот документ — перечень
@@ -70,6 +70,9 @@ R01: [инвентаризация container/codec/layout и подготовк�
 - [x] [Подготовка continuous WebM VP9/Opus](ProgressiveWebmOpusRemuxPlan.md), без нового mode или bump SDK1.97: [36 characterization rows трёх compiler/native стендов](ProgressiveWebmOpusRemuxPreflight-2026-11-14.json).30 точных PCM-window rows,60 точных native full/prefix projections,72 MP4 copy references и72 отказа прежних video-only worker modes.6 one-sample controls остаются OPEN: decoder выдаёт313/648 samples вместо1; исходные failures сохранены. Raw window не подменяет actual output; native projection не подменяет player/physical A/V. Выбран WebM sealer с сохранением clock/trim и known audio sample count. Новый API playback ещё не подключён; Linux/Windows EXE/INI/HKCU сохранены, R01 открыт.
 
 - [x] SDK1.98: [continuous WebM VP9/Opus](ProgressiveContinuousWebmOpus.md): bounded structural sealer, finite/unknown Clusters, защищённый WebM cache и обе обязательные decoder views в трёх редакциях; VP9p0/p2 indexed25fps, Opus48k mono/stereo20ms/pre-skip312, exact audio sample count. [78 worker cases,9 ordinary main,9 actual PCM captures,48 SDK units и4000 ASan/UBSan mutations](ProgressiveContinuousWebmOpusValidation-2026-11-14.json). Точные payload/clocks, incomplete playback≥10s, pause/growing/queued seek/EOF/release/forget, короткий audio. Исправлены Classic PCM offset, quantization coverage, late-complete handshake и buffered input; ошибки первоначальных стендов отделены от финальной приёмки. One-packet Opus, прочие geometries/fractional clocks и полные R01/R15/R17 открыты; физический A/V не заявляется. Harvester и установленные Windows приложения/профили сохранены. [Linux обновлён атомарно с backup и сохранением INI; installed own-SDK проверка3 профилей прошла](ProgressiveContinuousWebmOpusDelivery-2026-11-14.json). Windows установки и HKCU сохранены.
+
+- [x] SDK1.99: [continuous WebM VP9/Opus30000/1001fps](ProgressiveContinuousWebmOpusNtsc.md): rational frame clock, exact frame count по timeline, nearest-ms packets и bounded coverage без ложных дыр. [87 новых/78 прежних worker cases,9 новых/9 прежних ordinary-main cases,9 actual PCM captures,22 AAC controls,4000 ASan/UBSan mutations и131 SDK units](ProgressiveContinuousWebmOpusNtscValidation-2026-11-14.json) трёх редакций. Finite/unknown Clusters, p0/p2 и short audio; exact payload/clocks/video/PCM, incomplete playback, pause/seek/EOF/release. Старый25fps mode сохранён; Harvester/Windows installations/HKCU не изменены. Прочие fps/VFR/Opus layouts и полные R01/R15/R17 остаются открытыми, физический A/V не заявляется.
+
 
 
 

@@ -3,7 +3,7 @@ import copy,json,shutil,time
 from pathlib import Path
 from fractions import Fraction
 from progressive_client import ApiError
-from progressive_continuous import ContinuousRemux,WEBM_VP9_OPUS_MODE
+from progressive_continuous import ContinuousRemux,WEBM_VP9_OPUS_MODE,WEBM_VP9_OPUS_NTSC_MODE
 from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
 from progressive_player_crash_recovery import wait,sha
@@ -11,7 +11,10 @@ from progressive_webm_opus_remux_preflight import fixture,PROFILES,probe,pcm,pac
 from progressive_webm_remux_preflight import unknown_clusters,scan
 MODE=WEBM_VP9_OPUS_MODE
 
-def exercise(peers,root,report,expected_audio='null'):
+def exercise(peers,root,report,expected_audio='null',ntsc=False):
+ global MODE
+ MODE=WEBM_VP9_OPUS_NTSC_MODE if ntsc else WEBM_VP9_OPUS_MODE
+ options=dict(rate='30000/1001') if ntsc else {}
  report=Path(report);rows=[];current=None;client=peers[0].client
  def poll(sdk,predicate,label,timeout=25):
   def tick():
@@ -28,9 +31,9 @@ def exercise(peers,root,report,expected_audio='null'):
   return poll(sdk,check,label,timeout)
  try:
   for profile in (PROFILES[0],PROFILES[1],PROFILES[4]):
-   name=profile[0];folder=root/name;original,pixels=fixture(folder,profile);raw=original.read_bytes()
+   name=profile[0];folder=root/name;original,pixels=fixture(folder,profile,**options);raw=original.read_bytes()
    if profile[1]:raw=unknown_clusters(raw,scan(raw))
-   directory=root/(name+'-session');directory.mkdir();path=directory/'video.part';model=snapshot(path,raw,complete=False,prefix=4);model['timeline']['duration']='240000000';model['tracks'][0].update(codecHint='vp9',containerHint='webm');sound=copy.deepcopy(model['tracks'][0]);sound.update(id='sound',kind='audio',codecHint='opus');model['tracks'].append(sound)
+   directory=root/(name+'-session');directory.mkdir();path=directory/'video.part';model=snapshot(path,raw,complete=False,prefix=4);model['timeline']['duration']='240240000' if ntsc else '240000000';model['tracks'][0].update(codecHint='vp9',containerHint='webm');sound=copy.deepcopy(model['tracks'][0]);sound.update(id='sound',kind='audio',codecHint='opus');model['tracks'].append(sound)
    if not rows:
     import uuid
     for invalid in (None,True,1152000,'0','648','48000001'):
@@ -39,6 +42,13 @@ def exercise(peers,root,report,expected_audio='null'):
      try:client.request(command)
      except ApiError:pass
      else:raise AssertionError(('Invalid Opus sample count admitted',invalid))
+   if ntsc and not rows:
+    for duration in ('240000000','240240002','240239998','1'):
+     bad=copy.deepcopy(model);bad['timeline']['duration']=duration
+     command=dict(version=1,action='continuousRemuxStart',mode=MODE,requestId=uuid.uuid4().hex,sessionDirectory=str(directory),session=bad,resourceId='clip',audioSamples=str(profile[5]))
+     try:client.request(command)
+     except ApiError as e:assert e.code=='unsupported-stream-source',e.reply
+     else:raise AssertionError('Inexact NTSC timeline admitted')
    sdk=current=ContinuousRemux(client,str(directory),mode=MODE,audio_samples=profile[5]);sdk.prepare(model,'clip')
    replay=dict(version=1,action='continuousRemuxStart',mode=MODE,requestId=sdk.request_id,sessionDirectory=str(directory),session=copy.deepcopy(model),resourceId='clip',audioSamples=str(profile[5]))
    assert client.request(replay)['jobId']==sdk.job_id

@@ -28,10 +28,21 @@ VP9_SUPERFRAME_AAC_MODE = 'continuous-vp9-superframe-aac-window-v1'
 WEBM_VP9_MODE = 'continuous-webm-vp9-video-v1'
 WEBM_VP9_SUPERFRAME_MODE = 'continuous-webm-vp9-superframe-video-v1'
 WEBM_VP9_OPUS_MODE = 'continuous-webm-vp9-opus-v1'
+WEBM_VP9_OPUS_NTSC_MODE = 'continuous-webm-vp9-opus-ntsc-v1'
 ACTIONS = frozenset(('continuousRemuxStart', 'continuousRemuxStatus',
     'continuousRemuxUpdate', 'continuousRemuxHeartbeat', 'continuousRemuxCancel',
     'continuousRemuxForget', 'continuousRemuxPlay', 'continuousPlaybackStatus',
     'continuousPlaybackControl'))
+
+
+def _exact_contract(actual, expected):
+    if type(actual) is not type(expected):
+        return False
+    if isinstance(expected, dict):
+        return actual.keys() == expected.keys() and all(_exact_contract(actual[k], v) for k, v in expected.items())
+    if isinstance(expected, list):
+        return len(actual) == len(expected) and all(_exact_contract(a, b) for a, b in zip(actual, expected))
+    return actual == expected
 
 
 def _id(value):
@@ -60,15 +71,16 @@ class ContinuousRemux:
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
     def __init__(self, client, session_directory, *, mode=MODE, audio_samples=None):
-        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE):
             raise ValueError('Unsupported continuous profile')
-        webm_mode = mode in (WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE)
-        vp9_superframe = mode in (VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE)
-        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE)
+        webm_mode = mode in (WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE)
+        vp9_superframe = mode in (VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE)
+        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE)
         av1_mode = mode in (AV1_MODE, AV1_AAC_MODE)
-        audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_OPUS_MODE)
+        audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE)
         hevc_mode = mode in (HEVC_MODE, HEVC_AAC_MODE)
-        opus_mode = mode == WEBM_VP9_OPUS_MODE
+        ntsc_mode = mode == WEBM_VP9_OPUS_NTSC_MODE
+        opus_mode = mode in (WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE)
         if opus_mode:
             if type(audio_samples) is not int or not 648 < audio_samples <= 48000000:
                 raise ValueError("Opus requires an exact bounded presentation sample count")
@@ -127,7 +139,7 @@ class ContinuousRemux:
                     seekPreRollNanoseconds=80000000, minAudioPackets=2,
                     audioSamplesField='continuousRemuxStart.audioSamples', maxAudioPresentationSamples=48000000,
                     sharedResourceRequired=True, discardPaddingPreserved=True, clusterSealing=True, audioBlockGroupsOnly=True)
-                if any(type(selected.get(k)) is not type(v) or selected.get(k)!=v for k,v in exact.items()):
+                if any(not _exact_contract(selected.get(k), v) for k,v in exact.items()):
                     raise RuntimeError('Player lacks the exact WebM/Opus contract')
             if hevc_mode and (selected.get('hevcProfiles') != ['main', 'main10']
                     or selected.get('bitDepths') != [8, 10] or any(type(v) is not int for v in selected['bitDepths'])
@@ -169,7 +181,12 @@ class ContinuousRemux:
                 exact={'unknownSegmentSizeRequired': True, 'finiteClusters': True, 'unknownSizeClusters': True, 'simpleBlocksOnly': True, 'lacing': False, 'blockGroups': False, 'timestampScaleNanoseconds': 1000000, 'defaultDurationNanoseconds': 40000000, 'frameRate': 25, 'expectedSamplesFromTimeline': True, 'maxClusterBytes': 16777216, 'maxClusters': 8192, 'maxTopLevelElements': 32768, 'maxClusterChildren': 65536, 'maxMetadataDepth': 8, 'maxHeadElements': 32}
                 if opus_mode:
                     exact.update(simpleBlocksOnly=False, blockGroups=True)
-                if any(type(selected.get(key)) is not type(value) or selected.get(key)!=value for key,value in exact.items()) or 'headMoovRequired' in selected:
+                if ntsc_mode:
+                    exact.update(frameRate=dict(numerator=30000,denominator=1001),
+                        defaultDurationNanoseconds=[33366666,33366667],fractionalFrameClock=True,
+                        timelineDurationRounding='floor-or-ceil-100ns',packetTimestampRounding='nearest-millisecond',
+                        videoCoverage='validated-frame-grid-minus-one-millisecond')
+                if any(not _exact_contract(selected.get(key), value) for key,value in exact.items()) or 'headMoovRequired' in selected:
                     raise RuntimeError('Player lacks the exact bounded WebM/VP9 contract')
             self.capability.update(copy.deepcopy(selected))
 

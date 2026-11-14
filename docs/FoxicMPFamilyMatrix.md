@@ -122,6 +122,13 @@ sealer, общий защищённый WebM cache, две decoder views, Opus48
 прошли; прежние modes проверены отдельно. One-packet Opus/fractional clocks,
 физический A/V и полная R01 остаются открытыми. Harvester не изменён.
 
+[SDK1.99](ProgressiveContinuousWebmOpusNtsc.md) добавляет отдельный continuous
+WebM VP9/Opus **30000/1001fps** во всех трёх редакциях: exact frame count из
+timeline, ближайшие миллисекундные packet clocks и консервативная published
+video grid. Точные PCM/packets, incomplete playback, seek/release и регрессии
+25fps/AAC подтверждены [отдельным отчётом](ProgressiveContinuousWebmOpusNtscValidation-2026-11-14.json).
+Другие fps/VFR и полная R01 остаются открытыми; режим25fps не расширен.
+
 ## Что именно сравнивается
 
 | Редакция | Движок | Проверенная сборка выпуска 0.2.0 | Отдельный профиль |

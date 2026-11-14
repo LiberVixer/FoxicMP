@@ -11,10 +11,10 @@ int main(int argc,char** argv)try{
 #ifdef Q_OS_WIN
  WindowsRuntime runtime;check(runtime.valid(),"Windows runtime");
 #endif
- QApplication app(argc,argv);auto a=app.arguments();check(a.size()==8,"snapshot worker registry cache output channels samples");
+ QApplication app(argc,argv);auto a=app.arguments();check(a.size()==8 || (a.size()==9 && a[8]=="ntsc"),"snapshot worker registry cache output channels samples");
  auto path=[](const QString& s){return std::filesystem::u8path(s.toStdString());};std::ifstream file(path(a[1]));std::string json{std::istreambuf_iterator<char>(file),{}};
  auto owner=std::make_shared<p::StreamCacheOwner>(std::make_shared<p::StreamCacheBudget>());
- auto session=std::make_unique<p::CachedRemuxSession>(path(a[1]).parent_path(),path(a[3]),path(a[4]),json,"clip",path(a[2]),owner,64*1024*1024,p::StreamRemuxLimits{},p::StreamRemuxProfile::WebmVp9Opus,a[7].toULongLong());
+ auto session=std::make_unique<p::CachedRemuxSession>(path(a[1]).parent_path(),path(a[3]),path(a[4]),json,"clip",path(a[2]),owner,64*1024*1024,p::StreamRemuxLimits{},a.size()==9?p::StreamRemuxProfile::WebmVp9OpusNtsc:p::StreamRemuxProfile::WebmVp9Opus,a[7].toULongLong());
  auto spin=[&](auto fn){QElapsedTimer t;t.start();while(!fn()){check(t.elapsed()<30000,"Opus decoder timeout");QApplication::processEvents(QEventLoop::AllEvents,10);QThread::msleep(5);}};
  std::cerr<<"cache-start"<<std::endl;spin([&]{auto s=session->status();check(s.output.failure.empty(),s.output.failure.c_str());return s.done;});std::cerr<<"cache-complete"<<std::endl;check(session->status().output.complete,"cache incomplete");auto source=session->decoderSource(true);check(source->hasAudio() && !source->audioWindow(),"Opus misclassified as AAC");
  bool loaded=false,ended=false,natural=false;QString failure;

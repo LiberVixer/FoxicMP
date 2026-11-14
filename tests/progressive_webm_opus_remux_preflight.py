@@ -64,15 +64,15 @@ def pcm(path,folder,name,manual=False):
  raw=ok(args,folder,name);(folder/(name+'.stdout')).unlink()
  (folder/(name+'.summary.json')).write_text(json.dumps(dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest()))+'\n');return raw
 
-def fixture(folder,profile):
+def fixture(folder,profile,rate="25"):
  name,ten,channels,ms,application,samples,audio_first=profile;folder.mkdir(parents=True,exist_ok=True)
  pixels='yuv420p10le' if ten else 'yuv420p';video=folder/'video.webm'
- args=['ffmpeg','-v','error','-y','-f','lavfi','-i','testsrc2=size=160x90:rate=25:duration=24','-an','-c:v','libvpx-vp9','-threads','2','-filter_threads','1','-pix_fmt',pixels,'-profile:v','2' if ten else '0','-g','25','-cpu-used','4' if ten else '8','-lag-in-frames','25' if ten else '0','-auto-alt-ref',str(int(ten)),'-b:v','300k']
+ args=['ffmpeg','-v','error','-y','-f','lavfi','-i',f'testsrc2=size=160x90:rate={rate}:duration=24','-an','-c:v','libvpx-vp9','-threads','2','-filter_threads','1','-pix_fmt',pixels,'-profile:v','2' if ten else '0','-g','25','-cpu-used','4' if ten else '8','-lag-in-frames','25' if ten else '0','-auto-alt-ref',str(int(ten)),'-b:v','300k']
  if ten:
   args+=['-passlogfile',str(folder/'pass')];ok(args+['-pass','1','-f','null','-'],folder,'encode-video-pass1');args+=['-pass','2']
  ok(args+['-live','1',str(video)],folder,'encode-video')
  source=folder/'source.webm'
- # The first input is already exactly25fps video with a zero presentation origin.
+ # The first input already has the selected fixed frame rate and zero origin.
  args=['ffmpeg','-v','error','-y','-i',video,'-f','lavfi','-i','sine=frequency=997:sample_rate=48000:duration=24','-map','1:a' if audio_first else '0:v','-map','0:v' if audio_first else '1:a','-c:v','copy','-c:a','libopus','-ac',str(channels),'-frame_duration',ms,'-application',application,'-af',f'atrim=end_sample={samples}','-cluster_time_limit','1000','-live','1',source]
  ok(args,folder,'encode-mux');return source,pixels
 

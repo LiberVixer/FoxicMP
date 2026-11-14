@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE
 from progressive_client import ApiError
 
 CAP = json.loads(re.search(r'return R"\((.*?)\)";',
@@ -327,6 +327,20 @@ class Test(unittest.TestCase):
         p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['mode'],WEBM_VP9_MODE)
         p.play();self.assertEqual(p.playback_status()['mode'],WEBM_VP9_MODE)
         p.close();p.forget()
+
+    def test_webm_ntsc_requires_exact_frame_contract(self):
+        for field,value in [('frameRate',25),('frameRate',dict(numerator=30000.0,denominator=1001)),('defaultDurationNanoseconds',[33366666.0,33366667]),('defaultDurationNanoseconds',[33366666]),
+                ('fractionalFrameClock',False),('timelineDurationRounding','nearest'),
+                ('packetTimestampRounding','floor'),('videoCoverage','pts-prefix')]:
+            with self.subTest(field=field):
+                c=Client();old=c.request
+                def request(message,timeout=5):
+                    reply=old(message,timeout);reply['continuousRemux']['profiles'][WEBM_VP9_OPUS_NTSC_MODE][field]=value;return reply
+                c.request=request
+                self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_NTSC_MODE,audio_samples=1152000)
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_OPUS_NTSC_MODE,audio_samples=1152000)
+        p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['mode'],WEBM_VP9_OPUS_NTSC_MODE)
+        p.play();self.assertEqual(p.playback_status()['mode'],WEBM_VP9_OPUS_NTSC_MODE);p.close();p.forget()
 
     def test_webm_opus_requires_exact_sample_plan(self):
         for samples in (None, True, '1152000', 648, 0, -1, 48000001, 1152000.0):

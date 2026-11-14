@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--player',type=Path,required=True)
     parser.add_argument('--reader-runner',type=Path,required=True)
     parser.add_argument('--sdk-directory',type=Path,required=True)
-    parser.add_argument('--scenario',choices=('webm-opus','webm-vp9-superframe','webm-vp9','vp9-superframe-aac','vp9-superframe','vp9','vp9-aac','av1','av1-aac','hevc-aac','hevc','source-close','receipt-close','aac-soak','queued-races','queued-stress','timeline-ui','queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
+    parser.add_argument('--scenario',choices=('webm-opus-ntsc','webm-opus','webm-vp9-superframe','webm-vp9','vp9-superframe-aac','vp9-superframe','vp9','vp9-aac','av1','av1-aac','hevc-aac','hevc','source-close','receipt-close','aac-soak','queued-races','queued-stress','timeline-ui','queued-seek','queued-seek-video','queued-seek-reordered','growing-seek','growing-seek-video','growing-seek-reordered','initial-position','initial-position-video','initial-position-reordered','aac','legacy','reordered','aac-waiting','aac-worker-crash','aac-races','aac-shutdown','aac-lifecycle','aac-growing','aac-heartbeat','aac-heartbeat-ordering','aac-heartbeat-idle-stability','aac-profile-resilience'),required=True)
     parser.add_argument('--expected-audio-output',choices=('null','pulse','wasapi'),default='null')
     parser.add_argument('--classic-ui-theme',choices=('dark','light'))
     parser.add_argument('--classic-null-video',action='store_true',help='Private profile: require decoded video without a desktop renderer')
@@ -45,9 +45,9 @@ def main():
     assert all(Path(m.__file__).resolve().parent==sdk for m in modules.values())
     from progressive_continuous_api_test import run
     from progressive_player_crash_recovery import sha
-    if args.scenario=='webm-opus':
+    if args.scenario in ('webm-opus','webm-opus-ntsc'):
         import progressive_continuous_webm_opus_api_test as case
-        exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,args.expected_audio_output)
+        exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,args.expected_audio_output,ntsc=args.scenario=="webm-opus-ntsc")
     elif args.scenario in ('hevc','hevc-aac','av1','av1-aac','vp9','vp9-aac','vp9-superframe','vp9-superframe-aac','webm-vp9','webm-vp9-superframe'):
         import progressive_continuous_hevc_api_test as case
         exercise=lambda peers,root:case.exercise(peers,root,args.report_directory,audio=args.scenario in ('hevc-aac','av1-aac','vp9-aac','vp9-superframe-aac'),expected_audio=args.expected_audio_output,av1=args.scenario in ('av1','av1-aac'),vp9=args.scenario in ('vp9','vp9-aac','vp9-superframe','vp9-superframe-aac','webm-vp9','webm-vp9-superframe'),vp9_superframe=args.scenario in ('vp9-superframe','vp9-superframe-aac','webm-vp9-superframe'),webm=args.scenario in ('webm-vp9','webm-vp9-superframe'))

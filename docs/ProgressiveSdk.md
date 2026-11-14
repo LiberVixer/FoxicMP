@@ -14,6 +14,11 @@ SHA-256 файлов. Воспроизведение v1 сохраняется; 
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
+SDK1.99 добавляет [WebM VP9/Opus30000/1001fps](ProgressiveContinuousWebmOpusNtsc.md):
+`ContinuousRemux(..., mode=WEBM_VP9_OPUS_NTSC_MODE, audio_samples=N)`.
+Точная длительность timeline задаёт целое число кадров; исходные миллисекундные
+clocks сохраняются. Старый25fps mode остаётся отдельным.
+
 SDK 1.98 добавляет [continuous WebM VP9/Opus](ProgressiveContinuousWebmOpus.md):
 `ContinuousRemux(..., mode=WEBM_VP9_OPUS_MODE, audio_samples=N)`, ограниченный
 25fps VP9 p0/p2 и Opus48k mono/stereo20ms, structural Cluster sealer,

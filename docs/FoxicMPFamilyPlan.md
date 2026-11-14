@@ -1735,3 +1735,18 @@ One-packet trim, другие Opus geometries, fractional clocks и полная
 остаются открытыми. Физическое A/V измерение не заявляется.
 
 [Linux обновлён атомарно с backup и сохранением INI; installed own-SDK проверка3 профилей прошла](ProgressiveContinuousWebmOpusDelivery-2026-11-14.json). Windows установки и HKCU сохранены.
+
+## SDK 1.99: WebM VP9/Opus, 30000/1001fps
+
+[Новый явный режим](ProgressiveContinuousWebmOpusNtsc.md) добавляет29.97fps
+как точную рациональную шкалу30000/1001. Header DefaultDuration и все block
+clocks проверяются; исходные метки сохраняются. Known timeline должна точно
+соответствовать целому числу кадров в100ns. Доступный видеоинтервал строится
+по проверенной frame grid с запасом1ms, не по ложным разрывам округлённых PTS.
+
+[87 новых и78 прежних worker cases,9 новых и9 прежних ordinary-main cases,
+9 PCM captures,22 AAC queued-seek controls,4000 sanitizer mutations и131 SDK units](ProgressiveContinuousWebmOpusNtscValidation-2026-11-14.json)
+прошли. Общий Qt-код и Classic используют один clock policy; Opus decoder trim
+сохранён. Прежний mode SDK1.98 по-прежнему25fps и отвергает новые fractional
+fixtures. Harvester не изменён. Другие fps/VFR/Opus geometries, one-packet trim,
+полные R01/R15/R17 и физический A/V остаются открытыми.

@@ -1,12 +1,12 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 14 ноября 2026, включая bounded continuous WebM VP9/Opus 25fps/48k/20ms SDK 1.98.
+Рабочая сводка на 14 ноября 2026, включая bounded continuous WebM VP9/Opus 25fps и30000/1001fps, SDK1.99.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
 закрытыми широкие пункты по результатам узких тестов.
 
-В подробном чеклисте 147 выполненных и 77 открытых checkbox. Это число записей,
+В подробном чеклисте 148 выполненных и 77 открытых checkbox. Это число записей,
 не процент готовности: общая приёмка повторяет требования нескольких разделов.
 Ниже они сведены к пакетам работ с одним проверяемым результатом на пакет.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -30,6 +30,9 @@ E — внешняя зависимость. Каждый R остаётся о�
 - [SDK1.98 WebM VP9/Opus](ProgressiveContinuousWebmOpus.md): structural Cluster
   sealer, точный известный audio sample count и decoder adapters трёх редакций.
   One-packet Opus, fractional clocks и остальные layouts не входят в этот профиль.
+
+- [SDK1.99](ProgressiveContinuousWebmOpusNtsc.md): отдельный WebM VP9/Opus30000/1001fps
+  с точной rational frame grid. Старый25fps admission сохранён; другие fps/VFR открыты.
 
 ## Порядок разработки
 
