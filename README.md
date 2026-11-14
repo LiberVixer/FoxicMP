@@ -104,6 +104,13 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
+В текущих исходниках [SDK1.98](docs/ProgressiveContinuousWebmOpus.md) добавлен
+явный continuous WebM VP9/Opus для трёх редакций: structural Cluster sealer,
+25fps VP9p0/p2 и Opus48k mono/stereo20ms, точные pre-skip/end trim.
+При запуске требуется известное число audio presentation samples.
+[Проверены worker, обычные main и настоящий PCM](docs/ProgressiveContinuousWebmOpusValidation-2026-11-14.json).
+Harvester не изменён; это новый проверенный профиль исходников, а не новый итоговый release.
+
 Предварительный [SDK 1.84](https://github.com/LiberVixer/FoxicMP/releases/tag/progressive-api-v1.84)
 добавляет [явный continuous MP4/H.264 + AAC-LC профиль](docs/ProgressiveContinuousAacApi.md)
 для трёх редакций и исправляет гонку completed seek в Classic. В поставке —

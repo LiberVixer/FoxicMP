@@ -86,3 +86,5 @@ version1/MP3 и независимый AAC control не расширены.
 [Результаты проверок](ProgressiveContinuousWebmOpusValidation-2026-11-14.json)
 разделяют структурный worker, настоящие ordinary main и PCM consumer.
 File/null/private PulseAudio не являются физическим измерением A/V drift.
+
+[Linux обновлён атомарно с backup и сохранением INI; installed own-SDK проверка3 профилей прошла](ProgressiveContinuousWebmOpusDelivery-2026-11-14.json). Windows установки и HKCU сохранены.

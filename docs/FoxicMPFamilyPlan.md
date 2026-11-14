@@ -1733,3 +1733,5 @@ One-packet trim и prefix до появления audio остаются явн�
 mono/stereo, минимум два packets; VP9p0/p2,25fps, finite/unknown Clusters.
 One-packet trim, другие Opus geometries, fractional clocks и полная R01
 остаются открытыми. Физическое A/V измерение не заявляется.
+
+[Linux обновлён атомарно с backup и сохранением INI; installed own-SDK проверка3 профилей прошла](ProgressiveContinuousWebmOpusDelivery-2026-11-14.json). Windows установки и HKCU сохранены.
