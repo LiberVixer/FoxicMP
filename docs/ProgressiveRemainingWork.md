@@ -6,7 +6,7 @@
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
 закрытыми широкие пункты по результатам узких тестов.
 
-В подробном чеклисте 142 выполненных и 77 открытых checkbox. Это число записей,
+В подробном чеклисте 143 выполненных и 77 открытых checkbox. Это число записей,
 не процент готовности: общая приёмка повторяет требования нескольких разделов.
 Ниже они сведены к пакетам работ с одним проверяемым результатом на пакет.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -158,10 +158,23 @@ Classic — private null renderer; visible/physical A/V acceptance и R01 отк
 [Linux обновлён и проверен](ProgressiveContinuousVp9SuperframeAacDelivery-2026-11-14.json):
 backup, неизменный текущий INI и ещё 26 сценариев с clean SDK 1.95 установленной копии.
 
-R01 остаётся открытым. Следующий этап — подготовка continuous-входа WebM/VP9:
-сверка отличий от уже реализованного native WebM, выбор EBML/Cluster/clock
-профиля и реальные fixtures. Дальше — отдельный mode/worker/cache/decoder
-и проверки трёх редакций. MP4 modes SDK 1.95 не принимают WebM/Opus автоматически.
+[Подготовка continuous WebM/VP9](ProgressiveWebmVp9RemuxPlan.md):
+[36 fixture/index/copy-reference строк](ProgressiveWebmVp9RemuxPreflight-2026-11-14.json)
+на Linux, Windows Qt и Classic workers. Измерено отличие от native WebM:
+unknown-sized Clusters отвергаются текущим native index, но 25 fps copy references
+сохраняют payload/clocks/decoded frames. При 30000/1001 fps меняются 264 durations
+на 720 packets; первый предлагаемый профиль ограничен точными 25 fps.
+VP9/Opus video-extraction reference имеет +7 ms в Linux/FFmpeg 6.1.1 и не имеет
+этого сдвига в Windows/FFmpeg 9.0.2; это не pair/physical A/V acceptance.
+Проверены только workers, диагностические index runners и FFmpeg references:
+плееры/новый mode не запускались, SDK 1.95/capabilities/установки сохранены.
+
+R01 остаётся открытым. Следующий этап — реализация предложенного WebM/VP9
+video-only mode для точных 25 fps: bounded structural unknown-Cluster scanner,
+expected sample count из timeline, WebM configuration/clock admission и
+worker/cache/decoder wiring. Затем обычная playback-приёмка трёх редакций.
+Новый mode пока не объявлен. Native WebM, дробные clocks и MP4 modes SDK 1.95
+сохраняют свои capabilities; WebM/Opus не включается автоматически.
 Другие container/layout rows и старые narrow tests сохраняются.
 
 ## Исторические наблюдения: отдельно от новых функций

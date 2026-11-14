@@ -14,6 +14,10 @@ SHA-256 файлов. Воспроизведение v1 сохраняется; 
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
+[Подготовка continuous WebM/VP9](ProgressiveWebmVp9RemuxPlan.md) — только контракт
+и fixture/index/copy references. Версия/API SDK 1.95 и runtime capabilities не изменены,
+предлагаемый `continuous-webm-vp9-video-v1` ещё не принимается.
+
 SDK 1.95 добавляет [VP9 indexed superframes/alt-ref + AAC-LC](ProgressiveContinuousVp9SuperframeAac.md):
 `ContinuousRemux(..., mode=VP9_SUPERFRAME_AAC_MODE)`, Profile0/8-bit или Profile2/10-bit,
 mono/stereo 44.1/48 kHz, exact PCM-window, audio-first/one-sample/short audio.

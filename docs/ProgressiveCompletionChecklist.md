@@ -3,7 +3,7 @@
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
 **Рабочий порядок оставшихся задач — [R01–R17, исторические H01–H04 и внешние E01–E03](ProgressiveRemainingWork.md).**
-Сводка актуализирована 14 ноября, SDK 1.95: 142 закрытых и 77 открытых
+Сводка актуализирована 14 ноября, SDK 1.95: 143 закрытых и 77 открытых
 записей, без вычисления процента готовности. Ниже сохранены подробные доказательства
 и исторические состояния; старые ограничения уточняются позднейшими отчётами.
 
@@ -60,6 +60,8 @@ R01: [инвентаризация container/codec/layout и подготовк�
 - [x] SDK 1.94: [VP9 indexed superframes/alt-ref video-only](ProgressiveContinuousVp9Superframe.md), отдельный mode, Profile0/8-bit или Profile2/10-bit, 1–8 кадров/sample, hidden inter prefixes и один displayed last, PTS=DTS/fixed size. [108 worker, 30 новых API rows, 93 старых worker, 48 проверок прежнего PCM и 126 API регрессий](ProgressiveContinuousVp9SuperframeValidation-2026-11-14.json) трёх редакций; actual two-pass fixtures и exact payload/clocks/config/video, ≥10 s monotonic и ≥10.1 s media до complete, seek/pause/EOF/release/forget. ASan/UBSan/MSVC bounds; максимум восемь кадров проверен синтетически. [Linux обновлён с backup и неизменным INI, ещё 26 installed checks прошли](ProgressiveContinuousVp9SuperframeDelivery-2026-11-14.json). Classic — private null renderer; superframes+AAC/show_existing и полная R01/physical A/V приёмка открыты.
 
 - [x] SDK 1.95: [VP9 indexed superframes/alt-ref + AAC-LC](ProgressiveContinuousVp9SuperframeAac.md), explicit paired mode, Profile0/8-bit или Profile2/10-bit, mono/stereo 44.1/48 kHz, immutable exact PCM-window, audio-first/one-sample/short audio. [66 worker, 66 PCM consumer, 39 новых API rows, 108 прежних worker и 126 API регрессий](ProgressiveContinuousVp9SuperframeAacValidation-2026-11-14.json) трёх редакций; actual indexed fixtures, exact payload/clocks/video/PCM и decoded incomplete prefixes, ≥10 s monotonic/≥10.1 s media до complete, seek/pause/pending cancel/EOF/release/forget. Первый PCM FAIL расписания и прежний тест сохранены, minimum two incomplete fragments не ослаблен. Parser и прежние ASan/UBSan/MSVC proofs связаны по SHA. [Linux обновлён с backup и неизменным текущим INI, ещё 26 installed checks прошли](ProgressiveContinuousVp9SuperframeAacDelivery-2026-11-14.json). Classic — private null renderer; WebM/other layouts/show_existing и полная R01/physical A/V приёмка открыты.
+
+- [x] [Подготовка continuous WebM/VP9](ProgressiveWebmVp9RemuxPlan.md), без bump версии/API SDK 1.95 или изменения продукта: [36 fixture/index/copy-reference строк трёх worker builds](ProgressiveWebmVp9RemuxPreflight-2026-11-14.json). 25 fps finite/unknown Clusters сохраняют payload/clocks/video на full и physical prefixes, native index отвергает unknown Clusters; fractional duration и Opus origin differences сохранены. Выбран отдельный строгий 25 fps video-only контракт с expected sample count; **public mode/playback ещё не реализован**, R01 открыт. Плееры/Harvester не запускались, Linux/Windows установки/INI/HKCU сохранены.
 
 - [x] Первый этап: bounded FFmpeg AVIO **диагностика** подтверждённых ресурсов,
   11 format hints, отдельный процесс, ranges/SHA/wait/update/cancel/release,

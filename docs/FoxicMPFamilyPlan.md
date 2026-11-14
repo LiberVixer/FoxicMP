@@ -1638,3 +1638,25 @@ Classic — private null renderer; visible/physical A/V acceptance и R01 отк
 контракт с уже существующим native WebM, выбрать допустимые EBML/Cluster/clock
 формы и реальные fixtures. Native-пути не реализовывать повторно; WebM/Opus
 и прочие pairs не объявлять разрешёнными через новый MP4 mode.
+
+
+## 14 ноября: подготовка continuous WebM/VP9 без bump SDK
+
+[Подготовка continuous WebM/VP9](ProgressiveWebmVp9RemuxPlan.md):
+[36 fixture/index/copy-reference строк](ProgressiveWebmVp9RemuxPreflight-2026-11-14.json)
+на Linux, Windows Qt и Classic workers. Измерено отличие от native WebM:
+unknown-sized Clusters отвергаются текущим native index, но 25 fps copy references
+сохраняют payload/clocks/decoded frames. При 30000/1001 fps меняются 264 durations
+на 720 packets; первый предлагаемый профиль ограничен точными 25 fps.
+VP9/Opus video-extraction reference имеет +7 ms в Linux/FFmpeg 6.1.1 и не имеет
+этого сдвига в Windows/FFmpeg 9.0.2; это не pair/physical A/V acceptance.
+Проверены только workers, диагностические index runners и FFmpeg references:
+плееры/новый mode не запускались, SDK 1.95/capabilities/установки сохранены.
+[Контракт реализации](ProgressiveWebmVp9RemuxPlan.md): отдельный video-only
+mode, VP9 Profile0/8-bit или Profile2/10-bit, TimestampScale 1 ms,
+DefaultDuration 40 ms и шаг PTS/DTS 40 ms; unknown-size Segment и finite/unknown
+Clusters. Expected video-sample count выводится из точной timeline duration,
+передаётся новым mode-scoped worker field и проверяется при complete.
+Дальше — bounded EBML admission, WebM config/packet validation, worker/cache/
+decoder wiring и отдельная обычная playback-приёмка трёх редакций. До неё
+не объявлять capability и не заменять работающие native WebM paths.

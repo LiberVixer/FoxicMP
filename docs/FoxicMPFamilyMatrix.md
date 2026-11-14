@@ -65,6 +65,17 @@ payload/clocks, финальным и неполным декодированн�
 Header/index parser не менялся; ASan/UBSan/MSVC срез SDK 1.94 связан по SHA.
 Classic — private null renderer; visible/physical A/V acceptance и R01 открыты.
 
+[Подготовка continuous WebM/VP9](ProgressiveWebmVp9RemuxPlan.md):
+[36 fixture/index/copy-reference строк](ProgressiveWebmVp9RemuxPreflight-2026-11-14.json)
+на Linux, Windows Qt и Classic workers. Измерено отличие от native WebM:
+unknown-sized Clusters отвергаются текущим native index, но 25 fps copy references
+сохраняют payload/clocks/decoded frames. При 30000/1001 fps меняются 264 durations
+на 720 packets; первый предлагаемый профиль ограничен точными 25 fps.
+VP9/Opus video-extraction reference имеет +7 ms в Linux/FFmpeg 6.1.1 и не имеет
+этого сдвига в Windows/FFmpeg 9.0.2; это не pair/physical A/V acceptance.
+Проверены только workers, диагностические index runners и FFmpeg references:
+плееры/новый mode не запускались, SDK 1.95/capabilities/установки сохранены.
+
 ## Что именно сравнивается
 
 | Редакция | Движок | Проверенная сборка выпуска 0.2.0 | Отдельный профиль |

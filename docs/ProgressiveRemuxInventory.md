@@ -8,6 +8,9 @@
 Обычные MP4/HEVC/AV1/VP9 позднее расширены до
 [VP9 indexed superframes + AAC-LC SDK 1.95](ProgressiveContinuousVp9SuperframeAac.md);
 WebM и прочие container rows ниже остаются отдельными этапами.
+[Подготовка WebM/VP9 от 14 ноября](ProgressiveWebmVp9RemuxPlan.md) измерила
+unknown-Cluster native gap и fractional clock differences. Это отдельный
+preflight; public continuous WebM пока не реализован.
 [Полный порядок работ](ProgressiveRemainingWork.md),
 [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [подробный чеклист](ProgressiveCompletionChecklist.md).
