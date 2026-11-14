@@ -51,3 +51,5 @@ clock/timeline cases, SDK capability typing и ASan/UBSan.
 Пример metadata: [continuous-webm-opus-ntsc.json](../tests/fixtures/progressive-v2/continuous-webm-opus-ntsc.json).
 One-packet Opus, другие frame rates/VFR/Opus geometries, полные R01/R15/R17
 и физическое A/V измерение остаются открытыми. Wayland и оборудование исключены.
+
+[Linux обновлён атомарно с backup и неизменным INI; три installed own-SDK профиля прошли](ProgressiveContinuousWebmOpusNtscDelivery-2026-11-14.json). Windows установки сохранены.

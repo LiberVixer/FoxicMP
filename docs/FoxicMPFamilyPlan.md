@@ -1750,3 +1750,5 @@ clocks проверяются; исходные метки сохраняютс�
 сохранён. Прежний mode SDK1.98 по-прежнему25fps и отвергает новые fractional
 fixtures. Harvester не изменён. Другие fps/VFR/Opus geometries, one-packet trim,
 полные R01/R15/R17 и физический A/V остаются открытыми.
+
+[Linux обновлён атомарно с backup и неизменным INI; три installed own-SDK профиля прошли](ProgressiveContinuousWebmOpusNtscDelivery-2026-11-14.json). Windows установки сохранены.
