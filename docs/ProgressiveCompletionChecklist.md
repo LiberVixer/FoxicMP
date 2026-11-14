@@ -3,12 +3,12 @@
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
 **Рабочий порядок оставшихся задач — [R01–R17, исторические H01–H04 и внешние E01–E03](ProgressiveRemainingWork.md).**
-Сводка актуализирована 14 ноября, SDK 1.96: 144 закрытых и 77 открытых
+Сводка актуализирована 14 ноября, SDK 1.97: 145 закрытых и 77 открытых
 записей, без вычисления процента готовности. Ниже сохранены подробные доказательства
 и исторические состояния; старые ограничения уточняются позднейшими отчётами.
 
 Приложение 0.2.0. Последний указанный здесь опубликованный пакетный срез — SDK 1.84;
-в текущих исходниках/проверенных кандидатах SDK 1.96 с исправлениями от 14 ноября.
+в текущих исходниках/проверенных кандидатах SDK 1.97 с исправлениями от 14 ноября.
 Исходники и clean SDK-архив кандидата не равны новому итоговому GitHub release.
 [SDK 1.84](ProgressiveContinuousAacPackages.md) проверен на обычных main/пакетах,
 Classic completed-seek race исправлен и проверен управляемой задержкой; полная стабильная приёмка открыта. Этот документ — перечень
@@ -64,6 +64,9 @@ R01: [инвентаризация container/codec/layout и подготовк�
 - [x] [Подготовка continuous WebM/VP9](ProgressiveWebmVp9RemuxPlan.md), без bump версии/API SDK 1.95 или изменения продукта: [36 fixture/index/copy-reference строк трёх worker builds](ProgressiveWebmVp9RemuxPreflight-2026-11-14.json). 25 fps finite/unknown Clusters сохраняют payload/clocks/video на full и physical prefixes, native index отвергает unknown Clusters; fractional duration и Opus origin differences сохранены. Выбран отдельный строгий 25 fps video-only контракт с expected sample count; **на момент preflight public mode/playback ещё не был реализован**, R01 открыт. Плееры/Harvester не запускались, Linux/Windows установки/INI/HKCU сохранены.
 
 - [x] SDK 1.96: [continuous WebM/VP9 video-only 25 fps](ProgressiveContinuousWebmVp9.md), Profile0/8-bit или Profile2/10-bit, finite/unknown Clusters, структурные границы и expected sample count из timeline. [87 worker, 39 новых API rows, 66 прежних MP4 worker, 126 API регрессий и 33 structural bounds checks](ProgressiveContinuousWebmVp9Validation-2026-11-14.json) трёх редакций, ASan/UBSan/MinGW/MSVC и по 10000 malformed inputs. Точные payload/clocks/final и incomplete decoded prefixes; ≥10 s monotonic/≥10.1 s media до complete, seek/pause/cancel/release/forget. Initial AVIO failure и ошибка .fmp4 oracle сохранены; первая причина чтения теперь фиксируется. [Linux обновлён с backup и неизменным текущим INI, ещё 29 installed checks прошли](ProgressiveContinuousWebmVp9Delivery-2026-11-14.json). Classic — private null renderer. WebM indexed superframes/audio/fractional clocks и полная R01 открыты.
+
+- [x] SDK 1.97: [WebM VP9 indexed superframes/alt-ref video-only](ProgressiveContinuousWebmVp9Superframe.md), отдельный mode, 25 fps, Profile0/8-bit или Profile2/10-bit, finite/unknown Clusters, до семи hidden inter frames перед одним показанным. [99 worker, 39 новых API rows, 153 прежних worker, 165 API регрессий и 66 structural bounds checks](ProgressiveContinuousWebmVp9SuperframeValidation-2026-11-14.json) трёх редакций; actual two-pass indexed fixtures, exact payload/clocks/decoded final и incomplete prefixes, ≥10 s monotonic/≥10.1 s media до complete, seek/pause/cancel/release/forget. ASan/UBSan/MinGW/MSVC, по 20000 malformed inputs обоих reader profiles; прежние maximum8-frame VP9 bounds связаны по SHA. Начальный пропуск decoder gate и ошибка WebM packet-pos oracle сохранены. Строгий WebM mode по-прежнему отклоняет hidden packets; Classic — private null renderer. WebM/Opus, fractional clocks и полная R01 остаются открытыми.
+
 
 - [x] Первый этап: bounded FFmpeg AVIO **диагностика** подтверждённых ресурсов,
   11 format hints, отдельный процесс, ranges/SHA/wait/update/cancel/release,

@@ -88,6 +88,21 @@ Expected sample count выводится из timeline, потерянный ц�
 Classic — private null renderer; физический output и полная R01 открыты.
 Native WebM index и прежние MP4 modes сохраняют свой admission.
 
+[SDK 1.97](ProgressiveContinuousWebmVp9Superframe.md) добавляет отдельный
+WebM/VP9 indexed superframes/alt-ref video-only mode: точные 25 fps,
+Profile0/8-bit или Profile2/10-bit, finite/unknown Clusters, до семи hidden inter
+frames и один показанный последним. Прежний строгий WebM mode не расширяется.
+[99 worker, 39 новых API rows, 153 прежних worker, 165 API регрессий и
+66 structural bounds checks](ProgressiveContinuousWebmVp9SuperframeValidation-2026-11-14.json)
+прошли на трёх редакциях. Каждая положительная двухпроходная fixture содержит
+indexed packets; точные payload/clocks/decoded final и incomplete prefixes,
+≥10 s monotonic/≥10.1 s media до complete, seek/pause/cancel/release/forget.
+ASan/UBSan, MinGW и MSVC проверили reader в обоих режимах; по 20000 malformed
+inputs на compiler. Общий VP9 packet parser не менялся, прежние maximum8-frame
+bounds связаны по SHA. Первый пропуск decoder gate и ошибка подсчёта WebM
+packet offsets в тесте сохранены. Classic — private null renderer;
+visible/physical A/V acceptance и полная R01 остаются открытыми.
+
 ## Что именно сравнивается
 
 | Редакция | Движок | Проверенная сборка выпуска 0.2.0 | Отдельный профиль |

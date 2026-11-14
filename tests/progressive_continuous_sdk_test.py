@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE
 from progressive_client import ApiError
 
 CAP = json.loads(re.search(r'return R"\((.*?)\)";',
@@ -326,6 +326,28 @@ class Test(unittest.TestCase):
         c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_MODE)
         p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['mode'],WEBM_VP9_MODE)
         p.play();self.assertEqual(p.playback_status()['mode'],WEBM_VP9_MODE)
+        p.close();p.forget()
+
+    def test_webm_vp9_indexed_requires_exact_contract(self):
+        for field,value in [('videoCodec','av1'),('audio',True),('bFrames',True),
+                ('vp9Profiles',[0,1,2]),('vp9Profiles',[False,2]),('bitDepths',[8,10.0]),
+                ('sampleEntries',['vp09','avc1']),('configurationVersion',True),
+                ('headMoovRequired',True),('maxHeadBytes',1048576.0),('packetReorder',True),
+                ('oneDisplayedFramePerSample',False),('hiddenFrames',False),('showExistingFrames',True),
+                ('superframes',False),('unknownSegmentSizeRequired',False),('timestampScaleNanoseconds',1000000.0),
+                ('defaultDurationNanoseconds',33366666),('frameRate',True),('expectedSamplesFromTimeline',False),
+                ('maxClusterBytes',33554432),('simpleBlocksOnly',False),('lacing',True),('blockGroups',True),('indexedSuperframesRequired',False),('maxFramesPerSample',9),('maxHiddenFramesPerSample',8),('displayedFrameLast',False),('hiddenInterFramesOnly',False),('firstSampleSingleKeyframe',False),('fixedCodedAndRenderSize',False),('codecHintRequired',False)]:
+            with self.subTest(field=field):
+                c=Client();old=c.request
+                def request(message,timeout=5):
+                    reply=old(message,timeout);reply['continuousRemux']['profiles'][WEBM_VP9_SUPERFRAME_MODE][field]=value
+                    return reply
+                c.request=request
+                self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_SUPERFRAME_MODE)
+                self.assertEqual(len(c.calls),1)
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_SUPERFRAME_MODE)
+        p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['mode'],WEBM_VP9_SUPERFRAME_MODE)
+        p.play();self.assertEqual(p.playback_status()['mode'],WEBM_VP9_SUPERFRAME_MODE)
         p.close();p.forget()
 
     def test_vp9_requires_exact_video_contract(self):

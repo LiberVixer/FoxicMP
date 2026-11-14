@@ -14,6 +14,7 @@ public:
 private:
     Read rawRead;
     const uint64_t length,expected;
+    const bool allowIndexed;
     uint64_t at=0,clusterStart=0,clusterEnd=0,clusterTime=0,validated=0;
     unsigned topCount=0,clusterCount=0,children=0,clusterPackets=0;
     bool inCluster=false,clock=false,eof=false,configured=false;
@@ -114,7 +115,8 @@ private:
             check((info.vp9Profile<0 || info.vp9Profile==int(config.profile)) && (info.vp9Depth<0 || info.vp9Depth==int(config.depth)),"unsupported-stream-vp9-configuration");
             configured=true;
         }
-        VP9ContinuousPacket(p,size,config,info.width,info.height,validated==0,check);
+        if(allowIndexed)VP9ContinuousSuperframePacket(p,size,config,info.width,info.height,validated==0,check);
+        else VP9ContinuousPacket(p,size,config,info.width,info.height,validated==0,check);
         packets.push_back({uint64_t(ticks),at-b.size()+w+3,size,key,digest(p,size)});++validated;++clusterPackets;
     }
     bool next(){
@@ -146,7 +148,7 @@ public:
         const std::string code=error.what();if(code.rfind("unsupported-",0)==0 || code.rfind("stream-",0)==0 || code.rfind("truncated-",0)==0 || code.rfind("incomplete-",0)==0)throw std::runtime_error(code);
         throw std::runtime_error("unsupported-stream-webm-header");
     }
-    ContinuousWebmVp9(Read read,uint64_t bytes,uint64_t count):rawRead(std::move(read)),length(bytes),expected(count){try{
+    ContinuousWebmVp9(Read read,uint64_t bytes,uint64_t count,bool indexed=false):rawRead(std::move(read)),length(bytes),expected(count),allowIndexed(indexed){try{
         check(bool(rawRead) && bytes>0 && bytes<=134217728 && count>0 && count<=50000,"unsupported-stream-webm-source");
         initialization();while(!configured)check(next(),"unsupported-stream-vp9-frame");
     }catch(const std::exception& e){remap(e);}}

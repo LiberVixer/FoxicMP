@@ -109,11 +109,21 @@ def exercise(peers,root,audio_output='null',mode=AAC_MODE):
                 terminal=wait(regular,'ordinary replacement playing',20)
                 closed=wait(lambda:(lambda s:s if s['state']=='closed' and s['pendingSeekSeconds'] is None else None)(sdk.playback_status()),'replacement drops old queue',5)
                 assert closed['remainingGrowingSeeks']==16,closed
-                sdk.control('stop');time.sleep(.15);continued=regular();assert continued and continued['positionSeconds']>terminal['positionSeconds'],continued
+                observation=folder/'old-stop-observations.json'
+                observation.write_text(json.dumps(dict(before=terminal,oldPlayback=closed,samples=[]),indent=2))
+                sdk.control('stop')
+                samples=[]
+                def advances():
+                    reply=client.request(dict(version=1,action='heartbeat',sessionId=model['sessionId']))
+                    samples.append(dict(at=time.monotonic(),status=reply))
+                    observation.write_text(json.dumps(dict(before=terminal,oldPlayback=closed,samples=samples),indent=2))
+                    assert reply.get('active') and reply['state']=='playing' and reply['sessionId']==terminal['sessionId'],reply
+                    return reply if reply['positionSeconds']>=terminal['positionSeconds']+.25 else None
+                continued=wait(advances,'ordinary replacement advances after old stop',2)
                 client.request(dict(version=1,action='cancel',sessionId=model['sessionId']))
                 receipts=wait(lambda:(lambda rs:rs if rs and all(r['released'] and r['filesClosed'] for r in rs) else None)(client.readers(model['sessionId'],1)),'ordinary files closed',2)
                 for receipt in receipts:assert client.forget_reader(receipt['readerId'])['forgotten']
-                terminal=dict(terminal,oldPlayback=closed,continued=continued,receipts=receipts)
+                terminal=dict(terminal,oldPlayback=closed,continued=continued,receipts=receipts,oldStopSamples=samples)
             elif ending=='worker-crash':
                 watch=OwnedWorker(peers[0],sdk.status()['workerId'])
                 try:killed=watch.terminate()

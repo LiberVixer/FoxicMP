@@ -31,10 +31,10 @@ def run(runner,source,report):
     rows=[]
     with tempfile.TemporaryDirectory(prefix='fox-webm-limits-') as tmp:
         path=Path(tmp)/'input.webm'
-        for name,data,code,count in cases:
-            path.write_bytes(data);r=subprocess.run([str(runner),str(path),str(count)],capture_output=True,timeout=90)
+        for name,data,code,count,indexed in [(*case,indexed) for case in cases for indexed in (False,True)]:
+            path.write_bytes(data);r=subprocess.run([str(runner),str(path),str(count)]+(['--indexed'] if indexed else []),capture_output=True,timeout=90)
             assert r.returncode==1 and r.stderr.decode().strip()==code,(name,r.returncode,r.stderr)
-            rows.append(dict(profile=name,exitCode=r.returncode,errorCode=code,inputSha256=hashlib.sha256(data).hexdigest()))
+            rows.append(dict(profile=name,indexed=indexed,exitCode=r.returncode,errorCode=code,inputSha256=hashlib.sha256(data).hexdigest()))
     value=dict(result='PASS',count=len(rows),rows=rows,runnerSha256=hashlib.sha256(Path(runner).read_bytes()).hexdigest(),testSourceSha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
     Path(report).write_text(json.dumps(value,indent=2)+'\n');return value
 

@@ -1,6 +1,6 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 14 ноября 2026, включая bounded continuous WebM/VP9 25 fps SDK 1.96.
+Рабочая сводка на 14 ноября 2026, включая bounded continuous WebM/VP9 indexed superframes 25 fps SDK 1.97.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
@@ -184,10 +184,26 @@ Native WebM index и прежние MP4 modes сохраняют свой admiss
 [Linux обновлён и проверен](ProgressiveContinuousWebmVp9Delivery-2026-11-14.json):
 backup, неизменный текущий INI и ещё 29 сценариев с clean SDK 1.96 установленной копии.
 
-R01 остаётся открытым. Следующий узкий этап — continuous WebM VP9 indexed
-superframes/alt-ref video-only при точных 25 fps. Перед объявлением потребуются
-явный профиль и проверки actual indexed packets, incomplete prefixes и playback
-трёх редакций. Fractional clocks, WebM/Opus и другие layouts остаются отдельно.
+[SDK 1.97](ProgressiveContinuousWebmVp9Superframe.md) добавляет отдельный
+WebM/VP9 indexed superframes/alt-ref video-only mode: точные 25 fps,
+Profile0/8-bit или Profile2/10-bit, finite/unknown Clusters, до семи hidden inter
+frames и один показанный последним. Прежний строгий WebM mode не расширяется.
+[99 worker, 39 новых API rows, 153 прежних worker, 165 API регрессий и
+66 structural bounds checks](ProgressiveContinuousWebmVp9SuperframeValidation-2026-11-14.json)
+прошли на трёх редакциях. Каждая положительная двухпроходная fixture содержит
+indexed packets; точные payload/clocks/decoded final и incomplete prefixes,
+≥10 s monotonic/≥10.1 s media до complete, seek/pause/cancel/release/forget.
+ASan/UBSan, MinGW и MSVC проверили reader в обоих режимах; по 20000 malformed
+inputs на compiler. Общий VP9 packet parser не менялся, прежние maximum8-frame
+bounds связаны по SHA. Первый пропуск decoder gate и ошибка подсчёта WebM
+packet offsets в тесте сохранены. Classic — private null renderer;
+visible/physical A/V acceptance и полная R01 остаются открытыми.
+
+R01 остаётся открытым. Следующий узкий этап R01 — подготовка continuous WebM VP9/Opus:
+согласование origin/clocks, начального skip и конечной PCM-обрезки, включая
+неполные prefixes. Прежнее preflight-наблюдение +7 ms не закрывает paired playback.
+Нужны отдельный admission, точные PCM-window proofs и затем три player adapters.
+Fractional WebM clocks и прочие layouts остаются самостоятельными задачами.
 
 ## Исторические наблюдения: отдельно от новых функций
 

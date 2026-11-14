@@ -102,7 +102,8 @@ struct Context {
  ~Context(){if(packet)api.av_packet_free(&packet);if(input)api.avformat_close_input(&input);if(output)api.avformat_free_context(output);for(auto* io:{inputIo,outputIo})if(io){api.av_free(io->buffer);api.avio_context_free(&io);}}
 };
 Doc run(Api& api,const Doc& start){
- const bool webm=start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-video-v1";
+ const bool webmIndexed=start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-superframe-video-v1";
+ const bool webm=webmIndexed || start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-video-v1";
  need(start.MemberCount()==(webm?5u:4u) && start.HasMember("mode") && start["mode"].IsString() && start.HasMember("formatHint") && start["formatHint"].IsString() && start["formatHint"]==(webm?"webm":"mp4") && start.HasMember("complete") && start["complete"].IsBool() && start.HasMember("length") && start["length"].IsString(),"unsupported-stream-start");
  uint64_t webmSamples=0;if(webm){need(start.HasMember("videoSamples") && start["videoSamples"].IsString(),"unsupported-stream-start");auto text=std::string(start["videoSamples"].GetString());need(!text.empty() && text.size()<=5 && text[0]!='0' && text.find_first_not_of("0123456789")==std::string::npos,"unsupported-stream-start");webmSamples=std::stoull(text);need(webmSamples<=PacketLimit,"packet-limit");}
 
@@ -112,13 +113,13 @@ Doc run(Api& api,const Doc& start){
  const bool windowAudio=start["mode"]=="continuous-h264-aac-window-v1" || start["mode"]=="continuous-hevc-aac-window-v1" || start["mode"]=="continuous-av1-aac-window-v1" || start["mode"]=="continuous-vp9-aac-window-v1" || start["mode"]=="continuous-vp9-superframe-aac-window-v1",hasAudio=alignedAudio || windowAudio;
  const bool hevc=start["mode"]=="continuous-hevc-reordered-video-v1" || start["mode"]=="continuous-hevc-aac-window-v1";
  const bool av1=start["mode"]=="continuous-av1-video-v1" || start["mode"]=="continuous-av1-aac-window-v1";
- const bool vp9Superframe=start["mode"]=="continuous-vp9-superframe-video-v1" || start["mode"]=="continuous-vp9-superframe-aac-window-v1";
+ const bool vp9Superframe=webmIndexed || start["mode"]=="continuous-vp9-superframe-video-v1" || start["mode"]=="continuous-vp9-superframe-aac-window-v1";
  const bool vp9=webm || vp9Superframe || start["mode"]=="continuous-vp9-video-v1" || start["mode"]=="continuous-vp9-aac-window-v1";
  const bool reordered=hevc || hasAudio || start["mode"]=="continuous-h264-reordered-video-v1";
  need(vp9 || av1 || reordered || start["mode"]=="continuous-h264-video-v1","unsupported-stream-start");
  std::string n(start["length"].GetString(),start["length"].GetStringLength());need(!n.empty() && n.size()<=10 && n[0]!='0' && n.find_first_not_of("0123456789")==std::string::npos,"invalid-length");StreamInput source;source.length=std::stoll(n);source.complete=start["complete"].GetBool();need(uint64_t(source.length)<=InputLimit,"input-size-limit");StreamOutput sink;sink.windowRequired=windowAudio;Context c(api);
  struct WebmIo {std::unique_ptr<harvester::ContinuousWebmVp9> input;std::string failure;};WebmIo webmIo;auto& webmInput=webmIo.input;
- if(webm)try{webmInput=std::make_unique<harvester::ContinuousWebmVp9>([&](uint8_t* out,size_t n){const auto got=StreamInput::read(&source,out,int(n));need(got>=0 || got==AVERROR_EOF,source.failure.empty()?"invalid-media":source.failure.c_str());return got==AVERROR_EOF?size_t(0):size_t(got);},uint64_t(source.length),webmSamples);}catch(const std::exception& e){throw std::runtime_error(source.failure.empty()?e.what():source.failure);}
+ if(webm)try{webmInput=std::make_unique<harvester::ContinuousWebmVp9>([&](uint8_t* out,size_t n){const auto got=StreamInput::read(&source,out,int(n));need(got>=0 || got==AVERROR_EOF,source.failure.empty()?"invalid-media":source.failure.c_str());return got==AVERROR_EOF?size_t(0):size_t(got);},uint64_t(source.length),webmSamples,webmIndexed);}catch(const std::exception& e){throw std::runtime_error(source.failure.empty()?e.what():source.failure);}
  Vp9Head vp9Input;if(webm)vp9Input={webmInput->configuration(),webmInput->width(),webmInput->height()};else if(vp9)vp9Input=vp9Head(source,hasAudio);
  auto allocate=[&](void* opaque,bool output){auto* bytes=static_cast<uint8_t*>(api.av_malloc(32768));need(bytes!=nullptr,"out-of-memory");auto* io=output?api.avio_alloc_context(bytes,32768,1,opaque,nullptr,StreamOutput::write,nullptr):api.avio_alloc_context(bytes,32768,0,opaque,StreamInput::read,nullptr,StreamInput::seek);if(!io)api.av_free(bytes);need(io!=nullptr,"out-of-memory");return io;};
  if(webm){auto* buffer=static_cast<uint8_t*>(api.av_malloc(32768));need(buffer,"out-of-memory");
