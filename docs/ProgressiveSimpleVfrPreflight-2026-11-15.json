@@ -1,0 +1,1593 @@
+{
+  "result": "PASS-preflight-only",
+  "date": "2026-11-15",
+  "baseSourceCommit": "e3f0e2fe350ddb8fcc2b6b71cd4012273174205d",
+  "scope": "test-only-incremental-prototype-and-existing-VFR-consumers",
+  "applicationVersion": "0.2.0",
+  "sdkVersion": "1.101",
+  "newPublicCapability": false,
+  "ordinaryMainSimpleBlockPlaybackTested": false,
+  "physicalAvSyncMeasured": false,
+  "harvesterModified": false,
+  "installedApplicationsUpdated": false,
+  "totals": {
+    "platforms": 3,
+    "fixtureRows": 18,
+    "incrementalReadPatterns": 54,
+    "nextPtsLookaheadRows": 18,
+    "negativeControls": 33,
+    "canonicalGrowingWorkerRows": 18,
+    "actualPcmDecoderRows": 18,
+    "directSimpleBlockRefusalRows": 18,
+    "peakPendingBytes": 37173,
+    "peakInputBufferBytes": 67845
+  },
+  "preservation": {
+    "installedFilesChecked": 684,
+    "installedFilesChanged": 0,
+    "baselineSha256": "a96c41aa05680598936bc493658d28a591bc7a7afaa2bc7d6585db38729bcffd",
+    "registrySnapshots": [
+      {
+        "testEdition": "qt",
+        "beforeSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+        "afterSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+        "parsedValuesUnchanged": true
+      },
+      {
+        "testEdition": "classic",
+        "beforeSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+        "afterSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+        "parsedValuesUnchanged": true
+      }
+    ]
+  },
+  "cmakeChecks": [
+    {
+      "check": "build",
+      "exitCode": 0
+    },
+    {
+      "check": "list",
+      "exitCode": 0
+    }
+  ],
+  "sourceSha256": {
+    "tests/progressive_simple_vfr_prototype.py": "71779bb387142d30de19ef90cf77e600532592e30f3963d78a1062f0f807481e",
+    "tests/progressive_simple_vfr_preflight.py": "3fb58b9801b01e0b6b9cbfa7fd80c98ab108f47acf30868e116efc7372da2c90",
+    "qt/CMakeLists.txt": "ac2fa7da999af6969970e4016e7fecab820aab4a0abb7e31a63a80ee5896facd",
+    "src/DSUtil/HarvesterWebMOpusContinuous.h": "de8eb8999c1319566e330d4ccefb69d0a2c096bd2f58e53751e40839e8d3a786",
+    "src/DSUtil/HarvesterWebMContinuousClock.h": "5beacb4592c029f9fb1046793dfa8748920a0e0e56ecb702c07af7529d0ae9ef"
+  },
+  "platformResults": [
+    {
+      "edition": "linux-qt",
+      "wrapperExitCode": 0,
+      "childExitCode": null,
+      "reportSha256": "baa7e685804c7564029cb6f18223813430926ef3d48630d0d79bc11b191af1ea",
+      "result": "PASS-preflight-only",
+      "scope": "test-only-prototype-no-new-public-mode",
+      "sdkVersionUnchanged": "1.101",
+      "applicationVersionUnchanged": "0.2.0",
+      "workerSha256": "a9fd2d00fc33031a7b15eb089308e1244b0de7e82b85346542856e2c2913de2f",
+      "decoderSha256": "808d62335b30a0aa3fef5e1daf04b435e2241a1df79b0786c1cf0e099a4959eb",
+      "testSourceSha256": "3fb58b9801b01e0b6b9cbfa7fd80c98ab108f47acf30868e116efc7372da2c90",
+      "prototypeSha256": "71779bb387142d30de19ef90cf77e600532592e30f3963d78a1062f0f807481e",
+      "ordinaryMainSimpleBlockPlaybackTested": false,
+      "physicalAvSyncMeasured": false,
+      "rows": [
+        {
+          "profile": "p0-50-mono",
+          "unknownClusters": false,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 38,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 34438,
+              "inputBytes": 934337,
+              "peakPendingBytes": 36511,
+              "peakInputBufferBytes": 5377,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 934337,
+              "peakPendingBytes": 36511,
+              "peakInputBufferBytes": 12734,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 934337,
+              "peakPendingBytes": 36511,
+              "peakInputBufferBytes": 66903,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 34228
+          },
+          "negativeControls": [
+            {
+              "case": "duplicate",
+              "code": "video-clock"
+            },
+            {
+              "case": "regression",
+              "code": "video-clock"
+            },
+            {
+              "case": "long-gap",
+              "code": "video-clock"
+            },
+            {
+              "case": "short-count",
+              "code": "video-clock"
+            },
+            {
+              "case": "long-count",
+              "code": "incomplete-frame-count"
+            },
+            {
+              "case": "short-final-end",
+              "code": "video-clock"
+            },
+            {
+              "case": "long-final-end",
+              "code": "video-clock"
+            },
+            {
+              "case": "pending-budget",
+              "code": "pending-limit"
+            },
+            {
+              "case": "premature-eof-1",
+              "code": "truncated-source"
+            },
+            {
+              "case": "premature-eof-533",
+              "code": "truncated-source"
+            },
+            {
+              "case": "premature-eof-934336",
+              "code": "truncated-source"
+            }
+          ],
+          "sourceSha256": "c552f7de035701c723071cd111dae9eb54eae4be18d55c64ffddb7e5ae38f1f1",
+          "outputSha256": "23fba954468ab48b9965a811ca2f2221dcce0a04cee332f648b5a02790c3c61d",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p0-50-mono",
+          "unknownClusters": true,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 38,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 34438,
+              "inputBytes": 934337,
+              "peakPendingBytes": 36511,
+              "peakInputBufferBytes": 5377,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 934337,
+              "peakPendingBytes": 36511,
+              "peakInputBufferBytes": 12734,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 934337,
+              "peakPendingBytes": 36511,
+              "peakInputBufferBytes": 66903,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 34228
+          },
+          "negativeControls": [],
+          "sourceSha256": "cf76a80c469ff10f75b2b0248d10c82ca4951de79a50d2aae3ed857d7a78621f",
+          "outputSha256": "23fba954468ab48b9965a811ca2f2221dcce0a04cee332f648b5a02790c3c61d",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p2-50-stereo",
+          "unknownClusters": false,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 41,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35723,
+              "inputBytes": 913465,
+              "peakPendingBytes": 37173,
+              "peakInputBufferBytes": 5181,
+              "droppedMetadata": 124,
+              "clusters": 41,
+              "clustersBeforeComplete": 40,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 913465,
+              "peakPendingBytes": 37173,
+              "peakInputBufferBytes": 11477,
+              "droppedMetadata": 124,
+              "clusters": 41,
+              "clustersBeforeComplete": 40,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 913465,
+              "peakPendingBytes": 37173,
+              "peakInputBufferBytes": 67543,
+              "droppedMetadata": 124,
+              "clusters": 41,
+              "clustersBeforeComplete": 40,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 35576
+          },
+          "negativeControls": [],
+          "sourceSha256": "ebb3c1c26791c81a5c8c81b7814deb4f557e74b0afdc9645a4fbb0c473785859",
+          "outputSha256": "beafaf5f7d7d31c71d744c5810a6128fc987edb9517d4252c7b70b6a7d7d91c5",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p2-50-stereo",
+          "unknownClusters": true,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 41,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35723,
+              "inputBytes": 913465,
+              "peakPendingBytes": 37173,
+              "peakInputBufferBytes": 5181,
+              "droppedMetadata": 124,
+              "clusters": 41,
+              "clustersBeforeComplete": 40,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 913465,
+              "peakPendingBytes": 37173,
+              "peakInputBufferBytes": 11477,
+              "droppedMetadata": 124,
+              "clusters": 41,
+              "clustersBeforeComplete": 40,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 913465,
+              "peakPendingBytes": 37173,
+              "peakInputBufferBytes": 67543,
+              "droppedMetadata": 124,
+              "clusters": 41,
+              "clustersBeforeComplete": 40,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 35576
+          },
+          "negativeControls": [],
+          "sourceSha256": "1f8a3c82b62d710358c470c127e5ef52021f35bc112ada10163228e3345311c4",
+          "outputSha256": "beafaf5f7d7d31c71d744c5810a6128fc987edb9517d4252c7b70b6a7d7d91c5",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p0-ntsc60-stereo",
+          "unknownClusters": false,
+          "frames": 879,
+          "end100ns": 240080000,
+          "validInputClusterCrcCount": 45,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35209,
+              "inputBytes": 1059962,
+              "peakPendingBytes": 36168,
+              "peakInputBufferBytes": 5372,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 1059962,
+              "peakPendingBytes": 36168,
+              "peakInputBufferBytes": 12864,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 1059962,
+              "peakPendingBytes": 36168,
+              "peakInputBufferBytes": 66550,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 34972
+          },
+          "negativeControls": [],
+          "sourceSha256": "a92e9ec503daea4a063ec8a05b7271a0b5c3c9e275777fe0f3295b1a7f02e6cf",
+          "outputSha256": "e046074fb91b5567994915041301e07a219bef8c3d3ffce23238307c4fa7ac5f",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p0-ntsc60-stereo",
+          "unknownClusters": true,
+          "frames": 879,
+          "end100ns": 240080000,
+          "validInputClusterCrcCount": 45,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35209,
+              "inputBytes": 1059962,
+              "peakPendingBytes": 36168,
+              "peakInputBufferBytes": 5372,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 1059962,
+              "peakPendingBytes": 36168,
+              "peakInputBufferBytes": 12864,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 1059962,
+              "peakPendingBytes": 36168,
+              "peakInputBufferBytes": 66550,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 34972
+          },
+          "negativeControls": [],
+          "sourceSha256": "670cfc579de152b7d91c506d03e8101e0a277413ee5460d6219abd2944a52ff8",
+          "outputSha256": "e046074fb91b5567994915041301e07a219bef8c3d3ffce23238307c4fa7ac5f",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        }
+      ],
+      "count": 6
+    },
+    {
+      "edition": "windows-qt",
+      "wrapperExitCode": 0,
+      "childExitCode": 0,
+      "reportSha256": "b716ca8bbadfebbb5ae53923eebd57d5ce6bbbed9e3dbf0f5f7900b0d874b14d",
+      "result": "PASS-preflight-only",
+      "scope": "test-only-prototype-no-new-public-mode",
+      "sdkVersionUnchanged": "1.101",
+      "applicationVersionUnchanged": "0.2.0",
+      "workerSha256": "ee3e87a808ce8ab5c149474ec377981027de1c6dc85a1d7f03bb9ba4ff1437ca",
+      "decoderSha256": "976c0f0240af2972669f5d726773ee5082833df082318b09c7b0e57c7fb375af",
+      "testSourceSha256": "3fb58b9801b01e0b6b9cbfa7fd80c98ab108f47acf30868e116efc7372da2c90",
+      "prototypeSha256": "71779bb387142d30de19ef90cf77e600532592e30f3963d78a1062f0f807481e",
+      "ordinaryMainSimpleBlockPlaybackTested": false,
+      "physicalAvSyncMeasured": false,
+      "rows": [
+        {
+          "profile": "p0-50-mono",
+          "unknownClusters": false,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 38,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 34438,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 5340,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 12685,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 67042,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 34198
+          },
+          "negativeControls": [
+            {
+              "case": "duplicate",
+              "code": "video-clock"
+            },
+            {
+              "case": "regression",
+              "code": "video-clock"
+            },
+            {
+              "case": "long-gap",
+              "code": "video-clock"
+            },
+            {
+              "case": "short-count",
+              "code": "video-clock"
+            },
+            {
+              "case": "long-count",
+              "code": "incomplete-frame-count"
+            },
+            {
+              "case": "short-final-end",
+              "code": "video-clock"
+            },
+            {
+              "case": "long-final-end",
+              "code": "video-clock"
+            },
+            {
+              "case": "pending-budget",
+              "code": "pending-limit"
+            },
+            {
+              "case": "premature-eof-1",
+              "code": "truncated-source"
+            },
+            {
+              "case": "premature-eof-536",
+              "code": "truncated-source"
+            },
+            {
+              "case": "premature-eof-935245",
+              "code": "truncated-source"
+            }
+          ],
+          "sourceSha256": "d40010e8f85e7a0ee3c18e6136804640cb216508d697ba348ee80734fe9a88a3",
+          "outputSha256": "c1df6da3624687d729abdd3164b038bbe0124adb6637ba1db041ba187e3f31e7",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p0-50-mono",
+          "unknownClusters": true,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 38,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 34438,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 5340,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 12685,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 67042,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 34198
+          },
+          "negativeControls": [],
+          "sourceSha256": "2ced6ef3b27f0ee54e879a12e348edc19a9719844ff65bd6e450687e75731831",
+          "outputSha256": "c1df6da3624687d729abdd3164b038bbe0124adb6637ba1db041ba187e3f31e7",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p2-50-stereo",
+          "unknownClusters": false,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 40,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35723,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 4374,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 12438,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 67845,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 35573
+          },
+          "negativeControls": [],
+          "sourceSha256": "c96d8f29152112064c88cd3c2f95dba322e6e51268a37fd19aec3dd14567b927",
+          "outputSha256": "3c7b176c879760df28073ae0e82aef73f811d37b45291195fe80931a4a14d72d",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p2-50-stereo",
+          "unknownClusters": true,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 40,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35723,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 4374,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 12438,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 67845,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 35573
+          },
+          "negativeControls": [],
+          "sourceSha256": "5f805a0f8b56a4f806a923c86f0691d2c8cc57d52f1deb0ff86bb893012d4c91",
+          "outputSha256": "3c7b176c879760df28073ae0e82aef73f811d37b45291195fe80931a4a14d72d",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p0-ntsc60-stereo",
+          "unknownClusters": false,
+          "frames": 879,
+          "end100ns": 240080000,
+          "validInputClusterCrcCount": 45,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35209,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 5252,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 12243,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 67471,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 35006
+          },
+          "negativeControls": [],
+          "sourceSha256": "db641235979457aee5f0dfb18948fb17711e7e54ee1360d2a22a0f7ceb8da537",
+          "outputSha256": "6ca644cd49569ac75086abd7db645ba999c4dd96e6135e0a7c83379651ef0e84",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p0-ntsc60-stereo",
+          "unknownClusters": true,
+          "frames": 879,
+          "end100ns": 240080000,
+          "validInputClusterCrcCount": 45,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35209,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 5252,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 12243,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 67471,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 35006
+          },
+          "negativeControls": [],
+          "sourceSha256": "a5e42a70ee094862f16997dc2efe2631e8d7883b6dafa49f610337b4af439f57",
+          "outputSha256": "6ca644cd49569ac75086abd7db645ba999c4dd96e6135e0a7c83379651ef0e84",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 0,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        }
+      ],
+      "count": 6
+    },
+    {
+      "edition": "windows-classic",
+      "wrapperExitCode": 0,
+      "childExitCode": 0,
+      "reportSha256": "33e2258728e8d9b5ffb44397b920889936b0a73937d478a9b0506811d8367fb6",
+      "result": "PASS-preflight-only",
+      "scope": "test-only-prototype-no-new-public-mode",
+      "sdkVersionUnchanged": "1.101",
+      "applicationVersionUnchanged": "0.2.0",
+      "workerSha256": "eea582eb746e9e7228aba856b2eeeecb8b5e8f28d2552370e4ec2203b1332f6d",
+      "decoderSha256": "97323037fbcea29838e3845fb0dcf6753f2735cc52e3d44efafbe48953875b4c",
+      "testSourceSha256": "3fb58b9801b01e0b6b9cbfa7fd80c98ab108f47acf30868e116efc7372da2c90",
+      "prototypeSha256": "71779bb387142d30de19ef90cf77e600532592e30f3963d78a1062f0f807481e",
+      "ordinaryMainSimpleBlockPlaybackTested": false,
+      "physicalAvSyncMeasured": false,
+      "rows": [
+        {
+          "profile": "p0-50-mono",
+          "unknownClusters": false,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 38,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 34438,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 5340,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 12685,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 67042,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 34198
+          },
+          "negativeControls": [
+            {
+              "case": "duplicate",
+              "code": "video-clock"
+            },
+            {
+              "case": "regression",
+              "code": "video-clock"
+            },
+            {
+              "case": "long-gap",
+              "code": "video-clock"
+            },
+            {
+              "case": "short-count",
+              "code": "video-clock"
+            },
+            {
+              "case": "long-count",
+              "code": "incomplete-frame-count"
+            },
+            {
+              "case": "short-final-end",
+              "code": "video-clock"
+            },
+            {
+              "case": "long-final-end",
+              "code": "video-clock"
+            },
+            {
+              "case": "pending-budget",
+              "code": "pending-limit"
+            },
+            {
+              "case": "premature-eof-1",
+              "code": "truncated-source"
+            },
+            {
+              "case": "premature-eof-536",
+              "code": "truncated-source"
+            },
+            {
+              "case": "premature-eof-935245",
+              "code": "truncated-source"
+            }
+          ],
+          "sourceSha256": "eae2562c757135228f18169ee9255857a3f469480c1d9a2fe77538f23530944f",
+          "outputSha256": "ece68763c3fbfd33ab7c6f7b3970fc0c611d9cb6275ee4a4bd383956b8fae15f",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 3.725290298461914e-08,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p0-50-mono",
+          "unknownClusters": true,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 38,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 34438,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 5340,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 12685,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 935246,
+              "peakPendingBytes": 36044,
+              "peakInputBufferBytes": 67042,
+              "droppedMetadata": 115,
+              "clusters": 38,
+              "clustersBeforeComplete": 37,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 34198
+          },
+          "negativeControls": [],
+          "sourceSha256": "0d84bf6af526ca7ab4fe6f0fd390f409b160ba9e502857f3db97d29548649ffb",
+          "outputSha256": "ece68763c3fbfd33ab7c6f7b3970fc0c611d9cb6275ee4a4bd383956b8fae15f",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 3.725290298461914e-08,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p2-50-stereo",
+          "unknownClusters": false,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 40,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35723,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 4374,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 12438,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 67845,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 35573
+          },
+          "negativeControls": [],
+          "sourceSha256": "21c0115780017170e885e2a28bca258db9fb8de96203092d3f671f60414eb9b5",
+          "outputSha256": "6bc3fa3cb42e7bb19169ae2744c1a782fc85dd2732fd97cc2790e8c495193332",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p2-50-stereo",
+          "unknownClusters": true,
+          "frames": 733,
+          "end100ns": 240000000,
+          "validInputClusterCrcCount": 40,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35723,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 4374,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 12438,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 930604,
+              "peakPendingBytes": 36921,
+              "peakInputBufferBytes": 67845,
+              "droppedMetadata": 121,
+              "clusters": 40,
+              "clustersBeforeComplete": 39,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 35573
+          },
+          "negativeControls": [],
+          "sourceSha256": "e09364e5088c5dc43276d0183b80fb7f8c6b31c238ab7ec1c844f1e1c9ab6b6f",
+          "outputSha256": "6bc3fa3cb42e7bb19169ae2744c1a782fc85dd2732fd97cc2790e8c495193332",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p0-ntsc60-stereo",
+          "unknownClusters": false,
+          "frames": 879,
+          "end100ns": 240080000,
+          "validInputClusterCrcCount": 45,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35209,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 5252,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 12243,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 67471,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 35006
+          },
+          "negativeControls": [],
+          "sourceSha256": "0df358a5b35384b33e1a6bd70982f27ea298cd3346574b0b00ee3b0909cdd802",
+          "outputSha256": "defddd579f779a322b97c1d190ed8b107ef10f2c66e9aecc199a26fad8f62523",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        },
+        {
+          "profile": "p0-ntsc60-stereo",
+          "unknownClusters": true,
+          "frames": 879,
+          "end100ns": 240080000,
+          "validInputClusterCrcCount": 45,
+          "readPatterns": [
+            {
+              "chunk": 257,
+              "firstClusterBeforeCompleteAt": 35209,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 5252,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 8191,
+              "firstClusterBeforeCompleteAt": 40955,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 12243,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            },
+            {
+              "chunk": 65536,
+              "firstClusterBeforeCompleteAt": 65536,
+              "inputBytes": 1059332,
+              "peakPendingBytes": 36151,
+              "peakInputBufferBytes": 67471,
+              "droppedMetadata": 136,
+              "clusters": 45,
+              "clustersBeforeComplete": 44,
+              "lastFrameHeldUntilConfirmedEof": true,
+              "readConfirmedOnly": true
+            }
+          ],
+          "lookahead": {
+            "firstClusterWaitedForNextVideo": true,
+            "firstClusterReleasedBeforeNextClusterEnd": true,
+            "nextVideoBodyEnd": 35006
+          },
+          "negativeControls": [],
+          "sourceSha256": "0e2b4c78d7fa6d7cc5e05a498e2f57316a92c204b12ceee478a437526fd0ac0b",
+          "outputSha256": "defddd579f779a322b97c1d190ed8b107ef10f2c66e9aecc199a26fad8f62523",
+          "exactPacketsAndClocks": true,
+          "exactPcm": true,
+          "decodedFramesIdentical": true,
+          "sourceUnchanged": true,
+          "directSimpleBlockRefusal": {
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-video-duration"
+          },
+          "existingVfrWorker": {
+            "exitCode": 0,
+            "code": "data"
+          },
+          "decoder": {
+            "exitCode": 0,
+            "samples": 1152000,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "exactSampleCount": true,
+            "originalSourceUnchanged": true,
+            "audioDeviceOpened": false,
+            "existingVfrAdapter": true
+          }
+        }
+      ],
+      "count": 6
+    }
+  ],
+  "limitations": [
+    "No new production mode: existing SDK1.101 rejects direct SimpleBlock video without BlockDuration.",
+    "Canonical consumer fixture uses known final output length; production input/output mapping remains unimplemented.",
+    "Prototype pending/input bounds are tested; total-output budget and full bitstream validation belong to the existing downstream worker/cache, not this Python parser.",
+    "No ordinary-main SimpleBlock acceptance or physical audio/video synchronization measurement."
+  ]
+}

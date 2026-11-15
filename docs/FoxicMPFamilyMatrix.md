@@ -137,7 +137,7 @@ VFR, остальные частоты/Opus layouts и полная R01 оста
 
 [Подготовка VFR](ProgressiveWebmVfrRemuxPlan.md) сравнила packet clocks,
 PCM и BlockDuration на трёх native/index стендах. Это диагностика и проект
-следующего профиля; ordinary-player VFR progressive playback не аттестован.
+следующего профиля; его позднейшее ordinary-player подключение описано в SDK1.101 ниже.
 
 [SDK1.101](ProgressiveContinuousWebmOpusVfr.md): отдельный VFR WebM VP9/Opus
 с обязательными video BlockDuration, известными counts и точным endpoint.
@@ -145,6 +145,10 @@ DefaultDuration опционален только для этого режима
 Classic FragmentIndex поддерживают один контракт; [отчёт](ProgressiveContinuousWebmOpusVfrValidation-2026-11-15.json)
 разделяет ordinary-main, PCM, workers и прежние режимы.
 VFR SimpleBlock, unknown counts и полная R01/R04 остаются открытыми.
+
+[SimpleBlock VFR preflight](ProgressiveSimpleVfrRemuxPlan.md): тестовый incremental
+parser и 18 canonical worker/PCM строк трёх редакций прошли. Direct SimpleBlock
+production mode отсутствует; canonical fixture oracle не считается его приёмкой.
 
 ## Что именно сравнивается
 

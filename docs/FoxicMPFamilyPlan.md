@@ -1805,3 +1805,17 @@ SimpleBlock VFR, unknown counts/offsets и широкие R01/R04/R15/R17 ост
 [Linux обновлён атомарно с backup и неизменным INI; 6 installed own-SDK
 сценариев прошли](ProgressiveContinuousWebmOpusVfrDelivery-2026-11-15.json).
 Установленные Windows-копии и их настройки сохранены.
+
+## R01: подготовка SimpleBlock VFR, 15 ноября 2026
+
+[Инкрементальный тестовый прототип](ProgressiveSimpleVfrRemuxPlan.md) выводит
+BlockDuration из next-PTS и последнего подтверждённого endpoint; закрытый Cluster
+публикуется без ожидания конца следующего Cluster. Устаревшие смещения и CRC
+удаляются, compressed payload/clocks/decoded frames/PCM сохранены.
+
+[18 строк трёх редакций, 54 read patterns и 33 negative controls](ProgressiveSimpleVfrPreflight-2026-11-15.json)
+прошли. Это тестовый canonical output и existing decoder probes, не новый public
+режим обычного плеера. SDK1.101/app0.2.0, установки и HKCU сохранены; Harvester
+не изменён. Следующий этап — production C++ scanner, dynamic output/cache и
+приёмка ordinary main во всех трёх редакциях. Широкие R01/R04 остаются открытыми;
+подготовка учитывается в [отдельных фиксированных подпунктах](ProgressiveSimpleVfrExecutionChecklist.md).

@@ -9,7 +9,7 @@
 В подробном чеклисте исторически смешаны 149 подтверждённых записей и 77
 открытых составных требований. Их больше не используем как один счётчик
 готовности. Для оставшегося плана база — 77 требований; для текущего этапа
-есть [фиксированные подпункты VFR](ProgressiveVfrExecutionChecklist.md) с
+есть [фиксированные подпункты подготовки SimpleBlock VFR](ProgressiveSimpleVfrExecutionChecklist.md) с
 отдельными значениями «всего / готово / осталось». Новые доказательства
 не добавляют выполненных требований. Ниже требования сведены к пакетам работ.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -43,11 +43,16 @@ E — внешняя зависимость. Каждый R остаётся о�
 
 - [Подготовка VFR от 15 ноября](ProgressiveWebmVfrRemuxPlan.md): 54 native/file
   строки и 36 проверок индекса; canonical BlockDuration сохраняет variable PTS.
-  Public VFR mode пока не реализован; следующим шагом остаётся его подключение.
+  Это исторический preflight; позднее явный BlockDuration mode подключён в SDK1.101.
 
 - [SDK1.101 VFR](ProgressiveContinuousWebmOpusVfr.md): явные BlockDuration,
   известный frame count и endpoint, optional DefaultDuration, ordinary-main/PCM
   трёх редакций. SimpleBlock VFR и общие требования R01/R04 остаются открытыми.
+
+- [Подготовка SimpleBlock VFR](ProgressiveSimpleVfrRemuxPlan.md): incremental
+  next-PTS prototype, перепаковка metadata и 18 canonical PCM/worker строк трёх
+  редакций проверены. Прямой SimpleBlock production mode ещё не подключён;
+  следующим шагом остаётся C++ scanner и динамический output/cache контракт.
 
 ## Порядок разработки
 
