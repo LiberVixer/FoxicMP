@@ -3,7 +3,7 @@
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
 **Рабочий порядок оставшихся задач — [R01–R17, исторические H01–H04 и внешние E01–E03](ProgressiveRemainingWork.md).**
-Сводка актуализирована 14 ноября, SDK 1.100: 149 закрытых и 77 открытых
+Сводка актуализирована 15 ноября, SDK 1.100: 149 закрытых и 77 открытых
 записей, без вычисления процента готовности. Ниже сохранены подробные доказательства
 и исторические состояния; старые ограничения уточняются позднейшими отчётами.
 
@@ -182,6 +182,12 @@ R01: [инвентаризация container/codec/layout и подготовк�
 - [ ] Полная AAC waiting/replacement/crash/race/stress matrix и измерение физической A/V синхронизации.
 
 - [x] SDK 1.100: [явный WebM VP9/Opus CFR](ProgressiveContinuousWebmOpusCfr.md), восемь канонических частот 23.976–60 fps; immutable start.videoRate, точный frame timeline, исходные packet clocks, допуск DefaultDuration вниз 1 ns для FFmpeg. [Проверки трёх редакций](ProgressiveContinuousWebmOpusCfrValidation-2026-11-14.json): 99 worker cases, 24 ordinary-main incomplete playback, 24 PCM captures, прежние 25/NTSC workers/API и AAC queued seek, 4000 sanitizer mutations и 133 SDK units. VFR/другие геометрии Opus и общие R01/R15/R17 остаются открытыми; Harvester не изменён.
+
+Подготовлен [следующий VFR-профиль](ProgressiveWebmVfrRemuxPlan.md):
+[54 fixture/native и 36 index checks](ProgressiveWebmVfrPreflight-2026-11-15.json).
+Это native/file диагностика, а не public playback. Отсутствующий DefaultDuration,
+длительности кадров и новая immutable identity требуют реализации; VFR и R01
+остаются открытыми. Дополнительный выполненный checkbox не добавлен.
 
 ## 3. Обычный MP4 и индексы
 

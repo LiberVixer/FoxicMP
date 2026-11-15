@@ -15,6 +15,10 @@ unknown-Cluster native gap и fractional clock differences. Это отдель�
 preflight; позднейший публичный 25 fps профиль описан в SDK 1.96 выше.
 [Подготовка VP9/Opus](ProgressiveWebmOpusRemuxPlan.md) сравнила MP4 copy и
 закрытые WebM Clusters; новый continuous audio mode пока не объявлен.
+Позднее [SDK 1.98–1.100](ProgressiveContinuousWebmOpusCfr.md) реализовали bounded
+VP9/Opus с 25/NTSC и восемью CFR частотами; строки исторической таблицы ниже
+не описывают актуальный предел этих режимов. [Следующий VFR-профиль](ProgressiveWebmVfrRemuxPlan.md)
+подготовлен по 54 native/file и 36 index rows от 15 ноября, public playback ещё открыт.
 [Полный порядок работ](ProgressiveRemainingWork.md),
 [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [подробный чеклист](ProgressiveCompletionChecklist.md).

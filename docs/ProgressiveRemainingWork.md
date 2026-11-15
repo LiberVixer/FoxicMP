@@ -1,6 +1,6 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 14 ноября 2026, включая bounded continuous WebM VP9/Opus восьми CFR частот 23.976–60fps, SDK1.100.
+Рабочая сводка на 15 ноября 2026, включая bounded continuous WebM VP9/Opus восьми CFR частот 23.976–60fps, SDK1.100.
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
@@ -37,6 +37,10 @@ E — внешняя зависимость. Каждый R остаётся о�
 - [SDK1.100](ProgressiveContinuousWebmOpusCfr.md): общий explicit CFR mode для восьми
   канонических частот 23.976–60fps с bound videoRate; worker/main/PCM трёх редакций.
   Legacy 25/NTSC контракты сохранены. Другие fps, VFR и Opus geometries открыты.
+
+- [Подготовка VFR от 15 ноября](ProgressiveWebmVfrRemuxPlan.md): 54 native/file
+  строки и 36 проверок индекса; canonical BlockDuration сохраняет variable PTS.
+  Public VFR mode пока не реализован; следующим шагом остаётся его подключение.
 
 ## Порядок разработки
 

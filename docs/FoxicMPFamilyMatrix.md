@@ -135,6 +135,10 @@ video grid. Точные PCM/packets, incomplete playback, seek/release и ре�
 [99 worker /24 main /24 PCM и прежние 25/NTSC/AAC регрессии](ProgressiveContinuousWebmOpusCfrValidation-2026-11-14.json).
 VFR, остальные частоты/Opus layouts и полная R01 остаются открытыми.
 
+[Подготовка VFR](ProgressiveWebmVfrRemuxPlan.md) сравнила packet clocks,
+PCM и BlockDuration на трёх native/index стендах. Это диагностика и проект
+следующего профиля; ordinary-player VFR progressive playback не аттестован.
+
 ## Что именно сравнивается
 
 | Редакция | Движок | Проверенная сборка выпуска 0.2.0 | Отдельный профиль |

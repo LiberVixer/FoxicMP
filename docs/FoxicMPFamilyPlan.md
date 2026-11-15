@@ -1768,3 +1768,20 @@ legacy 25/NTSC/AAC controls,4000 sanitizer mutations и133 SDK units](Progressiv
 
 [Linux обновлён атомарно с backup и сохранением INI; восемь installed own-SDK сценариев прошли](ProgressiveContinuousWebmOpusCfrDelivery-2026-11-14.json).
 Установки Windows не менялись. Исходники и clean SDK кандидата не означают итоговый release.
+
+## R01: подготовка VFR, 15 ноября 2026
+
+[54 fixture/native и36 index rows трёх стендов](ProgressiveWebmVfrPreflight-2026-11-15.json)
+сравнили VFR SimpleBlock/DefaultDuration, явный BlockDuration и отсутствие
+DefaultDuration, finite/unknown Clusters и полные/частичные проекции.
+Packets/PTS/PCM сохранены в допустимых проекциях. Отсутствие DefaultDuration
+остаётся initialization gate; существующие continuous modes правильно отказывают.
+Сопоставлены интервалы индекса: до60ms между SimpleBlock samples против0ms
+у явных BlockDuration. Исправлена FFmpeg test oracle (534 вместо733 кадров
+без passthrough); первоначальные отказы отражены в отчёте.
+
+[Следующий явный VFR mode](ProgressiveWebmVfrRemuxPlan.md) требует независимого
+videoSamples и фактических длительностей, mode-scoped index/cache и ordinary-main
+приёмки трёх редакций. Он ещё не реализован. SDK1.100 и приложение0.2.0 сохранены;
+изменены только тесты/документация. Harvester и все677 проверяемых файлов
+установленных копий сохранены. Чеклист149 выполнено/77 открыто, без нового checkbox.
