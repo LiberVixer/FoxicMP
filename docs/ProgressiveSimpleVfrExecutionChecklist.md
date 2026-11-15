@@ -12,7 +12,7 @@
 - [x] SVP-05. Проверить partial headers/payloads, clock/count/EOF errors и лимиты pending buffers.
 - [x] SVP-06. Проверить canonical output через существующий VFR worker и настоящие PCM-декодеры трёх редакций.
 - [x] SVP-07. Свести exits, SHA, packet/PCM/video сравнения, сохранность исходников, установок и HKCU.
-- [ ] SVP-08. Обновить контракт следующего production-режима, воспроизводимые тесты и опубликовать результаты.
+- [x] SVP-08. Обновить контракт следующего production-режима, воспроизводимые тесты и опубликовать результаты.
 
 Harvester не изменяется. Новые capabilities/SDK version и новые сборки плееров
 не объявляются до реализации production scanner/cache/API и ordinary-main
@@ -20,3 +20,8 @@ Harvester не изменяется. Новые capabilities/SDK version и но
 
 Доказательства SVP-01–07: [сводный отчёт трёх редакций](ProgressiveSimpleVfrPreflight-2026-11-15.json).
 Контракт и ограничения: [план переноса в production](ProgressiveSimpleVfrRemuxPlan.md).
+
+Исходники и результаты опубликованы атомарно в `main` и `codex/linux-qt`:
+[2a7b153cf](https://github.com/LiberVixer/FoxicMP/commit/2a7b153cf).
+Подготовка: всего 8 / готово 8 / осталось 0. Основной план: 77 требований открыто.
+Следующая работа — production SimpleBlock mode, а не повтор этого preflight.
