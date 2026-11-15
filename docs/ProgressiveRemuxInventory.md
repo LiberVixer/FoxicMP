@@ -30,6 +30,9 @@ mode. Его приёмка учитывается в [фиксированно�
 [SDK1.104](ProgressiveContinuousWebmOpusNominalVfr.md) отдельно принимает bounded
 nominal DefaultDuration при явной next-PTS нормализации покрытия; другие timing
 semantics этим не объявляются готовыми.
+[Подготовка audio count](ProgressiveAudioCountRemuxPlan.md) проверяет подсчёт без
+внешнего audioSamples только тестовым prototype; known-plan consumers проверены,
+нового production режима пока нет. Следующий шаг — scanner/cache/decoder вместе.
 [Полный порядок работ](ProgressiveRemainingWork.md),
 [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [подробный чеклист](ProgressiveCompletionChecklist.md).

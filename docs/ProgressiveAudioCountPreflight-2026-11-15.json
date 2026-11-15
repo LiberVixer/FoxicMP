@@ -1,0 +1,2673 @@
+{
+  "result": "PASS-preflight-only",
+  "date": "2026-11-15",
+  "baseSourceCommit": "836ec13ae9aaec206faab32770b6c053b5df496c",
+  "sdkVersionUnchanged": "1.104",
+  "applicationVersionUnchanged": "0.2.0",
+  "productionModeAdded": false,
+  "ordinaryUnknownAudioCountPlaybackTested": false,
+  "physicalAvSyncMeasured": false,
+  "harvesterModified": false,
+  "editions": {
+    "linux-qt": {
+      "exitCode": 0,
+      "study": {
+        "result": "PASS-preflight-only",
+        "scope": "audio-count-preflight-only",
+        "sdkVersionUnchanged": "1.104",
+        "applicationVersionUnchanged": "0.2.0",
+        "workerSha256": "2bfc9249c28a068cc2382b5660829ace3024656824fd3478cbdd6bb3209e04b5",
+        "decoderSha256": "4441cbfa2037e2b3f47aace1b3e0782482233938e0d9c37747d8168e3e86c488",
+        "testSourceSha256": "c13adcdf92caefb8676f5a351db9a436861a7ff58a260af37fa7bf052adfd3c0",
+        "prototypeSha256": "ea25d3128318afea0f0c60ab0d56f82c22e8dd4612782fe3ca407687af6ca6e4",
+        "ordinaryUnknownAudioCountPlaybackTested": false,
+        "physicalAvSyncMeasured": false,
+        "rows": [
+          {
+            "profile": "mono-full",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 4800,
+                "peakPendingBytes": 35086
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12499,
+                "peakPendingBytes": 35086
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 66585,
+                "peakPendingBytes": 35086
+              }
+            ],
+            "validInputCrcs": 36,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 874
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [
+              {
+                "case": "negative-trim",
+                "reason": "opus-end-trim"
+              },
+              {
+                "case": "fractional-sample-trim",
+                "reason": "opus-end-trim"
+              },
+              {
+                "case": "excessive-trim",
+                "reason": "opus-end-trim"
+              },
+              {
+                "case": "duplicate-trim",
+                "reason": "opus-block-group"
+              },
+              {
+                "case": "audio-after-trim",
+                "reason": "audio-after-end-trim"
+              },
+              {
+                "case": "regressing-audio-clock",
+                "reason": "opus-clock"
+              },
+              {
+                "case": "audio-sample-budget",
+                "reason": "audio-budget"
+              },
+              {
+                "case": "audio-packet-budget",
+                "reason": "audio-budget"
+              },
+              {
+                "case": "premature-eof-1",
+                "reason": "truncated-source"
+              },
+              {
+                "case": "premature-eof-533",
+                "reason": "truncated-source"
+              },
+              {
+                "case": "premature-eof-590",
+                "reason": "truncated-source"
+              },
+              {
+                "case": "premature-eof-875666",
+                "reason": "truncated-source"
+              }
+            ],
+            "semanticEofLimit": {
+              "wholeLastAudioPacketOmitted": true,
+              "structurallyValidShorterTrack": true,
+              "derivedSamples": 1151688,
+              "decodedOracleSamples": 1151688,
+              "requiresIndependentWriterIdentityForSemanticTruncation": true,
+              "originalDeclaredLength": 875667,
+              "newDeclaredLength": 874782,
+              "declaredLengthAdjusted": true,
+              "oldDeclaredLengthTruncationAdmitted": false
+            },
+            "sourceSha256": "b68f8013a6927bc75f8a8fddf614e8cd637a2dd447a4d7a3e22a94c2eb196653",
+            "canonicalSha256": "32d008576f6d9c0a7c1655579a1779fec2899530a08a5a09eb5d7b95da7308e3"
+          },
+          {
+            "profile": "mono-full",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 4800,
+                "peakPendingBytes": 35086
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12499,
+                "peakPendingBytes": 35086
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 66585,
+                "peakPendingBytes": 35086
+              }
+            ],
+            "validInputCrcs": 36,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 874
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "7a82af2199399668f65c5bd82b643cdd5f4bea941b0494b40a55512d578090a9",
+            "canonicalSha256": "32d008576f6d9c0a7c1655579a1779fec2899530a08a5a09eb5d7b95da7308e3"
+          },
+          {
+            "profile": "stereo-short",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 95983,
+            "audioPackets": 101,
+            "endTrimSamples": 665,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 4793,
+                "peakPendingBytes": 34243
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 11810,
+                "peakPendingBytes": 34243
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 66906,
+                "peakPendingBytes": 34243
+              }
+            ],
+            "validInputCrcs": 26,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 1009
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 95983,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "543895a18d45ccc9d4df4d5e2e16b55f845491134e1c6a82b98d8efa5ae01741",
+            "canonicalSha256": "08e353b68345ff67e905f6009db258e061931ef8a637f28ba8d0b07a6afc1010"
+          },
+          {
+            "profile": "stereo-short",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 95983,
+            "audioPackets": 101,
+            "endTrimSamples": 665,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 4793,
+                "peakPendingBytes": 34243
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 11810,
+                "peakPendingBytes": 34243
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 66906,
+                "peakPendingBytes": 34243
+              }
+            ],
+            "validInputCrcs": 26,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 1009
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 95983,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "609b069c21b6167857a92dc43796b5dc10fd69760f84d0fd93defed4f4a26734",
+            "canonicalSha256": "08e353b68345ff67e905f6009db258e061931ef8a637f28ba8d0b07a6afc1010"
+          },
+          {
+            "profile": "p2-stereo-zero-trim",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 1151688,
+            "audioPackets": 1200,
+            "endTrimSamples": 0,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 8747,
+                "peakPendingBytes": 39863
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 14027,
+                "peakPendingBytes": 39863
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 70213,
+                "peakPendingBytes": 39863
+              }
+            ],
+            "validInputCrcs": 48,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 1009
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1151688,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "0a7a248d68972326453ef3317afeee204b23acf13d2682e4069cbda333d85ef2",
+            "canonicalSha256": "c0f70ecb16597440821de3305e44e094efe1e383d4877f902255d443b0aa2144"
+          },
+          {
+            "profile": "p2-stereo-zero-trim",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 1151688,
+            "audioPackets": 1200,
+            "endTrimSamples": 0,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 8747,
+                "peakPendingBytes": 39863
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 14027,
+                "peakPendingBytes": 39863
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 70213,
+                "peakPendingBytes": 39863
+              }
+            ],
+            "validInputCrcs": 48,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 1009
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1151688,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "0e1dfd5fd65815d5b66a51b1a682df78a2833410a2f322e00d7ee1d636e23161",
+            "canonicalSha256": "c0f70ecb16597440821de3305e44e094efe1e383d4877f902255d443b0aa2144"
+          },
+          {
+            "profile": "mono-649-audio-first",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 649,
+            "audioPackets": 2,
+            "endTrimSamples": 959,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 4784,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 12111,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 69472,
+                "peakPendingBytes": 31881
+              }
+            ],
+            "validInputCrcs": 24,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 351428
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 649,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "1a8d28af71552479ba6831a9979955a269b657f1b4e2d1cd1971087ee81c6fd1",
+            "canonicalSha256": "ce93d7e91e64039f622a233d021de73031dc9826a92901c69b8ab96249b5f716"
+          },
+          {
+            "profile": "mono-649-audio-first",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 649,
+            "audioPackets": 2,
+            "endTrimSamples": 959,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 4784,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 12111,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 69472,
+                "peakPendingBytes": 31881
+              }
+            ],
+            "validInputCrcs": 24,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 351428
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 649,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "6ae5fb2b6cca73765967b9b7e39d389ddde77c5da059aef1a1e216c29b0e6eb0",
+            "canonicalSha256": "ce93d7e91e64039f622a233d021de73031dc9826a92901c69b8ab96249b5f716"
+          },
+          {
+            "profile": "vfr-mono",
+            "unknownClusters": false,
+            "frames": 733,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 5377,
+                "peakPendingBytes": 36511
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12734,
+                "peakPendingBytes": 36511
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 66903,
+                "peakPendingBytes": 36511
+              }
+            ],
+            "validInputCrcs": 38,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 874
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "b7eeb4fb62a785bd52b7ba67c99642fad7fb46e1c35fe6e93e2ecd4c82344bec",
+            "canonicalSha256": "30542b0428b92b958b156bd17d88b8daf613929a618e79d600b27f340c0046b0"
+          },
+          {
+            "profile": "vfr-mono",
+            "unknownClusters": true,
+            "frames": 733,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 5377,
+                "peakPendingBytes": 36511
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12734,
+                "peakPendingBytes": 36511
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 66903,
+                "peakPendingBytes": 36511
+              }
+            ],
+            "validInputCrcs": 38,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 874
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "a07f03f002bf9fc8140b261078be73d058a5171aa5a4740e708c3740cec875dc",
+            "canonicalSha256": "30542b0428b92b958b156bd17d88b8daf613929a618e79d600b27f340c0046b0"
+          }
+        ],
+        "count": 10
+      },
+      "units": [
+        {
+          "test": "prototype",
+          "count": 12,
+          "exitCode": 0,
+          "logSha256": "7c4ce78e536c0c2cdb85730c9c8381839f365b3a2b9d77c5cc9eaede9427b0df"
+        },
+        {
+          "test": "limits",
+          "count": 3,
+          "exitCode": 0,
+          "logSha256": "914efb27650d2e72a821f704f42ce3a2983c52e66b9141deb25a90a9555484ae"
+        }
+      ]
+    },
+    "windows-qt": {
+      "exitCode": 0,
+      "study": {
+        "result": "PASS-preflight-only",
+        "scope": "audio-count-preflight-only",
+        "sdkVersionUnchanged": "1.104",
+        "applicationVersionUnchanged": "0.2.0",
+        "workerSha256": "dc49fd6a35de55140c173ba4368934d2fc2eca9d3e48c9642e993981ef9fc618",
+        "decoderSha256": "338de948c81089a22684dcab9cacf0a4c14edccee651eea059799d1820361a88",
+        "testSourceSha256": "c13adcdf92caefb8676f5a351db9a436861a7ff58a260af37fa7bf052adfd3c0",
+        "prototypeSha256": "ea25d3128318afea0f0c60ab0d56f82c22e8dd4612782fe3ca407687af6ca6e4",
+        "ordinaryUnknownAudioCountPlaybackTested": false,
+        "physicalAvSyncMeasured": false,
+        "rows": [
+          {
+            "profile": "mono-full",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 4839,
+                "peakPendingBytes": 35103
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12463,
+                "peakPendingBytes": 35103
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 66537,
+                "peakPendingBytes": 35103
+              }
+            ],
+            "validInputCrcs": 36,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 851
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [
+              {
+                "case": "negative-trim",
+                "reason": "opus-end-trim"
+              },
+              {
+                "case": "fractional-sample-trim",
+                "reason": "opus-end-trim"
+              },
+              {
+                "case": "excessive-trim",
+                "reason": "opus-end-trim"
+              },
+              {
+                "case": "duplicate-trim",
+                "reason": "opus-block-group"
+              },
+              {
+                "case": "audio-after-trim",
+                "reason": "audio-after-end-trim"
+              },
+              {
+                "case": "regressing-audio-clock",
+                "reason": "opus-clock"
+              },
+              {
+                "case": "audio-sample-budget",
+                "reason": "audio-budget"
+              },
+              {
+                "case": "audio-packet-budget",
+                "reason": "audio-budget"
+              },
+              {
+                "case": "premature-eof-1",
+                "reason": "truncated-source"
+              },
+              {
+                "case": "premature-eof-536",
+                "reason": "truncated-source"
+              },
+              {
+                "case": "premature-eof-593",
+                "reason": "truncated-source"
+              },
+              {
+                "case": "premature-eof-875761",
+                "reason": "truncated-source"
+              }
+            ],
+            "semanticEofLimit": {
+              "wholeLastAudioPacketOmitted": true,
+              "structurallyValidShorterTrack": true,
+              "derivedSamples": 1151688,
+              "decodedOracleSamples": 1151688,
+              "requiresIndependentWriterIdentityForSemanticTruncation": true,
+              "originalDeclaredLength": 875762,
+              "newDeclaredLength": 874874,
+              "declaredLengthAdjusted": true,
+              "oldDeclaredLengthTruncationAdmitted": false
+            },
+            "sourceSha256": "1666cb08041c6d03c8e45b8a8f9a328f8b43154c9057c023da1aeaf6efa89999",
+            "canonicalSha256": "97cade9364a96404fa4188da5394fb9d39081aa4e91614b859d818f7f72b5e4c"
+          },
+          {
+            "profile": "mono-full",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 4839,
+                "peakPendingBytes": 35103
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12463,
+                "peakPendingBytes": 35103
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 66537,
+                "peakPendingBytes": 35103
+              }
+            ],
+            "validInputCrcs": 36,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 851
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "33a2eb1287ba609a10be7f90612ba5887fb6af976eadbcf0d8949859feb47665",
+            "canonicalSha256": "97cade9364a96404fa4188da5394fb9d39081aa4e91614b859d818f7f72b5e4c"
+          },
+          {
+            "profile": "stereo-short",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 95983,
+            "audioPackets": 101,
+            "endTrimSamples": 665,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 4865,
+                "peakPendingBytes": 34274
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 12286,
+                "peakPendingBytes": 34274
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 69165,
+                "peakPendingBytes": 34274
+              }
+            ],
+            "validInputCrcs": 26,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 974
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 95983,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "c8d146bb035d2603121ffc0553c98be12f74750edd5c7b936c41b36ccd0317b4",
+            "canonicalSha256": "2e2a3bdc583953442eb821c245a2799262598b98cec7a7ed389886d8f4d44b40"
+          },
+          {
+            "profile": "stereo-short",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 95983,
+            "audioPackets": 101,
+            "endTrimSamples": 665,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 4865,
+                "peakPendingBytes": 34274
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 12286,
+                "peakPendingBytes": 34274
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 69165,
+                "peakPendingBytes": 34274
+              }
+            ],
+            "validInputCrcs": 26,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 974
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 95983,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "9e0074c5597b11d5deb65ebd7af376025d1ac15aabf0787fffab995222ff707c",
+            "canonicalSha256": "2e2a3bdc583953442eb821c245a2799262598b98cec7a7ed389886d8f4d44b40"
+          },
+          {
+            "profile": "p2-stereo-zero-trim",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 1151688,
+            "audioPackets": 1200,
+            "endTrimSamples": 0,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 8790,
+                "peakPendingBytes": 39940
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 13882,
+                "peakPendingBytes": 39940
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 71243,
+                "peakPendingBytes": 39940
+              }
+            ],
+            "validInputCrcs": 48,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 974
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1151688,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "38c5347340930192d7b215f8201a02f5abfc07b7940536e72f0d331bdd0f32cb",
+            "canonicalSha256": "60c556179d5113f4096b311185093a3b8562ef5d6271b272fd7318844eeacf55"
+          },
+          {
+            "profile": "p2-stereo-zero-trim",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 1151688,
+            "audioPackets": 1200,
+            "endTrimSamples": 0,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 8790,
+                "peakPendingBytes": 39940
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 13882,
+                "peakPendingBytes": 39940
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 71243,
+                "peakPendingBytes": 39940
+              }
+            ],
+            "validInputCrcs": 48,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 974
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1151688,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "96f7f4e021bb3e5523bebc076c03ef9ddd8d20cf3417216dbca26d24f236ad32",
+            "canonicalSha256": "60c556179d5113f4096b311185093a3b8562ef5d6271b272fd7318844eeacf55"
+          },
+          {
+            "profile": "mono-649-audio-first",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 649,
+            "audioPackets": 2,
+            "endTrimSamples": 959,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 4838,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 12319,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 68883,
+                "peakPendingBytes": 31881
+              }
+            ],
+            "validInputCrcs": 24,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 868
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 649,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "bc9d42a6f876d2c6aae2598653e19aaa7c2ede1d6dd23856449e63ac3851d277",
+            "canonicalSha256": "de36a49ce03dd4aca77b75233ed25212dfc7dbfb09e767516d4eb6b367128edc"
+          },
+          {
+            "profile": "mono-649-audio-first",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 649,
+            "audioPackets": 2,
+            "endTrimSamples": 959,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 4838,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 12319,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 68883,
+                "peakPendingBytes": 31881
+              }
+            ],
+            "validInputCrcs": 24,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 868
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 649,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "dd036cdeab7605a60bfcfff349e0a86365cf1cb33c9a420f8fceae7f104f4ebd",
+            "canonicalSha256": "de36a49ce03dd4aca77b75233ed25212dfc7dbfb09e767516d4eb6b367128edc"
+          },
+          {
+            "profile": "vfr-mono",
+            "unknownClusters": false,
+            "frames": 733,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 5340,
+                "peakPendingBytes": 36044
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12685,
+                "peakPendingBytes": 36044
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 67042,
+                "peakPendingBytes": 36044
+              }
+            ],
+            "validInputCrcs": 38,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 851
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "368c523b0b8dce604aff2f0830666d3d5c63c85aa358e854d21166d1a96d9f9c",
+            "canonicalSha256": "486185fdd2a95a6e1e769e0d10590324c20bf7d95fe5f9d7fc49e71fdeb6078b"
+          },
+          {
+            "profile": "vfr-mono",
+            "unknownClusters": true,
+            "frames": 733,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 5340,
+                "peakPendingBytes": 36044
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12685,
+                "peakPendingBytes": 36044
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 67042,
+                "peakPendingBytes": 36044
+              }
+            ],
+            "validInputCrcs": 38,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 851
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 0,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "e2222d3364d5dc24d6e129343e2f2f92cf5b6642d778cecc104632fc8a3d7a3c",
+            "canonicalSha256": "486185fdd2a95a6e1e769e0d10590324c20bf7d95fe5f9d7fc49e71fdeb6078b"
+          }
+        ],
+        "count": 10
+      },
+      "units": [
+        {
+          "test": "prototype",
+          "count": 12,
+          "exitCode": 0,
+          "logSha256": "e84a7f7fc0086bbd521a176a464c89f68a3392f709672ae381da322f14d78d58"
+        },
+        {
+          "test": "limits",
+          "count": 3,
+          "exitCode": 0,
+          "logSha256": "747dfbfcd838bd35d02fe37e6b7b0674d8cb4ac31627314d6d9ddba2d4834d56"
+        }
+      ]
+    },
+    "windows-classic": {
+      "exitCode": 0,
+      "study": {
+        "result": "PASS-preflight-only",
+        "scope": "audio-count-preflight-only",
+        "sdkVersionUnchanged": "1.104",
+        "applicationVersionUnchanged": "0.2.0",
+        "workerSha256": "7958208c621f59929046d3d000e3a624f1b8a80832e4cb37c1f2316046e37cfb",
+        "decoderSha256": "959fd7c8c5ef068b66f487cf92af1cee1e8c88706aff9f4b1bbf557b6b39f4f0",
+        "testSourceSha256": "c13adcdf92caefb8676f5a351db9a436861a7ff58a260af37fa7bf052adfd3c0",
+        "prototypeSha256": "ea25d3128318afea0f0c60ab0d56f82c22e8dd4612782fe3ca407687af6ca6e4",
+        "ordinaryUnknownAudioCountPlaybackTested": false,
+        "physicalAvSyncMeasured": false,
+        "rows": [
+          {
+            "profile": "mono-full",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 4839,
+                "peakPendingBytes": 35103
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12463,
+                "peakPendingBytes": 35103
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 66537,
+                "peakPendingBytes": 35103
+              }
+            ],
+            "validInputCrcs": 36,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 851
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 3.725290298461914e-08,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [
+              {
+                "case": "negative-trim",
+                "reason": "opus-end-trim"
+              },
+              {
+                "case": "fractional-sample-trim",
+                "reason": "opus-end-trim"
+              },
+              {
+                "case": "excessive-trim",
+                "reason": "opus-end-trim"
+              },
+              {
+                "case": "duplicate-trim",
+                "reason": "opus-block-group"
+              },
+              {
+                "case": "audio-after-trim",
+                "reason": "audio-after-end-trim"
+              },
+              {
+                "case": "regressing-audio-clock",
+                "reason": "opus-clock"
+              },
+              {
+                "case": "audio-sample-budget",
+                "reason": "audio-budget"
+              },
+              {
+                "case": "audio-packet-budget",
+                "reason": "audio-budget"
+              },
+              {
+                "case": "premature-eof-1",
+                "reason": "truncated-source"
+              },
+              {
+                "case": "premature-eof-536",
+                "reason": "truncated-source"
+              },
+              {
+                "case": "premature-eof-593",
+                "reason": "truncated-source"
+              },
+              {
+                "case": "premature-eof-875761",
+                "reason": "truncated-source"
+              }
+            ],
+            "semanticEofLimit": {
+              "wholeLastAudioPacketOmitted": true,
+              "structurallyValidShorterTrack": true,
+              "derivedSamples": 1151688,
+              "decodedOracleSamples": 1151688,
+              "requiresIndependentWriterIdentityForSemanticTruncation": true,
+              "originalDeclaredLength": 875762,
+              "newDeclaredLength": 874874,
+              "declaredLengthAdjusted": true,
+              "oldDeclaredLengthTruncationAdmitted": false
+            },
+            "sourceSha256": "148c58998edc96d8a3b3315671f529a0f650b993736d7880ce15d6a0aad26372",
+            "canonicalSha256": "76546d834e9e6697083fd0ffbd882ba643f15192ae26dd51f95ef3b330b01438"
+          },
+          {
+            "profile": "mono-full",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 4839,
+                "peakPendingBytes": 35103
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12463,
+                "peakPendingBytes": 35103
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 66537,
+                "peakPendingBytes": 35103
+              }
+            ],
+            "validInputCrcs": 36,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 851
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 3.725290298461914e-08,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "f24243af75d6819be1fe309943c8258e7224393c00be9c9baed5c76647849b00",
+            "canonicalSha256": "76546d834e9e6697083fd0ffbd882ba643f15192ae26dd51f95ef3b330b01438"
+          },
+          {
+            "profile": "stereo-short",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 95983,
+            "audioPackets": 101,
+            "endTrimSamples": 665,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 4865,
+                "peakPendingBytes": 34274
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 12286,
+                "peakPendingBytes": 34274
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 69165,
+                "peakPendingBytes": 34274
+              }
+            ],
+            "validInputCrcs": 26,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 974
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 95983,
+              "maxAbsolutePcmError": 2.9802322387695312e-08,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "ae513fcb3fe15f1593ef827169e04094af91fa5cd156b6edfd58a151ef352e94",
+            "canonicalSha256": "9cbed282b197804673836a330ed1ce645037f0bdfdbb364b5972a8735eafbbcc"
+          },
+          {
+            "profile": "stereo-short",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 95983,
+            "audioPackets": 101,
+            "endTrimSamples": 665,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 4865,
+                "peakPendingBytes": 34274
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 12286,
+                "peakPendingBytes": 34274
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 95688,
+                "decodedSamples": 96960,
+                "endTrimSamples": 665,
+                "audioSamples": 95983,
+                "audioPackets": 101,
+                "peakInputBufferBytes": 69165,
+                "peakPendingBytes": 34274
+              }
+            ],
+            "validInputCrcs": 26,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 974
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 95983,
+              "maxAbsolutePcmError": 2.9802322387695312e-08,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "81ea7e92dfd6a0ba63c98b3ef0815f74be3a69ba186ddf8850cd32bfc8199935",
+            "canonicalSha256": "9cbed282b197804673836a330ed1ce645037f0bdfdbb364b5972a8735eafbbcc"
+          },
+          {
+            "profile": "p2-stereo-zero-trim",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 1151688,
+            "audioPackets": 1200,
+            "endTrimSamples": 0,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 8790,
+                "peakPendingBytes": 39940
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 13882,
+                "peakPendingBytes": 39940
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 71243,
+                "peakPendingBytes": 39940
+              }
+            ],
+            "validInputCrcs": 48,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 974
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1151688,
+              "maxAbsolutePcmError": 2.9802322387695312e-08,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "074508ad0018d391a31c6d2cc8b48e2a9f0e6755d8041d2fa2ecf53dccccb69b",
+            "canonicalSha256": "76e62f3f6c4591416f2b0a256a8ba0d063999822e5bcbc14d4c6bae861998ee4"
+          },
+          {
+            "profile": "p2-stereo-zero-trim",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 1151688,
+            "audioPackets": 1200,
+            "endTrimSamples": 0,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 8790,
+                "peakPendingBytes": 39940
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 13882,
+                "peakPendingBytes": 39940
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1150728,
+                "decodedSamples": 1152000,
+                "endTrimSamples": 0,
+                "audioSamples": 1151688,
+                "audioPackets": 1200,
+                "peakInputBufferBytes": 71243,
+                "peakPendingBytes": 39940
+              }
+            ],
+            "validInputCrcs": 48,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 974
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1151688,
+              "maxAbsolutePcmError": 2.9802322387695312e-08,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "9d0050d1a87d7cd28d7ce07517946593b407caaec4371999f78856ee3a82bcf3",
+            "canonicalSha256": "76e62f3f6c4591416f2b0a256a8ba0d063999822e5bcbc14d4c6bae861998ee4"
+          },
+          {
+            "profile": "mono-649-audio-first",
+            "unknownClusters": false,
+            "frames": 600,
+            "audioSamples": 649,
+            "audioPackets": 2,
+            "endTrimSamples": 959,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 4838,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 12319,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 68883,
+                "peakPendingBytes": 31881
+              }
+            ],
+            "validInputCrcs": 24,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 868
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 649,
+              "maxAbsolutePcmError": 1.4901161193847656e-08,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "a7eb1519b2d913be952cee5fc68647cb64bc5eb5c76494d7bfbc3fa00c8adfe6",
+            "canonicalSha256": "1a677d62547b611f0d649906907183d4229f046125cedd14d1cfb8add0671160"
+          },
+          {
+            "profile": "mono-649-audio-first",
+            "unknownClusters": true,
+            "frames": 600,
+            "audioSamples": 649,
+            "audioPackets": 2,
+            "endTrimSamples": 959,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 4838,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 12319,
+                "peakPendingBytes": 31881
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 648,
+                "decodedSamples": 1920,
+                "endTrimSamples": 959,
+                "audioSamples": 649,
+                "audioPackets": 2,
+                "peakInputBufferBytes": 68883,
+                "peakPendingBytes": 31881
+              }
+            ],
+            "validInputCrcs": 24,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 868
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 649,
+              "maxAbsolutePcmError": 1.4901161193847656e-08,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "4fc6aae07d10d8503d005db851b017a7b90d367806a5ae3743f9c7cab98582ee",
+            "canonicalSha256": "1a677d62547b611f0d649906907183d4229f046125cedd14d1cfb8add0671160"
+          },
+          {
+            "profile": "vfr-mono",
+            "unknownClusters": false,
+            "frames": 733,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 5340,
+                "peakPendingBytes": 36044
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12685,
+                "peakPendingBytes": 36044
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 67042,
+                "peakPendingBytes": 36044
+              }
+            ],
+            "validInputCrcs": 38,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 851
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 3.725290298461914e-08,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "72335ffea131c43865303468307726c991cb8413ef7b0063234a7d80056eb134",
+            "canonicalSha256": "afa6b89db6558f94b0211cc6126141a35171aefcbd3bf6ac12f743094105186d"
+          },
+          {
+            "profile": "vfr-mono",
+            "unknownClusters": true,
+            "frames": 733,
+            "audioSamples": 1152000,
+            "audioPackets": 1201,
+            "endTrimSamples": 648,
+            "readPatterns": [
+              {
+                "chunk": 257,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 5340,
+                "peakPendingBytes": 36044
+              },
+              {
+                "chunk": 8191,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 12685,
+                "peakPendingBytes": 36044
+              },
+              {
+                "chunk": 65536,
+                "confirmedBytesOnly": true,
+                "audioCountFinalOnlyAfterWriterEof": true,
+                "indexedBeforeEof": 1151688,
+                "decodedSamples": 1152960,
+                "endTrimSamples": 648,
+                "audioSamples": 1152000,
+                "audioPackets": 1201,
+                "peakInputBufferBytes": 67042,
+                "peakPendingBytes": 36044
+              }
+            ],
+            "validInputCrcs": 38,
+            "partialAudioPacket": {
+              "partialAudioPacketNotCounted": true,
+              "lastBodyByteRequired": true,
+              "firstPacketEnd": 851
+            },
+            "exactPacketsAndClocks": true,
+            "exactDecodedVideo": true,
+            "exactPcm": true,
+            "sourceUnchanged": true,
+            "currentWorkerMissingAudioPlanRefused": {
+              "exitCode": 1,
+              "reason": "unsupported-stream-start"
+            },
+            "knownPlanWorker": {
+              "exitCode": 0,
+              "fragmentBeforeComplete": true
+            },
+            "decoder": {
+              "exitCode": 0,
+              "samples": 1152000,
+              "maxAbsolutePcmError": 3.725290298461914e-08,
+              "sourceUnchanged": true,
+              "lastOwnerReleased": true,
+              "audioDeviceOpened": false,
+              "knownPlanProvidedAfterPrototypeEof": true,
+              "unknownCountAdapterTested": false
+            },
+            "negativeControls": [],
+            "semanticEofLimit": null,
+            "sourceSha256": "51ad6bed865bcede5ed8118f7b75cb9f523e262c41de12e38dd5f95c20f3dbc9",
+            "canonicalSha256": "afa6b89db6558f94b0211cc6126141a35171aefcbd3bf6ac12f743094105186d"
+          }
+        ],
+        "count": 10
+      },
+      "units": [
+        {
+          "test": "prototype",
+          "count": 12,
+          "exitCode": 0,
+          "logSha256": "33e9a1a1eb0671d2122a5318b3b4467b79fb7e8a710998e9ef5fc458f3f9bf4e"
+        },
+        {
+          "test": "limits",
+          "count": 3,
+          "exitCode": 0,
+          "logSha256": "11a68763f5b86a157b5fbdcb66862966d82a1d068507b120588eea20aed970c0"
+        }
+      ]
+    }
+  },
+  "registration": {
+    "qt": {
+      "unchanged": true,
+      "beforeSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+      "afterSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04"
+    },
+    "classic": {
+      "unchanged": true,
+      "beforeSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+      "afterSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04"
+    }
+  },
+  "installedFilesUnchanged": {
+    "count": 699,
+    "changed": 0,
+    "baselineSha256": "4e45b29144a068ca1540d2a7f5f3cc99647c8ecb5ef58fc89cd22797d3a7cd6c"
+  },
+  "counts": {
+    "sourceRows": 30,
+    "fragmentedReadPatterns": 90,
+    "partialPacketChecks": 30,
+    "canonicalWorkerChecks": 30,
+    "knownPlanPcmConsumers": 30,
+    "missingAudioPlanRefusals": 30,
+    "negativeControls": 36,
+    "semanticEofControls": 3,
+    "framingUnits": 36,
+    "realEncodedLimitUnits": 9,
+    "ordinaryUnknownAudioCountPlaybackRows": 0
+  },
+  "sourceSha256": {
+    "tests/progressive_audio_count_prototype.py": "ea25d3128318afea0f0c60ab0d56f82c22e8dd4612782fe3ca407687af6ca6e4",
+    "tests/progressive_audio_count_preflight.py": "c13adcdf92caefb8676f5a351db9a436861a7ff58a260af37fa7bf052adfd3c0",
+    "tests/progressive_audio_count_prototype_test.py": "94a7f2a9b0fa34bf4b6602be15f0f97df7b5c217ae2d8ed99b6e92f2f635f4bc",
+    "tests/progressive_audio_count_limits_test.py": "f1617dea93f24058ee105ecf37501dca1488572f100e2ad168c7687cd6308e72",
+    "qt/CMakeLists.txt": "59f212a0f2af553f6017aafcc344ba53b4ef0e28dbd2b1fca547434de92cfc55"
+  },
+  "knownPlanSuppliedAfterPrototypeEof": true,
+  "knownSourceLengthAndVideoEndpointRequired": true,
+  "unknownAudioCountProductionRemaining": true,
+  "executionChecklist": {
+    "total": 16,
+    "done": 7,
+    "remaining": 9
+  },
+  "compositeRequirementsRemaining": 77,
+  "externalVideoFramePlanProvidedToPrototype": true
+}

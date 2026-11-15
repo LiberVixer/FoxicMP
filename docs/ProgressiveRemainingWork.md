@@ -9,7 +9,7 @@
 В подробном чеклисте исторически смешаны 149 подтверждённых записей и 77
 открытых составных требований. Их больше не используем как один счётчик
 готовности. Для оставшегося плана база — 77 требований; для текущего этапа
-есть [фиксированные подпункты номинального DefaultDuration VFR](ProgressiveNominalVfrExecutionChecklist.md) с
+есть [фиксированные подпункты этапа без внешнего audioSamples](ProgressiveAudioCountExecutionChecklist.md) с
 отдельными значениями «всего / готово / осталось». Новые доказательства
 не добавляют выполненных требований. Ниже требования сведены к пакетам работ.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -100,6 +100,15 @@ R01–R10 выполняются последовательными неболь
 проверку недостающих функциональных строк.
 
 ## Ближайший пакет: R01
+
+Текущий незавершённый этап — [WebM/Opus без внешнего audioSamples](ProgressiveAudioCountRemuxPlan.md).
+Подготовка проверена в трёх редакциях: incremental count и canonical output/known-plan
+PCM совпадают с независимым декодированием. Это не новый production mode; SDK1.104
+по-прежнему требует audioSamples. [Фиксированный счётчик](ProgressiveAudioCountExecutionChecklist.md):
+16 всего,7 готово,9 осталось. Следующий шаг ADC-08–ADC-11 — рабочий scanner,
+worker, независимая проверка cache/coverage и динамический PCM end Qt/Classic.
+Новый ordinary playback проверяется после их согласования, не заменяется prototype.
+
 
 1. Составить таблицу оставшихся container/codec/layout rows: уже native-progressive,
    continuous-remux, probe-only, waiting-index и неподдержанные. Для каждой строки

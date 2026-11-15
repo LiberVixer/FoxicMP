@@ -1898,3 +1898,16 @@ video с DefaultDuration1ms–1s и использует явную next-PTS п�
 проверена шестью ordinary-main сценариями с установленным собственным SDK.
 Атомарная замена, backup, неизменный профиль и Windows/HKCU подтверждены.
 Фиксированный этап14/14 завершён; общие77 требований этим не закрыты.
+
+
+## Подготовка следующего R01: производный audio count, 15 ноября 2026
+
+[План](ProgressiveAudioCountRemuxPlan.md) и [отчёт](ProgressiveAudioCountPreflight-2026-11-15.json)
+фиксируют30 source rows и30 known-plan PCM consumers на Linux Qt, Windows Qt и
+Classic,90 fragmented read patterns,36 отрицательных контролей и45 unit/limit tests.
+Count получен без внешнего audioSamples и совпал с independently decoded PCM;
+существующим worker/decoder он передан только после prototype EOF. Новый ordinary
+unknown-count playback не реализован, SDK/capabilities1.104 и установки не изменены.
+Потеря целого packet при новой согласованной длине отделена от premature EOF при
+прежней длине. [Фиксированный этап](ProgressiveAudioCountExecutionChecklist.md):7/16;
+остаются production scanner/worker/cache/decoder, API/main acceptance и поставка.
