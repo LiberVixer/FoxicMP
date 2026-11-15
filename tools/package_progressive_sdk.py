@@ -10,6 +10,9 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveContinuousWebmOpusNominalVfrValidation-2026-11-15.json': 'docs/ProgressiveContinuousWebmOpusNominalVfrValidation-2026-11-15.json',
+    'ProgressiveContinuousWebmOpusNominalVfr.md': 'docs/ProgressiveContinuousWebmOpusNominalVfr.md',
+    'ProgressiveNominalVfrExecutionChecklist.md': 'docs/ProgressiveNominalVfrExecutionChecklist.md',
     'ProgressiveContinuousWebmOpusAutoVfrDelivery-2026-11-15.json': 'docs/ProgressiveContinuousWebmOpusAutoVfrDelivery-2026-11-15.json',
     'ProgressiveContinuousWebmOpusAutoVfrValidation-2026-11-15.json': 'docs/ProgressiveContinuousWebmOpusAutoVfrValidation-2026-11-15.json',
     'ProgressiveContinuousWebmOpusAutoVfr.md': 'docs/ProgressiveContinuousWebmOpusAutoVfr.md',
@@ -307,7 +310,7 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.103', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.104', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(), qtSchema2Playback=qt_schema2_playback(), classicSchema2Playback=classic_schema2_playback(),

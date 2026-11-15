@@ -27,6 +27,9 @@ mode. Его приёмка учитывается в [фиксированно�
 [SDK1.103](ProgressiveContinuousWebmOpusAutoVfr.md) отдельно снимает требование
 внешнего videoSamples при известных endpoint/audioSamples; приёмка отслеживается
 в [фиксированном чеклисте](ProgressiveAutoVfrExecutionChecklist.md).
+[SDK1.104](ProgressiveContinuousWebmOpusNominalVfr.md) отдельно принимает bounded
+nominal DefaultDuration при явной next-PTS нормализации покрытия; другие timing
+semantics этим не объявляются готовыми.
 [Полный порядок работ](ProgressiveRemainingWork.md),
 [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [подробный чеклист](ProgressiveCompletionChecklist.md).

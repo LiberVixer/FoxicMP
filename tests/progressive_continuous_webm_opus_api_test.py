@@ -3,7 +3,7 @@ import copy,json,shutil,time
 from pathlib import Path
 from fractions import Fraction
 from progressive_client import ApiError
-from progressive_continuous import ContinuousRemux,WEBM_VP9_OPUS_MODE,WEBM_VP9_OPUS_NTSC_MODE,WEBM_VP9_OPUS_CFR_MODE,WEBM_VP9_OPUS_VFR_MODE,WEBM_VP9_OPUS_SIMPLE_VFR_MODE,WEBM_VP9_OPUS_AUTO_VFR_MODE
+from progressive_continuous import ContinuousRemux,WEBM_VP9_OPUS_MODE,WEBM_VP9_OPUS_NTSC_MODE,WEBM_VP9_OPUS_CFR_MODE,WEBM_VP9_OPUS_VFR_MODE,WEBM_VP9_OPUS_SIMPLE_VFR_MODE,WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE
 from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
 from progressive_player_crash_recovery import wait,sha
@@ -11,10 +11,11 @@ from progressive_webm_opus_remux_preflight import fixture,PROFILES,probe,pcm,pac
 from progressive_webm_remux_preflight import unknown_clusters,scan
 MODE=WEBM_VP9_OPUS_MODE
 
-def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=False,simple=False,auto_count=False):
+def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=False,simple=False,auto_count=False,nominal=False):
+ auto_count=auto_count or nominal
  simple=simple or auto_count
  global MODE
- MODE=WEBM_VP9_OPUS_AUTO_VFR_MODE if auto_count else WEBM_VP9_OPUS_SIMPLE_VFR_MODE if simple else WEBM_VP9_OPUS_VFR_MODE if vfr else WEBM_VP9_OPUS_CFR_MODE if cfr else WEBM_VP9_OPUS_NTSC_MODE if ntsc else WEBM_VP9_OPUS_MODE
+ MODE=WEBM_VP9_OPUS_NOMINAL_VFR_MODE if nominal else WEBM_VP9_OPUS_AUTO_VFR_MODE if auto_count else WEBM_VP9_OPUS_SIMPLE_VFR_MODE if simple else WEBM_VP9_OPUS_VFR_MODE if vfr else WEBM_VP9_OPUS_CFR_MODE if cfr else WEBM_VP9_OPUS_NTSC_MODE if ntsc else WEBM_VP9_OPUS_MODE
  vfr=vfr or simple
  options=dict(rate='30000/1001') if ntsc else {}
  report=Path(report);rows=[];current=None;client=peers[0].client
@@ -35,6 +36,8 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=Fa
   from progressive_webm_cfr_fixtures import CASES,media
   from progressive_webm_vfr_fixtures import CASES as VFR_CASES,media as vfr_media
   from progressive_webm_simple_vfr_fixtures import CASES as SIMPLE_CASES,media as simple_media
+  if nominal:
+   from progressive_webm_nominal_vfr_fixtures import CASES as SIMPLE_CASES,media as simple_media
   if simple:VFR_CASES,vfr_media=SIMPLE_CASES,simple_media
   for case in (VFR_CASES if vfr else CASES if cfr else (PROFILES[0],PROFILES[1],PROFILES[4])):
    if vfr:
@@ -135,7 +138,7 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=Fa
    assert pcm(original,folder,'pcm-source')==pcm(output,folder,'pcm-output')
    sdk.control('play');finished=playback(sdk,lambda s:s['state']=='finished','natural EOF',12);digest=sha(path);began=time.monotonic();released=sdk.close(timeout=2);elapsed=time.monotonic()-began;forgotten=sdk.forget(timeout=2);current=None
    assert released['sourceFilesClosed'] and released['released'] and elapsed<2 and forgotten['forgotten'] and sha(path)==digest and path.read_bytes()==raw and not list(cache.glob('remux-*'))
-   rows.append(dict(profile=name,derivedVideoCount=auto_count,videoRate=rate,videoSamples=frame_count if vfr else None,result='PASS',waiting=waiting,partial=partial,ready=ready,running=running,viewedBeforeComplete=viewed,paused=paused,growingSeek=seeking,queued=queued,applied=applied,complete=complete,finished=finished,releaseSeconds=elapsed,exactPcm=True,exactPacketsAndClocks=True,sourceUnchanged=True));(report/'progress.json').write_text(json.dumps(dict(completed=[r['profile'] for r in rows])))
+   rows.append(dict(profile=name,nominalDefaultDuration=scan(raw)["defaultDurationNs"] if nominal else None,derivedVideoCount=auto_count,videoRate=rate,videoSamples=frame_count if vfr else None,result='PASS',waiting=waiting,partial=partial,ready=ready,running=running,viewedBeforeComplete=viewed,paused=paused,growingSeek=seeking,queued=queued,applied=applied,complete=complete,finished=finished,releaseSeconds=elapsed,exactPcm=True,exactPacketsAndClocks=True,sourceUnchanged=True));(report/'progress.json').write_text(json.dumps(dict(completed=[r['profile'] for r in rows])))
  finally:
   if current:
    try:current.close(timeout=2);current.forget(timeout=2)

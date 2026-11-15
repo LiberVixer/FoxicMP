@@ -22,23 +22,28 @@ def with_default(raw,value):
    else:output+=raw[at:end]
   return bytes(output)
  return raw[:start]+rewrite(start,layout['headBytes'])+raw[layout['headBytes']:]
-def run(worker,report,auto_count=False):
+def run(worker,report,auto_count=False,nominal=False):
+ auto_count=auto_count or nominal
  global MODE
- MODE='continuous-webm-vp9-opus-simple-vfr-auto-count-v1' if auto_count else 'continuous-webm-vp9-opus-simple-vfr-v1'
+ MODE='continuous-webm-vp9-opus-simple-vfr-nominal-v1' if nominal else 'continuous-webm-vp9-opus-simple-vfr-auto-count-v1' if auto_count else 'continuous-webm-vp9-opus-simple-vfr-v1'
+ if nominal:
+  from progressive_webm_nominal_vfr_fixtures import CASES as cases,media as create_media
+ else:cases,create_media=CASES,media
  report=Path(report);report.mkdir(parents=True,exist_ok=True)
  with tempfile.TemporaryDirectory(prefix='fox-simple-read-budget-') as t:
-  source,_,frames,end,_,profile=media(Path(t)/'fixture',CASES[0])
+  source,_,frames,end,_,profile=create_media(Path(t)/'fixture',cases[0])
   row,_=serve(worker,source,mode=MODE,format_hint='webm',video_samples=None if auto_count else frames,video_duration=end,audio_samples=profile[5],growing=False)
   assert row['exitCode']==0 and row['result']['code']=='data',row
   bound=(source.stat().st_size+65535)//65536+1
   assert row['reads']<=bound,(row['reads'],bound)
   rejects=[]
-  for duration in (0,40000000):
-   path=source.with_name('default-'+str(duration)+'.webm');path.write_bytes(with_default(source.read_bytes(),duration))
+  for duration in ((0,999999,1000000001) if nominal else (0,40000000)):
+   path=source.with_name('default-'+str(duration)+'.webm');from progressive_simple_vfr_preflight import head_without_default
+   path.write_bytes(with_default(head_without_default(source.read_bytes()) if nominal else source.read_bytes(),duration))
    rejected,_=serve(worker,path,mode=MODE,format_hint='webm',video_samples=None if auto_count else frames,video_duration=end,audio_samples=profile[5],growing=False)
    assert rejected['exitCode']==1 and rejected['result']['code'] in ('unsupported-stream-webm-default-duration','unsupported-stream-webm-configuration'),rejected
    rejects.append(dict(defaultDuration=duration,exitCode=rejected['exitCode'],code=rejected['result']['code']))
   result=dict(result='PASS',reads=row['reads'],maxReads=bound,inputBytes=source.stat().st_size,sourceComplete=True,worker=row,defaultDurationRejections=rejects)
   (report/'result.json').write_text(json.dumps(result,indent=2)+'\n');return result
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--auto-count',action='store_true');p.add_argument('--worker',type=Path,required=True);p.add_argument('--report-directory',required=True);a=p.parse_args();print(json.dumps(run(a.worker.resolve(),a.report_directory,a.auto_count)))
+ p=argparse.ArgumentParser();p.add_argument('--nominal',action='store_true');p.add_argument('--auto-count',action='store_true');p.add_argument('--worker',type=Path,required=True);p.add_argument('--report-directory',required=True);a=p.parse_args();print(json.dumps(run(a.worker.resolve(),a.report_directory,a.auto_count,a.nominal)))

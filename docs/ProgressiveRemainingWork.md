@@ -1,6 +1,6 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 15 ноября 2026, включая bounded continuous WebM VP9/Opus восьми CFR частот 23.976–60fps, SDK1.103 (включая VFR с явными BlockDuration, SimpleBlock и производным video count).
+Рабочая сводка на 15 ноября 2026, включая bounded continuous WebM VP9/Opus восьми CFR частот 23.976–60fps, SDK1.104 (включая VFR с явными BlockDuration, SimpleBlock, производным video count и номинальным DefaultDuration).
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
@@ -9,7 +9,7 @@
 В подробном чеклисте исторически смешаны 149 подтверждённых записей и 77
 открытых составных требований. Их больше не используем как один счётчик
 готовности. Для оставшегося плана база — 77 требований; для текущего этапа
-есть [фиксированные подпункты автоматического video count](ProgressiveAutoVfrExecutionChecklist.md) с
+есть [фиксированные подпункты номинального DefaultDuration VFR](ProgressiveNominalVfrExecutionChecklist.md) с
 отдельными значениями «всего / готово / осталось». Новые доказательства
 не добавляют выполненных требований. Ниже требования сведены к пакетам работ.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -64,6 +64,12 @@ E — внешняя зависимость. Каждый R остаётся о�
   SimpleBlock VFR mode без внешнего `videoSamples`; final counter связан с writer
   EOF/outputComplete. Известные source length, endpoint и audioSamples сохраняются.
   Статус приёмки — [фиксированный чеклист](ProgressiveAutoVfrExecutionChecklist.md).
+
+- [SDK1.104: номинальный DefaultDuration](ProgressiveContinuousWebmOpusNominalVfr.md):
+  отдельный opt-in SimpleBlock VFR mode нормализует video coverage по next-PTS,
+  сохраняя nominal header и считая кадры автоматически. Это не обещание сохранения
+  исходных nominal packet durations или намеренных пустых интервалов.
+  Приёмка — [фиксированный чеклист](ProgressiveNominalVfrExecutionChecklist.md).
 
 ## Порядок разработки
 

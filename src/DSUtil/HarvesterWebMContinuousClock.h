@@ -8,13 +8,16 @@ struct WebmContinuousClock {
     bool explicitRate=false;
     bool variable=false;
     bool derivedCount=false;
+    bool nominalDefault=false;
     uint64_t expectedFrames=0,expectedEnd100ns=0;
     WebmContinuousClock()=default;
     explicit WebmContinuousClock(bool ntsc):numerator(ntsc?30000:25),denominator(ntsc?1001:1){}
     WebmContinuousClock(uint32_t n,uint32_t d):numerator(n),denominator(d),explicitRate(true){}
     static WebmContinuousClock Vfr(uint64_t frames,uint64_t end){WebmContinuousClock c;c.variable=true;c.expectedFrames=frames;c.expectedEnd100ns=end;return c;}
     static WebmContinuousClock VfrAutoCount(uint64_t end){auto c=Vfr(0,end);c.derivedCount=true;return c;}
+    static WebmContinuousClock VfrNominal(uint64_t end){auto c=VfrAutoCount(end);c.nominalDefault=true;return c;}
     bool Valid()const {
+        if(nominalDefault && (!variable || !derivedCount))return false;
         if(variable)return !explicitRate && (derivedCount?expectedFrames==0:expectedFrames>0 && expectedFrames<=50000) && expectedEnd100ns>0 && expectedEnd100ns<=36000000000ULL && expectedEnd100ns%10000==0;
         if(derivedCount)return false;
         return (denominator==1 && (numerator==24 || numerator==25 || numerator==30 || numerator==50 || numerator==60))
@@ -22,6 +25,7 @@ struct WebmContinuousClock {
     }
     bool DefaultDuration(uint64_t ns)const {
         if(!Valid())return false;
+        if(nominalDefault)return ns>=1000000 && ns<=1000000000;
         if(variable)return ns==0 || (ns>=100 && ns<=1000000000);
         const auto scaled=uint64_t(1000000000)*denominator;
         const auto lower=scaled/numerator,upper=(scaled+numerator-1)/numerator;

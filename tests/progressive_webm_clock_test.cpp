@@ -43,5 +43,10 @@ int main()try{
  check(derived.Valid() && derived.variable && derived.derivedCount && derived.expectedFrames==0 && derived.Frames(240000000)==0);
  check(!harvester::WebmContinuousClock::VfrAutoCount(0).Valid() && !harvester::WebmContinuousClock::VfrAutoCount(240000001).Valid());
  derived.expectedFrames=1;check(!derived.Valid());derived.expectedFrames=0;derived.variable=false;check(!derived.Valid());
+ auto nominal=harvester::WebmContinuousClock::VfrNominal(240000000);
+ check(nominal.Valid() && nominal.derivedCount && nominal.nominalDefault && nominal.expectedFrames==0);
+ check(nominal.DefaultDuration(1000000) && nominal.DefaultDuration(1000000000));
+ check(!nominal.DefaultDuration(0) && !nominal.DefaultDuration(999999) && !nominal.DefaultDuration(1000000001));
+ nominal.derivedCount=false;check(!nominal.Valid());
  std::cout<<"{\"result\":\"PASS\",\"ntscOriginAndRounding\":true,\"old25fpsUnchanged\":true,\"boundedArithmetic\":true}"<<std::endl;return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 1;}

@@ -1852,3 +1852,21 @@ Windows-установки/HKCU и Linux-профиль сохранены; Harv
 сценариев прошли. Автоматический video count проверен без внешнего frame plan.
 Windows-установки/HKCU сохранены; приёмка относится к отдельным новым сборкам.
 Фиксированный этап14/14 завершён; общие R01/R04/R15/R17 остаются открытыми.
+
+
+## SDK1.104: bounded nominal DefaultDuration VFR, 15 ноября 2026
+
+[Отдельный режим](ProgressiveContinuousWebmOpusNominalVfr.md) принимает SimpleBlock
+video с DefaultDuration1ms–1s и использует явную next-PTS политику непрерывного
+покрытия. Header, packets и PTS/DTS сохраняются; исходные nominal durations и
+намеренные gaps не объявляются сохранёнными. Video count производный, endpoint
+и audioSamples известны. Старые absent-DefaultDuration/explicit-duration профили
+не расширены. [Фиксированная приёмка](ProgressiveNominalVfrExecutionChecklist.md)
+проверяет Qt Linux/Windows и Classic отдельно. Harvester не изменяется.
+
+
+[SDK1.104: проверка перед поставкой](ProgressiveContinuousWebmOpusNominalVfrValidation-2026-11-15.json):
+99 worker /24 ordinary main (включая6 boundary hint) /18 PCM /525 legacy worker /
+69 legacy main,142 SDK units и4000 sanitizer mutations прошли. Endpoint/audioSamples
+остаются известными. Три редакции проверены отдельно; номинальные packet durations
+и намеренные gaps не объявлены сохранёнными. Установки/HKCU и профиль сохранены.
