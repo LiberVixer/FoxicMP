@@ -396,6 +396,7 @@ STDMETHODIMP CMpaDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 {
 	return
 		QI(IMpaDecFilter)
+		QI(IProgressiveGrowingOpusControl)
 		QI(IProgressivePcmControl)
 		QI(IProgressiveAacPcmControl)
 		QI(IExFilterConfig)
@@ -429,7 +430,7 @@ HRESULT CMpaDecFilter::BeginFlush()
 HRESULT CMpaDecFilter::EndFlush()
 {
 	CAutoLock cAutoLock(&m_csReceive);
-	m_pcmSegment={};
+	m_pcmSegment={};m_growingOpus=false;
 	m_buff.Clear();
 	m_FFAudioDec.FlushBuffers();
 	m_Mixer.FlushBuffers();
@@ -444,7 +445,7 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 {
 	CAutoLock cAutoLock(&m_csReceive);
 	if(m_pcmSegment.pending || m_pcmSegment.applied || m_pcmSegment.failed)m_FFAudioDec.FlushBuffers();
-	m_pcmSegment={};
+	m_pcmSegment={};m_growingOpus=false;
 	m_ps2_state.sync = false;
 	m_hdmi_bitstream.Clear();
 
@@ -469,8 +470,19 @@ HRESULT CMpaDecFilter::StopStreaming()
 {
 	CAutoLock lock(&m_csReceive);
 	if(m_pcmSegment.pending || m_pcmSegment.applied || m_pcmSegment.failed)m_FFAudioDec.FlushBuffers();
-	m_pcmSegment={};
+	m_pcmSegment={};m_growingOpus=false;
 	return __super::StopStreaming();
+}
+STDMETHODIMP CMpaDecFilter::ArmGrowingOpus(ULONGLONG begin,ULONGLONG end,ULONGLONG first)
+{
+    CAutoLock lock(&m_csReceive);const auto hr=ArmPcmWindow(2,begin,end,48000,first);if(SUCCEEDED(hr))m_growingOpus=true;return hr;
+}
+STDMETHODIMP CMpaDecFilter::AdvanceGrowingOpus(ULONGLONG end)
+{
+    CAutoLock lock(&m_csReceive);
+    if(!m_growingOpus || m_pcmSegment.failed || end<m_pcmSegment.end || end>48000312)return E_INVALIDARG;
+    if(m_pcmSegment.applied && !m_FFAudioDec.AdvanceOpusPcmWindow(end)){m_pcmSegment.failed=true;return E_INVALIDARG;}
+    m_pcmSegment.end=end;return S_OK;
 }
 STDMETHODIMP CMpaDecFilter::ArmPcmWindow(UINT version, ULONGLONG begin, ULONGLONG end, UINT rate, ULONGLONG decodeFirst)
 {
@@ -478,7 +490,7 @@ STDMETHODIMP CMpaDecFilter::ArmPcmWindow(UINT version, ULONGLONG begin, ULONGLON
 	const bool opus=version==2 && m_CodecId==AV_CODEC_ID_OPUS && rate==48000 && begin>=312 && end<=48000312 && decodeFirst%960==0;
 	if((!opus && (version!=1 || m_CodecId!=AV_CODEC_ID_MP3)) || m_pcmSegment.received || m_pcmSegment.pending || m_pcmSegment.applied ||
 		!check.Configure(begin,end,rate,decodeFirst)) return E_INVALIDARG;
-	m_pcmSegment={begin,end,decodeFirst,rate,true,false,false,false,false,opus};return S_OK;
+	m_pcmSegment={begin,end,decodeFirst,rate,true,false,false,false,false,opus};m_growingOpus=false;return S_OK;
 }
 STDMETHODIMP CMpaDecFilter::ArmAacPcmWindow(UINT version,UINT rate,UINT channels,ULONGLONG samples,UINT initialSkip,ULONGLONG target,ULONGLONG decodeFirst)
 {
@@ -2383,7 +2395,7 @@ HRESULT CMpaDecFilter::BreakConnect(PIN_DIRECTION dir)
 
 	if (dir == PINDIR_INPUT) {
 		m_FFAudioDec.StreamFinish();
-		m_pcmSegment={};
+		m_pcmSegment={};m_growingOpus=false;
 		m_bNeedBitstreamCheck = TRUE;
 	}
 

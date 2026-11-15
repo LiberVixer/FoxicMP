@@ -92,6 +92,8 @@ int main(int argc,char** argv){
         else if(action=="ownerRetire"){std::cout<<"{\"ok\":true,\"removed\":"<<(owner->retire(store)?"true":"false")<<"}"<<std::endl;continue;}
         else if(action=="budgetStatus"){std::cout<<"{\"ok\":true,\"bytes\":"<<budget->bytes()<<"}"<<std::endl;continue;}
         else if(action=="budget"){p::Require(!store && !session && readers.empty() && owner->count()==0,"test","Budget still in use");budget=std::make_shared<p::StreamCacheBudget>(p::Unsigned(d["bytes"],"bytes"));owner=std::make_shared<p::StreamCacheOwner>(budget);}
+        else if(action=="derivedStore")store=owner->create(std::filesystem::u8path(p::Text(d["root"],"root",8192)),registry,p::Text(d["sessionId"],"sessionId"),1,64*1024*1024,false,false,false,true,false,0,false,harvester::WebmContinuousClock::VfrDerivedAv(p::Unsigned(d["endpoint"],"endpoint")));
+        else if(action=="verifyDerived")store->verifyDerivedAudio(p::Unsigned(d["samples"],"samples"),p::Unsigned(d["packets"],"packets"));
         else if(action=="store")store=std::make_shared<p::StreamOutputStore>(std::filesystem::u8path(p::Text(d["root"],"root",8192)),registry,p::Text(d["sessionId"],"sessionId"),1,budget,d.HasMember("limit")?p::Unsigned(d["limit"],"limit"):64*1024*1024);
         else if(action=="holdStore")held[p::Text(d["name"],"name")]=store;
         else if(action=="selectStore")store=held.at(p::Text(d["name"],"name"));
@@ -134,6 +136,7 @@ int main(int argc,char** argv){
             const auto s=session?snapshot.output:store->status();rapidjson::Document out;out.SetObject();auto& a=out.GetAllocator();
             out.AddMember("ok",true,a);out.AddMember("written",s.written,a);out.AddMember("visible",s.visible,a);out.AddMember("fragments",s.fragments,a);out.AddMember("samples",s.samples,a);out.AddMember("activeReaders",uint64_t(s.activeReaders),a);out.AddMember("budgetBytes",budget->bytes(),a);
             out.AddMember("videoSamples",s.videoSamples,a);out.AddMember("audioSamples",s.audioSamples,a);out.AddMember("audioWindow",p::Value(s.audioWindow.c_str(),a),a);
+            out.AddMember("audioPresentationSamples",s.audioPresentationSamples,a);
             out.AddMember("videoIndexedEnd100ns",s.videoIndexedEnd100ns,a);out.AddMember("audioIndexedEnd100ns",s.audioIndexedEnd100ns,a);out.AddMember("indexedEnd100ns",s.indexedEnd100ns,a);out.AddMember("audioIndexedComplete",s.audioIndexedComplete,a);
             out.AddMember("initialized",s.initialized,a);out.AddMember("complete",s.complete,a);out.AddMember("producerClosed",s.producerClosed,a);out.AddMember("originalsClosed",s.originalsClosed,a);out.AddMember("retiring",s.retiring,a);out.AddMember("removed",s.removed,a);out.AddMember("failure",p::Value(s.failure.c_str(),a),a);out.AddMember("cleanupCode",p::Value(s.cleanupCode.c_str(),a),a);
             auto path=session?session->privatePath():store->privatePath();out.AddMember("path",p::Value(path.u8string().c_str(),a),a);

@@ -18,3 +18,10 @@ IProgressiveAacPcmControl : public IUnknown {
         ULONGLONG samples, UINT initialSkip, ULONGLONG target, ULONGLONG decodeFirst) PURE;
     STDMETHOD(AacPcmWindowState)(DWORD* flags) PURE;
 };
+// Separate IID: provisional bounded PCM stop may advance before each packet.
+// Fixed MP3 v1 / Opus v2 / AAC admissions retain their exact immutable stop.
+interface __declspec(uuid("55679A44-A59A-48B0-A4D1-E58B70D5CCAF"))
+IProgressiveGrowingOpusControl : public IUnknown {
+    STDMETHOD(ArmGrowingOpus)(ULONGLONG begin, ULONGLONG end, ULONGLONG decodeFirst) PURE;
+    STDMETHOD(AdvanceGrowingOpus)(ULONGLONG end) PURE;
+};

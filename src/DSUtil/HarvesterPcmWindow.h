@@ -23,6 +23,9 @@ public:
     bool Active()const{return rate!=0;}
     bool Complete()const{return Active() && cursor>=end;}
     uint32_t Rate()const{return rate;}
+    // Only the explicit growing Opus adapter calls this; existing fixed-window
+    // admissions never change their stop after Configure. Cursor is preserved.
+    bool ExtendEnd(uint64_t stop){if(!Active() || stop<end || stop>uint64_t((std::numeric_limits<int64_t>::max)()/10000000))return false;end=stop;return true;}
     void Clear(){*this=Window();}
     bool Take(uint64_t samples,uint32_t sampleRate,Slice& out) {
         if (!Active() || sampleRate!=rate || samples>(std::numeric_limits<uint64_t>::max)()-cursor) return false;

@@ -26,6 +26,7 @@ class Layout {
 public:
     using Read=WebMRead;
     using Validate=std::function<void(unsigned,const WebMInfo&)>;
+    using AudioValidate=std::function<void(webm::Data,int64_t,int64_t)>;
     std::array<View,2> tracks;
     explicit Layout(bool durations=false):explicitVideoDuration(durations){}
 private:
@@ -82,13 +83,18 @@ private:
         uint64_t id=block.bytes[0]&((0x80u>>(w-1))-1);for(unsigned i=1;i<w;++i)id=(id<<8)|block.bytes[i];
         Check(id==tracks[0].id || id==tracks[1].id,"WebM block references an undeclared track");return id==tracks[0].id?0:1;
     }
-    void Cluster(const Read& read,const webm::Element& e,uint64_t prefix) {
+    void Cluster(const Read& read,const webm::Element& e,uint64_t prefix,const AudioValidate& audioValidate) {
         Check(++clusters<=8192,"Too many shared WebM clusters");const auto raw=webm::Body(read,e,prefix,MaxCluster);const webm::Data data{raw.data(),raw.size(),e.data};
-        Bytes clock;std::array<std::vector<std::pair<uint64_t,uint64_t>>,2> selected;std::array<uint64_t,2> sizes{};size_t blocks=0;
+        uint64_t stamp=0;Bytes clock;std::array<std::vector<std::pair<uint64_t,uint64_t>>,2> selected;std::array<uint64_t,2> sizes{};size_t blocks=0;
         for(const auto& child:data.Children(65536)) {
-            if(child.id==0xe7){Check(clock.empty(),"Repeated Cluster timestamp");child.body.Number();clock=Element(child.id,child.body);}
+            if(child.id==0xe7){Check(clock.empty(),"Repeated Cluster timestamp");stamp=child.body.Number();clock=Element(child.id,child.body);}
             else if(child.id==0xa3 || child.id==0xa0) {
-                Check(!clock.empty(),"Block before Cluster timestamp");Kind(child.id==0xa3?child.body:child.body.One(0xa1));
+                Check(!clock.empty(),"Block before Cluster timestamp");const auto block=child.id==0xa3?child.body:child.body.One(0xa1);const auto kind=Kind(block);
+                if(kind==1 && audioValidate){
+                    int64_t padding=0;if(child.id==0xa0){for(const auto& f:child.body.Children()){Check(f.id==0xa1 || f.id==0x75a2 || f.id==0x9b || f.id==0xbf,"Unsupported audio BlockGroup");if(f.id==0x75a2)padding=child.body.One(0x75a2).Signed();}}
+                    const auto w=webm::Width(block.bytes[0],8);Check(!(block.bytes[w+2]&0x7f) && stamp<=3600000,"Invalid audio block clock/flags");
+                    audioValidate({block.bytes+w+3,block.size-w-3},AddTime(int64_t(stamp),int16_t(uint16_t(block.bytes[w])<<8|block.bytes[w+1])),padding);
+                }
                 // Keep the original complete SimpleBlock/BlockGroup, including
                 // variable-width track IDs, references and discard padding.
                 ++blocks;
@@ -118,7 +124,7 @@ public:
         auto* bytes=static_cast<uint8_t*>(out);size_t copied=0;auto i=std::upper_bound(view.spans.begin(),view.spans.end(),at,[](uint64_t p,const Span& s){return p<s.offset;});if(i!=view.spans.begin())--i;
         for(;copied<count && i!=view.spans.end();++i){if(at>=i->offset+i->length)continue;Check(at>=i->offset,"WebM virtual layout gap");const auto n=size_t((std::min)(uint64_t(count-copied),i->length-(at-i->offset)));if(i->memory)std::memcpy(bytes+copied,i->memory->data()+size_t(at-i->offset),n);else if(!read(i->physical+at-i->offset,bytes+copied,n))return false;at+=n;copied+=n;}return copied==count;
     }
-    void Update(const Read& read,uint64_t prefix,bool complete,const Validate& validate) {
+    void Update(const Read& read,uint64_t prefix,bool complete,const Validate& validate,const AudioValidate& audioValidate={}) {
         Check(prefix>=scanned && prefix-scanned<=MaxAppend && prefix<=uint64_t(INT64_MAX),"Shared WebM prefix regressed or append exceeds 16 MiB");scanned=prefix;
         if(!started) {
             webm::Element h;if(!webm::Header(read,0,prefix,h)){Check(!complete,"Truncated final EBML header");return;}Check(h.id==0x1a45dfa3 && !h.unknown && h.size<=4096,"Expected bounded EBML header");if(h.end>prefix){Check(!complete,"Truncated final EBML body");return;}
@@ -128,7 +134,7 @@ public:
         while(position<prefix) {
             webm::Element e;if(!webm::Header(read,position,prefix,e))break;Check(!e.unknown && e.end<=segmentEnd,"Unknown-size/oversized Segment child");
             Check(e.size<=(e.id==0x1f43b675?MaxCluster:MaxInit),"Shared WebM element exceeds bound");if(e.end>prefix)break;Check(++elements<=32768,"Too many WebM top-level elements");
-            if(e.id==0x1f43b675){Check(initialized,"Cluster before Info/Tracks");Cluster(read,e,prefix);}
+            if(e.id==0x1f43b675){Check(initialized,"Cluster before Info/Tracks");Cluster(read,e,prefix,audioValidate);}
             else if(e.id==0x1549a966 || e.id==0x1654ae6b) {
                 Check(!initialized && e.end<=MaxInit,"Repeated/oversized WebM initialization");const auto bytes=webm::Body(read,e,prefix,MaxInit);const webm::Data data{bytes.data(),bytes.size(),e.data};if(e.id==0x1549a966)Info(data);else Tracks(data);if(hasInfo && hasTracks)Initialize(validate);
             }else Check(e.id==0x114d9b74 || e.id==0x1c53bb6b || e.id==0x1254c367 || e.id==0xec || e.id==0xbf,"Unsupported shared WebM top-level element");

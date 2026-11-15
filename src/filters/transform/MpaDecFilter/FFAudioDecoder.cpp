@@ -587,6 +587,8 @@ bool CFFAudioDecoder::SetPcmWindow(uint64_t begin, uint64_t end, uint32_t rate, 
 	m_pcmWindowFailed=false;return true;
 }
 
+bool CFFAudioDecoder::AdvanceOpusPcmWindow(uint64_t end){return GetCodecId()==AV_CODEC_ID_OPUS && end<=48000312 && m_pcmWindow.ExtendEnd(end);}
+
 bool CFFAudioDecoder::SetOpusPcmWindow(uint64_t begin,uint64_t end,uint64_t decodeFirst)
 {
     if(!m_pAVCtx || GetCodecId()!=AV_CODEC_ID_OPUS || m_bNeedMix || m_pAVCtx->sample_rate!=48000 ||

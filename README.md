@@ -374,3 +374,9 @@ SDK 1.52: [copy-remux ограниченного MP4-фрагмента](docs/Pr
 [проверки](docs/ProgressiveRemuxStageValidation-2026-10-31.md).
 Без перекодирования и изменения оригиналов; новый playback adapter ещё не подключён.
 SDK ZIP содержит клиент/документы; установщики 0.2.0 этот этап не включают.
+
+
+SDK1.105 добавляет явный progressive WebM VP9/Opus mode без предварительных
+`audioSamples` и `videoSamples`: [контракт и ограничения](docs/ProgressiveContinuousWebmDerivedAudio.md).
+Длина источника и конечная точка видео пока должны быть известны. Старые режимы
+с известным аудиопланом сохранены; код YouTubeHarvester не изменяется.

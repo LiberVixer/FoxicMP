@@ -7,6 +7,7 @@
 #include "HarvesterWebMContinuousClock.h"
 #include "HarvesterOggOpus.h"
 #include "HarvesterVP9.h"
+#include "HarvesterOpusSampleClock.h"
 #include <deque>
 #include <memory>
 namespace harvester {
@@ -16,6 +17,7 @@ public:
     using Read=std::function<size_t(uint8_t*,size_t)>;
 private:
     WebmContinuousClock videoClock;
+    OpusSampleClock derivedAudio;
     const bool simpleVfr;
     Read input;uint64_t length,videoExpected,audioSamples,audioExpected,at=0,videoCount=0,audioCount=0;
     uint64_t videoEndMs=0;
@@ -49,6 +51,7 @@ private:
     void block(webm::Data b,uint64_t clock,bool group,int64_t padding,uint64_t duration=0,bool reference=false){
         check(b.size>=5,"unsupported-stream-webm-block");auto w=webm::Width(b.bytes[0],8);check(b.size>w+3,"unsupported-stream-webm-block");uint64_t id=b.bytes[0]&((0x80u>>(w-1))-1);for(unsigned i=1;i<w;++i)id=id*256+b.bytes[i];check(id==video.track || id==audio.track,"unsupported-stream-webm-track");auto flags=b.bytes[w+2];check(!(flags&0x7f),"unsupported-stream-webm-block");auto ticks=AddTime(int64_t(clock),int16_t(uint16_t(b.bytes[w])<<8|b.bytes[w+1]));check(ticks>=0 && uint64_t(ticks)<=((videoClock.explicitRate || videoClock.variable)?3600000u:2000000u),"unsupported-stream-webm-clock");const auto* p=b.bytes+w+3;auto n=b.size-w-3;
         if(id==video.track){
+            check(!videoClock.derivedAudio || videoCount+audioCount<50000,"stream-webm-packet-limit");
             bool key=flags&0x80;
             if(videoClock.variable){
                 check(group && flags==0 && !padding && duration>0 && duration<=1000 && videoCount<videoExpected,"unsupported-stream-webm-video-duration");
@@ -56,6 +59,7 @@ private:
                 videoEndMs=uint64_t(ticks)+duration;key=!reference;
             }else check(!group && !padding && videoCount<videoExpected && videoClock.Packet(uint64_t(ticks),videoCount),"unsupported-stream-webm-clock");
             check(key==((p[0]&4)==0),"unsupported-stream-webm-vp9-key");if(!configured){check(n>=5 && key,"unsupported-stream-vp9-frame");config.profile=((p[0]>>5)&1)|(((p[0]>>4)&1)<<1);check(config.profile==0 || config.profile==2,"unsupported-stream-vp9-configuration");config.depth=config.profile==2?10:8;config.chroma=1;config.range=(p[4]>>(config.profile==2?3:4))&1;check((video.vp9Profile<0 || video.vp9Profile==int(config.profile)) && (video.vp9Depth<0 || video.vp9Depth==int(config.depth)),"unsupported-stream-vp9-configuration");configured=true;}VP9ContinuousSuperframePacket(p,n,config,video.width,video.height,videoCount==0,check);++videoCount;}
+        else if(videoClock.derivedAudio){check(!reference && videoCount+audioCount<50000,"stream-webm-packet-limit");derivedAudio.Add(ticks,p,n,padding);++audioCount;}
         else{check(!reference,"unsupported-stream-webm-block");check(audioCount<audioExpected && oggopus::Duration(Bytes(p,p+n))==960,"unsupported-stream-opus-packet");const auto sampleClock=int64_t(audioCount*960);check(std::abs(ticks*48-sampleClock)<=48 && (audioCount || ticks==0),"unsupported-stream-opus-clock");const auto trim=audioExpected*960-312-audioSamples;const auto ns=trim*1000000000ULL/48000;check(padding>=0 && (audioCount+1==audioExpected?(uint64_t(padding)==ns || uint64_t(padding)==ns+(trim*1000000000ULL%48000!=0)):padding==0),"unsupported-stream-opus-end-trim");++audioCount;}
     }
     void cluster(Element e){
@@ -82,7 +86,7 @@ private:
             else check(c.value.id==0xec || c.value.id==0xbf || c.value.id==0xa7 || c.value.id==0xab,"unsupported-stream-webm-block");join(b,c.header);join(b,bytes);
         }
         check(hasClock && blocks && (e.value.unknown || at==e.value.end),"truncated-stream-webm-cluster");
-        if(at==length && !hasLook){uint8_t byte;check(input(&byte,1)==0,"unsupported-stream-webm-tail");check(videoFinished() && audioCount==audioExpected && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");ended=true;}
+        if(at==length && !hasLook){uint8_t byte;check(input(&byte,1)==0,"unsupported-stream-webm-tail");check(videoFinished() && (videoClock.derivedAudio?audioCount==derivedAudio.Packets():audioCount==audioExpected) && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");ended=true;}
         seal(e,b.size());join(pending,e.header);join(pending,b);
     }
     // Separate source profile: no DefaultDuration or video BlockGroups. Only
@@ -93,7 +97,7 @@ private:
         unsigned children=0,blocks=0;
     };
     std::deque<std::shared_ptr<SimpleCluster>> simpleQueue;
-    std::shared_ptr<SimpleCluster> simpleCurrent,unresolvedOwner;
+    std::shared_ptr<SimpleCluster> simpleCurrent,unresolvedOwner,audioOwner;
     Bytes unresolved;size_t unresolvedAt=0;uint64_t unresolvedClock=0,outputTotal=0;
     static void element(Bytes& dst,uint32_t id,const Bytes& data){
         unsigned w=id>0xffffff?4:id>0xffff?3:id>0xff?2:1;
@@ -110,7 +114,7 @@ private:
         check(bytes<=33554432,"stream-webm-pending-limit");
     }
     void simpleFlush(){
-        while(!simpleQueue.empty() && simpleQueue.front()->closed && simpleQueue.front()!=unresolvedOwner){
+        while(!simpleQueue.empty() && simpleQueue.front()->closed && simpleQueue.front()!=unresolvedOwner && simpleQueue.front()!=audioOwner){
             auto c=simpleQueue.front();Bytes output;element(output,0x1f43b675,c->bytes);
             check(output.size()<=67108864-outputTotal,"backend-output-limit");outputTotal+=output.size();join(pending,output);simpleQueue.pop_front();
         }
@@ -148,6 +152,7 @@ private:
                 }
             }
             block({bytes.data(),bytes.size()},simpleCurrent->clock,tag==0xa0,pad,duration);
+            if(videoClock.derivedAudio)audioOwner=derivedAudio.Terminal()?nullptr:simpleCurrent;
         }
         ++simpleCurrent->blocks;simpleBudget();
     }
@@ -159,8 +164,9 @@ private:
                 uint8_t byte;check(input(&byte,1)==0,"unsupported-stream-webm-tail");
                 if(simpleCurrent){check(simpleCurrent->unknown,"truncated-stream-webm-cluster");simpleClose();}
                 check(unresolvedOwner && (videoClock.derivedCount?videoCount+1<=videoExpected:videoCount+1==videoExpected),"incomplete-stream-webm-opus-samples");
+                if(videoClock.derivedAudio){derivedAudio.Finish();audioOwner.reset();}
                 simpleResolve(videoClock.expectedEnd100ns/10000);simpleFlush();
-                check(simpleQueue.empty() && videoFinished() && audioCount==audioExpected && videoEndMs*10000==videoClock.expectedEnd100ns,"incomplete-stream-webm-opus-samples");ended=true;break;
+                check(simpleQueue.empty() && videoFinished() && (videoClock.derivedAudio?audioCount==derivedAudio.Packets():audioCount==audioExpected) && videoEndMs*10000==videoClock.expectedEnd100ns,"incomplete-stream-webm-opus-samples");ended=true;break;
             }
             auto e=hasLook?look:header();hasLook=false;
             if(simpleCurrent && simpleCurrent->unknown && top(e.value.id)){look=e;hasLook=true;simpleClose();continue;}
@@ -191,11 +197,12 @@ private:
         }
         return !pending.empty();
     }
-    bool next(){if(simpleVfr)return nextSimple();if(ended)return false;if(at==length && !hasLook){uint8_t byte;check(input(&byte,1)==0,"unsupported-stream-webm-tail");check(videoFinished() && audioCount==audioExpected && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");ended=true;return false;}auto e=hasLook?look:header();hasLook=false;check(++elements<=32768,"stream-webm-element-limit");if(e.value.id==0x1f43b675){cluster(e);return true;}check(e.value.id==0x1c53bb6b || e.value.id==0x1254c367 || e.value.id==0xec || e.value.id==0xbf,"unsupported-stream-webm-metadata");auto b=body(e,1048576);join(pending,e.header);join(pending,b);return true;}
+    bool next(){if(simpleVfr)return nextSimple();if(ended)return false;if(at==length && !hasLook){uint8_t byte;check(input(&byte,1)==0,"unsupported-stream-webm-tail");check(videoFinished() && (videoClock.derivedAudio?audioCount==derivedAudio.Packets():audioCount==audioExpected) && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");ended=true;return false;}auto e=hasLook?look:header();hasLook=false;check(++elements<=32768,"stream-webm-element-limit");if(e.value.id==0x1f43b675){cluster(e);return true;}check(e.value.id==0x1c53bb6b || e.value.id==0x1254c367 || e.value.id==0xec || e.value.id==0xbf,"unsupported-stream-webm-metadata");auto b=body(e,1048576);join(pending,e.header);join(pending,b);return true;}
 public:
-    ContinuousWebmOpus(Read read,uint64_t bytes,uint64_t frames,uint64_t samples,bool ntsc=false,WebmContinuousClock clock={},bool simple=false):videoClock((clock.explicitRate || clock.variable)?clock:WebmContinuousClock(ntsc)),simpleVfr(simple),input(std::move(read)),length(bytes),videoExpected(clock.derivedCount && samples<=48000000?50000-(samples+1271)/960:frames),audioSamples(samples),audioExpected((samples+312+959)/960){check((!simpleVfr || videoClock.variable) && (!videoClock.derivedCount || simpleVfr) && videoClock.Valid() && (!videoClock.variable || frames==videoClock.expectedFrames) && bool(input) && bytes && bytes<=134217728 && (videoClock.derivedCount?frames==0 && videoExpected>0:frames>0) && frames<=50000 && samples>648 && samples<=48000000 && frames+audioExpected<=50000,"unsupported-stream-webm-opus-source");initialize();}
+    ContinuousWebmOpus(Read read,uint64_t bytes,uint64_t frames,uint64_t samples,bool ntsc=false,WebmContinuousClock clock={},bool simple=false):videoClock((clock.explicitRate || clock.variable)?clock:WebmContinuousClock(ntsc)),simpleVfr(simple),input(std::move(read)),length(bytes),videoExpected(clock.derivedAudio?50000:clock.derivedCount && samples<=48000000?50000-(samples+1271)/960:frames),audioSamples(samples),audioExpected((samples+312+959)/960){check((!simpleVfr || videoClock.variable) && (!videoClock.derivedCount || simpleVfr) && videoClock.Valid() && (!videoClock.variable || frames==videoClock.expectedFrames) && bool(input) && bytes && bytes<=134217728 && (videoClock.derivedCount?frames==0 && videoExpected>0:frames>0) && frames<=50000 && (clock.derivedAudio?samples==0:samples>648 && samples<=48000000 && frames+audioExpected<=50000),"unsupported-stream-webm-opus-source");initialize();}
     size_t read(uint8_t* out,size_t n){check(out && n,"invalid-backend-read");while(delivered==pending.size()){pending.clear();delivered=0;if(!next())return 0;}auto count=(std::min)(n,pending.size()-delivered);std::memcpy(out,pending.data()+delivered,count);delivered+=count;return count;}
     uint64_t videoPackets()const{return videoCount;}uint64_t audioPackets()const{return audioCount;}
-    void finish()const{check(ended && videoFinished() && audioCount==audioExpected && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");}
+    uint64_t derivedAudioSamples()const{return derivedAudio.Samples();}
+    void finish()const{check(ended && videoFinished() && (videoClock.derivedAudio?audioCount==derivedAudio.Packets():audioCount==audioExpected) && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");}
 };
 }

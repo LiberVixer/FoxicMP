@@ -22,12 +22,12 @@ public:
         output=owner->create(cache,registry,model.id,model.generation,outputLimit,StreamRemuxIsHevc(profile),StreamRemuxIsAv1(profile),profile==StreamRemuxProfile::Av1AacWindow,StreamRemuxIsVp9(profile),StreamRemuxIsVp9(profile) && StreamRemuxHasAudio(profile) && !StreamRemuxIsOpus(profile),opusSamples,profile==StreamRemuxProfile::WebmVp9OpusNtsc,clock);
         try{
             producer=std::make_unique<StreamRemuxSession>(directory,registry,json,resource,child,[store=output](uint64_t at,const std::vector<char>& bytes){store->append(at,bytes);},limits,profile,[store=output](const StreamAudioWindow& plan){store->acceptAudioWindow(plan);},opusSamples,clock);
-            finalizer=std::thread([this]{
+            finalizer=std::thread([this,profile]{
                 StreamRemuxStatus state;
                 try{
                     do{if(!output->status().failure.empty())producer->cancel();state=producer->status();if(!state.done)std::this_thread::sleep_for(std::chrono::milliseconds(10));}while(!state.done);
                     std::string hash;
-                    if(state.code=="data"){rapidjson::Document result;result.Parse(state.result.c_str());Require(!result.HasParseError() && result.IsObject() && result.HasMember("sha256"),"remuxCache","Missing producer digest","cache-finalization-failed");hash=Text(result["sha256"],"sha256",64);}
+                    if(state.code=="data"){rapidjson::Document result;result.Parse(state.result.c_str());Require(!result.HasParseError() && result.IsObject() && result.HasMember("sha256"),"remuxCache","Missing producer digest","cache-finalization-failed");hash=Text(result["sha256"],"sha256",64);if(StreamRemuxDerivedAudio(profile)){Require(result.HasMember("derivedAudioSamples") && result.HasMember("audioPackets") && result["audioPackets"].IsUint(),"remuxCache","Invalid derived Opus result","cache-invalid-opus-result");output->verifyDerivedAudio(Unsigned(result["derivedAudioSamples"],"derivedAudioSamples",48000000),result["audioPackets"].GetUint());}}
                     Require(state.filesClosed,"remuxCache","Original source still open","cache-finalization-failed");
                     output->producerClosed(state.readerIds,state.code=="data"?std::string():state.code,hash);
                 }catch(...){output->producerClosed(state.readerIds,"cache-finalization-failed");}

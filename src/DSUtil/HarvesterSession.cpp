@@ -289,6 +289,8 @@ bool CHarvesterSession::AacPcmPlan(harvester::pcm::AacWindow& plan)const {
     if(!m_continuousSource || !m_continuousSource->audioWindow())return false;
     plan=m_continuousSource->audioWindow()->pcm;return true;
 }
+bool CHarvesterSession::ContinuousDerivedOpus()const{return m_continuousSource && m_continuousSource->derivedAudioOpus();}
+bool CHarvesterSession::ContinuousOpusEnded()const{return m_continuousSource && m_continuousSource->status().audioIndexedComplete;}
 uint64_t CHarvesterSession::ContinuousOpusSamples()const{return m_continuousSource && m_continuousSource->opusAudio()?m_continuousSource->opusAudioSamples():0;}
 bool CHarvesterSession::AllowsAacPcmWindow(int track)const {return track==1 && m_continuousSource && m_continuousSource->audioWindow();}
 std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenContinuous(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,int64_t duration,CStringW& error) {

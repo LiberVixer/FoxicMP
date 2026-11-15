@@ -56,6 +56,7 @@ class __declspec(uuid("3D446B6F-71DE-4437-BE15-8CE47174340F"))
 	, public IMpaDecFilter
 	, public CExFilterConfigImpl
 	, public ISpecifyPropertyPages2
+	, public IProgressiveGrowingOpusControl
 	, public IProgressivePcmControl
 	, public IProgressiveAacPcmControl
 {
@@ -213,6 +214,9 @@ public:
 	HRESULT EndFlush();
 	HRESULT NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, double dRate);
 	HRESULT StopStreaming() override;
+	bool m_growingOpus=false;
+	STDMETHODIMP ArmGrowingOpus(ULONGLONG begin,ULONGLONG end,ULONGLONG first) override;
+	STDMETHODIMP AdvanceGrowingOpus(ULONGLONG end) override;
 	STDMETHODIMP ArmPcmWindow(UINT version, ULONGLONG begin, ULONGLONG end, UINT rate, ULONGLONG decodeFirst) override;
 	STDMETHODIMP PcmWindowState(DWORD* flags) override;
 	STDMETHODIMP ArmAacPcmWindow(UINT version,UINT rate,UINT channels,ULONGLONG samples,UINT initialSkip,ULONGLONG target,ULONGLONG decodeFirst) override;

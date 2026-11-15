@@ -13,16 +13,17 @@ struct StreamRemuxLimits {
 };
 // Explicit internal selection. Existing callers/public v1 retain the verified
 // no-reorder profile; a manifest or worker reply cannot widen it implicitly.
-enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo, HevcAacWindow, Av1Video, Av1AacWindow, Vp9Video, Vp9AacWindow, Vp9SuperframeVideo, Vp9SuperframeAacWindow, WebmVp9Video, WebmVp9SuperframeVideo, WebmVp9Opus, WebmVp9OpusNtsc, WebmVp9OpusCfr, WebmVp9OpusVfr, WebmVp9OpusSimpleVfr, WebmVp9OpusSimpleAutoVfr, WebmVp9OpusNominalVfr };
+enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo, HevcAacWindow, Av1Video, Av1AacWindow, Vp9Video, Vp9AacWindow, Vp9SuperframeVideo, Vp9SuperframeAacWindow, WebmVp9Video, WebmVp9SuperframeVideo, WebmVp9Opus, WebmVp9OpusNtsc, WebmVp9OpusCfr, WebmVp9OpusVfr, WebmVp9OpusSimpleVfr, WebmVp9OpusSimpleAutoVfr, WebmVp9OpusNominalVfr, WebmVp9OpusDerivedAv };
+inline bool StreamRemuxDerivedAudio(StreamRemuxProfile p){return p==StreamRemuxProfile::WebmVp9OpusDerivedAv;}
 inline bool StreamRemuxNominal(StreamRemuxProfile profile){return profile==StreamRemuxProfile::WebmVp9OpusNominalVfr;}
-inline bool StreamRemuxAutoCount(StreamRemuxProfile profile){return StreamRemuxNominal(profile) || profile==StreamRemuxProfile::WebmVp9OpusSimpleAutoVfr;}
+inline bool StreamRemuxAutoCount(StreamRemuxProfile profile){return StreamRemuxDerivedAudio(profile) || StreamRemuxNominal(profile) || profile==StreamRemuxProfile::WebmVp9OpusSimpleAutoVfr;}
 inline bool StreamRemuxIsOpus(StreamRemuxProfile profile){return StreamRemuxAutoCount(profile) || profile==StreamRemuxProfile::WebmVp9OpusSimpleVfr || profile==StreamRemuxProfile::WebmVp9OpusVfr || profile==StreamRemuxProfile::WebmVp9OpusCfr || profile==StreamRemuxProfile::WebmVp9Opus || profile==StreamRemuxProfile::WebmVp9OpusNtsc;}
 inline bool StreamRemuxHasAudio(StreamRemuxProfile profile){return StreamRemuxIsOpus(profile) || profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcAacWindow || profile==StreamRemuxProfile::Av1AacWindow || profile==StreamRemuxProfile::Vp9AacWindow || profile==StreamRemuxProfile::Vp9SuperframeAacWindow;}
 inline bool StreamRemuxIsHevc(StreamRemuxProfile profile){return profile==StreamRemuxProfile::HevcReorderedVideo || profile==StreamRemuxProfile::HevcAacWindow;}
 inline bool StreamRemuxIsAv1(StreamRemuxProfile profile){return profile==StreamRemuxProfile::Av1Video || profile==StreamRemuxProfile::Av1AacWindow;}
 inline bool StreamRemuxIsWebm(StreamRemuxProfile profile){return StreamRemuxIsOpus(profile) || profile==StreamRemuxProfile::WebmVp9Video || profile==StreamRemuxProfile::WebmVp9SuperframeVideo;}
 inline bool StreamRemuxIsVp9(StreamRemuxProfile profile){return profile==StreamRemuxProfile::Vp9Video || profile==StreamRemuxProfile::Vp9AacWindow || profile==StreamRemuxProfile::Vp9SuperframeVideo || profile==StreamRemuxProfile::Vp9SuperframeAacWindow || StreamRemuxIsWebm(profile);}
-inline const char* StreamRemuxMode(StreamRemuxProfile profile){return StreamRemuxNominal(profile)?"continuous-webm-vp9-opus-simple-vfr-nominal-v1":StreamRemuxAutoCount(profile)?"continuous-webm-vp9-opus-simple-vfr-auto-count-v1":profile==StreamRemuxProfile::WebmVp9OpusSimpleVfr?"continuous-webm-vp9-opus-simple-vfr-v1":profile==StreamRemuxProfile::WebmVp9OpusVfr?"continuous-webm-vp9-opus-vfr-v1":profile==StreamRemuxProfile::WebmVp9OpusCfr?"continuous-webm-vp9-opus-cfr-v1":profile==StreamRemuxProfile::WebmVp9OpusNtsc?"continuous-webm-vp9-opus-ntsc-v1":StreamRemuxIsOpus(profile)?"continuous-webm-vp9-opus-v1":profile==StreamRemuxProfile::WebmVp9SuperframeVideo?
+inline const char* StreamRemuxMode(StreamRemuxProfile profile){return StreamRemuxDerivedAudio(profile)?"continuous-webm-vp9-opus-simple-vfr-derived-av-v1":StreamRemuxNominal(profile)?"continuous-webm-vp9-opus-simple-vfr-nominal-v1":StreamRemuxAutoCount(profile)?"continuous-webm-vp9-opus-simple-vfr-auto-count-v1":profile==StreamRemuxProfile::WebmVp9OpusSimpleVfr?"continuous-webm-vp9-opus-simple-vfr-v1":profile==StreamRemuxProfile::WebmVp9OpusVfr?"continuous-webm-vp9-opus-vfr-v1":profile==StreamRemuxProfile::WebmVp9OpusCfr?"continuous-webm-vp9-opus-cfr-v1":profile==StreamRemuxProfile::WebmVp9OpusNtsc?"continuous-webm-vp9-opus-ntsc-v1":StreamRemuxIsOpus(profile)?"continuous-webm-vp9-opus-v1":profile==StreamRemuxProfile::WebmVp9SuperframeVideo?
     "continuous-webm-vp9-superframe-video-v1":profile==StreamRemuxProfile::WebmVp9Video?
     "continuous-webm-vp9-video-v1":profile==StreamRemuxProfile::Vp9SuperframeAacWindow?
     "continuous-vp9-superframe-aac-window-v1":profile==StreamRemuxProfile::Vp9SuperframeVideo?
@@ -36,7 +37,7 @@ inline const char* StreamRemuxMode(StreamRemuxProfile profile){return StreamRemu
     "continuous-h264-aac-window-v1":profile==StreamRemuxProfile::H264ReorderedVideo?
     "continuous-h264-reordered-video-v1":"continuous-h264-video-v1";}
 inline harvester::WebmContinuousClock StreamRemuxClock(StreamRemuxProfile profile,harvester::WebmContinuousClock clock={}){
-    Require((profile==StreamRemuxProfile::WebmVp9OpusCfr)==clock.explicitRate && (profile==StreamRemuxProfile::WebmVp9OpusVfr || profile==StreamRemuxProfile::WebmVp9OpusSimpleVfr || StreamRemuxAutoCount(profile))==clock.variable && StreamRemuxAutoCount(profile)==clock.derivedCount && StreamRemuxNominal(profile)==clock.nominalDefault && clock.Valid(),"videoRate","Explicit canonical fixed rate required only for CFR mode","invalid_request");
+    Require((profile==StreamRemuxProfile::WebmVp9OpusCfr)==clock.explicitRate && (profile==StreamRemuxProfile::WebmVp9OpusVfr || profile==StreamRemuxProfile::WebmVp9OpusSimpleVfr || StreamRemuxAutoCount(profile))==clock.variable && StreamRemuxAutoCount(profile)==clock.derivedCount && StreamRemuxNominal(profile)==clock.nominalDefault && StreamRemuxDerivedAudio(profile)==clock.derivedAudio && clock.Valid(),"videoRate","Explicit canonical fixed rate required only for CFR mode","invalid_request");
     return (clock.explicitRate || clock.variable)?clock:harvester::WebmContinuousClock(profile==StreamRemuxProfile::WebmVp9OpusNtsc);
 }
 inline uint64_t StreamRemuxWebmSamples(StreamRemuxProfile profile,int64_t duration,harvester::WebmContinuousClock clock={}){
@@ -128,7 +129,7 @@ private:
             std::lock_guard<std::mutex> lock(mutex);check();state.workerId=child.id();state.code="running";
             const auto& r=snapshot.resources.at(resourceId);
             const bool webm=StreamRemuxIsWebm(profile);
-            child.send(std::string("{\"mode\":\"")+workerMode()+"\",\"formatHint\":\""+(webm?"webm":"mp4")+"\",\"length\":\""+std::to_string(r.length)+"\",\"complete\":"+(r.state=="complete"?"true":"false")+(webm && !StreamRemuxAutoCount(profile)?",\"videoSamples\":\""+std::to_string(StreamRemuxWebmSamples(profile,snapshot.duration,videoClock))+"\"":"")+(StreamRemuxIsOpus(profile)?",\"audioSamples\":\""+std::to_string(opusSamples)+"\"":"")+(videoClock.variable?",\"videoDuration100ns\":\""+std::to_string(videoClock.expectedEnd100ns)+"\"":"")+(videoClock.explicitRate?",\"videoRate\":{\"numerator\":"+std::to_string(videoClock.numerator)+",\"denominator\":"+std::to_string(videoClock.denominator)+"}":"")+"}");
+            child.send(std::string("{\"mode\":\"")+workerMode()+"\",\"formatHint\":\""+(webm?"webm":"mp4")+"\",\"length\":\""+std::to_string(r.length)+"\",\"complete\":"+(r.state=="complete"?"true":"false")+(webm && !StreamRemuxAutoCount(profile)?",\"videoSamples\":\""+std::to_string(StreamRemuxWebmSamples(profile,snapshot.duration,videoClock))+"\"":"")+(StreamRemuxIsOpus(profile) && !StreamRemuxDerivedAudio(profile)?",\"audioSamples\":\""+std::to_string(opusSamples)+"\"":"")+(videoClock.variable?",\"videoDuration100ns\":\""+std::to_string(videoClock.expectedEnd100ns)+"\"":"")+(videoClock.explicitRate?",\"videoRate\":{\"numerator\":"+std::to_string(videoClock.numerator)+",\"denominator\":"+std::to_string(videoClock.denominator)+"}":"")+"}");
         }
         for(;;){
             {std::lock_guard<std::mutex> lock(mutex);check();}
@@ -140,12 +141,14 @@ private:
                 valid(result.IsObject() && result.HasMember("code") && result["code"].IsString());
                 const auto code=Text(result["code"],"streamRemux.code",64);
                 if(code!="data")throw Error(code.c_str(),"streamRemux","Worker rejected stream");
-                if(hasAudio)Keys(result,"streamRemux.result",{"code","mode","sourceComplete","sourceEof","continuousOutput","playbackSupported","transcoded","packets","bytesRead","bytesWritten","sha256","waits","videoPackets","audioPackets","aacInitialSkipSamples","audioPresentationSamples","aacEndTrimRequired","pcmWindowRequired","aacPcmWindow"});
+                if(StreamRemuxDerivedAudio(profile))Keys(result,"streamRemux.result",{"code","mode","sourceComplete","sourceEof","continuousOutput","playbackSupported","transcoded","packets","bytesRead","bytesWritten","sha256","waits","derivedAudioSamples","audioPackets"});
+                else if(hasAudio)Keys(result,"streamRemux.result",{"code","mode","sourceComplete","sourceEof","continuousOutput","playbackSupported","transcoded","packets","bytesRead","bytesWritten","sha256","waits","videoPackets","audioPackets","aacInitialSkipSamples","audioPresentationSamples","aacEndTrimRequired","pcmWindowRequired","aacPcmWindow"});
                 else Keys(result,"streamRemux.result",{"code","mode","sourceComplete","sourceEof","continuousOutput","playbackSupported","transcoded","packets","bytesRead","bytesWritten","sha256","waits"});
                 auto boolean=[&](const char* key,bool expected){valid(result[key].IsBool() && result[key].GetBool()==expected);};
                 boolean("sourceComplete",true);boolean("sourceEof",true);boolean("continuousOutput",true);boolean("playbackSupported",false);boolean("transcoded",false);
                 valid(Text(result["mode"],"mode")==workerMode() && result["packets"].IsUint() && result["packets"].GetUint()>0 && result["packets"].GetUint()<=50000);
                 valid(totalWritten>0 && Unsigned(result["bytesWritten"],"bytesWritten",OutputLimit)==totalWritten && Unsigned(result["bytesRead"],"bytesRead",InputLimit)==totalRead && Text(result["sha256"],"sha256",64)==digest.hex());
+                if(StreamRemuxDerivedAudio(profile))valid(result["audioPackets"].IsUint() && result["audioPackets"].GetUint()>=2 && result["audioPackets"].GetUint()<result["packets"].GetUint() && Unsigned(result["derivedAudioSamples"],"derivedAudioSamples",48000000)>=649);
                 if(hasAudio){
                     valid(audio.pcm.Valid() && StreamAudioWindow::Parse(result["aacPcmWindow"]).json==audio.json);
                     boolean("pcmWindowRequired",true);boolean("aacEndTrimRequired",audio.pcm.EndPadding()!=0);
@@ -241,7 +244,7 @@ public:
         if(StreamRemuxIsWebm(profile))StreamRemuxWebmSamples(profile,snapshot.duration,videoClock);
         const auto& r=snapshot.resources.at(resourceId);
         Require(r.known && r.length>0 && r.length<=InputLimit && r.integrity && !r.retired,"streamRemux","Known bounded SHA-protected source required","unsupported-stream-source");
-        Require(StreamRemuxIsOpus(profile)?(opusSamples>648 && opusSamples<=48000000 && StreamRemuxWebmSamples(profile,snapshot.duration,videoClock)+(opusSamples+1271)/960<=50000 && (!StreamRemuxAutoCount(profile) || (opusSamples+1271)/960<50000)):opusSamples==0,"streamRemux","Explicit bounded Opus sample count required","unsupported-stream-source");
+        Require(StreamRemuxDerivedAudio(profile)?opusSamples==0:StreamRemuxIsOpus(profile)?(opusSamples>648 && opusSamples<=48000000 && StreamRemuxWebmSamples(profile,snapshot.duration,videoClock)+(opusSamples+1271)/960<=50000 && (!StreamRemuxAutoCount(profile) || (opusSamples+1271)/960<50000)):opusSamples==0,"streamRemux","Explicit bounded Opus sample count required","unsupported-stream-source");
         source=std::make_unique<ResourceSource>(directory,registry,json);
         deadline=Clock::now()+limits.lifetime;heartbeatDeadline=Clock::now()+limits.heartbeat;observe();
         worker=std::thread([this]{run();});

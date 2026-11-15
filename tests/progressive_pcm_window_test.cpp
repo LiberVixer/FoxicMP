@@ -28,5 +28,11 @@ int main()try {
  }
  Window w;Slice s;check(!w.Configure(0,10,32000,0));check(!w.Configure(0,0,44100,0));check(!w.Configure(5,10,44100,6));check(!w.Configure(0,UINT64_MAX,44100,0));
  check(w.Configure(5,10,44100,0));check(w.Take(UINT64_MAX,44100,s));check(!w.Take(1,44100,s));
+ Window growing;check(!growing.ExtendEnd(960));check(growing.Configure(312,1920,48000,0));
+ check(growing.Take(960,48000,s) && s.skip==312 && s.count==648);
+ check(growing.ExtendEnd(2880) && !growing.ExtendEnd(2879));
+ check(growing.Take(960,48000,s) && s.skip==0 && s.count==960 && s.start==135000);
+ check(growing.ExtendEnd(2880) && !growing.ExtendEnd(UINT64_MAX));
+ check(growing.Take(960,48000,s) && s.count==960 && growing.Complete());
  std::cout<<"{\"result\":\"PASS\",\"checks\":"<<checks<<",\"windows\":8}"<<std::endl;return 0;
 } catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 1;}

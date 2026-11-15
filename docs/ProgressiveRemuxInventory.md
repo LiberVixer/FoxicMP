@@ -32,7 +32,8 @@ nominal DefaultDuration при явной next-PTS нормализации по
 semantics этим не объявляются готовыми.
 [Подготовка audio count](ProgressiveAudioCountRemuxPlan.md) проверяет подсчёт без
 внешнего audioSamples только тестовым prototype; known-plan consumers проверены,
-нового production режима пока нет. Следующий шаг — scanner/cache/decoder вместе.
+нового production режима тогда не было. Позднее [SDK1.105](ProgressiveContinuousWebmDerivedAudio.md)
+подключает scanner/cache/decoder и independent audio count, с отдельной production приёмкой.
 [Полный порядок работ](ProgressiveRemainingWork.md),
 [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [подробный чеклист](ProgressiveCompletionChecklist.md).

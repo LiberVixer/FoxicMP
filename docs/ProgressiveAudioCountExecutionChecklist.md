@@ -11,14 +11,14 @@
 - [x] ADC-05. Проверить canonical output через существующие worker/PCM adapters трёх редакций, явно передавая известный count только после prototype EOF.
 - [x] ADC-06. Подтвердить неизменность SDK/capabilities, установок/профилей и HKCU; не объявлять preflight новым playback mode.
 - [x] ADC-07. Опубликовать воспроизводимые тесты, отчёт и production план.
-- [ ] ADC-08. Перенести bounded derived-audio state machine в рабочий C++ scanner.
-- [ ] ADC-09. Подключить worker/start/result без внешнего audioSamples и с точной mode identity.
-- [ ] ADC-10. Подключить независимую проверку cache count/trim/coverage; отделить provisional track end от writer EOF.
-- [ ] ADC-11. Подключить decoder adapters Qt/Classic, включая short audio, pause/seek и repeat indexing.
-- [ ] ADC-12. Добавить совместимый SDK/capabilities и отрицательные проверки, сохранив старые known-plan modes.
-- [ ] ADC-13. Проверить ordinary Linux Qt ≥10 s до complete, pause/growing/queued seek/EOF/release.
-- [ ] ADC-14. Проверить те же ordinary-main сценарии Windows Qt.
-- [ ] ADC-15. Проверить те же ordinary-main сценарии Classic, прежние modes и неизменность HKCU.
+- [x] ADC-08. Перенести bounded derived-audio state machine в рабочий C++ scanner.
+- [x] ADC-09. Подключить worker/start/result без внешнего audioSamples и с точной mode identity.
+- [x] ADC-10. Подключить независимую проверку cache count/trim/coverage; отделить provisional track end от writer EOF.
+- [x] ADC-11. Подключить decoder adapters Qt/Classic, включая short audio, pause/seek и repeat indexing.
+- [x] ADC-12. Добавить совместимый SDK/capabilities и отрицательные проверки, сохранив старые known-plan modes.
+- [x] ADC-13. Проверить ordinary Linux Qt ≥10 s до complete, pause/growing/queued seek/EOF/release.
+- [x] ADC-14. Проверить те же ordinary-main сценарии Windows Qt.
+- [x] ADC-15. Проверить те же ordinary-main сценарии Classic, прежние modes и неизменность HKCU.
 - [ ] ADC-16. Проверить sanitizer/resource bounds; clean SDK, три сборки и атомарное обновление Linux с backup/неизменным профилем.
 
 Harvester не меняется. Известные source length/video endpoint пока сохраняются.
@@ -37,4 +37,19 @@ SDK1.104. Приложение/SDK не пересобирались. Это п�
 ordinary playback пока не реализован. [Следующий перенос](ProgressiveAudioCountRemuxPlan.md#перенос-в-рабочий-код)
 начинается с ADC-08 и должен охватить cache/PCM end вместе со scanner.
 
-Всего16 /готово7 /осталось9. Общих открытых составных требований ТЗ77.
+Исторический итог подготовки:16 всего /7 готово /9 осталось.
+Текущая production-проверка приведена ниже; база списка не меняется.
+
+## Production SDK1.105
+
+[Рабочий контракт](ProgressiveContinuousWebmDerivedAudio.md) подключён к scanner,
+worker, независимому cache recount и Qt/Classic PCM adapters. Новый mode не принимает
+внешних audioSamples/videoSamples; endpoint/длина известны. [Отчёт приёмки](ProgressiveContinuousWebmDerivedAudioValidation-2026-11-15.json)
+содержит117 worker cases,30 ordinary main,30 complete PCM и18 growing PCM captures,
+624 legacy worker и69 legacy main. Отдельные cache mismatch и short zero-trim
+waiting/pending-budget controls,4000 sanitizer mutations и145 SDK units прошли.
+Все итоговые child exits сохранены; прерванный SSH-транспорт не выдан за успешный
+remote batch. Начальные неудачные прогоны и их причины сохранены в отчёте.
+
+До поставки:16 всего /15 готово /1 осталось — ADC-16 требует clean SDK и проверки
+атомарного обновления установленного Linux. Харвестер не изменяется.

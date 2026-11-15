@@ -3,7 +3,7 @@ import copy,json,shutil,time
 from pathlib import Path
 from fractions import Fraction
 from progressive_client import ApiError
-from progressive_continuous import ContinuousRemux,WEBM_VP9_OPUS_MODE,WEBM_VP9_OPUS_NTSC_MODE,WEBM_VP9_OPUS_CFR_MODE,WEBM_VP9_OPUS_VFR_MODE,WEBM_VP9_OPUS_SIMPLE_VFR_MODE,WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE
+from progressive_continuous import ContinuousRemux,WEBM_VP9_OPUS_MODE,WEBM_VP9_OPUS_NTSC_MODE,WEBM_VP9_OPUS_CFR_MODE,WEBM_VP9_OPUS_VFR_MODE,WEBM_VP9_OPUS_SIMPLE_VFR_MODE,WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE,WEBM_VP9_OPUS_DERIVED_AV_MODE
 from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
 from progressive_player_crash_recovery import wait,sha
@@ -11,11 +11,11 @@ from progressive_webm_opus_remux_preflight import fixture,PROFILES,probe,pcm,pac
 from progressive_webm_remux_preflight import unknown_clusters,scan
 MODE=WEBM_VP9_OPUS_MODE
 
-def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=False,simple=False,auto_count=False,nominal=False):
- auto_count=auto_count or nominal
+def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=False,simple=False,auto_count=False,nominal=False,derived_audio=False):
+ auto_count=auto_count or nominal or derived_audio
  simple=simple or auto_count
  global MODE
- MODE=WEBM_VP9_OPUS_NOMINAL_VFR_MODE if nominal else WEBM_VP9_OPUS_AUTO_VFR_MODE if auto_count else WEBM_VP9_OPUS_SIMPLE_VFR_MODE if simple else WEBM_VP9_OPUS_VFR_MODE if vfr else WEBM_VP9_OPUS_CFR_MODE if cfr else WEBM_VP9_OPUS_NTSC_MODE if ntsc else WEBM_VP9_OPUS_MODE
+ MODE=WEBM_VP9_OPUS_DERIVED_AV_MODE if derived_audio else WEBM_VP9_OPUS_NOMINAL_VFR_MODE if nominal else WEBM_VP9_OPUS_AUTO_VFR_MODE if auto_count else WEBM_VP9_OPUS_SIMPLE_VFR_MODE if simple else WEBM_VP9_OPUS_VFR_MODE if vfr else WEBM_VP9_OPUS_CFR_MODE if cfr else WEBM_VP9_OPUS_NTSC_MODE if ntsc else WEBM_VP9_OPUS_MODE
  vfr=vfr or simple
  options=dict(rate='30000/1001') if ntsc else {}
  report=Path(report);rows=[];current=None;client=peers[0].client
@@ -38,6 +38,8 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=Fa
   from progressive_webm_simple_vfr_fixtures import CASES as SIMPLE_CASES,media as simple_media
   if nominal:
    from progressive_webm_nominal_vfr_fixtures import CASES as SIMPLE_CASES,media as simple_media
+  if derived_audio:
+   from progressive_webm_derived_av_fixtures import CASES as SIMPLE_CASES,media as simple_media
   if simple:VFR_CASES,vfr_media=SIMPLE_CASES,simple_media
   for case in (VFR_CASES if vfr else CASES if cfr else (PROFILES[0],PROFILES[1],PROFILES[4])):
    if vfr:
@@ -51,7 +53,7 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=Fa
    directory=root/(name+'-session');directory.mkdir();path=directory/'video.part';model=snapshot(path,raw,complete=False,prefix=4);model['timeline']['duration']=str(video_duration);model['tracks'][0].update(codecHint='vp9',containerHint='webm');sound=copy.deepcopy(model['tracks'][0]);sound.update(id='sound',kind='audio',codecHint='opus');model['tracks'].append(sound)
    if not rows:
     import uuid
-    for invalid in (None,True,1152000,'0','648','48000001'):
+    for invalid in ((True,1152000,'0','648','48000001',str(profile[5])) if derived_audio else (None,True,1152000,'0','648','48000001')):
      command=dict(version=1,action='continuousRemuxStart',mode=MODE,requestId=uuid.uuid4().hex,sessionDirectory=str(directory),session=model,resourceId='clip')
      if invalid is not None:command['audioSamples']=invalid
      if vfr and not auto_count:command['videoSamples']=str(frame_count)
@@ -83,11 +85,13 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=Fa
      try:client.request(command)
      except ApiError:pass
      else:raise AssertionError(('Invalid frame plan admitted',invalid))
-   fields=dict(mode=MODE,audio_samples=profile[5])
+   fields=dict(mode=MODE)
+   if not derived_audio:fields['audio_samples']=profile[5]
    if vfr and not auto_count:fields['video_samples']=frame_count
    if cfr:fields['video_rate']=(n,d)
    sdk=current=ContinuousRemux(client,str(directory),**fields);sdk.prepare(model,'clip')
    replay=dict(version=1,action='continuousRemuxStart',mode=MODE,requestId=sdk.request_id,sessionDirectory=str(directory),session=copy.deepcopy(model),resourceId='clip',audioSamples=str(profile[5]))
+   if derived_audio:replay.pop('audioSamples')
    if vfr and not auto_count:replay['videoSamples']=str(frame_count)
    if cfr:replay['videoRate']=rate
    assert client.request(replay)['jobId']==sdk.job_id
@@ -125,6 +129,8 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=Fa
    publish(cut);ready=poll(sdk,lambda s:s if s['playbackReady'] and s['indexedEndSeconds']>=12 else None,'Opus A/V ready');assert not ready['outputComplete']
    if auto_count:
     assert 'videoSamples' not in ready and not ready['videoSampleCountFinal'] and 0<int(ready['indexedVideoSamples'])<frame_count,ready
+   if derived_audio:
+    assert 'audioSamples' not in ready and not ready['audioSampleCountFinal'] and 0<int(ready['indexedAudioSamples'])<=profile[5],ready
    sdk.play(title='WebM Opus '+name);running=playback(sdk,lambda s:s['state']=='playing' and s['positionSeconds']>.2,'Opus decoding')
    if peers[0].edition=='qt':assert running['audioCodec']=='opus' and running['audioOutput']==expected_audio and not running['pcmWindowApplied'],running
    began=time.monotonic();viewed=playback(sdk,lambda s:s['state']=='playing' and s['positionSeconds']>=running['positionSeconds']+10.1 and time.monotonic()-began>=10,'incomplete playback',20)
@@ -133,12 +139,14 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=Fa
    publish(len(raw),True);complete=poll(sdk,lambda s:s if s['outputComplete'] else None,'sealed source EOF');applied=playback(sdk,lambda s:s['pendingSeekSeconds'] is None and s['seekState']=='applied' and s['state']=='paused' and abs(s['positionSeconds']-22)<.12,'queued seek commit')
    if auto_count:
     for state in (complete,applied):assert 'videoSamples' not in state and state['videoSampleCountFinal'] and int(state['indexedVideoSamples'])==frame_count,state
+   if derived_audio:
+    for state in (complete,applied):assert state['audioSampleCountFinal'] and state['audioTrackEndObserved'] and int(state['indexedAudioSamples'])==profile[5] and 'audioSamples' not in state,state
    cache=Path(str(peers[0].registry)+'.continuous-cache');files=list(cache.glob('remux-*/output.fmp4'));assert len(files)==1;output=report/(name+'-sealed.webm');shutil.copyfile(files[0],output);actual=probe(output,folder,'probe-output')
    for kind in ('video','audio'):assert packets(meta,kind)==packets(actual,kind)
    assert pcm(original,folder,'pcm-source')==pcm(output,folder,'pcm-output')
    sdk.control('play');finished=playback(sdk,lambda s:s['state']=='finished','natural EOF',12);digest=sha(path);began=time.monotonic();released=sdk.close(timeout=2);elapsed=time.monotonic()-began;forgotten=sdk.forget(timeout=2);current=None
    assert released['sourceFilesClosed'] and released['released'] and elapsed<2 and forgotten['forgotten'] and sha(path)==digest and path.read_bytes()==raw and not list(cache.glob('remux-*'))
-   rows.append(dict(profile=name,nominalDefaultDuration=scan(raw)["defaultDurationNs"] if nominal else None,derivedVideoCount=auto_count,videoRate=rate,videoSamples=frame_count if vfr else None,result='PASS',waiting=waiting,partial=partial,ready=ready,running=running,viewedBeforeComplete=viewed,paused=paused,growingSeek=seeking,queued=queued,applied=applied,complete=complete,finished=finished,releaseSeconds=elapsed,exactPcm=True,exactPacketsAndClocks=True,sourceUnchanged=True));(report/'progress.json').write_text(json.dumps(dict(completed=[r['profile'] for r in rows])))
+   rows.append(dict(profile=name,nominalDefaultDuration=scan(raw)["defaultDurationNs"] if nominal else None,derivedAudioCount=derived_audio,audioPresentationSamples=profile[5],derivedVideoCount=auto_count,videoRate=rate,videoSamples=frame_count if vfr else None,result='PASS',waiting=waiting,partial=partial,ready=ready,running=running,viewedBeforeComplete=viewed,paused=paused,growingSeek=seeking,queued=queued,applied=applied,complete=complete,finished=finished,releaseSeconds=elapsed,exactPcm=True,exactPacketsAndClocks=True,sourceUnchanged=True));(report/'progress.json').write_text(json.dumps(dict(completed=[r['profile'] for r in rows])))
  finally:
   if current:
    try:current.close(timeout=2);current.forget(timeout=2)

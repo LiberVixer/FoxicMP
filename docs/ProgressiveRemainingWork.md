@@ -1,6 +1,6 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 15 ноября 2026, включая bounded continuous WebM VP9/Opus восьми CFR частот 23.976–60fps, SDK1.104 (включая VFR с явными BlockDuration, SimpleBlock, производным video count и номинальным DefaultDuration).
+Рабочая сводка на 15 ноября 2026, включая bounded continuous WebM VP9/Opus восьми CFR частот 23.976–60fps, SDK1.105 (включая VFR с явными BlockDuration, SimpleBlock, производным video count, номинальным DefaultDuration и производным audio count).
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
@@ -101,14 +101,11 @@ R01–R10 выполняются последовательными неболь
 
 ## Ближайший пакет: R01
 
-Текущий незавершённый этап — [WebM/Opus без внешнего audioSamples](ProgressiveAudioCountRemuxPlan.md).
-Подготовка проверена в трёх редакциях: incremental count и canonical output/known-plan
-PCM совпадают с независимым декодированием. Это не новый production mode; SDK1.104
-по-прежнему требует audioSamples. [Фиксированный счётчик](ProgressiveAudioCountExecutionChecklist.md):
-16 всего,7 готово,9 осталось. Следующий шаг ADC-08–ADC-11 — рабочий scanner,
-worker, независимая проверка cache/coverage и динамический PCM end Qt/Classic.
-Новый ordinary playback проверяется после их согласования, не заменяется prototype.
-
+Текущий этап — [WebM/Opus без внешнего audioSamples](ProgressiveContinuousWebmDerivedAudio.md).
+Производственные scanner/worker/cache/decoder и ordinary main трёх редакций
+проверены. Length/video endpoint остаются известными; short zero-trim не завершает
+required audio до EOF. [Фиксированный счётчик](ProgressiveAudioCountExecutionChecklist.md)
+сохраняет16 подпунктов, включая подготовку и production; поставка — отдельный gate.
 
 1. Составить таблицу оставшихся container/codec/layout rows: уже native-progressive,
    continuous-remux, probe-only, waiting-index и неподдержанные. Для каждой строки

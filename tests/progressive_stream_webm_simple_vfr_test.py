@@ -9,11 +9,13 @@ from progressive_webm_vfr_preflight import decoded
 from progressive_webm_fixtures import width
 MODE='continuous-webm-vp9-opus-simple-vfr-v1'
 
-def run(worker,report,auto_count=False,nominal=False):
- auto_count=auto_count or nominal
+def run(worker,report,auto_count=False,nominal=False,derived_audio=False):
+ auto_count=auto_count or nominal or derived_audio
  global MODE
- MODE='continuous-webm-vp9-opus-simple-vfr-nominal-v1' if nominal else 'continuous-webm-vp9-opus-simple-vfr-auto-count-v1' if auto_count else 'continuous-webm-vp9-opus-simple-vfr-v1'
- if nominal:
+ MODE='continuous-webm-vp9-opus-simple-vfr-derived-av-v1' if derived_audio else 'continuous-webm-vp9-opus-simple-vfr-nominal-v1' if nominal else 'continuous-webm-vp9-opus-simple-vfr-auto-count-v1' if auto_count else 'continuous-webm-vp9-opus-simple-vfr-v1'
+ if derived_audio:
+  from progressive_webm_derived_av_fixtures import CASES as cases,media as create_media
+ elif nominal:
   from progressive_webm_nominal_vfr_fixtures import CASES as cases,media as create_media
  else:cases,create_media=CASES,media
  report=Path(report);report.mkdir(parents=True,exist_ok=True);rows=[]
@@ -24,7 +26,8 @@ def run(worker,report,auto_count=False,nominal=False):
    video=configuration(raw)[1]['number'];second=layout['clusters'][1]
    nextvideo=next(b for b in layout['blocks'] if b['track']==video and second['body']<=b['offset']<second['end'])
    cut=next(int(p['pos'])+13 for p in meta['packets'] if p['codec_type']=='video' and float(p['pts_time'])>=20)
-   cuts=[layout['clusters'][0]['end'],nextvideo['end'],cut];partials=[]
+   nextaudio=[b['end'] for b in layout['blocks'] if b['track']!=video and second['body']<=b['offset']<second['end']]
+   cuts=[layout['clusters'][0]['end'],max(nextvideo['end'],nextaudio[0]) if derived_audio and nextaudio else nextvideo['end'],cut];partials=[]
    refpcm=pcm(source,folder,'source-pcm');refvideo=decoded(source,pixels,folder,'source-video')
    def checkpoint(data,event):
     if event['available']==cuts[0]:assert not event['mediaReady'],'Cluster escaped before next PTS'
@@ -35,10 +38,12 @@ def run(worker,report,auto_count=False,nominal=False):
     sound=pcm(partial,folder,'partial-pcm');assert sound==refpcm[:len(sound)]
     if event['available']==len(raw):assert len(packets(actual,'video'))<frames,'Final video escaped before writer EOF'
     partials.append(dict(bytes=len(data),available=event['available'],videoPackets=len(packets(actual,'video'))))
-   row,output=serve(worker,source,mode=MODE,format_hint='webm',video_samples=None if auto_count else frames,video_duration=end,audio_samples=profile[5],byte_cuts=cuts,short_reads=True,on_wait=checkpoint)
+   row,output=serve(worker,source,mode=MODE,format_hint='webm',video_samples=None if auto_count else frames,video_duration=end,audio_samples=None if derived_audio else profile[5],byte_cuts=cuts,short_reads=True,on_wait=checkpoint)
    assert row['exitCode']==0 and row['result']['code']=='data' and row['firstCompleteFragmentBeforeSourceComplete'] and len(partials)>=3,row
    assert row['result']['packets']==frames+(profile[5]+1271)//960
    row['externalVideoCountProvided']=not auto_count
+   row['externalAudioCountProvided']=not derived_audio
+   if derived_audio:assert int(row['result']['derivedAudioSamples'])==profile[5] and row['result']['audioPackets']==(profile[5]+1271)//960
    out=folder/'output.webm';out.write_bytes(output);actual=probe(out,folder,'output-probe')
    for kind in ('video','audio'):assert packets(actual,kind)==packets(meta,kind)
    assert pcm(out,folder,'output-pcm')==refpcm and decoded(out,pixels,folder,'output-video')==refvideo
@@ -63,7 +68,7 @@ def run(worker,report,auto_count=False,nominal=False):
     row.update(profile='nominal-hint-'+str(hint),frames=count,duration100ns=endpoint,nominalDefaultDurationNs=hint,nominalHintIgnoredForIntervals=True,nominalDefaultDurationPreserved=True,externalVideoCountProvided=False,exactPacketsAndClocks=True,exactPcm=True,decodedFramesIdentical=True,sourceUnchanged=True)
     rows.append(row)
   source,raw,frames,end,profile=control
-  def attempt(label,value=raw,count=None if auto_count else frames,endpoint=end,fault=None,samples=profile[5]):
+  def attempt(label,value=raw,count=None if auto_count else frames,endpoint=end,fault=None,samples=None if derived_audio else profile[5]):
    p=root/(label+'.webm');p.write_bytes(value);row,_=serve(worker,p,mode=MODE,format_hint='webm',video_samples=count,video_duration=endpoint,audio_samples=samples,growing=bool(fault),fault=fault)
    if fault=='kill-wait':assert row['terminationSeconds']<2
    else:assert row['exitCode']==1 and row['result']['code']!='data',(label,row)
@@ -82,9 +87,26 @@ def run(worker,report,auto_count=False,nominal=False):
   from progressive_webm_vfr_preflight import explicit_durations
   from progressive_webm_vfr_fixtures import media as explicit_media,CASES as EXPLICIT_CASES
   explicit,_,_,_,_,_=explicit_media(root/'explicit-control',EXPLICIT_CASES[0 if nominal else 1]);attempt('video-block-group',explicit.read_bytes())
-  if auto_count:attempt('derived-count-shared-packet-budget',samples=49999*960-312)
+  if auto_count and not derived_audio:attempt('derived-count-shared-packet-budget',samples=49999*960-312)
+  if derived_audio:
+   attempt('forbidden-audio-plan',samples=profile[5])
+   from progressive_audio_count_preflight import rewrite_audio
+   from progressive_webm_vfr_preflight import ebml
+   def signed(value):return ebml(0x75a2,value.to_bytes(8,'big',signed=True))
+   for label,padding in [('negative',signed(-20833)),('fractional',signed(1)),('excessive',signed(20000000)),('duplicate',signed(0)+signed(0)),('nonfinal',signed(1250000))]:
+    attempt('audio-trim-'+label,rewrite_audio(raw,lambda i,block,original:ebml(0xa0,ebml(0xa1,block)+padding) if i==0 else original))
+   def invalid_audio(i,block,original):
+    if i!=1:return original
+    value=bytearray(block);at=width(value[0]);value[at:at+2]=b'\0\0';return ebml(0xa3,value)
+   attempt('audio-clock-regression',rewrite_audio(raw,invalid_audio))
+   def wrong_packet(i,block,original):
+    if i:return original
+    value=bytearray(block);at=width(value[0])+3;value[at]=0xf0;return ebml(0xa3,value)
+   attempt('audio-packet-duration',rewrite_audio(raw,wrong_packet))
+   attempt('audio-missing',rewrite_audio(raw,lambda *_:b''))
+   attempt('audio-one-packet',rewrite_audio(raw,lambda i,block,original:original if i==0 else b''))
   for cut in (1,layout['headBytes']-1,len(raw)-1):attempt('truncated-'+str(cut),raw[:cut])
   for fault in ('unconfirmed-eof','integrity','cancel-wait','cancel-write','kill-wait'):attempt(fault,fault=fault)
  result=dict(result='PASS',mode=MODE,count=len(rows),rows=rows,workerSha256=hashlib.sha256(Path(worker).read_bytes()).hexdigest(),testSourceSha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest());(report/'result.json').write_text(json.dumps(result,indent=2)+'\n');return result
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--nominal',action='store_true');p.add_argument('--auto-count',action='store_true');p.add_argument('--worker',type=Path,required=True);p.add_argument('--report-directory',required=True);a=p.parse_args();r=run(a.worker.resolve(),a.report_directory,a.auto_count,a.nominal);print('PASS',r['count'])
+ p=argparse.ArgumentParser();p.add_argument('--derived-av',action='store_true');p.add_argument('--nominal',action='store_true');p.add_argument('--auto-count',action='store_true');p.add_argument('--worker',type=Path,required=True);p.add_argument('--report-directory',required=True);a=p.parse_args();r=run(a.worker.resolve(),a.report_directory,a.auto_count,a.nominal,a.derived_av);print('PASS',r['count'])

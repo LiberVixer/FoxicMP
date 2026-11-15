@@ -43,10 +43,11 @@ class CMatroskaSplitterOutputPin
     CCritSec m_opusLock;
     CComPtr<IHarvesterReader> m_opusReader;
     CComPtr<IProgressivePcmControl> m_opusControl;
+    CComPtr<IProgressiveGrowingOpusControl> m_growingOpusControl;bool m_opusGrowing=false;
     uint64_t m_opusBegin=0,m_opusEnd=0,m_opusFirst=0;bool m_opusPending=false;
     void ClearOpusWindow();
 public:
-    void SetOpusWindow(IHarvesterReader*,uint64_t,uint64_t,uint64_t);
+    void SetOpusWindow(IHarvesterReader*,uint64_t,uint64_t,uint64_t,bool growing=false);
     HRESULT DeliverPacket(std::unique_ptr<CPacket> p) override;
     HRESULT DeliverEndFlush() override;
 	CMatroskaSplitterOutputPin(std::vector<CMediaType>& mts, LPCWSTR pName, CBaseFilter* pFilter, CCritSec* pLock, HRESULT* phr);

@@ -1911,3 +1911,21 @@ unknown-count playback не реализован, SDK/capabilities1.104 и ус�
 Потеря целого packet при новой согласованной длине отделена от premature EOF при
 прежней длине. [Фиксированный этап](ProgressiveAudioCountExecutionChecklist.md):7/16;
 остаются production scanner/worker/cache/decoder, API/main acceptance и поставка.
+
+
+## SDK1.105: audio count из подтверждённых пакетов, 15 ноября 2026
+
+[Рабочий режим](ProgressiveContinuousWebmDerivedAudio.md) подключает производный
+video/audio count без внешних videoSamples/audioSamples. Known length/video endpoint
+сохраняются; source SimpleBlock VP9/Opus960 без DefaultDuration. Cache независимо
+проверяет packet bytes/clock/trim и итог worker. Qt читает управляемые WebM views;
+Classic использует отдельный growing-Opus IID, сохраняя MP3/фиксированный Opus/AAC.
+
+[Приёмка](ProgressiveContinuousWebmDerivedAudioValidation-2026-11-15.json):117 worker,
+30 ordinary main,30 complete PCM,18 growing PCM,624 old worker и69 old main прошли.
+У каждого main fixture ≥10s просмотра до complete, pause/growing/queued seek/EOF/release.
+Short zero-trim не выдаётся за окончание audio; превышение bounded pending queue
+даёт отказ. Whole-packet omission при новой согласованной длине не является
+проверкой прежней source identity. Физический A/V/видимый Classic output не измерялись.
+Harvester и сохранённые настройки не изменяются. [Фиксированный чеклист](ProgressiveAudioCountExecutionChecklist.md)
+считает этот этап отдельно от77 широких открытых требований.
