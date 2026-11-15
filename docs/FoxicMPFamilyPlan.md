@@ -1892,3 +1892,9 @@ video с DefaultDuration1ms–1s и использует явную next-PTS п�
 69 legacy main,142 SDK units и4000 sanitizer mutations прошли. Endpoint/audioSamples
 остаются известными. Три редакции проверены отдельно; номинальные packet durations
 и намеренные gaps не объявлены сохранёнными. Установки/HKCU и профиль сохранены.
+
+
+[SDK1.104: поставка Linux](ProgressiveContinuousWebmOpusNominalVfrDelivery-2026-11-15.json)
+проверена шестью ordinary-main сценариями с установленным собственным SDK.
+Атомарная замена, backup, неизменный профиль и Windows/HKCU подтверждены.
+Фиксированный этап14/14 завершён; общие77 требований этим не закрыты.
