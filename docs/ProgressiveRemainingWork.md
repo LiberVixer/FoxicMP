@@ -105,7 +105,8 @@ R01–R10 выполняются последовательными неболь
 Производственные scanner/worker/cache/decoder и ordinary main трёх редакций
 проверены. Length/video endpoint остаются известными; short zero-trim не завершает
 required audio до EOF. [Фиксированный счётчик](ProgressiveAudioCountExecutionChecklist.md)
-сохраняет16 подпунктов, включая подготовку и production; поставка — отдельный gate.
+сохраняет16 подпунктов:16 готово,0 осталось, включая проверенную поставку Linux.
+Другие layouts, неизвестный endpoint и общие77 требований остаются открытыми.
 
 1. Составить таблицу оставшихся container/codec/layout rows: уже native-progressive,
    continuous-remux, probe-only, waiting-index и неподдержанные. Для каждой строки

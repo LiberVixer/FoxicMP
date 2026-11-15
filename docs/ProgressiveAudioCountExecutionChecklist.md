@@ -19,7 +19,7 @@
 - [x] ADC-13. Проверить ordinary Linux Qt ≥10 s до complete, pause/growing/queued seek/EOF/release.
 - [x] ADC-14. Проверить те же ordinary-main сценарии Windows Qt.
 - [x] ADC-15. Проверить те же ordinary-main сценарии Classic, прежние modes и неизменность HKCU.
-- [ ] ADC-16. Проверить sanitizer/resource bounds; clean SDK, три сборки и атомарное обновление Linux с backup/неизменным профилем.
+- [x] ADC-16. Проверить sanitizer/resource bounds; clean SDK, три сборки и атомарное обновление Linux с backup/неизменным профилем.
 
 Harvester не меняется. Известные source length/video endpoint пока сохраняются.
 Физический A/V стенд, неизвестный общий endpoint и полная R01 этим не закрываются.
@@ -51,5 +51,17 @@ waiting/pending-budget controls,4000 sanitizer mutations и145 SDK units про�
 Все итоговые child exits сохранены; прерванный SSH-транспорт не выдан за успешный
 remote batch. Начальные неудачные прогоны и их причины сохранены в отчёте.
 
-До поставки:16 всего /15 готово /1 осталось — ADC-16 требует clean SDK и проверки
-атомарного обновления установленного Linux. Харвестер не изменяется.
+Исторический gate перед поставкой:15/16. Результат финальной поставки приведён ниже.
+
+## Поставка завершена
+
+[Отчёт поставки](ProgressiveContinuousWebmDerivedAudioDelivery-2026-11-15.json):
+clean SDK1.105, атомарное обновление Linux с backup и неизменным INI/личными
+файлами; ещё10 ordinary-main сценариев с собственным установленным SDK прошли.
+Windows Qt/Classic проверены отдельными сборками, установленные Windows EXE/INI
+и HKCU сохранены. В Classic дополнительно пересобраны обе точки выделения
+декодера (FGManager и PPageInternalFilters) и повторены10 новых/23 прежних main
+сценария. Отчёт хранит hash окончательного Classic EXE.
+
+Всего16 /готово16 /осталось0. Общие77 составных требований остаются открытыми;
+этот профиль не закрывает полностью R01/R04/R15/R17. Харвестер не изменён.

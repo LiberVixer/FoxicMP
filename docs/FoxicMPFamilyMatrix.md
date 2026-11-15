@@ -1907,3 +1907,12 @@ Short zero-trim не выдаётся за окончание audio; превы�
 проверкой прежней source identity. Физический A/V/видимый Classic output не измерялись.
 Harvester и сохранённые настройки не изменяются. [Фиксированный чеклист](ProgressiveAudioCountExecutionChecklist.md)
 считает этот этап отдельно от77 широких открытых требований.
+
+
+[SDK1.105: поставка](ProgressiveContinuousWebmDerivedAudioDelivery-2026-11-15.json)
+завершена: атомарный Linux upgrade с backup/неизменным INI и ещё10 installed
+own-SDK main сценариев. Windows установленные профили/EXE и HKCU сохранены;
+проверялись отдельные сборки. Окончательный Classic EXE также содержит заново
+собранные allocating sites FGManager/PPageInternalFilters; его10 новых/23 прежних
+main сценария повторно прошли. Фиксированный этап16/16 завершён, общие77 требований
+и физическая A/V приёмка остаются открытыми.

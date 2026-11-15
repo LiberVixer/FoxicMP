@@ -5,6 +5,10 @@
 Harvester не изменяется. [Фиксированный чеклист](ProgressiveAudioCountExecutionChecklist.md)
 содержит16 подпунктов; подготовка и production учитываются раздельно.
 
+Позднее [production SDK1.105](ProgressiveContinuousWebmDerivedAudio.md) реализовал этот
+режим; [фиксированный этап](ProgressiveAudioCountExecutionChecklist.md) завершён16/16.
+Ниже сохранён исходный срез подготовки, его «не реализовано» относится к SDK1.104.
+
 ## Зачем нужен следующий режим
 
 SDK1.103/1.104 уже считают видеопакеты самостоятельно, но `audioSamples` требуется

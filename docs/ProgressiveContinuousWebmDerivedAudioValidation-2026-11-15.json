@@ -5557,8 +5557,8 @@
     "windows-classic": {
       "result": "PASS",
       "playerSha256": [
-        "f80053f034e50ca3342e86213715cf981793ac146e2f8f3b190e254bfecf4d4d",
-        "f80053f034e50ca3342e86213715cf981793ac146e2f8f3b190e254bfecf4d4d"
+        "030ddcde02e50d58a23d6ad13dac3726cdfcce2e7df1acb92de7e7cd99a9e70f",
+        "030ddcde02e50d58a23d6ad13dac3726cdfcce2e7df1acb92de7e7cd99a9e70f"
       ],
       "workerSha256": "41dfe461d3251bd952207c9437ae02f0f17fc7b59ca2b7e579f9e3da09fa66cb",
       "apiRows": [
@@ -5568,8 +5568,8 @@
           "derivedVideoPackets": 600,
           "externalAudioPlanProvided": false,
           "externalVideoPlanProvided": false,
-          "incompletePlaybackSeconds": 10.126999999999999,
-          "releaseSeconds": 0.06300000000010186,
+          "incompletePlaybackSeconds": 10.121,
+          "releaseSeconds": 0.06199999999989814,
           "pauseGrowingQueuedSeekEof": true,
           "finalCountOnlyWithComplete": true,
           "partialAudioSamples": 615048,
@@ -5584,8 +5584,8 @@
           "derivedVideoPackets": 600,
           "externalAudioPlanProvided": false,
           "externalVideoPlanProvided": false,
-          "incompletePlaybackSeconds": 10.120000000000001,
-          "releaseSeconds": 0.047000000000025466,
+          "incompletePlaybackSeconds": 10.128,
+          "releaseSeconds": 0.06300000000010186,
           "pauseGrowingQueuedSeekEof": true,
           "finalCountOnlyWithComplete": true,
           "partialAudioSamples": 615048,
@@ -5600,8 +5600,8 @@
           "derivedVideoPackets": 600,
           "externalAudioPlanProvided": false,
           "externalVideoPlanProvided": false,
-          "incompletePlaybackSeconds": 10.123000000000001,
-          "releaseSeconds": 0.047000000000025466,
+          "incompletePlaybackSeconds": 10.131,
+          "releaseSeconds": 0.06300000000010186,
           "pauseGrowingQueuedSeekEof": true,
           "finalCountOnlyWithComplete": true,
           "partialAudioSamples": 95983,
@@ -5616,8 +5616,8 @@
           "derivedVideoPackets": 600,
           "externalAudioPlanProvided": false,
           "externalVideoPlanProvided": false,
-          "incompletePlaybackSeconds": 10.127,
-          "releaseSeconds": 0.047000000000025466,
+          "incompletePlaybackSeconds": 10.123,
+          "releaseSeconds": 0.06199999999989814,
           "pauseGrowingQueuedSeekEof": true,
           "finalCountOnlyWithComplete": true,
           "partialAudioSamples": 95983,
@@ -5632,11 +5632,11 @@
           "derivedVideoPackets": 600,
           "externalAudioPlanProvided": false,
           "externalVideoPlanProvided": false,
-          "incompletePlaybackSeconds": 10.125,
-          "releaseSeconds": 0.06300000000010186,
+          "incompletePlaybackSeconds": 10.131,
+          "releaseSeconds": 0.07800000000133878,
           "pauseGrowingQueuedSeekEof": true,
           "finalCountOnlyWithComplete": true,
-          "partialAudioSamples": 623688,
+          "partialAudioSamples": 607368,
           "trackEndBeforeWholeOutput": false,
           "exactPcm": true,
           "exactPacketsAndClocks": true,
@@ -5648,8 +5648,8 @@
           "derivedVideoPackets": 600,
           "externalAudioPlanProvided": false,
           "externalVideoPlanProvided": false,
-          "incompletePlaybackSeconds": 10.123,
-          "releaseSeconds": 0.06300000000010186,
+          "incompletePlaybackSeconds": 10.133,
+          "releaseSeconds": 0.06199999999989814,
           "pauseGrowingQueuedSeekEof": true,
           "finalCountOnlyWithComplete": true,
           "partialAudioSamples": 623688,
@@ -5664,8 +5664,8 @@
           "derivedVideoPackets": 600,
           "externalAudioPlanProvided": false,
           "externalVideoPlanProvided": false,
-          "incompletePlaybackSeconds": 10.124,
-          "releaseSeconds": 0.047000000000025466,
+          "incompletePlaybackSeconds": 10.126999999999999,
+          "releaseSeconds": 0.06300000000010186,
           "pauseGrowingQueuedSeekEof": true,
           "finalCountOnlyWithComplete": true,
           "partialAudioSamples": 649,
@@ -5681,7 +5681,7 @@
           "externalAudioPlanProvided": false,
           "externalVideoPlanProvided": false,
           "incompletePlaybackSeconds": 10.126,
-          "releaseSeconds": 0.07799999999997453,
+          "releaseSeconds": 0.06300000000010186,
           "pauseGrowingQueuedSeekEof": true,
           "finalCountOnlyWithComplete": true,
           "partialAudioSamples": 649,
@@ -5696,8 +5696,8 @@
           "derivedVideoPackets": 733,
           "externalAudioPlanProvided": false,
           "externalVideoPlanProvided": false,
-          "incompletePlaybackSeconds": 10.128,
-          "releaseSeconds": 0.06300000000010186,
+          "incompletePlaybackSeconds": 10.127,
+          "releaseSeconds": 0.04700000000048021,
           "pauseGrowingQueuedSeekEof": true,
           "finalCountOnlyWithComplete": true,
           "partialAudioSamples": 601608,
@@ -5712,7 +5712,7 @@
           "derivedVideoPackets": 733,
           "externalAudioPlanProvided": false,
           "externalVideoPlanProvided": false,
-          "incompletePlaybackSeconds": 10.127,
+          "incompletePlaybackSeconds": 10.125,
           "releaseSeconds": 0.06300000000010186,
           "pauseGrowingQueuedSeekEof": true,
           "finalCountOnlyWithComplete": true,
@@ -8577,7 +8577,8 @@
     "derived-av-windows-final-audit": 0,
     "derived-av-linux-pcm-verified": 0,
     "derived-av-qt-pcm-verified": 0,
-    "derived-av-classic-pcm-verified": 0
+    "derived-av-classic-pcm-verified": 0,
+    "derived-av-factory-classic-tests": 0
   },
   "registration": {
     "qt": {
@@ -8648,5 +8649,45 @@
   "externalAudioCountProvided": false,
   "externalVideoCountProvided": false,
   "knownSourceLengthAndVideoEndpointRequired": true,
-  "fullR01R04R15R17Complete": false
+  "fullR01R04R15R17Complete": false,
+  "classicFactoryRebuild": {
+    "reason": "New decoder IID changes C++ object layout; recompile every allocating translation unit.",
+    "previousMainSha256": [
+      "f80053f034e50ca3342e86213715cf981793ac146e2f8f3b190e254bfecf4d4d",
+      "f80053f034e50ca3342e86213715cf981793ac146e2f8f3b190e254bfecf4d4d"
+    ],
+    "finalMainSha256": [
+      "030ddcde02e50d58a23d6ad13dac3726cdfcce2e7df1acb92de7e7cd99a9e70f",
+      "030ddcde02e50d58a23d6ad13dac3726cdfcce2e7df1acb92de7e7cd99a9e70f"
+    ],
+    "freshAllocationSites": [
+      "src/apps/mplayerc/FGManager.cpp",
+      "src/apps/mplayerc/PPageInternalFilters.cpp"
+    ],
+    "sourceSha256": {
+      "src/apps/mplayerc/FGManager.cpp": "1ea94548615d30ee42a567a58887056352016a05d9de46f005c6c73612e0c7cd",
+      "src/apps/mplayerc/PPageInternalFilters.cpp": "cb5de7f6514f65d611c90b506ee41e9fd18bd2cb27a30eabeffffd7c5f93bf4e"
+    },
+    "compileExitCodes": {
+      "derived-av-classic-factory-compile": 0,
+      "derived-av-classic-filter-page-compile": 0,
+      "derived-av-classic-factory-final-link": 0
+    },
+    "ordinaryMainCases": 10,
+    "legacyMainCases": 23,
+    "privateStage": "_bin/derived-av-classic-factory-final-stage",
+    "installedWindowsUnchanged": true,
+    "objectSha256": {
+      "FGManager.obj": "e88095686256995ab7226ba1663b884afcbaafdfc42bff37f1bf04b2e827b725",
+      "PPageInternalFilters.obj": "b0d443174f32dd2c43536a89a02bf809e52bd77ec2de0ff8627b0c4eb08319e9",
+      "ClassicProgressiveApi.obj": "b66f4dabf58f7aecca960fb89d8256b88dea4b87809559f6654766d88d95c640",
+      "HarvesterSession.obj": "36d4e387a4deed9bd00655ef6ea073e9ead26362f2e54ddd14c074a9b0fa7a2e"
+    },
+    "responseSha256": {
+      "factory.rsp": "ce40d2a8b6c6dc31991cd892bb71f69e3414b171e591436737bacae70fe16ec0",
+      "filter-page.rsp": "0283e1e2244f68da0afc8b920b79830b5deac8e2ef78bb1bef87563c53c2ed40",
+      "factory-final-link.rsp": "6b498300a9e8693c850de99153db48895a2ba82828d42c53067b6ef5596f09bf"
+    },
+    "supersedesPreviousAdHocMainBuild": true
+  }
 }
