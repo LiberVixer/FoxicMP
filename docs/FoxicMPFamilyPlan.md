@@ -1842,3 +1842,9 @@ EOF/release, exact packets/clocks/frames/PCM, ошибки, регрессии �
 из-за8442 мелких source roundtrips: буферизация подтверждённого префикса сократила
 их до16 в контрольном fixture; added regression воспроизводит отказ старого кода.
 Физический A/V и visible Classic renderer этим не аттестованы.
+
+
+[SDK1.102 SimpleBlock VFR: поставка Linux](ProgressiveContinuousWebmOpusSimpleVfrDelivery-2026-11-15.json)
+завершена: atomic replacement, backup, неизменный INI и шесть installed own-SDK
+сценариев прошли. Windows-копии и их профили сохранены; проверены отдельные Qt/Classic
+сборки. Production этап SimpleBlock VFR завершён; broad R01/R04/R15/R17 открыты.

@@ -1824,3 +1824,9 @@ Harvester, пользовательские профили, настройки W
 ### Continuous original source close — 12 ноября 2026
 
 [Общее исправление](ProgressiveSourceClose.md) выносит уничтожение исходника/ожидание receipt за mutex remux-сессии и закрывает все media pins до квитанций. Новые publish не обращаются к transferred source; late heartbeat сохраняет successful EOF. [Отчёт](ProgressiveSourceCloseValidation-2026-11-12.json): native GCC/ASan/MinGW/MSVC, Stop/Cancel/WM_CLOSE обычных трёх редакций, прежние public regressions, resources/parent/cache/I/O и 100 Linux cycles прошли. Linux обновлён с backup и сохранением профиля; Windows-установки/163 HKCU entries не менялись. Original durable receipt может ждать lock; actual stalled OS I/O и исторический необъяснённый release-budget outlier остаются OPEN.
+
+
+[SDK1.102 SimpleBlock VFR: поставка Linux](ProgressiveContinuousWebmOpusSimpleVfrDelivery-2026-11-15.json)
+завершена: atomic replacement, backup, неизменный INI и шесть installed own-SDK
+сценариев прошли. Windows-копии и их профили сохранены; проверены отдельные Qt/Classic
+сборки. Production этап SimpleBlock VFR завершён; broad R01/R04/R15/R17 открыты.

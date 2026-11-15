@@ -16,7 +16,7 @@
 - [x] SVC-11. Проверить те же ordinary-main сценарии Classic.
 - [x] SVC-12. Проверить регрессии старых VFR/CFR/NTSC/25fps/AAC и sanitizer bounds.
 - [x] SVC-13. Свести отчёт, обновить матрицу/план, проверить профили/установки.
-- [ ] SVC-14. Опубликовать исходники/clean SDK и атомарно обновить Linux с backup и неизменным INI.
+- [x] SVC-14. Опубликовать исходники/clean SDK и атомарно обновить Linux с backup и неизменным INI.
 
 Harvester не изменяется. Физический A/V стенд и широкие R01/R04 этим этапом не закрываются.
 
@@ -32,3 +32,16 @@ DefaultDuration0 также отклонён во всех трёх worker сб�
 684 файла установленных копий и HKCU сохранены до поставки. В Classic использован
 private Null Video Renderer (Uncompressed); физический A/V не измерялся.
 Подпункт SVC-14 завершается после clean SDK, push и фактического обновления Linux.
+
+## Завершение поставки
+
+Clean SDK1.102 и исходники реализации опубликованы в `main` и `codex/linux-qt`:
+[bd90f1ced](https://github.com/LiberVixer/FoxicMP/commit/bd90f1ced).
+Linux обновлён атомарно с backup и неизменным INI; ещё шесть ordinary-main
+сценариев установленной копии прошли через её собственный SDK.
+[Отчёт поставки](ProgressiveContinuousWebmOpusSimpleVfrDelivery-2026-11-15.json).
+Установленные Windows-копии и профили сохранены, их отдельные новые сборки проверены.
+
+Этап: всего14 / готово14 / осталось0. Основной план:77 составных требований
+открыто. Неизвестные counts/duration и общий Matroska, физический A/V и полная
+R01/R04/R15/R17 остаются отдельной работой. Harvester не изменён.
