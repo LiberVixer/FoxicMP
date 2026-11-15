@@ -2,9 +2,10 @@
 
 Актуальный [чеклист до завершения ТЗ](ProgressiveCompletionChecklist.md).
 Краткий [рабочий порядок оставшихся задач](ProgressiveRemainingWork.md): R01–R17,
-отдельно исторические наблюдения и внешние зависимости. Следующий пакет —
-инвентаризация недостающих continuous-remux профилей; повторять закрытые memory/
-receipt/source-close исправления вместо расширения матрицы не требуется.
+отдельно исторические наблюдения и внешние зависимости. Текущий пакет —
+[Opus-пакеты разной длительности](ProgressiveOpusGeometryRemuxPlan.md): подготовка
+завершена, далее production clock/scanner/cache/decoder и приёмка трёх редакций.
+Повторять закрытые memory/receipt/source-close исправления не требуется.
 
 Рабочий план по запросу пользователя от 24 октября 2026 года.
 **Эталон организации меню и настроек — Linux Qt** (уточнение пользователя
@@ -1938,3 +1939,20 @@ own-SDK main сценариев. Windows установленные профил
 собранные allocating sites FGManager/PPageInternalFilters; его10 новых/23 прежних
 main сценария повторно прошли. Фиксированный этап16/16 завершён, общие77 требований
 и физическая A/V приёмка остаются открытыми.
+
+
+## Подготовка следующего R01: переменная длительность Opus,15 ноября2026
+
+[План](ProgressiveOpusGeometryRemuxPlan.md) и [отчёт](ProgressiveOpusGeometryPreflight-2026-11-15.json):
+66 строк,198 fragmented reads,264 отрицательных clock/trim/EOF/budget controls,
+GNU/MinGW/MSVC TOC checks и20000 sanitizer mutations. Подсчёт из bytes сохраняет
+pre-skip120/312 и конечную обрезку; mixed20–120ms fixtures имеют один encoder state.
+Completed-file Qt PCM точен; ordinary Classic graph оставляет DiscardPadding,
+его22 расхождения явно записаны. Это подготовка, не новый progressive playback.
+
+Прежний SDK1.105 и шесть growing-Opus PCM регрессий Classic сохранены.703 installed
+files/настройки и HKCU неизменны; Harvester не меняется. [Новый фиксированный этап](ProgressiveOpusGeometryExecutionChecklist.md)
+18 всего/8 готово/10 осталось; ADC16/16 остаётся завершённым. Далее — отдельные
+production clock/scanner/cache/decoder, новый совместимый Opus plan для Classic,
+ordinary-main/growing приёмка всех трёх редакций и поставка. Общие77 требований
+ТЗ остаются открытыми.

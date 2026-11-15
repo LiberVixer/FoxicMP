@@ -380,3 +380,10 @@ SDK1.105 добавляет явный progressive WebM VP9/Opus mode без п�
 `audioSamples` и `videoSamples`: [контракт и ограничения](docs/ProgressiveContinuousWebmDerivedAudio.md).
 Длина источника и конечная точка видео пока должны быть известны. Старые режимы
 с известным аудиопланом сохранены; код YouTubeHarvester не изменяется.
+
+
+[Следующий этап: Opus-пакеты разной длительности](docs/ProgressiveOpusGeometryRemuxPlan.md)
+подготовлен тестами трёх редакций. Это ещё не новый progressive mode: SDK1.105
+сохраняет20ms ограничение. Отчёт отдельно фиксирует точные Qt PCM controls и
+необрезанный DiscardPadding обычного Classic graph; производственное подключение
+отслеживается в [чеклисте18 подпунктов](docs/ProgressiveOpusGeometryExecutionChecklist.md).

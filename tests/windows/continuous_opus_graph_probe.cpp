@@ -46,7 +46,38 @@ public:
  }
 };
 
+// Completed-file decoder control for the variable-packet preflight. This
+// deliberately bypasses the progressive cache, whose admission remains narrow.
+static int fileCapture(char** argv){
+ require(AfxWinInit(GetModuleHandle(nullptr),nullptr,GetCommandLine(),0)!=FALSE,"MFC init");
+ require(SUCCEEDED(CoInitializeEx(nullptr,COINIT_MULTITHREADED)),"COM init");
+ HRESULT hr=S_OK;CComPtr<IGraphBuilder> graph;require(SUCCEEDED(graph.CoCreateInstance(CLSID_FilterGraph)),"graph");
+ auto* splitter=new CMatroskaSourceFilter(nullptr,&hr);CComPtr<IBaseFilter> split=splitter;require(SUCCEEDED(hr),"splitter");
+ CComQIPtr<IFileSourceFilter> file=split;require(file && SUCCEEDED(file->Load(CA2W(argv[1],CP_UTF8),nullptr)),"completed WebM load");
+ auto* decoder=new CMpaDecFilter(nullptr,&hr);CComPtr<IBaseFilter> audio=decoder;require(SUCCEEDED(hr),"decoder");
+ require(SUCCEEDED(decoder->SetDynamicRangeControl(false)) && SUCCEEDED(decoder->SetAVSyncCorrection(false)),"audio config");
+ auto* capture=new Capture(&hr,argv[2],48000,std::stoul(argv[3]));CComPtr<IBaseFilter> sink=capture;require(SUCCEEDED(hr),"capture");
+ require(SUCCEEDED(graph->AddFilter(split,L"Completed WebM")) && SUCCEEDED(graph->AddFilter(audio,L"Internal Opus")) && SUCCEEDED(graph->AddFilter(sink,L"Private PCM")),"add filters");
+ // Select the audio pin by media type; file track order is not an API promise.
+ bool connected=false;
+ for(int i=0;i<splitter->GetPinCount();++i){
+  auto* pin=splitter->GetPin(i);PIN_DIRECTION direction;
+  if(SUCCEEDED(pin->QueryDirection(&direction)) && direction==PINDIR_OUTPUT &&
+     SUCCEEDED(graph->ConnectDirect(pin,decoder->GetPin(0),nullptr))){connected=true;break;}
+ }
+ require(connected && SUCCEEDED(graph->ConnectDirect(decoder->GetPin(1),capture->GetPin(0),nullptr)),"connect Opus PCM");
+ CComQIPtr<IMediaFilter> clock=graph;require(SUCCEEDED(clock->SetSyncSource(nullptr)),"null clock");
+ CComQIPtr<IMediaControl> control=graph;CComQIPtr<IMediaEvent> events=graph;long event=0;
+ require(SUCCEEDED(control->Run()) && events->WaitForCompletion(30000,&event)==S_OK && event==EC_COMPLETE,"completed Opus EOF");
+ capture->Finish();auto count=capture->Count();require(SUCCEEDED(control->Stop()),"stop graph");
+ events.Release();control.Release();clock.Release();file.Release();graph->RemoveFilter(split);graph->RemoveFilter(audio);graph->RemoveFilter(sink);
+ graph.Release();split.Release();audio.Release();sink.Release();
+ std::cout<<"{\"result\":\"PASS\",\"samples\":"<<count<<",\"audioDeviceOpened\":false,\"completedFileOnly\":true}"<<std::endl;
+ CoUninitialize();return 0;
+}
+
 int main(int argc,char** argv)try{
+ if(argc==4)return fileCapture(argv);
  const auto selection=argc>=11?std::string(argv[8]):std::string();
  const bool derived=selection=="derived-av";
  const bool nominal=selection=="nominal-vfr",autoCount=derived || nominal || selection=="auto-vfr";

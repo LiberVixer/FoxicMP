@@ -9,7 +9,8 @@
 В подробном чеклисте исторически смешаны 149 подтверждённых записей и 77
 открытых составных требований. Их больше не используем как один счётчик
 готовности. Для оставшегося плана база — 77 требований; для текущего этапа
-есть [фиксированные подпункты этапа без внешнего audioSamples](ProgressiveAudioCountExecutionChecklist.md) с
+есть [фиксированные подпункты следующего этапа packet geometry](ProgressiveOpusGeometryExecutionChecklist.md) и
+[завершённый этап без внешнего audioSamples](ProgressiveAudioCountExecutionChecklist.md) с
 отдельными значениями «всего / готово / осталось». Новые доказательства
 не добавляют выполненных требований. Ниже требования сведены к пакетам работ.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -101,12 +102,18 @@ R01–R10 выполняются последовательными неболь
 
 ## Ближайший пакет: R01
 
-Текущий этап — [WebM/Opus без внешнего audioSamples](ProgressiveContinuousWebmDerivedAudio.md).
+Предыдущий завершённый этап — [WebM/Opus без внешнего audioSamples](ProgressiveContinuousWebmDerivedAudio.md).
 Производственные scanner/worker/cache/decoder и ordinary main трёх редакций
 проверены. Length/video endpoint остаются известными; short zero-trim не завершает
 required audio до EOF. [Фиксированный счётчик](ProgressiveAudioCountExecutionChecklist.md)
 сохраняет16 подпунктов:16 готово,0 осталось, включая проверенную поставку Linux.
 Другие layouts, неизвестный endpoint и общие77 требований остаются открытыми.
+
+Следующий этап — [Opus-пакеты разной длительности](ProgressiveOpusGeometryRemuxPlan.md).
+Подготовка отделяет подсчёт/TOC и completed-file decoder controls от будущего
+progressive scanner/cache/decoder подключения. [Фиксированный чеклист](ProgressiveOpusGeometryExecutionChecklist.md)
+содержит18 подпунктов:8 подготовительных и10 production/приёмочных. Старые
+SDK1.105 profiles сохраняют свои ограничения; новый public mode пока не объявляется.
 
 1. Составить таблицу оставшихся container/codec/layout rows: уже native-progressive,
    continuous-remux, probe-only, waiting-index и неподдержанные. Для каждой строки

@@ -34,6 +34,9 @@ semantics этим не объявляются готовыми.
 внешнего audioSamples только тестовым prototype; known-plan consumers проверены,
 нового production режима тогда не было. Позднее [SDK1.105](ProgressiveContinuousWebmDerivedAudio.md)
 подключает scanner/cache/decoder и independent audio count, с отдельной production приёмкой.
+[Следующая подготовка variable Opus geometry](ProgressiveOpusGeometryRemuxPlan.md)
+проверяет2.5–120ms, mixed packets и pre-skip120/312. SDK1.105 остаётся960-sample
+production mode; completed-file Classic DiscardPadding gap отделён от runtime приёмки.
 [Полный порядок работ](ProgressiveRemainingWork.md),
 [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [подробный чеклист](ProgressiveCompletionChecklist.md).
@@ -173,6 +176,10 @@ exits. Плееры Qt/Classic не запускались, renderer/decoder pla
 как новая приёмка. Документация/тестовая подготовка не требуют bump SDK/EXE
 или замены установленного приложения.
 
-Public HEVC continuous playback остаётся **не реализован**;
-R01 не закрыт. Следующий шаг — подключение выбранного профиля через перечисленные
-слои с отдельной проверкой трёх редакций.
+В историческом срезе12ноября public HEVC continuous playback ещё не был реализован.
+Позднее этот профиль подключён в [SDK1.88](ProgressiveContinuousHevc.md), его
+не нужно реализовывать повторно. Общий R01 остаётся открытым.
+
+Текущий следующий шаг после SDK1.105 — [variable Opus geometry](ProgressiveOpusGeometryRemuxPlan.md):
+подготовка8/18 завершена, рабочее подключение начинается с OPG-09
+[фиксированного чеклиста](ProgressiveOpusGeometryExecutionChecklist.md).
