@@ -1801,3 +1801,7 @@ SimpleBlock VFR, unknown counts/offsets и широкие R01/R04/R15/R17 ост
 
 Счётчик требований не увеличивается новым доказательством. Готовность этого
 этапа отслеживается в [14 фиксированных подпунктах](ProgressiveVfrExecutionChecklist.md).
+
+[Linux обновлён атомарно с backup и неизменным INI; 6 installed own-SDK
+сценариев прошли](ProgressiveContinuousWebmOpusVfrDelivery-2026-11-15.json).
+Установленные Windows-копии и их настройки сохранены.

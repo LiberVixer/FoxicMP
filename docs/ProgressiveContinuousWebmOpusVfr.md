@@ -72,3 +72,7 @@ origins, discontinuities, прочие Opus layouts и полные R01/R04/R15/
 Физический A/V drift не измеряется file/null-output стендами. Это проверенный
 профиль кандидата 0.2.0 /SDK1.101, а не новый итоговый GitHub release.
 Wayland и отложенное оборудование не проверяются.
+
+[Linux обновлён атомарно с backup и неизменным INI; 6 installed own-SDK
+сценариев прошли](ProgressiveContinuousWebmOpusVfrDelivery-2026-11-15.json).
+Установленные Windows-копии и их настройки сохранены.
