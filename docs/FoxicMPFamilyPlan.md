@@ -1785,3 +1785,19 @@ videoSamples и фактических длительностей, mode-scoped i
 приёмки трёх редакций. Он ещё не реализован. SDK1.100 и приложение0.2.0 сохранены;
 изменены только тесты/документация. Harvester и все677 проверяемых файлов
 установленных копий сохранены. Чеклист149 выполнено/77 открыто, без нового checkbox.
+
+## SDK1.101: bounded progressive VFR, 15 ноября 2026
+
+[WebM VP9/Opus с явными длительностями](ProgressiveContinuousWebmOpusVfr.md)
+подключён к worker/cache/SDK и обычным main всех трёх редакций. Frame count
+задаётся независимо; каждый BlockDuration проверяется, sample intervals
+должны сходиться с соседним PTS и последним timeline endpoint. DefaultDuration
+опционален только в VFR-mode; в Classic исправлена его повторная индексация.
+
+[108 worker /18 ordinary-main /18 PCM cases, старые CFR/NTSC/25fps/AAC,
+4000 sanitizer mutations и135 SDK units](ProgressiveContinuousWebmOpusVfrValidation-2026-11-15.json)
+подтверждают этот профиль. Физический A/V не измерялся, Harvester не изменён.
+SimpleBlock VFR, unknown counts/offsets и широкие R01/R04/R15/R17 остаются открытыми.
+
+Счётчик требований не увеличивается новым доказательством. Готовность этого
+этапа отслеживается в [14 фиксированных подпунктах](ProgressiveVfrExecutionChecklist.md).

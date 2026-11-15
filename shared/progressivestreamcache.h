@@ -95,13 +95,14 @@ class StreamOutputStore {
         const uint64_t opusSamples;
         const bool opusNtsc;
         const harvester::WebmContinuousClock opusClock;
+        uint64_t vfrIndexed=0;int64_t vfrEnd=0;
         bool ftyp=false,trailer=false;
         std::atomic<bool> cancelled{false};
         Core(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& id,uint64_t gen,std::shared_ptr<StreamCacheBudget> shared,uint64_t bytes,bool hevcVideo,bool av1Video,bool av1AudioProfile,bool vp9Video,bool vp9AudioProfile,uint64_t opusAudioSamples,bool opusNtscProfile,harvester::WebmContinuousClock clock)
-            :budget(std::move(shared)),registry(receipts),session(id),generation(gen),limit(bytes),hevc(hevcVideo),av1(av1Video),av1Audio(av1AudioProfile),vp9(vp9Video),vp9Audio(vp9AudioProfile),opusSamples(opusAudioSamples),opusNtsc(opusNtscProfile),opusClock(clock.explicitRate?clock:harvester::WebmContinuousClock(opusNtscProfile)){
-            check(opusClock.Valid() && (!clock.explicitRate || (opusSamples && !opusNtsc)),"invalid_request");
+            :budget(std::move(shared)),registry(receipts),session(id),generation(gen),limit(bytes),hevc(hevcVideo),av1(av1Video),av1Audio(av1AudioProfile),vp9(vp9Video),vp9Audio(vp9AudioProfile),opusSamples(opusAudioSamples),opusNtsc(opusNtscProfile),opusClock((clock.explicitRate || clock.variable)?clock:harvester::WebmContinuousClock(opusNtscProfile)){
+            check(opusClock.Valid() && (!(clock.explicitRate || clock.variable) || (opusSamples && !opusNtsc)),"invalid_request");
             check(!opusNtsc || opusSamples,"invalid_request");
-            if(opusSamples){check(vp9 && !vp9Audio && opusSamples>648 && opusSamples<=48000000,"invalid_request");webmIndex=std::make_unique<harvester::muxwebm::Layout>();}
+            if(opusSamples){check(vp9 && !vp9Audio && opusSamples>648 && opusSamples<=48000000,"invalid_request");webmIndex=std::make_unique<harvester::muxwebm::Layout>(opusClock.variable);}
             check(unsigned(hevc)+unsigned(av1)+unsigned(vp9)<=1 && (!av1Audio || av1) && (!vp9Audio || vp9),"invalid_request");
             check(bool(budget) && lease_detail::HexId(id) && gen>0 && bytes>0 && bytes<=64*1024*1024,"invalid_request");
             // Validate a local, owner-only parent; one new private folder per store.
@@ -165,6 +166,13 @@ class StreamOutputStore {
             webmIndex->Update([&](uint64_t at,void* out,size_t n){protectedRead(writer,at,out,n);return true;},state.written,complete,[&](unsigned k,const harvester::WebMInfo& info){check(k?info.codec=="opus":info.codec=="vp9","cache-invalid-fragment");});
             state.initialized=webmIndex->Initialized();state.fragments=webmIndex->Fragments();scan=webmIndex->Position();state.visible=scan;
             state.videoSamples=webmIndex->tracks[0].index.Samples().size();state.audioSamples=webmIndex->tracks[1].index.Samples().size();state.samples=state.videoSamples+state.audioSamples;check(state.samples<=50000 && state.audioSamples<=(opusSamples+1271)/960,"cache-sample-limit");
+            if(opusClock.variable){
+                const auto& samples=webmIndex->tracks[0].index.Samples();
+                check(vfrIndexed<=samples.size(),"cache-invalid-vfr-clock");
+                while(vfrIndexed<samples.size()){const auto& sample=samples[size_t(vfrIndexed++)];check(sample.start==vfrEnd && sample.end>sample.start,"cache-invalid-vfr-clock");vfrEnd=sample.end;}
+                check(state.videoSamples<=opusClock.expectedFrames && uint64_t(vfrEnd)<=opusClock.expectedEnd100ns,"cache-invalid-vfr-clock");
+                if(complete)check(state.videoSamples==opusClock.expectedFrames && uint64_t(vfrEnd)==opusClock.expectedEnd100ns,"cache-incomplete-output");
+            }
             if(complete)check(state.audioSamples==(opusSamples+1271)/960,"cache-incomplete-output");updateCoverage(complete);
         }
         void advance(){
@@ -350,6 +358,7 @@ public:
     };
     StreamOutputStore(const std::filesystem::path& root,const std::filesystem::path& registry,const std::string& session,uint64_t generation,std::shared_ptr<StreamCacheBudget> budget,uint64_t limit=64*1024*1024,bool hevcVideo=false,bool av1Video=false,bool av1AudioProfile=false,bool vp9Video=false,bool vp9AudioProfile=false,uint64_t opusAudioSamples=0,bool opusNtscProfile=false,harvester::WebmContinuousClock clock={})
         :core(std::make_shared<Core>(root,registry,session,generation,std::move(budget),limit,hevcVideo,av1Video,av1AudioProfile,vp9Video,vp9AudioProfile,opusAudioSamples,opusNtscProfile,clock)){}
+    bool vfrWebmOpus()const{return core->opusClock.variable;}
     bool cfrWebmOpus()const{return core->opusClock.explicitRate;}
     harvester::WebmContinuousClock videoClock()const{return core->opusClock;}
     bool ntscWebmOpus()const{return core->opusNtsc;}

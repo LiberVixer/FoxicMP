@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE
 from progressive_client import ApiError
 
 CAP = json.loads(''.join(re.findall(r'R"\((.*?)\)"',
@@ -29,6 +29,7 @@ class Client:
             s = message['session']
             self.job = dict(mode=message.get('mode', MODE), requestId=message['requestId'], jobId='a'*32,
                 sessionId=s['sessionId'], generation=s['generation'], writerInstanceId=s['writer']['instanceId'])
+            if 'videoSamples' in message:self.job['videoSamples']=message['videoSamples']
             if 'videoRate' in message:self.job['videoRate']=copy.deepcopy(message['videoRate'])
         if action == 'continuousRemuxPlay':
             self.play = {**self.job, 'requestId': message['requestId'], 'playbackId': 'b'*32}
@@ -45,6 +46,23 @@ class Client:
 
 
 class Test(unittest.TestCase):
+    def test_vfr_rejects_inexact_capability(self):
+        for field,bad in [('videoSamplesField','frames'),('variableFrameClock',1),('videoBlockDurationRequired',False),('defaultDurationOptional',False),('audioBlockGroupsOnly',True)]:
+            c=Client();old=c.request
+            def request(message,timeout=5,field=field,bad=bad):
+                reply=old(message,timeout);reply['continuousRemux']['profiles'][WEBM_VP9_OPUS_VFR_MODE][field]=bad;return reply
+            c.request=request
+            self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_VFR_MODE,audio_samples=1152000,video_samples=733)
+
+    def test_vfr_plan_binding_and_closed_contract(self):
+        for bad in (None,True,1.0,0,-1,50001,'733'):
+            c=Client();self.assertRaises(ValueError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_VFR_MODE,audio_samples=1152000,video_samples=bad);self.assertEqual(c.calls,[])
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_OPUS_VFR_MODE,audio_samples=1152000,video_samples=733)
+        p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['videoSamples'],'733');p.play();p.playback_status();c.job['videoSamples']='734';self.assertRaises(RuntimeError,p.status)
+        self.assertRaises(ValueError,ContinuousRemux,Client(),str(ROOT),video_samples=733)
+        self.assertRaises(ValueError,ContinuousRemux,Client(),str(ROOT),mode=WEBM_VP9_OPUS_VFR_MODE,audio_samples=1152000,video_samples=733,video_rate=(50,1))
+
+
     def test_queued_seek_requires_exact_capability_and_opt_in(self):
         c,p=self.setup_preview();p.play()
         p.control('seek',seconds=5,allow_growing=True,wait_for_range=True)

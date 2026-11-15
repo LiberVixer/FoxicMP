@@ -14,6 +14,12 @@ SHA-256 файлов. Воспроизведение v1 сохраняется; 
 [ограниченный медиапрофиль v2](ProgressiveMediaV2.md): две отдельные fMP4 H.264/AAC-LC дорожки. [Расширенное ТЗ](ProgressiveIntegrationPlan.md)
 ещё не выполнено. SDK не скачивает URL и не выполняет remux.
 
+SDK1.101 добавляет [continuous WebM VP9/Opus VFR](ProgressiveContinuousWebmOpusVfr.md):
+`mode=WEBM_VP9_OPUS_VFR_MODE`, обязательные `video_samples` и `audio_samples`.
+Каждый video packet имеет BlockGroup/BlockDuration; DefaultDuration может отсутствовать.
+Число кадров известно заранее, из средней fps оно не выводится. `videoRate` запрещён.
+Прежние modes и native admission сохранены. Harvester не изменён.
+
 SDK1.100 добавляет [continuous WebM VP9/Opus CFR](ProgressiveContinuousWebmOpusCfr.md):
 `mode=WEBM_VP9_OPUS_CFR_MODE`, обязательные `video_rate=(n,d)` и `audio_samples`.
 Восемь канонических частот 23.976–60 fps, rate identity в job/playback status;

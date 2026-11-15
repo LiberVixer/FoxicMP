@@ -55,8 +55,9 @@ public:
         if(count>2000000)throw std::runtime_error("Too many fragment samples");
         if(count>samples.capacity())samples.reserve((std::max)(count,(std::min)(size_t(2000000),samples.capacity()*2)));
     }
-    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false,bool allowWebm=false,bool allowFlac=false,bool allowPcm=false,bool allowAc3=false,bool allowEac3=false,bool allowPcm24=false) {
-        if(allowWebm){auto next=webmIndex?std::make_shared<WebMIndex>(*webmIndex):std::make_shared<WebMIndex>();next->Update(read,prefix,trackKind,complete,timestampOffset);webmIndex=std::move(next);return;}
+    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false,bool allowWebm=false,bool allowFlac=false,bool allowPcm=false,bool allowAc3=false,bool allowEac3=false,bool allowPcm24=false,bool allowVfr=false) {
+        if(allowVfr && !allowWebm)throw std::runtime_error("VFR requires a WebM index");
+        if(allowWebm){auto next=webmIndex?std::make_shared<WebMIndex>(*webmIndex):std::make_shared<WebMIndex>();next->Update(read,prefix,trackKind,complete,timestampOffset,allowVfr);webmIndex=std::move(next);return;}
         if(webmIndex)throw std::runtime_error("Progressive container changed");
         hevcEnabled=allowHevc;av1Enabled=allowAv1;vp9Enabled=allowVp9;opusEnabled=allowOpus;flacEnabled=allowFlac;pcmEnabled=allowPcm;ac3Enabled=allowAc3;eac3Enabled=allowEac3;pcm24Enabled=allowPcm24;
         if(prefix<scannedPrefix)throw std::runtime_error("Fragment prefix regressed");

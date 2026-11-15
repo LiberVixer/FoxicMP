@@ -139,6 +139,13 @@ VFR, остальные частоты/Opus layouts и полная R01 оста
 PCM и BlockDuration на трёх native/index стендах. Это диагностика и проект
 следующего профиля; ordinary-player VFR progressive playback не аттестован.
 
+[SDK1.101](ProgressiveContinuousWebmOpusVfr.md): отдельный VFR WebM VP9/Opus
+с обязательными video BlockDuration, известными counts и точным endpoint.
+DefaultDuration опционален только для этого режима. Общий Qt-код и повторный
+Classic FragmentIndex поддерживают один контракт; [отчёт](ProgressiveContinuousWebmOpusVfrValidation-2026-11-15.json)
+разделяет ordinary-main, PCM, workers и прежние режимы.
+VFR SimpleBlock, unknown counts и полная R01/R04 остаются открытыми.
+
 ## Что именно сравнивается
 
 | Редакция | Движок | Проверенная сборка выпуска 0.2.0 | Отдельный профиль |

@@ -3,12 +3,14 @@
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
 **Рабочий порядок оставшихся задач — [R01–R17, исторические H01–H04 и внешние E01–E03](ProgressiveRemainingWork.md).**
-Сводка актуализирована 15 ноября, SDK 1.100: 149 закрытых и 77 открытых
-записей, без вычисления процента готовности. Ниже сохранены подробные доказательства
-и исторические состояния; старые ограничения уточняются позднейшими отчётами.
+Исторический журнал на 15 ноября, SDK 1.100: 149 подтверждённых записей
+и 77 открытых составных требований. Это записи разного уровня, поэтому их
+нельзя считать одним процентом готовности. [Рабочий счётчик подпунктов VFR](ProgressiveVfrExecutionChecklist.md)
+отделён от больших требований: новое доказательство не увеличивает число
+«выполненных требований». Ниже сохранены исторические состояния и ссылки.
 
 Приложение 0.2.0. Последний указанный здесь опубликованный пакетный срез — SDK 1.84;
-в текущих исходниках/проверенных кандидатах SDK 1.100 с исправлениями от 14 ноября.
+в текущих исходниках/проверенных кандидатах SDK 1.101 с исправлениями от 14 ноября.
 Исходники и clean SDK-архив кандидата не равны новому итоговому GitHub release.
 [SDK 1.84](ProgressiveContinuousAacPackages.md) проверен на обычных main/пакетах,
 Classic completed-seek race исправлен и проверен управляемой задержкой; полная стабильная приёмка открыта. Этот документ — перечень
@@ -183,11 +185,18 @@ R01: [инвентаризация container/codec/layout и подготовк�
 
 - [x] SDK 1.100: [явный WebM VP9/Opus CFR](ProgressiveContinuousWebmOpusCfr.md), восемь канонических частот 23.976–60 fps; immutable start.videoRate, точный frame timeline, исходные packet clocks, допуск DefaultDuration вниз 1 ns для FFmpeg. [Проверки трёх редакций](ProgressiveContinuousWebmOpusCfrValidation-2026-11-14.json): 99 worker cases, 24 ordinary-main incomplete playback, 24 PCM captures, прежние 25/NTSC workers/API и AAC queued seek, 4000 sanitizer mutations и 133 SDK units. VFR/другие геометрии Opus и общие R01/R15/R17 остаются открытыми; Harvester не изменён.
 
-Подготовлен [следующий VFR-профиль](ProgressiveWebmVfrRemuxPlan.md):
+[SDK1.101 реализует выбранный VFR-профиль](ProgressiveContinuousWebmOpusVfr.md):
+VP9/Opus, обязательные video BlockDuration, известные counts и точный endpoint,
+optional DefaultDuration с mode-scoped допуском, включая повторный индекс Classic.
+[Доказательства](ProgressiveContinuousWebmOpusVfrValidation-2026-11-15.json)
+добавлены без нового выполненного checkbox: широкие R01/R04 ещё не закрыты.
+[Подпункты реализации и поставки](ProgressiveVfrExecutionChecklist.md) учитываются отдельно.
+
+Ранее подготовлен [VFR-профиль](ProgressiveWebmVfrRemuxPlan.md):
 [54 fixture/native и 36 index checks](ProgressiveWebmVfrPreflight-2026-11-15.json).
-Это native/file диагностика, а не public playback. Отсутствующий DefaultDuration,
-длительности кадров и новая immutable identity требуют реализации; VFR и R01
-остаются открытыми. Дополнительный выполненный checkbox не добавлен.
+Это историческая native/file диагностика; выбранная реализация SDK1.101 описана выше.
+SimpleBlock VFR и широкие R01/R04 остаются открытыми. Дополнительный выполненный
+checkbox не добавлен.
 
 ## 3. Обычный MP4 и индексы
 

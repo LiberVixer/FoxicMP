@@ -556,7 +556,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
         };
         if(OptionalAudioFailed(track))continue;
         try {
-        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,AllowsHevcFragments(),AllowsAv1Fragments(),AllowsVp9Fragments(),m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track),AllowsPcmFragments(track),AllowsAc3Fragments(track),AllowsEac3Fragments(track),AllowsPcm24Fragments(track));
+        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,AllowsHevcFragments(),AllowsAv1Fragments(),AllowsVp9Fragments(),m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track),AllowsPcmFragments(track),AllowsAc3Fragments(track),AllowsEac3Fragments(track),AllowsPcm24Fragments(track),m_continuousSource && m_continuousSource->vfrOpus());
         } catch(const std::exception& error) {if(!m_v2Bridge || state.required)throw;m_v2Bridge->rejectOptionalIndex(track,error.what());continue;}
         result[track]=std::move(next);
     }

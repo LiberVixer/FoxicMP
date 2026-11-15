@@ -3,7 +3,7 @@ import copy,json,shutil,time
 from pathlib import Path
 from fractions import Fraction
 from progressive_client import ApiError
-from progressive_continuous import ContinuousRemux,WEBM_VP9_OPUS_MODE,WEBM_VP9_OPUS_NTSC_MODE,WEBM_VP9_OPUS_CFR_MODE
+from progressive_continuous import ContinuousRemux,WEBM_VP9_OPUS_MODE,WEBM_VP9_OPUS_NTSC_MODE,WEBM_VP9_OPUS_CFR_MODE,WEBM_VP9_OPUS_VFR_MODE
 from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
 from progressive_player_crash_recovery import wait,sha
@@ -11,9 +11,9 @@ from progressive_webm_opus_remux_preflight import fixture,PROFILES,probe,pcm,pac
 from progressive_webm_remux_preflight import unknown_clusters,scan
 MODE=WEBM_VP9_OPUS_MODE
 
-def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False):
+def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=False):
  global MODE
- MODE=WEBM_VP9_OPUS_CFR_MODE if cfr else WEBM_VP9_OPUS_NTSC_MODE if ntsc else WEBM_VP9_OPUS_MODE
+ MODE=WEBM_VP9_OPUS_VFR_MODE if vfr else WEBM_VP9_OPUS_CFR_MODE if cfr else WEBM_VP9_OPUS_NTSC_MODE if ntsc else WEBM_VP9_OPUS_MODE
  options=dict(rate='30000/1001') if ntsc else {}
  report=Path(report);rows=[];current=None;client=peers[0].client
  def poll(sdk,predicate,label,timeout=25):
@@ -31,8 +31,11 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False):
   return poll(sdk,check,label,timeout)
  try:
   from progressive_webm_cfr_fixtures import CASES,media
-  for case in (CASES if cfr else (PROFILES[0],PROFILES[1],PROFILES[4])):
-   if cfr:
+  from progressive_webm_vfr_fixtures import CASES as VFR_CASES,media as vfr_media
+  for case in (VFR_CASES if vfr else CASES if cfr else (PROFILES[0],PROFILES[1],PROFILES[4])):
+   if vfr:
+    name=case[0];folder=root/name;original,pixels,frame_count,video_duration,_,profile=vfr_media(folder,case);rate=None
+   elif cfr:
     name,n,d,profile=case;folder=root/name;original,pixels,frame_count,video_duration,_=media(folder,case);rate=dict(numerator=n,denominator=d)
    else:
     profile=case;name=profile[0];folder=root/name;original,pixels=fixture(folder,profile,**options);video_duration=240240000 if ntsc else 240000000;rate=None
@@ -44,6 +47,7 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False):
     for invalid in (None,True,1152000,'0','648','48000001'):
      command=dict(version=1,action='continuousRemuxStart',mode=MODE,requestId=uuid.uuid4().hex,sessionDirectory=str(directory),session=model,resourceId='clip')
      if invalid is not None:command['audioSamples']=invalid
+     if vfr:command['videoSamples']=str(frame_count)
      if cfr:command['videoRate']=rate
      try:client.request(command)
      except ApiError:pass
@@ -52,6 +56,7 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False):
     for duration in (('240240002','240239998','1') if cfr else ('240000000','240240002','240239998','1')):
      bad=copy.deepcopy(model);bad['timeline']['duration']=duration
      command=dict(version=1,action='continuousRemuxStart',mode=MODE,requestId=uuid.uuid4().hex,sessionDirectory=str(directory),session=bad,resourceId='clip',audioSamples=str(profile[5]))
+     if vfr:command['videoSamples']=str(frame_count)
      if cfr:command['videoRate']=rate
      try:client.request(command)
      except ApiError as e:assert e.code=='unsupported-stream-source',e.reply
@@ -63,16 +68,31 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False):
      try:client.request(command)
      except ApiError:pass
      else:raise AssertionError('Invalid CFR rate admitted')
+   if vfr and not rows:
+    import uuid
+    for invalid in (None,True,frame_count,0.5,'0','50001','01'):
+     command=dict(version=1,action='continuousRemuxStart',mode=MODE,requestId=uuid.uuid4().hex,sessionDirectory=str(directory),session=model,resourceId='clip',audioSamples=str(profile[5]))
+     if invalid is not None:command['videoSamples']=invalid
+     try:client.request(command)
+     except ApiError:pass
+     else:raise AssertionError(('Invalid frame plan admitted',invalid))
    fields=dict(mode=MODE,audio_samples=profile[5])
+   if vfr:fields['video_samples']=frame_count
    if cfr:fields['video_rate']=(n,d)
    sdk=current=ContinuousRemux(client,str(directory),**fields);sdk.prepare(model,'clip')
    replay=dict(version=1,action='continuousRemuxStart',mode=MODE,requestId=sdk.request_id,sessionDirectory=str(directory),session=copy.deepcopy(model),resourceId='clip',audioSamples=str(profile[5]))
+   if vfr:replay['videoSamples']=str(frame_count)
    if cfr:replay['videoRate']=rate
    assert client.request(replay)['jobId']==sdk.job_id
    conflict=copy.deepcopy(replay);conflict['audioSamples']=str(profile[5]+1)
    try:client.request(conflict)
    except ApiError as e:assert e.code=='continuous-conflict',e.reply
    else:raise AssertionError('Opus sample plan identity changed')
+   if vfr:
+    conflict=copy.deepcopy(replay);conflict['videoSamples']=str(frame_count+1)
+    try:client.request(conflict)
+    except ApiError as e:assert e.code=='continuous-conflict',e.reply
+    else:raise AssertionError('Frame plan identity changed')
    if cfr:
     conflict=copy.deepcopy(replay);conflict['videoRate']=dict(numerator=25 if n!=25 else 30,denominator=1)
     try:client.request(conflict)
@@ -101,7 +121,7 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False):
    assert pcm(original,folder,'pcm-source')==pcm(output,folder,'pcm-output')
    sdk.control('play');finished=playback(sdk,lambda s:s['state']=='finished','natural EOF',12);digest=sha(path);began=time.monotonic();released=sdk.close(timeout=2);elapsed=time.monotonic()-began;forgotten=sdk.forget(timeout=2);current=None
    assert released['sourceFilesClosed'] and released['released'] and elapsed<2 and forgotten['forgotten'] and sha(path)==digest and path.read_bytes()==raw and not list(cache.glob('remux-*'))
-   rows.append(dict(profile=name,videoRate=rate,result='PASS',waiting=waiting,partial=partial,ready=ready,running=running,viewedBeforeComplete=viewed,paused=paused,growingSeek=seeking,queued=queued,applied=applied,complete=complete,finished=finished,releaseSeconds=elapsed,exactPcm=True,exactPacketsAndClocks=True,sourceUnchanged=True));(report/'progress.json').write_text(json.dumps(dict(completed=[r['profile'] for r in rows])))
+   rows.append(dict(profile=name,videoRate=rate,videoSamples=frame_count if vfr else None,result='PASS',waiting=waiting,partial=partial,ready=ready,running=running,viewedBeforeComplete=viewed,paused=paused,growingSeek=seeking,queued=queued,applied=applied,complete=complete,finished=finished,releaseSeconds=elapsed,exactPcm=True,exactPacketsAndClocks=True,sourceUnchanged=True));(report/'progress.json').write_text(json.dumps(dict(completed=[r['profile'] for r in rows])))
  finally:
   if current:
    try:current.close(timeout=2);current.forget(timeout=2)

@@ -31,5 +31,13 @@ int main()try{
   check(!c.Packet(UINT64_MAX,1) && !c.Packet(1,UINT64_MAX) && !c.Frames(INT64_MAX));
  }
  check(!harvester::WebmContinuousClock(48000,2002).Valid());
+ auto vfr=harvester::WebmContinuousClock::Vfr(733,240000000);
+ check(vfr.Valid() && vfr.Frames(240000000)==733 && vfr.Frames(240000001)==0);
+ check(vfr.DefaultDuration(0) && vfr.DefaultDuration(20000000) && !vfr.DefaultDuration(1));
+ check(!vfr.Packet(40,1) && vfr.End100ns(1)==0);
+ check(!harvester::WebmContinuousClock::Vfr(0,240000000).Valid());
+ check(!harvester::WebmContinuousClock::Vfr(50001,240000000).Valid());
+ check(!harvester::WebmContinuousClock::Vfr(733,240000001).Valid());
+ check(!harvester::WebmContinuousClock::Vfr(733,UINT64_MAX).Valid());
  std::cout<<"{\"result\":\"PASS\",\"ntscOriginAndRounding\":true,\"old25fpsUnchanged\":true,\"boundedArithmetic\":true}"<<std::endl;return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 1;}

@@ -13,14 +13,14 @@ struct StreamRemuxLimits {
 };
 // Explicit internal selection. Existing callers/public v1 retain the verified
 // no-reorder profile; a manifest or worker reply cannot widen it implicitly.
-enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo, HevcAacWindow, Av1Video, Av1AacWindow, Vp9Video, Vp9AacWindow, Vp9SuperframeVideo, Vp9SuperframeAacWindow, WebmVp9Video, WebmVp9SuperframeVideo, WebmVp9Opus, WebmVp9OpusNtsc, WebmVp9OpusCfr };
-inline bool StreamRemuxIsOpus(StreamRemuxProfile profile){return profile==StreamRemuxProfile::WebmVp9OpusCfr || profile==StreamRemuxProfile::WebmVp9Opus || profile==StreamRemuxProfile::WebmVp9OpusNtsc;}
+enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo, HevcAacWindow, Av1Video, Av1AacWindow, Vp9Video, Vp9AacWindow, Vp9SuperframeVideo, Vp9SuperframeAacWindow, WebmVp9Video, WebmVp9SuperframeVideo, WebmVp9Opus, WebmVp9OpusNtsc, WebmVp9OpusCfr, WebmVp9OpusVfr };
+inline bool StreamRemuxIsOpus(StreamRemuxProfile profile){return profile==StreamRemuxProfile::WebmVp9OpusVfr || profile==StreamRemuxProfile::WebmVp9OpusCfr || profile==StreamRemuxProfile::WebmVp9Opus || profile==StreamRemuxProfile::WebmVp9OpusNtsc;}
 inline bool StreamRemuxHasAudio(StreamRemuxProfile profile){return StreamRemuxIsOpus(profile) || profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcAacWindow || profile==StreamRemuxProfile::Av1AacWindow || profile==StreamRemuxProfile::Vp9AacWindow || profile==StreamRemuxProfile::Vp9SuperframeAacWindow;}
 inline bool StreamRemuxIsHevc(StreamRemuxProfile profile){return profile==StreamRemuxProfile::HevcReorderedVideo || profile==StreamRemuxProfile::HevcAacWindow;}
 inline bool StreamRemuxIsAv1(StreamRemuxProfile profile){return profile==StreamRemuxProfile::Av1Video || profile==StreamRemuxProfile::Av1AacWindow;}
 inline bool StreamRemuxIsWebm(StreamRemuxProfile profile){return StreamRemuxIsOpus(profile) || profile==StreamRemuxProfile::WebmVp9Video || profile==StreamRemuxProfile::WebmVp9SuperframeVideo;}
 inline bool StreamRemuxIsVp9(StreamRemuxProfile profile){return profile==StreamRemuxProfile::Vp9Video || profile==StreamRemuxProfile::Vp9AacWindow || profile==StreamRemuxProfile::Vp9SuperframeVideo || profile==StreamRemuxProfile::Vp9SuperframeAacWindow || StreamRemuxIsWebm(profile);}
-inline const char* StreamRemuxMode(StreamRemuxProfile profile){return profile==StreamRemuxProfile::WebmVp9OpusCfr?"continuous-webm-vp9-opus-cfr-v1":profile==StreamRemuxProfile::WebmVp9OpusNtsc?"continuous-webm-vp9-opus-ntsc-v1":StreamRemuxIsOpus(profile)?"continuous-webm-vp9-opus-v1":profile==StreamRemuxProfile::WebmVp9SuperframeVideo?
+inline const char* StreamRemuxMode(StreamRemuxProfile profile){return profile==StreamRemuxProfile::WebmVp9OpusVfr?"continuous-webm-vp9-opus-vfr-v1":profile==StreamRemuxProfile::WebmVp9OpusCfr?"continuous-webm-vp9-opus-cfr-v1":profile==StreamRemuxProfile::WebmVp9OpusNtsc?"continuous-webm-vp9-opus-ntsc-v1":StreamRemuxIsOpus(profile)?"continuous-webm-vp9-opus-v1":profile==StreamRemuxProfile::WebmVp9SuperframeVideo?
     "continuous-webm-vp9-superframe-video-v1":profile==StreamRemuxProfile::WebmVp9Video?
     "continuous-webm-vp9-video-v1":profile==StreamRemuxProfile::Vp9SuperframeAacWindow?
     "continuous-vp9-superframe-aac-window-v1":profile==StreamRemuxProfile::Vp9SuperframeVideo?
@@ -34,8 +34,8 @@ inline const char* StreamRemuxMode(StreamRemuxProfile profile){return profile==S
     "continuous-h264-aac-window-v1":profile==StreamRemuxProfile::H264ReorderedVideo?
     "continuous-h264-reordered-video-v1":"continuous-h264-video-v1";}
 inline harvester::WebmContinuousClock StreamRemuxClock(StreamRemuxProfile profile,harvester::WebmContinuousClock clock={}){
-    Require((profile==StreamRemuxProfile::WebmVp9OpusCfr)==clock.explicitRate && clock.Valid(),"videoRate","Explicit canonical fixed rate required only for CFR mode","invalid_request");
-    return clock.explicitRate?clock:harvester::WebmContinuousClock(profile==StreamRemuxProfile::WebmVp9OpusNtsc);
+    Require((profile==StreamRemuxProfile::WebmVp9OpusCfr)==clock.explicitRate && (profile==StreamRemuxProfile::WebmVp9OpusVfr)==clock.variable && clock.Valid(),"videoRate","Explicit canonical fixed rate required only for CFR mode","invalid_request");
+    return (clock.explicitRate || clock.variable)?clock:harvester::WebmContinuousClock(profile==StreamRemuxProfile::WebmVp9OpusNtsc);
 }
 inline uint64_t StreamRemuxWebmSamples(StreamRemuxProfile profile,int64_t duration,harvester::WebmContinuousClock clock={}){
     const auto frames=StreamRemuxClock(profile,clock).Frames(duration);
@@ -126,7 +126,7 @@ private:
             std::lock_guard<std::mutex> lock(mutex);check();state.workerId=child.id();state.code="running";
             const auto& r=snapshot.resources.at(resourceId);
             const bool webm=StreamRemuxIsWebm(profile);
-            child.send(std::string("{\"mode\":\"")+workerMode()+"\",\"formatHint\":\""+(webm?"webm":"mp4")+"\",\"length\":\""+std::to_string(r.length)+"\",\"complete\":"+(r.state=="complete"?"true":"false")+(webm?",\"videoSamples\":\""+std::to_string(StreamRemuxWebmSamples(profile,snapshot.duration,videoClock))+"\"":"")+(StreamRemuxIsOpus(profile)?",\"audioSamples\":\""+std::to_string(opusSamples)+"\"":"")+(videoClock.explicitRate?",\"videoRate\":{\"numerator\":"+std::to_string(videoClock.numerator)+",\"denominator\":"+std::to_string(videoClock.denominator)+"}":"")+"}");
+            child.send(std::string("{\"mode\":\"")+workerMode()+"\",\"formatHint\":\""+(webm?"webm":"mp4")+"\",\"length\":\""+std::to_string(r.length)+"\",\"complete\":"+(r.state=="complete"?"true":"false")+(webm?",\"videoSamples\":\""+std::to_string(StreamRemuxWebmSamples(profile,snapshot.duration,videoClock))+"\"":"")+(StreamRemuxIsOpus(profile)?",\"audioSamples\":\""+std::to_string(opusSamples)+"\"":"")+(videoClock.variable?",\"videoDuration100ns\":\""+std::to_string(videoClock.expectedEnd100ns)+"\"":"")+(videoClock.explicitRate?",\"videoRate\":{\"numerator\":"+std::to_string(videoClock.numerator)+",\"denominator\":"+std::to_string(videoClock.denominator)+"}":"")+"}");
         }
         for(;;){
             {std::lock_guard<std::mutex> lock(mutex);check();}

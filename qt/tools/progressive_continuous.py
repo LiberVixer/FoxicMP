@@ -29,6 +29,7 @@ WEBM_VP9_MODE = 'continuous-webm-vp9-video-v1'
 WEBM_VP9_SUPERFRAME_MODE = 'continuous-webm-vp9-superframe-video-v1'
 WEBM_VP9_OPUS_MODE = 'continuous-webm-vp9-opus-v1'
 WEBM_VP9_OPUS_NTSC_MODE = 'continuous-webm-vp9-opus-ntsc-v1'
+WEBM_VP9_OPUS_VFR_MODE = 'continuous-webm-vp9-opus-vfr-v1'
 WEBM_VP9_OPUS_CFR_MODE = 'continuous-webm-vp9-opus-cfr-v1'
 WEBM_CFR_RATES = ((24000,1001),(24,1),(25,1),(30000,1001),(30,1),(50,1),(60000,1001),(60,1))
 ACTIONS = frozenset(('continuousRemuxStart', 'continuousRemuxStatus',
@@ -72,18 +73,19 @@ class ContinuousRemux:
     status calls; publish/heartbeat never commit playback. close() proves release
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
-    def __init__(self, client, session_directory, *, mode=MODE, audio_samples=None, video_rate=None):
-        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE):
+    def __init__(self, client, session_directory, *, mode=MODE, audio_samples=None, video_rate=None, video_samples=None):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE):
             raise ValueError('Unsupported continuous profile')
-        webm_mode = mode in (WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE)
-        vp9_superframe = mode in (VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE)
-        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE)
+        webm_mode = mode in (WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE)
+        vp9_superframe = mode in (VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE)
+        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE)
         av1_mode = mode in (AV1_MODE, AV1_AAC_MODE)
-        audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE)
+        audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE)
         hevc_mode = mode in (HEVC_MODE, HEVC_AAC_MODE)
+        vfr_mode = mode == WEBM_VP9_OPUS_VFR_MODE
         cfr_mode = mode == WEBM_VP9_OPUS_CFR_MODE
         ntsc_mode = mode == WEBM_VP9_OPUS_NTSC_MODE
-        opus_mode = mode in (WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE)
+        opus_mode = mode in (WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE)
         if opus_mode:
             if type(audio_samples) is not int or not 648 < audio_samples <= 48000000:
                 raise ValueError("Opus requires an exact bounded presentation sample count")
@@ -96,6 +98,12 @@ class ContinuousRemux:
         else:
             if video_rate is not None:raise ValueError('video_rate is only valid for CFR mode')
             self._video_rate=None
+        if vfr_mode:
+            if type(video_samples) is not int or not 0 < video_samples <= 50000:
+                raise ValueError('VFR requires an exact bounded video_samples count')
+        elif video_samples is not None:
+            raise ValueError('video_samples is only valid for VFR mode')
+        self._video_samples = video_samples
         self._audio_samples = audio_samples
         self._mode = mode
         self.client = client
@@ -148,7 +156,7 @@ class ContinuousRemux:
                     opusPacketSamples=960, opusPreSkipSamples=312, opusGain=0, opusMappingFamily=0,
                     seekPreRollNanoseconds=80000000, minAudioPackets=2,
                     audioSamplesField='continuousRemuxStart.audioSamples', maxAudioPresentationSamples=48000000,
-                    sharedResourceRequired=True, discardPaddingPreserved=True, clusterSealing=True, audioBlockGroupsOnly=True)
+                    sharedResourceRequired=True, discardPaddingPreserved=True, clusterSealing=True, audioBlockGroupsOnly=not vfr_mode)
                 if any(not _exact_contract(selected.get(k), v) for k,v in exact.items()):
                     raise RuntimeError('Player lacks the exact WebM/Opus contract')
             if hevc_mode and (selected.get('hevcProfiles') != ['main', 'main10']
@@ -200,6 +208,12 @@ class ContinuousRemux:
                     exact.update(frameRate=dict(field='continuousRemuxStart.videoRate'),
                         defaultDurationNanoseconds='floor-or-ceil-from-videoRate',defaultDurationToleranceNanoseconds=1,videoRateField='continuousRemuxStart.videoRate',
                         allowedVideoRates=[dict(numerator=n,denominator=d) for n,d in WEBM_CFR_RATES])
+                if vfr_mode:
+                    exact.update(frameRate='variable',defaultDurationNanoseconds='optional-bounded-when-video-block-duration-present',
+                        expectedSamplesFromTimeline=False,variableFrameClock=True,videoSamplesField='continuousRemuxStart.videoSamples',
+                        videoBlockDurationRequired=True,videoBlockGroupsRequired=True,videoReferences=True,
+                        videoCoverage='validated-contiguous-explicit-sample-intervals',timelineDurationRounding='exact-100ns-from-block-end',
+                        packetTimestampRounding='original-millisecond',maxVideoFrameDurationTicks=1000,defaultDurationOptional=True)
                 if any(not _exact_contract(selected.get(key), value) for key,value in exact.items()) or 'headMoovRequired' in selected:
                     raise RuntimeError('Player lacks the exact bounded WebM/VP9 contract')
             self.capability.update(copy.deepcopy(selected))
@@ -211,6 +225,8 @@ class ContinuousRemux:
 
     def _check(self, reply, playback=False):
         expected = self.identity or {}
+        if self._video_samples is not None and not _exact_contract(reply.get('videoSamples'),str(self._video_samples)):
+            raise RuntimeError('Unexpected continuous video sample plan')
         if self._video_rate is not None and not _exact_contract(reply.get("videoRate"),dict(zip(("numerator","denominator"),self._video_rate))):
             raise RuntimeError("Unexpected continuous video rate")
         if (reply.get('mode') != self.mode or any(reply.get(k) != v for k, v in expected.items())
@@ -261,6 +277,7 @@ class ContinuousRemux:
                 fields['mode'] = self.mode
             if self._audio_samples is not None:
                 fields['audioSamples'] = str(self._audio_samples)
+            if self._video_samples is not None:fields['videoSamples']=str(self._video_samples)
             if self._video_rate is not None:
                 fields['videoRate']=dict(zip(('numerator','denominator'),self._video_rate))
             return self._check(self.client.request(fields))

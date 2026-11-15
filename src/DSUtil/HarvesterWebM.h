@@ -71,12 +71,13 @@ inline uint64_t OptionalNumber(Data parent,uint32_t id,uint64_t fallback) {const
 } // namespace webm
 struct WebMInfo {
     uint64_t headerEnd=0,segmentEnd=UINT64_MAX,track=0,scale=1000000,frameDuration=0,delay=0;
+    bool explicitVideoDuration=false;
     unsigned channels=0,width=0,height=0;VorbisInfo vorbis;int vp9Profile=-1,vp9Depth=-1;
     std::string codec;
     std::vector<uint8_t> av1Sequence;
 };
-inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind,bool headerOnly=false) {
-    using namespace webm;WebMInfo result;Element e;
+inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind,bool headerOnly=false,bool explicitVideoDuration=false) {
+    using namespace webm;WebMInfo result;result.explicitVideoDuration=!kind && explicitVideoDuration;Element e;
     if(!Header(read,0,prefix,e))throw WebMWaiting();Check(e.id==0x1a45dfa3,"Expected EBML header");
     auto bytes=Body(read,e,prefix,4096);Data header{bytes.data(),bytes.size(),e.data};
     Check(header.One(0x4282).Text()=="webm","Only the WebM DocType is enabled");
@@ -111,7 +112,7 @@ inline WebMInfo WebMInitialization(const WebMRead& read,uint64_t prefix,int kind
                 // Preserve nanosecond DefaultDuration (e.g. 30000/1001 fps).
                 // Each sample end is independently rounded down to 100 ns;
                 // block timestamps remain authoritative, so drift cannot add.
-                Check(result.frameDuration>=100 && result.frameDuration<=1000000000,"WebM video requires a bounded DefaultDuration");
+                Check((result.explicitVideoDuration && result.frameDuration==0) || (result.frameDuration>=100 && result.frameDuration<=1000000000),"WebM video requires a bounded DefaultDuration");
                 const auto config=entry.One(0x63a2,true);std::set<uint8_t> features;
                 if(result.codec=="av1")result.av1Sequence=AV1Configuration(config.bytes,config.size,Check);
                 else if(result.codec=="vp8")Check(!config.bytes,"VP8 CodecPrivate is unsupported");
@@ -220,6 +221,7 @@ class WebMIndex {
         Check(cluster<=uint64_t(INT64_MAX),"WebM clock overflow");const auto ticks=AddTime(int64_t(cluster),relative);
         Check(ticks>=0 && uint64_t(ticks)<=uint64_t(INT64_MAX)/info.scale,"WebM timestamp overflow");
         const auto raw=uint64_t(ticks)*info.scale;const auto start=AddTime(AddTime(int64_t(raw/100),-int64_t(info.delay/100)),-origin);
+        if(!kind && info.explicitVideoDuration)Check(duration>0,"VFR requires explicit video BlockDuration");
         int64_t length=kind?(info.codec=="vorbis"?info.vorbis.Duration(packet.bytes,packet.size):OpusDuration(packet)):int64_t(info.frameDuration);
         if(kind)Check(padding>=0 && padding<=length,"Unsupported WebM discard padding");
         if(duration){
@@ -257,9 +259,9 @@ public:
     uint64_t Position() const {return position;}
     bool Initialized() const {return initialized;}
     const std::vector<Sample>& Samples() const {return samples;}
-    void Update(const WebMRead& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0) {
+    void Update(const WebMRead& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool explicitVideoDuration=false) {
         using namespace webm;Check(prefix>=scannedPrefix,"WebM prefix regressed");scannedPrefix=prefix;kind=trackKind;origin=timestampOffset;
-        if(!initialized){try{info=WebMInitialization(read,prefix,kind);}catch(const WebMWaiting&){if(complete)throw;return;}position=info.headerEnd;initialized=true;}
+        if(!initialized){try{info=WebMInitialization(read,prefix,kind,false,explicitVideoDuration);}catch(const WebMWaiting&){if(complete)throw;return;}position=info.headerEnd;initialized=true;}
         while(position<prefix) {
             Element e;if(!Header(read,position,prefix,e))break;
             Check(e.end<=info.segmentEnd,"Element exceeds WebM Segment");
