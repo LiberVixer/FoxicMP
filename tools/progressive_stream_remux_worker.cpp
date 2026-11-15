@@ -103,7 +103,8 @@ struct Context {
  ~Context(){if(packet)api.av_packet_free(&packet);if(input)api.avformat_close_input(&input);if(output)api.avformat_free_context(output);for(auto* io:{inputIo,outputIo})if(io){api.av_free(io->buffer);api.avio_context_free(&io);}}
 };
 Doc run(Api& api,const Doc& start){
- const bool vfr=start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-vfr-v1";
+ const bool simple=start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-simple-vfr-v1";
+ const bool vfr=simple || start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-vfr-v1";
  const bool cfr=start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-cfr-v1";
  const bool ntsc=start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-ntsc-v1";
  const bool opus=vfr || cfr || ntsc || start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-v1";
@@ -129,9 +130,9 @@ Doc run(Api& api,const Doc& start){
   need(!atext.empty() && atext.size()<=8 && atext[0]!='0' && atext.find_first_not_of("0123456789")==std::string::npos && !text.empty() && text.size()<=10 && text[0]!='0' && text.find_first_not_of("0123456789")==std::string::npos,"unsupported-stream-start");
   StreamInput source;source.length=std::stoll(text);source.complete=start["complete"].GetBool();StreamOutput sink;
   try{
-   harvester::ContinuousWebmOpus input([&](uint8_t* out,size_t n){if(source.at==source.length && !source.complete)source.wait("source-complete",0);const auto got=StreamInput::read(&source,out,int(n));need(got>=0 || got==AVERROR_EOF,source.failure.empty()?"invalid-media":source.failure.c_str());return got==AVERROR_EOF?size_t(0):size_t(got);},uint64_t(source.length),webmSamples,std::stoull(atext),ntsc,clock);
+   harvester::ContinuousWebmOpus input([&](uint8_t* out,size_t n){if(source.at==source.length && !source.complete)source.wait("source-complete",0);const auto got=StreamInput::read(&source,out,int(n));need(got>=0 || got==AVERROR_EOF,source.failure.empty()?"invalid-media":source.failure.c_str());return got==AVERROR_EOF?size_t(0):size_t(got);},uint64_t(source.length),webmSamples,std::stoull(atext),ntsc,clock,simple);
    uint8_t bytes[65536];for(;;){const auto n=input.read(bytes,sizeof(bytes));if(!n)break;need(StreamOutput::writeBytes(&sink,bytes,int(n))==int(n),sink.failure.c_str());}input.finish();
-   Doc result;result.SetObject();auto& a=result.GetAllocator();put(result,"code","data");put(result,"mode",vfr?"continuous-webm-vp9-opus-vfr-v1":cfr?"continuous-webm-vp9-opus-cfr-v1":ntsc?"continuous-webm-vp9-opus-ntsc-v1":"continuous-webm-vp9-opus-v1");result.AddMember("sourceComplete",true,a);result.AddMember("sourceEof",true,a);result.AddMember("continuousOutput",true,a);result.AddMember("playbackSupported",false,a);result.AddMember("transcoded",false,a);result.AddMember("packets",unsigned(input.videoPackets()+input.audioPackets()),a);put(result,"bytesRead",std::to_string(source.readBytes));put(result,"bytesWritten",std::to_string(sink.bytes));put(result,"sha256",sink.digest.hex());result.AddMember("waits",source.waits,a);return result;
+   Doc result;result.SetObject();auto& a=result.GetAllocator();put(result,"code","data");put(result,"mode",simple?"continuous-webm-vp9-opus-simple-vfr-v1":vfr?"continuous-webm-vp9-opus-vfr-v1":cfr?"continuous-webm-vp9-opus-cfr-v1":ntsc?"continuous-webm-vp9-opus-ntsc-v1":"continuous-webm-vp9-opus-v1");result.AddMember("sourceComplete",true,a);result.AddMember("sourceEof",true,a);result.AddMember("continuousOutput",true,a);result.AddMember("playbackSupported",false,a);result.AddMember("transcoded",false,a);result.AddMember("packets",unsigned(input.videoPackets()+input.audioPackets()),a);put(result,"bytesRead",std::to_string(source.readBytes));put(result,"bytesWritten",std::to_string(sink.bytes));put(result,"sha256",sink.digest.hex());result.AddMember("waits",source.waits,a);return result;
   }catch(const std::exception& e){
     std::string code=source.failure.empty()?e.what():source.failure;
     if(vfr && source.failure.empty() && code.find(" ")!=std::string::npos)code="unsupported-stream-webm-configuration";

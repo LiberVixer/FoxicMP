@@ -148,7 +148,11 @@ VFR SimpleBlock, unknown counts и полная R01/R04 остаются отк�
 
 [SimpleBlock VFR preflight](ProgressiveSimpleVfrRemuxPlan.md): тестовый incremental
 parser и 18 canonical worker/PCM строк трёх редакций прошли. Direct SimpleBlock
-production mode отсутствует; canonical fixture oracle не считается его приёмкой.
+production mode на этапе preflight отсутствовал; canonical fixture oracle не
+считается его приёмкой. [SDK1.102](ProgressiveContinuousWebmOpusSimpleVfr.md) добавляет
+отдельный source mode с C++ next-PTS scanner и динамическим output/cache.
+[Production чеклист](ProgressiveSimpleVfrProductionChecklist.md) отделяет worker,
+PCM и ordinary main трёх редакций от физического A/V и широких R01/R04.
 
 ## Что именно сравнивается
 

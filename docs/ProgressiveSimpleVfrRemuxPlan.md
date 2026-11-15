@@ -5,6 +5,10 @@
 Приложение остаётся 0.2.0, SDK — 1.101. Нового public режима/capability нет.
 Harvester и установленные приложения/профили не меняются.
 
+Позднейшая реализация описана в [SDK1.102](ProgressiveContinuousWebmOpusSimpleVfr.md)
+и [production чеклисте](ProgressiveSimpleVfrProductionChecklist.md). Ниже сохранён
+исходный срез подготовки; его ограничения не описывают более позднюю приёмку.
+
 ## Что проверено
 
 [Сводный отчёт](ProgressiveSimpleVfrPreflight-2026-11-15.json) содержит отдельные

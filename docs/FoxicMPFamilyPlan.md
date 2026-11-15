@@ -1819,3 +1819,26 @@ BlockDuration из next-PTS и последнего подтверждённог
 не изменён. Следующий этап — production C++ scanner, dynamic output/cache и
 приёмка ordinary main во всех трёх редакциях. Широкие R01/R04 остаются открытыми;
 подготовка учитывается в [отдельных фиксированных подпунктах](ProgressiveSimpleVfrExecutionChecklist.md).
+
+
+## SDK1.102: production SimpleBlock VFR, 15 ноября 2026
+
+[Отдельный режим VP9/Opus](ProgressiveContinuousWebmOpusSimpleVfr.md) переводит
+SimpleBlock без DefaultDuration в BlockGroup с длительностью по next-PTS.
+Последний кадр ждёт writer EOF и endpoint; final output length не задаётся
+заранее. Общий C++ worker, cache/SDK и decoder adapters согласованы в Qt/Classic.
+Старый explicit BlockDuration VFR mode сохраняет свой admission.
+
+Проверяется ordinary playback до complete, pause/growing seek/queued target,
+EOF/release, exact packets/clocks/frames/PCM, ошибки, регрессии и memory bounds.
+[Фиксированный чеклист production](ProgressiveSimpleVfrProductionChecklist.md)
+сохраняет общий знаменатель этапа; новые доказательства не прибавляют готовых
+составных требований ТЗ. Harvester, Windows-установки и пользовательские профили
+не изменяются; новая проверенная Linux-сборка обновляется с backup отдельно.
+
+[Приёмка до поставки](ProgressiveContinuousWebmOpusSimpleVfrValidation-2026-11-15.json):
+75 worker /18 ordinary main /18 PCM /372 old-worker /60 old-main cases,
+4000 sanitizer mutations и137 SDK units прошли. Исправлена задержка Windows
+из-за8442 мелких source roundtrips: буферизация подтверждённого префикса сократила
+их до16 в контрольном fixture; added regression воспроизводит отказ старого кода.
+Физический A/V и visible Classic renderer этим не аттестованы.

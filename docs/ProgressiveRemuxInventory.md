@@ -21,7 +21,9 @@ VP9/Opus с 25/NTSC и восемью CFR частотами; строки ис�
 подготовлен по 54 native/file и 36 index rows от 15 ноября. Позднее
 [SDK1.101](ProgressiveContinuousWebmOpusVfr.md) подключил explicit BlockDuration VFR.
 [Следующий SimpleBlock VFR](ProgressiveSimpleVfrRemuxPlan.md) проверен только
-тестовым incremental prototype и existing canonical consumers; production mode открыт.
+тестовым incremental prototype и existing canonical consumers; позднейший
+[SDK1.102](ProgressiveContinuousWebmOpusSimpleVfr.md) подключает отдельный production
+mode. Его приёмка учитывается в [фиксированном чеклисте](ProgressiveSimpleVfrProductionChecklist.md).
 [Полный порядок работ](ProgressiveRemainingWork.md),
 [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [подробный чеклист](ProgressiveCompletionChecklist.md).

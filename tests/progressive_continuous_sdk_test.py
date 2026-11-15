@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE
 from progressive_client import ApiError
 
 CAP = json.loads(''.join(re.findall(r'R"\((.*?)\)"',
@@ -46,6 +46,21 @@ class Client:
 
 
 class Test(unittest.TestCase):
+    def test_simple_vfr_contract_and_mode_identity(self):
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_OPUS_SIMPLE_VFR_MODE,audio_samples=1152000,video_samples=733)
+        p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['mode'],WEBM_VP9_OPUS_SIMPLE_VFR_MODE)
+        self.assertEqual(c.calls[-1]['videoSamples'],'733');p.play();p.playback_status()
+        c.job['mode']=WEBM_VP9_OPUS_VFR_MODE;self.assertRaises(RuntimeError,p.status)
+
+    def test_simple_vfr_rejects_wrong_or_untyped_lookahead_contract(self):
+        for field,bad in [('nextPtsLookahead',1),('lastFrameRequiresSourceComplete',False),('maxPendingBytes',33554432.0),('maxPendingClusters',33),('videoSimpleBlocksRequired',False),('videoBlockDurationRequired',True),('defaultDurationNanoseconds','optional'),('postMediaTags',True)]:
+            c=Client();old=c.request
+            def request(message,timeout=5,field=field,bad=bad):
+                reply=old(message,timeout);reply['continuousRemux']['profiles'][WEBM_VP9_OPUS_SIMPLE_VFR_MODE][field]=bad;return reply
+            c.request=request
+            self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_SIMPLE_VFR_MODE,audio_samples=1152000,video_samples=733)
+
+
     def test_vfr_rejects_inexact_capability(self):
         for field,bad in [('videoSamplesField','frames'),('variableFrameClock',1),('videoBlockDurationRequired',False),('defaultDurationOptional',False),('audioBlockGroupsOnly',True)]:
             c=Client();old=c.request

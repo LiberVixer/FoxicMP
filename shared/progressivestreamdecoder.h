@@ -24,7 +24,7 @@ public:
             pcmWindow=std::make_shared<const StreamAudioWindow>(StreamAudioWindow::Parse(d));
         }
     }
-    bool vfrOpus()const{return selectedMode=="continuous-webm-vp9-opus-vfr-v1";}
+    bool vfrOpus()const{return selectedMode=="continuous-webm-vp9-opus-vfr-v1" || selectedMode=="continuous-webm-vp9-opus-simple-vfr-v1";}
     bool cfrOpus()const{return selectedMode=="continuous-webm-vp9-opus-cfr-v1";}
     harvester::WebmContinuousClock videoClock()const{return store->videoClock();}
     bool ntscOpus()const{return selectedMode=="continuous-webm-vp9-opus-ntsc-v1";}

@@ -6,11 +6,14 @@ from progressive_webm_opus_remux_preflight import fixture,PROFILES,ok
 from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
 
-def run(runner,worker,edition,report,ntsc=False,cfr=False,vfr=False):
+def run(runner,worker,edition,report,ntsc=False,cfr=False,vfr=False,simple=False):
+ vfr=vfr or simple
  options=dict(rate="30000/1001") if ntsc else {}
  report=Path(report);report.mkdir(parents=True,exist_ok=True);rows=[]
  from progressive_webm_cfr_fixtures import CASES,media
  from progressive_webm_vfr_fixtures import CASES as VFR_CASES,media as vfr_media
+ from progressive_webm_simple_vfr_fixtures import CASES as SIMPLE_CASES,media as simple_media
+ if simple:VFR_CASES,vfr_media=SIMPLE_CASES,simple_media
  for case in (VFR_CASES if vfr else CASES if cfr else (PROFILES[0],PROFILES[1],PROFILES[4])):
   with tempfile.TemporaryDirectory(prefix='fox-opus-pcm-') as t:
    root=Path(t)
@@ -22,7 +25,7 @@ def run(runner,worker,edition,report,ntsc=False,cfr=False,vfr=False):
     profile=case;name=profile[0];original,_=fixture(root/'fixture',profile,**options);duration=240240000 if ntsc else 240000000
    raw=original.read_bytes();path=root/'video.part';model=snapshot(path,raw,complete=True);model['timeline']['duration']=str(duration);model['tracks'][0].update(codecHint='vp9',containerHint='webm');import copy
    sound=copy.deepcopy(model['tracks'][0]);sound.update(id='sound',kind='audio',codecHint='opus');model['tracks'].append(sound);model=protect_snapshot(model,root);manifest=root/'complete.json';manifest.write_text(json.dumps(model));output=root/'actual.pcm'
-   p=subprocess.run([str(runner),str(manifest),str(worker),str(root/'registry'),str(root/'cache'),str(output),str(profile[2]),str(profile[5])]+(["vfr",str(frames),str(duration)] if vfr else ["cfr",str(n),str(d)] if cfr else ["ntsc"] if ntsc else []),capture_output=True,timeout=60)
+   p=subprocess.run([str(runner),str(manifest),str(worker),str(root/'registry'),str(root/'cache'),str(output),str(profile[2]),str(profile[5])]+(["simple-vfr" if simple else "vfr",str(frames),str(duration)] if vfr else ["cfr",str(n),str(d)] if cfr else ["ntsc"] if ntsc else []),capture_output=True,timeout=60)
    
    if p.returncode:
     import shutil
@@ -38,4 +41,4 @@ def run(runner,worker,edition,report,ntsc=False,cfr=False,vfr=False):
    rows.append(dict(profile=name,exitCode=p.returncode,samples=profile[5],channels=profile[2],maxAbsolutePcmError=maximum,allowedError=limit,format=fmt,exactSampleCount=True,audioDeviceOpened=False,nativeConsumer=json.loads(p.stdout.strip().splitlines()[-1]),pcmSha256=hashlib.sha256(actual).hexdigest()))
  result=dict(result='PASS',count=len(rows),edition=edition,rows=rows,runnerSha256=hashlib.sha256(Path(runner).read_bytes()).hexdigest());(report/'result.json').write_text(json.dumps(result,indent=2)+'\n');return result
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--vfr',action='store_true');p.add_argument('--cfr',action='store_true');p.add_argument('--ntsc',action='store_true');p.add_argument('--runner',type=Path,required=True);p.add_argument('--worker',type=Path,required=True);p.add_argument('--edition',choices=('qt','classic'),required=True);p.add_argument('--report-directory',required=True);a=p.parse_args();print(json.dumps(run(a.runner.resolve(),a.worker.resolve(),a.edition,a.report_directory,a.ntsc,a.cfr,a.vfr)))
+ p=argparse.ArgumentParser();p.add_argument('--simple-vfr',action='store_true');p.add_argument('--vfr',action='store_true');p.add_argument('--cfr',action='store_true');p.add_argument('--ntsc',action='store_true');p.add_argument('--runner',type=Path,required=True);p.add_argument('--worker',type=Path,required=True);p.add_argument('--edition',choices=('qt','classic'),required=True);p.add_argument('--report-directory',required=True);a=p.parse_args();print(json.dumps(run(a.runner.resolve(),a.worker.resolve(),a.edition,a.report_directory,a.ntsc,a.cfr,a.vfr,a.simple_vfr)))

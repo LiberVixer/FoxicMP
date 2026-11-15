@@ -9,7 +9,7 @@
 В подробном чеклисте исторически смешаны 149 подтверждённых записей и 77
 открытых составных требований. Их больше не используем как один счётчик
 готовности. Для оставшегося плана база — 77 требований; для текущего этапа
-есть [фиксированные подпункты подготовки SimpleBlock VFR](ProgressiveSimpleVfrExecutionChecklist.md) с
+есть [фиксированные подпункты production SimpleBlock VFR](ProgressiveSimpleVfrProductionChecklist.md) с
 отдельными значениями «всего / готово / осталось». Новые доказательства
 не добавляют выполненных требований. Ниже требования сведены к пакетам работ.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -52,7 +52,13 @@ E — внешняя зависимость. Каждый R остаётся о�
 - [Подготовка SimpleBlock VFR](ProgressiveSimpleVfrRemuxPlan.md): incremental
   next-PTS prototype, перепаковка metadata и 18 canonical PCM/worker строк трёх
   редакций проверены. Прямой SimpleBlock production mode ещё не подключён;
-  следующим шагом остаётся C++ scanner и динамический output/cache контракт.
+  production-подключение и приёмка учитываются в отдельном этапе ниже.
+
+- [SDK1.102 SimpleBlock VFR](ProgressiveContinuousWebmOpusSimpleVfr.md): отдельный
+  source mode без DefaultDuration, next-PTS lookahead и динамический canonical
+  output. Готовность worker/PCM/ordinary-main трёх редакций фиксируется в
+  [production чеклисте](ProgressiveSimpleVfrProductionChecklist.md); общий R01/R04
+  не закрывается этим bounded профилем.
 
 ## Порядок разработки
 

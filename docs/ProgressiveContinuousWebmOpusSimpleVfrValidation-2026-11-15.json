@@ -1,0 +1,4709 @@
+{
+  "result": "PASS",
+  "date": "2026-11-15",
+  "sdkVersion": "1.102",
+  "applicationVersionUnchanged": "0.2.0",
+  "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+  "baseSourceCommit": "a0e4961bfeaaf899b29dd140012ab854089388d9",
+  "editions": {
+    "linux-qt": {
+      "result": "PASS",
+      "ordinaryMain": true,
+      "playerSha256": [
+        "8a14f3954c1b12cce198c6012ac839d871f3fb6d8db3adf19a263105729d7008",
+        "8a14f3954c1b12cce198c6012ac839d871f3fb6d8db3adf19a263105729d7008"
+      ],
+      "workerSha256": [
+        "c1b2084fb43ab3786f764a55041640a1a9d9a6bfd2f0defe98db6327eb484d93",
+        "c1b2084fb43ab3786f764a55041640a1a9d9a6bfd2f0defe98db6327eb484d93"
+      ],
+      "apiRows": [
+        {
+          "profile": "p0-50-mono-finite",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.139999999999999,
+          "releaseSeconds": 0.048240134012303315,
+          "audioCodec": "opus",
+          "audioOutput": "pulse",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p0-50-mono-unknown",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.139999999999999,
+          "releaseSeconds": 0.035267920000478625,
+          "audioCodec": "opus",
+          "audioOutput": "pulse",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p2-50-stereo-finite",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.139999999999999,
+          "releaseSeconds": 0.03054989399970509,
+          "audioCodec": "opus",
+          "audioOutput": "pulse",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p2-50-stereo-unknown",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.139999999999999,
+          "releaseSeconds": 0.030807525996351615,
+          "audioCodec": "opus",
+          "audioOutput": "pulse",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p0-ntsc60-stereo-finite",
+          "videoSamples": 879,
+          "incompleteMediaSeconds": 10.126,
+          "releaseSeconds": 0.031518495990894735,
+          "audioCodec": "opus",
+          "audioOutput": "pulse",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p0-ntsc60-stereo-unknown",
+          "videoSamples": 879,
+          "incompleteMediaSeconds": 10.126,
+          "releaseSeconds": 0.028282238999963738,
+          "audioCodec": "opus",
+          "audioOutput": "pulse",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        }
+      ],
+      "pcm": {
+        "result": "PASS",
+        "count": 6,
+        "edition": "qt",
+        "rows": [
+          {
+            "profile": "p0-50-mono-finite",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "0a98bd7ff23baac80a9f41db141eed194f1a387a4f246dda819f1d441b3e3106"
+          },
+          {
+            "profile": "p0-50-mono-unknown",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "0a98bd7ff23baac80a9f41db141eed194f1a387a4f246dda819f1d441b3e3106"
+          },
+          {
+            "profile": "p2-50-stereo-finite",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "18a8617acc9bc47d44496bb11807048bcf3539ff362b034dbdfbc02bf331cd22"
+          },
+          {
+            "profile": "p2-50-stereo-unknown",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "18a8617acc9bc47d44496bb11807048bcf3539ff362b034dbdfbc02bf331cd22"
+          },
+          {
+            "profile": "p0-ntsc60-stereo-finite",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "18a8617acc9bc47d44496bb11807048bcf3539ff362b034dbdfbc02bf331cd22"
+          },
+          {
+            "profile": "p0-ntsc60-stereo-unknown",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "18a8617acc9bc47d44496bb11807048bcf3539ff362b034dbdfbc02bf331cd22"
+          }
+        ],
+        "runnerSha256": "d63786d40f194b58ac273de62fd9d4ec449c04b968e6cc6a35c895def34bffe5"
+      },
+      "worker": {
+        "result": "PASS",
+        "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+        "count": 25,
+        "rows": [
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "33397",
+                "available": 33397,
+                "outputBytes": 514,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.08617818901257124,
+                "waitDurationSeconds": 0.12820226400799584,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "34228",
+                "available": 34228,
+                "outputBytes": 33571,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.2229589970083907,
+                "waitDurationSeconds": 0.12660606400459073,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "761574",
+                "available": 761574,
+                "outputBytes": 756212,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.7812457070103846,
+                "waitDurationSeconds": 0.1281346680043498,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "934337",
+                "available": 934337,
+                "outputBytes": 930685,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 3.4850198440108215,
+                "waitDurationSeconds": 0.1244716579967644,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 34228,
+              "total": 934337,
+              "outputBytes": 33571
+            },
+            "reads": 53,
+            "outputBytes": 940241,
+            "outputSha256": "60cecdc62f663298351a9ed35025045dcd0248c20fedf5a25d1463fa7dca8ff7",
+            "singleWorkerPid": 1019839,
+            "runtimeWarmup": {
+              "seconds": 2.0046438129938906,
+              "cpuSeconds": 0.0,
+              "samples": [
+                {
+                  "seconds": 1.0021896539983572,
+                  "metrics": {
+                    "cpuSeconds": 0.04,
+                    "rssBytes": 26595328,
+                    "privateBytes": 5206016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 2.0046409479982685,
+                  "metrics": {
+                    "cpuSeconds": 0.04,
+                    "rssBytes": 26595328,
+                    "privateBytes": 5206016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "934337",
+              "bytesWritten": "940241",
+              "sha256": "60cecdc62f663298351a9ed35025045dcd0248c20fedf5a25d1463fa7dca8ff7",
+              "waits": 4
+            },
+            "profile": "p0-50-mono-finite",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 33571,
+                "available": 34228,
+                "videoPackets": 23
+              },
+              {
+                "bytes": 756212,
+                "available": 761574,
+                "videoPackets": 525
+              },
+              {
+                "bytes": 930685,
+                "available": 934337,
+                "videoPackets": 725
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "33397",
+                "available": 33397,
+                "outputBytes": 514,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.08553656199364923,
+                "waitDurationSeconds": 0.12394508300349116,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "34228",
+                "available": 34228,
+                "outputBytes": 33571,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.2149503889959306,
+                "waitDurationSeconds": 0.12488879400189035,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "761574",
+                "available": 761574,
+                "outputBytes": 756212,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.8753297939983895,
+                "waitDurationSeconds": 0.12266850999731105,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "934337",
+                "available": 934337,
+                "outputBytes": 930685,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 3.80004742598976,
+                "waitDurationSeconds": 0.125020642997697,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 34228,
+              "total": 934337,
+              "outputBytes": 33571
+            },
+            "reads": 53,
+            "outputBytes": 940241,
+            "outputSha256": "eaddfb5477eaf770484248adc32dd8d1ecdc591c34950a7549486190135b6f7b",
+            "singleWorkerPid": 1020038,
+            "runtimeWarmup": {
+              "seconds": 2.002434327994706,
+              "cpuSeconds": 0.0,
+              "samples": [
+                {
+                  "seconds": 1.0018726989947027,
+                  "metrics": {
+                    "cpuSeconds": 0.05,
+                    "rssBytes": 26505216,
+                    "privateBytes": 5206016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 2.002431942994008,
+                  "metrics": {
+                    "cpuSeconds": 0.05,
+                    "rssBytes": 26505216,
+                    "privateBytes": 5206016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "934337",
+              "bytesWritten": "940241",
+              "sha256": "eaddfb5477eaf770484248adc32dd8d1ecdc591c34950a7549486190135b6f7b",
+              "waits": 4
+            },
+            "profile": "p0-50-mono-unknown",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 33571,
+                "available": 34228,
+                "videoPackets": 23
+              },
+              {
+                "bytes": 756212,
+                "available": 761574,
+                "videoPackets": 525
+              },
+              {
+                "bytes": 930685,
+                "available": 934337,
+                "videoPackets": 725
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "31846",
+                "available": 31846,
+                "outputBytes": 514,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.0907934589922661,
+                "waitDurationSeconds": 0.1277788789884653,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "35576",
+                "available": 35576,
+                "outputBytes": 32036,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.2245074179954827,
+                "waitDurationSeconds": 0.12532700499286875,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "706977",
+                "available": 706977,
+                "outputBytes": 693913,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.8431162939959904,
+                "waitDurationSeconds": 0.12535699098953046,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "913465",
+                "available": 913465,
+                "outputBytes": 911101,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 3.65242829399358,
+                "waitDurationSeconds": 0.125461899995571,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 35576,
+              "total": 913465,
+              "outputBytes": 32036
+            },
+            "reads": 53,
+            "outputBytes": 919246,
+            "outputSha256": "eeb69f8d6aea1f495c0f1a6cb64e40922ff4d6519d90eb959f9a5f104a00b4b7",
+            "singleWorkerPid": 1020258,
+            "runtimeWarmup": {
+              "seconds": 2.0027634010039037,
+              "cpuSeconds": 0.0,
+              "samples": [
+                {
+                  "seconds": 1.0014354589948198,
+                  "metrics": {
+                    "cpuSeconds": 0.05,
+                    "rssBytes": 26476544,
+                    "privateBytes": 5206016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 2.00276192399906,
+                  "metrics": {
+                    "cpuSeconds": 0.05,
+                    "rssBytes": 26476544,
+                    "privateBytes": 5206016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "913465",
+              "bytesWritten": "919246",
+              "sha256": "eeb69f8d6aea1f495c0f1a6cb64e40922ff4d6519d90eb959f9a5f104a00b4b7",
+              "waits": 4
+            },
+            "profile": "p2-50-stereo-finite",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 32036,
+                "available": 35576,
+                "videoPackets": 25
+              },
+              {
+                "bytes": 693913,
+                "available": 706977,
+                "videoPackets": 523
+              },
+              {
+                "bytes": 911101,
+                "available": 913465,
+                "videoPackets": 725
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "31846",
+                "available": 31846,
+                "outputBytes": 514,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.09104136801033746,
+                "waitDurationSeconds": 0.1245056319894502,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "35576",
+                "available": 35576,
+                "outputBytes": 32036,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.2224791580083547,
+                "waitDurationSeconds": 0.12945775399566628,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "706977",
+                "available": 706977,
+                "outputBytes": 693913,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.965586335005355,
+                "waitDurationSeconds": 0.12483235700346995,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "913465",
+                "available": 913465,
+                "outputBytes": 911101,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 3.86453514599998,
+                "waitDurationSeconds": 0.1270916439971188,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 35576,
+              "total": 913465,
+              "outputBytes": 32036
+            },
+            "reads": 53,
+            "outputBytes": 919246,
+            "outputSha256": "e32c723eed95f632ba5295ec1d53fc6aeee533fdac056d6d061a8a5df47a72f4",
+            "singleWorkerPid": 1020513,
+            "runtimeWarmup": {
+              "seconds": 2.0042033359932248,
+              "cpuSeconds": 0.0,
+              "samples": [
+                {
+                  "seconds": 1.0035167390014976,
+                  "metrics": {
+                    "cpuSeconds": 0.04,
+                    "rssBytes": 26341376,
+                    "privateBytes": 5201920,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 2.0042022639972856,
+                  "metrics": {
+                    "cpuSeconds": 0.04,
+                    "rssBytes": 26341376,
+                    "privateBytes": 5201920,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "913465",
+              "bytesWritten": "919246",
+              "sha256": "e32c723eed95f632ba5295ec1d53fc6aeee533fdac056d6d061a8a5df47a72f4",
+              "waits": 4
+            },
+            "profile": "p2-50-stereo-unknown",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 32036,
+                "available": 35576,
+                "videoPackets": 25
+              },
+              {
+                "bytes": 693913,
+                "available": 706977,
+                "videoPackets": 523
+              },
+              {
+                "bytes": 911101,
+                "available": 913465,
+                "videoPackets": 725
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "34016",
+                "available": 34016,
+                "outputBytes": 514,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.0905778750020545,
+                "waitDurationSeconds": 0.12380207200476434,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "34972",
+                "available": 34972,
+                "outputBytes": 34199,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.2205763069941895,
+                "waitDurationSeconds": 0.12356559300678782,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "865302",
+                "available": 865302,
+                "outputBytes": 856154,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.868390764997457,
+                "waitDurationSeconds": 0.12415304000023752,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "1059962",
+                "available": 1059962,
+                "outputBytes": 1059840,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 3.6755960189912003,
+                "waitDurationSeconds": 0.12482771399663761,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 34972,
+              "total": 1059962,
+              "outputBytes": 34199
+            },
+            "reads": 54,
+            "outputBytes": 1067055,
+            "outputSha256": "d6569aba1ceff1379cf2f6830f18ea5bce5033ee2942cdcd979b5b854e10b137",
+            "singleWorkerPid": 1020662,
+            "runtimeWarmup": {
+              "seconds": 2.0037207569985185,
+              "cpuSeconds": 0.0,
+              "samples": [
+                {
+                  "seconds": 1.0016354389954358,
+                  "metrics": {
+                    "cpuSeconds": 0.04,
+                    "rssBytes": 26447872,
+                    "privateBytes": 5206016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 2.0037195409968263,
+                  "metrics": {
+                    "cpuSeconds": 0.04,
+                    "rssBytes": 26447872,
+                    "privateBytes": 5206016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 2080,
+              "bytesRead": "1059962",
+              "bytesWritten": "1067055",
+              "sha256": "d6569aba1ceff1379cf2f6830f18ea5bce5033ee2942cdcd979b5b854e10b137",
+              "waits": 4
+            },
+            "profile": "p0-ntsc60-stereo-finite",
+            "frames": 879,
+            "duration100ns": 240080000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 34199,
+                "available": 34972,
+                "videoPackets": 24
+              },
+              {
+                "bytes": 856154,
+                "available": 865302,
+                "videoPackets": 625
+              },
+              {
+                "bytes": 1059840,
+                "available": 1059962,
+                "videoPackets": 875
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "34016",
+                "available": 34016,
+                "outputBytes": 514,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.09047462099988479,
+                "waitDurationSeconds": 0.12436304498987738,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "34972",
+                "available": 34972,
+                "outputBytes": 34199,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.2220323579967953,
+                "waitDurationSeconds": 0.12354094001057092,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "865302",
+                "available": 865302,
+                "outputBytes": 856154,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 2.8325100039946847,
+                "waitDurationSeconds": 0.12433098300243728,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "1059962",
+                "available": 1059962,
+                "outputBytes": 1059840,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 3.6461413529905258,
+                "waitDurationSeconds": 0.12387020199093968,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 34972,
+              "total": 1059962,
+              "outputBytes": 34199
+            },
+            "reads": 54,
+            "outputBytes": 1067055,
+            "outputSha256": "3e73a4bd333d3c3bd437149d78108be042ffcaabba0c87701f136d67cd290a37",
+            "singleWorkerPid": 1020793,
+            "runtimeWarmup": {
+              "seconds": 2.0017785939999158,
+              "cpuSeconds": 0.0,
+              "samples": [
+                {
+                  "seconds": 1.0010986550041707,
+                  "metrics": {
+                    "cpuSeconds": 0.05,
+                    "rssBytes": 26447872,
+                    "privateBytes": 5206016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 2.001776980003342,
+                  "metrics": {
+                    "cpuSeconds": 0.05,
+                    "rssBytes": 26447872,
+                    "privateBytes": 5206016,
+                    "handles": 3,
+                    "threads": 1,
+                    "memorySource": "proc-status-VmRSS-RssAnon"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 2080,
+              "bytesRead": "1059962",
+              "bytesWritten": "1067055",
+              "sha256": "3e73a4bd333d3c3bd437149d78108be042ffcaabba0c87701f136d67cd290a37",
+              "waits": 4
+            },
+            "profile": "p0-ntsc60-stereo-unknown",
+            "frames": 879,
+            "duration100ns": 240080000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 34199,
+                "available": 34972,
+                "videoPackets": 24
+              },
+              {
+                "bytes": 856154,
+                "available": 865302,
+                "videoPackets": 625
+              },
+              {
+                "bytes": 1059840,
+                "available": 1059962,
+                "videoPackets": 875
+              }
+            ]
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 514,
+            "outputSha256": "aca1c1bfed4a3832d138d05cfe70586b7d0317c7031b8aa335eef5f8410c50ad",
+            "singleWorkerPid": 1020848,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-duplicate"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 514,
+            "outputSha256": "aca1c1bfed4a3832d138d05cfe70586b7d0317c7031b8aa335eef5f8410c50ad",
+            "singleWorkerPid": 1020852,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-regression"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 514,
+            "outputSha256": "aca1c1bfed4a3832d138d05cfe70586b7d0317c7031b8aa335eef5f8410c50ad",
+            "singleWorkerPid": 1020854,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-long-gap"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 15,
+            "outputBytes": 930685,
+            "outputSha256": "849b36cbb50437b29a2e7505793eafc67cbdf5672058a293f21a4a9128e1ef01",
+            "singleWorkerPid": 1020856,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-video-duration",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-short-count"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 16,
+            "outputBytes": 930685,
+            "outputSha256": "849b36cbb50437b29a2e7505793eafc67cbdf5672058a293f21a4a9128e1ef01",
+            "singleWorkerPid": 1020859,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "incomplete-stream-webm-opus-samples",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-long-count"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 0,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1020862,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-start",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-zero-count"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 15,
+            "outputBytes": 930685,
+            "outputSha256": "849b36cbb50437b29a2e7505793eafc67cbdf5672058a293f21a4a9128e1ef01",
+            "singleWorkerPid": 1020864,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-short-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 16,
+            "outputBytes": 930685,
+            "outputSha256": "849b36cbb50437b29a2e7505793eafc67cbdf5672058a293f21a4a9128e1ef01",
+            "singleWorkerPid": 1020867,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-long-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 0,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1020870,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-non-ms-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 0,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1020874,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-start",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-missing-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 514,
+            "outputSha256": "dc493142607334003c615b10ad61eab247e8a3acd4bb73953a61824c2362555e",
+            "singleWorkerPid": 1020962,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-video-duration",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-video-block-group"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1020965,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "truncated-stream-webm-element",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-truncated-1"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1020967,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "truncated-stream-webm-element",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-truncated-533"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 15,
+            "outputBytes": 930685,
+            "outputSha256": "849b36cbb50437b29a2e7505793eafc67cbdf5672058a293f21a4a9128e1ef01",
+            "singleWorkerPid": 1020970,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "truncated-stream-webm-element",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-truncated-934336"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1020982,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unconfirmed-eof",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-unconfirmed-eof"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1020986,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "integrity-mismatch",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-integrity"
+          },
+          {
+            "exitCode": 1,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "143893",
+                "available": 143893,
+                "outputBytes": 141035,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.2023780599993188
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 143893,
+              "total": 934337,
+              "outputBytes": 33571
+            },
+            "reads": 4,
+            "outputBytes": 141035,
+            "outputSha256": "5cb3dc3398349b2ea4006d45ba582c43c9f27f46a07baf34a6de0e1065412d2e",
+            "singleWorkerPid": 1020993,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "cancelled",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-cancel-wait"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 1020996,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "cancelled",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-cancel-write"
+          },
+          {
+            "exitCode": -9,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "143893",
+                "available": 143893,
+                "outputBytes": 141035,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.17703198800154496
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 143893,
+              "total": 934337,
+              "outputBytes": 33571
+            },
+            "reads": 4,
+            "outputBytes": 141035,
+            "outputSha256": "5cb3dc3398349b2ea4006d45ba582c43c9f27f46a07baf34a6de0e1065412d2e",
+            "singleWorkerPid": 1021003,
+            "runtimeWarmup": null,
+            "terminationSeconds": 0.003537222000886686,
+            "profile": "reject-kill-wait"
+          }
+        ],
+        "workerSha256": "c1b2084fb43ab3786f764a55041640a1a9d9a6bfd2f0defe98db6327eb484d93",
+        "testSourceSha256": "4c6cf802526980af1814038a2dc4a53bfd06e2c8d021dbae9e48e08f36445463"
+      },
+      "privateCopiesRemoved": true,
+      "temporaryWorkRemoved": true,
+      "oldMain": [
+        {
+          "scenario": "webm-vfr",
+          "count": 6,
+          "result": "PASS"
+        },
+        {
+          "scenario": "webm-opus",
+          "count": 3,
+          "result": "PASS"
+        },
+        {
+          "scenario": "queued-seek",
+          "count": 11,
+          "result": "PASS"
+        }
+      ],
+      "oldWorker": [
+        {
+          "scenario": "vfr",
+          "count": 36,
+          "result": "PASS"
+        },
+        {
+          "scenario": "cfr",
+          "count": 33,
+          "result": "PASS"
+        },
+        {
+          "scenario": "ntsc",
+          "count": 29,
+          "result": "PASS"
+        },
+        {
+          "scenario": "25fps",
+          "count": 26,
+          "result": "PASS"
+        }
+      ],
+      "readBudget": {
+        "result": "PASS",
+        "reads": 16,
+        "maxReads": 16,
+        "inputBytes": 934337,
+        "sourceComplete": true,
+        "worker": {
+          "exitCode": 0,
+          "waits": [],
+          "firstCompleteFragmentBeforeSourceComplete": null,
+          "reads": 16,
+          "outputBytes": 940241,
+          "outputSha256": "46237c3c10e36fecea995d9669a7d39064b48e1a2b0d4aebabbbb25e566121d9",
+          "singleWorkerPid": 3232,
+          "runtimeWarmup": null,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1934,
+            "bytesRead": "934337",
+            "bytesWritten": "940241",
+            "sha256": "46237c3c10e36fecea995d9669a7d39064b48e1a2b0d4aebabbbb25e566121d9",
+            "waits": 0
+          }
+        },
+        "defaultDurationRejections": [
+          {
+            "defaultDuration": 0,
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-default-duration"
+          },
+          {
+            "defaultDuration": 40000000,
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-configuration"
+          }
+        ]
+      }
+    },
+    "windows-qt": {
+      "result": "PASS",
+      "ordinaryMain": true,
+      "playerSha256": [
+        "76cf3e880bdf82882c1c6be5ce4ecadbfef617e37fff347523e15da3ac177219",
+        "76cf3e880bdf82882c1c6be5ce4ecadbfef617e37fff347523e15da3ac177219"
+      ],
+      "workerSha256": [
+        "6fcc2aa11dfd5a03b335fc2951e714ee1c60c5f1cd2b73160b0848f40f85ad66",
+        "6fcc2aa11dfd5a03b335fc2951e714ee1c60c5f1cd2b73160b0848f40f85ad66"
+      ],
+      "apiRows": [
+        {
+          "profile": "p0-50-mono-finite",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.16,
+          "releaseSeconds": 0.01600000000325963,
+          "audioCodec": "opus",
+          "audioOutput": "wasapi",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p0-50-mono-unknown",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.2,
+          "releaseSeconds": 0.03200000000651926,
+          "audioCodec": "opus",
+          "audioOutput": "wasapi",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p2-50-stereo-finite",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.5,
+          "releaseSeconds": 0.01600000000325963,
+          "audioCodec": "opus",
+          "audioOutput": "wasapi",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p2-50-stereo-unknown",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.16,
+          "releaseSeconds": 0.01600000000325963,
+          "audioCodec": "opus",
+          "audioOutput": "wasapi",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p0-ntsc60-stereo-finite",
+          "videoSamples": 879,
+          "incompleteMediaSeconds": 10.177,
+          "releaseSeconds": 0.014999999999417923,
+          "audioCodec": "opus",
+          "audioOutput": "wasapi",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p0-ntsc60-stereo-unknown",
+          "videoSamples": 879,
+          "incompleteMediaSeconds": 10.144,
+          "releaseSeconds": 0.031000000002677552,
+          "audioCodec": "opus",
+          "audioOutput": "wasapi",
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        }
+      ],
+      "pcm": {
+        "result": "PASS",
+        "count": 6,
+        "edition": "qt",
+        "rows": [
+          {
+            "profile": "p0-50-mono-finite",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "3b14f2f7abadfd61236a81a72f874a1a6b2e3fe55c003952a1a981c22e0e1ee8"
+          },
+          {
+            "profile": "p0-50-mono-unknown",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "3b14f2f7abadfd61236a81a72f874a1a6b2e3fe55c003952a1a981c22e0e1ee8"
+          },
+          {
+            "profile": "p2-50-stereo-finite",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "d1af19eb23bb32e6f4b014d1067ee15900145d9e31ab6cb1ae5a6aeac365e0a1"
+          },
+          {
+            "profile": "p2-50-stereo-unknown",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "d1af19eb23bb32e6f4b014d1067ee15900145d9e31ab6cb1ae5a6aeac365e0a1"
+          },
+          {
+            "profile": "p0-ntsc60-stereo-finite",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "d1af19eb23bb32e6f4b014d1067ee15900145d9e31ab6cb1ae5a6aeac365e0a1"
+          },
+          {
+            "profile": "p0-ntsc60-stereo-unknown",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 0,
+            "allowedError": 2,
+            "format": "s16le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "audioDeviceOpened": false,
+              "naturalEof": true,
+              "aacWindowApplied": false
+            },
+            "pcmSha256": "d1af19eb23bb32e6f4b014d1067ee15900145d9e31ab6cb1ae5a6aeac365e0a1"
+          }
+        ],
+        "runnerSha256": "b0462429bf5f5511e19cb6b6c0a1d4c03fb67fd05502250114393265c755a431"
+      },
+      "worker": {
+        "result": "PASS",
+        "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+        "count": 25,
+        "rows": [
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "33369",
+                "available": 33369,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.046999999991385266,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "34198",
+                "available": 34198,
+                "outputBytes": 33543,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.327999999994063,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "762849",
+                "available": 762849,
+                "outputBytes": 757628,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.75,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "935246",
+                "available": 935246,
+                "outputBytes": 931445,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 6.171999999991385,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 34198,
+              "total": 935246,
+              "outputBytes": 33543
+            },
+            "reads": 53,
+            "outputBytes": 941150,
+            "outputSha256": "b7159987ec771970e804be8d7449081d82e44f7227548d4f5e41cda4459ac79c",
+            "singleWorkerPid": 2844,
+            "runtimeWarmup": {
+              "seconds": 5.125,
+              "cpuSeconds": 1.953125,
+              "samples": [
+                {
+                  "seconds": 1.0470000000059372,
+                  "metrics": {
+                    "cpuSeconds": 1.125,
+                    "threads": 5,
+                    "rssBytes": 22020096,
+                    "privateBytes": 20152320,
+                    "handles": 1047,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.015625
+                },
+                {
+                  "seconds": 2.062000000005355,
+                  "metrics": {
+                    "cpuSeconds": 2.0,
+                    "threads": 9,
+                    "rssBytes": 35004416,
+                    "privateBytes": 23621632,
+                    "handles": 1533,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.875
+                },
+                {
+                  "seconds": 3.0780000000086147,
+                  "metrics": {
+                    "cpuSeconds": 2.0625,
+                    "threads": 9,
+                    "rssBytes": 35418112,
+                    "privateBytes": 24018944,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0625
+                },
+                {
+                  "seconds": 4.109000000011292,
+                  "metrics": {
+                    "cpuSeconds": 2.0625,
+                    "threads": 9,
+                    "rssBytes": 35418112,
+                    "privateBytes": 24018944,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 5.125,
+                  "metrics": {
+                    "cpuSeconds": 2.0625,
+                    "threads": 9,
+                    "rssBytes": 35418112,
+                    "privateBytes": 24018944,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "935246",
+              "bytesWritten": "941150",
+              "sha256": "b7159987ec771970e804be8d7449081d82e44f7227548d4f5e41cda4459ac79c",
+              "waits": 4
+            },
+            "profile": "p0-50-mono-finite",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 33543,
+                "available": 34198,
+                "videoPackets": 23
+              },
+              {
+                "bytes": 757628,
+                "available": 762849,
+                "videoPackets": 525
+              },
+              {
+                "bytes": 931445,
+                "available": 935246,
+                "videoPackets": 725
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "33369",
+                "available": 33369,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.030999999988125637,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "34198",
+                "available": 34198,
+                "outputBytes": 33543,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.296999999991385,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "762849",
+                "available": 762849,
+                "outputBytes": 757628,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.7189999999973224,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "935246",
+                "available": 935246,
+                "outputBytes": 931445,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.140999999988708,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 34198,
+              "total": 935246,
+              "outputBytes": 33543
+            },
+            "reads": 53,
+            "outputBytes": 941150,
+            "outputSha256": "39e294b337754f80d944fd0c346e42b0cdf26f9be99a1b7ea6bcf71c6b64f99d",
+            "singleWorkerPid": 10608,
+            "runtimeWarmup": {
+              "seconds": 4.110000000000582,
+              "cpuSeconds": 1.859375,
+              "samples": [
+                {
+                  "seconds": 1.0470000000059372,
+                  "metrics": {
+                    "cpuSeconds": 1.09375,
+                    "threads": 5,
+                    "rssBytes": 22065152,
+                    "privateBytes": 20168704,
+                    "handles": 1043,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.015625
+                },
+                {
+                  "seconds": 2.063000000009197,
+                  "metrics": {
+                    "cpuSeconds": 1.9375,
+                    "threads": 9,
+                    "rssBytes": 35422208,
+                    "privateBytes": 24023040,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.84375
+                },
+                {
+                  "seconds": 3.0940000000118744,
+                  "metrics": {
+                    "cpuSeconds": 1.9375,
+                    "threads": 9,
+                    "rssBytes": 35422208,
+                    "privateBytes": 24023040,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 4.110000000000582,
+                  "metrics": {
+                    "cpuSeconds": 1.9375,
+                    "threads": 9,
+                    "rssBytes": 35422208,
+                    "privateBytes": 24023040,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "935246",
+              "bytesWritten": "941150",
+              "sha256": "39e294b337754f80d944fd0c346e42b0cdf26f9be99a1b7ea6bcf71c6b64f99d",
+              "waits": 4
+            },
+            "profile": "p0-50-mono-unknown",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 33543,
+                "available": 34198,
+                "videoPackets": 23
+              },
+              {
+                "bytes": 757628,
+                "available": 762849,
+                "videoPackets": 525
+              },
+              {
+                "bytes": 931445,
+                "available": 935246,
+                "videoPackets": 725
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "31841",
+                "available": 31841,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.03200000000651926,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "35573",
+                "available": 35573,
+                "outputBytes": 32031,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.328000000008615,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "716043",
+                "available": 716043,
+                "outputBytes": 709327,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.75,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "930604",
+                "available": 930604,
+                "outputBytes": 923684,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 6.219000000011874,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 35573,
+              "total": 930604,
+              "outputBytes": 32031
+            },
+            "reads": 53,
+            "outputBytes": 936413,
+            "outputSha256": "ccca87c2dd9e16185a1ec1f6318ac55c1f8d2316c3abf175f953ec84086a2424",
+            "singleWorkerPid": 9076,
+            "runtimeWarmup": {
+              "seconds": 5.125,
+              "cpuSeconds": 2.078125,
+              "samples": [
+                {
+                  "seconds": 1.0460000000020955,
+                  "metrics": {
+                    "cpuSeconds": 1.09375,
+                    "threads": 5,
+                    "rssBytes": 21635072,
+                    "privateBytes": 19767296,
+                    "handles": 961,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.0
+                },
+                {
+                  "seconds": 2.062000000005355,
+                  "metrics": {
+                    "cpuSeconds": 2.046875,
+                    "threads": 9,
+                    "rssBytes": 34729984,
+                    "privateBytes": 23429120,
+                    "handles": 1533,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.953125
+                },
+                {
+                  "seconds": 3.0929999999934807,
+                  "metrics": {
+                    "cpuSeconds": 2.171875,
+                    "threads": 9,
+                    "rssBytes": 35225600,
+                    "privateBytes": 23814144,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.125
+                },
+                {
+                  "seconds": 4.10899999999674,
+                  "metrics": {
+                    "cpuSeconds": 2.171875,
+                    "threads": 9,
+                    "rssBytes": 35225600,
+                    "privateBytes": 23814144,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 5.125,
+                  "metrics": {
+                    "cpuSeconds": 2.171875,
+                    "threads": 9,
+                    "rssBytes": 35225600,
+                    "privateBytes": 23814144,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "930604",
+              "bytesWritten": "936413",
+              "sha256": "ccca87c2dd9e16185a1ec1f6318ac55c1f8d2316c3abf175f953ec84086a2424",
+              "waits": 4
+            },
+            "profile": "p2-50-stereo-finite",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 32031,
+                "available": 35573,
+                "videoPackets": 25
+              },
+              {
+                "bytes": 709327,
+                "available": 716043,
+                "videoPackets": 525
+              },
+              {
+                "bytes": 923684,
+                "available": 930604,
+                "videoPackets": 723
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "31841",
+                "available": 31841,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.046999999991385266,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "35573",
+                "available": 35573,
+                "outputBytes": 32031,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.312999999994645,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "716043",
+                "available": 716043,
+                "outputBytes": 709327,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.735000000000582,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "930604",
+                "available": 930604,
+                "outputBytes": 923684,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.187999999994645,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 35573,
+              "total": 930604,
+              "outputBytes": 32031
+            },
+            "reads": 53,
+            "outputBytes": 936413,
+            "outputSha256": "a5332fa2b99046da4937b38b1757603ae64d0359465bd3064e146377f2ce8071",
+            "singleWorkerPid": 6076,
+            "runtimeWarmup": {
+              "seconds": 4.094000000011874,
+              "cpuSeconds": 1.890625,
+              "samples": [
+                {
+                  "seconds": 1.0320000000065193,
+                  "metrics": {
+                    "cpuSeconds": 1.046875,
+                    "threads": 5,
+                    "rssBytes": 22081536,
+                    "privateBytes": 20160512,
+                    "handles": 1044,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.015625
+                },
+                {
+                  "seconds": 2.063000000009197,
+                  "metrics": {
+                    "cpuSeconds": 1.921875,
+                    "threads": 9,
+                    "rssBytes": 35074048,
+                    "privateBytes": 23490560,
+                    "handles": 1533,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.875
+                },
+                {
+                  "seconds": 3.0780000000086147,
+                  "metrics": {
+                    "cpuSeconds": 1.921875,
+                    "threads": 9,
+                    "rssBytes": 35381248,
+                    "privateBytes": 23818240,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 4.094000000011874,
+                  "metrics": {
+                    "cpuSeconds": 1.921875,
+                    "threads": 9,
+                    "rssBytes": 35381248,
+                    "privateBytes": 23818240,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "930604",
+              "bytesWritten": "936413",
+              "sha256": "a5332fa2b99046da4937b38b1757603ae64d0359465bd3064e146377f2ce8071",
+              "waits": 4
+            },
+            "profile": "p2-50-stereo-unknown",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 32031,
+                "available": 35573,
+                "videoPackets": 25
+              },
+              {
+                "bytes": 709327,
+                "available": 716043,
+                "videoPackets": 525
+              },
+              {
+                "bytes": 923684,
+                "available": 930604,
+                "videoPackets": 723
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "34045",
+                "available": 34045,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.031000000002677552,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "35006",
+                "available": 35006,
+                "outputBytes": 34228,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.297000000005937,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "864441",
+                "available": 864441,
+                "outputBytes": 855530,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.75,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "1059332",
+                "available": 1059332,
+                "outputBytes": 1059283,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.218000000008033,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 35006,
+              "total": 1059332,
+              "outputBytes": 34228
+            },
+            "reads": 54,
+            "outputBytes": 1066425,
+            "outputSha256": "ae928d90bdbe8da9aa0f78d19a5d681daa8647d3ca003b16d0c092267f8976cc",
+            "singleWorkerPid": 7280,
+            "runtimeWarmup": {
+              "seconds": 4.10899999999674,
+              "cpuSeconds": 1.9375,
+              "samples": [
+                {
+                  "seconds": 1.0470000000059372,
+                  "metrics": {
+                    "cpuSeconds": 1.09375,
+                    "threads": 5,
+                    "rssBytes": 21929984,
+                    "privateBytes": 20033536,
+                    "handles": 1042,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.015625
+                },
+                {
+                  "seconds": 2.062000000005355,
+                  "metrics": {
+                    "cpuSeconds": 2.015625,
+                    "threads": 9,
+                    "rssBytes": 34983936,
+                    "privateBytes": 23404544,
+                    "handles": 1533,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.921875
+                },
+                {
+                  "seconds": 3.0780000000086147,
+                  "metrics": {
+                    "cpuSeconds": 2.015625,
+                    "threads": 9,
+                    "rssBytes": 35323904,
+                    "privateBytes": 23744512,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 4.10899999999674,
+                  "metrics": {
+                    "cpuSeconds": 2.015625,
+                    "threads": 9,
+                    "rssBytes": 35323904,
+                    "privateBytes": 23744512,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 2080,
+              "bytesRead": "1059332",
+              "bytesWritten": "1066425",
+              "sha256": "ae928d90bdbe8da9aa0f78d19a5d681daa8647d3ca003b16d0c092267f8976cc",
+              "waits": 4
+            },
+            "profile": "p0-ntsc60-stereo-finite",
+            "frames": 879,
+            "duration100ns": 240080000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 34228,
+                "available": 35006,
+                "videoPackets": 24
+              },
+              {
+                "bytes": 855530,
+                "available": 864441,
+                "videoPackets": 625
+              },
+              {
+                "bytes": 1059283,
+                "available": 1059332,
+                "videoPackets": 875
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "34045",
+                "available": 34045,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.031000000002677552,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "35006",
+                "available": 35006,
+                "outputBytes": 34228,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.312999999994645,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "864441",
+                "available": 864441,
+                "outputBytes": 855530,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.76600000000326,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "1059332",
+                "available": 1059332,
+                "outputBytes": 1059283,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.235000000000582,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 35006,
+              "total": 1059332,
+              "outputBytes": 34228
+            },
+            "reads": 54,
+            "outputBytes": 1066425,
+            "outputSha256": "c1a0c2ec16e3f43e60b08fa24c7882c0b44cc4144d2e9eb484734414280f97ee",
+            "singleWorkerPid": 9664,
+            "runtimeWarmup": {
+              "seconds": 4.125,
+              "cpuSeconds": 1.84375,
+              "samples": [
+                {
+                  "seconds": 1.0469999999913853,
+                  "metrics": {
+                    "cpuSeconds": 1.046875,
+                    "threads": 5,
+                    "rssBytes": 22118400,
+                    "privateBytes": 20209664,
+                    "handles": 1077,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.0
+                },
+                {
+                  "seconds": 2.0789999999979045,
+                  "metrics": {
+                    "cpuSeconds": 1.890625,
+                    "threads": 9,
+                    "rssBytes": 35188736,
+                    "privateBytes": 23642112,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.84375
+                },
+                {
+                  "seconds": 3.0939999999973224,
+                  "metrics": {
+                    "cpuSeconds": 1.890625,
+                    "threads": 9,
+                    "rssBytes": 35188736,
+                    "privateBytes": 23642112,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 4.125,
+                  "metrics": {
+                    "cpuSeconds": 1.890625,
+                    "threads": 9,
+                    "rssBytes": 35188736,
+                    "privateBytes": 23642112,
+                    "handles": 1381,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 2080,
+              "bytesRead": "1059332",
+              "bytesWritten": "1066425",
+              "sha256": "c1a0c2ec16e3f43e60b08fa24c7882c0b44cc4144d2e9eb484734414280f97ee",
+              "waits": 4
+            },
+            "profile": "p0-ntsc60-stereo-unknown",
+            "frames": 879,
+            "duration100ns": 240080000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 34228,
+                "available": 35006,
+                "videoPackets": 24
+              },
+              {
+                "bytes": 855530,
+                "available": 864441,
+                "videoPackets": 625
+              },
+              {
+                "bytes": 1059283,
+                "available": 1059332,
+                "videoPackets": 875
+              }
+            ]
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 517,
+            "outputSha256": "da271da83471baf8d48ff228f719cb76ddbf6bbc02dbb9506bd54ee8603b0bd9",
+            "singleWorkerPid": 9036,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-duplicate"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 517,
+            "outputSha256": "da271da83471baf8d48ff228f719cb76ddbf6bbc02dbb9506bd54ee8603b0bd9",
+            "singleWorkerPid": 8532,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-regression"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 517,
+            "outputSha256": "da271da83471baf8d48ff228f719cb76ddbf6bbc02dbb9506bd54ee8603b0bd9",
+            "singleWorkerPid": 8024,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-long-gap"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 15,
+            "outputBytes": 931445,
+            "outputSha256": "595e3a2ea97bcbd31821f3fa29d59a933d1a8ad3c2e2d0011b1af0d815d978fa",
+            "singleWorkerPid": 4024,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-video-duration",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-short-count"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 16,
+            "outputBytes": 931445,
+            "outputSha256": "595e3a2ea97bcbd31821f3fa29d59a933d1a8ad3c2e2d0011b1af0d815d978fa",
+            "singleWorkerPid": 9044,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "incomplete-stream-webm-opus-samples",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-long-count"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 0,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 3380,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-start",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-zero-count"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 15,
+            "outputBytes": 931445,
+            "outputSha256": "595e3a2ea97bcbd31821f3fa29d59a933d1a8ad3c2e2d0011b1af0d815d978fa",
+            "singleWorkerPid": 2676,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-short-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 16,
+            "outputBytes": 931445,
+            "outputSha256": "595e3a2ea97bcbd31821f3fa29d59a933d1a8ad3c2e2d0011b1af0d815d978fa",
+            "singleWorkerPid": 2036,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-long-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 0,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 9880,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-non-ms-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 0,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 3644,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-start",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-missing-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 509,
+            "outputSha256": "12376299181526208511fe4cff319929eb547238c4cf30744b24d00b5e9cd89e",
+            "singleWorkerPid": 9492,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-video-duration",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-video-block-group"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 4912,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "truncated-stream-webm-element",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-truncated-1"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 8232,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "truncated-stream-webm-element",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-truncated-536"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 15,
+            "outputBytes": 931445,
+            "outputSha256": "595e3a2ea97bcbd31821f3fa29d59a933d1a8ad3c2e2d0011b1af0d815d978fa",
+            "singleWorkerPid": 6396,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "truncated-stream-webm-element",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-truncated-935245"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 6908,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unconfirmed-eof",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-unconfirmed-eof"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 9368,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "integrity-mismatch",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-integrity"
+          },
+          {
+            "exitCode": 1,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "143660",
+                "available": 143660,
+                "outputBytes": 140799,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.062000000005355105
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 143660,
+              "total": 935246,
+              "outputBytes": 33543
+            },
+            "reads": 4,
+            "outputBytes": 140799,
+            "outputSha256": "1081e9d8abcc7c8eb09860375636c3d212941e1157d42c97123ab528c61c3337",
+            "singleWorkerPid": 10740,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "cancelled",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-cancel-wait"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 2676,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "cancelled",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-cancel-write"
+          },
+          {
+            "exitCode": 1,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "143660",
+                "available": 143660,
+                "outputBytes": 140799,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.04700000000593718
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 143660,
+              "total": 935246,
+              "outputBytes": 33543
+            },
+            "reads": 4,
+            "outputBytes": 140799,
+            "outputSha256": "1081e9d8abcc7c8eb09860375636c3d212941e1157d42c97123ab528c61c3337",
+            "singleWorkerPid": 8556,
+            "runtimeWarmup": null,
+            "terminationSeconds": 0.014999999999417923,
+            "profile": "reject-kill-wait"
+          }
+        ],
+        "workerSha256": "6fcc2aa11dfd5a03b335fc2951e714ee1c60c5f1cd2b73160b0848f40f85ad66",
+        "testSourceSha256": "4c6cf802526980af1814038a2dc4a53bfd06e2c8d021dbae9e48e08f36445463"
+      },
+      "privateCopiesRemoved": true,
+      "temporaryWorkRemoved": true,
+      "oldMain": [
+        {
+          "scenario": "webm-vfr",
+          "count": 6,
+          "result": "PASS"
+        },
+        {
+          "scenario": "webm-opus",
+          "count": 3,
+          "result": "PASS"
+        },
+        {
+          "scenario": "queued-seek",
+          "count": 11,
+          "result": "PASS"
+        }
+      ],
+      "oldWorker": [
+        {
+          "scenario": "vfr",
+          "count": 36,
+          "result": "PASS"
+        },
+        {
+          "scenario": "cfr",
+          "count": 33,
+          "result": "PASS"
+        },
+        {
+          "scenario": "ntsc",
+          "count": 29,
+          "result": "PASS"
+        },
+        {
+          "scenario": "25fps",
+          "count": 26,
+          "result": "PASS"
+        }
+      ],
+      "readBudget": {
+        "result": "PASS",
+        "reads": 16,
+        "maxReads": 16,
+        "inputBytes": 935246,
+        "sourceComplete": true,
+        "worker": {
+          "exitCode": 0,
+          "waits": [],
+          "firstCompleteFragmentBeforeSourceComplete": null,
+          "reads": 16,
+          "outputBytes": 941150,
+          "outputSha256": "7f218bb91b30cfb6a41b6df4fea2635dcc34244ae8feea6287863dde92c4a703",
+          "singleWorkerPid": 9616,
+          "runtimeWarmup": null,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1934,
+            "bytesRead": "935246",
+            "bytesWritten": "941150",
+            "sha256": "7f218bb91b30cfb6a41b6df4fea2635dcc34244ae8feea6287863dde92c4a703",
+            "waits": 0
+          }
+        },
+        "defaultDurationRejections": [
+          {
+            "defaultDuration": 0,
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-default-duration"
+          },
+          {
+            "defaultDuration": 40000000,
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-configuration"
+          }
+        ]
+      }
+    },
+    "windows-classic": {
+      "result": "PASS",
+      "ordinaryMain": true,
+      "playerSha256": [
+        "758c8c7a3050e1fe01ae700bef0efb01de33d8eb45c68f954f87799574240c05",
+        "758c8c7a3050e1fe01ae700bef0efb01de33d8eb45c68f954f87799574240c05"
+      ],
+      "workerSha256": [
+        "2bf2b538682ef6d9b65a9eb52a517a3d7d4943933fc30d65182b31557177869f",
+        "2bf2b538682ef6d9b65a9eb52a517a3d7d4943933fc30d65182b31557177869f"
+      ],
+      "apiRows": [
+        {
+          "profile": "p0-50-mono-finite",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.123000000000001,
+          "releaseSeconds": 0.062000000005355105,
+          "audioCodec": null,
+          "audioOutput": null,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p0-50-mono-unknown",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.128,
+          "releaseSeconds": 0.04700000000593718,
+          "audioCodec": null,
+          "audioOutput": null,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p2-50-stereo-finite",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.126,
+          "releaseSeconds": 0.062000000005355105,
+          "audioCodec": null,
+          "audioOutput": null,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p2-50-stereo-unknown",
+          "videoSamples": 733,
+          "incompleteMediaSeconds": 10.128,
+          "releaseSeconds": 0.04700000000593718,
+          "audioCodec": null,
+          "audioOutput": null,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p0-ntsc60-stereo-finite",
+          "videoSamples": 879,
+          "incompleteMediaSeconds": 10.126000000000001,
+          "releaseSeconds": 0.062000000005355105,
+          "audioCodec": null,
+          "audioOutput": null,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        },
+        {
+          "profile": "p0-ntsc60-stereo-unknown",
+          "videoSamples": 879,
+          "incompleteMediaSeconds": 10.124,
+          "releaseSeconds": 0.0629999999946449,
+          "audioCodec": null,
+          "audioOutput": null,
+          "exactPcm": true,
+          "exactPacketsAndClocks": true,
+          "sourceUnchanged": true,
+          "pauseGrowingSeekQueuedEof": true
+        }
+      ],
+      "pcm": {
+        "result": "PASS",
+        "count": 6,
+        "edition": "classic",
+        "rows": [
+          {
+            "profile": "p0-50-mono-finite",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 3.725290298461914e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "4d56553540f7c757a92e3a7be755a2462ec5ad15802bf56d85374d9a665443bb"
+          },
+          {
+            "profile": "p0-50-mono-unknown",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 1,
+            "maxAbsolutePcmError": 3.725290298461914e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "4d56553540f7c757a92e3a7be755a2462ec5ad15802bf56d85374d9a665443bb"
+          },
+          {
+            "profile": "p2-50-stereo-finite",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "91dfdd4abe44c59cd7dc8b0f12dd019c29eb78bfd46deba798ba7d89e2d0fd27"
+          },
+          {
+            "profile": "p2-50-stereo-unknown",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "91dfdd4abe44c59cd7dc8b0f12dd019c29eb78bfd46deba798ba7d89e2d0fd27"
+          },
+          {
+            "profile": "p0-ntsc60-stereo-finite",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "91dfdd4abe44c59cd7dc8b0f12dd019c29eb78bfd46deba798ba7d89e2d0fd27"
+          },
+          {
+            "profile": "p0-ntsc60-stereo-unknown",
+            "exitCode": 0,
+            "samples": 1152000,
+            "channels": 2,
+            "maxAbsolutePcmError": 2.9802322387695312e-08,
+            "allowedError": 2e-06,
+            "format": "f32le",
+            "exactSampleCount": true,
+            "audioDeviceOpened": false,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1152000,
+              "audioDeviceOpened": false,
+              "nativeOpusGraph": true
+            },
+            "pcmSha256": "91dfdd4abe44c59cd7dc8b0f12dd019c29eb78bfd46deba798ba7d89e2d0fd27"
+          }
+        ],
+        "runnerSha256": "958fdcd7ac7de2e50b5cd7991f0fa0c738f1a7493afc9b452f1b0d332e7c5b0d"
+      },
+      "worker": {
+        "result": "PASS",
+        "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+        "count": 25,
+        "rows": [
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "33369",
+                "available": 33369,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.046000000002095476,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "34198",
+                "available": 34198,
+                "outputBytes": 33543,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.312000000005355,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "762849",
+                "available": 762849,
+                "outputBytes": 757628,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.7810000000026776,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "935246",
+                "available": 935246,
+                "outputBytes": 931445,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.217999999993481,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 34198,
+              "total": 935246,
+              "outputBytes": 33543
+            },
+            "reads": 53,
+            "outputBytes": 941150,
+            "outputSha256": "a89b01673cdf6c2ec6a5d36b1d537c150b68037960d38104cf4d9c440b74aba9",
+            "singleWorkerPid": 8824,
+            "runtimeWarmup": {
+              "seconds": 4.110000000000582,
+              "cpuSeconds": 1.75,
+              "samples": [
+                {
+                  "seconds": 1.0469999999913853,
+                  "metrics": {
+                    "cpuSeconds": 1.078125,
+                    "threads": 5,
+                    "rssBytes": 22196224,
+                    "privateBytes": 20017152,
+                    "handles": 1028,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.015625
+                },
+                {
+                  "seconds": 2.062999999994645,
+                  "metrics": {
+                    "cpuSeconds": 1.8125,
+                    "threads": 11,
+                    "rssBytes": 35385344,
+                    "privateBytes": 23543808,
+                    "handles": 1388,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.734375
+                },
+                {
+                  "seconds": 3.0939999999973224,
+                  "metrics": {
+                    "cpuSeconds": 1.8125,
+                    "threads": 11,
+                    "rssBytes": 35385344,
+                    "privateBytes": 23543808,
+                    "handles": 1388,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 4.110000000000582,
+                  "metrics": {
+                    "cpuSeconds": 1.8125,
+                    "threads": 11,
+                    "rssBytes": 35385344,
+                    "privateBytes": 23543808,
+                    "handles": 1388,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "935246",
+              "bytesWritten": "941150",
+              "sha256": "a89b01673cdf6c2ec6a5d36b1d537c150b68037960d38104cf4d9c440b74aba9",
+              "waits": 4
+            },
+            "profile": "p0-50-mono-finite",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 33543,
+                "available": 34198,
+                "videoPackets": 23
+              },
+              {
+                "bytes": 757628,
+                "available": 762849,
+                "videoPackets": 525
+              },
+              {
+                "bytes": 931445,
+                "available": 935246,
+                "videoPackets": 725
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "33369",
+                "available": 33369,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.031000000002677552,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "34198",
+                "available": 34198,
+                "outputBytes": 33543,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.296999999991385,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "762849",
+                "available": 762849,
+                "outputBytes": 757628,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.764999999999418,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "935246",
+                "available": 935246,
+                "outputBytes": 931445,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.2189999999973224,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 34198,
+              "total": 935246,
+              "outputBytes": 33543
+            },
+            "reads": 53,
+            "outputBytes": 941150,
+            "outputSha256": "da584ed95c4d41c0adc5718b93ce1639a5cf0735265f472207d6363ac1dd17bf",
+            "singleWorkerPid": 8624,
+            "runtimeWarmup": {
+              "seconds": 4.10899999999674,
+              "cpuSeconds": 1.796875,
+              "samples": [
+                {
+                  "seconds": 1.0469999999913853,
+                  "metrics": {
+                    "cpuSeconds": 1.109375,
+                    "threads": 5,
+                    "rssBytes": 22007808,
+                    "privateBytes": 20135936,
+                    "handles": 1043,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.015625
+                },
+                {
+                  "seconds": 2.062999999994645,
+                  "metrics": {
+                    "cpuSeconds": 1.890625,
+                    "threads": 11,
+                    "rssBytes": 35061760,
+                    "privateBytes": 23515136,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.78125
+                },
+                {
+                  "seconds": 3.0939999999973224,
+                  "metrics": {
+                    "cpuSeconds": 1.890625,
+                    "threads": 11,
+                    "rssBytes": 35061760,
+                    "privateBytes": 23515136,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 4.10899999999674,
+                  "metrics": {
+                    "cpuSeconds": 1.890625,
+                    "threads": 11,
+                    "rssBytes": 35061760,
+                    "privateBytes": 23515136,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "935246",
+              "bytesWritten": "941150",
+              "sha256": "da584ed95c4d41c0adc5718b93ce1639a5cf0735265f472207d6363ac1dd17bf",
+              "waits": 4
+            },
+            "profile": "p0-50-mono-unknown",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 33543,
+                "available": 34198,
+                "videoPackets": 23
+              },
+              {
+                "bytes": 757628,
+                "available": 762849,
+                "videoPackets": 525
+              },
+              {
+                "bytes": 931445,
+                "available": 935246,
+                "videoPackets": 725
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "31841",
+                "available": 31841,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.04700000000593718,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "35573",
+                "available": 35573,
+                "outputBytes": 32031,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.328000000008615,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "716043",
+                "available": 716043,
+                "outputBytes": 709327,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.7810000000026776,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "930604",
+                "available": 930604,
+                "outputBytes": 923684,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 6.264999999999418,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 35573,
+              "total": 930604,
+              "outputBytes": 32031
+            },
+            "reads": 53,
+            "outputBytes": 936413,
+            "outputSha256": "f3d8b63d10fe4490309690423c0cae03b749c94dd13fb045d006864c74257e4f",
+            "singleWorkerPid": 4876,
+            "runtimeWarmup": {
+              "seconds": 5.125,
+              "cpuSeconds": 2.0625,
+              "samples": [
+                {
+                  "seconds": 1.0310000000026776,
+                  "metrics": {
+                    "cpuSeconds": 1.046875,
+                    "threads": 5,
+                    "rssBytes": 21540864,
+                    "privateBytes": 19664896,
+                    "handles": 954,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.015625
+                },
+                {
+                  "seconds": 2.062000000005355,
+                  "metrics": {
+                    "cpuSeconds": 1.96875,
+                    "threads": 11,
+                    "rssBytes": 34902016,
+                    "privateBytes": 23552000,
+                    "handles": 1534,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.921875
+                },
+                {
+                  "seconds": 3.077999999994063,
+                  "metrics": {
+                    "cpuSeconds": 2.09375,
+                    "threads": 11,
+                    "rssBytes": 35250176,
+                    "privateBytes": 23859200,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.125
+                },
+                {
+                  "seconds": 4.10899999999674,
+                  "metrics": {
+                    "cpuSeconds": 2.09375,
+                    "threads": 11,
+                    "rssBytes": 35250176,
+                    "privateBytes": 23859200,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 5.125,
+                  "metrics": {
+                    "cpuSeconds": 2.09375,
+                    "threads": 11,
+                    "rssBytes": 35250176,
+                    "privateBytes": 23859200,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "930604",
+              "bytesWritten": "936413",
+              "sha256": "f3d8b63d10fe4490309690423c0cae03b749c94dd13fb045d006864c74257e4f",
+              "waits": 4
+            },
+            "profile": "p2-50-stereo-finite",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 32031,
+                "available": 35573,
+                "videoPackets": 25
+              },
+              {
+                "bytes": 709327,
+                "available": 716043,
+                "videoPackets": 525
+              },
+              {
+                "bytes": 923684,
+                "available": 930604,
+                "videoPackets": 723
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "31841",
+                "available": 31841,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.046999999991385266,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "35573",
+                "available": 35573,
+                "outputBytes": 32031,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.312999999994645,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "716043",
+                "available": 716043,
+                "outputBytes": 709327,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.780999999988126,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "930604",
+                "available": 930604,
+                "outputBytes": 923684,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.265999999988708,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 35573,
+              "total": 930604,
+              "outputBytes": 32031
+            },
+            "reads": 53,
+            "outputBytes": 936413,
+            "outputSha256": "42dd5940ea0d3e9202827a0370d870ee5b73d6db2e0db8496d2e0b468f85b77a",
+            "singleWorkerPid": 6980,
+            "runtimeWarmup": {
+              "seconds": 4.10899999999674,
+              "cpuSeconds": 1.859375,
+              "samples": [
+                {
+                  "seconds": 1.0310000000026776,
+                  "metrics": {
+                    "cpuSeconds": 1.0625,
+                    "threads": 5,
+                    "rssBytes": 21848064,
+                    "privateBytes": 19980288,
+                    "handles": 1027,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.03125
+                },
+                {
+                  "seconds": 2.062000000005355,
+                  "metrics": {
+                    "cpuSeconds": 1.890625,
+                    "threads": 11,
+                    "rssBytes": 35172352,
+                    "privateBytes": 23646208,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.828125
+                },
+                {
+                  "seconds": 3.0780000000086147,
+                  "metrics": {
+                    "cpuSeconds": 1.890625,
+                    "threads": 11,
+                    "rssBytes": 35172352,
+                    "privateBytes": 23646208,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 4.10899999999674,
+                  "metrics": {
+                    "cpuSeconds": 1.890625,
+                    "threads": 11,
+                    "rssBytes": 35172352,
+                    "privateBytes": 23646208,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 1934,
+              "bytesRead": "930604",
+              "bytesWritten": "936413",
+              "sha256": "42dd5940ea0d3e9202827a0370d870ee5b73d6db2e0db8496d2e0b468f85b77a",
+              "waits": 4
+            },
+            "profile": "p2-50-stereo-unknown",
+            "frames": 733,
+            "duration100ns": 240000000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 32031,
+                "available": 35573,
+                "videoPackets": 25
+              },
+              {
+                "bytes": 709327,
+                "available": 716043,
+                "videoPackets": 525
+              },
+              {
+                "bytes": 923684,
+                "available": 930604,
+                "videoPackets": 723
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "34045",
+                "available": 34045,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.03200000000651926,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "35006",
+                "available": 35006,
+                "outputBytes": 34228,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.313000000009197,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "864441",
+                "available": 864441,
+                "outputBytes": 855530,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.828000000008615,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "1059332",
+                "available": 1059332,
+                "outputBytes": 1059283,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.313000000009197,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 35006,
+              "total": 1059332,
+              "outputBytes": 34228
+            },
+            "reads": 54,
+            "outputBytes": 1066425,
+            "outputSha256": "54a9558ba102f64c11607b67b119f9031ffa04f845f5053a349be38f10aa8550",
+            "singleWorkerPid": 1832,
+            "runtimeWarmup": {
+              "seconds": 4.125,
+              "cpuSeconds": 1.859375,
+              "samples": [
+                {
+                  "seconds": 1.0460000000020955,
+                  "metrics": {
+                    "cpuSeconds": 1.109375,
+                    "threads": 5,
+                    "rssBytes": 21901312,
+                    "privateBytes": 20017152,
+                    "handles": 1015,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.015625
+                },
+                {
+                  "seconds": 2.077999999994063,
+                  "metrics": {
+                    "cpuSeconds": 1.953125,
+                    "threads": 11,
+                    "rssBytes": 35176448,
+                    "privateBytes": 23629824,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.84375
+                },
+                {
+                  "seconds": 3.0929999999934807,
+                  "metrics": {
+                    "cpuSeconds": 1.953125,
+                    "threads": 11,
+                    "rssBytes": 35176448,
+                    "privateBytes": 23629824,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 4.125,
+                  "metrics": {
+                    "cpuSeconds": 1.953125,
+                    "threads": 11,
+                    "rssBytes": 35176448,
+                    "privateBytes": 23629824,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 2080,
+              "bytesRead": "1059332",
+              "bytesWritten": "1066425",
+              "sha256": "54a9558ba102f64c11607b67b119f9031ffa04f845f5053a349be38f10aa8550",
+              "waits": 4
+            },
+            "profile": "p0-ntsc60-stereo-finite",
+            "frames": 879,
+            "duration100ns": 240080000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 34228,
+                "available": 35006,
+                "videoPackets": 24
+              },
+              {
+                "bytes": 855530,
+                "available": 864441,
+                "videoPackets": 625
+              },
+              {
+                "bytes": 1059283,
+                "available": 1059332,
+                "videoPackets": 875
+              }
+            ]
+          },
+          {
+            "exitCode": 0,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "34045",
+                "available": 34045,
+                "outputBytes": 517,
+                "mediaReady": false,
+                "beforeSourceComplete": true,
+                "seconds": 0.04700000000593718,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "35006",
+                "available": 35006,
+                "outputBytes": 34228,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.328000000008615,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "waiting-range",
+                "offset": "864441",
+                "available": 864441,
+                "outputBytes": 855530,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 4.844000000011874,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              },
+              {
+                "reason": "source-complete",
+                "offset": "1059332",
+                "available": 1059332,
+                "outputBytes": 1059283,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 5.328000000008615,
+                "waitDurationSeconds": 0.125,
+                "waitCpuSeconds": 0.0
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 35006,
+              "total": 1059332,
+              "outputBytes": 34228
+            },
+            "reads": 54,
+            "outputBytes": 1066425,
+            "outputSha256": "6c65814643f6b54f53488d9ee3466cc28a3ed08faeef67110e564a7bde4d8079",
+            "singleWorkerPid": 9460,
+            "runtimeWarmup": {
+              "seconds": 4.125,
+              "cpuSeconds": 1.828125,
+              "samples": [
+                {
+                  "seconds": 1.0470000000059372,
+                  "metrics": {
+                    "cpuSeconds": 1.0625,
+                    "threads": 5,
+                    "rssBytes": 21942272,
+                    "privateBytes": 20008960,
+                    "handles": 1018,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 1.03125
+                },
+                {
+                  "seconds": 2.062999999994645,
+                  "metrics": {
+                    "cpuSeconds": 1.859375,
+                    "threads": 11,
+                    "rssBytes": 35381248,
+                    "privateBytes": 23908352,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.796875
+                },
+                {
+                  "seconds": 3.0939999999973224,
+                  "metrics": {
+                    "cpuSeconds": 1.859375,
+                    "threads": 11,
+                    "rssBytes": 35381248,
+                    "privateBytes": 23908352,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                },
+                {
+                  "seconds": 4.125,
+                  "metrics": {
+                    "cpuSeconds": 1.859375,
+                    "threads": 11,
+                    "rssBytes": 35381248,
+                    "privateBytes": 23908352,
+                    "handles": 1382,
+                    "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+                  },
+                  "cpuDelta": 0.0
+                }
+              ],
+              "stableWindows": 2,
+              "maxSeconds": 20
+            },
+            "result": {
+              "code": "data",
+              "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+              "sourceComplete": true,
+              "sourceEof": true,
+              "continuousOutput": true,
+              "playbackSupported": false,
+              "transcoded": false,
+              "packets": 2080,
+              "bytesRead": "1059332",
+              "bytesWritten": "1066425",
+              "sha256": "6c65814643f6b54f53488d9ee3466cc28a3ed08faeef67110e564a7bde4d8079",
+              "waits": 4
+            },
+            "profile": "p0-ntsc60-stereo-unknown",
+            "frames": 879,
+            "duration100ns": 240080000,
+            "exactPacketsAndClocks": true,
+            "exactPcm": true,
+            "decodedFramesIdentical": true,
+            "sourceUnchanged": true,
+            "nextPtsLookahead": true,
+            "lastClusterHeldUntilConfirmedEof": true,
+            "partials": [
+              {
+                "bytes": 34228,
+                "available": 35006,
+                "videoPackets": 24
+              },
+              {
+                "bytes": 855530,
+                "available": 864441,
+                "videoPackets": 625
+              },
+              {
+                "bytes": 1059283,
+                "available": 1059332,
+                "videoPackets": 875
+              }
+            ]
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 517,
+            "outputSha256": "e5f9dc4d373401de65e83c3f59bd2fba5c11127edfac1d9b4b24211ab3015512",
+            "singleWorkerPid": 9332,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-duplicate"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 517,
+            "outputSha256": "e5f9dc4d373401de65e83c3f59bd2fba5c11127edfac1d9b4b24211ab3015512",
+            "singleWorkerPid": 4920,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-regression"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 517,
+            "outputSha256": "e5f9dc4d373401de65e83c3f59bd2fba5c11127edfac1d9b4b24211ab3015512",
+            "singleWorkerPid": 7396,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-long-gap"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 15,
+            "outputBytes": 931445,
+            "outputSha256": "2eaf7be8bf4a2dcef87a7e4cd1ffba77c6d96243af2785dcde025823aae52fc1",
+            "singleWorkerPid": 10516,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-video-duration",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-short-count"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 16,
+            "outputBytes": 931445,
+            "outputSha256": "2eaf7be8bf4a2dcef87a7e4cd1ffba77c6d96243af2785dcde025823aae52fc1",
+            "singleWorkerPid": 5380,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "incomplete-stream-webm-opus-samples",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-long-count"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 0,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 5536,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-start",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-zero-count"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 15,
+            "outputBytes": 931445,
+            "outputSha256": "2eaf7be8bf4a2dcef87a7e4cd1ffba77c6d96243af2785dcde025823aae52fc1",
+            "singleWorkerPid": 9124,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-short-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 16,
+            "outputBytes": 931445,
+            "outputSha256": "2eaf7be8bf4a2dcef87a7e4cd1ffba77c6d96243af2785dcde025823aae52fc1",
+            "singleWorkerPid": 6672,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-long-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 0,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 3560,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-clock",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-non-ms-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 0,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 7904,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-start",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-missing-end"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 509,
+            "outputSha256": "19b4b23982db98aed3c38236139f9ff6c3213e2bce1c98e079c4af1ab3d0fa58",
+            "singleWorkerPid": 6320,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unsupported-stream-webm-video-duration",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-video-block-group"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 4876,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "truncated-stream-webm-element",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-truncated-1"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 7492,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "truncated-stream-webm-element",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-truncated-536"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 15,
+            "outputBytes": 931445,
+            "outputSha256": "2eaf7be8bf4a2dcef87a7e4cd1ffba77c6d96243af2785dcde025823aae52fc1",
+            "singleWorkerPid": 10516,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "truncated-stream-webm-element",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-truncated-935245"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 9132,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "unconfirmed-eof",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-unconfirmed-eof"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 9400,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "integrity-mismatch",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-integrity"
+          },
+          {
+            "exitCode": 1,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "143660",
+                "available": 143660,
+                "outputBytes": 140799,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.0629999999946449
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 143660,
+              "total": 935246,
+              "outputBytes": 33543
+            },
+            "reads": 4,
+            "outputBytes": 140799,
+            "outputSha256": "109c99f13e4c9eabafdc32873355bb0fb5289e52d5c19298545a1206823f40e0",
+            "singleWorkerPid": 8528,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "cancelled",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-cancel-wait"
+          },
+          {
+            "exitCode": 1,
+            "waits": [],
+            "firstCompleteFragmentBeforeSourceComplete": null,
+            "reads": 1,
+            "outputBytes": 0,
+            "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "singleWorkerPid": 10616,
+            "runtimeWarmup": null,
+            "result": {
+              "code": "cancelled",
+              "sourceComplete": false,
+              "playbackSupported": false
+            },
+            "profile": "reject-cancel-write"
+          },
+          {
+            "exitCode": 1,
+            "waits": [
+              {
+                "reason": "waiting-range",
+                "offset": "143660",
+                "available": 143660,
+                "outputBytes": 140799,
+                "mediaReady": true,
+                "beforeSourceComplete": true,
+                "seconds": 0.06199999999080319
+              }
+            ],
+            "firstCompleteFragmentBeforeSourceComplete": {
+              "available": 143660,
+              "total": 935246,
+              "outputBytes": 33543
+            },
+            "reads": 4,
+            "outputBytes": 140799,
+            "outputSha256": "109c99f13e4c9eabafdc32873355bb0fb5289e52d5c19298545a1206823f40e0",
+            "singleWorkerPid": 2432,
+            "runtimeWarmup": null,
+            "terminationSeconds": 0.01600000000325963,
+            "profile": "reject-kill-wait"
+          }
+        ],
+        "workerSha256": "2bf2b538682ef6d9b65a9eb52a517a3d7d4943933fc30d65182b31557177869f",
+        "testSourceSha256": "4c6cf802526980af1814038a2dc4a53bfd06e2c8d021dbae9e48e08f36445463"
+      },
+      "privateCopiesRemoved": true,
+      "temporaryWorkRemoved": true,
+      "oldMain": [
+        {
+          "scenario": "webm-vfr",
+          "count": 6,
+          "result": "PASS"
+        },
+        {
+          "scenario": "webm-opus",
+          "count": 3,
+          "result": "PASS"
+        },
+        {
+          "scenario": "queued-seek",
+          "count": 11,
+          "result": "PASS"
+        }
+      ],
+      "oldWorker": [
+        {
+          "scenario": "vfr",
+          "count": 36,
+          "result": "PASS"
+        },
+        {
+          "scenario": "cfr",
+          "count": 33,
+          "result": "PASS"
+        },
+        {
+          "scenario": "ntsc",
+          "count": 29,
+          "result": "PASS"
+        },
+        {
+          "scenario": "25fps",
+          "count": 26,
+          "result": "PASS"
+        }
+      ],
+      "readBudget": {
+        "result": "PASS",
+        "reads": 16,
+        "maxReads": 16,
+        "inputBytes": 935246,
+        "sourceComplete": true,
+        "worker": {
+          "exitCode": 0,
+          "waits": [],
+          "firstCompleteFragmentBeforeSourceComplete": null,
+          "reads": 16,
+          "outputBytes": 941150,
+          "outputSha256": "dfcb7e091bfebc036b44deaf74615690f85e67c690f148ff8aa2c11e951ab1f6",
+          "singleWorkerPid": 8684,
+          "runtimeWarmup": null,
+          "result": {
+            "code": "data",
+            "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+            "sourceComplete": true,
+            "sourceEof": true,
+            "continuousOutput": true,
+            "playbackSupported": false,
+            "transcoded": false,
+            "packets": 1934,
+            "bytesRead": "935246",
+            "bytesWritten": "941150",
+            "sha256": "dfcb7e091bfebc036b44deaf74615690f85e67c690f148ff8aa2c11e951ab1f6",
+            "waits": 0
+          }
+        },
+        "defaultDurationRejections": [
+          {
+            "defaultDuration": 0,
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-default-duration"
+          },
+          {
+            "defaultDuration": 40000000,
+            "exitCode": 1,
+            "code": "unsupported-stream-webm-configuration"
+          }
+        ]
+      }
+    }
+  },
+  "counts": {
+    "newWorkerCases": 75,
+    "ordinarySimpleVfrCases": 18,
+    "pcmCaptures": 18,
+    "legacyWorkerCases": 372,
+    "legacyMainCases": 60,
+    "sanitizerMutations": 4000,
+    "sdkUnits": 137,
+    "readBudgetRows": 3,
+    "defaultDurationNegativeControls": 6
+  },
+  "sdkUnits": [
+    {
+      "name": "continuous",
+      "exitCode": 0,
+      "output": ".......................................................\n----------------------------------------------------------------------\nRan 55 tests in 0.689s\n\nOK\n"
+    },
+    {
+      "name": "general",
+      "exitCode": 0,
+      "output": "...................\n----------------------------------------------------------------------\nRan 19 tests in 0.143s\n\nOK\n"
+    },
+    {
+      "name": "v2",
+      "exitCode": 0,
+      "output": "...............................................................\n----------------------------------------------------------------------\nRan 63 tests in 0.041s\n\nOK\n"
+    }
+  ],
+  "sanitizers": [
+    {
+      "case": "finite",
+      "exitCode": 0,
+      "command": [
+        "_bin/simple-vfr2-bounds-sanitizer",
+        "_bin/simple-vfr-preflight-linux/p0-50-mono/finite/input.webm",
+        "1152000",
+        "--simple-vfr",
+        "733",
+        "240000000",
+        "--fuzz"
+      ]
+    },
+    {
+      "case": "unknown",
+      "exitCode": 0,
+      "command": [
+        "_bin/simple-vfr2-bounds-sanitizer",
+        "_bin/simple-vfr-preflight-linux/p0-50-mono/unknown/input.webm",
+        "1152000",
+        "--simple-vfr",
+        "733",
+        "240000000",
+        "--fuzz"
+      ]
+    }
+  ],
+  "readBudgetRegressionBeforeFix": {
+    "exitCode": 1,
+    "expectedExitCode": 1,
+    "result": "PASS-regression-reproduced",
+    "failure": "AssertionError: (8442, 16)",
+    "command": [
+      "python3",
+      "-B",
+      "tests/progressive_simple_vfr_read_budget_test.py",
+      "--worker",
+      "_bin/simple-vfr-linux-stage/foxicmp-remux-stream-worker",
+      "--report-directory",
+      "_bin/simple-vfr2-read-budget-before-fix"
+    ]
+  },
+  "clockChecks": [
+    {
+      "check": "clock-build",
+      "exitCode": 0
+    },
+    {
+      "check": "clock",
+      "exitCode": 0
+    }
+  ],
+  "registration": {
+    "qt": {
+      "unchanged": true,
+      "beforeSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+      "afterSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04"
+    },
+    "classic": {
+      "unchanged": true,
+      "beforeSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+      "afterSha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04"
+    },
+    "finalAfterAllMain": {
+      "unchanged": true,
+      "sha256": "80e123009eb25430401b09361fe4bb3408c33c37442fcbe0b6fc28f8b9a61a04",
+      "exitCode": 0
+    }
+  },
+  "installedFilesUnchangedBeforeDelivery": {
+    "count": 684,
+    "baselineSha256": "a96c41aa05680598936bc493658d28a591bc7a7afaa2bc7d6585db38729bcffd",
+    "changed": 0
+  },
+  "buildExits": {
+    "simple-vfr-linux-build3": 0,
+    "simple-vfr-windows-build2": 0,
+    "simple-vfr-worker2-build": 0,
+    "simple-vfr-worker2-qt-build": 0,
+    "simple-vfr-worker2-classic-build": 0
+  },
+  "developmentAttempts": [
+    {
+      "stage": "initial unbuffered source reads",
+      "qtPcmExit": 1,
+      "classicPcmExit": 1,
+      "cause": "One IPC per EBML field caused excessive parent integrity checks and exceeded preparation timeout; fixed by short-read-safe confirmed-prefix prefetch. Final read-budget regression checks the roundtrip count."
+    },
+    {
+      "stage": "initial Linux main expectation",
+      "exitCode": 8,
+      "cause": "Test expected null audio; private Linux wrapper actually selected its private PulseAudio sink. Corrected expected backend, no user audio settings changed."
+    },
+    {
+      "stage": "initial worker-control fixture",
+      "exitCode": 1,
+      "cause": "Explicit-duration fixture helper requires no trailing Cues; replaced with its own controlled fixture."
+    },
+    {
+      "stage": "initial Classic object staging",
+      "exitCode": 157,
+      "cause": "Build script initially copied from its own output folder; corrected to prior immutable objects and rebuilt both API/session before linking."
+    },
+    {
+      "stage": "initial sanitizer sandbox",
+      "resolved": true,
+      "cause": "LeakSanitizer cannot operate under ptrace sandbox. Final ASan/UBSan/LSan runs outside ptrace both exit0."
+    }
+  ],
+  "physicalAvSyncMeasured": false,
+  "harvesterModified": false,
+  "fullR01R04R15R17Complete": false,
+  "classicPrivateNullVideo": true,
+  "oldExplicitVfrAdmissionUnchanged": true,
+  "finalOutputLengthKnownInAdvance": false,
+  "sourceSha256": {
+    "qt/tests/continuous_opus_probe.cpp": "0a7452f551c0f6dde0069edf0a1ed0c5c99476b87781b9eaa0cf44ff1dd3d72c",
+    "qt/tools/progressive_continuous.py": "22a28111d0674a72b80004065d6a3620837ed126876c2dbaa9be333705efece6",
+    "shared/progressivestreamcapabilities.h": "9934fa5fb79b94cd813f517e24d41c2a188915aeec5c0d126e44f68e7588dff2",
+    "shared/progressivestreamcontroller.h": "be88b6274a3817999ccdedb6aad9e0d73c408849b8e5a8ff29983ce888bbab72",
+    "shared/progressivestreamdecoder.h": "858dcf1d38ce6581bcbc0275b6af0ec2e46cebdb12c412c1263cad668869e8b6",
+    "shared/progressivestreamremux.h": "005415f9fc13becf21cddc13baf236fbd7e02520b5b4bc4265a2acde7b4e1cfe",
+    "src/DSUtil/HarvesterWebMOpusContinuous.h": "c71108e598e247ab7e5292a364810eb623acf82de9d0706836aa72d543f5ddc1",
+    "tests/progressive_aac_package_test.py": "ce0d556488e2cfeaec969cf805a5e07db00355e7ca8d3d41f13ed0707546ca94",
+    "tests/progressive_continuous_opus_pcm_test.py": "00e494e3db7ad963fce6ae822c9822831845d3e9825fa9a022366b63403b5bef",
+    "tests/progressive_continuous_sdk_test.py": "6885fdaee7615200caa9eb3704cf2a1f4cd8b71aa1d626b06cd1890ecdc6ab01",
+    "tests/progressive_continuous_webm_opus_api_test.py": "806f0533ccd80db1fbccb1b78ad13a8a7d779f505912bb451175cb5bd43d9522",
+    "tests/progressive_stream_remux_worker_test.py": "9437d5e7ac91a3437904d03965acdb3d7f7243943fc52fab73d00d15f89e4e27",
+    "tests/progressive_webm_opus_bounds_cli.cpp": "1763b4e150032901ab191594f4616cd7c896cc364450deafc7a0a129580c3ff9",
+    "tests/windows/continuous_opus_graph_probe.cpp": "d91d74e587d4f38f659610d6eaed05df7d069986198491f1815b86eab4138ba2",
+    "tools/package_progressive_sdk.py": "53891b743e98c7db7119b58f412e169698c486bb8f3597b74d79602b2e94196a",
+    "tools/progressive_stream_remux_worker.cpp": "37fe5fa88447415ad0c4c648e2984f3a4c65c0b093aa73755c5ddcc6c1fa495f",
+    "tools/verify_progressive_sdk.py": "2070a838859c4bf09d83de56a9af80c4ad931d25f0be1cbbb09f58a87b3d6ceb",
+    "tests/progressive_simple_vfr_read_budget_test.py": "03e2ea7e91f3752eb9ff78f7e0056dcc84a61bdad33aa119ca353485646714e5",
+    "tests/progressive_stream_webm_simple_vfr_test.py": "4c6cf802526980af1814038a2dc4a53bfd06e2c8d021dbae9e48e08f36445463",
+    "tests/progressive_webm_simple_vfr_fixtures.py": "4668f7f3b73fe7c55877e90ba78b7f6c44a8c674cb9bff69faad002257bda061"
+  }
+}

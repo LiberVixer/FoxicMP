@@ -21,16 +21,16 @@ def verify(path, require_clean=False):
             if p.is_absolute() or '..' in p.parts or '\\' in info.filename or ':' in info.filename or stat.S_ISLNK(info.external_attr>>16):
                 raise ValueError('Unsafe SDK entry')
         manifest=json.loads(archive.read('sdk-manifest.json'))
-        if manifest.get('sdkVersion') not in ('1.82','1.83','1.84','1.85','1.86','1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101') or manifest.get('continuousRemux',{}).get('mode')!='continuous-h264-video-v1':
+        if manifest.get('sdkVersion') not in ('1.82','1.83','1.84','1.85','1.86','1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102') or manifest.get('continuousRemux',{}).get('mode')!='continuous-h264-video-v1':
             raise ValueError('Unexpected SDK contract/version')
-        if manifest['sdkVersion'] in ('1.83','1.84','1.85','1.86','1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.83','1.84','1.85','1.86','1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             contract=manifest['continuousRemux'];mode='continuous-h264-reordered-video-v1'
             profile=contract.get('profiles',{}).get(mode,{})
             if (contract.get('modeSelection')!='continuousRemuxStart.mode' or profile.get('mode')!=mode
                     or profile.get('bFrames') is not True or profile.get('audio') is not False
                     or profile.get('inheritsCommonContract') is not True or profile.get('explicitSelectionRequired') is not True):
                 raise ValueError('Missing explicit reordered profile')
-        if manifest['sdkVersion'] in ('1.84','1.85','1.86','1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.84','1.85','1.86','1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             mode='continuous-h264-aac-window-v1';profile=manifest['continuousRemux'].get('profiles',{}).get(mode,{})
             expected=dict(version=1,mode=mode,containerHint='mp4',videoCodec='h264',videoOnly=False,audio=True,
                 audioCodec='aac-lc',bFrames=True,sampleRates=[44100,48000],channels=[1,2],requiredTrackKinds=['video','audio'],
@@ -39,20 +39,20 @@ def verify(path, require_clean=False):
             # JSON equality alone considers true == 1; retain exact scalar types.
             if json.dumps(profile,sort_keys=True)!=json.dumps(expected,sort_keys=True):
                 raise ValueError('Missing exact explicit AAC PCM-window profile')
-        if manifest['sdkVersion'] in ('1.85','1.86','1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.85','1.86','1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             expected=dict(version=1,field='continuousRemuxPlay.startSeconds',range='published-presentation-prefix',completeRange='source-duration',pending='caller-retry',decoderMayBuffer=True)
             if json.dumps(manifest['continuousRemux'].get('initialPosition'),sort_keys=True)!=json.dumps(expected,sort_keys=True):
                 raise ValueError('Missing explicit initial-position contract')
-        if manifest['sdkVersion'] in ('1.86','1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.86','1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             expected=dict(version=1,field='continuousPlaybackControl.allowGrowing',range='published-presentation-prefix',unavailable='waiting-range',maxSeeksPerPlayback=16,decoderMayBuffer=True)
             if json.dumps(manifest['continuousRemux'].get('growingSeek'),sort_keys=True)!=json.dumps(expected,sort_keys=True):
                 raise ValueError('Missing bounded growing-seek contract')
-        if manifest['sdkVersion'] in ('1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.87','1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             expected=dict(version=1,field='continuousPlaybackControl.waitForRange',requiresGrowingOptIn=True,maxPending=1,
                 superseding='latest-target',cancelCommand='cancelSeek',previousPlaybackUntilCommit=True)
             if json.dumps(manifest['continuousRemux'].get('queuedSeek'),sort_keys=True)!=json.dumps(expected,sort_keys=True):
                 raise ValueError('Missing explicit queued-seek contract')
-        if manifest['sdkVersion'] in ('1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.88','1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             mode='continuous-hevc-reordered-video-v1'
             expected=dict(version=1,mode=mode,containerHint='mp4',videoCodec='hevc',videoOnly=True,audio=False,
                 bFrames=True,inheritsCommonContract=True,explicitSelectionRequired=True,
@@ -62,7 +62,7 @@ def verify(path, require_clean=False):
             profile=manifest['continuousRemux'].get('profiles',{}).get(mode,{})
             if json.dumps(profile,sort_keys=True)!=json.dumps(expected,sort_keys=True):
                 raise ValueError('Missing exact explicit HEVC video profile')
-        if manifest['sdkVersion'] in ('1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.89','1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             mode='continuous-hevc-aac-window-v1'
             paired=dict(expected,mode=mode,videoOnly=False,audio=True,audioCodec='aac-lc',
                 sampleRates=[44100,48000],channels=[1,2],requiredTrackKinds=['video','audio'],
@@ -71,7 +71,7 @@ def verify(path, require_clean=False):
             profile=manifest['continuousRemux'].get('profiles',{}).get(mode,{})
             if json.dumps(profile,sort_keys=True)!=json.dumps(paired,sort_keys=True):
                 raise ValueError('Missing exact explicit HEVC/AAC PCM-window profile')
-        if manifest['sdkVersion'] in ('1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.90','1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             mode='continuous-av1-video-v1'
             expected=dict(version=1,mode=mode,containerHint='mp4',videoCodec='av1',videoOnly=True,audio=False,
                 bFrames=False,inheritsCommonContract=True,explicitSelectionRequired=True,
@@ -82,7 +82,7 @@ def verify(path, require_clean=False):
             profile=manifest['continuousRemux'].get('profiles',{}).get(mode,{})
             if json.dumps(profile,sort_keys=True)!=json.dumps(expected,sort_keys=True):
                 raise ValueError('Missing exact explicit AV1 video profile')
-        if manifest['sdkVersion'] in ('1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.91','1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             mode='continuous-av1-aac-window-v1'
             paired=dict(expected,mode=mode,videoOnly=False,audio=True,audioCodec='aac-lc',
                 sampleRates=[44100,48000],channels=[1,2],requiredTrackKinds=['video','audio'],
@@ -91,7 +91,7 @@ def verify(path, require_clean=False):
             profile=manifest['continuousRemux'].get('profiles',{}).get(mode,{})
             if json.dumps(profile,sort_keys=True)!=json.dumps(paired,sort_keys=True):
                 raise ValueError('Missing exact explicit AV1/AAC PCM-window profile')
-        if manifest['sdkVersion'] in ('1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.92','1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             mode='continuous-vp9-video-v1'
             expected=dict(version=1,mode=mode,containerHint='mp4',videoCodec='vp9',videoOnly=True,audio=False,
                 bFrames=False,inheritsCommonContract=True,explicitSelectionRequired=True,
@@ -102,7 +102,7 @@ def verify(path, require_clean=False):
             profile=manifest['continuousRemux'].get('profiles',{}).get(mode,{})
             if json.dumps(profile,sort_keys=True)!=json.dumps(expected,sort_keys=True):
                 raise ValueError('Missing exact explicit VP9 video profile')
-        if manifest['sdkVersion'] in ('1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.93','1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             mode='continuous-vp9-aac-window-v1'
             paired=dict(expected,mode=mode,videoOnly=False,audio=True,audioCodec='aac-lc',
                 sampleRates=[44100,48000],channels=[1,2],requiredTrackKinds=['video','audio'],
@@ -111,7 +111,7 @@ def verify(path, require_clean=False):
             profile=manifest['continuousRemux'].get('profiles',{}).get(mode,{})
             if json.dumps(profile,sort_keys=True)!=json.dumps(paired,sort_keys=True):
                 raise ValueError('Missing exact explicit VP9/AAC PCM-window profile')
-        if manifest['sdkVersion'] in ('1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.94','1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             mode='continuous-vp9-superframe-video-v1'
             indexed=dict(expected,mode=mode,superframes=True,hiddenFrames=True,indexedSuperframesRequired=True,
                 maxFramesPerSample=8,maxHiddenFramesPerSample=7,displayedFrameLast=True,
@@ -119,7 +119,7 @@ def verify(path, require_clean=False):
             profile=manifest['continuousRemux'].get('profiles',{}).get(mode,{})
             if json.dumps(profile,sort_keys=True)!=json.dumps(indexed,sort_keys=True):
                 raise ValueError('Missing exact indexed VP9 superframe video profile')
-        if manifest['sdkVersion'] in ('1.95','1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.95','1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             mode='continuous-vp9-superframe-aac-window-v1'
             indexed_paired=dict(indexed,mode=mode,videoOnly=False,audio=True,audioCodec='aac-lc',
                 sampleRates=[44100,48000],channels=[1,2],requiredTrackKinds=['video','audio'],
@@ -128,7 +128,7 @@ def verify(path, require_clean=False):
             profile=manifest['continuousRemux'].get('profiles',{}).get(mode,{})
             if json.dumps(profile,sort_keys=True)!=json.dumps(indexed_paired,sort_keys=True):
                 raise ValueError('Missing exact indexed VP9/AAC PCM-window profile')
-        if manifest['sdkVersion'] in ('1.96','1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.96','1.97','1.98','1.99','1.100','1.101','1.102'):
             mode='continuous-webm-vp9-video-v1'
             webm=dict(expected,mode=mode,containerHint='webm',unknownSegmentSizeRequired=True,
                 finiteClusters=True,unknownSizeClusters=True,simpleBlocksOnly=True,lacing=False,blockGroups=False,
@@ -138,14 +138,14 @@ def verify(path, require_clean=False):
             webm.pop('headMoovRequired')
             if json.dumps(manifest['continuousRemux'].get('profiles',{}).get(mode,{}),sort_keys=True)!=json.dumps(webm,sort_keys=True):
                 raise ValueError('Missing exact bounded WebM VP9 profile')
-        if manifest['sdkVersion'] in ('1.97','1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.97','1.98','1.99','1.100','1.101','1.102'):
             mode='continuous-webm-vp9-superframe-video-v1'
             indexed_webm=dict(webm,mode=mode,superframes=True,hiddenFrames=True,indexedSuperframesRequired=True,
                 maxFramesPerSample=8,maxHiddenFramesPerSample=7,displayedFrameLast=True,
                 hiddenInterFramesOnly=True,firstSampleSingleKeyframe=True)
             if json.dumps(manifest['continuousRemux'].get('profiles',{}).get(mode,{}),sort_keys=True)!=json.dumps(indexed_webm,sort_keys=True):
                 raise ValueError('Missing exact indexed WebM VP9 profile')
-        if manifest['sdkVersion'] in ('1.98','1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.98','1.99','1.100','1.101','1.102'):
             opus=dict(indexed_webm,mode='continuous-webm-vp9-opus-v1',videoOnly=False,audio=True,audioCodec='opus',
                 requiredTrackKinds=['video','audio'],sharedResourceRequired=True,pcmWindowRequired=False,
                 sampleRates=[48000],channels=[1,2],opusPacketSamples=960,opusPreSkipSamples=312,opusGain=0,
@@ -155,7 +155,7 @@ def verify(path, require_clean=False):
                 discardPaddingPreserved=True,clusterSealing=True)
             if json.dumps(manifest['continuousRemux'].get('profiles',{}).get(opus['mode'],{}),sort_keys=True)!=json.dumps(opus,sort_keys=True):
                 raise ValueError('Missing exact bounded WebM VP9/Opus profile')
-        if manifest['sdkVersion'] in ('1.99','1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.99','1.100','1.101','1.102'):
             ntsc=dict(opus,mode='continuous-webm-vp9-opus-ntsc-v1',
                 frameRate=dict(numerator=30000,denominator=1001),
                 defaultDurationNanoseconds=[33366666,33366667],fractionalFrameClock=True,
@@ -163,7 +163,7 @@ def verify(path, require_clean=False):
                 videoCoverage='validated-frame-grid-minus-one-millisecond')
             if json.dumps(manifest['continuousRemux'].get('profiles',{}).get(ntsc['mode'],{}),sort_keys=True)!=json.dumps(ntsc,sort_keys=True):
                 raise ValueError('Missing exact WebM VP9/Opus NTSC frame clock')
-        if manifest['sdkVersion'] in ('1.100','1.101'):
+        if manifest['sdkVersion'] in ('1.100','1.101','1.102'):
             cfr=dict(ntsc,mode='continuous-webm-vp9-opus-cfr-v1',
                 frameRate=dict(field='continuousRemuxStart.videoRate'),
                 defaultDurationNanoseconds='floor-or-ceil-from-videoRate',defaultDurationToleranceNanoseconds=1,
@@ -172,7 +172,7 @@ def verify(path, require_clean=False):
                     ((24000,1001),(24,1),(25,1),(30000,1001),(30,1),(50,1),(60000,1001),(60,1))])
             if manifest['continuousRemux'].get('profiles',{}).get(cfr['mode'])!=cfr:
                 raise ValueError('Missing exact WebM VP9/Opus CFR clock contract')
-        if manifest['sdkVersion']=='1.101':
+        if manifest['sdkVersion'] in ('1.101','1.102'):
             vfr=dict(cfr)
             for key in ('defaultDurationToleranceNanoseconds','videoRateField','allowedVideoRates','fractionalFrameClock'):vfr.pop(key)
             vfr.update(mode='continuous-webm-vp9-opus-vfr-v1',frameRate='variable',
@@ -183,6 +183,14 @@ def verify(path, require_clean=False):
                 packetTimestampRounding='original-millisecond',maxVideoFrameDurationTicks=1000,defaultDurationOptional=True)
             if manifest['continuousRemux'].get('profiles',{}).get(vfr['mode'])!=vfr:
                 raise ValueError('Missing exact bounded WebM VFR frame plan')
+        if manifest['sdkVersion']=='1.102':
+            simple=dict(vfr)
+            simple.update(mode='continuous-webm-vp9-opus-simple-vfr-v1',defaultDurationNanoseconds='absent',defaultDurationOptional=False,
+                videoBlockDurationRequired=False,videoBlockGroupsRequired=False,videoSimpleBlocksRequired=True,
+                videoCoverage='validated-next-pts-and-final-endpoint',timelineDurationRounding='exact-100ns-from-final-endpoint',
+                nextPtsLookahead=True,lastFrameRequiresSourceComplete=True,maxPendingBytes=33554432,maxPendingClusters=32,postMediaTags=False)
+            if manifest['continuousRemux'].get('profiles',{}).get(simple['mode'])!=simple:
+                raise ValueError('Missing exact SimpleBlock VFR lookahead contract')
         if require_clean and manifest.get('sourceDirty') is not False:
             raise ValueError('SDK was packaged from an uncommitted tree')
         files=manifest['files']
