@@ -104,6 +104,12 @@ MP4/M4A и fMP4. Это API плеера; YouTubeHarvester в выпуске н�
 [Контракт API и Python-клиент](docs/LinuxProgressiveApi.md) ·
 [SDK и локальный writer-стенд](docs/ProgressiveSdk.md) ·
 [Предыдущий provider-протокол Classic](docs/HarvesterProgressive.md).
+[SDK1.103](docs/ProgressiveContinuousWebmOpusAutoVfr.md) добавляет отдельный
+SimpleBlock VFR режим без заранее известного числа кадров: плеер считает их
+по подтверждённым пакетам и отделяет промежуточный счётчик от итогового.
+Конечная длительность и audioSamples ещё нужны; прежние modes сохраняются.
+[Приёмка трёх редакций](docs/ProgressiveAutoVfrExecutionChecklist.md).
+
 [SDK1.102](docs/ProgressiveContinuousWebmOpusSimpleVfr.md) добавляет отдельный
 progressive WebM VP9/Opus SimpleBlock VFR без DefaultDuration: next-PTS lookahead,
 известные frame/audio counts и endpoint, динамический canonical output без

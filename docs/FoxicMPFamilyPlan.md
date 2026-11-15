@@ -1848,3 +1848,22 @@ EOF/release, exact packets/clocks/frames/PCM, ошибки, регрессии �
 завершена: atomic replacement, backup, неизменный INI и шесть installed own-SDK
 сценариев прошли. Windows-копии и их профили сохранены; проверены отдельные Qt/Classic
 сборки. Production этап SimpleBlock VFR завершён; broad R01/R04/R15/R17 открыты.
+
+
+## SDK1.103: SimpleBlock VFR без внешнего frame count, 15 ноября 2026
+
+[Новый отдельный mode](ProgressiveContinuousWebmOpusAutoVfr.md) выводит video count
+из подтверждённых пакетов. Внешний videoSamples запрещён; endpoint/audioSamples
+ещё известны. Старые VFR profiles сохраняют независимую проверку frame plan.
+Worker и cache ограничивают общий packet budget; job/playback status отделяют
+indexedVideoSamples от окончательного videoSampleCountFinal. Qt/Classic используют
+одни правила. [Приёмка](ProgressiveAutoVfrExecutionChecklist.md) считается отдельными
+фиксированными подпунктами и не увеличивает число закрытых широких требований.
+Harvester не изменяется.
+
+
+[SDK1.103: приёмка перед поставкой](ProgressiveContinuousWebmOpusAutoVfrValidation-2026-11-15.json):
+78 worker /18 ordinary main /18 PCM /447 old worker /69 old main,
+4000 sanitizer mutations и140 SDK units прошли. Промежуточный/итоговый count
+проверен одинаково в Qt Linux/Windows и Classic, без внешнего videoSamples.
+Windows-установки/HKCU и Linux-профиль сохранены; Harvester не изменён.

@@ -1830,3 +1830,18 @@ Harvester, пользовательские профили, настройки W
 завершена: atomic replacement, backup, неизменный INI и шесть installed own-SDK
 сценариев прошли. Windows-копии и их профили сохранены; проверены отдельные Qt/Classic
 сборки. Production этап SimpleBlock VFR завершён; broad R01/R04/R15/R17 открыты.
+
+
+[SDK1.103: производный video count](ProgressiveContinuousWebmOpusAutoVfr.md) —
+отдельный SimpleBlock VFR profile без внешнего frame plan. Source length,
+endpoint/audioSamples остаются известными; новые status fields совпадают в
+Qt Linux/Windows и Classic. [Чеклист](ProgressiveAutoVfrExecutionChecklist.md)
+отделяет worker/PCM/ordinary-main приёмку от неизвестных duration/audio count
+и физического A/V. Старый SDK1.102 mode с точным frame plan сохраняется.
+
+
+[SDK1.103: приёмка перед поставкой](ProgressiveContinuousWebmOpusAutoVfrValidation-2026-11-15.json):
+78 worker /18 ordinary main /18 PCM /447 old worker /69 old main,
+4000 sanitizer mutations и140 SDK units прошли. Промежуточный/итоговый count
+проверен одинаково в Qt Linux/Windows и Classic, без внешнего videoSamples.
+Windows-установки/HKCU и Linux-профиль сохранены; Harvester не изменён.

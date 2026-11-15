@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE
 from progressive_client import ApiError
 
 CAP = json.loads(''.join(re.findall(r'R"\((.*?)\)"',
@@ -39,6 +39,7 @@ class Client:
         result.update(playbackReady=self.ready, released=self.released, sourceFilesClosed=self.released,
             durationSeconds=self.duration,indexedEndSeconds=self.boundary,outputComplete=self.complete,
             forgotten=action == 'continuousRemuxForget', state='playing' if playback else 'ready')
+        if result.get('mode')==WEBM_VP9_OPUS_AUTO_VFR_MODE:result.update(indexedVideoSamples='733' if self.complete else '37',videoSampleCountFinal=self.complete)
         if self.foreign:result['generation'] = '2'
         if action in self.drop:
             self.drop.remove(action);raise TimeoutError('applied request, lost reply')
@@ -46,6 +47,28 @@ class Client:
 
 
 class Test(unittest.TestCase):
+    def test_auto_count_uses_no_external_frame_plan(self):
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_OPUS_AUTO_VFR_MODE,audio_samples=1152000)
+        result=p.prepare(self.model(),'clip');self.assertNotIn('videoSamples',c.calls[-1]);self.assertEqual(result['indexedVideoSamples'],'37');self.assertFalse(result['videoSampleCountFinal'])
+        p.play();p.playback_status();c.complete=True;self.assertTrue(p.status()['videoSampleCountFinal']);self.assertEqual(p.playback_status()['indexedVideoSamples'],'733')
+        for value in (0,True,733,'733',1.0):
+            c=Client();self.assertRaises(ValueError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_AUTO_VFR_MODE,audio_samples=1152000,video_samples=value);self.assertEqual(c.calls,[])
+
+    def test_auto_count_rejects_ambiguous_or_untyped_capability(self):
+        for field,bad in [('videoSampleCount','estimated'),('videoSamplesRequired',0),('indexedVideoSamplesField','count'),('videoSampleCountFinalField','finished'),('videoSamplesField','continuousRemuxStart.videoSamples')]:
+            c=Client();old=c.request
+            def request(message,timeout=5,field=field,bad=bad):
+                reply=old(message,timeout);reply['continuousRemux']['profiles'][WEBM_VP9_OPUS_AUTO_VFR_MODE][field]=bad;return reply
+            c.request=request;self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_AUTO_VFR_MODE,audio_samples=1152000)
+
+    def test_auto_count_rejects_false_final_or_malformed_status(self):
+        for field,bad in [('indexedVideoSamples',True),('indexedVideoSamples',-1),('indexedVideoSamples','01'),('indexedVideoSamples','50001'),('videoSampleCountFinal',1),('videoSampleCountFinal',True),('videoSamples','733')]:
+            c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_OPUS_AUTO_VFR_MODE,audio_samples=1152000);p.prepare(self.model(),'clip');old=c.request
+            def request(message,timeout=5,field=field,bad=bad):
+                reply=old(message,timeout);reply[field]=bad;return reply
+            c.request=request;self.assertRaises(RuntimeError,p.status)
+
+
     def test_simple_vfr_contract_and_mode_identity(self):
         c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_OPUS_SIMPLE_VFR_MODE,audio_samples=1152000,video_samples=733)
         p.prepare(self.model(),'clip');self.assertEqual(c.calls[-1]['mode'],WEBM_VP9_OPUS_SIMPLE_VFR_MODE)

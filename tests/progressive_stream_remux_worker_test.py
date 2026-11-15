@@ -34,7 +34,7 @@ def complete_media(raw):
 def serve(worker,path,*,growing=True,fault=None,short_reads=False,wait_seconds=.12,
           mode='continuous-h264-video-v1',on_wait=None,on_audio_window=None,cut_seconds=(4,8,12,20),format_hint='mp4',video_samples=None,audio_samples=None,video_rate=None,video_duration=None,byte_cuts=None):
     def ready(data):
-        if mode not in ('continuous-webm-vp9-opus-v1','continuous-webm-vp9-opus-ntsc-v1','continuous-webm-vp9-opus-cfr-v1','continuous-webm-vp9-opus-vfr-v1','continuous-webm-vp9-opus-simple-vfr-v1'):return complete_media(data)
+        if mode not in ('continuous-webm-vp9-opus-v1','continuous-webm-vp9-opus-ntsc-v1','continuous-webm-vp9-opus-cfr-v1','continuous-webm-vp9-opus-vfr-v1','continuous-webm-vp9-opus-simple-vfr-v1','continuous-webm-vp9-opus-simple-vfr-auto-count-v1'):return complete_media(data)
         try:
             from progressive_webm_fixtures import element
             _,_,at=element(data,0);_,at,_=element(data,at)

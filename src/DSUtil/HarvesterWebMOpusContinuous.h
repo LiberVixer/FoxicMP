@@ -82,7 +82,7 @@ private:
             else check(c.value.id==0xec || c.value.id==0xbf || c.value.id==0xa7 || c.value.id==0xab,"unsupported-stream-webm-block");join(b,c.header);join(b,bytes);
         }
         check(hasClock && blocks && (e.value.unknown || at==e.value.end),"truncated-stream-webm-cluster");
-        if(at==length && !hasLook){uint8_t byte;check(input(&byte,1)==0,"unsupported-stream-webm-tail");check(videoCount==videoExpected && audioCount==audioExpected && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");ended=true;}
+        if(at==length && !hasLook){uint8_t byte;check(input(&byte,1)==0,"unsupported-stream-webm-tail");check(videoFinished() && audioCount==audioExpected && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");ended=true;}
         seal(e,b.size());join(pending,e.header);join(pending,b);
     }
     // Separate source profile: no DefaultDuration or video BlockGroups. Only
@@ -103,6 +103,7 @@ private:
         join(dst,data);
     }
     static void number(Bytes& dst,uint32_t id,uint64_t value){Bytes b;do{b.insert(b.begin(),uint8_t(value));value>>=8;}while(value);element(dst,id,b);}
+    bool videoFinished()const{return videoClock.derivedCount?(videoCount>0 && videoCount<=videoExpected):videoCount==videoExpected;}
     void simpleBudget(){
         uint64_t bytes=unresolved.size();check(simpleQueue.size()<=32,"stream-webm-pending-limit");
         for(const auto& c:simpleQueue){check(c->bytes.size()<=16777216,"stream-webm-cluster-limit");bytes+=c->bytes.size();}
@@ -157,9 +158,9 @@ private:
             if(at==length && !hasLook){
                 uint8_t byte;check(input(&byte,1)==0,"unsupported-stream-webm-tail");
                 if(simpleCurrent){check(simpleCurrent->unknown,"truncated-stream-webm-cluster");simpleClose();}
-                check(unresolvedOwner && videoCount+1==videoExpected,"incomplete-stream-webm-opus-samples");
+                check(unresolvedOwner && (videoClock.derivedCount?videoCount+1<=videoExpected:videoCount+1==videoExpected),"incomplete-stream-webm-opus-samples");
                 simpleResolve(videoClock.expectedEnd100ns/10000);simpleFlush();
-                check(simpleQueue.empty() && videoCount==videoExpected && audioCount==audioExpected && videoEndMs*10000==videoClock.expectedEnd100ns,"incomplete-stream-webm-opus-samples");ended=true;break;
+                check(simpleQueue.empty() && videoFinished() && audioCount==audioExpected && videoEndMs*10000==videoClock.expectedEnd100ns,"incomplete-stream-webm-opus-samples");ended=true;break;
             }
             auto e=hasLook?look:header();hasLook=false;
             if(simpleCurrent && simpleCurrent->unknown && top(e.value.id)){look=e;hasLook=true;simpleClose();continue;}
@@ -190,11 +191,11 @@ private:
         }
         return !pending.empty();
     }
-    bool next(){if(simpleVfr)return nextSimple();if(ended)return false;if(at==length && !hasLook){uint8_t byte;check(input(&byte,1)==0,"unsupported-stream-webm-tail");check(videoCount==videoExpected && audioCount==audioExpected && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");ended=true;return false;}auto e=hasLook?look:header();hasLook=false;check(++elements<=32768,"stream-webm-element-limit");if(e.value.id==0x1f43b675){cluster(e);return true;}check(e.value.id==0x1c53bb6b || e.value.id==0x1254c367 || e.value.id==0xec || e.value.id==0xbf,"unsupported-stream-webm-metadata");auto b=body(e,1048576);join(pending,e.header);join(pending,b);return true;}
+    bool next(){if(simpleVfr)return nextSimple();if(ended)return false;if(at==length && !hasLook){uint8_t byte;check(input(&byte,1)==0,"unsupported-stream-webm-tail");check(videoFinished() && audioCount==audioExpected && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");ended=true;return false;}auto e=hasLook?look:header();hasLook=false;check(++elements<=32768,"stream-webm-element-limit");if(e.value.id==0x1f43b675){cluster(e);return true;}check(e.value.id==0x1c53bb6b || e.value.id==0x1254c367 || e.value.id==0xec || e.value.id==0xbf,"unsupported-stream-webm-metadata");auto b=body(e,1048576);join(pending,e.header);join(pending,b);return true;}
 public:
-    ContinuousWebmOpus(Read read,uint64_t bytes,uint64_t frames,uint64_t samples,bool ntsc=false,WebmContinuousClock clock={},bool simple=false):videoClock((clock.explicitRate || clock.variable)?clock:WebmContinuousClock(ntsc)),simpleVfr(simple),input(std::move(read)),length(bytes),videoExpected(frames),audioSamples(samples),audioExpected((samples+312+959)/960){check((!simpleVfr || videoClock.variable) && videoClock.Valid() && (!videoClock.variable || frames==videoClock.expectedFrames) && bool(input) && bytes && bytes<=134217728 && frames && frames<=50000 && samples>648 && samples<=48000000 && frames+audioExpected<=50000,"unsupported-stream-webm-opus-source");initialize();}
+    ContinuousWebmOpus(Read read,uint64_t bytes,uint64_t frames,uint64_t samples,bool ntsc=false,WebmContinuousClock clock={},bool simple=false):videoClock((clock.explicitRate || clock.variable)?clock:WebmContinuousClock(ntsc)),simpleVfr(simple),input(std::move(read)),length(bytes),videoExpected(clock.derivedCount && samples<=48000000?50000-(samples+1271)/960:frames),audioSamples(samples),audioExpected((samples+312+959)/960){check((!simpleVfr || videoClock.variable) && (!videoClock.derivedCount || simpleVfr) && videoClock.Valid() && (!videoClock.variable || frames==videoClock.expectedFrames) && bool(input) && bytes && bytes<=134217728 && (videoClock.derivedCount?frames==0 && videoExpected>0:frames>0) && frames<=50000 && samples>648 && samples<=48000000 && frames+audioExpected<=50000,"unsupported-stream-webm-opus-source");initialize();}
     size_t read(uint8_t* out,size_t n){check(out && n,"invalid-backend-read");while(delivered==pending.size()){pending.clear();delivered=0;if(!next())return 0;}auto count=(std::min)(n,pending.size()-delivered);std::memcpy(out,pending.data()+delivered,count);delivered+=count;return count;}
     uint64_t videoPackets()const{return videoCount;}uint64_t audioPackets()const{return audioCount;}
-    void finish()const{check(ended && videoCount==videoExpected && audioCount==audioExpected && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");}
+    void finish()const{check(ended && videoFinished() && audioCount==audioExpected && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");}
 };
 }

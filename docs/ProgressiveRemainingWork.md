@@ -1,6 +1,6 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 15 ноября 2026, включая bounded continuous WebM VP9/Opus восьми CFR частот 23.976–60fps, SDK1.101 (включая VFR с явными BlockDuration).
+Рабочая сводка на 15 ноября 2026, включая bounded continuous WebM VP9/Opus восьми CFR частот 23.976–60fps, SDK1.103 (включая VFR с явными BlockDuration, SimpleBlock и производным video count).
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
@@ -9,7 +9,7 @@
 В подробном чеклисте исторически смешаны 149 подтверждённых записей и 77
 открытых составных требований. Их больше не используем как один счётчик
 готовности. Для оставшегося плана база — 77 требований; для текущего этапа
-есть [фиксированные подпункты production SimpleBlock VFR](ProgressiveSimpleVfrProductionChecklist.md) с
+есть [фиксированные подпункты автоматического video count](ProgressiveAutoVfrExecutionChecklist.md) с
 отдельными значениями «всего / готово / осталось». Новые доказательства
 не добавляют выполненных требований. Ниже требования сведены к пакетам работ.
 Обозначения R — оставшаяся работа; H — исторический неатрибутированный отказ;
@@ -47,18 +47,23 @@ E — внешняя зависимость. Каждый R остаётся о�
 
 - [SDK1.101 VFR](ProgressiveContinuousWebmOpusVfr.md): явные BlockDuration,
   известный frame count и endpoint, optional DefaultDuration, ordinary-main/PCM
-  трёх редакций. SimpleBlock VFR и общие требования R01/R04 остаются открытыми.
+  трёх редакций. Позднее SimpleBlock VFR подключён в SDK1.102; общие R01/R04 открыты.
 
 - [Подготовка SimpleBlock VFR](ProgressiveSimpleVfrRemuxPlan.md): incremental
   next-PTS prototype, перепаковка metadata и 18 canonical PCM/worker строк трёх
-  редакций проверены. Прямой SimpleBlock production mode ещё не подключён;
-  production-подключение и приёмка учитываются в отдельном этапе ниже.
+  редакций проверены. Это историческая подготовка; последующее production-подключение
+  и приёмка описаны в SDK1.102 ниже.
 
 - [SDK1.102 SimpleBlock VFR](ProgressiveContinuousWebmOpusSimpleVfr.md): отдельный
   source mode без DefaultDuration, next-PTS lookahead и динамический canonical
   output. Готовность worker/PCM/ordinary-main трёх редакций фиксируется в
   [production чеклисте](ProgressiveSimpleVfrProductionChecklist.md); общий R01/R04
   не закрывается этим bounded профилем.
+
+- [SDK1.103: производный video count](ProgressiveContinuousWebmOpusAutoVfr.md): отдельный
+  SimpleBlock VFR mode без внешнего `videoSamples`; final counter связан с writer
+  EOF/outputComplete. Известные source length, endpoint и audioSamples сохраняются.
+  Статус приёмки — [фиксированный чеклист](ProgressiveAutoVfrExecutionChecklist.md).
 
 ## Порядок разработки
 

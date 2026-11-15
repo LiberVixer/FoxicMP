@@ -542,7 +542,8 @@ QJsonObject ProgressiveApi::continuousStatus()const{
   else if(result["reasonCode"]=="waiting-range" && out.complete)result["reasonCode"]="decoder-buffering";
   result["version"]=1;result["ok"]=true;result["mode"]=QString::fromStdString(p.mode);
   result["audio"]=p.source->hasAudio();
-  if(p.source->vfrOpus())result["videoSamples"]=QString::number(p.source->videoClock().expectedFrames);
+  if(p.source->vfrOpus() && !p.source->autoCountOpus())result["videoSamples"]=QString::number(p.source->videoClock().expectedFrames);
+  if(p.source->autoCountOpus()){result["indexedVideoSamples"]=QString::number(out.videoSamples);result["videoSampleCountFinal"]=out.complete;}
   if(p.source->cfrOpus()){const auto rate=p.source->videoClock();result["videoRate"]=QJsonObject{{"numerator",int(rate.numerator)},{"denominator",int(rate.denominator)}};}
   result["playbackId"]=QString::fromStdString(p.id);result["requestId"]=QString::fromStdString(p.command.requestId);result["jobId"]=QString::fromStdString(p.command.jobId);
   result["sessionId"]=QString::fromStdString(p.command.sessionId);result["generation"]=QString::number(p.command.generation);result["writerInstanceId"]=QString::fromStdString(p.command.writer);

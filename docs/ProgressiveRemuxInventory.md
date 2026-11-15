@@ -24,6 +24,9 @@ VP9/Opus с 25/NTSC и восемью CFR частотами; строки ис�
 тестовым incremental prototype и existing canonical consumers; позднейший
 [SDK1.102](ProgressiveContinuousWebmOpusSimpleVfr.md) подключает отдельный production
 mode. Его приёмка учитывается в [фиксированном чеклисте](ProgressiveSimpleVfrProductionChecklist.md).
+[SDK1.103](ProgressiveContinuousWebmOpusAutoVfr.md) отдельно снимает требование
+внешнего videoSamples при известных endpoint/audioSamples; приёмка отслеживается
+в [фиксированном чеклисте](ProgressiveAutoVfrExecutionChecklist.md).
 [Полный порядок работ](ProgressiveRemainingWork.md),
 [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [подробный чеклист](ProgressiveCompletionChecklist.md).

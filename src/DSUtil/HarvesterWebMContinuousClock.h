@@ -7,13 +7,16 @@ struct WebmContinuousClock {
     uint32_t numerator=25,denominator=1;
     bool explicitRate=false;
     bool variable=false;
+    bool derivedCount=false;
     uint64_t expectedFrames=0,expectedEnd100ns=0;
     WebmContinuousClock()=default;
     explicit WebmContinuousClock(bool ntsc):numerator(ntsc?30000:25),denominator(ntsc?1001:1){}
     WebmContinuousClock(uint32_t n,uint32_t d):numerator(n),denominator(d),explicitRate(true){}
     static WebmContinuousClock Vfr(uint64_t frames,uint64_t end){WebmContinuousClock c;c.variable=true;c.expectedFrames=frames;c.expectedEnd100ns=end;return c;}
+    static WebmContinuousClock VfrAutoCount(uint64_t end){auto c=Vfr(0,end);c.derivedCount=true;return c;}
     bool Valid()const {
-        if(variable)return !explicitRate && expectedFrames>0 && expectedFrames<=50000 && expectedEnd100ns>0 && expectedEnd100ns<=36000000000ULL && expectedEnd100ns%10000==0;
+        if(variable)return !explicitRate && (derivedCount?expectedFrames==0:expectedFrames>0 && expectedFrames<=50000) && expectedEnd100ns>0 && expectedEnd100ns<=36000000000ULL && expectedEnd100ns%10000==0;
+        if(derivedCount)return false;
         return (denominator==1 && (numerator==24 || numerator==25 || numerator==30 || numerator==50 || numerator==60))
             || (denominator==1001 && (numerator==24000 || numerator==30000 || numerator==60000));
     }

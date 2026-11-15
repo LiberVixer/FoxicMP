@@ -170,8 +170,8 @@ class StreamOutputStore {
                 const auto& samples=webmIndex->tracks[0].index.Samples();
                 check(vfrIndexed<=samples.size(),"cache-invalid-vfr-clock");
                 while(vfrIndexed<samples.size()){const auto& sample=samples[size_t(vfrIndexed++)];check(sample.start==vfrEnd && sample.end>sample.start,"cache-invalid-vfr-clock");vfrEnd=sample.end;}
-                check(state.videoSamples<=opusClock.expectedFrames && uint64_t(vfrEnd)<=opusClock.expectedEnd100ns,"cache-invalid-vfr-clock");
-                if(complete)check(state.videoSamples==opusClock.expectedFrames && uint64_t(vfrEnd)==opusClock.expectedEnd100ns,"cache-incomplete-output");
+                check((opusClock.derivedCount || state.videoSamples<=opusClock.expectedFrames) && uint64_t(vfrEnd)<=opusClock.expectedEnd100ns,"cache-invalid-vfr-clock");
+                if(complete)check((opusClock.derivedCount?state.videoSamples>0:state.videoSamples==opusClock.expectedFrames) && uint64_t(vfrEnd)==opusClock.expectedEnd100ns,"cache-incomplete-output");
             }
             if(complete)check(state.audioSamples==(opusSamples+1271)/960,"cache-incomplete-output");updateCoverage(complete);
         }
