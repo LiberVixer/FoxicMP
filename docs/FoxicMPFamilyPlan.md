@@ -1867,3 +1867,10 @@ Harvester не изменяется.
 4000 sanitizer mutations и140 SDK units прошли. Промежуточный/итоговый count
 проверен одинаково в Qt Linux/Windows и Classic, без внешнего videoSamples.
 Windows-установки/HKCU и Linux-профиль сохранены; Harvester не изменён.
+
+
+[SDK1.103: поставка Linux](ProgressiveContinuousWebmOpusAutoVfrDelivery-2026-11-15.json)
+завершена: атомарная замена, backup, неизменный INI и шесть installed own-SDK
+сценариев прошли. Автоматический video count проверен без внешнего frame plan.
+Windows-установки/HKCU сохранены; приёмка относится к отдельным новым сборкам.
+Фиксированный этап14/14 завершён; общие R01/R04/R15/R17 остаются открытыми.
