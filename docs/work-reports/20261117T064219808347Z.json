@@ -1,0 +1,65 @@
+{
+  "reportedAtUtc": "2026-11-17T06:42:19.807558+00:00",
+  "levels": {
+    "1": {
+      "total": 26,
+      "done": 6,
+      "remaining": 20,
+      "active": 17,
+      "blocked": 2,
+      "deferred": 1
+    },
+    "2": {
+      "total": 267,
+      "done": 178,
+      "remaining": 89,
+      "active": 73,
+      "blocked": 7,
+      "deferred": 9
+    },
+    "3": {
+      "total": 353,
+      "done": 143,
+      "remaining": 210,
+      "active": 192,
+      "blocked": 13,
+      "deferred": 5
+    }
+  },
+  "total": {
+    "total": 646,
+    "done": 327,
+    "remaining": 319,
+    "active": 282,
+    "blocked": 22,
+    "deferred": 15
+  },
+  "leaves": {
+    "total": 537,
+    "done": 309,
+    "remaining": 228,
+    "active": 203,
+    "blocked": 13,
+    "deferred": 12
+  },
+  "changes": {
+    "added": [],
+    "removed": [],
+    "closed": [],
+    "reopened": [],
+    "moved": [],
+    "addedByLevel": {
+      "1": 0,
+      "2": 0,
+      "3": 0
+    },
+    "addedByType": {},
+    "closedByLevel": {
+      "1": 0,
+      "2": 0,
+      "3": 0
+    }
+  },
+  "definitions": {},
+  "registrySha256": "a53bfaae30c2599b31a262f3a7381667b7efabcf3437f08e83ae6c2a9a4b68d4"
+}

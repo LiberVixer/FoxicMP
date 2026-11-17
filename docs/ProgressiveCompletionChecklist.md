@@ -2,7 +2,7 @@
 
 Основание: [ТЗ от 25 октября 2026](ProgressiveTechnicalSpec-2026-10-25.ru.md),
 [история реализации](ProgressiveIntegrationPlan.md), [семейный план](FoxicMPFamilyPlan.md).
-**Рабочий порядок оставшихся задач — [R01–R17, исторические H01–H04 и внешние E01–E03](ProgressiveRemainingWork.md).**
+**Актуальный счётчик всех уровней — [единый реестр](FoxicMPWorkChecklist.md). [R01–R17](ProgressiveRemainingWork.md) задают порядок; ниже сохранён исторический журнал.**
 Исторический журнал на 15 ноября, SDK 1.100: 149 подтверждённых записей
 и 77 открытых составных требований. Это записи разного уровня, поэтому их
 нельзя считать одним процентом готовности. [Рабочий счётчик этапа без внешнего audioSamples](ProgressiveAudioCountExecutionChecklist.md)
@@ -378,6 +378,6 @@ Wayland этим чеклистом не возобновляются. Пром�
 
 Текущая packet-Opus приёмка: [18/18 фиксированных подпунктов](ProgressiveOpusGeometryExecutionChecklist.md),
 [отчёт трёх редакций](ProgressiveContinuousWebmPacketOpusValidation-2026-11-16.json).
-Это не новый широкий checkbox: общие77 требований не закрыты.
+77 — прежний исторический срез; текущие задачи/подзадачи считает единый реестр.
 
 [Поставка SDK1.106](ProgressiveContinuousWebmPacketOpusDelivery-2026-11-17.json) проверена отдельно.

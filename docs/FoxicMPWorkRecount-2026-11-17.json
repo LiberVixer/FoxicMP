@@ -1,0 +1,125 @@
+{
+  "result": "PASS",
+  "date": "2026-11-17",
+  "sourceCommitBeforeRecount": "f0aff9ed31a3da2318660d2267ae0d085fb10ae5",
+  "oldSummary": {
+    "completedRecords": 149,
+    "openCompositeRecords": 77
+  },
+  "sourceLists": 8,
+  "sourceCheckboxes": 324,
+  "nonCountedAliases": 8,
+  "levels": {
+    "1": {
+      "total": 26,
+      "done": 6,
+      "remaining": 20,
+      "active": 17,
+      "blocked": 2,
+      "deferred": 1
+    },
+    "2": {
+      "total": 267,
+      "done": 178,
+      "remaining": 89,
+      "active": 73,
+      "blocked": 7,
+      "deferred": 9
+    },
+    "3": {
+      "total": 353,
+      "done": 143,
+      "remaining": 210,
+      "active": 192,
+      "blocked": 13,
+      "deferred": 5
+    }
+  },
+  "total": {
+    "total": 646,
+    "done": 327,
+    "remaining": 319,
+    "active": 282,
+    "blocked": 22,
+    "deferred": 15
+  },
+  "leaves": {
+    "total": 537,
+    "done": 309,
+    "remaining": 228,
+    "active": 203,
+    "blocked": 13,
+    "deferred": 12
+  },
+  "migratedStageSteps": 98,
+  "addedRequirementsAtBaseline": {
+    "tasks": 0,
+    "subtasks": 0,
+    "subsubtasks": 0
+  },
+  "checks": [
+    {
+      "case": "duplicate stable ID",
+      "result": "PASS",
+      "observed": "Duplicate work IDs"
+    },
+    {
+      "case": "orphan parent",
+      "result": "PASS",
+      "observed": "Missing parent: P01"
+    },
+    {
+      "case": "parent manually marked done",
+      "result": "PASS",
+      "observed": "Parent status must be computed: P00"
+    },
+    {
+      "case": "missing source checkbox mapping",
+      "result": "PASS",
+      "observed": "Unmapped/changed source checkboxes: docs/ProgressiveOpusGeometryExecutionChecklist.md"
+    },
+    {
+      "case": "missing evidence path",
+      "result": "PASS",
+      "observed": "Invalid evidence route: docs/absent.md"
+    },
+    {
+      "case": "deferred without reason",
+      "result": "PASS",
+      "observed": "Missing reason: P13.C323.01"
+    },
+    {
+      "case": "closing a real leaf reduces remaining without adding totals",
+      "result": "PASS"
+    },
+    {
+      "case": "new work without addition classification/reason rejected",
+      "result": "PASS"
+    },
+    {
+      "case": "new decomposition reported separately",
+      "result": "PASS"
+    },
+    {
+      "case": "silent reopening rejected",
+      "result": "PASS"
+    },
+    {
+      "case": "reopening bubbles to parent with unchanged denominator",
+      "result": "PASS"
+    },
+    {
+      "case": "rendering cannot change counts",
+      "result": "PASS"
+    }
+  ],
+  "scope": "Known documented family plan and progressive specification; no new runtime audit",
+  "playerChanged": false,
+  "harvesterChanged": false,
+  "initialBaselineSha256": "8f042697ac830c80e8139a32b24f8a9a70ef688db977e23dfc07113f278310cb",
+  "limitations": [
+    "Counts are work items, not estimates of time or weighted readiness.",
+    "The final codec/layout matrix still needs to be frozen by P02.C149.01; future decomposition must be explicit.",
+    "Historical evidence is kept; unattributed failures are blocked observations, not confirmed new bugs."
+  ]
+}

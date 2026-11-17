@@ -1,5 +1,9 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
+**Текущий учёт задач/подзадач/подподзадач — [единый реестр](FoxicMPWorkChecklist.md).**
+Числа149/77 ниже сохранены как история. Новая детализация и изменения знаменателя
+отражаются отдельно; R01–R17 остаются группами работ, не счётчиком прогресса.
+
 Рабочая сводка на 17 ноября 2026, включая bounded continuous WebM VP9/Opus восьми CFR частот 23.976–60fps, SDK1.106 (включая VFR с явными BlockDuration, SimpleBlock, производным video count, номинальным DefaultDuration и производным audio count).
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).

@@ -1,0 +1,3280 @@
+{
+  "schemaVersion": 1,
+  "baselineDate": "2026-11-17",
+  "levels": {
+    "1": {
+      "total": 26,
+      "done": 6,
+      "remaining": 20,
+      "active": 17,
+      "blocked": 2,
+      "deferred": 1
+    },
+    "2": {
+      "total": 267,
+      "done": 178,
+      "remaining": 89,
+      "active": 73,
+      "blocked": 7,
+      "deferred": 9
+    },
+    "3": {
+      "total": 353,
+      "done": 143,
+      "remaining": 210,
+      "active": 192,
+      "blocked": 13,
+      "deferred": 5
+    }
+  },
+  "nodes": {
+    "P00": {
+      "level": 1,
+      "status": "done",
+      "title": "Основа протокола и совместимость"
+    },
+    "P01": {
+      "level": 1,
+      "status": "done",
+      "title": "Общий растущий fMP4"
+    },
+    "P02": {
+      "level": 1,
+      "status": "partial",
+      "title": "Demux и непрерывный remux контейнеров"
+    },
+    "P03": {
+      "level": 1,
+      "status": "done",
+      "title": "Обычный MP4 и индексы"
+    },
+    "P04": {
+      "level": 1,
+      "status": "partial",
+      "title": "Аудиокодеки и самостоятельные потоки"
+    },
+    "P05": {
+      "level": 1,
+      "status": "partial",
+      "title": "Непоследовательная запись и большие ресурсы"
+    },
+    "P06": {
+      "level": 1,
+      "status": "partial",
+      "title": "Временная шкала и буферизация"
+    },
+    "P07": {
+      "level": 1,
+      "status": "partial",
+      "title": "Конечные HLS/DASH"
+    },
+    "P08": {
+      "level": 1,
+      "status": "todo",
+      "title": "Смена качества и конфигурации"
+    },
+    "P09": {
+      "level": 1,
+      "status": "partial",
+      "title": "Динамические аудиодорожки"
+    },
+    "P10": {
+      "level": 1,
+      "status": "partial",
+      "title": "Субтитры и вложения"
+    },
+    "P11": {
+      "level": 1,
+      "status": "partial",
+      "title": "Главы и метаданные"
+    },
+    "P12": {
+      "level": 1,
+      "status": "todo",
+      "title": "Live/event HLS и dynamic DASH"
+    },
+    "P13": {
+      "level": 1,
+      "status": "partial",
+      "title": "Жизненный цикл, I/O и безопасность"
+    },
+    "P14": {
+      "level": 1,
+      "status": "partial",
+      "title": "API, интерфейс и диагностика"
+    },
+    "P15": {
+      "level": 1,
+      "status": "partial",
+      "title": "Приёмка, ресурсы и задержки"
+    },
+    "P16": {
+      "level": 1,
+      "status": "blocked",
+      "title": "Внешняя интеграция Harvester"
+    },
+    "P17": {
+      "level": 1,
+      "status": "partial",
+      "title": "Итоговые пакеты и GitHub release"
+    },
+    "H": {
+      "level": 1,
+      "status": "blocked",
+      "title": "Атрибуция четырёх исторических сбоев"
+    },
+    "P00.C028": {
+      "level": 2,
+      "status": "done",
+      "title": "Совместимые v1 start/update/complete и исправление sessionDirectory Classic — проверки."
+    },
+    "P00.C029": {
+      "level": 2,
+      "status": "done",
+      "title": "Общий SDK/client, OS discovery/IPC и Windows Qt legacy/provider adapter в ограниченном профиле — проверки."
+    },
+    "P00.C030": {
+      "level": 2,
+      "status": "done",
+      "title": "Модель v2, подтверждённые ranges, resource I/O и reader receipts — контракт."
+    },
+    "P00.C031": {
+      "level": 2,
+      "status": "done",
+      "title": "Объявленные SHA-256 blocks и проверка перед чтением — контракт и границы."
+    },
+    "P01.C039": {
+      "level": 2,
+      "status": "done",
+      "title": "HEVC Main/Main10 + AAC: 8/10-bit, hvc1/hev1, B-frames, fractional fps, edit lists, partial fragments — SDK 1.47 и проверки трёх редакций."
+    },
+    "P01.C040": {
+      "level": 2,
+      "status": "done",
+      "title": "AV1 Main 8/10-bit + AAC: fractional fps, edit lists, partial fragments, SHA/leases — SDK 1.48 и проверки трёх редакций."
+    },
+    "P01.C041": {
+      "level": 2,
+      "status": "done",
+      "title": "VP9 Profile 0/2 8/10-bit + AAC: fractional fps, edit lists, partial fragments, SHA/leases — SDK 1.49 и проверки трёх редакций."
+    },
+    "P01.C042": {
+      "level": 2,
+      "status": "done",
+      "title": "H.264/HEVC/VP9/AV1 + Opus mono/stereo 48 kHz, 8/10-bit и fractional profiles — SDK 1.50 и проверки трёх редакций."
+    },
+    "P02.C051": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.88: ordinary MP4 → continuous HEVC Main/Main10 video-only, явный mode, hvc1/hev1, 8/10-bit 4:2:0, B-frames; worker/cache/decoder/Classic bridge и SDK. 54 worker checks, 30 public API rows, 78 регрессий, ≥"
+    },
+    "P02.C052": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.89: HEVC + AAC-LC в ordinary MP4, отдельный mode, exact AAC PCM-window 44.1/48 kHz mono/stereo, Main/Main10, audio-first и one-sample/short audio. 36 worker, 36 PCM consumer, 39 API rows и 112 регрессий п"
+    },
+    "P02.C054": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.90: AV1 Main8/Main10 video-only из ordinary MP4, отдельный mode, av01, single-layer, PTS=DTS и один displayed Frame OBU/sample. 51 worker, 30 public API rows, exact packets/clocks/frame hashes, ≥10 s play"
+    },
+    "P02.C056": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.91: AV1 + AAC-LC из ordinary MP4, explicit paired mode, Main8/Main10 av01, mono/stereo 44.1/48 kHz, exact PCM-window, audio-first/one-sample/short audio. 48 worker, 48 PCM consumer, 39 API rows и 192 регр"
+    },
+    "P02.C058": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.92: VP9 video-only из ordinary MP4, explicit mode, vp09 Profile0/8-bit или 2/10-bit, head moov ≤1 MiB, один displayed frame/sample, PTS=DTS и fixed coded/render size. 93 worker, 30 API rows, 231 регрессия"
+    },
+    "P02.C060": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.93: VP9 + AAC-LC из ordinary MP4, explicit paired mode, Profile0/8-bit или Profile2/10-bit vp09, mono/stereo 44.1/48 kHz, immutable exact PCM-window и audio-first/one-sample/short audio. 48 worker, 48 PCM"
+    },
+    "P02.C062": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.94: VP9 indexed superframes/alt-ref video-only, отдельный mode, Profile0/8-bit или Profile2/10-bit, 1–8 кадров/sample, hidden inter prefixes и один displayed last, PTS=DTS/fixed size. 108 worker, 30 новых"
+    },
+    "P02.C064": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.95: VP9 indexed superframes/alt-ref + AAC-LC, explicit paired mode, Profile0/8-bit или Profile2/10-bit, mono/stereo 44.1/48 kHz, immutable exact PCM-window, audio-first/one-sample/short audio. 66 worker, "
+    },
+    "P02.C066": {
+      "level": 2,
+      "status": "done",
+      "title": "Подготовка continuous WebM/VP9, без bump версии/API SDK 1.95 или изменения продукта: 36 fixture/index/copy-reference строк трёх worker builds. 25 fps finite/unknown Clusters сохраняют payload/clocks/video на fu"
+    },
+    "P02.C068": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.96: continuous WebM/VP9 video-only 25 fps, Profile0/8-bit или Profile2/10-bit, finite/unknown Clusters, структурные границы и expected sample count из timeline. 87 worker, 39 новых API rows, 66 прежних MP"
+    },
+    "P02.C070": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.97: WebM VP9 indexed superframes/alt-ref video-only, отдельный mode, 25 fps, Profile0/8-bit или Profile2/10-bit, finite/unknown Clusters, до семи hidden inter frames перед одним показанным. 99 worker, 39 "
+    },
+    "P02.C072": {
+      "level": 2,
+      "status": "done",
+      "title": "Подготовка continuous WebM VP9/Opus, без нового mode или bump SDK1.97: 36 characterization rows трёх compiler/native стендов.30 точных PCM-window rows,60 точных native full/prefix projections,72 MP4 copy refere"
+    },
+    "P02.C074": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK1.98: continuous WebM VP9/Opus: bounded structural sealer, finite/unknown Clusters, защищённый WebM cache и обе обязательные decoder views в трёх редакциях; VP9p0/p2 indexed25fps, Opus48k mono/stereo20ms/pre"
+    },
+    "P02.C076": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK1.99: continuous WebM VP9/Opus30000/1001fps: rational frame clock, exact frame count по timeline, nearest-ms packets и bounded coverage без ложных дыр. 87 новых/78 прежних worker cases,9 новых/9 прежних ordi"
+    },
+    "P02.C082": {
+      "level": 2,
+      "status": "done",
+      "title": "Первый этап: bounded FFmpeg AVIO **диагностика** подтверждённых ресурсов,"
+    },
+    "P02.C087": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.52: copy-remux ограниченного MP4-фрагмента в памяти,"
+    },
+    "P02.C092": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.53: явный playback подготовленного RAM MP4-фрагмента"
+    },
+    "P02.C097": {
+      "level": 2,
+      "status": "done",
+      "title": "Первый внутренний компонент непрерывного remux: один persistent FFmpeg worker H.264 video-only → fMP4, две 24 s фикстуры по 600/720 packets, incremental output до source complete, ожидания с тем же demux contex"
+    },
+    "P02.C099": {
+      "level": 2,
+      "status": "done",
+      "title": "Внутренний управляемый continuous-remux parent: отдельный поток, ResourceSource/SHA/ranges, writer/session identity, heartbeat/errors, Windows Job, раздельные lifetime/pipe deadlines и source leases. По 17 nati"
+    },
+    "P02.C101": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный внутренний output store непрерывного remux: private disk cache/shared budget, atomic moov/moof+mdat visibility, FragmentIndex, SHA on read, original/output reader leases и cleanup после подтверждён"
+    },
+    "P02.C103": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченное восстановление private cache после смерти owner: immutable atomic journal, PID/birth + locks, physical/creation identities, source/output reader proofs, quarantine и startup admission до нового bud"
+    },
+    "P02.C105": {
+      "level": 2,
+      "status": "done",
+      "title": "Первые внутренние decoder views: блокирующий cache cursor, настоящий libmpv callback adapter и Classic FragmentIndex/sample view. По 11 сценариев GCC/MinGW/MSVC/ASan-UBSan; по 600 кадров совпали с completed-sou"
+    },
+    "P02.C107": {
+      "level": 2,
+      "status": "done",
+      "title": "Внутренние playback entry points continuous-remux в настоящем Qt Player/MpvLifetime и Classic CHarvesterSession/DirectShow. По пять сценариев Qt каждой ОС и пять Classic graph; 600 NV12 кадров совпали с независ"
+    },
+    "P02.C109": {
+      "level": 2,
+      "status": "done",
+      "title": "Общий внутренний async controller continuous-remux: replay/fences, отдельные accepted/applied revision/heartbeat, очередь ≤8 pending updates, быстрые status/cancel/destruction и удержание cache/root до настояще"
+    },
+    "P14.C111": {
+      "level": 2,
+      "status": "done",
+      "title": "Шесть внутренних команд подготовки continuous-remux через обычный IPC всех трёх редакций, без playback commit и без изменения advertised capabilities/SDK. По шесть IPC сценариев на редакцию, прежние 24 preparat"
+    },
+    "P14.C112": {
+      "level": 2,
+      "status": "done",
+      "title": "Внутренний continuous-remux playback commit/control/status через обычный IPC, intent fencing при Stop/замене/закрытии: по 14 сценариев Qt ОС и 15 Classic, две Qt Window/API lifecycle проверки на ОС, 11 native d"
+    },
+    "P02.C113": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный continuous output `readerRelease` adapter всех трёх редакций: точная привязка квитанции к output resource/file identity и попытке просмотра, остановка при playing/pause/ожидании хвоста, EOF/replay "
+    },
+    "P14.C114": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.82: публичный ограниченный `continuousRemux` contract, явный `ContinuousRemux` helper, read-only восстановление job/playback после потери ответа и поставка worker/runtime. По пять SDK IPC сценариев каждой"
+    },
+    "P02.C115": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный публичный continuous SDK waiting/replay срез: реальные паузы writer 10/30/60 s, тот же worker и decoder readers, ручная пауза при append, complete forward/reverse seek и EOF, Stop/Cancel у хвоста и"
+    },
+    "P14.C116": {
+      "level": 2,
+      "status": "done",
+      "title": "Qt continuous buffering status/UI: реальный `paused-for-cache` учитывается в API; ручная пауза приоритетна в API/строке состояния/шаблоне заголовка; дополнительный optional `reasonCode` различает ожидание/загру"
+    },
+    "P14.C117": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченная heartbeat-семантика публичного continuous SDK: по пять сценариев трёх редакций, настоящий срок 30000 ms, status не продлевает writer, timeout не EOF, late events отклоняются, complete не требует he"
+    },
+    "H.C119": {
+      "level": 2,
+      "status": "blocked",
+      "title": "Локализовать единичное превышение 2 s автоматического release source/cache на паузе в исправленной Linux-сборке"
+    },
+    "H.C119.01": {
+      "level": 3,
+      "status": "blocked",
+      "title": "Сохранить close-stage/PID/TID/lock/native-I/O данные при новом естественном Linux release >2s"
+    },
+    "H.C119.02": {
+      "level": 3,
+      "status": "blocked",
+      "title": "Установить причину по захваченному естественному отказу; не приписывать ему искусственный registry lock"
+    },
+    "P02.C120": {
+      "level": 2,
+      "status": "done",
+      "title": "Неблокирующее закрытие output readers при занятом registry: bounded pending receipts, независимый cache mutex, retry существующим worker без ложного release; отчёт. Linux обновлён с backup/неизменным профилем; "
+    },
+    "P02.C121": {
+      "level": 2,
+      "status": "done",
+      "title": "Закрытие original source вне mutex continuous-remux: все native media pins закрываются до receipt persistence, status/cancel остаются доступны, late heartbeat при EOF безопасен. Приёмка: GCC/ASan/MinGW/MSVC, тр"
+    },
+    "P02.C122": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченное закрытие/crash continuous player и явный повторный запуск: по восемь сценариев каждой редакции при preparation/playing/paused/buffering, реальный выход worker, сохранение независимого просмотра, фи"
+    },
+    "P02.C123": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченная очистка continuous cache при нормальном выходе: общий final-exit wait ≤1500 ms после уничтожения GUI/API/decoder; по восемь усиленных сценариев каждой редакции, все двенадцать нормальных выходов бе"
+    },
+    "P02.C124": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченная авария continuous worker через публичный SDK: по четыре сценария каждой редакции при preparation/playing/paused/buffering. Только identity-checked дочерний worker, OS exit, status-only automatic re"
+    },
+    "P02.C125": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченные гонки public continuous-команд и замены просмотра: по 16 сценариев каждой редакции, публикация/Stop, публикация/замена, readerRelease/замена, cancel/замена; поздние старые команды не прерывают новы"
+    },
+    "P02.C126": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченные faults незавершённого pipe I/O: по 12 native сценариев GCC/MinGW/MSVC/ASan-UBSan, всего 48, все exit 0. Перед смертью child, cancel и timeout доказан partial receive или backpressure send; filesClo"
+    },
+    "P02.C127": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченные аварии настоящего FFmpeg внутри AVIO: по восемь SDK сценариев трёх редакций, всего 24. Instrumented test worker останавливается внутри real read/write callback после начала playing/manual pause; в "
+    },
+    "P02.C128": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченные syscall-result faults parent I/O: 14 GCC/Linux, 11 MinGW/Windows, 11 MSVC/Windows, 14 ASan/UBSan; source read error/short read, cache error/disk-full/physical partial write, внешние readers и POSIX"
+    },
+    "H.C129": {
+      "level": 2,
+      "status": "blocked",
+      "title": "Ограниченный continuous lifecycle stress и paused expiry: итоговый повтор по 100 измеряемых +4 warmup cycles и 12 настоящих 30000 ms timeout каждой редакции прошёл прежние budgets"
+    },
+    "H.C129.01": {
+      "level": 3,
+      "status": "blocked",
+      "title": "Сохранить baseline и failed resource snapshot до assert при новом Classic heartbeat-12 отказе"
+    },
+    "H.C129.02": {
+      "level": 3,
+      "status": "blocked",
+      "title": "При воспроизведении установить инициатора; не считать DWM-fix доказательством причины старого события"
+    },
+    "P02.C130": {
+      "level": 2,
+      "status": "done",
+      "title": "Диагностический срез пассивного наблюдения: 680 Classic cycles в восьми сериях, два реальных resource-budget FAIL с ростом Event на пути внешнего MPCVR; EVR/Null контроли без роста. Захват исходной ошибки, типо"
+    },
+    "P02.C131": {
+      "level": 2,
+      "status": "done",
+      "title": "Исправлен конкретный воспроизводимый рост DWM Event в Classic: первый MPCVR redraw перенесён до Run/Pause в постоянный UI-поток. Три исходных instrumented FAIL с 104 сохраняющимися Event, затем три успешных 100"
+    },
+    "P02.C132": {
+      "level": 2,
+      "status": "done",
+      "title": "Убрана зависимость освобождения файлов декодера от libmpv close callback. Native baseline удерживает cursor после ошибки и падает по 2 s; фоновый контроллер теперь закрывает только decoder readers, сохраняя ind"
+    },
+    "P02.C133": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный sustained growing stress одного файла и двух viewers: по 129–131 s каждой редакции, физический append-only writer, настоящий 60 s stall с heartbeat, ручная пауза, закрытие/replay первого endpoint б"
+    },
+    "P02.C134": {
+      "level": 2,
+      "status": "done",
+      "title": "Первый внутренний continuous worker с H.264 B-frames: дополнительный частный mode, delay_moov/edit list с точными рациональными PTS/DTS, четыре 24 s профиля включая fractional/VFR, по 3239 packet/frame comparis"
+    },
+    "P02.C135": {
+      "level": 2,
+      "status": "done",
+      "title": "Внутренний managed continuous B-frame профиль и настоящие декодеры: явный opt-in в parent/cache, четыре physical growing профиля GCC/MinGW/MSVC/ASan-UBSan, по 3239 полных и 1889 seek-кадров, точные packet/PNG c"
+    },
+    "P02.C136": {
+      "level": 2,
+      "status": "done",
+      "title": "Внутренний B-frame controller/Player/API срез: явный start mode, неизменяемые job/source/ticket mode, replay conflict и возвращение к прежнему default. По 18 новых и 17 прежних playback-сценариев и пять SDK-сце"
+    },
+    "H.C137": {
+      "level": 2,
+      "status": "blocked",
+      "title": "Исторический Windows Qt `windowClose:reader-release` assertion FAIL остаётся неатрибутированным: нет исходного JSON и индивидуального времени ожидания"
+    },
+    "H.C137.01": {
+      "level": 3,
+      "status": "blocked",
+      "title": "Сохранять первый JSON/receipt и точное время неуспешного Windows Qt наблюдения"
+    },
+    "H.C137.02": {
+      "level": 3,
+      "status": "blocked",
+      "title": "При воспроизведении атрибутировать старый reader-release assertion отдельно от времени закрытия окна"
+    },
+    "P14.C138": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.83: публичный opt-in H.264 B-frame профиль, общие capability profiles, keyword-only `mode=REORDERED_MODE` и строгая проверка объявленного профиля/ответов. 23 unit checks; по шесть новых, пять legacy, пять"
+    },
+    "P17.C139": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.83: clean SDK ZIP (318 SHA), portable трёх редакций и Linux `.deb`; 39 сценариев распакованных пакетов и 11 установленного Linux. Опубликованный prerelease: SHA-256/size всех семи assets сверены с GitHub "
+    },
+    "P06.C140": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.83, публичные fractional/VFR SDK и обычные плееры: по четыре физически растущих H.264/B-frame профиля каждой редакции (25, 30000/1001, 60000/1001 и VFR), 9717 точных packet records/декодированных кадров m"
+    },
+    "P02.C141": {
+      "level": 2,
+      "status": "done",
+      "title": "Первый внутренний H.264/AAC aligned worker: две дорожки в любом порядке, AAC-LC mono/stereo 44,1/48 kHz с окончанием на границе 1024 samples, точные общие clocks и начальный skip, copy-remux без фильтров/переко"
+    },
+    "P02.C142": {
+      "level": 2,
+      "status": "done",
+      "title": "Внутреннее точное PCM-окно обычного AAC: частный worker требует подтверждения raw/presentation границ до медиабайтов. Общая целочисленная геометрия, реальный Qt Player на обеих ОС и внутренний AAC decoder Class"
+    },
+    "P02.C143": {
+      "level": 2,
+      "status": "done",
+      "title": "Внутренний managed AAC parent/cache/index: SHA-подтверждение PCM-плана до bytes, immutable cache binding, два проверяемых индекса и точное количество AAC packets до complete. Короткая аудиодорожка может закончи"
+    },
+    "P02.C144": {
+      "level": 2,
+      "status": "done",
+      "title": "Внутренние continuous AAC decoder adapters: immutable PCM-план через явный opt-in, Qt Player обеих ОС и две Classic fMP4-проекции с отдельным AAC COM control/re-arm после flush/seek. По 31 Qt + 37 Classic сцена"
+    },
+    "P15.C146": {
+      "level": 2,
+      "status": "todo",
+      "title": "Полные waiting/replay/shutdown/crash/stress проверки публичного continuous-remux SDK трёх редакций. Далее — Linux release latency, зависший OS I/O/cancellation и расширенная race/stress matrix."
+    },
+    "P15.C146.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Свести waiting/replay/replacement/re-arm/failure сценарии всего поддержанного continuous корпуса"
+    },
+    "P15.C146.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить worker/player crash и shutdown всего поддержанного корпуса"
+    },
+    "P15.C146.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить длительный и циклический stress всего корпуса без замены немедленных budget поздним idle"
+    },
+    "P15.C146.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Повторить release latency и реальные OS-I/O cancellation границы отдельно от успешных file/null тестов"
+    },
+    "P02.C148": {
+      "level": 2,
+      "status": "todo",
+      "title": "Проверенные backend demuxers через управляемый local I/O; платформенные адаптеры Qt/Classic."
+    },
+    "P02.C148.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Подключить production demux через confirmed local I/O для ещё не поддержанных входов"
+    },
+    "P02.C148.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Подключить оставшиеся Qt/Classic decoder adapters без открытия частичного файла как обычного"
+    },
+    "P02.C148.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить limits/cancel/malformed/EOF для каждого вновь подключённого demux path"
+    },
+    "P02.C149": {
+      "level": 2,
+      "status": "todo",
+      "title": "Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей."
+    },
+    "P02.C149.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Зафиксировать конечный перечень обязательных положительных container/codec/layout строк и точные исключения"
+    },
+    "P02.C149.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Обычный M4A: audio-only admission и progressive playback"
+    },
+    "P02.C149.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "MOV: sample entries, edit lists и отличия структуры от MP4"
+    },
+    "P02.C149.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "WebM VP8/AV1: continuous пути за пределами native профилей"
+    },
+    "P02.C149.05": {
+      "level": 3,
+      "status": "todo",
+      "title": "WebM/Vorbis: continuous путь за пределами native профиля"
+    },
+    "P02.C149.06": {
+      "level": 3,
+      "status": "todo",
+      "title": "Matroska H.264/HEVC и допустимые пары аудио"
+    },
+    "P02.C149.07": {
+      "level": 3,
+      "status": "todo",
+      "title": "Matroska: lacing/CodecPrivate/Cues и track identity за пределами WebM"
+    },
+    "P02.C149.08": {
+      "level": 3,
+      "status": "todo",
+      "title": "MPEG-TS: continuous remux HEVC и предусмотренных MPEG-вариантов"
+    },
+    "P02.C149.09": {
+      "level": 3,
+      "status": "todo",
+      "title": "Separate/multi-input remux и обязательные ещё не покрытые muxed сочетания"
+    },
+    "P02.C149.10": {
+      "level": 3,
+      "status": "todo",
+      "title": "Иные допустимые MP4/WebM layouts за пределами опубликованных строгих профилей; перечень заморозить до реализации"
+    },
+    "P02.C150": {
+      "level": 2,
+      "status": "todo",
+      "title": "Явные native-progressive, progressive-remux, waiting, post-download и unsupported результаты."
+    },
+    "P02.C150.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Различать native-progressive и progressive-remux по фактически выполненному path"
+    },
+    "P02.C150.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Различать временное waiting и окончательные unsupported/corrupt/encrypted/missing-decoder"
+    },
+    "P02.C150.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Выдавать post-download как ограничение, а не успешную progressive строку"
+    },
+    "P02.C151": {
+      "level": 2,
+      "status": "todo",
+      "title": "Remux только подтверждённых локальных данных, без перекодирования/ухудшения качества и без изменения оригиналов."
+    },
+    "P02.C151.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Для каждой новой positive строки подтвердить чтение только опубликованных диапазонов"
+    },
+    "P02.C151.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Сравнить compressed payload и исходные PTS/DTS до и после remux"
+    },
+    "P02.C151.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Подтвердить отсутствие транскодирования и изменения оригиналов во всей новой матрице"
+    },
+    "P14.C153": {
+      "level": 2,
+      "status": "done",
+      "title": "Continuous AAC API и SDK-кандидат 1.84: явный вложенный profile, отложенный до PCM-плана commit, 27 IPC сценариев трёх редакций, подключение обязательного audio в Classic и независимый короткий AAC EOF. Qt пров"
+    },
+    "P17.C154": {
+      "level": 2,
+      "status": "done",
+      "title": "Ordinary main/пакетная приёмка AAC 1.84: 107 финальных сценариев с десятью SDK-модулями из пакета, ещё 90 повторов исправленной Classic и 4 controlled-index-lag сценария; Linux обновлён с backup/сохранением INI"
+    },
+    "P17.C155": {
+      "level": 2,
+      "status": "done",
+      "title": "Экспериментальная поставка SDK/runtime 1.84: source-clean SDK ZIP, отдельные portable трёх редакций и .deb, tag/commit d920adcfe, серверные SHA-256 и полная обратная загрузка семи assets, Linux backup/неизменны"
+    },
+    "P15.C156": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный AAC resilience-срез 1.84: 99 сценариев трёх редакций, реальные 10/30/60 s, Stop/Cancel/replay, concurrent replacement, worker death, normal/player crash и cache recovery/явный retry; stereo 48 kHz "
+    },
+    "P15.C157": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный AAC cyclic/growing stress 1.84: по 100 измеряемых +4 warmup cycles и один 128 s append-only / 60 s writer-pause сценарий каждой редакции; 300+12 циклов, три growing cases, прежние бюджеты CPU/RSS/p"
+    },
+    "H.C158": {
+      "level": 2,
+      "status": "blocked",
+      "title": "AAC heartbeat-срез 1.84: Linux/Windows Qt — по 17 PASS и точный exit 0"
+    },
+    "H.C158.01": {
+      "level": 3,
+      "status": "blocked",
+      "title": "Захватить origin/callback временных TppWorkerThread при превышении строгого AAC budget"
+    },
+    "H.C158.02": {
+      "level": 3,
+      "status": "blocked",
+      "title": "Установить инициирующий callback и проверить исходный немедленный resource gate"
+    },
+    "P02.C159": {
+      "level": 2,
+      "status": "done",
+      "title": "Classic: происхождение transient threads и дополнительный idle-критерий: строгий cold-baseline 7→10 снова воспроизведён (exit 1), три добавленных TppWorkerThread определены по точным Microsoft PDB symbols, EXE-"
+    },
+    "P02.C160": {
+      "level": 2,
+      "status": "done",
+      "title": "Шесть AAC-профилей и независимость Classic history: по 30 функциональных cases трёх редакций +2 обычной истории, native exits 0. Classic больше не возобновляет новый continuous job с позиции другого под общим a"
+    },
+    "P06.C161": {
+      "level": 2,
+      "status": "done",
+      "title": "Внутреннее временное покрытие continuous cache: объединение подтверждённых PTS-интервалов без перескакивания B-frame holes, точный конечный AAC не ограничивает длинное видео, ошибка/cleanup обнуляют покрытие. П"
+    },
+    "P06.C162": {
+      "level": 2,
+      "status": "done",
+      "title": "Старт с позиции 1 s в растущем AAC-кэше: шесть профилей трёх редакций, 18 новых +99 прежних Player/graph сценариев, Qt PCM/file oracle и Classic fresh-PNS/raw oracle/NV12 hashes. Только начальная позиция до пер"
+    },
+    "P02.C163": {
+      "level": 2,
+      "status": "done",
+      "title": "Qt: восстановление после краткой registry busy и обязательный звук: точный повтор поймал `reader_registry_busy`; только decoder admission использует окно повторов 250 ms, raw/API busy сохранён. Постоянный отказ"
+    },
+    "P14.C164": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK-кандидат 1.85: публичная начальная позиция: `continuousRemuxPlay.startSeconds`, helper `play(start_seconds=...)`, явная capability, status indexedEnd/duration/start. Неподтверждённый target даёт waiting-ran"
+    },
+    "P06.C165": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK-кандидат 1.86: bounded повторные переходы: `control(seek, allow_growing=True)`, 16 попыток до complete, подтверждённый prefix, непринятый target сохраняет playback; Qt reload того же protected cache/URI, Cl"
+    },
+    "P06.C166": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK-кандидат 1.87: одна ожидающая цель: opt-in `wait_for_range=True`, latest-target superseding, `cancelSeek`, применение таймером приложения без playback polling; прежнее воспроизведение до commit. Невалидный "
+    },
+    "P06.C167": {
+      "level": 2,
+      "status": "done",
+      "title": "Ожидающий переход на таймлайне: Qt/Classic, отдельная метка, ПКМ для отмены, superseding, очистка после Stop/replacement/error; фактическая позиция отделена от цели. Проверки: 222 main cases, 40 Qt Window cases"
+    },
+    "P15.C168": {
+      "level": 2,
+      "status": "done",
+      "title": "Конкурентные команды очереди и 100 циклов: 36 парных сценариев и 100 измеряемых +4 warmup цикла каждой редакции; 408 основных cases/12 warmup, 5100 конкурентных пар с warmup, конечные drivers exit 0. Последняя "
+    },
+    "P02.C169": {
+      "level": 2,
+      "status": "done",
+      "title": "Очередь: ограниченный commit/reentrancy-срез: общая транзакция сохраняет cancel/новую revision после старой команды; guard перед decoder handoff, защита от вложенного poll и резерв последнего слота. Общий тест "
+    },
+    "P13.C170": {
+      "level": 2,
+      "status": "done",
+      "title": "Детерминированные cache I/O-границы: четыре private compile-only barrier, interrupt/close/source cancel/seek, порча/усечение, публикация, EOF/probe и filesClosed/forget/budget. По 25 native cases/505 checks в G"
+    },
+    "P13.C171": {
+      "level": 2,
+      "status": "done",
+      "title": "Classic SyncRead/ReadV2 и ограниченный graph reentry: исправлены пропущенная отмена последнего блока и потерянный полный flush cycle; 31 native case после 19/31 pre-fix FAIL. Настоящий DirectShow graph прошёл 1"
+    },
+    "P13.C172": {
+      "level": 2,
+      "status": "done",
+      "title": "Classic native I/O: ограниченный pending-read срез: исправлена потеря полного flush cycle при ожидающем ReadFile; по 38 native cases до/после, два red FAIL требуют rescue, fixed PASS без rescue. Настоящий Windo"
+    },
+    "P13.C173": {
+      "level": 2,
+      "status": "done",
+      "title": "Classic missing-range/sample/complete waits: поколение flush передаётся внутрь WaitRange; WaitForSample записывает caller output после final guard; completionWaiters снимается при выходе. 38 native cases: 17 pr"
+    },
+    "P13.C174": {
+      "level": 2,
+      "status": "done",
+      "title": "Classic v2/AAC payload boundaries: SyncRead сохраняет E_FAIL после ReadV2Guarded::Fail, не превращая собственную остановку сессии в E_ABORT. 240 cases двух профилей (48 kHz mono/BF2 и 44.1 kHz stereo/BF3): pair"
+    },
+    "P13.C175": {
+      "level": 2,
+      "status": "done",
+      "title": "Classic CMainFrame/MAINSTA + public IPC reentry, ограниченный срез: 16 сочетаний frame/graph before/after × cancel/new target/same target/nested poll. Настоящие CMainFrame, splitter SetPositions и named-pipe re"
+    },
+    "P13.C176": {
+      "level": 2,
+      "status": "done",
+      "title": "Classic Stop/replace/window close внутри seek, ограниченный срез: 12 сочетаний четырёх frame/graph boundaries и трёх реальных действий; повтор на двух private EXE, все native main exits 0. Новый regular source "
+    },
+    "P13.C177": {
+      "level": 2,
+      "status": "done",
+      "title": "Classic AAC teardown внутри seek, ограниченный срез: 24 cases на 48000 Hz mono/BF2 и 44100 Hz stereo/BF3 — Stop, A/V replacement и WM_CLOSE в четырёх frame/graph boundaries; ещё 12 video regression и smoke. До "
+    },
+    "P02.C178": {
+      "level": 2,
+      "status": "todo",
+      "title": "Growing seek: оставшиеся I/O границы (неподтверждённая драйвером отмена disk I/O, AAC projections, original-source/worker path), детерминированные границы другого v2 bridge и расширенная CMainFrame/COM/renderer/AAC/physical-I/O re"
+    },
+    "P02.C178.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить отмену original-source/worker disk I/O на реальной OS границе"
+    },
+    "P02.C178.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Расширить AAC projection и второй v2 bridge на детерминированных seek границах"
+    },
+    "P02.C178.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить COM/renderer/CMainFrame reentry при growing seek"
+    },
+    "P02.C178.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить supersede/replacement/crash для оставшихся codec paths"
+    },
+    "P02.C178.05": {
+      "level": 3,
+      "status": "todo",
+      "title": "Определить и проверить расширенные receipt retention/квоты за пределами bounded v1"
+    },
+    "P13.C179": {
+      "level": 2,
+      "status": "done",
+      "title": "Авария worker внутри Classic seek и общий post-handoff guard: после принятия graph seek backend error больше не превращает pending intent в applied; квота принятой операции сохранена, новый intent не стирается "
+    },
+    "P15.C180": {
+      "level": 2,
+      "status": "done",
+      "title": "Дополнительные AAC-профили queue/race/stress: 48 kHz mono/BF2/25 fps и 44.1 kHz stereo/BF3/30000/1001, по 36 races и 100 измеряемых циклов каждого профиля на каждой редакции. Всего 216 races +600 циклов +24 war"
+    },
+    "P15.C181": {
+      "level": 2,
+      "status": "done",
+      "title": "AAC shutdown/recovery с queued seek: normal/crash при ожидающей цели 19 s и после её применения, physical writer append, новый job с начальной позицией и отказ поздним старым Stop/cancelSeek/seek. 12 новых +24 "
+    },
+    "P15.C182": {
+      "level": 2,
+      "status": "done",
+      "title": "Длительный continuous A/V-прогон, ограниченный срез: три полных 600 s jobs в тех же двух main processes каждой редакции, ≥31 min elapsed и 18 natural-EOF viewer jobs. 10/30/60 s writer pauses, manual pause, enc"
+    },
+    "P13.C183": {
+      "level": 2,
+      "status": "done",
+      "title": "Linux Qt: причина роста private memory и исправление: glibc удерживала освобождённые крупные блоки в native arenas; Linux-only статический mmap threshold и reuse индексных buffers. Приёмка 12 ноября: два final "
+    },
+    "P02.C186": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.100: явный WebM VP9/Opus CFR, восемь канонических частот 23.976–60 fps; immutable start.videoRate, точный frame timeline, исходные packet clocks, допуск DefaultDuration вниз 1 ns для FFmpeg. Проверки трёх"
+    },
+    "P03.C203": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.54: ограниченный fast-start MP4 с обычными sample tables, H.264/AAC-LC, один ресурс/две дорожки; проверки."
+    },
+    "P03.C204": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.55: ограниченный tail-moov MP4 H.264/AAC-LC, ожидание индекса и advisory ranges через metadata-only API; проверки трёх редакций. Произвольные sparse media остаются в пункте 5."
+    },
+    "P03.C205": {
+      "level": 2,
+      "status": "done",
+      "title": "В указанном профиле SDK 1.54: старт до complete, ожидание неполного sample, resume с тем же readerId; отсутствие готового head index не становится успешным fallback. Прочие MP4 layouts остаются открытыми."
+    },
+    "P03.C206": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.56: перемотка после complete в активной сессии H.264/AAC-LC: отдельные fMP4 и обычный head/tail MP4; тот же reader, pause/speed/volume/mute/основная audio сохранены. Проверки трёх редакций. Остальные layo"
+    },
+    "P04.C210": {
+      "level": 2,
+      "status": "todo",
+      "title": "Полная согласованная audio codec matrix: AAC-LC/HE-AAC, Opus, Vorbis, MP3, FLAC, PCM, AC-3/E-AC-3."
+    },
+    "P04.C210.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "HE-AAC: применимые контейнеры, SBR/PS и правильные PCM clocks"
+    },
+    "P04.C210.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Opus: оставшиеся one-packet/priming/mapping/chaining layouts за пределами SDK1.106"
+    },
+    "P04.C210.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Vorbis: дополнительные setup/rates/layouts/chaining"
+    },
+    "P04.C210.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "AAC-LC/MP3/FLAC/PCM/AC-3/E-AC-3: завершить согласованную codec/container матрицу"
+    },
+    "P04.C211": {
+      "level": 2,
+      "status": "todo",
+      "title": "ADTS AAC, MP3, Ogg, FLAC, WAV/PCM; дополнительные rates/layouts и многоканальный звук."
+    },
+    "P04.C211.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "ADTS AAC: оставшиеся rates/layouts"
+    },
+    "P04.C211.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "MP3: оставшиеся MPEG versions/layers и clocks"
+    },
+    "P04.C211.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Ogg Opus/Vorbis: оставшиеся chaining/origin layouts"
+    },
+    "P04.C211.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Raw FLAC: дополнительные rates/layouts/block strategies"
+    },
+    "P04.C211.05": {
+      "level": 3,
+      "status": "todo",
+      "title": "WAV/RF64: float/иные depths/rates/channel masks"
+    },
+    "P04.C211.06": {
+      "level": 3,
+      "status": "todo",
+      "title": "Многоканальный AAC/Opus/Vorbis/FLAC/PCM/AC-3/E-AC-3 в допустимых контейнерах"
+    },
+    "P04.C212": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.57: самостоятельные AAC-LC и H.264 в scalar fMP4, один настоящий required track/resource без ожидания второго; проверки трёх редакций. Прочие standalone codec/container profiles остаются открытыми."
+    },
+    "P04.C213": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.58: standalone Opus mono/stereo fMP4; dOps/edit list, buffering/pause/seek/complete/release проверены отдельно на трёх редакциях. WebM/Vorbis и полная codec matrix остаются открытыми."
+    },
+    "P04.C214": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.59: standalone WebM Opus/Vorbis mono/stereo, отдельная вложенная capability, packet/header validation и испытания трёх редакций. Standalone WebM video и полная codec matrix остаются открытыми."
+    },
+    "P04.C215": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.60: standalone WebM VP8/VP9/AV1 video, шесть 8/10-bit и fractional profiles на трёх редакциях. Остальные codec/container combinations остаются открытыми."
+    },
+    "P04.C216": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.61: standalone HEVC/AV1/VP9 fMP4 video, шесть 8/10-bit/fractional profiles на трёх редакциях; остальные codec/container combinations остаются открытыми."
+    },
+    "P04.C217": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.62: standalone FLAC fMP4, восемь mono/stereo, 16/24-bit, 44.1/48-kHz profiles; PCM bit-exact после bridge. Raw FLAC и остальные audio containers/matrix остаются открытыми."
+    },
+    "P04.C218": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.63: native standalone FLAC, fixed blocks, mono/stereo, 16/24-bit, 44.1/48-kHz; CRC/SHA, точные packet clocks и PCM, восемь runtime profiles каждой редакции. Остальные audio containers и layouts остаются о"
+    },
+    "P04.C219": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.64: standalone ADTS AAC-LC, MPEG-4 без CRC, один raw block/frame, mono/stereo, 44.1/48 kHz; pause/seek/tail/update/EOF/release на трёх редакциях. Payload/clocks и декодированный PCM сохранены; остальные A"
+    },
+    "P04.C220": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.65: standalone MPEG-1 Layer III MP3, CBR/VBR mono/stereo 44.1/48 kHz без CRC, bounded ID3, reservoir/preroll; восемь runtime profiles трёх редакций. Xing/gapless и другие MPEG audio variants открыты."
+    },
+    "P04.C221": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.66: Xing/Info/VBRI standalone MP3, отдельный encoded-sample профиль с counters и сохранением raw delay/padding; 12 runtime profiles на редакцию. VBRI fixtures независимо собраны; реальный VBRI корпус и ga"
+    },
+    "P04.C224": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.67: LAME Info Tag CRC и анализ границ PCM, общее ядро Qt/Classic, 72 новые native checks и диагностика при growing playback. Это проверка метаданных без применения trim; gapless controller/Classic output "
+    },
+    "P04.C225": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.68: gapless MP3 в Qt, audible timeline, проверенный CRC, PCM trim/seek и ожидание writer complete. По 31 new native checks, четыре growing profiles и 16 controller PCM windows на Qt ОС; Classic явно отказ"
+    },
+    "P04.C228": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.69: обычный API Classic для gapless MP3, принудительный проверенный decoder, фактический PCM status, четыре growing profiles и Stop/cancel/reopen. Повторная Qt-проверка на обеих ОС; остальные MPEG/audio p"
+    },
+    "P04.C229": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.70: растущий WAV PCM16, RIFF, mono/stereo 44.1/48 kHz, известные RIFF/data sizes, побайтное сохранение PCM, partial packets и четыре runtime profiles трёх редакций. RF64/float/24-bit и остальная audio mat"
+    },
+    "P04.C230": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.71: растущий Ogg Opus, один logical stream mono/stereo 48 kHz, page CRC/continuations, pre-skip/gain и end trim, четыре growing profiles трёх редакций. Ogg Vorbis, chaining/multiplexing, live и остальная "
+    },
+    "P04.C231": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.72: растущий Ogg Vorbis, Vorbis I mono/stereo 48 kHz, granule origin 0 без initial trim, page CRC/continuations и EOS trim, четыре growing profiles трёх редакций. Initial trim/nonzero origin, chaining/mul"
+    },
+    "P04.C232": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.73: растущий AC-3, bsid 8, mono/stereo 48 kHz, CRC1/CRC2, неизменная конфигурация, 96 native checks и четыре growing profiles трёх редакций. Остальные layouts/rates/bsid и общая audio matrix открыты."
+    },
+    "P04.C233": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.74: растущий E-AC-3, независимый substream 0, bsid 16, mono/stereo 48 kHz, шесть блоков и CRC. Проверяются шесть битрейтов, 80 native checks и четыре growing profiles каждой редакции; dependent substreams"
+    },
+    "P04.C234": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.75: растущий WAV PCM24, legacy RIFF tag 1, mono/stereo 44.1/48 kHz, отдельная capability и in24/enda adapter. По 65 native checks и четыре growing profiles каждой редакции; все три байта PCM, clocks и RIF"
+    },
+    "P04.C235": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.76: растущий WAVEFORMATEXTENSIBLE PCM24, mono/stereo 44.1/48 kHz, PCM GUID, 24 container/valid bits и явные маски 4/3. По 83 native checks с FFmpeg и независимым struct writer, четыре growing profiles каж"
+    },
+    "P04.C236": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.77: растущий RF64 PCM16/PCM24, mono/stereo 44.1/48 kHz, обязательный ds64 и согласованные 64-bit sizes/sampleCount. По 161 native checks, восемь growing profiles каждой редакции и восемь синтетических сце"
+    },
+    "P04.C237": {
+      "level": 2,
+      "status": "todo",
+      "title": "Отсутствие аудиоустройства не делает валидный video-only источник ошибочным."
+    },
+    "P04.C237.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить валидное video-only воспроизведение без аудиоустройства в Linux Qt"
+    },
+    "P04.C237.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить тот же сценарий Windows Qt и Classic, включая ошибку backend AO"
+    },
+    "P04.C238": {
+      "level": 2,
+      "status": "todo",
+      "title": "MPEG-2/MPEG-4 Part 2 для предусмотренных ТЗ загрузок/локальных входов."
+    },
+    "P04.C238.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "MPEG-2 video: progressive reader/remux и decoder admission"
+    },
+    "P04.C238.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "MPEG-4 Part2: configuration/B-frames и progressive playback"
+    },
+    "P04.C238.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Подтвердить соответствующие реальные/локальные входы из ТЗ и отрицательные случаи"
+    },
+    "P05.C242": {
+      "level": 2,
+      "status": "done",
+      "title": "Дополнительная проверка SDK 1.81: предельные RF64: восемь native profiles на ОС на эффективной границе 250000 packets  / 16 GiB, отказ при превышении, по два фактических предельных playback profiles каждой реда"
+    },
+    "P05.C243": {
+      "level": 2,
+      "status": "done",
+      "title": "Дополнительная проверка SDK 1.81: физические sparse RF64 >4 GiB, PCM16/PCM24 stereo 48 kHz во всех трёх редакциях. Настоящие незаписанные дыры, дальний индексный seek без сканирования 4 GiB, обратный переход, о"
+    },
+    "P05.C244": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.81: отдельный sparse RF64 audio playback, стабильные offsets, фактический seek в островок и обратно, ожидание/заполнение дыр, pause/EOF/release и cancel-at-hole. По 272 native checks на ОС и четыре runtim"
+    },
+    "P05.C245": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.80: геометрическая RF64 packet map, точные интервалы готовых пакетов в том числе за дырой; по 242 native checks, 1608 synthetic geometry cases и actual status трёх редакций — проверки. Это диагностика без"
+    },
+    "P05.C246": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.79: RF64 publication вне порядка, непрерывный head prefix, ожидание дыр и same-reader resume с сохранением ручной паузы. По 229 native checks на ОС и четыре runtime profiles каждой редакции; отчёт. Seek в"
+    },
+    "P05.C247": {
+      "level": 2,
+      "status": "done",
+      "title": "SDK 1.78: внешний digest index для RF64 и физические PCM16/PCM24 stereo 48 kHz больше 4 GiB во всех трёх редакциях — контракт, сценарий, проверки. Это ограниченный результат; следующие общие пункты остаются отк"
+    },
+    "P05.C248": {
+      "level": 2,
+      "status": "todo",
+      "title": "Карта ranges в оставшихся playback-режимах: sparse holes, out-of-order запись и доступные островки данных."
+    },
+    "P05.C248.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Sparse holes в ещё не покрытых playback modes"
+    },
+    "P05.C248.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Out-of-order публикация диапазонов и отдельные доступные островки"
+    },
+    "P05.C248.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Seek и готовность по фактической карте диапазонов, а не по сплошному размеру файла"
+    },
+    "P05.C249": {
+      "level": 2,
+      "status": "todo",
+      "title": "Незаписанные дыры не читаются как нули; file size не заменяет подтверждение writer."
+    },
+    "P05.C249.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Незаписанные holes не выдаются декодеру как нули во всех допущенных путях"
+    },
+    "P05.C249.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Физический размер файла не заменяет опубликованные ranges/integrity"
+    },
+    "P05.C250": {
+      "level": 2,
+      "status": "todo",
+      "title": "Масштабируемые media indices и внешний индекс digest без огромного командного JSON."
+    },
+    "P05.C250.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Масштабировать media indices до согласованного большого корпуса"
+    },
+    "P05.C250.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Расширить внешний digest index за пределами уже проверенного RF64 среза"
+    },
+    "P05.C250.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Передавать большие наборы без огромного JSON и проверить память/дисковый кэш"
+    },
+    "P05.C251": {
+      "level": 2,
+      "status": "todo",
+      "title": "Быстрый поиск/старт большого каталога без полного предварительного сканирования."
+    },
+    "P05.C251.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Старт большого каталога сегментов без полного предварительного сканирования"
+    },
+    "P05.C251.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Быстрый seek и reopen большого каталога с ограниченным числом handles"
+    },
+    "P06.C255": {
+      "level": 2,
+      "status": "todo",
+      "title": "VFR, разные timebase, ненулевые/отрицательные offsets, preroll, edit lists и gapless metadata во всей матрице."
+    },
+    "P06.C255.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Ненулевые и отрицательные origins/offsets в оставшейся матрице"
+    },
+    "P06.C255.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Разные timebase и fractional clocks в ещё не покрытых сочетаниях"
+    },
+    "P06.C255.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Preroll/edit lists/gapless за пределами известных AAC/Opus профилей"
+    },
+    "P06.C255.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "VFR/endpoint semantics и неизвестные длина/конечная точка за пределами опубликованных MP4/WebM режимов"
+    },
+    "P06.C256": {
+      "level": 2,
+      "status": "todo",
+      "title": "Нужные варианты TS access units, discontinuity и rollover транспортных часов."
+    },
+    "P06.C256.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "TS access units для предусмотренных ещё не покрытых кодеков"
+    },
+    "P06.C256.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "TS discontinuity без ложного EOF/скачка общей шкалы"
+    },
+    "P06.C256.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Rollover транспортных часов и восстановление после seek"
+    },
+    "P06.C257": {
+      "level": 2,
+      "status": "todo",
+      "title": "Доступная граница по обязательным выбранным потокам; исходные PTS/DTS не обнуляются независимо."
+    },
+    "P06.C257.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Общая доступная граница обязательных выбранных потоков во всей матрице"
+    },
+    "P06.C257.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Сохранение относительных PTS/DTS при разных началах дорожек"
+    },
+    "P06.C258": {
+      "level": 2,
+      "status": "todo",
+      "title": "Start/resume/buffer policies, ручная пауза и восстановление синхронизации после ожидания/seek."
+    },
+    "P06.C258.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить start10s/restart5s/low-water1s и короткие законченные источники во всей матрице"
+    },
+    "P06.C258.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Сохранить ручную паузу при append/complete во всём корпусе"
+    },
+    "P06.C258.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Восстановить A/V sync после ожидания/seek без постоянного offset workaround"
+    },
+    "P07.C262": {
+      "level": 2,
+      "status": "todo",
+      "title": "Локальные init/media segments, параллельное получение, gaps, discontinuity и rebasing."
+    },
+    "P07.C262.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Локальные init/media HLS/DASH segments вне текущего узкого admission"
+    },
+    "P07.C262.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Параллельное получение сегментов и gaps"
+    },
+    "P07.C262.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Discontinuity/rebasing общей сегментной шкалы"
+    },
+    "P07.C263": {
+      "level": 2,
+      "status": "todo",
+      "title": "Расширенная сегментная codec/container matrix, включая Vorbis где применимо."
+    },
+    "P07.C263.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Зафиксировать конечную расширенную segmented codec/container матрицу"
+    },
+    "P07.C263.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Подключить и проверить недостающие video/audio пары"
+    },
+    "P07.C263.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Vorbis в допустимых сегментных входах"
+    },
+    "P07.C264": {
+      "level": 2,
+      "status": "todo",
+      "title": "Состояние аудио между сегментами, смена init/config и безопасный доступ к ключевым кадрам."
+    },
+    "P07.C264.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Сохранить audio decoder state между сегментами"
+    },
+    "P07.C264.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Обработать смену init/config на безопасной decode point"
+    },
+    "P07.C264.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Не открывать ещё недоступный keyframe/инициализацию"
+    },
+    "P07.C265": {
+      "level": 2,
+      "status": "todo",
+      "title": "Длинные каталоги, ограниченные handles/cache и повторное открытие ресурсов."
+    },
+    "P07.C265.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Длинные сегментные каталоги и Unicode"
+    },
+    "P07.C265.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Bounded handles/cache при большом числе ресурсов"
+    },
+    "P07.C265.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Retire/reopen ресурсов без потери identity"
+    },
+    "P08.C269": {
+      "level": 2,
+      "status": "todo",
+      "title": "Контролируемая переинициализация decoder на подходящей точке декодирования."
+    },
+    "P08.C269.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Найти допустимую decode point новой конфигурации"
+    },
+    "P08.C269.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Переинициализировать decoder и проверить old/new isolation"
+    },
+    "P08.C270": {
+      "level": 2,
+      "status": "todo",
+      "title": "Сохранение позиции, pause, speed, volume и выбранных дорожек."
+    },
+    "P08.C270.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Сохранить позицию и ручную паузу при смене качества"
+    },
+    "P08.C270.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Сохранить speed/volume и выбранные audio/subtitle tracks"
+    },
+    "P08.C271": {
+      "level": 2,
+      "status": "todo",
+      "title": "Недостаточные данные новой конфигурации дают ожидание с точной причиной."
+    },
+    "P08.C271.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Ожидать недостающие initialization/configuration bytes"
+    },
+    "P08.C271.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Выдать точную причину и продолжить после публикации без второго скачивания"
+    },
+    "P09.C275": {
+      "level": 2,
+      "status": "todo",
+      "title": "Несколько audio в muxed и segmented источниках; динамическое добавление/отключение."
+    },
+    "P09.C275.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Несколько audio в muxed источнике за пределами текущего admission"
+    },
+    "P09.C275.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Несколько audio в segmented источнике"
+    },
+    "P09.C275.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Позднее добавление и удаление audio без перезапуска загрузки"
+    },
+    "P09.C276": {
+      "level": 2,
+      "status": "todo",
+      "title": "Стабильные ID, language/label/default/forced и сохранение выбора."
+    },
+    "P09.C276.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Стабильные track IDs при revisions/reconnect"
+    },
+    "P09.C276.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Сохранять language/label/default/forced и пользовательский выбор"
+    },
+    "P09.C277": {
+      "level": 2,
+      "status": "todo",
+      "title": "Невыбранные optional tracks не тормозят просмотр; выбранная недокачанная дорожка ждёт свои данные."
+    },
+    "P09.C277.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Невыбранные optional audio не ограничивают primary"
+    },
+    "P09.C277.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Выбранная partial audio ждёт только необходимые диапазоны без молчаливой замены языка"
+    },
+    "P09.C278": {
+      "level": 2,
+      "status": "todo",
+      "title": "Ошибка optional audio изолируется и объясняется; язык не подменяется молча."
+    },
+    "P09.C278.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Изоляция optional audio errors на новых paths"
+    },
+    "P09.C278.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Показывать причину и дать явный выбор восстановления"
+    },
+    "P10.C282": {
+      "level": 2,
+      "status": "todo",
+      "title": "Растущие SRT/WebVTT/ASS/SSA/TTML, адаптеры JSON3/SRV."
+    },
+    "P10.C282.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Растущий SRT за пределами complete-only текущего профиля"
+    },
+    "P10.C282.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Растущий WebVTT"
+    },
+    "P10.C282.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Растущий ASS/SSA"
+    },
+    "P10.C282.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Растущий TTML"
+    },
+    "P10.C282.05": {
+      "level": 3,
+      "status": "todo",
+      "title": "Документированные JSON3/SRV адаптеры"
+    },
+    "P10.C283": {
+      "level": 2,
+      "status": "todo",
+      "title": "UTF-8/UTF-16/BOM и неполные cues; только завершённые события без дубликатов."
+    },
+    "P10.C283.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "UTF-8/UTF-16/BOM на границах обновления bytes"
+    },
+    "P10.C283.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Отбрасывать неполный cue до подтверждения"
+    },
+    "P10.C283.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Повторные revisions не дублируют subtitle events"
+    },
+    "P10.C284": {
+      "level": 2,
+      "status": "todo",
+      "title": "Embedded mov_text/WebVTT/ASS/SubRip; PGS/DVD subtitles с нужными headers/palettes в локальных контейнерах."
+    },
+    "P10.C284.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Embedded mov_text и WebVTT"
+    },
+    "P10.C284.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Embedded ASS и SubRip"
+    },
+    "P10.C284.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Локальные PGS с обязательными headers/palettes"
+    },
+    "P10.C284.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Локальные DVD subtitle с обязательными headers/palettes"
+    },
+    "P10.C285": {
+      "level": 2,
+      "status": "todo",
+      "title": "Styles/settings/language/default/forced; ограничения конвертации описаны без ложного обещания полного оформления."
+    },
+    "P10.C285.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "ASS styles и WebVTT settings"
+    },
+    "P10.C285.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Поддержанная часть TTML styling с явными ограничениями"
+    },
+    "P10.C285.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Language/default/forced и выбор subtitle track без потери при update"
+    },
+    "P10.C286": {
+      "level": 2,
+      "status": "todo",
+      "title": "Безопасные bounded fonts/attachments без установки в систему и внешних XML/HTML ресурсов."
+    },
+    "P10.C286.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Bounded font/attachment parser без установки в систему"
+    },
+    "P10.C286.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Запрет внешних XML entities/HTML resources"
+    },
+    "P10.C286.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Негативные size/path/malformed проверки attachments"
+    },
+    "P11.C290": {
+      "level": 2,
+      "status": "todo",
+      "title": "Совместная обработка container/writer chapters, стабильные IDs, late updates без сброса позиции."
+    },
+    "P11.C290.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Согласовать container и writer главы по стабильным IDs"
+    },
+    "P11.C290.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Late chapter updates без сброса позиции и дубликатов"
+    },
+    "P11.C291": {
+      "level": 2,
+      "status": "todo",
+      "title": "Неизвестная финальная duration и главы за доступной границей."
+    },
+    "P11.C291.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Работа глав при неизвестной конечной duration"
+    },
+    "P11.C291.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Переход к ещё недоступной главе через общие availability rules"
+    },
+    "P11.C292": {
+      "level": 2,
+      "status": "todo",
+      "title": "Covers/preview, названия дорожек, rotation/aspect ratio и HDR/color metadata."
+    },
+    "P11.C292.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Covers/preview не блокируют required A/V"
+    },
+    "P11.C292.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Названия дорожек и сохранение metadata при remux/finalize"
+    },
+    "P11.C292.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Rotation/aspect ratio из контейнера/writer"
+    },
+    "P11.C292.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Сохранить и диагностировать HDR/color metadata; physical output отдельно"
+    },
+    "P12.C296": {
+      "level": 2,
+      "status": "todo",
+      "title": "Live/event HLS и dynamic DASH через локальную публикацию writer."
+    },
+    "P12.C296.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Live/event HLS через локальный writer"
+    },
+    "P12.C296.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Dynamic DASH через локальный writer"
+    },
+    "P12.C297": {
+      "level": 2,
+      "status": "todo",
+      "title": "Неизвестная duration, движущееся окно, отдельная целевая задержка и reconnect."
+    },
+    "P12.C297.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Неизвестная duration и движущееся live окно"
+    },
+    "P12.C297.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Целевая задержка, reconnect и восстановление reader state"
+    },
+    "P12.C298": {
+      "level": 2,
+      "status": "todo",
+      "title": "Отсутствие сегмента/heartbeat не означает EOF; конец подтверждает writer."
+    },
+    "P12.C298.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Пропавший сегмент/heartbeat переводит в waiting, не EOF"
+    },
+    "P12.C298.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Только явный writer end завершает live"
+    },
+    "P12.C299": {
+      "level": 2,
+      "status": "todo",
+      "title": "Retirement вышедших ресурсов только после освобождения всеми readers; seek за окном имеет отдельную причину."
+    },
+    "P12.C299.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Retirement вышедших ресурсов после release всех readers"
+    },
+    "P12.C299.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Явный reason для seek вне live окна"
+    },
+    "P13.C303": {
+      "level": 2,
+      "status": "todo",
+      "title": "Оставшиеся UI-blocking пути probe/index/remux/read/teardown, Qt GL cleanup и обычные Classic graphs."
+    },
+    "P13.C303.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Оставшиеся blocking probe/index/remux/read paths вне UI"
+    },
+    "P13.C303.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Qt OpenGL cleanup без зависания UI"
+    },
+    "P13.C303.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Обычные UI-owned Classic graph/COM teardown"
+    },
+    "P13.C304": {
+      "level": 2,
+      "status": "todo",
+      "title": "Управляемая отмена ожиданий, bounded остановка внешнего процесса, фактические release/filesClosed receipts."
+    },
+    "P13.C304.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Отмена управляемых ожиданий при Stop/Close/Cancel"
+    },
+    "P13.C304.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Bounded остановка зависшего внешнего worker"
+    },
+    "P13.C304.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "FilesClosed/release receipts отражают реальное закрытие, включая registry contention"
+    },
+    "P13.C304.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить deadline ≤2s на всём поддержанном корпусе; device-stalled I/O отделён явно"
+    },
+    "P13.C305": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный player-crash срез: четыре RF64-профиля каждой редакции, два самостоятельных процесса, принудительное завершение при playing/buffering, подтверждение выхода ОС для старых readers, сохранение второго"
+    },
+    "P13.C306": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный writer-failure срез: RF64 PCM16/24, crash после неполного кадра и инъекция ENOSPC, восемь сценариев каждой редакции. ≥16 s без heartbeat не дают EOF/release живого reader; новый writer проверяет ба"
+    },
+    "P13.C307": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный final-file срез: rename RF64 при активных readers и complete после rename, четыре SHA-защищённых профиля каждой редакции, неизменное логическое имя, отказ подменённому пути, по восемь natural EOF и"
+    },
+    "P13.C308": {
+      "level": 2,
+      "status": "todo",
+      "title": "Writer/player crash, resume по идентичности bytes, несколько readers, rename и переход на итоговый файл."
+    },
+    "P13.C308.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Resume после writer/player/worker crash по identity bytes"
+    },
+    "P13.C308.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Изоляция нескольких readers при crash/Stop/reopen"
+    },
+    "P13.C308.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Rename/finalize для всех допущенных контейнеров"
+    },
+    "P13.C308.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Переход к итоговому файлу с сохранением позиции/паузы"
+    },
+    "P13.C309": {
+      "level": 2,
+      "status": "todo",
+      "title": "Ошибка preview не отменяет download; merge/writer errors не становятся успешным EOF."
+    },
+    "P13.C309.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Preview error не отменяет загрузку и не меняет архив"
+    },
+    "P13.C309.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Writer/merge failure не становится successful EOF"
+    },
+    "P13.C310": {
+      "level": 2,
+      "status": "done",
+      "title": "Schema 1: длинные локальные пути трёх редакций: 40 финальных случаев (14 Classic /14 Windows Qt /12 Linux Qt), точные exit 0. В Windows общий Unicode/extended-path helper; Classic снял 240-char/MAX_PATH и отдел"
+    },
+    "P13.C311": {
+      "level": 2,
+      "status": "done",
+      "title": "Schema 2 и continuous-remux: длинные source roots: 18 новых playback cases трёх редакций с каталогами 220/320/1100 chars, append/complete, decoder I/O, положительными filesClosed и worker OS exit; точные Python"
+    },
+    "P13.C312": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный private registry/cache и legacy-манифест срез: 3 native длины каждой ОС (до registry/cache 1120/1117 Linux и 1148/1145 Windows), реальные reads/worker/complete/filesClosed/очистка/forget; reader co"
+    },
+    "P13.C313": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный writable Qt profile и runtime-path срез: full main/CLI обычный/320/1100 в Windows и Linux; atomic INI sync и concurrent merge без orphan lock. Частная исправленная QtCore Windows сохраняет atomic s"
+    },
+    "P13.C314": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный Classic TEMP120/240 срез: 4 indexed/fragmented growing playback случая, реальные clock/append/complete, opt-in reader receipts и explicit filesClosed/forget, два normal main exit 0. Native Windows "
+    },
+    "P13.C315": {
+      "level": 2,
+      "status": "done",
+      "title": "Устранён блокирующий GetTempPathW при выборе Classic reader registry: matched longPathAware native control локализовал timeout, новый bounded environment resolver сохраняет TMP/TEMP/USERPROFILE/Windows preceden"
+    },
+    "P13.C316": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный Classic full-main long-TEMP playback: snapshot локализовал ожидание GetTempPathW внутри D3D9/driver→DbgHelp; process-local adapter сохраняет short native path/buffer semantics и корректно возвращае"
+    },
+    "P13.C317": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный Windows Qt exact-TEMP runtime/Player срез: частная QtCore сохраняет длинный user TMP/TEMP/USERPROFILE, короткий TMP приоритетен, пустые переменные пропускаются; SYSTEM делегирован штатному API и ре"
+    },
+    "P13.C318": {
+      "level": 2,
+      "status": "done",
+      "title": "Classic: пустой TMP→длинный TEMP: capacity1 пустой environment variable больше не считается нестабильным непустым значением. Старый native helper дал retained exit1; новый resolver19, real Detours6 и full main1"
+    },
+    "P13.C319": {
+      "level": 2,
+      "status": "blocked",
+      "title": "Внешний Python launcher с длинным собственным TEMP остаётся OPEN: пять owned controls/diagnostics и три stack snapshots локализуют ожидание GetTempPathW внутри Windows CreateProcess до возврата Popen"
+    },
+    "P13.C319.01": {
+      "level": 3,
+      "status": "done",
+      "title": "Сохранить normal-parent-TEMP маршрут и child-only long TEMP в инструкции"
+    },
+    "P13.C319.02": {
+      "level": 3,
+      "status": "blocked",
+      "title": "Проверить внешний Python CreateProcess с собственным long parent TEMP без изменения Harvester/Python/Windows"
+    },
+    "P13.C320": {
+      "level": 2,
+      "status": "done",
+      "title": "Qt literal `--harvester-session`, полный main/CLI: 10 случаев (по пять Linux/Windows): source roots 0/320/1100 со Stop, отдельно short-root natural EOF и writer failed; реальные IPC buffering/playing/paused/err"
+    },
+    "P13.C321": {
+      "level": 2,
+      "status": "todo",
+      "title": "Предельные длины компонентов/пути, Unicode private CLI argv и полный long-path rename matrix. Natural EOF/error на длинных roots — отдельная расширенная матрица, не результат short-root CLI-среза."
+    },
+    "P13.C321.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Предельная длина компонентов и полного пути"
+    },
+    "P13.C321.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Unicode private CLI argv на Windows и Linux"
+    },
+    "P13.C321.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Полная long-path rename/substitution матрица"
+    },
+    "P13.C321.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Natural EOF/error на длинных source roots за пределами короткого CLI контроля"
+    },
+    "P13.C322": {
+      "level": 2,
+      "status": "todo",
+      "title": "Owner/permissions, reparse/symlink/path traversal/substitution, IPC current-user, секреты не попадают в логи."
+    },
+    "P13.C322.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Owner/permissions/current-user IPC для всех новых путей"
+    },
+    "P13.C322.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Reparse/symlink/traversal/substitution для всех новых путей"
+    },
+    "P13.C322.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить отсутствие cookies/tokens/signed URLs в обычных и diagnostic logs"
+    },
+    "P13.C323": {
+      "level": 2,
+      "status": "deferred",
+      "title": "Network/removable filesystem capabilities только по отдельным доказательствам; обязательная база — local fixed drive."
+    },
+    "P13.C323.01": {
+      "level": 3,
+      "status": "deferred",
+      "title": "Network filesystem: отдельные identity/read/write/disconnect доказательства"
+    },
+    "P13.C323.02": {
+      "level": 3,
+      "status": "deferred",
+      "title": "Removable filesystem: отдельные identity/read/write/disconnect доказательства"
+    },
+    "P14.C327": {
+      "level": 2,
+      "status": "todo",
+      "title": "Общие точные reasonCodes и states для всех новых режимов; ok принятия команды не означает playing."
+    },
+    "P14.C327.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Общие точные states/reasonCodes во всех новых режимах"
+    },
+    "P14.C327.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Разделять command accepted, preparation, waiting, playing и terminal outcome"
+    },
+    "P14.C328": {
+      "level": 2,
+      "status": "todo",
+      "title": "Название/источник/выбранные дорожки/доступная граница/буфер/причина ожидания."
+    },
+    "P14.C328.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Название/источник/выбранные дорожки во всех новых modes"
+    },
+    "P14.C328.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Показывать доступную границу/буфер/конкретную причину waiting"
+    },
+    "P14.C329": {
+      "level": 2,
+      "status": "todo",
+      "title": "Pause/Stop/Seek, главы и track menus остаются отзывчивыми; activate=false не перехватывает фокус."
+    },
+    "P14.C329.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Отзывчивые Pause/Stop/Seek/track menus/главы во всей матрице"
+    },
+    "P14.C329.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить activate=false и отсутствие захвата фокуса"
+    },
+    "P14.C330": {
+      "level": 2,
+      "status": "todo",
+      "title": "Capabilities отражают фактические EXE/decoder builds; v1/client/legacy adapters не регрессировали."
+    },
+    "P14.C330.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Сверить фактические shipped EXE/worker/decoder capabilities"
+    },
+    "P14.C330.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить v1/client/legacy migration corpus на итоговых сборках"
+    },
+    "P15.C334": {
+      "level": 2,
+      "status": "todo",
+      "title": "Общая positive/negative matrix трёх редакций, минимум 10 секунд просмотра до complete."
+    },
+    "P15.C334.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Зафиксировать каждую обязательную positive/negative строку и её expected result"
+    },
+    "P15.C334.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Positive playback ≥10s до complete во всех трёх редакциях"
+    },
+    "P15.C334.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить неполученные bytes/ложный EOF/исходники/metadata на всём корпусе"
+    },
+    "P15.C334.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "У каждой negative/SKIP строки точная причина и подтверждённая ОС; запрет collector-only PASS"
+    },
+    "P15.C335": {
+      "level": 2,
+      "status": "todo",
+      "title": "Неравномерная запись, writer pauses 10/30/60 s, partial structures, holes, ошибки, disk full, cancel/crash."
+    },
+    "P15.C335.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Неравномерные скорости обязательных потоков"
+    },
+    "P15.C335.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Writer pauses 10/30/60s с корректным heartbeat"
+    },
+    "P15.C335.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Partial headers/packets, holes и out-of-order запись"
+    },
+    "P15.C335.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Disk full, cancel и crash на границах ввода/вывода"
+    },
+    "P15.C336": {
+      "level": 2,
+      "status": "todo",
+      "title": "Реальные разрешённые YT/VK/Rutube direct/HLS/DASH сценарии с protocol/format IDs и offline fixtures без секретных URL."
+    },
+    "P15.C336.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "YouTube direct/HLS/DASH там, где фактически доступно"
+    },
+    "P15.C336.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "VK direct/HLS/DASH там, где фактически доступно"
+    },
+    "P15.C336.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Rutube direct/HLS/DASH там, где фактически доступно"
+    },
+    "P15.C336.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Сохранить protocol/format IDs и воспроизводимые offline fixtures без секретных URL"
+    },
+    "P15.C337": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный срез: 100 native core open/cancel/release cycles на каждой ОС с предельными RF64, реальными sparse resources и RSS/private/handle measurements. Это не 100 полных GUI/decoder cycles; следующий общий"
+    },
+    "P15.C338": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный GUI/decoder срез: 100 start/toolbar-Stop/release циклов каждой редакции, 300 измеряемых и 12 прогревочных, четыре RF64 режима; pause/seek, реальный decoder I/O, filesClosed, SHA/удаление и budgets "
+    },
+    "P15.C339": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный concurrent RF64 срез: два playback endpoints и дополнительное чтение общего файла, максимум пять квитанций, четыре профиля каждой редакции, изолированные cancel/Stop/reopen и общий release перед уд"
+    },
+    "P15.C340": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный длительный срез: 600 s растущего RF64 каждой редакции, два самостоятельных процесса PCM16 ordinary / PCM24 sparse hint, последовательный префикс. Паузы writer 10/30/60 s с heartbeat, buffering/resu"
+    },
+    "P15.C341": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный длительный видеосрез: 600 s H.264/AAC fMP4 и MPEG-TS каждой редакции, два процесса, inline SHA, прежние паузы/бюджеты и положительный filesClosed. Найден и исправлен общий отказ при 129 inline SHA-"
+    },
+    "P15.C343": {
+      "level": 2,
+      "status": "done",
+      "title": "Текущая Classic: строгие 100 циклов +12 paused expiry, native exit 0. Проверена отдельная сборка с DWM/history fixes и bundled SDK 1.84, те же два PID, прежние немедленные resource/release budgets; baseline и в"
+    },
+    "P15.C344": {
+      "level": 2,
+      "status": "todo",
+      "title": "Длительные загрузки, минимум 100 start/cancel циклов, несколько readers, RAM/cache/temp/CPU/handles/threads без нарастающих утечек."
+    },
+    "P15.C344.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Длительные runs на расширенном codec/container корпусе"
+    },
+    "P15.C344.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Минимум100 start/cancel циклов остальных modes"
+    },
+    "P15.C344.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Несколько readers и смешанные редакции"
+    },
+    "P15.C344.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверить RAM/cache/temp/CPU/handles/threads budgets без нарастающих утечек"
+    },
+    "P15.C345": {
+      "level": 2,
+      "status": "todo",
+      "title": "Обычные завершённые файлы, пользовательские профили и shell registration не регрессировали."
+    },
+    "P15.C345.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Регрессия обычного completed-file corpus"
+    },
+    "P15.C345.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Сохранность пользовательских профилей и соседних установок"
+    },
+    "P15.C345.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Shell registration/HKCU до/после и независимость IPC/EXE/INI"
+    },
+    "P16.C349": {
+      "level": 2,
+      "status": "blocked",
+      "title": "Отдельное разрешение/задача на подключение реальных download events и кнопки preview в Harvester."
+    },
+    "P16.C349.01": {
+      "level": 3,
+      "status": "blocked",
+      "title": "Получить отдельную задачу/разрешение на реальные Harvester events/button"
+    },
+    "P16.C350": {
+      "level": 2,
+      "status": "blocked",
+      "title": "Сквозные start/update/complete/error/cancel/release из реального Harvester во всех трёх редакциях."
+    },
+    "P16.C350.01": {
+      "level": 3,
+      "status": "blocked",
+      "title": "Реальный Harvester → Linux Qt: start/update/complete/error/cancel/release"
+    },
+    "P16.C350.02": {
+      "level": 3,
+      "status": "blocked",
+      "title": "Реальный Harvester → Windows Qt: тот же conformance"
+    },
+    "P16.C350.03": {
+      "level": 3,
+      "status": "blocked",
+      "title": "Реальный Harvester → Classic: тот же conformance"
+    },
+    "P17.C358": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный кандидат AAC 1.84: ordinary main, чистый .deb и portable, атомарное обновление Linux и сохранность профиля."
+    },
+    "P17.C359": {
+      "level": 2,
+      "status": "done",
+      "title": "Локализован и исправлен Classic completed-seek race: parent cache complete опережал локальный fragment index. Старый код отказал с задержкой 800 ms, исправленный прошёл на том же MP4; подтверждены обычный EXE и"
+    },
+    "P17.C361": {
+      "level": 2,
+      "status": "todo",
+      "title": "Три проверенные сборки, Windows EXE/MSI и Linux .deb, SDK и инструкции интеграции."
+    },
+    "P17.C361.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Три окончательные проверенные сборки из одного commit"
+    },
+    "P17.C361.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Windows Classic EXE и MSI"
+    },
+    "P17.C361.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Windows Qt EXE и MSI"
+    },
+    "P17.C361.04": {
+      "level": 3,
+      "status": "todo",
+      "title": "Linux DEB и portable"
+    },
+    "P17.C361.05": {
+      "level": 3,
+      "status": "todo",
+      "title": "Совместимый SDK, writer/client и инструкции интеграции"
+    },
+    "P17.C362": {
+      "level": 2,
+      "status": "todo",
+      "title": "Исходники, воспроизводимые fixtures, версии/build options/licenses компонентов и итоговая matrix с exit codes."
+    },
+    "P17.C362.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Исходники и воспроизводимые test fixtures с происхождением"
+    },
+    "P17.C362.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Backend versions/build options/licenses"
+    },
+    "P17.C362.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Итоговая matrix с точными native exit codes"
+    },
+    "P17.C363": {
+      "level": 2,
+      "status": "todo",
+      "title": "Независимые установки/профили/регистрация; Linux обновлён с backup и проверкой сохранности INI."
+    },
+    "P17.C363.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Clean install/upgrade Windows Classic и Qt без смешения профилей"
+    },
+    "P17.C363.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Clean install/upgrade Linux с backup и сохранением INI"
+    },
+    "P17.C363.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Проверка независимости регистраций/IPC и соседних MPC/MPMY установок"
+    },
+    "P17.C364": {
+      "level": 2,
+      "status": "todo",
+      "title": "Итоговый GitHub release и проверка скачанных assets/checksums/source commit."
+    },
+    "P17.C364.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Опубликовать окончательный GitHub release после итоговых gates"
+    },
+    "P17.C364.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Скачать опубликованные assets и проверить checksums/source commit"
+    },
+    "P15.C368": {
+      "level": 2,
+      "status": "todo",
+      "title": "Старт после готового буфера ≤3 s, resume ≤2 s на согласованном эталонном ПК; remux preparation измеряется отдельно."
+    },
+    "P15.C368.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Согласовать эталонный ПК и измерительную методику start/resume"
+    },
+    "P15.C368.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Измерить ready-buffer start ≤3s и resume ≤2s во всей матрице"
+    },
+    "P15.C368.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Измерить remux preparation отдельно от ready-start"
+    },
+    "P15.C369": {
+      "level": 2,
+      "status": "deferred",
+      "title": "Абсолютная A/V ошибка ≤80 ms; накопленный drift за 30 min ≤40 ms, с описанной методикой физического выхода."
+    },
+    "P15.C369.01": {
+      "level": 3,
+      "status": "deferred",
+      "title": "Согласовать физический flash/beep стенд и latency устройства"
+    },
+    "P15.C369.02": {
+      "level": 3,
+      "status": "deferred",
+      "title": "Измерить абсолютную A/V ошибку ≤80ms"
+    },
+    "P15.C369.03": {
+      "level": 3,
+      "status": "deferred",
+      "title": "Измерить накопленный drift за30min ≤40ms"
+    },
+    "P06.VFR": {
+      "level": 2,
+      "status": "done",
+      "title": "BlockDuration VFR (SDK1.101)"
+    },
+    "P06.VFR.VFR-01": {
+      "level": 3,
+      "status": "done",
+      "title": "Реализовать отдельный режим и неизменяемые videoSamples/audioSamples."
+    },
+    "P06.VFR.VFR-02": {
+      "level": 3,
+      "status": "done",
+      "title": "Реализовать структурную обработку finite/unknown Clusters, проверку BlockDuration, PTS, endpoints и references."
+    },
+    "P06.VFR.VFR-03": {
+      "level": 3,
+      "status": "done",
+      "title": "Реализовать разрешение отсутствующего DefaultDuration только для явно выбранного VFR-пути."
+    },
+    "P06.VFR.VFR-04": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить проверку фактических интервалов к кэшу и состоянию готовности."
+    },
+    "P06.VFR.VFR-05": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить SDK/capabilities и проверить типы, идентичность и совместимость модулей: 53 + 19 + 63 unit tests."
+    },
+    "P06.VFR.VFR-06": {
+      "level": 3,
+      "status": "done",
+      "title": "Реализовать передачу VFR-флага в повторный FragmentIndex Classic; финальный функциональный прогон учитывается отдельно."
+    },
+    "P06.VFR.VFR-07": {
+      "level": 3,
+      "status": "done",
+      "title": "Выполнить первичный Linux Qt прогон: 6 ordinary-main сценариев и 6 PCM captures, с отдельными профилями."
+    },
+    "P06.VFR.VFR-08": {
+      "level": 3,
+      "status": "done",
+      "title": "Выполнить первичный Windows Qt ordinary-main прогон: 6 сценариев."
+    },
+    "P06.VFR.VFR-09": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить окончательный ordinary-main VFR-профиль всех трёх редакций, включая исправленный Classic."
+    },
+    "P06.VFR.VFR-10": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить PCM окончательных Qt/Classic сборок во всех трёх редакциях."
+    },
+    "P06.VFR.VFR-11": {
+      "level": 3,
+      "status": "done",
+      "title": "Завершить финальные worker/fault/negative проверки, sanitizer gates и прежние CFR/NTSC/25fps/AAC регрессии."
+    },
+    "P06.VFR.VFR-12": {
+      "level": 3,
+      "status": "done",
+      "title": "Свести результаты трёх редакций, точные exits, SHA и контроль сохранности установок/регистрации."
+    },
+    "P06.VFR.VFR-13": {
+      "level": 3,
+      "status": "done",
+      "title": "Атомарно обновить установленный Linux с backup и неизменным профилем; проверить его собственный SDK."
+    },
+    "P06.VFR.VFR-14": {
+      "level": 3,
+      "status": "done",
+      "title": "Обновить инструкции/матрицу, проверить чистый SDK, сохранить commit и push."
+    },
+    "P06.SIMPLE": {
+      "level": 2,
+      "status": "done",
+      "title": "SimpleBlock VFR, подготовка и runtime (SDK1.102)"
+    },
+    "P06.SIMPLE.SVP-01": {
+      "level": 3,
+      "status": "done",
+      "title": "Подготовить SimpleBlock VFR fixtures без DefaultDuration: VP9 p0/p2, fractional cadence, Opus mono/stereo, finite/unknown Clusters."
+    },
+    "P06.SIMPLE.SVP-02": {
+      "level": 3,
+      "status": "done",
+      "title": "Реализовать тестовый incremental parser, читающий только подтверждённые bytes и соблюдающий bounds."
+    },
+    "P06.SIMPLE.SVP-03": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить next-PTS lookahead, удержание последнего кадра и подтверждённый EOF без ложного complete."
+    },
+    "P06.SIMPLE.SVP-04": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить перепаковку BlockDuration и удаление устаревших SeekHead/Cues/Position/PrevSize/CRC без изменения packets/clocks/trim."
+    },
+    "P06.SIMPLE.SVP-05": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить partial headers/payloads, clock/count/EOF errors и лимиты pending buffers."
+    },
+    "P06.SIMPLE.SVP-06": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить canonical output через существующий VFR worker и настоящие PCM-декодеры трёх редакций."
+    },
+    "P06.SIMPLE.SVP-07": {
+      "level": 3,
+      "status": "done",
+      "title": "Свести exits, SHA, packet/PCM/video сравнения, сохранность исходников, установок и HKCU."
+    },
+    "P06.SIMPLE.SVP-08": {
+      "level": 3,
+      "status": "done",
+      "title": "Обновить контракт следующего production-режима, воспроизводимые тесты и опубликовать результаты."
+    },
+    "P06.SIMPLE.SVC-01": {
+      "level": 3,
+      "status": "done",
+      "title": "Зафиксировать отдельный source mode и границы без изменения старого VFR admission."
+    },
+    "P06.SIMPLE.SVC-02": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить bounded C++ incremental scanner и next-PTS lookahead."
+    },
+    "P06.SIMPLE.SVC-03": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить динамический canonical output к worker/cache без final-size oracle."
+    },
+    "P06.SIMPLE.SVC-04": {
+      "level": 3,
+      "status": "done",
+      "title": "Согласовать mode identity, frame/audio plan и decoder adapters Qt/Classic."
+    },
+    "P06.SIMPLE.SVC-05": {
+      "level": 3,
+      "status": "done",
+      "title": "Добавить SDK/capabilities и отрицательные проверки контракта."
+    },
+    "P06.SIMPLE.SVC-06": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить worker, partial structures/EOF, metadata, packets/clocks/video/PCM на Linux."
+    },
+    "P06.SIMPLE.SVC-07": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить Windows Qt worker и PCM."
+    },
+    "P06.SIMPLE.SVC-08": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить Classic worker и PCM с отдельным INI и неизменным HKCU."
+    },
+    "P06.SIMPLE.SVC-09": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить ordinary Linux Qt: ≥10 s до complete, pause/seek/queued target/EOF/release."
+    },
+    "P06.SIMPLE.SVC-10": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить те же ordinary-main сценарии Windows Qt."
+    },
+    "P06.SIMPLE.SVC-11": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить те же ordinary-main сценарии Classic."
+    },
+    "P06.SIMPLE.SVC-12": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить регрессии старых VFR/CFR/NTSC/25fps/AAC и sanitizer bounds."
+    },
+    "P06.SIMPLE.SVC-13": {
+      "level": 3,
+      "status": "done",
+      "title": "Свести отчёт, обновить матрицу/план, проверить профили/установки."
+    },
+    "P06.SIMPLE.SVC-14": {
+      "level": 3,
+      "status": "done",
+      "title": "Опубликовать исходники/clean SDK и атомарно обновить Linux с backup и неизменным INI."
+    },
+    "P06.AUTO": {
+      "level": 2,
+      "status": "done",
+      "title": "Производный video count (SDK1.103)"
+    },
+    "P06.AUTO.VAC-01": {
+      "level": 3,
+      "status": "done",
+      "title": "Зафиксировать отдельный source mode и границы без изменения старого VFR admission."
+    },
+    "P06.AUTO.VAC-02": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить bounded C++ scanner с ограниченным производным счётчиком и next-PTS lookahead."
+    },
+    "P06.AUTO.VAC-03": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить динамический canonical output к worker/cache без final-size oracle."
+    },
+    "P06.AUTO.VAC-04": {
+      "level": 3,
+      "status": "done",
+      "title": "Согласовать mode identity, производный video count и заданный audio plan и decoder adapters Qt/Classic."
+    },
+    "P06.AUTO.VAC-05": {
+      "level": 3,
+      "status": "done",
+      "title": "Добавить SDK/capabilities и отрицательные проверки контракта."
+    },
+    "P06.AUTO.VAC-06": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить worker, partial structures/EOF, metadata, packets/clocks/video/PCM на Linux."
+    },
+    "P06.AUTO.VAC-07": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить Windows Qt worker и PCM."
+    },
+    "P06.AUTO.VAC-08": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить Classic worker и PCM с отдельным INI и неизменным HKCU."
+    },
+    "P06.AUTO.VAC-09": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить ordinary Linux Qt: ≥10 s до complete, pause/seek/queued target/EOF/release."
+    },
+    "P06.AUTO.VAC-10": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить те же ordinary-main сценарии Windows Qt."
+    },
+    "P06.AUTO.VAC-11": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить те же ordinary-main сценарии Classic."
+    },
+    "P06.AUTO.VAC-12": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить регрессии старых VFR/CFR/NTSC/25fps/AAC и sanitizer bounds."
+    },
+    "P06.AUTO.VAC-13": {
+      "level": 3,
+      "status": "done",
+      "title": "Свести отчёт, обновить матрицу/план, проверить профили/установки."
+    },
+    "P06.AUTO.VAC-14": {
+      "level": 3,
+      "status": "done",
+      "title": "Опубликовать исходники/clean SDK и атомарно обновить Linux с backup и неизменным INI."
+    },
+    "P06.NOMINAL": {
+      "level": 2,
+      "status": "done",
+      "title": "Номинальный DefaultDuration (SDK1.104)"
+    },
+    "P06.NOMINAL.NVF-01": {
+      "level": 3,
+      "status": "done",
+      "title": "Зафиксировать отдельный source mode и границы без изменения старого VFR admission."
+    },
+    "P06.NOMINAL.NVF-02": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить bounded C++ admission номинального DefaultDuration, без изменения next-PTS интервалов."
+    },
+    "P06.NOMINAL.NVF-03": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить динамический canonical output к worker/cache без final-size oracle."
+    },
+    "P06.NOMINAL.NVF-04": {
+      "level": 3,
+      "status": "done",
+      "title": "Согласовать mode identity, производный video count и заданный audio plan и decoder adapters Qt/Classic."
+    },
+    "P06.NOMINAL.NVF-05": {
+      "level": 3,
+      "status": "done",
+      "title": "Добавить SDK/capabilities и отрицательные проверки контракта."
+    },
+    "P06.NOMINAL.NVF-06": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить worker, partial structures/EOF, metadata, packets/clocks/video/PCM на Linux."
+    },
+    "P06.NOMINAL.NVF-07": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить Windows Qt worker и PCM."
+    },
+    "P06.NOMINAL.NVF-08": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить Classic worker и PCM с отдельным INI и неизменным HKCU."
+    },
+    "P06.NOMINAL.NVF-09": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить ordinary Linux Qt: ≥10 s до complete, pause/seek/queued target/EOF/release."
+    },
+    "P06.NOMINAL.NVF-10": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить те же ordinary-main сценарии Windows Qt."
+    },
+    "P06.NOMINAL.NVF-11": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить те же ordinary-main сценарии Classic."
+    },
+    "P06.NOMINAL.NVF-12": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить регрессии старых VFR/CFR/NTSC/25fps/AAC и sanitizer bounds."
+    },
+    "P06.NOMINAL.NVF-13": {
+      "level": 3,
+      "status": "done",
+      "title": "Свести отчёт, обновить матрицу/план, проверить профили/установки."
+    },
+    "P06.NOMINAL.NVF-14": {
+      "level": 3,
+      "status": "done",
+      "title": "Опубликовать исходники/clean SDK и атомарно обновить Linux с backup и неизменным INI."
+    },
+    "P06.AUDIO": {
+      "level": 2,
+      "status": "done",
+      "title": "Производный audio count (SDK1.105)"
+    },
+    "P06.AUDIO.ADC-01": {
+      "level": 3,
+      "status": "done",
+      "title": "Зафиксировать семантику EOF, pre-skip/end-trim и границу потери целого пакета."
+    },
+    "P06.AUDIO.ADC-02": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить bounded incremental prototype без внешнего audioSamples."
+    },
+    "P06.AUDIO.ADC-03": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить partial packet, premature EOF, clocks/trim/framing и budgets."
+    },
+    "P06.AUDIO.ADC-04": {
+      "level": 3,
+      "status": "done",
+      "title": "Сверить derived count с независимым decoded PCM для full/short/zero-trim/minimal/VFR fixtures."
+    },
+    "P06.AUDIO.ADC-05": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить canonical output через существующие worker/PCM adapters трёх редакций, явно передавая известный count только после prototype EOF."
+    },
+    "P06.AUDIO.ADC-06": {
+      "level": 3,
+      "status": "done",
+      "title": "Подтвердить неизменность SDK/capabilities, установок/профилей и HKCU; не объявлять preflight новым playback mode."
+    },
+    "P06.AUDIO.ADC-07": {
+      "level": 3,
+      "status": "done",
+      "title": "Опубликовать воспроизводимые тесты, отчёт и production план."
+    },
+    "P06.AUDIO.ADC-08": {
+      "level": 3,
+      "status": "done",
+      "title": "Перенести bounded derived-audio state machine в рабочий C++ scanner."
+    },
+    "P06.AUDIO.ADC-09": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить worker/start/result без внешнего audioSamples и с точной mode identity."
+    },
+    "P06.AUDIO.ADC-10": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить независимую проверку cache count/trim/coverage; отделить provisional track end от writer EOF."
+    },
+    "P06.AUDIO.ADC-11": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить decoder adapters Qt/Classic, включая short audio, pause/seek и repeat indexing."
+    },
+    "P06.AUDIO.ADC-12": {
+      "level": 3,
+      "status": "done",
+      "title": "Добавить совместимый SDK/capabilities и отрицательные проверки, сохранив старые known-plan modes."
+    },
+    "P06.AUDIO.ADC-13": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить ordinary Linux Qt ≥10 s до complete, pause/growing/queued seek/EOF/release."
+    },
+    "P06.AUDIO.ADC-14": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить те же ordinary-main сценарии Windows Qt."
+    },
+    "P06.AUDIO.ADC-15": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить те же ordinary-main сценарии Classic, прежние modes и неизменность HKCU."
+    },
+    "P06.AUDIO.ADC-16": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить sanitizer/resource bounds; clean SDK, три сборки и атомарное обновление Linux с backup/неизменным профилем."
+    },
+    "P06.OPUS": {
+      "level": 2,
+      "status": "done",
+      "title": "Переменные Opus packets/pre-skip/DiscardPadding (SDK1.106)"
+    },
+    "P06.OPUS.OPG-01": {
+      "level": 3,
+      "status": "done",
+      "title": "Зафиксировать TOC/framing, packet duration, pre-skip и end-trim без внешнего audioSamples."
+    },
+    "P06.OPUS.OPG-02": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить bounded incremental test-only clock: confirmed bytes, partial packets, count final только после writer EOF."
+    },
+    "P06.OPUS.OPG-03": {
+      "level": 3,
+      "status": "done",
+      "title": "Подготовить реальные Opus-пакеты2.5/5/10/20/40/60/80/100/120ms, mono/stereo и finite/unknown Clusters."
+    },
+    "P06.OPUS.OPG-04": {
+      "level": 3,
+      "status": "done",
+      "title": "Подготовить чередующиеся20–120ms packets одного непрерывного codec state; сверить compressed packets/PTS/DTS, decoded video/PCM до/после canonical conversion."
+    },
+    "P06.OPUS.OPG-05": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить framing/clock/trim, premature EOF и sample/packet budgets; сохранить отказы старого режима."
+    },
+    "P06.OPUS.OPG-06": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить production TOC parser GNU/MinGW/MSVC и bounded sanitizer mutations."
+    },
+    "P06.OPUS.OPG-07": {
+      "level": 3,
+      "status": "done",
+      "title": "Измерить completed-file PCM реальных Qt/Classic decoder paths; явно сохранить расхождения и не выдавать file controls за progressive playback."
+    },
+    "P06.OPUS.OPG-08": {
+      "level": 3,
+      "status": "done",
+      "title": "Опубликовать отчёт, матрицу и production план; подтвердить неизменность SDK, установок/профилей и HKCU."
+    },
+    "P06.OPUS.OPG-09": {
+      "level": 3,
+      "status": "done",
+      "title": "Реализовать отдельную production clock/profile identity с длительностью из packet bytes и явным pre-skip."
+    },
+    "P06.OPUS.OPG-10": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить scanner/sealer/worker, сохранив bounded audio/video lookahead и прежний960-sample mode."
+    },
+    "P06.OPUS.OPG-11": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить независимый cache recount, variable PCM coverage и final-counter verification без угадывания EOF."
+    },
+    "P06.OPUS.OPG-12": {
+      "level": 3,
+      "status": "done",
+      "title": "Подключить Qt/Classic adapters с точными pre-skip/end-trim и seek по сумме длительностей; сохранить старый ABI/admission."
+    },
+    "P06.OPUS.OPG-13": {
+      "level": 3,
+      "status": "done",
+      "title": "Добавить совместимый API/SDK/capabilities и точные отрицательные reason codes после runtime подключения."
+    },
+    "P06.OPUS.OPG-14": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить ordinary Linux Qt ≥10s до complete, pause/growing/queued seek/EOF/release и growing PCM."
+    },
+    "P06.OPUS.OPG-15": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить те же сценарии Windows Qt."
+    },
+    "P06.OPUS.OPG-16": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить те же сценарии Classic с private INI и HKCU before/after."
+    },
+    "P06.OPUS.OPG-17": {
+      "level": 3,
+      "status": "done",
+      "title": "Проверить прежние modes, sanitizer/resource bounds и неодинаковые длительности при short/zero-trim audio."
+    },
+    "P06.OPUS.OPG-18": {
+      "level": 3,
+      "status": "done",
+      "title": "Подготовить три проверенные сборки/clean SDK и атомарно обновить Linux с backup/неизменным профилем."
+    },
+    "F0": {
+      "level": 1,
+      "status": "done",
+      "title": "Общая архитектура и три независимые редакции"
+    },
+    "F0.01": {
+      "level": 2,
+      "status": "done",
+      "title": "Сравнение возможностей и правила Classic↔Qt переноса"
+    },
+    "F0.02": {
+      "level": 2,
+      "status": "done",
+      "title": "Раздельные branding/логотипы/#LiberVixer и названия трёх редакций"
+    },
+    "F0.03": {
+      "level": 2,
+      "status": "done",
+      "title": "Независимые EXE/INI/IPC endpoints/ProgID и portable данные"
+    },
+    "F1": {
+      "level": 1,
+      "status": "done",
+      "title": "Общие команды, defaults и профили"
+    },
+    "F1.01": {
+      "level": 2,
+      "status": "done",
+      "title": "Общий каталог43 команд и адаптеры с постоянными IDs"
+    },
+    "F1.02": {
+      "level": 2,
+      "status": "done",
+      "title": "Общие Qt defaults; сохранённый профиль выше defaults"
+    },
+    "F1.03": {
+      "level": 2,
+      "status": "done",
+      "title": "Сохранить native defaults/клавиши Classic после отката"
+    },
+    "F1.04": {
+      "level": 2,
+      "status": "done",
+      "title": "OSD off, запоминание окна и отключённое ограничение пропорций окна по кадру"
+    },
+    "F1.05": {
+      "level": 2,
+      "status": "done",
+      "title": "Проверки новых/изменённых профилей, клавиш и сохранности установок"
+    },
+    "F2": {
+      "level": 1,
+      "status": "partial",
+      "title": "Обе Qt-платформы и автоматическая проверка"
+    },
+    "F2.01": {
+      "level": 2,
+      "status": "done",
+      "title": "Общие CMake группы Qt и отдельные native OS tests"
+    },
+    "F2.02": {
+      "level": 2,
+      "status": "done",
+      "title": "Win32 APPCOMMAND и Linux MPRIS адаптеры"
+    },
+    "F2.03": {
+      "level": 2,
+      "status": "todo",
+      "title": "Классифицировать весь Qt-корпус: общий/OS-adapter/Linux-only/Windows-only"
+    },
+    "F2.04": {
+      "level": 2,
+      "status": "todo",
+      "title": "Подключить самостоятельный Windows Qt CI workflow"
+    },
+    "F2.05": {
+      "level": 2,
+      "status": "todo",
+      "title": "Проверять portable Windows Qt на системном PATH без developer SDK"
+    },
+    "F2.06": {
+      "level": 2,
+      "status": "todo",
+      "title": "Убрать Linux-only backend варианты из Windows Qt и показывать реальный fallback"
+    },
+    "F3": {
+      "level": 1,
+      "status": "done",
+      "title": "Интерфейс и управление семейства"
+    },
+    "F3.01": {
+      "level": 2,
+      "status": "done",
+      "title": "Девять общих Qt меню, контекстные действия, дерево/вкладки/поиск/загрузка настроек"
+    },
+    "F3.02": {
+      "level": 2,
+      "status": "done",
+      "title": "Classic: только порядок родных меню/страниц с сохранением переводов и темы"
+    },
+    "F3.03": {
+      "level": 2,
+      "status": "done",
+      "title": "Classic dark settings: рамки/scrollbars/checkboxes/встроенные фильтры"
+    },
+    "F3.04": {
+      "level": 2,
+      "status": "done",
+      "title": "Панель Classic↔Qt: hover/pressed, Previous/Next, Open/Frame ПКМ"
+    },
+    "F3.05": {
+      "level": 2,
+      "status": "done",
+      "title": "Заголовок/нижняя строка/громкость/цвет линий глав и светлая тема"
+    },
+    "F3.06": {
+      "level": 2,
+      "status": "done",
+      "title": "Плейлисты, история, избранное и собственные форматы каждой редакции"
+    },
+    "F5": {
+      "level": 1,
+      "status": "deferred",
+      "title": "Мастер переноса библиотеки и предпочтений"
+    },
+    "F5.01": {
+      "level": 2,
+      "status": "deferred",
+      "title": "Нейтральный формат истории/избранного и общих предпочтений Classic↔Qt"
+    },
+    "F5.02": {
+      "level": 2,
+      "status": "deferred",
+      "title": "Предпросмотр импорта с несовместимыми полями и Windows/Linux paths"
+    },
+    "F5.03": {
+      "level": 2,
+      "status": "deferred",
+      "title": "Проверить перенос без изменения исходной установки/файлов"
+    },
+    "F6": {
+      "level": 1,
+      "status": "partial",
+      "title": "Мультимедиа и платформенные ограничения"
+    },
+    "F6.01": {
+      "level": 2,
+      "status": "done",
+      "title": "Программные результаты17 принятых Linux этапов в документированных границах"
+    },
+    "F6.02": {
+      "level": 2,
+      "status": "done",
+      "title": "Qt Windows/Linux: два PCM выхода и собственные audio adapters"
+    },
+    "F6.03": {
+      "level": 2,
+      "status": "todo",
+      "title": "Общие сценарии SRT/ASS, оформления и сохранения subtitle editor"
+    },
+    "F6.04": {
+      "level": 2,
+      "status": "todo",
+      "title": "Сравнить семантику audio delay/gain/mixer/filter диапазонов трёх редакций"
+    },
+    "F6.05": {
+      "level": 2,
+      "status": "todo",
+      "title": "Общие пресеты crop/pan/цвет/скейлеры и диагностика фактического decoder/renderer/AO"
+    },
+    "F6.06": {
+      "level": 2,
+      "status": "todo",
+      "title": "WinLIRC/SMTC/global hotkeys: определить применимую платформенную совместимость без требования одинакового backend"
+    },
+    "F6.07": {
+      "level": 2,
+      "status": "todo",
+      "title": "Расширенный безопасный GLSL hook importer за пределами текущего ограниченного профиля"
+    },
+    "F6.08": {
+      "level": 2,
+      "status": "deferred",
+      "title": "Физические мониторы/GPU/HDR/стерео/HDMI/S-PDIF/ресиверы/пульты"
+    },
+    "F6.09": {
+      "level": 2,
+      "status": "deferred",
+      "title": "Меню дисков"
+    },
+    "F6.10": {
+      "level": 2,
+      "status": "deferred",
+      "title": "Аналоговое ТВ"
+    },
+    "F6.11": {
+      "level": 2,
+      "status": "deferred",
+      "title": "Физические устройства захвата/ТВ"
+    },
+    "F7": {
+      "level": 1,
+      "status": "partial",
+      "title": "Общий цикл сборки и версии семейства"
+    },
+    "F7.01": {
+      "level": 2,
+      "status": "done",
+      "title": "0.2.0: три portable, Windows MSI/EXE и Linux DEB опубликованы"
+    },
+    "F7.02": {
+      "level": 2,
+      "status": "done",
+      "title": "Общий family release manifest с commit/versions/hashes"
+    },
+    "F7.03": {
+      "level": 2,
+      "status": "todo",
+      "title": "Общий CI цикл трёх редакций с aggregate report"
+    },
+    "F7.04": {
+      "level": 2,
+      "status": "todo",
+      "title": "Один процесс сборки пакетов из одного commit и общий release gate"
+    },
+    "P14.RANGE": {
+      "level": 2,
+      "status": "todo",
+      "title": "Запрос нужного диапазона/приоритета writer и порционная передача больших metadata"
+    },
+    "P14.RANGE.01": {
+      "level": 3,
+      "status": "todo",
+      "title": "Согласовать capability запроса диапазона/приоритета и точный player/client ответ"
+    },
+    "P14.RANGE.02": {
+      "level": 3,
+      "status": "todo",
+      "title": "Передать запрос через SDK-клиент; writer без этой capability оставляет просмотр в честном waiting"
+    },
+    "P14.RANGE.03": {
+      "level": 3,
+      "status": "todo",
+      "title": "Передавать большие главы/субтитры ограниченными порциями или локальными ресурсами без увеличения JSON лимита"
+    },
+    "P00.NATIVE": {
+      "level": 2,
+      "status": "done",
+      "title": "Отдельные native v2 потоки и смешанные пары в опубликованных границах"
+    },
+    "P00.NATIVE.01": {
+      "level": 3,
+      "status": "done",
+      "title": "Первый separate fMP4 H.264/AAC-LC playback schema2"
+    },
+    "P00.NATIVE.02": {
+      "level": 3,
+      "status": "done",
+      "title": "Separate HEVC Main/Main10 fMP4 + AAC-LC"
+    },
+    "P00.NATIVE.03": {
+      "level": 3,
+      "status": "done",
+      "title": "Separate AV1 Main8/10 fMP4 + AAC-LC"
+    },
+    "P00.NATIVE.04": {
+      "level": 3,
+      "status": "done",
+      "title": "Separate VP9p0/p2 fMP4 + AAC-LC"
+    },
+    "P00.NATIVE.05": {
+      "level": 3,
+      "status": "done",
+      "title": "Opus fMP4 с четырьмя разрешёнными video codecs"
+    },
+    "P00.NATIVE.06": {
+      "level": 3,
+      "status": "done",
+      "title": "Separate WebM VP9/Opus"
+    },
+    "P00.NATIVE.07": {
+      "level": 3,
+      "status": "done",
+      "title": "Separate WebM AV1/Opus"
+    },
+    "P00.NATIVE.08": {
+      "level": 3,
+      "status": "done",
+      "title": "Смешанные separate fMP4/WebM в обоих направлениях"
+    },
+    "P00.NATIVE.09": {
+      "level": 3,
+      "status": "done",
+      "title": "Separate VP8 и Vorbis в WebM"
+    },
+    "P07.BASE": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный локальный segmented профиль; не полный HLS/DASH допуск"
+    },
+    "P07.BASE.01": {
+      "level": 3,
+      "status": "done",
+      "title": "Сегментный timeline/schema и диагностический probe"
+    },
+    "P07.BASE.02": {
+      "level": 3,
+      "status": "done",
+      "title": "Безопасный bounded segment staging"
+    },
+    "P07.BASE.03": {
+      "level": 3,
+      "status": "done",
+      "title": "Segmented H.264/AAC-LC fMP4 playback"
+    },
+    "P07.BASE.04": {
+      "level": 3,
+      "status": "done",
+      "title": "Segmented HEVC fMP4 playback"
+    },
+    "P07.BASE.05": {
+      "level": 3,
+      "status": "done",
+      "title": "Segmented AV1 fMP4 playback"
+    },
+    "P07.BASE.06": {
+      "level": 3,
+      "status": "done",
+      "title": "Segmented VP9/Opus fMP4 playback"
+    },
+    "P07.BASE.07": {
+      "level": 3,
+      "status": "done",
+      "title": "Ограниченные WebM segments"
+    },
+    "P07.BASE.08": {
+      "level": 3,
+      "status": "done",
+      "title": "Каталог сегментов и ограниченный cache/handles профиль"
+    },
+    "P01.AVC": {
+      "level": 2,
+      "status": "done",
+      "title": "Shared growing H.264/AAC fMP4"
+    },
+    "P02.NATIVE_TS": {
+      "level": 2,
+      "status": "done",
+      "title": "Shared growing H.264/AAC MPEG-TS"
+    },
+    "P02.MUXWEBM": {
+      "level": 2,
+      "status": "done",
+      "title": "Native shared growing WebM A/V в опубликованных профилях"
+    },
+    "P02.MUXWEBM.01": {
+      "level": 3,
+      "status": "done",
+      "title": "Muxed WebM VP9/Opus"
+    },
+    "P02.MUXWEBM.02": {
+      "level": 3,
+      "status": "done",
+      "title": "Muxed WebM VP8/Opus"
+    },
+    "P02.MUXWEBM.03": {
+      "level": 3,
+      "status": "done",
+      "title": "Muxed WebM AV1/Opus"
+    },
+    "P02.MUXWEBM.04": {
+      "level": 3,
+      "status": "done",
+      "title": "Muxed WebM VP8/VP9/AV1 с Vorbis"
+    },
+    "P09.BASE": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченный multi-audio/optional профиль уже работает"
+    },
+    "P09.BASE.01": {
+      "level": 3,
+      "status": "done",
+      "title": "Несколько required audio с выбором языка"
+    },
+    "P09.BASE.02": {
+      "level": 3,
+      "status": "done",
+      "title": "Поздняя полная optional audio"
+    },
+    "P09.BASE.03": {
+      "level": 3,
+      "status": "done",
+      "title": "Выбор частично скачанной optional audio и ожидание данных"
+    },
+    "P09.BASE.04": {
+      "level": 3,
+      "status": "done",
+      "title": "Изоляция ошибок активной optional audio"
+    },
+    "P10.BASE": {
+      "level": 2,
+      "status": "done",
+      "title": "Поздние полные UTF-8 SRT и изоляция optional errors"
+    },
+    "P11.BASE": {
+      "level": 2,
+      "status": "done",
+      "title": "Ограниченные writer metadata/chapters уже работают"
+    },
+    "P11.BASE.01": {
+      "level": 3,
+      "status": "done",
+      "title": "Поздние metadata с revision/stable chapter IDs"
+    },
+    "P11.BASE.02": {
+      "level": 3,
+      "status": "done",
+      "title": "Реальные главы/title в UI, очистка и смена сеанса"
+    },
+    "F6.01.L05": {
+      "level": 3,
+      "status": "done",
+      "title": "Действия после окончания — только описанная программная часть"
+    },
+    "F6.01.L01": {
+      "level": 3,
+      "status": "done",
+      "title": "Открытие файлов и источников — только описанная программная часть"
+    },
+    "F6.01.L02": {
+      "level": 3,
+      "status": "done",
+      "title": "Онлайн-видео и сеть — только описанная программная часть"
+    },
+    "F6.01.L03": {
+      "level": 3,
+      "status": "done",
+      "title": "Диски и устройства — только описанная программная часть"
+    },
+    "F6.01.L04": {
+      "level": 3,
+      "status": "done",
+      "title": "Управление воспроизведением — только описанная программная часть"
+    },
+    "F6.01.L06": {
+      "level": 3,
+      "status": "done",
+      "title": "Плейлист — расширенные возможности — только описанная программная часть"
+    },
+    "F6.01.L07": {
+      "level": 3,
+      "status": "done",
+      "title": "Форматы и поведение плейлиста — только описанная программная часть"
+    },
+    "F6.01.L08": {
+      "level": 3,
+      "status": "done",
+      "title": "История и избранное — только описанная программная часть"
+    },
+    "F6.01.L09": {
+      "level": 3,
+      "status": "done",
+      "title": "Окно и полный экран — только описанная программная часть"
+    },
+    "F6.01.L10": {
+      "level": 3,
+      "status": "done",
+      "title": "Оформление, OSD и превью — только описанная программная часть"
+    },
+    "F6.01.L11": {
+      "level": 3,
+      "status": "done",
+      "title": "Клавиатура, мышь, внешнее управление — только описанная программная часть"
+    },
+    "F6.01.L12": {
+      "level": 3,
+      "status": "done",
+      "title": "Pan&Scan и преобразования — только описанная программная часть"
+    },
+    "F6.01.L13": {
+      "level": 3,
+      "status": "done",
+      "title": "Расширенные субтитры — только описанная программная часть"
+    },
+    "F6.01.L14": {
+      "level": 3,
+      "status": "done",
+      "title": "Расширенный звук — только описанная программная часть"
+    },
+    "F6.01.L15": {
+      "level": 3,
+      "status": "done",
+      "title": "Видеовывод и обработка — только описанная программная часть"
+    },
+    "F6.01.L16": {
+      "level": 3,
+      "status": "done",
+      "title": "Свойства, диагностика, сохранение — только описанная программная часть"
+    },
+    "F6.01.L17": {
+      "level": 3,
+      "status": "done",
+      "title": "Интеграция, профиль, обслуживание — только описанная программная часть"
+    }
+  },
+  "total": {
+    "total": 646,
+    "done": 327,
+    "remaining": 319,
+    "active": 282,
+    "blocked": 22,
+    "deferred": 15
+  },
+  "leaves": {
+    "total": 537,
+    "done": 309,
+    "remaining": 228,
+    "active": 203,
+    "blocked": 13,
+    "deferred": 12
+  },
+  "sourceCheckboxes": 324,
+  "aliases": 8
+}
