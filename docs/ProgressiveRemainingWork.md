@@ -118,7 +118,7 @@ Production подключение всех трёх редакций и [при�
 завершены. [Фиксированный чеклист](ProgressiveOpusGeometryExecutionChecklist.md):
 18 всего/18 готово/0 осталось — [clean SDK и установка Linux проверены](ProgressiveContinuousWebmPacketOpusDelivery-2026-11-17.json). SDK1.106 сохраняет
 прежние ограничения остальных profiles; известные length/video endpoint обязательны.
-Следующий R01 выбирается по таблице ещё не поддержанных layouts.
+Следующий R01: **P02.C149.02 — ordinary M4A/audio-only**, по [зафиксированной матрице](ProgressiveRequiredMediaMatrix.md). Зависимость P02.C149.01 завершена; обобщённый demux не объявлен готовым.
 
 1. Составить таблицу оставшихся container/codec/layout rows: уже native-progressive,
    continuous-remux, probe-only, waiting-index и неподдержанные. Для каждой строки

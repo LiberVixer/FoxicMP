@@ -1,0 +1,5334 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-11-17",
+  "workId": "P02.C149.01",
+  "scope": "Known mandatory positive reference families and inherited bounded profiles; future real-corpus additions require explicit revision, never a silent full-format claim",
+  "productChanged": false,
+  "existingProfiles": [
+    {
+      "id": "growing-muxed-fmp4-av1-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedFmp4Av1.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-fmp4-av1-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedFmp4Opus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-fmp4-h264-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedFmp4.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-fmp4-h264-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedFmp4Opus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-fmp4-hevc-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedFmp4Hevc.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-fmp4-hevc-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedFmp4Opus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-fmp4-vp9-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedFmp4Vp9.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-fmp4-vp9-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedFmp4Opus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-mp4-h264-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveIndexedMp4.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-mpegts-h264-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveGrowingTs.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-webm-av1-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedWebmAv1.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-webm-av1-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedWebmVorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-webm-vp8-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedWebmVp8.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-webm-vp8-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedWebmVorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-webm-vp9-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedWebm.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-muxed-webm-vp9-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedWebmVorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "growing-tail-mp4-h264-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveTailMp4.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-fmp4-av1-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveSegmentAv1.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-fmp4-av1-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveSegmentVp9Opus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-fmp4-h264-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveSegmentPlayback.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-fmp4-h264-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveSegmentVp9Opus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-fmp4-hevc-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveSegmentHevc.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-fmp4-hevc-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveSegmentVp9Opus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-fmp4-vp9-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveSegmentVp9Opus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-fmp4-vp9-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveSegmentVp9Opus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-mpegts-h264-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveTsPlayback.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-muxed-mpegts-h264-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMuxedTsPlayback.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-webm-av1-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveWebmSegments.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-webm-vp8-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveWebmSegments.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "segmented-webm-vp9-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveWebmSegments.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-av1-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveAv1.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-av1-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveOpus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-h264-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMediaV2.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-h264-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveOpus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-hevc-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveHevc.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-hevc-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveOpus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-vp9-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveVp9.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-vp9-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveOpus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-webm-av1-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMixedContainers.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-webm-av1-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveVp8Vorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-webm-h264-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMixedContainers.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-webm-h264-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveVp8Vorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-webm-hevc-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMixedContainers.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-webm-hevc-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveVp8Vorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-webm-vp9-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMixedContainers.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-fmp4-webm-vp9-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveVp8Vorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-av1-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveWebMAv1.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-av1-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveVp8Vorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-fmp4-av1-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMixedContainers.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-fmp4-av1-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMixedContainers.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-fmp4-vp8-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveVp8Vorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-fmp4-vp8-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveVp8Vorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-fmp4-vp9-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMixedContainers.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-fmp4-vp9-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMixedContainers.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-vp8-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveVp8Vorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-vp8-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveVp8Vorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-vp9-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveWebM.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "separate-webm-vp9-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveVp8Vorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-ac3",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveAc3.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-adts-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveAdts.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-eac3",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveEac3.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-flac",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveRawFlac.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-fmp4-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandalone.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-fmp4-av1",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandaloneFmp4Video.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-fmp4-flac",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandaloneFlac.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-fmp4-h264",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandalone.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-fmp4-hevc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandaloneFmp4Video.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-fmp4-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandaloneOpus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-fmp4-vp9",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandaloneFmp4Video.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-mp3",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMp3.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-mp3-gapless",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMp3Gapless.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-mp3-indexed",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveMp3Indexed.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-ogg-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveOggOpus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-ogg-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveOggVorbis.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-rf64-pcm16",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveRf64.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-rf64-pcm24",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveRf64.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-rf64-sparse-pcm16",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveRf64RangeMap.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-rf64-sparse-pcm24",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveRf64RangeMap.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-wav-extensible-pcm24",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveWavExtensible24.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-wav-pcm16",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveWav.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-wav-pcm24",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveWav24.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-webm-av1",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandaloneWebmVideo.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-webm-opus",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandaloneWebm.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-webm-vorbis",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandaloneWebm.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-webm-vp8",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandaloneWebmVideo.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "standalone-webm-vp9",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveStandaloneWebmVideo.md"
+      ],
+      "status": "bounded-existing",
+      "admission": "Только точные ограничения исходного capability и связанного отчёта; не вся строка контейнера"
+    },
+    {
+      "id": "continuous-h264-video-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousSdk.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-h264-video-v1",
+        "containerHint": "mp4",
+        "videoCodec": "h264",
+        "videoOnly": true,
+        "audio": false,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": false
+      }
+    },
+    {
+      "id": "continuous-h264-reordered-video-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveReorderedSdk.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-h264-reordered-video-v1",
+        "containerHint": "mp4",
+        "videoCodec": "h264",
+        "videoOnly": true,
+        "audio": false,
+        "bFrames": true,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true
+      }
+    },
+    {
+      "id": "continuous-h264-aac-window-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousAacApi.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-h264-aac-window-v1",
+        "containerHint": "mp4",
+        "videoCodec": "h264",
+        "videoOnly": false,
+        "audio": true,
+        "audioCodec": "aac-lc",
+        "bFrames": true,
+        "sampleRates": [
+          44100,
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": true,
+        "pcmWindowVersion": 1,
+        "initialSkipSamples": 1024,
+        "presentationSamplesRequired": true,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true
+      }
+    },
+    {
+      "id": "continuous-hevc-reordered-video-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousHevc.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-hevc-reordered-video-v1",
+        "containerHint": "mp4",
+        "videoCodec": "hevc",
+        "videoOnly": true,
+        "audio": false,
+        "bFrames": true,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "hevcProfiles": [
+          "main",
+          "main10"
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "hvc1",
+          "hev1"
+        ],
+        "nalLengthBytes": 4,
+        "singleLayer": true,
+        "requiredTrackKinds": [
+          "video"
+        ],
+        "codecHintRequired": true,
+        "maxParameterSetsPerType": 1,
+        "firstPicture": "irap"
+      }
+    },
+    {
+      "id": "continuous-hevc-aac-window-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousHevcAac.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-hevc-aac-window-v1",
+        "containerHint": "mp4",
+        "videoCodec": "hevc",
+        "videoOnly": false,
+        "audio": true,
+        "audioCodec": "aac-lc",
+        "bFrames": true,
+        "sampleRates": [
+          44100,
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": true,
+        "pcmWindowVersion": 1,
+        "initialSkipSamples": 1024,
+        "presentationSamplesRequired": true,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "hevcProfiles": [
+          "main",
+          "main10"
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "hvc1",
+          "hev1"
+        ],
+        "nalLengthBytes": 4,
+        "singleLayer": true,
+        "codecHintRequired": true,
+        "maxParameterSetsPerType": 1,
+        "firstPicture": "irap"
+      }
+    },
+    {
+      "id": "continuous-av1-video-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousAv1.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-av1-video-v1",
+        "containerHint": "mp4",
+        "videoCodec": "av1",
+        "videoOnly": true,
+        "audio": false,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video"
+        ],
+        "codecHintRequired": true,
+        "av1Profiles": [
+          "main"
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "av01"
+        ],
+        "singleLayer": true,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": false,
+        "showExistingFrames": false,
+        "stillPicture": false,
+        "lowOverheadObuRequired": true,
+        "obuTypes": [
+          1,
+          2,
+          5,
+          6,
+          15
+        ],
+        "sequenceHeaderRequiredInFirstPacket": true
+      }
+    },
+    {
+      "id": "continuous-av1-aac-window-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousAv1Aac.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-av1-aac-window-v1",
+        "containerHint": "mp4",
+        "videoCodec": "av1",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "av1Profiles": [
+          "main"
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "av01"
+        ],
+        "singleLayer": true,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": false,
+        "showExistingFrames": false,
+        "stillPicture": false,
+        "lowOverheadObuRequired": true,
+        "obuTypes": [
+          1,
+          2,
+          5,
+          6,
+          15
+        ],
+        "sequenceHeaderRequiredInFirstPacket": true,
+        "audioCodec": "aac-lc",
+        "sampleRates": [
+          44100,
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": true,
+        "pcmWindowVersion": 1,
+        "initialSkipSamples": 1024,
+        "presentationSamplesRequired": true
+      }
+    },
+    {
+      "id": "continuous-vp9-video-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousVp9.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-vp9-video-v1",
+        "containerHint": "mp4",
+        "videoCodec": "vp9",
+        "videoOnly": true,
+        "audio": false,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "headMoovRequired": true,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": false,
+        "showExistingFrames": false,
+        "superframes": false,
+        "fixedCodedAndRenderSize": true
+      }
+    },
+    {
+      "id": "continuous-vp9-aac-window-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousVp9Aac.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-vp9-aac-window-v1",
+        "containerHint": "mp4",
+        "videoCodec": "vp9",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "headMoovRequired": true,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": false,
+        "showExistingFrames": false,
+        "superframes": false,
+        "fixedCodedAndRenderSize": true,
+        "audioCodec": "aac-lc",
+        "sampleRates": [
+          44100,
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": true,
+        "pcmWindowVersion": 1,
+        "initialSkipSamples": 1024,
+        "presentationSamplesRequired": true
+      }
+    },
+    {
+      "id": "continuous-vp9-superframe-video-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousVp9Superframe.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-vp9-superframe-video-v1",
+        "containerHint": "mp4",
+        "videoCodec": "vp9",
+        "videoOnly": true,
+        "audio": false,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "headMoovRequired": true,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true
+      }
+    },
+    {
+      "id": "continuous-vp9-superframe-aac-window-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousVp9SuperframeAac.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-vp9-superframe-aac-window-v1",
+        "containerHint": "mp4",
+        "videoCodec": "vp9",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "headMoovRequired": true,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true,
+        "audioCodec": "aac-lc",
+        "sampleRates": [
+          44100,
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": true,
+        "pcmWindowVersion": 1,
+        "initialSkipSamples": 1024,
+        "presentationSamplesRequired": true
+      }
+    },
+    {
+      "id": "continuous-webm-vp9-video-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousWebmVp9.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-webm-vp9-video-v1",
+        "containerHint": "webm",
+        "videoCodec": "vp9",
+        "videoOnly": true,
+        "audio": false,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": false,
+        "showExistingFrames": false,
+        "superframes": false,
+        "fixedCodedAndRenderSize": true,
+        "unknownSegmentSizeRequired": true,
+        "finiteClusters": true,
+        "unknownSizeClusters": true,
+        "simpleBlocksOnly": true,
+        "lacing": false,
+        "blockGroups": false,
+        "timestampScaleNanoseconds": 1000000,
+        "defaultDurationNanoseconds": 40000000,
+        "frameRate": 25,
+        "expectedSamplesFromTimeline": true,
+        "maxClusterBytes": 16777216,
+        "maxClusters": 8192,
+        "maxTopLevelElements": 32768,
+        "maxClusterChildren": 65536,
+        "maxMetadataDepth": 8,
+        "maxHeadElements": 32
+      }
+    },
+    {
+      "id": "continuous-webm-vp9-superframe-video-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousWebmVp9Superframe.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-webm-vp9-superframe-video-v1",
+        "containerHint": "webm",
+        "videoCodec": "vp9",
+        "videoOnly": true,
+        "audio": false,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "unknownSegmentSizeRequired": true,
+        "finiteClusters": true,
+        "unknownSizeClusters": true,
+        "simpleBlocksOnly": true,
+        "lacing": false,
+        "blockGroups": false,
+        "timestampScaleNanoseconds": 1000000,
+        "defaultDurationNanoseconds": 40000000,
+        "frameRate": 25,
+        "expectedSamplesFromTimeline": true,
+        "maxClusterBytes": 16777216,
+        "maxClusters": 8192,
+        "maxTopLevelElements": 32768,
+        "maxClusterChildren": 65536,
+        "maxMetadataDepth": 8,
+        "maxHeadElements": 32,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true
+      }
+    },
+    {
+      "id": "continuous-webm-vp9-opus-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousWebmOpus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-webm-vp9-opus-v1",
+        "containerHint": "webm",
+        "videoCodec": "vp9",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "unknownSegmentSizeRequired": true,
+        "finiteClusters": true,
+        "unknownSizeClusters": true,
+        "simpleBlocksOnly": false,
+        "lacing": false,
+        "blockGroups": true,
+        "timestampScaleNanoseconds": 1000000,
+        "defaultDurationNanoseconds": 40000000,
+        "frameRate": 25,
+        "expectedSamplesFromTimeline": true,
+        "maxClusterBytes": 16777216,
+        "maxClusters": 8192,
+        "maxTopLevelElements": 32768,
+        "maxClusterChildren": 65536,
+        "maxMetadataDepth": 8,
+        "maxHeadElements": 32,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true,
+        "audioCodec": "opus",
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": false,
+        "sampleRates": [
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "opusPacketSamples": 960,
+        "opusPreSkipSamples": 312,
+        "opusGain": 0,
+        "opusMappingFamily": 0,
+        "seekPreRollNanoseconds": 80000000,
+        "minAudioPackets": 2,
+        "audioSamplesField": "continuousRemuxStart.audioSamples",
+        "maxAudioPresentationSamples": 48000000,
+        "audioBlockGroupsOnly": true,
+        "discardPaddingPreserved": true,
+        "clusterSealing": true
+      }
+    },
+    {
+      "id": "continuous-webm-vp9-opus-ntsc-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousWebmOpusNtsc.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-webm-vp9-opus-ntsc-v1",
+        "containerHint": "webm",
+        "videoCodec": "vp9",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "unknownSegmentSizeRequired": true,
+        "finiteClusters": true,
+        "unknownSizeClusters": true,
+        "simpleBlocksOnly": false,
+        "lacing": false,
+        "blockGroups": true,
+        "timestampScaleNanoseconds": 1000000,
+        "defaultDurationNanoseconds": [
+          33366666,
+          33366667
+        ],
+        "frameRate": {
+          "numerator": 30000,
+          "denominator": 1001
+        },
+        "expectedSamplesFromTimeline": true,
+        "maxClusterBytes": 16777216,
+        "maxClusters": 8192,
+        "maxTopLevelElements": 32768,
+        "maxClusterChildren": 65536,
+        "maxMetadataDepth": 8,
+        "maxHeadElements": 32,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true,
+        "audioCodec": "opus",
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": false,
+        "sampleRates": [
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "opusPacketSamples": 960,
+        "opusPreSkipSamples": 312,
+        "opusGain": 0,
+        "opusMappingFamily": 0,
+        "seekPreRollNanoseconds": 80000000,
+        "minAudioPackets": 2,
+        "audioSamplesField": "continuousRemuxStart.audioSamples",
+        "maxAudioPresentationSamples": 48000000,
+        "audioBlockGroupsOnly": true,
+        "discardPaddingPreserved": true,
+        "clusterSealing": true,
+        "fractionalFrameClock": true,
+        "timelineDurationRounding": "floor-or-ceil-100ns",
+        "packetTimestampRounding": "nearest-millisecond",
+        "videoCoverage": "validated-frame-grid-minus-one-millisecond"
+      }
+    },
+    {
+      "id": "continuous-webm-vp9-opus-cfr-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousWebmOpusCfr.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-webm-vp9-opus-cfr-v1",
+        "containerHint": "webm",
+        "videoCodec": "vp9",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "unknownSegmentSizeRequired": true,
+        "finiteClusters": true,
+        "unknownSizeClusters": true,
+        "simpleBlocksOnly": false,
+        "lacing": false,
+        "blockGroups": true,
+        "timestampScaleNanoseconds": 1000000,
+        "defaultDurationNanoseconds": "floor-or-ceil-from-videoRate",
+        "defaultDurationToleranceNanoseconds": 1,
+        "frameRate": {
+          "field": "continuousRemuxStart.videoRate"
+        },
+        "expectedSamplesFromTimeline": true,
+        "maxClusterBytes": 16777216,
+        "maxClusters": 8192,
+        "maxTopLevelElements": 32768,
+        "maxClusterChildren": 65536,
+        "maxMetadataDepth": 8,
+        "maxHeadElements": 32,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true,
+        "audioCodec": "opus",
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": false,
+        "sampleRates": [
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "opusPacketSamples": 960,
+        "opusPreSkipSamples": 312,
+        "opusGain": 0,
+        "opusMappingFamily": 0,
+        "seekPreRollNanoseconds": 80000000,
+        "minAudioPackets": 2,
+        "audioSamplesField": "continuousRemuxStart.audioSamples",
+        "maxAudioPresentationSamples": 48000000,
+        "audioBlockGroupsOnly": true,
+        "discardPaddingPreserved": true,
+        "clusterSealing": true,
+        "fractionalFrameClock": true,
+        "timelineDurationRounding": "floor-or-ceil-100ns",
+        "packetTimestampRounding": "nearest-millisecond",
+        "videoCoverage": "validated-frame-grid-minus-one-millisecond",
+        "videoRateField": "continuousRemuxStart.videoRate",
+        "allowedVideoRates": [
+          {
+            "numerator": 24000,
+            "denominator": 1001
+          },
+          {
+            "numerator": 24,
+            "denominator": 1
+          },
+          {
+            "numerator": 25,
+            "denominator": 1
+          },
+          {
+            "numerator": 30000,
+            "denominator": 1001
+          },
+          {
+            "numerator": 30,
+            "denominator": 1
+          },
+          {
+            "numerator": 50,
+            "denominator": 1
+          },
+          {
+            "numerator": 60000,
+            "denominator": 1001
+          },
+          {
+            "numerator": 60,
+            "denominator": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "continuous-webm-vp9-opus-vfr-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousWebmOpusVfr.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-webm-vp9-opus-vfr-v1",
+        "containerHint": "webm",
+        "videoCodec": "vp9",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "unknownSegmentSizeRequired": true,
+        "finiteClusters": true,
+        "unknownSizeClusters": true,
+        "simpleBlocksOnly": false,
+        "lacing": false,
+        "blockGroups": true,
+        "timestampScaleNanoseconds": 1000000,
+        "defaultDurationNanoseconds": "optional-bounded-when-video-block-duration-present",
+        "frameRate": "variable",
+        "expectedSamplesFromTimeline": false,
+        "maxClusterBytes": 16777216,
+        "maxClusters": 8192,
+        "maxTopLevelElements": 32768,
+        "maxClusterChildren": 65536,
+        "maxMetadataDepth": 8,
+        "maxHeadElements": 32,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true,
+        "audioCodec": "opus",
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": false,
+        "sampleRates": [
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "opusPacketSamples": 960,
+        "opusPreSkipSamples": 312,
+        "opusGain": 0,
+        "opusMappingFamily": 0,
+        "seekPreRollNanoseconds": 80000000,
+        "minAudioPackets": 2,
+        "audioSamplesField": "continuousRemuxStart.audioSamples",
+        "maxAudioPresentationSamples": 48000000,
+        "audioBlockGroupsOnly": false,
+        "discardPaddingPreserved": true,
+        "clusterSealing": true,
+        "timelineDurationRounding": "exact-100ns-from-block-end",
+        "packetTimestampRounding": "original-millisecond",
+        "videoCoverage": "validated-contiguous-explicit-sample-intervals",
+        "variableFrameClock": true,
+        "videoSamplesField": "continuousRemuxStart.videoSamples",
+        "videoBlockDurationRequired": true,
+        "videoBlockGroupsRequired": true,
+        "videoReferences": true,
+        "maxVideoFrameDurationTicks": 1000,
+        "defaultDurationOptional": true
+      }
+    },
+    {
+      "id": "continuous-webm-vp9-opus-simple-vfr-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousWebmOpusSimpleVfr.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-webm-vp9-opus-simple-vfr-v1",
+        "containerHint": "webm",
+        "videoCodec": "vp9",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "unknownSegmentSizeRequired": true,
+        "finiteClusters": true,
+        "unknownSizeClusters": true,
+        "simpleBlocksOnly": false,
+        "lacing": false,
+        "blockGroups": true,
+        "timestampScaleNanoseconds": 1000000,
+        "defaultDurationNanoseconds": "absent",
+        "frameRate": "variable",
+        "expectedSamplesFromTimeline": false,
+        "maxClusterBytes": 16777216,
+        "maxClusters": 8192,
+        "maxTopLevelElements": 32768,
+        "maxClusterChildren": 65536,
+        "maxMetadataDepth": 8,
+        "maxHeadElements": 32,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true,
+        "audioCodec": "opus",
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": false,
+        "sampleRates": [
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "opusPacketSamples": 960,
+        "opusPreSkipSamples": 312,
+        "opusGain": 0,
+        "opusMappingFamily": 0,
+        "seekPreRollNanoseconds": 80000000,
+        "minAudioPackets": 2,
+        "audioSamplesField": "continuousRemuxStart.audioSamples",
+        "maxAudioPresentationSamples": 48000000,
+        "audioBlockGroupsOnly": false,
+        "discardPaddingPreserved": true,
+        "clusterSealing": true,
+        "timelineDurationRounding": "exact-100ns-from-final-endpoint",
+        "packetTimestampRounding": "original-millisecond",
+        "videoCoverage": "validated-next-pts-and-final-endpoint",
+        "variableFrameClock": true,
+        "videoSamplesField": "continuousRemuxStart.videoSamples",
+        "videoBlockDurationRequired": false,
+        "videoBlockGroupsRequired": false,
+        "videoReferences": true,
+        "maxVideoFrameDurationTicks": 1000,
+        "defaultDurationOptional": false,
+        "videoSimpleBlocksRequired": true,
+        "nextPtsLookahead": true,
+        "lastFrameRequiresSourceComplete": true,
+        "maxPendingBytes": 33554432,
+        "maxPendingClusters": 32,
+        "postMediaTags": false
+      }
+    },
+    {
+      "id": "continuous-webm-vp9-opus-simple-vfr-auto-count-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousWebmOpusAutoVfr.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-webm-vp9-opus-simple-vfr-auto-count-v1",
+        "containerHint": "webm",
+        "videoCodec": "vp9",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "unknownSegmentSizeRequired": true,
+        "finiteClusters": true,
+        "unknownSizeClusters": true,
+        "simpleBlocksOnly": false,
+        "lacing": false,
+        "blockGroups": true,
+        "timestampScaleNanoseconds": 1000000,
+        "defaultDurationNanoseconds": "absent",
+        "frameRate": "variable",
+        "expectedSamplesFromTimeline": false,
+        "maxClusterBytes": 16777216,
+        "maxClusters": 8192,
+        "maxTopLevelElements": 32768,
+        "maxClusterChildren": 65536,
+        "maxMetadataDepth": 8,
+        "maxHeadElements": 32,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true,
+        "audioCodec": "opus",
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": false,
+        "sampleRates": [
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "opusPacketSamples": 960,
+        "opusPreSkipSamples": 312,
+        "opusGain": 0,
+        "opusMappingFamily": 0,
+        "seekPreRollNanoseconds": 80000000,
+        "minAudioPackets": 2,
+        "audioSamplesField": "continuousRemuxStart.audioSamples",
+        "maxAudioPresentationSamples": 48000000,
+        "audioBlockGroupsOnly": false,
+        "discardPaddingPreserved": true,
+        "clusterSealing": true,
+        "timelineDurationRounding": "exact-100ns-from-final-endpoint",
+        "packetTimestampRounding": "original-millisecond",
+        "videoCoverage": "validated-next-pts-and-final-endpoint",
+        "variableFrameClock": true,
+        "videoBlockDurationRequired": false,
+        "videoBlockGroupsRequired": false,
+        "videoReferences": true,
+        "maxVideoFrameDurationTicks": 1000,
+        "defaultDurationOptional": false,
+        "videoSimpleBlocksRequired": true,
+        "nextPtsLookahead": true,
+        "lastFrameRequiresSourceComplete": true,
+        "maxPendingBytes": 33554432,
+        "maxPendingClusters": 32,
+        "postMediaTags": false,
+        "videoSampleCount": "derived-at-confirmed-eof",
+        "videoSamplesRequired": false,
+        "indexedVideoSamplesField": "indexedVideoSamples",
+        "videoSampleCountFinalField": "videoSampleCountFinal"
+      }
+    },
+    {
+      "id": "continuous-webm-vp9-opus-simple-vfr-nominal-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousWebmOpusNominalVfr.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-webm-vp9-opus-simple-vfr-nominal-v1",
+        "containerHint": "webm",
+        "videoCodec": "vp9",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "unknownSegmentSizeRequired": true,
+        "finiteClusters": true,
+        "unknownSizeClusters": true,
+        "simpleBlocksOnly": false,
+        "lacing": false,
+        "blockGroups": true,
+        "timestampScaleNanoseconds": 1000000,
+        "defaultDurationNanoseconds": "bounded-nominal-hint",
+        "frameRate": "variable",
+        "expectedSamplesFromTimeline": false,
+        "maxClusterBytes": 16777216,
+        "maxClusters": 8192,
+        "maxTopLevelElements": 32768,
+        "maxClusterChildren": 65536,
+        "maxMetadataDepth": 8,
+        "maxHeadElements": 32,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true,
+        "audioCodec": "opus",
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": false,
+        "sampleRates": [
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "opusPacketSamples": 960,
+        "opusPreSkipSamples": 312,
+        "opusGain": 0,
+        "opusMappingFamily": 0,
+        "seekPreRollNanoseconds": 80000000,
+        "minAudioPackets": 2,
+        "audioSamplesField": "continuousRemuxStart.audioSamples",
+        "maxAudioPresentationSamples": 48000000,
+        "audioBlockGroupsOnly": false,
+        "discardPaddingPreserved": true,
+        "clusterSealing": true,
+        "timelineDurationRounding": "exact-100ns-from-final-endpoint",
+        "packetTimestampRounding": "original-millisecond",
+        "videoCoverage": "validated-next-pts-and-final-endpoint",
+        "variableFrameClock": true,
+        "videoBlockDurationRequired": false,
+        "videoBlockGroupsRequired": false,
+        "videoReferences": true,
+        "maxVideoFrameDurationTicks": 1000,
+        "defaultDurationOptional": false,
+        "videoSimpleBlocksRequired": true,
+        "nextPtsLookahead": true,
+        "lastFrameRequiresSourceComplete": true,
+        "maxPendingBytes": 33554432,
+        "maxPendingClusters": 32,
+        "postMediaTags": false,
+        "videoSampleCount": "derived-at-confirmed-eof",
+        "videoSamplesRequired": false,
+        "indexedVideoSamplesField": "indexedVideoSamples",
+        "videoSampleCountFinalField": "videoSampleCountFinal",
+        "nominalDefaultDurationRequired": true,
+        "minNominalDefaultDurationNanoseconds": 1000000,
+        "maxNominalDefaultDurationNanoseconds": 1000000000,
+        "nominalDefaultDurationPreserved": true
+      }
+    },
+    {
+      "id": "continuous-webm-vp9-opus-simple-vfr-derived-av-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousWebmDerivedAudio.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-webm-vp9-opus-simple-vfr-derived-av-v1",
+        "containerHint": "webm",
+        "videoCodec": "vp9",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "unknownSegmentSizeRequired": true,
+        "finiteClusters": true,
+        "unknownSizeClusters": true,
+        "simpleBlocksOnly": false,
+        "lacing": false,
+        "blockGroups": true,
+        "timestampScaleNanoseconds": 1000000,
+        "defaultDurationNanoseconds": "absent",
+        "frameRate": "variable",
+        "expectedSamplesFromTimeline": false,
+        "maxClusterBytes": 16777216,
+        "maxClusters": 8192,
+        "maxTopLevelElements": 32768,
+        "maxClusterChildren": 65536,
+        "maxMetadataDepth": 8,
+        "maxHeadElements": 32,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true,
+        "audioCodec": "opus",
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": false,
+        "sampleRates": [
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "opusPacketSamples": 960,
+        "opusPreSkipSamples": 312,
+        "opusGain": 0,
+        "opusMappingFamily": 0,
+        "seekPreRollNanoseconds": 80000000,
+        "minAudioPackets": 2,
+        "maxAudioPresentationSamples": 48000000,
+        "audioBlockGroupsOnly": false,
+        "discardPaddingPreserved": true,
+        "clusterSealing": true,
+        "timelineDurationRounding": "exact-100ns-from-final-endpoint",
+        "packetTimestampRounding": "original-millisecond",
+        "videoCoverage": "validated-next-pts-and-final-endpoint",
+        "variableFrameClock": true,
+        "videoBlockDurationRequired": false,
+        "videoBlockGroupsRequired": false,
+        "videoReferences": true,
+        "maxVideoFrameDurationTicks": 1000,
+        "defaultDurationOptional": false,
+        "videoSimpleBlocksRequired": true,
+        "nextPtsLookahead": true,
+        "lastFrameRequiresSourceComplete": true,
+        "maxPendingBytes": 33554432,
+        "maxPendingClusters": 32,
+        "postMediaTags": false,
+        "videoSampleCount": "derived-at-confirmed-eof",
+        "videoSamplesRequired": false,
+        "indexedVideoSamplesField": "indexedVideoSamples",
+        "videoSampleCountFinalField": "videoSampleCountFinal",
+        "audioSamplesRequired": false,
+        "audioSampleCount": "derived-from-packets-preskip-end-trim",
+        "indexedAudioSamplesField": "indexedAudioSamples",
+        "audioSampleCountFinalField": "audioSampleCountFinal",
+        "audioTrackEndObservedField": "audioTrackEndObserved",
+        "audioPacketLookahead": true,
+        "shortAudioWithoutTrim": "wait-for-source-complete",
+        "maxEndTrimSamples": 959
+      }
+    },
+    {
+      "id": "continuous-webm-vp9-opus-packet-clock-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveContinuousWebmPacketOpus.md"
+      ],
+      "status": "bounded-existing",
+      "admission": {
+        "version": 1,
+        "mode": "continuous-webm-vp9-opus-packet-clock-v1",
+        "containerHint": "webm",
+        "videoCodec": "vp9",
+        "videoOnly": false,
+        "audio": true,
+        "bFrames": false,
+        "inheritsCommonContract": true,
+        "explicitSelectionRequired": true,
+        "requiredTrackKinds": [
+          "video",
+          "audio"
+        ],
+        "codecHintRequired": true,
+        "vp9Profiles": [
+          0,
+          2
+        ],
+        "bitDepths": [
+          8,
+          10
+        ],
+        "chromaSubsampling": "4:2:0",
+        "sampleEntries": [
+          "vp09"
+        ],
+        "configurationVersion": 1,
+        "maxHeadBytes": 1048576,
+        "packetReorder": false,
+        "oneDisplayedFramePerSample": true,
+        "hiddenFrames": true,
+        "showExistingFrames": false,
+        "superframes": true,
+        "fixedCodedAndRenderSize": true,
+        "unknownSegmentSizeRequired": true,
+        "finiteClusters": true,
+        "unknownSizeClusters": true,
+        "simpleBlocksOnly": false,
+        "lacing": false,
+        "blockGroups": true,
+        "timestampScaleNanoseconds": 1000000,
+        "defaultDurationNanoseconds": "absent",
+        "frameRate": "variable",
+        "expectedSamplesFromTimeline": false,
+        "maxClusterBytes": 16777216,
+        "maxClusters": 8192,
+        "maxTopLevelElements": 32768,
+        "maxClusterChildren": 65536,
+        "maxMetadataDepth": 8,
+        "maxHeadElements": 32,
+        "indexedSuperframesRequired": true,
+        "maxFramesPerSample": 8,
+        "maxHiddenFramesPerSample": 7,
+        "displayedFrameLast": true,
+        "hiddenInterFramesOnly": true,
+        "firstSampleSingleKeyframe": true,
+        "audioCodec": "opus",
+        "sharedResourceRequired": true,
+        "pcmWindowRequired": false,
+        "sampleRates": [
+          48000
+        ],
+        "channels": [
+          1,
+          2
+        ],
+        "opusPacketSamples": "from-toc",
+        "opusPreSkipSamples": [
+          120,
+          312
+        ],
+        "opusGain": 0,
+        "opusMappingFamily": 0,
+        "seekPreRollNanoseconds": 80000000,
+        "minAudioPackets": 2,
+        "maxAudioPresentationSamples": 48000000,
+        "audioBlockGroupsOnly": false,
+        "discardPaddingPreserved": true,
+        "clusterSealing": true,
+        "timelineDurationRounding": "exact-100ns-from-final-endpoint",
+        "packetTimestampRounding": "original-millisecond",
+        "videoCoverage": "validated-next-pts-and-final-endpoint",
+        "variableFrameClock": true,
+        "videoBlockDurationRequired": false,
+        "videoBlockGroupsRequired": false,
+        "videoReferences": true,
+        "maxVideoFrameDurationTicks": 1000,
+        "defaultDurationOptional": false,
+        "videoSimpleBlocksRequired": true,
+        "nextPtsLookahead": true,
+        "lastFrameRequiresSourceComplete": true,
+        "maxPendingBytes": 33554432,
+        "maxPendingClusters": 32,
+        "postMediaTags": false,
+        "videoSampleCount": "derived-at-confirmed-eof",
+        "videoSamplesRequired": false,
+        "indexedVideoSamplesField": "indexedVideoSamples",
+        "videoSampleCountFinalField": "videoSampleCountFinal",
+        "audioSamplesRequired": false,
+        "audioSampleCount": "derived-from-packets-preskip-end-trim",
+        "indexedAudioSamplesField": "indexedAudioSamples",
+        "audioSampleCountFinalField": "audioSampleCountFinal",
+        "audioTrackEndObservedField": "audioTrackEndObserved",
+        "audioPacketLookahead": true,
+        "shortAudioWithoutTrim": "wait-for-source-complete",
+        "maxEndTrimSamples": 5759,
+        "minOpusPacketSamples": 120,
+        "maxOpusPacketSamples": 5760,
+        "opusPacketSampleQuantum": 120,
+        "endTrimBound": "less-than-final-packet-duration",
+        "packetClockFromPayload": true,
+        "qtAudioTimestampScaleNanoseconds": 1000,
+        "qtSeekTrim": "presentation-samples-before-user-filters"
+      }
+    }
+  ],
+  "remainingFamilies": [
+    {
+      "id": "M01",
+      "title": "Обычный M4A AAC",
+      "owners": [
+        "P02.C149.02"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "m4a"
+        ],
+        "audio": [
+          "aac-lc",
+          "he-aac"
+        ],
+        "tracks": [
+          "audio-only"
+        ]
+      },
+      "layouts": [
+        "head-moov",
+        "published-tail-moov",
+        "short-audio",
+        "priming-end-padding"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "M02",
+      "title": "Обычный MP4 audio-only",
+      "owners": [
+        "P02.C149.02",
+        "P04.C210.04"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "mp4"
+        ],
+        "audio": [
+          "aac-lc",
+          "he-aac",
+          "opus",
+          "flac",
+          "mp3",
+          "ac3",
+          "eac3"
+        ],
+        "tracks": [
+          "audio-only"
+        ]
+      },
+      "layouts": [
+        "head-moov",
+        "published-tail-moov",
+        "edit-list",
+        "source-identity"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "M03",
+      "title": "MOV: именованные основные пары",
+      "owners": [
+        "P02.C149.03"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "mov"
+        ],
+        "pairs": [
+          [
+            "h264",
+            "aac-lc"
+          ],
+          [
+            "hevc",
+            "aac-lc"
+          ],
+          [
+            "mpeg4-part2",
+            "aac-lc"
+          ]
+        ]
+      },
+      "layouts": [
+        "video-only",
+        "muxed-av",
+        "head-index",
+        "published-tail-index",
+        "edit-list",
+        "configuration-validation"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "M04",
+      "title": "Обычный MP4: оставшиеся структуры",
+      "owners": [
+        "P02.C149.10",
+        "P06.C255.04"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "mp4"
+        ],
+        "pairs": [
+          [
+            "h264",
+            "aac-lc"
+          ],
+          [
+            "hevc",
+            "aac-lc"
+          ],
+          [
+            "vp9",
+            "aac-lc"
+          ],
+          [
+            "av1",
+            "aac-lc"
+          ]
+        ]
+      },
+      "layouts": [
+        "head-index-beyond-current-bounds",
+        "published-tail-index",
+        "unknown-final-size",
+        "unknown-video-endpoint",
+        "track-end-before-session-end"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "W01",
+      "title": "WebM VP8/AV1 в непрерывном remux",
+      "owners": [
+        "P02.C149.04"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "webm"
+        ],
+        "pairs": [
+          [
+            "vp8",
+            "opus"
+          ],
+          [
+            "av1",
+            "opus"
+          ]
+        ]
+      },
+      "layouts": [
+        "video-only",
+        "muxed-av",
+        "finite-clusters",
+        "unknown-clusters",
+        "simple-block",
+        "block-group",
+        "vfr"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "W02",
+      "title": "WebM Vorbis в непрерывном remux",
+      "owners": [
+        "P02.C149.05"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "webm"
+        ],
+        "pairs": [
+          [
+            "vp8",
+            "vorbis"
+          ],
+          [
+            "vp9",
+            "vorbis"
+          ],
+          [
+            "av1",
+            "vorbis"
+          ]
+        ]
+      },
+      "layouts": [
+        "muxed-av",
+        "finite-clusters",
+        "unknown-clusters",
+        "audio-preroll",
+        "vfr"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "W03",
+      "title": "WebM/Opus: не покрытые SDK1.106 layouts",
+      "owners": [
+        "P02.C149.10",
+        "P04.C210.02"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "webm"
+        ],
+        "audio": [
+          "opus"
+        ],
+        "tracks": [
+          "audio-only",
+          "muxed-vp9-opus"
+        ]
+      },
+      "layouts": [
+        "one-packet-audio",
+        "one-presentation-sample",
+        "preskip-other-than120or312",
+        "nonzero-origin",
+        "one-frame-video"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "K01",
+      "title": "Matroska: H.264/HEVC и AAC",
+      "owners": [
+        "P02.C149.06"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "matroska"
+        ],
+        "pairs": [
+          [
+            "h264",
+            "aac-lc"
+          ],
+          [
+            "h264",
+            "he-aac"
+          ],
+          [
+            "hevc",
+            "aac-lc"
+          ],
+          [
+            "hevc",
+            "he-aac"
+          ]
+        ]
+      },
+      "layouts": [
+        "video-only",
+        "muxed-av",
+        "codec-private",
+        "finite-clusters",
+        "unknown-clusters",
+        "cues-present",
+        "cues-absent"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "K02",
+      "title": "Matroska: оставшиеся перечисленные кодеки",
+      "owners": [
+        "P02.C149.06",
+        "P04.C210.04"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "matroska"
+        ],
+        "pairs": [
+          [
+            "h264",
+            "opus"
+          ],
+          [
+            "hevc",
+            "opus"
+          ],
+          [
+            "h264",
+            "vorbis"
+          ],
+          [
+            "hevc",
+            "vorbis"
+          ],
+          [
+            "h264",
+            "mp3"
+          ],
+          [
+            "hevc",
+            "flac"
+          ],
+          [
+            "h264",
+            "pcm"
+          ],
+          [
+            "h264",
+            "ac3"
+          ],
+          [
+            "hevc",
+            "eac3"
+          ],
+          [
+            "vp9",
+            "opus"
+          ],
+          [
+            "av1",
+            "opus"
+          ]
+        ]
+      },
+      "layouts": [
+        "audio-only",
+        "muxed-av",
+        "preroll",
+        "codec-private",
+        "timestamps"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "K03",
+      "title": "Matroska: lacing и структуры",
+      "owners": [
+        "P02.C149.07"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "matroska"
+        ],
+        "pairs": [
+          [
+            "h264",
+            "aac-lc"
+          ],
+          [
+            "hevc",
+            "opus"
+          ]
+        ]
+      },
+      "layouts": [
+        "xiph-lacing",
+        "fixed-lacing",
+        "ebml-lacing",
+        "default-duration",
+        "block-duration",
+        "codec-state",
+        "cues-before-after-media",
+        "bounded-attachments"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "T01",
+      "title": "MPEG-TS: HEVC и дополнительные аудио",
+      "owners": [
+        "P02.C149.08",
+        "P06.C256.01"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "mpegts"
+        ],
+        "pairs": [
+          [
+            "hevc",
+            "aac-lc"
+          ],
+          [
+            "hevc",
+            "ac3"
+          ],
+          [
+            "hevc",
+            "eac3"
+          ],
+          [
+            "h264",
+            "he-aac"
+          ],
+          [
+            "h264",
+            "ac3"
+          ],
+          [
+            "h264",
+            "eac3"
+          ]
+        ]
+      },
+      "layouts": [
+        "video-only",
+        "muxed-av",
+        "pes-cross-packet",
+        "partial-ts-packet",
+        "pmts"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "T02",
+      "title": "MPEG-2/Part2: предусмотренные локальные входы",
+      "owners": [
+        "P02.C149.08",
+        "P04.C238.01",
+        "P04.C238.02",
+        "P04.C238.03"
+      ],
+      "status": "not-accepted",
+      "requirement": "conditional-local-or-service-corpus",
+      "inputs": {
+        "containers": [
+          "mpegts",
+          "matroska",
+          "mp4"
+        ],
+        "explicitCases": [
+          [
+            "mpegts",
+            "mpeg2",
+            "aac-lc"
+          ],
+          [
+            "matroska",
+            "mpeg2",
+            "ac3"
+          ],
+          [
+            "mp4",
+            "mpeg4-part2",
+            "aac-lc"
+          ],
+          [
+            "matroska",
+            "mpeg4-part2",
+            "mp3"
+          ]
+        ]
+      },
+      "layouts": [
+        "video-only",
+        "muxed-av",
+        "b-frames",
+        "configuration-validation"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "T03",
+      "title": "Транспортные часы TS",
+      "owners": [
+        "P06.C256.02",
+        "P06.C256.03"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "mpegts"
+        ],
+        "pairs": [
+          [
+            "h264",
+            "aac-lc"
+          ],
+          [
+            "hevc",
+            "aac-lc"
+          ]
+        ]
+      },
+      "layouts": [
+        "pts-dts-wrap33",
+        "discontinuity-signalled",
+        "discontinuity-unannounced-reason",
+        "seek-across-boundary"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "A01",
+      "title": "HE-AAC вне обычного M4A",
+      "owners": [
+        "P04.C210.01",
+        "P04.C211.01"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "adts",
+          "fmp4",
+          "mpegts"
+        ],
+        "audio": [
+          "he-aac"
+        ],
+        "tracks": [
+          "audio-only",
+          "separate-av",
+          "muxed-av"
+        ]
+      },
+      "layouts": [
+        "sbr",
+        "parametric-stereo",
+        "decoded-sample-clock",
+        "priming-end-padding"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "A02",
+      "title": "Opus: дополнения геометрии и каналов",
+      "owners": [
+        "P04.C210.02",
+        "P04.C211.06"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "ogg",
+          "webm",
+          "fmp4"
+        ],
+        "audio": [
+          "opus"
+        ],
+        "sampleRates": [
+          48000
+        ],
+        "channels": [
+          "mono",
+          "stereo",
+          "5.1",
+          "7.1"
+        ]
+      },
+      "layouts": [
+        "mapping-family1",
+        "preskip0-and16bit-boundaries",
+        "one-packet",
+        "chained-ogg",
+        "independent-origin",
+        "exact-discard-padding"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "A03",
+      "title": "Vorbis: setup/rates/layouts",
+      "owners": [
+        "P04.C210.03",
+        "P04.C211.03",
+        "P04.C211.06"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "ogg",
+          "webm"
+        ],
+        "audio": [
+          "vorbis"
+        ],
+        "sampleRates": [
+          44100,
+          48000,
+          96000
+        ],
+        "channels": [
+          "mono",
+          "stereo",
+          "5.1",
+          "7.1"
+        ]
+      },
+      "layouts": [
+        "setup-validation",
+        "short-long-block-transitions",
+        "chaining",
+        "preroll"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "A04",
+      "title": "MPEG audio версии",
+      "owners": [
+        "P04.C211.02"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "mp3"
+        ],
+        "audio": [
+          "mp3-mpeg1",
+          "mp3-mpeg2",
+          "mp3-mpeg2.5"
+        ],
+        "sampleRates": [
+          8000,
+          11025,
+          12000,
+          16000,
+          22050,
+          24000,
+          32000,
+          44100,
+          48000
+        ],
+        "channels": [
+          "mono",
+          "stereo"
+        ]
+      },
+      "layouts": [
+        "cbr",
+        "vbr",
+        "xing-info-vbri",
+        "lame-gapless",
+        "partial-frame"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "A05",
+      "title": "MPEG LayerI/II: только подтверждённый корпус",
+      "owners": [
+        "P04.C211.02"
+      ],
+      "status": "not-accepted",
+      "requirement": "conditional-local-or-service-corpus",
+      "inputs": {
+        "containers": [
+          "mpegts",
+          "matroska"
+        ],
+        "audio": [
+          "mp1",
+          "mp2"
+        ]
+      },
+      "layouts": [
+        "explicit-layer-identification",
+        "frame-clock",
+        "decoder-availability"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "A06",
+      "title": "FLAC: дополнительные разрешённые стратегии",
+      "owners": [
+        "P04.C211.04",
+        "P04.C211.06"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "flac",
+          "fmp4"
+        ],
+        "audio": [
+          "flac"
+        ],
+        "bits": [
+          16,
+          24
+        ],
+        "sampleRates": [
+          44100,
+          48000,
+          88200,
+          96000
+        ],
+        "channels": [
+          "mono",
+          "stereo",
+          "5.1",
+          "7.1"
+        ]
+      },
+      "layouts": [
+        "fixed-block",
+        "variable-block",
+        "metadata-limit",
+        "frame-crc",
+        "unknown-total-samples"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "A07",
+      "title": "WAV/RF64: PCM/float/layouts",
+      "owners": [
+        "P04.C211.05",
+        "P04.C211.06"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "wav",
+          "rf64"
+        ],
+        "audio": [
+          "pcm-u8",
+          "pcm-s16le",
+          "pcm-s24le",
+          "pcm-s32le",
+          "pcm-f32le",
+          "pcm-f64le"
+        ],
+        "sampleRates": [
+          44100,
+          48000,
+          96000
+        ],
+        "channels": [
+          "mono",
+          "stereo",
+          "5.1",
+          "7.1"
+        ]
+      },
+      "layouts": [
+        "channel-mask",
+        "block-align",
+        "ds64-64bit",
+        "sparse-ranges",
+        "partial-frame"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "A08",
+      "title": "AC-3/E-AC-3: multichannel и substreams",
+      "owners": [
+        "P04.C210.04",
+        "P04.C211.06"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "ac3",
+          "eac3",
+          "matroska",
+          "mpegts"
+        ],
+        "audio": [
+          "ac3",
+          "eac3"
+        ],
+        "sampleRates": [
+          32000,
+          44100,
+          48000
+        ],
+        "channels": [
+          "mono",
+          "stereo",
+          "5.1",
+          "7.1"
+        ]
+      },
+      "layouts": [
+        "lfe",
+        "valid-layout-per-codec",
+        "dependent-substream-eac3",
+        "partial-syncframe"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "I01",
+      "title": "Несколько входов remux",
+      "owners": [
+        "P02.C149.09"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "fmp4",
+          "webm",
+          "mpegts"
+        ],
+        "explicitCases": [
+          [
+            "fmp4",
+            "h264",
+            "aac-lc"
+          ],
+          [
+            "fmp4",
+            "hevc",
+            "aac-lc"
+          ],
+          [
+            "webm",
+            "vp9",
+            "opus"
+          ],
+          [
+            "webm",
+            "av1",
+            "opus"
+          ],
+          [
+            "mpegts",
+            "h264",
+            "aac-lc"
+          ]
+        ]
+      },
+      "layouts": [
+        "separate-resources",
+        "audio-video-unequal-write-speed",
+        "common-time-origin",
+        "one-source-fails",
+        "separate-track-eof"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "S01",
+      "title": "Расширение конечных HLS/DASH",
+      "owners": [
+        "P07.C262.01",
+        "P07.C263.01",
+        "P07.C263.02",
+        "P07.C263.03"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "fmp4",
+          "webm",
+          "mpegts"
+        ],
+        "pairs": [
+          [
+            "h264",
+            "aac-lc"
+          ],
+          [
+            "hevc",
+            "aac-lc"
+          ],
+          [
+            "vp9",
+            "opus"
+          ],
+          [
+            "av1",
+            "opus"
+          ],
+          [
+            "vp8",
+            "vorbis"
+          ],
+          [
+            "vp9",
+            "vorbis"
+          ],
+          [
+            "av1",
+            "vorbis"
+          ]
+        ]
+      },
+      "layouts": [
+        "local-init-media-only",
+        "parallel-segments",
+        "gaps",
+        "discontinuity",
+        "rebasing",
+        "codec-state",
+        "paged-catalog",
+        "bounded-handles"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "I02",
+      "title": "Multi-audio и выбор языка",
+      "owners": [
+        "P09.C275.01",
+        "P09.C275.02",
+        "P09.C275.03"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "mp4",
+          "matroska",
+          "fmp4-segments",
+          "webm-segments"
+        ],
+        "audio": [
+          "aac-lc",
+          "opus"
+        ],
+        "tracks": [
+          "two-required-languages",
+          "optional-late-audio"
+        ]
+      },
+      "layouts": [
+        "stable-track-ids",
+        "partial-selected-track",
+        "add-remove-track",
+        "optional-error-isolation"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "V01",
+      "title": "VFR/offsets/edits и неизвестный конец",
+      "owners": [
+        "P06.C255.01",
+        "P06.C255.02",
+        "P06.C255.03",
+        "P06.C255.04"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "mp4",
+          "mov",
+          "webm",
+          "matroska"
+        ],
+        "pairs": [
+          [
+            "h264",
+            "aac-lc"
+          ],
+          [
+            "hevc",
+            "aac-lc"
+          ],
+          [
+            "vp9",
+            "opus"
+          ],
+          [
+            "av1",
+            "opus"
+          ]
+        ]
+      },
+      "layouts": [
+        "negative-preroll",
+        "nonzero-origin",
+        "different-timebases",
+        "vfr",
+        "edit-list",
+        "gapless",
+        "unknown-length",
+        "unknown-endpoint"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "Q01",
+      "title": "Смена качества/configuration",
+      "owners": [
+        "P08.C269.01",
+        "P08.C269.02",
+        "P08.C270.01",
+        "P08.C270.02",
+        "P08.C271.01",
+        "P08.C271.02"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "fmp4-segments",
+          "webm-segments",
+          "mpegts-segments"
+        ],
+        "pairs": [
+          [
+            "h264",
+            "aac-lc"
+          ],
+          [
+            "hevc",
+            "aac-lc"
+          ],
+          [
+            "vp9",
+            "opus"
+          ]
+        ]
+      },
+      "layouts": [
+        "new-init",
+        "safe-keyframe",
+        "preserve-position-pause-speed-volume-tracks",
+        "waiting-new-init"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "U01",
+      "title": "Растущие текстовые субтитры",
+      "owners": [
+        "P10.C282.01",
+        "P10.C282.02",
+        "P10.C282.03",
+        "P10.C282.04",
+        "P10.C282.05",
+        "P10.C283.01",
+        "P10.C283.02",
+        "P10.C283.03"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "srt",
+          "webvtt",
+          "ass",
+          "ssa",
+          "ttml",
+          "json3",
+          "srv"
+        ],
+        "tracks": [
+          "external-text"
+        ]
+      },
+      "layouts": [
+        "utf8-utf16-bom",
+        "partial-cue",
+        "late-append",
+        "no-duplicate-events",
+        "timeline-origin"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "U02",
+      "title": "Встроенные субтитры",
+      "owners": [
+        "P10.C284.01",
+        "P10.C284.02",
+        "P10.C284.03",
+        "P10.C284.04",
+        "P10.C285.01",
+        "P10.C285.02",
+        "P10.C285.03",
+        "P10.C286.01",
+        "P10.C286.02",
+        "P10.C286.03"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "explicitCases": [
+          [
+            "mp4",
+            "mov_text"
+          ],
+          [
+            "mp4",
+            "webvtt"
+          ],
+          [
+            "matroska",
+            "ass"
+          ],
+          [
+            "matroska",
+            "subrip"
+          ],
+          [
+            "matroska",
+            "pgs"
+          ],
+          [
+            "matroska",
+            "dvd-subtitle"
+          ]
+        ]
+      },
+      "layouts": [
+        "headers-palettes",
+        "language-default-forced",
+        "bounded-fonts",
+        "styles-preserved-or-loss-declared"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "D01",
+      "title": "Главы и metadata",
+      "owners": [
+        "P11.C290.01",
+        "P11.C290.02",
+        "P11.C291.01",
+        "P11.C291.02",
+        "P11.C292.01",
+        "P11.C292.02",
+        "P11.C292.03",
+        "P11.C292.04"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "mp4",
+          "mov",
+          "webm",
+          "matroska",
+          "local-segments"
+        ]
+      },
+      "layouts": [
+        "container-plus-writer-chapters",
+        "stable-id",
+        "late-update",
+        "unknown-duration",
+        "unavailable-chapter",
+        "covers",
+        "rotation-aspect",
+        "hdr-color-metadata"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    },
+    {
+      "id": "L01",
+      "title": "Live: локальный writer timeline",
+      "owners": [
+        "P12.C296.01",
+        "P12.C296.02",
+        "P12.C297.01",
+        "P12.C297.02",
+        "P12.C298.01",
+        "P12.C298.02",
+        "P12.C299.01",
+        "P12.C299.02"
+      ],
+      "status": "not-accepted",
+      "requirement": "mandatory",
+      "inputs": {
+        "containers": [
+          "hls-local-event",
+          "dash-local-dynamic"
+        ],
+        "pairs": [
+          [
+            "h264",
+            "aac-lc"
+          ],
+          [
+            "vp9",
+            "opus"
+          ]
+        ]
+      },
+      "layouts": [
+        "unknown-duration",
+        "moving-window",
+        "target-delay",
+        "reconnect",
+        "missing-segment-not-eof",
+        "writer-end",
+        "reader-retirement",
+        "seek-outside-window"
+      ],
+      "editions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "gates": [
+        "confirmed-io",
+        "packet-copy",
+        "decode-reference",
+        "incomplete-playback",
+        "timeline-controls",
+        "lifecycle",
+        "negative-cases",
+        "resource-bounds"
+      ]
+    }
+  ],
+  "negativeCases": [
+    {
+      "id": "N01",
+      "expectedClass": "encrypted-source",
+      "title": "DRM/шифрование не расшифровывается"
+    },
+    {
+      "id": "N02",
+      "expectedClass": "corrupt-source",
+      "title": "Повреждённые atom/EBML/PES/codec headers"
+    },
+    {
+      "id": "N03",
+      "expectedClass": "missing-decoder",
+      "title": "Нет декодера конкретной сборки"
+    },
+    {
+      "id": "N04",
+      "expectedClass": "waiting-initialization",
+      "title": "Не опубликован обязательный init"
+    },
+    {
+      "id": "N05",
+      "expectedClass": "waiting-index",
+      "title": "Не опубликован обязательный индекс"
+    },
+    {
+      "id": "N06",
+      "expectedClass": "waiting-keyframe",
+      "title": "Нет доступной точки декодирования"
+    },
+    {
+      "id": "N07",
+      "expectedClass": "waiting-range",
+      "title": "Требуемые bytes/segment ещё не подтверждены"
+    },
+    {
+      "id": "N08",
+      "expectedClass": "source-identity-error",
+      "title": "Подмена/усечение/перезапись опубликованных bytes"
+    },
+    {
+      "id": "N09",
+      "expectedClass": "resource-limit",
+      "title": "Превышен согласованный RAM/cache/packet/JSON limit"
+    },
+    {
+      "id": "N10",
+      "expectedClass": "unsupported-layout",
+      "title": "Вход вне согласованной положительной строки"
+    },
+    {
+      "id": "N11",
+      "expectedClass": "writer-error-not-eof",
+      "title": "Ошибка/отмена writer не successful EOF"
+    },
+    {
+      "id": "N12",
+      "expectedClass": "post-download",
+      "title": "Документированное ограничение, никогда не positive progressive PASS"
+    }
+  ],
+  "contractDigests": {
+    "commonNative": "8f2c4943e6b68ca275afef7a48e195c90343adff80ffbf2bf329bf66bd4fdf27",
+    "qtNative": "09c23fe501a83b4e5743b4fc6a348a2f81f5c08d7052a6eda415ba7b034f92af",
+    "classicNative": "4169516cb3e3975a94fdf22e45266b5a348586d3b4c8ef3d50f4e801863cb734",
+    "continuous": "4420c24c1dc40fc495ab9b2d901a71f04be532e663ae9b6d7cc6a0e9db82c79b"
+  },
+  "capabilityProfileSets": {
+    "commonNative": [
+      "growing-muxed-fmp4-av1-aac-lc",
+      "growing-muxed-fmp4-av1-opus",
+      "growing-muxed-fmp4-h264-aac-lc",
+      "growing-muxed-fmp4-h264-opus",
+      "growing-muxed-fmp4-hevc-aac-lc",
+      "growing-muxed-fmp4-hevc-opus",
+      "growing-muxed-fmp4-vp9-aac-lc",
+      "growing-muxed-fmp4-vp9-opus",
+      "growing-muxed-mp4-h264-aac-lc",
+      "growing-muxed-mpegts-h264-aac-lc",
+      "growing-muxed-webm-av1-opus",
+      "growing-muxed-webm-av1-vorbis",
+      "growing-muxed-webm-vp8-opus",
+      "growing-muxed-webm-vp8-vorbis",
+      "growing-muxed-webm-vp9-opus",
+      "growing-muxed-webm-vp9-vorbis",
+      "growing-tail-mp4-h264-aac-lc",
+      "segmented-fmp4-av1-aac-lc",
+      "segmented-fmp4-av1-opus",
+      "segmented-fmp4-h264-aac-lc",
+      "segmented-fmp4-h264-opus",
+      "segmented-fmp4-hevc-aac-lc",
+      "segmented-fmp4-hevc-opus",
+      "segmented-fmp4-vp9-aac-lc",
+      "segmented-fmp4-vp9-opus",
+      "segmented-mpegts-h264-aac-lc",
+      "segmented-muxed-mpegts-h264-aac-lc",
+      "segmented-webm-av1-opus",
+      "segmented-webm-vp8-opus",
+      "segmented-webm-vp9-opus",
+      "separate-fmp4-av1-aac-lc",
+      "separate-fmp4-av1-opus",
+      "separate-fmp4-h264-aac-lc",
+      "separate-fmp4-h264-opus",
+      "separate-fmp4-hevc-aac-lc",
+      "separate-fmp4-hevc-opus",
+      "separate-fmp4-vp9-aac-lc",
+      "separate-fmp4-vp9-opus",
+      "separate-fmp4-webm-av1-opus",
+      "separate-fmp4-webm-av1-vorbis",
+      "separate-fmp4-webm-h264-opus",
+      "separate-fmp4-webm-h264-vorbis",
+      "separate-fmp4-webm-hevc-opus",
+      "separate-fmp4-webm-hevc-vorbis",
+      "separate-fmp4-webm-vp9-opus",
+      "separate-fmp4-webm-vp9-vorbis",
+      "separate-webm-av1-opus",
+      "separate-webm-av1-vorbis",
+      "separate-webm-fmp4-av1-aac-lc",
+      "separate-webm-fmp4-av1-opus",
+      "separate-webm-fmp4-vp8-aac-lc",
+      "separate-webm-fmp4-vp8-opus",
+      "separate-webm-fmp4-vp9-aac-lc",
+      "separate-webm-fmp4-vp9-opus",
+      "separate-webm-vp8-opus",
+      "separate-webm-vp8-vorbis",
+      "separate-webm-vp9-opus",
+      "separate-webm-vp9-vorbis",
+      "standalone-ac3",
+      "standalone-adts-aac-lc",
+      "standalone-eac3",
+      "standalone-flac",
+      "standalone-fmp4-aac-lc",
+      "standalone-fmp4-av1",
+      "standalone-fmp4-flac",
+      "standalone-fmp4-h264",
+      "standalone-fmp4-hevc",
+      "standalone-fmp4-opus",
+      "standalone-fmp4-vp9",
+      "standalone-mp3",
+      "standalone-mp3-indexed",
+      "standalone-ogg-opus",
+      "standalone-ogg-vorbis",
+      "standalone-rf64-pcm16",
+      "standalone-rf64-pcm24",
+      "standalone-rf64-sparse-pcm16",
+      "standalone-rf64-sparse-pcm24",
+      "standalone-wav-extensible-pcm24",
+      "standalone-wav-pcm16",
+      "standalone-wav-pcm24",
+      "standalone-webm-av1",
+      "standalone-webm-opus",
+      "standalone-webm-vorbis",
+      "standalone-webm-vp8",
+      "standalone-webm-vp9"
+    ],
+    "qtNative": [
+      "growing-muxed-fmp4-av1-aac-lc",
+      "growing-muxed-fmp4-av1-opus",
+      "growing-muxed-fmp4-h264-aac-lc",
+      "growing-muxed-fmp4-h264-opus",
+      "growing-muxed-fmp4-hevc-aac-lc",
+      "growing-muxed-fmp4-hevc-opus",
+      "growing-muxed-fmp4-vp9-aac-lc",
+      "growing-muxed-fmp4-vp9-opus",
+      "growing-muxed-mp4-h264-aac-lc",
+      "growing-muxed-mpegts-h264-aac-lc",
+      "growing-muxed-webm-av1-opus",
+      "growing-muxed-webm-av1-vorbis",
+      "growing-muxed-webm-vp8-opus",
+      "growing-muxed-webm-vp8-vorbis",
+      "growing-muxed-webm-vp9-opus",
+      "growing-muxed-webm-vp9-vorbis",
+      "growing-tail-mp4-h264-aac-lc",
+      "segmented-fmp4-av1-aac-lc",
+      "segmented-fmp4-av1-opus",
+      "segmented-fmp4-h264-aac-lc",
+      "segmented-fmp4-h264-opus",
+      "segmented-fmp4-hevc-aac-lc",
+      "segmented-fmp4-hevc-opus",
+      "segmented-fmp4-vp9-aac-lc",
+      "segmented-fmp4-vp9-opus",
+      "segmented-mpegts-h264-aac-lc",
+      "segmented-muxed-mpegts-h264-aac-lc",
+      "segmented-webm-av1-opus",
+      "segmented-webm-vp8-opus",
+      "segmented-webm-vp9-opus",
+      "separate-fmp4-av1-aac-lc",
+      "separate-fmp4-av1-opus",
+      "separate-fmp4-h264-aac-lc",
+      "separate-fmp4-h264-opus",
+      "separate-fmp4-hevc-aac-lc",
+      "separate-fmp4-hevc-opus",
+      "separate-fmp4-vp9-aac-lc",
+      "separate-fmp4-vp9-opus",
+      "separate-fmp4-webm-av1-opus",
+      "separate-fmp4-webm-av1-vorbis",
+      "separate-fmp4-webm-h264-opus",
+      "separate-fmp4-webm-h264-vorbis",
+      "separate-fmp4-webm-hevc-opus",
+      "separate-fmp4-webm-hevc-vorbis",
+      "separate-fmp4-webm-vp9-opus",
+      "separate-fmp4-webm-vp9-vorbis",
+      "separate-webm-av1-opus",
+      "separate-webm-av1-vorbis",
+      "separate-webm-fmp4-av1-aac-lc",
+      "separate-webm-fmp4-av1-opus",
+      "separate-webm-fmp4-vp8-aac-lc",
+      "separate-webm-fmp4-vp8-opus",
+      "separate-webm-fmp4-vp9-aac-lc",
+      "separate-webm-fmp4-vp9-opus",
+      "separate-webm-vp8-opus",
+      "separate-webm-vp8-vorbis",
+      "separate-webm-vp9-opus",
+      "separate-webm-vp9-vorbis",
+      "standalone-ac3",
+      "standalone-adts-aac-lc",
+      "standalone-eac3",
+      "standalone-flac",
+      "standalone-fmp4-aac-lc",
+      "standalone-fmp4-av1",
+      "standalone-fmp4-flac",
+      "standalone-fmp4-h264",
+      "standalone-fmp4-hevc",
+      "standalone-fmp4-opus",
+      "standalone-fmp4-vp9",
+      "standalone-mp3",
+      "standalone-mp3-gapless",
+      "standalone-mp3-indexed",
+      "standalone-ogg-opus",
+      "standalone-ogg-vorbis",
+      "standalone-rf64-pcm16",
+      "standalone-rf64-pcm24",
+      "standalone-rf64-sparse-pcm16",
+      "standalone-rf64-sparse-pcm24",
+      "standalone-wav-extensible-pcm24",
+      "standalone-wav-pcm16",
+      "standalone-wav-pcm24",
+      "standalone-webm-av1",
+      "standalone-webm-opus",
+      "standalone-webm-vorbis",
+      "standalone-webm-vp8",
+      "standalone-webm-vp9"
+    ],
+    "classicNative": [
+      "growing-muxed-fmp4-av1-aac-lc",
+      "growing-muxed-fmp4-av1-opus",
+      "growing-muxed-fmp4-h264-aac-lc",
+      "growing-muxed-fmp4-h264-opus",
+      "growing-muxed-fmp4-hevc-aac-lc",
+      "growing-muxed-fmp4-hevc-opus",
+      "growing-muxed-fmp4-vp9-aac-lc",
+      "growing-muxed-fmp4-vp9-opus",
+      "growing-muxed-mp4-h264-aac-lc",
+      "growing-muxed-mpegts-h264-aac-lc",
+      "growing-muxed-webm-av1-opus",
+      "growing-muxed-webm-av1-vorbis",
+      "growing-muxed-webm-vp8-opus",
+      "growing-muxed-webm-vp8-vorbis",
+      "growing-muxed-webm-vp9-opus",
+      "growing-muxed-webm-vp9-vorbis",
+      "growing-tail-mp4-h264-aac-lc",
+      "segmented-fmp4-av1-aac-lc",
+      "segmented-fmp4-av1-opus",
+      "segmented-fmp4-h264-aac-lc",
+      "segmented-fmp4-h264-opus",
+      "segmented-fmp4-hevc-aac-lc",
+      "segmented-fmp4-hevc-opus",
+      "segmented-fmp4-vp9-aac-lc",
+      "segmented-fmp4-vp9-opus",
+      "segmented-mpegts-h264-aac-lc",
+      "segmented-muxed-mpegts-h264-aac-lc",
+      "segmented-webm-av1-opus",
+      "segmented-webm-vp8-opus",
+      "segmented-webm-vp9-opus",
+      "separate-fmp4-av1-aac-lc",
+      "separate-fmp4-av1-opus",
+      "separate-fmp4-h264-aac-lc",
+      "separate-fmp4-h264-opus",
+      "separate-fmp4-hevc-aac-lc",
+      "separate-fmp4-hevc-opus",
+      "separate-fmp4-vp9-aac-lc",
+      "separate-fmp4-vp9-opus",
+      "separate-fmp4-webm-av1-opus",
+      "separate-fmp4-webm-av1-vorbis",
+      "separate-fmp4-webm-h264-opus",
+      "separate-fmp4-webm-h264-vorbis",
+      "separate-fmp4-webm-hevc-opus",
+      "separate-fmp4-webm-hevc-vorbis",
+      "separate-fmp4-webm-vp9-opus",
+      "separate-fmp4-webm-vp9-vorbis",
+      "separate-webm-av1-opus",
+      "separate-webm-av1-vorbis",
+      "separate-webm-fmp4-av1-aac-lc",
+      "separate-webm-fmp4-av1-opus",
+      "separate-webm-fmp4-vp8-aac-lc",
+      "separate-webm-fmp4-vp8-opus",
+      "separate-webm-fmp4-vp9-aac-lc",
+      "separate-webm-fmp4-vp9-opus",
+      "separate-webm-vp8-opus",
+      "separate-webm-vp8-vorbis",
+      "separate-webm-vp9-opus",
+      "separate-webm-vp9-vorbis",
+      "standalone-ac3",
+      "standalone-adts-aac-lc",
+      "standalone-eac3",
+      "standalone-flac",
+      "standalone-fmp4-aac-lc",
+      "standalone-fmp4-av1",
+      "standalone-fmp4-flac",
+      "standalone-fmp4-h264",
+      "standalone-fmp4-hevc",
+      "standalone-fmp4-opus",
+      "standalone-fmp4-vp9",
+      "standalone-mp3",
+      "standalone-mp3-gapless",
+      "standalone-mp3-indexed",
+      "standalone-ogg-opus",
+      "standalone-ogg-vorbis",
+      "standalone-rf64-pcm16",
+      "standalone-rf64-pcm24",
+      "standalone-rf64-sparse-pcm16",
+      "standalone-rf64-sparse-pcm24",
+      "standalone-wav-extensible-pcm24",
+      "standalone-wav-pcm16",
+      "standalone-wav-pcm24",
+      "standalone-webm-av1",
+      "standalone-webm-opus",
+      "standalone-webm-vorbis",
+      "standalone-webm-vp8",
+      "standalone-webm-vp9"
+    ],
+    "continuous": [
+      "continuous-av1-aac-window-v1",
+      "continuous-av1-video-v1",
+      "continuous-h264-aac-window-v1",
+      "continuous-h264-reordered-video-v1",
+      "continuous-h264-video-v1",
+      "continuous-hevc-aac-window-v1",
+      "continuous-hevc-reordered-video-v1",
+      "continuous-vp9-aac-window-v1",
+      "continuous-vp9-superframe-aac-window-v1",
+      "continuous-vp9-superframe-video-v1",
+      "continuous-vp9-video-v1",
+      "continuous-webm-vp9-opus-cfr-v1",
+      "continuous-webm-vp9-opus-ntsc-v1",
+      "continuous-webm-vp9-opus-packet-clock-v1",
+      "continuous-webm-vp9-opus-simple-vfr-auto-count-v1",
+      "continuous-webm-vp9-opus-simple-vfr-derived-av-v1",
+      "continuous-webm-vp9-opus-simple-vfr-nominal-v1",
+      "continuous-webm-vp9-opus-simple-vfr-v1",
+      "continuous-webm-vp9-opus-v1",
+      "continuous-webm-vp9-opus-vfr-v1",
+      "continuous-webm-vp9-superframe-video-v1",
+      "continuous-webm-vp9-video-v1"
+    ]
+  },
+  "commonGates": {
+    "confirmed-io": "Публикуемые ranges/SHA; partial structures ждут bytes, file size не подтверждение",
+    "packet-copy": "Compressed packets/PTS/DTS сохранены; без transcoding и изменения оригиналов",
+    "decode-reference": "Независимые frames/PCM, priming/end trim и sample count",
+    "incomplete-playback": "Ordinary main каждой редакции: ≥10s до complete; не только готовый файл или probe",
+    "timeline-controls": "Pause/start/growing/queued seek, выбранные track IDs и metadata",
+    "lifecycle": "EOF/error/cancel/replace/release/filesClosed без ложных terminal states",
+    "negative-cases": "Reason class/state проверены отдельно от ok принятия команды",
+    "resource-bounds": "Измеренные I/O/cache/memory/handles/thread/latency limits; нагрузка описана"
+  },
+  "limits": {
+    "pairRule": "Только явно указанные pairs/explicitCases; arrays audio/channels/rates не означают незаконное декартово произведение. Допустимость и необходимый CodecPrivate проверяются по содержимому.",
+    "readinessRule": "bounded-existing не означает готовность всех layouts семейства; not-accepted нельзя закрыть наличием похожего native профиля",
+    "scopeRule": "Расширения вне списка, обнаруженные в разрешённом реальном корпусе, добавляются явной revision с ID/причиной; обязательные известные строки нельзя удалить ради PASS",
+    "testRule": "Невозможность создать/получить корректный required fixture — открытый блокер, не SKIP или unsupported успех",
+    "hardwareRule": "Physical A/V/HDR output, устройства и Wayland не возобновляются; metadata retention отдельно",
+    "harvesterRule": "Harvester не изменять; HTTP/HLS/DASH — транспорт writer, плеер читает локальные данные"
+  },
+  "executionOrder": [
+    "P02.C149.01",
+    "P02.C149.02",
+    "P02.C149.03",
+    "P02.C149.04",
+    "P02.C149.05",
+    "P02.C149.06",
+    "P02.C149.07",
+    "P02.C149.08",
+    "P02.C149.09",
+    "P02.C149.10"
+  ],
+  "references": [
+    "docs/ProgressiveTechnicalSpec-2026-10-25.ru.md",
+    "docs/FoxicMPWorkRegistry.json",
+    "https://www.matroska.org/technical/codec_specs.html",
+    "https://ffmpeg.org/doxygen/trunk/avformat_8h.html"
+  ],
+  "scenarioAxes": [
+    {
+      "id": "X01",
+      "title": "Подтверждённая запись и структуры",
+      "owners": [
+        "P05.C248.01",
+        "P05.C248.02",
+        "P05.C248.03",
+        "P05.C249.01",
+        "P05.C249.02",
+        "P15.C335.01",
+        "P15.C335.02",
+        "P15.C335.03"
+      ],
+      "cases": [
+        "sequential-prefix",
+        "parallel-out-of-order",
+        "sparse-hole",
+        "partial-header",
+        "partial-packet",
+        "writer-pause10",
+        "writer-pause30",
+        "writer-pause60",
+        "unequal-audio-video-speeds"
+      ]
+    },
+    {
+      "id": "X02",
+      "title": "Большие индексы и каталоги",
+      "owners": [
+        "P05.C250.01",
+        "P05.C250.02",
+        "P05.C250.03",
+        "P05.C251.01",
+        "P05.C251.02",
+        "P07.C265.01",
+        "P07.C265.02",
+        "P07.C265.03"
+      ],
+      "cases": [
+        "external-digest-index",
+        "large-media-index",
+        "paged-catalog",
+        "bounded-json",
+        "bounded-handles",
+        "reopen-without-full-scan",
+        "rf64-64bit-boundary"
+      ]
+    },
+    {
+      "id": "X03",
+      "title": "Crash, identity и ошибки I/O",
+      "owners": [
+        "P13.C308.01",
+        "P13.C308.02",
+        "P13.C308.03",
+        "P13.C308.04",
+        "P13.C309.01",
+        "P13.C309.02",
+        "P15.C335.04"
+      ],
+      "cases": [
+        "writer-crash",
+        "worker-crash",
+        "player-crash",
+        "disk-full",
+        "rename-finalize",
+        "identity-matched-resume",
+        "identity-mismatch-refusal",
+        "multiple-readers",
+        "preview-error-does-not-cancel-download"
+      ]
+    },
+    {
+      "id": "X04",
+      "title": "Latency и UI",
+      "owners": [
+        "P13.C303.01",
+        "P13.C303.02",
+        "P13.C303.03",
+        "P13.C304.01",
+        "P13.C304.02",
+        "P13.C304.03",
+        "P13.C304.04",
+        "P15.C368.01",
+        "P15.C368.02",
+        "P15.C368.03"
+      ],
+      "cases": [
+        "reference-pc-method",
+        "ready-start-le3s",
+        "ready-resume-le2s",
+        "remux-preparation-separate",
+        "managed-release-le2s",
+        "ui-responsive",
+        "bounded-worker-termination",
+        "no-audio-device-video-only"
+      ]
+    },
+    {
+      "id": "X05",
+      "title": "Filesystem и границы безопасности",
+      "owners": [
+        "P13.C321.01",
+        "P13.C321.02",
+        "P13.C321.03",
+        "P13.C321.04",
+        "P13.C322.01",
+        "P13.C322.02",
+        "P13.C322.03"
+      ],
+      "cases": [
+        "local-fixed-drive",
+        "unicode-long-path",
+        "owner-permissions",
+        "current-user-ipc",
+        "symlink-reparse",
+        "traversal",
+        "source-substitution",
+        "no-secrets-in-logs"
+      ]
+    },
+    {
+      "id": "X06",
+      "title": "Общая приёмка и ресурсы",
+      "owners": [
+        "P15.C334.01",
+        "P15.C334.02",
+        "P15.C334.03",
+        "P15.C334.04",
+        "P15.C344.01",
+        "P15.C344.02",
+        "P15.C344.03",
+        "P15.C344.04"
+      ],
+      "cases": [
+        "ordinary-main-all-three",
+        "min10s-before-complete",
+        "exact-native-exits",
+        "all-required-positive-rows",
+        "reasoned-negatives",
+        "no-unexplained-skip",
+        "long-runs",
+        "min100-cycles",
+        "rss-private-cpu-handles-threads-cache-temp-budgets"
+      ]
+    },
+    {
+      "id": "X07",
+      "title": "Реальные сервисные входы",
+      "owners": [
+        "P15.C336.01",
+        "P15.C336.02",
+        "P15.C336.03",
+        "P15.C336.04"
+      ],
+      "cases": [
+        "youtube",
+        "vk",
+        "rutube",
+        "direct-hls-dash-when-actually-available",
+        "extractor-protocol-format-ids",
+        "offline-fixtures",
+        "no-secret-urls"
+      ]
+    },
+    {
+      "id": "X08",
+      "title": "Неизменность пользователя и итоговая поставка",
+      "owners": [
+        "P15.C345.01",
+        "P15.C345.02",
+        "P15.C345.03",
+        "P17.C361.01",
+        "P17.C361.02",
+        "P17.C361.03",
+        "P17.C361.04",
+        "P17.C361.05"
+      ],
+      "cases": [
+        "completed-file-regressions",
+        "private-profiles",
+        "unchanged-user-ini",
+        "unchanged-shell-registration",
+        "three-independent-installs",
+        "same-source-commit",
+        "windows-exe-msi",
+        "linux-deb",
+        "sdk-client-writer-instructions"
+      ]
+    }
+  ],
+  "specCoverage": {
+    "Контейнеры": [
+      "M01",
+      "M02",
+      "M03",
+      "M04",
+      "W01",
+      "W02",
+      "K01",
+      "K02",
+      "K03",
+      "T01",
+      "T02",
+      "A01",
+      "A04",
+      "A06",
+      "A07"
+    ],
+    "Видео": [
+      "M04",
+      "W01",
+      "K01",
+      "K02",
+      "T02"
+    ],
+    "Аудио": [
+      "M01",
+      "M02",
+      "W02",
+      "W03",
+      "A01",
+      "A02",
+      "A03",
+      "A04",
+      "A05",
+      "A06",
+      "A07",
+      "A08"
+    ],
+    "Варианты дорожек": [
+      "M01",
+      "M04",
+      "I01",
+      "I02",
+      "A02",
+      "A03",
+      "A07",
+      "A08"
+    ],
+    "Субтитры": [
+      "U01",
+      "U02"
+    ],
+    "Графические субтитры": [
+      "U02"
+    ],
+    "Доставка": [
+      "S01",
+      "L01",
+      "X01",
+      "X07"
+    ],
+    "Дополнительные данные": [
+      "D01",
+      "V01",
+      "Q01",
+      "U02"
+    ]
+  },
+  "exclusions": [
+    {
+      "id": "E01",
+      "classification": "objective-negative",
+      "subjects": [
+        "drm-decryption",
+        "encrypted-source"
+      ],
+      "reason": "Не обходить DRM; требуется точный отрицательный результат, а не положительный playback"
+    },
+    {
+      "id": "E02",
+      "classification": "deferred-by-user",
+      "subjects": [
+        "physical-av-latency",
+        "gpu-hdr-output",
+        "receivers",
+        "capture-devices",
+        "disc-menus",
+        "analog-tv"
+      ],
+      "reason": "Пользователь отложил аппаратные/дисковые проверки; metadata retention остаётся положительным программным требованием"
+    },
+    {
+      "id": "E03",
+      "classification": "excluded-by-user",
+      "subjects": [
+        "wayland"
+      ],
+      "reason": "Wayland исключён из текущих проверок"
+    },
+    {
+      "id": "E04",
+      "classification": "external-blocked",
+      "subjects": [
+        "real-harvester-events-button",
+        "external-python-long-parent-temp"
+      ],
+      "reason": "Не менять Harvester/Python/Windows; player-owned API и тестовый writer разрешены"
+    },
+    {
+      "id": "E05",
+      "classification": "conditional-admission",
+      "subjects": [
+        "network-filesystem",
+        "removable-filesystem"
+      ],
+      "reason": "Поддержку не объявлять до отдельных identity/disconnect тестов; обязательная база local fixed drive"
+    },
+    {
+      "id": "E06",
+      "classification": "outside-positive-core-not-universal-unsupported",
+      "subjects": [
+        "unlisted-codecs",
+        "unlisted-pairs",
+        "unlisted-rates-layouts"
+      ],
+      "reason": "Не превращать отсутствие строки в вечный отказ валидному формату: новый реальный вход добавляется явной revision/ID/причиной по ТЗ"
+    }
+  ],
+  "variantRules": {
+    "matrixIsNotCartesian": "Не перемножать контейнеры, кодеки, rates и layouts. ExplicitCases/pairs задают конкретные пары; остальные arrays — конечные классы тестов только в допустимых сочетаниях.",
+    "channelValidity": {
+      "ac3": [
+        "mono",
+        "stereo",
+        "5.1"
+      ],
+      "eac3": [
+        "mono",
+        "stereo",
+        "5.1",
+        "7.1"
+      ],
+      "opus": [
+        "mono",
+        "stereo",
+        "5.1",
+        "7.1"
+      ],
+      "vorbis": [
+        "mono",
+        "stereo",
+        "5.1",
+        "7.1"
+      ],
+      "aac-lc": [
+        "mono",
+        "stereo",
+        "5.1",
+        "7.1"
+      ],
+      "he-aac": [
+        "mono",
+        "stereo",
+        "5.1"
+      ],
+      "mp3": [
+        "mono",
+        "stereo"
+      ]
+    },
+    "mp3Rates": {
+      "mpeg1": [
+        32000,
+        44100,
+        48000
+      ],
+      "mpeg2": [
+        16000,
+        22050,
+        24000
+      ],
+      "mpeg2.5": [
+        8000,
+        11025,
+        12000
+      ]
+    },
+    "subtitlePairs": "PGS/DVD/ASS/SubRip в Matroska; mov_text/WebVTT в MP4. HTML/XML не загружает внешние ресурсы; fonts не устанавливаются.",
+    "editions": "Каждая обязательная положительная строка проверяется отдельно Linux Qt, Windows Qt, Windows Classic. Null/file/software результаты не заменяют physical A/V.",
+    "conditionalRows": "T02 и A05 требуют корректного реального или локального reference fixture из предусмотренного ТЗ корпуса. Отсутствие сервиса не отменяет доступный локальный вход; отсутствие fixture фиксируется OPEN."
+  }
+}

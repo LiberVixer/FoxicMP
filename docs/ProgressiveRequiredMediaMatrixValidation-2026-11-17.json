@@ -1,0 +1,87 @@
+{
+  "result": "PASS",
+  "date": "2026-11-17",
+  "workId": "P02.C149.01",
+  "sourceCommitBeforeWork": "8dc4b8fb9f07a6ccc3d78716fc89654802335a44",
+  "validation": {
+    "result": "PASS",
+    "validationKind": "planning-and-source-contract-only",
+    "boundedExisting": 108,
+    "native": 86,
+    "continuous": 22,
+    "remainingFamilies": 30,
+    "scenarioAxes": 8,
+    "negativeClasses": 12,
+    "specificationAreas": 8,
+    "newPlaybackAccepted": false,
+    "playersStarted": false,
+    "harvesterChanged": false
+  },
+  "unitTests": {
+    "count": 15,
+    "exitCode": 0,
+    "logSha256": "fd28c26cb738b563d9d2d0a7ba0bfcda787548bc644efb70ffc55c2f49dde6e3"
+  },
+  "installedSdkDeclarationMatches": true,
+  "sourceContractDigests": {
+    "commonNative": "8f2c4943e6b68ca275afef7a48e195c90343adff80ffbf2bf329bf66bd4fdf27",
+    "qtNative": "09c23fe501a83b4e5743b4fc6a348a2f81f5c08d7052a6eda415ba7b034f92af",
+    "classicNative": "4169516cb3e3975a94fdf22e45266b5a348586d3b4c8ef3d50f4e801863cb734",
+    "continuous": "4420c24c1dc40fc495ab9b2d901a71f04be532e663ae9b6d7cc6a0e9db82c79b"
+  },
+  "files": {
+    "docs/ProgressiveRequiredMediaMatrix.json": "24b83d4f7e65b9a0a8551f742424e0f0957445aaf5a2c5bd9dd71c7cb8f89489",
+    "docs/ProgressiveRequiredMediaMatrix.md": "273bf82054eaabbbb35e7f2c25dc71ee085394a4c815d54d536a1a8dd71f4a3c",
+    "tools/verify_progressive_media_matrix.py": "65ea43317b3404100bc41bd5d6c0572744ee4b97528605ed68e666819d40238d",
+    "tests/progressive_media_matrix_test.py": "93b2302682843c4f2f8e0153077f78c18f69d793c8878b23579ed94f52a50f87",
+    "tools/foxicmp_work_status.py": "9341fdac7f94a1839e56ee54bb9891316ddad814d5b43938eb60f14b27a23c63"
+  },
+  "scope": "Finite acceptance plan only; no new format implementation or runtime playback proof",
+  "playerModified": false,
+  "harvesterModified": false,
+  "playersStarted": false,
+  "versionBumped": false,
+  "installationsUpdated": false,
+  "closedIds": [
+    "P02.C149.01"
+  ],
+  "stillOpen": [
+    "P02.C148.01",
+    "P02.C148.02",
+    "P02.C148.03"
+  ],
+  "nextWork": "P02.C149.02",
+  "newTaskIds": [],
+  "workAccounting": {
+    "result": "PASS",
+    "closed": [
+      "P02.C149.01"
+    ],
+    "addedByLevel": {
+      "1": 0,
+      "2": 0,
+      "3": 0
+    },
+    "terminalBefore": {
+      "total": 537,
+      "done": 309,
+      "remaining": 228,
+      "active": 203,
+      "blocked": 13,
+      "deferred": 12
+    },
+    "terminalAfter": {
+      "total": 537,
+      "done": 310,
+      "remaining": 227,
+      "active": 202,
+      "blocked": 13,
+      "deferred": 12
+    },
+    "nextWork": {
+      "id": "P02.C149.02",
+      "title": "Обычный M4A: audio-only admission и progressive playback"
+    },
+    "priorityChecks": 3
+  }
+}

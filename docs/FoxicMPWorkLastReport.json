@@ -1,6 +1,10 @@
 {
   "schemaVersion": 1,
   "baselineDate": "2026-11-17",
+  "nextWork": {
+    "id": "P02.C149.02",
+    "title": "Обычный M4A: audio-only admission и progressive playback"
+  },
   "levels": {
     "1": {
       "total": 26,
@@ -20,9 +24,9 @@
     },
     "3": {
       "total": 353,
-      "done": 143,
-      "remaining": 210,
-      "active": 192,
+      "done": 144,
+      "remaining": 209,
+      "active": 191,
       "blocked": 13,
       "deferred": 5
     }
@@ -822,7 +826,7 @@
     },
     "P02.C149": {
       "level": 2,
-      "status": "todo",
+      "status": "partial",
       "title": "Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей.",
       "terminal": false,
       "additionType": "migration",
@@ -830,11 +834,11 @@
     },
     "P02.C149.01": {
       "level": 3,
-      "status": "todo",
+      "status": "done",
       "title": "Зафиксировать конечный перечень обязательных положительных container/codec/layout строк и точные исключения",
       "terminal": true,
       "additionType": "migration",
-      "changeReason": ""
+      "changeReason": "Зафиксирована полная известная положительная база/оставшиеся семейства/отрицательные исходы и границы; проверены source capabilities и15 контролей матрицы. Это готовность плана, не новый playback."
     },
     "P02.C149.02": {
       "level": 3,
@@ -5199,22 +5203,22 @@
   },
   "total": {
     "total": 646,
-    "done": 327,
-    "remaining": 319,
-    "active": 282,
+    "done": 328,
+    "remaining": 318,
+    "active": 281,
     "blocked": 22,
     "deferred": 15
   },
   "leaves": {
     "total": 537,
-    "done": 309,
-    "remaining": 228,
-    "active": 203,
+    "done": 310,
+    "remaining": 227,
+    "active": 202,
     "blocked": 13,
     "deferred": 12
   },
   "sourceCheckboxes": 324,
   "sourceLists": 8,
   "aliases": 8,
-  "reportedAtUtc": "2026-11-17T06:48:36.464347+00:00"
+  "reportedAtUtc": "2026-11-17T08:00:37.077236+00:00"
 }

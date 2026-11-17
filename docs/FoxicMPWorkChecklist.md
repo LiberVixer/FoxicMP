@@ -10,9 +10,9 @@ progressive-ТЗ и семейного плана. Он считает резу�
 |---|---:|---:|---:|---:|---:|---:|
 | Задачи | 26 | 6 | 20 | 17 | 2 | 1 |
 | Подзадачи | 267 | 178 | 89 | 73 | 7 | 9 |
-| Подподзадачи | 353 | 143 | 210 | 192 | 13 | 5 |
-| **Все узлы трёх уровней** | **646** | **327** | **319** | 282 | 22 | 15 |
-| **Только конечные рабочие пункты** | **537** | **309** | **228** | 203 | 13 | 12 |
+| Подподзадачи | 353 | 144 | 209 | 191 | 13 | 5 |
+| **Все узлы трёх уровней** | **646** | **328** | **318** | 281 | 22 | 15 |
+| **Только конечные рабочие пункты** | **537** | **310** | **227** | 202 | 13 | 12 |
 
 Родитель и его дети — разные уровни, поэтому их сумма не является оценкой
 трудозатрат или процентом готовности продукта. Для движения работы полезнее
@@ -21,7 +21,7 @@ progressive-ТЗ и семейного плана. Он считает резу�
 ## Изменения относительно базы
 
 Добавлено задач / подзадач / подподзадач: **0 / 0 / 0**.
-Закрыто с базы по уровням: **0 / 0 / 0**.
+Закрыто с базы по уровням: **0 / 0 / 1**.
 Удалено: 0; повторно открыто: 0; сменило уровень: 0; изменено описание: 0.
 
 Сам исходный пересчёт — миграция известных работ, а не появление новых требований.
@@ -45,7 +45,7 @@ progressive-ТЗ и семейного плана. Он считает резу�
 |---|---|---|---:|---:|---:|---:|
 | P00 | Основа протокола и совместимость | готово | 13 / 13 | 0 | 0 | 0 |
 | P01 | Общий растущий fMP4 | готово | 5 / 5 | 0 | 0 | 0 |
-| P02 | Demux и непрерывный remux контейнеров | частично | 56 / 80 | 24 | 0 | 0 |
+| P02 | Demux и непрерывный remux контейнеров | частично | 57 / 80 | 23 | 0 | 0 |
 | P03 | Обычный MP4 и индексы | готово | 4 / 4 | 0 | 0 | 0 |
 | P04 | Аудиокодеки и самостоятельные потоки | частично | 21 / 36 | 15 | 0 | 0 |
 | P05 | Непоследовательная запись и большие ресурсы | частично | 6 / 16 | 10 | 0 | 0 |
@@ -69,6 +69,8 @@ progressive-ТЗ и семейного плана. Он считает резу�
 | F5 | Мастер переноса библиотеки и предпочтений | отложено | 0 / 3 | 0 | 0 | 3 |
 | F6 | Мультимедиа и платформенные ограничения | частично | 18 / 27 | 5 | 0 | 4 |
 | F7 | Общий цикл сборки и версии семейства | частично | 2 / 4 | 2 | 0 | 0 |
+
+**Следующий конкретный пункт очереди:** P02.C149.02 — Обычный M4A: audio-only admission и progressive playback.
 
 ## Полный список с подзадачами
 
@@ -149,8 +151,8 @@ progressive-ТЗ и семейного плана. Он считает резу�
     - **P02.C148.01** — **осталось**: Подключить production demux через confirmed local I/O для ещё не поддержанных входов. Источник: [ProgressiveCompletionChecklist.md:148](ProgressiveCompletionChecklist.md).
     - **P02.C148.02** — **осталось**: Подключить оставшиеся Qt/Classic decoder adapters без открытия частичного файла как обычного. Источник: [ProgressiveCompletionChecklist.md:148](ProgressiveCompletionChecklist.md).
     - **P02.C148.03** — **осталось**: Проверить limits/cancel/malformed/EOF для каждого вновь подключённого demux path. Источник: [ProgressiveCompletionChecklist.md:148](ProgressiveCompletionChecklist.md).
-  - **P02.C149** — **осталось**: Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md).
-    - **P02.C149.01** — **осталось**: Зафиксировать конечный перечень обязательных положительных container/codec/layout строк и точные исключения. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md).
+  - **P02.C149** — **частично**: Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md).
+    - **P02.C149.01** — **готово**: Зафиксировать конечный перечень обязательных положительных container/codec/layout строк и точные исключения. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md), [ProgressiveRequiredMediaMatrix.md](ProgressiveRequiredMediaMatrix.md), [ProgressiveRequiredMediaMatrixValidation-2026-11-17.json](ProgressiveRequiredMediaMatrixValidation-2026-11-17.json).
     - **P02.C149.02** — **осталось**: Обычный M4A: audio-only admission и progressive playback. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md).
     - **P02.C149.03** — **осталось**: MOV: sample entries, edit lists и отличия структуры от MP4. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md).
     - **P02.C149.04** — **осталось**: WebM VP8/AV1: continuous пути за пределами native профилей. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md).

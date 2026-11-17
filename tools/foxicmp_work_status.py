@@ -104,6 +104,9 @@ def inventory(data, root=ROOT):
     for targets in data['specSections'].values():
         if any(t not in by_id for t in targets):
             raise ValueError('Invalid spec route')
+    priority = data.get('priorityOrder', [])
+    if len(priority) != len(set(priority)) or any(id not in by_id or children[id] for id in priority):
+        raise ValueError('Priority order must reference distinct terminal work IDs')
     return by_id, children, depth, status
 
 
@@ -116,7 +119,10 @@ def counts(ids, status):
 
 def snapshot(data):
     by_id, children, depth, status = inventory(data)
+    order = list(dict.fromkeys(data.get('priorityOrder', [])+list(by_id)))
+    next_id = next((id for id in order if not children[id] and status[id] == 'todo'), None)
     return dict(schemaVersion=1, baselineDate=data['baselineDate'],
+                nextWork=dict(id=next_id, title=by_id[next_id]['title']) if next_id else None,
                 levels={str(n): counts([id for id in by_id if depth[id] == n], status) for n in (1, 2, 3)},
                 nodes={id: dict(level=depth[id], status=status[id], title=by_id[id]['title'],
                                 terminal=not children[id],
@@ -195,6 +201,8 @@ def render(data, current, delta):
     for id in children[None]:
         c = counts(leaves(id), status)
         lines.append(f"| {id} | {by_id[id]['title']} | {LABELS[status[id]]} | {c['done']} / {c['total']} | {c['active']} | {c['blocked']} | {c['deferred']} |")
+    if current['nextWork']:
+        lines += ['', '**Следующий конкретный пункт очереди:** '+current['nextWork']['id']+' — '+current['nextWork']['title']+'.']
     lines += ['', '## Полный список с подзадачами', '',
               'Готовые результаты сохраняют точные границы исходных отчётов. Они не обещают',
               'непроверенные сочетания кодеков, аппаратный вывод или настоящий Harvester.', '']
@@ -242,6 +250,8 @@ def render_remaining(data, current):
              '[Полный счётчик и выполненные работы](FoxicMPWorkChecklist.md).', '',
              '«Внешнее условие» и «отложено» не разрешают автоматически менять Harvester,',
              'проводить аппаратные испытания или возвращаться к исключённому Wayland.', '']
+    if current['nextWork']:
+        lines += ['**Следующий конкретный пункт очереди:** '+current['nextWork']['id']+' — '+current['nextWork']['title']+'.', '']
 
     def emit(id):
         if status[id] == 'done':
@@ -303,7 +313,7 @@ def main():
         with (archive/name).open('x', encoding='utf-8') as stream:
             stream.write(json.dumps(record, ensure_ascii=False, indent=2)+'\n')
         LAST_REPORT.write_text(json.dumps(current, ensure_ascii=False, indent=2)+'\n')
-    print(json.dumps(dict(levels=current['levels'], total=current['total'], leaves=current['leaves'],
+    print(json.dumps(dict(levels=current['levels'], total=current['total'], leaves=current['leaves'], nextWork=current['nextWork'],
                           changes=delta, sourceCheckboxes=current['sourceCheckboxes'], aliases=current['aliases']),
                      ensure_ascii=False, indent=2))
 
