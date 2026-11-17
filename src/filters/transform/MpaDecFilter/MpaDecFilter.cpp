@@ -397,6 +397,7 @@ STDMETHODIMP CMpaDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 	return
 		QI(IMpaDecFilter)
 		QI(IProgressiveGrowingOpusControl)
+		QI(IProgressivePacketOpusControl)
 		QI(IProgressivePcmControl)
 		QI(IProgressiveAacPcmControl)
 		QI(IExFilterConfig)
@@ -430,7 +431,7 @@ HRESULT CMpaDecFilter::BeginFlush()
 HRESULT CMpaDecFilter::EndFlush()
 {
 	CAutoLock cAutoLock(&m_csReceive);
-	m_pcmSegment={};m_growingOpus=false;
+	m_pcmSegment={};m_growingOpus=false;m_packetOpusSkip=0;
 	m_buff.Clear();
 	m_FFAudioDec.FlushBuffers();
 	m_Mixer.FlushBuffers();
@@ -445,7 +446,7 @@ HRESULT CMpaDecFilter::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME tStop, d
 {
 	CAutoLock cAutoLock(&m_csReceive);
 	if(m_pcmSegment.pending || m_pcmSegment.applied || m_pcmSegment.failed)m_FFAudioDec.FlushBuffers();
-	m_pcmSegment={};m_growingOpus=false;
+	m_pcmSegment={};m_growingOpus=false;m_packetOpusSkip=0;
 	m_ps2_state.sync = false;
 	m_hdmi_bitstream.Clear();
 
@@ -470,8 +471,18 @@ HRESULT CMpaDecFilter::StopStreaming()
 {
 	CAutoLock lock(&m_csReceive);
 	if(m_pcmSegment.pending || m_pcmSegment.applied || m_pcmSegment.failed)m_FFAudioDec.FlushBuffers();
-	m_pcmSegment={};m_growingOpus=false;
+	m_pcmSegment={};m_growingOpus=false;m_packetOpusSkip=0;
 	return __super::StopStreaming();
+}
+STDMETHODIMP CMpaDecFilter::ArmPacketOpus(UINT skip,ULONGLONG begin,ULONGLONG end,ULONGLONG first){
+    CAutoLock lock(&m_csReceive);harvester::pcm::Window check;
+    if((skip!=120 && skip!=312) || m_CodecId!=AV_CODEC_ID_OPUS || begin<skip || end>48000000ULL+skip || first%120 ||
+       m_pcmSegment.received || m_pcmSegment.pending || m_pcmSegment.applied || !check.Configure(begin,end,48000,first))return E_INVALIDARG;
+    m_pcmSegment={begin,end,first,48000,true,false,false,false,false,true};m_packetOpusSkip=skip;m_growingOpus=true;return S_OK;
+}
+STDMETHODIMP CMpaDecFilter::AdvancePacketOpus(ULONGLONG end){
+    CAutoLock lock(&m_csReceive);if(!m_packetOpusSkip || end>48000000ULL+m_packetOpusSkip)return E_INVALIDARG;
+    return AdvanceGrowingOpus(end);
 }
 STDMETHODIMP CMpaDecFilter::ArmGrowingOpus(ULONGLONG begin,ULONGLONG end,ULONGLONG first)
 {
@@ -490,7 +501,7 @@ STDMETHODIMP CMpaDecFilter::ArmPcmWindow(UINT version, ULONGLONG begin, ULONGLON
 	const bool opus=version==2 && m_CodecId==AV_CODEC_ID_OPUS && rate==48000 && begin>=312 && end<=48000312 && decodeFirst%960==0;
 	if((!opus && (version!=1 || m_CodecId!=AV_CODEC_ID_MP3)) || m_pcmSegment.received || m_pcmSegment.pending || m_pcmSegment.applied ||
 		!check.Configure(begin,end,rate,decodeFirst)) return E_INVALIDARG;
-	m_pcmSegment={begin,end,decodeFirst,rate,true,false,false,false,false,opus};m_growingOpus=false;return S_OK;
+	m_pcmSegment={begin,end,decodeFirst,rate,true,false,false,false,false,opus};m_growingOpus=false;m_packetOpusSkip=0;return S_OK;
 }
 STDMETHODIMP CMpaDecFilter::ArmAacPcmWindow(UINT version,UINT rate,UINT channels,ULONGLONG samples,UINT initialSkip,ULONGLONG target,ULONGLONG decodeFirst)
 {
@@ -636,7 +647,7 @@ HRESULT CMpaDecFilter::Receive(IMediaSample* pIn)
 
 	if(m_pcmSegment.failed)return E_INVALIDARG;
 	if(m_pcmSegment.pending) {
-		const bool armed=m_pcmSegment.opus?m_FFAudioDec.SetOpusPcmWindow(m_pcmSegment.begin,m_pcmSegment.end,m_pcmSegment.first):m_pcmSegment.aac?m_FFAudioDec.SetAacPcmWindow(m_aacPcmWindow,m_pcmSegment.begin-m_aacPcmWindow.RawBegin(),m_pcmSegment.first):m_FFAudioDec.SetPcmWindow(m_pcmSegment.begin,m_pcmSegment.end,m_pcmSegment.rate,m_pcmSegment.first);
+		const bool armed=m_packetOpusSkip?m_FFAudioDec.SetPacketOpusPcmWindow(m_packetOpusSkip,m_pcmSegment.begin,m_pcmSegment.end,m_pcmSegment.first):m_pcmSegment.opus?m_FFAudioDec.SetOpusPcmWindow(m_pcmSegment.begin,m_pcmSegment.end,m_pcmSegment.first):m_pcmSegment.aac?m_FFAudioDec.SetAacPcmWindow(m_aacPcmWindow,m_pcmSegment.begin-m_aacPcmWindow.RawBegin(),m_pcmSegment.first):m_FFAudioDec.SetPcmWindow(m_pcmSegment.begin,m_pcmSegment.end,m_pcmSegment.rate,m_pcmSegment.first);
 		if(!armed) {
 			m_pcmSegment.failed=true;return E_INVALIDARG;
 		}
@@ -2395,7 +2406,7 @@ HRESULT CMpaDecFilter::BreakConnect(PIN_DIRECTION dir)
 
 	if (dir == PINDIR_INPUT) {
 		m_FFAudioDec.StreamFinish();
-		m_pcmSegment={};m_growingOpus=false;
+		m_pcmSegment={};m_growingOpus=false;m_packetOpusSkip=0;
 		m_bNeedBitstreamCheck = TRUE;
 	}
 

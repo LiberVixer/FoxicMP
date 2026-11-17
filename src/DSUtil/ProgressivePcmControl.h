@@ -25,3 +25,9 @@ IProgressiveGrowingOpusControl : public IUnknown {
     STDMETHOD(ArmGrowingOpus)(ULONGLONG begin, ULONGLONG end, ULONGLONG decodeFirst) PURE;
     STDMETHOD(AdvanceGrowingOpus)(ULONGLONG end) PURE;
 };
+// Packet-derived sample offsets; existing fixed-960 Opus IIDs stay unchanged.
+interface __declspec(uuid("5EA8EFC4-964D-4C80-AF8E-69B9807B1CC2"))
+IProgressivePacketOpusControl : public IUnknown {
+    STDMETHOD(ArmPacketOpus)(UINT preSkip,ULONGLONG begin,ULONGLONG end,ULONGLONG decodeFirst) PURE;
+    STDMETHOD(AdvancePacketOpus)(ULONGLONG end) PURE;
+};

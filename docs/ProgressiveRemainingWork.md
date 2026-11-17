@@ -1,6 +1,6 @@
 # FoxicMP: оставшиеся работы по progressive-ТЗ
 
-Рабочая сводка на 15 ноября 2026, включая bounded continuous WebM VP9/Opus восьми CFR частот 23.976–60fps, SDK1.105 (включая VFR с явными BlockDuration, SimpleBlock, производным video count, номинальным DefaultDuration и производным audio count).
+Рабочая сводка на 17 ноября 2026, включая bounded continuous WebM VP9/Opus восьми CFR частот 23.976–60fps, SDK1.106 (включая VFR с явными BlockDuration, SimpleBlock, производным video count, номинальным DefaultDuration и производным audio count).
 Основание — [ТЗ](ProgressiveTechnicalSpec-2026-10-25.ru.md) и
 [подробный чеклист с доказательствами](ProgressiveCompletionChecklist.md).
 Эта сводка группирует оставшиеся работы, не меняя объём ТЗ и не объявляя
@@ -109,11 +109,12 @@ required audio до EOF. [Фиксированный счётчик](Progressive
 сохраняет16 подпунктов:16 готово,0 осталось, включая проверенную поставку Linux.
 Другие layouts, неизвестный endpoint и общие77 требований остаются открытыми.
 
-Следующий этап — [Opus-пакеты разной длительности](ProgressiveOpusGeometryRemuxPlan.md).
-Подготовка отделяет подсчёт/TOC и completed-file decoder controls от будущего
-progressive scanner/cache/decoder подключения. [Фиксированный чеклист](ProgressiveOpusGeometryExecutionChecklist.md)
-содержит18 подпунктов:8 подготовительных и10 production/приёмочных. Старые
-SDK1.105 profiles сохраняют свои ограничения; новый public mode пока не объявляется.
+Текущий этап — [Opus-пакеты разной длительности](ProgressiveContinuousWebmPacketOpus.md).
+Production подключение всех трёх редакций и [приёмка](ProgressiveContinuousWebmPacketOpusValidation-2026-11-16.json)
+завершены. [Фиксированный чеклист](ProgressiveOpusGeometryExecutionChecklist.md):
+18 всего/17 готово/1 осталось — clean SDK и установка Linux. SDK1.106 сохраняет
+прежние ограничения остальных profiles; известные length/video endpoint обязательны.
+После поставки следующий R01 выбирается по таблице ещё не поддержанных layouts.
 
 1. Составить таблицу оставшихся container/codec/layout rows: уже native-progressive,
    continuous-remux, probe-only, waiting-index и неподдержанные. Для каждой строки

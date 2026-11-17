@@ -17,14 +17,15 @@ public:
         Require(bool(store),"remuxDecoder","Missing output cache","invalid_request");
         const bool audio=selectedMode=="continuous-h264-aac-window-v1" || selectedMode=="continuous-hevc-aac-window-v1" || selectedMode=="continuous-av1-aac-window-v1" || selectedMode=="continuous-vp9-aac-window-v1" || selectedMode=="continuous-vp9-superframe-aac-window-v1";
         Require(selectedMode=="continuous-h264-video-v1" || selectedMode=="continuous-h264-reordered-video-v1" || selectedMode=="continuous-hevc-reordered-video-v1" || selectedMode=="continuous-av1-video-v1" || selectedMode=="continuous-vp9-video-v1" || selectedMode=="continuous-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-video-v1" || (opusAudio() && audioConsumer) || (audio && audioConsumer),"remuxDecoder","Invalid decoder profile","invalid_request");
-        Require(hevcVideo()==store->hevcVideo() && av1Video()==store->av1Video() && vp9Video()==store->vp9Video() && (!av1Video() || audio==store->av1AudioProfile()) && (!vp9Video() || audio==store->vp9AudioProfile() && opusAudio()==store->webmOpus() && ntscOpus()==store->ntscWebmOpus() && cfrOpus()==store->cfrWebmOpus() && vfrOpus()==store->vfrWebmOpus() && autoCountOpus()==store->videoClock().derivedCount && nominalOpus()==store->videoClock().nominalDefault && derivedAudioOpus()==store->videoClock().derivedAudio),"remuxDecoder","Cache codec/profile mismatch","invalid_request");
+        Require(hevcVideo()==store->hevcVideo() && av1Video()==store->av1Video() && vp9Video()==store->vp9Video() && (!av1Video() || audio==store->av1AudioProfile()) && (!vp9Video() || audio==store->vp9AudioProfile() && opusAudio()==store->webmOpus() && ntscOpus()==store->ntscWebmOpus() && cfrOpus()==store->cfrWebmOpus() && vfrOpus()==store->vfrWebmOpus() && autoCountOpus()==store->videoClock().derivedCount && nominalOpus()==store->videoClock().nominalDefault && derivedAudioOpus()==store->videoClock().derivedAudio && packetAudioOpus()==store->videoClock().packetAudio),"remuxDecoder","Cache codec/profile mismatch","invalid_request");
         if(audio){
             const auto s=store->status();Require(s.initialized && s.fragments>0 && s.failure.empty() && !s.audioWindow.empty(),"remuxDecoder","Wait for validated A/V cache","waiting_initialization");
             rapidjson::Document d;d.Parse(s.audioWindow.c_str());Require(!d.HasParseError(),"remuxDecoder","Invalid cached PCM window","backend-protocol-error");
             pcmWindow=std::make_shared<const StreamAudioWindow>(StreamAudioWindow::Parse(d));
         }
     }
-    bool derivedAudioOpus()const{return selectedMode=="continuous-webm-vp9-opus-simple-vfr-derived-av-v1";}
+    bool packetAudioOpus()const{return selectedMode=="continuous-webm-vp9-opus-packet-clock-v1";}
+    bool derivedAudioOpus()const{return packetAudioOpus() || selectedMode=="continuous-webm-vp9-opus-simple-vfr-derived-av-v1";}
     bool nominalOpus()const{return selectedMode=="continuous-webm-vp9-opus-simple-vfr-nominal-v1";}
     bool autoCountOpus()const{return derivedAudioOpus() || nominalOpus() || selectedMode=="continuous-webm-vp9-opus-simple-vfr-auto-count-v1";}
     bool vfrOpus()const{return autoCountOpus() || selectedMode=="continuous-webm-vp9-opus-vfr-v1" || selectedMode=="continuous-webm-vp9-opus-simple-vfr-v1";}
@@ -33,8 +34,11 @@ public:
     bool ntscOpus()const{return selectedMode=="continuous-webm-vp9-opus-ntsc-v1";}
     bool opusAudio()const{return vfrOpus() || cfrOpus() || ntscOpus() || selectedMode=="continuous-webm-vp9-opus-v1";}
     bool hasAudio()const{return opusAudio() || bool(pcmWindow);}
+    unsigned opusPreSkip()const{return store->opusPreSkip();}
+    uint64_t opusPacketStart(size_t index)const{return store->opusPacketStart(index);}
+    size_t opusPacketCount()const{return store->opusPacketCount();}
     uint64_t opusAudioSamples()const{return store->opusAudioSamples();}
-    void copyWebmLayout(harvester::muxwebm::Layout& target)const{store->copyWebmLayout(target);}
+    void copyWebmLayout(harvester::muxwebm::Layout& target,bool packetView=false)const{store->copyWebmLayout(target,packetView);}
     const std::string& mode()const{return selectedMode;}
     bool hevcVideo()const{return selectedMode=="continuous-hevc-reordered-video-v1" || selectedMode=="continuous-hevc-aac-window-v1";}
     bool av1Video()const{return selectedMode=="continuous-av1-video-v1" || selectedMode=="continuous-av1-aac-window-v1";}
@@ -98,8 +102,9 @@ class StreamFragmentDecoder {
     std::unique_ptr<harvester::muxwebm::Layout> webm;
     mutable std::mutex viewMutex;
     uint64_t visible=0;
+    const bool packetView;
 public:
-    explicit StreamFragmentDecoder(std::shared_ptr<StreamDecoderSource> value,bool decoder=false):source(std::move(value)){
+    explicit StreamFragmentDecoder(std::shared_ptr<StreamDecoderSource> value,bool decoder=false,bool qtPacketView=false):source(std::move(value)),packetView(qtPacketView){
         Require(bool(source),"remuxDecoder","Missing decoder source","invalid_request");reader=decoder?source->decoderReader():source->reader();
     }
     std::string id()const{return reader->id();}
@@ -108,7 +113,7 @@ public:
         Require(!source->stopped(),"remuxDecoder","Decoder source cancelled","cancelled");const auto s=source->status();
         Require(s.failure.empty(),"remuxDecoder","Output producer failed",s.failure.c_str());
         if(visible==s.visible)return;
-        if(source->opusAudio()){if(!webm)webm=std::make_unique<harvester::muxwebm::Layout>();source->copyWebmLayout(*webm);visible=s.visible;return;}
+        if(source->opusAudio()){if(!webm)webm=std::make_unique<harvester::muxwebm::Layout>();source->copyWebmLayout(*webm,packetView);visible=s.visible;return;}
         if(source->audioWindow()){
             if(!av)av=std::make_unique<harvester::muxmp4::Layout>();
             source->copyAvLayout(*av);visible=s.visible;return;
@@ -173,7 +178,7 @@ class StreamDecoderCursor {
 public:
     explicit StreamDecoderCursor(std::shared_ptr<StreamDecoderSource> value,int kind=-1):source(std::move(value)) {
         Require(bool(source) && (kind==-1 || (kind>=0 && kind<2 && source->hasAudio())),"remuxDecoder","Invalid decoder source/track","invalid_request");
-        if(kind>=0){track=unsigned(kind);projection=std::make_unique<StreamFragmentDecoder>(source,true);projection->refresh();}
+        if(kind>=0){track=unsigned(kind);projection=std::make_unique<StreamFragmentDecoder>(source,true,source->packetAudioOpus());projection->refresh();}
         else reader=source->decoderReader();
     }
     ~StreamDecoderCursor(){close();}

@@ -10,6 +10,7 @@ struct WebmContinuousClock {
     bool derivedCount=false;
     bool nominalDefault=false;
     bool derivedAudio=false;
+    bool packetAudio=false;
     uint64_t expectedFrames=0,expectedEnd100ns=0;
     WebmContinuousClock()=default;
     explicit WebmContinuousClock(bool ntsc):numerator(ntsc?30000:25),denominator(ntsc?1001:1){}
@@ -18,7 +19,9 @@ struct WebmContinuousClock {
     static WebmContinuousClock VfrAutoCount(uint64_t end){auto c=Vfr(0,end);c.derivedCount=true;return c;}
     static WebmContinuousClock VfrNominal(uint64_t end){auto c=VfrAutoCount(end);c.nominalDefault=true;return c;}
     static WebmContinuousClock VfrDerivedAv(uint64_t end){auto c=VfrAutoCount(end);c.derivedAudio=true;return c;}
+    static WebmContinuousClock VfrPacketOpus(uint64_t end){auto c=VfrDerivedAv(end);c.packetAudio=true;return c;}
     bool Valid()const {
+        if(packetAudio && !derivedAudio)return false;
         if(derivedAudio && (!variable || !derivedCount || nominalDefault))return false;
         if(nominalDefault && (!variable || !derivedCount))return false;
         if(variable)return !explicitRate && (derivedCount?expectedFrames==0:expectedFrames>0 && expectedFrames<=50000) && expectedEnd100ns>0 && expectedEnd100ns<=36000000000ULL && expectedEnd100ns%10000==0;

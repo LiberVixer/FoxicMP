@@ -43,6 +43,7 @@ class CMatroskaSplitterOutputPin
     CCritSec m_opusLock;
     CComPtr<IHarvesterReader> m_opusReader;
     CComPtr<IProgressivePcmControl> m_opusControl;
+    CComPtr<IProgressivePacketOpusControl> m_packetOpusControl;
     CComPtr<IProgressiveGrowingOpusControl> m_growingOpusControl;bool m_opusGrowing=false;
     uint64_t m_opusBegin=0,m_opusEnd=0,m_opusFirst=0;bool m_opusPending=false;
     void ClearOpusWindow();

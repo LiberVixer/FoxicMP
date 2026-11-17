@@ -3,7 +3,7 @@ import copy,json,shutil,time
 from pathlib import Path
 from fractions import Fraction
 from progressive_client import ApiError
-from progressive_continuous import ContinuousRemux,WEBM_VP9_OPUS_MODE,WEBM_VP9_OPUS_NTSC_MODE,WEBM_VP9_OPUS_CFR_MODE,WEBM_VP9_OPUS_VFR_MODE,WEBM_VP9_OPUS_SIMPLE_VFR_MODE,WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE,WEBM_VP9_OPUS_DERIVED_AV_MODE
+from progressive_continuous import ContinuousRemux,WEBM_VP9_OPUS_MODE,WEBM_VP9_OPUS_NTSC_MODE,WEBM_VP9_OPUS_CFR_MODE,WEBM_VP9_OPUS_VFR_MODE,WEBM_VP9_OPUS_SIMPLE_VFR_MODE,WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE,WEBM_VP9_OPUS_DERIVED_AV_MODE,WEBM_VP9_OPUS_PACKET_CLOCK_MODE
 from progressive_backend_demux_conformance import snapshot
 from progressive_integrity import protect_snapshot
 from progressive_player_crash_recovery import wait,sha
@@ -11,11 +11,12 @@ from progressive_webm_opus_remux_preflight import fixture,PROFILES,probe,pcm,pac
 from progressive_webm_remux_preflight import unknown_clusters,scan
 MODE=WEBM_VP9_OPUS_MODE
 
-def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=False,simple=False,auto_count=False,nominal=False,derived_audio=False):
+def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=False,simple=False,auto_count=False,nominal=False,derived_audio=False,packet_audio=False):
+ derived_audio=derived_audio or packet_audio
  auto_count=auto_count or nominal or derived_audio
  simple=simple or auto_count
  global MODE
- MODE=WEBM_VP9_OPUS_DERIVED_AV_MODE if derived_audio else WEBM_VP9_OPUS_NOMINAL_VFR_MODE if nominal else WEBM_VP9_OPUS_AUTO_VFR_MODE if auto_count else WEBM_VP9_OPUS_SIMPLE_VFR_MODE if simple else WEBM_VP9_OPUS_VFR_MODE if vfr else WEBM_VP9_OPUS_CFR_MODE if cfr else WEBM_VP9_OPUS_NTSC_MODE if ntsc else WEBM_VP9_OPUS_MODE
+ MODE=WEBM_VP9_OPUS_PACKET_CLOCK_MODE if packet_audio else WEBM_VP9_OPUS_DERIVED_AV_MODE if derived_audio else WEBM_VP9_OPUS_NOMINAL_VFR_MODE if nominal else WEBM_VP9_OPUS_AUTO_VFR_MODE if auto_count else WEBM_VP9_OPUS_SIMPLE_VFR_MODE if simple else WEBM_VP9_OPUS_VFR_MODE if vfr else WEBM_VP9_OPUS_CFR_MODE if cfr else WEBM_VP9_OPUS_NTSC_MODE if ntsc else WEBM_VP9_OPUS_MODE
  vfr=vfr or simple
  options=dict(rate='30000/1001') if ntsc else {}
  report=Path(report);rows=[];current=None;client=peers[0].client
@@ -40,6 +41,8 @@ def exercise(peers,root,report,expected_audio='null',ntsc=False,cfr=False,vfr=Fa
    from progressive_webm_nominal_vfr_fixtures import CASES as SIMPLE_CASES,media as simple_media
   if derived_audio:
    from progressive_webm_derived_av_fixtures import CASES as SIMPLE_CASES,media as simple_media
+  if packet_audio:
+   from progressive_webm_packet_opus_fixtures import CASES as SIMPLE_CASES,media as simple_media
   if simple:VFR_CASES,vfr_media=SIMPLE_CASES,simple_media
   for case in (VFR_CASES if vfr else CASES if cfr else (PROFILES[0],PROFILES[1],PROFILES[4])):
    if vfr:

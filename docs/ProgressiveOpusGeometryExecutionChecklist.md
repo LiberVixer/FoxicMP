@@ -13,15 +13,15 @@
 - [x] OPG-06. Проверить production TOC parser GNU/MinGW/MSVC и bounded sanitizer mutations.
 - [x] OPG-07. Измерить completed-file PCM реальных Qt/Classic decoder paths; явно сохранить расхождения и не выдавать file controls за progressive playback.
 - [x] OPG-08. Опубликовать отчёт, матрицу и production план; подтвердить неизменность SDK, установок/профилей и HKCU.
-- [ ] OPG-09. Реализовать отдельную production clock/profile identity с длительностью из packet bytes и явным pre-skip.
-- [ ] OPG-10. Подключить scanner/sealer/worker, сохранив bounded audio/video lookahead и прежний960-sample mode.
-- [ ] OPG-11. Подключить независимый cache recount, variable PCM coverage и final-counter verification без угадывания EOF.
-- [ ] OPG-12. Подключить Qt/Classic adapters с точными pre-skip/end-trim и seek по сумме длительностей; сохранить старый ABI/admission.
-- [ ] OPG-13. Добавить совместимый API/SDK/capabilities и точные отрицательные reason codes после runtime подключения.
-- [ ] OPG-14. Проверить ordinary Linux Qt ≥10s до complete, pause/growing/queued seek/EOF/release и growing PCM.
-- [ ] OPG-15. Проверить те же сценарии Windows Qt.
-- [ ] OPG-16. Проверить те же сценарии Classic с private INI и HKCU before/after.
-- [ ] OPG-17. Проверить прежние modes, sanitizer/resource bounds и неодинаковые длительности при short/zero-trim audio.
+- [x] OPG-09. Реализовать отдельную production clock/profile identity с длительностью из packet bytes и явным pre-skip.
+- [x] OPG-10. Подключить scanner/sealer/worker, сохранив bounded audio/video lookahead и прежний960-sample mode.
+- [x] OPG-11. Подключить независимый cache recount, variable PCM coverage и final-counter verification без угадывания EOF.
+- [x] OPG-12. Подключить Qt/Classic adapters с точными pre-skip/end-trim и seek по сумме длительностей; сохранить старый ABI/admission.
+- [x] OPG-13. Добавить совместимый API/SDK/capabilities и точные отрицательные reason codes после runtime подключения.
+- [x] OPG-14. Проверить ordinary Linux Qt ≥10s до complete, pause/growing/queued seek/EOF/release и growing PCM.
+- [x] OPG-15. Проверить те же сценарии Windows Qt.
+- [x] OPG-16. Проверить те же сценарии Classic с private INI и HKCU before/after.
+- [x] OPG-17. Проверить прежние modes, sanitizer/resource bounds и неодинаковые длительности при short/zero-trim audio.
 - [ ] OPG-18. Подготовить три проверенные сборки/clean SDK и атомарно обновить Linux с backup/неизменным профилем.
 
 ## Подготовка завершена
@@ -44,3 +44,34 @@ prefix и **необрезанным DiscardPadding**, с явным число�
 **Всего 18 / готово 8 / осталось 10.** Production OPG-09–18 открыты. Предыдущий этап
 [ADC16/16](ProgressiveAudioCountExecutionChecklist.md) сохраняется выполненным.
 Харвестер не меняется. Физическая A/V-проверка и общие R01/R04/R15/R17 не закрываются.
+
+
+## Production-подключение SDK1.106,16 ноября2026
+
+[Рабочий контракт](ProgressiveContinuousWebmPacketOpus.md) подключает packet-derived
+clock/scanner, независимый cache recount/pre-skip verification, новые Opus PCM
+handshake/offsets Classic и microsecond audio view/sample seek trim Qt. Старые
+режимы остаются отдельными. Worker/decoder и SDK controls прошли; выполняется
+окончательная ordinary-main/PCM/compatibility матрица. Это ещё не итоговая поставка.
+
+Промежуточный статус:18 всего/13 готово/5 осталось (OPG-14–18). Историческая
+подготовка8/18 выше не является новым счётчиком. Итоговые результаты будут
+сведены в [отчёт](ProgressiveContinuousWebmPacketOpusValidation-2026-11-16.json).
+
+
+## Итоговая приёмка,17 ноября2026
+
+[Отчёт](ProgressiveContinuousWebmPacketOpusValidation-2026-11-16.json) сводит
+108 ordinary-main,108 complete PCM,90 growing PCM и36 sample-seek сценариев
+трёх редакций.630 worker controls и741 прежний worker control,99 прежних main
+сценариев завершились ожидаемыми результатами. Каждая редакция проверена отдельно;
+Classic использует private null video renderer, Linux — частные X11/D-Bus/PulseAudio.
+Физическая A/V-синхронизация этим не измеряется.
+
+Найденный Linux cancel-after-close use-after-free устранён: opaque cookie IDs
+не переиспользуются, callback удерживает shared ownership до возврата. Проверены
+20000 close/cancel гонок под ASan/UBSan/LSan, повторная ordinary-main матрица и
+continuous-player lifecycle. Исходные timeout/crash сохранены в отчёте.
+
+**Всего18 / готово17 / осталось1: OPG-18 — clean SDK и проверенная установка.**
+Общие77 составных требований остаются открытыми; это другой уровень чеклиста.

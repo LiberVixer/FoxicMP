@@ -2,6 +2,7 @@
 // Registered by Player; public API/controller integration is separate. GPL-3.0-or-later.
 #pragma once
 #include "../../shared/progressivestreamdecoder.h"
+#include "streamcallbackreaders.h"
 #include <mpv/stream_cb.h>
 #include <cstdio>
 
@@ -15,7 +16,7 @@ class ContinuousStreams {
     int64_t entry=-1;
     std::shared_ptr<Source> entrySource;
     bool entryInterrupted=false;
-    using Cookie=std::shared_ptr<Cursor>;
+    using Cookies=StreamCallbackReaders<Cursor>;
     std::vector<std::weak_ptr<std::atomic<bool>>> readers;
     void detachLocked(){for(auto& weak:readers)if(auto flag=weak.lock())flag->store(true);readers.clear();source.reset();token.clear();entryInterrupted=true;}
     bool matchesLocked(const char* uri)const{return source && (token==uri || (source->hasAudio() && token+"/audio"==uri));}
@@ -33,19 +34,19 @@ class ContinuousStreams {
             }
             // Registration/pinning may perform I/O. Stop/replacement only need
             // the adapter mutex and must never wait behind this constructor.
-            auto reader=std::make_shared<Cursor>(held,kind);auto cookie=std::make_unique<Cookie>(reader);
+            auto reader=std::make_shared<Cursor>(held,kind);
             {
                 std::lock_guard<std::mutex> lock(self->mutex);--self->opening;reserved=false;
                 if(self->source!=held || !self->matchesLocked(uri) || held->stopped())return MPV_ERROR_LOADING_FAILED;
                 self->readers.push_back(reader->interruptToken());
             }
             *info={};
-            info->cookie=cookie.release();
-            info->read_fn=[](void* r,char* out,uint64_t n)->int64_t{return (*static_cast<Cookie*>(r))->read(out,n);};
-            info->seek_fn=[](void* r,int64_t at)->int64_t{const auto v=(*static_cast<Cookie*>(r))->seek(at);return v<0?int64_t(MPV_ERROR_UNSUPPORTED):v;};
-            info->size_fn=[](void* r)->int64_t{const auto v=(*static_cast<Cookie*>(r))->size();return v<0?int64_t(MPV_ERROR_UNSUPPORTED):v;};
-            info->cancel_fn=[](void* r){(*static_cast<Cookie*>(r))->interrupt();};
-            info->close_fn=[](void* r){delete static_cast<Cookie*>(r);};return 0;
+            info->cookie=Cookies::insert(reader);
+            info->read_fn=[](void* r,char* out,uint64_t n)->int64_t{auto held=Cookies::get(r);return held?held->read(out,n):-1;};
+            info->seek_fn=[](void* r,int64_t at)->int64_t{auto held=Cookies::get(r);const auto v=held?held->seek(at):-1;return v<0?int64_t(MPV_ERROR_UNSUPPORTED):v;};
+            info->size_fn=[](void* r)->int64_t{auto held=Cookies::get(r);const auto v=held?held->size():-1;return v<0?int64_t(MPV_ERROR_UNSUPPORTED):v;};
+            info->cancel_fn=[](void* r){if(auto held=Cookies::get(r))held->interrupt();};
+            info->close_fn=[](void* r){Cookies::close(r);};return 0;
         }catch(const foxicmp::progressive::Error& e){
             // A mandatory AAC projection must not silently lose its native
             // opening error behind libmpv's generic external-file failure.

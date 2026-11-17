@@ -31,12 +31,15 @@ def many_clusters(raw):
     return bytes(out)
 
 
-def run(worker,report):
+def run(worker,report,packet_clock=False):
+    global MODE
+    if packet_clock:MODE="continuous-webm-vp9-opus-packet-clock-v1"
+    samples=97608 if packet_clock else 95688
     report.mkdir(parents=True,exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='fox-audio-zero-trim-wait-') as t:
-        root=Path(t);source,_=fixture(root,('zero-trim-short',False,1,'20','audio',95688,False))
+        root=Path(t);source,_=fixture(root,('zero-trim-short',False,1,'120' if packet_clock else '20','audio',samples,False))
         source.write_bytes(head_without_default(source.read_bytes()));raw=source.read_bytes();meta=probe(source,root,'source-probe');reference=pcm(source,root,'source-pcm')
-        assert len(reference)==95688*4
+        assert len(reference)==samples*4
         audio_count=len(packets(meta,'audio'));observed=[]
         def waiting(output,event):
             if not event['mediaReady']:return
@@ -44,7 +47,7 @@ def run(worker,report):
             assert len(packets(current,'audio'))<audio_count
             observed.append(dict(available=event['available'],audioPackets=len(packets(current,'audio')),videoPackets=len(packets(current,'video'))))
         result,output=serve(worker,source,mode=MODE,format_hint='webm',video_duration=240000000,on_wait=waiting)
-        assert result['exitCode']==0 and int(result['result']['derivedAudioSamples'])==95688 and len(observed)>=3
+        assert result['exitCode']==0 and int(result['result']['derivedAudioSamples'])==samples and len(observed)>=3
         (report/'wait-observations.json').write_text(json.dumps(observed,indent=2)+'\n')
         assert all(a['audioPackets']<=b['audioPackets'] for a,b in zip(observed,observed[1:]))
         # The muxer can interleave delayed audio packets among much later video.
@@ -64,5 +67,5 @@ def run(worker,report):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--worker',type=Path,required=True);p.add_argument('--report-directory',type=Path,required=True)
-    a=p.parse_args();run(a.worker.resolve(),a.report_directory.resolve())
+    p=argparse.ArgumentParser();p.add_argument('--packet-opus',action='store_true');p.add_argument('--worker',type=Path,required=True);p.add_argument('--report-directory',type=Path,required=True)
+    a=p.parse_args();run(a.worker.resolve(),a.report_directory.resolve(),a.packet_opus)

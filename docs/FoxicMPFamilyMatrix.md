@@ -1933,3 +1933,22 @@ files/настройки и HKCU неизменны; Harvester не меняет
 production clock/scanner/cache/decoder, новый совместимый Opus plan для Classic,
 ordinary-main/growing приёмка всех трёх редакций и поставка. Общие77 требований
 ТЗ остаются открытыми.
+
+
+## SDK1.106: переменная длительность Opus и точная progressive-обрезка,17 ноября2026
+
+[Новый явный профиль](ProgressiveContinuousWebmPacketOpus.md) подключает Opus
+2.5–120ms, смешанные packet durations, pre-skip120/312 и DiscardPadding к рабочим
+progressive-декодерам всех трёх редакций. Audio/video counts выводятся из bytes;
+source length/video endpoint известны. Canonical payload/PTS/DTS сохраняются,
+Qt получает отдельную decoder-only microsecond audio view; Classic — новый IID
+с накопленными sample offsets. Прежние modes/ABI/defaults не расширены молча.
+
+[Приёмка](ProgressiveContinuousWebmPacketOpusValidation-2026-11-16.json):108 main,
+108 complete PCM,90 growing PCM,36 sample-seek;630 worker controls,741 прежний
+worker control и99 прежних main сценариев. Main проверяет≥10s до complete,
+pause/growing/queued seek/EOF/release. Исправлена гонка cancel/close Qt, пройдены
+20000 sanitizer lifecycle повторов. HKCU и установки до поставки сохранены.
+[Фиксированный этап](ProgressiveOpusGeometryExecutionChecklist.md):18 всего/17 готово/1 осталось
+до clean SDK и установки. Харвестер не менялся. Обычный completed-file Classic
+DiscardPadding и физический A/V output не объявлены исправленными этой приёмкой.

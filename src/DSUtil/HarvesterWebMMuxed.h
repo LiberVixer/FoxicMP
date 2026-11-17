@@ -93,7 +93,7 @@ private:
                 if(kind==1 && audioValidate){
                     int64_t padding=0;if(child.id==0xa0){for(const auto& f:child.body.Children()){Check(f.id==0xa1 || f.id==0x75a2 || f.id==0x9b || f.id==0xbf,"Unsupported audio BlockGroup");if(f.id==0x75a2)padding=child.body.One(0x75a2).Signed();}}
                     const auto w=webm::Width(block.bytes[0],8);Check(!(block.bytes[w+2]&0x7f) && stamp<=3600000,"Invalid audio block clock/flags");
-                    audioValidate({block.bytes+w+3,block.size-w-3},AddTime(int64_t(stamp),int16_t(uint16_t(block.bytes[w])<<8|block.bytes[w+1])),padding);
+                    audioValidate({block.bytes+w+3,block.size-w-3,block.base+w+3},AddTime(int64_t(stamp),int16_t(uint16_t(block.bytes[w])<<8|block.bytes[w+1])),padding);
                 }
                 // Keep the original complete SimpleBlock/BlockGroup, including
                 // variable-width track IDs, references and discard padding.

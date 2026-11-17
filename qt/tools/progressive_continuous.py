@@ -29,6 +29,7 @@ WEBM_VP9_MODE = 'continuous-webm-vp9-video-v1'
 WEBM_VP9_SUPERFRAME_MODE = 'continuous-webm-vp9-superframe-video-v1'
 WEBM_VP9_OPUS_MODE = 'continuous-webm-vp9-opus-v1'
 WEBM_VP9_OPUS_NTSC_MODE = 'continuous-webm-vp9-opus-ntsc-v1'
+WEBM_VP9_OPUS_PACKET_CLOCK_MODE = 'continuous-webm-vp9-opus-packet-clock-v1'
 WEBM_VP9_OPUS_DERIVED_AV_MODE = 'continuous-webm-vp9-opus-simple-vfr-derived-av-v1'
 WEBM_VP9_OPUS_NOMINAL_VFR_MODE = 'continuous-webm-vp9-opus-simple-vfr-nominal-v1'
 WEBM_VP9_OPUS_AUTO_VFR_MODE = 'continuous-webm-vp9-opus-simple-vfr-auto-count-v1'
@@ -78,22 +79,23 @@ class ContinuousRemux:
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
     def __init__(self, client, session_directory, *, mode=MODE, audio_samples=None, video_rate=None, video_samples=None):
-        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE):
             raise ValueError('Unsupported continuous profile')
-        webm_mode = mode in (WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE)
-        vp9_superframe = mode in (VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE)
-        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE)
+        webm_mode = mode in (WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
+        vp9_superframe = mode in (VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
+        vp9_mode = mode in (VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
         av1_mode = mode in (AV1_MODE, AV1_AAC_MODE)
-        audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE)
+        audio_mode = mode in (AAC_MODE, HEVC_AAC_MODE, AV1_AAC_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
         hevc_mode = mode in (HEVC_MODE, HEVC_AAC_MODE)
         nominal_mode = mode == WEBM_VP9_OPUS_NOMINAL_VFR_MODE
-        auto_count_mode = mode in (WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE)
-        simple_vfr_mode = mode in (WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE)
-        vfr_mode = mode in (WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE)
+        auto_count_mode = mode in (WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
+        simple_vfr_mode = mode in (WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
+        vfr_mode = mode in (WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
         cfr_mode = mode == WEBM_VP9_OPUS_CFR_MODE
         ntsc_mode = mode == WEBM_VP9_OPUS_NTSC_MODE
-        opus_mode = mode in (WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE)
-        derived_audio = mode == WEBM_VP9_OPUS_DERIVED_AV_MODE
+        opus_mode = mode in (WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
+        packet_audio = mode == WEBM_VP9_OPUS_PACKET_CLOCK_MODE
+        derived_audio = mode in (WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
         if opus_mode and not derived_audio:
             if type(audio_samples) is not int or not 648 < audio_samples <= 48000000:
                 raise ValueError("Opus requires an exact bounded presentation sample count")
@@ -166,6 +168,8 @@ class ContinuousRemux:
                     audioSamplesField='continuousRemuxStart.audioSamples', maxAudioPresentationSamples=48000000,
                     sharedResourceRequired=True, discardPaddingPreserved=True, clusterSealing=True, audioBlockGroupsOnly=not vfr_mode)
                 if derived_audio:exact.pop('audioSamplesField')
+                if packet_audio:
+                    exact.pop('opusPacketSamples');exact.update(opusPacketSamples='from-toc',opusPreSkipSamples=[120,312],minOpusPacketSamples=120,maxOpusPacketSamples=5760,opusPacketSampleQuantum=120)
                 if any(not _exact_contract(selected.get(k), v) for k,v in exact.items()):
                     raise RuntimeError('Player lacks the exact WebM/Opus contract')
             if hevc_mode and (selected.get('hevcProfiles') != ['main', 'main10']
@@ -238,7 +242,8 @@ class ContinuousRemux:
                     exact.update(audioSamplesRequired=False,audioSampleCount='derived-from-packets-preskip-end-trim',
                         indexedAudioSamplesField='indexedAudioSamples',audioSampleCountFinalField='audioSampleCountFinal',
                         audioTrackEndObservedField='audioTrackEndObserved',audioPacketLookahead=True,
-                        shortAudioWithoutTrim='wait-for-source-complete',maxEndTrimSamples=959)
+                        shortAudioWithoutTrim='wait-for-source-complete',maxEndTrimSamples=5759 if packet_audio else 959)
+                    if packet_audio:exact.update(endTrimBound='less-than-final-packet-duration',packetClockFromPayload=True,qtAudioTimestampScaleNanoseconds=1000,qtSeekTrim='presentation-samples-before-user-filters')
                     if 'audioSamplesField' in selected:raise RuntimeError('Derived-audio profile must not declare a sample plan')
                 if nominal_mode:
                     exact.update(defaultDurationNanoseconds='bounded-nominal-hint',nominalDefaultDurationRequired=True,
@@ -255,7 +260,7 @@ class ContinuousRemux:
 
     def _check(self, reply, playback=False):
         expected = self.identity or {}
-        if self.mode in (WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE):
+        if self.mode in (WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE):
             count=reply.get('indexedVideoSamples')
             if (not isinstance(count,str) or not count.isascii() or not count.isdecimal()
                     or (count!='0' and count.startswith('0')) or len(count)>5 or int(count)>50000
@@ -264,7 +269,7 @@ class ContinuousRemux:
                     or reply['videoSampleCountFinal'] is not reply['outputComplete']
                     or (reply['videoSampleCountFinal'] and int(count)==0) or 'videoSamples' in reply):
                 raise RuntimeError('Invalid derived video sample status')
-        if self.mode == WEBM_VP9_OPUS_DERIVED_AV_MODE:
+        if self.mode in (WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE):
             count=reply.get('indexedAudioSamples')
             if (not isinstance(count,str) or not count.isascii() or not count.isdecimal()
                     or (count!='0' and count.startswith('0')) or len(count)>8 or int(count)>48000000

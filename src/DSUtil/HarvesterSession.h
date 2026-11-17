@@ -64,6 +64,10 @@ public:
     static std::shared_ptr<CHarvesterSession> OpenContinuous(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,int64_t duration,CStringW& error);
     bool AacPcmPlan(harvester::pcm::AacWindow&)const;
     uint64_t ContinuousOpusSamples()const;
+    bool ContinuousPacketOpus()const;
+    unsigned ContinuousOpusPreSkip()const;
+    uint64_t ContinuousOpusPacketStart(size_t)const;
+    size_t ContinuousOpusPacketCount()const;
     bool ContinuousDerivedOpus()const;
     bool ContinuousOpusEnded()const;
     bool AllowsAacPcmWindow(int track=1)const;

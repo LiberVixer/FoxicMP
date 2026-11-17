@@ -89,6 +89,7 @@ public:
 	// pin this decoder and re-arm after every flush/seek before using it.
 	bool SetPcmWindow(uint64_t begin, uint64_t end, uint32_t rate, uint64_t decodeFirst);
 	bool AdvanceOpusPcmWindow(uint64_t end);
+	bool SetPacketOpusPcmWindow(unsigned skip,uint64_t begin,uint64_t end,uint64_t decodeFirst);
 	bool SetOpusPcmWindow(uint64_t begin,uint64_t end,uint64_t decodeFirst);
 	bool SetAacPcmWindow(const harvester::pcm::AacWindow& plan, uint64_t target=0, uint64_t decodeFirst=0);
 	bool PcmWindowFailed() const { return m_pcmWindowFailed; }

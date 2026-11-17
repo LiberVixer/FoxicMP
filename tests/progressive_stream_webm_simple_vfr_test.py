@@ -9,11 +9,14 @@ from progressive_webm_vfr_preflight import decoded
 from progressive_webm_fixtures import width
 MODE='continuous-webm-vp9-opus-simple-vfr-v1'
 
-def run(worker,report,auto_count=False,nominal=False,derived_audio=False):
+def run(worker,report,auto_count=False,nominal=False,derived_audio=False,packet_audio=False):
+ derived_audio=derived_audio or packet_audio
  auto_count=auto_count or nominal or derived_audio
  global MODE
- MODE='continuous-webm-vp9-opus-simple-vfr-derived-av-v1' if derived_audio else 'continuous-webm-vp9-opus-simple-vfr-nominal-v1' if nominal else 'continuous-webm-vp9-opus-simple-vfr-auto-count-v1' if auto_count else 'continuous-webm-vp9-opus-simple-vfr-v1'
- if derived_audio:
+ MODE='continuous-webm-vp9-opus-packet-clock-v1' if packet_audio else 'continuous-webm-vp9-opus-simple-vfr-derived-av-v1' if derived_audio else 'continuous-webm-vp9-opus-simple-vfr-nominal-v1' if nominal else 'continuous-webm-vp9-opus-simple-vfr-auto-count-v1' if auto_count else 'continuous-webm-vp9-opus-simple-vfr-v1'
+ if packet_audio:
+  from progressive_webm_packet_opus_fixtures import CASES as cases,media as create_media
+ elif derived_audio:
   from progressive_webm_derived_av_fixtures import CASES as cases,media as create_media
  elif nominal:
   from progressive_webm_nominal_vfr_fixtures import CASES as cases,media as create_media
@@ -40,10 +43,10 @@ def run(worker,report,auto_count=False,nominal=False,derived_audio=False):
     partials.append(dict(bytes=len(data),available=event['available'],videoPackets=len(packets(actual,'video'))))
    row,output=serve(worker,source,mode=MODE,format_hint='webm',video_samples=None if auto_count else frames,video_duration=end,audio_samples=None if derived_audio else profile[5],byte_cuts=cuts,short_reads=True,on_wait=checkpoint)
    assert row['exitCode']==0 and row['result']['code']=='data' and row['firstCompleteFragmentBeforeSourceComplete'] and len(partials)>=3,row
-   assert row['result']['packets']==frames+(profile[5]+1271)//960
+   assert row['result']['packets']==frames+(len(packets(meta,'audio')) if packet_audio else (profile[5]+1271)//960)
    row['externalVideoCountProvided']=not auto_count
    row['externalAudioCountProvided']=not derived_audio
-   if derived_audio:assert int(row['result']['derivedAudioSamples'])==profile[5] and row['result']['audioPackets']==(profile[5]+1271)//960
+   if derived_audio:assert int(row['result']['derivedAudioSamples'])==profile[5] and row['result']['audioPackets']==(len(packets(meta,'audio')) if packet_audio else (profile[5]+1271)//960)
    out=folder/'output.webm';out.write_bytes(output);actual=probe(out,folder,'output-probe')
    for kind in ('video','audio'):assert packets(actual,kind)==packets(meta,kind)
    assert pcm(out,folder,'output-pcm')==refpcm and decoded(out,pixels,folder,'output-video')==refvideo
@@ -101,7 +104,7 @@ def run(worker,report,auto_count=False,nominal=False,derived_audio=False):
    attempt('audio-clock-regression',rewrite_audio(raw,invalid_audio))
    def wrong_packet(i,block,original):
     if i:return original
-    value=bytearray(block);at=width(value[0])+3;value[at]=0xf0;return ebml(0xa3,value)
+    value=bytearray(block);at=width(value[0])+3;value[at:at+2]=b'\xfb\x07' if packet_audio else bytes([0xf0,value[at+1]]);return ebml(0xa3,value)
    attempt('audio-packet-duration',rewrite_audio(raw,wrong_packet))
    attempt('audio-missing',rewrite_audio(raw,lambda *_:b''))
    attempt('audio-one-packet',rewrite_audio(raw,lambda i,block,original:original if i==0 else b''))
@@ -109,4 +112,4 @@ def run(worker,report,auto_count=False,nominal=False,derived_audio=False):
   for fault in ('unconfirmed-eof','integrity','cancel-wait','cancel-write','kill-wait'):attempt(fault,fault=fault)
  result=dict(result='PASS',mode=MODE,count=len(rows),rows=rows,workerSha256=hashlib.sha256(Path(worker).read_bytes()).hexdigest(),testSourceSha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest());(report/'result.json').write_text(json.dumps(result,indent=2)+'\n');return result
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--derived-av',action='store_true');p.add_argument('--nominal',action='store_true');p.add_argument('--auto-count',action='store_true');p.add_argument('--worker',type=Path,required=True);p.add_argument('--report-directory',required=True);a=p.parse_args();r=run(a.worker.resolve(),a.report_directory,a.auto_count,a.nominal,a.derived_av);print('PASS',r['count'])
+ p=argparse.ArgumentParser();p.add_argument('--packet-opus',action='store_true');p.add_argument('--derived-av',action='store_true');p.add_argument('--nominal',action='store_true');p.add_argument('--auto-count',action='store_true');p.add_argument('--worker',type=Path,required=True);p.add_argument('--report-directory',required=True);a=p.parse_args();r=run(a.worker.resolve(),a.report_directory,a.auto_count,a.nominal,a.derived_av,a.packet_opus);print('PASS',r['count'])

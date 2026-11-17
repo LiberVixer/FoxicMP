@@ -30,7 +30,7 @@ END = 120000000
 SAMPLES = 575983
 
 
-def repacketize(raw):
+def repacketize(raw, *, base_samples=960, pattern=(1, 2, 3, 4, 5, 6)):
     """Build a new test source from consecutive single-frame 20ms Opus packets.
 
     This happens before hashes/oracles. Compressed frames are unmodified, but
@@ -40,11 +40,15 @@ def repacketize(raw):
     sound = [b for b in layout['blocks'] if b['track'] == audio]
     rows = [(b['ticks'], b['track'], raw[b['payload']:b['end']], b['flags'], 0)
             for b in layout['blocks'] if b['track'] != audio]
-    at = 0;pattern = (1, 2, 3, 4, 5, 6);turn = 0
+    at = 0;turn = 0
     while at < len(sound):
         count = min(pattern[turn % len(pattern)], len(sound)-at);turn += 1
         group = sound[at:at+count];data = [raw[b['payload']:b['end']] for b in group]
-        assert all((p[0] & 3) == 0 and p[0] == data[0][0] and packet_samples(p) == 960 for p in data)
+        # Opus may change bandwidth/stereo TOC configuration in one encoder
+        # state. A repacketized packet can only contain frames of one config.
+        count = next((i for i, p in enumerate(data) if p[0] != data[0][0]), count)
+        group, data = group[:count], data[:count]
+        assert all((p[0] & 3) == 0 and p[0] == data[0][0] and packet_samples(p) == base_samples for p in data)
         assert not any(pads.get(b['offset'], 0) for b in group[:-1])
         payload = data[0]
         if count > 1:
@@ -53,7 +57,7 @@ def repacketize(raw):
                 n = len(p)-1;assert n <= 1275
                 lengths += bytes([n]) if n < 252 else bytes([252+(n & 3), (n-252)//4])
             payload = bytes([(data[0][0] & 0xfc) | 3, 0x80 | count])+lengths+b''.join(p[1:] for p in data)
-        assert packet_samples(payload) == count*960
+        assert packet_samples(payload) == count*base_samples
         rows.append((group[0]['ticks'], audio, payload, 0x80, pads.get(group[-1]['offset'], 0)))
         at += count
     output = bytearray(raw[:layout['headBytes']]);body = bytearray();clock = None
@@ -68,17 +72,18 @@ def repacketize(raw):
     return bytes(output+ebml(0x1f43b675, body))
 
 
-def fixture(folder, profile, video):
+def fixture(folder, profile, video, *, samples=SAMPLES, seconds=12, audio_first=False):
     name, ms, channels = profile;folder.mkdir(parents=True, exist_ok=True)
     source = folder/'encoded.webm'
     ok(['ffmpeg', '-v', 'error', '-y', '-i', video, '-f', 'lavfi', '-i',
-        'sine=frequency=997:sample_rate=48000:duration=12', '-map', '0:v', '-map', '1:a',
+        f'sine=frequency=997:sample_rate=48000:duration={seconds}', '-map', '1:a' if audio_first else '0:v', '-map', '0:v' if audio_first else '1:a',
         '-c:v', 'copy', '-c:a', 'libopus', '-ac', str(channels), '-frame_duration',
-        '20' if ms == 'mixed' else ms, '-application', 'audio', '-af',
-        'atrim=end_sample='+str(SAMPLES), '-cluster_time_limit', '1000', '-live', '1', source],
+        '2.5' if ms=='mixed-short' else '20' if ms == 'mixed' else ms, '-application', 'audio', '-af',
+        'atrim=end_sample='+str(samples), '-cluster_time_limit', '1000', '-live', '1', source],
         folder, 'encode-mux')
     raw = head_without_default(source.read_bytes())
     if ms == 'mixed':raw = repacketize(raw)
+    if ms == 'mixed-short':raw = repacketize(raw,base_samples=120,pattern=(1,2,3,4,6,8,16,24,32,40,48))
     source = folder/'source.webm';source.write_bytes(raw)
     return source
 

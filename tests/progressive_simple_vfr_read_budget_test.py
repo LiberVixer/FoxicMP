@@ -22,11 +22,14 @@ def with_default(raw,value):
    else:output+=raw[at:end]
   return bytes(output)
  return raw[:start]+rewrite(start,layout['headBytes'])+raw[layout['headBytes']:]
-def run(worker,report,auto_count=False,nominal=False,derived_audio=False):
+def run(worker,report,auto_count=False,nominal=False,derived_audio=False,packet_audio=False):
+ derived_audio=derived_audio or packet_audio
  auto_count=auto_count or nominal or derived_audio
  global MODE
- MODE='continuous-webm-vp9-opus-simple-vfr-derived-av-v1' if derived_audio else 'continuous-webm-vp9-opus-simple-vfr-nominal-v1' if nominal else 'continuous-webm-vp9-opus-simple-vfr-auto-count-v1' if auto_count else 'continuous-webm-vp9-opus-simple-vfr-v1'
- if derived_audio:
+ MODE='continuous-webm-vp9-opus-packet-clock-v1' if packet_audio else 'continuous-webm-vp9-opus-simple-vfr-derived-av-v1' if derived_audio else 'continuous-webm-vp9-opus-simple-vfr-nominal-v1' if nominal else 'continuous-webm-vp9-opus-simple-vfr-auto-count-v1' if auto_count else 'continuous-webm-vp9-opus-simple-vfr-v1'
+ if packet_audio:
+  from progressive_webm_packet_opus_fixtures import CASES as cases,media as create_media
+ elif derived_audio:
   from progressive_webm_derived_av_fixtures import CASES as cases,media as create_media
  elif nominal:
   from progressive_webm_nominal_vfr_fixtures import CASES as cases,media as create_media
@@ -48,4 +51,4 @@ def run(worker,report,auto_count=False,nominal=False,derived_audio=False):
   result=dict(result='PASS',reads=row['reads'],maxReads=bound,inputBytes=source.stat().st_size,sourceComplete=True,worker=row,defaultDurationRejections=rejects)
   (report/'result.json').write_text(json.dumps(result,indent=2)+'\n');return result
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--derived-av',action='store_true');p.add_argument('--nominal',action='store_true');p.add_argument('--auto-count',action='store_true');p.add_argument('--worker',type=Path,required=True);p.add_argument('--report-directory',required=True);a=p.parse_args();print(json.dumps(run(a.worker.resolve(),a.report_directory,a.auto_count,a.nominal,a.derived_av)))
+ p=argparse.ArgumentParser();p.add_argument('--packet-opus',action='store_true');p.add_argument('--derived-av',action='store_true');p.add_argument('--nominal',action='store_true');p.add_argument('--auto-count',action='store_true');p.add_argument('--worker',type=Path,required=True);p.add_argument('--report-directory',required=True);a=p.parse_args();print(json.dumps(run(a.worker.resolve(),a.report_directory,a.auto_count,a.nominal,a.derived_av,a.packet_opus)))

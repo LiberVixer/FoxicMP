@@ -51,5 +51,8 @@ int main()try{
  auto av=harvester::WebmContinuousClock::VfrDerivedAv(240000000);
  check(av.Valid() && av.variable && av.derivedCount && av.derivedAudio && !av.nominalDefault && av.expectedFrames==0);
  av.nominalDefault=true;check(!av.Valid());av.nominalDefault=false;av.derivedCount=false;check(!av.Valid());
+ auto packet=harvester::WebmContinuousClock::VfrPacketOpus(240000000);
+ check(packet.Valid() && packet.packetAudio && packet.derivedAudio && packet.derivedCount && packet.variable);
+ packet.derivedAudio=false;check(!packet.Valid());
  std::cout<<"{\"result\":\"PASS\",\"ntscOriginAndRounding\":true,\"old25fpsUnchanged\":true,\"boundedArithmetic\":true}"<<std::endl;return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 1;}

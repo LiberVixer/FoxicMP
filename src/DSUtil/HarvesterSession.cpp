@@ -289,6 +289,10 @@ bool CHarvesterSession::AacPcmPlan(harvester::pcm::AacWindow& plan)const {
     if(!m_continuousSource || !m_continuousSource->audioWindow())return false;
     plan=m_continuousSource->audioWindow()->pcm;return true;
 }
+bool CHarvesterSession::ContinuousPacketOpus()const{return m_continuousSource && m_continuousSource->packetAudioOpus();}
+unsigned CHarvesterSession::ContinuousOpusPreSkip()const{return m_continuousSource?m_continuousSource->opusPreSkip():312;}
+uint64_t CHarvesterSession::ContinuousOpusPacketStart(size_t i)const{return m_continuousSource?m_continuousSource->opusPacketStart(i):uint64_t(i)*960;}
+size_t CHarvesterSession::ContinuousOpusPacketCount()const{return m_continuousSource?m_continuousSource->opusPacketCount():0;}
 bool CHarvesterSession::ContinuousDerivedOpus()const{return m_continuousSource && m_continuousSource->derivedAudioOpus();}
 bool CHarvesterSession::ContinuousOpusEnded()const{return m_continuousSource && m_continuousSource->status().audioIndexedComplete;}
 uint64_t CHarvesterSession::ContinuousOpusSamples()const{return m_continuousSource && m_continuousSource->opusAudio()?m_continuousSource->opusAudioSamples():0;}

@@ -589,6 +589,12 @@ bool CFFAudioDecoder::SetPcmWindow(uint64_t begin, uint64_t end, uint32_t rate, 
 
 bool CFFAudioDecoder::AdvanceOpusPcmWindow(uint64_t end){return GetCodecId()==AV_CODEC_ID_OPUS && end<=48000312 && m_pcmWindow.ExtendEnd(end);}
 
+bool CFFAudioDecoder::SetPacketOpusPcmWindow(unsigned skip,uint64_t begin,uint64_t end,uint64_t decodeFirst){
+    if(!m_pAVCtx || GetCodecId()!=AV_CODEC_ID_OPUS || m_bNeedMix || m_pAVCtx->sample_rate!=48000 ||
+       m_pAVCtx->ch_layout.nb_channels<1 || m_pAVCtx->ch_layout.nb_channels>2 || (skip!=120 && skip!=312) ||
+       begin<skip || end>48000000ULL+skip || decodeFirst%120 || !m_pcmWindow.Configure(begin,end,48000,decodeFirst))return false;
+    m_pAVCtx->flags2|=AV_CODEC_FLAG2_SKIP_MANUAL;m_pcmWindowFailed=false;return true;
+}
 bool CFFAudioDecoder::SetOpusPcmWindow(uint64_t begin,uint64_t end,uint64_t decodeFirst)
 {
     if(!m_pAVCtx || GetCodecId()!=AV_CODEC_ID_OPUS || m_bNeedMix || m_pAVCtx->sample_rate!=48000 ||

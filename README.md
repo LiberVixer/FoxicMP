@@ -387,3 +387,10 @@ SDK1.105 добавляет явный progressive WebM VP9/Opus mode без п�
 сохраняет20ms ограничение. Отчёт отдельно фиксирует точные Qt PCM controls и
 необрезанный DiscardPadding обычного Classic graph; производственное подключение
 отслеживается в [чеклисте18 подпунктов](docs/ProgressiveOpusGeometryExecutionChecklist.md).
+
+
+SDK1.106 подключает [progressive WebM VP9/Opus с пакетами2.5–120ms](docs/ProgressiveContinuousWebmPacketOpus.md)
+к Linux Qt, Windows Qt и Windows Classic: смешанные длительности, pre-skip и
+точный DiscardPadding без внешнего audioSamples. [Проверены](docs/ProgressiveContinuousWebmPacketOpusValidation-2026-11-16.json)
+108 ordinary-main,108 complete PCM,90 growing PCM и36 sample-seek сценариев.
+Харвестер не меняется; источник должен иметь известную длину/конечную точку видео.

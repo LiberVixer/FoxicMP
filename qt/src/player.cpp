@@ -567,10 +567,22 @@ bool Player::loadContinuousSourceImpl(const std::shared_ptr<foxicmp::progressive
   if(audio && (!managedAudioConfigured || options.contains("af") || std::any_of(options.keyBegin(),options.keyEnd(),[](const QString& key){return key.startsWith("af-") || key=="audio-file" || key.startsWith("audio-files");})))return false;
   options["cache"]="no";options["aid"]=source->hasAudio()?"auto":"no";options["sub-auto"]="no";options["audio-file-auto"]="no";
   if(source->hasAudio())options["rebase-start-time"]="no";
+  // The native MKV demuxer's initial refresh seek on an external audio file
+  // can discard the first negative-PTS Opus packet (fully occupied by pre-skip
+  // at 2.5ms). libavformat retains that packet and owns skip/DiscardPadding once.
+  if(source->packetAudioOpus()){options["audio-demuxer"]="lavf";options["initial-audio-sync"]="no";}
+  // mpv initial-audio-sync follows the chosen video frame, which need not be
+  // the requested audio sample. Trim preroll on the sample-derived audio clock
+  // before the user's filters instead. End trim remains owned by Opus padding.
+  const auto packetStart=source->packetAudioOpus()?options.value("start").toDouble():0.;
+  if(!std::isfinite(packetStart) || packetStart<0 || packetStart>=3600)return false;
+  const auto packetTarget=uint64_t(std::llround(packetStart*48000.));
   if(reuse && continuousStreams->current()!=source)return false;
   const auto uri=reuse?continuousStreams->uri():continuousStreams->attach(source);
   if(source->hasAudio())options["audio-files-append"]=QString::fromStdString(continuousStreams->audioUri());
-  if(audio?loadPcmWindowSource(QString::fromStdString(uri),options,{0,audio->pcm.Samples(),int(audio->pcm.Rate())}):loadSource(QString::fromStdString(uri),options))return true;
+  if(audio?loadPcmWindowSource(QString::fromStdString(uri),options,{0,audio->pcm.Samples(),int(audio->pcm.Rate())}):
+      packetTarget?loadPcmWindowSource(QString::fromStdString(uri),options,{packetTarget,std::max(uint64_t(48000000),packetTarget+1),48000}):
+      loadSource(QString::fromStdString(uri),options))return true;
   continuousStreams->clear();return false;
 }
 QString Player::attachStdin(int fd, QString *error) { return stdinStream->attach(fd, error); }

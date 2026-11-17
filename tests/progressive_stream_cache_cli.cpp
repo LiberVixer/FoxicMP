@@ -92,8 +92,8 @@ int main(int argc,char** argv){
         else if(action=="ownerRetire"){std::cout<<"{\"ok\":true,\"removed\":"<<(owner->retire(store)?"true":"false")<<"}"<<std::endl;continue;}
         else if(action=="budgetStatus"){std::cout<<"{\"ok\":true,\"bytes\":"<<budget->bytes()<<"}"<<std::endl;continue;}
         else if(action=="budget"){p::Require(!store && !session && readers.empty() && owner->count()==0,"test","Budget still in use");budget=std::make_shared<p::StreamCacheBudget>(p::Unsigned(d["bytes"],"bytes"));owner=std::make_shared<p::StreamCacheOwner>(budget);}
-        else if(action=="derivedStore")store=owner->create(std::filesystem::u8path(p::Text(d["root"],"root",8192)),registry,p::Text(d["sessionId"],"sessionId"),1,64*1024*1024,false,false,false,true,false,0,false,harvester::WebmContinuousClock::VfrDerivedAv(p::Unsigned(d["endpoint"],"endpoint")));
-        else if(action=="verifyDerived")store->verifyDerivedAudio(p::Unsigned(d["samples"],"samples"),p::Unsigned(d["packets"],"packets"));
+        else if(action=="derivedStore")store=owner->create(std::filesystem::u8path(p::Text(d["root"],"root",8192)),registry,p::Text(d["sessionId"],"sessionId"),1,64*1024*1024,false,false,false,true,false,0,false,(d.HasMember("packetClock") && d["packetClock"].GetBool()?harvester::WebmContinuousClock::VfrPacketOpus(p::Unsigned(d["endpoint"],"endpoint")):harvester::WebmContinuousClock::VfrDerivedAv(p::Unsigned(d["endpoint"],"endpoint"))));
+        else if(action=="verifyDerived")store->verifyDerivedAudio(p::Unsigned(d["samples"],"samples"),p::Unsigned(d["packets"],"packets"),d.HasMember("skip")?unsigned(p::Unsigned(d["skip"],"skip")):312);
         else if(action=="store")store=std::make_shared<p::StreamOutputStore>(std::filesystem::u8path(p::Text(d["root"],"root",8192)),registry,p::Text(d["sessionId"],"sessionId"),1,budget,d.HasMember("limit")?p::Unsigned(d["limit"],"limit"):64*1024*1024);
         else if(action=="holdStore")held[p::Text(d["name"],"name")]=store;
         else if(action=="selectStore")store=held.at(p::Text(d["name"],"name"));

@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
-from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE,WEBM_VP9_OPUS_DERIVED_AV_MODE
+from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE,WEBM_VP9_OPUS_DERIVED_AV_MODE,WEBM_VP9_OPUS_PACKET_CLOCK_MODE
 from progressive_client import ApiError
 
 CAP = json.loads(''.join(re.findall(r'R"\((.*?)\)"',
@@ -39,8 +39,8 @@ class Client:
         result.update(playbackReady=self.ready, released=self.released, sourceFilesClosed=self.released,
             durationSeconds=self.duration,indexedEndSeconds=self.boundary,outputComplete=self.complete,
             forgotten=action == 'continuousRemuxForget', state='playing' if playback else 'ready')
-        if result.get('mode') in (WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE,WEBM_VP9_OPUS_DERIVED_AV_MODE):result.update(indexedVideoSamples='733' if self.complete else '37',videoSampleCountFinal=self.complete)
-        if result.get('mode')==WEBM_VP9_OPUS_DERIVED_AV_MODE:result.update(indexedAudioSamples='1152000' if self.complete else '3480',audioSampleCountFinal=self.complete,audioTrackEndObserved=self.complete)
+        if result.get('mode') in (WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE,WEBM_VP9_OPUS_DERIVED_AV_MODE,WEBM_VP9_OPUS_PACKET_CLOCK_MODE):result.update(indexedVideoSamples='733' if self.complete else '37',videoSampleCountFinal=self.complete)
+        if result.get('mode') in (WEBM_VP9_OPUS_DERIVED_AV_MODE,WEBM_VP9_OPUS_PACKET_CLOCK_MODE):result.update(indexedAudioSamples='1152000' if self.complete else '3480',audioSampleCountFinal=self.complete,audioTrackEndObserved=self.complete)
         if self.foreign:result['generation'] = '2'
         if action in self.drop:
             self.drop.remove(action);raise TimeoutError('applied request, lost reply')
@@ -48,6 +48,16 @@ class Client:
 
 
 class Test(unittest.TestCase):
+    def test_packet_clock_contract_and_no_external_plan(self):
+        c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
+        p.prepare(self.model(),'clip');self.assertNotIn('audioSamples',c.calls[-1]);self.assertNotIn('videoSamples',c.calls[-1])
+        p.play();p.playback_status();c.complete=True;self.assertTrue(p.status()['audioSampleCountFinal'])
+        for field,bad in [('opusPacketSamples',960),('opusPreSkipSamples',[312]),('maxOpusPacketSamples',5761),('maxEndTrimSamples',959),('packetClockFromPayload',False),('qtAudioTimestampScaleNanoseconds',1000000),('qtSeekTrim','video-frame')]:
+            c=Client();old=c.request
+            def request(message,timeout=5,field=field,bad=bad):
+                result=old(message,timeout);result['continuousRemux']['profiles'][WEBM_VP9_OPUS_PACKET_CLOCK_MODE][field]=bad;return result
+            c.request=request;self.assertRaises(RuntimeError,ContinuousRemux,c,str(ROOT),mode=WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
+
     def test_derived_audio_omits_external_plans(self):
         c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_OPUS_DERIVED_AV_MODE)
         status=p.prepare(self.model(),'clip');self.assertEqual(status['indexedAudioSamples'],'3480')
