@@ -112,9 +112,9 @@ required audio до EOF. [Фиксированный счётчик](Progressive
 Текущий этап — [Opus-пакеты разной длительности](ProgressiveContinuousWebmPacketOpus.md).
 Production подключение всех трёх редакций и [приёмка](ProgressiveContinuousWebmPacketOpusValidation-2026-11-16.json)
 завершены. [Фиксированный чеклист](ProgressiveOpusGeometryExecutionChecklist.md):
-18 всего/17 готово/1 осталось — clean SDK и установка Linux. SDK1.106 сохраняет
+18 всего/18 готово/0 осталось — [clean SDK и установка Linux проверены](ProgressiveContinuousWebmPacketOpusDelivery-2026-11-17.json). SDK1.106 сохраняет
 прежние ограничения остальных profiles; известные length/video endpoint обязательны.
-После поставки следующий R01 выбирается по таблице ещё не поддержанных layouts.
+Следующий R01 выбирается по таблице ещё не поддержанных layouts.
 
 1. Составить таблицу оставшихся container/codec/layout rows: уже native-progressive,
    continuous-remux, probe-only, waiting-index и неподдержанные. Для каждой строки

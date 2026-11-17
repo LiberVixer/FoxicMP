@@ -376,6 +376,8 @@ checkbox не добавлен.
 Wayland этим чеклистом не возобновляются. Промежуточные feature-релизы не закрывают
 всю матрицу. Каждый новый формат проверяется в допустимых для контейнера сочетаниях.
 
-Текущая packet-Opus приёмка: [17/18 фиксированных подпунктов](ProgressiveOpusGeometryExecutionChecklist.md),
+Текущая packet-Opus приёмка: [18/18 фиксированных подпунктов](ProgressiveOpusGeometryExecutionChecklist.md),
 [отчёт трёх редакций](ProgressiveContinuousWebmPacketOpusValidation-2026-11-16.json).
 Это не новый широкий checkbox: общие77 требований не закрыты.
+
+[Поставка SDK1.106](ProgressiveContinuousWebmPacketOpusDelivery-2026-11-17.json) проверена отдельно.

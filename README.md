@@ -394,3 +394,7 @@ SDK1.106 подключает [progressive WebM VP9/Opus с пакетами2.5�
 точный DiscardPadding без внешнего audioSamples. [Проверены](docs/ProgressiveContinuousWebmPacketOpusValidation-2026-11-16.json)
 108 ordinary-main,108 complete PCM,90 growing PCM и36 sample-seek сценариев.
 Харвестер не меняется; источник должен иметь известную длину/конечную точку видео.
+
+[Поставка SDK1.106](docs/ProgressiveContinuousWebmPacketOpusDelivery-2026-11-17.json):
+Linux обновлён с backup и сохранением профиля; сборки Windows проверены отдельно.
+Фиксированный этап18/18 завершён; полное progressive-ТЗ остаётся в работе.

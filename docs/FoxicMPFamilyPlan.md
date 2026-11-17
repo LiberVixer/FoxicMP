@@ -1975,3 +1975,10 @@ pause/growing/queued seek/EOF/release. Исправлена гонка cancel/cl
 [Фиксированный этап](ProgressiveOpusGeometryExecutionChecklist.md):18 всего/17 готово/1 осталось
 до clean SDK и установки. Харвестер не менялся. Обычный completed-file Classic
 DiscardPadding и физический A/V output не объявлены исправленными этой приёмкой.
+
+
+[SDK1.106: проверенная поставка](ProgressiveContinuousWebmPacketOpusDelivery-2026-11-17.json)
+завершена: clean SDK, ещё18 ordinary-main own-SDK сценариев трёх редакций;
+атомарный Linux upgrade с backup и неизменным текущим INI. Установленные Windows
+EXE/профили и HKCU сохранены. Фиксированный packet-Opus этап18/18 завершён.
+Общие77 требований и физическая A/V/итоговая release приёмка остаются открытыми.
