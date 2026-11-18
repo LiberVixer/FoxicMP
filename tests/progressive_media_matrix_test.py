@@ -56,6 +56,17 @@ class MediaMatrixTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'not a playback PASS'):
             self.verify()
 
+    def test_bounded_acceptance_requires_an_evidence_file(self):
+        row=self.data['remainingFamilies'][0];row['status']='accepted-bounded';row.pop('acceptanceEvidence',None)
+        with self.assertRaisesRegex(ValueError,'Missing family acceptance evidence'):
+            self.verify()
+
+    def test_m4a_evidence_cannot_close_other_mp4_codecs(self):
+        row=next(r for r in self.data['remainingFamilies'] if r['id']=='M02')
+        row.update(status='accepted-bounded',acceptanceEvidence='docs/ProgressiveM4AValidation-2026-11-18.json',boundedScope='all MP4')
+        with self.assertRaisesRegex(ValueError,'Family evidence is not a PASS'):
+            self.verify()
+
     def test_linux_alone_cannot_cover_windows(self):
         self.data['remainingFamilies'][0]['editions'] = ['linux-qt']
         with self.assertRaisesRegex(ValueError, 'missing an edition'):

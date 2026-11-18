@@ -25,10 +25,12 @@ class ProgressiveStreams;
 struct AudioPcmWindow {
   quint64 begin = 0, end = 0;
   int sampleRate = 0;
+  // Decoder adapter only: map a validated coded clock to presentation samples.
+  int timestampShift = 0;
   bool enabled() const { return sampleRate != 0; }
   bool valid() const {
     return sampleRate >= 8000 && sampleRate <= 384000 && begin < end &&
-           end <= 9007199254740991ULL;
+           end <= 9007199254740991ULL && timestampShift >= -16384 && timestampShift <= 16384;
   }
 };
 class Player : public QWidget {
@@ -65,6 +67,7 @@ public:
                            const QMap<QString, QString> &options,
                            const AudioPcmWindow &window);
   bool pcmWindowActive() const;
+  bool retargetPcmWindow(quint64 begin);
   void attachPrepared(const std::shared_ptr<foxicmp::progressive::PreparedClip>&);
   // Internal growing-cache entry, intentionally separate from bounded preview.
   bool loadContinuousSource(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>&,

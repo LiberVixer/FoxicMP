@@ -1192,9 +1192,16 @@
         {
           "path": "docs/ProgressiveCompletionChecklist.md",
           "line": 149
+        },
+        {
+          "path": "docs/ProgressiveM4A.md"
+        },
+        {
+          "path": "docs/ProgressiveM4AValidation-2026-11-18.json"
         }
       ],
-      "status": "todo"
+      "status": "done",
+      "changeReason": "M01: обычный single-track M4A AAC-LC/HE-AAC/PS подключён к native runtime всех трёх редакций: 84 native profiles,156 actual PCM captures,15 ordinary-main,12 Qt controls; bounds/leases/SHA/decoder rejection. M02 с остальными MP4 кодеками сохраняется открытым под прежним P04.C210.04; новый ID не создавался."
     },
     {
       "id": "P02.C149.03",
@@ -1957,6 +1964,10 @@
         {
           "path": "docs/ProgressiveCompletionChecklist.md",
           "line": 210
+        },
+        {
+          "path": "docs/ProgressiveRequiredMediaMatrix.json",
+          "note": "M02 remains open; M01 M4A AAC acceptance does not close ordinary MP4 audio codec/container expansion."
         }
       ],
       "status": "todo"

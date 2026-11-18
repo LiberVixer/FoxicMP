@@ -32,5 +32,14 @@ int main()try{
  }
  AacWindow p;check(!p.Configure(32000,1,100,0));check(!p.Configure(48000,3,100,0));check(!p.Configure(48000,1,UINT64_MAX,0));check(!p.Configure(48000,1,100,1025));
  check(p.Configure(48000,1,100,1024));check(p.Packet(-1024,-1024,1024,1024));check(!p.Complete());check(!p.Packet(0,0,99));check(p.Packet(0,0,100,0,924));check(p.Complete());
+ // Ordinary M4A has an explicit admission, without widening AAC-LC v1.
+ for(const auto frame:{1024u,2048u})for(const auto skip:{0u,2048u,6144u})for(const uint64_t count:{1u,137u,768137u}){
+  AacWindow m;const auto minimum=(count+skip+frame-1)/frame;
+  check(m.ConfigureM4A(48000,2,count,skip,frame,minimum+1));check(m.IsM4A() && m.FrameSamples()==frame && m.PacketCount()==minimum+1);
+  check(!m.ConfigureM4A(48000,2,count,skip,960));check(!m.ConfigureM4A(48000,2,count,skip,frame,minimum+5));
+  Window w;check(m.RawWindow(w));Slice s;uint64_t at=0,delivered=0;
+  while(at<m.EncodedEnd()){check(w.Take(frame,48000,s));delivered+=s.count;at+=frame;}
+  check(delivered==count && w.Complete());check(!m.Configure(48000,2,count,2048));
+ }
  std::cout<<"{\"result\":\"PASS\",\"checks\":"<<checks<<",\"geometries\":40}"<<std::endl;return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 1;}

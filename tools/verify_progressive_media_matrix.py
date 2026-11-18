@@ -78,11 +78,23 @@ def verify(matrix, contracts=None):
     require({r['id'] for r in matrix['remainingFamilies']} == required_families, 'Frozen input-family scope changed')
     require({r['id'] for r in matrix['scenarioAxes']} == {f'X{i:02}' for i in range(1,9)}, 'Frozen cross-cutting scope changed')
     for row in matrix['remainingFamilies']:
-        require(row['status'] == 'not-accepted', 'A planned family is not a playback PASS')
+        require(row['status'] in ('not-accepted', 'accepted-bounded'), 'A planned family is not a playback PASS')
         require(row['requirement'] in ('mandatory', 'conditional-local-or-service-corpus'), 'Invalid requirement class')
         require(set(row['editions']) == EDITIONS, 'Required family missing an edition')
         require(row['inputs'] and row['layouts'] and len(row['layouts']) == len(set(row['layouts'])), 'Undefined/duplicate layout cases')
         require(set(row['gates']) == common_gates, 'Missing mandatory acceptance gate')
+        if row['status'] == 'accepted-bounded':
+            reference = row.get('acceptanceEvidence', '')
+            path = Path(reference)
+            require(reference and not path.is_absolute() and '..' not in path.parts and (ROOT/path).is_file(), 'Missing family acceptance evidence')
+            evidence = json.loads((ROOT/path).read_text())
+            require(evidence.get('result') == 'PASS' and row['id'] in evidence.get('acceptedFamilies', []), 'Family evidence is not a PASS')
+            require(set(evidence.get('editions', {})) == EDITIONS, 'Family evidence missing an edition')
+            for edition in EDITIONS:
+                accepted = evidence['editions'][edition]
+                require(accepted.get('result') == 'PASS' and accepted.get('exitCode') == 0 and
+                        accepted.get('gates') == {g: True for g in common_gates}, 'Family evidence missing acceptance gates')
+            require(row.get('boundedScope'), 'Accepted family must retain its bounded scope')
         for pair in row['inputs'].get('pairs', []):
             require(isinstance(pair, list) and len(pair) == 2 and all(isinstance(s, str) and s for s in pair), 'Invalid explicit codec pair')
     for row in matrix['remainingFamilies'] + matrix['scenarioAxes']:
@@ -112,7 +124,9 @@ def verify(matrix, contracts=None):
     require(all(id in nodes for id in matrix['executionOrder']), 'Unknown execution ID')
     return dict(result='PASS', validationKind='planning-and-source-contract-only',
                 boundedExisting=len(matrix['existingProfiles']), native=len(native), continuous=len(continuous),
-                remainingFamilies=len(matrix['remainingFamilies']), scenarioAxes=len(matrix['scenarioAxes']),
+                declaredFamilies=len(matrix['remainingFamilies']),
+                remainingFamilies=sum(r['status'] == 'not-accepted' for r in matrix['remainingFamilies']),
+                acceptedFamilies=sum(r['status'] == 'accepted-bounded' for r in matrix['remainingFamilies']), scenarioAxes=len(matrix['scenarioAxes']),
                 negativeClasses=len(matrix['negativeCases']), specificationAreas=len(areas),
                 newPlaybackAccepted=False, playersStarted=False, harvesterChanged=False)
 
@@ -123,13 +137,12 @@ def render(matrix):
              '17 ноября 2026. Задача **P02.C149.01**, база SDK1.106.',
              'Машиночитаемый источник: [ProgressiveRequiredMediaMatrix.json](ProgressiveRequiredMediaMatrix.json).', '',
              f"Зафиксировано {summary['boundedExisting']} существующих ограниченных профилей: {summary['native']} native и {summary['continuous']} continuous-remux.",
-             f"Остаются {summary['remainingFamilies']} именованных входных семейств; к ним применяются {summary['scenarioAxes']} сквозных групп и {summary['negativeClasses']} классов отрицательных исходов.",
+             f"Остаются {summary['remainingFamilies']} из {summary['declaredFamilies']} именованных входных семейств; к ним применяются {summary['scenarioAxes']} сквозных групп и {summary['negativeClasses']} классов отрицательных исходов.",
              'Это строки корпуса приёмки, **не новые задачи реестра**. Каждая привязана к существующим ID.',
-             'Новый playback этой работой не реализуется; общие P02.C148.01–03 остаются открытыми.', '',
+             'Сама проверка матрицы не запускает плееры. Подтверждённые семейства имеют отдельные runtime отчёты; общие P02.C148.01–03 остаются открытыми.', '',
              '## Порядок и критерий закрытия', '',
-             'Матрица нужна перед расширением общего demux. Следующий конкретный вход —',
-             '**P02.C149.02: обычный M4A/audio-only**, строки M01/M02; первоначально AAC-LC,',
-             'затем оставшиеся кодеки строки. Новый codec/profile не закрывает семейство целиком.',
+             matrix.get('executionNote', 'Первый конкретный вход — P02.C149.02: обычный M4A/audio-only, строки M01/M02.'),
+             'Новый codec/profile не закрывает семейство целиком без отдельной приёмки.',
              'Готовность реализации требует всех применимых положительных и отрицательных',
              'строк её владельца на Linux Qt, Windows Qt и Classic отдельно.', '',
              'Неподдержанный сейчас обязательный профиль остаётся OPEN. Наличие похожего native',
@@ -139,10 +152,11 @@ def render(matrix):
              '## Общие проверки каждой положительной строки', '']
     lines += ['- **'+key+'**: '+text+'.' for key, text in matrix['commonGates'].items()]
     lines += ['', '## Оставшиеся входные семейства', '',
-              '| Строка | Вход | Пункты реестра | Условие |', '|---|---|---|---|']
+              '| Строка | Вход | Пункты реестра | Условие / статус |', '|---|---|---|---|']
     for row in matrix['remainingFamilies']:
         condition = 'обязательно' if row['requirement'] == 'mandatory' else 'предусмотренный локальный/сервисный корпус'
-        lines.append('| '+row['id']+' | '+row['title']+' | '+', '.join(row['owners'])+' | '+condition+' |')
+        status = 'принято в указанном объёме' if row['status'] == 'accepted-bounded' else 'открыто'
+        lines.append('| '+row['id']+' | '+row['title']+' | '+', '.join(row['owners'])+' | '+condition+'; '+status+' |')
     lines += ['', '### Точные входы и варианты', '',
               'В JSON массивы не образуют произвольное декартово произведение. Например, AC-3',
               'не получает положительный7.1 случай из общего списка AC-3/E-AC-3; MP3 версии',
@@ -152,6 +166,9 @@ def render(matrix):
         lines.extend(['**'+row['id']+'. '+row['title']+'**', '',
                       'Входы: `'+json.dumps(row['inputs'], ensure_ascii=False, separators=(',', ':'))+'`.',
                       'Варианты: '+', '.join(row['layouts'])+'.', ''])
+        if row['status'] == 'accepted-bounded':
+            lines.extend(['Подтверждённый объём: '+row['boundedScope']+'.',
+                          'Отчёт: ['+Path(row['acceptanceEvidence']).name+']('+Path(row['acceptanceEvidence']).name+').', ''])
     lines += ['## Сквозные сценарии', '']
     for axis in matrix['scenarioAxes']:
         lines += ['- **'+axis['id']+' — '+axis['title']+'**: '+', '.join(axis['cases'])+'.',

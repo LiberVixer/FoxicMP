@@ -17,6 +17,7 @@
 
 static QString pcmWindowGraph(const AudioPcmWindow &window) {
   return "asettb=1/" + QString::number(window.sampleRate) +
+         (window.timestampShift ? ",asetpts=PTS+" + QString::number(window.timestampShift) : QString()) +
          ",atrim=start_pts=" + QString::number(window.begin) +
          ":end_pts=" + QString::number(window.end);
 }
@@ -607,6 +608,14 @@ bool Player::pcmWindowActive() const {
   if (!activePcmWindow.valid() || get("idle-active").toBool()) return false;
   const auto filters = get("af").toList();
   return !filters.isEmpty() && filters.first().toMap().value("label") == "foxicmp-pcm-window";
+}
+bool Player::retargetPcmWindow(quint64 begin) {
+  if (!activePcmWindow.valid() || begin >= activePcmWindow.end || !managedAudioConfigured) return false;
+  const auto previous = activePcmWindow;
+  activePcmWindow.begin = begin;
+  if (setAudioGraph(managedAudioGraph, managedAudioFormat, managedAudioRate)) return true;
+  activePcmWindow = previous;
+  return false;
 }
 QString Player::audioFilterOptions(const AudioPcmWindow &window) const {
   const auto quoted = [](const QString &text) {

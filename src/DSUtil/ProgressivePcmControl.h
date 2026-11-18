@@ -18,6 +18,12 @@ IProgressiveAacPcmControl : public IUnknown {
         ULONGLONG samples, UINT initialSkip, ULONGLONG target, ULONGLONG decodeFirst) PURE;
     STDMETHOD(AacPcmWindowState)(DWORD* flags) PURE;
 };
+// Separate explicit ordinary-M4A admission; AAC-LC v1 remains unchanged.
+interface __declspec(uuid("FC3A6518-96A5-4B63-B7C2-96BA208697E1"))
+IProgressiveM4AAacControl : public IUnknown {
+    STDMETHOD(ArmM4AAac)(UINT rate,UINT channels,ULONGLONG samples,
+        UINT initialSkip,UINT frameSamples,ULONGLONG target,ULONGLONG decodeFirst) PURE;
+};
 // Separate IID: provisional bounded PCM stop may advance before each packet.
 // Fixed MP3 v1 / Opus v2 / AAC admissions retain their exact immutable stop.
 interface __declspec(uuid("55679A44-A59A-48B0-A4D1-E58B70D5CCAF"))

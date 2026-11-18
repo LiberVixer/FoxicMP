@@ -198,6 +198,12 @@ std::string CHarvesterSession::PlaybackDetails() const {
         d["mp3Index"].AddMember("pcmWindowAdapter","classic-directshow-mp3-window-v1",a);
         d["mp3Index"].AddMember("pcmWindowState",rapidjson::Value(state&4?"error":state&2?"applied":state&1?"pending":"idle",a),a);
     }
+    if(d.HasMember("m4aWindow")) {
+        const auto state=WaitForSingleObject(m_cancel,0)==WAIT_OBJECT_0?0:m_pcmState.load();
+        d["m4aWindow"].AddMember("exactTrimApplied",(state&6)==2,a);
+        d["m4aWindow"].AddMember("pcmWindowAdapter","classic-directshow-m4a-aac-v1",a);
+        d["m4aWindow"].AddMember("pcmWindowState",rapidjson::Value(state&4?"error":state&2?"applied":state&1?"pending":"idle",a),a);
+    }
     for(auto& track:d["subtitleTracks"].GetArray()) {
         if(!track["path"].GetStringLength())continue;
         const auto found=m_subtitleLoadErrors.find(Wide(track["path"].GetString()));
@@ -286,6 +292,7 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenPublished(const std::s
     catch(const std::exception& e) {if(reasonCode)*reasonCode="source_not_ready";error=Wide(e.what()).c_str();return nullptr;}
 }
 bool CHarvesterSession::AacPcmPlan(harvester::pcm::AacWindow& plan)const {
+    if(m_v2Bridge){rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());if(d.HasMember("m4aWindow")){const auto& w=d["m4aWindow"];return plan.ConfigureM4A(w["sampleRate"].GetUint(),w["channels"].GetUint(),std::stoull(w["samples"].GetString()),w["initialSkip"].GetUint(),w["frameSamples"].GetUint(),std::stoull(w["packets"].GetString()));}}
     if(!m_continuousSource || !m_continuousSource->audioWindow())return false;
     plan=m_continuousSource->audioWindow()->pcm;return true;
 }
@@ -296,7 +303,7 @@ size_t CHarvesterSession::ContinuousOpusPacketCount()const{return m_continuousSo
 bool CHarvesterSession::ContinuousDerivedOpus()const{return m_continuousSource && m_continuousSource->derivedAudioOpus();}
 bool CHarvesterSession::ContinuousOpusEnded()const{return m_continuousSource && m_continuousSource->status().audioIndexedComplete;}
 uint64_t CHarvesterSession::ContinuousOpusSamples()const{return m_continuousSource && m_continuousSource->opusAudio()?m_continuousSource->opusAudioSamples():0;}
-bool CHarvesterSession::AllowsAacPcmWindow(int track)const {return track==1 && m_continuousSource && m_continuousSource->audioWindow();}
+bool CHarvesterSession::AllowsAacPcmWindow(int track)const {if(track==0 && m_v2Bridge){rapidjson::Document d;d.Parse(m_v2Bridge->details().c_str());if(d.HasMember("m4aWindow"))return true;}return track==1 && m_continuousSource && m_continuousSource->audioWindow();}
 std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenContinuous(const std::shared_ptr<foxicmp::progressive::StreamDecoderSource>& source,int64_t duration,CStringW& error) {
     using namespace foxicmp::progressive;
     try {

@@ -25,10 +25,12 @@ int main(int argc, char** argv) {
   }
   const bool stopReplace = args.size() == 9 && args[8] == "stop-replace";
   const bool replaceGain = args.size() == 9 && args[8] == "replace-gain";
+  const bool m4a = args.size() == 9 && args[8].startsWith("m4a:");
+  if (m4a) window.timestampShift = -args[8].mid(4).toInt();
   const bool replace = stopReplace || replaceGain || (args.size() == 9 && args[8] == "replace");
   const QString graph = args.size() == 6 ? args[5]
                         : replaceGain ? "volume=0.5"
-                        : args.size() == 9 && !replace ? args[8] : "anull";
+                        : args.size() == 9 && !replace && !m4a ? args[8] : "anull";
   QJsonArray captures;
   QString failure;
   {
@@ -80,8 +82,9 @@ int main(int argc, char** argv) {
         else player.set("pause", false);
       });
       QMap<QString, QString> options{{"pause", "yes"}, {"rebase-start-time", "no"}};
+      if (m4a) options["demuxer-lavf-o"] = "ignore_editlist=yes";
       if (trimmed) {
-        options["start"] = args[7];
+        if (!m4a || args[7].toDouble() > 0) options["start"] = args[7];
         options["hr-seek"] = "yes";
         options["hr-seek-demuxer-offset"] = "0.25";
       }

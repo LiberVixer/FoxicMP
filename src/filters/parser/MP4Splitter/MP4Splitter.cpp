@@ -2329,7 +2329,11 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
             return VFW_E_UNSUPPORTED_STREAM;
 		if (kind && !validatedMp3 && !validatedOpus && !validatedFlac && !validatedPcm && !validatedPcm24 && !validatedAc3 && !validatedEac3) {
 			auto desc = dynamic_cast<AP4_MpegAudioSampleDescription*>(track->GetSampleDescription(0));
-			if (!desc || desc->GetObjectTypeId() != AP4_MPEG4_AUDIO_OTI || desc->GetMpeg4AudioObjectType() != AOT_AAC_LC) return VFW_E_UNSUPPORTED_STREAM;
+            harvester::pcm::AacWindow plan;
+            const bool m4aAac=movie->HasFragments() && session->AllowsAacPcmWindow(sourceTrack) && session->AacPcmPlan(plan) && plan.IsM4A();
+            if(!desc || desc->GetObjectTypeId()!=AP4_MPEG4_AUDIO_OTI) return VFW_E_UNSUPPORTED_STREAM;
+            const auto object=desc->GetMpeg4AudioObjectType();
+            if(object!=AOT_AAC_LC && !(m4aAac && (object==AOT_SBR || object==AOT_PS))) return VFW_E_UNSUPPORTED_STREAM;
 		}
         if(movie->HasFragments()) {
             // Fragment keyframes grow with the session; do not expose a frozen Bento4 index.
@@ -2765,8 +2769,8 @@ HRESULT CMP4SplitterOutputPin::DeliverPacket(std::unique_ptr<CPacket> p)
 		// the first packet. Source-thread arming races that mandatory flush.
 		CComPtr<IPin> downstream;PIN_INFO info={};CComPtr<IBaseFilter> owner;
 		if(ConnectedTo(&downstream)==S_OK && downstream->QueryPinInfo(&info)==S_OK)owner.Attach(info.pFilter);
-		CComQIPtr<IProgressivePcmControl> control=owner;CComQIPtr<IProgressiveAacPcmControl> aac=owner;
-		const bool armed=m_pcmWindow.aac?(aac && SUCCEEDED(aac->ArmAacPcmWindow(1,m_aacPcmWindow.Rate(),m_aacPcmWindow.Channels(),m_aacPcmWindow.Samples(),UINT(m_aacPcmWindow.RawBegin()),m_pcmWindow.begin-m_aacPcmWindow.RawBegin(),m_pcmWindow.first))):
+		CComQIPtr<IProgressivePcmControl> control=owner;CComQIPtr<IProgressiveAacPcmControl> aac=owner;CComQIPtr<IProgressiveM4AAacControl> m4a=owner;
+		const bool armed=m_pcmWindow.aac?(m_aacPcmWindow.IsM4A()?(aac && m4a && SUCCEEDED(m4a->ArmM4AAac(m_aacPcmWindow.Rate(),m_aacPcmWindow.Channels(),m_aacPcmWindow.Samples(),UINT(m_aacPcmWindow.RawBegin()),m_aacPcmWindow.FrameSamples(),m_pcmWindow.begin-m_aacPcmWindow.RawBegin(),m_pcmWindow.first))):(aac && SUCCEEDED(aac->ArmAacPcmWindow(1,m_aacPcmWindow.Rate(),m_aacPcmWindow.Channels(),m_aacPcmWindow.Samples(),UINT(m_aacPcmWindow.RawBegin()),m_pcmWindow.begin-m_aacPcmWindow.RawBegin(),m_pcmWindow.first)))):
 			(control && SUCCEEDED(control->ArmPcmWindow(1,m_pcmWindow.begin,m_pcmWindow.end,m_pcmWindow.rate,m_pcmWindow.first)));
 		if(!armed) {
 			m_pcmReader->GetSession()->Fail("Decoder has no compatible PCM window or invalid preroll");
@@ -2862,7 +2866,7 @@ bool CMP4SplitterFilter::FragmentDemuxLoop(IHarvesterReader* reader) {
         // A seek beyond the audible end must not replay its last sample. Keep
         // waiting for confirmed source EOF, without sending padding packets.
         if(target>=aac.Samples())m_fragmentSample=size_t(aac.PacketCount());
-        else static_cast<CMP4SplitterOutputPin*>(pin)->SetAacPcmWindow(reader,aac,target,uint64_t(m_fragmentSample)*1024);
+        else static_cast<CMP4SplitterOutputPin*>(pin)->SetAacPcmWindow(reader,aac,target,uint64_t(m_fragmentSample)*aac.FrameSamples());
     }
     CComQIPtr<IAsyncReader> bytes=reader;
     while(!CheckRequest(nullptr)) {

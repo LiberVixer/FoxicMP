@@ -16,6 +16,7 @@ private:
     std::array<std::shared_ptr<const std::vector<Packet>>,2> packets;
     std::array<size_t,2> emitted{};
     bool audioRoll=false,tailAllowed=false;
+    bool audioOnly=false;
     std::vector<std::pair<uint64_t,uint64_t>> confirmed;
     Bytes audioDecoderInit;uint64_t audioTotal=0;
     uint64_t total=0,scanned=0,payloadStart=0,payloadEnd=0;
@@ -140,15 +141,18 @@ private:
         const BoxData moov{movie.data(),movie.size()};Check(!moov.One("mvex",true).data && !moov.One("pssh",true).data,"Fragmented/encrypted MP4 declared as ordinary indexed MP4");
         const auto mvhd=moov.One("mvhd");Check((mvhd.U32(0)>>24)<=1,"Invalid indexed movie clock");const auto movieScale=mvhd.U32(mvhd.data[0]?20:12);Check(movieScale,"Zero indexed movie scale");std::array<BoxData,2> selected{};size_t count=0;
         for(const auto& child:moov.Children())if(child.first==FourCC("trak")){Check(++count<=2,"Indexed MP4 needs exactly two tracks");const auto type=child.second.One("mdia").One("hdlr").U32(8);Check(type==FourCC("vide") || type==FourCC("soun"),"Unsupported indexed MP4 track kind");const unsigned k=type==FourCC("vide")?0:1;Check(!selected[k].data,"Repeated indexed MP4 track kind");selected[k]=child.second;}
-        Check(count==2 && selected[0].data && selected[1].data,"Indexed MP4 requires video and audio");
+        Check(audioOnly?(count==1 && !selected[0].data && selected[1].data):(count==2 && selected[0].data && selected[1].data),"Indexed MP4 track layout differs from the explicit profile");
         std::vector<std::pair<uint64_t,uint64_t>> ranges;
-        for(unsigned k=0;k<2;++k){const auto tkhd=selected[k].One("tkhd");Check((tkhd.U32(0)>>24)<=1,"Invalid indexed tkhd version");tracks[k].id=tkhd.U32(tkhd.data[0]?20:12);Check(tracks[k].id,"Zero indexed MP4 track ID");
+        for(unsigned k=audioOnly?1:0;k<2;++k){const auto tkhd=selected[k].One("tkhd");Check((tkhd.U32(0)>>24)<=1,"Invalid indexed tkhd version");tracks[k].id=tkhd.U32(tkhd.data[0]?20:12);Check(tracks[k].id,"Zero indexed MP4 track ID");
             packets[k]=std::make_shared<const std::vector<Packet>>(Index(selected[k],k,movieScale));for(const auto& p:*packets[k])ranges.emplace_back(p.offset,p.offset+p.size);
             Bytes defaults;U32(defaults,tracks[k].id);U32(defaults,1);U32(defaults,packets[k]->front().duration);U32(defaults,0);U32(defaults,0);
-            Bytes body=Box(FourCC("mvhd"),mvhd);Join(body,ProjectTrack(selected[k]));Join(body,Box("mvex",Full("trex",0,defaults)));validate(k,{body.data(),body.size()});
+            Bytes body=Box(FourCC("mvhd"),mvhd);Join(body,ProjectTrack(selected[k]));Join(body,Box("mvex",Full("trex",0,defaults)));
+            // Standalone admission also verifies the original packet clock;
+            // the projected initialization intentionally has empty tables.
+            validate(k,audioOnly?moov:BoxData{body.data(),body.size()});
             Bytes init=ftyp;Join(init,Box("moov",body));Memory(tracks[k],std::move(init));}
         AudioDecoderInit(selected[1],mvhd,ftyp);
-        Check(tracks[0].id!=tracks[1].id,"Duplicate indexed MP4 track ID");std::sort(ranges.begin(),ranges.end());uint64_t end=payloadStart;
+        Check(audioOnly || tracks[0].id!=tracks[1].id,"Duplicate indexed MP4 track ID");std::sort(ranges.begin(),ranges.end());uint64_t end=payloadStart;
         for(const auto& range:ranges){Check(range.first>=end,"Indexed video/audio sample payloads overlap");end=range.second;}
         initialized=true;return true;
     }
@@ -166,6 +170,7 @@ private:
         }
     }
 public:
+    explicit Layout(bool standaloneAudio=false):audioOnly(standaloneAudio){}
     void SetTailRanges(const std::vector<std::pair<uint64_t,uint64_t>>& ranges){tailAllowed=true;confirmed=ranges;}
     void ValidateRanges(uint64_t prefix)const{if(tailAllowed && payloadEnd)for(const auto& r:confirmed)if(r.first>prefix)Check(r.first>=payloadEnd,"Only metadata beyond mdat may be published separately");}
     void SetLength(uint64_t value){Check(value && value<=uint64_t(INT64_MAX) && (!total || value==total),"Indexed MP4 requires an immutable known source length");total=value;}
@@ -191,8 +196,8 @@ public:
     }
     void Update(const Read& read,uint64_t prefix,bool complete,const Validate& validate){Check(total && prefix>=scanned && prefix<=total && prefix-scanned<=16777216,"Indexed MP4 prefix/append exceeds bounds");scanned=prefix;ValidateRanges(prefix);
         if(!initialized && !Initialize(read,prefix,validate)){Check(!complete,"Completed indexed MP4 lacks initialization");return;}
-        for(unsigned k=0;k<2;++k)Append(k,read,prefix);
-        if(complete)Check(prefix==total && emitted[0]==packets[0]->size() && emitted[1]==packets[1]->size(),"Completed indexed MP4 has unavailable samples");
+        for(unsigned k=audioOnly?1:0;k<2;++k)Append(k,read,prefix);
+        if(complete)Check(prefix==total && (audioOnly || emitted[0]==packets[0]->size()) && emitted[1]==packets[1]->size(),"Completed indexed MP4 has unavailable samples");
     }
 };
 }} // namespace harvester::indexedmux

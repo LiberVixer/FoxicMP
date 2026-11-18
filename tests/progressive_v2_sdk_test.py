@@ -23,6 +23,23 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_m4a_requires_its_explicit_exact_trim_contract(self):
+        client=Client();value=snapshot();value['tracks']=[dict(kind='audio',required=True,initializationReady=True,codecHint='he-aac',containerHint='m4a',source=dict(resourceId='media'))]
+        value['resources']=[dict(id='media',length='4000',integrity=dict(algorithm='sha256'))]
+        cap=dict(version=1,mode='standalone-indexed-m4a-aac-v1',profiles=['standalone-indexed-m4a-aac'],exactPcmWindow=True)
+        client.request=lambda _:dict(playbackSchemaVersions=[1,2],readerLeaseProtocol=1,schema2Playback=dict(mode='separate-fmp4-h264-aac-lc',integrity=dict(algorithm='sha256'),standalone=dict(m4a=cap)))
+        for codec in ('aac-lc','he-aac'):
+            value['tracks'][0]['codecHint']=codec;V2PreviewSession(client,'/unused').publish(value)
+        self.assertEqual(len(client.calls),2);client.calls.clear()
+        for field,bad in [('version',True),('version',2),('exactPcmWindow',False),('mode','unverified')]:
+            good=cap[field];cap[field]=bad
+            with self.subTest(field=field),self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(value)
+            cap[field]=good
+        for section,field,bad in [('tracks','codecHint','opus'),('tracks','kind','video'),('resources','length',None)]:
+            other=copy.deepcopy(value);other[section][0][field]=bad
+            with self.assertRaises(RuntimeError):V2PreviewSession(client,'/unused').publish(other)
+        self.assertFalse(client.calls)
+
     def test_sparse_rf64_requires_explicit_island_capability_and_known_length(self):
         for bits in (16,24):
             client=Client();value=snapshot();value['tracks']=[dict(kind='audio',required=True,initializationReady=True,codecHint='pcm-s'+str(bits)+'le',containerHint='rf64-sparse-pcm'+str(bits),source=dict(resourceId='media'))]

@@ -1998,3 +1998,16 @@ ID реестра; дополнительных задач от строк ко�
 Первый конкретный шаг реализации теперь **P02.C149.02: ordinary M4A/audio-only**,
 строки M01/M02. Общие demux/decoder/fault пункты остаются открытыми до выполнения
 их действительного объёма. Харвестер, бинарники и установки не менялись.
+
+
+## 18 ноября 2026: обычный M4A AAC
+
+[SDK1.107](ProgressiveM4A.md) подключает обычный M4A/audio-only к Linux Qt,
+Windows Qt и Classic: AAC-LC/HE-AAC/PS,44.1/48kHz mono/stereo, head/published-tail
+index, short audio и точный priming/end trim. [Приёмка](ProgressiveM4AValidation-2026-11-18.json):
+84 native profiles,156 PCM captures,15 ordinary-main сценариев с ≥10s до complete,
+12 Qt pause/seek/reload сценариев и отказ Classic от несовместимого декодера.
+Пройдены ASan/UBSan и прежние MP4/ADTS/FLAC/MP3/AAC проверки.
+Харвестер и Windows-установки сохранены; M01/P02.C149.02 закрыт, M02 остаётся
+открытым под прежним владельцем codec/container matrix P04.C210.04.
+Далее — P02.C149.03 (MOV), согласно приоритету реестра.

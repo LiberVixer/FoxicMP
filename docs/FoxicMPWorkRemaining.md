@@ -1,14 +1,14 @@
 # FoxicMP: что ещё нужно сделать
 
-Из 537 конечных пунктов готово 310, не завершено 227.
-Активный план: 202; внешние условия: 13; отложено: 12.
+Из 537 конечных пунктов готово 311, не завершено 226.
+Активный план: 201; внешние условия: 13; отложено: 12.
 Общие родители здесь служат навигацией; они не добавляются к числу конечных пунктов.
 [Полный счётчик и выполненные работы](FoxicMPWorkChecklist.md).
 
 «Внешнее условие» и «отложено» не разрешают автоматически менять Harvester,
 проводить аппаратные испытания или возвращаться к исключённому Wayland.
 
-**Следующий конкретный пункт очереди:** P02.C149.02 — Обычный M4A: audio-only admission и progressive playback.
+**Следующий конкретный пункт очереди:** P02.C149.03 — MOV: sample entries, edit lists и отличия структуры от MP4.
 
 ## P02. Demux и непрерывный remux контейнеров
 
@@ -20,7 +20,6 @@
 
 **P02.C149. Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей**
 
-- **P02.C149.02** — осталось: Обычный M4A: audio-only admission и progressive playback. [Основание](ProgressiveCompletionChecklist.md).
 - **P02.C149.03** — осталось: MOV: sample entries, edit lists и отличия структуры от MP4. [Основание](ProgressiveCompletionChecklist.md).
 - **P02.C149.04** — осталось: WebM VP8/AV1: continuous пути за пределами native профилей. [Основание](ProgressiveCompletionChecklist.md).
 - **P02.C149.05** — осталось: WebM/Vorbis: continuous путь за пределами native профиля. [Основание](ProgressiveCompletionChecklist.md).

@@ -93,7 +93,23 @@ class V2PreviewSession:
             tail_mp4=any(t.get('containerHint')=='mp4-tail' for t in current.get('tracks',[]))
             indexed_mp4=any(t.get('containerHint')=='mp4-muxed' for t in current.get('tracks',[]))
             standalone=len(current.get('tracks',[]))==1
-            if standalone:
+            m4a=standalone and current['tracks'][0].get('containerHint')=='m4a'
+            if m4a:
+                cap=self.standalone.get('m4a',{})
+                track=current['tracks'][0];resources=current.get('resources',[])
+                if (not isinstance(cap,dict) or type(cap.get('version')) is not int or cap.get('version')!=1
+                    or cap.get('mode')!='standalone-indexed-m4a-aac-v1'
+                    or 'standalone-indexed-m4a-aac' not in cap.get('profiles',[])
+                    or cap.get('exactPcmWindow') is not True):
+                    raise RuntimeError('Player lacks ordinary M4A AAC playback with exact PCM trim')
+                if (len(resources)!=1 or 'segmentCatalog' in current or track.get('kind')!='audio'
+                    or not track.get('required') or track.get('codecHint') not in ('aac-lc','he-aac')
+                    or 'initializationResourceId' in track
+                    or track.get('source')!={'resourceId':resources[0].get('id')}
+                    or resources[0].get('length') is None
+                    or resources[0].get('integrity',{}).get('algorithm')!='sha256'):
+                    raise RuntimeError('M4A requires one required scalar AAC track, known length and SHA-256')
+            elif standalone:
                 track=current['tracks'][0];sparse_rf=track.get('containerHint') in ('rf64-sparse-pcm16','rf64-sparse-pcm24');kind=track.get('kind');codec=track.get('codecHint');webm=track.get('containerHint')=='webm';raw_flac=track.get('containerHint')=='flac';adts=track.get('containerHint')=='adts';mp3=track.get('containerHint')=='mp3';indexed_mp3=track.get('containerHint')=='mp3-indexed';gapless_mp3=track.get('containerHint')=='mp3-gapless';rf16=track.get('containerHint') in ('rf64-pcm16','rf64-sparse-pcm16');rf24=track.get('containerHint') in ('rf64-pcm24','rf64-sparse-pcm24');wav_ext24=track.get('containerHint')=='wav-extensible-pcm24';wav24=track.get('containerHint')=='wav-pcm24';wav=track.get('containerHint')=='wav';ogg_opus=track.get('containerHint')=='ogg-opus';ogg_vorbis=track.get('containerHint')=='ogg-vorbis';ac3=track.get('containerHint')=='ac3';eac3=track.get('containerHint')=='eac3'
                 cap=self.standalone_rf16 if rf16 else self.standalone_rf24 if rf24 else self.standalone_wav_ext24 if wav_ext24 else self.standalone_wav24 if wav24 else self.standalone_eac3 if eac3 else self.standalone_ac3 if ac3 else self.standalone_ogg_vorbis if ogg_vorbis else self.standalone_ogg_opus if ogg_opus else self.standalone_wav if wav else self.standalone_mp3_gapless if gapless_mp3 else self.standalone_mp3_indexed if indexed_mp3 else self.standalone_mp3 if mp3 else self.standalone_adts if adts else self.standalone_raw_flac if raw_flac else (self.standalone_webm_video if kind=='video' else self.standalone_webm) if webm else self.standalone
                 container='rf64-pcm16' if rf16 else 'rf64-pcm24' if rf24 else 'wav-extensible-pcm24' if wav_ext24 else 'wav-pcm24' if wav24 else 'eac3' if eac3 else 'ac3' if ac3 else 'ogg-vorbis' if ogg_vorbis else 'ogg-opus' if ogg_opus else 'wav' if wav else 'mp3-gapless' if gapless_mp3 else 'mp3-indexed' if indexed_mp3 else 'mp3' if mp3 else 'adts' if adts else 'flac' if raw_flac else 'webm' if webm else 'fmp4';mode='standalone-rf64-pcm16-v1' if rf16 else 'standalone-rf64-pcm24-v1' if rf24 else 'standalone-wav-extensible-pcm24-v1' if wav_ext24 else 'standalone-wav-pcm24-v1' if wav24 else 'standalone-eac3-v1' if eac3 else 'standalone-ac3-v1' if ac3 else 'standalone-ogg-vorbis-v1' if ogg_vorbis else 'standalone-ogg-opus-v1' if ogg_opus else 'standalone-wav-pcm16-v1' if wav else 'standalone-mp3-gapless-v1' if gapless_mp3 else 'standalone-mp3-indexed-v1' if indexed_mp3 else 'standalone-mp3-v1' if mp3 else 'standalone-adts-aac-lc-v1' if adts else 'standalone-raw-flac-v1' if raw_flac else ('standalone-webm-video-v1' if kind=='video' else 'standalone-webm-audio-v1') if webm else 'standalone-fmp4-v1'

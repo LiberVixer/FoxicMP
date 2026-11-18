@@ -1,0 +1,5536 @@
+{
+  "result": "PASS",
+  "applicationVersion": "0.2.0",
+  "sdkVersion": "1.107",
+  "date": "2026-11-18",
+  "acceptedFamilies": [
+    "M01"
+  ],
+  "workIds": [
+    "P02.C149.02"
+  ],
+  "mode": "standalone-indexed-m4a-aac",
+  "editions": {
+    "linux-qt": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "541e6a7290115cbec99d0806d57ac6020bfdec42efd75383ca9cb369f0caec12",
+      "native": {
+        "profiles": 28,
+        "negativeChecks": [
+          "foreign-codec",
+          "oversized-sample-count",
+          "external-reference",
+          "non-unit-edit",
+          "invalid-packet-clock",
+          "offset-outside-mdat",
+          "unknown-length",
+          "codec-hint-mismatch",
+          "waiting-index-17",
+          "waiting-index-52",
+          "sha-rewrite-fails-without-eof",
+          "truncated-source-fails-without-eof",
+          "cancel-fails-without-eof",
+          "unpublished-tail-is-not-authorized-by-file-size"
+        ],
+        "realMedia": [
+          {
+            "profile": "44100-1-2-head",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "fcb6b79d95e4f1f059a67dd37b7d3b6d7f8425207a14e377d692067872d29727",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-1-2-tail",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "fcb6b79d95e4f1f059a67dd37b7d3b6d7f8425207a14e377d692067872d29727",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-2-head",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "b458a2d12286ce931a4ca0df4176e46d8471651d55861d7c808c750456563d10",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-2-tail",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "b458a2d12286ce931a4ca0df4176e46d8471651d55861d7c808c750456563d10",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-1-5-head",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "5133ffb9f57976e9d7508f0088cfcf9c96695af3f75d0aab92691cdf71181809",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-1-5-tail",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "5133ffb9f57976e9d7508f0088cfcf9c96695af3f75d0aab92691cdf71181809",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-5-head",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "ce69e189520b8141fd607b2b6cf385a577acbd3b24339130dbbf23ebe64fc0bd",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-5-tail",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "ce69e189520b8141fd607b2b6cf385a577acbd3b24339130dbbf23ebe64fc0bd",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-29-head",
+            "packets": 349,
+            "samples": 705737,
+            "pcmSha256": "8f98ab5d7de3424cedc5e62c785c26c7834666a595d612dd5f9a8ef8e7fa9373",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-29-tail",
+            "packets": 349,
+            "samples": 705737,
+            "pcmSha256": "8f98ab5d7de3424cedc5e62c785c26c7834666a595d612dd5f9a8ef8e7fa9373",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-2-head",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "d5a21c453c4e0d41a77f69747309f2296fb31ea73d0a0440b53613370429d53b",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-2-tail",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "d5a21c453c4e0d41a77f69747309f2296fb31ea73d0a0440b53613370429d53b",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-2-head",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "c9f0f6013c3f893b5516787993b4745c4c68c452202385bd2e4dbfb06f1b30bb",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-2-tail",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "c9f0f6013c3f893b5516787993b4745c4c68c452202385bd2e4dbfb06f1b30bb",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-5-head",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "c19351a8c9a681a161da51ea598364c1c2f4d7bc7090f0f171ca07b3807dcbd3",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-5-tail",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "c19351a8c9a681a161da51ea598364c1c2f4d7bc7090f0f171ca07b3807dcbd3",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-5-head",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "470b56fbec605085237ab2f4f215e5f4f35a1e76a2a484e4fef74aa5563f16be",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-5-tail",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "470b56fbec605085237ab2f4f215e5f4f35a1e76a2a484e4fef74aa5563f16be",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-29-head",
+            "packets": 379,
+            "samples": 768137,
+            "pcmSha256": "a9133d965f52ce0bafa02de47904687071b9c5237443d74daca8fffc213c290a",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-29-tail",
+            "packets": 379,
+            "samples": 768137,
+            "pcmSha256": "a9133d965f52ce0bafa02de47904687071b9c5237443d74daca8fffc213c290a",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-48000-1-2",
+            "packets": 3,
+            "samples": 1,
+            "pcmSha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-44100-2-2",
+            "packets": 3,
+            "samples": 37,
+            "pcmSha256": "5e895134f5fc13b644098c7c72d8b14a1adfcdf8c2c99fee3913a1bc4a52d978",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-48000-2-5",
+            "packets": 3,
+            "samples": 137,
+            "pcmSha256": "73f10e16a57e80fcd212b6629685e2e19a1d19bf13d34dda6c866b528b098684",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-44100-2-29",
+            "packets": 4,
+            "samples": 37,
+            "pcmSha256": "3b18c58c739716e76429634a61375c45b3b5cd470c22ab6d3e14cee23dd992e1",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-44100-1-head",
+            "packets": 696,
+            "samples": 711642,
+            "pcmSha256": "0b22863475684f4de084281b5c5674ea4d5c0cd5035d83eeae3915fbc5b5861d",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-44100-2-tail",
+            "packets": 696,
+            "samples": 711642,
+            "pcmSha256": "1c027ceed84f51ab2eb11e7789e5b4a281c8bdf29d161c2d088571bf5d8b05f3",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-48000-1-tail",
+            "packets": 758,
+            "samples": 774576,
+            "pcmSha256": "7f31a18b21b00ebbef1986a28ad240472d936a42355363da38fe64b694c55817",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-48000-2-head",
+            "packets": 758,
+            "samples": 774576,
+            "pcmSha256": "715340a39c99b80614e3cac84edef0836a27f95eaa6310610a174c91e430677d",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          }
+        ]
+      },
+      "pcm": {
+        "result": "PASS",
+        "edition": "qt",
+        "count": 52,
+        "rows": [
+          {
+            "profile": "44100-1-2-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "fcb6b79d95e4f1f059a67dd37b7d3b6d7f8425207a14e377d692067872d29727",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-2-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 433.2527238741958,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "339c41ed89579b834dddf3b50eb3c912757b1b9ceaca2d344a53e6ed2af0ccc2",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-2-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "fcb6b79d95e4f1f059a67dd37b7d3b6d7f8425207a14e377d692067872d29727",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-2-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 433.2527238741958,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "339c41ed89579b834dddf3b50eb3c912757b1b9ceaca2d344a53e6ed2af0ccc2",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "b458a2d12286ce931a4ca0df4176e46d8471651d55861d7c808c750456563d10",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.2631471557899,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "7b6a496d330c3b015b826596b0ba150a937972cfadd4f89d25387a300b25213c",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "b458a2d12286ce931a4ca0df4176e46d8471651d55861d7c808c750456563d10",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.2631471557899,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "7b6a496d330c3b015b826596b0ba150a937972cfadd4f89d25387a300b25213c",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "5133ffb9f57976e9d7508f0088cfcf9c96695af3f75d0aab92691cdf71181809",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.91731115265023,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "4e1083a8aa8ac45065197a4741b8348edfa45176ef475f933df1637207263ad9",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "5133ffb9f57976e9d7508f0088cfcf9c96695af3f75d0aab92691cdf71181809",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.91731115265023,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "4e1083a8aa8ac45065197a4741b8348edfa45176ef475f933df1637207263ad9",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "ce69e189520b8141fd607b2b6cf385a577acbd3b24339130dbbf23ebe64fc0bd",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.2063369453753,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "1145a90634292a25ac3001c5edc3950d6af3bcbe733fc1b0f4e71e85881f9544",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "ce69e189520b8141fd607b2b6cf385a577acbd3b24339130dbbf23ebe64fc0bd",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.2063369453753,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "1145a90634292a25ac3001c5edc3950d6af3bcbe733fc1b0f4e71e85881f9544",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "8f98ab5d7de3424cedc5e62c785c26c7834666a595d612dd5f9a8ef8e7fa9373",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.0006453184114,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "03782a82bb9675b87251924084f2fa50f055cb19513eb5cd3f354e67b776ff97",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "8f98ab5d7de3424cedc5e62c785c26c7834666a595d612dd5f9a8ef8e7fa9373",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.0006453184114,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "03782a82bb9675b87251924084f2fa50f055cb19513eb5cd3f354e67b776ff97",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "d5a21c453c4e0d41a77f69747309f2296fb31ea73d0a0440b53613370429d53b",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 433.6207314511071,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "34bcbff819c0d80f6a6c2ffc679b4f9394b59d78b14e0ee0f1e2e30f4f6b6e72",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "d5a21c453c4e0d41a77f69747309f2296fb31ea73d0a0440b53613370429d53b",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 433.6207314511071,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "34bcbff819c0d80f6a6c2ffc679b4f9394b59d78b14e0ee0f1e2e30f4f6b6e72",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "c9f0f6013c3f893b5516787993b4745c4c68c452202385bd2e4dbfb06f1b30bb",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.6314906526572,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "2185d3637969df06da9d22eeef95ccafdf7e371a812f1c6eb88bf8f7006fae2b",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "c9f0f6013c3f893b5516787993b4745c4c68c452202385bd2e4dbfb06f1b30bb",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.6314906526572,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "2185d3637969df06da9d22eeef95ccafdf7e371a812f1c6eb88bf8f7006fae2b",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "c19351a8c9a681a161da51ea598364c1c2f4d7bc7090f0f171ca07b3807dcbd3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.5105798090274,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "aa0825f3be35a9016902f10cb553d642ecd01f307f9c6de91117e64d91b0d085",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "c19351a8c9a681a161da51ea598364c1c2f4d7bc7090f0f171ca07b3807dcbd3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.5105798090274,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "aa0825f3be35a9016902f10cb553d642ecd01f307f9c6de91117e64d91b0d085",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "470b56fbec605085237ab2f4f215e5f4f35a1e76a2a484e4fef74aa5563f16be",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 81.8352473330276,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "8b6e5ef5499a30c56903c7c4e2f6a958037b81e5d41b48dd37d38539500983f6",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "470b56fbec605085237ab2f4f215e5f4f35a1e76a2a484e4fef74aa5563f16be",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 81.8352473330276,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "8b6e5ef5499a30c56903c7c4e2f6a958037b81e5d41b48dd37d38539500983f6",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "a9133d965f52ce0bafa02de47904687071b9c5237443d74daca8fffc213c290a",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.04315277855967,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "e2bb00940786eed0265a64339f4855c921e002601a15ad722ac08f2c411921d3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "a9133d965f52ce0bafa02de47904687071b9c5237443d74daca8fffc213c290a",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.04315277855967,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "e2bb00940786eed0265a64339f4855c921e002601a15ad722ac08f2c411921d3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-48000-1-2",
+            "targetSample": 0,
+            "samples": 1,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-44100-2-2",
+            "targetSample": 0,
+            "samples": 37,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "5e895134f5fc13b644098c7c72d8b14a1adfcdf8c2c99fee3913a1bc4a52d978",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-48000-2-5",
+            "targetSample": 0,
+            "samples": 137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "73f10e16a57e80fcd212b6629685e2e19a1d19bf13d34dda6c866b528b098684",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-44100-2-29",
+            "targetSample": 0,
+            "samples": 37,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "3b18c58c739716e76429634a61375c45b3b5cd470c22ab6d3e14cee23dd992e1",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-1-head",
+            "targetSample": 0,
+            "samples": 711642,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "0b22863475684f4de084281b5c5674ea4d5c0cd5035d83eeae3915fbc5b5861d",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-1-head",
+            "targetSample": 44237,
+            "samples": 667405,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 72,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 71.98072980012753,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "4f3141b1d6e96a650d820a590b4f582344ca3b03414fd86a123333c85ce2f28a",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-2-tail",
+            "targetSample": 0,
+            "samples": 711642,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "1c027ceed84f51ab2eb11e7789e5b4a281c8bdf29d161c2d088571bf5d8b05f3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-2-tail",
+            "targetSample": 44237,
+            "samples": 667405,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 1,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 85.51907833153169,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "faa8f96603bb3d4b360cec9e9873c97f45bb5f665115c2267fb926b50e24e66b",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-1-tail",
+            "targetSample": 0,
+            "samples": 774576,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "7f31a18b21b00ebbef1986a28ad240472d936a42355363da38fe64b694c55817",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-1-tail",
+            "targetSample": 48137,
+            "samples": 726439,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 65,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 70.9611945143121,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "60cfd7734a281e94382dd60648b6ddb92b165fc3d06bd4a505267a42c2a56c63",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-2-head",
+            "targetSample": 0,
+            "samples": 774576,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "715340a39c99b80614e3cac84edef0836a27f95eaa6310610a174c91e430677d",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-2-head",
+            "targetSample": 48137,
+            "samples": 726439,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 1,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 86.14567710276484,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "8d55ee76c48130645f1f83877983c8310f7ea5929159a0c41a5dcc0f7932a0f3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          }
+        ],
+        "runnerSha256": "b95065078a1e77536a1e15f8e7d6e3fe21746bffc31d33b51f8c530d583f5bb6"
+      },
+      "controls": {
+        "result": "PASS",
+        "profiles": 6,
+        "rows": [
+          {
+            "profile": "48000-1-2-head",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          },
+          {
+            "profile": "44100-2-2-tail",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          },
+          {
+            "profile": "48000-1-5-tail",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          },
+          {
+            "profile": "44100-2-5-head",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          },
+          {
+            "profile": "48000-2-29-tail",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          },
+          {
+            "profile": "ffmpeg-44100-1-head",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          }
+        ]
+      },
+      "main": [
+        {
+          "profile": "48000-1-2-head",
+          "secondsBeforeComplete": 10.143341166666666,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.02210561699757818,
+          "peakResources": {
+            "rssBytes": 187695104,
+            "privateBytes": 58241024,
+            "handles": 44,
+            "threads": 64
+          },
+          "peakStatusLatencySeconds": 0.292160094002611
+        },
+        {
+          "profile": "44100-2-2-tail",
+          "secondsBeforeComplete": 10.130516755102041,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.023820973001420498,
+          "peakResources": {
+            "rssBytes": 196063232,
+            "privateBytes": 60420096,
+            "handles": 44,
+            "threads": 64
+          },
+          "peakStatusLatencySeconds": 0.29798266298894305
+        },
+        {
+          "profile": "48000-1-5-tail",
+          "secondsBeforeComplete": 10.112277166666665,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.023521284994785674,
+          "peakResources": {
+            "rssBytes": 196689920,
+            "privateBytes": 61022208,
+            "handles": 44,
+            "threads": 64
+          },
+          "peakStatusLatencySeconds": 0.2883741120022023
+        },
+        {
+          "profile": "44100-2-5-head",
+          "secondsBeforeComplete": 10.141726621315193,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.023373993986751884,
+          "peakResources": {
+            "rssBytes": 197345280,
+            "privateBytes": 61288448,
+            "handles": 44,
+            "threads": 64
+          },
+          "peakStatusLatencySeconds": 0.2848670130042592
+        },
+        {
+          "profile": "48000-2-29-tail",
+          "secondsBeforeComplete": 10.150223666666665,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.022806614011642523,
+          "peakResources": {
+            "rssBytes": 197599232,
+            "privateBytes": 61542400,
+            "handles": 44,
+            "threads": 64
+          },
+          "peakStatusLatencySeconds": 0.30120979899947997
+        }
+      ]
+    },
+    "windows-qt": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "0dd9302657bd8fe6e6499a883af62eb85e3bffeef9fee1fbe8b0f6ae2d217291",
+      "native": {
+        "profiles": 28,
+        "negativeChecks": [
+          "foreign-codec",
+          "oversized-sample-count",
+          "external-reference",
+          "non-unit-edit",
+          "invalid-packet-clock",
+          "offset-outside-mdat",
+          "unknown-length",
+          "codec-hint-mismatch",
+          "waiting-index-17",
+          "waiting-index-52",
+          "sha-rewrite-fails-without-eof",
+          "truncated-source-fails-without-eof",
+          "cancel-fails-without-eof",
+          "unpublished-tail-is-not-authorized-by-file-size"
+        ],
+        "realMedia": [
+          {
+            "profile": "44100-1-2-head",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "fcb6b79d95e4f1f059a67dd37b7d3b6d7f8425207a14e377d692067872d29727",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-1-2-tail",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "fcb6b79d95e4f1f059a67dd37b7d3b6d7f8425207a14e377d692067872d29727",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-2-head",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "b458a2d12286ce931a4ca0df4176e46d8471651d55861d7c808c750456563d10",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-2-tail",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "b458a2d12286ce931a4ca0df4176e46d8471651d55861d7c808c750456563d10",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-1-5-head",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "d948dba8f5dd7f596afbe8875f31209b666a1a9b77501f7a56efb6d85e4fed3f",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-1-5-tail",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "d948dba8f5dd7f596afbe8875f31209b666a1a9b77501f7a56efb6d85e4fed3f",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-5-head",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "33e658a0b6ca6bcee9ac13fd9f902c8c860a603ca2b30644cfd6fc245ae22845",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-5-tail",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "33e658a0b6ca6bcee9ac13fd9f902c8c860a603ca2b30644cfd6fc245ae22845",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-29-head",
+            "packets": 349,
+            "samples": 705737,
+            "pcmSha256": "cceff155cd815d5ec3978c2f5c0d79192d9e87d32c62fbf1caeea8aa16aed208",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-29-tail",
+            "packets": 349,
+            "samples": 705737,
+            "pcmSha256": "cceff155cd815d5ec3978c2f5c0d79192d9e87d32c62fbf1caeea8aa16aed208",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-2-head",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "d5a21c453c4e0d41a77f69747309f2296fb31ea73d0a0440b53613370429d53b",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-2-tail",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "d5a21c453c4e0d41a77f69747309f2296fb31ea73d0a0440b53613370429d53b",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-2-head",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "c9f0f6013c3f893b5516787993b4745c4c68c452202385bd2e4dbfb06f1b30bb",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-2-tail",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "c9f0f6013c3f893b5516787993b4745c4c68c452202385bd2e4dbfb06f1b30bb",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-5-head",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "c19351a8c9a681a161da51ea598364c1c2f4d7bc7090f0f171ca07b3807dcbd3",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-5-tail",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "c19351a8c9a681a161da51ea598364c1c2f4d7bc7090f0f171ca07b3807dcbd3",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-5-head",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "470b56fbec605085237ab2f4f215e5f4f35a1e76a2a484e4fef74aa5563f16be",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-5-tail",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "470b56fbec605085237ab2f4f215e5f4f35a1e76a2a484e4fef74aa5563f16be",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-29-head",
+            "packets": 379,
+            "samples": 768137,
+            "pcmSha256": "a9133d965f52ce0bafa02de47904687071b9c5237443d74daca8fffc213c290a",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-29-tail",
+            "packets": 379,
+            "samples": 768137,
+            "pcmSha256": "a9133d965f52ce0bafa02de47904687071b9c5237443d74daca8fffc213c290a",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-48000-1-2",
+            "packets": 3,
+            "samples": 1,
+            "pcmSha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-44100-2-2",
+            "packets": 3,
+            "samples": 37,
+            "pcmSha256": "5e895134f5fc13b644098c7c72d8b14a1adfcdf8c2c99fee3913a1bc4a52d978",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-48000-2-5",
+            "packets": 3,
+            "samples": 137,
+            "pcmSha256": "73f10e16a57e80fcd212b6629685e2e19a1d19bf13d34dda6c866b528b098684",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-44100-2-29",
+            "packets": 4,
+            "samples": 37,
+            "pcmSha256": "3b18c58c739716e76429634a61375c45b3b5cd470c22ab6d3e14cee23dd992e1",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-44100-1-head",
+            "packets": 696,
+            "samples": 711642,
+            "pcmSha256": "0b22863475684f4de084281b5c5674ea4d5c0cd5035d83eeae3915fbc5b5861d",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-44100-2-tail",
+            "packets": 696,
+            "samples": 711642,
+            "pcmSha256": "1c027ceed84f51ab2eb11e7789e5b4a281c8bdf29d161c2d088571bf5d8b05f3",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-48000-1-tail",
+            "packets": 758,
+            "samples": 774576,
+            "pcmSha256": "7f31a18b21b00ebbef1986a28ad240472d936a42355363da38fe64b694c55817",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-48000-2-head",
+            "packets": 758,
+            "samples": 774576,
+            "pcmSha256": "715340a39c99b80614e3cac84edef0836a27f95eaa6310610a174c91e430677d",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          }
+        ]
+      },
+      "pcm": {
+        "result": "PASS",
+        "edition": "qt",
+        "count": 52,
+        "rows": [
+          {
+            "profile": "44100-1-2-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "fcb6b79d95e4f1f059a67dd37b7d3b6d7f8425207a14e377d692067872d29727",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-2-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 433.2527238741958,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "339c41ed89579b834dddf3b50eb3c912757b1b9ceaca2d344a53e6ed2af0ccc2",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-2-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "fcb6b79d95e4f1f059a67dd37b7d3b6d7f8425207a14e377d692067872d29727",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-2-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 433.2527238741958,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "339c41ed89579b834dddf3b50eb3c912757b1b9ceaca2d344a53e6ed2af0ccc2",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "b458a2d12286ce931a4ca0df4176e46d8471651d55861d7c808c750456563d10",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.2631471557899,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "7b6a496d330c3b015b826596b0ba150a937972cfadd4f89d25387a300b25213c",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "b458a2d12286ce931a4ca0df4176e46d8471651d55861d7c808c750456563d10",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.2631471557899,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "7b6a496d330c3b015b826596b0ba150a937972cfadd4f89d25387a300b25213c",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "d948dba8f5dd7f596afbe8875f31209b666a1a9b77501f7a56efb6d85e4fed3f",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.91731115265023,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "4e1083a8aa8ac45065197a4741b8348edfa45176ef475f933df1637207263ad9",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "d948dba8f5dd7f596afbe8875f31209b666a1a9b77501f7a56efb6d85e4fed3f",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.91731115265023,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "4e1083a8aa8ac45065197a4741b8348edfa45176ef475f933df1637207263ad9",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "33e658a0b6ca6bcee9ac13fd9f902c8c860a603ca2b30644cfd6fc245ae22845",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.2063369453753,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "1145a90634292a25ac3001c5edc3950d6af3bcbe733fc1b0f4e71e85881f9544",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "33e658a0b6ca6bcee9ac13fd9f902c8c860a603ca2b30644cfd6fc245ae22845",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.2063369453753,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "1145a90634292a25ac3001c5edc3950d6af3bcbe733fc1b0f4e71e85881f9544",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "cceff155cd815d5ec3978c2f5c0d79192d9e87d32c62fbf1caeea8aa16aed208",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.0006453184114,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "03782a82bb9675b87251924084f2fa50f055cb19513eb5cd3f354e67b776ff97",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "cceff155cd815d5ec3978c2f5c0d79192d9e87d32c62fbf1caeea8aa16aed208",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.0006453184114,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "03782a82bb9675b87251924084f2fa50f055cb19513eb5cd3f354e67b776ff97",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "d5a21c453c4e0d41a77f69747309f2296fb31ea73d0a0440b53613370429d53b",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 433.6207314511071,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "34bcbff819c0d80f6a6c2ffc679b4f9394b59d78b14e0ee0f1e2e30f4f6b6e72",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "d5a21c453c4e0d41a77f69747309f2296fb31ea73d0a0440b53613370429d53b",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 433.6207314511071,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "34bcbff819c0d80f6a6c2ffc679b4f9394b59d78b14e0ee0f1e2e30f4f6b6e72",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "c9f0f6013c3f893b5516787993b4745c4c68c452202385bd2e4dbfb06f1b30bb",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.6314906526572,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "2185d3637969df06da9d22eeef95ccafdf7e371a812f1c6eb88bf8f7006fae2b",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "c9f0f6013c3f893b5516787993b4745c4c68c452202385bd2e4dbfb06f1b30bb",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 436.6314906526572,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "2185d3637969df06da9d22eeef95ccafdf7e371a812f1c6eb88bf8f7006fae2b",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "c19351a8c9a681a161da51ea598364c1c2f4d7bc7090f0f171ca07b3807dcbd3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.5105798090274,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "aa0825f3be35a9016902f10cb553d642ecd01f307f9c6de91117e64d91b0d085",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "c19351a8c9a681a161da51ea598364c1c2f4d7bc7090f0f171ca07b3807dcbd3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.5105798090274,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "aa0825f3be35a9016902f10cb553d642ecd01f307f9c6de91117e64d91b0d085",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "470b56fbec605085237ab2f4f215e5f4f35a1e76a2a484e4fef74aa5563f16be",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 81.8352473330276,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "8b6e5ef5499a30c56903c7c4e2f6a958037b81e5d41b48dd37d38539500983f6",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "470b56fbec605085237ab2f4f215e5f4f35a1e76a2a484e4fef74aa5563f16be",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 81.8352473330276,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "8b6e5ef5499a30c56903c7c4e2f6a958037b81e5d41b48dd37d38539500983f6",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "a9133d965f52ce0bafa02de47904687071b9c5237443d74daca8fffc213c290a",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.04315277855967,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "e2bb00940786eed0265a64339f4855c921e002601a15ad722ac08f2c411921d3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "a9133d965f52ce0bafa02de47904687071b9c5237443d74daca8fffc213c290a",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 2,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 80.04315277855967,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "e2bb00940786eed0265a64339f4855c921e002601a15ad722ac08f2c411921d3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-48000-1-2",
+            "targetSample": 0,
+            "samples": 1,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-44100-2-2",
+            "targetSample": 0,
+            "samples": 37,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "5e895134f5fc13b644098c7c72d8b14a1adfcdf8c2c99fee3913a1bc4a52d978",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-48000-2-5",
+            "targetSample": 0,
+            "samples": 137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "73f10e16a57e80fcd212b6629685e2e19a1d19bf13d34dda6c866b528b098684",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-44100-2-29",
+            "targetSample": 0,
+            "samples": 37,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "3b18c58c739716e76429634a61375c45b3b5cd470c22ab6d3e14cee23dd992e1",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-1-head",
+            "targetSample": 0,
+            "samples": 711642,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "0b22863475684f4de084281b5c5674ea4d5c0cd5035d83eeae3915fbc5b5861d",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-1-head",
+            "targetSample": 44237,
+            "samples": 667405,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 72,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 71.98072980012753,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "4f3141b1d6e96a650d820a590b4f582344ca3b03414fd86a123333c85ce2f28a",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-2-tail",
+            "targetSample": 0,
+            "samples": 711642,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "1c027ceed84f51ab2eb11e7789e5b4a281c8bdf29d161c2d088571bf5d8b05f3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-2-tail",
+            "targetSample": 44237,
+            "samples": 667405,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 1,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 85.51907833153169,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "faa8f96603bb3d4b360cec9e9873c97f45bb5f665115c2267fb926b50e24e66b",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-1-tail",
+            "targetSample": 0,
+            "samples": 774576,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "7f31a18b21b00ebbef1986a28ad240472d936a42355363da38fe64b694c55817",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-1-tail",
+            "targetSample": 48137,
+            "samples": 726439,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 65,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 70.9611945143121,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "60cfd7734a281e94382dd60648b6ddb92b165fc3d06bd4a505267a42c2a56c63",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-2-head",
+            "targetSample": 0,
+            "samples": 774576,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "s16le",
+            "pcmSha256": "715340a39c99b80614e3cac84edef0836a27f95eaa6310610a174c91e430677d",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-2-head",
+            "targetSample": 48137,
+            "samples": 726439,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 1,
+            "fullDecodeTolerance": 2,
+            "seekSnrDb": 86.14567710276484,
+            "seekMinSnrDb": 60,
+            "format": "s16le",
+            "pcmSha256": "8d55ee76c48130645f1f83877983c8310f7ea5929159a0c41a5dcc0f7932a0f3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "audioDeviceOpened": false,
+              "captures": [
+                {
+                  "filterLabels": [
+                    "foxicmp-pcm-window",
+                    "foxicmp-audio",
+                    "foxicmp-audio-format"
+                  ],
+                  "pass": 0,
+                  "trimmed": true
+                }
+              ],
+              "result": "PASS"
+            },
+            "audioDeviceOpened": false
+          }
+        ],
+        "runnerSha256": "66f408fa5f6863f918598b97e93a04d6f8b17abc2c48f64a5e544d354a145fb3"
+      },
+      "controls": {
+        "result": "PASS",
+        "profiles": 6,
+        "rows": [
+          {
+            "profile": "48000-1-2-head",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          },
+          {
+            "profile": "44100-2-2-tail",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          },
+          {
+            "profile": "48000-1-5-tail",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          },
+          {
+            "profile": "44100-2-5-head",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          },
+          {
+            "profile": "48000-2-29-tail",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          },
+          {
+            "profile": "ffmpeg-44100-1-head",
+            "exitCode": 0,
+            "consumer": {
+              "result": "PASS",
+              "pause": true,
+              "growingSeek": true,
+              "supersededSeek": true,
+              "completeSeek": true,
+              "trimPreserved": true,
+              "unconfirmedSeekRejected": true
+            }
+          }
+        ]
+      },
+      "main": [
+        {
+          "profile": "48000-1-2-head",
+          "secondsBeforeComplete": 10.117898429582766,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.01600000000325963,
+          "peakResources": {
+            "rssBytes": 90382336,
+            "privateBytes": 88047616,
+            "handles": 1890,
+            "threads": 49
+          },
+          "peakStatusLatencySeconds": 0.1879999999946449
+        },
+        {
+          "profile": "44100-2-2-tail",
+          "secondsBeforeComplete": 10.128793782741498,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.01600000000325963,
+          "peakResources": {
+            "rssBytes": 99786752,
+            "privateBytes": 95555584,
+            "handles": 1742,
+            "threads": 50
+          },
+          "peakStatusLatencySeconds": 0.1870000000053551
+        },
+        {
+          "profile": "48000-1-5-tail",
+          "secondsBeforeComplete": 10.159227373217687,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.014999999984866008,
+          "peakResources": {
+            "rssBytes": 99442688,
+            "privateBytes": 94494720,
+            "handles": 1734,
+            "threads": 47
+          },
+          "peakStatusLatencySeconds": 0.1870000000053551
+        },
+        {
+          "profile": "44100-2-5-head",
+          "secondsBeforeComplete": 10.168962740376417,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.014999999984866008,
+          "peakResources": {
+            "rssBytes": 99500032,
+            "privateBytes": 94490624,
+            "handles": 1734,
+            "threads": 47
+          },
+          "peakStatusLatencySeconds": 0.17100000000209548
+        },
+        {
+          "profile": "48000-2-29-tail",
+          "secondsBeforeComplete": 10.119030840582766,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.01600000000325963,
+          "peakResources": {
+            "rssBytes": 99475456,
+            "privateBytes": 95035392,
+            "handles": 1735,
+            "threads": 46
+          },
+          "peakStatusLatencySeconds": 0.21900000001187436
+        }
+      ]
+    },
+    "windows-classic": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "23f847beb58ec96ae9f468efc1212cd76a8e90eb1d2aec0cdf1c64c3eb42de51",
+      "native": {
+        "profiles": 28,
+        "negativeChecks": [
+          "foreign-codec",
+          "oversized-sample-count",
+          "external-reference",
+          "non-unit-edit",
+          "invalid-packet-clock",
+          "offset-outside-mdat",
+          "unknown-length",
+          "codec-hint-mismatch",
+          "waiting-index-17",
+          "waiting-index-52",
+          "sha-rewrite-fails-without-eof",
+          "truncated-source-fails-without-eof",
+          "cancel-fails-without-eof",
+          "unpublished-tail-is-not-authorized-by-file-size"
+        ],
+        "realMedia": [
+          {
+            "profile": "44100-1-2-head",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "fcb6b79d95e4f1f059a67dd37b7d3b6d7f8425207a14e377d692067872d29727",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-1-2-tail",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "fcb6b79d95e4f1f059a67dd37b7d3b6d7f8425207a14e377d692067872d29727",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-2-head",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "b458a2d12286ce931a4ca0df4176e46d8471651d55861d7c808c750456563d10",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-2-tail",
+            "packets": 692,
+            "samples": 705737,
+            "pcmSha256": "b458a2d12286ce931a4ca0df4176e46d8471651d55861d7c808c750456563d10",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-1-5-head",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "d948dba8f5dd7f596afbe8875f31209b666a1a9b77501f7a56efb6d85e4fed3f",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-1-5-tail",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "d948dba8f5dd7f596afbe8875f31209b666a1a9b77501f7a56efb6d85e4fed3f",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-5-head",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "33e658a0b6ca6bcee9ac13fd9f902c8c860a603ca2b30644cfd6fc245ae22845",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-5-tail",
+            "packets": 348,
+            "samples": 705737,
+            "pcmSha256": "33e658a0b6ca6bcee9ac13fd9f902c8c860a603ca2b30644cfd6fc245ae22845",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-29-head",
+            "packets": 349,
+            "samples": 705737,
+            "pcmSha256": "cceff155cd815d5ec3978c2f5c0d79192d9e87d32c62fbf1caeea8aa16aed208",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "44100-2-29-tail",
+            "packets": 349,
+            "samples": 705737,
+            "pcmSha256": "cceff155cd815d5ec3978c2f5c0d79192d9e87d32c62fbf1caeea8aa16aed208",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-2-head",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "d5a21c453c4e0d41a77f69747309f2296fb31ea73d0a0440b53613370429d53b",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-2-tail",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "d5a21c453c4e0d41a77f69747309f2296fb31ea73d0a0440b53613370429d53b",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-2-head",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "c9f0f6013c3f893b5516787993b4745c4c68c452202385bd2e4dbfb06f1b30bb",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-2-tail",
+            "packets": 753,
+            "samples": 768137,
+            "pcmSha256": "c9f0f6013c3f893b5516787993b4745c4c68c452202385bd2e4dbfb06f1b30bb",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-5-head",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "c19351a8c9a681a161da51ea598364c1c2f4d7bc7090f0f171ca07b3807dcbd3",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-1-5-tail",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "c19351a8c9a681a161da51ea598364c1c2f4d7bc7090f0f171ca07b3807dcbd3",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-5-head",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "470b56fbec605085237ab2f4f215e5f4f35a1e76a2a484e4fef74aa5563f16be",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-5-tail",
+            "packets": 378,
+            "samples": 768137,
+            "pcmSha256": "470b56fbec605085237ab2f4f215e5f4f35a1e76a2a484e4fef74aa5563f16be",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-29-head",
+            "packets": 379,
+            "samples": 768137,
+            "pcmSha256": "a9133d965f52ce0bafa02de47904687071b9c5237443d74daca8fffc213c290a",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "48000-2-29-tail",
+            "packets": 379,
+            "samples": 768137,
+            "pcmSha256": "a9133d965f52ce0bafa02de47904687071b9c5237443d74daca8fffc213c290a",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-48000-1-2",
+            "packets": 3,
+            "samples": 1,
+            "pcmSha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-44100-2-2",
+            "packets": 3,
+            "samples": 37,
+            "pcmSha256": "5e895134f5fc13b644098c7c72d8b14a1adfcdf8c2c99fee3913a1bc4a52d978",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-48000-2-5",
+            "packets": 3,
+            "samples": 137,
+            "pcmSha256": "73f10e16a57e80fcd212b6629685e2e19a1d19bf13d34dda6c866b528b098684",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "short-44100-2-29",
+            "packets": 4,
+            "samples": 37,
+            "pcmSha256": "3b18c58c739716e76429634a61375c45b3b5cd470c22ab6d3e14cee23dd992e1",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-44100-1-head",
+            "packets": 696,
+            "samples": 711642,
+            "pcmSha256": "0b22863475684f4de084281b5c5674ea4d5c0cd5035d83eeae3915fbc5b5861d",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-44100-2-tail",
+            "packets": 696,
+            "samples": 711642,
+            "pcmSha256": "1c027ceed84f51ab2eb11e7789e5b4a281c8bdf29d161c2d088571bf5d8b05f3",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-48000-1-tail",
+            "packets": 758,
+            "samples": 774576,
+            "pcmSha256": "7f31a18b21b00ebbef1986a28ad240472d936a42355363da38fe64b694c55817",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          },
+          {
+            "profile": "ffmpeg-48000-2-head",
+            "packets": 758,
+            "samples": 774576,
+            "pcmSha256": "715340a39c99b80614e3cac84edef0836a27f95eaa6310610a174c91e430677d",
+            "packetHashAndClockExact": true,
+            "immutablePrefix": true
+          }
+        ]
+      },
+      "pcm": {
+        "result": "PASS",
+        "edition": "classic",
+        "count": 52,
+        "rows": [
+          {
+            "profile": "44100-1-2-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "ae1c4fab677eff5304dc7c5deff4778cd210082b8455024a645c9c8ef07eef7a",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 705737,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-2-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 342.94372577946433,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "3eab948899afc516169c025d0c4800c95b4dd3332394f60d596a54d38d2dd76c",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 661500,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-2-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "ae1c4fab677eff5304dc7c5deff4778cd210082b8455024a645c9c8ef07eef7a",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 705737,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-2-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 342.94372577946433,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "3eab948899afc516169c025d0c4800c95b4dd3332394f60d596a54d38d2dd76c",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 661500,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "089d50f17a3d854db7d77de714c8d26b7519afbe4bad7867ab0134044e260463",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 705737,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 345.95414899267206,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "8691098ab2314305cc62b36560e270445c557db0cb23861af5afd1e8da548c49",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 661500,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "089d50f17a3d854db7d77de714c8d26b7519afbe4bad7867ab0134044e260463",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 705737,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-2-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 345.95414899267206,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "8691098ab2314305cc62b36560e270445c557db0cb23861af5afd1e8da548c49",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 661500,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "14ffd087222ee3547a2a748ee611982944c3e4c0fa0c4376a6c3b31964ba96a3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 705737,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 4.029273986816406e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 84.90267113613085,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "1eeb83da176a0c7d38f1071ab41e3eefcc351b084e8c9aba9ef7a77c214532af",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 661500,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "14ffd087222ee3547a2a748ee611982944c3e4c0fa0c4376a6c3b31964ba96a3",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 705737,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-1-5-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 4.029273986816406e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 84.90267113613085,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "1eeb83da176a0c7d38f1071ab41e3eefcc351b084e8c9aba9ef7a77c214532af",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 661500,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "b8938434b60f01a5ea322a1b2dd61ddaf32b26c9fe8ace2b61690d0915fd6f00",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 705737,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 1.4901161193847656e-08,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 194.4088070179457,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "9879df69d5c439ca321d928eaa8233fc56756224b68531317cdf95013f21f949",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 661500,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "b8938434b60f01a5ea322a1b2dd61ddaf32b26c9fe8ace2b61690d0915fd6f00",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 705737,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-5-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 1.4901161193847656e-08,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 194.4088070179457,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "9879df69d5c439ca321d928eaa8233fc56756224b68531317cdf95013f21f949",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 661500,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-head",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "c03e2bf525b86b735ebb2210d129a6a9ad9a50efdc65d5c66373067d0e16059e",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 705737,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-head",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 4.7713518142700195e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 83.11388599855849,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "a052ebad8018745807960aeadeb3fc430b697560e88a0b5fdc589130a0d37039",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 661500,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-tail",
+            "targetSample": 0,
+            "samples": 705737,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "c03e2bf525b86b735ebb2210d129a6a9ad9a50efdc65d5c66373067d0e16059e",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 705737,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "44100-2-29-tail",
+            "targetSample": 44237,
+            "samples": 661500,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 4.7713518142700195e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 83.11388599855849,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "a052ebad8018745807960aeadeb3fc430b697560e88a0b5fdc589130a0d37039",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 661500,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "708d05a287c2eb5ffe573810a713e1ec2aac4116031cf88ae50c426b21196337",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 768137,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 343.3117331200466,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "d0c30672351ac06355ab9df12c5d29023f50824c84e6e33d43f5896c2b486311",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 720000,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "708d05a287c2eb5ffe573810a713e1ec2aac4116031cf88ae50c426b21196337",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 768137,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-2-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 343.3117331200466,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "d0c30672351ac06355ab9df12c5d29023f50824c84e6e33d43f5896c2b486311",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 720000,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "09806cf73d20f382409b9c307fb5c375e75a4bd3452354bcce4956a45fc807e2",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 768137,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.023148298263549805,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 68.01388678247656,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "3c24c2a816ddbfd5f806abd57ba5708c32523c2391bbe593d234653703bbe4b2",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 720000,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "09806cf73d20f382409b9c307fb5c375e75a4bd3452354bcce4956a45fc807e2",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 768137,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-2-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.023148298263549805,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 68.01388678247656,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "3c24c2a816ddbfd5f806abd57ba5708c32523c2391bbe593d234653703bbe4b2",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 720000,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "d14943cbb3756a83084f478b1de1cb1d2b69f8ead82833c7b01debd8cedeb475",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 768137,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 4.686415195465088e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 84.04351286662566,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "fc6b601489a724e40c1dba2a56f1b46493ce13d3032874cecb1379787c1b0871",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 720000,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "d14943cbb3756a83084f478b1de1cb1d2b69f8ead82833c7b01debd8cedeb475",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 768137,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-1-5-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 4.686415195465088e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 84.04351286662566,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "fc6b601489a724e40c1dba2a56f1b46493ce13d3032874cecb1379787c1b0871",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 720000,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "c47a279c736583449f402e0a259d0a480eadd352cd37f7568cf229786d87e6e6",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 768137,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 3.610551357269287e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 86.58560386576481,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "05947836344d6f8faca099f80a13f67385d6af202634457143c45ac1f88c8330",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 720000,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "c47a279c736583449f402e0a259d0a480eadd352cd37f7568cf229786d87e6e6",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 768137,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-5-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 3.610551357269287e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 86.58560386576481,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "05947836344d6f8faca099f80a13f67385d6af202634457143c45ac1f88c8330",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 720000,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-head",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "3a6ed808e22c2637cdb6eeb700dc8538c73746bdf679f2d34138a6fc33747030",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 768137,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-head",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 5.1975250244140625e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 83.06559459734143,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "914eab4402f928cee1a1b9f09ded6c351afec18b0e6d76d9086fa76c149dfb66",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 720000,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-tail",
+            "targetSample": 0,
+            "samples": 768137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "3a6ed808e22c2637cdb6eeb700dc8538c73746bdf679f2d34138a6fc33747030",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 768137,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "48000-2-29-tail",
+            "targetSample": 48137,
+            "samples": 720000,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 5.1975250244140625e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 83.06559459734143,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "914eab4402f928cee1a1b9f09ded6c351afec18b0e6d76d9086fa76c149dfb66",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 720000,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-48000-1-2",
+            "targetSample": 0,
+            "samples": 1,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 1,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-44100-2-2",
+            "targetSample": 0,
+            "samples": 37,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "a5c412b1fb84b6e282cc2ad8ed6676352675df8cce7a0293dd0d96aa7507f961",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 37,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-48000-2-5",
+            "targetSample": 0,
+            "samples": 137,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "7107cc8d383556849e4e2a25edcf406c423fc6587a9140a72ea593a79349722d",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 137,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "short-44100-2-29",
+            "targetSample": 0,
+            "samples": 37,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "f99e78009e0f4331f1396dc547aca5b0b88303a3cdd1de4ccc120537e7ae5cb4",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 37,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": false,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-1-head",
+            "targetSample": 0,
+            "samples": 711642,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "8d524da09b2208b7687f5f04f05804d9e4382a8e825dca41dfce2e8c6e2c46b2",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 711642,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-1-head",
+            "targetSample": 44237,
+            "samples": 667405,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.002329722046852112,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 71.73704529920022,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "2fa043e4bc606dd2aed16181d87eae92abe9db31aec4a918a154b8163f1de91d",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 667405,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-2-tail",
+            "targetSample": 0,
+            "samples": 711642,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "6b986691491bc9ca60cdf2ca7866d308e446d71355425100a539ffcb45e31db5",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 711642,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-44100-2-tail",
+            "targetSample": 44237,
+            "samples": 667405,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 1.5851808711886406e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 95.93808614756541,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "bf98b761d050e03f55e9bede56801497949abe41a0c6ede5bb6e33aaccedc913",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 667405,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-1-tail",
+            "targetSample": 0,
+            "samples": 774576,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "e8c2024fc517c91e8d4f68a60161887390512caeebc2572f4d6dcdfd93a56804",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 774576,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-1-tail",
+            "targetSample": 48137,
+            "samples": 726439,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0022896919399499893,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 69.81848588377154,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "0801faca556c6ea705b1b842371f9c700b0a5f331b0c24e6282902e1557004c5",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 726439,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-2-head",
+            "targetSample": 0,
+            "samples": 774576,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 0.0,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": null,
+            "seekMinSnrDb": null,
+            "format": "f32le",
+            "pcmSha256": "2c113f5b3a0357e2f92d85e0d9f6b185164b218bb5c6d847ddd4af5adba5f0d2",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 774576,
+              "sameGraphSeek": false,
+              "seekWhileIncomplete": false,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          },
+          {
+            "profile": "ffmpeg-48000-2-head",
+            "targetSample": 48137,
+            "samples": 726439,
+            "exactSampleCount": true,
+            "maxAbsolutePcmError": 1.2481585144996643e-05,
+            "fullDecodeTolerance": 2e-06,
+            "seekSnrDb": 96.80756101269715,
+            "seekMinSnrDb": 60,
+            "format": "f32le",
+            "pcmSha256": "a6e9c28e7804bf76ac743e516447d77908c4773e052330e0651f358c46c7b1ba",
+            "exitCode": 0,
+            "nativeConsumer": {
+              "result": "PASS",
+              "samples": 726439,
+              "sameGraphSeek": true,
+              "seekWhileIncomplete": true,
+              "growing": true,
+              "windowApplied": true,
+              "stopCleared": true,
+              "readerPreserved": true
+            },
+            "audioDeviceOpened": false
+          }
+        ],
+        "runnerSha256": "f88e03c0b6ce55352af000b168d46c056d25e030da2e0ff19afa795314b91a3a"
+      },
+      "controls": null,
+      "main": [
+        {
+          "profile": "48000-1-2-head",
+          "secondsBeforeComplete": 10.101,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.046999999998661224,
+          "peakResources": {
+            "rssBytes": 37605376,
+            "privateBytes": 26046464,
+            "handles": 501,
+            "threads": 19
+          },
+          "peakStatusLatencySeconds": 0.01600000000325963
+        },
+        {
+          "profile": "44100-2-2-tail",
+          "secondsBeforeComplete": 10.103,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.0,
+          "peakResources": {
+            "rssBytes": 38068224,
+            "privateBytes": 26238976,
+            "handles": 504,
+            "threads": 19
+          },
+          "peakStatusLatencySeconds": 0.01600000000325963
+        },
+        {
+          "profile": "48000-1-5-tail",
+          "secondsBeforeComplete": 10.1,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.0,
+          "peakResources": {
+            "rssBytes": 37703680,
+            "privateBytes": 26091520,
+            "handles": 502,
+            "threads": 19
+          },
+          "peakStatusLatencySeconds": 0.030999999995401595
+        },
+        {
+          "profile": "44100-2-5-head",
+          "secondsBeforeComplete": 10.146,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.014999999999417923,
+          "peakResources": {
+            "rssBytes": 37556224,
+            "privateBytes": 25845760,
+            "handles": 503,
+            "threads": 19
+          },
+          "peakStatusLatencySeconds": 0.01600000000325963
+        },
+        {
+          "profile": "48000-2-29-tail",
+          "secondsBeforeComplete": 10.141,
+          "exactTrimApplied": true,
+          "releaseSeconds": 0.01600000000325963,
+          "peakResources": {
+            "rssBytes": 37621760,
+            "privateBytes": 25829376,
+            "handles": 500,
+            "threads": 17
+          },
+          "peakStatusLatencySeconds": 0.0319999999992433
+        }
+      ]
+    }
+  },
+  "harvesterChanged": false,
+  "installedWindowsChanged": false,
+  "physicalAudioOutputCertified": false,
+  "exactExitCodes": {
+    "GNU-native": 0,
+    "MinGW-native": 0,
+    "MSVC-native": 0,
+    "Linux-main": 0,
+    "Windows-Qt-main": 0,
+    "Classic-main": 0,
+    "Linux-PCM": 0,
+    "Windows-Qt-PCM": 0,
+    "Classic-PCM": 0,
+    "Linux-controls": 0,
+    "Windows-controls": 0,
+    "Classic-foreign-decoder": 0,
+    "ASan-UBSan": 0,
+    "SDK64": 0,
+    "base-SDK19": 0,
+    "Linux-legacy-PCM3": 0,
+    "Windows-legacy-PCM3": 0,
+    "indexed-MP4-regression": 0,
+    "ADTS-regression": 0,
+    "FLAC-regression": 0
+  },
+  "counts": {
+    "nativeProfiles": 84,
+    "pcmCaptures": 156,
+    "ordinaryMain": 15,
+    "qtControls": 12,
+    "classicDecoderRejection": 1,
+    "sdkUnitTests": 83
+  },
+  "sanitizers": {
+    "result": "PASS",
+    "mutations": 10000,
+    "accepted": 9142,
+    "rejected": 858,
+    "truncations": 2095,
+    "exitCode": 0
+  },
+  "fixtures": {
+    "synthetic": true,
+    "corpusProfiles": 28,
+    "fdkVersion": "v2.0.3",
+    "fdkCommit": "716f4394641d53f0d79c9ddac3fa93b03a49f278",
+    "encoderShipped": false,
+    "downloadedMediaShipped": false
+  },
+  "scope": {
+    "audioCodecs": [
+      "aac-lc",
+      "he-aac"
+    ],
+    "aacObjects": [
+      2,
+      5,
+      29
+    ],
+    "sampleRates": [
+      44100,
+      48000
+    ],
+    "outputChannels": [
+      1,
+      2
+    ],
+    "headAndConfirmedTailIndex": true,
+    "completePcmTolerance": "s16 <=2 LSB; float <=2e-6",
+    "seekPcmTolerance": "exact sample count; SNR >=60 dB; peak <=0.0625 full scale",
+    "remaining": "M02 ordinary MP4 audio-only codecs and the remaining matrix are not accepted by M01"
+  },
+  "binaries": {
+    "_bin/continuous-aac-qt-linux/foxicmp-qt": "541e6a7290115cbec99d0806d57ac6020bfdec42efd75383ca9cb369f0caec12",
+    "_bin/continuous-aac-qt-linux/foxicmp-remux-stream-worker": "5ad168c1dd13d64f71f323569c32b2046baaf1a6b440562facf1b9dbc7840926",
+    "_bin/m4a-qt-windows-stage/FoxicMPq.exe": "0dd9302657bd8fe6e6499a883af62eb85e3bffeef9fee1fbe8b0f6ae2d217291",
+    "_bin/m4a-classic-windows-stage/FoxicMP64.exe": "23f847beb58ec96ae9f468efc1212cd76a8e90eb1d2aec0cdf1c64c3eb42de51"
+  },
+  "implementationNotes": [
+    "Qt uses unedited AAC clock plus one presentation PCM trim, preserving fflags=+ignidx for growing sources.",
+    "Classic uses the canonical fMP4 index and a separate private AAC M4A IID; AAC-LC v1 admission remains unchanged.",
+    "Paused audio output may retain its previous decoder clock. The UI retains the requested target; tests prove the actual resumed jump within 1.5 seconds."
+  ]
+}

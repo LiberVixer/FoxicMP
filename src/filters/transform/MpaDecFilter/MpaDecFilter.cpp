@@ -400,6 +400,7 @@ STDMETHODIMP CMpaDecFilter::NonDelegatingQueryInterface(REFIID riid, void** ppv)
 		QI(IProgressivePacketOpusControl)
 		QI(IProgressivePcmControl)
 		QI(IProgressiveAacPcmControl)
+		QI(IProgressiveM4AAacControl)
 		QI(IExFilterConfig)
 		QI(ISpecifyPropertyPages)
 		QI(ISpecifyPropertyPages2)
@@ -509,6 +510,13 @@ STDMETHODIMP CMpaDecFilter::ArmAacPcmWindow(UINT version,UINT rate,UINT channels
 	if(version!=1 || m_pcmSegment.received || m_pcmSegment.pending || m_pcmSegment.applied || m_CodecId!=AV_CODEC_ID_AAC ||
 		!plan.Configure(rate,channels,samples,initialSkip) || !plan.RawWindow(check,target,decodeFirst))return E_INVALIDARG;
 	m_aacPcmWindow=plan;m_pcmSegment={initialSkip+target,plan.RawEnd(),decodeFirst,rate,true,false,false,false,true};return S_OK;
+}
+STDMETHODIMP CMpaDecFilter::ArmM4AAac(UINT rate,UINT channels,ULONGLONG samples,UINT initialSkip,UINT frameSamples,ULONGLONG target,ULONGLONG decodeFirst)
+{
+    CAutoLock lock(&m_csReceive);harvester::pcm::AacWindow plan;harvester::pcm::Window check;
+    if(m_pcmSegment.received || m_pcmSegment.pending || m_pcmSegment.applied || m_CodecId!=AV_CODEC_ID_AAC ||
+        !plan.ConfigureM4A(rate,channels,samples,initialSkip,frameSamples) || decodeFirst%frameSamples || !plan.RawWindow(check,target,decodeFirst))return E_INVALIDARG;
+    m_aacPcmWindow=plan;m_pcmSegment={initialSkip+target,plan.RawEnd(),decodeFirst,rate,true,false,false,false,true};return S_OK;
 }
 STDMETHODIMP CMpaDecFilter::PcmWindowState(DWORD* flags)
 {

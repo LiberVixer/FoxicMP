@@ -2908,6 +2908,21 @@
         "qtAudioTimestampScaleNanoseconds": 1000,
         "qtSeekTrim": "presentation-samples-before-user-filters"
       }
+    },
+    {
+      "id": "standalone-indexed-m4a-aac",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveM4A.md",
+        "docs/ProgressiveM4AValidation-2026-11-18.json"
+      ],
+      "status": "bounded-existing",
+      "admission": "Ordinary single AAC M4A, only the limits of standalone.m4a; not every MP4 audio codec/layout"
     }
   ],
   "remainingFamilies": [
@@ -2917,7 +2932,7 @@
       "owners": [
         "P02.C149.02"
       ],
-      "status": "not-accepted",
+      "status": "accepted-bounded",
       "requirement": "mandatory",
       "inputs": {
         "containers": [
@@ -2951,13 +2966,14 @@
         "lifecycle",
         "negative-cases",
         "resource-bounds"
-      ]
+      ],
+      "acceptanceEvidence": "docs/ProgressiveM4AValidation-2026-11-18.json",
+      "boundedScope": "AAC-LC/HE-AAC/HE-AAC v2, 44.1/48 kHz mono/stereo, confirmed head/tail sample tables, short audio and exact priming/end trim; limits in standalone.m4a"
     },
     {
       "id": "M02",
       "title": "Обычный MP4 audio-only",
       "owners": [
-        "P02.C149.02",
         "P04.C210.04"
       ],
       "status": "not-accepted",
@@ -2999,7 +3015,8 @@
         "lifecycle",
         "negative-cases",
         "resource-bounds"
-      ]
+      ],
+      "ownerUpdateReason": "P02.C149.02 is the named ordinary M4A AAC work item, closed by M01. Remaining MP4 audio codecs stay with their existing codec/container-matrix owner; no requirement or work ID was removed."
     },
     {
       "id": "M03",
@@ -4617,9 +4634,9 @@
     }
   ],
   "contractDigests": {
-    "commonNative": "8f2c4943e6b68ca275afef7a48e195c90343adff80ffbf2bf329bf66bd4fdf27",
-    "qtNative": "09c23fe501a83b4e5743b4fc6a348a2f81f5c08d7052a6eda415ba7b034f92af",
-    "classicNative": "4169516cb3e3975a94fdf22e45266b5a348586d3b4c8ef3d50f4e801863cb734",
+    "commonNative": "f409b40b0d675b4d25028604465f85ddecc273103a97eec60ac4945c6508b3ea",
+    "qtNative": "094e76ef434f7a5d7a8f6c972434267a2c7a3a522a7bafb7133d6da191dfebe1",
+    "classicNative": "aa617c26db3fec9dc845330e72f029a34daa40cdb072c6a512a6592218b9257f",
     "continuous": "4420c24c1dc40fc495ab9b2d901a71f04be532e663ae9b6d7cc6a0e9db82c79b"
   },
   "capabilityProfileSets": {
@@ -4693,6 +4710,7 @@
       "standalone-fmp4-hevc",
       "standalone-fmp4-opus",
       "standalone-fmp4-vp9",
+      "standalone-indexed-m4a-aac",
       "standalone-mp3",
       "standalone-mp3-indexed",
       "standalone-ogg-opus",
@@ -4780,6 +4798,7 @@
       "standalone-fmp4-hevc",
       "standalone-fmp4-opus",
       "standalone-fmp4-vp9",
+      "standalone-indexed-m4a-aac",
       "standalone-mp3",
       "standalone-mp3-gapless",
       "standalone-mp3-indexed",
@@ -4868,6 +4887,7 @@
       "standalone-fmp4-hevc",
       "standalone-fmp4-opus",
       "standalone-fmp4-vp9",
+      "standalone-indexed-m4a-aac",
       "standalone-mp3",
       "standalone-mp3-gapless",
       "standalone-mp3-indexed",
@@ -5330,5 +5350,19 @@
     "subtitlePairs": "PGS/DVD/ASS/SubRip в Matroska; mov_text/WebVTT в MP4. HTML/XML не загружает внешние ресурсы; fonts не устанавливаются.",
     "editions": "Каждая обязательная положительная строка проверяется отдельно Linux Qt, Windows Qt, Windows Classic. Null/file/software результаты не заменяют physical A/V.",
     "conditionalRows": "T02 и A05 требуют корректного реального или локального reference fixture из предусмотренного ТЗ корпуса. Отсутствие сервиса не отменяет доступный локальный вход; отсутствие fixture фиксируется OPEN."
-  }
+  },
+  "contractHistory": [
+    {
+      "sdkVersion": "1.106",
+      "contractDigests": {
+        "commonNative": "8f2c4943e6b68ca275afef7a48e195c90343adff80ffbf2bf329bf66bd4fdf27",
+        "qtNative": "09c23fe501a83b4e5743b4fc6a348a2f81f5c08d7052a6eda415ba7b034f92af",
+        "classicNative": "4169516cb3e3975a94fdf22e45266b5a348586d3b4c8ef3d50f4e801863cb734",
+        "continuous": "4420c24c1dc40fc495ab9b2d901a71f04be532e663ae9b6d7cc6a0e9db82c79b"
+      },
+      "reason": "Initial frozen source contract, 2026-11-17"
+    }
+  ],
+  "lastUpdated": "2026-11-18",
+  "executionNote": "M01/P02.C149.02 завершён в указанном AAC-объёме. Далее P02.C149.03 (MOV); M02 с остальными MP4 audio-only кодеками остаётся открытым в P04.C210.04."
 }

@@ -121,6 +121,12 @@ QJsonObject Window::progressivePlaybackStatus() const {
     index["gaplessTrimApplied"] = progressiveTracksReady && player->pcmWindowActive();
     result["mp3Index"] = index;
   }
+  if (details.contains("m4aWindow")) {
+    auto window = result.value("m4aWindow").toObject();
+    window["exactTrimApplied"] = progressiveTracksReady && player->pcmWindowActive();
+    window["pcmWindowAdapter"] = "qt-lavfi-absolute-samples-v1";
+    result["m4aWindow"] = window;
+  }
   QJsonArray appliedChapters;
   for(const auto& value:timeline->chapters) {
     const auto chapter=value.toMap();appliedChapters.append(QJsonObject{
@@ -277,6 +283,15 @@ void Window::reloadProgressive(double seconds,const QString &audioPath) {
 AudioPcmWindow Window::progressivePcmWindow(double seconds) const {
   if (!progressive || !std::isfinite(seconds) || seconds < 0) return {};
   const auto details = progressive->playbackDetails();
+  if (details.contains("m4aWindow")) {
+    const auto plan=details.value("m4aWindow").toObject();bool ok=false;
+    const auto samples=plan.value("samples").toString().toULongLong(&ok);const int rate=plan.value("sampleRate").toInt();
+    if(!ok || !samples || (rate!=44100 && rate!=48000))return {};
+    const auto target=quint64(std::min(double(samples-1),std::round(seconds*rate)));
+    // Decode the unedited coded clock, then apply the validated presentation
+    // window once. This avoids libavformat/libmpv edit-list policy differences.
+    return {target,samples,rate,-plan.value("initialSkip").toInt()};
+  }
   if (details.value("mediaMode") != "standalone-mp3-gapless") return {};
   const auto plan = details.value("mp3Index").toObject().value("trimPlan").toObject();
   bool firstOk = false, endOk = false;
@@ -323,8 +338,12 @@ void Window::updateProgressive() {
     return;
   }
   duration = status.duration;
+  const bool m4aSeek=progressive->playbackDetails().contains("m4aWindow");
+  const auto seekDelta=pos-progressiveSeekTarget;
   if (progressiveSeekTarget >= 0 && progressivePendingSeek < 0 &&
-      !player->get("seeking").toBool() && std::abs(pos - progressiveSeekTarget) < .25)
+      !player->get("seeking").toBool() &&
+      (std::abs(seekDelta)<(m4aSeek?.1:.25) ||
+       (m4aSeek && !player->get("pause").toBool() && seekDelta>=0 && seekDelta<.75)))
     progressiveSeekTarget = -1;
   timeline->duration = duration;
   timeline->position = progressiveSeekTarget >= 0 ? progressiveSeekTarget : pos;
@@ -397,15 +416,18 @@ void Window::updateProgressive() {
       sourceUrl+="?start="+QString::number(progressivePendingSeek,'f',9);
       options["start"]=QString::number(progressivePendingSeek,'f',9);
     }
-    if (details.value("mediaMode") == "standalone-mp3-gapless") {
+    if (details.value("mediaMode") == "standalone-mp3-gapless" || details.contains("m4aWindow")) {
+      if (details.contains("m4aWindow")) options["demuxer-lavf-o"] = "fflags=+ignidx,ignore_editlist=yes";
       const auto window = progressivePcmWindow(progressivePendingSeek < 0 ? 0 : progressivePendingSeek);
       if (!window.valid()) {
         progressive->publishedError(uiTr("Недоступны проверенные границы PCM"));
         return;
       }
-      const auto decodeSample = window.begin > quint64(window.sampleRate/4)
+      const auto decodeSample = details.contains("m4aWindow") ? window.begin : window.begin > quint64(window.sampleRate/4)
           ? (window.begin-window.sampleRate/4)/1152*1152 : 0;
-      options["start"] = QString::number(double(decodeSample)/window.sampleRate, 'f', 9);
+      // Initial playback consumes priming without a redundant seek to zero.
+      if (!details.contains("m4aWindow") || window.begin)
+        options["start"] = QString::number(double(decodeSample)/window.sampleRate, 'f', 9);
       options["hr-seek"] = "yes";
       options["hr-seek-demuxer-offset"] = "0.25";
       if (!player->loadPcmWindowSource(sourceUrl, options, window)) {
@@ -515,6 +537,10 @@ void Window::updateProgressive() {
       progressiveBuffering=true;player->set("pause",true);return;
     }
     // Sparse RF64 windows were already loaded with the exact start option.
+    // A superseding M4A request may change the target while a load is pending.
+    // Keep that single load and rearm its exact interval before seeking.
+    if (mediaDetails.contains("m4aWindow") &&
+        !player->retargetPcmWindow(progressivePcmWindow(progressivePendingSeek).begin)) return;
     if (mediaDetails.value("mediaMode") != "standalone-mp3-gapless" &&
         !progressive->sparseRf64() &&
         !player->command({"seek", QString::number(status.timestampOffset + progressivePendingSeek, 'f', 9), "absolute+exact"}))
