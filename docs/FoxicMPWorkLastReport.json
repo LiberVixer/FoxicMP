@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "baselineDate": "2026-11-17",
   "nextWork": {
-    "id": "P02.C149.02",
-    "title": "Обычный M4A: audio-only admission и progressive playback"
+    "id": "P02.C149.03",
+    "title": "MOV: sample entries, edit lists и отличия структуры от MP4"
   },
   "levels": {
     "1": {
@@ -24,9 +24,9 @@
     },
     "3": {
       "total": 353,
-      "done": 144,
-      "remaining": 209,
-      "active": 191,
+      "done": 145,
+      "remaining": 208,
+      "active": 190,
       "blocked": 13,
       "deferred": 5
     }
@@ -842,11 +842,11 @@
     },
     "P02.C149.02": {
       "level": 3,
-      "status": "todo",
+      "status": "done",
       "title": "Обычный M4A: audio-only admission и progressive playback",
       "terminal": true,
       "additionType": "migration",
-      "changeReason": ""
+      "changeReason": "M01: обычный single-track M4A AAC-LC/HE-AAC/PS подключён к native runtime всех трёх редакций: 84 native profiles,156 actual PCM captures,15 ordinary-main,12 Qt controls; bounds/leases/SHA/decoder rejection. M02 с остальными MP4 кодеками сохраняется открытым под прежним P04.C210.04; новый ID не создавался."
     },
     "P02.C149.03": {
       "level": 3,
@@ -5203,22 +5203,22 @@
   },
   "total": {
     "total": 646,
-    "done": 328,
-    "remaining": 318,
-    "active": 281,
+    "done": 329,
+    "remaining": 317,
+    "active": 280,
     "blocked": 22,
     "deferred": 15
   },
   "leaves": {
     "total": 537,
-    "done": 310,
-    "remaining": 227,
-    "active": 202,
+    "done": 311,
+    "remaining": 226,
+    "active": 201,
     "blocked": 13,
     "deferred": 12
   },
   "sourceCheckboxes": 324,
   "sourceLists": 8,
   "aliases": 8,
-  "reportedAtUtc": "2026-11-17T08:00:37.077236+00:00"
+  "reportedAtUtc": "2026-11-18T18:53:50.231968+00:00"
 }
