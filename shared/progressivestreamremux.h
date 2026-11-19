@@ -14,28 +14,35 @@ struct StreamRemuxLimits {
 };
 // Explicit internal selection. Existing callers/public v1 retain the verified
 // no-reorder profile; a manifest or worker reply cannot widen it implicitly.
-enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo, HevcAacWindow, Av1Video, Av1AacWindow, Vp9Video, Vp9AacWindow, Vp9SuperframeVideo, Vp9SuperframeAacWindow, WebmVp9Video, WebmVp9SuperframeVideo, WebmVp9Opus, WebmVp9OpusNtsc, WebmVp9OpusCfr, WebmVp9OpusVfr, WebmVp9OpusSimpleVfr, WebmVp9OpusSimpleAutoVfr, WebmVp9OpusNominalVfr, WebmVp9OpusDerivedAv, WebmVp9OpusPacketClock, WebmVp8Video, WebmVp8Opus, WebmAv1Video, WebmAv1Opus };
+enum class StreamRemuxProfile { H264Video, H264ReorderedVideo, H264AacWindow, HevcReorderedVideo, HevcAacWindow, Av1Video, Av1AacWindow, Vp9Video, Vp9AacWindow, Vp9SuperframeVideo, Vp9SuperframeAacWindow, WebmVp9Video, WebmVp9SuperframeVideo, WebmVp9Opus, WebmVp9OpusNtsc, WebmVp9OpusCfr, WebmVp9OpusVfr, WebmVp9OpusSimpleVfr, WebmVp9OpusSimpleAutoVfr, WebmVp9OpusNominalVfr, WebmVp9OpusDerivedAv, WebmVp9OpusPacketClock, WebmVp8Video, WebmVp8Opus, WebmAv1Video, WebmAv1Opus, WebmVp8Vorbis, WebmVp9Vorbis, WebmAv1Vorbis };
 inline const ContinuousWebmProfile* StreamRemuxWebmProfile(StreamRemuxProfile profile){
     switch(profile){
     case StreamRemuxProfile::WebmVp8Video:return &WebmVp8Video;
     case StreamRemuxProfile::WebmVp8Opus:return &WebmVp8Opus;
     case StreamRemuxProfile::WebmAv1Video:return &WebmAv1Video;
     case StreamRemuxProfile::WebmAv1Opus:return &WebmAv1Opus;
+    case StreamRemuxProfile::WebmVp8Vorbis:return &WebmVp8Vorbis;
+    case StreamRemuxProfile::WebmVp9Vorbis:return &WebmVp9Vorbis;
+    case StreamRemuxProfile::WebmAv1Vorbis:return &WebmAv1Vorbis;
     default:return nullptr;
     }
 }
 inline bool StreamRemuxPacketAudio(StreamRemuxProfile p){
     const auto* webm=StreamRemuxWebmProfile(p);
-    return webm?webm->opus:p==StreamRemuxProfile::WebmVp9OpusPacketClock;
+    return webm?webm->audioCodec=="opus":p==StreamRemuxProfile::WebmVp9OpusPacketClock;
 }
 inline bool StreamRemuxDerivedAudio(StreamRemuxProfile p){return StreamRemuxPacketAudio(p) || p==StreamRemuxProfile::WebmVp9OpusDerivedAv;}
 inline bool StreamRemuxNominal(StreamRemuxProfile profile){return profile==StreamRemuxProfile::WebmVp9OpusNominalVfr;}
 inline bool StreamRemuxAutoCount(StreamRemuxProfile profile){return StreamRemuxWebmProfile(profile) || StreamRemuxDerivedAudio(profile) || StreamRemuxNominal(profile) || profile==StreamRemuxProfile::WebmVp9OpusSimpleAutoVfr;}
 inline bool StreamRemuxIsOpus(StreamRemuxProfile profile){
-    if(const auto* webm=StreamRemuxWebmProfile(profile))return webm->opus;
+    if(const auto* webm=StreamRemuxWebmProfile(profile))return webm->audioCodec=="opus";
     return StreamRemuxAutoCount(profile) || profile==StreamRemuxProfile::WebmVp9OpusSimpleVfr || profile==StreamRemuxProfile::WebmVp9OpusVfr || profile==StreamRemuxProfile::WebmVp9OpusCfr || profile==StreamRemuxProfile::WebmVp9Opus || profile==StreamRemuxProfile::WebmVp9OpusNtsc;
 }
-inline bool StreamRemuxHasAudio(StreamRemuxProfile profile){return StreamRemuxIsOpus(profile) || profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcAacWindow || profile==StreamRemuxProfile::Av1AacWindow || profile==StreamRemuxProfile::Vp9AacWindow || profile==StreamRemuxProfile::Vp9SuperframeAacWindow;}
+inline bool StreamRemuxIsVorbis(StreamRemuxProfile profile){
+    const auto* webm=StreamRemuxWebmProfile(profile);
+    return webm && webm->audioCodec=="vorbis";
+}
+inline bool StreamRemuxHasAudio(StreamRemuxProfile profile){return StreamRemuxIsVorbis(profile) || StreamRemuxIsOpus(profile) || profile==StreamRemuxProfile::H264AacWindow || profile==StreamRemuxProfile::HevcAacWindow || profile==StreamRemuxProfile::Av1AacWindow || profile==StreamRemuxProfile::Vp9AacWindow || profile==StreamRemuxProfile::Vp9SuperframeAacWindow;}
 inline bool StreamRemuxIsHevc(StreamRemuxProfile profile){return profile==StreamRemuxProfile::HevcReorderedVideo || profile==StreamRemuxProfile::HevcAacWindow;}
 inline bool StreamRemuxIsAv1(StreamRemuxProfile profile){return profile==StreamRemuxProfile::Av1Video || profile==StreamRemuxProfile::Av1AacWindow;}
 inline bool StreamRemuxIsWebm(StreamRemuxProfile profile){return StreamRemuxWebmProfile(profile) || StreamRemuxIsOpus(profile) || profile==StreamRemuxProfile::WebmVp9Video || profile==StreamRemuxProfile::WebmVp9SuperframeVideo;}
@@ -44,7 +51,7 @@ inline bool StreamRemuxTrackCodec(StreamRemuxProfile profile,const std::string& 
     const auto* webm=StreamRemuxWebmProfile(profile);
     const bool hevc=StreamRemuxIsHevc(profile),av1=StreamRemuxIsAv1(profile),vp9=StreamRemuxIsVp9(profile);
     if(codec.empty())return !webm && !hevc && !av1 && !vp9;
-    if(kind=="audio")return codec==(StreamRemuxIsOpus(profile)?"opus":"aac-lc");
+    if(kind=="audio")return webm?codec==webm->audioCodec:codec==(StreamRemuxIsOpus(profile)?"opus":"aac-lc");
     return codec==(webm?webm->codec:vp9?"vp9":av1?"av1":hevc?"hevc":"h264");
 }
 inline const char* StreamRemuxMode(StreamRemuxProfile profile){
@@ -150,7 +157,7 @@ private:
     std::string execute() {
         process_detail::Process child(executable,cancelled,{limits.lifetime,limits.operation});
         uint64_t totalRead=0,totalWritten=0;Sha256 digest;StreamAudioWindow audio;
-        const bool hasAudio=StreamRemuxHasAudio(profile) && !StreamRemuxIsOpus(profile);
+        const bool hasAudio=StreamRemuxHasAudio(profile) && !StreamRemuxIsOpus(profile) && !StreamRemuxIsVorbis(profile);
         {
             std::lock_guard<std::mutex> lock(mutex);check();state.workerId=child.id();state.code="running";
             const auto& r=snapshot.resources.at(resourceId);
@@ -262,7 +269,7 @@ public:
         Require(!snapshot.live && snapshot.resources.count(resourceId),"streamRemux","Expected local non-live resource","unsupported-stream-source");
         const bool hasAudio=StreamRemuxHasAudio(profile);
         const bool hevc=StreamRemuxIsHevc(profile),av1=StreamRemuxIsAv1(profile),vp9=StreamRemuxIsVp9(profile);
-        Require(StreamRemuxIsOpus(profile) || !hasAudio || bool(audioSink),"streamRemux","AAC window consumer required","invalid_request");
+        Require(StreamRemuxIsOpus(profile) || StreamRemuxIsVorbis(profile) || !hasAudio || bool(audioSink),"streamRemux","AAC window consumer required","invalid_request");
         Require(snapshot.tracks.size()==(hasAudio?2u:1u),"streamRemux","Unexpected continuous track count","unsupported-stream-source");
         std::set<std::string> kinds;
         for(const auto& item:snapshot.tracks){const auto& track=item.second;

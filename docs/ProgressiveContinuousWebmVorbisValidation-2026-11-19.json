@@ -1,0 +1,603 @@
+{
+  "result": "PASS",
+  "date": "2026-11-19",
+  "applicationVersion": "0.2.0",
+  "sdkVersion": "1.110",
+  "acceptedFamilies": [
+    "W02"
+  ],
+  "workIds": [
+    "P02.C149.05"
+  ],
+  "editions": {
+    "linux-qt": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "e3c354c2f6b6261dbc436f1f65a0bd6178d0db2bd8dee36ea857c57538f1ec5c",
+      "testOutput": "private X11/D-Bus/PulseAudio",
+      "ordinaryMain": [
+        {
+          "case": "av1-vorbis-simple",
+          "mode": "continuous-webm-av1-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "1f7e4ab55422eba61ed4047b2d2a092cd2ad18d1a9b3b0cd5a7770876788b5ec",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-vorbis-groups",
+          "mode": "continuous-webm-av1-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "db667f394ba95248b02d3ac74aba45b1d8fdc43c09f4061da64c8623d8c45f9b",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-vorbis-trim",
+          "mode": "continuous-webm-av1-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "c7a14d02e35df3247b228003ca26807d043270890c961c637c0544033334c21c",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-vorbis-simple",
+          "mode": "continuous-webm-vp8-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "b667fd8043e01528825542433a24419c15107407289a189935cf84f2583ce143",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-vorbis-groups",
+          "mode": "continuous-webm-vp8-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "f01beb6d009ac8797ab306770593afee32bf4a51519052f461e589fa0e6d7781",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-vorbis-trim",
+          "mode": "continuous-webm-vp8-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "8ce8ef90069d1c29ef8d07764f7e451d896ad68a40c9b07beb6325f2c13430bd",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp9-vorbis-simple",
+          "mode": "continuous-webm-vp9-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "17c98da91ae50fc76023f5fc8e5e38fdf03030a102ede70fea7db5356cac0782",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp9-vorbis-groups",
+          "mode": "continuous-webm-vp9-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "7b1bc35838114f9bafa470cb52dffbc2cab0946d23988e04a791b4ac4e776a21",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp9-vorbis-trim",
+          "mode": "continuous-webm-vp9-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "d0c0360525d9e4b5ee35eb8e6be06de789dd43d48a9f1beda35cf8ca5a7422fb",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        }
+      ],
+      "workerValidation": "linux"
+    },
+    "windows-qt": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "5785b5fc1831835c45e1a19d15ffa6ca3281706c9ddb46073a1f8aed506474be",
+      "testOutput": "offscreen Qt with private test profile",
+      "ordinaryMain": [
+        {
+          "case": "vp8-vorbis-simple",
+          "mode": "continuous-webm-vp8-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "b667fd8043e01528825542433a24419c15107407289a189935cf84f2583ce143",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-vorbis-groups",
+          "mode": "continuous-webm-vp8-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "f01beb6d009ac8797ab306770593afee32bf4a51519052f461e589fa0e6d7781",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-vorbis-trim",
+          "mode": "continuous-webm-vp8-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "8ce8ef90069d1c29ef8d07764f7e451d896ad68a40c9b07beb6325f2c13430bd",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp9-vorbis-simple",
+          "mode": "continuous-webm-vp9-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "17c98da91ae50fc76023f5fc8e5e38fdf03030a102ede70fea7db5356cac0782",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp9-vorbis-groups",
+          "mode": "continuous-webm-vp9-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "7b1bc35838114f9bafa470cb52dffbc2cab0946d23988e04a791b4ac4e776a21",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp9-vorbis-trim",
+          "mode": "continuous-webm-vp9-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "d0c0360525d9e4b5ee35eb8e6be06de789dd43d48a9f1beda35cf8ca5a7422fb",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-vorbis-simple",
+          "mode": "continuous-webm-av1-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "1f7e4ab55422eba61ed4047b2d2a092cd2ad18d1a9b3b0cd5a7770876788b5ec",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-vorbis-groups",
+          "mode": "continuous-webm-av1-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "db667f394ba95248b02d3ac74aba45b1d8fdc43c09f4061da64c8623d8c45f9b",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-vorbis-trim",
+          "mode": "continuous-webm-av1-vorbis-v1",
+          "beforeCompleteSeconds": 10.123,
+          "sourceSha256": "c7a14d02e35df3247b228003ca26807d043270890c961c637c0544033334c21c",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        }
+      ],
+      "workerValidation": "windows"
+    },
+    "windows-classic": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "b023d643e807f3dafc98fe69d31f6efe13bf954b1330da2a4f5c8e4e53621e01",
+      "testOutput": "DirectShow null renderers with private INI",
+      "ordinaryMain": [
+        {
+          "case": "vp8-vorbis-simple",
+          "mode": "continuous-webm-vp8-vorbis-v1",
+          "beforeCompleteSeconds": 10.129,
+          "sourceSha256": "b667fd8043e01528825542433a24419c15107407289a189935cf84f2583ce143",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-vorbis-groups",
+          "mode": "continuous-webm-vp8-vorbis-v1",
+          "beforeCompleteSeconds": 10.142,
+          "sourceSha256": "f01beb6d009ac8797ab306770593afee32bf4a51519052f461e589fa0e6d7781",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-vorbis-trim",
+          "mode": "continuous-webm-vp8-vorbis-v1",
+          "beforeCompleteSeconds": 10.125,
+          "sourceSha256": "8ce8ef90069d1c29ef8d07764f7e451d896ad68a40c9b07beb6325f2c13430bd",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp9-vorbis-simple",
+          "mode": "continuous-webm-vp9-vorbis-v1",
+          "beforeCompleteSeconds": 10.124,
+          "sourceSha256": "17c98da91ae50fc76023f5fc8e5e38fdf03030a102ede70fea7db5356cac0782",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp9-vorbis-groups",
+          "mode": "continuous-webm-vp9-vorbis-v1",
+          "beforeCompleteSeconds": 10.145,
+          "sourceSha256": "7b1bc35838114f9bafa470cb52dffbc2cab0946d23988e04a791b4ac4e776a21",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp9-vorbis-trim",
+          "mode": "continuous-webm-vp9-vorbis-v1",
+          "beforeCompleteSeconds": 10.144,
+          "sourceSha256": "d0c0360525d9e4b5ee35eb8e6be06de789dd43d48a9f1beda35cf8ca5a7422fb",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-vorbis-simple",
+          "mode": "continuous-webm-av1-vorbis-v1",
+          "beforeCompleteSeconds": 10.103,
+          "sourceSha256": "1f7e4ab55422eba61ed4047b2d2a092cd2ad18d1a9b3b0cd5a7770876788b5ec",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-vorbis-groups",
+          "mode": "continuous-webm-av1-vorbis-v1",
+          "beforeCompleteSeconds": 10.146,
+          "sourceSha256": "db667f394ba95248b02d3ac74aba45b1d8fdc43c09f4061da64c8623d8c45f9b",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-vorbis-trim",
+          "mode": "continuous-webm-av1-vorbis-v1",
+          "beforeCompleteSeconds": 10.102,
+          "sourceSha256": "c7a14d02e35df3247b228003ca26807d043270890c961c637c0544033334c21c",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        }
+      ],
+      "workerValidation": "windows",
+      "installedShellRegistrationUnchanged": true
+    }
+  },
+  "workerRuns": {
+    "linux": {
+      "result": "PASS",
+      "exitCode": 0,
+      "rows": [
+        {
+          "case": "vp8-vorbis-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "481917",
+          "bytesWritten": "485065"
+        },
+        {
+          "case": "vp8-vorbis-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "485044",
+          "bytesWritten": "485044"
+        },
+        {
+          "case": "vp8-vorbis-trim",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "485058",
+          "bytesWritten": "485058"
+        },
+        {
+          "case": "vp9-vorbis-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "439006",
+          "bytesWritten": "442153"
+        },
+        {
+          "case": "vp9-vorbis-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "442132",
+          "bytesWritten": "442132"
+        },
+        {
+          "case": "vp9-vorbis-trim",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "442146",
+          "bytesWritten": "442146"
+        },
+        {
+          "case": "av1-vorbis-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "218129",
+          "bytesWritten": "218081"
+        },
+        {
+          "case": "av1-vorbis-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "218060",
+          "bytesWritten": "218060"
+        },
+        {
+          "case": "av1-vorbis-trim",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "218074",
+          "bytesWritten": "218074"
+        }
+      ],
+      "rejected": {
+        "clock-gap": {
+          "exitCode": 1,
+          "reason": "unsupported-stream-webm-vorbis-clock"
+        },
+        "invalid-padding": {
+          "exitCode": 1,
+          "reason": "unsupported-stream-webm-vorbis-clock"
+        },
+        "invalid-codec-private": {
+          "exitCode": 1,
+          "reason": "unsupported-stream-webm-configuration"
+        },
+        "cluster-limit": {
+          "exitCode": 1,
+          "reason": "stream-webm-cluster-limit"
+        },
+        "wrong-audio-hint": {
+          "exitCode": 1,
+          "reason": "unsupported-stream-webm-configuration"
+        },
+        "cancel-wait": {
+          "exitCode": 1,
+          "reason": "cancelled"
+        },
+        "unconfirmed-eof": {
+          "exitCode": 1,
+          "reason": "unconfirmed-eof"
+        },
+        "integrity-mismatch": {
+          "exitCode": 1,
+          "reason": "integrity-mismatch"
+        }
+      }
+    },
+    "windows": {
+      "result": "PASS",
+      "exitCode": 0,
+      "rows": [
+        {
+          "case": "vp8-vorbis-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "481917",
+          "bytesWritten": "485065"
+        },
+        {
+          "case": "vp8-vorbis-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "485044",
+          "bytesWritten": "485044"
+        },
+        {
+          "case": "vp8-vorbis-trim",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "485058",
+          "bytesWritten": "485058"
+        },
+        {
+          "case": "vp9-vorbis-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "439006",
+          "bytesWritten": "442153"
+        },
+        {
+          "case": "vp9-vorbis-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "442132",
+          "bytesWritten": "442132"
+        },
+        {
+          "case": "vp9-vorbis-trim",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "442146",
+          "bytesWritten": "442146"
+        },
+        {
+          "case": "av1-vorbis-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "218129",
+          "bytesWritten": "218081"
+        },
+        {
+          "case": "av1-vorbis-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "218060",
+          "bytesWritten": "218060"
+        },
+        {
+          "case": "av1-vorbis-trim",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "218074",
+          "bytesWritten": "218074"
+        }
+      ],
+      "rejected": {
+        "clock-gap": {
+          "exitCode": 1,
+          "reason": "unsupported-stream-webm-vorbis-clock"
+        },
+        "invalid-padding": {
+          "exitCode": 1,
+          "reason": "unsupported-stream-webm-vorbis-clock"
+        },
+        "invalid-codec-private": {
+          "exitCode": 1,
+          "reason": "unsupported-stream-webm-configuration"
+        },
+        "cluster-limit": {
+          "exitCode": 1,
+          "reason": "stream-webm-cluster-limit"
+        },
+        "wrong-audio-hint": {
+          "exitCode": 1,
+          "reason": "unsupported-stream-webm-configuration"
+        },
+        "cancel-wait": {
+          "exitCode": 1,
+          "reason": "cancelled"
+        },
+        "unconfirmed-eof": {
+          "exitCode": 1,
+          "reason": "unconfirmed-eof"
+        },
+        "integrity-mismatch": {
+          "exitCode": 1,
+          "reason": "integrity-mismatch"
+        }
+      }
+    }
+  },
+  "counts": {
+    "ordinaryMain": 27,
+    "workerProfiles": 18,
+    "workerRejections": 16
+  },
+  "fixtureSha256": {
+    "av1-vorbis-groups": "db667f394ba95248b02d3ac74aba45b1d8fdc43c09f4061da64c8623d8c45f9b",
+    "av1-vorbis-simple": "1f7e4ab55422eba61ed4047b2d2a092cd2ad18d1a9b3b0cd5a7770876788b5ec",
+    "av1-vorbis-trim": "c7a14d02e35df3247b228003ca26807d043270890c961c637c0544033334c21c",
+    "vp8-vorbis-groups": "f01beb6d009ac8797ab306770593afee32bf4a51519052f461e589fa0e6d7781",
+    "vp8-vorbis-simple": "b667fd8043e01528825542433a24419c15107407289a189935cf84f2583ce143",
+    "vp8-vorbis-trim": "8ce8ef90069d1c29ef8d07764f7e451d896ad68a40c9b07beb6325f2c13430bd",
+    "vp9-vorbis-groups": "7b1bc35838114f9bafa470cb52dffbc2cab0946d23988e04a791b4ac4e776a21",
+    "vp9-vorbis-simple": "17c98da91ae50fc76023f5fc8e5e38fdf03030a102ede70fea7db5356cac0782",
+    "vp9-vorbis-trim": "d0c0360525d9e4b5ee35eb8e6be06de789dd43d48a9f1beda35cf8ca5a7422fb"
+  },
+  "binaries": {
+    "_bin/continuous-aac-qt-linux/foxicmp-qt": "e3c354c2f6b6261dbc436f1f65a0bd6178d0db2bd8dee36ea857c57538f1ec5c",
+    "_bin/continuous-aac-qt-linux/foxicmp-remux-stream-worker": "11533afc4b71cc1333ede26e33f5de9b7c77d2839497dfb2aecf886bf6214aa4",
+    "_bin/m4a-qt-windows-stage/FoxicMPq.exe": "5785b5fc1831835c45e1a19d15ffa6ca3281706c9ddb46073a1f8aed506474be",
+    "_bin/m4a-classic-windows-stage/FoxicMP64.exe": "b023d643e807f3dafc98fe69d31f6efe13bf954b1330da2a4f5c8e4e53621e01",
+    "_bin/continuous-aac-qt-windows/foxicmp-remux-stream-worker.exe": "91ebb4ea9517ec3754e8b1839efb9837450dd196f9aeace5d0b5f0d8137fe973"
+  },
+  "testedSourceSha256": {
+    "qt/CMakeLists.txt": "e01ebf0b06bc964adf7bcfe2970e051442044d557bee4098061501f5e74c30f0",
+    "qt/tools/progressive_continuous.py": "faf96ac16757617c6c5f399097f616289ee205b9eba11e0e03ba733c8ceaee87",
+    "shared/progressivecachedremux.h": "1a1ddeb55eeb935c219481326dc61d8923be48dc5c99fd1377eb9f46f08a423c",
+    "shared/progressivestreamcache.h": "3b1fdd3e81bc01ea5860c1adc1eafa98f0499d6d9681d046363aac345cdc36e9",
+    "shared/progressivestreamcontroller.h": "abdc11c2bb8f47d1ae40e71fa859daa13eb861297bfd57033b89314e09116aa0",
+    "shared/progressivestreamdecoder.h": "998a168151691248750d2efdf647a63d9971094a155ff1fbd4e1a7364aec440a",
+    "shared/progressivestreamremux.h": "06e65e185501bf45b2fb926a28e27683d18b035fd1b08c2e323068b5e749f6ff",
+    "shared/progressivestreamwebm.h": "da4241098075d71646d935a7b76c1c33c32bb0714800adce809384d769a321f1",
+    "src/DSUtil/HarvesterSession.cpp": "4f44fcb60316be2363e4e0fae9fc0359384323b1e0186b7cb606a47c94ab79f3",
+    "src/DSUtil/HarvesterWebMContinuousClock.h": "38d5ab43f18c53b037dfeb3019346511131f5b057cce0b820986b6bd6c5f0fdd",
+    "src/DSUtil/HarvesterWebMOpusContinuous.h": "28934444ad401f995d7fad6c65b74840b62ed3b10d36f3d20ed4848e751e8343",
+    "tests/progressive_continuous_sdk_test.py": "544627abbc5819038a7a6b57a41bebcdd3ea5c216907a8c0081a44b5b983e149",
+    "tests/progressive_continuous_webm_video_test.py": "a2ef4bf72146f9c73a9790b70c558d0206039a881d51957c34eef180e1694051",
+    "tools/package_progressive_sdk.py": "8229c0f03b33cdec51f52cca5c8054e28219e1fd67c3efc7721d1e23a379dbd0",
+    "tools/progressive_stream_remux_worker.cpp": "7cbe8c8fd705a14e10cedb5ad3c2784c7d576bf82c2c303afab069a36361c7a8",
+    "tools/verify_progressive_sdk.py": "522f754871231921018f1cfbb5df5d3cafd6c13064e38193b37615373381dbd2"
+  },
+  "regressions": {
+    "webmVp8Av1LinuxExitCode": 0,
+    "sdk": {
+      "exitCode": 0,
+      "tests": 66
+    }
+  },
+  "scope": [
+    "Synthetic VFR at 1 ms time scale with VP8 and VP9 8-bit and AV1 Main 10-bit",
+    "Vorbis mono/stereo at 48 kHz; finite and unknown Clusters, CodecDelay, terminal DiscardPadding",
+    "No Windows physical audio or physical A/V sync test"
+  ]
+}

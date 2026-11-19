@@ -183,7 +183,7 @@ bool CHarvesterSession::AllowsPcm24Fragments(int track) const {return m_v2Bridge
 bool CHarvesterSession::AllowsPcmFragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="pcm-s16le";}
 bool CHarvesterSession::AllowsFlacFragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="flac";}
 bool CHarvesterSession::AllowsMp3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="mp3";}
-std::string CHarvesterSession::WebMCodec(int track) const {return m_continuousSource && !m_continuousSource->webmVideoCodec().empty()?(track?"opus":m_continuousSource->webmVideoCodec()):!m_v2Bridge?std::string():(track || m_v2Bridge->isStandaloneAudio())?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
+std::string CHarvesterSession::WebMCodec(int track) const {return m_continuousSource && !m_continuousSource->webmVideoCodec().empty()?(track?(m_continuousSource->vorbisAudio()?"vorbis":"opus"):m_continuousSource->webmVideoCodec()):!m_v2Bridge?std::string():(track || m_v2Bridge->isStandaloneAudio())?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
 bool CHarvesterSession::IsWebM(int track) const {return (m_continuousSource && !m_continuousSource->webmVideoCodec().empty()) || (m_v2Bridge && m_v2Bridge->isWebm(track));}
 bool CHarvesterSession::AllowsHevcFragments() const {return (m_v2Bridge && m_v2Bridge->videoCodec()=="hevc") || (m_continuousSource && m_continuousSource->hevcVideo());}
 bool CHarvesterSession::AllowsMpeg4VisualFragments() const {

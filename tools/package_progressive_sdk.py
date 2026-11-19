@@ -10,6 +10,8 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveContinuousWebmVorbis.md': 'docs/ProgressiveContinuousWebmVorbis.md',
+    'ProgressiveContinuousWebmVorbisValidation-2026-11-19.json': 'docs/ProgressiveContinuousWebmVorbisValidation-2026-11-19.json',
     'ProgressiveContinuousWebmVp8Av1.md': 'docs/ProgressiveContinuousWebmVp8Av1.md',
     'ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json': 'docs/ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json',
     'ProgressiveIndexedMOV.md': 'docs/ProgressiveIndexedMOV.md',
@@ -338,7 +340,7 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.109', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.110', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(), qtSchema2Playback=qt_schema2_playback(), classicSchema2Playback=classic_schema2_playback(),

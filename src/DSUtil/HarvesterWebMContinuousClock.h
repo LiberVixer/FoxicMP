@@ -3,6 +3,7 @@
 #pragma once
 #include <cstdint>
 namespace harvester {
+inline constexpr uint64_t WebmVorbisMaxVideoLeadMs=100;
 struct WebmContinuousClock {
     uint32_t numerator=25,denominator=1;
     bool explicitRate=false;

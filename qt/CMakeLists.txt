@@ -1062,6 +1062,21 @@ if(BUILD_TESTING AND TARGET foxicmp-progressive-media-tests)
     progressive-continuous-webm-vp8-av1-player PROPERTIES TIMEOUT 300
     ENVIRONMENT "PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR}/tools")
  endif()
+ set(FOXICMP_TEST_CONTINUOUS_VORBIS_CORPUS "" CACHE PATH "Prepared continuous WebM/Vorbis corpus")
+ if(FOXICMP_TEST_CONTINUOUS_VORBIS_CORPUS AND TARGET foxicmp-remux-stream-worker)
+  set(vorbis_test "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_continuous_webm_video_test.py")
+  add_test(NAME progressive-continuous-webm-vorbis-worker
+    COMMAND "${Python3_EXECUTABLE}" "${vorbis_test}" --vorbis --corpus "${FOXICMP_TEST_CONTINUOUS_VORBIS_CORPUS}"
+      --worker "$<TARGET_FILE:foxicmp-remux-stream-worker>"
+      --report "${CMAKE_CURRENT_BINARY_DIR}/webm-vorbis-worker/result.json")
+  add_test(NAME progressive-continuous-webm-vorbis-player
+    COMMAND "${Python3_EXECUTABLE}" "${vorbis_test}" --vorbis --corpus "${FOXICMP_TEST_CONTINUOUS_VORBIS_CORPUS}"
+      --edition qt --player "$<TARGET_FILE:foxicmp-qt>" --reader-runner "$<TARGET_FILE:foxicmp-progressive-reader-tests>"
+      --report "${CMAKE_CURRENT_BINARY_DIR}/webm-vorbis-player/result.json")
+  set_tests_properties(progressive-continuous-webm-vorbis-worker
+    progressive-continuous-webm-vorbis-player PROPERTIES TIMEOUT 300
+    ENVIRONMENT "PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR}/tools")
+ endif()
  set(FOXICMP_TEST_MOV_CORPUS "" CACHE PATH "Prepared synthetic MOV test corpus")
  if(FOXICMP_TEST_MOV_CORPUS)
   set(mov_test "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_indexed_mov_test.py")

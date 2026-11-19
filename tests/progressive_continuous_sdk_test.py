@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
 from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE,WEBM_VP9_OPUS_DERIVED_AV_MODE,WEBM_VP9_OPUS_PACKET_CLOCK_MODE
 from progressive_client import ApiError
-from progressive_continuous import EXTENDED_WEBM_PROFILES
+from progressive_continuous import EXTENDED_WEBM_PROFILES, VORBIS_WEBM_PROFILES
 
 CAP = json.loads(''.join(re.findall(r'R"\((.*?)\)"',
     (ROOT/'shared/progressivestreamcapabilities.h').read_text(), re.S)))
@@ -49,7 +49,7 @@ class Client:
         if result.get('mode') in EXTENDED_WEBM_PROFILES:
             audio = EXTENDED_WEBM_PROFILES[result['mode']]['audio']
             result.update(audio=audio, indexedVideoSamples='600', videoSampleCountFinal=self.complete)
-            if audio:
+            if audio and result['mode'] not in VORBIS_WEBM_PROFILES:
                 result.update(indexedAudioSamples='1152000', audioSampleCountFinal=self.complete,
                               audioTrackEndObserved=self.complete)
         if self.foreign:result['generation'] = '2'

@@ -2030,3 +2030,12 @@ P02.C149.04 закрывает W01 в [медиа-матрице](ProgressiveReq
 [Приёмка](ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json) включает
 воспроизведение до завершения загрузки и управление в каждой редакции.
 Следующий пункт реестра P02.C149.05 посвящён continuous WebM/Vorbis.
+
+## 19 ноября 2026. Непрерывное воспроизведение WebM/Vorbis
+
+P02.C149.05 закрывает W02. [SDK 1.110](ProgressiveContinuousWebmVorbis.md)
+поддерживает VP8, VP9 и AV1 с Vorbis в трёх редакциях. Проверены растущий
+файл, перемотка, обе формы кластеров, начальная задержка и конечная обрезка
+аудио. [Результаты](ProgressiveContinuousWebmVorbisValidation-2026-11-19.json)
+
+Следующий пункт P02.C149.06 касается Matroska H.264/HEVC.

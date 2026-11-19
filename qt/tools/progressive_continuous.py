@@ -19,11 +19,16 @@ WEBM_VP8_MODE = 'continuous-webm-vp8-video-v1'
 WEBM_VP8_OPUS_MODE = 'continuous-webm-vp8-opus-v1'
 WEBM_AV1_MODE = 'continuous-webm-av1-video-v1'
 WEBM_AV1_OPUS_MODE = 'continuous-webm-av1-opus-v1'
+VORBIS_WEBM_PROFILES = {
+    f'continuous-webm-{codec}-vorbis-v1': dict(videoCodec=codec, audio=True, audioCodec='vorbis')
+    for codec in ('vp8', 'vp9', 'av1')
+}
 EXTENDED_WEBM_PROFILES = {
     WEBM_VP8_MODE: dict(videoCodec='vp8', audio=False),
     WEBM_VP8_OPUS_MODE: dict(videoCodec='vp8', audio=True),
     WEBM_AV1_MODE: dict(videoCodec='av1', audio=False),
     WEBM_AV1_OPUS_MODE: dict(videoCodec='av1', audio=True),
+    **VORBIS_WEBM_PROFILES,
 }
 REORDERED_MODE = 'continuous-h264-reordered-video-v1'
 AAC_MODE = 'continuous-h264-aac-window-v1'
@@ -168,6 +173,10 @@ class ContinuousRemux:
                             opusPreSkipSamples=[120,312], discardPaddingPreserved=True,
                             maxInputBytes=134217728, maxOutputBytes=67108864, maxPackets=50000,
                             maxInitializationBytes=1048576, maxClusterBytes=16777216)
+            if mode in VORBIS_WEBM_PROFILES:
+                required['vorbis'] = dict(sampleRate=48000, channels=[1,2],
+                            codecDelay='whole-samples-up-to-half-largest-block',
+                            seekPreroll='previous-overlap-window', maxInitialVideoOffsetMilliseconds=100)
             if (not isinstance(profiles, dict)
                     or not _exact_contract(profiles.get(mode), EXTENDED_WEBM_PROFILES[mode])
                     or any(not _exact_contract(extension.get(key), value) for key, value in required.items())):
@@ -304,7 +313,7 @@ class ContinuousRemux:
                     or reply['videoSampleCountFinal'] is not reply['outputComplete']
                     or (reply['videoSampleCountFinal'] and int(count)==0) or 'videoSamples' in reply):
                 raise RuntimeError('Invalid derived video sample status')
-        if (extended and extended['audio']) or self.mode in (WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE):
+        if (extended and extended['audio'] and self.mode not in VORBIS_WEBM_PROFILES) or self.mode in (WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE):
             count=reply.get('indexedAudioSamples')
             if (not isinstance(count,str) or not count.isascii() or not count.isdecimal()
                     or (count!='0' and count.startswith('0')) or len(count)>8 or int(count)>48000000

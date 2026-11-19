@@ -20,7 +20,7 @@ public:
         Require(bool(owner),"remuxCache","Cache service owner required","invalid_request");
         const auto model=Parse(json);clock=StreamRemuxClock(profile,clock);
         const auto* webm=StreamRemuxWebmProfile(profile);
-        output=owner->create(cache,registry,model.id,model.generation,outputLimit,StreamRemuxIsHevc(profile),StreamRemuxIsAv1(profile),profile==StreamRemuxProfile::Av1AacWindow,StreamRemuxIsVp9(profile),StreamRemuxIsVp9(profile) && StreamRemuxHasAudio(profile) && !StreamRemuxIsOpus(profile),opusSamples,profile==StreamRemuxProfile::WebmVp9OpusNtsc,clock,webm?webm->codec:nullptr);
+        output=owner->create(cache,registry,model.id,model.generation,outputLimit,StreamRemuxIsHevc(profile),StreamRemuxIsAv1(profile),profile==StreamRemuxProfile::Av1AacWindow,StreamRemuxIsVp9(profile),StreamRemuxIsVp9(profile) && StreamRemuxHasAudio(profile) && !StreamRemuxIsOpus(profile),opusSamples,profile==StreamRemuxProfile::WebmVp9OpusNtsc,clock,webm);
         try{
             producer=std::make_unique<StreamRemuxSession>(directory,registry,json,resource,child,[store=output](uint64_t at,const std::vector<char>& bytes){store->append(at,bytes);},limits,profile,[store=output](const StreamAudioWindow& plan){store->acceptAudioWindow(plan);},opusSamples,clock);
             finalizer=std::thread([this,profile]{

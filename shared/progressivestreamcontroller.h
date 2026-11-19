@@ -109,7 +109,9 @@ class ContinuousRemuxController {
                     // AAC admission needs the immutable, SHA-validated window.
                     // Status/publications stay live while initialization is pending.
                     if(!decoder && StreamRemuxHasAudio(selected) && !cancel.load() && !stop.load() && !forget.load()
-                        && v.error.empty() && v.native.output.initialized && v.native.output.fragments && (!StreamRemuxIsOpus(selected) || (v.native.output.videoSamples && v.native.output.audioSamples && (!videoClock.derivedAudio || v.native.output.audioPresentationSamples>648))) && v.native.output.failure.empty())decoder=session->decoderSource(true);
+                        && v.error.empty() && v.native.output.initialized && v.native.output.fragments && (!StreamRemuxIsOpus(selected) || (v.native.output.videoSamples && v.native.output.audioSamples && (!videoClock.derivedAudio || v.native.output.audioPresentationSamples>648))) && (!StreamRemuxIsVorbis(selected) || (v.native.output.videoSamples && v.native.output.audioSamples>=2
+                            && v.native.output.audioIndexedEnd100ns>0))
+                        && v.native.output.failure.empty())decoder=session->decoderSource(true);
                     if(v.native.done){
                         v.terminal=true;
                         if(v.error.empty())v.error=v.native.source.code!="data"?v.native.source.code:v.native.output.failure;
@@ -245,6 +247,9 @@ public:
                     webm==&WebmVp8Opus?StreamRemuxProfile::WebmVp8Opus:
                     webm==&WebmAv1Video?StreamRemuxProfile::WebmAv1Video:
                     webm==&WebmAv1Opus?StreamRemuxProfile::WebmAv1Opus:
+                    webm==&WebmVp8Vorbis?StreamRemuxProfile::WebmVp8Vorbis:
+                    webm==&WebmVp9Vorbis?StreamRemuxProfile::WebmVp9Vorbis:
+                    webm==&WebmAv1Vorbis?StreamRemuxProfile::WebmAv1Vorbis:
                     mode=="continuous-webm-vp9-opus-packet-clock-v1"?StreamRemuxProfile::WebmVp9OpusPacketClock:mode=="continuous-webm-vp9-opus-simple-vfr-derived-av-v1"?StreamRemuxProfile::WebmVp9OpusDerivedAv:mode=="continuous-webm-vp9-opus-simple-vfr-nominal-v1"?StreamRemuxProfile::WebmVp9OpusNominalVfr:mode=="continuous-webm-vp9-opus-simple-vfr-auto-count-v1"?StreamRemuxProfile::WebmVp9OpusSimpleAutoVfr:mode=="continuous-webm-vp9-opus-simple-vfr-v1"?StreamRemuxProfile::WebmVp9OpusSimpleVfr:mode=="continuous-webm-vp9-opus-vfr-v1"?StreamRemuxProfile::WebmVp9OpusVfr:mode=="continuous-webm-vp9-opus-cfr-v1"?StreamRemuxProfile::WebmVp9OpusCfr:mode=="continuous-webm-vp9-opus-ntsc-v1"?StreamRemuxProfile::WebmVp9OpusNtsc:mode=="continuous-webm-vp9-opus-v1"?StreamRemuxProfile::WebmVp9Opus:mode=="continuous-webm-vp9-superframe-video-v1"?StreamRemuxProfile::WebmVp9SuperframeVideo:mode=="continuous-webm-vp9-video-v1"?StreamRemuxProfile::WebmVp9Video:mode=="continuous-vp9-superframe-aac-window-v1"?StreamRemuxProfile::Vp9SuperframeAacWindow:mode=="continuous-vp9-superframe-video-v1"?StreamRemuxProfile::Vp9SuperframeVideo:mode=="continuous-vp9-aac-window-v1"?StreamRemuxProfile::Vp9AacWindow:mode=="continuous-vp9-video-v1"?StreamRemuxProfile::Vp9Video:mode=="continuous-av1-aac-window-v1"?StreamRemuxProfile::Av1AacWindow:mode=="continuous-av1-video-v1"?StreamRemuxProfile::Av1Video:mode=="continuous-hevc-aac-window-v1"?StreamRemuxProfile::HevcAacWindow:mode=="continuous-hevc-reordered-video-v1"?StreamRemuxProfile::HevcReorderedVideo:mode=="continuous-h264-aac-window-v1"?StreamRemuxProfile::H264AacWindow:mode=="continuous-h264-reordered-video-v1"?StreamRemuxProfile::H264ReorderedVideo:StreamRemuxProfile::H264Video;
                 harvester::WebmContinuousClock clock;
                 if(d.HasMember("videoRate")){

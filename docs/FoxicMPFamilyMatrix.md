@@ -2008,3 +2008,11 @@ Windows Classic, Windows Qt и Linux Qt. Проверки включают пе�
 интервалы между кадрами, видео без звука и с Opus, паузу, перемотку по
 опубликованным данным, ожидание диапазона и естественный EOF.
 [Результаты по редакциям](ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json).
+
+## 19 ноября 2026. Непрерывное воспроизведение WebM/Vorbis
+
+[Три режима WebM/Vorbis](ProgressiveContinuousWebmVorbis.md) проверены в
+Windows Classic, Windows Qt и Linux Qt. Тесты охватывают VP8, VP9 и AV1,
+Vorbis mono/stereo, сохранение пакетов и временных меток, продолжение
+после публикации запрошенного диапазона и освобождение ресурсов.
+[Результаты по редакциям](ProgressiveContinuousWebmVorbisValidation-2026-11-19.json)

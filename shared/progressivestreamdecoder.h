@@ -18,10 +18,11 @@ public:
     explicit StreamDecoderSource(std::shared_ptr<StreamOutputStore> output,std::string mode="continuous-h264-video-v1",bool audioConsumer=false):store(std::move(output)),selectedMode(std::move(mode)),extendedWebm(FindContinuousWebmProfile(selectedMode)) {
         Require(bool(store),"remuxDecoder","Missing output cache","invalid_request");
         const bool audio=selectedMode=="continuous-h264-aac-window-v1" || selectedMode=="continuous-hevc-aac-window-v1" || selectedMode=="continuous-av1-aac-window-v1" || selectedMode=="continuous-vp9-aac-window-v1" || selectedMode=="continuous-vp9-superframe-aac-window-v1";
-        Require((extendedWebm && !opusAudio()) || selectedMode=="continuous-h264-video-v1" || selectedMode=="continuous-h264-reordered-video-v1" || selectedMode=="continuous-hevc-reordered-video-v1" || selectedMode=="continuous-av1-video-v1" || selectedMode=="continuous-vp9-video-v1" || selectedMode=="continuous-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-video-v1" || (opusAudio() && audioConsumer) || (audio && audioConsumer),"remuxDecoder","Invalid decoder profile","invalid_request");
+        Require((extendedWebm && (!hasAudio() || audioConsumer)) || selectedMode=="continuous-h264-video-v1" || selectedMode=="continuous-h264-reordered-video-v1" || selectedMode=="continuous-hevc-reordered-video-v1" || selectedMode=="continuous-av1-video-v1" || selectedMode=="continuous-vp9-video-v1" || selectedMode=="continuous-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-video-v1" || (opusAudio() && audioConsumer) || (audio && audioConsumer),"remuxDecoder","Invalid decoder profile","invalid_request");
         Require(hevcVideo()==store->hevcVideo() && av1Video()==store->av1Video() && vp9Video()==store->vp9Video() && (!av1Video() || audio==store->av1AudioProfile()) && (!vp9Video() || audio==store->vp9AudioProfile() && opusAudio()==store->webmOpus() && ntscOpus()==store->ntscWebmOpus() && cfrOpus()==store->cfrWebmOpus() && vfrOpus()==store->vfrWebmOpus() && autoCountOpus()==store->videoClock().derivedCount && nominalOpus()==store->videoClock().nominalDefault && derivedAudioOpus()==store->videoClock().derivedAudio && packetAudioOpus()==store->videoClock().packetAudio),"remuxDecoder","Cache codec/profile mismatch","invalid_request");
         Require(store->webmVideoCodec()==(extendedWebm?extendedWebm->codec:opusAudio()?"vp9":"")
-            && (!extendedWebm || (store->videoClock().derivedCount && store->webmOpus()==opusAudio() && store->videoClock().packetAudio==opusAudio())),
+            && (!extendedWebm || (store->videoClock().derivedCount && store->webmOpus()==opusAudio()
+                && store->webmVorbis()==vorbisAudio() && store->videoClock().packetAudio==opusAudio())),
             "remuxDecoder","WebM cache profile mismatch","invalid_request");
         if(audio){
             const auto s=store->status();Require(s.initialized && s.fragments>0 && s.failure.empty() && !s.audioWindow.empty(),"remuxDecoder","Wait for validated A/V cache","waiting_initialization");
@@ -29,7 +30,7 @@ public:
             pcmWindow=std::make_shared<const StreamAudioWindow>(StreamAudioWindow::Parse(d));
         }
     }
-    bool packetAudioOpus()const{return extendedWebm?extendedWebm->opus:selectedMode=="continuous-webm-vp9-opus-packet-clock-v1";}
+    bool packetAudioOpus()const{return extendedWebm?extendedWebm->audioCodec=="opus":selectedMode=="continuous-webm-vp9-opus-packet-clock-v1";}
     bool derivedAudioOpus()const{return packetAudioOpus() || selectedMode=="continuous-webm-vp9-opus-simple-vfr-derived-av-v1";}
     bool nominalOpus()const{return selectedMode=="continuous-webm-vp9-opus-simple-vfr-nominal-v1";}
     bool autoCountOpus()const{return derivedAudioOpus() || nominalOpus() || selectedMode=="continuous-webm-vp9-opus-simple-vfr-auto-count-v1";}
@@ -38,7 +39,8 @@ public:
     harvester::WebmContinuousClock videoClock()const{return store->videoClock();}
     bool ntscOpus()const{return selectedMode=="continuous-webm-vp9-opus-ntsc-v1";}
     bool opusAudio()const{return vfrOpus() || cfrOpus() || ntscOpus() || selectedMode=="continuous-webm-vp9-opus-v1";}
-    bool hasAudio()const{return opusAudio() || bool(pcmWindow);}
+    bool vorbisAudio()const{return extendedWebm && extendedWebm->audioCodec=="vorbis";}
+    bool hasAudio()const{return vorbisAudio() || opusAudio() || bool(pcmWindow);}
     const std::string& webmVideoCodec()const{return store->webmVideoCodec();}
     unsigned opusPreSkip()const{return store->opusPreSkip();}
     uint64_t opusPacketStart(size_t index)const{return store->opusPacketStart(index);}

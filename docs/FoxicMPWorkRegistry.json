@@ -1249,9 +1249,16 @@
         {
           "path": "docs/ProgressiveCompletionChecklist.md",
           "line": 149
+        },
+        {
+          "path": "docs/ProgressiveContinuousWebmVorbis.md"
+        },
+        {
+          "path": "docs/ProgressiveContinuousWebmVorbisValidation-2026-11-19.json"
         }
       ],
-      "status": "todo"
+      "status": "done",
+      "changeReason": "W02: VP8, VP9 и AV1 с Vorbis. 27 прогонов обычных плееров, 18 прогонов рабочего процесса, 16 отказов. Проверены смена окон Vorbis, CodecDelay и конечный DiscardPadding. Пройдены пауза, перемотка по растущему файлу, ожидание диапазона, EOF и освобождение. Новых ID нет."
     },
     {
       "id": "P02.C149.06",

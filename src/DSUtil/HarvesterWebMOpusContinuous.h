@@ -19,9 +19,11 @@ private:
     WebmContinuousClock videoClock;
     OpusSampleClock derivedAudio;
     const std::string videoCodec;
-    const bool simpleVfr,hasAudio,extendedVideo;
+    const bool simpleVfr,hasAudio,extendedVideo,vorbis;
     Read input;uint64_t length,videoExpected,audioSamples,audioExpected,at=0,videoCount=0,audioCount=0;
     uint64_t videoEndMs=0;
+    int64_t vorbisEndNs=0;
+    bool vorbisTrimmed=false;
     unsigned clusters=0,elements=0;bool ended=false,configured=false;WebMInfo video,audio;Vp9Configuration config;
     struct Element{webm::Element value;Bytes header;};
     Element look;bool hasLook=false;
@@ -46,14 +48,33 @@ private:
         head.Update([&](uint64_t pos,void* out,size_t n){if(!RangeReady(pos,n,pending.size()))return false;std::memcpy(out,pending.data()+pos,n);return true;},pending.size(),false,[&](unsigned k,const WebMInfo& info){if(k)audio=info;else video=info;});
         check(head.Initialized() && video.codec==videoCodec && video.scale==1000000 && videoClock.DefaultDuration(video.frameDuration)
             && (!simpleVfr || extendedVideo || (videoClock.nominalDefault?video.frameDuration>0:video.frameDuration==0)) && video.delay==0
-            && (!hasAudio || (audio.scale==1000000 && audio.codec=="opus" && audio.channels>=1 && audio.channels<=2
-                && (videoClock.packetAudio?(audio.delay==2500000 || audio.delay==6500000):audio.delay==6500000))),
+            && (!hasAudio || (audio.scale==1000000 && audio.channels>=1 && audio.channels<=2
+                && (vorbis?audio.codec=="vorbis":audio.codec=="opus"
+                    && (videoClock.packetAudio?(audio.delay==2500000 || audio.delay==6500000):audio.delay==6500000)))),
             "unsupported-stream-webm-configuration");
         // Inspect immutable codec-private data, rather than trusting a codec hint.
         for(unsigned k=0;k<(hasAudio?2u:1u);++k){const auto& bytes=*head.tracks[k].spans.front().memory;webm::Element eb,seg;check(webm::Header(bytes.data(),bytes.size(),eb) && webm::Header(bytes.data()+eb.end,bytes.size()-eb.end,seg),"unsupported-stream-webm-header");const auto data=webm::Data{bytes.data()+eb.end+seg.data,bytes.size()-size_t(eb.end+seg.data)};auto entry=data.One(0x1654ae6b).One(0xae);
-            if(k){auto priv=entry.One(0x63a2);check(priv.size==19 && !std::memcmp(priv.bytes,"OpusHead",8) && priv.bytes[8]==1 && priv.bytes[9]==audio.channels && (videoClock.packetAudio?((priv.bytes[10]==120 && priv.bytes[11]==0) || (priv.bytes[10]==56 && priv.bytes[11]==1)):priv.bytes[10]==56 && priv.bytes[11]==1) && priv.bytes[16]==0 && priv.bytes[17]==0 && priv.bytes[18]==0 && webm::OptionalNumber(entry,0x56bb,0)==80000000,"unsupported-stream-opus-configuration");if(videoClock.derivedAudio)derivedAudio.Configure(unsigned(audio.delay*48000/1000000000));}
+            if(k){if(vorbis)continue;auto priv=entry.One(0x63a2);check(priv.size==19 && !std::memcmp(priv.bytes,"OpusHead",8) && priv.bytes[8]==1 && priv.bytes[9]==audio.channels && (videoClock.packetAudio?((priv.bytes[10]==120 && priv.bytes[11]==0) || (priv.bytes[10]==56 && priv.bytes[11]==1)):priv.bytes[10]==56 && priv.bytes[11]==1) && priv.bytes[16]==0 && priv.bytes[17]==0 && priv.bytes[18]==0 && webm::OptionalNumber(entry,0x56bb,0)==80000000,"unsupported-stream-opus-configuration");if(videoClock.derivedAudio)derivedAudio.Configure(unsigned(audio.delay*48000/1000000000));}
             else{if(simpleVfr && !extendedVideo && !videoClock.nominalDefault)for(const auto& f:entry.Children())check(f.id!=0x23e383,"unsupported-stream-webm-default-duration");auto v=entry.One(0xe0);for(auto id:{0x54aau,0x54bbu,0x54ccu,0x54ddu,0x53c0u,0x53b8u})check(webm::OptionalNumber(v,id,0)==0,"unsupported-stream-webm-geometry");check(webm::OptionalNumber(v,0x54b2,0)==0 && webm::OptionalNumber(v,0x54b0,video.width)==video.width && webm::OptionalNumber(v,0x54ba,video.height)==video.height,"unsupported-stream-webm-geometry");}
         }
+    }
+    void addVorbis(const uint8_t* bytes,size_t size,int64_t ticks,int64_t padding,uint64_t duration,bool reference){
+        check(!reference && !vorbisTrimmed && videoCount+audioCount<50000,"unsupported-stream-webm-vorbis-block");
+        const auto packetNs=audio.vorbis.Duration(bytes,size);
+        const auto start=ticks*1000000-int64_t(audio.delay);
+        check((audioCount?std::abs(start-vorbisEndNs)<=1000000:ticks<=1) &&
+            padding>=0 && padding<packetNs && (audioCount || !padding),"unsupported-stream-webm-vorbis-clock");
+        if(duration){
+            check(duration<=1000,"unsupported-stream-webm-vorbis-duration");
+            const auto ns=int64_t(duration)*1000000;
+            const auto matches=[&](int64_t target){return ns==target ||
+                (ns==target/1000000*1000000) ||
+                (target%1000000 && ns==(target/1000000+1)*1000000);};
+            check(matches(packetNs) || (padding && matches(packetNs-padding)),"unsupported-stream-webm-vorbis-duration");
+        }
+        vorbisEndNs=start+packetNs-padding;
+        vorbisTrimmed=padding!=0;
+        ++audioCount;
     }
     void validateVideo(const uint8_t* bytes,size_t size,bool key){
         check(!extendedVideo || videoCount || key,"unsupported-stream-webm-first-keyframe");
@@ -84,14 +105,16 @@ private:
     void block(webm::Data b,uint64_t clock,bool group,int64_t padding,uint64_t duration=0,bool reference=false){
         check(b.size>=5,"unsupported-stream-webm-block");auto w=webm::Width(b.bytes[0],8);check(b.size>w+3,"unsupported-stream-webm-block");uint64_t id=b.bytes[0]&((0x80u>>(w-1))-1);for(unsigned i=1;i<w;++i)id=id*256+b.bytes[i];check(id==video.track || (hasAudio && id==audio.track),"unsupported-stream-webm-track");auto flags=b.bytes[w+2];check(!(flags&0x7f),"unsupported-stream-webm-block");auto ticks=AddTime(int64_t(clock),int16_t(uint16_t(b.bytes[w])<<8|b.bytes[w+1]));check(ticks>=0 && uint64_t(ticks)<=((videoClock.explicitRate || videoClock.variable)?3600000u:2000000u),"unsupported-stream-webm-clock");const auto* p=b.bytes+w+3;auto n=b.size-w-3;
         if(id==video.track){
-            check(!videoClock.derivedAudio || videoCount+audioCount<50000,"stream-webm-packet-limit");
+            check(!(videoClock.derivedAudio || vorbis) || videoCount+audioCount<50000,"stream-webm-packet-limit");
             bool key=flags&0x80;
             if(videoClock.variable){
                 check(group && flags==0 && !padding && duration>0 && duration<=1000 && videoCount<videoExpected,"unsupported-stream-webm-video-duration");
+                if(vorbis && !videoCount && uint64_t(ticks)<=WebmVorbisMaxVideoLeadMs)videoEndMs=uint64_t(ticks);
                 check(uint64_t(ticks)==videoEndMs && uint64_t(ticks)+duration<=videoClock.expectedEnd100ns/10000,"unsupported-stream-webm-clock");
                 videoEndMs=uint64_t(ticks)+duration;key=!reference;
             }else check(!group && !padding && videoCount<videoExpected && videoClock.Packet(uint64_t(ticks),videoCount),"unsupported-stream-webm-clock");
             validateVideo(p,n,key);++videoCount;}
+        else if(vorbis)addVorbis(p,n,ticks,padding,duration,reference);
         else if(videoClock.derivedAudio){check(!reference && videoCount+audioCount<50000,"stream-webm-packet-limit");derivedAudio.Add(ticks,p,n,padding);++audioCount;}
         else{check(!reference,"unsupported-stream-webm-block");check(audioCount<audioExpected && oggopus::Duration(Bytes(p,p+n))==960,"unsupported-stream-opus-packet");const auto sampleClock=int64_t(audioCount*960);check(std::abs(ticks*48-sampleClock)<=48 && (audioCount || ticks==0),"unsupported-stream-opus-clock");const auto trim=audioExpected*960-312-audioSamples;const auto ns=trim*1000000000ULL/48000;check(padding>=0 && (audioCount+1==audioExpected?(uint64_t(padding)==ns || uint64_t(padding)==ns+(trim*1000000000ULL%48000!=0)):padding==0),"unsupported-stream-opus-end-trim");++audioCount;}
     }
@@ -141,6 +164,7 @@ private:
     }
     static void number(Bytes& dst,uint32_t id,uint64_t value){Bytes b;do{b.insert(b.begin(),uint8_t(value));value>>=8;}while(value);element(dst,id,b);}
     bool videoFinished()const{return videoClock.derivedCount?(videoCount>0 && videoCount<=videoExpected):videoCount==videoExpected;}
+    bool audioFinished()const{return vorbis?(audioCount>=2 && vorbisEndNs>0):(videoClock.derivedAudio?audioCount==derivedAudio.Packets():audioCount==audioExpected);}
     void simpleBudget(){
         uint64_t bytes=unresolved.size();check(simpleQueue.size()<=32,"stream-webm-pending-limit");
         for(const auto& c:simpleQueue){check(c->bytes.size()<=16777216,"stream-webm-cluster-limit");bytes+=c->bytes.size();}
@@ -186,7 +210,7 @@ private:
                 }
                 block({bytes.data(),bytes.size()},simpleCurrent->clock,true,0,duration,references!=0);
             }else{
-                if(!videoCount)check(ticks==0 && (bytes[w+2]&0x80),"unsupported-stream-webm-first-keyframe");
+                if(!videoCount)check(uint64_t(ticks)<=(vorbis?WebmVorbisMaxVideoLeadMs:0) && (bytes[w+2]&0x80),"unsupported-stream-webm-first-keyframe");
                 unresolved=bytes;unresolvedOwner=simpleCurrent;unresolvedAt=simpleCurrent->bytes.size();unresolvedClock=uint64_t(ticks);
             }
         }else{
@@ -215,7 +239,7 @@ private:
                 if(videoClock.derivedAudio){derivedAudio.Finish();audioOwner.reset();}
                 if(unresolvedOwner)simpleResolve(videoClock.expectedEnd100ns/10000);
                 simpleFlush();
-                check(simpleQueue.empty() && videoFinished() && (videoClock.derivedAudio?audioCount==derivedAudio.Packets():audioCount==audioExpected) && videoEndMs*10000==videoClock.expectedEnd100ns,"incomplete-stream-webm-opus-samples");ended=true;break;
+                check(simpleQueue.empty() && videoFinished() && audioFinished() && videoEndMs*10000==videoClock.expectedEnd100ns,vorbis?"incomplete-stream-webm-vorbis-samples":"incomplete-stream-webm-opus-samples");ended=true;break;
             }
             auto e=hasLook?look:header();hasLook=false;
             if(simpleCurrent && simpleCurrent->unknown && top(e.value.id)){look=e;hasLook=true;simpleClose();continue;}
@@ -249,17 +273,19 @@ private:
     bool next(){if(simpleVfr)return nextSimple();if(ended)return false;if(at==length && !hasLook){uint8_t byte;check(input(&byte,1)==0,"unsupported-stream-webm-tail");check(videoFinished() && (videoClock.derivedAudio?audioCount==derivedAudio.Packets():audioCount==audioExpected) && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");ended=true;return false;}auto e=hasLook?look:header();hasLook=false;check(++elements<=32768,"stream-webm-element-limit");if(e.value.id==0x1f43b675){cluster(e);return true;}check(e.value.id==0x1c53bb6b || e.value.id==0x1254c367 || e.value.id==0xec || e.value.id==0xbf,"unsupported-stream-webm-metadata");auto b=body(e,1048576);join(pending,e.header);join(pending,b);return true;}
 public:
     ContinuousWebmOpus(Read read,uint64_t bytes,uint64_t frames,uint64_t samples,bool ntsc=false,WebmContinuousClock clock={},bool simple=false,
-                      std::string codec="vp9",bool audioTrack=true)
+                      std::string codec="vp9",bool audioTrack=true,bool vorbisTrack=false)
         :videoClock((clock.explicitRate || clock.variable)?clock:WebmContinuousClock(ntsc)),derivedAudio(clock.packetAudio),
-         videoCodec(std::move(codec)),simpleVfr(simple),hasAudio(audioTrack),extendedVideo(videoCodec!="vp9"),input(std::move(read)),
-         length(bytes),videoExpected(!hasAudio || clock.derivedAudio?50000:clock.derivedCount && samples<=48000000?50000-(samples+1271)/960:frames),
-         audioSamples(samples),audioExpected(hasAudio?(samples+312+959)/960:0){
-        check(!extendedVideo || ((videoCodec=="vp8" || videoCodec=="av1") && simpleVfr && clock.derivedCount
-            && clock.packetAudio==hasAudio && clock.derivedAudio==hasAudio),"unsupported-stream-webm-profile");
+         videoCodec(std::move(codec)),simpleVfr(simple),hasAudio(audioTrack),extendedVideo(videoCodec!="vp9" || vorbisTrack),vorbis(vorbisTrack),input(std::move(read)),
+         length(bytes),videoExpected(!hasAudio || clock.derivedAudio || vorbis?50000:clock.derivedCount && samples<=48000000?50000-(samples+1271)/960:frames),
+         audioSamples(samples),audioExpected(hasAudio && !vorbis?(samples+312+959)/960:0){
+        const bool packetOpus=hasAudio && !vorbis;
+        check(!vorbis || hasAudio,"unsupported-stream-webm-profile");
+        check(!extendedVideo || ((videoCodec=="vp8" || videoCodec=="av1" || (vorbis && videoCodec=="vp9"))
+            && simpleVfr && clock.derivedCount && clock.packetAudio==packetOpus && clock.derivedAudio==packetOpus),"unsupported-stream-webm-profile");
         check((extendedVideo || hasAudio) && (!simpleVfr || videoClock.variable) && (!videoClock.derivedCount || simpleVfr)
             && videoClock.Valid() && (!videoClock.variable || frames==videoClock.expectedFrames) && bool(input) && bytes && bytes<=134217728
             && (videoClock.derivedCount?frames==0 && videoExpected>0:frames>0) && frames<=50000
-            && (!hasAudio || clock.derivedAudio?samples==0:samples>648 && samples<=48000000 && frames+audioExpected<=50000),
+            && (!packetOpus || clock.derivedAudio?samples==0:samples>648 && samples<=48000000 && frames+audioExpected<=50000),
             "unsupported-stream-webm-opus-source");
         initialize();
     }
@@ -267,6 +293,6 @@ public:
     uint64_t videoPackets()const{return videoCount;}uint64_t audioPackets()const{return audioCount;}
     uint64_t derivedAudioSamples()const{return derivedAudio.Samples();}
     unsigned audioPreSkip()const{return derivedAudio.PreSkip();}
-    void finish()const{check(ended && videoFinished() && (videoClock.derivedAudio?audioCount==derivedAudio.Packets():audioCount==audioExpected) && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),"incomplete-stream-webm-opus-samples");}
+    void finish()const{check(ended && videoFinished() && audioFinished() && (!videoClock.variable || videoEndMs*10000==videoClock.expectedEnd100ns),vorbis?"incomplete-stream-webm-vorbis-samples":"incomplete-stream-webm-opus-samples");}
 };
 }

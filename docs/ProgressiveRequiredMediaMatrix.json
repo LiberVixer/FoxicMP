@@ -3025,6 +3025,63 @@
         "docs/ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json"
       ],
       "status": "bounded-existing"
+    },
+    {
+      "id": "continuous-webm-av1-vorbis-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "admission": {
+        "videoCodec": "av1",
+        "audio": true,
+        "audioCodec": "vorbis"
+      },
+      "evidence": [
+        "docs/ProgressiveContinuousWebmVorbis.md",
+        "docs/ProgressiveContinuousWebmVorbisValidation-2026-11-19.json"
+      ],
+      "status": "bounded-existing"
+    },
+    {
+      "id": "continuous-webm-vp8-vorbis-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "admission": {
+        "videoCodec": "vp8",
+        "audio": true,
+        "audioCodec": "vorbis"
+      },
+      "evidence": [
+        "docs/ProgressiveContinuousWebmVorbis.md",
+        "docs/ProgressiveContinuousWebmVorbisValidation-2026-11-19.json"
+      ],
+      "status": "bounded-existing"
+    },
+    {
+      "id": "continuous-webm-vp9-vorbis-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "admission": {
+        "videoCodec": "vp9",
+        "audio": true,
+        "audioCodec": "vorbis"
+      },
+      "evidence": [
+        "docs/ProgressiveContinuousWebmVorbis.md",
+        "docs/ProgressiveContinuousWebmVorbisValidation-2026-11-19.json"
+      ],
+      "status": "bounded-existing"
     }
   ],
   "remainingFamilies": [
@@ -3284,7 +3341,7 @@
       "owners": [
         "P02.C149.05"
       ],
-      "status": "not-accepted",
+      "status": "accepted-bounded",
       "requirement": "mandatory",
       "inputs": {
         "containers": [
@@ -3326,7 +3383,9 @@
         "lifecycle",
         "negative-cases",
         "resource-bounds"
-      ]
+      ],
+      "acceptanceEvidence": "docs/ProgressiveContinuousWebmVorbisValidation-2026-11-19.json",
+      "boundedScope": "VP8, VP9 or AV1 and required 48 kHz mono/stereo Vorbis, known length and exact millisecond video endpoint, finite and unknown-size Clusters, validated delay and terminal padding"
     },
     {
       "id": "W03",
@@ -4745,7 +4804,7 @@
     "classicNative": "aa617c26db3fec9dc845330e72f029a34daa40cdb072c6a512a6592218b9257f",
     "indexedMov": "808a383a47f8afea48cafc88b5f4d69b969f90adfa59afc6d0b6c44a1b0b88a7",
     "continuous": "4420c24c1dc40fc495ab9b2d901a71f04be532e663ae9b6d7cc6a0e9db82c79b",
-    "continuousWebm": "cb85cd25e7500f26539eb899cbae45d30c192a7e3c369111a5879dc7b500b9ea"
+    "continuousWebm": "a27e95bd89ab1e19a1d795c5a5ca8bc1126bc0173d9b28d66970d3633d8003e6"
   },
   "capabilityProfileSets": {
     "commonNative": [
@@ -5045,8 +5104,11 @@
     "continuousWebm": [
       "continuous-webm-av1-opus-v1",
       "continuous-webm-av1-video-v1",
+      "continuous-webm-av1-vorbis-v1",
       "continuous-webm-vp8-opus-v1",
-      "continuous-webm-vp8-video-v1"
+      "continuous-webm-vp8-video-v1",
+      "continuous-webm-vp8-vorbis-v1",
+      "continuous-webm-vp9-vorbis-v1"
     ]
   },
   "commonGates": {
@@ -5482,5 +5544,5 @@
     }
   ],
   "lastUpdated": "2026-11-19",
-  "executionNote": "M01, M03 и W01 приняты в указанном объёме. Далее P02.C149.05 (WebM/Vorbis continuous). Остальные MP4 audio-only кодеки M02 остаются открытыми в P04.C210.04."
+  "executionNote": "M01, M03, W01 и W02 приняты в указанном объёме. Далее P02.C149.06 (Matroska H.264/HEVC). Остальные MP4 audio-only кодеки M02 остаются открытыми в P04.C210.04."
 }
