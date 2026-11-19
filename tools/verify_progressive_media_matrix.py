@@ -27,6 +27,7 @@ def source_contracts():
     source = (ROOT/'shared/progressivestreamcapabilities.h').read_text()
     return dict(commonNative=package.schema2_playback(), qtNative=package.qt_schema2_playback(),
                 classicNative=package.classic_schema2_playback(), indexedMov=package.indexed_mov_capabilities(),
+                continuousWebm=package.continuous_webm_capabilities(),
                 continuous=json.loads(''.join(re.findall(r'R"\((.*?)\)"', source, re.S))))
 
 
@@ -50,7 +51,7 @@ def verify(matrix, contracts=None):
     require(matrix['contractDigests'] == {k: digest(v) for k, v in contracts.items()}, 'Capability admission drift')
     mov_profiles = set(contracts['indexedMov']['profiles'])
     expected_native = set(contracts['qtNative']['profiles']) | set(contracts['classicNative']['profiles']) | mov_profiles
-    expected_continuous = contracts['continuous']['profiles']
+    expected_continuous = {**contracts['continuous']['profiles'], **contracts['continuousWebm']['profiles']}
     native, continuous = set(), set()
     for row in matrix['existingProfiles']:
         require(row['status'] == 'bounded-existing', 'Existing profile must retain its bounded scope')

@@ -429,6 +429,11 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             if(!Keys(d,{"version","action"}))return Failure("invalid_request","Unexpected fields");
             return foxicmp::progressive::IndexedMovCapabilities();
         }
+        if(action=="continuousWebmCapabilities") {
+            if(!Keys(d,{"version","action"}))return Failure("invalid_request","Unexpected fields");
+            Document result;result.Parse(foxicmp::progressive::ContinuousWebmCapabilities());
+            result.AddMember("ok",true,result.GetAllocator());return Encode(result);
+        }
         if(action=="capabilities") {
             if(!Keys(d,{"version","action"}))return Failure("invalid_request","Unexpected fields");
             Document info;info.Parse(Information().c_str());info.RemoveMember("endpoint");info.RemoveMember("profile");
@@ -596,7 +601,7 @@ std::string ClassicProgressiveApi::ContinuousStatus(){
     const auto error=!p.error.empty()?p.error:!producerError.empty() && producerError!="cancelled"?producerError:!p.closed && !out.failure.empty()?out.failure:std::string();
     const char* state=!error.empty()?"error":p.closed?"closed":continuousOpening || p.committing?"opening":!owned?"closed":!loaded?"buffering":continuousFinished?"finished":!frame.m_harvesterWantPlay?"paused":frame.m_harvesterBuffering?"buffering":frame.GetMediaState()==State_Paused?"paused":"playing";
     Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("version",1,a);d.AddMember("ok",true,a);d.AddMember("mode",Value(p.mode.c_str(),a),a);
-    if(p.source->vfrOpus() && !p.source->autoCountOpus())d.AddMember("videoSamples",Value(std::to_string(p.source->videoClock().expectedFrames).c_str(),a),a);if(p.source->derivedAudioOpus()){d.AddMember("indexedAudioSamples",Value(std::to_string(out.audioPresentationSamples).c_str(),a),a);d.AddMember("audioSampleCountFinal",out.complete,a);d.AddMember("audioTrackEndObserved",out.audioIndexedComplete,a);}if(p.source->autoCountOpus()){d.AddMember("indexedVideoSamples",Value(std::to_string(out.videoSamples).c_str(),a),a);d.AddMember("videoSampleCountFinal",out.complete,a);}if(p.source->cfrOpus()){const auto rate=p.source->videoClock();Value value(rapidjson::kObjectType);value.AddMember("numerator",rate.numerator,a);value.AddMember("denominator",rate.denominator,a);d.AddMember("videoRate",value,a);}
+    if(p.source->vfrOpus() && !p.source->autoCountOpus())d.AddMember("videoSamples",Value(std::to_string(p.source->videoClock().expectedFrames).c_str(),a),a);if(p.source->derivedAudioOpus()){d.AddMember("indexedAudioSamples",Value(std::to_string(out.audioPresentationSamples).c_str(),a),a);d.AddMember("audioSampleCountFinal",out.complete,a);d.AddMember("audioTrackEndObserved",out.audioIndexedComplete,a);}if(p.source->videoClock().derivedCount){d.AddMember("indexedVideoSamples",Value(std::to_string(out.videoSamples).c_str(),a),a);d.AddMember("videoSampleCountFinal",out.complete,a);}if(p.source->cfrOpus()){const auto rate=p.source->videoClock();Value value(rapidjson::kObjectType);value.AddMember("numerator",rate.numerator,a);value.AddMember("denominator",rate.denominator,a);d.AddMember("videoRate",value,a);}
     d.AddMember("audio",p.source->hasAudio(),a);d.AddMember("pcmWindowApplied",owned && native && native->AacPcmWindowApplied(),a);
     d.AddMember("readyEndSeconds",native?double(native->ReadyEnd())/10000000.:0.,a);d.AddMember("sourceConnected",native && native->Connected(),a);
     auto text=[&](const char* key,const std::string& value){d.AddMember(Value(key,a),Value(value.c_str(),a),a);};

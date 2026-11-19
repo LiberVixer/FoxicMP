@@ -2,29 +2,34 @@
 // No filesystem URL, public capability or downloader integration. GPL-3.0-or-later.
 #pragma once
 #include "progressivestreamcache.h"
+#include "progressivestreamwebm.h"
 #include <thread>
 
 namespace foxicmp { namespace progressive {
 class StreamDecoderSource {
     std::shared_ptr<StreamOutputStore> store;
     const std::string selectedMode;
+    const ContinuousWebmProfile* const extendedWebm;
     std::shared_ptr<const StreamAudioWindow> pcmWindow;
     std::atomic<bool> cancelled{false};
     mutable std::mutex decoderMutex;
     mutable std::vector<std::weak_ptr<StreamOutputStore::Reader>> decoderReaders;
 public:
-    explicit StreamDecoderSource(std::shared_ptr<StreamOutputStore> output,std::string mode="continuous-h264-video-v1",bool audioConsumer=false):store(std::move(output)),selectedMode(std::move(mode)) {
+    explicit StreamDecoderSource(std::shared_ptr<StreamOutputStore> output,std::string mode="continuous-h264-video-v1",bool audioConsumer=false):store(std::move(output)),selectedMode(std::move(mode)),extendedWebm(FindContinuousWebmProfile(selectedMode)) {
         Require(bool(store),"remuxDecoder","Missing output cache","invalid_request");
         const bool audio=selectedMode=="continuous-h264-aac-window-v1" || selectedMode=="continuous-hevc-aac-window-v1" || selectedMode=="continuous-av1-aac-window-v1" || selectedMode=="continuous-vp9-aac-window-v1" || selectedMode=="continuous-vp9-superframe-aac-window-v1";
-        Require(selectedMode=="continuous-h264-video-v1" || selectedMode=="continuous-h264-reordered-video-v1" || selectedMode=="continuous-hevc-reordered-video-v1" || selectedMode=="continuous-av1-video-v1" || selectedMode=="continuous-vp9-video-v1" || selectedMode=="continuous-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-video-v1" || (opusAudio() && audioConsumer) || (audio && audioConsumer),"remuxDecoder","Invalid decoder profile","invalid_request");
+        Require((extendedWebm && !opusAudio()) || selectedMode=="continuous-h264-video-v1" || selectedMode=="continuous-h264-reordered-video-v1" || selectedMode=="continuous-hevc-reordered-video-v1" || selectedMode=="continuous-av1-video-v1" || selectedMode=="continuous-vp9-video-v1" || selectedMode=="continuous-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-video-v1" || (opusAudio() && audioConsumer) || (audio && audioConsumer),"remuxDecoder","Invalid decoder profile","invalid_request");
         Require(hevcVideo()==store->hevcVideo() && av1Video()==store->av1Video() && vp9Video()==store->vp9Video() && (!av1Video() || audio==store->av1AudioProfile()) && (!vp9Video() || audio==store->vp9AudioProfile() && opusAudio()==store->webmOpus() && ntscOpus()==store->ntscWebmOpus() && cfrOpus()==store->cfrWebmOpus() && vfrOpus()==store->vfrWebmOpus() && autoCountOpus()==store->videoClock().derivedCount && nominalOpus()==store->videoClock().nominalDefault && derivedAudioOpus()==store->videoClock().derivedAudio && packetAudioOpus()==store->videoClock().packetAudio),"remuxDecoder","Cache codec/profile mismatch","invalid_request");
+        Require(store->webmVideoCodec()==(extendedWebm?extendedWebm->codec:opusAudio()?"vp9":"")
+            && (!extendedWebm || (store->videoClock().derivedCount && store->webmOpus()==opusAudio() && store->videoClock().packetAudio==opusAudio())),
+            "remuxDecoder","WebM cache profile mismatch","invalid_request");
         if(audio){
             const auto s=store->status();Require(s.initialized && s.fragments>0 && s.failure.empty() && !s.audioWindow.empty(),"remuxDecoder","Wait for validated A/V cache","waiting_initialization");
             rapidjson::Document d;d.Parse(s.audioWindow.c_str());Require(!d.HasParseError(),"remuxDecoder","Invalid cached PCM window","backend-protocol-error");
             pcmWindow=std::make_shared<const StreamAudioWindow>(StreamAudioWindow::Parse(d));
         }
     }
-    bool packetAudioOpus()const{return selectedMode=="continuous-webm-vp9-opus-packet-clock-v1";}
+    bool packetAudioOpus()const{return extendedWebm?extendedWebm->opus:selectedMode=="continuous-webm-vp9-opus-packet-clock-v1";}
     bool derivedAudioOpus()const{return packetAudioOpus() || selectedMode=="continuous-webm-vp9-opus-simple-vfr-derived-av-v1";}
     bool nominalOpus()const{return selectedMode=="continuous-webm-vp9-opus-simple-vfr-nominal-v1";}
     bool autoCountOpus()const{return derivedAudioOpus() || nominalOpus() || selectedMode=="continuous-webm-vp9-opus-simple-vfr-auto-count-v1";}
@@ -34,6 +39,7 @@ public:
     bool ntscOpus()const{return selectedMode=="continuous-webm-vp9-opus-ntsc-v1";}
     bool opusAudio()const{return vfrOpus() || cfrOpus() || ntscOpus() || selectedMode=="continuous-webm-vp9-opus-v1";}
     bool hasAudio()const{return opusAudio() || bool(pcmWindow);}
+    const std::string& webmVideoCodec()const{return store->webmVideoCodec();}
     unsigned opusPreSkip()const{return store->opusPreSkip();}
     uint64_t opusPacketStart(size_t index)const{return store->opusPacketStart(index);}
     size_t opusPacketCount()const{return store->opusPacketCount();}
@@ -42,7 +48,7 @@ public:
     const std::string& mode()const{return selectedMode;}
     bool hevcVideo()const{return selectedMode=="continuous-hevc-reordered-video-v1" || selectedMode=="continuous-hevc-aac-window-v1";}
     bool av1Video()const{return selectedMode=="continuous-av1-video-v1" || selectedMode=="continuous-av1-aac-window-v1";}
-    bool vp9Video()const{return opusAudio() || selectedMode=="continuous-vp9-video-v1" || selectedMode=="continuous-vp9-aac-window-v1" || selectedMode=="continuous-vp9-superframe-video-v1" || selectedMode=="continuous-vp9-superframe-aac-window-v1" || selectedMode=="continuous-webm-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-video-v1";}
+    bool vp9Video()const{return !extendedWebm && (opusAudio() || selectedMode=="continuous-vp9-video-v1" || selectedMode=="continuous-vp9-aac-window-v1" || selectedMode=="continuous-vp9-superframe-video-v1" || selectedMode=="continuous-vp9-superframe-aac-window-v1" || selectedMode=="continuous-webm-vp9-superframe-video-v1" || selectedMode=="continuous-webm-vp9-video-v1");}
     const StreamAudioWindow* audioWindow()const{return pcmWindow.get();}
     harvester::muxmp4::Layout avLayout()const{
         Require(bool(pcmWindow),"remuxDecoder","Not an A/V source","invalid_request");return store->avLayout();
@@ -113,7 +119,7 @@ public:
         Require(!source->stopped(),"remuxDecoder","Decoder source cancelled","cancelled");const auto s=source->status();
         Require(s.failure.empty(),"remuxDecoder","Output producer failed",s.failure.c_str());
         if(visible==s.visible)return;
-        if(source->opusAudio()){if(!webm)webm=std::make_unique<harvester::muxwebm::Layout>();source->copyWebmLayout(*webm,packetView);visible=s.visible;return;}
+        if(!source->webmVideoCodec().empty()){if(!webm)webm=std::make_unique<harvester::muxwebm::Layout>();source->copyWebmLayout(*webm,packetView);visible=s.visible;return;}
         if(source->audioWindow()){
             if(!av)av=std::make_unique<harvester::muxmp4::Layout>();
             source->copyAvLayout(*av);visible=s.visible;return;
@@ -143,8 +149,9 @@ public:
     ResourceRead readView(unsigned kind,uint64_t at,void* out,size_t count){
         std::lock_guard<std::mutex> lock(viewMutex);
         if(source->stopped())return {"cancelled","Decoder source cancelled",0};
-        if(!source->hasAudio())return kind==0?reader->read(at,out,count):ResourceRead{"invalid-read","Invalid track",0};
-        if((!av && !webm) || kind>1 || count>65536 || !harvester::RangeReady(at,count,webm?webm->tracks[kind].bytes:av->tracks[kind].bytes))return {"waiting-range","View unavailable",0};
+        if(kind>=(source->hasAudio()?2u:1u))return {"invalid-read","Invalid track",0};
+        if(!source->hasAudio() && !webm)return reader->read(at,out,count);
+        if((!av && !webm) || count>65536 || !harvester::RangeReady(at,count,webm?webm->tracks[kind].bytes:av->tracks[kind].bytes))return {"waiting-range","View unavailable",0};
         try{
             std::string code;
             auto raw=[&](uint64_t offset,void* bytes,size_t n){const auto r=reader->read(offset,bytes,n);if(!r.data() || r.bytes!=n){code=r.code;return false;}return true;};

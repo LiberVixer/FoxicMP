@@ -10,9 +10,12 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'qt/tools'))
 from progressive_continuous import ACTIONS, ContinuousRemux, MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE,WEBM_VP9_OPUS_DERIVED_AV_MODE,WEBM_VP9_OPUS_PACKET_CLOCK_MODE
 from progressive_client import ApiError
+from progressive_continuous import EXTENDED_WEBM_PROFILES
 
 CAP = json.loads(''.join(re.findall(r'R"\((.*?)\)"',
     (ROOT/'shared/progressivestreamcapabilities.h').read_text(), re.S)))
+WEBM_EXTENSION = json.loads(re.search(r'R"\((.*?)\)"',
+    (ROOT/'shared/progressivestreamwebm.h').read_text(), re.S).group(1))
 
 
 class Client:
@@ -25,6 +28,8 @@ class Client:
         self.calls.append(copy.deepcopy(message));action = message['action']
         if action == 'capabilities':
             return dict(continuousRemux=copy.deepcopy(CAP), actions=sorted(ACTIONS), readerLeaseProtocol=1)
+        if action == 'continuousWebmCapabilities':
+            return copy.deepcopy(WEBM_EXTENSION)
         if action == 'continuousRemuxStart':
             s = message['session']
             self.job = dict(mode=message.get('mode', MODE), requestId=message['requestId'], jobId='a'*32,
@@ -41,6 +46,12 @@ class Client:
             forgotten=action == 'continuousRemuxForget', state='playing' if playback else 'ready')
         if result.get('mode') in (WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE,WEBM_VP9_OPUS_DERIVED_AV_MODE,WEBM_VP9_OPUS_PACKET_CLOCK_MODE):result.update(indexedVideoSamples='733' if self.complete else '37',videoSampleCountFinal=self.complete)
         if result.get('mode') in (WEBM_VP9_OPUS_DERIVED_AV_MODE,WEBM_VP9_OPUS_PACKET_CLOCK_MODE):result.update(indexedAudioSamples='1152000' if self.complete else '3480',audioSampleCountFinal=self.complete,audioTrackEndObserved=self.complete)
+        if result.get('mode') in EXTENDED_WEBM_PROFILES:
+            audio = EXTENDED_WEBM_PROFILES[result['mode']]['audio']
+            result.update(audio=audio, indexedVideoSamples='600', videoSampleCountFinal=self.complete)
+            if audio:
+                result.update(indexedAudioSamples='1152000', audioSampleCountFinal=self.complete,
+                              audioTrackEndObserved=self.complete)
         if self.foreign:result['generation'] = '2'
         if action in self.drop:
             self.drop.remove(action);raise TimeoutError('applied request, lost reply')
@@ -48,6 +59,32 @@ class Client:
 
 
 class Test(unittest.TestCase):
+    def test_webm_vp8_av1_use_separate_contract_and_derive_counts(self):
+        for mode in EXTENDED_WEBM_PROFILES:
+            with self.subTest(mode=mode):
+                c = Client()
+                helper = ContinuousRemux(c, ROOT, mode=mode)
+                self.assertEqual([m['action'] for m in c.calls], ['capabilities', 'continuousWebmCapabilities'])
+                helper.prepare(self.model(), 'clip')
+                self.assertTrue({'audioSamples', 'videoSamples', 'videoRate'}.isdisjoint(c.calls[-1]))
+                helper.play()
+                c.complete = True
+                self.assertTrue(helper.playback_status()['videoSampleCountFinal'])
+
+    def test_webm_vp8_av1_reject_altered_profile(self):
+        mode = next(iter(EXTENDED_WEBM_PROFILES))
+        c = Client()
+        request = c.request
+
+        def mismatch(message, timeout=5):
+            reply = request(message, timeout)
+            if message['action'] == 'continuousWebmCapabilities':
+                reply['profiles'][mode]['audio'] = 0
+            return reply
+
+        c.request = mismatch
+        self.assertRaises(RuntimeError, ContinuousRemux, c, ROOT, mode=mode)
+
     def test_packet_clock_contract_and_no_external_plan(self):
         c=Client();p=ContinuousRemux(c,str(ROOT),mode=WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
         p.prepare(self.model(),'clip');self.assertNotIn('audioSamples',c.calls[-1]);self.assertNotIn('videoSamples',c.calls[-1])

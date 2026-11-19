@@ -2953,6 +2953,78 @@
       ],
       "status": "bounded-existing",
       "admission": "Explicit indexedMovCapabilities response; bounded QuickTime MOV"
+    },
+    {
+      "id": "continuous-webm-av1-opus-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "admission": {
+        "videoCodec": "av1",
+        "audio": true
+      },
+      "evidence": [
+        "docs/ProgressiveContinuousWebmVp8Av1.md",
+        "docs/ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json"
+      ],
+      "status": "bounded-existing"
+    },
+    {
+      "id": "continuous-webm-av1-video-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "admission": {
+        "videoCodec": "av1",
+        "audio": false
+      },
+      "evidence": [
+        "docs/ProgressiveContinuousWebmVp8Av1.md",
+        "docs/ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json"
+      ],
+      "status": "bounded-existing"
+    },
+    {
+      "id": "continuous-webm-vp8-opus-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "admission": {
+        "videoCodec": "vp8",
+        "audio": true
+      },
+      "evidence": [
+        "docs/ProgressiveContinuousWebmVp8Av1.md",
+        "docs/ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json"
+      ],
+      "status": "bounded-existing"
+    },
+    {
+      "id": "continuous-webm-vp8-video-v1",
+      "path": "progressive-remux",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "admission": {
+        "videoCodec": "vp8",
+        "audio": false
+      },
+      "evidence": [
+        "docs/ProgressiveContinuousWebmVp8Av1.md",
+        "docs/ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json"
+      ],
+      "status": "bounded-existing"
     }
   ],
   "remainingFamilies": [
@@ -3162,7 +3234,7 @@
       "owners": [
         "P02.C149.04"
       ],
-      "status": "not-accepted",
+      "status": "accepted-bounded",
       "requirement": "mandatory",
       "inputs": {
         "containers": [
@@ -3202,7 +3274,9 @@
         "lifecycle",
         "negative-cases",
         "resource-bounds"
-      ]
+      ],
+      "acceptanceEvidence": "docs/ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json",
+      "boundedScope": "VP8 and AV1 Main with one displayed frame per packet, optional Opus mono/stereo, known-length resource and exact millisecond video endpoint, explicit BlockGroup or next-PTS SimpleBlock durations"
     },
     {
       "id": "W02",
@@ -4670,7 +4744,8 @@
     "qtNative": "094e76ef434f7a5d7a8f6c972434267a2c7a3a522a7bafb7133d6da191dfebe1",
     "classicNative": "aa617c26db3fec9dc845330e72f029a34daa40cdb072c6a512a6592218b9257f",
     "indexedMov": "808a383a47f8afea48cafc88b5f4d69b969f90adfa59afc6d0b6c44a1b0b88a7",
-    "continuous": "4420c24c1dc40fc495ab9b2d901a71f04be532e663ae9b6d7cc6a0e9db82c79b"
+    "continuous": "4420c24c1dc40fc495ab9b2d901a71f04be532e663ae9b6d7cc6a0e9db82c79b",
+    "continuousWebm": "cb85cd25e7500f26539eb899cbae45d30c192a7e3c369111a5879dc7b500b9ea"
   },
   "capabilityProfileSets": {
     "commonNative": [
@@ -4966,6 +5041,12 @@
       "continuous-webm-vp9-opus-vfr-v1",
       "continuous-webm-vp9-superframe-video-v1",
       "continuous-webm-vp9-video-v1"
+    ],
+    "continuousWebm": [
+      "continuous-webm-av1-opus-v1",
+      "continuous-webm-av1-video-v1",
+      "continuous-webm-vp8-opus-v1",
+      "continuous-webm-vp8-video-v1"
     ]
   },
   "commonGates": {
@@ -5401,5 +5482,5 @@
     }
   ],
   "lastUpdated": "2026-11-19",
-  "executionNote": "M01/P02.C149.02 и M03/P02.C149.03 завершены в указанном объёме. Далее P02.C149.04 (WebM VP8/AV1). Остальные MP4 audio-only кодеки M02 остаются открытыми в P04.C210.04."
+  "executionNote": "M01, M03 и W01 приняты в указанном объёме. Далее P02.C149.05 (WebM/Vorbis continuous). Остальные MP4 audio-only кодеки M02 остаются открытыми в P04.C210.04."
 }

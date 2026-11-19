@@ -174,7 +174,7 @@ void RequireOwned(HANDLE file) {
     if(!ok)throw std::runtime_error("Track must belong to the current user");
 }
 }
-bool CHarvesterSession::AllowsAv1Fragments() const {return (m_v2Bridge && m_v2Bridge->videoCodec()=="av1") || (m_continuousSource && m_continuousSource->av1Video());}
+bool CHarvesterSession::AllowsAv1Fragments() const {return (m_v2Bridge && m_v2Bridge->videoCodec()=="av1") || (m_continuousSource && (m_continuousSource->av1Video() || m_continuousSource->webmVideoCodec()=="av1"));}
 bool CHarvesterSession::AllowsVp9Fragments() const {return (m_v2Bridge && m_v2Bridge->videoCodec()=="vp9") || (m_continuousSource && m_continuousSource->vp9Video());}
 bool CHarvesterSession::AllowsOpusFragments(int track) const {return (m_continuousSource && m_continuousSource->opusAudio() && track==1) || (m_v2Bridge && m_v2Bridge->audioCodec(track)=="opus");}
 bool CHarvesterSession::AllowsEac3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="eac3";}
@@ -183,8 +183,8 @@ bool CHarvesterSession::AllowsPcm24Fragments(int track) const {return m_v2Bridge
 bool CHarvesterSession::AllowsPcmFragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="pcm-s16le";}
 bool CHarvesterSession::AllowsFlacFragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="flac";}
 bool CHarvesterSession::AllowsMp3Fragments(int track) const {return m_v2Bridge && m_v2Bridge->isStandaloneAudio() && m_v2Bridge->audioCodec(track)=="mp3";}
-std::string CHarvesterSession::WebMCodec(int track) const {return m_continuousSource && m_continuousSource->opusAudio()?(track?"opus":"vp9"):!m_v2Bridge?std::string():(track || m_v2Bridge->isStandaloneAudio())?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
-bool CHarvesterSession::IsWebM(int track) const {return (m_continuousSource && m_continuousSource->opusAudio()) || (m_v2Bridge && m_v2Bridge->isWebm(track));}
+std::string CHarvesterSession::WebMCodec(int track) const {return m_continuousSource && !m_continuousSource->webmVideoCodec().empty()?(track?"opus":m_continuousSource->webmVideoCodec()):!m_v2Bridge?std::string():(track || m_v2Bridge->isStandaloneAudio())?m_v2Bridge->audioCodec(track):m_v2Bridge->videoCodec();}
+bool CHarvesterSession::IsWebM(int track) const {return (m_continuousSource && !m_continuousSource->webmVideoCodec().empty()) || (m_v2Bridge && m_v2Bridge->isWebm(track));}
 bool CHarvesterSession::AllowsHevcFragments() const {return (m_v2Bridge && m_v2Bridge->videoCodec()=="hevc") || (m_continuousSource && m_continuousSource->hevcVideo());}
 bool CHarvesterSession::AllowsMpeg4VisualFragments() const {
     return m_v2Bridge && m_v2Bridge->videoCodec()=="mpeg4-part2";
@@ -318,7 +318,7 @@ std::shared_ptr<CHarvesterSession> CHarvesterSession::OpenContinuous(const std::
         auto& t=s.tracks[0];t.path="continuous-video.mp4";t.required=true;t.fragmented=true;t.container="fmp4";
         context->m_publishedPaths[0]=L"continuous-video.mp4";
         if(source->hasAudio()){auto& audio=s.tracks[1];audio.path="continuous-audio.m4a";audio.required=true;audio.fragmented=true;audio.container="fmp4";context->m_publishedPaths[1]=L"continuous-audio.m4a";}
-        if(source->opusAudio()){for(unsigned i=0;i<2;++i){s.tracks[i].path=i?"continuous-audio.webm":"continuous-video.webm";s.tracks[i].container="webm";context->m_publishedPaths[i]=i?L"continuous-audio.webm":L"continuous-video.webm";}}
+        if(!source->webmVideoCodec().empty()){for(unsigned i=0;i<s.tracks.size();++i){s.tracks[i].path=i?"continuous-audio.webm":"continuous-video.webm";s.tracks[i].container="webm";context->m_publishedPaths[i]=i?L"continuous-audio.webm":L"continuous-video.webm";}}
         context->RefreshContinuous();
         context->m_thread=std::thread([raw=context.get()]{
             while(WaitForSingleObject(raw->m_stop,50)==WAIT_TIMEOUT && WaitForSingleObject(raw->m_cancel,0)==WAIT_TIMEOUT)
@@ -572,7 +572,7 @@ CHarvesterSession::Fragments CHarvesterSession::BuildFragments(const harvester::
         };
         if(OptionalAudioFailed(track))continue;
         try {
-        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,AllowsHevcFragments(),AllowsAv1Fragments(),AllowsVp9Fragments(),m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track),AllowsPcmFragments(track),AllowsAc3Fragments(track),AllowsEac3Fragments(track),AllowsPcm24Fragments(track),m_continuousSource && m_continuousSource->vfrOpus(),AllowsMpeg4VisualFragments());
+        next->Update(diskRead,state.available,track || state.audio?1:0,harvester::EndReady(state),snapshot.timestampOffset,AllowsHevcFragments(),AllowsAv1Fragments(),AllowsVp9Fragments(),m_v2Bridge && m_v2Bridge->audioCodec(track?track:1)=="opus",IsWebM(track),AllowsFlacFragments(track),AllowsPcmFragments(track),AllowsAc3Fragments(track),AllowsEac3Fragments(track),AllowsPcm24Fragments(track),m_continuousSource && m_continuousSource->videoClock().variable,AllowsMpeg4VisualFragments());
         } catch(const std::exception& error) {if(!m_v2Bridge || state.required)throw;m_v2Bridge->rejectOptionalIndex(track,error.what());continue;}
         result[track]=std::move(next);
     }

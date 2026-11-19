@@ -41,9 +41,9 @@ inline std::vector<uint8_t> AV1Configuration(const uint8_t* bytes,size_t length,
 // Copy-remux admission for the explicit continuous AV1 video profile. Existing
 // native MP4/WebM paths retain their own admission and decoder validation.
 template<class Check>
-inline void AV1ContinuousPacket(const uint8_t* bytes,size_t size,const std::vector<uint8_t>& sequence,bool initial,Check check) {
+inline bool AV1ContinuousPacket(const uint8_t* bytes,size_t size,const std::vector<uint8_t>& sequence,bool initial,Check check) {
     check(bytes && size && !sequence.empty(),"unsupported-stream-av1-packet");
-    bool frame=false,seenSequence=false;unsigned units=0;
+    bool frame=false,seenSequence=false,keyframe=false;unsigned units=0;
     for(size_t at=0;at<size;) {
         check(++units<=128,"unsupported-stream-av1-packet");
         const auto header=bytes[at++];const unsigned type=(header>>3)&15;
@@ -64,10 +64,11 @@ inline void AV1ContinuousPacket(const uint8_t* bytes,size_t size,const std::vect
             // This profile has one displayed frame OBU per MP4 sample. The
             // first frame is independently keyed; later frames may reference it.
             const bool reduced=(sequence[0]&8)!=0;
+            keyframe=reduced || (bytes[at]&0xe0)==0;
             if(!reduced){
                 check(!(bytes[at]&128),"unsupported-stream-av1-frame"); // show_existing_frame
                 check((bytes[at]&16)!=0,"unsupported-stream-av1-frame"); // show_frame
-                if(initial)check((bytes[at]&0xe0)==0,"unsupported-stream-av1-frame");
+                if(initial)check(keyframe,"unsupported-stream-av1-frame");
             }
             frame=true;
         }else if(type==2)check(length==0 && !seenSequence && !frame,"unsupported-stream-av1-packet");
@@ -75,5 +76,6 @@ inline void AV1ContinuousPacket(const uint8_t* bytes,size_t size,const std::vect
         at+=size_t(length);
     }
     check(frame && (!initial || seenSequence),"unsupported-stream-av1-packet");
+    return keyframe;
 }
 } // namespace harvester

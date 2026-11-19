@@ -190,7 +190,7 @@ Classic восстановлен после экспериментальной �
 | HTTP(S), сетевые медиапотоки | Есть | Есть | Есть | Одинаковые ошибки, таймауты и правила повторного открытия |
 | Страницы онлайн-видео и выбор качества | YouTube / YT_DLP, собственные настройки | Общие Qt / yt-dlp | Общие Qt / yt-dlp | Одни публичные сценарии YouTube/Rutube/VK, качество, звук и отмена |
 | Онлайн-плейлисты | Есть | Есть | Есть | Лимиты, порядок, добавление и пропуск ошибок |
-| Воспроизведение во время скачивания | Named pipe, APIv1/schema1/2, release | Named pipe, APIv1/schema1/2, release | Unix socket/provider, APIv1/schema1/2, release | Именованные native/continuous профили SDK, в том числе [M4A AAC](ProgressiveM4A.md) и [MOV](ProgressiveIndexedMOV.md). Остальные семейства перечислены в [медиа-матрице](ProgressiveRequiredMediaMatrix.md) |
+| Воспроизведение во время скачивания | Named pipe, APIv1/schema1/2, release | Named pipe, APIv1/schema1/2, release | Unix socket/provider, APIv1/schema1/2, release | Именованные native/continuous профили SDK, в том числе [M4A AAC](ProgressiveM4A.md), [MOV](ProgressiveIndexedMOV.md) и [WebM VP8/AV1](ProgressiveContinuousWebmVp8Av1.md). Остальные семейства перечислены в [медиа-матрице](ProgressiveRequiredMediaMatrix.md) |
 | Один контракт вызова загрузчиком | Есть v1 Windows named-pipe адаптер | Есть v1 Windows named-pipe API | Есть v1 Unix API | Общие JSON-команды и совместимые IPC-адаптеры |
 | Проверка расширенного manifest v2 | Общий validate, без открытия | Общий validate, без открытия | Общий validate, без открытия | [Модель и границы](ProgressiveManifestV2.md), [результаты](ProgressiveModelValidation-2026-10-25.md). Есть ограниченный playback v2 H.264/AAC-LC fMP4; расширенные track/live scopes не подключены |
 | Учёт reader по закреплённым файлам | Opt-in player-owned v1, IPC и OS receipts | Тот же runtime | Тот же runtime | [Reader leases](ProgressiveReaderLeases.md), [проверки](ProgressiveReaderValidation-2026-10-25.md); ресурсы v2 и legacy/provider не объявляются этим покрытыми |
@@ -2000,3 +2000,11 @@ H.264, HEVC и MPEG-4 Part 2, с AAC-LC и без звука, с начальн�
 индексом. На синтетическом корпусе сверены исходные пакеты, временные метки
 и декодированные данные. Для каждой редакции отдельно подтверждены
 воспроизведение до завершения загрузки, перемотка и освобождение ресурса.
+
+## 19 ноября 2026. Непрерывное воспроизведение WebM VP8 и AV1
+
+[Четыре режима SDK 1.109](ProgressiveContinuousWebmVp8Av1.md) проверены в
+Windows Classic, Windows Qt и Linux Qt. Проверки включают переменные
+интервалы между кадрами, видео без звука и с Opus, паузу, перемотку по
+опубликованным данным, ожидание диапазона и естественный EOF.
+[Результаты по редакциям](ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json).

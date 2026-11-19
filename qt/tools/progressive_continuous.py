@@ -15,6 +15,16 @@ import uuid
 from progressive_client import ApiError
 
 MODE = 'continuous-h264-video-v1'
+WEBM_VP8_MODE = 'continuous-webm-vp8-video-v1'
+WEBM_VP8_OPUS_MODE = 'continuous-webm-vp8-opus-v1'
+WEBM_AV1_MODE = 'continuous-webm-av1-video-v1'
+WEBM_AV1_OPUS_MODE = 'continuous-webm-av1-opus-v1'
+EXTENDED_WEBM_PROFILES = {
+    WEBM_VP8_MODE: dict(videoCodec='vp8', audio=False),
+    WEBM_VP8_OPUS_MODE: dict(videoCodec='vp8', audio=True),
+    WEBM_AV1_MODE: dict(videoCodec='av1', audio=False),
+    WEBM_AV1_OPUS_MODE: dict(videoCodec='av1', audio=True),
+}
 REORDERED_MODE = 'continuous-h264-reordered-video-v1'
 AAC_MODE = 'continuous-h264-aac-window-v1'
 HEVC_MODE = 'continuous-hevc-reordered-video-v1'
@@ -79,7 +89,7 @@ class ContinuousRemux:
     without deleting originals; call forget() afterwards to acknowledge the job.
     """
     def __init__(self, client, session_directory, *, mode=MODE, audio_samples=None, video_rate=None, video_samples=None):
-        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE):
+        if not isinstance(mode, str) or mode not in (MODE, REORDERED_MODE, AAC_MODE, HEVC_MODE, HEVC_AAC_MODE, AV1_MODE, AV1_AAC_MODE, VP9_MODE, VP9_AAC_MODE, VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE, *EXTENDED_WEBM_PROFILES):
             raise ValueError('Unsupported continuous profile')
         webm_mode = mode in (WEBM_VP9_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
         vp9_superframe = mode in (VP9_SUPERFRAME_MODE, VP9_SUPERFRAME_AAC_MODE, WEBM_VP9_SUPERFRAME_MODE, WEBM_VP9_OPUS_MODE, WEBM_VP9_OPUS_NTSC_MODE, WEBM_VP9_OPUS_CFR_MODE, WEBM_VP9_OPUS_VFR_MODE, WEBM_VP9_OPUS_SIMPLE_VFR_MODE, WEBM_VP9_OPUS_AUTO_VFR_MODE, WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE)
@@ -142,7 +152,29 @@ class ContinuousRemux:
         self._queued_seek_capability=copy.deepcopy(cap.get('queuedSeek'))
         self._growing_seek_capability=copy.deepcopy(cap.get('growingSeek'))
         self._start_seconds=0
-        if mode != MODE:
+        if mode in EXTENDED_WEBM_PROFILES:
+            try:
+                extension = client.request(dict(version=1, action='continuousWebmCapabilities'))
+            except ApiError as error:
+                if error.code not in ('invalid_request', 'unknown_session'):
+                    raise
+                raise RuntimeError('Player lacks continuous VP8/AV1 WebM playback') from error
+            profiles = extension.get('profiles') if isinstance(extension, dict) else None
+            required = dict(version=1, action='continuousWebmCapabilities', containerHint='webm',
+                            extends='continuousRemux', knownLength=True, sha256Required=True,
+                            frameCount='derived', videoDuration='required-exact-millisecond-endpoint',
+                            simpleBlocks=True, blockGroups='explicit-duration', finiteClusters=True,
+                            unknownSizeClusters=True, audioCodec='opus', opusPacketSamples='from-toc',
+                            opusPreSkipSamples=[120,312], discardPaddingPreserved=True,
+                            maxInputBytes=134217728, maxOutputBytes=67108864, maxPackets=50000,
+                            maxInitializationBytes=1048576, maxClusterBytes=16777216)
+            if (not isinstance(profiles, dict)
+                    or not _exact_contract(profiles.get(mode), EXTENDED_WEBM_PROFILES[mode])
+                    or any(not _exact_contract(extension.get(key), value) for key, value in required.items())):
+                raise RuntimeError('Player lacks the selected continuous WebM contract')
+            self.capability.update(copy.deepcopy(profiles[mode]), containerHint='webm',
+                                   videoOnly=not profiles[mode]['audio'], mode=mode)
+        elif mode != MODE:
             profiles = cap.get('profiles')
             selected = profiles.get(mode) if isinstance(profiles, dict) else None
             if (cap.get('modeSelection') != 'continuousRemuxStart.mode'
@@ -260,7 +292,10 @@ class ContinuousRemux:
 
     def _check(self, reply, playback=False):
         expected = self.identity or {}
-        if self.mode in (WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE):
+        extended = EXTENDED_WEBM_PROFILES.get(self.mode)
+        if extended and reply.get('audio') is not extended['audio']:
+            raise RuntimeError('Unexpected continuous WebM track layout')
+        if extended or self.mode in (WEBM_VP9_OPUS_AUTO_VFR_MODE,WEBM_VP9_OPUS_NOMINAL_VFR_MODE, WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE):
             count=reply.get('indexedVideoSamples')
             if (not isinstance(count,str) or not count.isascii() or not count.isdecimal()
                     or (count!='0' and count.startswith('0')) or len(count)>5 or int(count)>50000
@@ -269,7 +304,7 @@ class ContinuousRemux:
                     or reply['videoSampleCountFinal'] is not reply['outputComplete']
                     or (reply['videoSampleCountFinal'] and int(count)==0) or 'videoSamples' in reply):
                 raise RuntimeError('Invalid derived video sample status')
-        if self.mode in (WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE):
+        if (extended and extended['audio']) or self.mode in (WEBM_VP9_OPUS_DERIVED_AV_MODE, WEBM_VP9_OPUS_PACKET_CLOCK_MODE):
             count=reply.get('indexedAudioSamples')
             if (not isinstance(count,str) or not count.isascii() or not count.isdecimal()
                     or (count!='0' and count.startswith('0')) or len(count)>8 or int(count)>48000000

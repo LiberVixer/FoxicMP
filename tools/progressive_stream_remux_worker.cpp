@@ -1,6 +1,7 @@
 // Internal continuous copy-remux component. No player capability is advertised.
 #include "progressive_demux_runtime.h"
 #include "../shared/progressivestreamcapabilities.h"
+#include "../shared/progressivestreamwebm.h"
 #include "../src/DSUtil/HarvesterAacWindow.h"
 #include "../src/DSUtil/HarvesterHevc.h"
 #include "../src/DSUtil/HarvesterAV1.h"
@@ -103,18 +104,21 @@ struct Context {
  ~Context(){if(packet)api.av_packet_free(&packet);if(input)api.avformat_close_input(&input);if(output)api.avformat_free_context(output);for(auto* io:{inputIo,outputIo})if(io){api.av_free(io->buffer);api.avio_context_free(&io);}}
 };
 Doc run(Api& api,const Doc& start){
- const bool packetAudio=start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-packet-clock-v1";
+ need(start.HasMember("mode") && start["mode"].IsString(),"unsupported-stream-start");
+ const auto mode=std::string_view(start["mode"].GetString(),start["mode"].GetStringLength());
+ const auto* extendedWebm=foxicmp::progressive::FindContinuousWebmProfile(mode);
+ const bool packetAudio=(extendedWebm && extendedWebm->opus) || mode=="continuous-webm-vp9-opus-packet-clock-v1";
  const bool derivedAudio=packetAudio || start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-simple-vfr-derived-av-v1";
  const bool nominal=start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-simple-vfr-nominal-v1";
- const bool autoCount=derivedAudio || nominal || start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-simple-vfr-auto-count-v1";
+ const bool autoCount=extendedWebm || derivedAudio || nominal || mode=="continuous-webm-vp9-opus-simple-vfr-auto-count-v1";
  const bool simple=autoCount || start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-simple-vfr-v1";
  const bool vfr=simple || start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-vfr-v1";
  const bool cfr=start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-cfr-v1";
  const bool ntsc=start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-ntsc-v1";
- const bool opus=vfr || cfr || ntsc || start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-opus-v1";
+ const bool opus=extendedWebm?extendedWebm->opus:vfr || cfr || ntsc || mode=="continuous-webm-vp9-opus-v1";
  const bool webmIndexed=start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-superframe-video-v1";
- const bool webm=opus || webmIndexed || start.HasMember("mode") && start["mode"].IsString() && start["mode"]=="continuous-webm-vp9-video-v1";
- need(start.MemberCount()==(derivedAudio?5u:autoCount?6u:(cfr || vfr)?7u:opus?6u:webm?5u:4u) && start.HasMember("mode") && start["mode"].IsString() && start.HasMember("formatHint") && start["formatHint"].IsString() && start["formatHint"]==(webm?"webm":"mp4") && start.HasMember("complete") && start["complete"].IsBool() && start.HasMember("length") && start["length"].IsString(),"unsupported-stream-start");
+ const bool webm=extendedWebm || opus || webmIndexed || mode=="continuous-webm-vp9-video-v1";
+ need(start.MemberCount()==(extendedWebm || derivedAudio?5u:autoCount?6u:(cfr || vfr)?7u:opus?6u:webm?5u:4u) && start.HasMember("formatHint") && start["formatHint"].IsString() && start["formatHint"]==(webm?"webm":"mp4") && start.HasMember("complete") && start["complete"].IsBool() && start.HasMember("length") && start["length"].IsString(),"unsupported-stream-start");
  uint64_t webmSamples=0;if(webm && !autoCount){need(start.HasMember("videoSamples") && start["videoSamples"].IsString(),"unsupported-stream-start");auto text=std::string(start["videoSamples"].GetString());need(!text.empty() && text.size()<=5 && text[0]!='0' && text.find_first_not_of("0123456789")==std::string::npos,"unsupported-stream-start");webmSamples=std::stoull(text);need(webmSamples<=PacketLimit,"packet-limit");}
 
  harvester::WebmContinuousClock clock;
@@ -128,15 +132,16 @@ Doc run(Api& api,const Doc& start){
   const std::string end=start["videoDuration100ns"].GetString();need(!end.empty() && end.size()<=11 && end[0]!='0' && end.find_first_not_of("0123456789")==std::string::npos,"unsupported-stream-start");
   clock=packetAudio?harvester::WebmContinuousClock::VfrPacketOpus(std::stoull(end)):derivedAudio?harvester::WebmContinuousClock::VfrDerivedAv(std::stoull(end)):nominal?harvester::WebmContinuousClock::VfrNominal(std::stoull(end)):autoCount?harvester::WebmContinuousClock::VfrAutoCount(std::stoull(end)):harvester::WebmContinuousClock::Vfr(webmSamples,std::stoull(end));need(clock.Valid(),"unsupported-stream-webm-clock");
  }
- if(opus){
-  need(derivedAudio || (start.HasMember("audioSamples") && start["audioSamples"].IsString()),"unsupported-stream-start");
-  const std::string atext=derivedAudio?"0":start["audioSamples"].GetString(),text=start["length"].GetString();
-  need((derivedAudio || (!atext.empty() && atext.size()<=8 && atext[0]!='0' && atext.find_first_not_of("0123456789")==std::string::npos)) && !text.empty() && text.size()<=10 && text[0]!='0' && text.find_first_not_of("0123456789")==std::string::npos,"unsupported-stream-start");
+ if(opus || extendedWebm){
+  const bool needsAudioSamples=opus && !derivedAudio;
+  need(!needsAudioSamples || (start.HasMember("audioSamples") && start["audioSamples"].IsString()),"unsupported-stream-start");
+  const std::string atext=needsAudioSamples?start["audioSamples"].GetString():"0",text=start["length"].GetString();
+  need((!needsAudioSamples || (!atext.empty() && atext.size()<=8 && atext[0]!='0' && atext.find_first_not_of("0123456789")==std::string::npos)) && !text.empty() && text.size()<=10 && text[0]!='0' && text.find_first_not_of("0123456789")==std::string::npos,"unsupported-stream-start");
   StreamInput source;source.length=std::stoll(text);source.complete=start["complete"].GetBool();StreamOutput sink;
   try{
-   harvester::ContinuousWebmOpus input([&](uint8_t* out,size_t n){if(source.at==source.length && !source.complete)source.wait("source-complete",0);const auto got=StreamInput::read(&source,out,int(n));need(got>=0 || got==AVERROR_EOF,source.failure.empty()?"invalid-media":source.failure.c_str());return got==AVERROR_EOF?size_t(0):size_t(got);},uint64_t(source.length),webmSamples,std::stoull(atext),ntsc,clock,simple);
+   harvester::ContinuousWebmOpus input([&](uint8_t* out,size_t n){if(source.at==source.length && !source.complete)source.wait("source-complete",0);const auto got=StreamInput::read(&source,out,int(n));need(got>=0 || got==AVERROR_EOF,source.failure.empty()?"invalid-media":source.failure.c_str());return got==AVERROR_EOF?size_t(0):size_t(got);},uint64_t(source.length),webmSamples,std::stoull(atext),ntsc,clock,simple,extendedWebm?extendedWebm->codec:"vp9",opus);
    uint8_t bytes[65536];for(;;){const auto n=input.read(bytes,sizeof(bytes));if(!n)break;need(StreamOutput::writeBytes(&sink,bytes,int(n))==int(n),sink.failure.c_str());}input.finish();
-   Doc result;result.SetObject();auto& a=result.GetAllocator();put(result,"code","data");put(result,"mode",packetAudio?"continuous-webm-vp9-opus-packet-clock-v1":derivedAudio?"continuous-webm-vp9-opus-simple-vfr-derived-av-v1":nominal?"continuous-webm-vp9-opus-simple-vfr-nominal-v1":autoCount?"continuous-webm-vp9-opus-simple-vfr-auto-count-v1":simple?"continuous-webm-vp9-opus-simple-vfr-v1":vfr?"continuous-webm-vp9-opus-vfr-v1":cfr?"continuous-webm-vp9-opus-cfr-v1":ntsc?"continuous-webm-vp9-opus-ntsc-v1":"continuous-webm-vp9-opus-v1");result.AddMember("sourceComplete",true,a);result.AddMember("sourceEof",true,a);result.AddMember("continuousOutput",true,a);result.AddMember("playbackSupported",false,a);result.AddMember("transcoded",false,a);result.AddMember("packets",unsigned(input.videoPackets()+input.audioPackets()),a);put(result,"bytesRead",std::to_string(source.readBytes));put(result,"bytesWritten",std::to_string(sink.bytes));put(result,"sha256",sink.digest.hex());result.AddMember("waits",source.waits,a);if(derivedAudio){put(result,"derivedAudioSamples",std::to_string(input.derivedAudioSamples()));result.AddMember("audioPackets",unsigned(input.audioPackets()),a);if(packetAudio)result.AddMember("audioPreSkipSamples",input.audioPreSkip(),a);}return result;
+   Doc result;result.SetObject();auto& a=result.GetAllocator();put(result,"code","data");put(result,"mode",std::string(mode));result.AddMember("sourceComplete",true,a);result.AddMember("sourceEof",true,a);result.AddMember("continuousOutput",true,a);result.AddMember("playbackSupported",false,a);result.AddMember("transcoded",false,a);result.AddMember("packets",unsigned(input.videoPackets()+input.audioPackets()),a);put(result,"bytesRead",std::to_string(source.readBytes));put(result,"bytesWritten",std::to_string(sink.bytes));put(result,"sha256",sink.digest.hex());result.AddMember("waits",source.waits,a);if(derivedAudio){put(result,"derivedAudioSamples",std::to_string(input.derivedAudioSamples()));result.AddMember("audioPackets",unsigned(input.audioPackets()),a);if(packetAudio)result.AddMember("audioPreSkipSamples",input.audioPreSkip(),a);}return result;
   }catch(const std::exception& e){
     std::string code=source.failure.empty()?e.what():source.failure;
     if(vfr && source.failure.empty() && code.find(" ")!=std::string::npos)code="unsupported-stream-webm-configuration";

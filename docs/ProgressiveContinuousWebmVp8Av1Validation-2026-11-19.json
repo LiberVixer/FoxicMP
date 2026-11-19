@@ -1,0 +1,607 @@
+{
+  "result": "PASS",
+  "date": "2026-11-19",
+  "applicationVersion": "0.2.0",
+  "sdkVersion": "1.109",
+  "acceptedFamilies": [
+    "W01"
+  ],
+  "workIds": [
+    "P02.C149.04"
+  ],
+  "editions": {
+    "linux-qt": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "a3e47337def9e36254ee7e6fb57d2800860fc028325328cb282de88a2326fa94",
+      "testOutput": "private X11/D-Bus/PulseAudio",
+      "ordinaryMain": [
+        {
+          "case": "av1-opus-simple",
+          "mode": "continuous-webm-av1-opus-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "13d425cf0cda2375a838692aa70618d9b1004de9b6784d616a036a714b31cd90",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-opus-groups",
+          "mode": "continuous-webm-av1-opus-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "35dc143a8b709f43e5c0e11698690a4e4dff498a72432392d7cdb1843ae24a35",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-video-simple",
+          "mode": "continuous-webm-av1-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "22c09d0cc3a88c64f9e2245121f95cbd124f334257962714458a464f5eeec623",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-video-groups",
+          "mode": "continuous-webm-av1-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "fed4436648a5bac00b2e896d63d9a0b4687bad372037e1da329a6a4e6e5bf109",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-video-finite",
+          "mode": "continuous-webm-av1-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "944fae52293e1485d99a6bf63ea66528669546680bf6621e8525c4a80adcc5fe",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-opus-simple",
+          "mode": "continuous-webm-vp8-opus-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "cc9aacb3c88f1a6d9ef42e4cd1279337e76576bb78a9eb261eaca60e4411e003",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-opus-groups",
+          "mode": "continuous-webm-vp8-opus-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "295354bffbd7d9e3ebad270205666359fea80cbf84356de742fef8193a9463ea",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-video-simple",
+          "mode": "continuous-webm-vp8-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "9dd363d147056586ce7aa469751f0ebc9cb3224b4cc382dc4ac65ea7fabea7d3",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-video-groups",
+          "mode": "continuous-webm-vp8-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "94cd108e1e86950975903ff046e4b18d1e635ef1a4e92cda434c1f05f883f435",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-video-finite",
+          "mode": "continuous-webm-vp8-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "14f1285abdd7889d1f8aa19751d99ba08bd8dcf84c26c30b55c4f2d351b5df9d",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        }
+      ],
+      "workerValidation": "linux"
+    },
+    "windows-qt": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "49e074195257fd55c05b380013c6ec5fbaf183598b690281187170a9c9972f91",
+      "testOutput": "offscreen Qt with private test profile",
+      "ordinaryMain": [
+        {
+          "case": "vp8-video-simple",
+          "mode": "continuous-webm-vp8-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "9dd363d147056586ce7aa469751f0ebc9cb3224b4cc382dc4ac65ea7fabea7d3",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-video-groups",
+          "mode": "continuous-webm-vp8-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "94cd108e1e86950975903ff046e4b18d1e635ef1a4e92cda434c1f05f883f435",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-video-finite",
+          "mode": "continuous-webm-vp8-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "14f1285abdd7889d1f8aa19751d99ba08bd8dcf84c26c30b55c4f2d351b5df9d",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-opus-simple",
+          "mode": "continuous-webm-vp8-opus-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "cc9aacb3c88f1a6d9ef42e4cd1279337e76576bb78a9eb261eaca60e4411e003",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-opus-groups",
+          "mode": "continuous-webm-vp8-opus-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "295354bffbd7d9e3ebad270205666359fea80cbf84356de742fef8193a9463ea",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-video-simple",
+          "mode": "continuous-webm-av1-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "22c09d0cc3a88c64f9e2245121f95cbd124f334257962714458a464f5eeec623",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-video-groups",
+          "mode": "continuous-webm-av1-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "fed4436648a5bac00b2e896d63d9a0b4687bad372037e1da329a6a4e6e5bf109",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-video-finite",
+          "mode": "continuous-webm-av1-video-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "944fae52293e1485d99a6bf63ea66528669546680bf6621e8525c4a80adcc5fe",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-opus-simple",
+          "mode": "continuous-webm-av1-opus-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "13d425cf0cda2375a838692aa70618d9b1004de9b6784d616a036a714b31cd90",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-opus-groups",
+          "mode": "continuous-webm-av1-opus-v1",
+          "beforeCompleteSeconds": 10.12,
+          "sourceSha256": "35dc143a8b709f43e5c0e11698690a4e4dff498a72432392d7cdb1843ae24a35",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        }
+      ],
+      "workerValidation": "windows"
+    },
+    "windows-classic": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "c5c7819759fc48cfa827f8c39cbd16d4e3e472fb5667656a10dd780936106c12",
+      "testOutput": "DirectShow null renderers with private INI",
+      "ordinaryMain": [
+        {
+          "case": "vp8-video-simple",
+          "mode": "continuous-webm-vp8-video-v1",
+          "beforeCompleteSeconds": 10.101,
+          "sourceSha256": "9dd363d147056586ce7aa469751f0ebc9cb3224b4cc382dc4ac65ea7fabea7d3",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-video-groups",
+          "mode": "continuous-webm-vp8-video-v1",
+          "beforeCompleteSeconds": 10.137,
+          "sourceSha256": "94cd108e1e86950975903ff046e4b18d1e635ef1a4e92cda434c1f05f883f435",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-video-finite",
+          "mode": "continuous-webm-vp8-video-v1",
+          "beforeCompleteSeconds": 10.102,
+          "sourceSha256": "14f1285abdd7889d1f8aa19751d99ba08bd8dcf84c26c30b55c4f2d351b5df9d",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-opus-simple",
+          "mode": "continuous-webm-vp8-opus-v1",
+          "beforeCompleteSeconds": 10.125,
+          "sourceSha256": "cc9aacb3c88f1a6d9ef42e4cd1279337e76576bb78a9eb261eaca60e4411e003",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "vp8-opus-groups",
+          "mode": "continuous-webm-vp8-opus-v1",
+          "beforeCompleteSeconds": 10.127,
+          "sourceSha256": "295354bffbd7d9e3ebad270205666359fea80cbf84356de742fef8193a9463ea",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-video-simple",
+          "mode": "continuous-webm-av1-video-v1",
+          "beforeCompleteSeconds": 10.101,
+          "sourceSha256": "22c09d0cc3a88c64f9e2245121f95cbd124f334257962714458a464f5eeec623",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-video-groups",
+          "mode": "continuous-webm-av1-video-v1",
+          "beforeCompleteSeconds": 10.101,
+          "sourceSha256": "fed4436648a5bac00b2e896d63d9a0b4687bad372037e1da329a6a4e6e5bf109",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-video-finite",
+          "mode": "continuous-webm-av1-video-v1",
+          "beforeCompleteSeconds": 10.1,
+          "sourceSha256": "944fae52293e1485d99a6bf63ea66528669546680bf6621e8525c4a80adcc5fe",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-opus-simple",
+          "mode": "continuous-webm-av1-opus-v1",
+          "beforeCompleteSeconds": 10.147,
+          "sourceSha256": "13d425cf0cda2375a838692aa70618d9b1004de9b6784d616a036a714b31cd90",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        },
+        {
+          "case": "av1-opus-groups",
+          "mode": "continuous-webm-av1-opus-v1",
+          "beforeCompleteSeconds": 10.144,
+          "sourceSha256": "35dc143a8b709f43e5c0e11698690a4e4dff498a72432392d7cdb1843ae24a35",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "pauseSeekAndQueuedSeek": true,
+          "naturalEof": true
+        }
+      ],
+      "workerValidation": "windows",
+      "installedShellRegistrationUnchanged": true
+    }
+  },
+  "workerRuns": {
+    "linux": {
+      "result": "PASS",
+      "exitCode": 0,
+      "rows": [
+        {
+          "case": "vp8-video-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "462334",
+          "bytesWritten": "465481"
+        },
+        {
+          "case": "vp8-video-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "465466",
+          "bytesWritten": "465466"
+        },
+        {
+          "case": "vp8-video-finite",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "462669",
+          "bytesWritten": "465512"
+        },
+        {
+          "case": "vp8-opus-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "676453",
+          "bytesWritten": "679600"
+        },
+        {
+          "case": "vp8-opus-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "679578",
+          "bytesWritten": "679578"
+        },
+        {
+          "case": "av1-video-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "195181",
+          "bytesWritten": "195133"
+        },
+        {
+          "case": "av1-video-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "195118",
+          "bytesWritten": "195118"
+        },
+        {
+          "case": "av1-video-finite",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "195518",
+          "bytesWritten": "195165"
+        },
+        {
+          "case": "av1-opus-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "476953",
+          "bytesWritten": "476905"
+        },
+        {
+          "case": "av1-opus-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "476883",
+          "bytesWritten": "476883"
+        }
+      ],
+      "rejected": {
+        "codec-mismatch": 1,
+        "missing-opus": 1,
+        "wrong-endpoint": 1,
+        "cancel-wait": 1,
+        "unconfirmed-eof": 1,
+        "integrity-mismatch": 1,
+        "lacing": 1,
+        "cluster-limit": 1
+      }
+    },
+    "windows": {
+      "result": "PASS",
+      "exitCode": 0,
+      "rows": [
+        {
+          "case": "vp8-video-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "462334",
+          "bytesWritten": "465481"
+        },
+        {
+          "case": "vp8-video-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "465466",
+          "bytesWritten": "465466"
+        },
+        {
+          "case": "vp8-video-finite",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "462669",
+          "bytesWritten": "465512"
+        },
+        {
+          "case": "vp8-opus-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "676453",
+          "bytesWritten": "679600"
+        },
+        {
+          "case": "vp8-opus-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "679578",
+          "bytesWritten": "679578"
+        },
+        {
+          "case": "av1-video-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "195181",
+          "bytesWritten": "195133"
+        },
+        {
+          "case": "av1-video-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "195118",
+          "bytesWritten": "195118"
+        },
+        {
+          "case": "av1-video-finite",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "195518",
+          "bytesWritten": "195165"
+        },
+        {
+          "case": "av1-opus-simple",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "476953",
+          "bytesWritten": "476905"
+        },
+        {
+          "case": "av1-opus-groups",
+          "videoPackets": 360,
+          "exactPacketsClockDecode": true,
+          "bytesRead": "476883",
+          "bytesWritten": "476883"
+        }
+      ],
+      "rejected": {
+        "codec-mismatch": 1,
+        "missing-opus": 1,
+        "wrong-endpoint": 1,
+        "cancel-wait": 1,
+        "unconfirmed-eof": 1,
+        "integrity-mismatch": 1,
+        "lacing": 1,
+        "cluster-limit": 1
+      }
+    }
+  },
+  "counts": {
+    "ordinaryMain": 30,
+    "workerProfiles": 20,
+    "workerRejections": 16
+  },
+  "fixtureSha256": {
+    "av1-opus-groups": "35dc143a8b709f43e5c0e11698690a4e4dff498a72432392d7cdb1843ae24a35",
+    "av1-opus-simple": "13d425cf0cda2375a838692aa70618d9b1004de9b6784d616a036a714b31cd90",
+    "av1-video-finite": "944fae52293e1485d99a6bf63ea66528669546680bf6621e8525c4a80adcc5fe",
+    "av1-video-groups": "fed4436648a5bac00b2e896d63d9a0b4687bad372037e1da329a6a4e6e5bf109",
+    "av1-video-simple": "22c09d0cc3a88c64f9e2245121f95cbd124f334257962714458a464f5eeec623",
+    "vp8-opus-groups": "295354bffbd7d9e3ebad270205666359fea80cbf84356de742fef8193a9463ea",
+    "vp8-opus-simple": "cc9aacb3c88f1a6d9ef42e4cd1279337e76576bb78a9eb261eaca60e4411e003",
+    "vp8-video-finite": "14f1285abdd7889d1f8aa19751d99ba08bd8dcf84c26c30b55c4f2d351b5df9d",
+    "vp8-video-groups": "94cd108e1e86950975903ff046e4b18d1e635ef1a4e92cda434c1f05f883f435",
+    "vp8-video-simple": "9dd363d147056586ce7aa469751f0ebc9cb3224b4cc382dc4ac65ea7fabea7d3"
+  },
+  "binaries": {
+    "_bin/continuous-aac-qt-linux/foxicmp-qt": "a3e47337def9e36254ee7e6fb57d2800860fc028325328cb282de88a2326fa94",
+    "_bin/continuous-aac-qt-linux/foxicmp-remux-stream-worker": "13586bd0a596461d103d8746a79219c409f7b722bac19418430e929b49cc1e9d",
+    "_bin/m4a-qt-windows-stage/FoxicMPq.exe": "49e074195257fd55c05b380013c6ec5fbaf183598b690281187170a9c9972f91",
+    "_bin/m4a-classic-windows-stage/FoxicMP64.exe": "c5c7819759fc48cfa827f8c39cbd16d4e3e472fb5667656a10dd780936106c12",
+    "_bin/continuous-aac-qt-windows/foxicmp-remux-stream-worker.exe": "2e9eb87e98165f2ef345a1b887a1adadb5ec0aa6ceae23f16fcc21b1be9140dc"
+  },
+  "testedSourceSha256": {
+    "qt/CMakeLists.txt": "75992e0d6ebecfb6b0e566ff2d6943b674d15820c9aaaf13ed0b8d585186b705",
+    "qt/src/progressiveapi.cpp": "7068e00f4ef9edf558ef26e9607ad5f57c93e7729c9d360f0be6c13e69b38ac1",
+    "qt/tools/progressive_continuous.py": "78a9d6adaa66a270028ba9e4bbb4ab5f054d84b77acd6dcaadfaccc50da9a2aa",
+    "shared/progressivecachedremux.h": "2d7b6efbe5e645028c42eefda0597b9c89fe2d6a46a789085e9843072377c319",
+    "shared/progressivestreamcache.h": "13d1a38524db41a0a636568a2f9c78f37404276bc2847dcd2e55df276289de43",
+    "shared/progressivestreamcontroller.h": "ee8c5bb0979698458eb1f20ebc2f43492c1b4c7c9714a04dc328e7db58b68f20",
+    "shared/progressivestreamdecoder.h": "23e20bc414531f17f18f67b8a1bc8a88ea1deccb50de9f2d9931a599075485f9",
+    "shared/progressivestreamremux.h": "1a2031677a686c30bc29177605390ff85f1472bd48cf6b26d5f9b8be602e3d43",
+    "shared/progressivestreamwebm.h": "7e4915cf83df42738e8739446a292854da8e3a7a0a9d35471fa5a5c32b3fc11b",
+    "src/DSUtil/HarvesterAV1.h": "d5c9d64c9f79af6050c90ace9ab136a21037083d03bfd25bd27a7df1c644c5ee",
+    "src/DSUtil/HarvesterSession.cpp": "2171a58e930dc9745964e1cf25a880974d9fd606665b32a453b3184f49caa414",
+    "src/DSUtil/HarvesterWebMMuxed.h": "ba62e192c5ab4f8db323fa5acec0a95d35e577ba236114b3a0a4fb9b2df09ff5",
+    "src/DSUtil/HarvesterWebMOpusContinuous.h": "a22d1a135a88f1792b8f556f0afd773fd2119b0860ae1c9fc50a9c40d8720d92",
+    "src/apps/mplayerc/ClassicProgressiveApi.cpp": "a382272965c565270dfd8edd1592f3c3f8831b50870123c059188ec63fe36826",
+    "tests/progressive_continuous_sdk_test.py": "9186aeb80310949e4002f9630c5dbd81e0497b58f977a475dd3297577ece02a6",
+    "tests/progressive_continuous_webm_video_test.py": "791025a1e8b27ec955e482a7d18f571485f5f062da088c961194e27e6b323c47",
+    "tests/progressive_stream_remux_worker_test.py": "bd7633fa51b8775f5c3598c3b0210a4fb2fc9814126cb88a6cdaa49b9c3bf290",
+    "tests/progressive_webm_vfr_preflight.py": "89cc24e9214af851a914dc50a4ee41669daa37c4ce472f49155dd3fadd9e67a5",
+    "tools/package_progressive_sdk.py": "d0019007003d86d1187720e2b5b8a7bf8b5fef4a432dd17a343b4a1ba3ccbb72",
+    "tools/progressive_stream_remux_worker.cpp": "9f708848183c647866bb5c4b237099395aec5e991a0aaacafa013239cc1c81f6",
+    "tools/verify_progressive_media_matrix.py": "9e3e74348429d1907177cbf7863033b7d5a83904f38bd30b21926c54d637ced0",
+    "tools/verify_progressive_sdk.py": "4903f5da2015c608bc410c85cd76f703e082f77fa06879fca159a3471b61ae85"
+  },
+  "regressions": {
+    "vp9PacketClockReportCases": 65,
+    "sdk": {
+      "exitCode": 0,
+      "tests": 66
+    },
+    "indexedMovLinuxExitCode": 0
+  },
+  "scope": [
+    "Synthetic VFR at 1 ms time scale, VP8 8-bit and AV1 Main 10-bit in the acceptance corpus",
+    "Video-only and mono/stereo Opus; SimpleBlock, BlockGroup, finite and unknown Cluster sizes",
+    "No Windows physical audio or physical A/V sync test"
+  ]
+}

@@ -71,11 +71,12 @@ def unsigned(tag, value):
     return ebml(tag, value.to_bytes(max(1, (value.bit_length()+7)//8), "big"))
 
 
-def explicit_durations(raw, *, remove_default=False):
+def explicit_durations(raw, *, remove_default=False, video_track=None):
     """Canonical fixture: retain payload/PTS; replace video SimpleBlocks only."""
     layout = scan(raw)
-    config = configuration(raw)
-    video = [b for b in layout["blocks"] if b["track"] == config[1]["number"]]
+    if video_track is None:
+        video_track = configuration(raw)[1]["number"]
+    video = [b for b in layout["blocks"] if b["track"] == video_track]
     # The final displayed frame uses the fixture encoder's bounded base period.
     rate = Fraction(1000000000, layout["defaultDurationNs"])
     final_ticks = max(1, round(Fraction(1000, rate)))

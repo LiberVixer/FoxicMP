@@ -3,14 +3,14 @@
 17 ноября 2026. Задача **P02.C149.01**, база SDK1.106.
 Машиночитаемый источник: [ProgressiveRequiredMediaMatrix.json](ProgressiveRequiredMediaMatrix.json).
 
-Зафиксировано 111 существующих ограниченных профилей: 89 native и 22 continuous-remux.
-Остаются 28 из 30 именованных входных семейств; к ним применяются 8 сквозных групп и 12 классов отрицательных исходов.
+Зафиксировано 115 существующих ограниченных профилей: 89 native и 26 continuous-remux.
+Остаются 27 из 30 именованных входных семейств; к ним применяются 8 сквозных групп и 12 классов отрицательных исходов.
 Это строки корпуса приёмки, **не новые задачи реестра**. Каждая привязана к существующим ID.
 Сама проверка матрицы не запускает плееры. Подтверждённые семейства имеют отдельные runtime отчёты; общие P02.C148.01–03 остаются открытыми.
 
 ## Порядок и критерий закрытия
 
-M01/P02.C149.02 и M03/P02.C149.03 завершены в указанном объёме. Далее P02.C149.04 (WebM VP8/AV1). Остальные MP4 audio-only кодеки M02 остаются открытыми в P04.C210.04.
+M01, M03 и W01 приняты в указанном объёме. Далее P02.C149.05 (WebM/Vorbis continuous). Остальные MP4 audio-only кодеки M02 остаются открытыми в P04.C210.04.
 Новый codec/profile не закрывает семейство целиком без отдельной приёмки.
 Готовность реализации требует всех применимых положительных и отрицательных
 строк её владельца на Linux Qt, Windows Qt и Classic отдельно.
@@ -39,7 +39,7 @@ M01/P02.C149.02 и M03/P02.C149.03 завершены в указанном об
 | M02 | Обычный MP4 audio-only | P04.C210.04 | обязательно; открыто |
 | M03 | MOV: именованные основные пары | P02.C149.03 | обязательно; принято в указанном объёме |
 | M04 | Обычный MP4: оставшиеся структуры | P02.C149.10, P06.C255.04 | обязательно; открыто |
-| W01 | WebM VP8/AV1 в непрерывном remux | P02.C149.04 | обязательно; открыто |
+| W01 | WebM VP8/AV1 в непрерывном remux | P02.C149.04 | обязательно; принято в указанном объёме |
 | W02 | WebM Vorbis в непрерывном remux | P02.C149.05 | обязательно; открыто |
 | W03 | WebM/Opus: не покрытые SDK1.106 layouts | P02.C149.10, P04.C210.02 | обязательно; открыто |
 | K01 | Matroska: H.264/HEVC и AAC | P02.C149.06 | обязательно; открыто |
@@ -103,6 +103,9 @@ M01/P02.C149.02 и M03/P02.C149.03 завершены в указанном об
 
 Входы: `{"containers":["webm"],"pairs":[["vp8","opus"],["av1","opus"]]}`.
 Варианты: video-only, muxed-av, finite-clusters, unknown-clusters, simple-block, block-group, vfr.
+
+Подтверждённый объём: VP8 and AV1 Main with one displayed frame per packet, optional Opus mono/stereo, known-length resource and exact millisecond video endpoint, explicit BlockGroup or next-PTS SimpleBlock durations.
+Отчёт: [ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json](ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json).
 
 **W02. WebM Vorbis в непрерывном remux**
 
@@ -394,6 +397,10 @@ M01/P02.C149.02 и M03/P02.C149.03 завершены в указанном об
 | `standalone-indexed-m4a-aac` | native-progressive | linux-qt, windows-qt, windows-classic | [ProgressiveM4A.md](ProgressiveM4A.md), [ProgressiveM4AValidation-2026-11-18.json](ProgressiveM4AValidation-2026-11-18.json) |
 | `growing-indexed-mov-video` | native-progressive | linux-qt, windows-qt, windows-classic | [ProgressiveIndexedMOV.md](ProgressiveIndexedMOV.md), [ProgressiveIndexedMOVValidation-2026-11-19.json](ProgressiveIndexedMOVValidation-2026-11-19.json) |
 | `growing-indexed-mov-aac-lc` | native-progressive | linux-qt, windows-qt, windows-classic | [ProgressiveIndexedMOV.md](ProgressiveIndexedMOV.md), [ProgressiveIndexedMOVValidation-2026-11-19.json](ProgressiveIndexedMOVValidation-2026-11-19.json) |
+| `continuous-webm-av1-opus-v1` | progressive-remux | linux-qt, windows-qt, windows-classic | [ProgressiveContinuousWebmVp8Av1.md](ProgressiveContinuousWebmVp8Av1.md), [ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json](ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json) |
+| `continuous-webm-av1-video-v1` | progressive-remux | linux-qt, windows-qt, windows-classic | [ProgressiveContinuousWebmVp8Av1.md](ProgressiveContinuousWebmVp8Av1.md), [ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json](ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json) |
+| `continuous-webm-vp8-opus-v1` | progressive-remux | linux-qt, windows-qt, windows-classic | [ProgressiveContinuousWebmVp8Av1.md](ProgressiveContinuousWebmVp8Av1.md), [ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json](ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json) |
+| `continuous-webm-vp8-video-v1` | progressive-remux | linux-qt, windows-qt, windows-classic | [ProgressiveContinuousWebmVp8Av1.md](ProgressiveContinuousWebmVp8Av1.md), [ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json](ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json) |
 
 ## Изменение матрицы
 

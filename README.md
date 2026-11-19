@@ -422,3 +422,9 @@ SDK 1.108 добавляет [воспроизведение MOV во время
 хвостовом диапазоне. Клиент может вызвать `indexedMovCapabilities`.
 [Результаты проверки трёх редакций](docs/ProgressiveIndexedMOVValidation-2026-11-19.json).
 [Поставка SDK и статус установки Linux](docs/ProgressiveIndexedMOVDelivery-2026-11-19.json).
+
+SDK 1.109 добавляет [непрерывное воспроизведение WebM VP8 и AV1](docs/ProgressiveContinuousWebmVp8Av1.md)
+в Classic и обе редакции Qt. Поддерживаются видео без звука и видео с Opus.
+Число кадров и аудиосэмплов определяется по данным файла. Клиент проверяет
+новые режимы запросом `continuousWebmCapabilities`.
+[Результаты проверки](docs/ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json).

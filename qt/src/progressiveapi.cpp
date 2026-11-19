@@ -285,6 +285,12 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
     if (!keys(input, {"version", "action"})) return failure("invalid_request", "Unexpected fields");
     return QJsonDocument::fromJson(foxicmp::progressive::IndexedMovCapabilities()).object();
   }
+  if (action == "continuousWebmCapabilities") {
+    if (!keys(input, {"version", "action"})) return failure("invalid_request", "Unexpected fields");
+    auto result = QJsonDocument::fromJson(foxicmp::progressive::ContinuousWebmCapabilities()).object();
+    result["ok"] = true;
+    return result;
+  }
   if (action == "capabilities") {
     if (!keys(input, {"version", "action"})) return failure("invalid_request", "Unexpected fields");
     auto result = information({});
@@ -548,7 +554,7 @@ QJsonObject ProgressiveApi::continuousStatus()const{
   result["audio"]=p.source->hasAudio();
   if(p.source->vfrOpus() && !p.source->autoCountOpus())result["videoSamples"]=QString::number(p.source->videoClock().expectedFrames);
   if(p.source->derivedAudioOpus()){result["indexedAudioSamples"]=QString::number(out.audioPresentationSamples);result["audioSampleCountFinal"]=out.complete;result["audioTrackEndObserved"]=out.audioIndexedComplete;}
-  if(p.source->autoCountOpus()){result["indexedVideoSamples"]=QString::number(out.videoSamples);result["videoSampleCountFinal"]=out.complete;}
+  if(p.source->videoClock().derivedCount){result["indexedVideoSamples"]=QString::number(out.videoSamples);result["videoSampleCountFinal"]=out.complete;}
   if(p.source->cfrOpus()){const auto rate=p.source->videoClock();result["videoRate"]=QJsonObject{{"numerator",int(rate.numerator)},{"denominator",int(rate.denominator)}};}
   result["playbackId"]=QString::fromStdString(p.id);result["requestId"]=QString::fromStdString(p.command.requestId);result["jobId"]=QString::fromStdString(p.command.jobId);
   result["sessionId"]=QString::fromStdString(p.command.sessionId);result["generation"]=QString::number(p.command.generation);result["writerInstanceId"]=QString::fromStdString(p.command.writer);

@@ -1047,6 +1047,21 @@ if(BUILD_TESTING AND TARGET foxicmp-progressive-media-tests)
  if(WIN32)
   target_link_libraries(foxicmp-m4a-controls-probe PRIVATE runtimeobject)
  endif()
+ set(FOXICMP_TEST_CONTINUOUS_WEBM_CORPUS "" CACHE PATH "Prepared synthetic continuous VP8/AV1 WebM corpus")
+ if(FOXICMP_TEST_CONTINUOUS_WEBM_CORPUS AND TARGET foxicmp-remux-stream-worker)
+  set(webm_test "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_continuous_webm_video_test.py")
+  add_test(NAME progressive-continuous-webm-vp8-av1-worker
+    COMMAND "${Python3_EXECUTABLE}" "${webm_test}" --corpus "${FOXICMP_TEST_CONTINUOUS_WEBM_CORPUS}"
+      --worker "$<TARGET_FILE:foxicmp-remux-stream-worker>"
+      --report "${CMAKE_CURRENT_BINARY_DIR}/webm-vp8-av1-worker/result.json")
+  add_test(NAME progressive-continuous-webm-vp8-av1-player
+    COMMAND "${Python3_EXECUTABLE}" "${webm_test}" --corpus "${FOXICMP_TEST_CONTINUOUS_WEBM_CORPUS}"
+      --edition qt --player "$<TARGET_FILE:foxicmp-qt>" --reader-runner "$<TARGET_FILE:foxicmp-progressive-reader-tests>"
+      --report "${CMAKE_CURRENT_BINARY_DIR}/webm-vp8-av1-player/result.json")
+  set_tests_properties(progressive-continuous-webm-vp8-av1-worker
+    progressive-continuous-webm-vp8-av1-player PROPERTIES TIMEOUT 300
+    ENVIRONMENT "PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR}/tools")
+ endif()
  set(FOXICMP_TEST_MOV_CORPUS "" CACHE PATH "Prepared synthetic MOV test corpus")
  if(FOXICMP_TEST_MOV_CORPUS)
   set(mov_test "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_indexed_mov_test.py")

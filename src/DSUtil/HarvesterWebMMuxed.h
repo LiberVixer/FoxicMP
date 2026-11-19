@@ -28,9 +28,10 @@ public:
     using Validate=std::function<void(unsigned,const WebMInfo&)>;
     using AudioValidate=std::function<void(webm::Data,int64_t,int64_t)>;
     std::array<View,2> tracks;
-    explicit Layout(bool durations=false):explicitVideoDuration(durations){}
+    explicit Layout(bool durations=false,bool videoOnly=false):explicitVideoDuration(durations),singleVideo(videoOnly){}
 private:
     bool explicitVideoDuration=false;
+    bool singleVideo=false;
     Bytes ebml,info;std::array<Bytes,2> entries;
     uint64_t position=0,scanned=0,segmentEnd=UINT64_MAX;
     size_t clusters=0,elements=0;bool started=false,hasInfo=false,hasTracks=false,initialized=false;
@@ -55,6 +56,7 @@ private:
         for(const auto& child:data.Children()) {
             if(child.id==0xec || child.id==0xbf)continue;Check(child.id==0xae && ++count<=2,"Expected exactly two WebM TrackEntry elements");
             const auto type=child.body.One(0x83).Number();Check(type==1 || type==2,"Unsupported WebM track kind");const unsigned k=type==1?0:1;
+            Check(!singleVideo || !k,"Unexpected audio in video-only WebM");
             Check(entries[k].empty(),"Duplicate WebM track kind");const auto id=child.body.One(0xd7).Number();Check(id && id<=UINT32_MAX,"Invalid WebM track number");tracks[k].id=uint32_t(id);
             uid[k]=child.body.One(0x73c5).Number();Check(uid[k],"Invalid WebM TrackUID");
             std::set<uint32_t> unique;
@@ -67,11 +69,13 @@ private:
             if(!k){const auto v=child.body.One(0xe0);Check(webm::OptionalNumber(v,0x53c0,0)==0 && webm::OptionalNumber(v,0x9a,0)!=1 && webm::OptionalNumber(v,0x54b2,0)==0,"Alpha/interlaced/non-pixel video is unsupported");}
             entries[k]=Element(0xae,child.body);
         }
-        Check(count==2 && !entries[0].empty() && !entries[1].empty() && tracks[0].id!=tracks[1].id && uid[0]!=uid[1],"Expected distinct video/audio TrackNumber and TrackUID");hasTracks=true;
+        Check(count==(singleVideo?1u:2u) && !entries[0].empty() &&
+              (singleVideo || (!entries[1].empty() && tracks[0].id!=tracks[1].id && uid[0]!=uid[1])),
+              "Unexpected WebM track count or duplicate track identity");hasTracks=true;
     }
     void Initialize(const Validate& validate) {
         Check(hasInfo && hasTracks && !initialized,"Incomplete/repeated WebM initialization");
-        for(unsigned k=0;k<2;++k) {
+        for(unsigned k=0;k<(singleVideo?1u:2u);++k) {
             Bytes bytes=ebml;Join(bytes,Bytes{0x18,0x53,0x80,0x67,0x01,0xff,0xff,0xff,0xff,0xff,0xff,0xff});Join(bytes,info);Join(bytes,Element(0x1654ae6b,{entries[k].data(),entries[k].size()}));
             const auto config=WebMInitialization([&](uint64_t at,void* out,size_t n){if(!RangeReady(at,n,bytes.size()))return false;if(n)std::memcpy(out,bytes.data()+size_t(at),n);return true;},bytes.size(),int(k),true,explicitVideoDuration);
             Check((k?(config.codec=="opus" || config.codec=="vorbis"):config.codec=="vp8" || config.codec=="vp9" || config.codec=="av1"),"Muxed WebM enables VP8/VP9/AV1 with Opus/Vorbis only");validate(k,config);Memory(tracks[k],std::move(bytes));
@@ -81,7 +85,7 @@ private:
     unsigned Kind(webm::Data block) const {
         Check(block.size>=4,"Truncated shared WebM block");const auto w=webm::Width(block.bytes[0],8);Check(block.size>w+3,"Empty shared WebM block");
         uint64_t id=block.bytes[0]&((0x80u>>(w-1))-1);for(unsigned i=1;i<w;++i)id=(id<<8)|block.bytes[i];
-        Check(id==tracks[0].id || id==tracks[1].id,"WebM block references an undeclared track");return id==tracks[0].id?0:1;
+        Check(id==tracks[0].id || (!singleVideo && id==tracks[1].id),"WebM block references an undeclared track");return id==tracks[0].id?0:1;
     }
     void Cluster(const Read& read,const webm::Element& e,uint64_t prefix,const AudioValidate& audioValidate) {
         Check(++clusters<=8192,"Too many shared WebM clusters");const auto raw=webm::Body(read,e,prefix,MaxCluster);const webm::Data data{raw.data(),raw.size(),e.data};

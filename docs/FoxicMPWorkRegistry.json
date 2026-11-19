@@ -1230,9 +1230,16 @@
         {
           "path": "docs/ProgressiveCompletionChecklist.md",
           "line": 149
+        },
+        {
+          "path": "docs/ProgressiveContinuousWebmVp8Av1.md"
+        },
+        {
+          "path": "docs/ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json"
         }
       ],
-      "status": "todo"
+      "status": "done",
+      "changeReason": "W01: VP8 и AV1 с Opus и без звука. 30 отдельных прогонов обычных плееров, 20 worker-профилей, 16 проверок отказа. Пройдены пауза, перемотка по растущему файлу, ожидание диапазона, EOF и освобождение. Новых ID нет."
     },
     {
       "id": "P02.C149.05",
