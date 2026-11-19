@@ -2923,6 +2923,36 @@
       ],
       "status": "bounded-existing",
       "admission": "Ordinary single AAC M4A, only the limits of standalone.m4a; not every MP4 audio codec/layout"
+    },
+    {
+      "id": "growing-indexed-mov-video",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveIndexedMOV.md",
+        "docs/ProgressiveIndexedMOVValidation-2026-11-19.json"
+      ],
+      "status": "bounded-existing",
+      "admission": "Explicit indexedMovCapabilities response; bounded QuickTime MOV"
+    },
+    {
+      "id": "growing-indexed-mov-aac-lc",
+      "path": "native-progressive",
+      "declaredEditions": [
+        "linux-qt",
+        "windows-qt",
+        "windows-classic"
+      ],
+      "evidence": [
+        "docs/ProgressiveIndexedMOV.md",
+        "docs/ProgressiveIndexedMOVValidation-2026-11-19.json"
+      ],
+      "status": "bounded-existing",
+      "admission": "Explicit indexedMovCapabilities response; bounded QuickTime MOV"
     }
   ],
   "remainingFamilies": [
@@ -3024,7 +3054,7 @@
       "owners": [
         "P02.C149.03"
       ],
-      "status": "not-accepted",
+      "status": "accepted-bounded",
       "requirement": "mandatory",
       "inputs": {
         "containers": [
@@ -3067,7 +3097,9 @@
         "lifecycle",
         "negative-cases",
         "resource-bounds"
-      ]
+      ],
+      "acceptanceEvidence": "docs/ProgressiveIndexedMOVValidation-2026-11-19.json",
+      "boundedScope": "QuickTime qt brand, one H.264/HEVC/MPEG-4 Part 2 video track, optional AAC-LC track, confirmed head or tail index with bounded unit-rate edits"
     },
     {
       "id": "M04",
@@ -4637,6 +4669,7 @@
     "commonNative": "f409b40b0d675b4d25028604465f85ddecc273103a97eec60ac4945c6508b3ea",
     "qtNative": "094e76ef434f7a5d7a8f6c972434267a2c7a3a522a7bafb7133d6da191dfebe1",
     "classicNative": "aa617c26db3fec9dc845330e72f029a34daa40cdb072c6a512a6592218b9257f",
+    "indexedMov": "808a383a47f8afea48cafc88b5f4d69b969f90adfa59afc6d0b6c44a1b0b88a7",
     "continuous": "4420c24c1dc40fc495ab9b2d901a71f04be532e663ae9b6d7cc6a0e9db82c79b"
   },
   "capabilityProfileSets": {
@@ -4905,6 +4938,10 @@
       "standalone-webm-vorbis",
       "standalone-webm-vp8",
       "standalone-webm-vp9"
+    ],
+    "indexedMov": [
+      "growing-indexed-mov-aac-lc",
+      "growing-indexed-mov-video"
     ],
     "continuous": [
       "continuous-av1-aac-window-v1",
@@ -5363,6 +5400,6 @@
       "reason": "Initial frozen source contract, 2026-11-17"
     }
   ],
-  "lastUpdated": "2026-11-18",
-  "executionNote": "M01/P02.C149.02 завершён в указанном AAC-объёме. Далее P02.C149.03 (MOV); M02 с остальными MP4 audio-only кодеками остаётся открытым в P04.C210.04."
+  "lastUpdated": "2026-11-19",
+  "executionNote": "M01/P02.C149.02 и M03/P02.C149.03 завершены в указанном объёме. Далее P02.C149.04 (WebM VP8/AV1). Остальные MP4 audio-only кодеки M02 остаются открытыми в P04.C210.04."
 }

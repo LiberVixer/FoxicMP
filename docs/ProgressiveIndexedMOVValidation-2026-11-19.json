@@ -1,0 +1,1080 @@
+{
+  "result": "PASS",
+  "applicationVersion": "0.2.0",
+  "sdkVersion": "1.108",
+  "date": "2026-11-19",
+  "acceptedFamilies": [
+    "M03"
+  ],
+  "workIds": [
+    "P02.C149.03"
+  ],
+  "mode": "growing-indexed-quicktime-mov",
+  "counts": {
+    "native": 36,
+    "negative": 33,
+    "ordinaryMain": 36,
+    "qtControls": 12,
+    "classicControls": 12
+  },
+  "editions": {
+    "linux-qt": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "b57c27e33188350c117c1b107912cb0f7bce5e9e09d021626527ae37decdcd80",
+      "testOutput": "private X11/D-Bus/PulseAudio",
+      "nativeExitCode": 0,
+      "native": {
+        "result": "PASS",
+        "rows": [
+          {
+            "case": "h264-av-head",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "h264-av-tail",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "h264-video-head",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "h264-video-tail",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-av-head",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-av-tail",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-video-head",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-video-tail",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-av-head",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-av-tail",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-video-head",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-video-tail",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          }
+        ],
+        "rejected": [
+          "wrong-brand",
+          "external-reference",
+          "wrong-sample-entry",
+          "invalid-avcc",
+          "unsupported-edit-rate",
+          "invalid-chunk-offset",
+          "wrong-aac-wave-format",
+          "missing-aac-config",
+          "unsupported-aac-frame-length",
+          "unsupported-implicit-sbr",
+          "declared-codec-mismatch"
+        ]
+      },
+      "ordinaryMain": [
+        {
+          "case": "h264-av-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 5.82,
+            "rssBytes": 211501056,
+            "privateBytes": 74125312,
+            "handles": 43,
+            "threads": 76,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        },
+        {
+          "case": "h264-av-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 12.98,
+            "rssBytes": 214335488,
+            "privateBytes": 76800000,
+            "handles": 44,
+            "threads": 77,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        },
+        {
+          "case": "h264-video-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 18.76,
+            "rssBytes": 215228416,
+            "privateBytes": 76320768,
+            "handles": 39,
+            "threads": 74,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        },
+        {
+          "case": "h264-video-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 24.12,
+            "rssBytes": 215449600,
+            "privateBytes": 76541952,
+            "handles": 39,
+            "threads": 74,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        },
+        {
+          "case": "hevc-av-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 5.85,
+            "rssBytes": 213606400,
+            "privateBytes": 76324864,
+            "handles": 43,
+            "threads": 76,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        },
+        {
+          "case": "hevc-av-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 13.05,
+            "rssBytes": 216133632,
+            "privateBytes": 78688256,
+            "handles": 47,
+            "threads": 80,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        },
+        {
+          "case": "hevc-video-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 18.91,
+            "rssBytes": 217239552,
+            "privateBytes": 78397440,
+            "handles": 42,
+            "threads": 77,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        },
+        {
+          "case": "hevc-video-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 24.28,
+            "rssBytes": 217608192,
+            "privateBytes": 78766080,
+            "handles": 42,
+            "threads": 77,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        },
+        {
+          "case": "mpeg4-part2-av-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 5.82,
+            "rssBytes": 197033984,
+            "privateBytes": 59912192,
+            "handles": 44,
+            "threads": 77,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        },
+        {
+          "case": "mpeg4-part2-av-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 12.97,
+            "rssBytes": 199598080,
+            "privateBytes": 62324736,
+            "handles": 44,
+            "threads": 77,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        },
+        {
+          "case": "mpeg4-part2-video-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 18.66,
+            "rssBytes": 200028160,
+            "privateBytes": 61284352,
+            "handles": 39,
+            "threads": 74,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        },
+        {
+          "case": "mpeg4-part2-video-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 24.02,
+            "rssBytes": 201003008,
+            "privateBytes": 62259200,
+            "handles": 39,
+            "threads": 74,
+            "memorySource": "proc-status-VmRSS-RssAnon"
+          }
+        }
+      ],
+      "controlsExitCode": 0,
+      "controls": [
+        {
+          "case": "h264-av-tail",
+          "exitCode": 0
+        },
+        {
+          "case": "h264-video-head",
+          "exitCode": 0
+        },
+        {
+          "case": "hevc-av-tail",
+          "exitCode": 0
+        },
+        {
+          "case": "hevc-video-head",
+          "exitCode": 0
+        },
+        {
+          "case": "mpeg4-part2-av-tail",
+          "exitCode": 0
+        },
+        {
+          "case": "mpeg4-part2-video-head",
+          "exitCode": 0
+        }
+      ]
+    },
+    "windows-qt": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "7b06303ff92aa28ca4f7561a91e71b04a52c450edfb087253677fcb5c35ca77c",
+      "testOutput": "private profile, offscreen and test audio",
+      "nativeExitCode": 0,
+      "native": {
+        "result": "PASS",
+        "rows": [
+          {
+            "case": "h264-av-head",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "h264-av-tail",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "h264-video-head",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "h264-video-tail",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-av-head",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-av-tail",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-video-head",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-video-tail",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-av-head",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-av-tail",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-video-head",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-video-tail",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          }
+        ],
+        "rejected": [
+          "wrong-brand",
+          "external-reference",
+          "wrong-sample-entry",
+          "invalid-avcc",
+          "unsupported-edit-rate",
+          "invalid-chunk-offset",
+          "wrong-aac-wave-format",
+          "missing-aac-config",
+          "unsupported-aac-frame-length",
+          "unsupported-implicit-sbr",
+          "declared-codec-mismatch"
+        ]
+      },
+      "ordinaryMain": [
+        {
+          "case": "h264-av-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 6.390625,
+            "threads": 61,
+            "rssBytes": 106835968,
+            "privateBytes": 103124992,
+            "handles": 1746,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "h264-av-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 12.375,
+            "threads": 62,
+            "rssBytes": 107556864,
+            "privateBytes": 103596032,
+            "handles": 1748,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "h264-video-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 18.125,
+            "threads": 57,
+            "rssBytes": 105988096,
+            "privateBytes": 101335040,
+            "handles": 1720,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "h264-video-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 22.125,
+            "threads": 56,
+            "rssBytes": 105795584,
+            "privateBytes": 101298176,
+            "handles": 1718,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "hevc-av-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 28.15625,
+            "threads": 58,
+            "rssBytes": 102985728,
+            "privateBytes": 97972224,
+            "handles": 1741,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "hevc-av-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 33.734375,
+            "threads": 58,
+            "rssBytes": 103354368,
+            "privateBytes": 97947648,
+            "handles": 1741,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "hevc-video-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 38.390625,
+            "threads": 56,
+            "rssBytes": 102502400,
+            "privateBytes": 97300480,
+            "handles": 1721,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "hevc-video-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 43.140625,
+            "threads": 56,
+            "rssBytes": 102662144,
+            "privateBytes": 97193984,
+            "handles": 1720,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "mpeg4-part2-av-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 48.390625,
+            "threads": 58,
+            "rssBytes": 105578496,
+            "privateBytes": 99672064,
+            "handles": 1741,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "mpeg4-part2-av-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 54.0,
+            "threads": 58,
+            "rssBytes": 105746432,
+            "privateBytes": 100122624,
+            "handles": 1741,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "mpeg4-part2-video-head",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 58.5625,
+            "threads": 56,
+            "rssBytes": 104005632,
+            "privateBytes": 98246656,
+            "handles": 1721,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "mpeg4-part2-video-tail",
+          "beforeCompleteSeconds": 10.120000000000001,
+          "naturalEof": true,
+          "classicPauseSeek": false,
+          "processAtTenSeconds": {
+            "cpuSeconds": 63.4375,
+            "threads": 56,
+            "rssBytes": 103968768,
+            "privateBytes": 98357248,
+            "handles": 1719,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        }
+      ],
+      "controlsExitCode": 0,
+      "controls": [
+        {
+          "case": "h264-av-tail",
+          "exitCode": 0
+        },
+        {
+          "case": "h264-video-head",
+          "exitCode": 0
+        },
+        {
+          "case": "hevc-av-tail",
+          "exitCode": 0
+        },
+        {
+          "case": "hevc-video-head",
+          "exitCode": 0
+        },
+        {
+          "case": "mpeg4-part2-av-tail",
+          "exitCode": 0
+        },
+        {
+          "case": "mpeg4-part2-video-head",
+          "exitCode": 0
+        }
+      ]
+    },
+    "windows-classic": {
+      "result": "PASS",
+      "exitCode": 0,
+      "gates": {
+        "confirmed-io": true,
+        "packet-copy": true,
+        "decode-reference": true,
+        "incomplete-playback": true,
+        "timeline-controls": true,
+        "lifecycle": true,
+        "negative-cases": true,
+        "resource-bounds": true
+      },
+      "playerSha256": "4ca8dcb7375bfb8b5313e99cb343f17d9cbe0e0f7cd602badbd846ddc7785013",
+      "testOutput": "private INI, DirectShow uncompressed null renderers",
+      "nativeExitCode": 0,
+      "native": {
+        "result": "PASS",
+        "rows": [
+          {
+            "case": "h264-av-head",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "h264-av-tail",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "h264-video-head",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "h264-video-tail",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-av-head",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-av-tail",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-video-head",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "hevc-video-tail",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-av-head",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-av-tail",
+            "packets": [
+              400,
+              751
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-video-head",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          },
+          {
+            "case": "mpeg4-part2-video-tail",
+            "packets": [
+              400
+            ],
+            "decodedEqual": true
+          }
+        ],
+        "rejected": [
+          "wrong-brand",
+          "external-reference",
+          "wrong-sample-entry",
+          "invalid-avcc",
+          "unsupported-edit-rate",
+          "invalid-chunk-offset",
+          "wrong-aac-wave-format",
+          "missing-aac-config",
+          "unsupported-aac-frame-length",
+          "unsupported-implicit-sbr",
+          "declared-codec-mismatch"
+        ]
+      },
+      "ordinaryMain": [
+        {
+          "case": "h264-av-head",
+          "beforeCompleteSeconds": 10.139,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 1.375,
+            "threads": 53,
+            "rssBytes": 62521344,
+            "privateBytes": 50704384,
+            "handles": 564,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "h264-av-tail",
+          "beforeCompleteSeconds": 10.114,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 3.984375,
+            "threads": 53,
+            "rssBytes": 62820352,
+            "privateBytes": 50638848,
+            "handles": 566,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "h264-video-head",
+          "beforeCompleteSeconds": 10.114,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 5.453125,
+            "threads": 50,
+            "rssBytes": 61050880,
+            "privateBytes": 41598976,
+            "handles": 543,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "h264-video-tail",
+          "beforeCompleteSeconds": 10.131,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 6.5625,
+            "threads": 50,
+            "rssBytes": 61136896,
+            "privateBytes": 41529344,
+            "handles": 540,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "hevc-av-head",
+          "beforeCompleteSeconds": 10.102,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 8.46875,
+            "threads": 53,
+            "rssBytes": 47443968,
+            "privateBytes": 34103296,
+            "handles": 563,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "hevc-av-tail",
+          "beforeCompleteSeconds": 10.111,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 10.625,
+            "threads": 53,
+            "rssBytes": 47677440,
+            "privateBytes": 34357248,
+            "handles": 563,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "hevc-video-head",
+          "beforeCompleteSeconds": 10.119,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 12.25,
+            "threads": 48,
+            "rssBytes": 45875200,
+            "privateBytes": 25014272,
+            "handles": 535,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "hevc-video-tail",
+          "beforeCompleteSeconds": 10.125,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 13.359375,
+            "threads": 48,
+            "rssBytes": 45846528,
+            "privateBytes": 24965120,
+            "handles": 535,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "mpeg4-part2-av-head",
+          "beforeCompleteSeconds": 10.147,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 15.25,
+            "threads": 18,
+            "rssBytes": 41619456,
+            "privateBytes": 27176960,
+            "handles": 526,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "mpeg4-part2-av-tail",
+          "beforeCompleteSeconds": 10.106,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 17.65625,
+            "threads": 17,
+            "rssBytes": 41496576,
+            "privateBytes": 27111424,
+            "handles": 520,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "mpeg4-part2-video-head",
+          "beforeCompleteSeconds": 10.101,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 19.34375,
+            "threads": 15,
+            "rssBytes": 39817216,
+            "privateBytes": 18022400,
+            "handles": 497,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        },
+        {
+          "case": "mpeg4-part2-video-tail",
+          "beforeCompleteSeconds": 10.108,
+          "naturalEof": true,
+          "classicPauseSeek": true,
+          "processAtTenSeconds": {
+            "cpuSeconds": 20.515625,
+            "threads": 15,
+            "rssBytes": 39956480,
+            "privateBytes": 18034688,
+            "handles": 497,
+            "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+          }
+        }
+      ],
+      "controlsExitCode": 0,
+      "controls": [
+        {
+          "case": "h264-av-head",
+          "exitCode": 0
+        },
+        {
+          "case": "h264-av-tail",
+          "exitCode": 0
+        },
+        {
+          "case": "h264-video-head",
+          "exitCode": 0
+        },
+        {
+          "case": "h264-video-tail",
+          "exitCode": 0
+        },
+        {
+          "case": "hevc-av-head",
+          "exitCode": 0
+        },
+        {
+          "case": "hevc-av-tail",
+          "exitCode": 0
+        },
+        {
+          "case": "hevc-video-head",
+          "exitCode": 0
+        },
+        {
+          "case": "hevc-video-tail",
+          "exitCode": 0
+        },
+        {
+          "case": "mpeg4-part2-av-head",
+          "exitCode": 0
+        },
+        {
+          "case": "mpeg4-part2-av-tail",
+          "exitCode": 0
+        },
+        {
+          "case": "mpeg4-part2-video-head",
+          "exitCode": 0
+        },
+        {
+          "case": "mpeg4-part2-video-tail",
+          "exitCode": 0
+        }
+      ],
+      "installedShellRegistrationUnchanged": true
+    }
+  },
+  "binaries": {
+    "_bin/continuous-aac-qt-linux/foxicmp-progressive-media-tests": "f11ccd158d392386cecff81eb97d335849203487d518a821d7e48c377362af0d",
+    "_bin/continuous-aac-qt-linux/foxicmp-qt": "b57c27e33188350c117c1b107912cb0f7bce5e9e09d021626527ae37decdcd80",
+    "_bin/continuous-aac-qt-linux/foxicmp-remux-stream-worker": "5ad168c1dd13d64f71f323569c32b2046baaf1a6b440562facf1b9dbc7840926",
+    "_bin/continuous-aac-qt-windows/foxicmp-progressive-media-tests.exe": "15b916785b3c734fa086189b6500341de7a7fd079b644907d5cf285d31e1c1ec",
+    "_bin/m4a-classic-windows-stage/FoxicMP64.exe": "4ca8dcb7375bfb8b5313e99cb343f17d9cbe0e0f7cd602badbd846ddc7785013",
+    "_bin/m4a-qt-windows-stage/FoxicMPq.exe": "7b06303ff92aa28ca4f7561a91e71b04a52c450edfb087253677fcb5c35ca77c",
+    "_bin/mov-native-msvc.exe": "cebc755481c6f91804d4083603efa57b496b9270c0c333837dfd7893c65bcb1b"
+  },
+  "fixtureSha256": {
+    "h264-av-head": "286e6f9f44489ccb965cce0565371234d63411e4b07dce52482047fd7b209b2b",
+    "h264-av-tail": "e7997a3378442a497bd56a4f82dbd80127d3e155720f505fb594785c1ef4948b",
+    "h264-video-head": "70b1d618ea0a2970478d5bad8b782ec4bd2ba44f97a6821f7159b166b60acfce",
+    "h264-video-tail": "afd5834c11f029693a33b6ab7fcd602263694b0aa6172ffeb0521d9dda0e6112",
+    "hevc-av-head": "a684e719922fd0b638e4aaa4fe5c2cb4a29ed44fb40330dbce5ec9c167de2fa4",
+    "hevc-av-tail": "ac59d523f1de0edfe426b5caeab15ab787c0c733ce344aeaafa008454f4901c0",
+    "hevc-video-head": "a535bc2d4b3cae0e0efda999aeed5dfff76753e7d004e8b9cdaf15f49cd8c389",
+    "hevc-video-tail": "d4d4a499d49dfb0ab5c5f38e269a35b328c0cdbd1e2e3b256415d62143dece6c",
+    "mpeg4-part2-av-head": "4355c3bdd9510b9f030d7982bb118a08ed311c89ed9eee01e1d44418e7a1155a",
+    "mpeg4-part2-av-tail": "77c9cb08463547c7d00ee81553bd8796bc9369802adbdffaf8d55d0abf605b20",
+    "mpeg4-part2-video-head": "7297c9d542c5464a294a6e89c9a7bd886d7468822433756088ab62b0cb156bf6",
+    "mpeg4-part2-video-tail": "0ba3f526359ed5593c32ace2c587f3f56b95c1bf53d740328a7dd71ab04d638b"
+  },
+  "testedSourceSha256": {
+    "qt/CMakeLists.txt": "3ddacfe480508273a538a4d82f3e39d84de1595cc893380b10c08015116d49eb",
+    "qt/src/progressiveapi.cpp": "1e97569761bea56c1b03a6c6da65ebd242ecc09dad6045d42d50f7128abc6387",
+    "qt/src/progressivesource_common.cpp": "73ec9d48907e86ba5a5a323d480bb7f3ddc2d3ec0e7b21b08bbb209353582f8b",
+    "qt/tests/m4a_controls_probe.cpp": "6cce3993a4c7d1ccef4fed24243260173daff8969a7ee901b279d925f0b88129",
+    "qt/tools/progressive_v2.py": "3477f873cf93fda7d43ad39790dc778eed65cbbd35e908d3c28bbc42b8f82840",
+    "shared/progressivefmp4bridge.h": "0cd1b781af7cac691ebfbd0d7bd0b2f9ab2a936803d622215aa0d997a485fa7b",
+    "shared/progressiveindexedmp4.h": "a6d6b5b17ade608e7be3ec8640aa7390940c369aab243a054d17ec1b5533cc61",
+    "shared/progressivemuxscalar.h": "377b6164ce3747e6f6ea245395a21a29c1a65665f1b146a56db4788bc56c7d52",
+    "src/DSUtil/HarvesterMP4.h": "7c1dcf68ae1a5542cd295a3245fc89113a67301b8899234719e77a2355be3685",
+    "src/DSUtil/HarvesterMP4IndexLocator.h": "7af36acc478d1a27028c1b89aba20f41a68792116b18e2e70dff33beb0cffc15",
+    "src/DSUtil/HarvesterMP4IndexedMux.h": "be37f6111852699937642438fe370a03ef5de0f8476b2fd8829d5aa9bb0a64a7",
+    "src/DSUtil/HarvesterSession.cpp": "1c4966725101259686420a1afd0d401541e9cf307d9e63317d238df1aa30d383",
+    "src/DSUtil/HarvesterSession.h": "78e65f31ef6e3fb6abbd643e088c4c3c726af3981ecd6b174e241a0cbd6f39d7",
+    "src/apps/mplayerc/ClassicProgressiveApi.cpp": "473183858880423a486678eac7848e0e1543cd83240c0d40270bf0ed2e1cee9f",
+    "src/filters/parser/MP4Splitter/MP4Splitter.cpp": "0823d757abd5d1d869b2f2ef73c0b1a11828d04f67aaf6ef5ec48e54dc04896f",
+    "tests/progressive_indexed_mov_test.py": "9f1e22b79087721e95988b6423e7fda1e349d7b0d08e5ec92409e7f0c2594c9b",
+    "tests/progressive_media_cli.cpp": "5f14e9308baf91cb5af850f935fd7bb54702041675caaa5f94fd0a3f2ca4088b",
+    "tests/progressive_v2_sdk_test.py": "870d59a2a1b54a4c5d8ba7738d075ba30755818412c9e73d4bf3e035bd59bed7",
+    "tools/package_progressive_sdk.py": "452a71fda58770919ac95805e971dac4ac3067253b237385c1552eac847a40ec",
+    "tools/verify_progressive_media_matrix.py": "cd2f7f8aff79d9dbc534adb86900a27958c56931153f2df123886058576e8f1f",
+    "tools/verify_progressive_sdk.py": "0607752da84b4dde279c75081e762a63b919cc8651a879a6be3bc0d5e447a7e4"
+  },
+  "regressions": {
+    "indexedMp4ExitCode": 0,
+    "m4aIndexedAacExitCode": 0,
+    "v2Sdk": {
+      "tests": 65,
+      "exitCode": 0
+    },
+    "legacySdk": {
+      "tests": 19,
+      "exitCode": 0
+    },
+    "mediaMatrix": {
+      "tests": 17,
+      "exitCode": 0
+    }
+  },
+  "limitations": [
+    "Synthetic local corpus with head-moov or confirmed tail-moov",
+    "Windows audio/device output was not a physical-device test",
+    "Unlisted MOV codecs, track layouts and edit configurations are outside this profile"
+  ]
+}

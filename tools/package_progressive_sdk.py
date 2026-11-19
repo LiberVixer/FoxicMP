@@ -10,6 +10,8 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = {
+    'ProgressiveIndexedMOV.md': 'docs/ProgressiveIndexedMOV.md',
+    'ProgressiveIndexedMOVValidation-2026-11-19.json': 'docs/ProgressiveIndexedMOVValidation-2026-11-19.json',
     'ProgressiveM4A.md': 'docs/ProgressiveM4A.md',
     'ProgressiveM4AValidation-2026-11-18.json': 'docs/ProgressiveM4AValidation-2026-11-18.json',
     'ProgressiveContinuousWebmPacketOpus.md': 'docs/ProgressiveContinuousWebmPacketOpus.md',
@@ -295,6 +297,13 @@ def schema2_playback():
         raise ValueError('Expected only adjacent raw capability literals')
     return json.loads(''.join(parts))
 
+def indexed_mov_capabilities():
+    source=(ROOT/'shared/progressiveindexedmp4.h').read_text(encoding='utf-8')
+    match=re.search(r'IndexedMovCapabilities\(\).*?return R"\((.*?)\)";',source,re.S)
+    if not match:raise ValueError('Cannot locate the indexed MOV capability')
+    return json.loads(match.group(1))
+
+
 def qt_schema2_playback():
     result=schema2_playback()
     source=(ROOT/'shared/progressiveqtplayback.h').read_text(encoding='utf-8')
@@ -321,10 +330,11 @@ def main():
     content = {name: (ROOT / source).read_bytes() for name, source in FILES.items()}
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT))
-    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.107', readerLeaseProtocol=1,
+    manifest = dict(schemaVersion=1, protocol='progressive-manifest-v1', sdkVersion='1.108', readerLeaseProtocol=1,
         resourceIoProbeVersion=1, segmentProbeVersion=1, resourceIoSchemaVersions=[2], resourceIoPlaybackSupported=False,
         playbackSchemaVersions=[1,2], validationSchemaVersions=[2],
         schema2Playback=schema2_playback(), qtSchema2Playback=qt_schema2_playback(), classicSchema2Playback=classic_schema2_playback(),
+        indexedMovCapabilities=indexed_mov_capabilities(),
         completedSourceSeek=json.loads(re.search(r'CompletedSeekCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/progressivecompletedseek.h').read_text(),re.S).group(1)),
         preparedRemuxPreview=json.loads(re.search(r'PreparedPreviewCapabilities\(\).*?return R"\((.*?)\)";', (ROOT/'shared/preparedclip.h').read_text(),re.S).group(1)),
         continuousRemux=json.loads("".join(re.findall(r'R"\((.*?)\)"', (ROOT/'shared/progressivestreamcapabilities.h').read_text(),re.S))),

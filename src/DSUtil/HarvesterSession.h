@@ -82,6 +82,7 @@ public:
     bool HasV2Bridge() const {return bool(m_v2Bridge);}
     bool HasVirtualReader() const {return bool(m_v2Bridge) || bool(m_continuousReader);}
     bool AllowsHevcFragments() const;
+    bool AllowsMpeg4VisualFragments() const;
     bool AllowsAv1Fragments() const;
     bool AllowsVp9Fragments() const;
     bool AllowsOpusFragments(int track=1) const;

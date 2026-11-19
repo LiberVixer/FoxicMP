@@ -39,6 +39,7 @@ class V2PreviewSession:
         self.muxed_av1_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('av1',{}).get('mode')=='growing-muxed-fmp4-av1-aac-lc'
         self.muxed_hevc_mp4_supported=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('fmp4',{}).get('hevc',{}).get('mode')=='growing-muxed-fmp4-hevc-aac-lc'
         tail_mp4=caps.get('schema2Playback',{}).get('muxedPlayback',{}).get('mp4',{}).get('tailIndex',{})
+        self.indexed_mov=None
         self.standalone=caps.get('schema2Playback',{}).get('standalone',{})
         self.standalone_webm=self.standalone.get('webm',{}) if isinstance(self.standalone,dict) else {}
         self.standalone_webm_video=self.standalone.get('webmVideo',{}) if isinstance(self.standalone,dict) else {}
@@ -94,7 +95,32 @@ class V2PreviewSession:
             indexed_mp4=any(t.get('containerHint')=='mp4-muxed' for t in current.get('tracks',[]))
             standalone=len(current.get('tracks',[]))==1
             m4a=standalone and current['tracks'][0].get('containerHint')=='m4a'
-            if m4a:
+            mov=any(t.get('containerHint')=='mov' for t in current.get('tracks',[]))
+            if mov:
+                if self.indexed_mov is None:
+                    try:
+                        self.indexed_mov=self.client.request(dict(version=1,action='indexedMovCapabilities'))
+                    except ApiError as error:
+                        if error.code not in ('invalid_request','unknown_session'):
+                            raise
+                        raise RuntimeError('Player lacks indexed MOV playback') from error
+                cap=self.indexed_mov
+                tracks=current['tracks'];resources=current.get('resources',[])
+                profile='growing-indexed-mov-video' if standalone else 'growing-indexed-mov-aac-lc'
+                if (not isinstance(cap,dict) or type(cap.get('version')) is not int or cap['version']!=1
+                    or cap.get('containerHint')!='mov' or profile not in cap.get('profiles',[])):
+                    raise RuntimeError('Player lacks this indexed MOV playback profile')
+                if (len(resources)!=1 or resources[0].get('length') is None
+                    or resources[0].get('integrity',{}).get('algorithm')!='sha256'
+                    or 'segmentCatalog' in current or len(tracks)>2
+                    or {t.get('kind') for t in tracks}!=({'video'} if standalone else {'video','audio'})):
+                    raise RuntimeError('MOV requires a single verified scalar resource and a video track')
+                for track in tracks:
+                    codecs=cap.get('videoCodecs',[]) if track['kind']=='video' else [cap.get('audioCodec')]
+                    if (track.get('containerHint')!='mov' or track.get('codecHint') not in codecs or not track.get('required')
+                        or 'initializationResourceId' in track or track.get('source')!={'resourceId':resources[0].get('id')}):
+                        raise RuntimeError('MOV requires an explicit supported codec and shared scalar tracks')
+            elif m4a:
                 cap=self.standalone.get('m4a',{})
                 track=current['tracks'][0];resources=current.get('resources',[])
                 if (not isinstance(cap,dict) or type(cap.get('version')) is not int or cap.get('version')!=1

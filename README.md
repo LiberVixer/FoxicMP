@@ -415,3 +415,9 @@ HE-AAC, подтверждённый head/tail index, точная обрезк�
 [Поставка SDK1.107](docs/ProgressiveM4ADelivery-2026-11-18.json): Linux обновлён
 атомарно с backup и неизменным текущим INI. Установленный Linux и частные
 Windows-сборки прошли дополнительные ordinary-main проверки клиентом из clean SDK.
+
+SDK 1.108 добавляет [воспроизведение MOV во время загрузки](docs/ProgressiveIndexedMOV.md)
+в Classic и обе редакции Qt. Поддерживаются H.264, HEVC и MPEG-4 Part 2
+с AAC-LC и без звуковой дорожки, с индексом в начале файла или в подтверждённом
+хвостовом диапазоне. Клиент может вызвать `indexedMovCapabilities`.
+[Результаты проверки трёх редакций](docs/ProgressiveIndexedMOVValidation-2026-11-19.json)

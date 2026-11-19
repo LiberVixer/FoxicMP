@@ -10,7 +10,7 @@ struct NeedRange:std::runtime_error {
 };
 struct Located {Bytes ftyp,movie;uint64_t moovOffset=0,moovBytes=0,mdatOffset=0,payloadStart=0,payloadEnd=0;};
 using Available=std::function<bool(uint64_t,size_t)>;
-inline Located Locate(const FragmentIndex::Read& read,const Available& available,uint64_t total,bool tailAllowed) {
+inline Located Locate(const FragmentIndex::Read& read,const Available& available,uint64_t total,bool tailAllowed,bool quickTime=false) {
     const auto check=[](bool value,const char* why){if(!value)throw std::runtime_error(why);};
     check(total>0 && total<=uint64_t(INT64_MAX),"MP4 index requires a bounded known length");
     Located out;uint64_t at=0,metadata=0;size_t atoms=0;
@@ -26,11 +26,19 @@ inline Located Locate(const FragmentIndex::Read& read,const Available& available
             out.mdatOffset=at;out.payloadStart=at+width;out.payloadEnd=at+size;at+=size;
             if(!tailAllowed)break;continue;
         }
+        if(quickTime && type==FourCC("wide")) {
+            check(size==8,"Invalid QuickTime wide atom");
+            at+=size;continue;
+        }
         check(type==FourCC("ftyp") || type==FourCC("moov") || type==FourCC("free"),"Unsupported MP4 top-level atom");
         check(size<=1048576 && metadata<=1048576-size,"MP4 index metadata exceeds 1 MiB");metadata+=size;
         if(!available(at,size_t(size)))throw NeedRange(at,size,"mp4-index");
         Bytes bytes(size_t(size-width));check(read(at+width,bytes.data(),bytes.size()),"MP4 metadata read failed");
-        if(type==FourCC("ftyp")){check(at==0 && out.ftyp.empty() && size>=16,"Invalid MP4 ftyp placement");out.ftyp.assign(raw,raw+width);out.ftyp.insert(out.ftyp.end(),bytes.begin(),bytes.end());}
+        if(type==FourCC("ftyp")){
+            check(at==0 && out.ftyp.empty() && size>=16,"Invalid MP4 ftyp placement");
+            if(quickTime)check(BoxData{bytes.data(),bytes.size()}.U32(0)==FourCC("qt  "),"Expected a QuickTime file brand");
+            out.ftyp.assign(raw,raw+width);out.ftyp.insert(out.ftyp.end(),bytes.begin(),bytes.end());
+        }
         if(type==FourCC("moov")){check(!out.ftyp.empty() && out.movie.empty(),"Repeated/misplaced MP4 moov");out.movie=std::move(bytes);out.moovOffset=at;out.moovBytes=size;}
         at+=size;
     }

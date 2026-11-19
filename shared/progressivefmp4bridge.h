@@ -40,6 +40,7 @@ class Fmp4V2Bridge {
     std::unique_ptr<MuxedMp4Bridge> muxedMp4;
     std::unique_ptr<IndexedMp4Bridge> indexedMp4;
     std::unique_ptr<TailMp4Bridge> tailMp4;
+    std::unique_ptr<IndexedMovBridge> indexedMov;
     std::unique_ptr<MuxedWebmBridge> muxedWebm;
     std::unique_ptr<Eac3Bridge> eac3;
     std::unique_ptr<Ac3Bridge> ac3;
@@ -239,7 +240,7 @@ class Fmp4V2Bridge {
         supported(mdhd.size>=4 && mdhd.data[0]<=1 && mdhd.U32(mdhd.data[0]?20:12)==rate,"FLAC media clock must equal its sample rate");
         supported(!track.One("edts",true).data,"FLAC standalone edits are not enabled");
     }
-    static std::string codec(int track,harvester::BoxData movie) {
+    static std::string codec(int track,harvester::BoxData movie,bool quickTime=false) {
         auto media=movie.One("trak").One("mdia");auto minf=media.One("minf");
         auto dref=minf.One("dinf").One("dref");supported(dref.size>=8 && dref.U32(4)==1,"External media references are not supported");
         auto url=dref.Slice(8,dref.size-8).One("url ");supported(url.size==4 && url.U32(0)==1,"External media references are not supported");
@@ -249,6 +250,27 @@ class Fmp4V2Bridge {
         const auto type=entries.front().first;const auto sample=entries.front().second;
         supported(sample.size>=8 && sample.data[6]==0 && sample.data[7]==1,"Invalid media data reference index");
         if(!track) {
+            if(quickTime && type==harvester::FourCC("mp4v")) {
+                supported(sample.size>=78,"Truncated MPEG-4 Visual description");
+                const auto children=sample.Slice(78,sample.size-78);
+                supported(!children.One("sinf",true).data,"Encrypted MOV is unsupported");
+                const auto esds=children.One("esds");
+                auto es=descriptor(esds.Slice(4,esds.size-4),3);
+                supported(esds.U32(0)==0 && es.size>=3 && es.data[2]==0,"Invalid MPEG-4 Visual ES descriptor");
+                const auto config=descriptor(es.Slice(3,es.size-3),4);
+                supported(config.size>=13 && config.data[0]==0x20 && (config.data[1]>>2)==4,"Expected MPEG-4 Visual stream configuration");
+                const auto vol=descriptor(config.Slice(13,config.size-13),5);
+                supported(vol.size>=8 && vol.size<=4096,"Invalid MPEG-4 Visual configuration size");
+                bool hasVol=false;
+                for(size_t i=0;i+8<=vol.size;++i){
+                    if(vol.data[i] || vol.data[i+1] || vol.data[i+2]!=1)continue;
+                    const auto code=vol.data[i+3];
+                    supported(code!=0xb6,"Unexpected picture in MPEG-4 Visual configuration");
+                    if(code>=0x20 && code<=0x2f)hasVol=true;
+                }
+                supported(hasVol,"Missing MPEG-4 Visual VOL configuration");
+                return "mpeg4-part2";
+            }
             supported(type==harvester::FourCC("avc1") || type==harvester::FourCC("hvc1") || type==harvester::FourCC("hev1") || type==harvester::FourCC("av01") || type==harvester::FourCC("vp09"),"Unsupported video sample entry");
             supported(sample.size>=78,"Truncated video sample entry");auto children=sample.Slice(78,sample.size-78);
             supported(!children.One("sinf",true).data,"Encrypted video is unsupported");
@@ -278,6 +300,22 @@ class Fmp4V2Bridge {
             supported(es.size>=3 && es.data[2]==0,"External/dependent AAC descriptors are unsupported");auto config=descriptor(es.Slice(3,es.size-3),4);
             supported(config.size>=13 && config.data[0]==0x40 && (config.data[1]>>2)==5,"Expected MPEG-4 AAC");
             auto asc=descriptor(config.Slice(13,config.size-13),5);supported(asc.size>=2 && (asc.data[0]>>3)==2,"Only AAC-LC is enabled in this media profile");
+            if(quickTime) {
+                harvester::m4a::Bits bits{asc};
+                bits.get(5); // AAC-LC was checked above.
+                const auto rate=bits.rate();
+                const auto channels=bits.get(4);
+                const auto clock=media.One("mdhd");
+                supported(rate && clock.U32(clock.data[0]?20:12)==rate && channels>0 && channels<=7,
+                          "MOV AAC configuration disagrees with the sample clock or channel layout");
+                supported(bits.get(3)==0,"Unsupported MOV AAC frame or core configuration");
+                if(asc.size*8-bits.at>=16) {
+                    const auto sync=bits.get(11);
+                    if(sync==0x2b7)
+                        supported(bits.get(5)==5 && bits.get(1)==0,"Implicit SBR is outside the MOV AAC-LC profile");
+                    else supported(sync==0,"Unknown MOV AAC sync extension");
+                }
+            }
             return "aac-lc";
         }
     }
@@ -422,8 +460,8 @@ public:
     bool isStandaloneAudio() const {return isStandalone() && legacy.tracks[0].audio;}
     bool isWebm(int track=0) const {return oggVorbis || oggOpus || muxedWebm || webmMode.at(track);}
     bool isSegmented() const {return segmented;}
-    bool isGrowing() const {return m4a || rf16 || rf24 || wavExt24 || wav24 || eac3 || ac3 || oggVorbis || oggOpus || wav || mp3Gapless || mp3Indexed || mp3 || adts || rawFlac || muxedWebm || tailMp4 || indexedMp4 || muxedMp4 || (tsBridge && tsBridge->isGrowing());}
-    bool isMuxed() const {return muxedWebm || tailMp4 || indexedMp4 || muxedMp4 || (tsBridge && tsBridge->isMuxed());}
+    bool isGrowing() const {return indexedMov || m4a || rf16 || rf24 || wavExt24 || wav24 || eac3 || ac3 || oggVorbis || oggOpus || wav || mp3Gapless || mp3Indexed || mp3 || adts || rawFlac || muxedWebm || tailMp4 || indexedMp4 || muxedMp4 || (tsBridge && tsBridge->isGrowing());}
+    bool isMuxed() const {return (indexedMov && !isStandalone()) || muxedWebm || tailMp4 || indexedMp4 || muxedMp4 || (tsBridge && tsBridge->isMuxed());}
     bool usesCatalog() const {return tsBridge?tsBridge->usesCatalog():bool(catalog);}
     static void checkIntegrityIndexScope(const std::string& json){
         rapidjson::Document d;d.Parse(json.c_str());bool indexed=false;
@@ -449,6 +487,7 @@ public:
         if(AdtsBridge::Declared(json)){AdtsBridge::CheckProfile(json);return;}
         if(RawFlacBridge::Declared(json)){RawFlacBridge::CheckProfile(json);return;}
         if(MuxedWebmBridge::Declared(json)){MuxedWebmBridge::CheckProfile(json);return;}
+        if(IndexedMovBridge::Declared(json)){IndexedMovBridge::CheckProfile(json);return;}
         if(TailMp4Bridge::Declared(json)){TailMp4Bridge::CheckProfile(json);return;}
         if(IndexedMp4Bridge::Declared(json)){IndexedMp4Bridge::CheckProfile(json);return;}
         if(MuxedMp4Bridge::Declared(json)){MuxedMp4Bridge::CheckProfile(json);return;}
@@ -485,6 +524,14 @@ public:
             muxedWebm=std::make_unique<MuxedWebmBridge>(root,receipts,json,[](unsigned,const harvester::WebMInfo&){});
             videoCodecName=muxedWebm->videoCodec();audioCodecName=muxedWebm->audioCodec();trackCodecs[0]=videoCodecName;trackCodecs[1]=audioCodecName;return;
         }
+        if(IndexedMovBridge::Declared(json)){
+            indexedMov=std::make_unique<IndexedMovBridge>(root,receipts,json,[](unsigned k,harvester::BoxData movie){
+                const auto actual=codec(int(k),movie,true);
+                supported(k?actual=="aac-lc":IndexedMovProfile::AcceptsVideo(actual),"Unsupported MOV codec configuration");
+            });
+            legacy=indexedMov->snapshot();videoCodecName=indexedMov->videoCodec();audioCodecName=indexedMov->audioCodec();
+            trackCodecs[0]=videoCodecName;trackCodecs[1]=audioCodecName;return;
+        }
         if(TailMp4Bridge::Declared(json)){
             tailMp4=std::make_unique<TailMp4Bridge>(root,receipts,json,[](unsigned k,harvester::BoxData movie){supported(codec(int(k),movie)==(k?"aac-lc":"h264"),"Tail MP4 actual codec differs from AVC/AAC profile");});
             videoCodecName="h264";audioCodecName="aac-lc";trackCodecs[0]=videoCodecName;trackCodecs[1]=audioCodecName;return;
@@ -516,8 +563,8 @@ public:
             for(const auto& id:ids)ReaderRequest(registry,"{\"version\":1,\"action\":\"readerForget\",\"readerId\":\""+id+"\"}");
         }catch(...){source.reset();} // Failed acknowledgement retains a conservative receipt.
     }
-    harvester::Snapshot snapshot() const {if(eac3)return eac3->snapshot();if(ac3)return ac3->snapshot();if(oggVorbis)return oggVorbis->snapshot();if(oggOpus)return oggOpus->snapshot();if(rf16)return rf16->snapshot();if(rf24)return rf24->snapshot();if(wavExt24)return wavExt24->snapshot();if(wav24)return wav24->snapshot();if(wav)return wav->snapshot();if(mp3Gapless)return mp3Gapless->snapshot();if(mp3Indexed)return mp3Indexed->snapshot();if(mp3)return mp3->snapshot();if(m4a)return m4a->snapshot();if(adts)return adts->snapshot();if(rawFlac)return rawFlac->snapshot();if(muxedWebm)return muxedWebm->snapshot();if(tailMp4)return tailMp4->snapshot();if(indexedMp4)return indexedMp4->snapshot();if(muxedMp4)return muxedMp4->snapshot();if(tsBridge)return tsBridge->snapshot();std::lock_guard<std::mutex> lock(mutex);return legacy;}
-    std::vector<BoundResource> bindings() const {if(eac3)return eac3->bindings();if(ac3)return ac3->bindings();if(oggVorbis)return oggVorbis->bindings();if(oggOpus)return oggOpus->bindings();if(rf16)return rf16->bindings();if(rf24)return rf24->bindings();if(wavExt24)return wavExt24->bindings();if(wav24)return wav24->bindings();if(wav)return wav->bindings();if(mp3Gapless)return mp3Gapless->bindings();if(mp3Indexed)return mp3Indexed->bindings();if(mp3)return mp3->bindings();if(m4a)return m4a->bindings();if(adts)return adts->bindings();if(rawFlac)return rawFlac->bindings();if(muxedWebm)return muxedWebm->bindings();if(tailMp4)return tailMp4->bindings();if(indexedMp4)return indexedMp4->bindings();if(muxedMp4)return muxedMp4->bindings();if(tsBridge)return tsBridge->bindings();std::lock_guard<std::mutex> lock(mutex);std::vector<BoundResource> out;for(size_t i=0;i<legacy.tracks.size();++i)if(legacy.tracks[i].initializationReady)out.push_back(source->binding(resourceIds[i]));return out;}
+    harvester::Snapshot snapshot() const {if(eac3)return eac3->snapshot();if(ac3)return ac3->snapshot();if(oggVorbis)return oggVorbis->snapshot();if(oggOpus)return oggOpus->snapshot();if(rf16)return rf16->snapshot();if(rf24)return rf24->snapshot();if(wavExt24)return wavExt24->snapshot();if(wav24)return wav24->snapshot();if(wav)return wav->snapshot();if(mp3Gapless)return mp3Gapless->snapshot();if(mp3Indexed)return mp3Indexed->snapshot();if(mp3)return mp3->snapshot();if(m4a)return m4a->snapshot();if(adts)return adts->snapshot();if(rawFlac)return rawFlac->snapshot();if(muxedWebm)return muxedWebm->snapshot();if(indexedMov)return indexedMov->snapshot();if(tailMp4)return tailMp4->snapshot();if(indexedMp4)return indexedMp4->snapshot();if(muxedMp4)return muxedMp4->snapshot();if(tsBridge)return tsBridge->snapshot();std::lock_guard<std::mutex> lock(mutex);return legacy;}
+    std::vector<BoundResource> bindings() const {if(eac3)return eac3->bindings();if(ac3)return ac3->bindings();if(oggVorbis)return oggVorbis->bindings();if(oggOpus)return oggOpus->bindings();if(rf16)return rf16->bindings();if(rf24)return rf24->bindings();if(wavExt24)return wavExt24->bindings();if(wav24)return wav24->bindings();if(wav)return wav->bindings();if(mp3Gapless)return mp3Gapless->bindings();if(mp3Indexed)return mp3Indexed->bindings();if(mp3)return mp3->bindings();if(m4a)return m4a->bindings();if(adts)return adts->bindings();if(rawFlac)return rawFlac->bindings();if(muxedWebm)return muxedWebm->bindings();if(indexedMov)return indexedMov->bindings();if(tailMp4)return tailMp4->bindings();if(indexedMp4)return indexedMp4->bindings();if(muxedMp4)return muxedMp4->bindings();if(tsBridge)return tsBridge->bindings();std::lock_guard<std::mutex> lock(mutex);std::vector<BoundResource> out;for(size_t i=0;i<legacy.tracks.size();++i)if(legacy.tracks[i].initializationReady)out.push_back(source->binding(resourceIds[i]));return out;}
     bool optionalTrackFailed(int track) const {std::lock_guard<std::mutex> lock(mutex);return track>=0 && size_t(track)<legacy.tracks.size() && optionalFailed[track];}
     void rejectOptionalIndex(int track,const std::string& reason) {
         std::lock_guard<std::mutex> lock(mutex);
@@ -530,7 +577,7 @@ public:
     bool readIndex(int track,uint64_t offset,void* buffer,size_t count) {
         if(eac3)return eac3->readIndex(unsigned(track),offset,buffer,count);if(ac3)return ac3->readIndex(unsigned(track),offset,buffer,count);if(oggVorbis)return oggVorbis->readIndex(unsigned(track),offset,buffer,count);if(oggOpus)return oggOpus->readIndex(unsigned(track),offset,buffer,count);if(rf16)return rf16->readIndex(unsigned(track),offset,buffer,count);if(rf24)return rf24->readIndex(unsigned(track),offset,buffer,count);if(wavExt24)return wavExt24->readIndex(unsigned(track),offset,buffer,count);if(wav24)return wav24->readIndex(unsigned(track),offset,buffer,count);if(wav)return wav->readIndex(unsigned(track),offset,buffer,count);if(mp3Gapless)return mp3Gapless->readIndex(unsigned(track),offset,buffer,count);if(mp3Indexed)return mp3Indexed->readIndex(unsigned(track),offset,buffer,count);if(mp3)return mp3->readIndex(unsigned(track),offset,buffer,count);if(m4a)return m4a->readIndex(unsigned(track),offset,buffer,count);if(adts)return adts->readIndex(unsigned(track),offset,buffer,count);if(rawFlac)return rawFlac->readIndex(unsigned(track),offset,buffer,count);
         if(muxedWebm)return muxedWebm->readIndex(unsigned(track),offset,buffer,count);
-        if(tailMp4)return tailMp4->readIndex(unsigned(track),offset,buffer,count);if(indexedMp4)return indexedMp4->readIndex(unsigned(track),offset,buffer,count);
+        if(indexedMov)return indexedMov->readIndex(unsigned(track),offset,buffer,count);if(tailMp4)return tailMp4->readIndex(unsigned(track),offset,buffer,count);if(indexedMp4)return indexedMp4->readIndex(unsigned(track),offset,buffer,count);
         if(muxedMp4)return muxedMp4->readIndex(unsigned(track),offset,buffer,count);
         if(tsBridge)return tsBridge->readIndex(unsigned(track),offset,buffer,count);
         std::lock_guard<std::mutex> lock(mutex);
@@ -540,7 +587,7 @@ public:
     int64_t readPayload(int track,uint64_t offset,void* buffer,size_t count) {
         if(eac3)return eac3->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(ac3)return ac3->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(oggVorbis)return oggVorbis->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(oggOpus)return oggOpus->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(rf16)return rf16->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(rf24)return rf24->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(wavExt24)return wavExt24->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(wav24)return wav24->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(wav)return wav->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(mp3Gapless)return mp3Gapless->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(mp3Indexed)return mp3Indexed->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(mp3)return mp3->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(m4a)return m4a->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(adts)return adts->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(rawFlac)return rawFlac->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));
         if(muxedWebm)return muxedWebm->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));
-        if(tailMp4)return tailMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(indexedMp4)return indexedMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));
+        if(indexedMov)return indexedMov->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(tailMp4)return tailMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));if(indexedMp4)return indexedMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));
         if(muxedMp4)return muxedMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)));
         if(tsBridge)return tsBridge->readPayload(unsigned(track),offset,buffer,count);
         std::lock_guard<std::mutex> lock(mutex);
@@ -553,7 +600,7 @@ public:
     }
     int64_t readDecoderPayload(int track,uint64_t offset,void* buffer,size_t count) {
         if(m4a)return m4a->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)),true);
-        if(tailMp4)return tailMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)),true);if(indexedMp4)return indexedMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)),true);
+        if(indexedMov)return indexedMov->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)),true);if(tailMp4)return tailMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)),true);if(indexedMp4)return indexedMp4->readPayload(unsigned(track),offset,buffer,(std::min)(count,size_t(65536)),true);
         return readPayload(track,offset,buffer,count);
     }
     void publish(const std::string& json) {
@@ -562,7 +609,7 @@ public:
         if(m4a){m4a->publish(json);return;}if(adts){adts->publish(json);return;}
         if(rawFlac){rawFlac->publish(json);return;}
         if(muxedWebm){muxedWebm->publish(json);return;}
-        if(tailMp4){tailMp4->publish(json);return;}if(indexedMp4){indexedMp4->publish(json);return;}if(muxedMp4){muxedMp4->publish(json);return;}
+        if(indexedMov){indexedMov->publish(json);return;}if(tailMp4){tailMp4->publish(json);return;}if(indexedMp4){indexedMp4->publish(json);return;}if(muxedMp4){muxedMp4->publish(json);return;}
         if(tsBridge){tsBridge->publish(json);return;}
         std::lock_guard<std::mutex> publication(publicationMutex);
         supported(bool(catalog)==catalogDeclared(json),"Catalog/inline mode cannot change within a session");
@@ -584,12 +631,12 @@ public:
             if(catalog)catalog->commit(std::move(prepared));}catch(const Error& error){failure=error.code;throw;}
         detailsRevision.store(next.revision);
     }
-    void verify(){if(eac3){eac3->verify();return;}if(ac3){ac3->verify();return;}if(oggVorbis){oggVorbis->verify();return;}if(oggOpus){oggOpus->verify();return;}if(rf16){rf16->verify();return;}if(rf24){rf24->verify();return;}if(wavExt24){wavExt24->verify();return;}if(wav24){wav24->verify();return;}if(wav){wav->verify();return;}if(mp3Gapless){mp3Gapless->verify();return;}if(mp3Indexed){mp3Indexed->verify();return;}if(mp3){mp3->verify();return;}if(m4a){m4a->verify();return;}if(adts){adts->verify();return;}if(rawFlac){rawFlac->verify();return;}if(muxedWebm){muxedWebm->verify();return;}if(tailMp4){tailMp4->verify();return;}if(indexedMp4){indexedMp4->verify();return;}if(muxedMp4){muxedMp4->verify();return;}if(tsBridge){tsBridge->verify();return;}std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();markOptionalFailures();subtitleResourceErrors();}
-    void cancel(){if(eac3)eac3->cancel();if(ac3)ac3->cancel();if(oggVorbis)oggVorbis->cancel();if(oggOpus)oggOpus->cancel();if(rf16)rf16->cancel();if(rf24)rf24->cancel();if(wavExt24)wavExt24->cancel();if(wav24)wav24->cancel();if(wav)wav->cancel();if(mp3Gapless)mp3Gapless->cancel();if(mp3Indexed)mp3Indexed->cancel();if(mp3)mp3->cancel();if(m4a)m4a->cancel();if(adts)adts->cancel();if(rawFlac)rawFlac->cancel();if(muxedWebm)muxedWebm->cancel();if(tailMp4)tailMp4->cancel();if(indexedMp4)indexedMp4->cancel();if(muxedMp4)muxedMp4->cancel();if(tsBridge)tsBridge->cancel();if(catalog)catalog->cancel();if(source)source->cancel();}
+    void verify(){if(eac3){eac3->verify();return;}if(ac3){ac3->verify();return;}if(oggVorbis){oggVorbis->verify();return;}if(oggOpus){oggOpus->verify();return;}if(rf16){rf16->verify();return;}if(rf24){rf24->verify();return;}if(wavExt24){wavExt24->verify();return;}if(wav24){wav24->verify();return;}if(wav){wav->verify();return;}if(mp3Gapless){mp3Gapless->verify();return;}if(mp3Indexed){mp3Indexed->verify();return;}if(mp3){mp3->verify();return;}if(m4a){m4a->verify();return;}if(adts){adts->verify();return;}if(rawFlac){rawFlac->verify();return;}if(muxedWebm){muxedWebm->verify();return;}if(indexedMov){indexedMov->verify();return;}if(tailMp4){tailMp4->verify();return;}if(indexedMp4){indexedMp4->verify();return;}if(muxedMp4){muxedMp4->verify();return;}if(tsBridge){tsBridge->verify();return;}std::lock_guard<std::mutex> lock(mutex);Require(failure.empty(),"mediaProfile","Media resource source previously failed","session_closed");source->verifyPinned();markOptionalFailures();subtitleResourceErrors();}
+    void cancel(){if(eac3)eac3->cancel();if(ac3)ac3->cancel();if(oggVorbis)oggVorbis->cancel();if(oggOpus)oggOpus->cancel();if(rf16)rf16->cancel();if(rf24)rf24->cancel();if(wavExt24)wavExt24->cancel();if(wav24)wav24->cancel();if(wav)wav->cancel();if(mp3Gapless)mp3Gapless->cancel();if(mp3Indexed)mp3Indexed->cancel();if(mp3)mp3->cancel();if(m4a)m4a->cancel();if(adts)adts->cancel();if(rawFlac)rawFlac->cancel();if(muxedWebm)muxedWebm->cancel();if(indexedMov)indexedMov->cancel();if(tailMp4)tailMp4->cancel();if(indexedMp4)indexedMp4->cancel();if(muxedMp4)muxedMp4->cancel();if(tsBridge)tsBridge->cancel();if(catalog)catalog->cancel();if(source)source->cancel();}
     std::string details() const {
         if(eac3)return eac3->details();if(ac3)return ac3->details();if(oggVorbis)return oggVorbis->details();if(oggOpus)return oggOpus->details();if(rf16)return rf16->details();if(rf24)return rf24->details();if(wavExt24)return wavExt24->details();if(wav24)return wav24->details();if(wav)return wav->details();if(mp3Gapless)return mp3Gapless->details();if(mp3Indexed)return mp3Indexed->details();if(mp3)return mp3->details();if(m4a)return m4a->details();if(adts)return adts->details();if(rawFlac)return rawFlac->details();
         if(muxedWebm)return muxedWebm->details();
-        if(tailMp4)return tailMp4->details();if(indexedMp4)return indexedMp4->details();
+        if(indexedMov)return indexedMov->details();if(tailMp4)return tailMp4->details();if(indexedMp4)return indexedMp4->details();
         if(muxedMp4)return muxedMp4->details();
         if(tsBridge)return tsBridge->details();
         std::lock_guard<std::mutex> lock(mutex);

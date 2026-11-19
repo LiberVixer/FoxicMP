@@ -2324,7 +2324,8 @@ HRESULT CMP4SplitterFilter::CreateOutputs(IAsyncReader* pAsyncReader)
         const bool validatedFragments=validatedMp3 || validatedOpus || validatedFlac || validatedPcm || validatedPcm24 || validatedAc3 || validatedEac3 || (!kind && movie->HasFragments()
             && ((session->AllowsHevcFragments() && (type==AP4_ATOM_TYPE_HVC1 || type==AP4_ATOM_TYPE_HEV1))
                 || (session->AllowsAv1Fragments() && type==AP4_ATOM_TYPE_av01)
-                || (session->AllowsVp9Fragments() && type==AP4_ATOM_TYPE_vp09)));
+                || (session->AllowsVp9Fragments() && type==AP4_ATOM_TYPE_vp09)
+                || (session->AllowsMpeg4VisualFragments() && type==AP4_ATOM_TYPE('m','p','4','v'))));
         if(type!=(kind?AP4_ATOM_TYPE('m','p','4','a'):AP4_ATOM_TYPE('a','v','c','1')) && !validatedFragments)
             return VFW_E_UNSUPPORTED_STREAM;
 		if (kind && !validatedMp3 && !validatedOpus && !validatedFlac && !validatedPcm && !validatedPcm24 && !validatedAc3 && !validatedEac3) {

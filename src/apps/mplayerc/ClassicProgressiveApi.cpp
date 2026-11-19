@@ -425,6 +425,10 @@ std::string ClassicProgressiveApi::Handle(const std::string& raw,Request* prepar
             return reply;
         }
 
+        if(action=="indexedMovCapabilities") {
+            if(!Keys(d,{"version","action"}))return Failure("invalid_request","Unexpected fields");
+            return foxicmp::progressive::IndexedMovCapabilities();
+        }
         if(action=="capabilities") {
             if(!Keys(d,{"version","action"}))return Failure("invalid_request","Unexpected fields");
             Document info;info.Parse(Information().c_str());info.RemoveMember("endpoint");info.RemoveMember("profile");

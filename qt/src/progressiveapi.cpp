@@ -281,6 +281,10 @@ QJsonObject ProgressiveApi::execute(const QJsonObject &input, Preparation *prepa
     return reply;
   }
 
+  if (action == "indexedMovCapabilities") {
+    if (!keys(input, {"version", "action"})) return failure("invalid_request", "Unexpected fields");
+    return QJsonDocument::fromJson(foxicmp::progressive::IndexedMovCapabilities()).object();
+  }
   if (action == "capabilities") {
     if (!keys(input, {"version", "action"})) return failure("invalid_request", "Unexpected fields");
     auto result = information({});

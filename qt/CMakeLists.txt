@@ -1047,6 +1047,22 @@ if(BUILD_TESTING AND TARGET foxicmp-progressive-media-tests)
  if(WIN32)
   target_link_libraries(foxicmp-m4a-controls-probe PRIVATE runtimeobject)
  endif()
+ set(FOXICMP_TEST_MOV_CORPUS "" CACHE PATH "Prepared synthetic MOV test corpus")
+ if(FOXICMP_TEST_MOV_CORPUS)
+  set(mov_test "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_indexed_mov_test.py")
+  add_test(NAME progressive-indexed-mov-native
+    COMMAND "${Python3_EXECUTABLE}" "${mov_test}" --corpus "${FOXICMP_TEST_MOV_CORPUS}"
+      --runner "$<TARGET_FILE:foxicmp-progressive-media-tests>" --report "${CMAKE_CURRENT_BINARY_DIR}/mov-native.json")
+  add_test(NAME progressive-indexed-mov-controls
+    COMMAND "${Python3_EXECUTABLE}" "${mov_test}" --corpus "${FOXICMP_TEST_MOV_CORPUS}"
+      --controls "$<TARGET_FILE:foxicmp-m4a-controls-probe>" --report "${CMAKE_CURRENT_BINARY_DIR}/mov-controls.json")
+  add_test(NAME progressive-indexed-mov-main
+    COMMAND "${Python3_EXECUTABLE}" "${mov_test}" --corpus "${FOXICMP_TEST_MOV_CORPUS}"
+      --edition qt --player "$<TARGET_FILE:foxicmp-qt>" --reader-runner "$<TARGET_FILE:foxicmp-progressive-reader-tests>"
+      --report "${CMAKE_CURRENT_BINARY_DIR}/mov-main/result.json")
+  set_tests_properties(progressive-indexed-mov-native progressive-indexed-mov-controls
+    progressive-indexed-mov-main PROPERTIES TIMEOUT 300)
+ endif()
  set(FOXICMP_TEST_M4A_CORPUS "" CACHE PATH "Prepared synthetic ordinary M4A test corpus")
  if(FOXICMP_TEST_M4A_CORPUS)
   add_test(NAME progressive-m4a-native COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/../tests/progressive_m4a_conformance.py" --runner "$<TARGET_FILE:foxicmp-progressive-media-tests>" --corpus "${FOXICMP_TEST_M4A_CORPUS}")

@@ -35,4 +35,24 @@ struct TailMp4Profile:IndexedMp4Profile {
     static void Update(Layout& l,const harvester::FragmentIndex::Read& r,uint64_t prefix,bool complete,Layout::Validate validate){try{l.Update(r,prefix,complete,validate);}catch(const harvester::mp4index::NeedRange&){throw Error("waiting-index","mp4Index","Wait for confirmed MP4 index metadata");}}
 };
 using TailMp4Bridge=SharedMuxedBridge<TailMp4Profile>;
+struct IndexedMovProfile:TailMp4Profile {
+    static const char* Hint(){return "mov";}
+    static const char* Tag(){return "indexedMov";}
+    static const char* Name(){return "mov";}
+    static const char* Mode(const std::string&,const std::string& audio){
+        return audio.empty()?"growing-indexed-mov-video":"growing-indexed-mov-aac-lc";
+    }
+    static bool AcceptsVideo(const std::string& codec){
+        return codec=="h264" || codec=="hevc" || codec=="mpeg4-part2";
+    }
+    static void Configure(Layout& layout,const Resource& resource,const std::string& video,bool solo){
+        TailMp4Profile::Configure(layout,resource);
+        layout.SetQuickTime(solo,video);
+    }
+};
+using IndexedMovBridge=SharedMuxedBridge<IndexedMovProfile,true>;
+// Keep the new response separate from the legacy 64 KiB discovery reply.
+inline const char* IndexedMovCapabilities() {
+    return R"({"ok":true,"version":1,"containerHint":"mov","profiles":["growing-indexed-mov-video","growing-indexed-mov-aac-lc"],"videoCodecs":["h264","hevc","mpeg4-part2"],"audioCodec":"aac-lc","knownLengthRequired":true,"integrityRequired":true,"headOrConfirmedTailIndex":true,"maxMetadataBytes":1048576,"maxSamplesPerTrack":250000,"maxAppendBytes":16777216,"maxRanges":2})";
+}
 }}

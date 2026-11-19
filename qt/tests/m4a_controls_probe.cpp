@@ -1,4 +1,4 @@
-// Production Window controls over a pinned growing M4A, private profile.
+// Production Window controls over a pinned growing indexed source, private profile.
 // GPL-3.0-or-later.
 #include "window.h"
 #include "player.h"
@@ -18,7 +18,9 @@ public:
   profile.settings.setValue("audio/mute",true);profile.settings.setValue("video/output","software");profile.settings.setValue("playback/hardwareDecoding",false);
   Window w(profile);w.show();auto* player=w.findChild<Player*>();check(player,"Player missing");
   bool natural=false;QObject::connect(player,&Player::ended,&w,[&](bool eof){natural|=eof;});
-  auto source=ProgressiveSource::openPublished(model(args[1]),args[4]+".readers");check(w.openProgressiveSource(source),"M4A open");
+  auto source=ProgressiveSource::openPublished(model(args[1]),args[4]+".readers");
+  const bool m4a=source->playbackDetails().contains("m4aWindow");
+  check(w.openProgressiveSource(source),"indexed source open");
   const auto status=[&]{auto s=w.progressivePlaybackStatus();check(s["state"]!="error",qPrintable(s["error"].toString()));return s;};
   const auto wait=[&](auto ready,const char* why,int timeout=15000){QElapsedTimer timer;timer.start();while(!ready()){source->publishedHeartbeat();if(timer.elapsed()>=timeout){std::cerr<<QJsonDocument(status()).toJson(QJsonDocument::Compact).constData()<<" pending="<<w.progressivePendingSeek<<std::endl;check(false,why);}QCoreApplication::processEvents();QThread::msleep(5);}};
   wait([&]{const auto s=status();return s["state"]=="playing" && s["positionSeconds"].toDouble()>.25;},"growing playback");
@@ -32,13 +34,15 @@ public:
   w.actions["play"]->trigger();
   wait([&]{const auto s=status();return s["state"]=="playing" && !s["seeking"].toBool() && s["positionSeconds"].toDouble()>3.1 && s["positionSeconds"].toDouble()<3.75;},"superseded growing decoder seek",1500);
   w.actions["play"]->trigger();wait([&]{return status()["state"]=="paused";},"pause after growing seek");
-  check(player->pcmWindowActive(),"seek lost PCM trim");QString error;check(source->publish(model(args[2]),&error),qPrintable(error));
+  if(m4a)check(player->pcmWindowActive(),"seek lost PCM trim");
+  QString error;check(source->publish(model(args[2]),&error),qPrintable(error));
   QElapsedTimer hold;hold.start();while(hold.elapsed()<300){QCoreApplication::processEvents();QThread::msleep(5);}
   check(status()["state"]=="paused" && !source->status().complete,"publication lost pause");
   check(source->publish(model(args[3]),&error),qPrintable(error));check(w.seekTo(13.5),"completed seek rejected");
   wait([&]{const auto s=status();return s["state"]=="paused" && ((s["seeking"].toBool() && s["seekTargetSeconds"].toDouble()==13.5) || s["positionSeconds"].toDouble()>13.4);},"completed seek");
-  check(player->pcmWindowActive(),"completed seek lost PCM trim");natural=false;w.actions["play"]->trigger();
-  wait([&]{return natural && source->status().complete;},"natural M4A EOF");w.closeCurrent();
+  if(m4a)check(player->pcmWindowActive(),"completed seek lost PCM trim");
+  natural=false;w.actions["play"]->trigger();
+  wait([&]{return natural && source->status().complete;},"natural indexed source EOF");w.closeCurrent();
  }
 };
 int main(int argc,char** argv)try{

@@ -23,6 +23,34 @@ def snapshot(ready=True):
         tracks=[dict(kind=kind,required=True,initializationReady=ready) for kind in ('video','audio')])
 
 class V2SdkTest(unittest.TestCase):
+    def test_mov_negotiates_separately_and_requires_an_explicit_codec(self):
+        client=Client()
+        reply=client.request
+        requests=[]
+        value=snapshot()
+        value['tracks']=[dict(kind='video',required=True,initializationReady=True,codecHint='mpeg4-part2',
+                              containerHint='mov',source=dict(resourceId='media'))]
+        value['resources']=[dict(id='media',length='4000',integrity=dict(algorithm='sha256'))]
+        capability=dict(version=1,containerHint='mov',profiles=['growing-indexed-mov-video'],
+                        videoCodecs=['h264','hevc','mpeg4-part2'],audioCodec='aac-lc')
+        def request(message):
+            requests.append(message['action'])
+            if message['action']=='indexedMovCapabilities':
+                return capability
+            result=reply(message)
+            result['schema2Playback']['integrity']={'algorithm':'sha256'}
+            return result
+        client.request=request
+        session=V2PreviewSession(client,'/unused')
+        self.assertEqual(requests,['capabilities'])
+        invalid=copy.deepcopy(value)
+        invalid['tracks'][0].pop('codecHint')
+        with self.assertRaises(RuntimeError):session.publish(invalid)
+        self.assertFalse(client.calls)
+        session.publish(value)
+        self.assertEqual(requests,['capabilities','indexedMovCapabilities'])
+        self.assertEqual(len(client.calls),1)
+
     def test_m4a_requires_its_explicit_exact_trim_contract(self):
         client=Client();value=snapshot();value['tracks']=[dict(kind='audio',required=True,initializationReady=True,codecHint='he-aac',containerHint='m4a',source=dict(resourceId='media'))]
         value['resources']=[dict(id='media',length='4000',integrity=dict(algorithm='sha256'))]

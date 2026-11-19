@@ -55,7 +55,7 @@ public:
         if(count>2000000)throw std::runtime_error("Too many fragment samples");
         if(count>samples.capacity())samples.reserve((std::max)(count,(std::min)(size_t(2000000),samples.capacity()*2)));
     }
-    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false,bool allowWebm=false,bool allowFlac=false,bool allowPcm=false,bool allowAc3=false,bool allowEac3=false,bool allowPcm24=false,bool allowVfr=false) {
+    void Update(const Read& read,uint64_t prefix,int trackKind,bool complete=false,int64_t timestampOffset=0,bool allowHevc=false,bool allowAv1=false,bool allowVp9=false,bool allowOpus=false,bool allowWebm=false,bool allowFlac=false,bool allowPcm=false,bool allowAc3=false,bool allowEac3=false,bool allowPcm24=false,bool allowVfr=false,bool allowMpeg4Visual=false) {
         if(allowVfr && !allowWebm)throw std::runtime_error("VFR requires a WebM index");
         if(allowWebm){auto next=webmIndex?std::make_shared<WebMIndex>(*webmIndex):std::make_shared<WebMIndex>();next->Update(read,prefix,trackKind,complete,timestampOffset,allowVfr);webmIndex=std::move(next);return;}
         if(webmIndex)throw std::runtime_error("Progressive container changed");
@@ -78,7 +78,7 @@ public:
             if(!header(position,n,type,h) || !RangeReady(position,n,prefix))break;
             if(type==FourCC("moov")) {
                 if(initialized || position==0)throw std::runtime_error("Repeated/misplaced fragmented moov");
-                auto bytes=body(position,n,h);Init({bytes.data(),bytes.size()});
+                auto bytes=body(position,n,h);Init({bytes.data(),bytes.size()},allowMpeg4Visual);
             } else if(type==FourCC("moof")) {
                 if(!initialized)throw std::runtime_error("Fragment before initialization");
                 uint64_t payloadSize=0;uint32_t payloadType=0;size_t payloadHeader=0;
@@ -95,7 +95,7 @@ public:
         if(complete && position!=prefix)throw std::runtime_error("Truncated final MP4 fragment");
     }
 private:
-    void Init(BoxData movie) {
+    void Init(BoxData movie,bool allowMpeg4Visual) {
         auto track=movie.One("trak"),media=track.One("mdia"),mdhd=media.One("mdhd");
         auto tkhd=track.One("tkhd"),mvhd=movie.One("mvhd"),handler=media.One("hdlr");
         if((mdhd.U32(0)>>24)>1 || (tkhd.U32(0)>>24)>1 || (mvhd.U32(0)>>24)>1)throw std::runtime_error("Unsupported MP4 clock version");
@@ -109,7 +109,7 @@ private:
         const auto entry=entries.front().first;
         if(kind?(entry!=FourCC("mp4a") && !(opusEnabled && entry==FourCC("Opus")) && !(flacEnabled && entry==FourCC("fLaC")) && !(pcmEnabled && entry==FourCC("sowt")) && !(pcm24Enabled && entry==FourCC("in24")) && !(ac3Enabled && entry==FourCC("ac-3")) && !(eac3Enabled && entry==FourCC("ec-3"))):
                 (entry!=FourCC("avc1") && !(hevcEnabled && (entry==FourCC("hvc1") || entry==FourCC("hev1")))
-                 && !(av1Enabled && entry==FourCC("av01")) && !(vp9Enabled && entry==FourCC("vp09"))))
+                 && !(av1Enabled && entry==FourCC("av01")) && !(vp9Enabled && entry==FourCC("vp09")) && !(allowMpeg4Visual && entry==FourCC("mp4v"))))
             throw std::runtime_error("Unsupported fragment sample entry");
         if(entry==FourCC("ec-3")) {
             const auto audio=entries.front().second;const auto cfg=audio.Slice(28,audio.size-28).One("dec3");

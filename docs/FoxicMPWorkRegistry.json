@@ -1211,9 +1211,16 @@
         {
           "path": "docs/ProgressiveCompletionChecklist.md",
           "line": 149
+        },
+        {
+          "path": "docs/ProgressiveIndexedMOV.md"
+        },
+        {
+          "path": "docs/ProgressiveIndexedMOVValidation-2026-11-19.json"
         }
       ],
-      "status": "todo"
+      "status": "done",
+      "changeReason": "M03 принят в трёх редакциях: 36 прогонов плеера и 36 сверок исходных пакетов, временных меток и декодированных данных. Продемонстрированы управление, освобождение ресурса и 11 классов отказа. Новых ID нет."
     },
     {
       "id": "P02.C149.04",

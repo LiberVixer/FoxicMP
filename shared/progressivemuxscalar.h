@@ -3,7 +3,7 @@
 #include "progressiveresourceio.h"
 #include <array>
 namespace foxicmp { namespace progressive {
-template<class Profile> class SharedMuxedBridge {
+template<class Profile,bool AllowVideoOnly=false> class SharedMuxedBridge {
     using Layout=typename Profile::Layout;
     struct Published {Snapshot model;std::string resource,video=Profile::Video(),audio=Profile::Audio();std::array<std::string,2> ids;uint64_t prefix=0;bool complete=false;Layout layout;harvester::Snapshot legacy;};
     std::shared_ptr<ResourceSource> source;std::filesystem::path registry;typename Layout::Validate validate;
@@ -13,15 +13,19 @@ template<class Profile> class SharedMuxedBridge {
     static void supported(bool value,const char* why){Require(value,Profile::Tag(),why,"unsupported_media");}
     static std::shared_ptr<Published> Plan(const std::string& json) {
         auto out=std::make_shared<Published>();out->model=Parse(json);const auto& m=out->model;
-        supported(!m.live && !m.hasWindow && m.knownDuration && m.numerator==1 && m.denominator==10000000 && m.offset==0 && m.tracks.size()==2 && m.resources.size()==1,"Shared media requires known-duration VOD, zero offset, two required scalar views and one resource");
+        const bool solo=AllowVideoOnly && m.tracks.size()==1;
+        supported(!m.live && !m.hasWindow && m.knownDuration && m.numerator==1 && m.denominator==10000000 && m.offset==0 &&
+                  (solo || m.tracks.size()==2) && m.resources.size()==1,"Invalid shared media VOD timeline or track/resource count");
         Require(m.state!="failed" && m.state!="cancelled",Profile::Tag(),"Writer failed or cancelled","writer-failed");
         for(const auto& item:m.tracks) {
             const auto& t=item.second;supported((t.kind=="video" || t.kind=="audio") && t.required && t.container==Profile::Hint() && !t.resource.empty() && t.initialization.empty() && t.segments.empty(),"Shared media requires shared scalar tracks without external init");
-            const unsigned k=t.kind=="video"?0:1;supported(out->ids[k].empty(),"Duplicate muxed track kind");out->ids[k]=t.id;supported(t.codec.empty() || (k?Profile::AcceptsAudio(t.codec):Profile::AcceptsVideo(t.codec)),"Unsupported muxed codec hint");if(!t.codec.empty()){if(k)out->audio=t.codec;else out->video=t.codec;}
+            const unsigned k=t.kind=="video"?0:1;supported(out->ids[k].empty(),"Duplicate muxed track kind");out->ids[k]=t.id;supported((!AllowVideoOnly && t.codec.empty()) || (k?Profile::AcceptsAudio(t.codec):Profile::AcceptsVideo(t.codec)),"Unsupported muxed codec hint");if(!t.codec.empty()){if(k)out->audio=t.codec;else out->video=t.codec;}
             Require(t.state!="failed" && t.state!="cancelled",Profile::Tag(),"Track writer failed","resource-failed");
             if(out->resource.empty())out->resource=t.resource;supported(out->resource==t.resource,"Muxed views must share one resource ID");
         }
-        supported(!out->ids[0].empty() && !out->ids[1].empty(),"Shared media needs both video and audio");const auto& v=m.tracks.at(out->ids[0]);const auto& a=m.tracks.at(out->ids[1]);
+        supported(!out->ids[0].empty() && (solo || !out->ids[1].empty()),"Missing required shared media tracks");
+        if(solo)out->audio.clear();
+        const auto& v=m.tracks.at(out->ids[0]);const auto& a=solo?v:m.tracks.at(out->ids[1]);
         supported(out->audio==Profile::Audio() || !v.codec.empty(),"A non-default audio profile requires an explicit video codec hint");
         supported(v.initializationReady==a.initializationReady && v.state==a.state,"Muxed views require equal readiness/state");const auto& r=m.resources.at(out->resource);
         Profile::CheckResource(r);supported(!r.retired,"Retired muxed resource");Require(r.state!="failed" && r.state!="cancelled",Profile::Tag(),"Resource writer failed","resource-failed");Require(r.integrity,Profile::Tag(),"Shared media requires SHA-256","integrity-required");
@@ -35,12 +39,14 @@ template<class Profile> class SharedMuxedBridge {
     }
     void materialize(Published& next,const Published* old) {
         if(old)next.layout=old->layout;
-        Profile::Configure(next.layout,next.model.resources.at(next.resource));
+        const auto& resource=next.model.resources.at(next.resource);
+        if constexpr(AllowVideoOnly)Profile::Configure(next.layout,resource,next.video,next.audio.empty());
+        else Profile::Configure(next.layout,resource);
         if(next.model.tracks.at(next.ids[0]).initializationReady) {
             Profile::Update(next.layout,[&](uint64_t at,void* p,size_t n){return exact(next.resource,at,p,n);},next.prefix,next.complete,Profile::Validation(validate,next.video,next.audio));
         }
-        auto& s=next.legacy;s.sessionId=next.model.id;s.generation=next.model.generation;s.revision=next.model.revision;s.duration=next.model.duration;s.timestampOffset=0;s.state=state(next.model.state);s.tracks.resize(2);
-        for(unsigned k=0;k<2;++k) {
+        auto& s=next.legacy;s.sessionId=next.model.id;s.generation=next.model.generation;s.revision=next.model.revision;s.duration=next.model.duration;s.timestampOffset=0;s.state=state(next.model.state);s.tracks.resize(next.audio.empty()?1:2);
+        for(unsigned k=0;k<s.tracks.size();++k) {
             auto& t=s.tracks[k];const auto& view=next.layout.tracks[k];t.path=Profile::Path(k);t.container=Profile::Container(k);t.required=true;t.fragmented=true;t.initializationReady=next.layout.Initialized();t.available=view.bytes;t.total=Profile::Total(next.layout,k,next.complete);t.state=state(next.model.tracks.at(next.ids[k]).state);
             const auto& samples=view.index.Samples();if(!samples.empty()) {
                 supported(samples.front().start>=(k?-10000000:0) && samples.front().start<=10000000,"Muxed tracks must start near zero");
@@ -62,7 +68,7 @@ public:
     static void CheckProfile(const std::string& json){Plan(json);}
     SharedMuxedBridge(const std::filesystem::path& root,const std::filesystem::path& receipts,const std::string& json,typename Layout::Validate validation):registry(receipts),validate(std::move(validation)) {
         auto next=Plan(json);supported(next->prefix<=Profile::MaxAppend,"Initial muxed prefix exceeds 16 MiB");source=std::make_shared<ResourceSource>(root,receipts,json);
-        try {materialize(*next,nullptr);Require(next->layout.Initialized() && !next->layout.tracks[0].index.Samples().empty() && !next->layout.tracks[1].index.Samples().empty(),Profile::Tag(),"Wait for initialization and complete media on both tracks","waiting_initialization");current=std::move(next);}
+        try {materialize(*next,nullptr);Require(next->layout.Initialized() && !next->layout.tracks[0].index.Samples().empty() && (next->audio.empty() || !next->layout.tracks[1].index.Samples().empty()),Profile::Tag(),"Wait for initialization and complete media on required tracks","waiting_initialization");current=std::move(next);}
         catch(const Error&){cleanup();throw;}catch(const std::exception& e){cleanup();throw Error("unsupported_media",Profile::Tag(),e.what());}
     }
     ~SharedMuxedBridge(){cancel();cleanup();}
@@ -84,13 +90,13 @@ public:
         catch(const Error& e){fail(e.code);throw;}catch(const std::exception& e){fail("unsupported_media");throw Error("unsupported_media",Profile::Tag(),e.what());}
     }
     void verify(){check();try{source->verifyPinned();}catch(const Error& e){fail(e.code);throw;}}
-    std::vector<BoundResource> bindings() const {const auto p=std::atomic_load(&current);std::vector<BoundResource> out;for(const auto& id:p->ids){auto b=source->binding(p->resource);b.id=id;out.push_back(std::move(b));}return out;}
+    std::vector<BoundResource> bindings() const {const auto p=std::atomic_load(&current);std::vector<BoundResource> out;for(const auto& id:p->ids){if(id.empty())continue;auto b=source->binding(p->resource);b.id=id;out.push_back(std::move(b));}return out;}
     std::string details() const {
         const auto p=std::atomic_load(&current);rapidjson::Document d;d.SetObject();auto& a=d.GetAllocator();d.AddMember("schemaVersion",2,a);d.AddMember("generation",Value(std::to_string(p->model.generation).c_str(),a),a);d.AddMember("revision",Value(std::to_string(p->model.revision).c_str(),a),a);d.AddMember("writerInstanceId",Value(p->model.writer.c_str(),a),a);
-        d.AddMember("mediaMode",Value(Profile::Mode(p->video,p->audio),a),a);d.AddMember("muxed",true,a);d.AddMember("segments",false,a);d.AddMember("videoContainer",Value(Profile::Name(),a),a);d.AddMember("audioContainer",Value(Profile::Name(),a),a);d.AddMember("decoderContainer",Value(Profile::DecoderName(),a),a);d.AddMember("videoCodec",Value(p->video.c_str(),a),a);d.AddMember("audioCodec",Value(p->audio.c_str(),a),a);
+        d.AddMember("mediaMode",Value(Profile::Mode(p->video,p->audio),a),a);d.AddMember("muxed",!p->audio.empty(),a);if(p->audio.empty())d.AddMember("singleTrack",true,a);d.AddMember("segments",false,a);d.AddMember("videoContainer",Value(Profile::Name(),a),a);d.AddMember("audioContainer",Value(p->audio.empty()?"":Profile::Name(),a),a);d.AddMember("decoderContainer",Value(Profile::DecoderName(),a),a);d.AddMember("videoCodec",Value(p->video.c_str(),a),a);d.AddMember("audioCodec",Value(p->audio.c_str(),a),a);
         Value bytes(rapidjson::kObjectType);bytes.AddMember("video",Value(std::to_string(decoderBytes[0].load()).c_str(),a),a);bytes.AddMember("audio",Value(std::to_string(decoderBytes[1].load()).c_str(),a),a);d.AddMember("decoderIoBytes",bytes,a);d.AddMember("physicalResources",1,a);d.AddMember("fragments",uint32_t(p->layout.Fragments()),a);
         if(!p->model.metadata.empty()){rapidjson::Document m;m.Parse(p->model.metadata.c_str());Value v(m,a);d.AddMember("metadata",v,a);}
-        Value tracks(rapidjson::kArrayType);for(unsigned k=0;k<2;++k){const auto& t=p->model.tracks.at(p->ids[k]);Value v(rapidjson::kObjectType);v.AddMember("index",k,a);v.AddMember("id",Value(t.id.c_str(),a),a);v.AddMember("kind",Value(t.kind.c_str(),a),a);v.AddMember("label",Value(t.label.c_str(),a),a);v.AddMember("language",Value(t.language.c_str(),a),a);v.AddMember("default",t.defaultTrack,a);v.AddMember("required",true,a);v.AddMember("ready",true,a);v.AddMember("state","ready",a);v.AddMember("errorCode","",a);v.AddMember("error","",a);v.AddMember("codec",Value(k?p->audio.c_str():p->video.c_str(),a),a);v.AddMember("container",Value(Profile::Name(),a),a);v.AddMember("decoderIoBytes",Value(std::to_string(decoderBytes[k].load()).c_str(),a),a);tracks.PushBack(v,a);}d.AddMember("mediaTracks",tracks,a);d.AddMember("subtitleTracks",Value(rapidjson::kArrayType),a);return lease_detail::Encode(d);
+        Value tracks(rapidjson::kArrayType);for(unsigned k=0;k<p->legacy.tracks.size();++k){const auto& t=p->model.tracks.at(p->ids[k]);Value v(rapidjson::kObjectType);v.AddMember("index",k,a);v.AddMember("id",Value(t.id.c_str(),a),a);v.AddMember("kind",Value(t.kind.c_str(),a),a);v.AddMember("label",Value(t.label.c_str(),a),a);v.AddMember("language",Value(t.language.c_str(),a),a);v.AddMember("default",t.defaultTrack,a);v.AddMember("required",true,a);v.AddMember("ready",true,a);v.AddMember("state","ready",a);v.AddMember("errorCode","",a);v.AddMember("error","",a);v.AddMember("codec",Value(k?p->audio.c_str():p->video.c_str(),a),a);v.AddMember("container",Value(Profile::Name(),a),a);v.AddMember("decoderIoBytes",Value(std::to_string(decoderBytes[k].load()).c_str(),a),a);tracks.PushBack(v,a);}d.AddMember("mediaTracks",tracks,a);d.AddMember("subtitleTracks",Value(rapidjson::kArrayType),a);return lease_detail::Encode(d);
     }
 };
 }} // namespace foxicmp::progressive

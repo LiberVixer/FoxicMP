@@ -3,14 +3,14 @@
 17 ноября 2026. Задача **P02.C149.01**, база SDK1.106.
 Машиночитаемый источник: [ProgressiveRequiredMediaMatrix.json](ProgressiveRequiredMediaMatrix.json).
 
-Зафиксировано 109 существующих ограниченных профилей: 87 native и 22 continuous-remux.
-Остаются 29 из 30 именованных входных семейств; к ним применяются 8 сквозных групп и 12 классов отрицательных исходов.
+Зафиксировано 111 существующих ограниченных профилей: 89 native и 22 continuous-remux.
+Остаются 28 из 30 именованных входных семейств; к ним применяются 8 сквозных групп и 12 классов отрицательных исходов.
 Это строки корпуса приёмки, **не новые задачи реестра**. Каждая привязана к существующим ID.
 Сама проверка матрицы не запускает плееры. Подтверждённые семейства имеют отдельные runtime отчёты; общие P02.C148.01–03 остаются открытыми.
 
 ## Порядок и критерий закрытия
 
-M01/P02.C149.02 завершён в указанном AAC-объёме. Далее P02.C149.03 (MOV); M02 с остальными MP4 audio-only кодеками остаётся открытым в P04.C210.04.
+M01/P02.C149.02 и M03/P02.C149.03 завершены в указанном объёме. Далее P02.C149.04 (WebM VP8/AV1). Остальные MP4 audio-only кодеки M02 остаются открытыми в P04.C210.04.
 Новый codec/profile не закрывает семейство целиком без отдельной приёмки.
 Готовность реализации требует всех применимых положительных и отрицательных
 строк её владельца на Linux Qt, Windows Qt и Classic отдельно.
@@ -37,7 +37,7 @@ M01/P02.C149.02 завершён в указанном AAC-объёме. Дал�
 |---|---|---|---|
 | M01 | Обычный M4A AAC | P02.C149.02 | обязательно; принято в указанном объёме |
 | M02 | Обычный MP4 audio-only | P04.C210.04 | обязательно; открыто |
-| M03 | MOV: именованные основные пары | P02.C149.03 | обязательно; открыто |
+| M03 | MOV: именованные основные пары | P02.C149.03 | обязательно; принято в указанном объёме |
 | M04 | Обычный MP4: оставшиеся структуры | P02.C149.10, P06.C255.04 | обязательно; открыто |
 | W01 | WebM VP8/AV1 в непрерывном remux | P02.C149.04 | обязательно; открыто |
 | W02 | WebM Vorbis в непрерывном remux | P02.C149.05 | обязательно; открыто |
@@ -90,6 +90,9 @@ M01/P02.C149.02 завершён в указанном AAC-объёме. Дал�
 
 Входы: `{"containers":["mov"],"pairs":[["h264","aac-lc"],["hevc","aac-lc"],["mpeg4-part2","aac-lc"]]}`.
 Варианты: video-only, muxed-av, head-index, published-tail-index, edit-list, configuration-validation.
+
+Подтверждённый объём: QuickTime qt brand, one H.264/HEVC/MPEG-4 Part 2 video track, optional AAC-LC track, confirmed head or tail index with bounded unit-rate edits.
+Отчёт: [ProgressiveIndexedMOVValidation-2026-11-19.json](ProgressiveIndexedMOVValidation-2026-11-19.json).
 
 **M04. Обычный MP4: оставшиеся структуры**
 
@@ -389,6 +392,8 @@ M01/P02.C149.02 завершён в указанном AAC-объёме. Дал�
 | `continuous-webm-vp9-opus-simple-vfr-derived-av-v1` | progressive-remux | linux-qt, windows-qt, windows-classic | [ProgressiveContinuousWebmDerivedAudio.md](ProgressiveContinuousWebmDerivedAudio.md) |
 | `continuous-webm-vp9-opus-packet-clock-v1` | progressive-remux | linux-qt, windows-qt, windows-classic | [ProgressiveContinuousWebmPacketOpus.md](ProgressiveContinuousWebmPacketOpus.md) |
 | `standalone-indexed-m4a-aac` | native-progressive | linux-qt, windows-qt, windows-classic | [ProgressiveM4A.md](ProgressiveM4A.md), [ProgressiveM4AValidation-2026-11-18.json](ProgressiveM4AValidation-2026-11-18.json) |
+| `growing-indexed-mov-video` | native-progressive | linux-qt, windows-qt, windows-classic | [ProgressiveIndexedMOV.md](ProgressiveIndexedMOV.md), [ProgressiveIndexedMOVValidation-2026-11-19.json](ProgressiveIndexedMOVValidation-2026-11-19.json) |
+| `growing-indexed-mov-aac-lc` | native-progressive | linux-qt, windows-qt, windows-classic | [ProgressiveIndexedMOV.md](ProgressiveIndexedMOV.md), [ProgressiveIndexedMOVValidation-2026-11-19.json](ProgressiveIndexedMOVValidation-2026-11-19.json) |
 
 ## Изменение матрицы
 

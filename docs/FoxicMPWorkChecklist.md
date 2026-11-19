@@ -10,9 +10,9 @@ progressive-ТЗ и семейного плана. Он считает резу�
 |---|---:|---:|---:|---:|---:|---:|
 | Задачи | 26 | 6 | 20 | 17 | 2 | 1 |
 | Подзадачи | 267 | 178 | 89 | 73 | 7 | 9 |
-| Подподзадачи | 353 | 145 | 208 | 190 | 13 | 5 |
-| **Все узлы трёх уровней** | **646** | **329** | **317** | 280 | 22 | 15 |
-| **Только конечные рабочие пункты** | **537** | **311** | **226** | 201 | 13 | 12 |
+| Подподзадачи | 353 | 146 | 207 | 189 | 13 | 5 |
+| **Все узлы трёх уровней** | **646** | **330** | **316** | 279 | 22 | 15 |
+| **Только конечные рабочие пункты** | **537** | **312** | **225** | 200 | 13 | 12 |
 
 Родитель и его дети — разные уровни, поэтому их сумма не является оценкой
 трудозатрат или процентом готовности продукта. Для движения работы полезнее
@@ -45,7 +45,7 @@ progressive-ТЗ и семейного плана. Он считает резу�
 |---|---|---|---:|---:|---:|---:|
 | P00 | Основа протокола и совместимость | готово | 13 / 13 | 0 | 0 | 0 |
 | P01 | Общий растущий fMP4 | готово | 5 / 5 | 0 | 0 | 0 |
-| P02 | Demux и непрерывный remux контейнеров | частично | 58 / 80 | 22 | 0 | 0 |
+| P02 | Demux и непрерывный remux контейнеров | частично | 59 / 80 | 21 | 0 | 0 |
 | P03 | Обычный MP4 и индексы | готово | 4 / 4 | 0 | 0 | 0 |
 | P04 | Аудиокодеки и самостоятельные потоки | частично | 21 / 36 | 15 | 0 | 0 |
 | P05 | Непоследовательная запись и большие ресурсы | частично | 6 / 16 | 10 | 0 | 0 |
@@ -70,7 +70,7 @@ progressive-ТЗ и семейного плана. Он считает резу�
 | F6 | Мультимедиа и платформенные ограничения | частично | 18 / 27 | 5 | 0 | 4 |
 | F7 | Общий цикл сборки и версии семейства | частично | 2 / 4 | 2 | 0 | 0 |
 
-**Следующий конкретный пункт очереди:** P02.C149.03 — MOV: sample entries, edit lists и отличия структуры от MP4.
+**Следующий конкретный пункт очереди:** P02.C149.04 — WebM VP8/AV1: continuous пути за пределами native профилей.
 
 ## Полный список с подзадачами
 
@@ -154,7 +154,7 @@ progressive-ТЗ и семейного плана. Он считает резу�
   - **P02.C149** — **частично**: Обычные MP4/M4A/MOV, WebM/Matroska, MPEG-TS и их допустимые варианты вне нынешних узких профилей. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md).
     - **P02.C149.01** — **готово**: Зафиксировать конечный перечень обязательных положительных container/codec/layout строк и точные исключения. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md), [ProgressiveRequiredMediaMatrix.md](ProgressiveRequiredMediaMatrix.md), [ProgressiveRequiredMediaMatrixValidation-2026-11-17.json](ProgressiveRequiredMediaMatrixValidation-2026-11-17.json).
     - **P02.C149.02** — **готово**: Обычный M4A: audio-only admission и progressive playback. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md), [ProgressiveM4A.md](ProgressiveM4A.md), [ProgressiveM4AValidation-2026-11-18.json](ProgressiveM4AValidation-2026-11-18.json).
-    - **P02.C149.03** — **осталось**: MOV: sample entries, edit lists и отличия структуры от MP4. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md).
+    - **P02.C149.03** — **готово**: MOV: sample entries, edit lists и отличия структуры от MP4. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md), [ProgressiveIndexedMOV.md](ProgressiveIndexedMOV.md), [ProgressiveIndexedMOVValidation-2026-11-19.json](ProgressiveIndexedMOVValidation-2026-11-19.json).
     - **P02.C149.04** — **осталось**: WebM VP8/AV1: continuous пути за пределами native профилей. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md).
     - **P02.C149.05** — **осталось**: WebM/Vorbis: continuous путь за пределами native профиля. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md).
     - **P02.C149.06** — **осталось**: Matroska H.264/HEVC и допустимые пары аудио. Источник: [ProgressiveCompletionChecklist.md:149](ProgressiveCompletionChecklist.md).

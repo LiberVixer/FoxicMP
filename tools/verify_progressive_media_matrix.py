@@ -26,7 +26,7 @@ def source_contracts():
     spec.loader.exec_module(package)
     source = (ROOT/'shared/progressivestreamcapabilities.h').read_text()
     return dict(commonNative=package.schema2_playback(), qtNative=package.qt_schema2_playback(),
-                classicNative=package.classic_schema2_playback(),
+                classicNative=package.classic_schema2_playback(), indexedMov=package.indexed_mov_capabilities(),
                 continuous=json.loads(''.join(re.findall(r'R"\((.*?)\)"', source, re.S))))
 
 
@@ -48,7 +48,8 @@ def verify(matrix, contracts=None):
     expected_sets = {k: sorted(v['profiles']) for k, v in contracts.items()}
     require(matrix['capabilityProfileSets'] == expected_sets, 'Capability profile inventory drift')
     require(matrix['contractDigests'] == {k: digest(v) for k, v in contracts.items()}, 'Capability admission drift')
-    expected_native = set(contracts['qtNative']['profiles']) | set(contracts['classicNative']['profiles'])
+    mov_profiles = set(contracts['indexedMov']['profiles'])
+    expected_native = set(contracts['qtNative']['profiles']) | set(contracts['classicNative']['profiles']) | mov_profiles
     expected_continuous = contracts['continuous']['profiles']
     native, continuous = set(), set()
     for row in matrix['existingProfiles']:
@@ -61,7 +62,7 @@ def verify(matrix, contracts=None):
         if row['path'] == 'native-progressive':
             native.add(id)
             expected = {e for e, k in [('linux-qt', 'qtNative'), ('windows-qt', 'qtNative'), ('windows-classic', 'classicNative')]
-                        if id in contracts[k]['profiles']}
+                        if id in contracts[k]['profiles'] or id in mov_profiles}
         else:
             require(row['path'] == 'progressive-remux' and id in expected_continuous, 'Unknown remux profile')
             continuous.add(id)
