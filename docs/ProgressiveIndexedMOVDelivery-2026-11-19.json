@@ -1,5 +1,5 @@
 {
-  "result": "PLAYBACK-PASS-LINUX-UPGRADE-PENDING",
+  "result": "PASS",
   "date": "2026-11-19",
   "workId": "P02.C149.03",
   "sdk": {
@@ -17,15 +17,15 @@
       "result": "PASS",
       "exitCode": 0,
       "modulesVerified": 9,
-      "binary": "private test build",
+      "binary": "installed",
       "case": "hevc-av-tail",
       "beforeCompleteSeconds": 10.120000000000001,
       "naturalEof": true,
       "classicPauseSeek": false,
       "processAtTenSeconds": {
-        "cpuSeconds": 5.42,
-        "rssBytes": 213942272,
-        "privateBytes": 76464128,
+        "cpuSeconds": 5.28,
+        "rssBytes": 213725184,
+        "privateBytes": 76304384,
         "handles": 43,
         "threads": 76,
         "memorySource": "proc-status-VmRSS-RssAnon"
@@ -69,11 +69,58 @@
     }
   },
   "linuxDeployment": {
-    "result": "PENDING",
-    "exitCode": 1,
-    "reason": "An open FoxiqMP executable was locked by the VirtualBox shared folder",
+    "result": "PASS",
+    "version": "0.2.0",
+    "backupDirectory": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-backup-before-mov-20261119T034806Z",
+    "changes": [
+      {
+        "path": "foxicmp-qt",
+        "beforeSha256": "541e6a7290115cbec99d0806d57ac6020bfdec42efd75383ca9cb369f0caec12",
+        "afterSha256": "b57c27e33188350c117c1b107912cb0f7bce5e9e09d021626527ae37decdcd80"
+      },
+      {
+        "path": "integration/FoxicMPFamilyMatrix.md",
+        "beforeSha256": "b4b7d8f9cea0a4c16942bed18bab432569f1e016748cdbeccec85604c3b55170",
+        "afterSha256": "0a1ab0d390b4fe72198f60157892640ee3ac7158fbcdaabd48f34c27577c7935"
+      },
+      {
+        "path": "integration/FoxicMPFamilyPlan.md",
+        "beforeSha256": "e49f01463ccb0d403ec9777c6ce3ef37067caeefa92ba7ca37bb97fc54b07ed5",
+        "afterSha256": "70fbffeca022c4df08032b5f1c2ae21fc9115493f02c9cf84db7e3187374afac"
+      },
+      {
+        "path": "integration/ProgressiveIndexedMOV.md",
+        "beforeSha256": null,
+        "afterSha256": "4f119180a68c7eb27e605fbcc0cf27b3874582760fe08c6f70163a9342014901"
+      },
+      {
+        "path": "integration/ProgressiveIndexedMOVValidation-2026-11-19.json",
+        "beforeSha256": null,
+        "afterSha256": "af2ed1bd47c3447d3eca9d803fddc9a1137019749f20a06063b12b4e4b88f78e"
+      },
+      {
+        "path": "integration/progressive_v2.py",
+        "beforeSha256": "359cc1a0b60d343f9df007aa67d599f38d2d40e978f300435d7e343301fd9b73",
+        "afterSha256": "3477f873cf93fda7d43ad39790dc778eed65cbbd35e908d3c28bbc42b8f82840"
+      },
+      {
+        "path": "integration/verify_progressive_sdk.py",
+        "beforeSha256": "92f0682046249e4bcc13acaca91da8f99623047fc821a6c77f571006198548f4",
+        "afterSha256": "0607752da84b4dde279c75081e762a63b919cc8651a879a6be3bc0d5e447a7e4"
+      },
+      {
+        "path": "integration/sdk-manifest.json",
+        "beforeSha256": "1efa572b530f345aecfd181899e4bcbd1970c2a88a626be522a99273b43e0e06",
+        "afterSha256": "7f393f0d134474d00209f049769db97d151281d8e1b02bcb17fc71330d7bcbca"
+      }
+    ],
+    "atomicPerFile": true,
     "viewerInterrupted": false,
-    "rollbackVerified": true
+    "iniBeforeSha256": "0053e57a9b4c01c7e6781a795dddb02cdf91023d26073fa9f90bcd1f270ca10f",
+    "iniAfterSha256": "0053e57a9b4c01c7e6781a795dddb02cdf91023d26073fa9f90bcd1f270ca10f",
+    "unchangedPreviousFiles": 705,
+    "playerSha256": "b57c27e33188350c117c1b107912cb0f7bce5e9e09d021626527ae37decdcd80",
+    "workerSha256": "5ad168c1dd13d64f71f323569c32b2046baaf1a6b440562facf1b9dbc7840926"
   },
   "windowsInstallationChanged": false,
   "harvesterChanged": false
