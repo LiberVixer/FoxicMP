@@ -420,4 +420,5 @@ SDK 1.108 добавляет [воспроизведение MOV во время
 в Classic и обе редакции Qt. Поддерживаются H.264, HEVC и MPEG-4 Part 2
 с AAC-LC и без звуковой дорожки, с индексом в начале файла или в подтверждённом
 хвостовом диапазоне. Клиент может вызвать `indexedMovCapabilities`.
-[Результаты проверки трёх редакций](docs/ProgressiveIndexedMOVValidation-2026-11-19.json)
+[Результаты проверки трёх редакций](docs/ProgressiveIndexedMOVValidation-2026-11-19.json).
+[Поставка SDK и статус установки Linux](docs/ProgressiveIndexedMOVDelivery-2026-11-19.json).

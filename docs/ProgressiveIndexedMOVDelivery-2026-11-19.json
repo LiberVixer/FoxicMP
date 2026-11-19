@@ -1,0 +1,80 @@
+{
+  "result": "PLAYBACK-PASS-LINUX-UPGRADE-PENDING",
+  "date": "2026-11-19",
+  "workId": "P02.C149.03",
+  "sdk": {
+    "result": "PASS",
+    "sdkVersion": "1.108",
+    "sourceCommit": "8a757b04b6343fb82565110d044e5023ae39fb05",
+    "sourceDirty": false,
+    "filesVerified": 447,
+    "modulesVerified": 10,
+    "standaloneImportExitCode": 0,
+    "sha256": "30fafb40c7f24a671d81835f1bf87d6c9487eefc9c19451270bc9af03953aff2"
+  },
+  "packagedSdkPlayback": {
+    "linux-qt": {
+      "result": "PASS",
+      "exitCode": 0,
+      "modulesVerified": 9,
+      "binary": "private test build",
+      "case": "hevc-av-tail",
+      "beforeCompleteSeconds": 10.120000000000001,
+      "naturalEof": true,
+      "classicPauseSeek": false,
+      "processAtTenSeconds": {
+        "cpuSeconds": 5.42,
+        "rssBytes": 213942272,
+        "privateBytes": 76464128,
+        "handles": 43,
+        "threads": 76,
+        "memorySource": "proc-status-VmRSS-RssAnon"
+      }
+    },
+    "windows-qt": {
+      "result": "PASS",
+      "exitCode": 0,
+      "modulesVerified": 10,
+      "binary": "private test build",
+      "case": "hevc-av-tail",
+      "beforeCompleteSeconds": 10.120000000000001,
+      "naturalEof": true,
+      "classicPauseSeek": false,
+      "processAtTenSeconds": {
+        "cpuSeconds": 5.765625,
+        "threads": 61,
+        "rssBytes": 100106240,
+        "privateBytes": 96514048,
+        "handles": 1746,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      }
+    },
+    "windows-classic": {
+      "result": "PASS",
+      "exitCode": 0,
+      "modulesVerified": 10,
+      "binary": "private test build",
+      "case": "hevc-av-tail",
+      "beforeCompleteSeconds": 10.111,
+      "naturalEof": true,
+      "classicPauseSeek": true,
+      "processAtTenSeconds": {
+        "cpuSeconds": 1.59375,
+        "threads": 53,
+        "rssBytes": 46505984,
+        "privateBytes": 34000896,
+        "handles": 564,
+        "memorySource": "GetProcessMemoryInfo-WorkingSetSize-PrivateUsage"
+      }
+    }
+  },
+  "linuxDeployment": {
+    "result": "PENDING",
+    "exitCode": 1,
+    "reason": "An open FoxiqMP executable was locked by the VirtualBox shared folder",
+    "viewerInterrupted": false,
+    "rollbackVerified": true
+  },
+  "windowsInstallationChanged": false,
+  "harvesterChanged": false
+}

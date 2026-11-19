@@ -1,0 +1,77 @@
+{
+  "reportedAtUtc": "2026-11-19T03:26:02.959854+00:00",
+  "levels": {
+    "1": {
+      "total": 26,
+      "done": 6,
+      "remaining": 20,
+      "active": 17,
+      "blocked": 2,
+      "deferred": 1
+    },
+    "2": {
+      "total": 267,
+      "done": 178,
+      "remaining": 89,
+      "active": 73,
+      "blocked": 7,
+      "deferred": 9
+    },
+    "3": {
+      "total": 353,
+      "done": 146,
+      "remaining": 207,
+      "active": 189,
+      "blocked": 13,
+      "deferred": 5
+    }
+  },
+  "total": {
+    "total": 646,
+    "done": 330,
+    "remaining": 316,
+    "active": 279,
+    "blocked": 22,
+    "deferred": 15
+  },
+  "leaves": {
+    "total": 537,
+    "done": 312,
+    "remaining": 225,
+    "active": 200,
+    "blocked": 13,
+    "deferred": 12
+  },
+  "changes": {
+    "added": [],
+    "removed": [],
+    "closed": [
+      "P02.C149.03"
+    ],
+    "reopened": [],
+    "moved": [],
+    "retitled": [],
+    "addedByLevel": {
+      "1": 0,
+      "2": 0,
+      "3": 0
+    },
+    "addedByType": {},
+    "closedByLevel": {
+      "1": 0,
+      "2": 0,
+      "3": 1
+    }
+  },
+  "definitions": {
+    "P02.C149.03": {
+      "level": 3,
+      "status": "done",
+      "title": "MOV: sample entries, edit lists и отличия структуры от MP4",
+      "terminal": true,
+      "additionType": "migration",
+      "changeReason": "M03 принят в трёх редакциях: 36 прогонов плеера и 36 сверок исходных пакетов, временных меток и декодированных данных. Продемонстрированы управление, освобождение ресурса и 11 классов отказа. Новых ID нет."
+    }
+  },
+  "registrySha256": "86453bc5047c406d435f65c519b1e63f23f7de4f686332570f5bf89fad92cab9"
+}
