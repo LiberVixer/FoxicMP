@@ -433,3 +433,4 @@ SDK 1.109 добавляет [непрерывное воспроизведен�
 SDK 1.110 добавляет [непрерывное воспроизведение WebM с Vorbis](docs/ProgressiveContinuousWebmVorbis.md)
 в Classic и обе редакции Qt. Поддерживаются VP8, VP9 и AV1 с Vorbis 48 кГц
 mono/stereo. [Результаты проверки](docs/ProgressiveContinuousWebmVorbisValidation-2026-11-19.json)
+[Проверка установленной сборки Linux](docs/ProgressiveContinuousWebmVorbisDelivery-2026-11-19.json)

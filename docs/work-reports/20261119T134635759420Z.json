@@ -1,0 +1,77 @@
+{
+  "reportedAtUtc": "2026-11-19T13:46:35.759231+00:00",
+  "levels": {
+    "1": {
+      "total": 26,
+      "done": 6,
+      "remaining": 20,
+      "active": 17,
+      "blocked": 2,
+      "deferred": 1
+    },
+    "2": {
+      "total": 267,
+      "done": 178,
+      "remaining": 89,
+      "active": 73,
+      "blocked": 7,
+      "deferred": 9
+    },
+    "3": {
+      "total": 353,
+      "done": 148,
+      "remaining": 205,
+      "active": 187,
+      "blocked": 13,
+      "deferred": 5
+    }
+  },
+  "total": {
+    "total": 646,
+    "done": 332,
+    "remaining": 314,
+    "active": 277,
+    "blocked": 22,
+    "deferred": 15
+  },
+  "leaves": {
+    "total": 537,
+    "done": 314,
+    "remaining": 223,
+    "active": 198,
+    "blocked": 13,
+    "deferred": 12
+  },
+  "changes": {
+    "added": [],
+    "removed": [],
+    "closed": [
+      "P02.C149.05"
+    ],
+    "reopened": [],
+    "moved": [],
+    "retitled": [],
+    "addedByLevel": {
+      "1": 0,
+      "2": 0,
+      "3": 0
+    },
+    "addedByType": {},
+    "closedByLevel": {
+      "1": 0,
+      "2": 0,
+      "3": 1
+    }
+  },
+  "definitions": {
+    "P02.C149.05": {
+      "level": 3,
+      "status": "done",
+      "title": "WebM/Vorbis: continuous путь за пределами native профиля",
+      "terminal": true,
+      "additionType": "migration",
+      "changeReason": "W02: VP8, VP9 и AV1 с Vorbis. 27 прогонов обычных плееров, 18 прогонов рабочего процесса, 16 отказов. Проверены смена окон Vorbis, CodecDelay и конечный DiscardPadding. Пройдены пауза, перемотка по растущему файлу, ожидание диапазона, EOF и освобождение. Новых ID нет."
+    }
+  },
+  "registrySha256": "32f38e5cc424c9525a4b5317093cbc848c61487179da9494bbc7a2c4d136e6dd"
+}

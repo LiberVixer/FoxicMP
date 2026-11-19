@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "baselineDate": "2026-11-17",
   "nextWork": {
-    "id": "P02.C149.05",
-    "title": "WebM/Vorbis: continuous путь за пределами native профиля"
+    "id": "P02.C149.06",
+    "title": "Matroska H.264/HEVC и допустимые пары аудио"
   },
   "levels": {
     "1": {
@@ -24,9 +24,9 @@
     },
     "3": {
       "total": 353,
-      "done": 147,
-      "remaining": 206,
-      "active": 188,
+      "done": 148,
+      "remaining": 205,
+      "active": 187,
       "blocked": 13,
       "deferred": 5
     }
@@ -866,11 +866,11 @@
     },
     "P02.C149.05": {
       "level": 3,
-      "status": "todo",
+      "status": "done",
       "title": "WebM/Vorbis: continuous путь за пределами native профиля",
       "terminal": true,
       "additionType": "migration",
-      "changeReason": ""
+      "changeReason": "W02: VP8, VP9 и AV1 с Vorbis. 27 прогонов обычных плееров, 18 прогонов рабочего процесса, 16 отказов. Проверены смена окон Vorbis, CodecDelay и конечный DiscardPadding. Пройдены пауза, перемотка по растущему файлу, ожидание диапазона, EOF и освобождение. Новых ID нет."
     },
     "P02.C149.06": {
       "level": 3,
@@ -5203,22 +5203,22 @@
   },
   "total": {
     "total": 646,
-    "done": 331,
-    "remaining": 315,
-    "active": 278,
+    "done": 332,
+    "remaining": 314,
+    "active": 277,
     "blocked": 22,
     "deferred": 15
   },
   "leaves": {
     "total": 537,
-    "done": 313,
-    "remaining": 224,
-    "active": 199,
+    "done": 314,
+    "remaining": 223,
+    "active": 198,
     "blocked": 13,
     "deferred": 12
   },
   "sourceCheckboxes": 324,
   "sourceLists": 8,
   "aliases": 8,
-  "reportedAtUtc": "2026-11-19T11:33:50.848719+00:00"
+  "reportedAtUtc": "2026-11-19T13:46:35.759231+00:00"
 }
