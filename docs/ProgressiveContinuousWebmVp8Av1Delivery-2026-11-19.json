@@ -1,0 +1,89 @@
+{
+  "result": "PASS",
+  "date": "2026-11-19",
+  "workId": "P02.C149.04",
+  "sdk": {
+    "result": "PASS",
+    "sdkVersion": "1.109",
+    "sourceCommit": "38cbb96139bdf73cffdd999ee09ab1aa745547d6",
+    "sourceDirty": false,
+    "filesVerified": 449,
+    "modulesVerified": 10,
+    "standaloneImportExitCode": 0,
+    "sha256": "b2f7438899121bf8ccb85bd93e6ce934be26284ca7cd9ef9e33ad54a52844363"
+  },
+  "linuxDeployment": {
+    "result": "PASS",
+    "version": "0.2.0",
+    "backupDirectory": "/media/sf_Studio/Programs/MPMY-src/_bin/FoxicMPQt-linux-backup-before-webm-vp8-av1-20261119T113315Z",
+    "changes": [
+      {
+        "path": "foxicmp-remux-stream-worker",
+        "beforeSha256": "5ad168c1dd13d64f71f323569c32b2046baaf1a6b440562facf1b9dbc7840926",
+        "afterSha256": "13586bd0a596461d103d8746a79219c409f7b722bac19418430e929b49cc1e9d"
+      },
+      {
+        "path": "foxicmp-qt",
+        "beforeSha256": "b57c27e33188350c117c1b107912cb0f7bce5e9e09d021626527ae37decdcd80",
+        "afterSha256": "a3e47337def9e36254ee7e6fb57d2800860fc028325328cb282de88a2326fa94"
+      },
+      {
+        "path": "integration/FoxicMPFamilyMatrix.md",
+        "beforeSha256": "0a1ab0d390b4fe72198f60157892640ee3ac7158fbcdaabd48f34c27577c7935",
+        "afterSha256": "358d00826785ad8681f987c4002fb3d8946ed4d110c4daee6f26046fd90fd88a"
+      },
+      {
+        "path": "integration/FoxicMPFamilyPlan.md",
+        "beforeSha256": "70fbffeca022c4df08032b5f1c2ae21fc9115493f02c9cf84db7e3187374afac",
+        "afterSha256": "4164e5c6f682305a7bc95ecb159600762ede0d8d19c5a672df00bce2656d3d37"
+      },
+      {
+        "path": "integration/ProgressiveContinuousWebmVp8Av1.md",
+        "beforeSha256": null,
+        "afterSha256": "374a6092e0a2ccfd584294872ee4c3b2eac41921d00e58a5ffa4b75279803e44"
+      },
+      {
+        "path": "integration/ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json",
+        "beforeSha256": null,
+        "afterSha256": "d3be629958be2c1a60b905b676993fb08489920ccf7838e0a4a1f8ef29d834f8"
+      },
+      {
+        "path": "integration/progressive_continuous.py",
+        "beforeSha256": "dfeaf4e070d6c63840739e933dc1201e24e49c1eb219f9f591b8c1f875dcb074",
+        "afterSha256": "78a9d6adaa66a270028ba9e4bbb4ab5f054d84b77acd6dcaadfaccc50da9a2aa"
+      },
+      {
+        "path": "integration/verify_progressive_sdk.py",
+        "beforeSha256": "0607752da84b4dde279c75081e762a63b919cc8651a879a6be3bc0d5e447a7e4",
+        "afterSha256": "4903f5da2015c608bc410c85cd76f703e082f77fa06879fca159a3471b61ae85"
+      },
+      {
+        "path": "integration/sdk-manifest.json",
+        "beforeSha256": "7f393f0d134474d00209f049769db97d151281d8e1b02bcb17fc71330d7bcbca",
+        "afterSha256": "7833d0a8292d4dd686bbb2b3bc3f567e25add52ff267ec78f868165cad49f511"
+      }
+    ],
+    "atomicPerFile": true,
+    "viewerInterrupted": false,
+    "iniBeforeSha256": "0053e57a9b4c01c7e6781a795dddb02cdf91023d26073fa9f90bcd1f270ca10f",
+    "iniAfterSha256": "0053e57a9b4c01c7e6781a795dddb02cdf91023d26073fa9f90bcd1f270ca10f",
+    "unchangedPreviousFiles": 706,
+    "playerSha256": "a3e47337def9e36254ee7e6fb57d2800860fc028325328cb282de88a2326fa94",
+    "workerSha256": "13586bd0a596461d103d8746a79219c409f7b722bac19418430e929b49cc1e9d"
+  },
+  "packagedLinuxPlayback": {
+    "result": "PASS",
+    "exitCode": 0,
+    "modulesVerified": 9,
+    "case": "av1-opus-groups",
+    "mode": "continuous-webm-av1-opus-v1",
+    "beforeCompleteSeconds": 10.12,
+    "sourceSha256": "35dc143a8b709f43e5c0e11698690a4e4dff498a72432392d7cdb1843ae24a35",
+    "videoPackets": 360,
+    "exactPacketsClockDecode": true,
+    "pauseSeekAndQueuedSeek": true,
+    "naturalEof": true
+  },
+  "windowsInstallationChanged": false,
+  "harvesterChanged": false
+}

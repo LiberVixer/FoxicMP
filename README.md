@@ -428,3 +428,4 @@ SDK 1.109 добавляет [непрерывное воспроизведен�
 Число кадров и аудиосэмплов определяется по данным файла. Клиент проверяет
 новые режимы запросом `continuousWebmCapabilities`.
 [Результаты проверки](docs/ProgressiveContinuousWebmVp8Av1Validation-2026-11-19.json).
+[Проверка установленной сборки Linux](docs/ProgressiveContinuousWebmVp8Av1Delivery-2026-11-19.json).

@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "baselineDate": "2026-11-17",
   "nextWork": {
-    "id": "P02.C149.04",
-    "title": "WebM VP8/AV1: continuous пути за пределами native профилей"
+    "id": "P02.C149.05",
+    "title": "WebM/Vorbis: continuous путь за пределами native профиля"
   },
   "levels": {
     "1": {
@@ -24,9 +24,9 @@
     },
     "3": {
       "total": 353,
-      "done": 146,
-      "remaining": 207,
-      "active": 189,
+      "done": 147,
+      "remaining": 206,
+      "active": 188,
       "blocked": 13,
       "deferred": 5
     }
@@ -858,11 +858,11 @@
     },
     "P02.C149.04": {
       "level": 3,
-      "status": "todo",
+      "status": "done",
       "title": "WebM VP8/AV1: continuous пути за пределами native профилей",
       "terminal": true,
       "additionType": "migration",
-      "changeReason": ""
+      "changeReason": "W01: VP8 и AV1 с Opus и без звука. 30 отдельных прогонов обычных плееров, 20 worker-профилей, 16 проверок отказа. Пройдены пауза, перемотка по растущему файлу, ожидание диапазона, EOF и освобождение. Новых ID нет."
     },
     "P02.C149.05": {
       "level": 3,
@@ -5203,22 +5203,22 @@
   },
   "total": {
     "total": 646,
-    "done": 330,
-    "remaining": 316,
-    "active": 279,
+    "done": 331,
+    "remaining": 315,
+    "active": 278,
     "blocked": 22,
     "deferred": 15
   },
   "leaves": {
     "total": 537,
-    "done": 312,
-    "remaining": 225,
-    "active": 200,
+    "done": 313,
+    "remaining": 224,
+    "active": 199,
     "blocked": 13,
     "deferred": 12
   },
   "sourceCheckboxes": 324,
   "sourceLists": 8,
   "aliases": 8,
-  "reportedAtUtc": "2026-11-19T03:26:02.959854+00:00"
+  "reportedAtUtc": "2026-11-19T11:33:50.848719+00:00"
 }
